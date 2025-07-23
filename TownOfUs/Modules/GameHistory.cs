@@ -65,7 +65,7 @@ public sealed class BodyReport
 
     public static string ParseDetectiveReport(BodyReport br)
     {
-        if (br.KillAge > OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveFactionDuration * 1000)
+        if (br.KillAge > OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveFactionDuration * 1000 && br.KillAge > OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveRoleDuration * 1000)
         {
             return
                 $"Body Report: The corpse is too old to gain information from. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
