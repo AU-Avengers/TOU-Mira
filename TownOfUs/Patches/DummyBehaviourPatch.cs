@@ -2,8 +2,10 @@ using System.Collections;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using RewiredConsts;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -21,6 +23,68 @@ public static class DummyBehaviourPatches
     {
         var dum = __instance.myPlayer;
         Coroutines.Start(TouDummyMode(dum));
+    }
+    
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(DummyBehaviour.Update))]
+    public static bool DummyUpdatePatch(DummyBehaviour __instance)
+    {
+        // bruh
+        NetworkedPlayerInfo data = __instance.myPlayer.Data;
+        if (data == null || data.IsDead)
+        {
+            return false;
+        }
+        if (MeetingHud.Instance)
+        {
+            if (!__instance.voted)
+            {
+                __instance.voted = true;
+                Coroutines.Start(PatchedDoVote(__instance));
+            }
+        }
+        else
+        {
+            __instance.voted = false;
+        }
+
+        return false;
+    }
+
+    private static IEnumerator PatchedDoVote(DummyBehaviour dummy)
+    {
+        yield return new WaitForSeconds(dummy.voteTime.Next());
+        byte suspectIdx = 253;
+        if (dummy.PlayerIdToVoteFor == 253)
+        {
+            suspectIdx = 253;
+        }
+        if (dummy.PlayerIdToVoteFor >= 0)
+        {
+            suspectIdx = (byte)dummy.PlayerIdToVoteFor;
+        }
+        else
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                int num = IntRange.Next(-1, GameData.Instance.PlayerCount);
+                if (num < 0)
+                {
+                    break;
+                }
+                NetworkedPlayerInfo networkedPlayerInfo = GameData.Instance.AllPlayers[num];
+                if (!networkedPlayerInfo.IsDead)
+                {
+                    suspectIdx = networkedPlayerInfo.PlayerId;
+                    break;
+                }
+            }
+        }
+        dummy.PlayerIdToVoteFor = -1;
+        if (dummy.myPlayer.GetVoteData().VotesRemaining > 0)
+             MeetingHud.Instance.CmdCastVote(dummy.myPlayer.PlayerId, suspectIdx);
+        
+        yield break;
     }
 
     private static IEnumerator TouDummyMode(PlayerControl dummy)
@@ -66,7 +130,10 @@ public static class DummyBehaviourPatches
         dummy.SetNamePlate(HatManager.Instance
             .allNamePlates[Random.RandomRangeInt(0, HatManager.Instance.allNamePlates.Count)].ProdId);
         dummy.SetPet(HatManager.Instance.allPets[Random.RandomRangeInt(0, HatManager.Instance.allPets.Count)].ProdId);
-        var colorId = Random.Range(0, Palette.PlayerColors.Length);
+        var palette = Palette.PlayerColors;
+        var validColors = palette.Select(c => palette.IndexOf(c)).Where(id => PlayerControl.LocalPlayer.cosmetics.ColorId != id).ToArray();
+        var random = Random.Range(0, validColors.Length);
+        var colorId = validColors[random];
         dummy.SetColor(colorId);
         dummy.SetHat(HatManager.Instance.allHats[Random.RandomRangeInt(0, HatManager.Instance.allHats.Count)].ProdId,
             colorId);
