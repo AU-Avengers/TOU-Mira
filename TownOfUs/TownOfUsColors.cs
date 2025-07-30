@@ -42,6 +42,7 @@ public static class TownOfUsColors
     public static Color Plumber => UseBasic ? Palette.CrewmateBlue : new Color(0.8f, 0.4f, 0f, 1f);
     public static Color Cleric => UseBasic ? Palette.CrewmateBlue : new Color(0f, 1f, 0.7f, 1f);
     public static Color Mirrorcaster => UseBasic ? Palette.CrewmateBlue : new Color32(144, 162, 195, 255);
+    public static Color Marshal => UseBasic ? Palette.CrewmateBlue : new Color32(40, 48, 125, 255);
 
     // Neutral Colors
     public static Color Neutral => Color.gray;

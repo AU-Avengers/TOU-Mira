@@ -111,6 +111,9 @@ public static class TouAudio
 
     public static LoadableAsset<AudioClip> JanitorCleanSound { get; } =
         new LoadableAudioResourceAsset($"{AudioPath}.JanitorClean.wav");
+    
+    public static LoadableAsset<AudioClip> TribunalSound { get; } =
+        new LoadableAudioResourceAsset($"{AudioPath}.MarshalTribunal.wav");
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {

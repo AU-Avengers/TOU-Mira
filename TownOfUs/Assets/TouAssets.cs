@@ -177,6 +177,12 @@ public static class TouAssets
     public static LoadableAsset<Sprite> RetrainCleanSprite { get; } =
         new LoadableResourceAsset($"{ShortPath}.RetrainClean.png", 300);
     
+    public static LoadableAsset<Sprite> TribunalSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Tribunal.png", 300);
+    
+    public static LoadableAsset<Sprite> TribunalClearSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.TribunalClean.png", 300);
+    
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableResourceAsset($"{ShortPath}.Hacked.png");
 
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
