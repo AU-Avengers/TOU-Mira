@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -29,16 +30,27 @@ public static class DummyBehaviourPatches
     public static bool DummyUpdatePatch(DummyBehaviour __instance)
     {
         NetworkedPlayerInfo data = __instance.myPlayer.Data;
-        if (data == null || data.IsDead)
-        {
-            return false;
-        }
+        if (data == null || data.IsDead) return false;
+        
         if (MeetingHud.Instance)
         {
+            // Decided to add this check here, so during a tribunal dummies vote with the player
+            // My attempts in making them vote correctly failed due to how the tribunal voting is handled
+            if (MarshalRole.TribunalHappening)
+            {
+                var localVoteData = PlayerControl.LocalPlayer.GetVoteData();
+                if (localVoteData.Votes.Count == 0) return false;
+                
+                MeetingHud.Instance.CmdCastVote(data.PlayerId, localVoteData.Votes[0].Suspect);
+                __instance.voted = true;
+                return false;
+            }
+            
             if (!__instance.voted)
             {
+                // This was made to work with tribunals, now it's just a better version of the vanilla method lol
+                Coroutines.Start(CustomDoVote(__instance));
                 __instance.voted = true;
-                Coroutines.Start(PatchedDoVote(__instance));
             }
         }
         else
@@ -49,40 +61,30 @@ public static class DummyBehaviourPatches
         return false;
     }
 
-    private static IEnumerator PatchedDoVote(DummyBehaviour dummy)
+    private static IEnumerator CustomDoVote(DummyBehaviour dummy)
     {
+        if (dummy.voted) yield break;
         yield return new WaitForSeconds(dummy.voteTime.Next());
-        byte suspectIdx = 253;
-        if (dummy.PlayerIdToVoteFor == 253)
+
+        List<byte> potentialSuspects = new();
+        potentialSuspects.AddRange(Helpers.GetAlivePlayers()
+            .Where(p => p != dummy.myPlayer)
+            .Select(p => p.PlayerId));
+
+        if (CanSkip(dummy))
         {
-            suspectIdx = 253;
+            potentialSuspects.Add(253); // the skip button
         }
-        if (dummy.PlayerIdToVoteFor >= 0)
-        {
-            suspectIdx = (byte)dummy.PlayerIdToVoteFor;
-        }
-        else
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                int num = IntRange.Next(-1, GameData.Instance.PlayerCount);
-                if (num < 0)
-                {
-                    break;
-                }
-                NetworkedPlayerInfo networkedPlayerInfo = GameData.Instance.AllPlayers[num];
-                if (!networkedPlayerInfo.IsDead)
-                {
-                    suspectIdx = networkedPlayerInfo.PlayerId;
-                    break;
-                }
-            }
-        }
-        dummy.PlayerIdToVoteFor = -1;
+
         if (dummy.myPlayer.GetVoteData().VotesRemaining > 0)
-             MeetingHud.Instance.CmdCastVote(dummy.myPlayer.PlayerId, suspectIdx);
-        
-        yield break;
+        {
+            MeetingHud.Instance.CmdCastVote(dummy.myPlayer.PlayerId, potentialSuspects.Random());
+        }
+    }
+
+    private static bool CanSkip(DummyBehaviour dummy)
+    {
+        return !MarshalRole.TribunalHappening;
     }
 
     private static IEnumerator TouDummyMode(PlayerControl dummy)
