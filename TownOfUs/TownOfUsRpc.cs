@@ -70,5 +70,6 @@ public enum TownOfUsRpc : uint
     AnimateNewReveal,
     SheriffMisfire,
     RetrainImpostor,
-    AmbushPlayer
+    AmbushPlayer,
+    Tribunal
 }
