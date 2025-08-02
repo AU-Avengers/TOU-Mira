@@ -3,6 +3,7 @@ using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Voting;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game;
@@ -34,38 +35,37 @@ public static class DummyBehaviourPatches
         
         if (MeetingHud.Instance)
         {
-            // Decided to add this check here, so during a tribunal dummies vote with the player
-            // My attempts in making them vote correctly failed due to how the tribunal voting is handled
+            // My attempts in making them vote correctly failed due to how the tribunal voting is handled,
+            // so I made them vote with the player
             if (MarshalRole.TribunalHappening)
             {
                 var localVoteData = PlayerControl.LocalPlayer.GetVoteData();
                 if (localVoteData.Votes.Count == 0) return false;
+                if (DidVote(__instance)) return false;
                 
-                MeetingHud.Instance.CmdCastVote(data.PlayerId, localVoteData.Votes[0].Suspect);
-                __instance.voted = true;
+                Coroutines.Start(CoDelayedVote(
+                    __instance,
+                    localVoteData.Votes[0].Suspect,
+                    new FloatRange(0.5f, 2f)));
+                
                 return false;
             }
             
-            if (!__instance.voted)
+            if (!DidVote(__instance))
             {
                 // This was made to work with tribunals, now it's just a better version of the vanilla method lol
-                Coroutines.Start(CustomDoVote(__instance));
-                __instance.voted = true;
+                CustomDoVote(__instance);
             }
         }
-        else
-        {
-            __instance.voted = false;
-        }
-
+        
         return false;
     }
 
-    private static IEnumerator CustomDoVote(DummyBehaviour dummy)
+    private static void CustomDoVote(DummyBehaviour dummy)
     {
-        if (dummy.voted) yield break;
-        yield return new WaitForSeconds(dummy.voteTime.Next());
-
+        if (DidVote(dummy)) return;
+        if (MarshalRole.TribunalHappening) return;
+        
         List<byte> potentialSuspects = new();
         potentialSuspects.AddRange(Helpers.GetAlivePlayers()
             .Where(p => p != dummy.myPlayer)
@@ -78,8 +78,26 @@ public static class DummyBehaviourPatches
 
         if (dummy.myPlayer.GetVoteData().VotesRemaining > 0)
         {
-            MeetingHud.Instance.CmdCastVote(dummy.myPlayer.PlayerId, potentialSuspects.Random());
+            Coroutines.Start(CoDelayedVote(dummy, potentialSuspects.Random(), dummy.voteTime));
         }
+    }
+
+    private static IEnumerator CoDelayedVote(DummyBehaviour dummy, byte suspect, FloatRange range)
+    {
+        dummy.voted = true;
+        yield return new WaitForSeconds(range.Next());
+        VotingUtils.RpcCastVote(PlayerControl.LocalPlayer, dummy.myPlayer.PlayerId, suspect);
+    }
+
+    private static bool DidVote(DummyBehaviour dummy)
+    {
+        // If dummy.voted is true, but they have no votes (tribunal scenario), reset it
+        if (dummy.voted && dummy.myPlayer.GetVoteData().Votes.Count <= 0)
+            dummy.voted = false;
+        
+        // During a tribunal, technically the player did NOT vote
+        // That's why we check for any votes in the list and dummy.voted just in case
+        return dummy.myPlayer.GetVoteData().Votes.Count > 0 || dummy.voted;
     }
 
     private static bool CanSkip(DummyBehaviour dummy)
