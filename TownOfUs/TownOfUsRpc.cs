@@ -71,5 +71,7 @@ public enum TownOfUsRpc : uint
     SheriffMisfire,
     RetrainImpostor,
     AmbushPlayer,
-    Tribunal
+    Tribunal,
+    TribunalEjection,
+    EndTribunal
 }

@@ -1,12 +1,12 @@
-﻿using MiraAPI.Events;
-using MiraAPI.Events.Vanilla.Meeting;
+﻿using HarmonyLib;
+using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
+using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using MiraAPI.Voting;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
@@ -15,53 +15,33 @@ public static class MarshalEvents
 {
     private static byte _previousVote;
 
-    private static List<CustomVote> GetVotesRecievied(this PlayerControl player)
-    {
-        List<CustomVote> votes = new();
-        foreach (PlayerControl plr in PlayerControl.AllPlayerControls)
-        {
-            var voteData = plr.GetVoteData();
-            var validVotes = voteData.Votes.Where(x => x.Suspect == player.PlayerId);
-            votes.AddRange(validVotes);
-        }
-
-        return votes;
-    }
-
     private static SpriteRenderer CustomBloopAVoteIcon(NetworkedPlayerInfo voterPlayer, int index, Transform parent)
     {
         var instance = MeetingHud.Instance;
-        SpriteRenderer spriteRenderer = GameObject.Instantiate<SpriteRenderer>(instance.PlayerVotePrefab);
+        SpriteRenderer spriteRenderer = GameObject.Instantiate(instance.PlayerVotePrefab, parent);
         spriteRenderer.gameObject.name = voterPlayer.PlayerId.ToString();
-        if (GameManager.Instance.LogicOptions.GetAnonymousVotes())
-        {
-            PlayerMaterial.SetColors(Palette.DisabledGrey, spriteRenderer);
-        }
-        else
-        {
-            PlayerMaterial.SetColors(voterPlayer.DefaultOutfit.ColorId, spriteRenderer);
-        }
-        spriteRenderer.transform.SetParent(parent);
         spriteRenderer.transform.localScale = Vector3.zero;
+        
+        if (GameManager.Instance.LogicOptions.GetAnonymousVotes())
+            PlayerMaterial.SetColors(Palette.DisabledGrey, spriteRenderer);
+        else
+            PlayerMaterial.SetColors(voterPlayer.DefaultOutfit.ColorId, spriteRenderer);
+        
         PlayerVoteArea component = parent.GetComponent<PlayerVoteArea>();
         if (component != null)
         {
             spriteRenderer.material.SetInt(PlayerMaterial.MaskLayer, component.MaskLayer);
         }
-        instance.StartCoroutine(Effects.Bloop((float)index * 0.3f, spriteRenderer.transform, 1f, 0.5f));
+        instance.StartCoroutine(Effects.Bloop(index * 0.3f, spriteRenderer.transform));
         parent.GetComponent<VoteSpreader>().AddVote(spriteRenderer);
         return spriteRenderer;
-    }
-
-    private static void UpdateVoteNumbers()
-    {
-        
     }
     
     [RegisterEvent]
     public static void HandleVoteEvent(HandleVoteEvent @event)
     {
         if (!MarshalRole.TribunalHappening) return;
+        @event.Cancel();
         
         if (_previousVote != null)
         {
@@ -71,26 +51,12 @@ public static class MarshalEvents
             if (previousState != null)
             {
                 previousState.ThumbsDown.enabled = false;
-                var renderers = previousState.transform
-                    .GetComponentsInChildren<SpriteRenderer>()
-                    .Select(r => r.gameObject);
-                foreach (var obj in renderers)
-                {
-                    if (obj.name == @event.Player.PlayerId.ToString())
-                    {
-                        previousState.GetComponent<VoteSpreader>().Votes.Remove(obj.GetComponent<SpriteRenderer>());
-                        obj.DestroyImmediate();
-                    }
-                        
-                }
+                MarshalRole.RemoveBloopsOfId(@event.Player.PlayerId, previousState);
             }
         }
         
-        
         var targetState = MeetingHud.Instance.playerStates.FirstOrDefault(state => state.TargetPlayerId == @event.TargetId);
-        
         var voterVoteData = @event.Player.GetVoteData();
-        var target = MiscUtils.PlayerById(@event.TargetId);
         voterVoteData.Votes.Clear();
         for (int i = 0; i < voterVoteData.VotesRemaining; i++)
         {
@@ -98,8 +64,23 @@ public static class MarshalEvents
             voterVoteData.VoteForPlayer(@event.TargetId);
         }
         
+        MarshalRole.UpdateVoteNumbers();
+        if (AmongUsClient.Instance.AmHost)
+            MarshalRole.CheckForEjection();
         _previousVote = @event.TargetId;
-        @event.Cancel();
+    }
+
+    [RegisterEvent]
+    public static void MeetingSelectEvent(MeetingSelectEvent @event)
+    {
+        if (!MarshalRole.TribunalHappening) return;
+
+        // - Players marked as ejected during a tribunal can't vote
+        // - Other players can't vote them
+        if (MarshalRole.EjectedPlayers.Contains(PlayerControl.LocalPlayer.Data) || MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo))
+        {
+            @event.AllowSelect = false;
+        }
     }
     
     [RegisterEvent]
@@ -111,8 +92,32 @@ public static class MarshalEvents
     }
     
     [RegisterEvent]
-    public static void EndMeetingEvent(EndMeetingEvent @event)
+    public static void VotingCompleteEvent(VotingCompleteEvent @event)
     {
-        MarshalRole.TribunalHappening = false;
+        if (!MarshalRole.TribunalHappening) return;
+        if (MarshalRole.EjectedPlayers.Count >=
+            OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunalEjections) return;
+        
+        MeetingHud.Instance.playerStates.Do(x => x.UnsetVote());
+        
+        if (AmongUsClient.Instance.AmHost)
+            MarshalRole.RpcEndTribunal(PlayerControl.LocalPlayer);
+    }
+
+    [RegisterEvent]
+    public static void BeforeRoundStartEvent(BeforeRoundStartEvent @event)
+    {
+        if (!MarshalRole.TribunalHappening) return;
+
+        if (MarshalRole.EjectedPlayers.Count > 0)
+        {
+            @event.Cancel();
+            Coroutines.Start(MarshalRole.CoEjectionCutscene(MarshalRole.EjectedPlayers[0]));
+            MarshalRole.EjectedPlayers.RemoveAt(0);
+        }
+        else
+        {
+            MarshalRole.TribunalHappening = false;
+        }
     }
 }
