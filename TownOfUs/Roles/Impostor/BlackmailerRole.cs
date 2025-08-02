@@ -8,7 +8,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -33,7 +32,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
     }
 
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string RoleName => "Blackmailer";
+    public string RoleName => TouLocale.Get(TouNames.Blackmailer, "Blackmailer");
     public string RoleDescription => "Silence Crewmates During Meetings";
     public string RoleLongDescription => "Silence a crewmate for the next meeting";
     public Color RoleColor => TownOfUsColors.Impostor;
@@ -55,7 +54,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
     public string GetAdvancedDescription()
     {
         return
-            "The Blackmailer is an Impostor Support role that can stop a player from speaking (marked with <color=#2A1119>M</color>) in the next meeting" +
+            $"The {RoleName} is an Impostor Support role that can stop a player from speaking (marked with <color=#2A1119>M</color>) in the next meeting" +
             MiscUtils.AppendOptionsText(GetType());
     }
 

@@ -1,6 +1,5 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
-using TownOfUs.Modules.Localization;
 using TownOfUs.Options;
 using TownOfUs.Utilities;
 using UnityEngine;

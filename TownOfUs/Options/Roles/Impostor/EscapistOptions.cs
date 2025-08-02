@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class EscapistOptions : AbstractOptionGroup<EscapistRole>
 {
-    public override string GroupName => "Escapist";
+    public override string GroupName => TouLocale.Get(TouNames.Escapist, "Escapist");
     public override Color GroupColor => Palette.ImpostorRoleRed;
 
     [ModdedNumberOption("Recall Uses Per Game", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]

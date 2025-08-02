@@ -3,7 +3,6 @@ using MiraAPI.Hud;
 using MiraAPI.Roles;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -13,9 +12,10 @@ using static ShipStatus;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
-public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable
+public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredModifier
 {
-    public override string ModifierName => "Spy";
+    public Color ModifierColor => new(0.8f, 0.64f, 0.8f, 1f);
+    public override string ModifierName => TouLocale.Get(TouNames.Spy, "Spy");
     public override string IntroInfo => "You can also gain extra information on the Admin Table";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Spy;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
@@ -25,7 +25,7 @@ public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable
     public string GetAdvancedDescription()
     {
         return
-            "The Spy gains extra information on the admin table. They now not only see how many people are in a room, but will also see who is in every room."
+            $"The {ModifierName} gains extra information on the admin table. They now not only see how many people are in a room, but will also see who is in every room."
             + MiscUtils.AppendOptionsText(CustomRoleSingleton<SpyRole>.Instance.GetType());
     }
 

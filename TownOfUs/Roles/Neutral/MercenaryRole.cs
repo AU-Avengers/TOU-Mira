@@ -11,7 +11,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -28,7 +27,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public bool CanBribe => Gold >= BrideCost;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<WardenRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string RoleName => "Mercenary";
+    public string RoleName => TouLocale.Get(TouNames.Mercenary, "Mercenary");
     public string RoleDescription => "Bribe The Crewmates";
     public string RoleLongDescription => "Guard crewmates, and then bribe the winners!";
     public Color RoleColor => TownOfUsColors.Mercenary;
@@ -67,7 +66,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public string GetAdvancedDescription()
     {
         return
-            "The Mercenary is a Neutral Benign role that can only win by bribing players, allowing them to gain multiple win conditions."
+            $"The {RoleName} is a Neutral Benign role that can only win by bribing players, allowing them to gain multiple win conditions."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

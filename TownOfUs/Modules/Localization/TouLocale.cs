@@ -6,6 +6,7 @@ namespace TownOfUs.Modules.Localization;
 public static class TouLocale
 {
     public static string LocaleDirectory => Path.Combine(Application.persistentDataPath, "TownOfUs", "Locales");
+    public static string BepinexLocaleDirectory => Path.Combine(BepInEx.Paths.BepInExRootPath, "MiraLocales", "TownOfUs");
 
     public static Dictionary<SupportedLangs, Dictionary<TouNames, string>> TouLocalization { get; } = [];
 
@@ -31,6 +32,7 @@ public static class TouLocale
     {
         SearchDirectory(BepInEx.Paths.PluginPath);
         SearchDirectory(BepInEx.Paths.BepInExRootPath);
+        SearchDirectory(BepinexLocaleDirectory);
         SearchDirectory(BepInEx.Paths.GameRootPath);
         SearchDirectory(LocaleDirectory);
     }

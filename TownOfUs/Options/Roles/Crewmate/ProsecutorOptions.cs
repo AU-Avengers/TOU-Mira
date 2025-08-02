@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class ProsecutorOptions : AbstractOptionGroup<ProsecutorRole>
 {
-    public override string GroupName => "Prosecutor";
+    public override string GroupName => TouLocale.Get(TouNames.Prosecutor, "Prosecutor");
 
     [ModdedToggleOption("Prosecutor Dies When They Exile A Crewmate")]
     public bool ExileOnCrewmate { get; set; } = true;

@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Utilities.Appearances;
@@ -10,7 +9,7 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
-    public override string ModifierName => "Giant";
+    public override string ModifierName => TouLocale.Get(TouNames.Giant, "Giant");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Giant;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;

@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class ButtonBarryOptions : AbstractOptionGroup<ButtonBarryModifier>
 {
-    public override string GroupName => "Button Barry";
+    public override string GroupName => TouLocale.Get(TouNames.ButtonBarry, "Button Barry");
     public override uint GroupPriority => 22;
     public override Color GroupColor => TownOfUsColors.ButtonBarry;
 

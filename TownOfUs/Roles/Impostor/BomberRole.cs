@@ -8,8 +8,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
-using TownOfUs.Modules.Localization;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -34,7 +32,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Bomber,
-        CanUseVent = OptionGroupSingleton<BomberOptions>.Instance.BomberVent
+        CanUseVent = OptionGroupSingleton<BomberOptions>.Instance.CanVent
     };
 
     [HideFromIl2Cpp]

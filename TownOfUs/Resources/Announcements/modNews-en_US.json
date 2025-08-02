@@ -230,6 +230,7 @@
         "\n- Mini and Giant can climb ladders correctly now without getting stuck",
         "\n\n\r<size=105%>Other Bugfixes:</size>",
         "\n- Zipline and Ladder work for Phantom/Haunter once again",
+        "\n- Impostor Streak Reduction no longer triggers the 1 impostor bug",
         "\n\n\r<size=105%>Additions:</size>",
         "\n- New Role Buckets: Impostor Power and Impostor Special",
         "\n- Added a Maximum Medic Shield Uses setting",
@@ -240,7 +241,8 @@
         "\n- Dying to Veteran now says \"Attacked\", dying to Deputy says \"Blasted\", and dying to Vampire says \"Bitten\"",
         "\n- Support for other MiraAPI mods has been improved across the board (this does not affect you if you only play Town of Us Mira standalone)",
         "\n\n\r<size=105%>Changes:</size>",
-        "\n- Mercenary and GA can win with their targets from alliance modifiers"
+        "\n- Mercenary and GA can win with their targets from alliance modifiers",
+        "\n- Plumber barricades will now only stay for a set amount of rounds (customizable, can be infinite)"
       ]
     }
   ]

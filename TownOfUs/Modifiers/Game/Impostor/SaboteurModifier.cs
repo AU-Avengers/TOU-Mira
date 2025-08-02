@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -9,7 +8,7 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Saboteur";
+    public override string ModifierName => TouLocale.Get(TouNames.Saboteur, "Saboteur");
     public override string IntroInfo => "You also have reduced sabotage cooldowns.";
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 

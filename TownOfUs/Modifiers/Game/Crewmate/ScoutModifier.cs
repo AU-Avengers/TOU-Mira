@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class ScoutModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Scout";
+    public override string ModifierName => TouLocale.Get(TouNames.Scout, "Scout");
     public override string IntroInfo => "You can also see farther in light but very low in dark.";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Scout;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);

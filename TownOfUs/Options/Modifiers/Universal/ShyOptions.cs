@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class ShyOptions : AbstractOptionGroup<ShyModifier>
 {
-    public override string GroupName => "Shy";
+    public override string GroupName => TouLocale.Get(TouNames.Shy, "Shy");
     public override uint GroupPriority => 28;
     public override Color GroupColor => TownOfUsColors.Shy;
 

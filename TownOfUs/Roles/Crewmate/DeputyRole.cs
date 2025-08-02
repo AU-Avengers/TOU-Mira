@@ -12,7 +12,6 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public PlayerControl? Killer { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string RoleName => "Deputy";
+    public string RoleName => TouLocale.Get(TouNames.Deputy, "Deputy");
     public string RoleDescription => "Camp Crewmates To Catch Their Killer";
     public string RoleLongDescription => "Camp crewmates, then shoot their killer in the meeting!";
     public Color RoleColor => TownOfUsColors.Deputy;
@@ -48,8 +47,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public string GetAdvancedDescription()
     {
         return
-            "The Deputy is a Crewmate Killing role that can camp other players. Once a camped player dies the Deputy is alerted to their death. " +
-            "The following meeting the Deputy may then attempt to shoot the killer of the camped player. If successful the killer dies and if not nothing happens." +
+            $"The {RoleName} is a Crewmate Killing role that can camp other players. Once a camped player dies the {RoleName} is alerted to their death. " +
+            $"The following meeting the {RoleName} may then attempt to shoot the killer of the camped player. If successful the killer dies and if not nothing happens." +
             MiscUtils.AppendOptionsText(GetType());
     }
 

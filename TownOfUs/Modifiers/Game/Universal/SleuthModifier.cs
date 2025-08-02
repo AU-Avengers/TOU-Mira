@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Sleuth";
+    public override string ModifierName => TouLocale.Get(TouNames.Sleuth, "Sleuth");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Sleuth;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;

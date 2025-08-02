@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class MinerOptions : AbstractOptionGroup<MinerRole>
 {
-    public override string GroupName => "Miner";
+    public override string GroupName => TouLocale.Get(TouNames.Miner, "Miner");
 
     [ModdedNumberOption("Number Of Miner Vents Per Game", 0f, 30f, 5f, MiraNumberSuffixes.None, "0", true)]
     public float MaxMines { get; set; } = 0f;

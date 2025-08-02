@@ -13,7 +13,6 @@ using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Neutral;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -23,7 +22,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => "Vampire";
+    public string RoleName => TouLocale.Get(TouNames.Vampire, "Vampire");
     public string RoleDescription => "Convert Crewmates And Kill The Rest";
     public string RoleLongDescription => "Bite all other players";
     public Color RoleColor => TownOfUsColors.Vampire;
@@ -79,7 +78,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     public string GetAdvancedDescription()
     {
         return
-            "The Vampire is a Neutral Killing role that wins by being the last killer(s) alive. They can bite, changing others into Vampires, or kill players." +
+            $"The {RoleName} is a Neutral Killing role that wins by being the last killer(s) alive. They can bite, changing others into Vampires, or kill players." +
             MiscUtils.AppendOptionsText(GetType());
     }
 

@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class HypnotistOptions : AbstractOptionGroup<HypnotistRole>
 {
-    public override string GroupName => "Hypnotist";
+    public override string GroupName => TouLocale.Get(TouNames.Hypnotist, "Hypnotist");
 
     [ModdedNumberOption("Hypnotize Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HypnotiseCooldown { get; set; } = 25f;

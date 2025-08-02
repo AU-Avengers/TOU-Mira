@@ -14,7 +14,6 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -70,7 +69,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SnitchRole>());
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string RoleName => "Executioner";
+    public string RoleName => TouLocale.Get(TouNames.Executioner, "Executioner");
     public string RoleDescription => TargetString();
     public string RoleLongDescription => TargetString();
     public Color RoleColor => TownOfUsColors.Executioner;
@@ -105,7 +104,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public string GetAdvancedDescription()
     {
         return
-            "The Executioner is a Neutral Evil role that wins by getting their target (signified by <color=#643B1FFF>X</color>) ejected in a meeting." +
+            $"The {RoleName} is a Neutral Evil role that wins by getting their target (signified by <color=#643B1FFF>X</color>) ejected in a meeting." +
             MiscUtils.AppendOptionsText(GetType());
     }
 

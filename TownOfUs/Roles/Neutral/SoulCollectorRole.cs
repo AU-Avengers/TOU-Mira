@@ -5,7 +5,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -18,7 +17,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MediumRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => "Soul Collector";
+    public string RoleName => TouLocale.Get(TouNames.SoulCollector, "Soul Collector");
     public string RoleDescription => "Reap The Souls From Your Crewmates";
     public string RoleLongDescription => "Reap the souls of others, leaving behind a lasting image";
     public Color RoleColor => TownOfUsColors.SoulCollector;
@@ -57,7 +56,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
     public string GetAdvancedDescription()
     {
         return
-            "The Soul Collector is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind an soul-less decoy that looks identical to the reaped player, standing still."
+            $"The {RoleName} is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind an soul-less decoy that looks identical to the reaped player, standing still."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

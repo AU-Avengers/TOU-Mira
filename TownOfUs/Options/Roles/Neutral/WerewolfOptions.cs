@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class WerewolfOptions : AbstractOptionGroup<WerewolfRole>
 {
-    public override string GroupName => "Werewolf";
+    public override string GroupName => TouLocale.Get(TouNames.Werewolf, "Werewolf");
 
     [ModdedNumberOption("Rampage Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float RampageCooldown { get; set; } = 25f;

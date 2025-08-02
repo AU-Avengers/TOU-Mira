@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class HunterOptions : AbstractOptionGroup<HunterRole>
 {
-    public override string GroupName => "Hunter";
+    public override string GroupName => TouLocale.Get(TouNames.Hunter, "Hunter");
 
     [ModdedNumberOption("Hunter Kill Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HunterKillCooldown { get; set; } = 25f;

@@ -15,11 +15,11 @@ namespace TownOfUs.Modules;
 // Code Review: Should be using a MonoBehaviour
 public sealed class Trap : IDisposable
 {
-    private static readonly List<Trap> _traps = [];
+    public static readonly List<Trap> _traps = [];
 
-    private readonly Dictionary<byte, float> _players = [];
-    private TrapperRole? _owner;
-    private Transform? _transform;
+    public readonly Dictionary<byte, float> _players = [];
+    public TrapperRole? _owner;
+    public Transform? _transform;
     private static float TrapSize => OptionGroupSingleton<TrapperOptions>.Instance.TrapSize;
     private static float MinAmountOfTimeInTrap => OptionGroupSingleton<TrapperOptions>.Instance.MinAmountOfTimeInTrap;
 

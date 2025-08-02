@@ -76,11 +76,9 @@ public static class DeathEventHandlers
         {
             return;
         }
-        if (exiled.TryGetModifier<DeathHandlerModifier>(out var deathHandler) && !deathHandler.LockInfo)
+        if (!exiled.HasModifier<DeathHandlerModifier>())
         {
-            deathHandler.CauseOfDeath = "Ejected";
-            deathHandler.DiedThisRound = false;
-            deathHandler.RoundOfDeath = CurrentRound;
+            DeathHandlerModifier.UpdateDeathHandler(exiled, "Ejected", CurrentRound, DeathHandlerOverride.SetFalse);
         }
     }
 
@@ -101,8 +99,8 @@ public static class DeathEventHandlers
         
         if (target == source && target.TryGetModifier<DeathHandlerModifier>(out var deathHandler) && !deathHandler.LockInfo)
         {
-            deathHandler.CauseOfDeath = "Ejected";
-            deathHandler.DiedThisRound = false;
+            deathHandler.CauseOfDeath = "Suicide";
+            deathHandler.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
             deathHandler.RoundOfDeath = CurrentRound;
             deathHandler.LockInfo = true;
         }

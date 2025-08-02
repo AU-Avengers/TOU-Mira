@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class TorchModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Torch";
+    public override string ModifierName => TouLocale.Get(TouNames.Torch, "Torch");
     public override string IntroInfo => "You can also see without lights on.";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Torch;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);

@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Immovable";
+    public override string ModifierName => TouLocale.Get(TouNames.Immovable, "Immovable");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Immovable;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;

@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -9,7 +8,7 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Sixth Sense";
+    public override string ModifierName => TouLocale.Get(TouNames.SixthSense, "Sixth Sense");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.SixthSense;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;

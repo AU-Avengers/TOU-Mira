@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class InvestigatorOptions : AbstractOptionGroup<InvestigatorRole>
 {
-    public override string GroupName => "Investigator";
+    public override string GroupName => TouLocale.Get(TouNames.Investigator, "Investigator");
 
     [ModdedNumberOption("Footprint Size", 1f, 10f, suffixType: MiraNumberSuffixes.Multiplier)]
     public float FootprintSize { get; set; } = 4f;

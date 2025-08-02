@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class MirrorcasterOptions : AbstractOptionGroup<MirrorcasterRole>
 {
-    public override string GroupName => "Mirrorcaster";
+    public override string GroupName => TouLocale.Get(TouNames.Mirrorcaster, "Mirrorcaster");
 
     [ModdedEnumOption("Who Gets Murder Attempt Indicator", typeof(MirrorOption), ["Mirrorcaster", "Mirrorcaster + Killer"])]
     public MirrorOption WhoGetsNotification { get; set; } = MirrorOption.MirrorcasterAndKiller;

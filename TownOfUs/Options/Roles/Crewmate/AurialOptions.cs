@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class AurialOptions : AbstractOptionGroup<AurialRole>
 {
-    public override string GroupName => "Aurial";
+    public override string GroupName => TouLocale.Get(TouNames.Aurial, "Aurial");
 
     [ModdedNumberOption("Radiate Colour Range", 0f, 1f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float AuraInnerRadius { get; set; } = 0.5f;

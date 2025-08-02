@@ -4,8 +4,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules.Localization;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -14,7 +12,7 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Perception;
-    public string RoleName => "Imitator";
+    public string RoleName => TouLocale.Get(TouNames.Imitator, "Imitator");
     public string RoleDescription => "Use Dead Roles To Benefit The Crew";
     public string RoleLongDescription => "Use the true-hearted dead to benefit the crew once more";
     public Color RoleColor => TownOfUsColors.Imitator;
@@ -35,9 +33,9 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public string GetAdvancedDescription()
     {
-        return "The Imitator is a Crewmate Support role that can select a dead crewmate to imitate their role. " +
+        return $"The {RoleName} is a Crewmate Support role that can select a dead crewmate to imitate their role. " +
                "They will become their role and abilities until they change targets. " +
-               "Certain roles are innacessible if there are multiple living imitators."
+               $"Certain roles are innacessible if there are multiple living {RoleName.ToLowerInvariant()}s."
                + MiscUtils.AppendOptionsText(GetType());
     }
 

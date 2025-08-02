@@ -14,7 +14,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -24,7 +23,7 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string RoleName => "Ambassador";
+    public string RoleName => TouLocale.Get(TouNames.Ambassador, "Ambassador");
     public string RoleDescription => "Lead The Impostors To Victory";
     public string RoleLongDescription => "Retrain yourself or fellow impostors into other roles\n<b>Imp Killing cannot be a Power role</b>\n<b>Imp Concealing/Support cannot be a Killing/Power role</b>";
     public Color RoleColor => TownOfUsColors.Impostor;
@@ -280,7 +279,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public string GetAdvancedDescription()
     {
-        return $"The Ambassador is an Impostor Power role that can retrain impostors into other impostor roles."
+        return $"The {RoleName} is an Impostor Power role that can retrain impostors into other impostor roles."
                + MiscUtils.AppendOptionsText(GetType());
     }
 

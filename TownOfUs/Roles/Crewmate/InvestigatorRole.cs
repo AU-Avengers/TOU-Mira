@@ -5,7 +5,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => "Investigator";
+    public string RoleName => TouLocale.Get(TouNames.Investigator, "Investigator");
     public string RoleDescription => "Find All Impostors By Examining Footprints.";
     public string RoleLongDescription => "You can see everyone's footprints.";
     public Color RoleColor => TownOfUsColors.Investigator;
@@ -36,7 +35,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     public string GetAdvancedDescription()
     {
         return
-            "The Investigator is a Crewmate Investigative role can see player's footprints throughout the game. Swooped players' footprints will not be visible to the Investigator."
+            $"The {RoleName} is a Crewmate Investigative role can see player's footprints throughout the game. Swooped players' footprints will not be visible to the {RoleName}."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

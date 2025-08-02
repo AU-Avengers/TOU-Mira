@@ -597,6 +597,12 @@ public static class Extensions
         }
 
         player!.cosmetics.currentBodySprite.BodySprite.color = color;
+        if (player.cosmetics.GetLongBoi() != null)
+        {
+            player.cosmetics.GetLongBoi().headSprite.color = color;
+            player.cosmetics.GetLongBoi().neckSprite.color = color;
+            player.cosmetics.GetLongBoi().foregroundNeckSprite.color = color;
+        }
     }
 
     public static void SpawnAtRandomVent(this PlayerControl player)

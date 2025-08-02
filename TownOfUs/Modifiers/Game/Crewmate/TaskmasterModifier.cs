@@ -3,7 +3,6 @@ using Il2CppSystem.Text;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -12,7 +11,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Taskmaster";
+    public override string ModifierName => TouLocale.Get(TouNames.Taskmaster, "Taskmaster");
     public override string IntroInfo => "You also finish random tasks each round.";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Taskmaster;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);

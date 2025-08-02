@@ -123,6 +123,14 @@ public sealed class FakePlayer : IDisposable
             }
         }
 
+        var cosmeticsObj = body.transform.GetChild(2).gameObject;
+        if (cosmeticsObj != null && cosmeticsObj.transform.GetChildCount() > 4)
+        {
+            cosmeticsObj.transform.GetChild(3).gameObject.SetActive(false);
+            cosmeticsObj.transform.GetChild(4).gameObject.SetActive(false);
+            cosmeticsObj.transform.GetChild(5).gameObject.SetActive(false);
+        }
+
         FakePlayers.Add(this);
     }
 

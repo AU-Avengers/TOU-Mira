@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class JuggernautOptions : AbstractOptionGroup<JuggernautRole>
 {
-    public override string GroupName => "Juggernaut";
+    public override string GroupName => TouLocale.Get(TouNames.Juggernaut, "Juggernaut");
 
     [ModdedNumberOption("Initial Kill Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;

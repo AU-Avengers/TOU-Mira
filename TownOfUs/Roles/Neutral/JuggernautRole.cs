@@ -6,7 +6,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -17,7 +16,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 {
     public int KillCount { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string RoleName => "Juggernaut";
+    public string RoleName => TouLocale.Get(TouNames.Juggernaut, "Juggernaut");
     public string RoleDescription => "Your Power Grows With Every Kill";
     public string RoleLongDescription => "With each kill your kill cooldown decreases";
     public Color RoleColor => TownOfUsColors.Juggernaut;
@@ -59,7 +58,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public string GetAdvancedDescription()
     {
         return
-            "The Juggernaut is a Neutral Killing role that wins by being the last killer alive. For each kill they get, their kill cooldown gets reduced." +
+            $"The {RoleName} is a Neutral Killing role that wins by being the last killer alive. For each kill they get, their kill cooldown gets reduced." +
             MiscUtils.AppendOptionsText(GetType());
     }
 

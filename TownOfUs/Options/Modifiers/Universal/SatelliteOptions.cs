@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class SatelliteOptions : AbstractOptionGroup<SatelliteModifier>
 {
-    public override string GroupName => "Satellite";
+    public override string GroupName => TouLocale.Get(TouNames.Satellite, "Satellite");
     public override uint GroupPriority => 27;
     public override Color GroupColor => TownOfUsColors.Satellite;
 

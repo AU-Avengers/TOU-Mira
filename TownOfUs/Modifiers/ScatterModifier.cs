@@ -16,7 +16,7 @@ public class ScatterModifier(float time) : TimedModifier
     private TextMeshProUGUI? scatterText;
     private GameObject? scatterUI;
     private float soundTimer = 1f;
-    public override string ModifierName => "Scatter";
+    public override string ModifierName => TouLocale.Get(TouNames.Scatter, "Scatter");
     public override float Duration => time;
     public override bool AutoStart => false;
     public override bool HideOnUi => true;

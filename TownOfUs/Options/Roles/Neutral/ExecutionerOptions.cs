@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class ExecutionerOptions : AbstractOptionGroup<ExecutionerRole>
 {
-    public override string GroupName => "Executioner";
+    public override string GroupName => TouLocale.Get(TouNames.Executioner, "Executioner");
 
     [ModdedEnumOption("On Target Death, Executioner Becomes", typeof(BecomeOptions))]
     public BecomeOptions OnTargetDeath { get; set; } = BecomeOptions.Jester;

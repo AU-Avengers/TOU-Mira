@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class SurvivorOptions : AbstractOptionGroup<SurvivorRole>
 {
-    public override string GroupName => "Survivor";
+    public override string GroupName => TouLocale.Get(TouNames.Survivor, "Survivor");
 
     [ModdedNumberOption("Vest Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float VestCooldown { get; set; } = 25f;

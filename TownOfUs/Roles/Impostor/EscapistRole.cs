@@ -10,7 +10,6 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Anims;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
@@ -47,7 +46,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TransporterRole>());
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => "Escapist";
+    public string RoleName => TouLocale.Get(TouNames.Escapist, "Escapist");
     public string RoleDescription => "Get Away From Kills With Ease";
     public string RoleLongDescription => "Teleport to get away from the scene of the crime";
     public Color RoleColor => TownOfUsColors.Impostor;
@@ -70,7 +69,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     public string GetAdvancedDescription()
     {
         return
-            "The Escapist is an Impostor Concealing role that can mark a location and then recall (teleport) to that location."
+            $"The {RoleName} is an Impostor Concealing role that can mark a location and then recall (teleport) to that location."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

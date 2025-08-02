@@ -186,7 +186,11 @@ public static class TouAssets
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableResourceAsset($"{ShortPath}.Hacked.png");
 
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BarricadeVent.png", 200);
+        new LoadableResourceAsset($"{ShortPath}.BarricadeVent1.png", 200);
+    public static LoadableAsset<Sprite> BarricadeVentSprite2 { get; } =
+        new LoadableResourceAsset($"{ShortPath}.BarricadeVent2.png", 200);
+    public static LoadableAsset<Sprite> BarricadeVentSprite3 { get; } =
+        new LoadableResourceAsset($"{ShortPath}.BarricadeVent3.png", 200);
 
     public static LoadableAsset<Sprite> BarricadeFungleSprite { get; } =
         new LoadableResourceAsset($"{ShortPath}.BarricadePlant.png", 200);

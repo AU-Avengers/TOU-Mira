@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 
 public sealed class SaboteurOptions : AbstractOptionGroup<SaboteurModifier>
 {
-    public override string GroupName => "Saboteur";
+    public override string GroupName => TouLocale.Get(TouNames.Saboteur, "Saboteur");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 41;
 

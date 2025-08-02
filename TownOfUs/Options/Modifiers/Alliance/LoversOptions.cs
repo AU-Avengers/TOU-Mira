@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 
 public sealed class LoversOptions : AbstractOptionGroup<LoverModifier>
 {
-    public override string GroupName => "Lovers";
+    public override string GroupName => TouLocale.Get(TouNames.Lovers, "Lovers");
     public override uint GroupPriority => 11;
     public override Color GroupColor => TownOfUsColors.Lover;
 

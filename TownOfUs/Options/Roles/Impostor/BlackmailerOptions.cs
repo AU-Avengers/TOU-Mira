@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class BlackmailerOptions : AbstractOptionGroup<BlackmailerRole>
 {
-    public override string GroupName => "Blackmailer";
+    public override string GroupName => TouLocale.Get(TouNames.Blackmailer, "Blackmailer");
 
     [ModdedNumberOption("Number Of Blackmail Uses Per Game", 0f, 15f, 5f, MiraNumberSuffixes.None, "0", true)]
     public float MaxBlackmails { get; set; } = 0f;

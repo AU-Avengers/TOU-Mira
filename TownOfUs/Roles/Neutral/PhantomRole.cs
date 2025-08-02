@@ -10,7 +10,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Utilities;
@@ -93,7 +92,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         }
     }
 
-    public override string RoleName => "Phantom";
+    public override string RoleName => TouLocale.Get(TouNames.Phantom, "Phantom");
     public override string RoleDescription => string.Empty;
     public override string RoleLongDescription => "Complete all your tasks without being caught!";
     public override Color RoleColor => TownOfUsColors.Phantom;
@@ -123,7 +122,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
     public string GetAdvancedDescription()
     {
         return
-            "The Phantom is a Neutral Ghost role that wins the game by finishing their tasks before a alive player has clicked on them." +
+            $"The {RoleName} is a Neutral Ghost role that wins the game by finishing their tasks before a alive player has clicked on them." +
             MiscUtils.AppendOptionsText(GetType());
     }
 

@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
-using TownOfUs.Modules.Localization;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
@@ -26,6 +25,6 @@ public sealed class BomberOptions : AbstractOptionGroup<BomberRole>
     [ModdedToggleOption("All Impostors See Bomb")]
     public bool AllImpsSeeBomb { get; set; } = true;
 
-    [ModdedToggleOption("Can Vent")]
-    public bool BomberVent { get; set; } = true;
+    [ModdedToggleOption("Bomber Can Vent")]
+    public bool CanVent { get; set; } = true;
 }

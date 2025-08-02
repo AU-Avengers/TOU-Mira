@@ -5,7 +5,6 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Modules.Anims;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Roles.Crewmate;
@@ -19,7 +18,7 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 {
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
-    public override string ModifierName => "Satellite";
+    public override string ModifierName => TouLocale.Get(TouNames.Satellite, "Satellite");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Satellite;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalUtility;

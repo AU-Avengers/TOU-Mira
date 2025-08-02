@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class DiseasedOptions : AbstractOptionGroup<DiseasedModifier>
 {
-    public override string GroupName => "Diseased";
+    public override string GroupName => TouLocale.Get(TouNames.Diseased, "Diseased");
     public override uint GroupPriority => 32;
     public override Color GroupColor => TownOfUsColors.Diseased;
 

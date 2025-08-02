@@ -7,7 +7,6 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -17,7 +16,7 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Disperser";
+    public override string ModifierName => TouLocale.Get(TouNames.Disperser, "Disperser");
     public override string IntroInfo => "You can also disperse players to vents around the map.";
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Disperser;
@@ -27,7 +26,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable
     public string GetAdvancedDescription()
     {
         return
-            "Disperse everyone on the map to a random vent, given that they are not Immovable. You cannot have any other button modifiers with Disperser.";
+            $"Disperse everyone on the map to a random vent, given that they are not Immovable. You cannot have any other button modifiers with {ModifierName}.";
     }
 
     [HideFromIl2Cpp]

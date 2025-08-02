@@ -11,7 +11,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
@@ -24,7 +23,7 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets
 {
-    public override string ModifierName => "Lover";
+    public override string ModifierName => TouLocale.Get(TouNames.Lover, "Lover");
     public override string Symbol => "♥";
     public override string IntroInfo => LoverString();
     public override float IntroSize => 3f;
@@ -126,7 +125,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     public string GetAdvancedDescription()
     {
         return
-            "As a lover, you can chat with your other lover (signified with <color=#FF66CCFF>♥</color>) during the round, and you can win with your lover if you are both a part of the final 3 players."
+            $"As a {ModifierName.ToLowerInvariant()}, you can chat with your other {ModifierName.ToLowerInvariant()} (signified with <color=#FF66CCFF>♥</color>) during the round, and you can win with your {ModifierName.ToLowerInvariant()} if you are both a part of the final 3 players."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

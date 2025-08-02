@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -83,6 +84,46 @@ public static class InquisitorEvents
     }
 
     [RegisterEvent]
+    public static void EjectionEventHandler(EjectionEvent @event)
+    {
+        var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
+
+        if (exiled == null)
+        {
+            return;
+        }
+
+        CustomRoleUtils.GetActiveRolesOfType<InquisitorRole>().Do(x => x.CheckTargetDeath(exiled));
+        
+        var inquis = CustomRoleUtils.GetActiveRolesOfType<InquisitorRole>().FirstOrDefault();
+        if (inquis != null && inquis.TargetsDead && !inquis.Player.HasDied())
+        {
+            if (inquis.Player.AmOwner)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>You have successfully won as the {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, as all Heretics have perished!</b>",
+                    Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
+
+                notif1.Text.SetOutlineThickness(0.35f);
+                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "Victorious",
+                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    lockInfo: DeathHandlerOverride.SetTrue);
+            }
+            else
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>",
+                    Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
+
+                notif1.Text.SetOutlineThickness(0.35f);
+                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+            }
+            inquis.Player.Exiled();
+        }
+    }
+
+    [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
         if (@event.TriggeredByIntro)
@@ -95,7 +136,6 @@ public static class InquisitorEvents
         {
             if (inquis.Player.AmOwner)
             {
-                PlayerControl.LocalPlayer.RpcPlayerExile();
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>You have successfully won as the {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, as all Heretics have perished!</b>",
                     Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
@@ -113,6 +153,7 @@ public static class InquisitorEvents
                 notif1.Text.SetOutlineThickness(0.35f);
                 notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
             }
+            inquis.Player.Exiled();
         }
     }
 }

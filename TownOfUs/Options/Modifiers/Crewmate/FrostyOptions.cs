@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class FrostyOptions : AbstractOptionGroup<FrostyModifier>
 {
-    public override string GroupName => "Frosty";
+    public override string GroupName => TouLocale.Get(TouNames.Frosty, "Frosty");
     public override uint GroupPriority => 33;
     public override Color GroupColor => TownOfUsColors.Frosty;
 

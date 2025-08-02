@@ -12,6 +12,12 @@ public sealed class GameTimerOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Game Timer")] public bool GameTimerEnabled { get; set; } = false;
 
+    public ModdedEnumOption PauseInMeetings { get; } =
+        new("Pause Timer In Meetings", 1, typeof(PauseInMeetingsType), ["Below 5 Mins", "Below 10 Mins", "Always"])
+        {
+            Visible = () => OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled
+        };
+    
     public ModdedEnumOption TimerEndOption { get; } =
         new("On Timer End", 1, typeof(GameTimerType), ["Impostor Win", "Game Draw"])
         {
@@ -29,4 +35,11 @@ public enum GameTimerType
 {
     Impostors,
     GameDraw
+}
+
+public enum PauseInMeetingsType
+{
+    Below5Minutes,
+    Below10Minutes,
+    Always
 }

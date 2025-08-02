@@ -5,7 +5,6 @@ using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Perception;
-    public string RoleName => "Spy";
+    public string RoleName => TouLocale.Get(TouNames.Spy, "Spy");
     public string RoleDescription => "Snoop Around And Find Stuff Out";
     public string RoleLongDescription => "Gain extra information on the Admin Table";
     public Color RoleColor => TownOfUsColors.Spy;
@@ -37,7 +36,7 @@ public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole
     public string GetAdvancedDescription()
     {
         return
-            "The Spy is a Crewmate Investigative role that gains extra information on the admin table. They not only see how many people are in a room, but will also see who is in every room."
+            $"The {RoleName} is a Crewmate Investigative role that gains extra information on the admin table. They not only see how many people are in a room, but will also see who is in every room."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

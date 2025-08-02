@@ -9,7 +9,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -42,7 +41,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string RoleName => "Snitch";
+    public string RoleName => TouLocale.Get(TouNames.Snitch, "Snitch");
     public string RoleDescription => "Find the <color=#FF0000FF>Impostors</color>!";
 
     public string RoleLongDescription =>
@@ -84,8 +83,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public string GetAdvancedDescription()
     {
         return
-            "The Snitch is a Crewmate Investigative role that can reveal the Impostors to themselves by finishing all their tasks. " +
-            "Upon completing all tasks, the Impostors will be revealed to the Snitch with an arrow and their red name."
+            $"The {RoleName} is a Crewmate Investigative role that can reveal the Impostors to themselves by finishing all their tasks. " +
+            $"Upon completing all tasks, the Impostors will be revealed to the {RoleName} with an arrow and their red name."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

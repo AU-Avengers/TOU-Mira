@@ -5,7 +5,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => "Lookout";
+    public string RoleName => TouLocale.Get(TouNames.Lookout, "Lookout");
     public string RoleDescription => "Keep Your Eyes Wide Open";
     public string RoleLongDescription => "Watch other crewmates to see what roles interact with them";
     public Color RoleColor => TownOfUsColors.Lookout;
@@ -37,7 +36,7 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public string GetAdvancedDescription()
     {
         return
-            "The Lookout is a Crewmate Investigative role that can watch other players during rounds. During meetings they will see all roles who interact with each watched player."
+            $"The {RoleName} is a Crewmate Investigative role that can watch other players during rounds. During meetings they will see all roles who interact with each watched player."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

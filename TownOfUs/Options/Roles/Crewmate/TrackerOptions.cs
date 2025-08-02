@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class TrackerOptions : AbstractOptionGroup<TrackerTouRole>
 {
-    public override string GroupName => "Tracker";
+    public override string GroupName => TouLocale.Get(TouNames.Tracker, "Tracker");
 
     [ModdedNumberOption("Track Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float TrackCooldown { get; set; } = 20f;

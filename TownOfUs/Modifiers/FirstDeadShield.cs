@@ -11,7 +11,7 @@ namespace TownOfUs.Modifiers;
 
 public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 {
-    public override string ModifierName => "First Death Shield";
+    public override string ModifierName => TouLocale.Get(TouNames.FirstDeathShield, "First Death Shield");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.FirstRoundShield;
 
     public override bool HideOnUi => !TownOfUsPlugin.ShowShieldHud.Value;

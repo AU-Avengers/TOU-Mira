@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
-using TownOfUs.Modules.Localization;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
@@ -28,6 +27,6 @@ public sealed class GlitchOptions : AbstractOptionGroup<GlitchRole>
     [ModdedNumberOption("Hack Duration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HackDuration { get; set; } = 10f;
 
-    [ModdedToggleOption("Can Vent")]
+    [ModdedToggleOption("Glitch Can Vent")]
     public bool CanVent { get; set; } = true;
 }

@@ -5,7 +5,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -19,7 +18,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     public bool Rampaging { get; set; }
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<HunterRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => "Werewolf";
+    public string RoleName => TouLocale.Get(TouNames.Werewolf, "Werewolf");
     public string RoleDescription => "Rampage To Kill Everyone";
     public string RoleLongDescription => "Rampage to kill everyone in your path";
     public Color RoleColor => TownOfUsColors.Werewolf;
@@ -58,7 +57,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     public string GetAdvancedDescription()
     {
         return
-            "The Werewolf is a Neutral Killing role that wins by being the last killer alive. They can go on a rampage to gain the ability to kill." +
+            $"The {RoleName} is a Neutral Killing role that wins by being the last killer alive. They can go on a rampage to gain the ability to kill." +
             MiscUtils.AppendOptionsText(GetType());
     }
 

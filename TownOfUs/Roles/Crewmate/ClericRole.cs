@@ -5,7 +5,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -16,7 +15,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => "Cleric";
+    public string RoleName => TouLocale.Get(TouNames.Cleric, "Cleric");
     public string RoleDescription => "Save The Crewmates";
     public string RoleLongDescription => "Barrier and Cleanse crewmates";
     public Color RoleColor => TownOfUsColors.Cleric;
@@ -38,7 +37,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public string GetAdvancedDescription()
     {
         return
-            "The Cleric is a Crewmate Protective that can protect crewmates by negating their negative effects, as well as placing barriers on them to prevent interactions." +
+            $"The {RoleName} is a Crewmate Protective that can protect crewmates by negating their negative effects, as well as placing barriers on them to prevent interactions." +
             MiscUtils.AppendOptionsText(GetType());
     }
 

@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class ScientistOptions : AbstractOptionGroup<ScientistModifier>
 {
-    public override string GroupName => "Scientist";
+    public override string GroupName => TouLocale.Get(TouNames.Scientist, "Scientist");
     public override uint GroupPriority => 37;
     public override Color GroupColor => TownOfUsColors.Scientist;
 

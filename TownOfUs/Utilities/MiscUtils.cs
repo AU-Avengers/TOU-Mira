@@ -14,7 +14,6 @@ using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles;
@@ -1019,5 +1018,23 @@ public static class MiscUtils
             return wikiMod.FakeTypeId;
         }
         return ModifierManager.GetModifierTypeId(mod.GetType()) ?? throw new InvalidOperationException("Modifier is not registered.");
+    }
+
+    public static string GetRoomName(Vector3 position)
+    {
+        PlainShipRoom? plainShipRoom = null;
+
+        var allRooms2 = ShipStatus.Instance.FastRooms;
+        foreach (var plainShipRoom2 in allRooms2.Values)
+        {
+            if (plainShipRoom2.roomArea && plainShipRoom2.roomArea.OverlapPoint(position))
+            {
+                plainShipRoom = plainShipRoom2;
+            }
+        }
+
+        return plainShipRoom != null
+            ? TranslationController.Instance.GetString(plainShipRoom.RoomId)
+            : "Outside/Hallway";
     }
 }

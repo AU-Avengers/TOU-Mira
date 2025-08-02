@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SpyOptions : AbstractOptionGroup<SpyRole>
 {
-    public override string GroupName => "Spy";
+    public override string GroupName => TouLocale.Get(TouNames.Spy, "Spy");
 
     [ModdedEnumOption("Who Sees Dead Bodies On Admin", typeof(AdminDeadPlayers),
         ["Nobody", "Spy", "Everyone But Spy", "Everyone"])]

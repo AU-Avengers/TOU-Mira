@@ -48,12 +48,13 @@ public static class GameTimerPatch
 
     public static void UpdateGameTimer(HudManager instance)
     {
+        var timeOpt = OptionGroupSingleton<GameTimerOptions>.Instance;
         if (GameTimerObj != null)
         {
             GameTimerObj.SetActive(false);
         }
 
-        if (!OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled)
+        if (!timeOpt.GameTimerEnabled)
         {
             return;
         }
@@ -69,7 +70,11 @@ public static class GameTimerPatch
         }
 
         var inMeeting = MeetingHud.Instance || ExileController.Instance;
-        if (Enabled && GameTimer > 0 && (!inMeeting || GameTimer > 240f))
+        if (Enabled && GameTimer > 0 && (!inMeeting ||
+                                         GameTimer > 300f &&
+                                         timeOpt.PauseInMeetings.Value is (int)PauseInMeetingsType.Below5Minutes ||
+                                         GameTimer > 600f &&
+                                         timeOpt.PauseInMeetings.Value is (int)PauseInMeetingsType.Below10Minutes))
         {
             GameTimer -= Time.deltaTime;
             GameTimer = Math.Max(GameTimer, 0);

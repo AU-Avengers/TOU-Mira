@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Impostor;
 using TownOfUs.Utilities;
@@ -10,7 +9,7 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Telepath";
+    public override string ModifierName => TouLocale.Get(TouNames.Telepath, "Telepath");
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
     public override string IntroInfo => "You also know information about teammates' kills" +

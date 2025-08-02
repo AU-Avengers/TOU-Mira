@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -19,7 +18,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = new();
 
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => "Medium";
+    public string RoleName => TouLocale.Get(TouNames.Medium, "Medium");
     public string RoleDescription => "Watch The Spooky Ghosts";
     public string RoleLongDescription => "Follow ghosts to get clues from them";
     public Color RoleColor => TownOfUsColors.Medium;
@@ -41,7 +40,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public string GetAdvancedDescription()
     {
         return
-            "The Medium is a Crewmate Support role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times."
+            $"The {RoleName} is a Crewmate Support role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

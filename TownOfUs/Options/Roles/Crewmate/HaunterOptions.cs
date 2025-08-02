@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class HaunterOptions : AbstractOptionGroup<HaunterRole>
 {
-    public override string GroupName => "Haunter";
+    public override string GroupName => TouLocale.Get(TouNames.Haunter, "Haunter");
 
     [ModdedNumberOption("Tasks Left Before Clickable", 0f, 5)]
     public float NumTasksLeftBeforeClickable { get; set; } = 3f;

@@ -678,9 +678,19 @@ public static class TouRoleManagerPatches
             var biasPercent = OptionGroupSingleton<RoleOptions>.Instance.ImpostorBiasPercent.Value / 100f;
             while (infected.Count < impCount)
             {
+                if (players.All(x=> LastImps.Contains(x.ClientId)))
+                {
+                    var remainingImps = impCount - infected.Count;
+                    players.Shuffle();
+                    infected.AddRange(players.Where(x=>!infected.Contains(x)).Take(remainingImps));
+                    break;
+                }
+
                 var num = random.Next(players.Count);
                 var player = players[num];
-                if (LastImps.Contains(player.ClientId) && random.NextDouble() < biasPercent)
+                var skip = LastImps.Contains(player.ClientId) && random.NextDouble() < biasPercent;
+
+                if (infected.Contains(player) || skip)
                 {
                     continue;
                 }

@@ -9,7 +9,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Utilities;
@@ -111,7 +110,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         Player.RemoveModifier<HaunterArrowModifier>();
     }
 
-    public string RoleName => "Haunter";
+    public string RoleName => TouLocale.Get(TouNames.Haunter, "Haunter");
     public string RoleDescription => string.Empty;
     public string RoleLongDescription => "Complete all your tasks without getting caught to reveal impostors!";
     public Color RoleColor => TownOfUsColors.Haunter;
@@ -135,10 +134,10 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
     public string GetAdvancedDescription()
     {
         return
-            "The Haunter is a Crewmate Ghost who can do tasks. They will appear as a transparent player. " +
+            $"The {RoleName} is a Crewmate Ghost who can do tasks. They will appear as a transparent player. " +
             "If they finish all their tasks, all alive players will see who the Impostors are. " +
             "However, if an Impostor clicks them first, they will become a normal ghost. " +
-            "Impostors get a warning shortly before and when the Haunter finishes their tasks. "
+            $"Impostors get a warning shortly before and when the {RoleName} finishes their tasks. "
             + MiscUtils.AppendOptionsText(GetType());
     }
     // public DangerMeter ImpostorMeter { get; set; }

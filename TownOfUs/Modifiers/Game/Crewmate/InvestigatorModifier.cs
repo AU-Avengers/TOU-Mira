@@ -4,7 +4,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -12,9 +11,10 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
-public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
+public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable, IColoredModifier
 {
-    public override string ModifierName => "Investigator";
+    public Color ModifierColor => new(0f, 0.7f, 0.7f, 1f);
+    public override string ModifierName => TouLocale.Get(TouNames.Investigator, "Investigator");
     public override string IntroInfo => "You will also see everyone's footprints for some time.";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Investigator;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
@@ -24,7 +24,7 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable
     public string GetAdvancedDescription()
     {
         return
-            "The Investigator can see player's footprints throughout the game. Swooped players' footprints will not be visible to the Investigator."
+            $"The {ModifierName} can see player's footprints throughout the game. Swooped players' footprints will not be visible to the {ModifierName}."
             + MiscUtils.AppendOptionsText(CustomRoleSingleton<InvestigatorRole>.Instance.GetType());
     }
 

@@ -8,7 +8,6 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -24,7 +23,7 @@ public sealed class DetectiveRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     [HideFromIl2Cpp] public List<byte> InvestigatedPlayers { get; init; } = new();
 
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string RoleName => "Detective";
+    public string RoleName => TouLocale.Get(TouNames.Detective, "Detective");
     public string RoleDescription => "Inspect Crime Scenes To Catch The Killer";
     public string RoleLongDescription => "Inspect crime scenes, then examine players to see if they were at the scene.";
     public Color RoleColor => TownOfUsColors.Detective;
@@ -54,7 +53,7 @@ public sealed class DetectiveRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public string GetAdvancedDescription()
     {
         return
-            "The Detective can inspect a crime scene and examine players to see if they were at the crime scene, flashing red if they were there."
+            $"The {RoleName} can inspect a crime scene and examine players to see if they were at the crime scene, flashing red if they were there."
             + MiscUtils.AppendOptionsText(GetType());
     }
 

@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class GuardianAngelOptions : AbstractOptionGroup<GuardianAngelTouRole>
 {
-    public override string GroupName => "Guardian Angel";
+    public override string GroupName => TouLocale.Get(TouNames.GuardianAngel, "Guardian Angel");
 
     [ModdedNumberOption("Protect Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ProtectCooldown { get; set; } = 25f;

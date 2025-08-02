@@ -1,5 +1,4 @@
-﻿using TownOfUs.Modules.Localization;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TownOfUs.Modifiers.Neutral;
 

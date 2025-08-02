@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class PlaguebearerOptions : AbstractOptionGroup<PlaguebearerRole>
 {
-    public override string GroupName => "Plaguebearer";
+    public override string GroupName => TouLocale.Get(TouNames.Plaguebearer, "Plaguebearer");
 
     [ModdedNumberOption("Instant Pestilence Chance", 0, 100f, 10f, MiraNumberSuffixes.Percent)]
     public float PestChance { get; set; } = 0f;

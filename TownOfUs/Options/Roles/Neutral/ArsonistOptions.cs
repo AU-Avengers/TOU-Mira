@@ -2,7 +2,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
-using TownOfUs.Modules.Localization;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
@@ -26,6 +25,6 @@ public sealed class ArsonistOptions : AbstractOptionGroup<ArsonistRole>
         Visible = () => !OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
     };
 
-    [ModdedToggleOption("Can Vent")]
+    [ModdedToggleOption("Arsonist Can Vent")]
     public bool CanVent { get; set; }
 }

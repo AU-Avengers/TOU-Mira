@@ -18,7 +18,7 @@ public static class OracleEvents
         CustomRoleUtils.GetActiveRolesOfType<OracleRole>().Do(x => x.ReportOnConfession());
     }
 
-    [RegisterEvent]
+    [RegisterEvent(30)]
     public static void ProcessVotesEventHandler(ProcessVotesEvent @event)
     {
         if (@event.ExiledPlayer == null)

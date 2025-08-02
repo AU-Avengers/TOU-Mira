@@ -12,7 +12,6 @@ using Reactor.Localization;
 using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using TownOfUs.Modules.Localization;
 using TownOfUs.Patches.Misc;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 

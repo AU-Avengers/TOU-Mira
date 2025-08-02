@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
-using TownOfUs.Modules.Localization;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
@@ -22,6 +21,6 @@ public sealed class MorphlingOptions : AbstractOptionGroup<MorphlingRole>
     [ModdedNumberOption("Morph Duration", 5f, 15f, 1f, MiraNumberSuffixes.Seconds)]
     public float MorphlingDuration { get; set; } = 10f;
 
-    [ModdedToggleOption("Morph Can Vent")]
-    public bool MorphlingVent { get; set; } = true;
+    [ModdedToggleOption("Morphling Can Vent")]
+    public bool CanVent { get; set; } = true;
 }

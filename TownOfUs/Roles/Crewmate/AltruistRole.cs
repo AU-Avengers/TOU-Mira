@@ -16,7 +16,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -27,7 +26,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => "Altruist";
+    public string RoleName => TouLocale.Get(TouNames.Altruist, "Altruist");
     public string RoleDescription => "Revive Dead Crewmates";
     public string RoleLongDescription => "Revive dead crewmates in groups";
     public Color RoleColor => TownOfUsColors.Altruist;
@@ -49,7 +48,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public string GetAdvancedDescription()
     {
         return
-            "The Altruist is a Crewmate Protective role can revive dead players in groups. However, their location and the revived players' locations will be revealed to all Impostors." +
+            $"The {RoleName} is a Crewmate Protective role can revive dead players in groups. However, their location and the revived players' locations will be revealed to all Impostors." +
             MiscUtils.AppendOptionsText(GetType());
     }
 

@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class RottingOptions : AbstractOptionGroup<RottingModifier>
 {
-    public override string GroupName => "Rotting";
+    public override string GroupName => TouLocale.Get(TouNames.Rotting, "Rotting");
     public override uint GroupPriority => 36;
     public override Color GroupColor => TownOfUsColors.Rotting;
 

@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class MediumOptions : AbstractOptionGroup<MediumRole>
 {
-    public override string GroupName => "Medium";
+    public override string GroupName => TouLocale.Get(TouNames.Medium, "Medium");
 
     [ModdedNumberOption("Mediate Cooldown", 0, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float MediateCooldown { get; set; } = 10;

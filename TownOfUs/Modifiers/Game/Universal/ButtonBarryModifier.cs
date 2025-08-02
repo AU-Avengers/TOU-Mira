@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Crewmate;
@@ -17,7 +16,7 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Button Barry";
+    public override string ModifierName => TouLocale.Get(TouNames.ButtonBarry, "Button Barry");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.ButtonBarry;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
 

@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SnitchOptions : AbstractOptionGroup<SnitchRole>
 {
-    public override string GroupName => "Snitch";
+    public override string GroupName => TouLocale.Get(TouNames.Snitch, "Snitch");
 
     [ModdedToggleOption("Snitch Reveals Neutral Killers")]
     public bool SnitchNeutralRoles { get; set; } = false;

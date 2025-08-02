@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
 using TownOfUs.Roles;
@@ -14,7 +13,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Noisemaker";
+    public override string ModifierName => TouLocale.Get(TouNames.Noisemaker, "Noisemaker");
     public override string IntroInfo => "You will also alert all players to your body upon death.";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Noisemaker;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);

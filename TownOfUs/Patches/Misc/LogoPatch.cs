@@ -2,7 +2,6 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Utilities;
 using UnityEngine;
 

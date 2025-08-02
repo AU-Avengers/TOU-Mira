@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class InquisitorOptions : AbstractOptionGroup<InquisitorRole>
 {
-    public override string GroupName => "Inquisitor";
+    public override string GroupName => TouLocale.Get(TouNames.Inquisitor, "Inquisitor");
 
     [ModdedNumberOption("Vanquish Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float VanquishCooldown { get; set; } = 25f;

@@ -11,7 +11,6 @@ using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Components;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -39,7 +38,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DetectiveRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => "Janitor";
+    public string RoleName => TouLocale.Get(TouNames.Janitor, "Janitor");
     public string RoleDescription => "Sanitize The Ship";
 
     public string RoleLongDescription => "Clean bodies to hide kills" +
@@ -66,7 +65,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
 
     public string GetAdvancedDescription()
     {
-        return "The Janitor is an Impostor Support role that can clean dead bodies." +
+        return $"The {RoleName} is an Impostor Support role that can clean dead bodies." +
                MiscUtils.AppendOptionsText(GetType());
     }
 

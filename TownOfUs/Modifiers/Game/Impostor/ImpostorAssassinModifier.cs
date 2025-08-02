@@ -6,7 +6,7 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class ImpostorAssassinModifier : AssassinModifier
 {
-    public override string ModifierName => "Assassin";
+    public override string ModifierName => TouLocale.Get(TouNames.Assassin, "Assassin");
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
     public override int GetAmountPerGame()

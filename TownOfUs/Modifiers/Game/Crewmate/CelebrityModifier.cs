@@ -5,7 +5,6 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modules;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -18,7 +17,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Celebrity";
+    public override string ModifierName => TouLocale.Get(TouNames.Celebrity, "Celebrity");
     public override string IntroInfo => "You will also reveal info about your death in the meeting.";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Celebrity;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
@@ -68,20 +67,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        PlainShipRoom? plainShipRoom = null;
-
-        var allRooms2 = ShipStatus.Instance.FastRooms;
-        foreach (var plainShipRoom2 in allRooms2.Values)
-        {
-            if (plainShipRoom2.roomArea && plainShipRoom2.roomArea.OverlapPoint(player.GetTruePosition()))
-            {
-                plainShipRoom = plainShipRoom2;
-            }
-        }
-
-        var room = plainShipRoom != null
-            ? TranslationController.Instance.GetString(plainShipRoom.RoomId)
-            : "Outside/Hallway";
+        var room = MiscUtils.GetRoomName(player.GetTruePosition());
 
         var celeb = player.GetModifier<CelebrityModifier>()!;
         celeb.StoredRoom = room;

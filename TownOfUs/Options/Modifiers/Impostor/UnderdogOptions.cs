@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 
 public sealed class UnderdogOptions : AbstractOptionGroup<UnderdogModifier>
 {
-    public override string GroupName => "Underdog";
+    public override string GroupName => TouLocale.Get(TouNames.Underdog, "Underdog");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 43;
 

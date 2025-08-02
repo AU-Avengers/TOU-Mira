@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class ClericOptions : AbstractOptionGroup<ClericRole>
 {
-    public override string GroupName => "Cleric";
+    public override string GroupName => TouLocale.Get(TouNames.Cleric, "Cleric");
 
     [ModdedNumberOption("Barrier Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float BarrierCooldown { get; set; } = 25f;

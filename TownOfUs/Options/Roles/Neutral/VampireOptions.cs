@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class VampireOptions : AbstractOptionGroup<VampireRole>
 {
-    public override string GroupName => "Vampire";
+    public override string GroupName => TouLocale.Get(TouNames.Vampire, "Vampire");
 
     [ModdedNumberOption("Bite Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BiteCooldown { get; set; } = 25f;

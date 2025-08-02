@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class FlashOptions : AbstractOptionGroup<FlashModifier>
 {
-    public override string GroupName => "Flash";
+    public override string GroupName => TouLocale.Get(TouNames.Flash, "Flash");
     public override uint GroupPriority => 24;
     public override Color GroupColor => TownOfUsColors.Flash;
 

@@ -1,6 +1,5 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -9,7 +8,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class AftermathModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => "Aftermath";
+    public override string ModifierName => TouLocale.Get(TouNames.Aftermath, "Aftermath");
     public override string IntroInfo => "You will also trigger your killer's abilities upon death.";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Aftermath;
 

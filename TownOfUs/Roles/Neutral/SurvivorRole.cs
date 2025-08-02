@@ -6,7 +6,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers;
-using TownOfUs.Modules.Wiki;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class SurvivorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => "Survivor";
+    public string RoleName => TouLocale.Get(TouNames.Survivor, "Survivor");
     public string RoleDescription => "Do Whatever It Takes To Live";
     public string RoleLongDescription => "Stay alive to win with any faction remaining";
     public Color RoleColor => TownOfUsColors.Survivor;
@@ -46,7 +45,7 @@ public sealed class SurvivorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
     public string GetAdvancedDescription()
     {
-        return "The Survivor is a Neutral Benign role that just needs to survive till the end of the game." +
+        return $"The {RoleName} is a Neutral Benign role that just needs to survive till the end of the game." +
                MiscUtils.AppendOptionsText(GetType());
     }
 

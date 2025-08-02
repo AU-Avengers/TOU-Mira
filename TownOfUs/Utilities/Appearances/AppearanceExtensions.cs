@@ -100,23 +100,56 @@ public static class AppearanceExtensions
         player.RawSetPet(appearance.PetId, appearance.ColorId);
 
         player.cosmetics.currentBodySprite.BodySprite.color = appearance.RendererColor;
+        if (player.cosmetics.GetLongBoi() != null)
+        {
+            player.cosmetics.GetLongBoi().headSprite.color = appearance.RendererColor;
+            player.cosmetics.GetLongBoi().neckSprite.color = appearance.RendererColor;
+            player.cosmetics.GetLongBoi().foregroundNeckSprite.color = appearance.RendererColor;
+        }
 
         if (appearance.PlayerMaterialColor != null)
         {
             PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
                 player.cosmetics.currentBodySprite.BodySprite);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().headSprite);
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().neckSprite);
+                PlayerMaterial.SetColors((Color)appearance.PlayerMaterialColor,
+                    player.cosmetics.GetLongBoi().foregroundNeckSprite);
+            }
         }
 
         if (appearance.PlayerMaterialBackColor != null)
         {
             player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.BackColor,
                 (Color)appearance.PlayerMaterialBackColor);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                player.cosmetics.GetLongBoi().headSprite.material.SetColor(ShaderID.BackColor,
+                    (Color)appearance.PlayerMaterialBackColor);
+                player.cosmetics.GetLongBoi().neckSprite.material.SetColor(ShaderID.BackColor,
+                    (Color)appearance.PlayerMaterialBackColor);
+                player.cosmetics.GetLongBoi().foregroundNeckSprite.material.SetColor(ShaderID.BackColor,
+                    (Color)appearance.PlayerMaterialBackColor);
+            }
         }
 
         if (appearance.PlayerMaterialVisorColor != null)
         {
             player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, 
                 (Color)appearance.PlayerMaterialVisorColor);
+            if (player.cosmetics.GetLongBoi() != null)
+            {
+                player.cosmetics.GetLongBoi().headSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+                player.cosmetics.GetLongBoi().neckSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+                player.cosmetics.GetLongBoi().foregroundNeckSprite.material.SetColor(ShaderID.VisorColor,
+                    (Color)appearance.PlayerMaterialVisorColor);
+            }
         }
 
         if (appearance.NameColor != null)

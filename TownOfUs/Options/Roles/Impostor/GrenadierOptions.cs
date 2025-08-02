@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class GrenadierOptions : AbstractOptionGroup<GrenadierRole>
 {
-    public override string GroupName => "Grenadier";
+    public override string GroupName => TouLocale.Get(TouNames.Grenadier, "Grenadier");
 
     [ModdedNumberOption("Flash Uses Per Game", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxFlashes { get; set; } = 0f;

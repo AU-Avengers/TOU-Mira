@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class GiantOptions : AbstractOptionGroup<GiantModifier>
 {
-    public override string GroupName => "Giant";
+    public override string GroupName => TouLocale.Get(TouNames.Giant, "Giant");
     public override uint GroupPriority => 25;
     public override Color GroupColor => TownOfUsColors.Giant;
 

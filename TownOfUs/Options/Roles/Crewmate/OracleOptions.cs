@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class OracleOptions : AbstractOptionGroup<OracleRole>
 {
-    public override string GroupName => "Oracle";
+    public override string GroupName => TouLocale.Get(TouNames.Oracle, "Oracle");
 
     [ModdedNumberOption("Confess Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float ConfessCooldown { get; set; } = 20f;

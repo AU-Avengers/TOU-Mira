@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class AmbusherOptions : AbstractOptionGroup<AmbusherRole>
 {
-    public override string GroupName => "Ambusher";
+    public override string GroupName => TouLocale.Get(TouNames.Ambusher, "Ambusher");
 
     [ModdedNumberOption("Ambush Uses Per Game", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxAmbushes { get; set; } = 0f;
@@ -22,6 +22,6 @@ public sealed class AmbusherOptions : AbstractOptionGroup<AmbusherRole>
     [ModdedToggleOption("Stop Pursing Player On Ambush")]
     public bool ResetAmbush { get; set; } = true;
 
-    [ModdedToggleOption("Can Vent")]
-    public bool AmbusherVent { get; set; } = true;
+    [ModdedToggleOption("Ambusher Can Vent")]
+    public bool CanVent { get; set; } = true;
 }
