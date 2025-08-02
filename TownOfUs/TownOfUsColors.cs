@@ -48,6 +48,7 @@ public static class TownOfUsColors
     public static Color Medium => UseBasic ? Palette.CrewmateBlue : new Color32(166, 128, 255, 255);
     public static Color Plumber => UseBasic ? Palette.CrewmateBlue : new Color32(204, 102, 0, 255);
     public static Color Transporter => UseBasic ? Palette.CrewmateBlue : new Color32(0, 237, 255, 255);
+    public static Color Catalyst => UseBasic ? Palette.CrewmateBlue : new Color32(255, 53, 224, 255);
 
     // Neutral Colors
     public static Color Amnesiac => new Color32(128, 179, 255, 255);

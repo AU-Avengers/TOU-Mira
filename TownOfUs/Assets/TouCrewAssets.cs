@@ -90,6 +90,9 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> Transport { get; } =
         new LoadableResourceAsset($"{ButtonPath}.TransportButton.png");
 
+    public static LoadableAsset<Sprite> OverchargeSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.OverchargeButton.png");
+    
     public static LoadableAsset<Sprite> EngineerRoleBanner { get; } =
         new LoadableResourceAsset($"{BannerPath}.Engineer.png");
 }

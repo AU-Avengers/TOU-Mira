@@ -50,6 +50,7 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Medium { get; } = new LoadableResourceAsset($"{iconPath}.Medium.png");
     public static LoadableAsset<Sprite> Plumber { get; } = new LoadableResourceAsset($"{iconPath}.Plumber.png");
     public static LoadableAsset<Sprite> Transporter { get; } = new LoadableResourceAsset($"{iconPath}.Transporter.png");
+    public static LoadableAsset<Sprite> Catalyst { get; } = new LoadableResourceAsset($"{iconPath}.Catalyst.png");
 
     public static LoadableAsset<Sprite> Amnesiac { get; } = new LoadableResourceAsset($"{iconPath}.Amnesiac.png");
 
