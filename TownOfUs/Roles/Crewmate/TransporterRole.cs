@@ -46,7 +46,6 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-
     public string GetAdvancedDescription()
     {
         return
@@ -228,7 +227,14 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         }
 
         var positions = GetAdjustedPositions(t1, t2);
-
+        if (t1.TryCast<PlayerControl>() != null)
+        {
+            positions.Item1 = play1.Collider.bounds.center;
+        }
+        if (t2.TryCast<PlayerControl>() != null)
+        {
+            positions.Item2 = play2.Collider.bounds.center;
+        }
         Transport(t1, positions.Item2);
         Transport(t2, positions.Item1);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TransporterTransport, transporter, t1, t2);
@@ -404,19 +410,25 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public static void Transport(MonoBehaviour mono, Vector3 position)
     {
+        
         var player = mono.TryCast<PlayerControl>();
         if (player != null && player.HasModifier<ImmovableModifier>())
         {
             return;
         }
-        if (mono.TryCast<DeadBody>() is DeadBody deadBody &&
+
+        if (mono.TryCast<DeadBody>() is { } deadBody &&
             MiscUtils.PlayerById(deadBody.ParentId)?.HasModifier<ImmovableModifier>() == true)
         {
             return;
         }
 
         mono.transform.position = position;
-        
+        Collider2D cd = mono.GetComponent<Collider2D>();
+        if (cd != null && mono.TryCast<DeadBody>() != null)
+        {
+            mono.transform.position += cd.bounds.center - position;
+        }
         if (player != null)
         {
             player.MyPhysics.ResetMoveState();
