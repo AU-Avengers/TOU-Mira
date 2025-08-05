@@ -38,7 +38,7 @@ public static class MarshalEvents
     }
     
     [RegisterEvent]
-    public static void HandleVoteEvent(HandleVoteEvent @event)
+    public static void HandleVoteEventHandler(HandleVoteEvent @event)
     {
         if (!MarshalRole.TribunalHappening) return;
         @event.Cancel();
@@ -71,12 +71,27 @@ public static class MarshalEvents
     }
 
     [RegisterEvent]
-    public static void MeetingSelectEvent(MeetingSelectEvent @event)
+    public static void DummyVoteEventHandler(DummyVoteEvent @event)
     {
         if (!MarshalRole.TribunalHappening) return;
 
-        // - Players marked as ejected during a tribunal can't vote
-        // - Other players can't vote them
+        var localVoteData = PlayerControl.LocalPlayer.GetVoteData();
+        if (localVoteData.Votes.Count <= 0)
+        {
+            @event.Cancel();
+            return;
+        }
+
+        // The only player valid is the player's vote
+        @event.PlayerIsValid = p => p.PlayerId == localVoteData.Votes[0].Suspect;
+    }
+
+    [RegisterEvent]
+    public static void MeetingSelectEventHandler(MeetingSelectEvent @event)
+    {
+        if (!MarshalRole.TribunalHappening) return;
+
+        // Players marked as ejected during a tribunal can't vote and other players can't vote them
         if (MarshalRole.EjectedPlayers.Contains(PlayerControl.LocalPlayer.Data) || MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo))
         {
             @event.AllowSelect = false;
@@ -84,7 +99,7 @@ public static class MarshalEvents
     }
     
     [RegisterEvent]
-    public static void PopulateResultsEvent(PopulateResultsEvent @event)
+    public static void PopulateResultsEventHandler(PopulateResultsEvent @event)
     {
         if (!MarshalRole.TribunalHappening) return;
         
@@ -92,7 +107,7 @@ public static class MarshalEvents
     }
     
     [RegisterEvent]
-    public static void VotingCompleteEvent(VotingCompleteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
     {
         if (!MarshalRole.TribunalHappening) return;
         if (MarshalRole.EjectedPlayers.Count >=
@@ -105,7 +120,7 @@ public static class MarshalEvents
     }
 
     [RegisterEvent]
-    public static void BeforeRoundStartEvent(BeforeRoundStartEvent @event)
+    public static void BeforeRoundStartEventHandler(BeforeRoundStartEvent @event)
     {
         if (!MarshalRole.TribunalHappening) return;
 
