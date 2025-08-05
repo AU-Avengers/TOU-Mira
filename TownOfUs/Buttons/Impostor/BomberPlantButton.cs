@@ -16,16 +16,16 @@ public sealed class BomberPlantButton : TownOfUsRoleButton<BomberRole>, IAfterma
     public override float EffectDuration => OptionGroupSingleton<BomberOptions>.Instance.DetonateDelay;
     public override int MaxUses => (int)OptionGroupSingleton<BomberOptions>.Instance.MaxBombs;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.PlaceSprite;
-    public bool IsFirstRound { get; set; }
+    public bool Usable { get; set; } = OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound ||
+                                       TutorialManager.InstanceExists;
     public void SetDiseasedTimer(float multiplier)
     {
         SetTimer(Cooldown * multiplier);
     }
-
+    
     public override bool CanUse()
     {
-        
-        return base.CanUse() && !(!OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound && IsFirstRound);
+        return base.CanUse() && Usable;
     }
 
     protected override void OnClick()

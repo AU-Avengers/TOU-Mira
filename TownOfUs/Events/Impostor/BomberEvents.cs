@@ -7,16 +7,13 @@ namespace TownOfUs.Events.Impostor;
 
 public static class BomberEvents
 {
-    [RegisterEvent]
+    [RegisterEvent(10000)]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
         if (@event.TriggeredByIntro)
         {
-            CustomButtonSingleton<BomberPlantButton>.Instance.IsFirstRound = true;
+            return;
         }
-        else
-        {
-            CustomButtonSingleton<BomberPlantButton>.Instance.IsFirstRound = false;
-        }
+        CustomButtonSingleton<BomberPlantButton>.Instance.Usable = true;
     }
 }

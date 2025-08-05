@@ -148,9 +148,11 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<WarlockKillButton>.Instance.BurstActive = false;
 
         CustomButtonSingleton<BarryButton>.Instance.Usable =
-            OptionGroupSingleton<ButtonBarryOptions>.Instance.FirstRoundUse;
+            OptionGroupSingleton<ButtonBarryOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
         CustomButtonSingleton<SatelliteButton>.Instance.Usable =
-            OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse;
+            OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
+        CustomButtonSingleton<BomberPlantButton>.Instance.Usable =
+            OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound || TutorialManager.InstanceExists;
     }
 
     [RegisterEvent]
