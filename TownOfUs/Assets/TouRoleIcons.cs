@@ -44,6 +44,7 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Mirrorcaster { get; } = new LoadableResourceAsset($"{iconPath}.Mirrorcaster.png");
     public static LoadableAsset<Sprite> Oracle { get; } = new LoadableResourceAsset($"{iconPath}.Oracle.png");
     public static LoadableAsset<Sprite> Warden { get; } = new LoadableResourceAsset($"{iconPath}.Warden.png");
+    public static LoadableAsset<Sprite> Guardian { get; } = new LoadableResourceAsset($"{iconPath}.Guardian.png");
 
     public static LoadableAsset<Sprite> Engineer { get; } = new LoadableResourceAsset($"{iconPath}.Engineer.png");
     public static LoadableAsset<Sprite> Imitator { get; } = new LoadableResourceAsset($"{iconPath}.Imitator.png");

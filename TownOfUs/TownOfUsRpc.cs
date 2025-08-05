@@ -73,5 +73,7 @@ public enum TownOfUsRpc : uint
     AmbushPlayer,
     Tribunal,
     TribunalEjection,
-    EndTribunal
+    EndTribunal,
+    GuardianAegis,
+    GuardianAegisAttacked,
 }
