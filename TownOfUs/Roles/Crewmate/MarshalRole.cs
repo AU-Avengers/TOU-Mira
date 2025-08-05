@@ -311,8 +311,8 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             Logger<TownOfUsPlugin>.Warning($"The cutscene is played for the first time");
             
-            HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f);
             yield return new WaitForSeconds(4);
+            HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
             
             ConsoleJoystick.SetMode_Task();
             MeetingHud.Instance.DespawnOnDestroy = false;
