@@ -24,6 +24,9 @@ public sealed class BomberOptions : AbstractOptionGroup<BomberRole>
 
     [ModdedToggleOption("All Impostors See Bomb")]
     public bool AllImpsSeeBomb { get; set; } = true;
+    
+    [ModdedToggleOption("Allow Bombing in First Round")]
+    public bool CanBombFirstRound { get; set; } = true;
 
     [ModdedToggleOption("Bomber Can Vent")]
     public bool CanVent { get; set; } = true;
