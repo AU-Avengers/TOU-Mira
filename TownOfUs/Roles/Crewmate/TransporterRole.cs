@@ -228,11 +228,11 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         }
 
         var positions = GetAdjustedPositions(t1, t2);
-        if (t1.TryCast<PlayerControl>() != null)
+        if (t1.TryCast<PlayerControl>() != null && t2.TryCast<DeadBody>() != null)
         {
             positions.Item1 = play1.Collider.bounds.center;
         }
-        if (t2.TryCast<PlayerControl>() != null)
+        if (t2.TryCast<PlayerControl>() != null && t1.TryCast<DeadBody>() != null)
         {
             positions.Item2 = play2.Collider.bounds.center;
         }
