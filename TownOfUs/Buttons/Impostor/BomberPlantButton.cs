@@ -18,6 +18,7 @@ public sealed class BomberPlantButton : TownOfUsRoleButton<BomberRole>, IAfterma
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.PlaceSprite;
     public bool Usable { get; set; } = OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound ||
                                        TutorialManager.InstanceExists;
+
     public void SetDiseasedTimer(float multiplier)
     {
         SetTimer(Cooldown * multiplier);

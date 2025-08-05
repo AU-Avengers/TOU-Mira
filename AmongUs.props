@@ -1,6 +1,6 @@
 <Project>
     <ItemGroup>
-        <PackageReference Include="AllOfUs.MiraAPI" Version="0.2.0-dev" />
+        <PackageReference Include="AllOfUs.MiraAPI" Version="0.2.0-ci.633" />
         <PackageReference Include="Reactor" Version="2.3.1" />
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.735" Private="false" ExcludeAssets="runtime;native" />
         <PackageReference Include="AmongUs.GameLibs.Steam" Version="2025.4.15" PrivateAssets="all" />
