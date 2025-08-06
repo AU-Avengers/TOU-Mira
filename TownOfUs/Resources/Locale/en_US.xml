@@ -158,6 +158,7 @@
         <string name="TouHypnosis">Hypnosis</string> <!-- Hypnotist Cleric Cleanse Info -->
         <string name="TouInfection">Infection</string> <!-- Plaguebearer Cleric Cleanse Info -->
         <string name="TouScatter">Scatter</string>
+        
         <!-- Crewmate Roles -->
         <!-- Altruist - Crewmate Protective -->
         <string name="TouRoleAltruist">Altruist</string>
@@ -167,7 +168,7 @@
         <string name="TouRoleAltruistWikiDescription">The Altruist is a Crewmate Protective role can revive dead players in groups. However, their location and the revived players' locations will be revealed to all Impostors.</string>
         <string name="TouRoleAltruistRevive">Revive</string>
         <string name="TouRoleAltruistReviving">Reviving</string>
-        <string name="TouRoleAltruistReviveWikiDescription">Revive a group of dead bodies near you. You will be frozen during the revival and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious.</string>
+        <string name="TouRoleAltruistReviveWikiDescription">Revive a group of dead bodies near you. You will be frozen during the revival, and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious.</string> <!-- Added a comma -->
         <!-- Altruist Options -->
         <string name="TouOptionAltruistReviveDuration">Revive Duration</string>
         <string name="TouOptionAltruistReviveRange">Revive Range</string>
@@ -188,12 +189,14 @@
         <string name="TouRoleCleric">Cleric</string>
         <string name="TouRoleClericIntroBlurb">Save The Crewmates</string>
         <string name="TouRoleClericTabDescription">Barrier and Cleanse crewmates</string>
+        
         <!-- Cleric Wiki / Abilities -->
         <string name="TouRoleClericWikiDescription">The Cleric is a Crewmate Protective that can protect crewmates by negating their negative effects, as well as placing barriers on them to prevent interactions.</string>
         <string name="TouRoleClericBarrier">Barrier</string>
         <string name="TouRoleClericBarrierWikiDescription">Prevent a Crewmate from being interacted with. The shield will last for %BarrierCooldown% seconds.</string>
         <string name="TouRoleClericCleanse">Cleanse</string>
         <string name="TouRoleClericCleanseWikiDescription">Remove all negative effects on a player. (Douse, Hack, Infect, Blackmail, Blind, Flash, and Hypnosis)</string>
+        
         <!-- Cleric Feedback -->
         <string name="TouRoleClericMessageTitle">Cleric Feedback:</string>
         <string name="TouRoleClericCleansedEffects">Cleansed effects on %player%:</string>
@@ -205,119 +208,491 @@
         <string name="TouOptionClericHideAtBeginningOfRevive">Hide Bodies at Beginning Of Revive</string>
 
         <!-- Deputy - Crewmate Killing -->
+        <!-- Deputy Wiki / Abilities -->
         <string name="TouRoleDeputy">Deputy</string>
         <string name="TouRoleDeputyIntroBlurb">Camp Crewmates To Catch Their Killer</string>
+        <string name="TouRoleDeputyDescription">Camp crewmates, then shoot their killer in the meeting!</string>
+        <string name="TouRoleDeputyWikiDescription">The Deputy is a Crewmate Killing role that can camp other players. Once a camped player dies, the Deputy is alerted to their death. The following meeting, the Deputy  may then attempt to shoot the killer of the camped player. If successful the killer dies and if not nothing happens.</string>
+        <string name="TouRoleDeputyCamp">Camp</string>
+        <string name="TouRoleDeputyCampWikiDescription">Camp a player to be alerted once they die. After their death, you may attempt to shoot the killer. If your shot is successful, the killer dies, if not, nothing will happen.</string>
+
+        <!-- Deputy Feedback -->
+        <string name="TouRoleDeputyMissedShot">You missed your shot! They are either not the killer or are invincible.</string>
 
         <!-- Detective - Crewmate Investigative -->
+        <!-- Detective Wiki / Abilities -->
         <string name="TouRoleDetective">Detective</string>
-        <string name="TouRoleDetectiveIntroBlurb">Inspect Crime Scenes To Catch The Killer"</string>
+        <string name="TouRoleDetectiveIntroBlurb">Inspect Crime Scenes To Catch The Killer</string>
+        <string name="TouRoleDetectiveDescription">Inspect crime scenes, then examine players to see if they were at the scene.</string>
+        <string name="TouRoleDetectiveWikiDescription">The Deputy can inspect a crime scene and examine players to see if they were at the crime scene, flashing red if they were there.</string>
+        <string name="TouRoleDetectiveInspect">Inspect</string>
+        <string name="TouRoleDetectiveInspectWikiDescription">Crime scenes will spawn with all dead bodies. Inspect the crime scene and then examine players to discover clues. During the next meeting, you will recieve a report revealing the killer's role.</string>
+        <string name="TouRoleDetectiveExamine">Examine</string>
+        <string name="TouRoleDetectiveExamineWikiDescription">Examine players after inspecting a crime scene. You will be told if the player was at the crime scene.</string>
 
+        <!-- Detective Options -->
+        <string name="TouOptionDetectiveExamineCooldown">Examine Cooldown</string>
+        <string name="TouOptionDetectiveShowDetectiveReports">Show Detective Reports</string>
+        <string name="TouOptionDetectiveTimeWhereDetectiveWillHaveRole">Time Where Detective Will Have Role</string>
+        <string name="TouOptionDetectiveTimeWhereDetectiveWillHaveFaction">Time Where Detective Will Have Faction</string>
+
+        <!-- Detective Feedback -->
+        <string name="TouRoleDetectiveAtScene">%player% was at the scene of %deadPlayer%'s death!%nl%They might be the killer or a witness.</string>
+        <string name="TouRoleDetectiveNotAtScene">%player% was not at the scene of the crime.</string>
+        
         <!-- Engineer - Crewmate Investigative -->
+        <!-- Engineer Wiki / Abilities -->
         <string name="TouRoleEngineer">Engineer</string>
         <string name="TouRoleEngineerIntroBlurb">Maintain Important Systems On The Ship</string>
+        <string name="TouRoleEngineerDescription">Vent around and fix sabotages remotely</string>
+        <string name="TouRoleEngineerWikiDescription">The Engineer is a Crewmate Support role that can vent and fix sabotages remotely.</string>
+        <string name="TouRoleEngineerFix">Fix</string>
+        <string name="TouRoleEngineerFixWikiDescription">It doesn't matter where you are on the map, you can use your fix button to instantly fix the active sabotage. You can do this %engiMaxFixes% times per game.</string>
 
+        <!-- Engineer Options -->
+        <string name="TouOptionEngineerVentUsesPerGame">Vent Uses Per Game</string>
+        <string name="TouOptionEngineerVentCooldown">Vent Cooldown</string>
+        <string name="TouOptionEngineerVentDuration">Vent Duration</string>
+        <string name="TouOptionEngineerFixUsesPerGame">Fix Uses Per Game</string>
+        <string name="TouOptionEngineerFIxDelay">FIx Delay</string>
+        
         <!-- Haunter - Crewmate Investigative -->
+        <!-- Haunter Wiki / Description -->
         <string name="TouRoleHaunter">Haunter</string>
+        <string name="TouRoleHaunterIntroBlurb"> </string> <!-- You cannot start the game as this role, so an intro blurb is unnecessary -->
+        <string name="TouRoleHaunterDescription">Complete all your tasks without getting caught to reveal impostors!</string>
+        <string name="TouRoleHaunterWikiDescription">The Haunter is a Crewmate Ghost who can do tasks. They will appear as a transparent player. If they finish all their tasks, all alive players will see who the Impostors are. However, if an Impostor clicks them first, they will become a normal ghost. Impostors get a warning shortly before and when the Haunter finishes their tasks.</string>
+
+        <!-- Haunter Options -->
+        <string name="TouOptionHaunterTasksLeftBeforeClickable">TasksLeftBeforeClickable</string>
+        <string name="TouOptionHaunterTasksLeftBeforeAlerted">TasksLeftBeforeAlerted</string>
+        <string name="TouOptionHaunterRevealNeutralRoles">RevealNeutralRoles</string>
+        <string name="TouOptionHaunterCanBeClickedBy">CanBeClickedBy</string>
+
+        <!-- Haunter Feedback -->
+        <string name="TouRoleHaunterSelfAlertFeedback">You have alerted the Killers!</string>
+        <string name="TouRoleHaunterImpAlertFeedback">A Haunter is loose, catch them before they reveal you!</string>
 
         <!-- Hunter - Crewmate Killing -->
+        <!-- Hunter Wiki / Abilities -->
         <string name="TouRoleHunter">Hunter</string>
-        <string name="TouRoleHunterIntroBlurb">Stalk The Impostor</string>
+        <string name="TouRoleHunterIntroBlurb">Stalk The %coloredImpostor%</string>
+        <string name="TouRoleHunterDescription">Stalk player interactions and kill impostors, but not Crewmates</string>
+        <string name="TouRoleHunterStalkingText">Stalking:</string>
+        <string name="TouRoleHunterCaughtPlayersText">Caught Players:</string>
+        <string name="TouRoleHunterWikiDescription">The Hunter is a Crewmate Killing role that can stalk players during the round. If a stalked player uses an ability, they can be killed by the Hunter at any point in the game, even Crew.</string>
+        <string name="TouRoleHunterStalk">Stalk</string>
+        <string name="TouRoleHunterStalkWikiDescription">Choose a target to stalk. You can stalk %hunterMaxStalkUsages% players. If they use any ability while stalked, they're added to your hitlist and can be killed.</string>
+
+        <!-- Hunter Options -->
+        <string name="TouOptionHunterHunterKillCooldown">Hunter Kill Cooldown</string>
+        <string name="TouOptionHunterHunterStalkCooldown">Hunter Stalk Cooldown</string>
+        <string name="TouOptionHunterHunterStalkDuration">Hunter Stalk Duration</string>
+        <string name="TouOptionHunterMaxStalkUses">Max Stalk Uses</string>
+        <string name="TouOptionHunterGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
+        <string name="TouOptionHunterHunterKillsLastVoterIfVotedOut">Hunter Kills Last Voter If Voted Out</string>
+        <string name="TouOptionHunterHunterCanReportWhoThey'veKilled">Hunter Can Report Who They've Killed</string>
 
         <!-- Imitator - Crewmate Support -->
+        <!-- Imitator Wiki / Abilities -->
         <string name="TouRoleImitator">Imitator</string>
         <string name="TouRoleImitatorIntroBlurb">Use Dead Roles To Benefit The Crew</string>
-
+        <string name="TouRoleImitatorDescription">Use the true-hearted dead to benefit the crew once more</string>
+        <string name="TouRoleImitatorWikiDescription">The Imitator is a Crewmate Support role that can select a dead crewmate to imitate their role. They will become their role and abilities until they change targets. Certain roles are innacessible if there are multiple living imitators.</string>
+        <string name="TouRoleImitatorCrewmate Imitation">Crewmate Imitation</string>
+        <string name="TouRoleImitatorCrewmate ImitationWikiDescription">All crewmate roles are available besides Imitator, and Crewmate. Politician, Mayor, Prosecutor and Jailor are limited, as they can only be selected if no other Imitators exist. Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
+        <string name="TouRoleImitatorNeutral Counterparts">Neutral Counterparts</string>
+        <string name="TouRoleImitatorNeutral CounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch%nl%Glitch ⇨ Sheriff | GA ⇨ Cleric | Inquis ⇨ Oracle%nl%Jester ⇨ Plumber | Merc ⇨ Warden%nl%Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
+        <string name="TouRoleImitatorImpostor Counterparts">Impostor Counterparts</string>
+        <string name="TouRoleImitatorImpostor CounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Detective%nl%Miner ⇨ Engineer | Scavenger ⇨ Tracker%nl%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
+        
+        <!-- Imitator Options -->
+        <string name="TouOptionImitatorImitateSpecificNeutrals">Imitate Specific Neutrals As Similar Crew Roles</string>
+        <string name="TouOptionImitatorImitateSpecificImpostors">Imitate Specific Impostors As Similar Crew Roles</string>
+        
         <!-- Investigator - Crewmate Investigative -->
+        <!-- Investigator Wiki / Description -->
         <string name="TouRoleInvestigator">Investigator</string>
         <string name="TouRoleInvestigatorIntroBlurb">Find All Impostors By Examining Footprints.</string>
+        <string name="TouRoleInvestigatorDescription">You can see everyone's footprints.</string>
+        <string name="TouRoleInvestigatorWikiDescription">The Investigator is a Crewmate Investigative role can see player's footprints throughout the game. Swooped players' footprints will not be visible to the Investigator.</string>
 
+        <!-- Investigator Options -->
+        <string name="TouOptionInvestigatorFootprintSize">Footprint Size</string>
+        <string name="TouOptionInvestigatorFootprintInterval">Footprint Interval</string>
+        <string name="TouOptionInvestigatorFootprintDuration">Footprint Duration</string>
+        <string name="TouOptionInvestigatorAnonymousFootprint">Anonymous Footprint</string>
+        <string name="TouOptionInvestigatorFootprintVentVisible">Footprint Vent Visible</string>
+        
         <!-- Jailor - Crewmate Power -->
+        <!-- Jailor Wiki / Abilities -->
         <string name="TouRoleJailor">Jailor</string>
-        <string name="TouRoleJailorIntroBlurb">Jail And Execute The Impostors</string>
+        <string name="TouRoleJailorIntroBlurb">Jail And Execute The %coloredImpostorText%</string>
+        <string name="TouRoleJailorDescription">Execute evildoers in meetings but avoid crewmates</string>
+        <string name="TouRoleJailorWikiDescription">The Jailor is a Crewmate Power role that can jail other players. During a meeting, the Jailor can choose to execute their jailed player. (Unless the Jailor is an Imitator)</string>
+        <string name="TouRoleJailorJail">Jail</string>
+        <string name="TouRoleJailorJailWikiDescription">Jail a player. During the meeting everyone will see who is jailed. You can privately talk with your detained player using the instructions that are in the private chatbox</string>
+        <string name="TouRoleJailorExecute (Meeting)">Execute (Meeting)</string>
+        <string name="TouRoleJailorExecute (Meeting)WikiDescription">Execute the detained player. If the player is a crewmate the Jailor will lose the ability to Jail.</string>
+
+        <!-- Jailor Options -->
+        <string name="TouOptionJailorJailCooldown">Jail Cooldown</string>
+        <string name="TouOptionJailorMaxNumberOfExecutes">Max Number Of Executes</string>
+        <string name="TouOptionJailorJailSamePersonTwiceInARow">Jail Same Person Twice In A Row</string>
+        <string name="TouOptionJailorJaileeCanUsePublicChat">Jailee Can Use Public Chat</string>
+
+        <!-- Jailor Feedback -->
+        <string name="TouRoleJailorJailorFeedback ">Communicate with your jailee in the %bold%RED%unbold% private chatbox next to the %bold%REGULAR%unbold% chatbox.</string>
+        <string name="TouRoleJailorCannotExecute">%jailee% cannot be executed! They must be Invulnerable!</string>
+        <string name="TouRoleJailorExecutedCrew">%jailee% was a crewmate! You can no longer jail anyone!</string>
+        <string name="TouRoleJailorExecutedEvil">%jailee% was successfully executed!</string>
+        
 
         <!-- Lookout - Crewmate Investigative -->
+        <!-- Lookout Wiki / Abilities -->
         <string name="TouRoleLookout">Lookout</string>
         <string name="TouRoleLookoutIntroBlurb">Keep Your Eyes Wide Open</string>
+        <string name="TouRoleLookoutDescription">Watch other crewmates to see what roles interact with them</string>
+        <string name="TouRoleLookoutWikiDescription">The Lookout is a Crewmate Investigative role that can watch other players during rounds. During meetings they will see all roles who interact with each watched player.</string>
+        <string name="TouRoleLookoutWatch">Watch</string>
+        <string name="TouRoleLookoutWatchWikiDescription">Watch a player or multiple, the next meeting you will know which players interacted with the watched ones.</string>
+
+        <!-- Lookout Options -->
+        <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
+        <string name="TouOptionLookoutMaxPlayersThatCanbeWatched">Max Players That Can be Watched</string>
+        <string name="TouOptionLookoutLookoutWatchesResetAfterEachRound">Lookout Watches Reset After Each Round</string>
 
         <!-- Mayor - Crewmate Power -->
+        <!-- Mayor Wiki / Description -->
         <string name="TouRoleMayor">Mayor</string>
         <string name="TouRoleMayorIntroBlurb">Reveal Yourself To Save The Crew</string>
+        <string name="TouRoleMayorDescription">Lead the crew to victory!</string>
+        <string name="TouRoleMayorWikiDescription">The Mayor is a Crewmate Power role that gains three votes and is revealed to all players, also changing their look in meetings.</string>
 
         <!-- Medic - Crewmate Protective -->
+        <!-- Medic Wiki / Abilities -->
         <string name="TouRoleMedic">Medic</string>
         <string name="TouRoleMedicIntroBlurb">Create A Shield To Protect A Crewmate</string>
+        <string name="TouRoleMedicDescription">Protect a crewmate with a shield</string>
+        <string name="TouRoleMedicWikiDescription">The Medic is a Crewmate Protective role that can give a Shield to a player.</string>
+        <string name="TouRoleMedicShield">Shield</string>
+        <string name="TouRoleMedicShieldWikiDescription">Give a Shield to a player, protecting them from being killed by others</string>
+
+        <!-- Medic Options -->
+        <string name="TouOptionMedicShowShieldedPlayer">Show Shielded Player</string>
+        <string name="TouOptionMedicWhoGetsMurderAttemptIndicator">Who Gets Murder Attempt Indicator</string>
+        <string name="TouOptionMedicCanGiveShieldAwayNextRound">Can Give Shield Away Next Round</string>
+        <string name="TouOptionMedicMaxAmountofShieldUses">Max Amount of Shield Uses</string>
+        <string name="TouOptionMedicShieldBreaksOnMurderAttempt">Shield Breaks On Murder Attempt</string>
+        <string name="TouOptionMedicShowReportsinChat">Show Reports in Chat</string>
+        <string name="TouOptionMedicTimeWhereMedicWillHaveName">Time Where Medic Will Have Name</string>
+        <string name="TouOptionMedicTimeWhereMedicWillHaveColorType">Time Where Medic Will Have Color Type</string>
 
         <!-- Medium - Crewmate Support -->
+        <!-- Medium Wiki / Abilities -->
         <string name="TouRoleMedium">Medium</string>
         <string name="TouRoleMediumIntroBlurb">Watch The Spooky Ghosts</string>
+        <string name="TouRoleMediumDescription">Follow ghosts to get clues from them</string>
+        <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Support role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times.</string>
+        <string name="TouRoleMediumMediate">Mediate</string>
+        <string name="TouRoleMediumMediateWikiDescription">Communicate with the dead, which may lead you to the killers.</string>
+
+        <!-- Medium Options -->
+        <string name="TouOptionMediumMediateCooldown">Mediate Cooldown</string>
+        <string name="TouOptionMediumRevealAppearenceofMediateTarget">Reveal Appearence of Mediate Target</string>
+        <string name="TouOptionMediumArrowVisibility">Arrow Visibility</string>
+        <string name="TouOptionMediumWhoisRevealed">Who is Revealed</string>
 
         <!-- Mirrorcaster - Crewmate Protective -->
+        <!-- Mirrorcaster Wiki / Abilities -->
         <string name="TouRoleMirrorcaster">Mirrorcaster</string>
         <string name="TouRoleMirrorcasterIntroBlurb">Reflect Attacks Onto Others</string>
+        <string name="TouRoleMirrorcasterDescription">Protect a player with a Magic Mirror.%nl%f they are directly attacked, then%nl%unleash the attack onto another player!</string>
+        <string name="TouRoleMirrorcasterWikiDescription">The Mirrorcaster is a Crewmate Protective role that can cast a Magic Mirror on a player to protect them. If attacked directly, the Mirrorcaster can then unleash onto another player.</string>
+        <string name="TouRoleMirrorcasterMagic Mirror">Magic Mirror</string>
+        <string name="TouRoleMirrorcasterMagic MirrorWikiDescription">Place a Mirror on a player. If the player is attacked directly, then you will be notified and you will be able to unleash onto another player. Roles that ignore the Magic Mirror are Arsonist, Veteran, Pestilence, Bomber (if the player is bombed), and a few others.</string>
+        <string name="TouRoleMirrorcasterUnleash">Unleash</string>
+        <string name="TouRoleMirrorcasterUnleashWikiDescription">Once the Magic Mirror shatters, utilize its power to unleash the attack onto another player!</string>
+
+        <!-- Mirrorcaster Options -->
+        <string name="TouOptionMirrorcasterWhoGetsMurderAttemptIndicator">Who Gets Murder Attempt Indicator</string>
+        <string name="TouOptionMirrorcasterMagicMirrorCooldown">Magic Mirror Cooldown</string>
+        <string name="TouOptionMirrorcasterMagicMirrorDuration">Magic Mirror Duration</string>
+        <string name="TouOptionMirrorcasterUnleashCooldown">Unleash Cooldown</string>
+        <string name="TouOptionMirrorcasterKnowsTheAbsorbedTypeOfAttack">Mirrorcaster Knows The Absorbed Type Of Attack</string>
+        <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Accumulate Multiple Unleashes</string>
+        <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Max Number Of Magic Mirrors</string>
+
+        <!-- Mirrorcaster Feedback -->
+        <string name="TouRoleMirrorcasterAttackedMessageWithType">%protectedPlayer% was attacked by the %attackerRoleNiceName%! You can now unleash the attack onto another player!</string>
+        <string name="TouRoleMirrorcasterAttackedMessageWithoutType">%protectedPlayer% was attacked! You can now unleash the attack onto another player!</string>
 
         <!-- Mystic - Crewmate Investigative -->
+        <!-- Mystic Wiki / Description -->
         <string name="TouRoleMystic">Mystic</string>
         <string name="TouRoleMysticIntroBlurb">Know When and Where Kills Happen</string>
+        <string name="TouRoleMysticDescription">Understand when and where kills happen</string>
+        <string name="TouRoleMysticWikiDescription">The Mystic is a Crewmate Investigative role that gets an alert when someone dies.</string>
+
+        <!-- Mystic Options -->
+        <string name="TouOptionMysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
 
         <!-- Oracle - Crewmate Protective -->
+        <!-- Oracle Wiki / Abilities -->
         <string name="TouRoleOracle">Oracle</string>
         <string name="TouRoleOracleIntroBlurb">Get Other Player's To Confess Their Sins</string>
+        <string name="TouRoleOracleDescription">Get another player to confess on your passing</string>
+        <string name="TouRoleOracleWikiDescription">The Oracle is a Crewmate Protective role that can get another player to confess (revealing their faction with %revealAccuracy%% accuracy if the Oracle dies) or can protect a player from meeting abilities.</string>
+        <string name="TouRoleOracleBless">Bless</string>
+        <string name="TouRoleOracleBlessWikiDescription">Blessing a player prevents any harm from being done to them in the meeting.</string>
+        <string name="TouRoleOracleConfess">Confess</string>
+        <string name="TouRoleOracleConfessWikiDescription">Make a player confess in a meeting, giving a vision of 3 possible evils (including the confessor), and also reveal their faction to everyone with %revealAccuracy%% accuracy when the Oracle dies.</string>
+
+        <!-- Oracle Options -->
+        <string name="TouOptionOracleConfessCooldown">Confess Cooldown</string>
+        <string name="TouOptionOracleBlessCooldown">Bless Cooldown</string>
+        <string name="TouOptionOracleRevealAccuracy">Reveal Accuracy</string>
+        <string name="TouOptionOracleNeutralBenignShowUpAsEvil">Neutral Benign Show Up As Evil</string>
+        <string name="TouOptionOracleNeutralEvilShowUpAsEvil">Neutral Evil Show Up As Evil</string>
+        <string name="TouOptionOracleNeutralKillingShowUpAsEvil">Neutral Killing Show Up As Evil</string>
+
+        <!-- Oracle Feedback -->
+        <string name="TouRoleOracleConfessorDied">Your confessor failed to survive so you received no confession</string>
+        <string name="TouRoleOracleTooFew">Too few people alive to receive a confessional</string>
+        <string name="TouRoleOracleNoMoreEvil">%confessor% confesses to knowing that there are no more evil players!</string>
+        <string name="TouRoleOracleThreePlayers">%firstPlayer% confesses to knowing that they, %secondPlayer% and/or %thirdPlayer% is evil!</string>
+        <string name="TouRoleOracleBlessingMessageSelf">Your blessing has saved %blessedUser% from getting guessed!</string>
+        <string name="TouRoleOracleBlessingMessageOthers">%blessedUser% survived due to being blessed by an %coloredOracleText%!</string>
 
         <!-- Plumber - Crewmate Support -->
+        <!-- Plumber Wiki / Abilities -->
         <string name="TouRolePlumber">Plumber</string>
         <string name="TouRolePlumberIntroBlurb">Get The Rats Out Of The Sewers</string>
+        <string name="TouRolePlumberDescription">Flush the vent system to kick venters out, and\nbarricade vents to block them the next round</string>
+        <string name="TouRolePlumberWikiDescription">The Plumber is a Crewmate Support role that can place Barricades on vents and Flush anyone out of vents.</string>
+        <string name="TouRolePlumberFlush">Flush</string>
+        <string name="TouRolePlumberFlushWikiDescription">Flushing the vents makes every vent open and close, kicking out anyone who is actively in a vent. The Plumber also gets an arrow pointing to every flushed player for one second.</string>
+        <string name="TouRolePlumberBarricade">Barricade</string>
+        <string name="TouRolePlumberBarricadeWikiDescription">Barricading a vent places a barricade on the vent selected for the next round, preventing players from using it.</string>
+
+        <!-- Plumber Options -->
+        <string name="TouOptionPlumberFlushCooldown">Flush Cooldown</string>
+        <string name="TouOptionPlumberBlockCooldown">Block Cooldown</string>
+        <string name="TouOptionPlumberMaxNumberOfBarricades">Max Number Of Barricades</string>
+        <string name="TouOptionPlumberAmountOfRoundsBarricadesLast">Amount Of Rounds Barricades Last</string>
+        <string name="TouOptionPlumberGetMoreFromTasks">Get More Barricades From Completing Tasks</string>
 
         <!-- Politician - Crewmate Power -->
+        <!-- Politician Wiki / Abilities -->
         <string name="TouRolePolitician">Politician</string>
         <string name="TouRolePoliticianIntroBlurb">Campaign To Become The Mayor!</string>
+        <string name="TouRolePoliticianDescription">Spread your campaign to become the Mayor!</string>
+        <string name="TouRolePoliticianWikiDescription">The Politician is a Crewmate Power role that can reveal themselves to the crew as the Mayor, given that they have campaigned at least half of the crewmates.</string>
+        <string name="TouRolePoliticianCampaign">Campaign</string>
+        <string name="TouRolePoliticianCampaignWikiDescription">Give a player a ballot, which will only be useful to you if they are a Crewmate.</string>
+        <string name="TouRolePoliticianReveal">Reveal (Meeting)</string>
+        <string name="TouRolePoliticianRevealWikiDescription">If you reveal, and you have more than half of the crewmates campaigned (or no other crewmates remain), you will become the Mayor! Otherwise, your ability will fail and you %canOrCant% campaign the following round.</string> <!-- added a comma -->
+
+        <!-- Politician Options -->
+        <string name="TouOptionPoliticianCampaignCooldown">Campaign Cooldown</string>
+        <string name="TouOptionPoliticianPreventCampaigningonFailedReveal">Prevent Campaigning on Failed Reveal</string>
+
+        <!-- Politician Feedback -->
+        <string name="TouRolePoliticianFailedRevealCanCampaign">You need to campaign more Crewmates! You may not reveal again in this meeting.</string>
+        <string name="TouRolePoliticianFailedRevealCannotCampaign">You need to campaign more Crewmates! However, you may not campaign next round.</string>
+        <string name="TouRolePoliticianFeedbackText">%mayorColor%Politician Feedback</string>
 
         <!-- Prosecutor - Crewmate Power -->
+        <!-- Prosecutor Wiki / Abilities -->
         <string name="TouRoleProsecutor">Prosecutor</string>
         <string name="TouRoleProsecutorIntroBlurb">Exile Players Of Your Choosing</string>
+        <string name="TouRoleProsecutorDescription">Choose to exile anyone you want</string>
+        <string name="TouRoleProsecutorWikiDescription">The Prosecutor is a Crewmate Power role that can Exile a player, applying 5 votes to a player of their choosing. They can also see who voted for who, even if they're anonymous.</string>
+        <string name="TouRoleProsecutorProsecute">Prosecute (Meeting)</string>
+        <string name="TouRoleProsecutorProsecuteWikiDescription">Exile any player of your choosing, throwing 5 votes on them and ignoring all other votes.</string>
+
+        <!-- Prosecutor Options -->
+        <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Prosecutor Dies When They Exile A Crewmate</string>
+        <string name="TouOptionProsecutorMaxProsecutions">Max Prosecutions</string>
 
         <!-- Seer - Crewmate Investigative -->
+        <!-- Seer Wiki / Abilities -->
         <string name="TouRoleSeer">Seer</string>
         <string name="TouRoleSeerIntroBlurb">Reveal The Alliance Of Other Players</string>
+        <string name="TouRoleSeerDescription">Reveal alliances of other players to find the Impostors</string>
+        <string name="TouRoleSeerWikiDescription">The Seer is a Crewmate Investigative role that can reveal the alliance of other players.</string>
+        <string name="TouRoleSeerReveal">Reveal</string>
+        <string name="TouRoleSeerRevealWikiDescription">Reveal the faction of a player</string>
+
+        <!-- Seer Options -->
+        <string name="TouOptionSeerSeerCooldown">Seer Cooldown</string>
+        <string name="TouOptionSeerCrewmateKillingRolesAreRed">Crewmate Killing Roles Are Red</string>
+        <string name="TouOptionSeerNeutralBenignRolesAreRed">Neutral Benign Roles Are Red</string>
+        <string name="TouOptionSeerNeutralEvilRolesAreRed">Neutral Evil Roles Are Red</string>
+        <string name="TouOptionSeerNeutralKillingRolesAreRed">Neutral Killing Roles Are Red</string>
+        <string name="TouOptionSeerTraitorSwapsColors">Traitor Swaps Colors</string>
 
         <!-- Sheriff - Crewmate Killing -->
+        <!-- Sheriff Wiki / Abilities -->
         <string name="TouRoleSheriff">Sheriff</string>
-        <string name="TouRoleSheriffIntroBlurb">Shoot The Impostor</string>
+        <string name="TouRoleSheriffIntroBlurb">Shoot The %coloredImpostorText%</string>
+        <string name="TouRoleSheriffDescription">Kill off the impostors but don't kill crewmates</string>
+        <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
+        <string name="TouRoleSheriffShoot">Shoot</string>
+        <string name="TouRoleSheriffShootWikiDescription">Shoot a player to kill them, misfiring if they aren't a Impostor or one of the other selected shootable factions</string>
+
+        <!-- Sheriff Options -->
+        <string name="TouOptionSheriffKillCooldown">Kill Cooldown</string>
+        <string name="TouOptionSheriffCanSelfReport">Can Self Report</string>
+        <string name="TouOptionSheriffAllowShootinginFirstRound">Allow Shooting in First Round</string>
+        <string name="TouOptionSheriffCanShootNeutralEvilRoles">Can Shoot Neutral Evil Roles</string>
+        <string name="TouOptionSheriffCanShootNeutralKillingRoles">Can Shoot Neutral Killing Roles</string>
+        <string name="TouOptionSheriffMisfireKills">Misfire Kills</string>
 
         <!-- Snitch - Crewmate Investigative -->
+        <!-- Snitch Wiki / Description -->
         <string name="TouRoleSnitch">Snitch</string>
-        <string name="TouRoleSnitchIntroBlurb">Find the Impostors!</string>
+        <string name="TouRoleSnitchIntroBlurb">Find the %coloredImpostorText%!</string>
+        <string name="TouRoleSnitchDescription">Complete all your tasks to discover the Impostors.</string>
+        <string name="TouRoleSnitchDescriptionCompletedTasks">Help the Impostors!</string>
+        <string name="TouRoleSnitchWikiDescription">The Snitch is a Crewmate Investigative role that can reveal the Impostors to themselves by finishing all their tasks. Upon completing all tasks, the Impostors will be revealed to the Snitch with an arrow and their red name.</string>
+
+        <!-- Snitch Options -->
+        <string name="TouOptionSnitchRevealsNeutralKillers">Snitch Reveals Neutral Killers</string>
+        <string name="TouOptionSnitchSeesTraitor">Snitch Sees Traitor</string>
+        <string name="TouOptionSnitchSeesImpostorsInMeetings">Snitch Sees Impostors In Meetings</string>
+        <string name="TouOptionSnitchTasksRemainingWhenRevealed">Tasks Remaining When Revealed</string>
 
         <!-- Spy - Crewmate Investigative -->
+        <!-- Spy Wiki / Description -->
         <string name="TouRoleSpy">Spy</string>
         <string name="TouRoleSpyIntroBlurb">Snoop Around And Find Stuff Out</string>
+        <string name="TouRoleSpyDescription">Gain extra information on the Admin Table</string>
+        <string name="TouRoleSpyWikiDescription">The Spy is a Crewmate Investigative role that gains extra information on the admin table. They not only see how many people are in a room, but will also see who is in every room.</string>
+
+        <!-- Spy Options -->
+        <string name="TouOptionSpyWhoSeesDeadBodiesOnAdmin">Who Sees Dead Bodies On Admin</string>
+        <string name="TouOptionSpyAllowPortableAdminTableFor">Allow Portable Admin Table For</string>
+        <string name="TouOptionSpyMoveWhileUsingPortableAdmin">Move While Using Portable Admin</string>
+        <string name="TouOptionSpyStartingCharge">Starting Charge</string>
+        <string name="TouOptionSpyBatteryChargedEachRound">Battery Charged Each Round</string>
+        <string name="TouOptionSpyBatteryChargedPerTask">Battery Charged Per Task</string>
+        <string name="TouOptionSpyPortableAdminDisplayCooldown">Portable Admin Display Cooldown</string>
+        <string name="TouOptionSpyPortableAdminDisplayDuration">Portable Admin Display Duration</string>
 
         <!-- Swapper - Crewmate Power -->
+        <!-- Swapper Wiki / Abilities -->
         <string name="TouRoleSwapper">Swapper</string>
         <string name="TouRoleSwapperIntroBlurb">Swap Votes To Save The Crew!</string>
+        <string name="TouRoleSwapperDescription">Swap votes from one player to another during a meeting</string>
+        <string name="TouRoleSwapperWikiDescription">The Swapper is a Crewmate Power that can swap the votes of two players in a meeting. Their meeting vote areas will be swapped visually, and the votes will be swapped. If player 1 recieved the most votes, and you swap them with player 2, player 2 will now be ejected instead. </string>
+        <string name="TouRoleSwapperSwap">Swap (Meeting)</string>
+        <string name="TouRoleSwapperSwapWikiDescription">Select two players to swap votes for, and at the end of the meeting, they will swap spots!</string>
+
+        <!-- Swapper Options -->
+        <string name="TouOptionSwapperCanCallButton">Can Call Button</string>
 
         <!-- Tracker - Crewmate Investigative -->
+        <!-- Tracker Wiki / Abilities -->
         <string name="TouRoleTracker">Tracker</string>
         <string name="TouRoleTrackerIntroBlurb">Track Everyone's Movement</string>
+        <string name="TouRoleTrackerDescription">Track suspicious players to see where they go</string>
+        <string name="TouRoleTrackerWikiDescription">The Tracker is a Crewmate Investigative role that can track other players to see their general position across the map, getting colored arrows towards all tracked players.</string>
+        <string name="TouRoleTrackerTrack">Track</string>
+        <string name="TouRoleTrackerTrackWikiDescription">Track a player to see where they go. You will have an arrow pointing to their location that will update periodically. It will disappear if they die, or depending on settings, the trackers will be reset after a meeting.</string>
+
+        <!-- Tracker Options -->
+        <string name="TouOptionTrackerTrackCooldown">Track Cooldown</string>
+        <string name="TouOptionTrackerMaxNumberOfTracks">Max Number Of Tracks</string>
+        <string name="TouOptionTrackerArrowUpdateInterval">Arrow Update Interval</string>
+        <string name="TouOptionTrackerArrowsMakeSoundOnDeath">Tracker Arrows Make Sound On Death</string>
+        <string name="TouOptionTrackerArrowsResetAfterEachRound">Tracker Arrows Reset After Each Round</string>
 
         <!-- Transporter - Crewmate Support -->
+        <!-- Transporter Wiki / Abilities -->
         <string name="TouRoleTransporter">Transporter</string>
         <string name="TouRoleTransporterIntroBlurb">Choose Two Players To Swap Locations</string>
+        <string name="TouRoleTransporterDescription">Choose two players to swap locations with one another</string>
+        <string name="TouRoleTransporterWikiDescription">The Transporter is a Crewmate Support role that can transport two players, dead or alive, to swap their locations.</string>
+        <string name="TouRoleTransporterTransport">Transport</string>
+        <string name="TouRoleTransporterTransportWikiDescription">Switch the positions of two players. Players can be transported out of vents. A red flash means one of the players became an invalid target, such as going on a ladder or zipline</string>
+
+        <!-- Transporter Options -->
+        <string name="TouOptionTransporterTransportCooldown">Transport Cooldown</string>
+        <string name="TouOptionTransporterMaxUses">Max Uses</string>
+        <string name="TouOptionTransporterMoveWithMenu">Move While Using Transport Menu (KB ONLY)</string>
+        <string name="TouOptionTransporterCanUseVitals">Can Use Vitals</string>
+        <string name="TouOptionTransporterGetUsesFromTasks">Get More Uses From Completing Tasks</string>
+
+        <!-- Transporter Feedback -->
+        <string name="TouRoleTransporterYouWereTransported">%transporterColor%You were transported!</string>
 
         <!-- Trapper - Crewmate Investigative -->
+        <!-- Trapper Wiki / Abilities -->
         <string name="TouRoleTrapper">Trapper</string>
         <string name="TouRoleTrapperIntroBlurb">Catch Killers In The Act</string>
+        <string name="TouRoleTrapperDescription">Place traps around the map, revealing roles within them</string>
+        <string name="TouRoleTrapperWikiDescription">The Trapper is a Crewmate Investigative role that can place traps around the map. If someone stays in it for enough time and enough players go through, they will get a list of their roles in the next meeting in random order.</string>
+        <string name="TouRoleTrapperTrap">Trap</string>
+        <string name="TouRoleTrapperTrapWikiDescription">Places a trap. Depending on settings they may stay the entire game or reset after meetings.</string>
+
+        <!-- Trapper Options -->
+        <string name="TouOptionTrapperTrapCooldown">Trap Cooldown</string>
+        <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
+        <string name="TouOptionTrapperMaxNumberOfTraps">Max Number Of Traps</string>
+        <string name="TouOptionTrapperTrapSize">Trap Size</string>
+        <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+        <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
+
+        <!-- Trapper Feedback -->
+        <string name="TouRoleTrapperNoPlayers">No players entered any of your traps</string>
+        <string name="TouRoleTrapperNotEnoughPLayers">Not enough players triggered your traps</string>
+        <string name="TouRoleTrapperRolesCaught">Roles caught in your trap:%nl%</string>
 
         <!-- Veteran - Crewmate Killing -->
+        <!-- Veteran Wiki / Abilities -->
         <string name="TouRoleVeteran">Veteran</string>
         <string name="TouRoleVeteranIntroBlurb">Alert To Kill Anyone Who Interacts With You</string>
+        <string name="TouRoleVeteranDescription">Alert to kill whoever who interacts with you.</string>
+        <string name="TouRoleVeteranWikiDescription">The Veteran is a Crewmate Killing role that can go on alert and kill anyone who interacts with them.</string>
+        <string name="TouRoleVeteranAlert">Alert</string>
+        <string name="TouRoleVeteranAlertWikiDescription">When the Veteran is on alert, any player who interacts with them will be instantly killed, with the exception of Pestilence and shielded players, who will ignore the attack.</string>
+
+        <!-- Veteran Options -->
+        <string name="TouOptionVeteranAlertCooldown">Alert Cooldown</string>
+        <string name="TouOptionVeteranAlertDuration">Alert Duration</string>
+        <string name="TouOptionVeteranMaxNumberofAlerts">Max Number of Alerts</string>
+        <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
+        <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>or G
 
         <!-- Vigilante - Crewmate Killing -->
+        <!-- Vigilante Wiki / Description -->
         <string name="TouRoleVigilante">Vigilante</string>
         <string name="TouRoleVigilanteIntroBlurb">Kill Impostors If You Can Guess Their Roles</string>
+        <string name="TouRoleVigilanteDescription">Guess the roles of impostors mid-meeting to kill them!</string>
+        <string name="TouRoleVigilanteWikiDescription">The Vigilante is a Crewmate Killing role that can guess players roles in meetings. If they guess correctly, the other player will die. If not, they will die. </string>
 
+        <!-- Vigilante Options -->
+        <string name="TouOptionVigilanteNumberOfGuesses">Number Of Guesses</string>
+        <string name="TouOptionVigilanteCanGuessMoreThanOncePerMeeting">Can Guess More Than Once Per Meeting</string>
+        <string name="TouOptionVigilanteCanGuessNeutralBenignRoles">Can Guess Neutral Benign Roles</string>
+        <string name="TouOptionVigilanteCanGuessNeutralEvilRoles">Can Guess Neutral Evil Roles</string>
+        <string name="TouOptionVigilanteCanGuessNeutralKillingRoles">Can Guess Neutral Killing Roles</string>
+        <string name="TouOptionVigilanteCanGuessKillerModifiers">Can Guess Killer Modifiers</string>
+        <string name="TouOptionVigilanteCanGuessAlliances">Can Guess Alliances</string>
+        <string name="TouOptionVigilanteSafeShotsAvailable">Safe Shots Available</string>
+        
         <!-- Warden - Crewmate Protective -->
+        <!-- Warden Wiki / Abilities -->
         <string name="TouRoleWarden">Warden</string>
         <string name="TouRoleWardenIntroBlurb">Fortify Crewmates</string>
+        <string name="TouRoleWardenDescription">Fortify crewmates to prevent interactions with them</string>
+        <string name="TouRoleWardenWikiDescription">The Warden is a Crewmate Protective role that can fortify players to prevent them from being interacted with. </string>
+        <string name="TouRoleWardenFortify">Fortify</string>
+        <string name="TouRoleWardenFortifyWikiDescription">Fortify a player to prevent them from being interacted with. If anyone tries to interact with a fortified player, the ability will not work and both the Warden and fortified player will be alerted with a purple flash.</string>
+
+        <!-- Warden Options -->
+        <string name="TouOptionWardenShowFortifyPlayer">Show Fortify Player</string>
 
         <!-- Impostor Roles -->
         <string name="TouRoleAmbassador">Ambassador</string>
@@ -346,7 +721,7 @@
         <string name="TouRoleAmnesiac">Amnesiac</string>
         <string name="TouRoleAmnesiacIntroBlurb">Remember A Role Of A Deceased Player</string>
         <string name="TouRoleAmnesiacDescription">Find a dead body to remember and become their role.</string> <!-- Add a period -->
-        <string name="TouRoleAmnesiacWikiDescription">The Amnesiac is a Neutral Benign role that gains access to a new role from remembering a dead body’s role. Use the role you remember to win the game.</string>
+        <string name="TouRoleAmnesiacWikiDescription">The %roleName% is a Neutral Benign role that gains access to a new role from remembering a dead body’s role. Use the role you remember to win the game.</string>
         <String name="TouRoleAmnesiacRemember">Remember</String>
         <String name="TouRoleAmnesiacRememberWikiDescription">Remember the role of a dead body. If the dead body's role is a unique role, you will remember the base faction's role instead.</String>
 
@@ -360,7 +735,7 @@
         <string name="TouRoleArsonistIntroBlurb">Douse Players And Ignite The Light</string>
         <string name="TouRoleArsonistDescription">Douse players and ignite to kill all nearby doused targets.</string> <!-- Added a period -->
         <string name="TouRoleArsonistDescriptionLegacy">Douse players and ignite the closest one to kill all doused targets.</string> <!-- Added a period -->
-        <string name="TouRoleArsonistWikiDescription">The Arsonist is a Neutral Killing role that wins by being the last killer alive.</string>
+        <string name="TouRoleArsonistWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer alive.</string>
         <string name="TouRoleArsonistWikiAddition">They can douse players and ignite them when close.</string>
         <string name="TouRoleArsonistWikiAdditionLegacy">They can douse players and ignite one of them to ignite all doused players on the map.</string>
 
@@ -381,7 +756,7 @@
         <string name="TouRoleDoomsayer">Doomsayer</string>
         <string name="TouRoleDoomsayerIntroBlurb">Guess People's Roles To Win!</string>
         <string name="TouRoleDoomsayerDescription">Win by guessing the roles of %doomsayerNeededGuessCount% players.</string> <!-- Added a period -->
-        <string name="TouRoleDoomsayerWikiDescription">The Doomsayer is a Neutral Evil role that wins by guessing %doomsayerNeededGuessCount% players' roles.</string>
+        <string name="TouRoleDoomsayerWikiDescription">The %roleName% is a Neutral Evil role that wins by guessing %doomsayerNeededGuessCount% players' roles.</string>
         <string name="TouRoleDoomsayerWikiAddIfObserve"> They may observe players to get a hint of what their roles are the following meeting.</string>
 
         <string name="TouRoleDoomsayerObserve">Observe</string>
@@ -401,7 +776,7 @@
         <string name="TouRoleExecutionerIntroBlurb">Get %target% voted out to win.</string>
         <string name="TouRoleExecutionerDescription">Get %target% voted out to win.</string>
         <string name="TouRoleExecutionerValueIfNoTarget">your target</string>
-        <string name="TouRoleExecutionerWikiDescription">The Executioner is a Neutral Evil role that wins by getting their target (signified by %symbol%) ejected in a meeting.</string>
+        <string name="TouRoleExecutionerWikiDescription">The %roleName% is a Neutral Evil role that wins by getting their target (signified by %symbol%) ejected in a meeting.</string>
 
         <!-- Executioner Options -->
         <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
@@ -413,7 +788,7 @@
         <string name="TouRoleGlitch">Glitch</string>
         <string name="TouRoleGlitchIntroBlurb">Murder, Mimic, Hack... Data Lost</string>
         <string name="TouRoleGlitchDescription">Murder everyone to win with your abilities!</string>
-        <string name="TouRoleGlitchWikiDescription">The Glitch is a Neutral Killing role that wins by being the last killer alive. They can Mimic into another player, or they can hack a player.</string> <!-- Added a comma -->
+        <string name="TouRoleGlitchWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer alive. They can Mimic into another player, or they can hack a player.</string> <!-- Added a comma -->
 
         <string name="TouRoleGlitchMimic">Mimic</string>
         <string name="TouRoleGlitchMimicWikiDescription">Mimic the appearance of another player, taking on their whole look.</string>
@@ -427,7 +802,7 @@
         <string name="TouOptionGlitchMoveInMimicMenu">Move While Using Mimic Menu (KB ONLY)</string> <!-- Translation note: KB = Keyboard -->
         <string name="TouOptionGlitchHackCooldown">Hack Cooldown</string>
         <string name="TouOptionGlitchHackDuration">Hack Duration</string>
-        <string name="TouOptionGlitchCan Vent">Glitch Can Vent</string>
+        <string name="TouOptionGlitchCanVent">Glitch Can Vent</string>
 
         <!-- Guardian Angel -->
         <!-- Guardian Angel Wiki / Abilities -->
@@ -435,7 +810,7 @@
         <string name="TouRoleGuardianAngelIntroBlurb">Protect %target% With Your Life!</string>
         <string name="TouRoleGuardianAngelDescription">Protect %target% With Your Life!</string>
         <string name="TouRoleGuardianAngelIfNoTarget">Protect Your Target With Your Life!</string>
-        <string name="TouRoleGuardianAngelWikiDescription">The Guardian Angel is a Neutral Benign that needs to protect their target (signified by %symbol%) from getting killed/ejected.</string>
+        <string name="TouRoleGuardianAngelWikiDescription">The %roleName% is a Neutral Benign that needs to protect their target (signified by %symbol%) from getting killed/ejected.</string>
 
         <string name="TouRoleGuardianAngelProtect">Protect</string>
         <string name="TouRoleGuardianAngelProtectWikiDescription">Protect your target from getting killed.</string>
@@ -455,7 +830,7 @@
         <string name="TouRoleInquisitor">Inquisitor</string>
         <string name="TouRoleInquisitorIntroBlurb">Vanquish The Heretics!</string>
         <string name="TouRoleInquisitorDescription">Vanquish your Heretics or get them killed.%nl%You will win after every heretic dies.%nlIf they're all dead after a meeting ends,%nlyou'll leave %and% announce your victory</string>
-        <string name="TouRoleInquisitorWikiDescription">The Inquisitor is a Neutral Evil role that wins if their targets (Heretics) die. The only information provided is their roles, and it's up to the Inquisitor to identify those players (marked with %symbol% to the dead) and get them killed by any means necessary.</string> <!-- Fix typo, neccessary to necessary -->
+        <string name="TouRoleInquisitorWikiDescription">The %roleName% is a Neutral Evil role that wins if their targets (Heretics) die. The only information provided is their roles, and it's up to the Inquisitor to identify those players (marked with %symbol% to the dead) and get them killed by any means necessary.</string> <!-- Fix typo, neccessary to necessary -->
 
         <string name="TouRoleInquisitorInquire">Inquire</string>
         <string name="TouRoleInquisitorInquireWikiDescription">Inquire a player, which will tell you if they are one of your targets within the meeting.</string>
@@ -475,12 +850,7 @@
         <string name="TouRoleJester">Jester</string>
         <string name="TouRoleJesterIntroBlurb">Get voted out!</string>
         <string name="TouRoleJesterDescription">Be as suspicious as possible, and get voted out!</string>
-        <string name="TouRoleJesterWikiDescription">The Jester is a Neutral Evil role that wins by getting themselves ejected.</string>
-        
-        <!-- Jester Messages -->
-        <string name="TouNotifJesterWinOwner">You have successfully won as the Jester, by getting voted out!</string>
-        <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely</string>
-        <string name="TouNotifJesterWinGlobal">The Jester, %player%, has successfully won, as they were voted out!</string>
+        <string name="TouRoleJesterWikiDescription">The %roleName% is a Neutral Evil role that wins by getting themselves ejected.</string>
 
         <!-- Jester Options -->
         <string name="TouOptionJesterCanButton">Can Use Button</string>
@@ -495,7 +865,7 @@
         <string name="TouRoleJuggernaut">Juggernaut</string>
         <string name="TouRoleJuggernautIntroBlurb">Your Power Grows With Every Kill</string>
         <string name="TouRoleJuggernautDescription">With each kill your kill cooldown decreases.</string> <!-- Added a period -->
-        <string name="TouRoleJuggernautWikiDescription">The Juggernaut is a Neutral Killing role that wins by being the last killer alive. For each kill they get, their kill cooldown gets reduced.</string>
+        <string name="TouRoleJuggernautWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer alive. For each kill they get, their kill cooldown gets reduced.</string>
 
         <!-- Juggernaut Options -->
         <string name="TouOptionJuggernautInitialCooldown">Initial Kill Cooldown</string>
@@ -507,7 +877,7 @@
         <string name="TouRoleMercenary">Mercenary</string>
         <string name="TouRoleMercenaryIntroBlurb">Bribe The Crewmates</string>
         <string name="TouRoleMercenaryDescription">Guard crewmates, and then bribe the winners!</string>
-        <string name="TouRoleMercenaryWikiDescription">The Mercenary is a Neutral Benign role that can only win by bribing players, allowing them to gain multiple win conditions.</string>
+        <string name="TouRoleMercenaryWikiDescription">The %roleName% is a Neutral Benign role that can only win by bribing players, allowing them to gain multiple win conditions.</string>
 
         <string name="TouRoleMercenaryGuard">Guard</string>
         <string name="TouRoleMercenaryGuardWikiDescription">Guarding a player allows the Mercenary to absorb an ability used on the target. This will grant them gold, for Bribing. If any bribed targets win, the Mercenary will win with them.</string>
@@ -525,14 +895,14 @@
         <string name="TouRolePestilenceIntroBlurb">Horseman Of The Apocalypse!</string>
         <string name="TouRolePestilenceDescription">Kill everyone in your path that interacts with you!</string>
         <string name="TouRolePestilenceYouAreText">You Are</string>
-        <string name="TouRolePestilenceWikiDescription">The Pestilence is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive.</string>
+        <string name="TouRolePestilenceWikiDescription">The %roleName% is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive.</string>
 
         <!-- Phantom -->
         <!-- Phantom Wiki / Description -->
         <string name="TouRolePhantom">Phantom</string>
         <string name="TouRolePhantomIntroBlurb"> </string> <!-- You cannot start the game as this role, and thus, it has no intro blurb -->
         <string name="TouRolePhantomDescription">Complete all your tasks without being caught!</string>
-        <string name="TouRolePhantomWikiDescription">The Phantom is a Neutral Ghost role that wins the game by finishing their tasks before a alive player has clicked on them.</string>
+        <string name="TouRolePhantomWikiDescription">The %roleName% is a Neutral Ghost role that wins the game by finishing their tasks before a alive player has clicked on them.</string>
 
         <!-- Phantom Options -->
         <string name="TouOptionPhantomTasksLeftClickable">Tasks Left Before Clickable</string>
@@ -543,7 +913,7 @@
         <string name="TouRolePlaguebearer">Plaguebearer</string>
         <string name="TouRolePlaguebearerIntroBlurb">Infect Everyone To Become %pestilenceName%</string> <!-- Pestilence name is colored, so a placeholder is necessary -->
         <string name="TouRolePlaguebearerDescription">Infect everyone to become %pestilenceName%</string>
-        <string name="TouRolePlaguebearerWikiDescription">The Plaguebearer is a Neutral Killing role that needs to infect all other players to turn into the Pestilence.</string>
+        <string name="TouRolePlaguebearerWikiDescription">The %roleName% is a Neutral Killing role that needs to infect all other players to turn into the Pestilence.</string>
 
         <string name="TouRolePlaguebearerInfect">Infect</string>
         <string name="TouRolePlaguebearerInfectWikiDescription">Infect a player, causing them to be infected. When an infected player or dead body interacts or gets interacted with, the infection will spread to the interacted/interacting player.</string> <!-- Rewritten for clarity and grammar issues -->
@@ -560,7 +930,7 @@
         <string name="TouRoleSoulCollector">Soul Collector</string>
         <string name="TouRoleSoulCollectorIntroBlurb">Reap The Souls From Your Crewmates</string>
         <string name="TouRoleSoulCollectorDescription">Reap the souls of others, leaving behind a lasting image</string>
-        <string name="TouRoleSoulCollectorWikiDescription">The Soul Collector is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind a soul-less decoy that looks identical to the reaped player, standing still.</string> <!-- Fixed a type, an to a -->
+        <string name="TouRoleSoulCollectorWikiDescription">The %roleName% is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind a soul-less decoy that looks identical to the reaped player, standing still.</string> <!-- Fixed a type, an to a -->
 
         <string name="TouRoleSoulCollectorReap">Reap</string>
         <string name="TouRoleSoulCollectorReapWikiDescription">Reaping acts like a kill button, but instead of making a dead body, makes a fake player in its place, appearing alive.</string>
@@ -574,7 +944,7 @@
         <string name="TouRoleSurvivor">Survivor</string>
         <string name="TouRoleSurvivorIntroBlurb">Do Whatever It Takes To Live</string>
         <string name="TouRoleSurvivorDescription">Stay alive to win with any faction remaining</string>
-        <string name="TouRoleSurvivorWikiDescription">The Survivor is a Neutral Benign role that just needs to survive until the end of the game.</string> <!-- till to until for clarity -->
+        <string name="TouRoleSurvivorWikiDescription">The %roleName% is a Neutral Benign role that just needs to survive until the end of the game.</string> <!-- till to until for clarity -->
 
         <string name="TouRoleSurvivorVest">Vest</string>
         <string name="TouRoleSurvivorVestWikiDescription">Put on a Vest protecting you from attacks.</string>
@@ -591,7 +961,7 @@
         <string name="TouRoleVampire">Vampire</string>
         <string name="TouRoleVampireIntroBlurb">Convert Crewmates And Kill The Rest</string>
         <string name="TouRoleVampireDescription">Bite all other players</string>
-        <string name="TouRoleVampireWikiDescription">The Vampire is a Neutral Killing role that wins by being the last killer(s) alive. They can bite, changing others into Vampires, or kill players.</string>
+        <string name="TouRoleVampireWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer(s) alive. They can bite, changing others into Vampires, or kill players.</string>
 
         <string name="TouRoleVampireBite">Bite</string>
         <string name="TouRoleVampireBiteWikiDescription">Bite a player. If the bitten player is a Crewmate and you have not exceeded the maximum amount of vampires in a game yet. You convert them into a vampire. Otherwise, they just get killed.</string> <!-- Added a comma -->
@@ -610,7 +980,7 @@
         <string name="TouRoleWerewolf">Werewolf</string>
         <string name="TouRoleWerewolfIntroBlurb">Rampage To Kill Everyone</string>
         <string name="TouRoleWerewolfDescription">Rampage to kill everyone in your path</string>
-        <string name="TouRoleWerewolfWikiDescription">The Werewolf is a Neutral Killing role that wins by being the last killer alive. They can go on a rampage to gain the ability to kill.</string>
+        <string name="TouRoleWerewolfWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer alive. They can go on a rampage to gain the ability to kill.</string>
 
         <string name="TouRoleWerewolfRampage">Rampage</string>
         <string name="TouRoleWerewolfRampageWikiDescription">Go on a Rampage, gaining the ability to kill and gain Impostor vision. During the Rampage your kill cooldown is significantly lower.</string>
