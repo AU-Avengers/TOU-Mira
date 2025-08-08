@@ -29,12 +29,13 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public Color RoleColor => TownOfUsColors.Arsonist;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;
+    public bool HasImpostorVision => OptionGroupSingleton<ArsonistOptions>.Instance.HasImpostorVision;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
         CanUseVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent,
         IntroSound = TouAudio.ArsoIgniteSound,
-        MaxRoleCount = 1,
+        MaxRoleCount = 15,
         Icon = TouRoleIcons.Arsonist,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
     };
@@ -60,16 +61,27 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         return stringB;
     }
 
+    // public bool WinConditionMet()
+    // {
+    //     if (Player.HasDied())
+    //     {
+    //         return false;
+    //     }
+
+    //     var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+
+    //     return result;
+    // }
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var arsonistCount = CustomRoleUtils.GetActiveRolesOfType<ArsonistRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > arsonistCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return arsonistCount >= Helpers.GetAlivePlayers().Count - arsonistCount;
     }
 
     public string GetAdvancedDescription()

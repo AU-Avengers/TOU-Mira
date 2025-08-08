@@ -172,11 +172,13 @@ public enum TouNames
     Medic,
     Medium,
     Mirrorcaster,
+    Monarch,
     Mystic,
     Oracle,
     Plumber,
     Politician,
     Prosecutor,
+    Psychic,
     Seer,
     Sheriff,
     Snitch,
@@ -204,6 +206,7 @@ public enum TouNames
     Miner,
     Morphling,
     Scavenger,
+    Spellslinger,
     Swooper,
     Traitor,
     Undertaker,
@@ -224,6 +227,8 @@ public enum TouNames
     Pestilence,
     Phantom,
     Plaguebearer,
+    SerialKiller,
+    Shroud,
     SoulCollector,
     Survivor,
     Vampire,
@@ -236,6 +241,7 @@ public enum TouNames
 
     // Universal Modifiers
     ButtonBarry,
+    Drunk,
     Flash,
     Giant,
     Immovable,
@@ -248,6 +254,8 @@ public enum TouNames
     Tiebreaker,
 
     // Impostor Modifiers
+    Circumvent,
+    DeadlyQuota,
     Disperser,
     Saboteur,
     Telepath,
@@ -274,6 +282,8 @@ public enum TouNames
 
     // Other Modifiers
     FirstDeathShield,
+    Hangover,
+    Roleblock,
     Scatter,
 
     // EVERYTHING BELOW HERE IS FOR THE SIDEMEN, THEY ARE NOT FOR PUBLIC RELEASE!

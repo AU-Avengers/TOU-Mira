@@ -29,23 +29,35 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<SoulCollectorOptions>.Instance.CanVent,
         IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom),
         Icon = TouRoleIcons.SoulCollector,
-        MaxRoleCount = 1,
+        MaxRoleCount = 15,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
     public bool HasImpostorVision => true;
 
+    // public bool WinConditionMet()
+    // {
+    //     if (Player.HasDied())
+    //     {
+    //         return false;
+    //     }
+
+    //     var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+
+    //     return result;
+    // }
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var soulcollectorCount = CustomRoleUtils.GetActiveRolesOfType<SoulCollectorRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > soulcollectorCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return soulcollectorCount >= Helpers.GetAlivePlayers().Count - soulcollectorCount;
     }
+
 
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()

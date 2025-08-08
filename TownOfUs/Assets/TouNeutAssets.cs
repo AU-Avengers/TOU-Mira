@@ -69,6 +69,24 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> JuggVentSprite { get; } =
         new LoadableResourceAsset($"{ButtonPath}.JuggVentButton.png");
 
+    public static LoadableAsset<Sprite> SerialKillerKillSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.SerialKillerKillButton.png");
+
+    public static LoadableAsset<Sprite> SerialKillerVentSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.SerialKillerVentButton.png");
+
+    public static LoadableAsset<Sprite> ShroudKillSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.ShroudKillButton.png");
+
+    public static LoadableAsset<Sprite> EnshroudSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.EnshroudButton.png");
+
+    public static LoadableAsset<Sprite> CompelSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.CompelButton.png");
+
+    public static LoadableAsset<Sprite> ShroudVentSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.ShroudVentButton.png");
+
     public static LoadableAsset<Sprite> InfectSprite { get; } =
         new LoadableResourceAsset($"{ButtonPath}.InfectButton.png");
 

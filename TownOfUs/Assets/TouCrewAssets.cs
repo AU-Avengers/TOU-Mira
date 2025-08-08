@@ -26,6 +26,8 @@ public static class TouCrewAssets
         new LoadableResourceAsset($"{ButtonPath}.BlessButton.png");
 
     public static LoadableAsset<Sprite> SeerSprite { get; } = new LoadableResourceAsset($"{ButtonPath}.SeerButton.png");
+    public static LoadableAsset<Sprite> PsychicSprite { get; } = new LoadableResourceAsset($"{ButtonPath}.PsychicButton.png");
+    public static LoadableAsset<Sprite> ProphecySprite { get; } = new LoadableResourceAsset($"{ButtonPath}.ProphecyButton.png");
 
     public static LoadableAsset<Sprite> TrackSprite { get; } =
         new LoadableResourceAsset($"{ButtonPath}.TrackButton.png");
@@ -89,6 +91,12 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> Transport { get; } =
         new LoadableResourceAsset($"{ButtonPath}.TransportButton.png");
+
+    public static LoadableAsset<Sprite> KnightButtonSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.KnightButton.png");
+
+    public static LoadableAsset<Sprite> RoleblockButtonSprite { get; } =
+        new LoadableResourceAsset($"{ButtonPath}.RoleblockButton.png");
 
     public static LoadableAsset<Sprite> EngineerRoleBanner { get; } =
         new LoadableResourceAsset($"{BannerPath}.Engineer.png");

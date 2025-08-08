@@ -17,6 +17,7 @@ public static class TouRoleIcons
 
     public static LoadableAsset<Sprite> Lookout { get; } = new LoadableResourceAsset($"{iconPath}.Lookout.png");
     public static LoadableAsset<Sprite> Mystic { get; } = new LoadableResourceAsset($"{iconPath}.Mystic.png");
+    public static LoadableAsset<Sprite> Psychic { get; } = new LoadableResourceAsset($"{iconPath}.Psychic.png");
     public static LoadableAsset<Sprite> Seer { get; } = new LoadableResourceAsset($"{iconPath}.Seer.png");
     public static LoadableAsset<Sprite> Snitch { get; } = new LoadableResourceAsset($"{iconPath}.Snitch.png");
     public static LoadableAsset<Sprite> Spy { get; } = new LoadableResourceAsset($"{iconPath}.Spy.png");
@@ -34,6 +35,7 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Jailor { get; } = new LoadableResourceAsset($"{iconPath}.Jailor.png");
     public static LoadableAsset<Sprite> Politician { get; } = new LoadableResourceAsset($"{iconPath}.Politician.png");
     public static LoadableAsset<Sprite> Mayor { get; } = new LoadableResourceAsset($"{iconPath}.Mayor.png");
+    public static LoadableAsset<Sprite> Monarch { get; } = new LoadableResourceAsset($"{iconPath}.Monarch.png");
     public static LoadableAsset<Sprite> Prosecutor { get; } = new LoadableResourceAsset($"{iconPath}.Prosecutor.png");
     public static LoadableAsset<Sprite> Swapper { get; } = new LoadableResourceAsset($"{iconPath}.Swapper.png");
 
@@ -44,6 +46,7 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Oracle { get; } = new LoadableResourceAsset($"{iconPath}.Oracle.png");
     public static LoadableAsset<Sprite> Warden { get; } = new LoadableResourceAsset($"{iconPath}.Warden.png");
 
+    public static LoadableAsset<Sprite> Barkeeper { get; } = new LoadableResourceAsset($"{iconPath}.Barkeeper.png");
     public static LoadableAsset<Sprite> Engineer { get; } = new LoadableResourceAsset($"{iconPath}.Engineer.png");
     public static LoadableAsset<Sprite> Imitator { get; } = new LoadableResourceAsset($"{iconPath}.Imitator.png");
     public static LoadableAsset<Sprite> Medium { get; } = new LoadableResourceAsset($"{iconPath}.Medium.png");
@@ -67,6 +70,8 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Arsonist { get; } = new LoadableResourceAsset($"{iconPath}.Arsonist.png");
     public static LoadableAsset<Sprite> Glitch { get; } = new LoadableResourceAsset($"{iconPath}.Glitch.png");
     public static LoadableAsset<Sprite> Juggernaut { get; } = new LoadableResourceAsset($"{iconPath}.Juggernaut.png");
+    public static LoadableAsset<Sprite> SerialKiller { get; } = new LoadableResourceAsset($"{iconPath}.SerialKiller.png");
+    public static LoadableAsset<Sprite> Shroud { get; } = new LoadableResourceAsset($"{iconPath}.Shroud.png");
 
     public static LoadableAsset<Sprite> Plaguebearer { get; } =
         new LoadableResourceAsset($"{iconPath}.Plaguebearer.png");
@@ -94,9 +99,11 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Warlock { get; } = new LoadableResourceAsset($"{iconPath}.Warlock.png");
     
     public static LoadableAsset<Sprite> Ambassador { get; } = new LoadableResourceAsset($"{iconPath}.Ambassador.png");
+    public static LoadableAsset<Sprite> Spellslinger { get; } = new LoadableResourceAsset($"{iconPath}.Spellslinger.png");
     public static LoadableAsset<Sprite> Traitor { get; } = new LoadableResourceAsset($"{iconPath}.Traitor.png");
 
     public static LoadableAsset<Sprite> Blackmailer { get; } = new LoadableResourceAsset($"{iconPath}.Blackmailer.png");
+    public static LoadableAsset<Sprite> Bootlegger { get; } = new LoadableResourceAsset($"{iconPath}.Bootlegger.png");
     public static LoadableAsset<Sprite> Herbalist { get; } = new LoadableResourceAsset($"{iconPath}.Herbalist.png");
     public static LoadableAsset<Sprite> Hypnotist { get; } = new LoadableResourceAsset($"{iconPath}.Hypnotist.png");
     public static LoadableAsset<Sprite> Janitor { get; } = new LoadableResourceAsset($"{iconPath}.Janitor.png");

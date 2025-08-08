@@ -101,9 +101,11 @@ public static class DeathEventHandlers
             deathHandler.RoundOfDeath = CurrentRound;
             deathHandler.LockInfo = true;
         }
+        
         else if (target.TryGetModifier<DeathHandlerModifier>(out var deathHandler2) && !deathHandler2.LockInfo)
         {
             var cod = "Killed";
+
             switch (source.GetRoleWhenAlive())
             {
                 case SheriffRole:
@@ -156,13 +158,16 @@ public static class DeathEventHandlers
                 case InquisitorRole:
                     cod = "Vanquished";
                     break;
+                case SerialKillerRole:
+                    cod = "Stabbed";
+                    break;
             }
 
             if (source.Data.Role is PhantomTouRole)
             {
                 cod = "Spooked";
             }
-            
+
             deathHandler2.CauseOfDeath = cod;
             deathHandler2.KilledBy = $"By {source.Data.PlayerName}";
             deathHandler2.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;

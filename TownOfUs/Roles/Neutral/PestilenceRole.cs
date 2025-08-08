@@ -43,17 +43,30 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
+    // public bool WinConditionMet()
+    // {
+    //     if (Player.HasDied())
+    //     {
+    //         return false;
+    //     }
+
+    //     var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+
+    //     return result;
+    // }
+
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var pestilenceCount = CustomRoleUtils.GetActiveRolesOfType<PestilenceRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > pestilenceCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return pestilenceCount >= Helpers.GetAlivePlayers().Count - pestilenceCount;
     }
+
 
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()

@@ -9,21 +9,12 @@ public sealed class SeerOptions : AbstractOptionGroup<SeerRole>
 {
     public override string GroupName => TouLocale.Get(TouNames.Seer, "Seer");
 
-    [ModdedNumberOption("Seer Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Compare Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SeerCooldown { get; set; } = 25f;
-
-    [ModdedToggleOption("Crewmate Killing Roles Are Red")]
-    public bool ShowCrewmateKillingAsRed { get; set; } = false;
-
-    [ModdedToggleOption("Neutral Benign Roles Are Red")]
-    public bool ShowNeutralBenignAsRed { get; set; } = false;
-
-    [ModdedToggleOption("Neutral Evil Roles Are Red")]
-    public bool ShowNeutralEvilAsRed { get; set; } = false;
-
-    [ModdedToggleOption("Neutral Killing Roles Are Red")]
-    public bool ShowNeutralKillingAsRed { get; set; } = true;
-
-    [ModdedToggleOption("Traitor Swaps Colors")]
-    public bool SwapTraitorColors { get; set; } = true;
+    [ModdedNumberOption("Max Uses of Compare", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
+    public float MaxCompares { get; set; } = 0f;
+    [ModdedToggleOption("Neutral Benign Show Friends To All")]
+    public bool BenignShowFriendlyToAll { get; set; } = false;
+    [ModdedToggleOption("Neutral Evil Show Friends To All")]
+    public bool EvilShowFriendlyToAll { get; set; } = false;
 }

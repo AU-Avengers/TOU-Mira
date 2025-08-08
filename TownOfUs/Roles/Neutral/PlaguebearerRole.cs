@@ -94,17 +94,30 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         return stringB;
     }
 
+    // public bool WinConditionMet()
+    // {
+    //     if (Player.HasDied())
+    //     {
+    //         return false;
+    //     }
+
+    //     var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+
+    //     return result;
+    // }
+
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var plaguebearerCount = CustomRoleUtils.GetActiveRolesOfType<PlaguebearerRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > plaguebearerCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return plaguebearerCount >= Helpers.GetAlivePlayers().Count - plaguebearerCount;
     }
+
 
     public string GetAdvancedDescription()
     {

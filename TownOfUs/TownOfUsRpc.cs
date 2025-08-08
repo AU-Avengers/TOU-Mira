@@ -70,6 +70,14 @@ public enum TownOfUsRpc : uint
     AnimateNewReveal,
     SheriffMisfire,
     RetrainImpostor,
+    Knight,
+    Hex,
+    HexBomb,
+    Vision,
+    Prophecy,
+    Compare,
+    BarkeeperRoleblock,
+    BootleggerRoleblock,
     AmbushPlayer,
     RetrainConfirm
 }

@@ -17,6 +17,7 @@ public static class TownOfUsColors
     public static Color Investigator => UseBasic ? Palette.CrewmateBlue : new Color32(0, 179, 179, 255);
     public static Color Lookout => UseBasic ? Palette.CrewmateBlue : new Color32(51, 255, 102, 255);
     public static Color Mystic => UseBasic ? Palette.CrewmateBlue : new Color32(77, 153, 230, 255);
+    public static Color Psychic => UseBasic ? Palette.CrewmateBlue : new Color32(111, 105, 140, 255);
     public static Color Seer => UseBasic ? Palette.CrewmateBlue : new Color32(255, 204, 128, 255);
     public static Color Snitch => UseBasic ? Palette.CrewmateBlue : new Color32(212, 176, 56, 255);
     public static Color Spy => UseBasic ? Palette.CrewmateBlue : new Color32(204, 163, 204, 255);
@@ -31,6 +32,7 @@ public static class TownOfUsColors
     
     public static Color Jailor => UseBasic ? Palette.CrewmateBlue : new Color32(166, 166, 166, 255);
     public static Color Mayor => UseBasic ? Palette.CrewmateBlue : new Color32(112, 79, 168, 255);
+    public static Color Monarch => UseBasic ? Palette.CrewmateBlue : new Color32(97, 66, 199, 255);
     public static Color Politician => UseBasic ? Palette.CrewmateBlue : new Color32(102, 0, 153, 255);
     public static Color Prosecutor => UseBasic ? Palette.CrewmateBlue : new Color32(179, 128, 0, 255);
     public static Color Swapper => UseBasic ? Palette.CrewmateBlue : new Color32(102, 230, 102, 255);
@@ -42,6 +44,7 @@ public static class TownOfUsColors
     public static Color Oracle => UseBasic ? Palette.CrewmateBlue : new Color32(191, 0, 191, 255);
     public static Color Warden => UseBasic ? Palette.CrewmateBlue : new Color32(153, 0, 255, 255);
     
+    public static Color Barkeeper => UseBasic ? Palette.CrewmateBlue : new Color32(227, 212, 119, 255);
     public static Color Engineer => UseBasic ? Palette.CrewmateBlue : new Color32(255, 166, 10, 255);
     public static Color Imitator => UseBasic ? Palette.CrewmateBlue : new Color32(179, 217, 77, 255);
     public static Color Medium => UseBasic ? Palette.CrewmateBlue : new Color32(166, 128, 255, 255);
@@ -66,6 +69,8 @@ public static class TownOfUsColors
     public static Color Juggernaut => new Color32(140, 0, 77, 255);
     public static Color Plaguebearer => new Color32(230, 255, 179, 255);
     public static Color Pestilence => new Color32(77, 77, 77, 255);
+    public static Color SerialKiller => new Color32(29, 77, 252, 255);
+    public static Color Shroud => new Color32(102, 153, 255, 255);
     public static Color SoulCollector => new Color32(153, 255, 204, 255);
     public static Color Vampire => new Color32(163, 41, 41, 255);
     public static Color Werewolf => new Color32(168, 102, 41, 255);
@@ -75,6 +80,7 @@ public static class TownOfUsColors
     public static Color Lover => new Color32(255, 102, 204, 255);
     // Universal Modifiers
     public static Color ButtonBarry => new Color32(179, 51, 204, 255);
+    public static Color Drunk => new Color32(117, 128, 0, 255);
     public static Color Flash => new Color32(255, 128, 128, 255);
     public static Color Giant => new Color32(255, 179, 77, 255);
     public static Color Immovable => new Color32(230, 230, 204, 255);
@@ -101,5 +107,7 @@ public static class TownOfUsColors
     public static Color Torch => new Color32(255, 255, 153, 255);
     // Neutral Modifiers
     public static Color Camouflaged => Color.gray;
+    // Assailiant Modifiers
+    public static Color DoubleShot => new Color32(100, 63, 213, 255);
 
 }

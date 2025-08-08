@@ -30,24 +30,35 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent /* && (Rampaging || Player.inVent)*/,
         IntroSound = TouAudio.WerewolfRampageSound,
         Icon = TouRoleIcons.Werewolf,
-        MaxRoleCount = 1,
+        MaxRoleCount = 15,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
     public bool HasImpostorVision => Rampaging;
 
+    // public bool WinConditionMet()
+    // {
+    //     if (Player.HasDied())
+    //     {
+    //         return false;
+    //     }
+
+    //     var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+
+    //     return result;
+    // }
+
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var werewolfCount = CustomRoleUtils.GetActiveRolesOfType<WerewolfRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > werewolfCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return werewolfCount >= Helpers.GetAlivePlayers().Count - werewolfCount;
     }
-
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {

@@ -1,7 +1,10 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+// using TownOfUs.Modifiers.Crewmate;
+// using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Venerer;
+// using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities.Appearances;
 
@@ -15,6 +18,11 @@ public static class PlayerSpeedPatch
     {
         __result *= pc.GetAppearance().Speed;
 
+
+        // if (OptionGroupSingleton<BarkeeperOptions>.Instance.Hangover && pc.HasModifier<BarkeeperRoleblockedModifier>() || OptionGroupSingleton<BootleggerOptions>.Instance.Hangover && pc.HasModifier<BootleggerRoleblockedModifier>())
+        // {
+        //     __result *= -1;
+        // }
 
         if (pc.HasModifier<VenererSprintModifier>())
         {

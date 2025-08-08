@@ -182,6 +182,33 @@ public static class Extensions
         body.gameObject.Destroy();
     }
 
+    /// <summary>
+    /// Sets the dead body object to a specified color after a delay, then fades into it over a fade duration.
+    /// </summary>
+    /// <param name="body">The dead body to be recolored</param>
+    /// <param name="color">The color to fade to</param>
+    /// <param name="delay">Time in seconds to wait before starting the fade</param>
+    /// <param name="duration">Time in seconds over which to perform the fade</param>
+    /// <returns></returns>
+    public static IEnumerator CoSetBodyColor(this DeadBody body, Color color, float delay = 0f, float duration = 1f)
+    {
+        var renderer = body.bodyRenderers[^1];
+        var initColor = renderer.color;
+
+        if (delay > 0f)
+            yield return new WaitForSeconds(delay);
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            renderer.color = Color.Lerp(initColor, color, t);
+            yield return null;
+        }
+
+        renderer.color = color;
+    }
     public static void OverrideOnClickListeners(this PassiveButton passive, Action action, bool enabled = true)
     {
         if (!passive)
