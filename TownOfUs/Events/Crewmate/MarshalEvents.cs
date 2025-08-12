@@ -19,7 +19,7 @@ public static class MarshalEvents
     {
         var instance = MeetingHud.Instance;
         SpriteRenderer spriteRenderer = GameObject.Instantiate(instance.PlayerVotePrefab, parent);
-        spriteRenderer.gameObject.name = voterPlayer.PlayerId.ToString();
+        spriteRenderer.gameObject.name = voterPlayer.PlayerId.ToString(TownOfUsPlugin.Culture);
         spriteRenderer.transform.localScale = Vector3.zero;
         
         if (GameManager.Instance.LogicOptions.GetAnonymousVotes())
@@ -42,6 +42,11 @@ public static class MarshalEvents
     {
         if (!MarshalRole.TribunalHappening) return;
         @event.Cancel();
+
+        if (MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo))
+        {
+            return;
+        }
         
         if (_previousVote != null)
         {
@@ -65,8 +70,18 @@ public static class MarshalEvents
         }
         
         MarshalRole.UpdateVoteNumbers();
+        
         if (AmongUsClient.Instance.AmHost)
+        {
             MarshalRole.CheckForEjection();
+        }
+        
+        // Freeplay fix so dummies can vote multiple times
+        if (TutorialManager.Instance)
+        {
+            GameObject.FindObjectsOfType<DummyBehaviour>().Do(x => x.voted = false);
+        }
+        
         _previousVote = @event.TargetId;
     }
 

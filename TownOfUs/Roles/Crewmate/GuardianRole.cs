@@ -125,6 +125,11 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             return !UsedOnGuardian;
         }
 
+        if (role.Role == ProtectedRole)
+        {
+            return false;
+        }
+
         bool isEvil = role is ICustomRole customRole ? customRole.Team != ModdedRoleTeams.Crewmate : role.IsImpostor();
         if (isEvil)
         {
@@ -196,7 +201,10 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         {
             return;
         }
-        
-        guardian.AegisAttacked.Add(targetRole);
+
+        if (!guardian.AegisAttacked.Contains(targetRole))
+        {
+            guardian.AegisAttacked.Add(targetRole);
+        }
     }
 }

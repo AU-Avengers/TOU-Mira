@@ -12,7 +12,7 @@ public sealed class CatalystOverchargedModifier(PlayerControl catalyst) : BaseMo
     public override string ModifierName => "Overcharged";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Catalyst;
     public override bool HideOnUi => false;
-    public override string GetDescription() => "You are overcharged!";
+    public override string GetDescription() => "You are overcharged.\nYour cooldown decreases faster!";
 
     public PlayerControl Catalyst { get; } = catalyst;
 

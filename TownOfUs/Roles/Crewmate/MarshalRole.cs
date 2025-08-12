@@ -311,8 +311,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             Logger<TownOfUsPlugin>.Warning($"The cutscene is played for the first time");
             
-            yield return new WaitForSeconds(4);
-            HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
+            yield return new WaitForSeconds(3);
             
             ConsoleJoystick.SetMode_Task();
             MeetingHud.Instance.DespawnOnDestroy = false;
@@ -323,7 +322,14 @@ public sealed class MarshalRole(IntPtr cppPtr)
             DestroyableSingleton<HudManager>.Instance.Chat.SetVisible(PlayerControl.LocalPlayer.Data.IsDead);
             DestroyableSingleton<HudManager>.Instance.Chat.HideBanButton();
             
-            MeetingHud.Instance.gameObject.DestroyImmediate();
+            MeetingHud.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
+            yield return new WaitForSeconds(1);
+            
+            try
+            {
+                MeetingHud.Instance.gameObject.DestroyImmediate(); // breaks sometimes so this mf is behind bars for now
+            }
+            catch {}
         }
         
         ExileController exileController;
