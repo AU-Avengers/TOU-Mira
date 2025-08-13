@@ -112,14 +112,6 @@ public static class AprilFoolsPatches
         }
     }
 
-    [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldLongAround))]
-    [HarmonyPrefix]
-    public static bool Prefix(ref bool __result)
-    {
-        __result = CurrentMode == 2;
-        return true;
-    }
-
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetBodyType))]
     [HarmonyPrefix]
     public static void Prefix(ref PlayerBodyTypes bodyType)
