@@ -53,22 +53,25 @@ public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
                 {
                     return;
                 }
-                    
+
+
+                if (HudManager.Instance.Chat.IsOpenOrOpening)
+                {
+                    HudManager.Instance.Chat.Close();
+                }
+
                 try
                 {
-                    if (HudManager.Instance.Chat.IsOpenOrOpening)
-                    {
-                        HudManager.Instance.Chat.Close();
-                    }
-
-                    var wiki = IngameWikiMinigame.Create();
-                    wiki.Begin(null);
-                    wiki.OpenFor(wikiEntry);
+                    Minigame.Instance.Close();
+                    Minigame.Instance.Close();
                 }
-                catch (Exception e)
+                catch
                 {
-                    Logger<TownOfUsPlugin>.Error(e);
                 }
+                
+                var wiki = IngameWikiMinigame.Create();
+                wiki.Begin(null);    
+                wiki.OpenFor(wikiEntry);
             }
         }
     }
