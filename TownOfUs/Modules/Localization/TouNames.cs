@@ -94,6 +94,7 @@ public enum TouNames
     Saboteur,
     Telepath,
     Underdog,
+    RoleSeeker,
     // Assailant Modifiers (NK/Imp)
     Assassin,
     DoubleShot,

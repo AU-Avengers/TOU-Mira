@@ -57,4 +57,13 @@ public sealed class ImpostorModifierOptions : AbstractOptionGroup
         {
             Visible = () => OptionGroupSingleton<ImpostorModifierOptions>.Instance.UnderdogAmount > 0
         };
+
+    [ModdedNumberOption("Role Seeker Amount", 0, 5)]
+    public float RoleSeekerAmount { get; set; } = 0;
+
+    public ModdedNumberOption RoleSeekerChance { get; } =
+        new("Role Seeker Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
+        {
+            Visible = () => OptionGroupSingleton<ImpostorModifierOptions>.Instance.RoleSeekerAmount > 0
+        };
 }
