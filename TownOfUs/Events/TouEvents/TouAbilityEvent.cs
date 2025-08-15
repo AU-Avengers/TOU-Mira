@@ -118,6 +118,7 @@ public enum AbilityType
     MercenaryGuard,
     MercenaryBribe,
     PlaguebearerInfect,
+    PredatorStare,
     SurvivorVest,
 
     VampireBite

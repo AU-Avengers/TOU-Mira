@@ -65,6 +65,7 @@ public static class TownOfUsColors
     public static Color Glitch => Color.green;
     public static Color Juggernaut => new Color32(140, 0, 77, 255);
     public static Color Plaguebearer => new Color32(230, 255, 179, 255);
+    public static Color Predator => new Color32(34, 70, 34, 255);
     public static Color Pestilence => new Color32(77, 77, 77, 255);
     public static Color SoulCollector => new Color32(153, 255, 204, 255);
     public static Color Vampire => new Color32(163, 41, 41, 255);

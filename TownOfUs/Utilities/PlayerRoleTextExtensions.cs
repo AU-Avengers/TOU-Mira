@@ -191,6 +191,17 @@ public static class PlayerRoleTextExtensions
             name += "<color=#FF4D00> Δ</color>";
         }
 
+        if (PlayerControl.LocalPlayer.Data.Role is PredatorRole &&
+            player.HasModifier<PredatorStaringModifier>(x => x.Predator.AmOwner))
+        {
+            name += "<color=#224622> *</color>";
+        }
+
+        if (PlayerControl.LocalPlayer.Data.Role is PredatorRole predator && predator.CaughtPlayers.Contains(player))
+        {
+            name += "<color=#000000> *</color>";
+        }
+
         if ((player.HasModifier<BlackmailedModifier>(x => x.BlackMailerId == PlayerControl.LocalPlayer.PlayerId) &&
              PlayerControl.LocalPlayer.IsRole<BlackmailerRole>())
             || (player.HasModifier<BlackmailedModifier>() && PlayerControl.LocalPlayer.IsImpostor() &&

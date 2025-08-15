@@ -69,6 +69,7 @@ public enum TouNames
     Pestilence,
     Phantom,
     Plaguebearer,
+    Predator,
     SoulCollector,
     Survivor,
     Vampire,
