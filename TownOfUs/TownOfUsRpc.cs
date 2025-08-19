@@ -1,4 +1,4 @@
-﻿namespace TownOfUs;
+namespace TownOfUs;
 
 public enum TownOfUsRpc : uint
 {
@@ -71,5 +71,6 @@ public enum TownOfUsRpc : uint
     SheriffMisfire,
     RetrainImpostor,
     AmbushPlayer,
-    RetrainConfirm
+    RetrainConfirm,
+    SniperShot
 }

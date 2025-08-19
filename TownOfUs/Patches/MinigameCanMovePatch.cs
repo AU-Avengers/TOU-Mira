@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -9,6 +9,8 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Roles.Impostor;
+using TownOfUs.Buttons.Impostor;
 
 namespace TownOfUs.Patches;
 
@@ -55,6 +57,13 @@ public static class MinigameCanMovePatch
         if (PlayerControl.LocalPlayer.Data.Role is GlitchRole && ActiveInputManager.currentControlType == ActiveInputManager.InputType.Keyboard && OptionGroupSingleton<GlitchOptions>.Instance.MoveWithMenu && Minigame.Instance is CustomPlayerMenu)
         {
             __result = __instance.moveable;
+            return false;
+        }
+
+        // Sniper: block movement while aiming effect is active
+        if (PlayerControl.LocalPlayer.Data.Role is SniperRole && CustomButtonSingleton<SniperShootButton>.Instance.EffectActive)
+        {
+            __result = false;
             return false;
         }
 

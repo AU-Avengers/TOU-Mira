@@ -152,6 +152,20 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 -----------------------
 
+# Quick Install (Steam)
+
+1. Download the latest Steam zip from your releases:
+   - https://github.com/colec524/TOU-Mira/releases (download `TownOfUs-Full-Steam.zip` or `TownOfUs-Mira-Steam.zip` if using the lighter pack)
+2. Extract the zip into your Steam Among Us folder (default):
+   - `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Among Us`
+3. If you used the lighter pack (Steam zip with only TownOfUs.dll), also place these in `Among Us\\BepInEx\\plugins`:
+   - `Reactor.dll` (IL2CPP build)
+   - `MiraAPI.dll`
+4. Launch Among Us (you should see the BepInEx console on launch).
+5. Host a lobby → TOU Mira options → Impostor → Sniper → configure Aim Duration (2–10s), cooldown, and max shots.
+
+-----------------------
+
 # License
 This software is distributed under the GNU GPLv3 License. BepInEx is distributed under the LGPL-2.1 License.
 

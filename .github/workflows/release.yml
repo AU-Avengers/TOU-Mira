@@ -1,0 +1,72 @@
+name: Build and Release (Steam - Full Pack)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    env:
+      BEPINEX_URL: https://github.com/BepInEx/BepInEx/releases/download/v6.0.0-be.2024.04.28/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.2024.04.28.zip
+      # TODO: replace with your exact Reactor/MiraAPI IL2CPP links or vendor DLLs in repo
+      REACTOR_URL: https://example.com/Reactor-IL2CPP.dll
+      MIRA_URL: https://example.com/MiraAPI-IL2CPP.dll
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore TownOfUs-Mira.sln
+
+      - name: Build
+        run: dotnet build TownOfUs-Mira.sln -c Release --no-restore
+
+      - name: Prepare Pack Root
+        run: |
+          mkdir pack
+          cd pack
+          curl -L -o bepinex.zip "%BEPINEX_URL%"
+          tar -xf bepinex.zip
+          del bepinex.zip
+        shell: cmd
+
+      - name: Add Mod DLL
+        run: |
+          for /r TownOfUs\bin %f in (TownOfUs.dll) do copy "%f" "pack\BepInEx\plugins\TownOfUs.dll" & goto done
+          :done
+        shell: cmd
+
+      - name: Add Reactor and MiraAPI (download)
+        run: |
+          curl -L -o "pack\BepInEx\plugins\Reactor.dll" "%REACTOR_URL%"
+          curl -L -o "pack\BepInEx\plugins\MiraAPI.dll" "%MIRA_URL%"
+        shell: cmd
+
+      - name: Include licenses
+        run: |
+          echo BepInEx is LGPL-2.1 licensed. > pack\licenses.txt
+          echo Include any required licenses for bundled DLLs here. >> pack\licenses.txt
+        shell: cmd
+
+      - name: Create Steam Zip
+        run: |
+          cd pack
+          powershell -Command "Compress-Archive -Path * -DestinationPath ..\TownOfUs-Full-Steam.zip"
+        shell: cmd
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: TownOfUs-Full-Steam.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
