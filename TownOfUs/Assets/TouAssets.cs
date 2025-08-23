@@ -93,11 +93,14 @@ public static class TouAssets
     public static LoadableAsset<Sprite> ZoomMinusActive { get; } =
         new LoadableResourceAsset($"{ShortPath}.MinusActive.png");
 
-    public static LoadableAsset<Sprite> TeamChatInactive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TeamChatInactive.png");
+    public static LoadableAsset<Sprite> TeamChatSwitch { get; } =
+        new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png");
 
     public static LoadableAsset<Sprite> TeamChatActive { get; } =
         new LoadableResourceAsset($"{ShortPath}.TeamChatActive.png");
+
+    public static LoadableAsset<Sprite> TeamChatInactive { get; } =
+        new LoadableResourceAsset($"{ShortPath}.TeamChatInactive.png");
 
     public static LoadableAsset<Sprite> TeamChatSelected { get; } =
         new LoadableResourceAsset($"{ShortPath}.TeamChatSelected.png");
