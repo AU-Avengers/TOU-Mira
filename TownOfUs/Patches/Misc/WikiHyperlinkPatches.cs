@@ -14,7 +14,7 @@ public static class WikiHyperLinkPatches
 {
     private static string fontTag = "<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - BlackOutlineMasked\">";
     
-    public static string CheckForTags(string text, TextMeshPro tmp) // In theory, this method can be used for TMP object
+    public static string CheckForTags(string text, TextMeshPro tmp) // In theory, this method can be used for any TMP object
     {
         var roleTags = Regex.Matches(text, @"#\w+(-\w+)*");
         var modifierTags = Regex.Matches(text, @"&\w+(-\w+)*");
