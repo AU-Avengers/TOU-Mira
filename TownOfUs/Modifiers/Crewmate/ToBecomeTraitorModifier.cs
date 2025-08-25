@@ -73,7 +73,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
         ModifierComponent?.RemoveModifier(this);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetTraitor, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SetTraitor)]
     public static void RpcSetTraitor(PlayerControl player)
     {
         if (!player.HasModifier<ToBecomeTraitorModifier>())
@@ -89,10 +89,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
             player.AddModifier<ImpostorAssassinModifier>();
         }
 
-        if (SnitchRole.IsTargetOfSnitch(player))
-        {
-            CustomRoleUtils.GetActiveRolesOfType<SnitchRole>().ToList()
-                .ForEach(snitch => snitch.AddSnitchTraitorArrows());
-        }
+        CustomRoleUtils.GetActiveRolesOfType<SnitchRole>().ToList()
+            .ForEach(snitch => snitch.AddSnitchTraitorArrows());
     }
 }

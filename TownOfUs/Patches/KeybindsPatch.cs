@@ -1,6 +1,8 @@
 using HarmonyLib;
+using MiraAPI.Hud;
 using Rewired;
 using Rewired.Data;
+using TownOfUs.Buttons;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
@@ -15,17 +17,21 @@ public static class Keybinds
         // change the text shown on the screen for the keybinds menu
         try
         {
+            // var blankAction = new Action(() => { });
             __instance.userData.GetAction("ActionSecondary").descriptiveName = "Kill / Secondary Ability";
             __instance.userData.GetAction("ActionQuaternary").descriptiveName = "Primary Ability";
             __instance.userData.RegisterBind("tou.ActionCustom", "Tertiary Ability (Hack Ability)");
             __instance.userData.RegisterBind("tou.ActionCustom2", "Modifier Ability");
+            /*KeybindManager.Register("tou.ActionCustom", "Tertiary Ability (Hack Ability)", KeyboardKeyCode.C,
+                blankAction);
+            KeybindManager.Register("tou.ActionCustom2", "Modifier Ability", KeyboardKeyCode.X, blankAction);*/
         }
         catch
         {
             // Logger<TownOfUsPlugin>.Error($"Error applying names for custom keybinds: {e}");
         }
     }
-
+    
     private static int RegisterBind(this UserData self, string name, string description, int elementIdentifierId = -1,
         int category = 0, InputActionType type = InputActionType.Button)
     {
@@ -56,7 +62,7 @@ public static class Keybinds
 }
 
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-public static class KillVentBinds
+public static class Bindings
 {
     public static void Postfix(HudManager __instance)
     {
@@ -68,6 +74,70 @@ public static class KillVentBinds
         if (PlayerControl.LocalPlayer.Data == null)
         {
             return;
+        }
+
+        var rewirePlayer = ReInput.players.GetPlayer(0);
+        var contPlayer = ConsoleJoystick.player;
+        var buttonList = CustomButtonManager.Buttons.Where(x =>
+            x.Enabled(PlayerControl.LocalPlayer.Data.Role) && x.Button != null && x.Button.isActiveAndEnabled && x.CanUse()).ToList();
+
+        foreach (var button in buttonList.Where(x => x is TownOfUsButton))
+        {
+            var touButton = button as TownOfUsButton;
+            if (touButton == null || touButton.Keybind == string.Empty)
+            {
+                continue;
+            }
+            
+            if ((rewirePlayer.GetButtonDown(touButton.Keybind) ||
+                 contPlayer.GetButtonDown(touButton.ConsoleBind())))
+            {
+                touButton.PassiveComp.OnClick.Invoke();
+            }
+        }
+        foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<DeadBody>))
+        {
+            var touButton = button as TownOfUsTargetButton<DeadBody>;
+            if (touButton == null || touButton.Keybind == string.Empty)
+            {
+                continue;
+            }
+            
+            if ((rewirePlayer.GetButtonDown(touButton.Keybind) ||
+                 contPlayer.GetButtonDown(touButton.ConsoleBind())))
+            {
+                touButton.PassiveComp.OnClick.Invoke();
+            }
+        }
+        
+        foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<Vent>))
+        {
+            var touButton = button as TownOfUsTargetButton<Vent>;
+            if (touButton == null || touButton.Keybind == string.Empty)
+            {
+                continue;
+            }
+            
+            if ((rewirePlayer.GetButtonDown(touButton.Keybind) ||
+                 contPlayer.GetButtonDown(touButton.ConsoleBind())))
+            {
+                touButton.PassiveComp.OnClick.Invoke();
+            }
+        }
+        
+        foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<PlayerControl>))
+        {
+            var touButton = button as TownOfUsTargetButton<PlayerControl>;
+            if (touButton == null || touButton.Keybind == string.Empty)
+            {
+                continue;
+            }
+            
+            if ((rewirePlayer.GetButtonDown(touButton.Keybind) ||
+                 contPlayer.GetButtonDown(touButton.ConsoleBind())))
+            {
+                touButton.PassiveComp.OnClick.Invoke();
+            }
         }
 
         if (PlayerControl.LocalPlayer.Data.IsDead)
@@ -82,16 +152,16 @@ public static class KillVentBinds
 
         // for neutrals
 
-        var button = __instance.KillButton;
+        var kill = __instance.KillButton;
         var vent = __instance.ImpostorVentButton;
 
-        if (button.isActiveAndEnabled)
+        if (kill.isActiveAndEnabled)
         {
             var killKey = ReInput.players.GetPlayer(0).GetButtonDown("ActionSecondary");
             var controllerKill = ConsoleJoystick.player.GetButtonDown(8);
             if (killKey || controllerKill)
             {
-                button.DoClick();
+                kill.DoClick();
             }
         }
 

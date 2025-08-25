@@ -7,7 +7,7 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Roles;
+using TownOfUs.Interfaces;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
@@ -136,14 +136,30 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         onModifierClick = modifierClickHandler;
         potentialVictims = [];
 
-        var roles = MiscUtils.GetPotentialRoles().Where(roleMatch).OrderBy(x =>
-            x is ITownOfUsRole touRole && TownOfUsPlugin.SortGuessingByAlignment.Value
-                ? touRole.RoleAlignment.ToDisplayString() + x.NiceName
+        var roles = MiscUtils.GetPotentialRoles().Where(roleMatch).ToList();
+        
+        // This code adds Amne, Surv, Jester, and Merc based on Guardian Angel and Executioner Death settings
+        var allRoles = MiscUtils.AllRoles.Where(roleMatch).Where(x => x is IGuessable && !roles.Contains(x)).ToList();
+
+        if (allRoles.Count > 0)
+        {
+            foreach (var addedRole in allRoles)
+            {
+                if (addedRole is IGuessable guessable && guessable.CanBeGuessed)
+                {
+                    roles.Add(addedRole);
+                }
+            }
+        }
+        
+        var newRoleList = roles.OrderBy(x =>
+            TownOfUsPlugin.SortGuessingByAlignment.Value
+                ? x.GetRoleAlignment().ToDisplayString() + x.NiceName
                 : x.NiceName).ToList();
 
-        for (var i = 0; i < roles.Count; i++)
+        for (var i = 0; i < newRoleList.Count; i++)
         {
-            var role = roles[i];
+            var role = newRoleList[i];
             var num = i % 3;
             var num2 = i / 3 % 5;
 
@@ -163,7 +179,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
 
             for (var i = 0; i < modifiers.Count; i++)
             {
-                var index = roles.Count + i;
+                var index = newRoleList.Count + i;
                 var modifier = modifiers[i];
                 var num = index % 3;
                 var num2 = index / 3 % 5;

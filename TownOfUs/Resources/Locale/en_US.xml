@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <TouNames>
+        <string name="FoolsMode">Fools Mode</string>
+        <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
+        <string name="ModifierAbility">Modifier Ability</string>
+        <!-- Client Options -->
+        <string name="ClientOptionsButton">Tou Client Options</string>
+        <string name="DeadSeeGhosts">Show Other Ghosts When Dead</string>
+        <string name="ShowVents">Show Vents On Map</string>
+        <string name="ShowWelcomeMessage">Show Welcome Msg</string>
+        <string name="ShowSummaryMessage">Show Summary Msg</string>
+        <string name="ColorPlayerName">Colored Player Name</string>
+        <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
+        <string name="ShowShieldHud">Show Shields On Hud</string>
+        <string name="ButtonUIFactor">Button Scale Factor</string>
+        <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
+        <string name="SortGuessingByAlignment">Sort Guessing By Alignment</string>
+        <string name="PreciseCooldowns">Button Cooldowns Are In Decimal Under 10s</string>
+        <string name="ArrowStyle">Arrow Style</string>
+        <string name="ArrowDefault">Default</string>
+        <string name="ArrowDarkGlow">Dark Glow</string>
+        <string name="ArrowColorGlow">Color Glow</string>
+        <string name="ArrowLegacy">Legacy</string>
+        <!-- Player Colors, currently they are not functional -->
+        <string name="Watermelon">Watermelon</string>
+        <string name="Chocolate">Chocolate</string>
+        <string name="SkyBlue">Sky Blue</string>
+        <string name="Beige">Beige</string>
+        <string name="Magenta">Magenta</string>
+        <string name="SeaGreen">Sea Green</string>
+        <string name="Lilac">Lilac</string>
+        <string name="Olive">Olive</string>
+        <string name="Azure">Azure</string>
+        <string name="Plum">Plum</string>
+        <string name="Jungle">Jungle</string>
+        <string name="Mint">Mint</string>
+        <string name="Chartreuse">Chartreuse</string>
+        <string name="Macau">Macau</string>
+        <string name="Tawny">Tawny</string>
+        <string name="Gold">Gold</string>
+        <string name="Snow">Snow</string>
+        <string name="Turquoise">Turquoise</string>
+        <string name="Nacho">Nacho</string>
+        <string name="Blood">Blood</string>
+        <string name="Grass">Grass</string>
+        <string name="Mandarin">Mandarin</string>
+        <string name="Glass">Glass</string>
+        <string name="Ash">Ash</string>
+        <string name="Midnight">Midnight</string>
+        <string name="Steel">Steel</string>
+        <string name="Silver">Silver</string>
+        <string name="Shimmer">Shimmer</string>
+        <string name="Crimson">Crimson</string>
+        <string name="Charcoal">Charcoal</string>
+        <string name="Violet">Violet</string>
+        <string name="Denim">Denim</string>
+        <string name="CottonCandy">Cotton Candy</string>
+        <string name="Rainbow">Rainbow</string>
+        <!-- Role Subalignments -->
+        <string name="CrewmateInvestigative">Crewmate Investigative</string>
+        <string name="CrewmateKilling">Crewmate Killing</string>
+        <string name="CrewmatePower">Crewmate Power</string>
+        <string name="CrewmateProtective">Crewmate Protective</string>
+        <string name="CrewmateSupport">Crewmate Support</string>
+        <string name="NeutralBenign">Neutral Benign</string>
+        <string name="NeutralEvil">Neutral Evil</string>
+        <string name="NeutralOutlier">Neutral Outlier</string>
+        <string name="NeutralKilling">Neutral Killing</string>
+        <string name="ImpostorConcealing">Impostor Concealing</string>
+        <string name="ImpostorKilling">Impostor Killing</string>
+        <string name="ImpostorPower">Impostor Power</string>
+        <string name="ImpostorSupport">Impostor Support</string>
+        <!-- Role Buckets with Role List -->
+        <string name="CommonCrew">Common Crew</string>
+        <string name="SpecialCrew">Special Crew</string>
+        <string name="RandomCrew">Random Crew</string>
+        <string name="CommonNeutral">Common Neutral</string>
+        <string name="RandomNeutral">Random Neutral</string>
+        <string name="NonImp">Non-Imp</string>
+        <string name="CommonImp">Common Imp</string>
+        <string name="SpecialImp">Special Imp</string>
+        <string name="RandomImp">Random Imp</string>
+        <string name="Any">Any</string>
+        <string name="CrewInvestigative">Crew Investigative</string>
+        <string name="CrewKilling">Crew Killing</string>
+        <string name="CrewPower">Crew Power</string>
+        <string name="CrewProtective">Crew Protective</string>
+        <string name="CrewSupport">Crew Support</string>
+        <string name="ImpConcealing">Imp Concealing</string>
+        <string name="ImpKilling">Imp Killing</string>
+        <string name="ImpPower">Imp Power</string>
+        <string name="ImpSupport">Imp Support</string>
+        <!-- Keywords for use in ui to mark certain text into a certain color -->
+        <string name="CrewmateKeyword">Crewmate</string>
+        <string name="CrewKeyword">Crew</string>
+        <string name="NeutralKeyword">Neutral</string>
+        <string name="NeutKeyword">Neut</string>
+        <string name="ImpostorKeyword">Impostor</string>
+        <string name="ImpKeyword">Imp</string>
+        <!-- All possible types of modifiers -->
+        <string name="Alliance">Alliance</string>
+        <string name="Universal">Universal</string>
+        <string name="CrewmateAlliance">Crewmate Alliance</string>
+        <string name="CrewmateUtility">Crewmate Utility</string>
+        <string name="CrewmateVisibility">Crewmate Visibility</string>
+        <string name="CrewmatePostmortem">Crewmate Postmortem</string>
+        <string name="CrewmatePassive">Crewmate Passive</string>
+        <string name="NeutralAlliance">Neutral Alliance</string>
+        <string name="NeutralUtility">Neutral Utility</string>
+        <string name="NeutralVisibility">Neutral Visibility</string>
+        <string name="NeutralPostmortem">Neutral Postmortem</string>
+        <string name="NeutralPassive">Neutral Passive</string>
+        <string name="ImpostorAlliance">Impostor Alliance</string>
+        <string name="ImpostorUtility">Impostor Utility</string>
+        <string name="ImpostorVisibility">Impostor Visibility</string>
+        <string name="ImpostorPostmortem">Impostor Postmortem</string>
+        <string name="ImpostorPassive">Impostor Passive</string>
+        <string name="UniversalUtility">Universal Utility</string>
+        <string name="UniversalVisibility">Universal Visibility</string>
+        <string name="UniversalPostmortem">Universal Postmortem</string>
+        <string name="UniversalPassive">Universal Passive</string>
+        <string name="AssailantUtility">Assailant Utility</string>
+        <string name="AssailantVisibility">Assailant Visibility</string>
+        <string name="AssailantPostmortem">Assailant Postmortem</string>
+        <string name="AssailantPassive">Assailant Passive</string>
+        <string name="NonCrewmate">Non Crewmate</string>
+        <string name="NonCrewUtility">Non Crew Utility</string>
+        <string name="NonCrewVisibility">Non Crew Visibility</string>
+        <string name="NonCrewPostmortem">Non Crew Postmortem</string>
+        <string name="NonCrewPassive">Non Crew Passive</string>
+        <string name="NonNeutral">Non Neutral</string>
+        <string name="NonNeutUtility">Non Neut Utility</string>
+        <string name="NonNeutVisibility">Non Neut Visibility</string>
+        <string name="NonNeutPostmortem">Non Neut Postmortem</string>
+        <string name="NonNeutPassive">Non Neut Passive</string>
+        <string name="NonImpostor">Non Impostor</string>
+        <string name="NonImpUtility">Non Imp Utility</string>
+        <string name="NonImpVisibility">Non Imp Visibility</string>
+        <string name="NonImpPostmortem">Non Imp Postmortem</string>
+        <string name="NonImpPassive">Non Imp Passive</string>
+        <string name="External">External</string>
+        <string name="Other">Other</string>
+
+        <string name="Roles">Roles</string>
+        <string name="Modifiers">Modifiers</string>
+        <string name="Amount">Amount</string>
+        <string name="Chance">Chance</string>
+        <!-- Status Effects -->
+        <string name="TouFirstDeathShield">First Death Shield</string>
+        <string name="TouClericBarrier">Cleric Barrier</string>
+        <string name="TouMedicShield">Medic Shield</string>
+        <string name="TouWardenFort">Warden Fort</string>
+        <string name="TouFirstDeathShield">First Death Shield</string>
+        <string name="TouDoused">Doused</string> <!-- Arsonist Cleric Cleanse Info -->
+        <string name="TouHacked">Hacked</string> <!-- Glitch Cleric Cleanse Info -->
+        <string name="TouFlash">Flash</string> <!-- Grenadier Cleric Cleanse Info -->
+        <string name="TouHypnosis">Hypnosis</string> <!-- Hypnotist Cleric Cleanse Info -->
+        <string name="TouInfection">Infection</string> <!-- Plaguebearer Cleric Cleanse Info -->
+        <string name="TouScatter">Scatter</string>
+        <!-- Crewmate Roles -->
+        <!-- Altruist - Crewmate Protective -->
+        <string name="TouRoleAltruist">Altruist</string>
+        <string name="TouRoleAltruistIntroBlurb">Revive Dead Crewmates</string>
+        <string name="TouRoleAltruistTabDescription">Revive dead crewmates in groups</string>
+        <!-- Altruist Wiki / Abilities -->
+        <string name="TouRoleAltruistWikiDescription">The Altruist is a Crewmate Protective role can revive dead players in groups. However, their location and the revived players' locations will be revealed to all Impostors.</string>
+        <string name="TouRoleAltruistRevive">Revive</string>
+        <string name="TouRoleAltruistReviving">Reviving</string>
+        <string name="TouRoleAltruistReviveWikiDescription">Revive a group of dead bodies near you. You will be frozen during the revival and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious.</string>
+        <!-- Altruist Options -->
+        <string name="TouOptionAltruistReviveDuration">Revive Duration</string>
+        <string name="TouOptionAltruistReviveRange">Revive Range</string>
+        <string name="TouOptionAltruistMaxRevives">Revive Uses</string>
+        <string name="TouOptionAltruistHideAtBeginningOfRevive">Hide Bodies at Beginning Of Revive</string>
+        <!-- Aurial - Crewmate Investigative -->
+        <string name="TouRoleAurial">Aurial</string>
+        <string name="TouRoleAurialIntroBlurb">Sense Disturbances In Your Aura.</string>
+        <string name="TouRoleAurialTabDescription">Any player abilities used within your aura you will sense</string>
+        <!-- Aurial Wiki -->
+        <string name="TouRoleAurialWikiDescription">The Aurial is a Crewmate Investigative role that will be alerted whenever a player near them uses one of their abilities.</string>
+        <!-- Aurial Options -->
+        <string name="TouOptionAurialAuraInnerRadius">Radiate Colour Range</string>
+        <string name="TouOptionAurialAuraOuterRadius">Radiate Max Range</string>
+        <string name="TouOptionAurialSenseDuration">Sense Duration</string>
+
+        <!-- Cleric - Crewmate Protective -->
+        <string name="TouRoleCleric">Cleric</string>
+        <string name="TouRoleClericIntroBlurb">Save The Crewmates</string>
+        <string name="TouRoleClericTabDescription">Barrier and Cleanse crewmates</string>
+        <!-- Cleric Wiki / Abilities -->
+        <string name="TouRoleClericWikiDescription">The Cleric is a Crewmate Protective that can protect crewmates by negating their negative effects, as well as placing barriers on them to prevent interactions.</string>
+        <string name="TouRoleClericBarrier">Barrier</string>
+        <string name="TouRoleClericBarrierWikiDescription">Prevent a Crewmate from being interacted with. The shield will last for %BarrierCooldown% seconds.</string>
+        <string name="TouRoleClericCleanse">Cleanse</string>
+        <string name="TouRoleClericCleanseWikiDescription">Remove all negative effects on a player. (Douse, Hack, Infect, Blackmail, Blind, Flash, and Hypnosis)</string>
+        <!-- Cleric Feedback -->
+        <string name="TouRoleClericMessageTitle">Cleric Feedback:</string>
+        <string name="TouRoleClericCleansedEffects">Cleansed effects on %player%:</string>
+        <string name="TouRoleClericCleansedNoEffects">No negative effects were found on %player%.</string>
+        <!-- Cleric Options -->
+        <string name="TouOptionClericReviveDuration">Revive Duration</string>
+        <string name="TouOptionClericReviveRange">Revive Range</string>
+        <string name="TouOptionClericMaxRevives">Revive Uses</string>
+        <string name="TouOptionClericHideAtBeginningOfRevive">Hide Bodies at Beginning Of Revive</string>
+
+        <!-- Deputy - Crewmate Killing -->
+        <string name="TouRoleDeputy">Deputy</string>
+        <string name="TouRoleDeputyIntroBlurb">Camp Crewmates To Catch Their Killer</string>
+
+        <!-- Detective - Crewmate Investigative -->
+        <string name="TouRoleDetective">Detective</string>
+        <string name="TouRoleDetectiveIntroBlurb">Inspect Crime Scenes To Catch The Killer"</string>
+
+        <!-- Engineer - Crewmate Investigative -->
+        <string name="TouRoleEngineer">Engineer</string>
+        <string name="TouRoleEngineerIntroBlurb">Maintain Important Systems On The Ship</string>
+
+        <!-- Haunter - Crewmate Investigative -->
+        <string name="TouRoleHaunter">Haunter</string>
+
+        <!-- Hunter - Crewmate Killing -->
+        <string name="TouRoleHunter">Hunter</string>
+        <string name="TouRoleHunterIntroBlurb">Stalk The Impostor</string>
+
+        <!-- Imitator - Crewmate Support -->
+        <string name="TouRoleImitator">Imitator</string>
+        <string name="TouRoleImitatorIntroBlurb">Use Dead Roles To Benefit The Crew</string>
+
+        <!-- Investigator - Crewmate Investigative -->
+        <string name="TouRoleInvestigator">Investigator</string>
+        <string name="TouRoleInvestigatorIntroBlurb">Find All Impostors By Examining Footprints.</string>
+
+        <!-- Jailor - Crewmate Power -->
+        <string name="TouRoleJailor">Jailor</string>
+        <string name="TouRoleJailorIntroBlurb">Jail And Execute The Impostors</string>
+
+        <!-- Lookout - Crewmate Investigative -->
+        <string name="TouRoleLookout">Lookout</string>
+        <string name="TouRoleLookoutIntroBlurb">Keep Your Eyes Wide Open</string>
+
+        <!-- Mayor - Crewmate Power -->
+        <string name="TouRoleMayor">Mayor</string>
+        <string name="TouRoleMayorIntroBlurb">Reveal Yourself To Save The Crew</string>
+
+        <!-- Medic - Crewmate Protective -->
+        <string name="TouRoleMedic">Medic</string>
+        <string name="TouRoleMedicIntroBlurb">Create A Shield To Protect A Crewmate</string>
+
+        <!-- Medium - Crewmate Support -->
+        <string name="TouRoleMedium">Medium</string>
+        <string name="TouRoleMediumIntroBlurb">Watch The Spooky Ghosts</string>
+
+        <!-- Mirrorcaster - Crewmate Protective -->
+        <string name="TouRoleMirrorcaster">Mirrorcaster</string>
+        <string name="TouRoleMirrorcasterIntroBlurb">Reflect Attacks Onto Others</string>
+
+        <!-- Mystic - Crewmate Investigative -->
+        <string name="TouRoleMystic">Mystic</string>
+        <string name="TouRoleMysticIntroBlurb">Know When and Where Kills Happen</string>
+
+        <!-- Oracle - Crewmate Protective -->
+        <string name="TouRoleOracle">Oracle</string>
+        <string name="TouRoleOracleIntroBlurb">Get Other Player's To Confess Their Sins</string>
+
+        <!-- Plumber - Crewmate Support -->
+        <string name="TouRolePlumber">Plumber</string>
+        <string name="TouRolePlumberIntroBlurb">Get The Rats Out Of The Sewers</string>
+
+        <!-- Politician - Crewmate Power -->
+        <string name="TouRolePolitician">Politician</string>
+        <string name="TouRolePoliticianIntroBlurb">Campaign To Become The Mayor!</string>
+
+        <!-- Prosecutor - Crewmate Power -->
+        <string name="TouRoleProsecutor">Prosecutor</string>
+        <string name="TouRoleProsecutorIntroBlurb">Exile Players Of Your Choosing</string>
+
+        <!-- Seer - Crewmate Investigative -->
+        <string name="TouRoleSeer">Seer</string>
+        <string name="TouRoleSeerIntroBlurb">Reveal The Alliance Of Other Players</string>
+
+        <!-- Sheriff - Crewmate Killing -->
+        <string name="TouRoleSheriff">Sheriff</string>
+        <string name="TouRoleSheriffIntroBlurb">Shoot The Impostor</string>
+
+        <!-- Snitch - Crewmate Investigative -->
+        <string name="TouRoleSnitch">Snitch</string>
+        <string name="TouRoleSnitchIntroBlurb">Find the Impostors!</string>
+
+        <!-- Spy - Crewmate Investigative -->
+        <string name="TouRoleSpy">Spy</string>
+        <string name="TouRoleSpyIntroBlurb">Snoop Around And Find Stuff Out</string>
+
+        <!-- Swapper - Crewmate Power -->
+        <string name="TouRoleSwapper">Swapper</string>
+        <string name="TouRoleSwapperIntroBlurb">Swap Votes To Save The Crew!</string>
+
+        <!-- Tracker - Crewmate Investigative -->
+        <string name="TouRoleTracker">Tracker</string>
+        <string name="TouRoleTrackerIntroBlurb">Track Everyone's Movement</string>
+
+        <!-- Transporter - Crewmate Support -->
+        <string name="TouRoleTransporter">Transporter</string>
+        <string name="TouRoleTransporterIntroBlurb">Choose Two Players To Swap Locations</string>
+
+        <!-- Trapper - Crewmate Investigative -->
+        <string name="TouRoleTrapper">Trapper</string>
+        <string name="TouRoleTrapperIntroBlurb">Catch Killers In The Act</string>
+
+        <!-- Veteran - Crewmate Killing -->
+        <string name="TouRoleVeteran">Veteran</string>
+        <string name="TouRoleVeteranIntroBlurb">Alert To Kill Anyone Who Interacts With You</string>
+
+        <!-- Vigilante - Crewmate Killing -->
+        <string name="TouRoleVigilante">Vigilante</string>
+        <string name="TouRoleVigilanteIntroBlurb">Kill Impostors If You Can Guess Their Roles</string>
+
+        <!-- Warden - Crewmate Protective -->
+        <string name="TouRoleWarden">Warden</string>
+        <string name="TouRoleWardenIntroBlurb">Fortify Crewmates</string>
+
+        <!-- Impostor Roles -->
+        <string name="TouRoleAmbassador">Ambassador</string>
+        <string name="TouRoleAmbusher">Ambusher</string>
+        <string name="TouRoleBlackmailer">Blackmailer</string>
+        <string name="TouRoleBomber">Bomber</string>
+        <string name="TouRoleEclipsal">Eclipsal</string>
+        <string name="TouRoleEscapist">Escapist</string>
+        <string name="TouRoleGrenadier">Grenadier</string>
+        <string name="TouRoleHerbalist">Herbalist</string>
+        <string name="TouRoleHypnotist">Hypnotist</string>
+        <string name="TouRoleInfestor">Infestor</string>
+        <string name="TouRoleJanitor">Janitor</string>
+        <string name="TouRoleMiner">Miner</string>
+        <string name="TouRoleMorphling">Morphling</string>
+        <string name="TouRoleScavenger">Scavenger</string>
+        <string name="TouRoleSwooper">Swooper</string>
+        <string name="TouRoleTraitor">Traitor</string>
+        <string name="TouRoleUndertaker">Undertaker</string>
+        <string name="TouRoleVenerer">Venerer</string>
+        <string name="TouRoleWarlock">Warlock</string>
+        <!-- Neutral Roles -->
+
+        <!-- Amnesiac -->
+        <!-- Amnesiac Wiki / Abilities -->
+        <string name="TouRoleAmnesiac">Amnesiac</string>
+        <string name="TouRoleAmnesiacIntroBlurb">Remember A Role Of A Deceased Player</string>
+        <string name="TouRoleAmnesiacDescription">Find a dead body to remember and become their role.</string> <!-- Add a period -->
+        <string name="TouRoleAmnesiacWikiDescription">The %roleName% is a Neutral Benign role that gains access to a new role from remembering a dead body’s role. Use the role you remember to win the game.</string>
+        <String name="TouRoleAmnesiacRemember">Remember</String>
+        <String name="TouRoleAmnesiacRememberWikiDescription">Remember the role of a dead body. If the dead body's role is a unique role, you will remember the base faction's role instead.</String>
+
+        <!-- Amnesiac Options -->
+        <string name="TouOptionAmnesiacShowArrows">Show Arrows Pointing To Dead Bodies</string>
+        <string name="TouOptionAmnesiacArrowDelay">Time After Death Arrow Appears</string>
+
+        <!-- Arsonist -->
+        <!-- Arsonist Wiki / Abilities -->
+        <string name="TouRoleArsonist">Arsonist</string>
+        <string name="TouRoleArsonistIntroBlurb">Douse Players And Ignite The Light</string>
+        <string name="TouRoleArsonistDescription">Douse players and ignite to kill all nearby doused targets.</string> <!-- Added a period -->
+        <string name="TouRoleArsonistDescriptionLegacy">Douse players and ignite the closest one to kill all doused targets.</string> <!-- Added a period -->
+        <string name="TouRoleArsonistWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer alive.</string>
+        <string name="TouRoleArsonistWikiAddition">They can douse players and ignite them when close.</string>
+        <string name="TouRoleArsonistWikiAdditionLegacy">They can douse players and ignite one of them to ignite all doused players on the map.</string>
+
+        <string name="TouRoleArsonistDouse">Douse</string>
+        <string name="TouRoleArsonistDouseWikiDescription">Douse a player in gasoline.</string> <!-- Added a period -->
+        <string name="TouRoleArsonistIgnite">Ignite</string>
+        <string name="TouRoleArsonistIgniteWikiDescription">Kill multiple doused players around you, given that they are within your radius.</string>
+        <string name="TouRoleArsonistIgniteWikiDescriptionLegacy">Kill every doused player on the map as long as you ignite one player close by.</string>
+
+        <!-- Arsonist Options -->
+        <string name="TouOptionArsonistDouseCooldown">Douse Cooldown</string>
+        <string name="TouOptionArsonistDouseInteractions">Douse From Interactions</string>
+        <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
+        <string name="TouOptionArsonistCanVent">Arsonist Can Vent</string>
+
+        <!-- Doomsayer -->
+        <!-- Doomsayer Wiki / Abilities -->
+        <string name="TouRoleDoomsayer">Doomsayer</string>
+        <string name="TouRoleDoomsayerIntroBlurb">Guess People's Roles To Win!</string>
+        <string name="TouRoleDoomsayerDescription">Win by guessing the roles of %doomsayerNeededGuessCount% players.</string> <!-- Added a period -->
+        <string name="TouRoleDoomsayerWikiDescription">The %roleName% is a Neutral Evil role that wins by guessing %doomsayerNeededGuessCount% players' roles.</string>
+        <string name="TouRoleDoomsayerWikiAddIfObserve"> They may observe players to get a hint of what their roles are the following meeting.</string>
+
+        <string name="TouRoleDoomsayerObserve">Observe</string>
+        <string name="TouRoleDoomsayerObserve">Observe a player, gaining a hint in the next meeting what their role could be.</string>
+
+        <!-- Doomsayer Options -->
+        <string name="TouOptionDoomsayerCooldown">Observe Cooldown</string>
+        <string name="TouOptionDoomsayerNecessaryGuessed">Number Of Guesses Needed To Win</string>
+        <string name="TouOptionDoomsayerGuessCrewInvestigative">Doomsayer Can Guess Crew Investigative Roles</string>
+        <string name="TouOptionDoomsayerGuessesAllAtOnce">Doomsayer Guesses All Roles At Once</string>
+        <string name="TouOptionDoomsayerCantObserve">Doomsayer Can't Observe</string>
+        <string name="TouOptionDoomsayerWin">Doomsayer Win</string>
+
+        <!-- Executioner -->
+        <!-- Executioner Wiki / Description -->
+        <string name="TouRoleExecutioner">Executioner</string>
+        <string name="TouRoleExecutionerIntroBlurb">Get %target% voted out to win.</string>
+        <string name="TouRoleExecutionerDescription">Get %target% voted out to win.</string>
+        <string name="TouRoleExecutionerValueIfNoTarget">your target</string>
+        <string name="TouRoleExecutionerWikiDescription">The %roleName% is a Neutral Evil role that wins by getting their target (signified by %symbol%) ejected in a meeting.</string>
+
+        <!-- Executioner Options -->
+        <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
+        <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>
+        <string name="TouOptionExecutionerWin">Executioner Win</string>
+
+        <!-- Glitch -->
+        <!-- Glitch Wiki / Abilities -->
+        <string name="TouRoleGlitch">Glitch</string>
+        <string name="TouRoleGlitchIntroBlurb">Murder, Mimic, Hack... Data Lost</string>
+        <string name="TouRoleGlitchDescription">Murder everyone to win with your abilities!</string>
+        <string name="TouRoleGlitchWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer alive. They can Mimic into another player, or they can hack a player.</string> <!-- Added a comma -->
+
+        <string name="TouRoleGlitchMimic">Mimic</string>
+        <string name="TouRoleGlitchMimicWikiDescription">Mimic the appearance of another player, taking on their whole look.</string>
+        <string name="TouRoleGlitchHack">Hack</string>
+        <string name="TouRoleGlitchHackWikiDescription">Disable a player's abilities.</string>
+
+        <!-- Glitch Options -->
+        <string name="TouOptionGlitchKillCooldown">Kill Cooldown</string>
+        <string name="TouOptionGlitchMimicCooldown">Mimic Cooldown</string>
+        <string name="TouOptionGlitchMimicDuration">Mimic Duration</string>
+        <string name="TouOptionGlitchMoveInMimicMenu">Move While Using Mimic Menu (KB ONLY)</string> <!-- Translation note: KB = Keyboard -->
+        <string name="TouOptionGlitchHackCooldown">Hack Cooldown</string>
+        <string name="TouOptionGlitchHackDuration">Hack Duration</string>
+        <string name="TouOptionGlitchCan Vent">Glitch Can Vent</string>
+
+        <!-- Guardian Angel -->
+        <!-- Guardian Angel Wiki / Abilities -->
+        <string name="TouRoleGuardianAngel">Guardian Angel</string>
+        <string name="TouRoleGuardianAngelIntroBlurb">Protect %target% With Your Life!</string>
+        <string name="TouRoleGuardianAngelDescription">Protect %target% With Your Life!</string>
+        <string name="TouRoleGuardianAngelIfNoTarget">Protect Your Target With Your Life!</string>
+        <string name="TouRoleGuardianAngelWikiDescription">The %roleName% is a Neutral Benign that needs to protect their target (signified by %symbol%) from getting killed/ejected.</string>
+
+        <string name="TouRoleGuardianAngelProtect">Protect</string>
+        <string name="TouRoleGuardianAngelProtectWikiDescription">Protect your target from getting killed.</string>
+
+        <!-- Guardian Angel Options -->
+        <string name="TouOptionGuardianAngelCooldown">Protect Cooldown</string>
+        <string name="TouOptionGuardianAngelDuration">Protect Duration</string>
+        <string name="TouOptionGuardianAngelMaxProtects">Max Number Of Protects</string>
+        <string name="TouOptionGuardianAngelShowProtected">Show Protected Player</string>
+        <string name="TouOptionGuardianAngelOnDeathGABecomes">On Target Death, GA Becomes</string>
+        <string name="TouOptionGuardianAngelTargetKnowsGAExists">Target Knows GA Exists</string>
+        <string name="TouOptionGuardianAngelGAKnowsRole">GA Knows Targets Role</string>
+        <string name="TouOptionGuardianAngelEvilOdds">Odds Of Target Being Evil</string>
+
+        <!-- Inquisitor -->
+        <!-- Inquisitor Wiki / Abilities -->
+        <string name="TouRoleInquisitor">Inquisitor</string>
+        <string name="TouRoleInquisitorIntroBlurb">Vanquish The Heretics!</string>
+        <string name="TouRoleInquisitorDescription">Vanquish your Heretics or get them killed.%nl%You will win after every heretic dies.%nlIf they're all dead after a meeting ends,%nlyou'll leave %and% announce your victory</string>
+        <string name="TouRoleInquisitorWikiDescription">The %roleName% is a Neutral Evil role that wins if their targets (Heretics) die. The only information provided is their roles, and it's up to the Inquisitor to identify those players (marked with %symbol% to the dead) and get them killed by any means necessary.</string> <!-- Fix typo, neccessary to necessary -->
+
+        <string name="TouRoleInquisitorInquire">Inquire</string>
+        <string name="TouRoleInquisitorInquireWikiDescription">Inquire a player, which will tell you if they are one of your targets within the meeting.</string>
+        <string name="TouRoleInquisitorVanquish">Vanquish</string>
+        <string name="TouRoleInquisitorVanquishWikiDescription">Vanquish a player to kill them. If they are a heretic, you will be told, and you can continue vanquishing. However, if the victim isn't a heretic, you will lose the ability to vanquish for the rest of the game.</string> <!-- Added a comma -->
+
+        <!-- Inquisitor Options -->
+        <string name="TouOptionInquisitorVanquishCooldown">Vanquish Cooldown</string>
+        <string name="TouOptionInquisitorContinuesGame">Inquisitor Continues Game In Final 3</string>
+        <string name="TouOptionInquisitorCantInquire">Inquisitor Can't Inquire</string>
+        <string name="TouOptionInquisitorInquireCooldown">Inquire Cooldown</string>
+        <string name="TouOptionInquisitorMaxInquiries">Max Number Of Inquiries</string>
+        <string name="TouOptionInquisitorHereticAmount">Amount Of Heretics Needed</string>
+
+        <!-- Jester -->
+        <!-- Jester Wiki / Description -->
+        <string name="TouRoleJester">Jester</string>
+        <string name="TouRoleJesterIntroBlurb">Get voted out!</string>
+        <string name="TouRoleJesterDescription">Be as suspicious as possible, and get voted out!</string>
+        <string name="TouRoleJesterWikiDescription">The %roleName% is a Neutral Evil role that wins by getting themselves ejected.</string>
+
+        <!-- Jester Options -->
+        <string name="TouOptionJesterCanButton">Can Use Button</string>
+        <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
+        <string name="TouOptionJesterImpVision">Has Impostor Vision</string>
+        <string name="TouOptionJesterScatterEnabled">Scatter Mechanic Enabled</string>
+        <string name="TouOptionJesterScatterTimer">Scatter Timer</string>
+        <string name="TouOptionJesterAfterWin">After Win Type</string>
+
+        <!-- Juggernaut -->
+        <!-- Juggernaut Wiki / Description -->
+        <string name="TouRoleJuggernaut">Juggernaut</string>
+        <string name="TouRoleJuggernautIntroBlurb">Your Power Grows With Every Kill</string>
+        <string name="TouRoleJuggernautDescription">With each kill your kill cooldown decreases.</string> <!-- Added a period -->
+        <string name="TouRoleJuggernautWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer alive. For each kill they get, their kill cooldown gets reduced.</string>
+
+        <!-- Juggernaut Options -->
+        <string name="TouOptionJuggernautInitialCooldown">Initial Kill Cooldown</string>
+        <string name="TouOptionJuggernautCooldownReduction">Kill Cooldown Reduction</string>
+        <string name="TouOptionJuggernautCanVent">Juggernaut Can Vent</string>
+
+        <!-- Mercenary -->
+        <!-- Mercenary Wiki / Abilities -->
+        <string name="TouRoleMercenary">Mercenary</string>
+        <string name="TouRoleMercenaryIntroBlurb">Bribe The Crewmates</string>
+        <string name="TouRoleMercenaryDescription">Guard crewmates, and then bribe the winners!</string>
+        <string name="TouRoleMercenaryWikiDescription">The %roleName% is a Neutral Benign role that can only win by bribing players, allowing them to gain multiple win conditions.</string>
+
+        <string name="TouRoleMercenaryGuard">Guard</string>
+        <string name="TouRoleMercenaryGuardWikiDescription">Guarding a player allows the Mercenary to absorb an ability used on the target. This will grant them gold, for Bribing. If any bribed targets win, the Mercenary will win with them.</string>
+        <string name="TouRoleMercenaryBribe">Bribe</string>
+        <string name="TouRoleMercenaryBribeWikiDescription">Bribing a player allows the Mercenary to gain their win condition, given that they have gold to spare.</string>
+
+        <!-- Mercenary Options -->
+        <string name="TouOptionMercenaryCooldown">Bribe Cooldown</string>
+        <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
+        <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
+
+        <!-- Pestilence -->
+        <!-- Pestilence Wiki / Description -->
+        <string name="TouRolePestilence">Pestilence</string>
+        <string name="TouRolePestilenceIntroBlurb">Horseman Of The Apocalypse!</string>
+        <string name="TouRolePestilenceDescription">Kill everyone in your path that interacts with you!</string>
+        <string name="TouRolePestilenceYouAreText">You Are</string>
+        <string name="TouRolePestilenceWikiDescription">The %roleName% is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive.</string>
+
+        <!-- Phantom -->
+        <!-- Phantom Wiki / Description -->
+        <string name="TouRolePhantom">Phantom</string>
+        <string name="TouRolePhantomIntroBlurb"> </string> <!-- You cannot start the game as this role, and thus, it has no intro blurb -->
+        <string name="TouRolePhantomDescription">Complete all your tasks without being caught!</string>
+        <string name="TouRolePhantomWikiDescription">The %roleName% is a Neutral Ghost role that wins the game by finishing their tasks before a alive player has clicked on them.</string>
+
+        <!-- Phantom Options -->
+        <string name="TouOptionPhantomTasksLeftClickable">Tasks Left Before Clickable</string>
+        <string name="TouOptionPhantomWin">Phantom Win</string>
+
+        <!-- Plaguebearer -->
+        <!-- Plaguebearer Wiki / Abilities -->
+        <string name="TouRolePlaguebearer">Plaguebearer</string>
+        <string name="TouRolePlaguebearerIntroBlurb">Infect Everyone To Become %pestilenceName%</string> <!-- Pestilence name is colored, so a placeholder is necessary -->
+        <string name="TouRolePlaguebearerDescription">Infect everyone to become %pestilenceName%</string>
+        <string name="TouRolePlaguebearerWikiDescription">The %roleName% is a Neutral Killing role that needs to infect all other players to turn into the Pestilence.</string>
+
+        <string name="TouRolePlaguebearerInfect">Infect</string>
+        <string name="TouRolePlaguebearerInfectWikiDescription">Infect a player, causing them to be infected. When an infected player or dead body interacts or gets interacted with, the infection will spread to the interacted/interacting player.</string> <!-- Rewritten for clarity and grammar issues -->
+
+        <!-- Plaguebearer options -->
+        <string name="TouOptionPlaguebearerInstantPesti">Instant Pestilence Chance</string>
+        <string name="TouOptionPlaguebearerInfectCooldown">Infect Cooldown</string>
+        <string name="TouOptionPlaguebearerAnnounceTransformation">Announce Pestilence Transformation</string>
+        <string name="TouOptionPlaguebearerPestilenceKillCooldown">Pestilence Kill Cooldown</string>
+        <string name="TouOptionPlaguebearerPestilenceCanVent">Pestilence Can Vent</string>
+
+        <!-- Soul Collector -->
+        <!-- Soul Collector Wiki / Abilities -->
+        <string name="TouRoleSoulCollector">Soul Collector</string>
+        <string name="TouRoleSoulCollectorIntroBlurb">Reap The Souls From Your Crewmates</string>
+        <string name="TouRoleSoulCollectorDescription">Reap the souls of others, leaving behind a lasting image</string>
+        <string name="TouRoleSoulCollectorWikiDescription">The %roleName% is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind a soul-less decoy that looks identical to the reaped player, standing still.</string> <!-- Fixed a type, an to a -->
+
+        <string name="TouRoleSoulCollectorReap">Reap</string>
+        <string name="TouRoleSoulCollectorReapWikiDescription">Reaping acts like a kill button, but instead of making a dead body, makes a fake player in its place, appearing alive.</string>
+
+        <!-- Soul Collector Options -->
+        <string name="TouOptionSoulCollectorReapCooldown">Reap Cooldown</string>
+        <string name="TouOptionSoulCollectorCanVent">Soul Collector Can Vent</string>
+
+        <!-- Survivor -->
+        <!-- Survivor Wiki / Abilities -->
+        <string name="TouRoleSurvivor">Survivor</string>
+        <string name="TouRoleSurvivorIntroBlurb">Do Whatever It Takes To Live</string>
+        <string name="TouRoleSurvivorDescription">Stay alive to win with any faction remaining</string>
+        <string name="TouRoleSurvivorWikiDescription">The %roleName% is a Neutral Benign role that just needs to survive until the end of the game.</string> <!-- till to until for clarity -->
+
+        <string name="TouRoleSurvivorVest">Vest</string>
+        <string name="TouRoleSurvivorVestWikiDescription">Put on a Vest protecting you from attacks.</string>
+
+        <!-- Survivor Options -->
+        <string name="TouOptionSurvivorVestCooldown">Vest Cooldown</string>
+        <string name="TouOptionSurvivorVestDuration">Vest Duration</string>
+        <string name="TouOptionSurvivorMaxVests">Max Number Of Vests</string>
+        <string name="TouOptionSurvivorScatterEnabled">Survivor Scatter Mechanic Enabled</string>
+        <string name="TouOptionSurvivorScatterTimer">Survivor Scatter Timer</string>
+
+        <!-- Vampire -->
+        <!-- Vampire Wiki / Abilities -->
+        <string name="TouRoleVampire">Vampire</string>
+        <string name="TouRoleVampireIntroBlurb">Convert Crewmates And Kill The Rest</string>
+        <string name="TouRoleVampireDescription">Bite all other players</string>
+        <string name="TouRoleVampireWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer(s) alive. They can bite, changing others into Vampires, or kill players.</string>
+
+        <string name="TouRoleVampireBite">Bite</string>
+        <string name="TouRoleVampireBiteWikiDescription">Bite a player. If the bitten player is a Crewmate and you have not exceeded the maximum amount of vampires in a game yet. You convert them into a vampire. Otherwise, they just get killed.</string> <!-- Added a comma -->
+
+        <!-- Vampire Options -->
+        <string name="TouOptionVampireBiteCooldown">Bite Cooldown</string>
+        <string name="TouOptionVampireMaxVamps">Max Number Of Vampires Per Game</string>
+        <string name="TouOptionVampireImpostorVision">Vampires Have Impostor Vision</string>
+        <string name="TouOptionVampireNewVampsAssassinate">New Vampires Can Assassinate</string>
+        <string name="TouOptionVampireValidConversions">Valid Conversions</string>
+        <string name="TouOptionVampireNewVampiresConvert">New Vampires Can Convert</string>
+        <string name="TouOptionVampireCanVent">Vampires Can Vent</string>
+
+        <!-- Werewolf -->
+        <!-- Werewolf Wiki / Abilities -->
+        <string name="TouRoleWerewolf">Werewolf</string>
+        <string name="TouRoleWerewolfIntroBlurb">Rampage To Kill Everyone</string>
+        <string name="TouRoleWerewolfDescription">Rampage to kill everyone in your path</string>
+        <string name="TouRoleWerewolfWikiDescription">The %roleName% is a Neutral Killing role that wins by being the last killer alive. They can go on a rampage to gain the ability to kill.</string>
+
+        <string name="TouRoleWerewolfRampage">Rampage</string>
+        <string name="TouRoleWerewolfRampageWikiDescription">Go on a Rampage, gaining the ability to kill and gain Impostor vision. During the Rampage your kill cooldown is significantly lower.</string>
+
+        <!-- Werewolf Options -->
+        <string name="TouOptionWerewolfRampageCooldown">Rampage Cooldown</string>
+        <string name="TouOptionWerewolfRampageDuration">Rampage Duration</string>
+        <string name="TouOptionWerewolfKillCooldown">Rampage Kill Cooldown</string>
+        <string name="TouOptionWerewolfCanVent">Werewolf Can Vent When Rampaged</string>
+
+        <!-- Alliance Modifiers -->
+
+        <!-- Egotist - Crewmate Alliance -->
+        <!-- Egotist Wiki / Description -->
+        <string name="TouModifierEgotist">Egotist</string>
+        <string name="TouModifierEgotistIntroBlurb">Your Ego is Thriving...</string>
+        <string name="TouModifierEgotistDescription">Defy the crew, win with killers.</string>
+        <string name="TouModifierEgotistWikiDescription">The Egotist is a Crewmate Alliance modifier (signified by %symbol%). As the Egotist, you can only win if Crewmates lose, even when dead. If no crewmates remain after a meeting ends, you will leave in victory, but the game will continue.</string>
+
+        <!-- Lover - Universal Alliance -->
+        <!-- Lover Wiki / Description -->
+        <string name="TouModifierLover">Lover</string>
+        <string name="TouModifierLoverIntroBlurb">You are in love with %lover%.</string>
+        <string name="TouModifierLoverDescription">You are in love with %lover%.</string> <!-- Added a period -->
+        <string name="TouModifierLoverWikiDescription">As a %lowerName%, you can chat with your other %lowerName% (signified with %symbol%) during the round, and you can win with your %lowerName% if you are both a part of the final 3 players.</string>
+        <!-- Lover Options -->
+        <string name="TouOptionLoverDieAndRevive">Both Lovers Die And Revive Together</string>
+        <string name="TouOptionLoverAnotherKiller">Loving Another Killer Probability</string>
+        <string name="TouOptionLoverCanBeNeutral">Neutral Roles Can Be Lovers</string>
+        <string name="TouOptionLoverKillFactionTeammates">Lover Can Kill Faction Teammates</string>
+        <string name="TouOptionLoverKillOneAnother">Lovers Can Kill One Another</string>
+
+        <!-- Couldn't find an actual file for, im probably just dumb -->
+        <string name="TouModifierLovers">Lovers</string>
+
+        <!-- Universal Modifiers -->
+
+        <!-- Button Barry -->
+        <!-- Button Barry Wiki / Abilities -->
+        <string name="TouModifierButtonBarry">Button Barry</string>
+        <string name="TouModifierButtonBarryDescription">You can call a meeting%nl% from anywhere on the map.</string>
+        <string name="TouModifierButtonBarryWikiDescription">You can button from anywhere on the map.</string>
+        <string name="TouModifierButtonBarryButton">Button</string>
+        <string name="TouModifierButtonBarryButtonWikiDescription">You can trigger an emergency meeting from across the map, %barryUsages% time(s) per game.</string>
+
+        <!-- Button Barry Options -->
+        <string name="TouOptionButtonBarryButtonCooldown">Button Cooldown</string>
+        <string name="TouOptionButtonBarryMaxUses">Max Uses</string>
+        <string name="TouOptionButtonBarryIgnoreSabotage">Ignore Sabotages</string>
+        <string name="TouOptionButtonBarryAllowFirstRound">Allow Usage in First Round</string>
+
+        <!-- Flash -->
+        <!-- Flash Wiki / Description -->
+        <string name="TouModifierFlash">Flash</string>
+        <string name="TouModifierFlashDescription">You move %flashSpeed%x faster.</string>
+        <string name="TouModifierFlashWikiDescription">You move %flashSpeed% x faster than regular players.</string>
+
+        <!-- Flash Options -->
+        <string name="TouOptionFlashSpeed">Flash Speed</string>
+
+        <!-- Giant -->
+        <!-- Giant Wiki / Description -->
+        <string name="TouModifierGiant">Giant</string>
+        <string name="TouModifierGiantDescription">You are bigger than the average player, moving %giantSpeed%x slower</string>
+        <string name="TouModifierGiantWikiDescription">You are bigger than regular players, and you also move %giantSpeed%x slower than regular players.</string>
+
+        <!-- Giant Options -->
+        <string name="TouOptionGiantSpeed">Giant Speed</string>
+
+        <!-- Immovable -->
+        <!-- Immovable Wiki / Description -->
+        <string name="TouModifierImmovable">Immovable</string>
+        <string name="TouModifierImmovableDescription">You cannot be teleported to the meeting area, and you cannot get dispersed or teleported.</string>
+        <string name="TouModifierImmovableWikiDescription">You are unable to be moved via abilities and meetings.</string>
+
+        <!-- Mini -->
+        <!-- Mini Wiki / Description -->
+        <string name="TouModifierMini">Mini</string>
+        <string name="TouModifierMiniDescription">You are smaller than regular players, and you also move %miniSpeed%x faster than regular players.</string>
+        <string name="TouModifierMiniWikDescription">You are smaller than the average player, moving %miniSpeed%x faster.</string>
+
+        <!-- Mini Options -->
+        <string name="TouOptionMiniSpeed">Mini Speed</string>
+
+        <!-- Radar -->
+        <!-- Radar Wiki / Description -->
+        <string name="TouModifierRadar">Radar</string>
+        <string name="TouModifierRadarDescription">Get an arrow to the closest player.</string>
+        <string name="TouModifierRadarWikiDescription">You have an arrow pointing%nl% to the closest player.</string>
+
+        <!-- Satellite -->
+        <!-- Satellite Wiki / Abilities -->
+        <string name="TouModifierSatellite">Satellite</string>
+        <string name="TouModifierSatelliteDescription">You can broadcast a signal to know where dead bodies are.</string>
+        <string name="TouModifierSatelliteWikiDescription">You can check for bodies on the map, which you can do %broadcastMaxUsages% time(s) per game.</string>
+        <string name="TouModifierSatelliteBroadcast">Broadcast</string>
+        <string name="TouModifierSatelliteBroadcastWikiDescription">You can check for bodies on the map, which you can do %maxUsages% time(s) per game.</string>
+
+        <!-- Satellite Options -->
+        <string name="TouOptionRadarCooldown">Button Cooldown</string>
+        <string name="TouOptionRadarMaxUses">Max Uses</string>
+        <string name="TouOptionRadarOnePerRound">One Usage Per Round</string>
+        <string name="TouOptionRadarAllowFirst">Allow Usage in First Round</string>
+
+        <!-- Shy -->
+        <!-- Shy Wiki / Description -->
+        <string name="TouModifierShy">Shy</string>
+        <string name="TouModifierShyDescription">You become transparent when %nl%standing still for a short duration.</string>
+        <string name="TouModifierShyWikiDescription">You blend in with the environment, becoming transparent when staying still.</string>
+
+        <!-- Shy Options -->
+        <string name="TouOptionShyDelay">Transparency Delay</string>
+        <string name="TouOptionShyDuration">Turn Transparent Duration</string>
+        <string name="TouOptionFinalOpacity">Final Opacity</string>
+
+        <!-- Sixth Sense -->
+        <!-- Sixth Sense Wiki / Description -->
+        <string name="TouModifierSixthSense">Sixth Sense</string>
+        <string name="TouModifierSixthSenseDescription">Know when someone interacts with you.</string>
+        <string name="TouModifierSixthSenseWikiDescription">You will know when someone uses their ability on you.</string>
+
+        <!-- Sleuth -->
+        <!-- Sleuth Wiki / Description -->
+        <string name="TouModifierSleuth">Sleuth</string>
+        <string name="TouModifierSleuthDescription">Know the roles of bodies you report.</string>
+        <string name="TouModifierSleuthWikiDescription">You will see the roles of bodies you report.</string>
+
+        <!-- Tiebreaker -->
+        <!-- Tiebreaker Wiki / Description -->
+        <string name="TouModifierTiebreaker">Tiebreaker</string>
+        <string name="TouModifierTiebreakerDescription">Your vote breaks ties.</string>  <!-- Added a period -->
+        <string name="TouModifierTiebreakerWikiDescription">Your vote allows you to break ties.</string>
+
+        <!-- Impostor Modifiers -->
+        <!-- Disperser -->
+        <!-- Disperser Wiki / Abilities -->
+        <string name="TouModifierDisperser">Disperser</string>
+        <string name="TouModifierDisperserIntroBlurb">You can also disperse players to vents around the map.</string>
+        <string name="TouModifierDisperserDescription">Separate the Crew.</string>
+        <string name="TouModifierDisperserWikiDescription">Disperse everyone on the map to a random vent, given that they are not Immovable. You cannot have any other button modifiers with %modifierName%.</string>
+        <string name="TouModifierDisperserDisperse">Disperse</string>
+        <string name="TouModifierDisperserDisperseWikiDescription">You can disperse players on the map to random vents, which you can do once per game.</string> <!-- Swapped 'any vents' to 'random vents'-->
+
+        <!-- Saboteur -->
+        <!-- Saboteur Wiki / Description -->
+        <string name="TouModifierSaboteur">Saboteur</string>
+        <string name="TouModifierSaboteurIntroBlurb">You also have reduced sabotage cooldowns.</string>
+        <string name="TouModifierSaboteurDescription">You have reduced sabotage cooldowns.</string> <!-- Added a period -->
+        <string name="TouModifierSaboteurWikiDescription">You have a reduced cooldown when sabotaging.</string>
+
+        <!-- Telepath -->
+        <!-- Telepath Wiki / Description -->
+        <string name="TouModifierTelepath">Telepath</string>
+        <string name="TouModifierTelepathIntroBlurb">You also know information about teammates' kills%ifDeaths%.</string>
+        <String name="TouModifierTelepathIntroBlurbAddIfDeath"> and deaths</String>
+        <string name="TouModifierTelepathDescription">%advancedDescription%</string>
+        <string name="TouModifierTelepathWikiDescription">Know when%ifKill% your teammate kills</string>
+        <string name="TouModifierTelepathWikiDescriptionIfKnowKill"> %and% where</string>
+        <string name="TouModifierTelepathWikiDescriptionAddIfKnowDeath">, know when%ifLoc% they die.</string>
+        <string name="TouModifierTelepathWikiDescriptionAddIfKnowDeathLoc"> %and% where</string>
+
+        <!-- Telepath Options -->
+        <string name="TouOptionTelepathKnowKill">Know Where Teammate Kills</string>
+        <string name="TouOptionTelepathKnowDeath">Know When Teammate Dies</string>
+        <string name="TouOptionTelepathKnowDeathLoc">Know Where Teammate Dies</string>
+        <string name="TouOptionTelepathArrowDuration">Dead Body Arrow Duration</string>
+        <string name="TouOptionTelepathKnowGoodGuess">Know When Teammate Guesses Successfully</string>
+        <string name="TouOptionTelepathKnowBadGuess">Know When Teammate Fails To Guess</string>
+
+        <!-- Underdog -->
+        <!-- Underdog Wiki / Description -->
+        <string name="TouModifierUnderdog">Underdog</string>
+        <string name="TouModifierUnderdogIntroBlurb">Your kill cooldown is also faster when you're on your own.</string>
+        <string name="TouModifierUnderdogDescription">When you're alone your kill cooldown is shortened.</string> <!-- Added a period -->
+        <string name="TouModifierUnderdogWikiDescription">Your kill cooldown is lower if you're solo or your teammate is dead.</string>
+
+        <!-- Underdog Options -->
+        <string name="TouOptionUnderdogBonus">Kill Cooldown Bonus</string>
+        <String name="TouOptionIncreasedWhen2">Increased Kill Cooldown When 2+ Imps</String>
+
+        <!-- Assailant (NKs/Imp) Modifiers -->
+        <string name="TouModifierAssassin">Assassin</string>
+
+        <!-- Double Shot -->
+        <!-- Double Shot Wiki / Description -->
+        <string name="TouModifierDoubleShot">Double Shot</string>
+        <string name="TouModifierDoubleShotIntroBlurb">You also get a second chance when guessing.</string>
+        <string name="TouModifierDoubleShotWikiDescription">You get a second chance when you fail to guess a player in a meeting.</string>
+        <string name="TouModifierDoubleShotDescription">You have an extra chance when assassinating.</string> <!-- Added a period -->
+
+        <!-- Crewmate Modifiers -->
+
+        <!-- Aftermath -->
+        <!-- Aftermath Wiki / Description -->
+        <string name="TouModifierAftermath">Aftermath</string>
+        <string name="TouModifierAftermathIntroBlurb">You will also trigger your killer's abilities upon death.</string>
+        <string name="TouModifierAftermathDescription">Your killer will be forced to use their abilities!</string>
+        <string name="TouModifierAftermathWikiDescription">After you die, your killer will be forced to use their abilities, targetting your body or targetting themselves.</string>
+
+        <!-- Bait -->
+        <!-- Bait Wiki / Description -->
+        <string name="TouModifierBait">Bait</string>
+        <string name="TouModifierBaitIntroBlurb">You will also force your killer to report your body.</string>
+        <string name="TouModifierBaitDescription">Force your killer to self-report.</string>
+        <string name="TouModifierBaitWikiDescription">After you die, your killer will self-report, reporting your body.</string>
+
+        <!-- Bait Options -->
+        <string name="TouOptionBaitMinDelay">Min Bait Report Delay</string>
+        <string name="TouOptionBaitMaxDelay">Max Bait Report Delay</string>
+
+        <!-- Celebrity -->
+        <!-- Celebrity Wiki / Description -->
+        <string name="TouModifierCelebrity">Celebrity</string>
+        <string name="TouModifierCelebrityIntroBlurb">You will also reveal info about your death in the meeting.</string>
+        <string name="TouModifierCelebrityDescription">Announce how you died on your passing.</string>
+        <string name="TouModifierCelebrityWikiDescription">After you die, details about your death will be revealed such as where you were killed and which role killed you during the meeting.</string>
+
+        <!-- Diseased -->
+        <!-- Diseased Wiki / Description -->
+        <string name="TouModifierDiseased">Diseased</string>
+        <string name="TouModifierDiseasedIntroBlurb">You will also extend your killer's cooldown upon death.</string>
+        <string name="TouModifierDiseasedDescription">Increase your killer's kill cooldown.</string>
+        <String name="TouModifierDiseasedWikiDescription">After you die, your killer's kill cooldown is multiplied by a factor of %diseasedMultiplier%x.</String>
+
+        <!-- Diseased Options-->
+        <string name="TouOptionDiseasedCooldownModifier">Diseased Kill Modifier</string>
+
+        <!-- Frosty -->
+        <!-- Frosty Wiki / Description -->
+        <string name="TouModifierFrosty">Frosty</string>
+        <string name="TouModifierFrostyIntroBlurb">You will also slow down your killer upon death.</string>
+        <string name="TouModifierFrostyDescription">Slow your killer for a short duration.</string>
+        <string name="TouModifierFrostyWikiDescription">After you die, your killer will be slowed down!</string>
+
+        <!-- Frosty Options -->
+        <string name="TouOptionFrostyChillDuration">Chill Duration</string>
+        <string name="TouOptionFrostyChillStartSpeed">Chill Start Speed</string>
+
+        <!-- Multitasker -->
+        <!-- Multitasker Wiki / Description -->
+        <string name="TouModifierMultitasker">Multitasker</string>
+        <string name="TouModifierMultitaskerIntroBlurb">You can also see through tasks.</string>
+        <string name="TouModifierMultitaskerDescription">Your tasks are transparent.</string>
+        <string name="TouModifierMultitaskerWikiDescription">All your menus are seethrough, allowing you to look behind menus!</string>
+
+        <!-- Noisemaker -->
+        <!-- Noisemaker Wiki / Description -->
+        <string name="TouModifierNoisemaker">Noisemaker</string>
+        <string name="TouModifierNoisemakerIntroBlurb">You will also alert all players to your body upon death.</string>
+        <string name="TouModifierNoisemakerDescription">When you die, you will send an alert to all players on the map for %noisemakerTime% second(s).</string> <!-- Added a period -->
+        <string name="TouModifierNoisemakerWikiDescription">After your death, you will show a red body indicator to everyone on the map.</string>
+
+        <!-- Noisemaker Options -->
+        <string name="TouOptionNoisemakerImpAlert">Impostors Get Alert</string>
+        <string name="TouOptionNoisemakerNeutAlert">Neutrals Get Alert</string>
+        <string name="TouOptionNoisemakerCommsPreventsAlert">Comms Sabotage Prevents Alert</string>
+        <string name="TouOptionNoisemakerOnlyWithBody">Only Triggers If a Body Exists</string>
+        <string name="TouOptionNoisemakerAlertDuration">Alert Duration</string>
+
+        <!-- Operative -->
+        <!-- Operative Wiki / Description -->
+        <string name="TouModifierOperative">Operative</string>
+        <string name="TouModifierOperativeIntroBlurb">You can also use security systems on-the-go.</string>
+        <string name="TouModifierOperativeDescription">Utilize the Cameras from anywhere.</string> <!-- Added a period -->
+        <string name="TouModifierOperativeWikiDescription">Use cameras at anytime with a limited battery charge.</string>
+
+        <!-- Operative Options -->
+        <string name="TouOptionOperativeMiraDoorlog">Move While Using Mira Doorlog</string>
+        <string name="TouOptionOperativeStartingCharge">Starting Charge</string>
+        <string name="TouOptionOperativeChargedEachRound">Battery Charged Each Round</string>
+        <string name="TouOptionOperativeChargedPerTask">Battery Charged Per Task</string>
+        <string name="TouOptionOperativeDisplayCooldown">Security Display Cooldown</string>
+        <string name="TouOptionOperativeMaxDisplayDuration">Max Security Display Duration</string>
+
+        <!-- Rotting -->
+        <!-- Rotting Wiki / Description -->
+        <string name="TouModifierRotting">Rotting</string>
+        <string name="TouModifierRottingIntroBlurb">Your body will also rot away upon death.</string>
+        <string name="TouModifierRottingDescription">Your body will rot away after %rottingDelay% second(s).</string>
+        <string name="TouModifierWikiDescription">After %rottingDelay% second(s), your body will rot away, preventing you from being reported</string>
+
+        <!-- Rotting Options -->
+        <string name="TouOptionRottingDelay">Time Before Body Rots Away</string>
+
+        <!-- Scientist -->
+        <!-- Scientist Wiki / Description -->
+        <string name="TouModifierScientist">Scientist</string>
+        <string name="TouModifierScientistIntroBlurb">You can also use vitals on-the-go.</string>
+        <string name="TouModifierScientistDescription">Access vitals anytime, anywhere, as long as you have charge.</string> <!-- Added a period -->
+        <string name="TouModifierScientistWikiDescription">Access Vitals at anytime with a limited battery charge.</string>
+
+        <!-- Scientist Options -->
+        <string name="TouOptionScientistMoveVitals">Move While Using Vitals</string>
+        <string name="TouOptionScientistStartingCharge">Starting Charge</string>
+        <string name="TouOptionScientistChargedEachRound">Battery Charged Each Round</string>
+        <string name="TouOptionScientistChargedPerTask">Battery Charged Per Task</string>
+        <string name="TouOptionScientistDisplayCooldown">Vitals Display Cooldown</string>
+        <string name="TouOptionScientistMaxDisplayDuration">Max Vitals Display Duration</string>
+
+        <!-- Scout -->
+        <!-- Scout Wiki / Description -->
+        <string name="TouModifierScout">Scout</string>
+        <string name="TouModifierScoutIntroBlurb">You can also see farther in light but very low in dark.</string>
+        <string name="TouModifierScoutDescription">Your vision is higher when lights are on, but very low when lights are off.</string>
+        <string name="TouModifierScoutWikiDescription">While you can see twice as far as a regular crewmate, your vision falters when lights are off.</string>
+
+        <!-- Taskmaster -->
+        <!-- Taskmaster Wiki / Description -->
+        <string name="TouModifierTaskmaster">Taskmaster</string>
+        <string name="TouModifierTaskmasterIntroBlurb">You also finish random tasks each round.</string>
+        <string name="TouModifierDescription">A random task is auto completed for you after each meeting.</string> <!-- Added a period -->
+        <string name="TouModifierTaskmasterWikiDescription">Every time a round starts, you will automatically finish a task.</string>
+
+        <!-- Torch -->
+        <!-- Torch Wiki / Description -->
+        <string name="TouModifierTorch">Torch</string>
+        <string name="TouModifierTorchIntroBlurb">You can also see without lights on.</string>
+        <string name="TouModifierTorchDescription">Your vision won't get reduced%nl%when the lights are sabotaged.</string> <!-- wont to won't -->
+        <string name="TouModifierTorchWikiDescription">The lights being off do not affect your vision.</string>
+
+        <!-- Other Modifiers, not technically modifiers so to speak -->
+        <string name="TouModifierFirstDeathShield">First Death Shield</string>
+        <string name="TouModifierScatter">Scatter</string>
+
+        <!-- Sidemen-Only Roles, DO NOT TRANSLATE -->
+        <string name="SidemenRoleAstral">Astral</string>
+        <string name="SidemenRolePuppetMaster">Puppet Master</string>
+        <string name="SidemenRoleMage">Mage</string>
+        <string name="SidemenRoleSandworm">Sandworm</string>
+        <string name="SidemenRoleRcxd">Rcxd</string>
+        <string name="SidemenRolePoisoner">Poisoner</string>
+        <string name="SidemenRoleSniper">Sniper</string>
+        <string name="SidemenRoleCannibal">Cannibal</string>
+        <string name="SidemenRoleTimelord">Timelord</string>
+    </TouNames>
+</resources>

@@ -11,11 +11,13 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Game.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -23,7 +25,7 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class AmnesiacRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MysticRole>());
     public DoomableType DoomHintType => DoomableType.Death;
@@ -33,6 +35,14 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     public Color RoleColor => TownOfUsColors.Amnesiac;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
+    // This is so the role can be guessed without requiring it to be enabled normally
+    public bool CanBeGuessed =>
+        (MiscUtils.GetPotentialRoles()
+             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<GuardianAngelTouRole>())) &&
+         OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath is BecomeOptions.Amnesiac)
+        || (MiscUtils.GetPotentialRoles()
+                .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ExecutionerRole>())) &&
+            OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Amnesiac);
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -79,7 +89,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         return false;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Remember, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Remember)]
     public static void RpcRemember(PlayerControl player, PlayerControl target)
     {
         if (player.Data.Role is not AmnesiacRole)

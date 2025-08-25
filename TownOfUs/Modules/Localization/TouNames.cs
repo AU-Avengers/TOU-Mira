@@ -2,6 +2,159 @@
 
 public enum TouNames
 {
+    FoolsMode,
+    TertiaryAbility,
+    ModifierAbility,
+
+    // Client Options
+    ClientOptionsButton,
+    DeadSeeGhosts,
+    ShowVents,
+    ShowWelcomeMessage,
+    ShowSummaryMessage,
+    ColorPlayerName,
+    UseCrewmateTeamColor,
+    ShowShieldHud,
+    ButtonUIFactor,
+    OffsetButtons,
+    SortGuessingByAlignment,
+    PreciseCooldowns,
+    ArrowStyle,
+    ArrowDefault,
+    ArrowDarkGlow,
+    ArrowColorGlow,
+    ArrowLegacy,
+
+    // Player Colors
+    Watermelon,
+    Chocolate,
+    SkyBlue,
+    Beige,
+    Magenta,
+    SeaGreen,
+    Lilac,
+    Olive,
+    Azure,
+    Plum,
+    Jungle,
+    Mint,
+    Chartreuse,
+    Macau,
+    Tawny,
+    Gold,
+    Snow,
+    Turquoise,
+    Nacho,
+    Blood,
+    Grass,
+    Mandarin,
+    Glass,
+    Ash,
+    Midnight,
+    Steel,
+    Silver,
+    Shimmer,
+    Crimson,
+    Charcoal,
+    Violet,
+    Denim,
+    CottonCandy,
+    Rainbow,
+
+    // Role Alignments
+    CrewmateInvestigative,
+    CrewmateKilling,
+    CrewmatePower,
+    CrewmateProtective,
+    CrewmateSupport,
+    NeutralBenign,
+    NeutralEvil,
+    NeutralOutlier,
+    NeutralKilling,
+    ImpostorConcealing,
+    ImpostorKilling,
+    ImpostorPower,
+    ImpostorSupport,
+
+    // Role Buckets
+    CommonCrew,
+    SpecialCrew,
+    RandomCrew,
+    CommonNeutral,
+    RandomNeutral,
+    NonImp,
+    CommonImp,
+    SpecialImp,
+    RandomImp,
+    Any,
+    CrewInvestigative,
+    CrewKilling,
+    CrewPower,
+    CrewProtective,
+    CrewSupport,
+    ImpConcealing,
+    ImpKilling,
+    ImpPower,
+    ImpSupport,
+
+    // Highlighted Keywords (like Non Imp showing Imp as red)
+    CrewmateKeyword,
+    CrewKeyword,
+    NeutralKeyword,
+    NeutKeyword,
+    ImpostorKeyword,
+    ImpKeyword,
+
+    // Modifier Types
+    Alliance,
+    Universal,
+    CrewmateAlliance,
+    CrewmateUtility,
+    CrewmateVisibility,
+    CrewmatePostmortem,
+    CrewmatePassive,
+    NeutralAlliance,
+    NeutralUtility,
+    NeutralVisibility,
+    NeutralPostmortem,
+    NeutralPassive,
+    ImpostorAlliance,
+    ImpostorUtility,
+    ImpostorVisibility,
+    ImpostorPostmortem,
+    ImpostorPassive,
+    UniversalUtility,
+    UniversalVisibility,
+    UniversalPostmortem,
+    UniversalPassive,
+    AssailantUtility,
+    AssailantVisibility,
+    AssailantPostmortem,
+    AssailantPassive,
+    NonCrewmate,
+    NonCrewUtility,
+    NonCrewVisibility,
+    NonCrewPostmortem,
+    NonCrewPassive,
+    NonNeutral,
+    NonNeutUtility,
+    NonNeutVisibility,
+    NonNeutPostmortem,
+    NonNeutPassive,
+    NonImpostor,
+    NonImpUtility,
+    NonImpVisibility,
+    NonImpPostmortem,
+    NonImpPassive,
+    External,
+    Other,
+
+    // Other keywords, used by options and the wiki
+    Roles,
+    Modifiers,
+    Amount,
+    Chance,
+
     // Crewmate Roles
     Altruist,
     Aurial,
@@ -35,6 +188,7 @@ public enum TouNames
     Veteran,
     Vigilante,
     Warden,
+
     // Impostor Roles
     Ambassador,
     Ambusher,
@@ -55,6 +209,7 @@ public enum TouNames
     Undertaker,
     Venerer,
     Warlock,
+
     // Neutral Roles
     Amnesiac,
     Arsonist,
@@ -73,10 +228,12 @@ public enum TouNames
     Survivor,
     Vampire,
     Werewolf,
+
     // Alliance Modifiers
     Egotist,
     Lover,
     Lovers, // for plural
+
     // Universal Modifiers
     ButtonBarry,
     Flash,
@@ -89,14 +246,17 @@ public enum TouNames
     SixthSense,
     Sleuth,
     Tiebreaker,
+
     // Impostor Modifiers
     Disperser,
     Saboteur,
     Telepath,
     Underdog,
+
     // Assailant Modifiers (NK/Imp)
     Assassin,
     DoubleShot,
+
     // Crewmate Modifiers
     Aftermath,
     Bait,
@@ -111,9 +271,11 @@ public enum TouNames
     Scout,
     Taskmaster,
     Torch,
+
     // Other Modifiers
     FirstDeathShield,
     Scatter,
+
     // EVERYTHING BELOW HERE IS FOR THE SIDEMEN, THEY ARE NOT FOR PUBLIC RELEASE!
     Astral,
     PuppetMaster,

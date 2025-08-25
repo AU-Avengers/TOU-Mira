@@ -125,6 +125,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         RoleIcon!.gameObject.SetActive(true);
         RedRing!.SetActive(true);
         WarpRing!.SetActive(true);
+        RoleIcon!.SetSizeLimit(2.8f);
         
         foreach (var role in availableRoles)
         {
@@ -202,6 +203,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             RoleName!.text = roleName;
             RoleTeam!.text = teamName;
             if (sprite != null) RoleIcon!.sprite = sprite;
+            RoleIcon!.SetSizeLimit(2.8f);
         }));
         passiveButton.OnMouseOut.AddListener((UnityAction)(() =>
         {
@@ -220,6 +222,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         teamText.text = teamName;
 
         roleImage.sprite = (sprite != null) ? sprite : TouRoleIcons.RandomImp.LoadAsset();
+        roleImage.SetSizeLimit(2.8f);
 
         buttonRollover.OverColor = color;
         roleText.color = color;

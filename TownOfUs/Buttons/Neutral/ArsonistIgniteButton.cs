@@ -114,7 +114,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
             predicate: x => x.HasModifier<ArsonistDousedModifier>());
     }
 
-    [MethodRpc((uint)TownOfUsRpc.IgniteSound, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.IgniteSound)]
     public static void RpcIgniteSound(PlayerControl player)
     {
         if (player.AmOwner)

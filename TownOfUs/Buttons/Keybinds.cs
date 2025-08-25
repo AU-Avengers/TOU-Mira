@@ -6,6 +6,8 @@ public static class Keybinds
 
     public const string SecondaryAction = "ActionQuaternary"; // Keyboard: used for vanilla role abilities
 
+    public const string TertiaryAction = "tou.ActionCustom"; // Keyboard: used for glitch hack
+
     public const string ModifierAction = "tou.ActionCustom2"; // Keyboard: used for modifier abilities
 
     public const string VentAction = "UseVent"; // Keyboard: used for venting

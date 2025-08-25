@@ -23,6 +23,12 @@ public sealed class AmbusherArrowTargetModifier(PlayerControl owner, Color color
         r.AddRend(spr, Player.cosmetics.ColorId);
     }
 
+    public override void OnMeetingStart()
+    {
+        base.OnMeetingStart();
+        ModifierComponent!.RemoveModifier(this);
+    }
+
     public override void OnDeath(DeathReason reason)
     {
         TouAudio.PlaySound(TouAudio.TrackerDeactivateSound);

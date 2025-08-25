@@ -24,7 +24,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
 {
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not JanitorRole || Player.HasDied() || !Player.AmOwner ||
+        if (Player == null || Player.Data.Role is not UndertakerRole || Player.HasDied() || !Player.AmOwner ||
             MeetingHud.Instance || (!HudManager.Instance.UseButton.isActiveAndEnabled &&
                                     !HudManager.Instance.PetButton.isActiveAndEnabled))
         {
@@ -76,7 +76,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
             TouImpAssets.DropSprite)
     ];
 
-    [MethodRpc((uint)TownOfUsRpc.DragBody, LocalHandling = RpcLocalHandling.Before, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.DragBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcStartDragging(PlayerControl playerControl, byte bodyId)
     {
         playerControl.GetModifierComponent()?.AddModifier(new DragModifier(bodyId));
@@ -91,7 +91,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.DropBody, LocalHandling = RpcLocalHandling.Before, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.DropBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcStopDragging(PlayerControl playerControl, Vector2 dropLocation)
     {
         var dragMod = playerControl.GetModifier<DragModifier>()!;

@@ -5,6 +5,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
@@ -15,7 +16,7 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class JesterRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
     public bool Voted { get; set; }
     public bool AboutToWin { get; set; }
@@ -24,6 +25,14 @@ public sealed class JesterRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public List<byte> Voters { get; } = [];
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlumberRole>());
+    // This is so the role can be guessed without requiring it to be enabled normally
+    public bool CanBeGuessed =>
+        (MiscUtils.GetPotentialRoles()
+             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<GuardianAngelTouRole>())) &&
+         OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath is BecomeOptions.Jester)
+        || (MiscUtils.GetPotentialRoles()
+             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ExecutionerRole>())) &&
+         OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Jester);
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string RoleName => TouLocale.Get(TouNames.Jester, "Jester");
     public string RoleDescription => "Get voted out!";
@@ -101,6 +110,11 @@ public sealed class JesterRole(IntPtr cppPtr)
 
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
+        }
+        
+        if (!Player.HasModifier<BasicGhostModifier>() && Voted)
+        {
+            Player.AddModifier<BasicGhostModifier>();
         }
     }
 

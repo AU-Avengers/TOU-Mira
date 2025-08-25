@@ -19,21 +19,21 @@ public static class LocalSettings
     [
         new()
         {
-            Title = "Show Other Ghosts When Dead",
+            Title = TouLocale.Get(TouNames.DeadSeeGhosts),
             ObjName = "VisibleGhostsToggle",
             OnClick = () => { return TownOfUsPlugin.DeadSeeGhosts.Value = !TownOfUsPlugin.DeadSeeGhosts.Value; },
             DefaultValue = TownOfUsPlugin.DeadSeeGhosts.Value
         },
         new()
         {
-            Title = "Show Vents On Map",
+            Title = TouLocale.Get(TouNames.ShowVents),
             ObjName = "ShowVentsToggle",
             OnClick = () => { return TownOfUsPlugin.ShowVents.Value = !TownOfUsPlugin.ShowVents.Value; },
             DefaultValue = TownOfUsPlugin.ShowVents.Value
         },
         new()
         {
-            Title = "Show Welcome Msg",
+            Title = TouLocale.Get(TouNames.ShowWelcomeMessage),
             ObjName = "WelcomeMsgToggle",
             OnClick = () =>
             {
@@ -43,7 +43,7 @@ public static class LocalSettings
         },
         new()
         {
-            Title = "Show Summary Msg",
+            Title = TouLocale.Get(TouNames.ShowSummaryMessage),
             ObjName = "SummaryMsgToggle",
             OnClick = () =>
             {
@@ -53,7 +53,7 @@ public static class LocalSettings
         },
         new()
         {
-            Title = "Colored Player Name",
+            Title = TouLocale.Get(TouNames.ColorPlayerName),
             ObjName = "ColoredPlayerNameToggle",
             Enabled = Palette.CrewmateBlue,
             //Disabled = new(0.4f, 0f, 0.6f, 1f),
@@ -63,7 +63,7 @@ public static class LocalSettings
         },
         new()
         {
-            Title = "Use Basic Crew Colors",
+            Title = TouLocale.Get(TouNames.UseCrewmateTeamColor),
             ObjName = "BasicCrewColorsToggle",
             Enabled = Palette.CrewmateBlue,
             //Disabled = new(0.4f, 0f, 0.6f, 1f),
@@ -77,7 +77,7 @@ public static class LocalSettings
         },
         new()
         {
-            Title = "Show Shields On Hud",
+            Title = TouLocale.Get(TouNames.ShowShieldHud),
             //Enabled = new(0f, 1f, 0.7f, 1f),
             //Hover = new(0f, 0.4f, 0f, 1f),
             ObjName = "ShieldsHudToggle",
@@ -86,7 +86,7 @@ public static class LocalSettings
         },
         new()
         {
-            Title = $"Button Scale Factor: {Math.Round(TownOfUsPlugin.ButtonUIFactor.Value, 2)}x",
+            Title = $"{TouLocale.Get(TouNames.ButtonUIFactor)}: {Math.Round(TownOfUsPlugin.ButtonUIFactor.Value, 2)}x",
             ObjName = "ButtonScaleFloat",
             Enabled = TownOfUsColors.Inquisitor,
             Disabled = TownOfUsColors.Juggernaut,
@@ -117,7 +117,7 @@ public static class LocalSettings
                     var title = optionsMenu.transform.FindChild("ButtonScaleFloat");
                     if (title != null && title.transform.GetChild(2).TryGetComponent<TextMeshPro>(out var txt))
                     {
-                        txt.text = $"Button Scale Factor: {Math.Round(newVal, 2)}x";
+                        txt.text = $"{TouLocale.Get(TouNames.ButtonUIFactor)}: {Math.Round(newVal, 2)}x";
                     }
                 }
 
@@ -127,14 +127,14 @@ public static class LocalSettings
         },
         new()
         {
-            Title = "Offset Buttons If You Can't Vent",
+            Title = TouLocale.Get(TouNames.OffsetButtons),
             ObjName = "OffsetButtons",
             OnClick = () => { return TownOfUsPlugin.OffsetButtons.Value = !TownOfUsPlugin.OffsetButtons.Value; },
             DefaultValue = TownOfUsPlugin.OffsetButtons.Value
         },
         new()
         {
-            Title = "Sort Guessing By Alignment",
+            Title = TouLocale.Get(TouNames.SortGuessingByAlignment),
             ObjName = "SortGuessingByAlignment",
             OnClick = () =>
             {
@@ -144,14 +144,14 @@ public static class LocalSettings
         },
         new()
         {
-            Title = "Button Cooldowns are in Decimal Under 10s",
+            Title = TouLocale.Get(TouNames.PreciseCooldowns),
             ObjName = "PreciseCooldowns",
             OnClick = () => { return TownOfUsPlugin.PreciseCooldowns.Value = !TownOfUsPlugin.PreciseCooldowns.Value; },
             DefaultValue = TownOfUsPlugin.PreciseCooldowns.Value
         },
         new()
         {
-            Title = $"Arrow Style: {TouAssets.ArrowSpriteName}",
+            Title = $"{TouLocale.Get(TouNames.ArrowStyle)}: {TouAssets.ArrowSpriteName}",
             ObjName = "ArrowStyle",
             OnClick = () =>
             {
@@ -170,7 +170,7 @@ public static class LocalSettings
                     var title = optionsMenu.transform.FindChild("ArrowStyle");
                     if (title != null && title.transform.GetChild(2).TryGetComponent<TextMeshPro>(out var txt))
                     {
-                        txt.text = $"Arrow Style: {TouAssets.ArrowSpriteName}";
+                        txt.text = $"{TouLocale.Get(TouNames.ArrowStyle)}: {TouAssets.ArrowSpriteName}";
                     }
                 }
 
@@ -274,7 +274,7 @@ public static class LocalSettings
         moreOptions.transform.localScale = new Vector3(0.66f, 1, 1);
 
         moreOptions.gameObject.SetActive(true);
-        moreOptions.Text.text = "Tou Client Options";
+        moreOptions.Text.text = TouLocale.Get(TouNames.ClientOptionsButton);
         moreOptions.Text.transform.localScale = new Vector3(1 / 0.66f, 1, 1);
         var moreOptionsButton = moreOptions.GetComponent<PassiveButton>();
         moreOptionsButton.OnClick = new Button.ButtonClickedEvent();

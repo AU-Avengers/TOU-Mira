@@ -78,6 +78,14 @@ public static class AppearanceExtensions
                 Size = player.GetAppearance().Size
             });
         }
+        else if (!toggle && player.GetModifiers<BaseModifier>().Any(x => x is IVisualAppearance visual && visual.VisualPriority))
+        {
+            var mod = player.GetModifiers<BaseModifier>()
+                .FirstOrDefault(x => x is IVisualAppearance visual2 && visual2.VisualPriority);
+            var visualMod = mod as IVisualAppearance;
+            player.RawSetAppearance(visualMod!.GetVisualAppearance()!);
+            player.cosmetics.ToggleNameVisible(true);
+        }
         else if (!toggle)
         {
             player.ResetAppearance(true);

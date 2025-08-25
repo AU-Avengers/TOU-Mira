@@ -23,7 +23,7 @@ public sealed class AmbassadorOptions : AbstractOptionGroup<AmbassadorRole>
     public float RoundWhenAvailable { get; set; } = 2f;
     
     public ModdedNumberOption RoundCooldown { get; } =
-        new("Rounds Needed To Retrain Again", 2f, 1f, 5f, 5f, MiraNumberSuffixes.None)
+        new("Rounds Needed To Retrain Again", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () => (int)OptionGroupSingleton<AmbassadorOptions>.Instance.MaxRetrains > 1
         };

@@ -34,7 +34,7 @@ public static class VisionPatch
         }
 
 
-        if (player.Role.IsImpostor || (player.Object?.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision))
+        if (player.Role.IsImpostor || (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision))
         {
             __result = __instance.MaxLightRadius *
                        GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod * visionFactor;
@@ -66,7 +66,7 @@ public static class VisionPatch
                 var t = switchSystem?.Level ?? 1;
 
 
-                if (player._object.HasModifier<TorchModifier>())
+                if (player._object.HasModifier<TorchModifier>() && !player._object.HasModifier<EclipsalBlindModifier>())
                 {
                     t = 1;
                 }

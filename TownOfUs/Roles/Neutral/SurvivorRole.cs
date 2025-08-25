@@ -5,6 +5,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -12,7 +13,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class SurvivorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class SurvivorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable
 {
     public DoomableType DoomHintType => DoomableType.Protective;
     public string RoleName => TouLocale.Get(TouNames.Survivor, "Survivor");
@@ -21,6 +22,14 @@ public sealed class SurvivorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public Color RoleColor => TownOfUsColors.Survivor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
+    // This is so the role can be guessed without requiring it to be enabled normally
+    public bool CanBeGuessed =>
+        (MiscUtils.GetPotentialRoles()
+             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<GuardianAngelTouRole>())) &&
+         OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath is BecomeOptions.Survivor)
+        || (MiscUtils.GetPotentialRoles()
+                .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ExecutionerRole>())) &&
+            OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Survivor);
 
     public CustomRoleConfiguration Configuration => new(this)
     {

@@ -20,21 +20,19 @@ public static class DiseasedEvents
         var source = @event.Source;
         var target = @event.Target;
 
-        if (!target.HasModifier<DiseasedModifier>() || target == source || MeetingHud.Instance)
+        if (!target.HasModifier<DiseasedModifier>() || target == source || MeetingHud.Instance || !source.AmOwner)
         {
             return;
         }
 
         var cdMultiplier = OptionGroupSingleton<DiseasedOptions>.Instance.CooldownMultiplier;
-        if (source.AmOwner)
-        {
-            var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Diseased.ToTextColor()}{@event.Target.Data.PlayerName} was Diseased, causing your kill cooldown to multiply by {Math.Round(cdMultiplier, 2)}.</color></b>",
-                Color.white, spr: TouModifierIcons.Diseased.LoadAsset());
+
+        var notif1 = Helpers.CreateAndShowNotification(
+            $"<b>{TownOfUsColors.Diseased.ToTextColor()}{@event.Target.Data.PlayerName} was Diseased, causing your kill cooldown to multiply by {Math.Round(cdMultiplier, 2)}.</color></b>",
+            Color.white, spr: TouModifierIcons.Diseased.LoadAsset());
 
             notif1.Text.SetOutlineThickness(0.35f);
             notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
-        }
 
         source.SetKillTimer(source.GetKillCooldown() * cdMultiplier);
         var buttons = CustomButtonManager.Buttons.Where(x => x.Enabled(source.Data.Role)).OfType<IDiseaseableButton>();

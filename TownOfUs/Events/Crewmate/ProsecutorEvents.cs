@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -68,7 +69,6 @@ public static class ProsecutorEvents
             
             if (hasProsecuted)
             {
-
                 DeathHandlerModifier.UpdateDeathHandler(player, "Prosecuted", DeathEventHandlers.CurrentRound,
                     DeathHandlerOverride.SetFalse, $"By {pros.Player.Data.PlayerName}",
                     lockInfo: DeathHandlerOverride.SetTrue);
@@ -91,6 +91,10 @@ public static class ProsecutorEvents
                         DeathHandlerModifier.UpdateDeathHandler(pros.Player, "Punished",
                             DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                             lockInfo: DeathHandlerOverride.SetTrue);
+                        if (@pros.Player.TryGetModifier<CelebrityModifier>(out var celeb))
+                        {
+                            celeb.Announced = true;
+                        }
                     }
                     else
                     {

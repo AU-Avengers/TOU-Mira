@@ -20,7 +20,7 @@ namespace TownOfUs.Events.Neutral;
 
 public static class JesterEvents
 {
-    [RegisterEvent]
+    [RegisterEvent(0)]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
         if (@event.DeathReason != DeathReason.Exile)
@@ -51,7 +51,7 @@ public static class JesterEvents
                 {
                     PlayerControl.LocalPlayer.RpcAddModifier<IndirectAttackerModifier>(true);
                     CustomButtonSingleton<JesterHauntButton>.Instance.SetActive(true, jester);
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "Ejected", -1, DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
+                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1, DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
                         $"<b>You have one round to haunt a player of your choice to death, choose wisely.</b>",
                         Color.white);
@@ -61,7 +61,7 @@ public static class JesterEvents
                 }
                 else
                 {
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "Ejected", -1, DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
+                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1, DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
             else

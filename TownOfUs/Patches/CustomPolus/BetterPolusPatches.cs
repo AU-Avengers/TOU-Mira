@@ -317,6 +317,12 @@ public static class TaskTextUpdates
 {
     public static void Prefix(HudManager __instance)
     {
+        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data == null || PlayerControl.LocalPlayer.myTasks == null ||
+            PlayerControl.LocalPlayer.myTasks.Count == 0)
+        {
+            return;
+        }
+        
         if (!MiscUtils.IsMap(2))
         {
             return;
@@ -325,12 +331,6 @@ public static class TaskTextUpdates
         if (BetterPolusPatches.IsObjectsFetched && BetterPolusPatches.IsAdjustmentsDone)
         {
             var opts = OptionGroupSingleton<BetterMapOptions>.Instance;
-
-            if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.myTasks == null ||
-                PlayerControl.LocalPlayer.myTasks.Count == 0)
-            {
-                return;
-            }
 
             foreach (var task in PlayerControl.LocalPlayer.myTasks)
             {
