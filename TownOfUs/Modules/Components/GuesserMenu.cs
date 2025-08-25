@@ -199,13 +199,19 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
 
         ControllerManager.Instance.OpenOverlayMenu(name, backButton, defaultButtonSelected, list2);
 
-        MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(false));
+        if (MeetingHud.Instance)
+        {
+            MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(false));
+        }
     }
 
     public override void Close()
     {
         MinigameStubs.Close(this);
 
-        MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(true));
+        if (MeetingHud.Instance)
+        {
+            MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(true));
+        }
     }
 }

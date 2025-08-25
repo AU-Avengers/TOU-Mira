@@ -72,4 +72,9 @@ public enum TownOfUsRpc : uint
     RetrainImpostor,
     AmbushPlayer,
     RetrainConfirm
+    Tribunal,
+    TribunalEjection,
+    EndTribunal,
+    GuardianAegis,
+    GuardianAegisAttacked,
 }

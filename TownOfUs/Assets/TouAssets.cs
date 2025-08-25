@@ -224,9 +224,15 @@ public static class TouAssets
     
     public static LoadableAsset<Sprite> RetrainCleanSprite { get; } =
         new LoadableBundleAsset<Sprite>("RetrainClean.png", MainBundle);
-    
+  
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableBundleAsset<Sprite>("Hacked", MainBundle);
 
+    public static LoadableAsset<Sprite> TribunalSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Tribunal.png", 300);
+    
+    public static LoadableAsset<Sprite> TribunalClearSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.TribunalClean.png", 300);
+  
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);
     public static LoadableAsset<Sprite> BarricadeVentSprite2 { get; } =

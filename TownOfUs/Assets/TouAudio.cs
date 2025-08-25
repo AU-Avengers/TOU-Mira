@@ -110,6 +110,9 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> JanitorCleanSound { get; } =
         new LoadableBundleAsset<AudioClip>("JanitorClean", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> TribunalSound { get; } =
+        new LoadableAudioResourceAsset($"{AudioPath}.MarshalTribunal.wav");
+
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {
         if (Constants.ShouldPlaySfx())

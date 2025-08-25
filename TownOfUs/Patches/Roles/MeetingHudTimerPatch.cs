@@ -41,6 +41,9 @@ public static class MeetingHudTimerPatch
                 var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions - pros.ProsecutionsCompleted;
                 newText = $"\n{prosecutes} / {OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions} Prosecutions Remaining";
                 break;
+            case MarshalRole marshal:
+                newText = $"\n{marshal.TribunalsLeft} / {OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunals} Tribunals Remaining";
+                break;
             case DeputyRole dep:
                 if (dep.Killer) newText = "\nShoot a player successfully if they were the killer!";
                 break;
