@@ -4,6 +4,7 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
@@ -20,6 +21,11 @@ public sealed class GuardianAngelProtectButton : TownOfUsRoleButton<GuardianAnge
 
     protected override void OnClick()
     {
-        Role.Target?.RpcAddModifier<GuardianAngelProtectModifier>(PlayerControl.LocalPlayer);
+        if (Role.Target == null || Role.Target.HasDied())
+        {
+            return;
+        }
+        
+        Role.Target.RpcAddModifier<GuardianAngelProtectModifier>(PlayerControl.LocalPlayer);
     }
 }

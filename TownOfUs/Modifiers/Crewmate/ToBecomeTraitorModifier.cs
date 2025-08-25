@@ -73,7 +73,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
         ModifierComponent?.RemoveModifier(this);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetTraitor, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SetTraitor)]
     public static void RpcSetTraitor(PlayerControl player)
     {
         if (!player.HasModifier<ToBecomeTraitorModifier>())

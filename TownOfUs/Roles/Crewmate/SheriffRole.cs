@@ -95,7 +95,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         CustomButtonSingleton<SheriffShootButton>.Instance.Usable = true;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SheriffMisfire, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SheriffMisfire)]
     public static void RpcSheriffMisfire(PlayerControl sheriff)
     {
         if (sheriff.Data.Role is not SheriffRole role)

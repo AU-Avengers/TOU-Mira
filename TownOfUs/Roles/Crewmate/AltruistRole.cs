@@ -212,7 +212,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         Player.moveable = true;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.AltruistRevive, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.AltruistRevive)]
     public static void RpcRevive(PlayerControl alt, PlayerControl target)
     {
         if (alt.Data.Role is not AltruistRole role)

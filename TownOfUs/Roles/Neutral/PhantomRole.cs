@@ -23,12 +23,24 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class PhantomTouRole(IntPtr cppPtr)
     : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
 {
-    public bool CompletedAllTasks { get; private set; }
+    public bool CompletedAllTasks => TaskStage is GhostTaskStage.CompletedTasks;
 
     public bool Setup { get; set; }
     public bool Caught { get; set; }
     public bool Faded { get; set; }
-    public bool CanBeClicked { get; set; }
+
+    public bool CanBeClicked
+    {
+        get
+        {
+            return TaskStage is GhostTaskStage.Clickable or GhostTaskStage.Revealed;
+        }
+        set
+        {
+            // Left Alone
+        }
+    }
+    public GhostTaskStage TaskStage { get; private set; } = GhostTaskStage.Unclickable;
     public bool GhostActive => Setup && !Caught;
 
     public bool CanCatch()
@@ -215,21 +227,31 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         {
             return;
         }
+        var realTasks = Player.myTasks.ToArray()
+            .Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>()).ToList();
+        
+        var completedTasks = realTasks.Count(t => t.IsComplete);
+        var tasksRemaining = realTasks.Count - completedTasks;
 
-        var completedTasks = Player.myTasks.ToArray().Count(t => t.IsComplete);
-        var tasksRemaining = Player.myTasks.Count - completedTasks;
-
-        CanBeClicked = tasksRemaining <= (int)OptionGroupSingleton<PhantomOptions>.Instance.NumTasksLeftBeforeClickable;
-        if (tasksRemaining == (int)OptionGroupSingleton<PhantomOptions>.Instance.NumTasksLeftBeforeClickable &&
-            Player.AmOwner)
+        if (TaskStage is GhostTaskStage.Unclickable && tasksRemaining <=
+            (int)OptionGroupSingleton<PhantomOptions>.Instance.NumTasksLeftBeforeClickable)
         {
-            var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Phantom.ToTextColor()}You are now clickable by players!</b></color>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Phantom.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
+            TaskStage = GhostTaskStage.Clickable;
+            if (Player.AmOwner)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.Phantom.ToTextColor()}You are now clickable by players!</b></color>", Color.white,
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Phantom.LoadAsset());
+                notif1.Text.SetOutlineThickness(0.35f);
+            }
         }
 
-        CompletedAllTasks = completedTasks == Player.myTasks.Count;
+        if (completedTasks == realTasks.Count)
+        {
+            TaskStage = GhostTaskStage.CompletedTasks;
+        }
+        
+        if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Error($"Phantom Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})");
 
         if (OptionGroupSingleton<PhantomOptions>.Instance.PhantomWin is not PhantomWinOptions.Spooks ||
             !CompletedAllTasks)
@@ -259,4 +281,12 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         spookButton.Show = true;
         spookButton.SetActive(true, this);
     }
+}
+
+public enum GhostTaskStage
+{
+    Unclickable,
+    Clickable,
+    Revealed,
+    CompletedTasks
 }

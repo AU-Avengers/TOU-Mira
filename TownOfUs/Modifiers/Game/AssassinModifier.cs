@@ -144,7 +144,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
         void ClickHandler(PlayerControl victim)
         {
-            if (victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
+            if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
             {
                 OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
 

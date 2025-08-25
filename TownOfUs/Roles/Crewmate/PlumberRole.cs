@@ -251,7 +251,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.PlumberFlush, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.PlumberFlush)]
     public static void RpcPlumberFlush(PlayerControl player)
     {
         if (player.Data.Role is not PlumberRole)
@@ -286,7 +286,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         Coroutines.Start(SeeVenter(player));
     }
 
-    [MethodRpc((uint)TownOfUsRpc.PlumberBlockVent, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.PlumberBlockVent)]
     public static void RpcPlumberBlockVent(PlayerControl player, int ventId)
     {
         if (player.Data.Role is not PlumberRole plumber)

@@ -266,7 +266,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         return OtherLover;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetOtherLover, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SetOtherLover)]
     private static void RpcSetOtherLover(PlayerControl player, PlayerControl target)
     {
         if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)

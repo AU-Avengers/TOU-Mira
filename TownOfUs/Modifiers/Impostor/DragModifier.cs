@@ -94,6 +94,14 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
         var targetPos = Player.transform.position;
         targetPos.z = targetPos.y / 1000f;
 
-        DeadBody.transform.position = Vector3.Lerp(DeadBody.transform.position, targetPos, 5f * Time.deltaTime);
+
+        if (Player.inVent)
+        {
+            DeadBody.transform.position = targetPos;
+        }
+        else
+        {
+            DeadBody.transform.position = Vector3.Lerp(DeadBody.transform.position, targetPos, 5f * Time.deltaTime);
+        }
     }
 }

@@ -121,7 +121,7 @@ public static class HudManagerPatches
         Camera.main!.orthographicSize = size;
         foreach (var cam in Camera.allCameras)
         {
-            cam.orthographicSize = Camera.main!.orthographicSize;
+            cam.orthographicSize = Camera.main.orthographicSize;
         }
 
         ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height,
@@ -267,13 +267,17 @@ public static class HudManagerPatches
     public static void UpdateCamouflageComms()
     {
         var isActive = CommsSaboActive();
-
+        if (PlayerControl.LocalPlayer.IsHysteria())
+        {
+            return;
+        }
+        
         foreach (var player in PlayerControl.AllPlayerControls)
         {
             var appearanceType = player.GetAppearanceType();
             if (isActive)
             {
-                if (appearanceType != TownOfUsAppearances.Swooper)
+                if (appearanceType != TownOfUsAppearances.Swooper && appearanceType != TownOfUsAppearances.Camouflage)
                 {
                     player.SetCamouflage();
                 }
@@ -281,8 +285,7 @@ public static class HudManagerPatches
             else
             {
                 if (appearanceType == TownOfUsAppearances.Camouflage &&
-                    !player.HasModifier<VenererCamouflageModifier>() &&
-                    !PlayerControl.LocalPlayer.IsHysteria())
+                    !player.HasModifier<VenererCamouflageModifier>())
                 {
                     player.SetCamouflage(false);
                 }
@@ -425,7 +428,7 @@ public static class HudManagerPatches
                     // Guardian Angel here is vanilla's GA, NOT Town of Us GA
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
                     {
-                        roleName = $"<size=80%>{gaRole.TeamColor.ToTextColor()}{gaRole?.NiceName}</color></size>";
+                        roleName = $"<size=80%>{gaRole.TeamColor.ToTextColor()}{gaRole.NiceName}</color></size>";
                     }
 
                     if (SleuthModifier.SleuthVisibilityFlag(player) || (player.Data.IsDead &&
@@ -454,6 +457,19 @@ public static class HudManagerPatches
                         roleName = $"{deathReason}{roleName}";
                     }
                 }
+                
+                var revealedColorMod = revealMods.FirstOrDefault(x => x.Visible && x.NameColor != null);
+                if (revealedColorMod != null)
+                {
+                    playerColor = (Color)revealedColorMod.NameColor!;
+                    playerName = $"{playerColor.ToTextColor()}{playerName}</color>";
+                }
+                
+                var addedRoleNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraRoleText != string.Empty);
+                if (addedRoleNameText != null)
+                {
+                    roleName += $"<size=80%>{addedRoleNameText.ExtraRoleText}</size>";
+                }
 
                 if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
                      (PlayerControl.LocalPlayer.HasDied() && taskOpt.ShowTaskDead)) &&
@@ -481,19 +497,6 @@ public static class HudManagerPatches
                     };
 
                     playerName += revealText;
-                }
-                
-                var revealedColorMod = revealMods.FirstOrDefault(x => x.Visible && x.NameColor != null);
-                if (revealedColorMod != null)
-                {
-                    playerColor = (Color)revealedColorMod.NameColor!;
-                    playerName = $"{playerColor.ToTextColor()}{playerName}</color>";
-                }
-                
-                var addedRoleNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraRoleText != string.Empty);
-                if (addedRoleNameText != null)
-                {
-                    roleName += $"<size=80%>{addedRoleNameText.ExtraRoleText}</size>";
                 }
                 
                 var addedPlayerNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraNameText != string.Empty);
@@ -651,6 +654,19 @@ public static class HudManagerPatches
                         canSeeDeathReason = true;
                     }
                 }
+                
+                var revealedColorMod = revealMods.FirstOrDefault(x => x.Visible && x.NameColor != null);
+                if (revealedColorMod != null)
+                {
+                    playerColor = (Color)revealedColorMod.NameColor!;
+                    playerName = $"{playerColor.ToTextColor()}{playerName}</color>";
+                }
+                
+                var addedRoleNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraRoleText != string.Empty);
+                if (addedRoleNameText != null)
+                {
+                    roleName += $"<size=80%>{addedRoleNameText.ExtraRoleText}</size>";
+                }
 
                 if (((taskOpt.ShowTaskRound && player.AmOwner) || (PlayerControl.LocalPlayer.HasDied() &&
                                                                    taskOpt.ShowTaskDead && isVisible)) && (player.IsCrewmate() ||
@@ -666,19 +682,6 @@ public static class HudManagerPatches
                 if (player.AmOwner && player.TryGetModifier<ScatterModifier>(out var scatter) && !player.HasDied())
                 {
                     roleName += $" - {scatter.GetDescription()}";
-                }
-                
-                var revealedColorMod = revealMods.FirstOrDefault(x => x.Visible && x.NameColor != null);
-                if (revealedColorMod != null)
-                {
-                    playerColor = (Color)revealedColorMod.NameColor!;
-                    playerName = $"{playerColor.ToTextColor()}{playerName}</color>";
-                }
-                
-                var addedRoleNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraRoleText != string.Empty);
-                if (addedRoleNameText != null)
-                {
-                    roleName += $"<size=80%>{addedRoleNameText.ExtraRoleText}</size>";
                 }
                 
                 var addedPlayerNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraNameText != string.Empty);

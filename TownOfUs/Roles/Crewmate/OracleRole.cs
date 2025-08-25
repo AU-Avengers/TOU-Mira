@@ -142,7 +142,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.OracleConfess, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.OracleConfess)]
     public static void RpcOracleConfess(PlayerControl player)
     {
         var mod = ModifierUtils.GetActiveModifiers<OracleConfessModifier>(x => x.Oracle == player).FirstOrDefault();
@@ -153,7 +153,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.OracleBless, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.OracleBless)]
     public static void RpcOracleBless(PlayerControl exiled)
     {
         // Logger<TownOfUsPlugin>.Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
@@ -165,7 +165,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             mod.SavedFromExile = true;
         }
     }
-    [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify)]
     public static void RpcOracleBlessNotify(PlayerControl oracle, PlayerControl source, PlayerControl target)
     {
         if (oracle.Data.Role is not OracleRole || !source.AmOwner && !oracle.AmOwner)

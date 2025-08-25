@@ -52,7 +52,7 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
             return false;
         }
 
-        return ((Timer <= 0 && !EffectActive) || (EffectActive && Timer <= EffectDuration - 2f));
+        return ((Timer <= 0 && !EffectActive && (MaxUses == 0 || UsesLeft > 0)) || (EffectActive && Timer <= EffectDuration - 2f));
     }
 
     protected override void OnClick()

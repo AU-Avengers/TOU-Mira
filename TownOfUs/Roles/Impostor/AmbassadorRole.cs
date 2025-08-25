@@ -14,6 +14,7 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -214,10 +215,11 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     private bool IsExempt(PlayerVoteArea voteArea)
     {
         return Player.Data.IsDead || voteArea.AmDead || voteArea.GetPlayer()?.IsImpostor() == false ||
-               voteArea.GetPlayer()?.HasModifier<AmbassadorRetrainedModifier>() == true;
+               voteArea.GetPlayer()?.HasModifier<AmbassadorRetrainedModifier>() == true
+               || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode && !Player.AmOwner;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.RetrainConfirm, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.RetrainConfirm)]
     public static void RpcRetrainConfirm(PlayerControl ambassador, PlayerControl player, int cooldown, ushort role = 0, bool accepted = false)
     {
         if (ambassador.Data.Role is not AmbassadorRole ambassadorRole)
@@ -255,7 +257,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             player.AddModifier<AmbassadorRetrainedModifier>((ushort)player.Data.Role.Role);
             player.ChangeRole(role);
 
-            if (PlayerControl.LocalPlayer.IsImpostor())
+            if (PlayerControl.LocalPlayer.IsImpostor() &&
+                (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner))
             {
                 var text =
                     $"<b>{player.Data.PlayerName} has now been retrained into {newRole.NiceName}!</b>";
@@ -272,7 +275,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                 notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
             }
         }
-        else if (PlayerControl.LocalPlayer.IsImpostor())
+        else if (PlayerControl.LocalPlayer.IsImpostor() &&
+                 (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner))
         {
             var text =
                 $"<b>{player.Data.PlayerName} has denied their retrain into {newRole.NiceName}!</b>";
@@ -289,7 +293,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.RetrainImpostor, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.RetrainImpostor)]
     private static void RpcRetrain(PlayerControl player, byte playerId = byte.MaxValue, ushort role = 0)
     {
         if (player.Data.Role is not AmbassadorRole ambassador)
@@ -300,7 +304,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
         if (playerId == byte.MaxValue || role == 0)
         {
-            if (PlayerControl.LocalPlayer.IsImpostor() && ambassador.SelectedPlr != null)
+            if (PlayerControl.LocalPlayer.IsImpostor() && ambassador.SelectedPlr != null &&
+                (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || player.AmOwner))
             {
                 var text =
                     $"<b>Ambassador retraining for {ambassador.SelectedPlr.PlayerName} was cancelled</b>";
@@ -321,7 +326,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
         ambassador.SelectedPlr = GameData.Instance.GetPlayerById(playerId);
         ambassador.SelectedRole = RoleManager.Instance.GetRole((RoleTypes)role);
-        if (PlayerControl.LocalPlayer.IsImpostor())
+        if (PlayerControl.LocalPlayer.IsImpostor() &&
+            (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || player.AmOwner))
         {
             var text =
                 $"<b>The Ambassador has decided to retrain {ambassador.SelectedPlr.PlayerName} into {TownOfUsColors.ImpSoft.ToTextColor()}{ambassador.SelectedRole.NiceName}</color></b>";

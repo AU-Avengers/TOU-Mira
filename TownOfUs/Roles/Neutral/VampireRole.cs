@@ -124,7 +124,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
         return WinConditionMet();
     }
 
-    [MethodRpc((uint)TownOfUsRpc.VampireBite, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.VampireBite)]
     public static void RpcVampireBite(PlayerControl player, PlayerControl target)
     {
         if (player.Data.Role is not VampireRole)

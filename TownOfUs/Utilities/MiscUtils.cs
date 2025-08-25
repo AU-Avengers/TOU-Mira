@@ -15,10 +15,12 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -945,7 +947,15 @@ public static class MiscUtils
     {
         return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {player.gameObject.name}");
     }
-
+    
+    public static void SetForcedBodyType(this PlayerPhysics player, PlayerBodyTypes bodyType)
+    {
+        player.bodyType = bodyType;
+        player.myPlayer.cosmetics.EnsureInitialized(bodyType);
+        player.Animations.SetBodyType(bodyType, player.myPlayer.cosmetics.FlippedCosmeticOffset, player.myPlayer.cosmetics.NormalCosmeticOffset);
+        player.Animations.PlayIdleAnimation();
+    }
+    
     public static bool IsMap(byte mapid)
     {
         return (GameOptionsManager.Instance != null &&
@@ -1030,6 +1040,60 @@ public static class MiscUtils
         }
 
         return couldUse;
+    }
+
+    public static PlayerControl? GetImpostorTarget(float distance)
+    {
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var closePlayer = PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, distance);
+
+        var includePostors = genOpt.FFAImpostorMode ||
+                             (PlayerControl.LocalPlayer.IsLover() &&
+                              OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates) ||
+                             (genOpt.KillDuringCamoComms &&
+                              closePlayer?.GetAppearanceType() == TownOfUsAppearances.Camouflage);
+        if (!OptionGroupSingleton<LoversOptions>.Instance.LoversKillEachOther && PlayerControl.LocalPlayer.IsLover())
+        {
+            return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, distance, false, x => !x.IsLover());
+        }
+        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, distance);
+    }
+
+    public static void SetSizeLimit(this SpriteRenderer sprite, float scale)
+    {
+        if (sprite.bounds.size.x < sprite.bounds.size.y)
+        {
+            sprite.size = new Vector2(scale * sprite.bounds.size.x / sprite.bounds.size.y, scale);
+        }
+        else
+        {
+            sprite.size = new Vector2(scale, scale * sprite.bounds.size.y / sprite.bounds.size.x);
+        }
+        sprite.tileMode = SpriteTileMode.Adaptive;
+    }
+    
+    public static void SetSizeLimit(this GameObject spriteObj, float scale)
+    {
+        if (!spriteObj.TryGetComponent<SpriteRenderer>(out var sprite))
+        {
+            return;
+        }
+
+        sprite.SetSizeLimit(scale);
+    }
+    public static bool DiedOtherRound(this PlayerControl player)
+    {
+        if (player == null)
+        {
+            return false;
+        }
+
+        if (player.TryGetModifier<DeathHandlerModifier>(out var deathHandler) && player.HasDied())
+        {
+            return !deathHandler.DiedThisRound;
+        }
+
+        return false;
     }
 
     [Serializable]

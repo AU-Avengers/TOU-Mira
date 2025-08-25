@@ -13,7 +13,7 @@ namespace TownOfUs.Patches.Options;
 [HarmonyPatch]
 public static class MapPatches
 {
-    [MethodRpc((uint)TownOfUsRpc.SetMap, SendImmediately = true, LocalHandling = RpcLocalHandling.Before)]
+    [MethodRpc((uint)TownOfUsRpc.SetMap, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcSetMap(PlayerControl player, byte mapId)
     {
         if (!player.IsHost())

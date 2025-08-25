@@ -19,13 +19,14 @@ public static class RevealEvents
         var mods = player.GetModifiers<RevealModifier>();
         foreach (var mod in mods)
         {
-            if (mod.ChangeRoleResult is ChangeRoleResult.RemoveModifier)
+            switch (mod.ChangeRoleResult)
             {
-                mod.ModifierComponent?.RemoveModifier(mod);
-            }
-            else if (mod.ChangeRoleResult is ChangeRoleResult.UpdateInfo)
-            {
-                mod.ShownRole = @event.NewRole;
+                case ChangeRoleResult.RemoveModifier:
+                    mod.ModifierComponent?.RemoveModifier(mod);
+                    break;
+                case ChangeRoleResult.UpdateInfo:
+                    mod.ShownRole = @event.NewRole;
+                    break;
             }
         }
     }

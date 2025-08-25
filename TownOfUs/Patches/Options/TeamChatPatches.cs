@@ -37,7 +37,7 @@ public static class TeamChatPatches
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SendJailorChat, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SendJailorChat)]
     public static void RpcSendJailorChat(PlayerControl player, string text)
     {
         if (PlayerControl.LocalPlayer.IsJailed())
@@ -52,7 +52,7 @@ public static class TeamChatPatches
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SendJaileeChat, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SendJaileeChat)]
     public static void RpcSendJaileeChat(PlayerControl player, string text)
     {
         if (PlayerControl.LocalPlayer.Data.Role is JailorRole || (PlayerControl.LocalPlayer.HasDied() &&
@@ -64,7 +64,7 @@ public static class TeamChatPatches
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SendVampTeamChat, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SendVampTeamChat)]
     public static void RpcSendVampTeamChat(PlayerControl player, string text)
     {
         if ((PlayerControl.LocalPlayer.Data.Role is VampireRole && player != PlayerControl.LocalPlayer) ||
@@ -76,7 +76,7 @@ public static class TeamChatPatches
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SendImpTeamChat, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SendImpTeamChat)]
     public static void RpcSendImpTeamChat(PlayerControl player, string text)
     {
         if ((PlayerControl.LocalPlayer.IsImpostor() && player != PlayerControl.LocalPlayer) ||

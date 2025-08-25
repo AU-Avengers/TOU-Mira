@@ -391,7 +391,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             {
                 if (opts.DoomsayerKillOnlyLast)
                 {
-                    if (victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
+                    if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
                     {
                         OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
                     }
@@ -421,7 +421,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             }
             else
             {
-                if (victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
+                if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
                 {
                     OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
 
@@ -471,7 +471,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         return true;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.DoomsayerWin, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.DoomsayerWin)]
     public static void RpcDoomsayerWin(PlayerControl player)
     {
         if (player.Data.Role is not DoomsayerRole)

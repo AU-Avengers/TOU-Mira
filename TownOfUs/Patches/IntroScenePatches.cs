@@ -1,20 +1,9 @@
-﻿using HarmonyLib;
+﻿
+using HarmonyLib;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
-using MiraAPI.Modifiers;
-using MiraAPI.Modifiers.ModifierDisplay;
-using MiraAPI.Modifiers.Types;
-using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Extensions;
-using TMPro;
-using TownOfUs.Buttons;
-using TownOfUs.Interfaces;
-using TownOfUs.Modifiers.Game;
 using TownOfUs.Options;
-using TownOfUs.Roles;
 using TownOfUs.Utilities;
-using UnityEngine;
 using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches;
@@ -23,250 +12,27 @@ namespace TownOfUs.Patches;
 public static class IntroScenePatches
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
-    [HarmonyPrefix]
-    public static bool ImpostorBeginPatch(IntroCutscene __instance)
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
+    [HarmonyPriority(Priority.Last)]
+    [HarmonyPostfix]
+    public static void ShowTeamPatchPostfix(IntroCutscene __instance)
     {
-        if ( /* OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles &&  */
-            !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
-        {
-            return true;
-        }
-
-        __instance.TeamTitle.text =
-            DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor, Array.Empty<Object>());
-        __instance.TeamTitle.color = Palette.ImpostorRed;
-
-        var player = __instance.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
-        __instance.ourCrewmate = player;
-
-        return false;
-    }
-
-    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
-    [HarmonyPrefix]
-    public static void IntroCutsceneOnDestroyPatch()
-    {
-        HudManager.Instance.SetHudActive(false);
-        HudManager.Instance.SetHudActive(true);
-
-        foreach (var button in CustomButtonManager.Buttons.Where(x => x.Enabled(PlayerControl.LocalPlayer.Data.Role)))
-        {
-            if (button is FakeVentButton)
-            {
-                continue;
-            }
-
-            button.SetTimer(OptionGroupSingleton<GeneralOptions>.Instance.GameStartCd);
-        }
-
         if (PlayerControl.LocalPlayer.IsImpostor())
         {
-            PlayerControl.LocalPlayer.SetKillTimer(OptionGroupSingleton<GeneralOptions>.Instance.GameStartCd);
-        }
-
-        var modsTab = ModifierDisplayComponent.Instance;
-        if (modsTab != null && !modsTab.IsOpen && PlayerControl.LocalPlayer.GetModifiers<GameModifier>()
-                .Any(x => !x.HideOnUi && x.GetDescription() != string.Empty))
-        {
-            modsTab.ToggleTab();
-        }
-
-        var panelThing = HudManager.Instance.TaskStuff.transform.FindChild("RolePanel");
-        if (panelThing != null)
-        {
-            var panel = panelThing.gameObject.GetComponent<TaskPanelBehaviour>();
-            var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
-            if (role == null)
+            if (OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
             {
-                return;
-            }
+                __instance.TeamTitle.text =
+                    DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor,
+                        Array.Empty<Object>());
+                __instance.TeamTitle.color = Palette.ImpostorRed;
 
-            panel.open = true;
-
-            var tabText = panel.tab.gameObject.GetComponentInChildren<TextMeshPro>();
-            var ogPanel = HudManager.Instance.TaskStuff.transform.FindChild("TaskPanel").gameObject
-                .GetComponent<TaskPanelBehaviour>();
-            if (tabText.text != role.RoleName)
-            {
-                tabText.text = role.RoleName;
-            }
-
-            var y = ogPanel.taskText.textBounds.size.y + 1;
-            panel.closedPosition = new Vector3(ogPanel.closedPosition.x, ogPanel.open ? y + 0.2f : 2f,
-                ogPanel.closedPosition.z);
-            panel.openPosition = new Vector3(ogPanel.openPosition.x, ogPanel.open ? y : 2f, ogPanel.openPosition.z);
-
-            panel.SetTaskText(role.SetTabText().ToString());
-        }
-    }
-
-    [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.Close))]
-    [HarmonyPrefix]
-    public static void SpawnInMinigameClosePatch()
-    {
-        IntroCutsceneOnDestroyPatch();
-    }
-}
-
-public static class ModifierIntroPatch
-{
-    private static TextMeshPro ModifierText;
-
-    public static void RunModChecks()
-    {
-        var option = OptionGroupSingleton<GeneralOptions>.Instance.ModifierReveal;
-        var modifier = PlayerControl.LocalPlayer.GetModifiers<AllianceGameModifier>().FirstOrDefault();
-        var uniModifier = PlayerControl.LocalPlayer.GetModifiers<UniversalGameModifier>().FirstOrDefault();
-
-        if (modifier != null && option is ModReveal.Alliance)
-        {
-            ModifierText.text = $"<size={modifier.IntroSize}>{modifier.IntroInfo}</size>";
-
-            ModifierText.color = MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty));
-            if (modifier is IColoredModifier colorMod)
-            {
-                ModifierText.color = colorMod.ModifierColor;
-            }
-        }
-        else if (uniModifier != null && option is ModReveal.Universal)
-        {
-            ModifierText.text = $"<size=4><color=#FFFFFF>Modifier: </color>{uniModifier.ModifierName}</size>";
-
-            ModifierText.color = MiscUtils.GetRoleColour(uniModifier.ModifierName.Replace(" ", string.Empty));
-            if (uniModifier is IColoredModifier colorMod)
-            {
-                ModifierText.color = colorMod.ModifierColor;
+                var player = __instance.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
+                __instance.ourCrewmate = player;
             }
         }
         else
         {
-            ModifierText.text = string.Empty;
-        }
-    }
-
-    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
-    public static class IntroCutscene_BeginCrewmate
-    {
-        public static void Postfix(IntroCutscene __instance)
-        {
-            ModifierText =
-                UnityEngine.Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
             SetHiddenImpostors(__instance);
-        }
-    }
-
-    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
-    public static class IntroCutscene_BeginImpostor
-    {
-        public static void Postfix(IntroCutscene __instance)
-        {
-            ModifierText =
-                UnityEngine.Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
-        }
-    }
-
-    [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__35), nameof(IntroCutscene._CoBegin_d__35.MoveNext))]
-    public static class ShowModifierPatch_CoBegin
-    {
-        public static void Postfix(IntroCutscene._ShowRole_d__41 __instance)
-        {
-            HudManagerPatches.ResetZoom();
-            if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
-            {
-                __instance.__4__this.RoleText.text = custom.RoleName;
-                if (__instance.__4__this.YouAreText.transform.TryGetComponent<TextTranslatorTMP>(out var tmp))
-                {
-                    tmp.defaultStr = custom.YouAreText;
-                    tmp.TargetText = StringNames.None;
-                    tmp.ResetText();
-                }
-
-                __instance.__4__this.RoleBlurbText.text = custom.RoleDescription;
-            }
-
-            if (ModifierText == null)
-            {
-                return;
-            }
-
-            RunModChecks();
-
-            ModifierText.transform.position =
-                __instance.__4__this.transform.position - new Vector3(0f, 1.6f, -10f);
-            ModifierText.gameObject.SetActive(true);
-            ModifierText.color.SetAlpha(0.8f);
-        }
-    }
-
-    [HarmonyPatch(typeof(IntroCutscene._ShowTeam_d__38), nameof(IntroCutscene._ShowTeam_d__38.MoveNext))]
-    public static class ShowModifierPatch_MoveNext
-    {
-        public static void Postfix(IntroCutscene._ShowRole_d__41 __instance)
-        {
-            if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
-            {
-                __instance.__4__this.RoleText.text = custom.RoleName;
-                if (__instance.__4__this.YouAreText.transform.TryGetComponent<TextTranslatorTMP>(out var tmp))
-                {
-                    tmp.defaultStr = custom.YouAreText;
-                    tmp.TargetText = StringNames.None;
-                    tmp.ResetText();
-                }
-
-                __instance.__4__this.RoleBlurbText.text = custom.RoleDescription;
-            }
-
-            if (ModifierText == null)
-            {
-                return;
-            }
-
-            RunModChecks();
-
-            ModifierText.transform.position =
-                __instance.__4__this.transform.position - new Vector3(0f, 1.6f, -10f);
-            ModifierText.gameObject.SetActive(true);
-            ModifierText.color.SetAlpha(0.8f);
-        }
-    }
-
-    [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__41), nameof(IntroCutscene._ShowRole_d__41.MoveNext))]
-    [HarmonyPriority(Priority.Last)]
-    public static class ShowModifierPatch_Role
-    {
-        public static void Postfix(IntroCutscene._ShowRole_d__41 __instance)
-        {
-            if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
-            {
-                __instance.__4__this.RoleText.text = custom.RoleName;
-                __instance.__4__this.YouAreText.text = custom.YouAreText;
-                __instance.__4__this.RoleBlurbText.text = custom.RoleDescription;
-            }
-
-            var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
-            if (teamModifier != null && OptionGroupSingleton<GeneralOptions>.Instance.TeamModifierReveal)
-            {
-                var color = MiscUtils.GetRoleColour(teamModifier.ModifierName.Replace(" ", string.Empty));
-                if (teamModifier is IColoredModifier colorMod)
-                {
-                    ModifierText.color = colorMod.ModifierColor;
-                }
-
-                __instance.__4__this.RoleBlurbText.text =
-                    $"<size={teamModifier.IntroSize}>\n</size>{__instance.__4__this.RoleBlurbText.text}\n<size={teamModifier.IntroSize}><color=#{color.ToHtmlStringRGBA()}>{teamModifier.IntroInfo}</color></size>";
-            }
-
-            if (ModifierText == null)
-            {
-                return;
-            }
-
-            RunModChecks();
-
-            ModifierText.transform.position =
-                __instance.__4__this.transform.position - new Vector3(0f, 1.6f, -10f);
-            ModifierText.gameObject.SetActive(true);
-            ModifierText.color.SetAlpha(0.8f);
         }
     }
 
@@ -274,10 +40,11 @@ public static class ModifierIntroPatch
     {
         var amount = Helpers.GetAlivePlayers().Count(x => x.IsImpostor());
         __instance.ImpostorText.text =
-            DestroyableSingleton<TranslationController>.Instance.GetString(amount == 1 ? StringNames.NumImpostorsS : StringNames.NumImpostorsP, amount);
+            DestroyableSingleton<TranslationController>.Instance.GetString(
+                amount == 1 ? StringNames.NumImpostorsS : StringNames.NumImpostorsP, amount);
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>");
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[]", "</color>");
-        
+
         if (!OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled) return;
 
         var players = GameData.Instance.PlayerCount;

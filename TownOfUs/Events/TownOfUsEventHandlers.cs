@@ -11,18 +11,23 @@ using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.ModifierDisplay;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -44,6 +49,169 @@ namespace TownOfUs.Events;
 
 public static class TownOfUsEventHandlers
 {
+    internal static TextMeshPro ModifierText;
+
+    public static void RunModChecks()
+    {
+        var option = OptionGroupSingleton<GeneralOptions>.Instance.ModifierReveal;
+        var modifier = PlayerControl.LocalPlayer.GetModifiers<AllianceGameModifier>().FirstOrDefault();
+        var uniModifier = PlayerControl.LocalPlayer.GetModifiers<UniversalGameModifier>().FirstOrDefault();
+
+        if (modifier != null && option is ModReveal.Alliance)
+        {
+            ModifierText.text = $"<size={modifier.IntroSize}>{modifier.IntroInfo}</size>";
+
+            ModifierText.color = MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty));
+            if (modifier is IColoredModifier colorMod)
+            {
+                ModifierText.color = colorMod.ModifierColor;
+            }
+        }
+        else if (uniModifier != null && option is ModReveal.Universal)
+        {
+            ModifierText.text = $"<size=4><color=#FFFFFF>Modifier: </color>{uniModifier.ModifierName}</size>";
+
+            ModifierText.color = MiscUtils.GetRoleColour(uniModifier.ModifierName.Replace(" ", string.Empty));
+            if (uniModifier is IColoredModifier colorMod)
+            {
+                ModifierText.color = colorMod.ModifierColor;
+            }
+        }
+        else
+        {
+            ModifierText.text = string.Empty;
+        }
+    }
+
+    [RegisterEvent(1000)]
+    public static void IntroRoleRevealEventHandler(IntroRoleRevealEvent @event)
+    {
+        var instance = @event.IntroCutscene;
+        
+        if (ModCompatibility.IsSubmerged())
+        {
+            Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
+        }
+        
+        if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
+        {
+            instance.RoleText.text = custom.RoleName;
+            instance.YouAreText.text = custom.YouAreText;
+            instance.RoleBlurbText.text = custom.RoleDescription;
+        }
+
+        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
+        if (teamModifier != null && OptionGroupSingleton<GeneralOptions>.Instance.TeamModifierReveal)
+        {
+            var color = MiscUtils.GetRoleColour(teamModifier.ModifierName.Replace(" ", string.Empty));
+            if (teamModifier is IColoredModifier colorMod)
+            {
+                color = colorMod.ModifierColor;
+            }
+
+            instance.RoleBlurbText.text =
+                $"<size={teamModifier.IntroSize}>\n</size>{instance.RoleBlurbText.text}\n<size={teamModifier.IntroSize}><color=#{color.ToHtmlStringRGBA()}>{teamModifier.IntroInfo}</color></size>";
+        }
+    }
+    [RegisterEvent]
+    public static void IntroBeginEventHandler(IntroBeginEvent @event)
+    {
+        var cutscene = @event.IntroCutscene;
+        Coroutines.Start(CoChangeModifierText(cutscene));
+    }
+
+    public static IEnumerator CoChangeModifierText(IntroCutscene cutscene)
+    {
+        yield return new WaitForSeconds(0.01f);
+        
+        ModifierText =
+            Object.Instantiate(cutscene.RoleText, cutscene.RoleText.transform.parent, false);
+        
+        if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
+        {
+            cutscene.RoleText.text = custom.RoleName;
+            cutscene.YouAreText.text = custom.YouAreText;
+            cutscene.RoleBlurbText.text = custom.RoleDescription;
+        }
+
+        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
+        if (teamModifier != null && OptionGroupSingleton<GeneralOptions>.Instance.TeamModifierReveal)
+        {
+            var color = MiscUtils.GetRoleColour(teamModifier.ModifierName.Replace(" ", string.Empty));
+            if (teamModifier is IColoredModifier colorMod)
+            {
+                ModifierText.color = colorMod.ModifierColor;
+            }
+
+            cutscene.RoleBlurbText.text =
+                $"<size={teamModifier.IntroSize}>\n</size>{cutscene.RoleBlurbText.text}\n<size={teamModifier.IntroSize}><color=#{color.ToHtmlStringRGBA()}>{teamModifier.IntroInfo}</color></size>";
+        }
+
+        RunModChecks();
+
+        ModifierText.transform.position =
+            cutscene.transform.position - new Vector3(0f, 1.6f, -10f);
+        ModifierText.gameObject.SetActive(true);
+        ModifierText.color.SetAlpha(0.8f);
+    }
+    
+    [RegisterEvent]
+    public static void IntroEndEventHandler(IntroEndEvent @event)
+    {
+        HudManager.Instance.SetHudActive(false);
+        HudManager.Instance.SetHudActive(true);
+
+        foreach (var button in CustomButtonManager.Buttons.Where(x => x.Enabled(PlayerControl.LocalPlayer.Data.Role)))
+        {
+            if (button is FakeVentButton)
+            {
+                continue;
+            }
+
+            button.SetTimer(OptionGroupSingleton<GeneralOptions>.Instance.GameStartCd);
+        }
+
+        if (PlayerControl.LocalPlayer.IsImpostor())
+        {
+            PlayerControl.LocalPlayer.SetKillTimer(OptionGroupSingleton<GeneralOptions>.Instance.GameStartCd);
+        }
+
+        var modsTab = ModifierDisplayComponent.Instance;
+        if (modsTab != null && !modsTab.IsOpen && PlayerControl.LocalPlayer.GetModifiers<GameModifier>()
+                .Any(x => !x.HideOnUi && x.GetDescription() != string.Empty))
+        {
+            modsTab.ToggleTab();
+        }
+
+        var panelThing = HudManager.Instance.TaskStuff.transform.FindChild("RolePanel");
+        if (panelThing != null)
+        {
+            var panel = panelThing.gameObject.GetComponent<TaskPanelBehaviour>();
+            var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
+            if (role == null)
+            {
+                return;
+            }
+
+            panel.open = true;
+
+            var tabText = panel.tab.gameObject.GetComponentInChildren<TextMeshPro>();
+            var ogPanel = HudManager.Instance.TaskStuff.transform.FindChild("TaskPanel").gameObject
+                .GetComponent<TaskPanelBehaviour>();
+            if (tabText.text != role.RoleName)
+            {
+                tabText.text = role.RoleName;
+            }
+
+            var y = ogPanel.taskText.textBounds.size.y + 1;
+            panel.closedPosition = new Vector3(ogPanel.closedPosition.x, ogPanel.open ? y + 0.2f : 2f,
+                ogPanel.closedPosition.z);
+            panel.openPosition = new Vector3(ogPanel.openPosition.x, ogPanel.open ? y : 2f, ogPanel.openPosition.z);
+
+            panel.SetTaskText(role.SetTabText().ToString());
+        }
+    }
+
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
@@ -63,6 +231,7 @@ public static class TownOfUsEventHandlers
         jestButton.Show = false;
         phantomButton.Show = false;
     }
+    
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {

@@ -102,7 +102,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         Fortified?.AddModifier<WardenFortifiedModifier>(Player);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.WardenFortify, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.WardenFortify)]
     public static void RpcWardenFortify(PlayerControl player, PlayerControl target)
     {
         if (player.Data.Role is not WardenRole)
@@ -115,7 +115,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         warden?.SetFortifiedPlayer(target);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ClearWardenFortify, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.ClearWardenFortify)]
     public static void RpcClearWardenFortify(PlayerControl player)
     {
         if (player.Data.Role is not WardenRole)
@@ -128,7 +128,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         warden?.SetFortifiedPlayer(null);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.WardenNotify, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.WardenNotify)]
     public static void RpcWardenNotify(PlayerControl player, PlayerControl source, PlayerControl target)
     {
         if (player.Data.Role is not WardenRole)

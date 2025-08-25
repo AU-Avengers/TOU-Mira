@@ -19,5 +19,5 @@ public sealed class JailorOptions : AbstractOptionGroup<JailorRole>
     public bool JailInARow { get; set; } = false;
 
     [ModdedToggleOption("Jailee Can Use Public Chat")]
-    public bool JaileePublicChat { get; set; } = true;
+    public bool JaileePublicChat { get; set; } = false;
 }

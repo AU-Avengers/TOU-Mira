@@ -11,6 +11,54 @@ public static class TouAssets
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
+    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner.png");
+    
+    public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
+    {
+            var sprite = FoolsNormal;
+            switch (value)
+            {
+                case 1:
+                    sprite = FoolsHorse;
+                    break;
+                case 2:
+                    sprite = FoolsLong;
+                    break;
+                case 3:
+                    sprite = FoolsLongHorse;
+                    break;
+            }
+            return sprite;
+    }
+    public static LoadableAsset<Sprite> FoolsNormal { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.Normal.png");
+    public static LoadableAsset<Sprite> FoolsHorse { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.Horse.png");
+    public static LoadableAsset<Sprite> FoolsLong { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.Long.png");
+    public static LoadableAsset<Sprite> FoolsLongHorse { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.LongHorse.png");
+
+    public static LoadableAsset<Sprite> BlankSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.BlankSprite.png");
+    public static LoadableAsset<Sprite> RangeSprite { get; } = new LoadableResourceAsset($"{ShortPath}.Range.png");
+    public static LoadableAsset<Sprite> CircleSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Circle.png", 512);
+
+    public static LoadableAsset<Sprite> AuAvengersSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AuAvengers.png", 290);
+    public static LoadableAsset<Sprite> AbilityCounterPlayerSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Player.png");
+
+    public static LoadableAsset<Sprite> AbilityCounterVentSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Vent.png");
+
+    public static LoadableAsset<Sprite> AbilityCounterBodySprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Body.png");
+
+    public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Basic.png");
+    
     public static readonly LoadableAsset<GameObject> RoleSelectionGame =
         new LoadableBundleAsset<GameObject>("SelectRoleGame", MainBundle);
     
@@ -24,7 +72,7 @@ public static class TouAssets
         new LoadableBundleAsset<GameObject>("IngameWiki", MainBundle);
 
     public static LoadableAsset<GameObject> FirstRoundShield { get; } =
-        new LoadableBundleAsset<GameObject>("FirstRoundShield", MainBundle);
+        new LoadableBundleAsset<GameObject>("FirstRoundShieldBubble", MainBundle);
 
     public static LoadableAsset<GameObject> ClericBarrier { get; } =
         new LoadableBundleAsset<GameObject>("ClericBarrier", MainBundle);
@@ -74,161 +122,123 @@ public static class TouAssets
     public static LoadableAsset<GameObject> ScatterUI { get; } =
         new LoadableBundleAsset<GameObject>("ScatterUI", MainBundle);
 
-    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner.png");
-
     public static LoadableAsset<Sprite> MenuOption { get; } =
-        new LoadableResourceAsset($"{ShortPath}.MenuOption.png");
+        new LoadableBundleAsset<Sprite>("MenuOption.png", MainBundle);
         
     public static LoadableAsset<Sprite> MenuOptionActive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.MenuOptionActive.png");
+        new LoadableBundleAsset<Sprite>("MenuOptionActive.png", MainBundle);
     
-    public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
-    {
-            var sprite = FoolsNormal;
-            switch (value)
-            {
-                case 1:
-                    sprite = FoolsHorse;
-                    break;
-                case 2:
-                    sprite = FoolsLong;
-                    break;
-                case 3:
-                    sprite = FoolsLongHorse;
-                    break;
-            }
-            return sprite;
-    }
-    public static LoadableAsset<Sprite> FoolsNormal { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.Normal.png");
-    public static LoadableAsset<Sprite> FoolsHorse { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.Horse.png");
-    public static LoadableAsset<Sprite> FoolsLong { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.Long.png");
-    public static LoadableAsset<Sprite> FoolsLongHorse { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.LongHorse.png");
-
-    public static LoadableAsset<Sprite> BlankSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BlankSprite.png");
-
-    public static LoadableAsset<Sprite> WikiButton { get; } = new LoadableResourceAsset($"{ShortPath}.WikiButton.png");
+    public static LoadableAsset<Sprite> WikiButton { get; } = new LoadableBundleAsset<Sprite>("WikiButton.png", MainBundle);
 
     public static LoadableAsset<Sprite> WikiButtonActive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.WikiButtonActive.png");
+        new LoadableBundleAsset<Sprite>("WikiButtonActive.png", MainBundle);
 
-    public static LoadableAsset<Sprite> ZoomPlus { get; } = new LoadableResourceAsset($"{ShortPath}.Plus.png");
-    public static LoadableAsset<Sprite> ZoomMinus { get; } = new LoadableResourceAsset($"{ShortPath}.Minus.png");
+    public static LoadableAsset<Sprite> ZoomPlus { get; } = new LoadableBundleAsset<Sprite>("Plus.png", MainBundle);
+    public static LoadableAsset<Sprite> ZoomMinus { get; } = new LoadableBundleAsset<Sprite>("Minus.png", MainBundle);
 
     public static LoadableAsset<Sprite> ZoomPlusActive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.PlusActive.png");
+        new LoadableBundleAsset<Sprite>("PlusActive", MainBundle);
 
     public static LoadableAsset<Sprite> ZoomMinusActive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.MinusActive.png");
+        new LoadableBundleAsset<Sprite>("MinusActive", MainBundle);
 
     public static LoadableAsset<Sprite> TeamChatInactive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TeamChatInactive.png");
+        new LoadableBundleAsset<Sprite>("TeamChatInactive", MainBundle);
 
     public static LoadableAsset<Sprite> TeamChatActive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TeamChatActive.png");
+        new LoadableBundleAsset<Sprite>("TeamChatActive", MainBundle);
 
     public static LoadableAsset<Sprite> TeamChatSelected { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TeamChatSelected.png");
+        new LoadableBundleAsset<Sprite>("TeamChatSelected", MainBundle);
 
     public static LoadableAsset<Sprite> BarryButtonSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BarryButton.png");
+        new LoadableBundleAsset<Sprite>("BarryButton", MainBundle);
 
     public static LoadableAsset<Sprite> BroadcastSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BroadcastButton.png");
+        new LoadableBundleAsset<Sprite>("BroadcastButton", MainBundle);
 
     public static LoadableAsset<Sprite> DisperseSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.DisperseButton.png");
+        new LoadableBundleAsset<Sprite>("DisperseButton", MainBundle);
 
     public static LoadableAsset<Sprite> VitalsSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.VitalsButton.png");
+        new LoadableBundleAsset<Sprite>("VitalsButton", MainBundle);
 
-    public static LoadableAsset<Sprite> CameraSprite { get; } = new LoadableResourceAsset($"{ShortPath}.CamButton.png");
+    public static LoadableAsset<Sprite> CameraSprite { get; } = new LoadableBundleAsset<Sprite>("CamButton", MainBundle);
 
     public static LoadableAsset<Sprite> AdminSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AdminButton.png");
+        new LoadableBundleAsset<Sprite>("AdminButton", MainBundle);
 
-    public static LoadableAsset<Sprite> KillSprite { get; } = new LoadableResourceAsset($"{ShortPath}.KillButton.png");
-    public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableResourceAsset($"{ShortPath}.VentButton.png");
-    public static LoadableAsset<Sprite> RangeSprite { get; } = new LoadableResourceAsset($"{ShortPath}.Range.png");
+    public static LoadableAsset<Sprite> KillSprite { get; } = new LoadableBundleAsset<Sprite>("KillButton", MainBundle);
+    public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableBundleAsset<Sprite>("VentButton", MainBundle);
 
     public static LoadableAsset<Sprite> HysteriaSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Hysteria.png", 300);
+        new LoadableBundleAsset<Sprite>("Hysteria.png", MainBundle);
 
     public static LoadableAsset<Sprite> HysteriaCleanSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.HysteriaClean.png", 300);
+        new LoadableBundleAsset<Sprite>("HysteriaClean.png", MainBundle);
 
     public static LoadableAsset<Sprite> ShootMeetingSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Shoot.png", 300);
+        new LoadableBundleAsset<Sprite>("Shoot.png", MainBundle);
 
     public static LoadableAsset<Sprite> BlackmailLetterSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BlackmailLetter.png");
+        new LoadableBundleAsset<Sprite>("BlackmailLetter", MainBundle);
 
     public static LoadableAsset<Sprite> BlackmailOverlaySprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BlackmailOverlay.png");
+        new LoadableBundleAsset<Sprite>("BlackmailOverlay", MainBundle);
 
     public static LoadableAsset<Sprite> FootprintSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Footprint.png");
-
-    public static LoadableAsset<Sprite> CircleSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Circle.png", 512);
+        new LoadableBundleAsset<Sprite>("Footprint", MainBundle);
 
     public static LoadableAsset<Sprite> SwapActive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.SwapActive.png", 300);
+        new LoadableBundleAsset<Sprite>("SwapActive.png", MainBundle);
 
     public static LoadableAsset<Sprite> SwapInactive { get; } =
-        new LoadableResourceAsset($"{ShortPath}.SwapDisabled.png", 300);
+        new LoadableBundleAsset<Sprite>("SwapDisabled.png", MainBundle);
 
     public static LoadableAsset<Sprite> RevealButtonSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Reveal.png", 300);
+        new LoadableBundleAsset<Sprite>("Reveal.png", MainBundle);
 
     public static LoadableAsset<Sprite> RevealCleanSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.RevealClean.png", 300);
+        new LoadableBundleAsset<Sprite>("RevealClean.png", MainBundle);
 
-    public static LoadableAsset<Sprite> Guess { get; } = new LoadableResourceAsset($"{ShortPath}.Guess.png", 300);
-    public static LoadableAsset<Sprite> InJailSprite { get; } = new LoadableResourceAsset($"{ShortPath}.InJail.png");
+    public static LoadableAsset<Sprite> Guess { get; } = new LoadableBundleAsset<Sprite>("Guess.png", MainBundle);
+    public static LoadableAsset<Sprite> InJailSprite { get; } = new LoadableBundleAsset<Sprite>("InJail", MainBundle);
 
     public static LoadableAsset<Sprite> JailCellSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.JailCell.png");
+        new LoadableBundleAsset<Sprite>("JailCell", MainBundle);
 
     public static LoadableAsset<Sprite> ImitateSelectSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ImitateSelect.png", 300);
+        new LoadableBundleAsset<Sprite>("ImitateSelect.png", MainBundle);
 
     public static LoadableAsset<Sprite> ImitateDeselectSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ImitateDeselect.png", 300);
+        new LoadableBundleAsset<Sprite>("ImitateDeselect.png", MainBundle);
 
     public static LoadableAsset<Sprite> ExecuteSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Execute.png", 254);
+        new LoadableBundleAsset<Sprite>("Execute.png", MainBundle);
 
     public static LoadableAsset<Sprite> ExecuteCleanSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ExecuteClean.png", 254);
+        new LoadableBundleAsset<Sprite>("ExecuteClean.png", MainBundle);
 
     public static LoadableAsset<Sprite> RetrainSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Retrain.png", 300);
+        new LoadableBundleAsset<Sprite>("Retrain.png", MainBundle);
     
     public static LoadableAsset<Sprite> RetrainCleanSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.RetrainClean.png", 300);
+        new LoadableBundleAsset<Sprite>("RetrainClean.png", MainBundle);
     
-    public static LoadableAsset<Sprite> Hacked { get; } = new LoadableResourceAsset($"{ShortPath}.Hacked.png");
+    public static LoadableAsset<Sprite> Hacked { get; } = new LoadableBundleAsset<Sprite>("Hacked", MainBundle);
 
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BarricadeVent1.png", 200);
+        new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);
     public static LoadableAsset<Sprite> BarricadeVentSprite2 { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BarricadeVent2.png", 200);
+        new LoadableBundleAsset<Sprite>("BarricadeVent2.png", MainBundle);
     public static LoadableAsset<Sprite> BarricadeVentSprite3 { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BarricadeVent3.png", 200);
+        new LoadableBundleAsset<Sprite>("BarricadeVent3.png", MainBundle);
 
     public static LoadableAsset<Sprite> BarricadeFungleSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.BarricadePlant.png", 200);
+        new LoadableBundleAsset<Sprite>("BarricadePlant.png", MainBundle);
 
-    public static LoadableAsset<Sprite> LighterSprite { get; } = new LoadableResourceAsset($"{ShortPath}.Lighter.png");
-    public static LoadableAsset<Sprite> DarkerSprite { get; } = new LoadableResourceAsset($"{ShortPath}.Darker.png");
-
-    public static LoadableAsset<Sprite> AuAvengersSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AuAvengers.png", 290);
+    public static LoadableAsset<Sprite> LighterSprite { get; } = new LoadableBundleAsset<Sprite>("Lighter", MainBundle);
+    public static LoadableAsset<Sprite> DarkerSprite { get; } = new LoadableBundleAsset<Sprite>("Darker", MainBundle);
 
     public static LoadableAsset<Sprite> ArrowSprite
     {
@@ -271,52 +281,40 @@ public static class TouAssets
         }
     }
 
-    public static LoadableAsset<Sprite> ArrowBasicSprite { get; } = new LoadableResourceAsset($"{ShortPath}.Arrow.png", 110);
-    public static LoadableAsset<Sprite> ArrowDarkOutSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ArrowDarkOut.png", 110);
-    public static LoadableAsset<Sprite> ArrowLightOutSprite { get; } = new LoadableResourceAsset($"{ShortPath}.ArrowLightOut.png", 110);
+    public static LoadableAsset<Sprite> ArrowBasicSprite { get; } = new LoadableBundleAsset<Sprite>("Arrow.png", MainBundle);
+    public static LoadableAsset<Sprite> ArrowDarkOutSprite { get; } = new LoadableBundleAsset<Sprite>("ArrowDarkOut.png", MainBundle);
+    public static LoadableAsset<Sprite> ArrowLightOutSprite { get; } = new LoadableBundleAsset<Sprite>("ArrowLightOut.png", MainBundle);
     
     public static LoadableAsset<Sprite> ArrowLegacySprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ArrowLegacy.png");
+        new LoadableBundleAsset<Sprite>("ArrowLegacy", MainBundle);
 
     public static LoadableAsset<Sprite> CrimeSceneSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.CrimeScene.png");
+        new LoadableBundleAsset<Sprite>("CrimeScene", MainBundle);
 
     public static LoadableAsset<Sprite> ScreenFlash { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ScreenFlash.png");
+        new LoadableBundleAsset<Sprite>("ScreenFlash", MainBundle);
 
-    public static LoadableAsset<Sprite> KillBG { get; } = new LoadableResourceAsset($"{ShortPath}.KillBackground.png");
+    public static LoadableAsset<Sprite> KillBG { get; } = new LoadableBundleAsset<Sprite>("KillBackground", MainBundle);
 
     public static LoadableAsset<Sprite> RetributionBG { get; } =
-        new LoadableResourceAsset($"{ShortPath}.RetributionBackground.png");
-
-    public static LoadableAsset<Sprite> AbilityCounterPlayerSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Player.png");
-
-    public static LoadableAsset<Sprite> AbilityCounterVentSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Vent.png");
-
-    public static LoadableAsset<Sprite> AbilityCounterBodySprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Body.png");
-
-    public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
-        new LoadableResourceAsset($"{CounterPath}.Basic.png");
+        new LoadableBundleAsset<Sprite>("RetributionBackground", MainBundle);
 
     public static LoadableAsset<Sprite> GameSummarySprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.GameSummaryButton.png");
+        new LoadableBundleAsset<Sprite>("GameSummaryButton", MainBundle);
 
     public static LoadableAsset<Sprite> MapVentSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.MapVent.png", 350);
+        new LoadableBundleAsset<Sprite>("MapVent.png", MainBundle);
 
     public static LoadableAsset<Sprite> MapBodySprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.MapBody.png", 350);
+        new LoadableBundleAsset<Sprite>("MapBody.png", MainBundle);
 
-    public static LoadableAsset<Sprite> WikiBgSprite { get; } = new LoadableResourceAsset($"{ShortPath}.WikiBg.png");
+    public static LoadableAsset<Sprite> WikiBgSprite { get; } = new LoadableBundleAsset<Sprite>("WikiBg", MainBundle);
 
     public static LoadableAsset<Sprite> TimerDrawSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TimerDraw.png", 300);
+        new LoadableBundleAsset<Sprite>("TimerDraw.png", MainBundle);
 
     public static LoadableAsset<Sprite> TimerImpSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TimerImp.png", 300);
+        new LoadableBundleAsset<Sprite>("TimerImp.png", MainBundle);
 
     public static void Initialize()
     {

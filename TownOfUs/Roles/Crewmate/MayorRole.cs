@@ -153,7 +153,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         RpcAnimateNewReveal(Player);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.AnimateNewReveal, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.AnimateNewReveal)]
     public static void RpcAnimateNewReveal(PlayerControl plr)
     {
         if (plr.Data.Role is MayorRole mayor)

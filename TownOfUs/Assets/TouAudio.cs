@@ -5,112 +5,110 @@ namespace TownOfUs.Assets;
 
 public static class TouAudio
 {
-    private const string AudioPath = "TownOfUs.Resources.Audio";
-
     // THIS FILE SHOULD ONLY HOLD AUDIO
     public static LoadableAsset<AudioClip> NoisemakerDeathSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.NoisemakerDeath.wav");
+        new LoadableBundleAsset<AudioClip>("NoisemakerDeath", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> TrackerActivateSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.TrackerActivate.wav");
+        new LoadableBundleAsset<AudioClip>("TrackerActivate", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> TrackerDeactivateSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.TrackerDeactivate.wav");
+        new LoadableBundleAsset<AudioClip>("TrackerDeactivate", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> TrapperPlaceSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.TrapperPlace.wav");
+        new LoadableBundleAsset<AudioClip>("TrapperPlace", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> QuestionSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.Question.wav");
+        new LoadableBundleAsset<AudioClip>("QuestionSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> ToppatIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.ToppatIntro.wav");
+        new LoadableBundleAsset<AudioClip>("ToppatIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> ProsIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.ProsIntro.wav");
+        new LoadableBundleAsset<AudioClip>("ProsIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> SpyIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.SpyIntro.wav");
+        new LoadableBundleAsset<AudioClip>("SpyIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> OtherIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.OtherIntro.wav");
+        new LoadableBundleAsset<AudioClip>("OtherIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> SheriffIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.SheriffIntro.wav");
+        new LoadableBundleAsset<AudioClip>("SheriffIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> VigiIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.VigilanteIntro.wav");
+        new LoadableBundleAsset<AudioClip>("VigilanteIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> AltruistReviveSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.Altruist.wav");
+        new LoadableBundleAsset<AudioClip>("AltruistIntro", TouAssets.MainBundle);
 
-    public static LoadableAsset<AudioClip> JailSound { get; } = new LoadableAudioResourceAsset($"{AudioPath}.Jail.wav");
+    public static LoadableAsset<AudioClip> JailSound { get; } = new LoadableBundleAsset<AudioClip>("JailSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> MayorRevealSound { get; set; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.MayorReveal.wav");
+        new LoadableBundleAsset<AudioClip>("MayorRevealSound", TouAssets.MainBundle);
     
     public static LoadableAsset<AudioClip> PoliticianIntroSound { get; set; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.MayorReveal.wav");
+        new LoadableBundleAsset<AudioClip>("MayorRevealSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> MediumIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.MediumIntro.wav");
+        new LoadableBundleAsset<AudioClip>("MediumIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> TimeLordIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.TimeLordIntro.wav");
+        new LoadableBundleAsset<AudioClip>("TimeLordIntro", TouAssets.MainBundle);
 
-    public static LoadableAsset<AudioClip> EngiFix1 { get; } = new LoadableAudioResourceAsset($"{AudioPath}.Fix1.wav");
-    public static LoadableAsset<AudioClip> EngiFix2 { get; } = new LoadableAudioResourceAsset($"{AudioPath}.Fix2.wav");
-    public static LoadableAsset<AudioClip> EngiFix3 { get; } = new LoadableAudioResourceAsset($"{AudioPath}.Fix3.wav");
+    public static LoadableAsset<AudioClip> EngiFix1 { get; } = new LoadableBundleAsset<AudioClip>("Fix1", TouAssets.MainBundle);
+    public static LoadableAsset<AudioClip> EngiFix2 { get; } = new LoadableBundleAsset<AudioClip>("Fix2", TouAssets.MainBundle);
+    public static LoadableAsset<AudioClip> EngiFix3 { get; } = new LoadableBundleAsset<AudioClip>("Fix3", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> GuardianAngelSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.GuardianAngelProtect.wav");
+        new LoadableBundleAsset<AudioClip>("GuardianAngelProtect", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> DiscoveredSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.Discovered.wav");
+        new LoadableBundleAsset<AudioClip>("Discovered", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> GlitchSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.Glitch.wav");
+        new LoadableBundleAsset<AudioClip>("GlitchIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> HackedSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.Hacked.wav");
+        new LoadableBundleAsset<AudioClip>("HackedSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> UnhackedSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.Unhacked.wav");
+        new LoadableBundleAsset<AudioClip>("UnhackedSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> MimicSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.Mimic.wav");
+        new LoadableBundleAsset<AudioClip>("MimicSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> UnmimicSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.Unmimic.wav");
+        new LoadableBundleAsset<AudioClip>("UnmimicSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> ArsoIgniteSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.ArsonistIgnite.wav");
+        new LoadableBundleAsset<AudioClip>("ArsonistIgnite", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> WerewolfRampageSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.WerewolfRampage.wav");
+        new LoadableBundleAsset<AudioClip>("WerewolfRampage", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> GrenadeSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.GrenadeThrow.wav");
+        new LoadableBundleAsset<AudioClip>("GrenadeThrow", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> WarlockIntroSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.WarlockIntro.wav");
+        new LoadableBundleAsset<AudioClip>("WarlockIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> SwooperActivateSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.SwooperActivate.wav");
+        new LoadableBundleAsset<AudioClip>("SwooperActivate", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> SwooperDeactivateSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.SwooperDeactivate.wav");
+        new LoadableBundleAsset<AudioClip>("SwooperDeactivate", TouAssets.MainBundle);
 
-    public static LoadableAsset<AudioClip> MineSound { get; } = new LoadableAudioResourceAsset($"{AudioPath}.Mine.wav");
+    public static LoadableAsset<AudioClip> MineSound { get; } = new LoadableBundleAsset<AudioClip>("MineSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> EscapistMarkSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.EscapistMark.wav");
+        new LoadableBundleAsset<AudioClip>("EscapistMark", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> EscapistRecallSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.EscapistRecall.wav");
+        new LoadableBundleAsset<AudioClip>("EscapistRecall", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> JanitorCleanSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.JanitorClean.wav");
+        new LoadableBundleAsset<AudioClip>("JanitorClean", TouAssets.MainBundle);
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {

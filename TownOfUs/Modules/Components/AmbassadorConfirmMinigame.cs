@@ -6,6 +6,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -52,6 +53,8 @@ public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
         RetrainText.text = $"Are you sure you want to be retrained into {NewRole.NiceName}?\nThis change is permanent.";
         
         RoleIcon.sprite = NewRole.RoleIconWhite ?? TouRoleIcons.RandomImp.LoadAsset();
+        
+        RoleIcon.SetSizeLimit(2.8f);
         
         TitleText.gameObject.SetActive(false);
         RoleIcon.gameObject.SetActive(false);

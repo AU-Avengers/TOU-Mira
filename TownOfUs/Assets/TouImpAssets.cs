@@ -5,76 +5,72 @@ namespace TownOfUs.Assets;
 
 public static class TouImpAssets
 {
-    private const string ShortPath = "TownOfUs.Resources";
-    private const string BannerPath = $"{ShortPath}.RoleBanners";
-    private const string ButtonPath = $"{ShortPath}.ImpButtons";
-
     // THIS FILE SHOULD ONLY HOLD BUTTONS AND ROLE BANNERS, EVERYTHING ELSE BELONGS IN TouAssets.cs
-    public static LoadableAsset<Sprite> MarkSprite { get; } = new LoadableResourceAsset($"{ButtonPath}.MarkButton.png");
+    public static LoadableAsset<Sprite> MarkSprite { get; } = new LoadableBundleAsset<Sprite>("MarkButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> RecallSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.RecallButton.png");
+        new LoadableBundleAsset<Sprite>("RecallButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> FlashSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.FlashButton.png");
+        new LoadableBundleAsset<Sprite>("FlashButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> BlindSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.BlindButton.png");
+        new LoadableBundleAsset<Sprite>("BlindButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> SampleSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.SampleButton.png");
+        new LoadableBundleAsset<Sprite>("SampleButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> MorphSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.MorphButton.png");
+        new LoadableBundleAsset<Sprite>("MorphButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> SwoopSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.SwoopButton.png");
+        new LoadableBundleAsset<Sprite>("SwoopButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> UnswoopSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.UnswoopButton.png");
+        new LoadableBundleAsset<Sprite>("UnswoopButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> NoAbilitySprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.NoAbilityButton.png");
+        new LoadableBundleAsset<Sprite>("NoAbilityButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> CamouflageSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.CamouflageButton.png");
+        new LoadableBundleAsset<Sprite>("CamouflageButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> SprintSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.CamoSprintButton.png");
+        new LoadableBundleAsset<Sprite>("CamoSprintButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> FreezeSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.CamoSprintFreezeButton.png");
+        new LoadableBundleAsset<Sprite>("CamoSprintFreezeButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> PursueSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.PursueButton.png");
+        new LoadableBundleAsset<Sprite>("PursueButton", TouAssets.MainBundle);
     
     public static LoadableAsset<Sprite> AmbushSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.AmbushButton.png");
+        new LoadableBundleAsset<Sprite>("AmbushButton", TouAssets.MainBundle);
     
     public static LoadableAsset<Sprite> PlaceSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.PlaceButton.png");
+        new LoadableBundleAsset<Sprite>("PlaceButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> DetonatingSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.DetonatingButton.png");
+        new LoadableBundleAsset<Sprite>("DetonatingButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> PlantSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.PlantButton.png");
+        new LoadableBundleAsset<Sprite>("PlantButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> TraitorSelect { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.TraitorSelect.png");
+        new LoadableBundleAsset<Sprite>("TraitorSelect", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> BlackmailSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.BlackmailButton.png");
+        new LoadableBundleAsset<Sprite>("BlackmailButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> HypnotiseButtonSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.HypnotiseButton.png");
+        new LoadableBundleAsset<Sprite>("HypnotiseButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> CleanButtonSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.CleanButton.png");
+        new LoadableBundleAsset<Sprite>("CleanButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> MineSprite { get; } = new LoadableResourceAsset($"{ButtonPath}.MineButton.png");
-    public static LoadableAsset<Sprite> DragSprite { get; } = new LoadableResourceAsset($"{ButtonPath}.DragButton.png");
-    public static LoadableAsset<Sprite> DropSprite { get; } = new LoadableResourceAsset($"{ButtonPath}.DropButton.png");
+    public static LoadableAsset<Sprite> MineSprite { get; } = new LoadableBundleAsset<Sprite>("MineButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> DragSprite { get; } = new LoadableBundleAsset<Sprite>("DragButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> DropSprite { get; } = new LoadableBundleAsset<Sprite>("DropButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> MinerRoleBanner { get; } = new LoadableResourceAsset($"{BannerPath}.Miner.png");
+    public static LoadableAsset<Sprite> MinerRoleBanner { get; } = new LoadableBundleAsset<Sprite>("MinerBanner", TouAssets.MainBundle);
 }

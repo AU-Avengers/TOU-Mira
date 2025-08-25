@@ -136,7 +136,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.AmbushPlayer, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.AmbushPlayer)]
     public static void RpcAmbushPlayer(PlayerControl ambusher, PlayerControl target)
     {
         if (ambusher.Data.Role is not AmbusherRole)

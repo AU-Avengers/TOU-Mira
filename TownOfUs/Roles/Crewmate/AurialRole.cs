@@ -133,7 +133,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         _senseArrows.Remove(arrow.Key);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.AurialSense, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.AurialSense)]
     public static void RpcSense(PlayerControl player, PlayerControl source)
     {
         if (player.Data.Role is not AurialRole aurial)
