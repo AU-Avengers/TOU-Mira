@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
@@ -27,21 +28,36 @@ public static class AmbassadorEvents
                 return;
             }
 
+            var opt = OptionGroupSingleton<AmbassadorOptions>.Instance;
             var player = ambassador.SelectedPlr._object;
             var role = ambassador.SelectedRole.Role;
-
-            --ambassador.RetrainsAvailable;
-            ambassador.RoundsCooldown = (int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundCooldown;
-            ambassador.Clear();
-
-            if (player.AmOwner)
+            if (opt.RetrainConfirmation && player.AmOwner)
             {
-                var currenttime = player.killTimer;
+                var confirmMenu = AmbassadorConfirmMinigame.Create();
+                confirmMenu.Open(
+                    RoleManager.Instance.GetRole(role),
+                    confirmation =>
+                    {
+                        AmbassadorRole.RpcRetrainConfirm(ambassador.Player, player, (int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundCooldown, (ushort)role, confirmation);
+                        confirmMenu.Close();
+                    }
+                );
+            }
+            else if (!opt.RetrainConfirmation)
+            {
+                --ambassador.RetrainsAvailable;
+                ambassador.RoundsCooldown = (int)opt.RoundCooldown;
+                ambassador.Clear();
 
-                player.RpcAddModifier<AmbassadorRetrainedModifier>((ushort)player.Data.Role.Role);
-                player.RpcChangeRole((ushort)role);
+                if (player.AmOwner)
+                {
+                    var currenttime = player.killTimer;
 
-                player.SetKillTimer(currenttime);
+                    player.RpcAddModifier<AmbassadorRetrainedModifier>((ushort)player.Data.Role.Role);
+                    player.RpcChangeRole((ushort)role);
+
+                    player.SetKillTimer(currenttime);
+                }
             }
         }
     }

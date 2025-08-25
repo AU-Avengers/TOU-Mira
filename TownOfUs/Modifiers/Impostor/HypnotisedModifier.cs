@@ -20,7 +20,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
 
     public override void OnDeath(DeathReason reason)
     {
-        ModifierComponent!.RemoveModifier(this);
+        ModifierComponent?.RemoveModifier(this);
     }
 
     public override void OnActivate()
@@ -58,10 +58,30 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
 
         // Logger<TownOfUsPlugin>.Message($"HypnotisedModifier.Hysteria - {Player.Data.PlayerName}");
         players = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() && x != Player).ToList();
-
+        
         foreach (var player in players)
         {
-            var hidden = Random.RandomRangeInt(0, 3);
+            var hidden = Random.RandomRangeInt(0, 4);
+            var bodyType = Random.RandomRangeInt(0, 6);
+            
+            if (bodyType == 1)
+            {
+                player.MyPhysics.SetForcedBodyType(PlayerBodyTypes.Horse);
+            }
+            else if (bodyType == 2)
+            {
+                player.MyPhysics.SetBodyType(PlayerBodyTypes.LongSeeker);
+            }
+            else if (bodyType == 3)
+            {
+                player.MyPhysics.SetBodyType(PlayerBodyTypes.Long);
+            }
+            else
+            {
+                player.MyPhysics.SetForcedBodyType(PlayerBodyTypes.Normal);
+            }
+            
+            
             if (hidden == 0)
             {
                 var morph = new VisualAppearance(Player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Morph);
@@ -72,6 +92,20 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
             {
                 player.SetCamouflage();
             }
+            else if (hidden == 2)
+            {
+                var seeker = new VisualAppearance(Player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Morph)
+                {
+                    HatId = string.Empty,
+                    SkinId = string.Empty,
+                    VisorId = string.Empty,
+                    PlayerName = string.Empty,
+                    PetId = string.Empty
+                };
+                player.MyPhysics.SetBodyType(PlayerBodyTypes.Seeker);
+
+                player.RawSetAppearance(seeker);
+            }
             else
             {
                 var swoop = new VisualAppearance(player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Swooper)
@@ -81,7 +115,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
                     VisorId = string.Empty,
                     PlayerName = string.Empty,
                     PetId = string.Empty,
-                    RendererColor = Color.clear,
+                    RendererColor = new Color(0f, 0f, 0f, 0.1f),
                     NameColor = Color.clear,
                     ColorBlindTextColor = Color.clear
                 };
@@ -107,12 +141,12 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
 
     public void UnHysteria()
     {
-        if (!Player.AmOwner)
+        if (!HysteriaActive)
         {
             return;
         }
-
-        if (!HysteriaActive)
+        
+        if (!Player.AmOwner)
         {
             return;
         }
@@ -120,6 +154,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         // Logger<TownOfUsPlugin>.Message($"HypnotisedModifier.UnHysteria - {Player.Data.PlayerName}");
         foreach (var player in players)
         {
+            player.MyPhysics.SetBodyType(PlayerControl.LocalPlayer.MyPhysics.bodyType);
             Player.ResetAppearance();
             player?.cosmetics.ToggleNameVisible(true);
         }

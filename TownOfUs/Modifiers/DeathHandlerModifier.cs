@@ -22,7 +22,7 @@ public sealed class DeathHandlerModifier : BaseModifier
     // This will specify who killed the player, if any, such as; By Innersloth
     public string KilledBy { get; set; } = string.Empty;
     
-    [MethodRpc((uint)TownOfUsRpc.UpdateDeathHandler, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.UpdateDeathHandler)]
     public static void RpcUpdateDeathHandler(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1, DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null", DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
     {
         UpdateDeathHandler(player, causeOfDeath, roundOfDeath, diedThisRound, killedBy, lockInfo);

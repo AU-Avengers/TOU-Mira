@@ -85,10 +85,7 @@ public static class DeathEventHandlers
     [RegisterEvent(500)]
     public static void PlayerReviveEventHandler(PlayerReviveEvent reviveEvent)
     {
-        if (reviveEvent.Player.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
-        {
-            reviveEvent.Player.RemoveModifier(deathHandler);
-        }
+        reviveEvent.Player.RemoveModifier<DeathHandlerModifier>();
     }
 
     [RegisterEvent(500)]

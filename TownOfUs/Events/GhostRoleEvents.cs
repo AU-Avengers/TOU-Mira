@@ -6,6 +6,7 @@ using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Utilities;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -56,6 +57,7 @@ public static class GhostRoleEvents
                 {
                     var deadCrew = PlayerControl.AllPlayerControls.ToArray().Where(x =>
                         x.Data.IsDead && x.IsCrewmate() && !x.HasModifier<AllianceGameModifier>() &&
+                        !x.HasModifier<BasicGhostModifier>() &&
                         x.Data.Role.Role is not RoleTypes.GuardianAngel).ToList();
 
                     if (deadCrew.Count > 0)
@@ -83,6 +85,7 @@ public static class GhostRoleEvents
                 {
                     var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
                         x.Data.IsDead && x.IsNeutral() && !x.Data.Role.DidWin(GameOverReason.CrewmatesByVote) &&
+                        !x.HasModifier<BasicGhostModifier>() &&
                         !x.HasModifier<AllianceGameModifier>()).ToList();
 
                     if (deadNeutral.Count > 0)

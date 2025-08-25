@@ -155,7 +155,7 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         RpcSyncSwaps(Player, Swap1?.TargetPlayerId ?? 255, Swap2?.TargetPlayerId ?? 255);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetSwaps, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SetSwaps)]
     public static void RpcSyncSwaps(PlayerControl swapper, byte swap1, byte swap2)
     {
         var swapperRole = swapper.Data?.Role as SwapperRole;

@@ -1,16 +1,12 @@
 ﻿using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Assets;
 
 public static class AuAvengersAnims
 {
-    public static AssetBundle TrapperShaderBundle { get; } =
-        AssetBundleManager.Load(typeof(AuAvengersAnims).Assembly, "trappershader");
-
-    public static AssetBundle SoundVisionBundle { get; } =
-        AssetBundleManager.Load(typeof(AuAvengersAnims).Assembly, "soundvision"); // unused?
+    /*public static AssetBundle SoundVisionBundle { get; } =
+        AssetBundleManager.Load(typeof(AuAvengersAnims).Assembly, "soundvision");*/ // unused?
 
     // bomb visualizer thing
     public static LoadableAsset<Material> BombMaterial { get; private set; }
@@ -19,8 +15,8 @@ public static class AuAvengersAnims
 
     public static void Initialize()
     {
-        BombMaterial = new LoadableBundleAsset<Material>("bomb", TrapperShaderBundle);
-        IgniteMaterial = new LoadableBundleAsset<Material>("arsonisttrap", TrapperShaderBundle);
-        TrapMaterial = new LoadableBundleAsset<Material>("trap", TrapperShaderBundle);
+        BombMaterial = new LoadableBundleAsset<Material>("bomb", TouAssets.MainBundle);
+        IgniteMaterial = new LoadableBundleAsset<Material>("ignite", TouAssets.MainBundle);
+        TrapMaterial = new LoadableBundleAsset<Material>("trap", TouAssets.MainBundle);
     }
 }

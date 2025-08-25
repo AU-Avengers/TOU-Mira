@@ -45,6 +45,10 @@ public static class DetectiveEvents
 
         foreach (var scene in CrimeSceneComponent._crimeScenes)
         {
+            if (scene == null || scene.gameObject == null || !scene.gameObject)
+            {
+                continue;
+            }
             scene.gameObject.SetActive(false);
         }
 
@@ -52,6 +56,10 @@ public static class DetectiveEvents
         {
             foreach (var scene in CrimeSceneComponent._crimeScenes)
             {
+                if (scene == null || scene.gameObject == null || !scene.gameObject)
+                {
+                    continue;
+                }
                 scene.gameObject.SetActive(true);
             }
         }

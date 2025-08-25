@@ -48,7 +48,7 @@ public static class LoverChatPatches
         return true;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SendLoveChat, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SendLoveChat)]
     public static void RpcSendLoveChat(PlayerControl player, string text)
     {
         if ((PlayerControl.LocalPlayer.IsLover() && player != PlayerControl.LocalPlayer) ||

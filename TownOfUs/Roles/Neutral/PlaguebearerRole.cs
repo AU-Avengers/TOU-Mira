@@ -183,7 +183,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.CheckInfected, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.CheckInfected)]
     public static void RpcCheckInfected(PlayerControl source, PlayerControl target)
     {
         CheckInfected(source, target);

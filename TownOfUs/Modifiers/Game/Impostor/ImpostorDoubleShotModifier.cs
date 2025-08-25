@@ -30,7 +30,7 @@ public sealed class ImpostorDoubleShotModifier : DoubleShotModifier, IWikiDiscov
         if (
             role.Player.IsImpostor()
             && role.Player.GetModifierComponent().HasModifier<ImpostorAssassinModifier>(true)
-            && base.IsModifierValidOn(role)
+            && !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true)
         )
         {
             return true;

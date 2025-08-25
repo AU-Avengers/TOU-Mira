@@ -77,7 +77,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
             TouImpAssets.CleanButtonSprite)
     ];
 
-    [MethodRpc((uint)TownOfUsRpc.CleanBody, LocalHandling = RpcLocalHandling.Before, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.CleanBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcCleanBody(PlayerControl player, byte bodyId)
     {
         if (player.Data.Role is not JanitorRole)

@@ -149,6 +149,11 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
                 .ToList();
             players.Do(x => x.RpcRemoveModifier<ExecutionerTargetModifier>());
         }
+        
+        if (!Player.HasModifier<BasicGhostModifier>() && TargetVoted)
+        {
+            Player.AddModifier<BasicGhostModifier>();
+        }
     }
 
     public override void OnDeath(DeathReason reason)
@@ -216,7 +221,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetExeTarget, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SetExeTarget)]
     public static void RpcSetExeTarget(PlayerControl player, PlayerControl target)
     {
         if (player.Data.Role is not ExecutionerRole)

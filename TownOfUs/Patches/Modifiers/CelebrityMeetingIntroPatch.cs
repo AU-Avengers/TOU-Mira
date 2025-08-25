@@ -25,6 +25,11 @@ public static class CelebrityMeetingIntroPatch
             return;
         }
 
+        if (celebrity.DeathMessage == string.Empty)
+        {
+            return;
+        }
+
         __instance.ProtectedRecently.SetActive(true);
         var textObj = __instance.ProtectedRecently.transform.FindChild("ProtectedText_TMP");
         var textTMP = textObj.GetComponent<TextMeshPro>();
@@ -32,7 +37,7 @@ public static class CelebrityMeetingIntroPatch
         celebrity.Announced = true;
 
         //var milliSeconds = (float)(DateTime.UtcNow - celebrity.DeathTime).TotalMilliseconds;
-        celebrity.DeathMessage += $"{Math.Round(celebrity.DeathTimeMilliseconds / 1000)} seconds ago.";
+        var message = celebrity.DeathMessage + $"{Math.Round(celebrity.DeathTimeMilliseconds / 1000)} seconds ago.";
 
         textTMP.text = celebrity.AnnounceMessage;
 
@@ -43,7 +48,7 @@ public static class CelebrityMeetingIntroPatch
         if (HudManager.Instance != null)
         {
             var title = $"<color=#{TownOfUsColors.Celebrity.ToHtmlStringRGBA()}>Celebrity Report</color>";
-            MiscUtils.AddFakeChat(celebrity.Player.Data, title, celebrity.DeathMessage, false, true);
+            MiscUtils.AddFakeChat(celebrity.Player.Data, title, message, false, true);
         }
     }
 }

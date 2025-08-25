@@ -48,7 +48,7 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             TouCrewAssets.WatchSprite)
     ];
 
-    [MethodRpc((uint)TownOfUsRpc.LookoutSeePlayer, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.LookoutSeePlayer)]
     public static void RpcSeePlayer(PlayerControl target, PlayerControl source)
     {
         if (!target.TryGetModifier<LookoutWatchedModifier>(out var mod))

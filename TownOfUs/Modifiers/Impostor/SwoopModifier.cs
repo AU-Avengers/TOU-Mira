@@ -4,6 +4,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
@@ -22,7 +23,8 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
     public VisualAppearance GetVisualAppearance()
     {
-        var playerColor = PlayerControl.LocalPlayer.IsImpostor()
+        var playerColor = (PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.DiedOtherRound() && OptionGroupSingleton<GeneralOptions>
+            .Instance.TheDeadKnow))
             ? new Color(0f, 0f, 0f, 0.1f)
             : Color.clear;
 

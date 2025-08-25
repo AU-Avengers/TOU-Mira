@@ -5,7 +5,6 @@ using MiraAPI.Roles;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -41,14 +40,9 @@ public static class DummyBehaviourPatches
         }
 
         yield return new WaitForSeconds(0.01f + 0.01f * dummy.PlayerId);
-        var roleList = MiscUtils.AllRoles
-            .Where(role => role is ICustomRole)
+        var roleList = RoleManager.Instance.AllRoles
+            .Where(role => !role.IsDead)
             .Where(role => !role.IsImpostor())
-            .Where(role => role is not NeutralGhostRole)
-            .Where(role => role is not CrewmateGhostRole)
-            .Where(role => role is not ImpostorGhostRole)
-            .Where(role => !role.TryCast<CrewmateGhostRole>())
-            .Where(role => !role.TryCast<ImpostorGhostRole>())
             .ToList();
 
         PlayerControl.AllPlayerControls

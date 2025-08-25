@@ -15,9 +15,12 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -288,7 +291,30 @@ public static class MiscUtils
             new RoleManager.RoleAssignmentData(role, roleOptions.GetNumPerGame(role.Role),
                 roleOptions.GetChancePerGame(role.Role))).ToList();
 
-        var roleList = assignmentData.Where(x => x is { Chance: > 0, Role: ICustomRole }).Select(x => x.Role);
+        var roleList = assignmentData.Where(x => x is { Chance: > 0, Count: > 0, Role: ICustomRole }).Select(x => x.Role);
+
+        /*if (OptionGroupSingleton<GeneralOptions>.Instance.GuessVanillaRoles)
+        {
+            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Tracker) is { Chance: > 0, Count: > 0 })
+                roleList = roleList.AddItem(
+                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Tracker)!);
+            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Noisemaker) is { Chance: > 0, Count: > 0 })
+                roleList = roleList.AddItem(
+                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Noisemaker)!);
+            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Engineer) is { Chance: > 0, Count: > 0 })
+                roleList = roleList.AddItem(
+                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Engineer)!);
+            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Scientist) is { Chance: > 0, Count: > 0 })
+                roleList = roleList.AddItem(
+                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Scientist)!);
+            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Shapeshifter) is
+                { Chance: > 0, Count: > 0 })
+                roleList = roleList.AddItem(
+                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Shapeshifter)!);
+            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Phantom) is { Chance: > 0, Count: > 0 })
+                roleList = roleList.AddItem(
+                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Phantom)!);
+        }*/
 
         var crewmateRole = RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
         roleList = roleList.AddItem(crewmateRole!);
@@ -296,6 +322,7 @@ public static class MiscUtils
 
         var impostorRole = RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Impostor);
         roleList = roleList.AddItem(impostorRole!);
+        
         //Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - impostorRole: '{impostorRole?.NiceName}'");
 
         //roleList.Do(x => Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - role: '{x.NiceName}'"));
@@ -328,6 +355,7 @@ public static class MiscUtils
         pooledBubble.votedMark.enabled = false;
         pooledBubble.Xmark.enabled = false;
         pooledBubble.TextArea.text = message;
+        pooledBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, pooledBubble.TextArea);
         pooledBubble.TextArea.ForceMeshUpdate(true, true);
         pooledBubble.Background.size = new Vector2(5.52f,
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
@@ -919,7 +947,15 @@ public static class MiscUtils
     {
         return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {player.gameObject.name}");
     }
-
+    
+    public static void SetForcedBodyType(this PlayerPhysics player, PlayerBodyTypes bodyType)
+    {
+        player.bodyType = bodyType;
+        player.myPlayer.cosmetics.EnsureInitialized(bodyType);
+        player.Animations.SetBodyType(bodyType, player.myPlayer.cosmetics.FlippedCosmeticOffset, player.myPlayer.cosmetics.NormalCosmeticOffset);
+        player.Animations.PlayIdleAnimation();
+    }
+    
     public static bool IsMap(byte mapid)
     {
         return (GameOptionsManager.Instance != null &&
@@ -1004,6 +1040,60 @@ public static class MiscUtils
         }
 
         return couldUse;
+    }
+
+    public static PlayerControl? GetImpostorTarget(float distance)
+    {
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var closePlayer = PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, distance);
+
+        var includePostors = genOpt.FFAImpostorMode ||
+                             (PlayerControl.LocalPlayer.IsLover() &&
+                              OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates) ||
+                             (genOpt.KillDuringCamoComms &&
+                              closePlayer?.GetAppearanceType() == TownOfUsAppearances.Camouflage);
+        if (!OptionGroupSingleton<LoversOptions>.Instance.LoversKillEachOther && PlayerControl.LocalPlayer.IsLover())
+        {
+            return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, distance, false, x => !x.IsLover());
+        }
+        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, distance);
+    }
+
+    public static void SetSizeLimit(this SpriteRenderer sprite, float scale)
+    {
+        if (sprite.bounds.size.x < sprite.bounds.size.y)
+        {
+            sprite.size = new Vector2(scale * sprite.bounds.size.x / sprite.bounds.size.y, scale);
+        }
+        else
+        {
+            sprite.size = new Vector2(scale, scale * sprite.bounds.size.y / sprite.bounds.size.x);
+        }
+        sprite.tileMode = SpriteTileMode.Adaptive;
+    }
+    
+    public static void SetSizeLimit(this GameObject spriteObj, float scale)
+    {
+        if (!spriteObj.TryGetComponent<SpriteRenderer>(out var sprite))
+        {
+            return;
+        }
+
+        sprite.SetSizeLimit(scale);
+    }
+    public static bool DiedOtherRound(this PlayerControl player)
+    {
+        if (player == null)
+        {
+            return false;
+        }
+
+        if (player.TryGetModifier<DeathHandlerModifier>(out var deathHandler) && player.HasDied())
+        {
+            return !deathHandler.DiedThisRound;
+        }
+
+        return false;
     }
 
     [Serializable]

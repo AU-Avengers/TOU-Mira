@@ -287,7 +287,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         RpcEngineerEventFix(PlayerControl.LocalPlayer);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.EngineerFix, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.EngineerFix)]
     private static void RpcFix(PlayerControl engineer, byte type)
     {
         if (engineer.Data.Role is not EngineerTouRole)
@@ -316,7 +316,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.EngineerEventFix, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.EngineerEventFix)]
     public static void RpcEngineerEventFix(PlayerControl engi)
     {
         if (engi.Data.Role is not EngineerTouRole)

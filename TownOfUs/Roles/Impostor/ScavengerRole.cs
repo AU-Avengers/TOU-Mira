@@ -45,6 +45,13 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             return;
         }
 
+        if (MeetingHud.Instance || ExileController.Instance)
+        {
+            Scavenging = false;
+            GameStarted = false;
+            return;
+        }
+        
         if (!GameStarted && Player.killTimer > 0f)
         {
             GameStarted = true;

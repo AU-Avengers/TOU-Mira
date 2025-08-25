@@ -21,7 +21,7 @@ namespace TownOfUs.Events.Neutral;
 
 public static class ExecutionerEvents
 {
-    [RegisterEvent]
+    [RegisterEvent(0)]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
         if (@event.DeathReason is DeathReason.Exile)
@@ -32,7 +32,7 @@ public static class ExecutionerEvents
             }
 
             var exe = GameData.Instance.GetPlayerById(exeMod.OwnerId).Object;
-            if (exe != null && !exe.HasDied() && exe.Data.Role is ExecutionerRole exeRole)
+            if (exe != null && !exe.HasDied() && exe.Data.Role is ExecutionerRole exeRole && exeRole.AboutToWin)
             {
                 exeRole.TargetVoted = true;
             }

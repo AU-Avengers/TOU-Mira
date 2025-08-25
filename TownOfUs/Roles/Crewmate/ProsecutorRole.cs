@@ -167,7 +167,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         HasProsecuted = false;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Prosecute, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Prosecute)]
     public static void RpcProsecute(PlayerControl plr, byte Victim)
     {
         if (plr.Data.Role is not ProsecutorRole prosecutorRole)

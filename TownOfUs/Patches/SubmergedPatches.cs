@@ -1,21 +1,8 @@
 ﻿using HarmonyLib;
-using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
 
 namespace TownOfUs.Patches;
-
-[HarmonyPatch(typeof(IntroCutscene._ShowRole_d__41), nameof(IntroCutscene._ShowRole_d__41.MoveNext))]
-public static class SubmergedStartPatch
-{
-    public static void Postfix()
-    {
-        if (ModCompatibility.IsSubmerged())
-        {
-            Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
-        }
-    }
-}
 
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
 public static class SubmergedHudPatch

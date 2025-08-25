@@ -58,10 +58,10 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     [
         new("Pursue",
             "Pursue a player to be able to ambush another player next to them at a later time.",
-            TouCrewAssets.TrackSprite),
+            TouImpAssets.PursueSprite),
         new("Ambush",
         "Ambush the closest player to the pursued target to kill them.",
-        TouImpAssets.DragSprite)
+        TouImpAssets.AmbushSprite)
     ];
     
     public void LobbyStart()
@@ -101,6 +101,27 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
         Clear();
+        var ambushAnim = GameObject.Find($"{Player.Data.PlayerName} Ambush Animation");
+        
+        if (ambushAnim != null)
+        {
+            ambushAnim.gameObject.Destroy();
+            
+            Player.Visible = true;
+            Player.RemoveModifier<IndirectAttackerModifier>();
+
+            foreach (var shield in Player.GetModifiers<BaseShieldModifier>())
+            {
+                shield.IsVisible = true;
+                shield.SetVisible();
+            }
+
+            if (Player.HasModifier<FirstDeadShield>())
+            {
+                Player.GetModifier<FirstDeadShield>()!.IsVisible = true;
+                Player.GetModifier<FirstDeadShield>()!.SetVisible();
+            }
+        }
     }
 
     public void Clear()
@@ -115,7 +136,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.AmbushPlayer, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.AmbushPlayer)]
     public static void RpcAmbushPlayer(PlayerControl ambusher, PlayerControl target)
     {
         if (ambusher.Data.Role is not AmbusherRole)
@@ -150,8 +171,9 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     {
         var ogPos = ambusher.transform.position;
         yield return new WaitForSeconds(0.01f);
-        if (!target.HasDied())
+        if (!target.HasDied() || MeetingHud.Instance || ambusher.HasDied())
         {
+            ambusher.RemoveModifier<IndirectAttackerModifier>();
             yield break;
         }
         var bodyId = target.PlayerId;
@@ -191,9 +213,36 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             }
             var bodySprite = body.transform.GetChild(1).gameObject;
             var ambushAnim = AnimStore.SpawnFliplessAnimBody(ambusher, TouAssets.AmbushPrefab.LoadAsset());
+            ambushAnim.name = $"{ambusher.Data.PlayerName} Ambush Animation";
             ambushAnim.SetActive(false);
             
             yield return new WaitForSeconds(1.3f);
+            
+            if (!target.HasDied() || MeetingHud.Instance || ambusher.HasDied())
+            {
+                ambushAnim.gameObject.Destroy();
+                ambusher.Visible = true;
+                ambusher.RemoveModifier<IndirectAttackerModifier>();
+
+                foreach (var shield in ambusher.GetModifiers<BaseShieldModifier>())
+                {
+                    shield.IsVisible = true;
+                    shield.SetVisible();
+                }
+
+                if (ambusher.HasModifier<FirstDeadShield>())
+                {
+                    ambusher.GetModifier<FirstDeadShield>()!.IsVisible = true;
+                    ambusher.GetModifier<FirstDeadShield>()!.SetVisible();
+                }
+
+                if (!ambusher.AmOwner)
+                    yield break;
+
+                ambusher.moveable = true;
+                ambusher.NetTransform.SetPaused(false);
+                yield break;
+            }
             
             ambushAnim.SetActive(true);
             var spriteAnim = ambushAnim.GetComponent<SpriteAnim>();
@@ -220,15 +269,20 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             }
             
             yield return new WaitForSeconds(spriteAnim.m_defaultAnim.length);
+
+            if (ambusher.HasDied())
+            {
+                yield break;
+            }
             
             ambushAnim.gameObject.Destroy();
             
-            if (MeetingHud.Instance == null)
+            if (MeetingHud.Instance == null && target.HasDied())
             {
                 if (ambusher.AmOwner) ambusher.RpcSetPos(ogPos);
                 var targetPos = ogPos + new Vector3(-0.05f, 0.175f, 0f);
                 targetPos.z = targetPos.y / 1000f;
-                body.transform.position = targetPos;
+                body.transform.position = (ambusher.Collider.bounds.center - targetPos) + targetPos;
             }
             
             ambusher.Visible = true;
@@ -246,7 +300,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
                 ambusher.GetModifier<FirstDeadShield>()!.SetVisible();
             }
 
-            if (!ambusher.AmOwner) 
+            if (!ambusher.AmOwner)
                 yield break;
 
             ambusher.moveable = true;

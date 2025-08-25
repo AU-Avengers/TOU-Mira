@@ -186,6 +186,7 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
         {
             roleImage.sprite = sprite;
         }
+        roleImage.SetSizeLimit(2.8f);
 
         buttonRollover.OverColor = color;
         roleText.color = color;

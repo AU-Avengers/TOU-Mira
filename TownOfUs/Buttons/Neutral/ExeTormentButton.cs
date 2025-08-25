@@ -44,7 +44,7 @@ public sealed class ExeTormentButton : TownOfUsButton
             {
                 playerMenu.ForceClose();
 
-                if (plr != null)
+                if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any())
                 {
                     PlayerControl.LocalPlayer.RpcCustomMurder(plr, teleportMurderer: false);
                     DeathHandlerModifier.RpcUpdateDeathHandler(plr, "Tormented", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue, $"By {PlayerControl.LocalPlayer.Data.PlayerName}", lockInfo: DeathHandlerOverride.SetTrue);

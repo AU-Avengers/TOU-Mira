@@ -42,7 +42,7 @@ public sealed class BarryButton : TownOfUsButton
         CallButtonBarry(PlayerControl.LocalPlayer);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ButtonBarry, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.ButtonBarry)]
     public static void CallButtonBarry(PlayerControl player)
     {
         if (AmongUsClient.Instance.AmHost)

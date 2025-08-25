@@ -134,7 +134,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
             cod = customDeath;
         }
 
-        if (MeetingHud.Instance)
+        if (MeetingHud.Instance || ExileController.Instance)
         {
             celeb.Announced = true;
         }
@@ -147,11 +147,11 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
         else
         {
             celeb.DeathMessage =
-                $"The Celebrity, {player.GetDefaultAppearance().PlayerName}, was {cod}! Location: {celeb.StoredRoom}, Death: By the {role.NiceName}, Time: ";
+                $"The Celebrity, {player.GetDefaultAppearance().PlayerName}, was {cod}! Location: {celeb.StoredRoom}, Death: By the #{role.NiceName.ToLowerInvariant().Replace(" ", "-")}, Time: ";
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.UpdateCelebrityKilled, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.UpdateCelebrityKilled)]
     public static void RpcUpdateCelebrityKilled(PlayerControl player, float milliseconds)
     {
         if (!player.HasModifier<CelebrityModifier>())

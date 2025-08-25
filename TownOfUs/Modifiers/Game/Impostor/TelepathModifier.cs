@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Options;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Impostor;
 using TownOfUs.Utilities;
@@ -61,7 +62,7 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role.IsImpostor() &&
+        return base.IsModifierValidOn(role) && role.IsImpostor() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode &&
                PlayerControl.AllPlayerControls.ToArray().Count(x => x.IsImpostor() && !x.HasDied()) != 1;
     }
 }

@@ -77,6 +77,7 @@ public sealed class MayorRole(IntPtr cppPtr)
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
         if (Player.HasModifier<ToBecomeTraitorModifier>())
         {
             Player.GetModifier<ToBecomeTraitorModifier>()!.Clear();
@@ -152,7 +153,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         RpcAnimateNewReveal(Player);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.AnimateNewReveal, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.AnimateNewReveal)]
     public static void RpcAnimateNewReveal(PlayerControl plr)
     {
         if (plr.Data.Role is MayorRole mayor)
@@ -172,11 +173,6 @@ public sealed class MayorRole(IntPtr cppPtr)
     public bool IsExempt(PlayerVoteArea voteArea)
     {
         return voteArea?.TargetPlayerId != Player.PlayerId;
-    }
-
-    public static bool MayorVisibilityFlag(PlayerControl player)
-    {
-        return player.IsRole<MayorRole>() && player.GetRole<MayorRole>()!.Revealed;
     }
 
     private static IEnumerator CoAnimateReveal(PlayerVoteArea voteArea)

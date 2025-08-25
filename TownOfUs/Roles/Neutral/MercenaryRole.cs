@@ -10,6 +10,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -19,7 +20,7 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class MercenaryRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
     public static int BrideCost => (int)OptionGroupSingleton<MercenaryOptions>.Instance.BribeCost;
 
@@ -33,6 +34,14 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public Color RoleColor => TownOfUsColors.Mercenary;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
+    // This is so the role can be guessed without requiring it to be enabled normally
+    public bool CanBeGuessed =>
+        (MiscUtils.GetPotentialRoles()
+             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<GuardianAngelTouRole>())) &&
+         OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary)
+        || (MiscUtils.GetPotentialRoles()
+                .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ExecutionerRole>())) &&
+            OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary);
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -106,7 +115,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         CustomButtonSingleton<MercenaryBribeButton>.Instance.SetActive(false, this);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Guarded, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Guarded)]
     public static void RpcGuarded(PlayerControl player)
     {
         if (player.Data.Role is not MercenaryRole)

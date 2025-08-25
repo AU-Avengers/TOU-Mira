@@ -145,7 +145,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         return voteArea?.TargetPlayerId != Player.PlayerId;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Hysteria, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Hysteria)]
     public static void RpcHysteria(PlayerControl player)
     {
         if (player.Data.Role is not HypnotistRole)

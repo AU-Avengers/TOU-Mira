@@ -12,6 +12,9 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedEnumOption("Modifier Type To Show In Role Intro", typeof(ModReveal))]
     public ModReveal ModifierReveal { get; set; } = ModReveal.Universal;
+    
+    /*[ModdedToggleOption("Non-Basic Vanilla Roles Are Guessable")]
+    public bool GuessVanillaRoles { get; set; } = true;*/
 
     [ModdedToggleOption("Show Faction Modifier On Role Reveal")]
     public bool TeamModifierReveal { get; set; } = true;
