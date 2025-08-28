@@ -184,7 +184,7 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.GuardianAegisAttacked)]
     public static void RpcGuardianAegisAttacked(PlayerControl player, PlayerControl source, PlayerControl target)
     {
-        if (player.Data.Role is not GuardianRole)
+        if (player.Data.Role is not GuardianRole guardian)
         {
             Logger<TownOfUsPlugin>.Error("RpcGuardianAegis - Invalid guardian");
             return;
@@ -196,7 +196,6 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         }
 
         var targetRole = target.Data.Role.Role;
-        var guardian = player.GetRole<GuardianRole>();
         if (guardian.ProtectedRole != targetRole)
         {
             return;

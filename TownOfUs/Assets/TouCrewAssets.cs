@@ -87,7 +87,7 @@ public static class TouCrewAssets
         new LoadableBundleAsset<Sprite>("TransportButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> OverchargeSprite { get; } =
-        new LoadableResourceAsset($"{ButtonPath}.OverchargeButton.png");
+        new LoadableResourceAsset("TownOfUs.Resources.CrewButtons.OverchargeButton.png");
     
     public static LoadableAsset<Sprite> EngineerRoleBanner { get; } =
         new LoadableBundleAsset<Sprite>("EngineerBanner", TouAssets.MainBundle);

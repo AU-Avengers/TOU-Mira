@@ -8,17 +8,21 @@ using Reactor.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace TownOfUs.Events.Crewmate;
 
 public static class MarshalEvents
 {
-    private static byte _previousVote;
+    private static byte? _previousVote;
 
+#pragma warning disable S3241
     private static SpriteRenderer CustomBloopAVoteIcon(NetworkedPlayerInfo voterPlayer, int index, Transform parent)
+#pragma warning restore S3241
     {
         var instance = MeetingHud.Instance;
-        SpriteRenderer spriteRenderer = GameObject.Instantiate(instance.PlayerVotePrefab, parent);
+        SpriteRenderer spriteRenderer = Object.Instantiate(instance.PlayerVotePrefab, parent);
         spriteRenderer.gameObject.name = voterPlayer.PlayerId.ToString(TownOfUsPlugin.Culture);
         spriteRenderer.transform.localScale = Vector3.zero;
         
@@ -41,7 +45,6 @@ public static class MarshalEvents
     public static void HandleVoteEventHandler(HandleVoteEvent @event)
     {
         if (!MarshalRole.TribunalHappening) return;
-        @event.Cancel();
 
         if (MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo))
         {
@@ -61,6 +64,11 @@ public static class MarshalEvents
         }
         
         var targetState = MeetingHud.Instance.playerStates.FirstOrDefault(state => state.TargetPlayerId == @event.TargetId);
+        if (targetState == null)
+        {
+            return;
+        }
+        
         var voterVoteData = @event.Player.GetVoteData();
         voterVoteData.Votes.Clear();
         for (int i = 0; i < voterVoteData.VotesRemaining; i++)
@@ -79,10 +87,11 @@ public static class MarshalEvents
         // Freeplay fix so dummies can vote multiple times
         if (TutorialManager.Instance)
         {
-            GameObject.FindObjectsOfType<DummyBehaviour>().Do(x => x.voted = false);
+            Object.FindObjectsOfType<DummyBehaviour>().Do(x => x.voted = false);
         }
         
         _previousVote = @event.TargetId;
+        @event.Cancel();
     }
 
     [RegisterEvent]
@@ -91,14 +100,17 @@ public static class MarshalEvents
         if (!MarshalRole.TribunalHappening) return;
 
         var localVoteData = PlayerControl.LocalPlayer.GetVoteData();
-        if (localVoteData.Votes.Count <= 0)
+        if (localVoteData.Votes.Count <= 0) 
         {
             @event.Cancel();
             return;
         }
 
         // The only player valid is the player's vote
-        @event.PlayerIsValid = p => p.PlayerId == localVoteData.Votes[0].Suspect;
+        if (Random.RandomRangeInt(1, 10) == 1) // the randomness makes dummy voting not instant
+        {
+            @event.PlayerIsValid = p => p.PlayerId == localVoteData.Votes[0].Suspect;
+        }
     }
 
     [RegisterEvent]

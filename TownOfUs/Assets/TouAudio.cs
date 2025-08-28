@@ -111,7 +111,7 @@ public static class TouAudio
         new LoadableBundleAsset<AudioClip>("JanitorClean", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> TribunalSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.MarshalTribunal.wav");
+        new LoadableAudioResourceAsset("TownOfUs.Resources.Audio.MarshalTribunal.wav");
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {

@@ -22,7 +22,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 {
     public PlayerVoteArea? ProsecuteButton { get; private set; }
 
-    public bool HasProsecuted { get; private set; }
+    public bool HasProsecuted { get; set; }
 
     public byte ProsecuteVictim { get; set; } = byte.MaxValue;
 

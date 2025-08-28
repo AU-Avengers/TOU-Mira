@@ -44,7 +44,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
 
     public int TribunalsLeft { get; private set; }
     
-    private static TextMeshPro votesRequiredText { get; set; }
+    private static TextMeshPro? votesRequiredText { get; set; }
     public static bool TribunalHappening { get; set; }
     public static int RequiredVotes { get; private set; }
     public static List<NetworkedPlayerInfo> EjectedPlayers { get; } = new();
@@ -203,6 +203,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
             var votes = voteData.Votes.RemoveAll(x => true);
             voteData.VotesRemaining += votes;
             
+            /*
             var voteCountIcon = GameObject.Instantiate(pva.LevelNumberText.transform.parent.gameObject, pva.transform).GetComponent<SpriteRenderer>();
             voteCountIcon.gameObject.name = "VoteCount";
             voteCountIcon.transform.localPosition = new Vector3(-0.5f, 0.16f, -50);
@@ -217,6 +218,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
             voteCount.transform.localScale = new Vector3(0.4f, 0.4f, 1);
             voteCount.text = "<b>0</b>";
             VoteNumbers.Add(voteAreaPlayer.PlayerId, voteCount);
+            */
             
             pva.ThumbsDown.enabled = false;
         }
@@ -227,14 +229,18 @@ public sealed class MarshalRole(IntPtr cppPtr)
         // Roles with abilities that can change the meeting result are disabled during a tribunal
         switch (PlayerControl.LocalPlayer.Data.Role)
         {
-            case SwapperRole:
-            case ProsecutorRole:
+            case SwapperRole swapper:
+                swapper.Swap1 = null;
+                swapper.Swap2 = null;
+                break;
+            case ProsecutorRole pros:
                 MeetingMenu.Instances.Do(x => x.HideButtons());
-                
-                if (PlayerControl.LocalPlayer.Data.Role is SwapperRole swapperRole)
+
+                if (pros.HasProsecuted && pros.ProsecuteVictim != byte.MaxValue)
                 {
-                    swapperRole.Swap1 = null;
-                    swapperRole.Swap2 = null;
+                    pros.HasProsecuted = false;
+                    pros.ProsecutionsCompleted++;
+                    pros.ProsecuteVictim = byte.MaxValue;
                 }
                 break;
         }
@@ -324,12 +330,15 @@ public sealed class MarshalRole(IntPtr cppPtr)
             
             MeetingHud.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
             yield return new WaitForSeconds(1);
-            
+
             try
             {
                 MeetingHud.Instance.gameObject.DestroyImmediate(); // breaks sometimes so this mf is behind bars for now
             }
-            catch {}
+            catch
+            {
+                // ignored
+            }
         }
         
         ExileController exileController;
@@ -342,7 +351,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
             yield break;
         }
         
-        Logger<TownOfUsPlugin>.Warning($"Creating exile controller for {exiled.PlayerName}");
+        Logger<TownOfUsPlugin>.Warning($"Creating exile controller for {exiled!.PlayerName}");
         exileController = GameObject.Instantiate(ShipStatus.Instance.ExileCutscenePrefab, DestroyableSingleton<HudManager>.Instance.transform);
         exileController.transform.localPosition = new Vector3(0f, 0f, -60f);
         exileController.BeginForGameplay(exiled, false);
@@ -372,25 +381,20 @@ public sealed class MarshalRole(IntPtr cppPtr)
 
     private static void UpdateVoteRequirement()
     {
-        // Grab all alive players, minus the players marked as ejected
         var validPlayers = Helpers.GetAlivePlayers()
             .Where(p => !EjectedPlayers.Contains(p.Data))
             .ToList();
         
-        RequiredVotes = (validPlayers.Count / 2) + 1;
-        
-        if (!votesRequiredText)
-        {
-            votesRequiredText = GameObject.Instantiate(MeetingHud.Instance.TimerText, MeetingHud.Instance.ButtonParent.transform);
-            votesRequiredText.transform.position -= new Vector3(3, 0);
-            votesRequiredText.gameObject.GetComponent<TextTranslatorTMP>().DestroyImmediate();
-        }
-        
-        votesRequiredText.text = $"{RequiredVotes} votes needed to eject";
+        RequiredVotes = validPlayers.Count / 2 + 1;
+        var text = MeetingHud.Instance.SkippedVoting.GetComponentInChildren<TextMeshPro>();
+        text.gameObject.GetComponent<TextTranslatorTMP>()?.DestroyImmediate();
+        text.gameObject.SetActive(true);
+        text.text = $"<size=50%>{RequiredVotes} votes needed to eject</size>";
     }
     
     public static void UpdateVoteNumbers()
     {
+        return;
         foreach (var pva in MeetingHud.Instance.playerStates)
         {
             if (VoteNumbers.TryGetValue(pva.TargetPlayerId, out var num))
@@ -428,7 +432,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
     {
         var meetingHud = MeetingHud.Instance;
         var logicOptions = GameManager.Instance.LogicOptions.TryCast<LogicOptionsNormal>();
-        meetingHud.discussionTimer = (logicOptions.GetDiscussionTime() + logicOptions.GetVotingTime()) - OptionGroupSingleton<MarshalOptions>.Instance.TribunalEjectionTime;
+        meetingHud.discussionTimer = (logicOptions!.GetDiscussionTime() + logicOptions.GetVotingTime()) - OptionGroupSingleton<MarshalOptions>.Instance.TribunalEjectionTime;
     }
     
     private static List<CustomVote> GetVotesRecievied(PlayerVoteArea player)

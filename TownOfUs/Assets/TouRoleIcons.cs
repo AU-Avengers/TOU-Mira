@@ -30,6 +30,7 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Mayor { get; } = new LoadableBundleAsset<Sprite>("Mayor", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Prosecutor { get; } = new LoadableBundleAsset<Sprite>("Prosecutor", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Swapper { get; } = new LoadableBundleAsset<Sprite>("Swapper", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> Marshal { get; } = new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Marshal.png");
 
     public static LoadableAsset<Sprite> Altruist { get; } = new LoadableBundleAsset<Sprite>("Altruist", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Cleric { get; } = new LoadableBundleAsset<Sprite>("Cleric", TouAssets.MainBundle);
@@ -37,18 +38,16 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Mirrorcaster { get; } = new LoadableBundleAsset<Sprite>("Mirrorcaster", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Oracle { get; } = new LoadableBundleAsset<Sprite>("Oracle", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Warden { get; } = new LoadableBundleAsset<Sprite>("Warden", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> Guardian { get; } = new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Guardian.png");
 
     public static LoadableAsset<Sprite> Engineer { get; } = new LoadableBundleAsset<Sprite>("Engineer", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Imitator { get; } = new LoadableBundleAsset<Sprite>("Imitator", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Medium { get; } = new LoadableBundleAsset<Sprite>("Medium", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Plumber { get; } = new LoadableBundleAsset<Sprite>("Plumber", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Transporter { get; } = new LoadableBundleAsset<Sprite>("Transporter", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> Catalyst { get; } = new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Catalyst.png");
 
     public static LoadableAsset<Sprite> Amnesiac { get; } = new LoadableBundleAsset<Sprite>("Amnesiac", TouAssets.MainBundle);
-  
-    public static LoadableAsset<Sprite> Marshal { get; } = new LoadableResourceAsset($"{iconPath}.Marshal.png");
-    public static LoadableAsset<Sprite> Guardian { get; } = new LoadableResourceAsset($"{iconPath}.Guardian.png");
-    public static LoadableAsset<Sprite> Catalyst { get; } = new LoadableResourceAsset($"{iconPath}.Catalyst.png");
 
     public static LoadableAsset<Sprite> GuardianAngel { get; } =
         new LoadableBundleAsset<Sprite>("GuardianAngel", TouAssets.MainBundle);
