@@ -24,6 +24,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 {
     public bool GameStarted { get; set; }
     public float TimeRemaining { get; set; }
+    [HideFromIl2Cpp]
     public PlayerControl? Target { get; set; }
     public bool Scavenging { get; set; }
 

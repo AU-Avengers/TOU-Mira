@@ -24,6 +24,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
 
+    [HideFromIl2Cpp]
     public PlayerControl? Shielded { get; set; }
 
     public void FixedUpdate()

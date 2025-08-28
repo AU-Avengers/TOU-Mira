@@ -12,7 +12,9 @@ public sealed class TraitorRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ISpawnChange
 {
     [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
+    [HideFromIl2Cpp]
     public RoleBehaviour? RandomRole { get; set; }
+    [HideFromIl2Cpp]
     public RoleBehaviour? SelectedRole { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public bool NoSpawn => true;
