@@ -17,7 +17,9 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 {
     private MeetingMenu meetingMenu;
 
+    [HideFromIl2Cpp]
     public PlayerVoteArea? Swap1 { get; set; }
+    [HideFromIl2Cpp]
     public PlayerVoteArea? Swap2 { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string RoleName => TouLocale.Get(TouNames.Swapper, "Swapper");

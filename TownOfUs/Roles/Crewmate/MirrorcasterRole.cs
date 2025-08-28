@@ -24,9 +24,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 {
     public override bool IsAffectedByComms => false;
 
+    [HideFromIl2Cpp]
     public PlayerControl? Protected { get; set; }
     public int UnleashesAvailable { get; set; }
     public string UnleashString { get; set; }
+    [HideFromIl2Cpp]
     public RoleBehaviour? ContainedRole { get; set; }
 
     public void FixedUpdate()

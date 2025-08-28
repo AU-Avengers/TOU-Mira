@@ -21,6 +21,7 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     private Dictionary<byte, ArrowBehaviour>? _snitchArrows;
+    [HideFromIl2Cpp]
     public ArrowBehaviour? SnitchRevealArrow { get; private set; }
     public bool CompletedAllTasks => TaskStage is TaskStage.CompletedTasks;
     public bool OnLastTask => TaskStage is TaskStage.Revealed or TaskStage.CompletedTasks;

@@ -20,6 +20,7 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
+    [HideFromIl2Cpp]
     public PlayerVoteArea? ProsecuteButton { get; private set; }
 
     public bool HasProsecuted { get; private set; }
