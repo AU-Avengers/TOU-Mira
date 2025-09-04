@@ -902,7 +902,6 @@ public static class HudManagerPatches
     public static void HudManagerUpdatePatch(HudManager __instance)
     {
         CreateZoomButton(__instance);
-        CreateTeamChatButton(__instance);
         CreateWikiButton(__instance);
 
         UpdateRoleList(__instance);
