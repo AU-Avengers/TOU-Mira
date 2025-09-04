@@ -120,7 +120,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
             case ExecutionerRole:
                 cod = "tormented";
                 break;
-            case PhantomRole:
+            case PhantomTouRole:
                 cod = "spooked";
                 break;
             case MirrorcasterRole mirror:
@@ -142,16 +142,16 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
         if (source == player)
         {
             celeb.DeathMessage =
-                $"The Celebrity, {player.GetDefaultAppearance().PlayerName}, was killed! Location: {celeb.StoredRoom}, Death: By Suicide, Time: ";
+                $"The &Celebrity, {player.GetDefaultAppearance().PlayerName}, was killed! Location: {celeb.StoredRoom}, Death: By Suicide, Time: ";
         }
         else
         {
             celeb.DeathMessage =
-                $"The Celebrity, {player.GetDefaultAppearance().PlayerName}, was {cod}! Location: {celeb.StoredRoom}, Death: By the #{role.NiceName.ToLowerInvariant().Replace(" ", "-")}, Time: ";
+                $"The &Celebrity, {player.GetDefaultAppearance().PlayerName}, was {cod}! Location: {celeb.StoredRoom}, Death: By the #{role.NiceName.ToLowerInvariant().Replace(" ", "-")}, Time: ";
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.UpdateCelebrityKilled, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.UpdateCelebrityKilled)]
     public static void RpcUpdateCelebrityKilled(PlayerControl player, float milliseconds)
     {
         if (!player.HasModifier<CelebrityModifier>())

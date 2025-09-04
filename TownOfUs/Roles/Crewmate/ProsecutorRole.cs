@@ -20,6 +20,7 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
+    [HideFromIl2Cpp]
     public PlayerVoteArea? ProsecuteButton { get; private set; }
 
     public bool HasProsecuted { get; private set; }
@@ -27,6 +28,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public byte ProsecuteVictim { get; set; } = byte.MaxValue;
 
     public bool SelectingProsecuteVictim { get; set; }
+    public bool HideProsButton { get; set; }
 
     public int ProsecutionsCompleted { get; set; }
 
@@ -44,7 +46,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             return;
         }
 
-        ProsecuteButton.gameObject.SetActive(meeting.SkipVoteButton.gameObject.active && !SelectingProsecuteVictim);
+        ProsecuteButton.gameObject.SetActive(!HideProsButton && meeting.state == MeetingHud.VoteStates.NotVoted && !SelectingProsecuteVictim);
 
         if (!ProsecuteButton.gameObject.active)
         {
@@ -167,7 +169,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         HasProsecuted = false;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Prosecute, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Prosecute)]
     public static void RpcProsecute(PlayerControl plr, byte Victim)
     {
         if (plr.Data.Role is not ProsecutorRole prosecutorRole)

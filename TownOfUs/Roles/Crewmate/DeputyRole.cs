@@ -22,6 +22,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
 
+    [HideFromIl2Cpp]
     public PlayerControl? Killer { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string RoleName => TouLocale.Get(TouNames.Deputy, "Deputy");

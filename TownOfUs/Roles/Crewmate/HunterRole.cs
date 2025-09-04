@@ -20,6 +20,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 {
     public override bool IsAffectedByComms => false;
 
+    [HideFromIl2Cpp]
     public PlayerControl? LastVoted { get; set; }
 
     [HideFromIl2Cpp] public List<PlayerControl> CaughtPlayers { get; } = [];
@@ -80,7 +81,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             TouCrewAssets.StalkButtonSprite)
     ];
 
-    [MethodRpc((uint)TownOfUsRpc.CatchPlayer, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.CatchPlayer)]
     public static void RpcCatchPlayer(PlayerControl hunter, PlayerControl source)
     {
         if (hunter.Data.Role is not HunterRole role)

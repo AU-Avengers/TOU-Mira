@@ -230,7 +230,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         return $"Protect {Target?.Data.PlayerName} With Your Life!";
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetGATarget, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SetGATarget)]
     public static void RpcSetGATarget(PlayerControl player, PlayerControl target)
     {
         if (player.Data.Role is not GuardianAngelTouRole)

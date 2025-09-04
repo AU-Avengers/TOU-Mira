@@ -79,7 +79,6 @@ public static class ExecutionerEvents
                 
                 if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is ExeWinOptions.Torments)
                 {
-                    PlayerControl.LocalPlayer.RpcAddModifier<IndirectAttackerModifier>(true);
                     CustomButtonSingleton<ExeTormentButton>.Instance.SetActive(true, exe);
                     DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "Victorious", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(

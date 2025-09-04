@@ -38,6 +38,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorKilling;
+    [HideFromIl2Cpp]
     public PlayerControl? Pursued { get; set; }
 
     public CustomRoleConfiguration Configuration => new(this)
@@ -136,7 +137,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.AmbushPlayer, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.AmbushPlayer)]
     public static void RpcAmbushPlayer(PlayerControl ambusher, PlayerControl target)
     {
         if (ambusher.Data.Role is not AmbusherRole)

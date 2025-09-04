@@ -64,8 +64,8 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public static bool EgoVisibilityFlag(PlayerControl player)
     {
-        return player.HasModifier<EgotistModifier>() &&
-               (PlayerControl.LocalPlayer.IsImpostor() || player.Is(RoleAlignment.NeutralKilling));
+        return player.Data != null && !player.Data.Disconnected && player.HasModifier<EgotistModifier>() &&
+               (PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling));
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

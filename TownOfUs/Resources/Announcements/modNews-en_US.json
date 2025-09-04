@@ -321,12 +321,22 @@
         "\n\nAgain, the Mira team really appreciates all of your support, thank you so much for playing the mod!",
         "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.2>TOU Mira v1.1.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
         "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Sheriff can kill Ambassador without misfiring (bad checks)",
         "\n- Traitor will always see the Snitch regardless of settings, but Snitch can only see Traitor based on specific settings",
+        "\n- Tracker and Engineer get task uses properly.",
+        "\n- Prosecutor button is no longer hidden when the skip button is hidden.",
         "\n- Snitch is revealed properly to the Traitor as intended.",
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Phantom, Executioner, and Jester ghost kills are now run through a more direct method to force a murder at all costs.",
         "\n\n\r<size=105%>Modifier Bugfixes:</size>",
         "\n- Celebrity Report no longer gets parsed incorrectly.",
+        "\n- When Spooked by a Phantom, the Celebrity shows their cause of death as Spooked properly.",
         "\n\n\r<size=105%>Other Bugfixes:</size>",
-        "\n- Haunter, Phantom, and Snitch now ignore Sabotage and information on the task list (which is why there was some miscounting, I blame Slayed)"
+        "\n- Haunter, Phantom, and Snitch now ignore Sabotage and information on the task list (which is why there was some miscounting, I blame Slayed)",
+        "\n- There are now checks to prevent votes on dead players or votes happening from dead players",
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Chat Tags now italicize on hover. (PR #65) (Chipseq)",
+        "\n- Controllers on the Main Menu can now select the April Fools Toggle"
       ]
     }
       ]

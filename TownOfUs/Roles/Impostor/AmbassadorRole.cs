@@ -219,7 +219,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode && !Player.AmOwner;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.RetrainConfirm, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.RetrainConfirm)]
     public static void RpcRetrainConfirm(PlayerControl ambassador, PlayerControl player, int cooldown, ushort role = 0, bool accepted = false)
     {
         if (ambassador.Data.Role is not AmbassadorRole ambassadorRole)
@@ -293,7 +293,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.RetrainImpostor, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.RetrainImpostor)]
     private static void RpcRetrain(PlayerControl player, byte playerId = byte.MaxValue, ushort role = 0)
     {
         if (player.Data.Role is not AmbassadorRole ambassador)

@@ -136,7 +136,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         yield return new WaitForSeconds(OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration);
 
-        if (!MeetingHud.Instance)
+        if (!MeetingHud.Instance && !Player.HasDied())
         {
             GameHistory.ClearMurder(dead);
 
@@ -212,7 +212,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         Player.moveable = true;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.AltruistRevive, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.AltruistRevive)]
     public static void RpcRevive(PlayerControl alt, PlayerControl target)
     {
         if (alt.Data.Role is not AltruistRole role)

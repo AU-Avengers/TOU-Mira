@@ -24,9 +24,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 {
     public override bool IsAffectedByComms => false;
 
+    [HideFromIl2Cpp]
     public PlayerControl? Protected { get; set; }
     public int UnleashesAvailable { get; set; }
     public string UnleashString { get; set; }
+    [HideFromIl2Cpp]
     public RoleBehaviour? ContainedRole { get; set; }
 
     public void FixedUpdate()
@@ -120,7 +122,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         Coroutines.Start(MiscUtils.CoFlash(new Color32(144, 162, 195, 255)));
     }
 
-    [MethodRpc((uint)TownOfUsRpc.MagicMirror, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.MagicMirror)]
     public static void RpcMagicMirror(PlayerControl mc, PlayerControl target)
     {
         if (mc.Data.Role is not MirrorcasterRole role)
@@ -132,13 +134,13 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         role?.SetProtectedPlayer(target);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ClearMagicMirror, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.ClearMagicMirror)]
     public static void RpcClearMagicMirror(PlayerControl mc)
     {
         ClearMagicMirror(mc);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.MirrorcasterUnleash, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.MirrorcasterUnleash)]
     public static void RpcMirrorcasterUnleash(PlayerControl mc)
     {
         if (mc.Data.Role is not MirrorcasterRole role)
@@ -159,7 +161,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         role?.SetProtectedPlayer(null);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.MagicMirrorAttacked, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.MagicMirrorAttacked)]
     public static void RpcMagicMirrorAttacked(PlayerControl mirrorcaster, PlayerControl source, PlayerControl protectedPlayer)
     {
         if (mirrorcaster.Data.Role is not MirrorcasterRole role)

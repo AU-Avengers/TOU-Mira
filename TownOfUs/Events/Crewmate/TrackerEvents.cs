@@ -15,9 +15,9 @@ public static class TrackerEvents
     [RegisterEvent]
     public static void CompleteTaskEvent(CompleteTaskEvent @event)
     {
-        if (@event.Player.AmOwner && @event.Player.Data.Role is TrackerRole &&
-            OptionGroupSingleton<TrackerOptions>.Instance.TaskUses &&
-            !OptionGroupSingleton<TrackerOptions>.Instance.ResetOnNewRound)
+        var opt = OptionGroupSingleton<TrackerOptions>.Instance;
+        if (@event.Player.AmOwner && @event.Player.Data.Role is TrackerTouRole &&
+            opt.TaskUses && !opt.ResetOnNewRound)
         {
             var button = CustomButtonSingleton<TrackerTrackButton>.Instance;
             ++button.UsesLeft;

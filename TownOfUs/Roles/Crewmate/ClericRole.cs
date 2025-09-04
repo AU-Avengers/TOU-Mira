@@ -52,7 +52,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             TouCrewAssets.CleanseSprite)
     ];
 
-    [MethodRpc((uint)TownOfUsRpc.ClericBarrierAttacked, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.ClericBarrierAttacked)]
     public static void RpcClericBarrierAttacked(PlayerControl cleric, PlayerControl source, PlayerControl shielded)
     {
         if (cleric.Data.Role is not ClericRole)

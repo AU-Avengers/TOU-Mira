@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
-using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Neutral;
@@ -38,7 +37,6 @@ public static class PhantomEvents
                 HudManagerPatches.ZoomButton.SetActive(true);
                 if (OptionGroupSingleton<PhantomOptions>.Instance.PhantomWin is PhantomWinOptions.Spooks)
                 {
-                    PlayerControl.LocalPlayer.RpcAddModifier<IndirectAttackerModifier>(true);
                     DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1, DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
                         $"<b>You have one round to spook a player of your choice to death, choose wisely.</b>",

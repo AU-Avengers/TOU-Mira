@@ -24,6 +24,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
 
+    [HideFromIl2Cpp]
     public PlayerControl? Shielded { get; set; }
 
     public void FixedUpdate()
@@ -314,7 +315,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.MedicShield, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.MedicShield)]
     public static void RpcMedicShield(PlayerControl medic, PlayerControl target)
     {
         if (medic.Data.Role is not MedicRole)
@@ -328,7 +329,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         role?.SetShieldedPlayer(target);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ClearMedicShield, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.ClearMedicShield)]
     public static void RpcClearMedicShield(PlayerControl medic)
     {
         ClearMedicShield(medic);
@@ -347,7 +348,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         role?.SetShieldedPlayer(null);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.MedicShieldAttacked, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.MedicShieldAttacked)]
     public static void RpcMedicShieldAttacked(PlayerControl medic, PlayerControl source, PlayerControl shielded)
     {
         if (medic.Data.Role is not MedicRole)

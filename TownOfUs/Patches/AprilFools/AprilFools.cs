@@ -109,6 +109,17 @@ public static class AprilFoolsPatches
             text2.fontSize = 3f;
             text2.fontSizeMin = 3f;
             text2.fontSizeMax = 3f;
+            
+            var uiList = new Il2CppSystem.Collections.Generic.List<PassiveButton>();
+            uiList.Add(__instance.playButton);
+            uiList.Add(__instance.inventoryButton);
+            uiList.Add(__instance.shopButton);
+            uiList.Add(aprilfoolstoggle);
+            uiList.Add(__instance.newsButton);
+            uiList.Add(__instance.myAccountButton);
+            uiList.Add(__instance.settingsButton);
+            __instance.mainButtons = uiList;
+            __instance.SetUpControllerNav();
         }
     }
 

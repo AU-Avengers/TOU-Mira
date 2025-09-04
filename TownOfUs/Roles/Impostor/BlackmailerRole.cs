@@ -68,7 +68,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
             TouImpAssets.BlackmailSprite)
     ];
 
-    [MethodRpc((uint)TownOfUsRpc.Blackmail, LocalHandling = RpcLocalHandling.Before, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Blackmail, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcBlackmail(PlayerControl source, PlayerControl target)
     {
         var existingBmed = PlayerControl.AllPlayerControls.ToArray()

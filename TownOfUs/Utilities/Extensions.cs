@@ -482,7 +482,7 @@ public static class Extensions
         panel.NameText.transform.localPosition += Vector3.left * 0.05f;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ChangeRole, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.ChangeRole)]
     public static void RpcChangeRole(this PlayerControl player, ushort newRoleType, bool recordRole = true)
     {
         ChangeRole(player, newRoleType, recordRole);
@@ -544,13 +544,13 @@ public static class Extensions
         MiraEventManager.InvokeEvent(changeRoleEvent);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.PlayerExile, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.PlayerExile)]
     public static void RpcPlayerExile(this PlayerControl player)
     {
         player.Exiled();
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetPos, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SetPos)]
     public static void RpcSetPos(this PlayerControl player, Vector2 pos)
     {
         player.transform.position = pos;
@@ -661,7 +661,7 @@ public static class Extensions
         return list;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.CatchGhost, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.CatchGhost)]
     public static void RpcCatchGhost(this PlayerControl player)
     {
         if (player.Data.Role is IGhostRole ghost)

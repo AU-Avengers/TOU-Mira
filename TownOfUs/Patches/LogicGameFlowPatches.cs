@@ -68,7 +68,7 @@ public static class LogicGameFlowPatches
     [HarmonyPrefix]
     private static bool RecomputeTasksPatch(GameData __instance)
     {
-        if (__instance == null)
+        if (__instance == null || GameOptionsManager.Instance == null)
         {
             return false;
         }

@@ -94,14 +94,17 @@ public static class PlayerRoleTextExtensions
     public static string UpdateProtectionSymbols(this string name, PlayerControl player, bool hidden = false)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        if ((player.HasModifier<GuardianAngelTargetModifier>(x => x.OwnerId == PlayerControl.LocalPlayer.PlayerId) &&
-             PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>())
-            || (player.HasModifier<GuardianAngelTargetModifier>() &&
-                ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
-                 || (player.AmOwner &&
-                     OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows))))
+
+        if (player.Data != null && !player.Data.Disconnected &&
+            ((player.HasModifier<GuardianAngelTargetModifier>(x => x.OwnerId == PlayerControl.LocalPlayer.PlayerId) &&
+              PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>())
+             || (player.HasModifier<GuardianAngelTargetModifier>() &&
+                 ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
+                  || (player.AmOwner &&
+                      OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows)))))
         {
-            name += (player.HasModifier<GuardianAngelProtectModifier>() && OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect is not ProtectOptions.GA)
+            name += (player.HasModifier<GuardianAngelProtectModifier>() &&
+                     OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect is not ProtectOptions.GA)
                 ? "<color=#FFD900> ★</color>"
                 : "<color=#B3FFFF> ★</color>";
         }

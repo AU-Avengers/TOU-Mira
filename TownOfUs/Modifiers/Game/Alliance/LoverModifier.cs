@@ -61,7 +61,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             var impTargetPercent = (int)loveOpt.LovingImpPercent;
 
             var players = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
+                .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
                             x.Data.Role is not InquisitorRole && (loveOpt.NeutralLovers || !x.IsNeutral())).ToList();
             players.Shuffle();
 
@@ -266,7 +266,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         return OtherLover;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetOtherLover, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SetOtherLover)]
     private static void RpcSetOtherLover(PlayerControl player, PlayerControl target)
     {
         if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)

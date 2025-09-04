@@ -115,7 +115,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         CustomButtonSingleton<MercenaryBribeButton>.Instance.SetActive(false, this);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Guarded, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Guarded)]
     public static void RpcGuarded(PlayerControl player)
     {
         if (player.Data.Role is not MercenaryRole)

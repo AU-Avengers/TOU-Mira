@@ -79,7 +79,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         return $"The {RoleName} is an Impostor Support role that can create vents." + MiscUtils.AppendOptionsText(GetType());
     }
 
-    [MethodRpc((uint)TownOfUsRpc.PlaceVent, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.PlaceVent)]
     public static void RpcPlaceVent(PlayerControl player, int ventId, Vector2 position, float zAxis, bool immediate)
     {
         if (player.Data.Role is not MinerRole miner)
@@ -180,7 +180,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ShowVent, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.ShowVent)]
     public static void RpcShowVent(PlayerControl player, int ventId)
     {
         if (player.Data.Role is not MinerRole miner)

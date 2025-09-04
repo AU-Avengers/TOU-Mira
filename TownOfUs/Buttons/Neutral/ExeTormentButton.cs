@@ -1,10 +1,9 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Networking;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -46,17 +45,13 @@ public sealed class ExeTormentButton : TownOfUsButton
 
                 if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any())
                 {
-                    PlayerControl.LocalPlayer.RpcCustomMurder(plr, teleportMurderer: false);
-                    DeathHandlerModifier.RpcUpdateDeathHandler(plr, "Tormented", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue, $"By {PlayerControl.LocalPlayer.Data.PlayerName}", lockInfo: DeathHandlerOverride.SetTrue);
-
+                    PlayerControl.LocalPlayer.RpcGhostRoleMurder(plr);
                     foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
                     {
                         mod.ModifierComponent?.RemoveModifier(mod);
                     }
 
                     Show = false;
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "Victorious", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
-                    PlayerControl.LocalPlayer.RpcRemoveModifier<IndirectAttackerModifier>();
                 }
             });
     }

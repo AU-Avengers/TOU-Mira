@@ -2,6 +2,7 @@
 
 public enum TownOfUsRpc : uint
 {
+    GhostRoleMurder,
     RemoveSpawns,
 
     UpdateDeathHandler,

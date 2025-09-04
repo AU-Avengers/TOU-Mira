@@ -89,7 +89,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         return false;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Remember, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Remember)]
     public static void RpcRemember(PlayerControl player, PlayerControl target)
     {
         if (player.Data.Role is not AmnesiacRole)

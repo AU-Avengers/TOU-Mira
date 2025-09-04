@@ -21,7 +21,9 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class EscapistRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    [HideFromIl2Cpp]
     public Vector2? MarkedLocation { get; set; }
+    [HideFromIl2Cpp]
     public GameObject? EscapeMark { get; set; }
 
     public void FixedUpdate()
@@ -90,7 +92,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
         EscapeMark?.gameObject.Destroy();
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Recall, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.Recall)]
     public static void RpcRecall(PlayerControl player)
     {
         if (player.Data.Role is not EscapistRole)
@@ -103,7 +105,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.MarkLocation, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.MarkLocation)]
     public static void RpcMarkLocation(PlayerControl player, Vector2 pos)
     {
         if (player.Data.Role is not EscapistRole henry)

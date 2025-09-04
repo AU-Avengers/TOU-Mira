@@ -40,7 +40,7 @@ public static class SixthSenseEvents
         // I am groot (i am stupid)
     }
 
-    [MethodRpc((uint)TownOfUsRpc.TriggerSixthSense, SendImmediately = true, LocalHandling = RpcLocalHandling.None)]
+    [MethodRpc((uint)TownOfUsRpc.TriggerSixthSense, LocalHandling = RpcLocalHandling.None)]
     private static void CheckForSixthSense(PlayerControl target)
     {
         if (target.AmOwner && target.HasModifier<SixthSenseModifier>())

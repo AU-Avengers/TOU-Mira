@@ -44,7 +44,6 @@ using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
-using Object2 = Il2CppSystem.Object;
 
 namespace TownOfUs.Events;
 
@@ -83,64 +82,36 @@ public static class TownOfUsEventHandlers
             ModifierText.text = string.Empty;
         }
     }
-    public static void SetHiddenImpostors(IntroCutscene __instance)
+
+    [RegisterEvent(1000)]
+    public static void IntroRoleRevealEventHandler(IntroRoleRevealEvent @event)
     {
-        var amount = Helpers.GetAlivePlayers().Count(x => x.IsImpostor());
-        __instance.ImpostorText.text =
-            DestroyableSingleton<TranslationController>.Instance.GetString(amount == 1 ? StringNames.NumImpostorsS : StringNames.NumImpostorsP, amount);
-        __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>");
-        __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[]", "</color>");
+        var instance = @event.IntroCutscene;
         
-        if (!OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled) return;
-
-        var players = GameData.Instance.PlayerCount;
-
-        if (players < 7)
+        if (ModCompatibility.IsSubmerged())
         {
-            return;
+            Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
+        }
+        
+        if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
+        {
+            instance.RoleText.text = custom.RoleName;
+            instance.YouAreText.text = custom.YouAreText;
+            instance.RoleBlurbText.text = custom.RoleDescription;
         }
 
-        var list = OptionGroupSingleton<RoleOptions>.Instance;
-
-        int maxSlots = players < 15 ? players : 15;
-
-        List<RoleListOption> buckets = [];
-        if (list.RoleListEnabled)
+        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
+        if (teamModifier != null && OptionGroupSingleton<GeneralOptions>.Instance.TeamModifierReveal)
         {
-            for (int i = 0; i < maxSlots; i++)
+            var color = MiscUtils.GetRoleColour(teamModifier.ModifierName.Replace(" ", string.Empty));
+            if (teamModifier is IColoredModifier colorMod)
             {
-                int slotValue = i switch
-                {
-                    0 => list.Slot1,
-                    1 => list.Slot2,
-                    2 => list.Slot3,
-                    3 => list.Slot4,
-                    4 => list.Slot5,
-                    5 => list.Slot6,
-                    6 => list.Slot7,
-                    7 => list.Slot8,
-                    8 => list.Slot9,
-                    9 => list.Slot10,
-                    10 => list.Slot11,
-                    11 => list.Slot12,
-                    12 => list.Slot13,
-                    13 => list.Slot14,
-                    14 => list.Slot15,
-                    _ => -1
-                };
-
-                buckets.Add((RoleListOption)slotValue);
+                color = colorMod.ModifierColor;
             }
+
+            instance.RoleBlurbText.text =
+                $"<size={teamModifier.IntroSize}>\n</size>{instance.RoleBlurbText.text}\n<size={teamModifier.IntroSize}><color=#{color.ToHtmlStringRGBA()}>{teamModifier.IntroInfo}</color></size>";
         }
-
-        if (!buckets.Any(x => x is RoleListOption.Any)) return;
-
-
-        __instance.ImpostorText.text =
-            DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.NumImpostorsP, 256);
-        __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>");
-        __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[]", "</color>");
-        __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("256", "???");
     }
     [RegisterEvent]
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
@@ -152,22 +123,6 @@ public static class TownOfUsEventHandlers
     public static IEnumerator CoChangeModifierText(IntroCutscene cutscene)
     {
         yield return new WaitForSeconds(0.01f);
-        if (PlayerControl.LocalPlayer.IsImpostor())
-        {
-            if (OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
-            {
-                cutscene.TeamTitle.text =
-                    DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor, Array.Empty<Object2>());
-                cutscene.TeamTitle.color = Palette.ImpostorRed;
-
-                var player = cutscene.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
-                cutscene.ourCrewmate = player;
-            }
-        }
-        else
-        {
-            SetHiddenImpostors(cutscene);
-        }
         
         ModifierText =
             Object.Instantiate(cutscene.RoleText, cutscene.RoleText.transform.parent, false);
@@ -624,6 +579,9 @@ public static class TownOfUsEventHandlers
     {
         yield return new WaitForSeconds(0.01f);
         HudManager.Instance.SetHudActive(false);
+        HudManager.Instance.AbilityButton.SetDisabled();
+        HudManager.Instance.SabotageButton.SetDisabled();
+        HudManager.Instance.UseButton.SetDisabled();
     }
 
     private static IEnumerator CoAnimateDeath(PlayerVoteArea voteArea)

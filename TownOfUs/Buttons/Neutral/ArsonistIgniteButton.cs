@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -28,6 +29,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
     private static List<PlayerControl> PlayersInRange => Helpers.GetClosestPlayers(PlayerControl.LocalPlayer,
         OptionGroupSingleton<ArsonistOptions>.Instance.IgniteRadius.Value * ShipStatus.Instance.MaxLightRadius);
 
+    [HideFromIl2Cpp]
     public Ignite? Ignite { get; set; }
 
     public override bool CanUse()
@@ -114,7 +116,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
             predicate: x => x.HasModifier<ArsonistDousedModifier>());
     }
 
-    [MethodRpc((uint)TownOfUsRpc.IgniteSound, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.IgniteSound)]
     public static void RpcIgniteSound(PlayerControl player)
     {
         if (player.AmOwner)
