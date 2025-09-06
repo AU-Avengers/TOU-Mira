@@ -31,6 +31,7 @@ public static class TeamChatPatches
     public static Color OriginalSelected;
     public static Color chatColor = new Color32(218, 140, 152, 255);
     public static bool calledByChatUpdate;
+    public static GameObject? PrivateChatDot;
 
     public static void ToggleTeamChat() // Also used to hide the custom chat when dying
     {
@@ -166,11 +167,19 @@ public static class TeamChatPatches
 
         TeamChatButton = Object.Instantiate(BanMenu.gameObject, BanMenu.transform.parent);
         TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-        TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(TeamChatPatches.ToggleTeamChat));
+        TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ToggleTeamChat));
         TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch.LoadAsset();
         TeamChatButton.name = "FactionChat";
         var pos = BanMenu.transform.localPosition;
         TeamChatButton.transform.localPosition = new Vector3(pos.x, pos.y + 1f, pos.z);
+    }
+
+    public static void CreateTeamChatBubble()
+    {
+        var obj = HudManager.Instance.Chat.chatNotifyDot.gameObject;
+        PrivateChatDot = Object.Instantiate(obj, obj.transform.parent);
+        PrivateChatDot.transform.localPosition -= new Vector3(0f, 0.325f, 0f);
+        PrivateChatDot.transform.localScale -= new Vector3(0.2f, 0.2f, 0f);
     }
 
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]

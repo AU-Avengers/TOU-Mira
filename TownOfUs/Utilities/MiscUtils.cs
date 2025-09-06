@@ -11,6 +11,7 @@ using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
@@ -430,16 +431,27 @@ public static class MiscUtils
             }
         }
         chat.AlignAllBubbles();
-        if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
+        if (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive)
         {
-            chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
+            Coroutines.Start(BouncePrivateChatDot());
+            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
         }
 
         if (showHeadsup && !chat.IsOpenOrOpening)
         {
-            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
             chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
         }
+    }
+    private static IEnumerator BouncePrivateChatDot()
+    {
+        if (TeamChatPatches.PrivateChatDot == null)
+        {
+            TeamChatPatches.CreateTeamChatBubble();
+        }
+        
+        var sprite = TeamChatPatches.PrivateChatDot!.GetComponent<SpriteRenderer>();
+        sprite.enabled = true;
+        yield return Effects.Bounce(sprite.transform, 0.3f, 0.125f);
     }
 
     public static bool StartsWithVowel(this string word)
