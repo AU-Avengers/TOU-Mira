@@ -18,6 +18,7 @@ using TownOfUs.Options;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches.Misc;
+using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
@@ -419,6 +420,15 @@ public static class MiscUtils
         pooledBubble.AlignChildren();
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
+        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive)
+        {
+            TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
+            pooledBubble.gameObject.SetActive(false);
+            if (chat.chatBubblePool.activeChildren.Contains(pooledBubble))
+            {
+                chat.chatBubblePool.activeChildren.Remove(pooledBubble);
+            }
+        }
         chat.AlignAllBubbles();
         if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
         {

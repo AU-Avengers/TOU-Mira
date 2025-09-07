@@ -142,6 +142,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> ZoomMinusActive { get; } =
         new LoadableBundleAsset<Sprite>("MinusActive", MainBundle);
 
+    public static LoadableAsset<Sprite> TeamChatSwitch { get; } =
+        new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png");
+
     public static LoadableAsset<Sprite> TeamChatInactive { get; } =
         new LoadableBundleAsset<Sprite>("TeamChatInactive", MainBundle);
 
