@@ -74,7 +74,7 @@ public static class TouLocale
             //new(SupportedLangs.Dutch, "nl_NL.json"),
             //new(SupportedLangs.Brazilian, "pt_BR.json"),
             //new(SupportedLangs.Russian, "ru_RU.json"),
-            //new(SupportedLangs.SChinese, "zh_CN.json"),
+            new(SupportedLangs.SChinese, "zh_CN.json"),
             //new(SupportedLangs.TChinese, "zh_TW.json")
         ];
 
