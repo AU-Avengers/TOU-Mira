@@ -501,7 +501,7 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> GetRegisteredGhostRoles()
     {
-        var baseGhostRoles = RoleManager.Instance.AllRoles.Where(x => x.IsDead && AllRoles.All(y => y.Role != x.Role));
+        var baseGhostRoles = RoleManager.Instance.AllRoles.ToArray().Where(x => x.IsDead && AllRoles.All(y => y.Role != x.Role));
         var ghostRoles = AllRoles.Where(x => x.IsDead && !x.TryCast<SpectatorRole>()).Union(baseGhostRoles);
 
         return ghostRoles;
@@ -511,7 +511,7 @@ public static class MiscUtils
     {
         // we want to prioritize the custom roles because the role has the right RoleColour/TeamColor
         var role = AllRoles.FirstOrDefault(x => x.Role == roleType) ??
-                   RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == roleType);
+                   RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == roleType);
 
         return role;
     }
@@ -556,7 +556,7 @@ public static class MiscUtils
     {
         var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
         var roleOptions = currentGameOptions.RoleOptions;
-        var assignmentData = RoleManager.Instance.AllRoles.Select(role =>
+        var assignmentData = RoleManager.Instance.AllRoles.ToArray().Select(role =>
             new RoleManager.RoleAssignmentData(role, roleOptions.GetNumPerGame(role.Role),
                 roleOptions.GetChancePerGame(role.Role))).ToList();
 
@@ -585,11 +585,11 @@ public static class MiscUtils
                     RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Phantom)!);
         }*/
 
-        var crewmateRole = RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
+        var crewmateRole = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
         roleList = roleList.AddItem(crewmateRole!);
         //Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - crewmateRole: '{crewmateRole?.GetRoleName()}'");
 
-        var impostorRole = RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Impostor);
+        var impostorRole = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == RoleTypes.Impostor);
         roleList = roleList.AddItem(impostorRole!);
 
         //Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - impostorRole: '{impostorRole?.GetRoleName()}'");
