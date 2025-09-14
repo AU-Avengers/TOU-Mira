@@ -249,7 +249,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     break;
             }
 
-            var roles = RoleManager.Instance.AllRoles
+            var roles = RoleManager.Instance.AllRoles.ToArray()
                 .Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
                     x is not IUnguessable || x is not IDoomable) && !x.IsDead).ToList();
             roles = roles.OrderBy(x => x.GetRoleName()).ToList();
