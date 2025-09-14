@@ -732,7 +732,7 @@
   <!-- Ambusher Wiki / Abilities -->
   <string name="TouRoleAmbusher">Ambusher</string>
   <string name="TouRoleAmbusherIntroBlurb">Kidnap Crewmates Into The Shadows</string>
-  <string name="TouRoleAmbusherTabDescription">Pursue a player, then ambush the closest player to them.\nIf the player you ambush dies, then take their body with you.</string>
+  <string name="TouRoleAmbusherTabDescription">Pursue a player, then ambush the closest player to them.\%nl\%If the player you ambush dies, then take their body with you.</string>
   <string name="TouRoleAmbusherWikiDescription">The Ambusher is an Impostor Killing role that can pursue a player, getting an arrow to them. They may ambush the closest player next to them. If they manage to kill the player, they will drag their body into the shadows, teleporting back with the Ambusher.</string>
   <string name="TouRoleAmbusherPursue">Pursue</string>
   <string name="TouRoleAmbusherPursueWikiDescription">Pursue a player to be able to ambush another player next to them at a later time.</string>
