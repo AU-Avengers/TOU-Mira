@@ -87,7 +87,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
     }
 
-    public void FadeUpdate(HudManager instance)
+    public void FadeUpdate()
     {
         if (!Caught && Setup)
         {
@@ -107,6 +107,15 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
             // Logger<TownOfUsPlugin>.Message($"HaunterRole.FadeUpdate UnFaded");
         }
+    }
+    public void FixedUpdate()
+    {
+        if (Player == null || Player.Data.Role is not HaunterRole || MeetingHud.Instance)
+        {
+            return;
+        }
+
+        FadeUpdate();
     }
 
     public void Clicked()

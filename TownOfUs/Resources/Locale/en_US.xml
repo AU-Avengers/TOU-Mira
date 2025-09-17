@@ -176,6 +176,7 @@
   <!-- Cause of Deaths -->
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
+  <string name="Alive">Alive</string>
   <string name="DiedToDisconnect">Disconnected</string>
   <string name="DiedToEjection">Ejected</string>
   <string name="DiedToKiller">Killed</string>
@@ -210,16 +211,13 @@
   <string name="TouMedicShield">Medic Shield</string>
   <string name="TouWardenFort">Warden Fort</string>
   <string name="TouDoused">Doused</string>
-  <!-- Arsonist Cleric Cleanse Info -->
   <string name="TouHacked">Hacked</string>
-  <!-- Glitch Cleric Cleanse Info -->
   <string name="TouFlash">Flash</string>
-  <!-- Grenadier Cleric Cleanse Info -->
   <string name="TouHypnosis">Hypnosis</string>
-  <!-- Hypnotist Cleric Cleanse Info -->
   <string name="TouInfection">Infection</string>
-  <!-- Plaguebearer Cleric Cleanse Info -->
   <string name="TouScatter">Scatter</string>
+  <!-- Common Terms -->
+  <string name="TargetingNobody">Nobody</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch The Chaos From Afar</string>
@@ -413,6 +411,8 @@
   <string name="TouRoleMayor">Mayor</string>
   <string name="TouRoleMayorIntroBlurb">Reveal Yourself To Save The Crew</string>
   <string name="TouRoleMayorTabDescription">Lead the crew to victory!</string>
+  <string name="TouRoleMayorTabDescriptionEgo">Lead the evils to victory!</string>
+  <string name="TouRoleMayorUnrevealedTabText">Reveal yourself whenever you wish.</string>
   <string name="TouRoleMayorWikiDescription">The Mayor is a Crewmate Power role that gains three votes and is revealed to all players, also changing their look in meetings.</string>
   <!-- Medic - Crewmate Protective -->
   <!-- Medic Wiki / Abilities -->
@@ -426,9 +426,9 @@
   <string name="TouOptionMedicShowShieldedPlayer">Show Shielded Player</string>
   <string name="TouOptionMedicWhoGetsMurderAttemptIndicator">Who Gets Murder Attempt Indicator</string>
   <string name="TouOptionMedicCanGiveShieldAwayNextRound">Can Give Shield Away Next Round</string>
-  <string name="TouOptionMedicMaxAmountofShieldUses">Max Amount of Shield Uses</string>
+  <string name="TouOptionMedicMaxAmountOfShieldUses">Max Amount of Shield Uses</string>
   <string name="TouOptionMedicShieldBreaksOnMurderAttempt">Shield Breaks On Murder Attempt</string>
-  <string name="TouOptionMedicShowReportsinChat">Show Reports in Chat</string>
+  <string name="TouOptionMedicShowReportsInChat">Show Reports in Chat</string>
   <string name="TouOptionMedicTimeWhereMedicWillHaveName">Time Where Medic Will Have Name</string>
   <string name="TouOptionMedicTimeWhereMedicWillHaveColorType">Time Where Medic Will Have Color Type</string>
   <!-- Medium - Crewmate Support -->
@@ -441,7 +441,7 @@
   <string name="TouRoleMediumMediateWikiDescription">Communicate with the dead, which may lead you to the killers.</string>
   <!-- Medium Options -->
   <string name="TouOptionMediumMediateCooldown">Mediate Cooldown</string>
-  <string name="TouOptionMediumRevealAppearenceofMediateTarget">Reveal Appearence of Mediate Target</string>
+  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">Reveal Appearance of Mediate Target</string>
   <string name="TouOptionMediumArrowVisibility">Arrow Visibility</string>
   <string name="TouOptionMediumWhoisRevealed">Who is Revealed</string>
   <!-- Mirrorcaster - Crewmate Protective -->
@@ -450,8 +450,8 @@
   <string name="TouRoleMirrorcasterIntroBlurb">Reflect Attacks Onto Others</string>
   <string name="TouRoleMirrorcasterTabDescription">Protect a player with a Magic Mirror.\%nl\%f they are directly attacked, then\%nl\%unleash the attack onto another player!</string>
   <string name="TouRoleMirrorcasterWikiDescription">The Mirrorcaster is a Crewmate Protective role that can cast a Magic Mirror on a player to protect them. If attacked directly, the Mirrorcaster can then unleash onto another player.</string>
-  <string name="TouRoleMirrorcasterMagic Mirror">Magic Mirror</string>
-  <string name="TouRoleMirrorcasterMagic MirrorWikiDescription">Place a Mirror on a player. If the player is attacked directly, then you will be notified, and you will be able to unleash onto another player. Roles that ignore the Magic Mirror are Arsonist, Veteran, Pestilence, Bomber (if the player is bombed), and a few others.</string>
+  <string name="TouRoleMirrorcasterMagicMirror">Magic Mirror</string>
+  <string name="TouRoleMirrorcasterMagicMirrorWikiDescription">Place a Mirror on a player. If the player is attacked directly, then you will be notified, and you will be able to unleash onto another player. Roles that ignore the Magic Mirror are Arsonist, Veteran, Pestilence, Bomber (if the player is bombed), and a few others.</string>
   <string name="TouRoleMirrorcasterUnleash">Unleash</string>
   <string name="TouRoleMirrorcasterUnleashWikiDescription">Once the Magic Mirror shatters, use its power to unleash the attack onto another player!</string>
   <!-- Mirrorcaster Options -->
@@ -502,6 +502,12 @@
   <string name="TouRolePlumber">Plumber</string>
   <string name="TouRolePlumberIntroBlurb">Get The Rats Out Of The Sewers</string>
   <string name="TouRolePlumberTabDescription">Flush the vent system to kick venters out, and\%nl\%barricade vents to block them the next round</string>
+  <string name="TouRolePlumberExtraTabText">Note: Barricades Stay For \%roundCount\% Round(s)</string>
+  <string name="TouRolePlumberVentListTabText">Vents List</string>
+  <string name="TouRolePlumberUnbuiltBarricadeTabText">Preparing...</string>
+  <string name="TouRolePlumberVentLabelTabText">\%roomName\% Vent</string>
+  <string name="TouRolePlumberVentRoundsTabText">\%roundsRemaining\% Round(s) Remaining</string>
+  <string name="TouNotifPlumberBlock">This vent will be blocked at the beginning of next round.</string>
   <string name="TouRolePlumberWikiDescription">The Plumber is a Crewmate Support role that can place Barricades on vents and Flush anyone out of vents.</string>
   <string name="TouRolePlumberFlush">Flush</string>
   <string name="TouRolePlumberFlushWikiDescription">Flushing the vents makes every vent open and close, kicking out anyone actively in a vent. The Plumber also gets an arrow pointing to every flushed player for one second.</string>
@@ -536,7 +542,7 @@
   <!-- Prosecutor Wiki / Abilities -->
   <string name="TouRoleProsecutor">Prosecutor</string>
   <string name="TouRoleProsecutorIntroBlurb">Exile Players Of Your Choosing</string>
-  <string name="TouRoleProsecutorTabDescription">Choose to exile anyone of your choosing without anyone else having a say</string>
+  <string name="TouRoleProsecutorTabDescription">Choose to exile anyone of your choosing</string>
   <string name="TouRoleProsecutorWikiDescription">The Prosecutor is a Crewmate Power role that can Exile a player, applying five votes to a player of their choosing. They can also see who voted for whom, even if they're anonymous.</string>
   <string name="TouRoleProsecutorProsecute">Prosecute</string>
   <string name="TouRoleProsecutorProsecuteWiki">Prosecute (Meeting)</string>
@@ -564,9 +570,18 @@
   <string name="TouRoleSheriff">Sheriff</string>
   <string name="TouRoleSheriffIntroBlurb">Shoot The \%color=#FF0000FF\%Impostor\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">Kill off the impostors but don't kill crewmates</string>
+  <string name="TouRoleSheriffTabDescriptionEgo">Kill off whoever you wish in hopes of crew losing</string>
   <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
   <string name="TouRoleSheriffShoot">Shoot</string>
   <string name="TouRoleSheriffShootWikiDescription">Shoot a player to kill them, misfiring if they aren't an Impostor or one of the other selected shootable factions</string>
+  <!-- Sheriff Misfire Text -->
+  <string name="TouRoleSheriffTabMisfired">You can no longer shoot.</string>
+  <string name="TouRoleSheriffTabMisfireKillsBoth">Misfiring kills you and your target.</string>
+  <string name="TouRoleSheriffTabMisfireKillsSheriff">Misfiring will lead to suicide.</string>
+  <string name="TouRoleSheriffTabMisfireKillsTarget">Misfiring will lead to your target's death,\%nl\%at the cost of your ability.</string>
+  <string name="TouRoleSheriffTabMisfireKillsNobody">Misfiring will prevent you from shooting again.</string>
+  <!-- Sheriff Feedback -->
+  <string name="TouRoleSheriffMisfireFeedback">You have lost the ability to shoot!</string>
   <!-- Sheriff Options -->
   <string name="TouOptionSheriffKillCooldown">Kill Cooldown</string>
   <string name="TouOptionSheriffCanSelfReport">Can Self Report</string>
@@ -707,7 +722,7 @@
   <!-- Ambassador Wiki / Abilities -->
   <string name="TouRoleAmbassador">Ambassador</string>
   <string name="TouRoleAmbassadorIntroBlurb">Lead The Impostors To Victory</string>
-  <string name="TouRoleAmbassadorTabDescription">Retrain yourself or fellow impostors into other roles\%nl\%\%b\%Imp Killing cannot be a Power role\%/b\%\%nl\%\%b\%Imp Concealing/Support cannot be a Killing/Power role\%/b\%</string>
+  <string name="TouRoleAmbassadorTabDescription">Retrain yourself or fellow impostors into another role\%nl\%\%b\%Imp Killing cannot be a Power role\%/b\%\%nl\%\%b\%Imp Concealing/Support cannot be a Killing/Power role\%/b\%</string>
   <string name="TouRoleAmbassadorWikiDescription">The Ambassador is an Impostor Power role that can retrain impostors into other impostor roles.</string>
   <string name="TouRoleAmbassadorRetrain">Retrain</string>
   <string name="TouRoleAmbassadorRetrainWiki">Retrain (Meeting)</string>
@@ -816,7 +831,7 @@
   <!-- Hypnotist Wiki / Abilities -->
   <string name="TouRoleHypnotist">Hypnotist</string>
   <string name="TouRoleHypnotistIntroBlurb">Hypnotize Crewmates</string>
-  <string name="TouRoleHypnotistTabDescription">HHypnotize crewmates to prevent them from distinguishing players under a mass hysteria</string>
+  <string name="TouRoleHypnotistTabDescription">Hypnotize crewmates to prevent them from\%nl\%distinguishing players under a mass hysteria</string>
   <string name="TouRoleHypnotistWikiDescription">The Hypnotist is an Impostor Support role that can hypnotize players. During a meeting they can release Mass Hysteria, which makes all hypnotized players (marked with \%symbol\%) have different visuals applied to players the following round.</string>
   <string name="TouRoleHypnotistHypnotize">Hypnotize</string>
   <string name="TouRoleHypnotistHypnotizeWikiDescription">Hypnotize a player, causing them to see the game differently than non-hypnotized players if mass hysteria is active.</string>
@@ -1012,10 +1027,10 @@
   <!-- Glitch Wiki / Abilities -->
   <string name="TouRoleGlitch">Glitch</string>
   <string name="TouRoleGlitchIntroBlurb">Murder, Mimic, Hack... Data Lost</string>
-  <string name="TouRoleGlitchTabDescription">Hack players to stop their abilities momentarily, and mimic into others to frame them</string>
+  <string name="TouRoleGlitchTabDescription">Hack players to stop their abilities momentarily,\%nl\%mimic into others to frame them.</string>
   <string name="TouRoleGlitchWikiDescription">The Glitch is a Neutral Killing role that wins by being the last killer alive. They can Mimic into another player, or they can hack a player.</string>
   <string name="TouRoleGlitchMimic">Mimic</string>
-  <string name="TouRoleGlitchMimicWikiDescription">Mimic the appearance of another player, taking on their whole look.</string>
+  <string name="TouRoleGlitchMimicWikiDescription">Mimic the appearance of another player, taking on their whole appearance.</string>
   <string name="TouRoleGlitchHack">Hack</string>
   <string name="TouRoleGlitchHackWikiDescription">Disable a player's abilities.</string>
   <!-- Glitch Options -->

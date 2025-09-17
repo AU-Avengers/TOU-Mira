@@ -103,4 +103,6 @@
   <string name="NeutralKeyword">Neutro</string>
   <string name="ImpostorKeyword">Impostor</string>
   <string name="ImpKeyword">Impostor</string>
+  <string name="TouRoleGrenadier">Granadero</string>
+  <string name="Modifier">Modificador</string>
 </resources>

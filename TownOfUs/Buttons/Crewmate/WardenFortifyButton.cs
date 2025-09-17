@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class WardenFortifyButton : TownOfUsRoleButton<WardenRole, PlayerControl>
 {
-    public override string Name => "Fortify";
+    public override string Name => TouLocale.Get("TouRoleWardenFortify", "Fortify");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Warden;
     public override float Cooldown => 0.001f + MapCooldown;

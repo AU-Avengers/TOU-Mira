@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterRole>
 {
-    public override string Name => "Transport";
+    public override string Name => TouLocale.Get("TouRoleTransporterTransport", "Transport");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Transporter;
 

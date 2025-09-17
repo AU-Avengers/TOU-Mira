@@ -3,6 +3,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Events.Misc;
 
@@ -13,6 +14,9 @@ public static class ZoomEvents
     {
         if (@event.TriggeredByIntro)
         {
+            if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
+                HudManagerPatches.ZoomButton.SetActive(true);
+
             return;
         }
 

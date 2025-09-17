@@ -71,7 +71,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         }
     }
 
-    public void FadeUpdate(HudManager instance)
+    public void FadeUpdate()
     {
         if (!Caught && Setup)
         {
@@ -91,6 +91,15 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
 
             // if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Message($"PhantomTouRole.FadeUpdate UnFaded");
         }
+    }
+    public void FixedUpdate()
+    {
+        if (Player == null || Player.Data.Role is not PhantomTouRole || MeetingHud.Instance)
+        {
+            return;
+        }
+
+        FadeUpdate();
     }
 
     public void Clicked()

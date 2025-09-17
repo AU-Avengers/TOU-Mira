@@ -93,7 +93,26 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
         FixedCam = true;
         ShowShadows = false;
 
+        if (!HudManager.InstanceExists)
+            return;
+
         HudManager.Instance.PlayerCam.SetTarget(Player);
+        HudManager.Instance.ShadowQuad.gameObject.SetActive(ShowShadows);
+        HudManager.Instance.SetHudActive(ShowHud);
+    }
+
+    public override void Deinitialize(PlayerControl targetPlayer)
+    {
+        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+
+        ShowHud = true;
+        FixedCam = false;
+        ShowShadows = true;
+
+        if (!targetPlayer || !targetPlayer.AmOwner || !HudManager.InstanceExists)
+            return;
+
+        HudManager.Instance.PlayerCam.SetTarget(targetPlayer);
         HudManager.Instance.ShadowQuad.gameObject.SetActive(ShowShadows);
         HudManager.Instance.SetHudActive(ShowHud);
     }
@@ -151,15 +170,6 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
 
             HudManager.Instance.PlayerCam.SetTarget(TrackedPlayers[CurrentTarget]);
         }
-    }
-
-    public void OnDestroy()
-    {
-        ShowHud = true;
-        FixedCam = false;
-        ShowShadows = true;
-
-        HudManager.Instance.SetHudActive(ShowHud);
     }
 
     public override bool CanUse(IUsable console) => false;

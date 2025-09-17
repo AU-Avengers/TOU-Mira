@@ -64,6 +64,11 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         Target = IsTargetValid(newTarget) ? newTarget : null;
         SetOutline(true);
 
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;

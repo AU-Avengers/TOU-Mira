@@ -3,6 +3,7 @@ using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
 
     public override void OnMeetingStart()
     {
-        if (!Lookout.AmOwner)
+        if (Lookout.HasDied() || !Lookout.AmOwner || PlayerControl.LocalPlayer.Data.Role is not LookoutRole)
         {
             return;
         }

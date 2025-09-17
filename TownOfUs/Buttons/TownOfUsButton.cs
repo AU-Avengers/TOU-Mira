@@ -149,6 +149,11 @@ public abstract class TownOfUsButton : CustomActionButton
             return false;
         }
 
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasDied() && !UsableInDeath)
         {
             return false;
@@ -305,6 +310,11 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     public override bool CanUse()
     {
         if (PlayerControl.LocalPlayer.HasDied() && !UsableInDeath)
+        {
+            return false;
+        }
+
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
         {
             return false;
         }

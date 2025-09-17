@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class BarryButton : TownOfUsButton
 {
-    public override string Name => "Button";
+    public override string Name => TouLocale.Get("TouModifierButtonBarryButton", "Button");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.ButtonBarry;
     public override float Cooldown => OptionGroupSingleton<ButtonBarryOptions>.Instance.Cooldown + MapCooldown;

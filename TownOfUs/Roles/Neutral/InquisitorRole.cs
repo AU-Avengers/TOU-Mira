@@ -196,8 +196,8 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         // if Inuquisitor was revived
         if (Targets.Count == 0)
         {
-            Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().ToList();
-            TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
+            Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().Where(x => x != player).ToList();
+            TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>().Where(x => x.Player != player)
                 .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.GetRoleName()).ToList();
         }
 

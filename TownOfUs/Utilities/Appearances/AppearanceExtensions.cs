@@ -63,8 +63,7 @@ public static class AppearanceExtensions
 
     public static void SetCamouflage(this PlayerControl player, bool toggle = true)
     {
-        var appearance = player.GetAppearance();
-        if (toggle && (appearance.AppearanceType != TownOfUsAppearances.Camouflage))
+        if (toggle && player.GetAppearanceType() != TownOfUsAppearances.Camouflage)
         {
             player.RawSetAppearance(new VisualAppearance(player.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
             {

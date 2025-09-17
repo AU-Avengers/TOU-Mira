@@ -52,6 +52,11 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
 
     public override bool CanUse()
     {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;

@@ -58,6 +58,11 @@ public sealed class JesterHauntButton : TownOfUsButton
 
     public override bool CanUse()
     {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
     }
 }

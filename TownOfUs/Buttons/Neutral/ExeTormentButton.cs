@@ -58,6 +58,11 @@ public sealed class ExeTormentButton : TownOfUsButton
 
     public override bool CanUse()
     {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
     }
 }

@@ -126,13 +126,9 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         player.ChangeRole((ushort)roleWhenAlive.Role);
         if (player.Data.Role is InquisitorRole inquis)
         {
-            if (player.HasModifier<InquisitorHereticModifier>())
-            {
-                player.RemoveModifier<InquisitorHereticModifier>();
-            }
-            inquis.Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().ToList();
-            inquis.TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>().Select(x => x.TargetRole)
-                .OrderBy(x => x.GetRoleName()).ToList();
+            inquis.Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().Where(x => x != player).ToList();
+            inquis.TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>().Where(x => x.Player != player)
+                .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.GetRoleName()).ToList();
         }
         else if (player.Data.Role is PlaguebearerRole || player.Data.Role is PestilenceRole)
         {

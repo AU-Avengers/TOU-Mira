@@ -12,7 +12,7 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class SpyAdminTableModifierButton : TownOfUsButton
 {
-    public override string Name => "Admin";
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.Admin, "Admin");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Spy;
     public override float Cooldown => OptionGroupSingleton<SpyOptions>.Instance.DisplayCooldown.Value + MapCooldown;
@@ -100,6 +100,11 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
 
     public override bool CanUse()
     {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;

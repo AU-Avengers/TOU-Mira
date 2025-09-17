@@ -10,7 +10,7 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <Version>1.1.17</Version>
+        <Version>1.1.18</Version>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, whichtwix, xerminator, XtraCube, Zeo</Authors>
         <RepositoryType>git</RepositoryType>

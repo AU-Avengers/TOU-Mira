@@ -22,11 +22,6 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
 
     public RoleBehaviour CachedRole => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>());
 
-    public override void OnDeath(DeathReason reason)
-    {
-        ModifierComponent?.RemoveModifier(this);
-    }
-
     public override void OnActivate()
     {
         if (Player.AmOwner)
@@ -41,15 +36,5 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TraitorChangeRole, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
-    }
-
-    public override void OnDeactivate()
-    {
-        if (Player.IsRole<TraitorRole>())
-        {
-            return;
-        }
-
-        Player.RpcChangeRole(RoleId.Get<TraitorRole>(), false);
     }
 }

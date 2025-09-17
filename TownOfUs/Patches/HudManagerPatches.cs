@@ -277,11 +277,10 @@ public static class HudManagerPatches
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            var appearance = player.GetAppearance();
-            var appearanceType = appearance.AppearanceType;
+            var appearanceType = player.GetAppearanceType();
             if (isActive)
             {
-                if (appearanceType != TownOfUsAppearances.Swooper && appearanceType != TownOfUsAppearances.Camouflage/* || (appearanceType == TownOfUsAppearances.Camouflage && appearance.NameVisible)*/)
+                if (appearanceType != TownOfUsAppearances.Swooper && appearanceType != TownOfUsAppearances.Camouflage)
                 {
                     player.SetCamouflage();
                 }
@@ -357,7 +356,7 @@ public static class HudManagerPatches
                 {
                     continue;
                 }
-                var revealMods = player.GetModifiers<RevealModifier>();
+                var revealMods = player.GetModifiers<RevealModifier>().ToList();
 
                 var playerName = player.GetDefaultAppearance().PlayerName ?? "Unknown";
                 var playerColor = Color.white;
@@ -509,7 +508,7 @@ public static class HudManagerPatches
                     playerName += addedPlayerNameText.ExtraNameText;
                 }
 
-                if (player?.Data?.Disconnected == true)
+                if (player.Data?.Disconnected == true)
                 {
                     if (!((PlayerControl.LocalPlayer.IsImpostor() && player.IsImpostor() && genOpt is
                               { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
@@ -562,7 +561,7 @@ public static class HudManagerPatches
                     continue;
                 }
 
-                var revealMods = player.GetModifiers<RevealModifier>();
+                var revealMods = player.GetModifiers<RevealModifier>().ToList();
 
                 var playerName = player.GetAppearance().PlayerName ?? "Unknown";
                 var playerColor = Color.white;
@@ -721,30 +720,7 @@ public static class HudManagerPatches
         {
             var tabText = HudManager.Instance.TaskPanel.tab.transform.FindChild("TabText_TMP")
                 .GetComponent<TextMeshPro>();
-            tabText.SetText($"Tasks {PlayerControl.LocalPlayer.TaskInfo()}");
-        }
-    }
-
-    public static void UpdateGhostRoles(HudManager instance)
-    {
-        foreach (var phantom in CustomRoleUtils.GetActiveRolesOfType<PhantomTouRole>())
-        {
-            if (phantom.Player.Data != null && phantom.Player.Data.Disconnected)
-            {
-                continue;
-            }
-
-            phantom.FadeUpdate(instance);
-        }
-
-        foreach (var haunter in CustomRoleUtils.GetActiveRolesOfType<HaunterRole>())
-        {
-            if (haunter.Player.Data != null && haunter.Player.Data.Disconnected)
-            {
-                continue;
-            }
-
-            haunter.FadeUpdate(instance);
+            tabText.SetText($"{StoredTasksText} {PlayerControl.LocalPlayer.TaskInfo()}");
         }
     }
 
@@ -756,7 +732,7 @@ public static class HudManagerPatches
             return roleListText[slotValue];
         }
 
-        return "<color=#696969>Unknown</color>";
+        return "<color=#696969>???</color>";
     }
 
     public static void UpdateRoleList(HudManager instance)
@@ -999,10 +975,10 @@ public static class HudManagerPatches
         UpdateTeamChat();
         UpdateCamouflageComms();
         UpdateRoleNameText();
-        UpdateGhostRoles(__instance);
     }
 
     private static bool _registeredSoftModifiers;
+    public static string StoredTasksText { get; private set; } = "Tasks";
     public static string StoredHostLocale { get; private set; } = "Host";
     public static string StoredSpectatingLocale { get; private set; } = "Spectator";
     public static string StoredRoleList { get; private set; } = "Set Role List";
@@ -1020,6 +996,7 @@ public static class HudManagerPatches
     public static void HudManagerStartPatch(HudManager __instance)
     {
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounLabel).Replace(":", "");
+        StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
         StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");
         StoredRoleList = TouLocale.Get("SetRoleList");
         StoredFactionList = TouLocale.Get("NeutralFactionList");

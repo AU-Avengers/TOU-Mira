@@ -41,7 +41,7 @@ public static class JesterEvents
             var jestRoleName = TouLocale.Get("TouRoleJester");
             if (jester.Player.AmOwner)
             {
-                var text = TouLocale.Get("TouNotifJesterWinOwner");
+                var text = TouLocale.GetParsed("TouNotifJesterWinOwner");
                 if (text.Contains(jestRoleName))
                 {
                     text = text.Replace(jestRoleName, $"{TownOfUsColors.Jester.ToTextColor()}{jestRoleName}</color>");
@@ -54,7 +54,7 @@ public static class JesterEvents
                 {
                     CustomButtonSingleton<JesterHauntButton>.Instance.SetActive(true, jester);
                     DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1, DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
-                    var notif2 = Helpers.CreateAndShowNotification(TouLocale.Get("TouNotifJesterHauntOwner"), Color.white);
+                    var notif2 = Helpers.CreateAndShowNotification(TouLocale.GetParsed("TouNotifJesterHauntOwner"), Color.white);
 
                     notif2.Text.SetOutlineThickness(0.35f);
                     notif2.transform.localPosition = new Vector3(0f, 0.85f, -20f);
@@ -66,14 +66,14 @@ public static class JesterEvents
             }
             else
             {
-                var text = TouLocale.Get("TouNotifJesterWinGlobal");
+                var text = TouLocale.GetParsed("TouNotifJesterWinGlobal");
                 if (text.Contains(jestRoleName))
                 {
                     text = text.Replace(jestRoleName, $"{TownOfUsColors.Jester.ToTextColor()}{jestRoleName}</color>");
                 }
-                if (text.Contains("%player%"))
+                if (text.Contains("<player>"))
                 {
-                    text = text.Replace("%player%", jester.Player.Data.PlayerName);
+                    text = text.Replace("<player>", jester.Player.Data.PlayerName);
                 }
                 
                 var notif1 = Helpers.CreateAndShowNotification(text, Color.white, spr: TouRoleIcons.Jester.LoadAsset());

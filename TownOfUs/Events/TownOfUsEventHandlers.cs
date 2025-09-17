@@ -437,6 +437,7 @@ public static class TownOfUsEventHandlers
             if (!MeetingHud.Instance)
             {
                 HudManager.Instance.SetHudActive(true);
+                HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
             }
         }
 

@@ -80,7 +80,6 @@ public static class DeathEventHandlers
         if (!exiled.HasModifier<DeathHandlerModifier>())
         {
             DeathHandlerModifier.UpdateDeathHandler(exiled, TouLocale.Get("DiedToEjection"), CurrentRound, DeathHandlerOverride.SetFalse);
-            
         }
     }
 
@@ -132,6 +131,7 @@ public static class DeathEventHandlers
             if (source.Data.Role is PhantomTouRole)
             {
                 role = source.Data.Role;
+                cod = PhantomTouRole.LocaleKey;
             }
             
             deathHandler2.CauseOfDeath = role is MirrorcasterRole ? cod : TouLocale.Get($"DiedTo{cod}");

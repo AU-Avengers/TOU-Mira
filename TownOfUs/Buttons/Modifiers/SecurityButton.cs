@@ -15,7 +15,7 @@ namespace TownOfUs.Buttons.Modifiers;
 public sealed class SecurityButton : TownOfUsButton
 {
     public Minigame? securityMinigame;
-    public override string Name => "Security";
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.Security, "Security");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Operative;
     public override float Cooldown => OptionGroupSingleton<OperativeOptions>.Instance.DisplayCooldown + MapCooldown;
@@ -102,6 +102,11 @@ public sealed class SecurityButton : TownOfUsButton
 
     public override bool CanUse()
     {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;

@@ -309,8 +309,8 @@
       ]
     },
     {
-      "Date": "2025-09-14T12:50:00Z",
-      "Number": "100016",
+      "Date": "2025-09-15T12:50:00Z",
+      "Number": "100017",
       "ShortTitle": "TOU: Mira v1.2.0",
       "SubTitle": "Snitches Get Stitches",
       "Title": "Another Pack Of Bugfixes",
@@ -321,6 +321,7 @@
         "\n\nAgain, the Mira team really appreciates all of your support, thank you so much for playing the mod!",
         "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0>TOU Mira v1.2.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
         "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- If the Lookout disconnects or gets converted, their feedback will no longer be shown to others in the chat.",
         "\n- Snitch is revealed properly to the Traitor as intended.",
         "\n- Traitor will always see the Snitch regardless of settings, but Snitch can only see Traitor based on specific settings.",
         "\n- Tracker and Engineer get task uses properly.",
@@ -329,9 +330,13 @@
         "\n- Prosecutor button is no longer hidden when the skip button is hidden.",
         "\n- Jailee is no longer in Jail if the Jailor is converted.",
         "\n- Mayor no longer trips up Traitor checks from sending repetitive requests to all players.",
+        "\n- Fixing Comms as Engineer no longer uses up two charges.",
         "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Amnesiac Inquisitor can no longer target themselves.",
         "\n- Phantom, Executioner, and Jester ghost kills are now run through a more direct method to force a murder at all costs.",
         "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Traitor can no longer vent as a ghost.",
+        "\n- Hypnotist applies the same body type to all players, and clears properly without breaking.",
         "\n- Swooper player names are no longer revealed during Camo Comms.",
         "\n- Ambusher can no longer get outed when they are taking bodies away.",
         "\n- When the Ambusher's victim is revived while their body is taken away, the ambusher will no longer softlock.",
@@ -344,7 +349,11 @@
         "\n- There are now checks to prevent votes on dead players or votes happening from dead players",
         "\n\n\r<size=105%>Improvements:</size>",
         "\n- Chat Tags now italicize on hover. (PR #65) (Chipseq)",
-        "\n- Controllers on the Main Menu can now select the April Fools Toggle"
+        "\n- Controllers on the Main Menu can now select the April Fools Toggle",
+        "\n- Chat is now hidden from recently killed players.",
+        "\n- Your abilities can no longer be triggered when typing in lovers chat.",
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Players can now spectate in games by running \"/spec\" in their chat."
       ]
     }
       ]

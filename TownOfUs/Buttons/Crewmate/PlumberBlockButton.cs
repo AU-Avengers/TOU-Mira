@@ -17,7 +17,7 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
 {
     private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
-    public override string Name => "Block";
+    public override string Name => TouLocale.Get("TouRolePlumberBlock", "Block");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
     public override float Cooldown => OptionGroupSingleton<PlumberOptions>.Instance.BlockCooldown + MapCooldown;
@@ -72,6 +72,11 @@ public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
 
         Target = IsTargetValid(newTarget) ? newTarget : null;
         SetOutline(true);
+
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
 
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {

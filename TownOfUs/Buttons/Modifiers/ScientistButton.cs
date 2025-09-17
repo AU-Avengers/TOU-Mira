@@ -15,7 +15,7 @@ namespace TownOfUs.Buttons.Modifiers;
 public sealed class ScientistButton : TownOfUsButton
 {
     public VitalsMinigame? vitals;
-    public override string Name => "Vitals";
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.VitalsAbility, "Vitals");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Scientist;
     public override float Cooldown => OptionGroupSingleton<ScientistOptions>.Instance.DisplayCooldown + MapCooldown;
@@ -99,6 +99,11 @@ public sealed class ScientistButton : TownOfUsButton
 
     public override bool CanUse()
     {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;

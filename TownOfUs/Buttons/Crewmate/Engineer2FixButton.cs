@@ -1,6 +1,9 @@
 ﻿using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -21,6 +24,26 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>
     protected override void FixedUpdate(PlayerControl playerControl)
     {
         Button?.cooldownTimerText.gameObject.SetActive(false);
+    }
+    public override void ClickHandler()
+    {
+        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
+            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return;
+        }
+        
+        OnClick();
+
+        if (HasEffect)
+        {
+            EffectActive = true;
+            Timer = EffectDuration;
+        }
+        else
+        {
+            Timer = Cooldown;
+        }
     }
 
     public override bool CanUse()
@@ -51,6 +74,23 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>
             List<LoadableAsset<AudioClip>> audio = [TouAudio.EngiFix1, TouAudio.EngiFix2, TouAudio.EngiFix3];
             TouAudio.PlaySound(audio.Random()!, 4f);
             EngineerTouRole.EngineerFix(PlayerControl.LocalPlayer);
+            
+            if (LimitedUses)
+            {
+                UsesLeft--;
+                Button?.SetUsesRemaining(UsesLeft);
+                TownOfUsColors.UseBasic = false;
+                if (TextOutlineColor != Color.clear)
+                {
+                    SetTextOutline(TextOutlineColor);
+                    if (Button != null)
+                    {
+                        Button.usesRemainingSprite.color = TextOutlineColor;
+                    }
+                }
+
+                TownOfUsColors.UseBasic = TownOfUsPlugin.UseCrewmateTeamColor.Value;
+            }
         }
     }
 }

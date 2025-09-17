@@ -59,7 +59,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        if (FirstDeadPatch.PlayerNames.Count == 0 || !role.TryCast<SpectatorRole>())
+        if (FirstDeadPatch.PlayerNames.Count == 0 || role is SpectatorRole)
         {
             return false;
         }
