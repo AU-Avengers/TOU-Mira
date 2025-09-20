@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Patches.Stubs;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;

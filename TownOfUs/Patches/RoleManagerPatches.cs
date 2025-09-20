@@ -6,6 +6,7 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;

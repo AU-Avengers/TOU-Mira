@@ -3,10 +3,10 @@ using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;

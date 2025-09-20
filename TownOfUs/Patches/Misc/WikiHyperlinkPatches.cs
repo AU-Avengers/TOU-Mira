@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using HarmonyLib;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using UnityEngine;
 using TMPro;
 using TownOfUs.Modules.Components;

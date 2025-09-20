@@ -147,14 +147,6 @@ public static class MiscUtils
         return builder.ToString();
     }
 
-    public static string GetRoleName(this RoleBehaviour role)
-    {
-        if (role is ICustomRole custom)
-        {
-            return custom.RoleName;
-        }
-        return role.NiceName;
-    }
     public static RoleAlignment GetRoleAlignment(this ICustomRole role)
     {
         if (role is ITownOfUsRole touRole)
@@ -208,7 +200,7 @@ public static class MiscUtils
             }
         }
 
-        if (role.Role is RoleTypes.Tracker)
+        if (role.Role is RoleTypes.Tracker or RoleTypes.Detective)
         {
             return RoleAlignment.CrewmateInvestigative;
         }
@@ -216,6 +208,11 @@ public static class MiscUtils
         if (role.Role is RoleTypes.Shapeshifter or RoleTypes.Phantom)
         {
             return RoleAlignment.ImpostorConcealing;
+        }
+        
+        if (role.Role is RoleTypes.Viper)
+        {
+            return RoleAlignment.ImpostorSupport;
         }
 
         if (role.IsNeutral())

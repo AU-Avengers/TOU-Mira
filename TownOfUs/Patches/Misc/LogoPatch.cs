@@ -36,9 +36,11 @@ public static class LogoPatch
             RoleManager.Instance.GetRole(RoleTypes.Engineer),
             RoleManager.Instance.GetRole(RoleTypes.Tracker),
             RoleManager.Instance.GetRole(RoleTypes.GuardianAngel),
+            RoleManager.Instance.GetRole(RoleTypes.Detective),
             // RoleManager.Instance.GetRole(RoleTypes.Impostor),
             RoleManager.Instance.GetRole(RoleTypes.Shapeshifter),
-            RoleManager.Instance.GetRole(RoleTypes.Phantom)
+            RoleManager.Instance.GetRole(RoleTypes.Phantom),
+            RoleManager.Instance.GetRole(RoleTypes.Viper),
         };
         foreach (var role in vanillaRoles)
         {
