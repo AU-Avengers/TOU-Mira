@@ -46,6 +46,16 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedNumberOption("Game Start Cooldowns", 10f, 30f, 2.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float GameStartCd { get; set; } = 10f;
+    [ModdedEnumOption("Start Cooldowns Apply For", typeof(StartCooldownType), ["All Buttons", "Specific Cooldowns", "No Buttons" ])]
+    public StartCooldownType StartCooldownMode { get; set; } = StartCooldownType.SpecificCooldowns;
+    public ModdedNumberOption StartCooldownMin { get; set; } = new("Minimum Cooldown To Be Applicable", 5f, 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () => OptionGroupSingleton<GeneralOptions>.Instance.StartCooldownMode is StartCooldownType.SpecificCooldowns
+    };
+    public ModdedNumberOption StartCooldownMax { get; set; } = new("Maximum Cooldown To Be Applicable", 60f, 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () => OptionGroupSingleton<GeneralOptions>.Instance.StartCooldownMode is StartCooldownType.SpecificCooldowns
+    };
 
     [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float TempSaveCdReset { get; set; } = 2.5f;
@@ -66,6 +76,12 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Hide Vent Animations Not In Vision")]
     public bool HideVentAnimationNotInVision { get; set; } = true;
+}
+public enum StartCooldownType
+{
+    AllButtons,
+    SpecificCooldowns,
+    NoButtons
 }
 
 public enum ModReveal

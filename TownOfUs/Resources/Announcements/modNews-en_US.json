@@ -309,8 +309,8 @@
       ]
     },
     {
-      "Date": "2025-09-15T12:50:00Z",
-      "Number": "100017",
+      "Date": "2025-09-20T12:50:00Z",
+      "Number": "100018",
       "ShortTitle": "TOU: Mira v1.2.0",
       "SubTitle": "Snitches Get Stitches",
       "Title": "Another Pack Of Bugfixes",
@@ -334,10 +334,12 @@
         "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
         "\n- Amnesiac Inquisitor can no longer target themselves.",
         "\n- Phantom, Executioner, and Jester ghost kills are now run through a more direct method to force a murder at all costs.",
+        "\n- Glitch player names are no longer revealed during Camo Comms after un-mimicking.",
         "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
         "\n- Traitor can no longer vent as a ghost.",
         "\n- Hypnotist applies the same body type to all players, and clears properly without breaking.",
         "\n- Swooper player names are no longer revealed during Camo Comms.",
+        "\n- Morphling player names are no longer revealed during Camo Comms after unmorphing.",
         "\n- Ambusher can no longer get outed when they are taking bodies away.",
         "\n- When the Ambusher's victim is revived while their body is taken away, the ambusher will no longer softlock.",
         "\n- Miner vents are fully disabled from other roles if they aren't visible.",
@@ -353,7 +355,10 @@
         "\n- Chat is now hidden from recently killed players.",
         "\n- Your abilities can no longer be triggered when typing in lovers chat.",
         "\n\n\r<size=105%>Additions:</size>",
-        "\n- Players can now spectate in games by running \"/spec\" in their chat."
+        "\n- Nearly complete Chinese translations, as well as partial translation for Dutch, French, German, Russian, and Spanish.",
+        "\n- Players can now spectate in games by running \"/spec\" in their chat.",
+        "\n- It is now possible to change what ranges of buttons are affected by the starting cooldown, if any.",
+        "\n- New Client Option: Hide Vanilla Wiki Entries Toggle (this shows up in the sidebar rather than the current tou client options menu)."
       ]
     }
       ]

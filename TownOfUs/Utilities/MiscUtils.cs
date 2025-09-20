@@ -549,7 +549,7 @@ public static class MiscUtils
     public static string RoleNameLookup(RoleTypes roleType)
     {
         var role = RoleManager.Instance.GetRole(roleType);
-        return role?.GetRoleName() ?? (roleType == RoleTypes.Crewmate ? "Crewmate" : "Impostor");
+        return role?.GetRoleName() ?? TranslationController.Instance.GetString(roleType == RoleTypes.Crewmate ? StringNames.Crewmate : StringNames.Impostor);
     }
 
     public static IEnumerable<RoleBehaviour> GetPotentialRoles()
@@ -1328,27 +1328,30 @@ public static class MiscUtils
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, distance);
     }
 
-    public static void SetSizeLimit(this SpriteRenderer sprite, float scale)
+    public static void SetSizeLimit(this SpriteRenderer sprite, float pixelSize)
     {
-        if (sprite.bounds.size.x < sprite.bounds.size.y)
+        sprite.drawMode = SpriteDrawMode.Sliced;
+        float spriteWidth = sprite.sprite.rect.width;
+        float spriteHeight = sprite.sprite.rect.height;
+
+        if (spriteWidth < spriteHeight)
         {
-            sprite.size = new Vector2(scale * sprite.bounds.size.x / sprite.bounds.size.y, scale);
+            sprite.size = new Vector2(pixelSize * spriteWidth / spriteHeight, pixelSize);
         }
         else
         {
-            sprite.size = new Vector2(scale, scale * sprite.bounds.size.y / sprite.bounds.size.x);
+            sprite.size = new Vector2(pixelSize, pixelSize * spriteHeight / spriteWidth);
         }
-        sprite.tileMode = SpriteTileMode.Adaptive;
     }
 
-    public static void SetSizeLimit(this GameObject spriteObj, float scale)
+    public static void SetSizeLimit(this GameObject spriteObj, float pixelSize)
     {
         if (!spriteObj.TryGetComponent<SpriteRenderer>(out var sprite))
         {
             return;
         }
 
-        sprite.SetSizeLimit(scale);
+        sprite.SetSizeLimit(pixelSize);
     }
     public static bool DiedOtherRound(this PlayerControl player)
     {

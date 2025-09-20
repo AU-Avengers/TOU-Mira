@@ -49,7 +49,7 @@ public static class HauntMenuMinigamePatch
 
         var modifiers = target.GetModifiers<GameModifier>().Where(x => x is not ExcludedGameModifier)
             .OrderBy(x => x.ModifierName).ToList();
-        __instance.FilterText.text = "<color=#FFFFFF><size=100%>(No Modifiers)</size></color>";
+        __instance.FilterText.text = $"<color=#FFFFFF><size=100%>({TouLocale.Get("PlayerHasNoModifiers")})</size></color>";
         if (modifiers.Count != 0)
         {
             var modifierTextBuilder = new StringBuilder("<color=#FFFFFF><size=100%>(");
@@ -90,17 +90,17 @@ public static class HauntMenuMinigamePatch
         {
             if (role.IsNeutral())
             {
-                name = "Neutral";
+                name = TouLocale.Get("NeutralKeyword");
                 rColor = Color.gray;
             }
             else if (role.IsCrewmate())
             {
-                name = "Crewmate";
+                name = TranslationController.Instance.GetString(StringNames.Crewmate);
                 rColor = Palette.CrewmateBlue;
             }
             else
             {
-                name = "Impostor";
+                name = TranslationController.Instance.GetString(StringNames.Impostor);
                 rColor = Palette.ImpostorRed;
             }
         }

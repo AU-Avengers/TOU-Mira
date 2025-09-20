@@ -69,6 +69,7 @@
   <string name="Amount">Amount</string>
   <string name="Chance">Chance</string>
   <string name="Options">Options</string>
+  <string name="PlayerHasNoModifiers">No Modifiers</string>
   <!-- Role List -->
   <string name="SetRoleList">Set Role List</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
@@ -118,7 +119,7 @@
   <string name="CrewmateKeyword">Crewmate</string>
   <string name="CrewKeyword">Crew</string>
   <string name="NeutralKeyword">Neutral</string>
-  <string name="NeutKeyword">Neutrale</string>
+  <string name="NeutKeyword">Neut</string>
   <string name="ImpostorKeyword">Impostor</string>
   <string name="ImpKeyword">Imp</string>
   <!-- All possible types of modifiers -->

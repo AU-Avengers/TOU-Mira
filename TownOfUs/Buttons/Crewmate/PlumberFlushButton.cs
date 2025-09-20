@@ -17,7 +17,7 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class PlumberFlushButton : TownOfUsRoleButton<PlumberRole, Vent>
 {
     private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
-    public override string Name => TouLocale.Get("TouRolePoliticianCampaign", "Campaign");
+    public override string Name => TouLocale.Get("TouRolePlumberFlush", "Flush");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
     public override float Cooldown => OptionGroupSingleton<PlumberOptions>.Instance.FlushCooldown + MapCooldown;

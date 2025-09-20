@@ -28,6 +28,23 @@ public static class LogoPatch
             }
         }
 
+        List<RoleBehaviour> vanillaRoles = new()
+        {
+            // RoleManager.Instance.GetRole(RoleTypes.Crewmate),
+            RoleManager.Instance.GetRole(RoleTypes.Scientist),
+            RoleManager.Instance.GetRole(RoleTypes.Noisemaker),
+            RoleManager.Instance.GetRole(RoleTypes.Engineer),
+            RoleManager.Instance.GetRole(RoleTypes.Tracker),
+            RoleManager.Instance.GetRole(RoleTypes.GuardianAngel),
+            // RoleManager.Instance.GetRole(RoleTypes.Impostor),
+            RoleManager.Instance.GetRole(RoleTypes.Shapeshifter),
+            RoleManager.Instance.GetRole(RoleTypes.Phantom)
+        };
+        foreach (var role in vanillaRoles)
+        {
+            SoftWikiEntries.RegisterVanillaRoleEntry(role);
+        }
+
         var newLogo = GameObject.Find("LOGO-AU");
         var sizer = GameObject.Find("Sizer");
         if (newLogo != null)

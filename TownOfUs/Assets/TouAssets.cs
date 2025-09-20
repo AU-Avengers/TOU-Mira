@@ -12,6 +12,7 @@ public static class TouAssets
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
     public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner.png");
+    public static LoadableAsset<Sprite> TouMiraIcon { get; } = new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 150);
     
     public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
     {

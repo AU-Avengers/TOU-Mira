@@ -119,6 +119,10 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
         AvailableCharge = OptionGroupSingleton<SpyOptions>.Instance.StartingCharge.Value;
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y, -150f);
+        if (KeybindIcon != null)
+        {
+            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
+        }
     }
 
     protected override void OnClick()

@@ -460,4 +460,6 @@
   <string name="TouRolePoliticianCampaignWikiDescription">Geef een speler een folder, wat alleen nuttig is als ze Bemanning zijn.</string>
   <string name="TouRolePoliticianReveal">Onthullen</string>
   <string name="TouRolePoliticianRevealWiki">Onthullen (Bijeenkomst)</string>
+  <string name="TouOptionMedicMaxAmountOfShieldUses">Maximum Hoeveelheid Schild gebruik</string>
+  <string name="TouOptionMedicShowReportsInChat">Laat Rapportages zien in Chat</string>
 </resources>

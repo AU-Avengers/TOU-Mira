@@ -54,6 +54,10 @@ public sealed class SecurityButton : TownOfUsButton
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y, -150f);
         AvailableCharge = OptionGroupSingleton<OperativeOptions>.Instance.StartingCharge;
+        if (KeybindIcon != null)
+        {
+            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
+        }
     }
 
     private void RefreshAbilityButton()

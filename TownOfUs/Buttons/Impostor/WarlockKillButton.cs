@@ -25,6 +25,15 @@ public sealed class WarlockKillButton : TownOfUsRoleButton<WarlockRole, PlayerCo
         SetTimer(Cooldown * multiplier);
     }
 
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        if (KeybindIcon != null)
+        {
+            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
+        }
+    }
+
     protected override void FixedUpdate(PlayerControl playerControl)
     {
         if (BurstActive)
