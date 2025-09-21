@@ -89,7 +89,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>
                     }
                 }
 
-                TownOfUsColors.UseBasic = TownOfUsPlugin.UseCrewmateTeamColor.Value;
+                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
             }
         }
     }

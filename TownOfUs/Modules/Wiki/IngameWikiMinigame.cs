@@ -2,7 +2,6 @@
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
-using MiraAPI.LocalSettings;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
@@ -229,7 +228,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 break;
         }
 
-        TownOfUsColors.UseBasic = TownOfUsPlugin.UseCrewmateTeamColor.Value;
+        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     private void LoadDetailScreen()
@@ -647,7 +646,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(true));
         }
 
-        TownOfUsColors.UseBasic = TownOfUsPlugin.UseCrewmateTeamColor.Value;
+        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     [HideFromIl2Cpp]

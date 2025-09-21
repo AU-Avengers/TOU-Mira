@@ -36,7 +36,7 @@ public class LocalizedLocalToggleSetting : LocalToggleSetting
         var rollover = toggleObject.GetComponent<ButtonRolloverHandler>();
         toggleObject.gameObject.SetActive(true);
         var localeName = Name;
-        TouLocale.LocalizedToggles.Add(toggleObject, localeName);
+        TouLocale.LocalizedToggles.TryAdd(toggleObject, localeName);
 
         if (last && order == 1)
         {

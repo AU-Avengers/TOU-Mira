@@ -5,7 +5,7 @@ namespace TownOfUs;
 
 public static class TownOfUsColors
 {
-    public static bool UseBasic { get; set; } = TownOfUsPlugin.UseCrewmateTeamColor.Value;
+    public static bool UseBasic { get; set; } = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
     public static Color Crewmate => Palette.CrewmateRoleBlue;
     public static Color Impostor => Palette.ImpostorRed;
     public static Color ImpSoft => new Color32(214, 64, 66, 255);

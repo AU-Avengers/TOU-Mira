@@ -7,6 +7,8 @@ namespace TownOfUs.LocalSettings.Attributes;
 /// <summary>
 /// Creates an enum setting for the <see cref="ConfigEntry{T}"/>.
 /// </summary>
+/// <param name="name">Name for the BepInEx config and locale key.</param>
+/// <param name="description">Optional description for the BepInEx config.</param>
 /// <param name="names">Optional custom enum names.</param>
 /// <inheritdoc/>
 [AttributeUsage(AttributeTargets.Property)]

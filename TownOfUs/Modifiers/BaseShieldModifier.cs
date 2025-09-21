@@ -11,7 +11,7 @@ public abstract class BaseShieldModifier : TimedModifier, IAnimated
     public virtual string ShieldDescription => "You are protected!";
     public override float Duration => 1f;
     public override bool AutoStart => false;
-    public override bool HideOnUi => !TownOfUsPlugin.ShowShieldHud.Value;
+    public override bool HideOnUi => !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value;
     public virtual bool VisibleSymbol => false;
     public bool IsVisible { get; set; } = true;
 

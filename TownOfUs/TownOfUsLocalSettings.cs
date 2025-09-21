@@ -1,8 +1,8 @@
 using BepInEx.Configuration;
-using MiraAPI.LocalSettings;
 using MiraAPI.Utilities;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
+using TownOfUs.Patches;
 
 namespace TownOfUs;
 
@@ -31,7 +31,12 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         base.OnOptionChanged(configEntry);
         if (configEntry == ButtonUIFactorSlider)
         {
-            
+            var slider = TouLocale.LocalizedSliders.FirstOrDefault(x => x.Key.ConfigEntry == ButtonUIFactorSlider).Key;
+            if (HudManager.InstanceExists)
+            {
+                HudManagerPatches.ResizeUI(1f / slider.OldValue);
+                HudManagerPatches.ResizeUI(slider.GetValue());
+            }
         }
     }
 
@@ -45,9 +50,9 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Gameplay", "ShowVents", true);
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> SortGuessingByAlignmentToggle { get; private set; } = config.Bind("Gameplay", "SortGuessingByAlignment", true);
+    public ConfigEntry<bool> SortGuessingByAlignmentToggle { get; private set; } = config.Bind("Gameplay", "SortGuessingByAlignment", false);
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } = config.Bind("Gameplay", "PreciseCooldowns", true);
+    public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } = config.Bind("Gameplay", "PreciseCooldowns", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } = config.Bind("UI/Visuals", "ShowShieldHud", false);

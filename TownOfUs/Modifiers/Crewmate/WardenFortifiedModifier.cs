@@ -26,7 +26,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
         get
         {
             var showFort = OptionGroupSingleton<WardenOptions>.Instance.ShowFortified;
-            return !TownOfUsPlugin.ShowShieldHud.Value || showFort is FortifyOptions.Warden;
+            return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value || showFort is FortifyOptions.Warden;
         }
     }
 

@@ -27,7 +27,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         get
         {
             var showProtect = OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect;
-            return !TownOfUsPlugin.ShowShieldHud.Value || !OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows || showProtect is ProtectOptions.GA;
+            return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value || !OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows || showProtect is ProtectOptions.GA;
         }
     }
 

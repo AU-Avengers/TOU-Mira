@@ -9,8 +9,12 @@ namespace TownOfUs.LocalSettings.Attributes;
 /// Creates a slider setting for the <see cref="ConfigEntry{T}"/>.
 /// </summary>
 /// <inheritdoc/>
+/// <param name="name">Name for the BepInEx config and locale key.</param>
+/// <param name="description">Optional description for the BepInEx config.</param>
 /// <param name="min">Minimum range.</param>
 /// <param name="max">Maximum range.</param>
+/// <param name="displayValue">Toggle to show or hide the value in text.</param>
+/// <param name="formatString">The format string used for formating.</param>
 /// <param name="roundValue">Should the value be rounded.</param>
 /// <param name="suffixType">Suffix for the value.</param>
 [AttributeUsage(AttributeTargets.Property)]

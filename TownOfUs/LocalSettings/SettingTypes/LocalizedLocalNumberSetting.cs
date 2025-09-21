@@ -38,10 +38,14 @@ public class LocalizedLocalNumberSetting : LocalNumberSetting
     /// Initializes a new instance of the <see cref="LocalizedLocalNumberSetting"/> class.
     /// </summary>
     /// <inheritdoc/>
+    /// <param name="name">Name for the BepInEx config and locale key.</param>
+    /// <param name="description">Optional description for the BepInEx config.</param>
     /// <param name="numberRange">The value range.</param>
     /// <param name="increment">The increment per click.</param>
     /// <param name="suffixType">The suffix used for formating.</param>
     /// <param name="formatString">The format string used for formating.</param>
+    /// <param name="tab">The tab that the option belongs to.</param>
+    /// <param name="configEntry">The BepInEx config entry the option is attached to.</param>
     public LocalizedLocalNumberSetting(
         Type tab,
         ConfigEntryBase configEntry,
@@ -140,6 +144,6 @@ public class LocalizedLocalNumberSetting : LocalNumberSetting
     {
         var value = GetValue();
         var formated = Helpers.FormatValue(value, SuffixType, FormatString);
-        return $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{Name}: <b>{formated}</font></b>";
+        return $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{TouLocale.Get(Name)}: <b>{formated}</font></b>";
     }
 }

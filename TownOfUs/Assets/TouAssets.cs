@@ -246,39 +246,19 @@ public static class TouAssets
         get
         {
             var sprite = ArrowBasicSprite;
-            switch (TownOfUsPlugin.ArrowStyle.Value)
+            switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ArrowStyleEnum.Value)
             {
-                case 1:
+                case ArrowStyleType.DarkGlow:
                     sprite = ArrowDarkOutSprite;
                     break;
-                case 2:
+                case ArrowStyleType.ColorGlow:
                     sprite = ArrowLightOutSprite;
                     break;
-                case 3:
+                case ArrowStyleType.Legacy:
                     sprite = ArrowLegacySprite;
                     break;
             }
             return sprite;
-        }
-    }
-    public static string ArrowSpriteName
-    {
-        get
-        {
-            var name = TouLocale.Get("ArrowDefault");
-            switch (TownOfUsPlugin.ArrowStyle.Value)
-            {
-                case 1:
-                    name = TouLocale.Get("ArrowDarkGlow");
-                    break;
-                case 2:
-                    name = TouLocale.Get("ArrowColorGlow");
-                    break;
-                case 3:
-                    name = TouLocale.Get("ArrowLegacy");
-                    break;
-            }
-            return name;
         }
     }
 

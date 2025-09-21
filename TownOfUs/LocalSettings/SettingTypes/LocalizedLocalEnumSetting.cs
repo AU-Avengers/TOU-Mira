@@ -28,8 +28,12 @@ public class LocalizedLocalEnumSetting : LocalEnumSetting
     /// Initializes a new instance of the <see cref="LocalizedLocalEnumSetting"/> class.
     /// </summary>
     /// <inheritdoc/>
+    /// <param name="name">Name for the BepInEx config and locale key.</param>
+    /// <param name="description">Optional description for the BepInEx config.</param>
     /// <param name="enumType">The enum type.</param>
     /// <param name="values">The optional values array to replace the enum names.</param>
+    /// <param name="tab">The tab that the option belongs to.</param>
+    /// <param name="configEntry">The BepInEx config entry the option is attached to.</param>
     public LocalizedLocalEnumSetting(
         Type tab,
         ConfigEntryBase configEntry,

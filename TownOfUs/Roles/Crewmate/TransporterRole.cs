@@ -262,7 +262,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
             }
 
-            TownOfUsColors.UseBasic = TownOfUsPlugin.UseCrewmateTeamColor.Value;
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
         }
 
         if (play1.AmOwner && t1 is PlayerControl || play2.AmOwner && t2 is PlayerControl)

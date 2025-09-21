@@ -43,20 +43,30 @@ public class LocalizedLocalSliderSetting : LocalSliderSetting
     /// Gets the locale name.
     /// </summary>
     public string LocaleKey { get; }
-    
+
     /// <summary>
     /// Gets the SliderBar object.
     /// </summary>
     public SlideBar SliderObject { get; private set; }
 
     /// <summary>
+    /// Gets the value of the slider beforehand.
+    /// </summary>
+    public float OldValue { get; private set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="LocalizedLocalSliderSetting"/> class.
     /// </summary>
     /// <inheritdoc/>
+    /// <param name="name">Name for the BepInEx config and locale key.</param>
+    /// <param name="description">Optional description for the BepInEx config.</param>
     /// <param name="sliderRange">The value range.</param>
     /// <param name="suffixType">The suffix used for formating.</param>
+    /// <param name="displayValue">Toggle to show or hide the value in text.</param>
     /// <param name="formatString">The format string used for formating.</param>
-    /// <param name="roundValue">Should the value be rounded.</param>
+    /// <param name="roundValue">Determines if the value should be rounded.</param>
+    /// <param name="tab">The tab that the option belongs to.</param>
+    /// <param name="configEntry">The BepInEx config entry the option is attached to.</param>
     public LocalizedLocalSliderSetting(
         Type tab,
         ConfigEntryBase configEntry,
@@ -86,7 +96,7 @@ public class LocalizedLocalSliderSetting : LocalSliderSetting
         newSlider.Title.GetComponent<TextTranslatorTMP>().Destroy();
         newSlider.gameObject.SetActive(true);
         newSlider.Bar.color = Tab!.TabAppearance.SliderColor;
-        TouLocale.LocalizedSliders.Add(this, LocaleKey);
+        TouLocale.LocalizedSliders.TryAdd(this, LocaleKey);
         SliderObject = newSlider;
 
         if (order == 2)
@@ -96,6 +106,7 @@ public class LocalizedLocalSliderSetting : LocalSliderSetting
         newSlider.transform.localPosition = new Vector3(-2.12f, 1.85f - offset, -7);
         newSlider.name = Name;
         newSlider.Range = new FloatRange(-1.5f, 1.5f);
+        OldValue = GetValue();
         newSlider.SetValue(Mathf.InverseLerp(SliderRange.min, SliderRange.max, GetValue()));
         rollover.OutColor = Tab!.TabAppearance.SliderColor;
         rollover.OverColor = Tab!.TabAppearance.SliderHoverColor;
@@ -105,6 +116,7 @@ public class LocalizedLocalSliderSetting : LocalSliderSetting
 
         newSlider.OnValueChange.AddListener((UnityAction)(() =>
         {
+            OldValue = GetValue();
             SetValue(RoundValue
                 ? Mathf.Round(Mathf.Lerp(SliderRange.min, SliderRange.max, newSlider.Value))
                 : Mathf.Lerp(SliderRange.min, SliderRange.max, newSlider.Value));

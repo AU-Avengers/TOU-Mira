@@ -54,7 +54,7 @@ public static class HudManagerPatches
         }
 
         yield return new WaitForSeconds(0.01f);
-        ResizeUI(TownOfUsPlugin.ButtonUIFactor.Value);
+        ResizeUI(LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value);
     }
 
     public static void ResizeUI(float scaleFactor)
@@ -535,7 +535,7 @@ public static class HudManagerPatches
 
                 if (!string.IsNullOrEmpty(roleName))
                 {
-                    if (TownOfUsPlugin.ColorPlayerName.Value)
+                    if (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ColorPlayerNameToggle.Value)
                     {
                         playerName = $"{roleName}\n{color.ToTextColor()}<size=92%>{playerName}</size></color>";
                     }
@@ -705,7 +705,7 @@ public static class HudManagerPatches
 
                 if (!string.IsNullOrEmpty(roleName))
                 {
-                    playerName = TownOfUsPlugin.ColorPlayerName.Value
+                    playerName = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ColorPlayerNameToggle.Value
                         ? $"{roleName}\n{color.ToTextColor()}{playerName}</color>"
                         : $"{roleName}\n{playerName}";
                 }

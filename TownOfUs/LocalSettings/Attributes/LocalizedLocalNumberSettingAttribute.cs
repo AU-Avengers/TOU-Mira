@@ -8,6 +8,8 @@ namespace TownOfUs.LocalSettings.Attributes;
 /// <summary>
 /// Creates a number setting for the <see cref="ConfigEntry{T}"/>.
 /// </summary>
+/// <param name="name">Name for the BepInEx config and locale key.</param>
+/// <param name="description">Optional description for the BepInEx config.</param>
 /// <param name="min">Minimum range.</param>
 /// <param name="max">Maximum range.</param>
 /// <param name="increment">Increment per use.</param>
