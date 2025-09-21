@@ -112,9 +112,16 @@ public static class AprilFoolsPatches
             uiList.Add(__instance.inventoryButton);
             uiList.Add(__instance.shopButton);
             uiList.Add(aprilfoolstoggle);
-            uiList.Add(__instance.newsButton);
-            uiList.Add(__instance.myAccountButton);
-            uiList.Add(__instance.settingsButton);
+
+            foreach (var ogButtons in __instance.mainButtons)
+            {
+                if (ogButtons == __instance.playButton || ogButtons == __instance.inventoryButton ||
+                    ogButtons == __instance.shopButton)
+                {
+                    continue;
+                }
+                uiList.Add(ogButtons);
+            }
             __instance.mainButtons = uiList;
             __instance.SetUpControllerNav();
         }
