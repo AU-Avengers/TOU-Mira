@@ -4,6 +4,7 @@ using System.Xml;
 using BepInEx.Logging;
 using MiraAPI.Utilities;
 using Reactor.Localization;
+using TownOfUs.LocalSettings.SettingTypes;
 using UnityEngine;
 
 namespace TownOfUs.Modules.Localization;
@@ -45,6 +46,8 @@ public static class TouLocale
     };
     // Language, Xml Name, then Value
     public static Dictionary<SupportedLangs, Dictionary<string, string>> TouLocalization { get; } = [];
+    public static Dictionary<ToggleButtonBehaviour, string> LocalizedToggles { get; } = [];
+    public static Dictionary<LocalizedLocalSliderSetting, string> LocalizedSliders { get; } = [];
 
     internal static ManualLogSource Logger { get; } = BepInEx.Logging.Logger.CreateLogSource("TouLocale");
 

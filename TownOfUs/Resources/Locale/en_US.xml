@@ -4,7 +4,9 @@
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
   <!-- Client Options -->
+  <string name="ClientTabGameplay">Gameplay</string>
   <string name="ClientOptionsButton">Tou Client Options</string>
+  <string name="ShowVanillaWikiEntries">Show Vanilla Wiki Entries</string>
   <string name="DeadSeeGhosts">Show Other Ghosts When Dead</string>
   <string name="ShowVents">Show Vents On Map</string>
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
