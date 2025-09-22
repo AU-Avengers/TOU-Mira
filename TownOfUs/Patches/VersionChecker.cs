@@ -1,4 +1,5 @@
-using System.Text.Json;
+// Commented out because Starlight doesn't like it + we don't even use this because it's unreliable in regards to MiraAPI being updated too.
+/*using System.Text.Json;
 using HarmonyLib;
 using Twitch;
 using UnityEngine;
@@ -98,4 +99,4 @@ public static class TextBoxPatch
             Application.Quit();
         }
     }
-}
+}*/
