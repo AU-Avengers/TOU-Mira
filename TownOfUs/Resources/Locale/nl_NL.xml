@@ -462,4 +462,15 @@
   <string name="TouRolePoliticianRevealWiki">Onthullen (Bijeenkomst)</string>
   <string name="TouOptionMedicMaxAmountOfShieldUses">Maximum Hoeveelheid Schild gebruik</string>
   <string name="TouOptionMedicShowReportsInChat">Laat Rapportages zien in Chat</string>
+  <string name="TouOptionPlumberAmountOfRoundsBarricadesLast">Hoeveelheid Rondes Dat Barrières Blijven</string>
+  <string name="TouRoleProsecutor">De Aanklager</string>
+  <string name="TouRoleProsecutorIntroBlurb">Verban een speler naar jouw keuze</string>
+  <string name="TouRoleProsecutorTabDescription">Kies ervoor om een speler naar keuze te verbannen</string>
+  <string name="TouRoleProsecutorWikiDescription">De Aanklager is een Bemanningslid Kracht dar een speler kan verbannen na een meeting. Daarnaast kunnen zij ook zien wie voor wie heeft gestemd, ook al zijn ze incognito.</string>
+  <string name="TouRoleProsecutorProsecute">Aanklagen</string>
+  <string name="TouRoleProsecutorProsecuteWiki">Aanklagen (Bijeenkomst)</string>
+  <string name="TouRoleProsecutorProsecuteWikiDescription">Verban een speler naar keuze, wat ze vijf stemmen geeft en alle andere stemmen negeert.</string>
+  <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Aanklager gaat als ze een Bemanningslid verbannen</string>
+  <string name="TouOptionProsecutorMaxProsecutions">Maximale hoeveelheid Aanklagingen</string>
+  <string name="TouRoleSeer">Ziener</string>
 </resources>

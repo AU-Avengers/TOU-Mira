@@ -242,4 +242,19 @@
   <string name="TouRoleClericCleansedNoEffects">No se encontraron efectos negativos en \%player\%.</string>
   <string name="TouOptionClericBarrierCooldown">Enfriamiento de barrera</string>
   <string name="TouOptionClericBarrierDuration">Duración de la barrera</string>
+  <string name="TouOptionClericCleanseCooldown">Enfriamiento de limpieza</string>
+  <string name="TouOptionClericShowBarriered">Enseñar al jugador con barrera</string>
+  <string name="TouOptionClericAttackNotif">El clérigo recibe una notificación de ataque</string>
+  <string name="TouRoleDeputy">Diputado</string>
+  <string name="TouRoleDeputyIntroBlurb">Acampar tripulantes para atrapar a su Asesino</string>
+  <string name="TouRoleDeputyTabDescription">Acampa tripulantes, después dispara a su asesino en la reunión!</string>
+  <string name="TouRoleDeputyWikiDescription">El Diputado es un Tripulante asesino que puede acampar a otros jugadores. Si un jugador acampado muere, el Diputado es notificado de su muerte. En la siguiente reunión, el Diputado puede intentar disparar al asesino del jugador acampado. Si tiene éxito, el asesino muere; si no, no ocurre nada.</string>
+  <string name="TouRoleDeputyCamp">Acampar</string>
+  <string name="TouRoleDeputyCampWikiDescription">Acampa a un jugador para recibir una alerta si muere. Tras su muerte, puedes intentar dispararle. Si tu disparo es acertado, el asesino muere; si no, no ocurrirá nada.</string>
+  <string name="TouRoleDeputyMissedShot">¡Fallaste! O no son los asesinos o son invencibles.</string>
+  <string name="TouRoleDetective">Detective</string>
+  <string name="TouRoleDetectiveIntroBlurb">Inspeccionar las escenas del crimen para atrapar al asesino</string>
+  <string name="TouRoleDetectiveTabDescription">Inspecciona escenas de crimen, luego examina jugadores para ver si estaban en la escena.</string>
+  <string name="TouRoleDetectiveWikiDescription">El Detective puede inspeccionar una escena de crimen y examinar jugadores lara ver si estaban en la escena del crimen, dando una luz roja si se da el caso.</string>
+  <string name="TouRoleDetectiveInspect">Inspeccionar</string>
 </resources>
