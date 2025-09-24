@@ -159,7 +159,8 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
             return true;
         }
 
-        return voteArea.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || !voteArea!.AmDead;
+        return voteArea.TargetPlayerId == Player.PlayerId || Player.Data.IsDead ||
+               (player != null && player.Object.Data.Disconnected) || !voteArea!.AmDead;
     }
 
     public void UpdateRole()
@@ -171,7 +172,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
             return;
         }
 
-        if (_selectedPlr == null || Player.Data.IsDead || !_selectedPlr.IsDead)
+        if (_selectedPlr == null || Player.HasDied() || !_selectedPlr.IsDead || _selectedPlr.Disconnected)
         {
             _selectedPlr = null;
             if (Player == null || Player.IsRole<ImitatorRole>())

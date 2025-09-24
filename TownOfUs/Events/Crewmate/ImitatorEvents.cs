@@ -1,9 +1,11 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
@@ -17,7 +19,20 @@ public static class ImitatorEvents
         {
             return;
         }
+        var imitatorRoles = CustomRoleUtils.GetActiveRolesOfType<ImitatorRole>();
 
+        if (imitatorRoles.Any())
+        {
+            foreach (var imitatorPlayer in imitatorRoles)
+            {
+                if (imitatorPlayer.Player.HasModifier<ImitatorCacheModifier>())
+                {
+                    continue;
+                }
+                imitatorPlayer.Player.AddModifier<ImitatorCacheModifier>();
+            }
+        }
+        
         var imitators = ModifierUtils.GetActiveModifiers<ImitatorCacheModifier>();
 
         if (!imitators.Any())
