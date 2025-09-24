@@ -309,14 +309,14 @@
       ]
     },
     {
-      "Date": "2025-09-20T12:50:00Z",
-      "Number": "100018",
+      "Date": "2025-09-25T12:50:00Z",
+      "Number": "100019",
       "ShortTitle": "TOU: Mira v1.2.0",
       "SubTitle": "Snitches Get Stitches",
-      "Title": "Another Pack Of Bugfixes",
+      "Title": "Another Pack Of Bugfixes + Starlight Support",
       "Text": [
-        "\r<b> Update NOT Available!</b>",
-        "\n\n<b> This dev build has bugfixes, QoL improvements, Spectator support, AND Android support via Starlight! If you encounter issues via Starlight, please let us know!</b>",
+        "\r<b> THIS UPDATE REQUIRES YOU TO BE ON AMONG US v17.0.0!</b>",
+        "\n\n<b> This update has bugfixes, QoL improvements, Spectator support, AND Android support via Starlight! If you encounter issues via Starlight, please let us know!</b>",
         "\nStarting this update, Mira will be getting localized into numerous languages! As of now, there is partial translation for Simplified Chinese, Dutch, French, German, Italian, Russian, and Spanish in-game, with more soon to come.",
         "\n\nAgain, the Mira team really appreciates all of your support, thank you so much for playing the mod!",
         "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0>TOU Mira v1.2.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",

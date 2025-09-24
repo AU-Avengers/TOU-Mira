@@ -55,7 +55,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } = config.Bind("Gameplay", "PreciseCooldowns", false);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } = config.Bind("UI/Visuals", "ShowShieldHud", false);
+    public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } = config.Bind("UI/Visuals", "ShowShieldHud", true);
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } = config.Bind("UI/Visuals", "OffsetButtons", false);
     [LocalizedLocalSliderSetting(min: 0.5f, max: 1.5f, suffixType: MiraNumberSuffixes.Multiplier, formatString: "0.00", displayValue:true)]
