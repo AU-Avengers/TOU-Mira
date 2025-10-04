@@ -268,11 +268,11 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
-        var touRole = role as ITownOfUsRole;
+        var alignment = role.GetRoleAlignment();
 
         // If Vigilante is Egotist, then guessing investigative roles is based off assassin settings
         if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessInvest &&
-            touRole?.RoleAlignment == RoleAlignment.CrewmateInvestigative)
+            alignment == RoleAlignment.CrewmateInvestigative)
         {
             return false;
         }
@@ -287,19 +287,24 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return true;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralBenign)
+        if (alignment == RoleAlignment.NeutralBenign)
         {
             return options.VigilanteGuessNeutralBenign;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralEvil)
+        if (alignment == RoleAlignment.NeutralEvil)
         {
             return options.VigilanteGuessNeutralEvil;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralKilling)
+        if (alignment == RoleAlignment.NeutralKilling)
         {
             return options.VigilanteGuessNeutralKilling;
+        }
+
+        if (alignment == RoleAlignment.NeutralOutlier)
+        {
+            return options.VigilanteGuessNeutralOutlier;
         }
 
         return false;

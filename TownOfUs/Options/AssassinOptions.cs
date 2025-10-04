@@ -60,6 +60,9 @@ public sealed class AssassinOptions : AbstractOptionGroup
     [ModdedToggleOption("Assassin Can Guess Neutral Killing Roles")]
     public bool AssassinGuessNeutralKilling { get; set; } = true;
 
+    [ModdedToggleOption("Assassin Can Guess Neutral Outlier Roles")]
+    public bool AssassinGuessNeutralOutlier { get; set; } = true;
+
     [ModdedToggleOption("Assassin Can Guess Impostor Roles")]
     public bool AssassinGuessImpostors { get; set; } = true;
 

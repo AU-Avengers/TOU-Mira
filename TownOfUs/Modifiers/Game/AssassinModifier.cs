@@ -247,14 +247,14 @@ public abstract class AssassinModifier : ExcludedGameModifier
             return false;
         }
 
-        var touRole = role as ITownOfUsRole;
+        var alignment = role.GetRoleAlignment();
 
-        if (touRole?.RoleAlignment == RoleAlignment.GameOutlier)
+        if (alignment == RoleAlignment.GameOutlier)
         {
             return false;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.CrewmateInvestigative)
+        if (alignment == RoleAlignment.CrewmateInvestigative)
         {
             return options.AssassinGuessInvest;
         }
@@ -269,27 +269,32 @@ public abstract class AssassinModifier : ExcludedGameModifier
             return true;
         }
 
-        var assassinRole = Player.Data.Role as ITownOfUsRole;
+        var assassinAlignment = Player.Data.Role.GetRoleAlignment();
 
         if (role.IsImpostor() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostors &&
-            assassinRole?.RoleAlignment is RoleAlignment.NeutralKilling or RoleAlignment.NeutralEvil)
+            assassinAlignment is RoleAlignment.NeutralKilling or RoleAlignment.NeutralEvil)
         {
             return true;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralBenign)
+        if (alignment == RoleAlignment.NeutralBenign)
         {
             return options.AssassinGuessNeutralBenign;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralEvil)
+        if (alignment == RoleAlignment.NeutralEvil)
         {
             return options.AssassinGuessNeutralEvil;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralKilling)
+        if (alignment == RoleAlignment.NeutralKilling)
         {
             return options.AssassinGuessNeutralKilling;
+        }
+
+        if (alignment == RoleAlignment.NeutralOutlier)
+        {
+            return options.AssassinGuessNeutralOutlier;
         }
 
         return false;
