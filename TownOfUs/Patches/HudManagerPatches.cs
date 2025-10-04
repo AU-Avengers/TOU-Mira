@@ -860,6 +860,8 @@ public static class HudManagerPatches
                     $"{NeutralEvils}: {list.MinNeutralEvil.Value} {StoredMinimum}, {list.MaxNeutralEvil.Value} {StoredMaximum}");
                 rolelistBuilder.AppendLine(CultureInfo.InvariantCulture,
                     $"{NeutralKillers}: {list.MinNeutralKiller.Value} {StoredMinimum}, {list.MaxNeutralKiller.Value} {StoredMaximum}");
+                rolelistBuilder.AppendLine(CultureInfo.InvariantCulture,
+                    $"{NeutralOutliers}: {list.MinNeutralOutlier.Value} {StoredMinimum}, {list.MaxNeutralOutlier.Value} {StoredMaximum}");
                 objText.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
             }
 
@@ -1076,6 +1078,7 @@ public static class HudManagerPatches
             "NeutralBenign",
             "NeutralEvil",
             "NeutralKilling",
+            "NeutralOutlier",
             "CommonImp",
             "RandomImp",
             "ImpConcealing",

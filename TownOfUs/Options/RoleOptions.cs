@@ -24,6 +24,7 @@ public sealed class RoleOptions : AbstractOptionGroup
         MiscUtils.GetParsedRoleBucket("NeutralBenign"),
         MiscUtils.GetParsedRoleBucket("NeutralEvil"),
         MiscUtils.GetParsedRoleBucket("NeutralKilling"),
+        MiscUtils.GetParsedRoleBucket("NeutralOutlier"),
         MiscUtils.GetParsedRoleBucket("CommonImp"),
         MiscUtils.GetParsedRoleBucket("RandomImp"),
         MiscUtils.GetParsedRoleBucket("ImpConcealing"),
@@ -140,37 +141,49 @@ public sealed class RoleOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption MinNeutralBenign { get; } =
-        new("Min Neutral Benign", 0f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+        new("Min Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
         };
 
     public ModdedNumberOption MaxNeutralBenign { get; } =
-        new("Max Neutral Benign", 0f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+        new("Max Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
         };
 
     public ModdedNumberOption MinNeutralEvil { get; } =
-        new("Min Neutral Evil", 0f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+        new("Min Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
         };
 
     public ModdedNumberOption MaxNeutralEvil { get; } =
-        new("Max Neutral Evil", 0f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+        new("Max Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
         };
 
     public ModdedNumberOption MinNeutralKiller { get; } =
-        new("Min Neutral Killer", 0f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        new("Min Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
         };
 
     public ModdedNumberOption MaxNeutralKiller { get; } =
-        new("Max Neutral Killer", 0f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        new("Max Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+        };
+
+    public ModdedNumberOption MinNeutralOutlier { get; } =
+        new("Min Neutral Outliers", 0f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+        };
+
+    public ModdedNumberOption MaxNeutralOutlier { get; } =
+        new("Max Neutral Outliers", 0f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
         };
@@ -192,6 +205,7 @@ public enum RoleListOption
     NeutBenign,
     NeutEvil,
     NeutKilling,
+    NeutOutlier,
     ImpCommon,
     ImpRandom,
     ImpConceal,

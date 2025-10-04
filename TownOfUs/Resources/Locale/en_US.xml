@@ -1111,11 +1111,13 @@
   <string name="TouRoleInquisitorIntroBlurb">Vanquish The Heretics!</string>
   <string name="TouRoleInquisitorTabDescription">Vanquish your Heretics or get them killed.\%nl\%You will win after every heretic dies.\%nl\%If they're all dead after a meeting ends,\%nl\%you'll leave \%and\% announce your victory</string>
   <string name="TouRoleInquisitorTabAddition">The roles of your Heretics:</string>
-  <string name="TouRoleInquisitorWikiDescription">The Inquisitor is a Neutral Evil role that wins if their targets (Heretics) die. The only information provided is their roles, and it's up to the Inquisitor to identify those players (marked with \%symbol\% to the dead) and get them killed by any means necessary.</string>
+  <string name="TouRoleInquisitorWikiDescription">The Inquisitor is a Neutral Outlier role that wins if their targets (Heretics) die. The only information provided is their roles, and it's up to the Inquisitor to identify those players (marked with \%symbol\% to the dead) and get them killed by any means necessary.</string>
   <!-- Inquisitor Feedback -->
   <string name="TouRoleInquisitorMessageTitle">Inquisitor Report</string>
   <string name="TouRoleInquisitorInquiredHeretic">Your inquiry reveals that \%player\% is a heretic!</string>
   <string name="TouRoleInquisitorInquiredNonHeretic">Your inquiry reveals that \%player\% is not a heretic!</string>
+  <string name="TouRoleInquisitorVictoryMessage">The \%role\%, \%player\%, has successfully won, as all Heretics have perished!</string>
+  <string name="TouRoleInquisitorVictoryMessageSelf">You have successfully won as the \%role\%, as all Heretics have perished!</string>
   <string name="TouRoleInquisitorInquire">Inquire</string>
   <string name="TouRoleInquisitorInquireWikiDescription">Inquire a player, which will tell you if they are one of your targets within the meeting.</string>
   <string name="TouRoleInquisitorVanquish">Vanquish</string>
@@ -1127,6 +1129,28 @@
   <string name="TouOptionInquisitorInquireCooldown">Inquire Cooldown</string>
   <string name="TouOptionInquisitorMaxInquiries">Max Number Of Inquiries</string>
   <string name="TouOptionInquisitorHereticAmount">Amount Of Heretics Needed</string>
+  <!-- Chef -->
+  <!-- Chef Wiki / Abilities -->
+  <string name="TouRoleChef">Chef</string>
+  <string name="TouRoleChefIntroBlurb">Fresh And Ready To Serve</string>
+  <string name="TouRoleChefTabDescription">Feed the crewmates with cooked corpses.\%nl\%Once your quota is fed, leave in victory!</string>
+  <string name="TouRoleChefTabCounter">Bodies Fed: \%bodiesFed\% / \%bodiesTotal\%</string>
+  <string name="TouRoleChefWikiDescription">The Chef is a Neutral Outlier role that wins with any other faction as long as they have served enough dead bodies to the crew.</string>
+  <!-- Chef Feedback -->
+  <string name="TouRoleChefMessageTitle">Chef Feedback</string>
+  <string name="TouRoleChefCustomerMessage">You have been served a dead body by the Chef!</string>
+  <string name="TouRoleChefVictoryMessage">The \%role\%, \%player\%, has successfully won, as they've fed enough players!</string>
+  <string name="TouRoleChefVictoryMessageSelf">You have successfully won as the \%role\%, as you've fed enough players!</string>
+  <string name="TouRoleChefCook">Cook</string>
+  <string name="TouRoleChefCookWikiDescription">Cook a dead body and save it for later use.</string>
+  <string name="TouRoleChefServe">Serve</string>
+  <string name="TouRoleChefServeWikiDescription">Serve the oldest meal you have on hand to another empty stomach.</string>
+  <!-- Chef Options -->
+  <string name="TouOptionChefServeCooldown">Serve Cooldown</string>
+  <string name="TouOptionChefCookCooldown">Cook Cooldown</string>
+  <string name="TouOptionChefLinkedCooldowns">Reset Cook \%and\% Serve Cooldowns Together</string>
+  <string name="TouOptionChefServingAmount">Amount Of Servings Needed</string>
+  <string name="TouOptionChefServingEffects">Servings Have Side Effects</string>
   <!-- Jester -->
   <!-- Jester Wiki / Description -->
   <string name="TouRoleJester">Jester</string>

@@ -58,6 +58,7 @@ public static class TownOfUsColors
     public static Color Mercenary => new Color32(140, 102, 153, 255);
     public static Color Survivor => new Color32(255, 230, 77, 255);
 
+    public static Color Chef => new Color32(218, 162, 103, 255);
     public static Color Doomsayer => new Color32(0, 255, 128, 255);
     public static Color Executioner => new Color32(99, 59, 31, 255);
     public static Color Inquisitor => new Color32(217, 66, 145, 255);

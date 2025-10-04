@@ -74,5 +74,7 @@ public enum TownOfUsRpc : uint
     AmbushPlayer,
     RetrainConfirm,
     SelectSpectator,
-    RemoveSpectator
+    RemoveSpectator,
+    CookBody,
+    ServeBody
 }

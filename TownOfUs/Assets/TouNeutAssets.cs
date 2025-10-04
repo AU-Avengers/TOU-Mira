@@ -33,12 +33,6 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> JesterVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("JesterVentButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> InquisKillSprite { get; } =
-        new LoadableBundleAsset<Sprite>("InquisKillButton", TouAssets.MainBundle);
-
-    public static LoadableAsset<Sprite> InquireSprite { get; } =
-        new LoadableBundleAsset<Sprite>("InquireButton", TouAssets.MainBundle);
-
     public static LoadableAsset<Sprite> PhantomSpookSprite { get; } =
         new LoadableBundleAsset<Sprite>("PhantomSpookButton", TouAssets.MainBundle);
 
@@ -98,4 +92,31 @@ public static class TouNeutAssets
 
     public static LoadableAsset<Sprite> WerewolfVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("WolfVentButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> InquisKillSprite { get; } =
+        new LoadableBundleAsset<Sprite>("InquisKillButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> InquireSprite { get; } =
+        new LoadableBundleAsset<Sprite>("InquireButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> ChefServeEmptySprite { get; } =
+        new LoadableBundleAsset<Sprite>("ServeEmptyButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> ChefServeSalmonSprite { get; } =
+        new LoadableBundleAsset<Sprite>("ServeSalmonButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> ChefServeCakeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("ServeCakeButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> ChefServeBurgerSprite { get; } =
+        new LoadableBundleAsset<Sprite>("ServeBurgerButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> ChefServeTurkeySprite { get; } =
+        new LoadableBundleAsset<Sprite>("ServeTurkeyButton", TouAssets.MainBundle);
+
+    public static List<LoadableAsset<Sprite>> ChefServeSprites { get; set; } = new()
+    {
+        ChefServeEmptySprite,
+        ChefServeSalmonSprite,
+        ChefServeCakeSprite,
+        ChefServeBurgerSprite,
+        ChefServeTurkeySprite
+    };
+
 }

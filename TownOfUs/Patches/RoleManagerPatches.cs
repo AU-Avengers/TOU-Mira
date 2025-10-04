@@ -485,6 +485,7 @@ public static class TouRoleManagerPatches
         var neutBenignRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralBenign);
         var neutEvilRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralEvil);
         var neutKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralKilling);
+        var neutOutlierRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralOutlier);
         var impConcealRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorConcealing);
         var impKillingRoles =
             MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorKilling, x => !excluded.Contains(x.Role));
@@ -580,6 +581,11 @@ public static class TouRoleManagerPatches
             RoleListOption.NeutRandom));
 
         var randomNeutRoles = neutKillingRoles;
+
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
+            RoleListOption.NeutRandom));
+
+        randomNeutRoles.AddRange(neutOutlierRoles);
 
         crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, RoleListOption.NeutCommon,
             RoleListOption.NeutRandom));
