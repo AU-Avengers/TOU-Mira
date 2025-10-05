@@ -250,6 +250,22 @@ public static class TownOfUsEventHandlers
         phantomButton.Show = false;
     }
 
+    [RegisterEvent(-100)]
+    public static void BetaBeforeMurderHandler(BeforeMurderEvent @event)
+    {
+        var killer = @event.Source;
+        var victim = @event.Target;
+        Logger<TownOfUsPlugin>.Error($"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
+    }
+
+    [RegisterEvent(-100)]
+    public static void BetaAfterMurderHandler(AfterMurderEvent @event)
+    {
+        var killer = @event.Source;
+        var victim = @event.Target;
+        Logger<TownOfUsPlugin>.Error($"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
+    }
+
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
