@@ -472,4 +472,5 @@
   <string name="TouOptionProsecutorDiesWhenCrewmateExiled">Aanklager gaat als ze een Bemanningslid verbannen</string>
   <string name="TouOptionProsecutorMaxProsecutions">Maximale hoeveelheid Aanklagingen</string>
   <string name="TouRoleSeer">Ziener</string>
+  <string name="ClientTabGameplay">Spelverloop</string>
 </resources>
