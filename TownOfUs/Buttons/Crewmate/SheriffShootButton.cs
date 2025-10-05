@@ -101,17 +101,8 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
             return;
         }
 
-        var alignment = RoleAlignment.CrewmateSupport;
+        var alignment = Target.Data.Role.GetRoleAlignment();
         var options = OptionGroupSingleton<SheriffOptions>.Instance;
-
-        if (Target.Data.Role is ITownOfUsRole touRole)
-        {
-            alignment = touRole.RoleAlignment;
-        }
-        else if (Target.IsImpostor())
-        {
-            alignment = RoleAlignment.ImpostorSupport;
-        }
 
         if (!(PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
               !allyMod.GetsPunished) &&
@@ -126,6 +117,18 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
                 case RoleAlignment.CrewmatePower:
                 case RoleAlignment.CrewmateSupport:
                     Misfire();
+                    break;
+
+                case RoleAlignment.NeutralOutlier:
+                    if (!options.ShootNeutralOutlier)
+                    {
+                        Misfire();
+                    }
+                    else
+                    {
+                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                    }
+
                     break;
 
                 case RoleAlignment.NeutralKilling:
@@ -152,7 +155,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
 
                     break;
                 default:
-                    if (Target.IsImpostor())
+                    if (Target.IsImpostor() || Target.IsNeutral())
                     {
                         PlayerControl.LocalPlayer.RpcCustomMurder(Target);
                     }

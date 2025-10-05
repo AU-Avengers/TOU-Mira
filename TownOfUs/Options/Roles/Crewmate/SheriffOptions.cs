@@ -24,6 +24,9 @@ public sealed class SheriffOptions : AbstractOptionGroup<SheriffRole>
     [ModdedToggleOption("Can Shoot Neutral Killing Roles")]
     public bool ShootNeutralKiller { get; set; } = true;
 
+    [ModdedToggleOption("Can Shoot Neutral Outlier Roles")]
+    public bool ShootNeutralOutlier { get; set; } = true;
+
     [ModdedEnumOption("Misfire Kills", typeof(MisfireOptions), ["Self", "Target", "Self & Target", "No One"])]
     public MisfireOptions MisfireType { get; set; } = MisfireOptions.Sheriff;
 }

@@ -24,6 +24,9 @@ public sealed class SeerOptions : AbstractOptionGroup<SeerRole>
     [ModdedToggleOption("Neutral Killing Roles Are Red")]
     public bool ShowNeutralKillingAsRed { get; set; } = true;
 
+    [ModdedToggleOption("Neutral Outlier Roles Are Red")]
+    public bool ShowNeutralOutlierAsRed { get; set; } = true;
+
     [ModdedToggleOption("Traitor Swaps Colors")]
     public bool SwapTraitorColors { get; set; } = true;
 }
