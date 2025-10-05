@@ -390,9 +390,10 @@
       "Number": "100022",
       "ShortTitle": "TOU: Mira v1.2.2",
       "SubTitle": "I hereby declare you guilty.",
-      "Title": "Judge, Jury, Executioner",
+      "Title": "Judge, Jury, Executioner... Chef?",
       "Text": [
         "\n\n<b> This update adds a lot more localization for roles, which apply to everything except options, color names, and meeting abilities.</b>",
+        "\nA new neutral role enters the fray: The Chef! This was a community-made suggestion by CraftR on the Tou Discord, under the Neutral Outlier bucket.",
         "\n\nAgain, the Mira team really appreciates all of your support, thank you so much for playing the mod!",
         "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.2>TOU Mira v1.2.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
         "\n\n\r<size=105%>Localization Updates:</size>",
@@ -401,13 +402,18 @@
         "\n- If a Prosecutor is punished and dies as a Celebrity, their death is no longer displayed.",
         "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
         "\n- If an Executioner's target becomes a Vampire, they will no longer be able to end the game, but will still win.",
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Undertaker properly drops dead bodies.",
         "\n\n\r<size=105%>Modifier Bugfixes:</size>",
         "\n- Aftermath will now properly trigger abilities as intended.",
         "\n\n\r<size=105%>Other Bugfixes:</size>",
         "\n- FFA Impostor Mode now hides impostor names from the chat.",
         "\n- Haunter and Phantom no longer appear camouflaged during comms.",
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Inquisitor is no longer a Neutral Evil, but rather a Neutral Outlier alongside the new neutral role.",
         "\n\n\r<size=105%>Additions:</size>",
-        "\n- Toggle Spectators options is under General Options."
+        "\n- Toggle Spectators options is under General Options.",
+        "\n- New Neutral Outlier Role: The Chef!\nThis role takes the dead bodies of players and feeds them to others, which all fulfills their quota to leave in victory!"
       ]
     }
   ]
