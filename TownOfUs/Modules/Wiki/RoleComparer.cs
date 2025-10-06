@@ -1,4 +1,4 @@
-using MiraAPI.Utilities;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Modules.Wiki;
 
