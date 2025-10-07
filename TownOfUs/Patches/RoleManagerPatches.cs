@@ -124,11 +124,13 @@ public static class TouRoleManagerPatches
             (int)OptionGroupSingleton<RoleOptions>.Instance.MaxNeutralEvil.Value + 1);
         var nkCount = Random.RandomRange((int)OptionGroupSingleton<RoleOptions>.Instance.MinNeutralKiller.Value,
             (int)OptionGroupSingleton<RoleOptions>.Instance.MaxNeutralKiller.Value + 1);
+        var noCount = Random.RandomRange((int)OptionGroupSingleton<RoleOptions>.Instance.MinNeutralOutlier.Value,
+            (int)OptionGroupSingleton<RoleOptions>.Instance.MaxNeutralOutlier.Value + 1);
 
-        var factions = new List<string> { "Benign", "Evil", "Killing" };
+        var factions = new List<string> { "Benign", "Evil", "Killing", "Outlier" };
 
         // Crew must always start out outnumbering neutrals, so subtract roles until that can be guaranteed.
-        while (Math.Ceiling((double)crewmates.Count / 2) <= nbCount + neCount + nkCount)
+        while (Math.Ceiling((double)crewmates.Count / 2) <= nbCount + neCount + nkCount + noCount)
         {
             var canSubtractBenign = CanSubtract(nbCount,
                 (int)OptionGroupSingleton<RoleOptions>.Instance.MinNeutralBenign.Value);
@@ -136,7 +138,9 @@ public static class TouRoleManagerPatches
                 CanSubtract(neCount, (int)OptionGroupSingleton<RoleOptions>.Instance.MinNeutralEvil.Value);
             var canSubtractKilling = CanSubtract(nkCount,
                 (int)OptionGroupSingleton<RoleOptions>.Instance.MinNeutralKiller.Value);
-            var canSubtractNone = !canSubtractBenign && !canSubtractEvil && !canSubtractKilling;
+            var canSubtractOutlier = CanSubtract(noCount,
+                (int)OptionGroupSingleton<RoleOptions>.Instance.MinNeutralOutlier.Value);
+            var canSubtractNone = !canSubtractBenign && !canSubtractEvil && !canSubtractKilling && !canSubtractOutlier;
 
             factions.Shuffle();
             switch (factions[0])
@@ -164,6 +168,14 @@ public static class TouRoleManagerPatches
                         break;
                     }
 
+                    goto case "Outlier";
+                case "Outlier":
+                    if (noCount > 0 && (canSubtractOutlier || canSubtractNone))
+                    {
+                        noCount -= 1;
+                        break;
+                    }
+
                     goto default;
                 default:
                     if (nbCount > 0)
@@ -178,11 +190,15 @@ public static class TouRoleManagerPatches
                     {
                         nkCount -= 1;
                     }
+                    else if (noCount > 0)
+                    {
+                        noCount -= 1;
+                    }
 
                     break;
             }
 
-            if (nbCount + neCount + nkCount == 0)
+            if (nbCount + neCount + nkCount + noCount == 0)
             {
                 break;
             }
@@ -214,8 +230,9 @@ public static class TouRoleManagerPatches
         var nbRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralBenign, nbCount);
         var neRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralEvil, neCount);
         var nkRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralKilling, nkCount);
+        var noRoles = MiscUtils.GetMaxRolesToAssign(RoleAlignment.NeutralOutlier, noCount);
 
-        var crewCount = crewmates.Count - nbRoles.Count - neRoles.Count - nkRoles.Count;
+        var crewCount = crewmates.Count - nbRoles.Count - neRoles.Count - nkRoles.Count - noRoles.Count;
 
         Func<RoleBehaviour, bool>? crewFilter = null;
 
@@ -230,6 +247,7 @@ public static class TouRoleManagerPatches
         crewAndNeutRoles.AddRange(nbRoles);
         crewAndNeutRoles.AddRange(neRoles);
         crewAndNeutRoles.AddRange(nkRoles);
+        crewAndNeutRoles.AddRange(noRoles);
         crewAndNeutRoles.AddRange(crewRoles);
         crewAndNeutRoles.Shuffle();
 
@@ -577,26 +595,25 @@ public static class TouRoleManagerPatches
 
         commonNeutRoles.AddRange(neutEvilRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutKillingRoles, RoleListOption.NeutKilling,
-            RoleListOption.NeutSpecial));
-
-        var specialNeutRoles = neutKillingRoles;
-
         crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
             RoleListOption.NeutSpecial));
 
-        specialNeutRoles.AddRange(neutOutlierRoles);
+        var specialNeutRoles = neutOutlierRoles;
+
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutWildcard));
+
+        var wildcardNeutRoles = neutOutlierRoles;
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, RoleListOption.NeutWildcard));
+
+        wildcardNeutRoles.AddRange(commonNeutRoles);
+
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutKillingRoles, RoleListOption.NeutKilling,
+            RoleListOption.NeutSpecial));
+
+        specialNeutRoles.AddRange(neutKillingRoles);
 
         crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, RoleListOption.NeutCommon,
             RoleListOption.NeutRandom));
-
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, RoleListOption.NeutWildcard));
-        
-        var wildcardNeutRoles = commonNeutRoles;
-
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier, RoleListOption.NeutWildcard));
-
-        wildcardNeutRoles.AddRange(neutOutlierRoles);
 
         var randomNeutRoles = commonNeutRoles;
 

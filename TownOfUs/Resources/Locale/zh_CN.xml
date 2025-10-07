@@ -2,7 +2,7 @@
 <resources>
   <string name="FoolsMode">愚人节模式</string>
   <string name="TertiaryAbility">第三技能(黑入技能)</string>
-  <string name="ModifierAbility">附加职业技能</string>
+  <string name="ModifierAbility">附加属性技能</string>
   <string name="ClientOptionsButton">我们的小镇Mira客户端设置</string>
   <string name="DeadSeeGhosts">死后显示其他鬼魂</string>
   <string name="ShowVents">在地图上显示通风口</string>
@@ -12,9 +12,9 @@
   <string name="UseCrewmateTeamColor">使用基础船员颜色</string>
   <string name="ShowShieldHud">在HUD上显示护盾</string>
   <string name="ButtonUIFactor">按钮缩放比例</string>
-  <string name="OffsetButtons">偏移按钮 若无法使用通风口</string>
-  <string name="SortGuessingByAlignment">按排列顺序猜测</string>
-  <string name="PreciseCooldowns">按键冷却时间小于10秒显示到小数点后一位</string>
+  <string name="OffsetButtons">无法使用通风口时偏移按钮</string>
+  <string name="SortGuessingByAlignment">猜测列表按阵营排序</string>
+  <string name="PreciseCooldowns">按键冷却时间小于10秒精确到小数点后一位</string>
   <string name="ArrowStyle">箭头显示样式</string>
   <string name="ArrowDefault">默认</string>
   <string name="ArrowDarkGlow">暗光</string>
@@ -46,11 +46,11 @@
   <string name="WikiRoleGuideTab">职业指南</string>
   <string name="SearchboxHeadsUp">点击这里搜索</string>
   <string name="Roles">职业</string>
-  <string name="Modifiers">附加职业</string>
+  <string name="Modifiers">附加属性</string>
   <string name="Amount">数量</string>
   <string name="Chance">概率</string>
   <string name="Options">设置</string>
-  <string name="GameOutlier">游戏异常者</string>
+  <string name="GameOutlier">游戏外来者</string>
   <string name="CrewmateInvestigative">船员调查型</string>
   <string name="CrewmateKilling">船员击杀型</string>
   <string name="CrewmatePower">船员强力型</string>
@@ -58,7 +58,7 @@
   <string name="CrewmateSupport">船员辅助型</string>
   <string name="NeutralBenign">中立善良型</string>
   <string name="NeutralEvil">中立邪恶型</string>
-  <string name="NeutralOutlier">中立异常型</string>
+  <string name="NeutralOutlier">中立外来者型</string>
   <string name="NeutralKilling">中立击杀型</string>
   <string name="ImpostorConcealing">伪装者隐蔽型</string>
   <string name="ImpostorKilling">伪装者击杀型</string>
@@ -270,14 +270,14 @@
   <string name="TouRoleHaunterIntroBlurb">揭晓后期的伪装者！</string>
   <string name="TouRoleHaunterTabDescription">完成所有任务而不被抓住，以揭露伪装者！</string>
   <string name="TouRoleHaunterWikiDescription">冤魂是一个船员鬼魂型且可以做任务的职业。他们将以半透明玩家的形象出现。如果他们完成了所有任务，所有活着的玩家都会看到伪装者是谁。但是，如果伪装者先点击它们，他们就会变成普通的鬼魂。伪装者在冤魂完成任务之前不久或当他们完成任务时收到警告。</string>
-  <string name="Modifier">附加职业</string>
+  <string name="Modifier">附加属性</string>
   <string name="SetRoleList">设置职业列表</string>
   <string name="NeutralFactionList">中立职业类型列表</string>
   <string name="NeutralBenigns">中立善良型</string>
   <string name="NeutralEvils">中立邪恶型</string>
   <string name="NeutralKillers">中立击杀型</string>
   <string name="MinimumShort">最小数量</string>
-  <string name="NeutralOutliers">中立异常型</string>
+  <string name="NeutralOutliers">中立外来者型</string>
   <string name="MaximumShort">最大数量</string>
   <string name="DiedByStringBasic">由\%player\%造成</string>
   <string name="TouOptionHaunterNumTasksLeftBeforeClickable">可被点击之前剩余的任务数量</string>
@@ -308,9 +308,9 @@
   <string name="TouRoleImitatorCrewmateImitation">船员效仿</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">除了效仿者、政治家、市长和船员之外，所有船员职业都可用。典狱长和检察官无法使用他们的会议技能，侠客无法获得安全猜测。</string>
   <string name="TouRoleImitatorNeutralCounterparts">中立对应表</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">失忆者 ⇨ 医生 |末日预言者 ⇨ 侠客 |行刑者 ⇨ 告密者\%nl\%混沌 ⇨ 警长 |守护天使 ⇨ 牧师 |审判官 ⇨ 神谕者\%nl\%小丑 ⇨ 水管工 |雇佣兵 ⇨ 护卫者\%nl\%瘟疫之源/万疫之神 ⇨ 感应者 |噬魂兽 ⇨ 招魂师 |月下狼人 ⇨ 巡猎者</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">失忆者 ⇨ 法医 |末日预言者 ⇨ 侠客 |行刑者 ⇨ 告密者\%nl\%混沌 ⇨ 警长 |守护天使 ⇨ 牧师 |审判官 ⇨ 神谕者\%nl\%小丑 ⇨ 水管工 |雇佣兵 ⇨ 护卫者\%nl\%瘟疫之源/万疫之神 ⇨ 感应者 |噬魂兽 ⇨ 招魂师 |月下狼人 ⇨ 巡猎者</string>
   <string name="TouRoleImitatorImpostorCounterparts">伪装者对应表</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">爆破手 ⇨ 陷阱师 |催眠师 ⇨ 观测者 |清理者 ⇨ 侧写师\%nl\%矿工 ⇨ 工程师 |赏金猎人 ⇨ 追踪者\%nl\%送葬者 ⇨ 殉道者 |巫术师 ⇨ 老兵</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">爆破手 ⇨ 陷阱师 |催眠师 ⇨ 观测者 |清理者 ⇨ 侧写师\%nl\%管道工 ⇨ 工程师 |赏金猎人 ⇨ 追踪者\%nl\%送葬者 ⇨ 殉道者 |巫术师 ⇨ 老兵</string>
   <string name="TouOptionImitatorImitateNeutrals">效仿特定中立职业作为相似船员职业</string>
   <string name="TouOptionImitatorImitateImpostors">效仿特定伪装者职业作为相似船员职业</string>
   <string name="TouRoleInvestigator">调查员</string>
@@ -509,7 +509,7 @@
   <string name="TouOptionAmbusherCanVent">伏击者可进入通风口</string>
   <string name="TouRoleInquisitorTabDescription">消灭你的异端目标或让他们被杀。\%nl\%所有异端死亡后你将获胜并离开游戏。\%nl\%若所有异端在会议结束后死亡，\%nl\%你将离开游戏\%and\%并宣布你的胜利</string>
   <string name="TouRoleInquisitorTabAddition">你的异端目标身份：</string>
-  <string name="TouRoleInquisitorWikiDescription">审判官是一名中立邪恶型职业，只要所有异端目标死亡即可获胜。你只知道他们的身份，需要审判官自己找出这些玩家（对死者以\%symbol\%标记），并想办法让他们被杀。</string>
+  <string name="TouRoleInquisitorWikiDescription">审判官是一名中立外来者型职业，只要所有异端目标死亡即可获胜。你只知道他们的身份，需要审判官自己找出这些玩家（对死者以\%symbol\%标记），并想办法让他们被杀。</string>
   <string name="TouRoleInquisitorMessageTitle">审判官报告</string>
   <string name="TouRoleInquisitorInquiredHeretic">你的调查显示\%player\%是异端！</string>
   <string name="TouRoleInquisitorInquiredNonHeretic">你的调查显示\%player\%不是异端！</string>
@@ -593,7 +593,7 @@
   <string name="TouOptionSoulCollectorCanVent">噬魂兽可进通风口</string>
   <string name="TouModifierEgotistIntroBlurb">背叛船员以满足你的虚荣心</string>
   <string name="TouModifierEgotistTabDescription">背叛船员，与杀手一同获胜。</string>
-  <string name="TouModifierEgotistWikiDescription">利己主义者是船员联盟附加特性（以\%symbol\%为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
+  <string name="TouModifierEgotistWikiDescription">利己主义者是船员同盟附加特性（以\%symbol\%为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
   <string name="TouModifierLoverInfo">你的恋人是\%player\%。</string>
   <string name="TouModifierLoverWikiDescription">作为恋人，你可以在回合中与另一位恋人 (以\%symbol\%标识）聊天。如果你们是最后三人之一且都存活，则恋人可以共同获胜。</string>
   <string name="TouOptionLoverDieAndRevive">恋人同生共死</string>
@@ -1035,7 +1035,7 @@
   <string name="TouOptionVigilanteCanGuessNeutralEvilRoles">侠客可猜中立邪恶职业</string>
   <string name="TouOptionVigilanteCanGuessNeutralKillingRoles">侠客可猜中立杀手职业</string>
   <string name="TouOptionVigilanteCanGuessKillerModifiers">侠客可猜杀手附加特性</string>
-  <string name="TouOptionVigilanteCanGuessAlliances">侠客可猜联盟关系</string>
+  <string name="TouOptionVigilanteCanGuessAlliances">侠客可猜同盟关系</string>
   <string name="TouOptionVigilanteSafeShotsAvailable">侠客可安全猜测次数</string>
   <string name="TouRoleSheriffIntroBlurb">射杀\%color=#FF0000FF\%伪装者\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">击杀伪装者，但不要误杀船员</string>
@@ -1162,7 +1162,7 @@
   <string name="TouOptionPlumberGetMoreFromTasks">完成任务可获得更多路障</string>
   <string name="ClientTabGameplay">游戏玩法</string>
   <string name="ShowVanillaWikiEntries">展示原版维基条目</string>
-  <string name="PlayerHasNoModifiers">无附加职业</string>
+  <string name="PlayerHasNoModifiers">无附加属性</string>
   <string name="TouRoleAmnesiacRemember">回忆</string>
   <string name="TouRoleAmnesiacRememberWikiDescription">回忆尸体的职业。如果尸体的职业是独特的职业，你会回忆基础阵营的职业。</string>
   <string name="TouOptionIncreasedWhen2">当2+个伪装者存在时，增加击杀冷却时间</string>
@@ -1208,4 +1208,16 @@
   <string name="TouRoleScavengerYourNextTarget">是你的下个目标。</string>
   <string name="TouRoleTraitorRoleSelectTitle">选择一个职业。</string>
   <string name="TouRoleTraitorRandomImpostorCard">随机\%nl\%伪装者</string>
+  <string name="SpecialNeutral">特殊中立</string>
+  <string name="WildcardNeutral">万能中立</string>
+  <string name="TouRoleDeputyCampNotif">等待\%player\%死亡后，你可以在会议中为TA复仇。</string>
+  <string name="TouRoleDetectiveInspectNotif">你已调查了\%player\%的案发现场。凶手或任何进入案发现场的人在被检查时会闪红光。</string>
+  <string name="TouRoleHunterStalkNotif">如果\%player\%使用了技能，你将在本回合内可以随时击杀TA。</string>
+  <string name="TouRoleLookoutWatchNotif">如果\%player\%在下次会议前未死亡，你将得知与其互动的所有职业。</string>
+  <string name="TouRoleMirrorcasterAlreadyDiedNotif">你试图保护的玩家已经死亡！</string>
+  <string name="TouRoleMirrorcasterTargetDiedNotif">\%player\% 因间接攻击而死亡，你的魔法镜无法保护他们。</string>
+  <string name="TouRoleMirrorcasterTargetDidNotDieNotif">\%player\% 未受到攻击。</string>
+  <string name="TouRolePlumberBlockNotif">该通风口将在下回合开始时被封锁。</string>
+  <string name="TouRoleInquisitorVictoryMessage">\%role\%, \%player\%,已成功获胜，因为所有异端已被消灭！</string>
+  <string name="TouRoleInquisitorVictoryMessageSelf">你作为 \%role\%,已成功获胜，所有异端已被消灭！</string>
 </resources>
