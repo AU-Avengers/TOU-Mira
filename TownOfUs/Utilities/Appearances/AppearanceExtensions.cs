@@ -182,10 +182,6 @@ public static class AppearanceExtensions
         }
 
         player.CurrentOutfitType = (PlayerOutfitType)appearance.AppearanceType;
-        if (appearance.AppearanceType != 0)
-        {
-            player.Data.SetOutfit(player.CurrentOutfitType, appearance);
-        }
     }
 
     public static TownOfUsAppearances GetAppearanceType(this PlayerControl player)
