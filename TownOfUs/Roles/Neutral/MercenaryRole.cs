@@ -86,17 +86,17 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var players = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>();
 
-        stringB.Append(CultureInfo.InvariantCulture, $"\n<b>Gold:</b> {Gold}");
+        stringB.Append(CultureInfo.InvariantCulture, $"\n<b>{TouLocale.GetParsed("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
 
         var playerControls = players as PlayerControl[] ?? [.. players];
         if (playerControls.Length != 0)
         {
-            stringB.Append("\n<b>Bribed:</b>");
-        }
+            stringB.Append(CultureInfo.InvariantCulture, $"\n<b>{TouLocale.Get("TouRoleMercenaryTabBribedInfo")}</b>");
 
-        foreach (var player in playerControls)
-        {
-            stringB.Append(CultureInfo.InvariantCulture, $"\n{player.Data.PlayerName}");
+            foreach (var player in playerControls)
+            {
+                stringB.Append(CultureInfo.InvariantCulture, $"\n{player.Data.PlayerName}");
+            }
         }
 
         return stringB;

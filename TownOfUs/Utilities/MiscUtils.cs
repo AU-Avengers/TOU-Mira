@@ -384,6 +384,34 @@ public static class MiscUtils
         return localizedName;
     }
 
+    public static string GetColoredFactionString(string text)
+    {
+        if (text.Contains("Crewmate") || text.Contains(TouLocale.Get("CrewmateKeyword")))
+        {
+            text = $"<color=#68ACF4>{text}";
+        }
+        else if (text.Contains("Impostor") || text.Contains(TouLocale.Get("ImpostorKeyword")))
+        {
+            text = $"<color=#D63F42>{text}";
+        }
+        else if (text.Contains("Neutral") || text.Contains(TouLocale.Get("NeutralKeyword")))
+        {
+            text = $"<color=#8A8A8A>{text}";
+        }
+        else if (text.Contains("Game") || text.Contains(TouLocale.Get("GameKeyword")))
+        {
+            text = $"<color=#888888>{text}";
+        }
+        else
+        {
+            text = $"<color=#FFFFFF>{text}";
+        }
+
+        text += "</color>";
+
+        return text;
+    }
+
     public static string GetParsedRoleAlignment(ICustomRole role, bool coloredText = false)
     {
         var localeName = $"{role.GetRoleAlignment()}";

@@ -35,6 +35,7 @@ using TownOfUs.Options;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
@@ -292,6 +293,8 @@ public static class TownOfUsEventHandlers
 
         HudManager.Instance.SetHudActive(false);
         HudManager.Instance.SetHudActive(true);
+        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable =
+            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
 
         CustomButtonSingleton<WatchButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance

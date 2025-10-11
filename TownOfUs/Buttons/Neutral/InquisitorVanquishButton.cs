@@ -18,6 +18,9 @@ public sealed class InquisitorVanquishButton : TownOfUsRoleButton<InquisitorRole
     public override float Cooldown => OptionGroupSingleton<InquisitorOptions>.Instance.VanquishCooldown;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.InquisKillSprite;
 
+    public bool Usable { get; set; } =
+        OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
+
     public void SetDiseasedTimer(float multiplier)
     {
         SetTimer(Cooldown * multiplier);
@@ -25,7 +28,7 @@ public sealed class InquisitorVanquishButton : TownOfUsRoleButton<InquisitorRole
 
     public override bool CanUse()
     {
-        return base.CanUse() && Role.CanVanquish;
+        return base.CanUse() && Usable && Role.CanVanquish;
     }
 
     public override PlayerControl? GetTarget()

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -103,7 +104,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         if (allInfected.Any())
         {
-            stringB.Append("\n<b>Players Infected:</b>");
+            stringB.Append(CultureInfo.InvariantCulture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
@@ -112,7 +113,8 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
-        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>Players Left To Infect: {notInfected.Count()}</b>");
+
+        stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
 
         return stringB;
     }
@@ -132,6 +134,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        Player.AddModifier<PlaguebearerInfectedModifier>(Player.PlayerId);
         if (Player.AmOwner && (int)OptionGroupSingleton<PlaguebearerOptions>.Instance.PestChance != 0)
         {
             Coroutines.Start(CheckForPestChance(Player));

@@ -9,7 +9,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -62,37 +62,26 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-        var stringB = ITownOfUsRole.SetNewTabText(this);
-        var missType = OptionGroupSingleton<SheriffOptions>.Instance.MisfireType;
-
-        if (CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot)
+        var stringB = new StringBuilder();
+        stringB.AppendLine(CultureInfo.InvariantCulture,
+            $"{RoleColor.ToTextColor()}{TouLocale.Get("YouAreA")}<b> {RoleName}.</b></color>");
+        stringB.AppendLine(CultureInfo.InvariantCulture,
+            $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
+        stringB.Append("<size=70%>");
+        if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>You can no longer shoot.</b>");
+            stringB.AppendLine(CultureInfo.InvariantCulture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEgo")}");
         }
         else
         {
-            switch (missType)
+            stringB.AppendLine(CultureInfo.InvariantCulture, $"{RoleLongDescription}");
+            var addedText = "d";
+            if (!CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot)
             {
-                case MisfireOptions.Both:
-                    stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>Misfiring kills you and your target.</b>");
-                    break;
-                case MisfireOptions.Sheriff:
-                    stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>Misfiring will lead to suicide.</b>");
-                    break;
-                case MisfireOptions.Target:
-                    stringB.AppendLine(CultureInfo.InvariantCulture,
-                        $"<b>Misfiring will lead to your target's death,\nat the cost of your ability.</b>");
-                    break;
-                default:
-                    stringB.AppendLine(CultureInfo.InvariantCulture,
-                        $"<b>Misfiring will prevent you from shooting again.</b>");
-                    break;
+                var missType = OptionGroupSingleton<SheriffOptions>.Instance.MisfireType;
+                addedText = $"Kills{missType}";
             }
-        }
-
-        if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
-        {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>You may shoot without repercussions.</b>");
+            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{TouLocale.GetParsed($"TouRole{LocaleKey}TabMisfire{addedText}")}</b>");
         }
 
         return stringB;

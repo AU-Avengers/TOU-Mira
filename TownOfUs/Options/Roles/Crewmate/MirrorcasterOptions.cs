@@ -23,8 +23,9 @@ public sealed class MirrorcasterOptions : AbstractOptionGroup<MirrorcasterRole>
     public ModdedNumberOption UnleashCooldown { get; } =
         new($"Unleash Cooldown", 15f, 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds);
 
-    [ModdedToggleOption("Mirrorcaster Knows The Absorbed Type Of Attack")]
-    public bool KnowAttackType { get; set; } = true;
+    [ModdedEnumOption("Attack Information Received Upon Attack", typeof(MirrorAttackInfo),
+        ["Role", "Subalignment", "Faction", "Nothing"])]
+    public MirrorAttackInfo AttackInformationGiven { get; set; } = MirrorAttackInfo.Subalignment;
 
     [ModdedToggleOption("Accumulate Multiple Unleashes")]
     public bool MultiUnleash { get; set; } = false;
@@ -37,4 +38,12 @@ public enum MirrorOption
 {
     Mirrorcaster,
     MirrorcasterAndKiller
+}
+
+public enum MirrorAttackInfo
+{
+    Role,
+    Subalignment,
+    Faction,
+    Nothing
 }

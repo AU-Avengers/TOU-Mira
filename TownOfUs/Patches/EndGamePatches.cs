@@ -132,25 +132,18 @@ public static class EndGamePatches
             var killedPlayers = GameHistory.KilledPlayers.Count(x =>
                 x.KillerId == playerControl.PlayerId && x.VictimId != playerControl.PlayerId);
 
-            if (killedPlayers > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
-            {
-                playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" |{TownOfUsColors.Impostor.ToTextColor()} Kills: {killedPlayers}</color>");
-            }
-
             if (GameHistory.PlayerStats.TryGetValue(playerControl.PlayerId, out var stats))
             {
-                if (killedPlayers > 0 && playerControl.IsCrewmate() && stats.CorrectKills <= 0 &&
-                    stats.IncorrectKills <= 0 && !playerControl.Is(RoleAlignment.NeutralEvil))
-                {
-                    playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" |{TownOfUsColors.Impostor.ToTextColor()} Kills: {killedPlayers}</color>");
-                }
-
+                var basicKillCount = killedPlayers - stats.CorrectAssassinKills - stats.IncorrectKills;
                 if (stats.CorrectKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {Color.green.ToTextColor()}Kills: {stats.CorrectKills}</color>");
+                }
+                else if (basicKillCount > 0 && playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
+                {
+                    playerRoleString.Append(TownOfUsPlugin.Culture,
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}Kills: {basicKillCount}</color>");
                 }
 
                 if (stats.IncorrectKills > 0)
@@ -170,6 +163,11 @@ public static class EndGamePatches
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {TownOfUsColors.Impostor.ToTextColor()}Misguesses: {stats.IncorrectAssassinKills}</color>");
                 }
+            }
+            else if (killedPlayers > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
+            {
+                playerRoleString.Append(TownOfUsPlugin.Culture,
+                    $" |{TownOfUsColors.Impostor.ToTextColor()} Kills: {killedPlayers}</color>");
             }
 
             if (playerControl.TryGetModifier<DeathHandlerModifier>(out var deathHandler))

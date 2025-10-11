@@ -233,8 +233,6 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
 
-            MaxKills--;
-
             shapeMenu.Close();
         }
     }

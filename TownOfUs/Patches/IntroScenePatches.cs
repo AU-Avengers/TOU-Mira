@@ -25,30 +25,34 @@ public static class IntroScenePatches
             }
         }
     }
+    
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
+    [HarmonyPriority(Priority.Last)]
+    [HarmonyPrefix]
+    public static bool ImpostorBeginPatch(IntroCutscene __instance)
+    {
+        if ( /* OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles &&  */
+            !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
+        {
+            return true;
+        }
 
+        __instance.TeamTitle.text =
+            DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor, Array.Empty<Object>());
+        __instance.TeamTitle.color = Palette.ImpostorRed;
+
+        var player = __instance.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
+        __instance.ourCrewmate = player;
+
+        return false;
+    }
+    
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
-    [HarmonyPriority(Priority.Last)]
     [HarmonyPostfix]
     public static void ShowTeamPatchPostfix(IntroCutscene __instance)
     {
-        if (PlayerControl.LocalPlayer.IsImpostor())
-        {
-            if (OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
-            {
-                __instance.TeamTitle.text =
-                    DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor,
-                        Array.Empty<Object>());
-                __instance.TeamTitle.color = Palette.ImpostorRed;
-
-                var player = __instance.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
-                __instance.ourCrewmate = player;
-            }
-        }
-        else
-        {
-            SetHiddenImpostors(__instance);
-        }
+        SetHiddenImpostors(__instance);
 
         foreach (var spec in PlayerControl.AllPlayerControls)
         {

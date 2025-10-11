@@ -458,18 +458,17 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.DoomsayerWin)]
     public static void RpcDoomsayerWin(PlayerControl player)
     {
-        if (player.Data.Role is not DoomsayerRole)
+        if (player.Data.Role is not DoomsayerRole doom)
         {
             Logger<TownOfUsPlugin>.Error("RpcDoomsayerWin - Invalid Doomsayer");
             return;
         }
 
-        var doom = player.GetRole<DoomsayerRole>();
-        doom!.AllGuessesCorrect = true;
-
         if (GameHistory.PlayerStats.TryGetValue(player.PlayerId, out var stats))
         {
-            stats.CorrectAssassinKills++;
+            stats.CorrectAssassinKills = doom.NumberOfGuesses;
         }
+        
+        doom.AllGuessesCorrect = true;
     }
 }

@@ -106,4 +106,19 @@
   <string name="TouModifierTorchTabDescription">조명이 꺼져도 시야가 %nl\%만큼 줄어들지 않습니다.</string>
   <string name="ArrowDarkGlow">어두운 빛</string>
   <string name="ArrowColorGlow">색있는 빛</string>
+  <string name="NeutralFactionList">중립 리스트</string>
+  <string name="NeutralBenigns">선 (중립)</string>
+  <string name="NeutralEvils">악 (중립)</string>
+  <string name="NeutralOutliers">국외(중립)</string>
+  <string name="NeutralKillers">살인자들 (중립)</string>
+  <string name="CrewmatePower">권력 (크루원)</string>
+  <string name="CrewmateProtective">방어 (크루원)</string>
+  <string name="CrewmateSupport">지원 (크루원)</string>
+  <string name="NeutralBenign">선 (중립)</string>
+  <string name="GameOutlier">국외자</string>
+  <string name="CrewmateKilling">살인자 (크루원)</string>
+  <string name="TouModifierTaskmasterWikiDescription">라운드마다 임무를 자동으로 완성해줍니다.</string>
+  <string name="TouModifierTaskmasterTabDescription">무작위 임무가 라운드마다 수행됩니다.</string>
+  <string name="TouModifierTaskmasterIntroBlurb">라운드마다 무작위 임무를 수행합니다.</string>
+  <string name="TouModifierTaskmaster">십장</string>
 </resources>

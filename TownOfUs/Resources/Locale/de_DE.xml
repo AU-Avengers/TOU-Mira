@@ -67,11 +67,11 @@
   <string name="Chance">Wahrscheinlichkeit</string>
   <string name="Options">Optionen</string>
   <string name="SetRoleList">Setze Rollen Liste</string>
-  <string name="GameOutlier">Spiel Außsetzer</string>
+  <string name="GameOutlier">Spiel Außenseiter</string>
   <string name="CrewmatePower">Machtvolle Besatzung</string>
   <string name="CrewmateProtective">Beschützende Besatzung</string>
-  <string name="NeutralBenign">Gütige Neutrale</string>
-  <string name="NeutralEvil">Böse Neutrale</string>
+  <string name="NeutralBenign">Neutraler Gütiger</string>
+  <string name="NeutralEvil">Böser Neutraler</string>
   <string name="NeutralKilling">Neutraler Mörder</string>
   <string name="ImpostorConcealing">Verbergende Verräter</string>
   <string name="ImpostorPower">Machtvolle Verräter</string>
@@ -205,4 +205,21 @@
   <string name="TouOptionSheriffMisfireKills">Fehlzündung tötet</string>
   <string name="TouRoleSnitch">Petze</string>
   <string name="TouRolePolitician">Politiker</string>
+  <string name="NeutralOutlier">Neutraler Außenseiter</string>
+  <string name="SpecialNeutral">Speziale Neutrale</string>
+  <string name="Random">Zufällig</string>
+  <string name="TouRoleOracle">Orakel</string>
+  <string name="TouRoleJanitor">Hausmeister</string>
+  <string name="TouRoleChef">Koch</string>
+  <string name="TouRoleChefIntroBlurb">Frisch und servierbereit</string>
+  <string name="TouRoleChefTabDescription">Füttere die Besatzung mit gekochten Leichen. %nl\%Wenn deine Quote gefütteret ist hast du gewonnen!</string>
+  <string name="TouRoleChefTabCounter">Gefütterte Leichen: \%bodiesFed\% / \%bodiesTotal\%</string>
+  <string name="TouRoleChefWikiDescription">Der Koch ist eine neutrale Außenseiterrolle, die bei jeder anderen Fraktion gewinnt, solange sie der Besatzung genügend Leichen serviert hat.</string>
+  <string name="TouRoleChefCustomerMessage">Dir wurde eine Leiche Von dem Koch serviert!</string>
+  <string name="TouRoleChefVictoryMessage">Der %role\%, %player\%, war siegreich, da er genügend Spieler Gefüttert hat!</string>
+  <string name="TouRoleChefVictoryMessageSelf">Du bist Siegreich als %role\%, da du genug Spieler gefüttert hast!</string>
+  <string name="TouRoleChefCook">Kochen</string>
+  <string name="TouRoleChefCookWikiDescription">Koche eine Leiche und speichere sie für spätere Verwendung.</string>
+  <string name="TouRoleChefServe">Servieren</string>
+  <string name="TouRoleChefServeWikiDescription">Serviere das älteste Mahl das du auf der Hand hast zu einem anderen leeren Magen.</string>
 </resources>

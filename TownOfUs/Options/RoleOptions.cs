@@ -37,7 +37,7 @@ public sealed class RoleOptions : AbstractOptionGroup
         MiscUtils.GetParsedRoleBucket("Any")
     ];
 
-    public override string GroupName => "Role";
+    public override string GroupName => "Role Settings";
     public override uint GroupPriority => 2;
 
     [ModdedToggleOption("Reduce Impostor Streak")]

@@ -1039,10 +1039,10 @@
   <string name="TouOptionVigilanteSafeShotsAvailable">侠客可安全猜测次数</string>
   <string name="TouRoleSheriffIntroBlurb">射杀\%color=#FF0000FF\%伪装者\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">击杀伪装者，但不要误杀船员</string>
-  <string name="TouRoleSheriffTabDescriptionEgo">杀死你想要的任何人，希望船员会失去胜利</string>
-  <string name="TouRoleSheriffWikiDescription">警长是一名船员击杀型职业，可以射击玩家尝试击杀他们。如果警长因误伤未死亡，将失去开枪能力。</string>
+  <string name="TouRoleSheriffTabDescriptionEgo">杀死你想要的任何人同时，希望船员会失去胜利</string>
+  <string name="TouRoleSheriffWikiDescription">警长是一名船员击杀型职业，可以射击玩家且尝试击杀他们。如果警长因误伤而未死亡，将失去开枪能力。</string>
   <string name="TouRoleSheriffShoot">射击</string>
-  <string name="TouRoleSheriffShootWikiDescription">射击一名玩家尝试击杀他们，如果目标不是伪装者或其他可射击阵营则会误伤</string>
+  <string name="TouRoleSheriffShootWikiDescription">射击一名玩家以进行击杀，如果目标不是伪装者或其他可射击阵营则会误伤</string>
   <string name="TouRoleSheriffTabMisfired">你已无法再开枪。</string>
   <string name="TouRoleSheriffTabMisfireKillsBoth">误伤会导致你和目标同归于尽。</string>
   <string name="TouRoleSheriffTabMisfireKillsSheriff">误伤会导致自杀。</string>

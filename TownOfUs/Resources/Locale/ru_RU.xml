@@ -1238,4 +1238,11 @@
   <string name="TouModifierTorchTabDescription">Ваша дальность обзора не уменьшается\%nl\%при выключении света.</string>
   <string name="TouModifierTorchWikiDescription">Отключение света не влияет на вашу дальность обзора.</string>
   <string name="TouModifierBait">Приманка</string>
+  <string name="TouRoleAmbusherTabPursuingPlayer">Преследует: \%player\%</string>
+  <string name="TouRoleMorphlingTabMorphed">В облике \%player\%</string>
+  <string name="TouRoleJuggernautTabKillCounter">Убийств: \%count\%</string>
+  <string name="TouRoleMercenaryTabGoldCounter">Золота: \%count\%</string>
+  <string name="TouRoleMercenaryTabBribedInfo">Подкуплен:</string>
+  <string name="TouRolePlaguebearerTabInfectCounter">Осталось заразить: \%count\%</string>
+  <string name="TouRolePlaguebearerTabInfectedInfo">Заражено:</string>
 </resources>

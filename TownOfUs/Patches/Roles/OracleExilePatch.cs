@@ -1,10 +1,7 @@
 ﻿using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Utilities.Appearances;
-using static ExileController;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches.Roles;
 

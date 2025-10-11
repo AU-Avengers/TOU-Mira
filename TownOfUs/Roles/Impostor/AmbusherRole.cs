@@ -42,6 +42,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
+    public static string PursuingString = TouLocale.GetParsed("TouRoleAmbusherTabPursuingPlayer");
 
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
@@ -81,10 +82,10 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
-        if (Pursued)
+        if (Pursued && Pursued != null)
         {
             stringB.Append(CultureInfo.InvariantCulture,
-                $"\n<b>Pursuing:</b> {Pursued!.Data.Color.ToTextColor()}{Pursued.Data.PlayerName}</color>");
+                $"\n<b>{PursuingString.Replace("<player>", $"{Pursued.Data.Color.ToTextColor()}{Pursued.Data.PlayerName}</color>")}</b>");
         }
 
         return stringB;
@@ -100,6 +101,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        PursuingString = TouLocale.GetParsed("TouRoleAmbusherTabPursuingPlayer");
         CustomButtonSingleton<AmbusherAmbushButton>.Instance.SetActive(false, this);
     }
 

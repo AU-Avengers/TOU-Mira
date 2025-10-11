@@ -658,7 +658,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var gameObject = Instantiate(TouAssets.WikiPrefab.LoadAsset(), HudManager.Instance.transform);
         gameObject.transform.SetParent(Camera.main!.transform, false);
-        gameObject.transform.localPosition = new Vector3(0f, 0f, -50f);
+        gameObject.transform.localPosition = new Vector3(0f, 0f, -150f);
         return gameObject.GetComponent<IngameWikiMinigame>();
     }
 

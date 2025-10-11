@@ -459,7 +459,7 @@
   <!-- Mirrorcaster Wiki / Abilities -->
   <string name="TouRoleMirrorcaster">Mirrorcaster</string>
   <string name="TouRoleMirrorcasterIntroBlurb">Reflect Attacks Onto Others</string>
-  <string name="TouRoleMirrorcasterTabDescription">Protect a player with a Magic Mirror.\%nl\%f they are directly attacked, then\%nl\%unleash the attack onto another player!</string>
+  <string name="TouRoleMirrorcasterTabDescription">Protect a player with a Magic Mirror.\%nl\%If they are directly attacked, then\%nl\%unleash the attack onto another player!</string>
   <string name="TouRoleMirrorcasterWikiDescription">The Mirrorcaster is a Crewmate Protective role that can cast a Magic Mirror on a player to protect them. If attacked directly, the Mirrorcaster can then unleash onto another player.</string>
   <string name="TouRoleMirrorcasterMagicMirror">Magic Mirror</string>
   <string name="TouRoleMirrorcasterMagicMirrorProtecting">Protecting</string>
@@ -775,6 +775,7 @@
   <string name="TouRoleAmbusher">Ambusher</string>
   <string name="TouRoleAmbusherIntroBlurb">Kidnap Crewmates Into The Shadows</string>
   <string name="TouRoleAmbusherTabDescription">Pursue a player, then ambush the closest player to them.\%nl\%If the player you ambush dies, then take their body with you.</string>
+  <string name="TouRoleAmbusherTabPursuingPlayer">Pursuing: \%player\%</string>
   <string name="TouRoleAmbusherWikiDescription">The Ambusher is an Impostor Killing role that can pursue a player, getting an arrow to them. They may ambush the closest player next to them. If they manage to kill the player, they will drag their body into the shadows, teleporting back with the Ambusher.</string>
   <string name="TouRoleAmbusherPursue">Pursue</string>
   <string name="TouRoleAmbusherPursueWikiDescription">Pursue a player to be able to ambush another player next to them at a later time.</string>
@@ -902,6 +903,7 @@
   <string name="TouRoleMorphling">Morphling</string>
   <string name="TouRoleMorphlingIntroBlurb">Transform Into Crewmates</string>
   <string name="TouRoleMorphlingTabDescription">Sample players and morph into them to disguise yourself.\%nl\%Your sample clears at the beginning of every round.</string>
+  <string name="TouRoleMorphlingTabMorphed">Morphed As: \%player\%</string>
   <string name="TouRoleMorphlingWikiDescription">The Morphling is an Impostor Concealing role that can Sample a player and Morph into it's appearance.</string>
   <string name="TouRoleMorphlingSample">Sample</string>
   <string name="TouRoleMorphlingSampleWikiDescription">Take a DNA sample of a player to morph into them later.</string>
@@ -1176,6 +1178,7 @@
   <string name="TouRoleJuggernaut">Juggernaut</string>
   <string name="TouRoleJuggernautIntroBlurb">Your Power Grows With Every Kill</string>
   <string name="TouRoleJuggernautTabDescription">With each kill your kill cooldown decreases.</string>
+  <string name="TouRoleJuggernautTabKillCounter">Kill Count: \%count\%</string>
   <string name="TouRoleJuggernautWikiDescription">The Juggernaut is a Neutral Killing role that wins by being the last killer alive. For each kill they get, their kill cooldown gets reduced.</string>
   <!-- Juggernaut Options -->
   <string name="TouOptionJuggernautInitialCooldown">Initial Kill Cooldown</string>
@@ -1186,6 +1189,8 @@
   <string name="TouRoleMercenary">Mercenary</string>
   <string name="TouRoleMercenaryIntroBlurb">Bribe The Crewmates</string>
   <string name="TouRoleMercenaryTabDescription">Guard players to get gold upon interaction,\%nl\%then bribe the winners!</string>
+  <string name="TouRoleMercenaryTabGoldCounter">Gold: \%count\%</string>
+  <string name="TouRoleMercenaryTabBribedInfo">Bribed:</string>
   <string name="TouRoleMercenaryWikiDescription">The Mercenary is a Neutral Benign role that can only win by bribing players, allowing them to gain multiple win conditions.</string>
   <string name="TouRoleMercenaryGuard">Guard</string>
   <string name="TouRoleMercenaryGuardWikiDescription">Guarding a player allows the Mercenary to absorb an ability used on the target. This will grant them gold, for Bribing. If any bribed targets win, the Mercenary will win with them.</string>
@@ -1218,6 +1223,8 @@
   <string name="TouRolePlaguebearer">Plaguebearer</string>
   <string name="TouRolePlaguebearerIntroBlurb">Infect Everyone To Become \%color=#4D4D4DFF\%Pestilence\%/color\%</string>
   <string name="TouRolePlaguebearerTabDescription">Infect everyone to become \%color=#4D4D4DFF\%Pestilence\%/color\%</string>
+  <string name="TouRolePlaguebearerTabInfectCounter">Players Left To Infect: \%count\%</string>
+  <string name="TouRolePlaguebearerTabInfectedInfo">Players Infected:</string>
   <string name="TouRolePlaguebearerWikiDescription">The Plaguebearer is a Neutral Killing role that needs to infect all other players to turn into the Pestilence.</string>
   <string name="TouRolePlaguebearerInfect">Infect</string>
   <string name="TouRolePlaguebearerInfectWikiDescription">Infect a player, causing them to be infected. When an infected player or dead body interacts or gets interacted with, the infection will spread to the interacted/interacting player.</string>
