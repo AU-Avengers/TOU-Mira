@@ -24,22 +24,23 @@ public static class MarshalEvents
         SpriteRenderer spriteRenderer = Object.Instantiate(instance.PlayerVotePrefab, parent);
         spriteRenderer.gameObject.name = voterPlayer.PlayerId.ToString(TownOfUsPlugin.Culture);
         spriteRenderer.transform.localScale = Vector3.zero;
-        
+
         if (GameManager.Instance.LogicOptions.GetAnonymousVotes())
             PlayerMaterial.SetColors(Palette.DisabledGrey, spriteRenderer);
         else
             PlayerMaterial.SetColors(voterPlayer.DefaultOutfit.ColorId, spriteRenderer);
-        
+
         PlayerVoteArea component = parent.GetComponent<PlayerVoteArea>();
         if (component != null)
         {
             spriteRenderer.material.SetInt(PlayerMaterial.MaskLayer, component.MaskLayer);
         }
+
         instance.StartCoroutine(Effects.Bloop(index * 0.3f, spriteRenderer.transform));
         parent.GetComponent<VoteSpreader>().AddVote(spriteRenderer);
         return spriteRenderer;
     }
-    
+
     [RegisterEvent]
     public static void HandleVoteEventHandler(HandleVoteEvent @event)
     {
