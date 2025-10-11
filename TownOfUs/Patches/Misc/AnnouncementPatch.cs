@@ -68,14 +68,16 @@ public static class ModNewsFetcher
     public static void CheckForNews()
     {
         Logger<TownOfUsPlugin>.Error($"Running Mod News Fetcher...");
-        if (/*Environment.Is64BitProcess || */TownOfUsPlugin.IsDevBuild)
+        if ( /*Environment.Is64BitProcess || */TownOfUsPlugin.IsDevBuild)
         {
             Logger<TownOfUsPlugin>.Error($"Loading News Locally, as this is a DEVELOPER BUILD");
             LoadTouMiraModNewsFromResources();
             return;
         }
+
         Coroutines.Start(FetchNews());
     }
+
     public static IEnumerator FetchNews()
     {
         if (downloaded)

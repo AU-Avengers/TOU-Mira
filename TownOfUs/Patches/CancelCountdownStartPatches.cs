@@ -9,7 +9,7 @@ namespace TownOfUs.Patches;
 [HarmonyPatch]
 internal static class CancelCountdownStart
 {
-    private static PassiveButton CancelStartButton;
+    internal static PassiveButton CancelStartButton;
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
     [HarmonyPrefix]
@@ -20,7 +20,7 @@ internal static class CancelCountdownStart
 
         var cancelLabel = CancelStartButton.buttonText;
         cancelLabel.gameObject.GetComponent<TextTranslatorTMP>()?.OnDestroy();
-        cancelLabel.text = "Cancel";
+        cancelLabel.text = "";
 
         var cancelButtonInactiveRenderer = CancelStartButton.inactiveSprites.GetComponent<SpriteRenderer>();
         cancelButtonInactiveRenderer.color = new Color(0.8f, 0f, 0f, 1f);
@@ -48,31 +48,11 @@ internal static class CancelCountdownStart
         CancelStartButton.gameObject.SetActive(false);
     }
 
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
-    [HarmonyPrefix]
-    public static void PrefixUpdate(GameStartManager __instance)
-    {
-        if (__instance == null || !AmongUsClient.Instance.AmHost || !LobbyBehaviour.Instance ||
-            !GameStartManager.Instance)
-        {
-            return;
-        }
-
-        CancelStartButton.gameObject.SetActive(__instance.startState is GameStartManager.StartingStates.Countdown);
-
-        var startTexttransform = __instance.GameStartText.transform;
-        if (startTexttransform.localPosition.y != 2f)
-        {
-            startTexttransform.localPosition = new Vector3(startTexttransform.localPosition.x, 2f,
-                startTexttransform.localPosition.z);
-        }
-    }
-
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
     [HarmonyPrefix]
     public static void Prefix(GameStartManager __instance)
     {
-        if (__instance?.startState is GameStartManager.StartingStates.Countdown)
+        if (__instance.startState is GameStartManager.StartingStates.Countdown)
         {
             SoundManager.Instance.StopSound(__instance.gameStartSound);
             if (AmongUsClient.Instance.AmHost)
@@ -89,6 +69,10 @@ internal static class CancelCountdownStart
         if (sec == -1)
         {
             SoundManager.Instance.StopSound(__instance.gameStartSound);
+        }
+        else
+        {
+            CancelStartButton.gameObject.SetActive(false);
         }
     }
 }

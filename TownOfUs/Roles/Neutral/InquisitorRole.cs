@@ -6,6 +6,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -13,10 +14,12 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -37,17 +40,28 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public void AssignTargets()
     {
         var inquis = PlayerControl.AllPlayerControls.ToArray()
-            .FirstOrDefault(x => x.IsRole<InquisitorRole>() && !x.HasDied());
+            .FirstOrDefault(x =>
+                x.IsRole<InquisitorRole>() && !x.HasDied() &&
+                !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName));
 
         if (inquis == null)
         {
-            if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Error("Inquisitor not found.");
+            if (TownOfUsPlugin.IsDevBuild)
+            {
+                Logger<TownOfUsPlugin>.Error("Inquisitor not found.");
+            }
+
             return;
         }
 
         var required = (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics;
-        var players = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.Role is not InquisitorRole).ToList();
-        if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Warning($"Players in heretic list possible: {players.Count}");
+        var players = PlayerControl.AllPlayerControls.ToArray()
+            .Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
+        if (TownOfUsPlugin.IsDevBuild)
+        {
+            Logger<TownOfUsPlugin>.Warning($"Players in heretic list possible: {players.Count}");
+        }
+
         players.Shuffle();
         players.Shuffle();
         players.Shuffle();
@@ -99,7 +113,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
         if (filtered.Count > 0)
         {
-            filtered = filtered.OrderBy(x => x.Data.Role.NiceName).ToList();
+            filtered = filtered.OrderBy(x => x.Data.Role.GetRoleName()).ToList();
             foreach (var player in filtered)
             {
                 RpcAddInquisTarget(inquis, player);
@@ -109,15 +123,38 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<OracleRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => TouLocale.Get(TouNames.Inquisitor, "Inquisitor");
-    public string RoleDescription => "Vanquish The Heretics!";
+    public string LocaleKey => "Inquisitor";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
-    public string RoleLongDescription =>
-        "Vanquish your Heretics or get them killed.\nYou will win after every heretic dies.\nIf they're all dead after a meeting ends,\nyou'll leave & announce your victory.";
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription").Replace("<symbol>", "<color=#D94291>$</color>") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Inquire", "Inquire"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}InquireWikiDescription"),
+                    TouNeutAssets.InquireSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Vanquish", "Vanquish"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}VanquishWikiDescription"),
+                    TouNeutAssets.InquisKillSprite)
+            };
+        }
+    }
 
     public Color RoleColor => TownOfUsColors.Inquisitor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
-    public RoleAlignment RoleAlignment => RoleAlignment.NeutralEvil;
+    public RoleAlignment RoleAlignment => RoleAlignment.NeutralOutlier;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -146,7 +183,8 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Contains(Player) && Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
+        var result = Helpers.GetAlivePlayers().Contains(Player) && Helpers.GetAlivePlayers().Count <= 2 &&
+                     MiscUtils.KillersAliveCount == 1;
         return result;
     }
 
@@ -154,33 +192,20 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>The roles of your Heretics:</b>");
+        stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{TouLocale.Get("TouRoleInquisitorTabAddition")}</b>");
         foreach (var role in TargetRoles)
         {
-            var newText = $"<b><size=80%>{role.TeamColor.ToTextColor()}{role.NiceName}</size></b>";
+            var newText = $"<b><size=80%>{role.TeamColor.ToTextColor()}{role.GetRoleName()}</size></b>";
             stringB.AppendLine(CultureInfo.InvariantCulture, $"{newText}");
         }
 
         return stringB;
     }
 
-    public string GetAdvancedDescription()
+    public static void OnRoundStart()
     {
-        return
-            $"The {RoleName} is a Neutral Evil role that wins if their targets (Heretics) die. The only information provided is their roles, and it's up to the Inquisitor to identify those players (marked with <color=#D94291>$</color> to the dead) and get them killed by any means neccesary." +
-            MiscUtils.AppendOptionsText(GetType());
+        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable = true;
     }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Inquire",
-            "Inquire a player, which will tell you if they are one of your targets within the meeting.",
-            TouNeutAssets.InquireSprite),
-        new("Vanquish",
-            "Vanquish a player to kill them. If they are a heretic, you will be told and you can continue vanquishing. However, if the victim isn't a heretic, you will lose the ability to vanquish for the rest of the game.",
-            TouNeutAssets.InquisKillSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {
@@ -190,9 +215,10 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         // if Inuquisitor was revived
         if (Targets.Count == 0)
         {
-            Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().ToList();
-            TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
-                .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.NiceName).ToList();
+            Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().Where(x => x != player)
+                .ToList();
+            TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>().Where(x => x.Player != player)
+                .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.GetRoleName()).ToList();
         }
 
         if (TutorialManager.InstanceExists && Targets.Count == 0 && Player.AmOwner && Player.IsHost() &&
@@ -216,7 +242,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             var players = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().ToList();
             players.Do(x => x.RpcRemoveModifier<InquisitorHereticModifier>());
         }
-        
+
         if (!Player.HasModifier<BasicGhostModifier>() && TargetsDead)
         {
             Player.AddModifier<BasicGhostModifier>();
@@ -252,30 +278,38 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         foreach (var player in GameData.Instance.AllPlayers.ToArray()
                      .Where(x => !x.Object.HasDied() && x.Object.HasModifier<InquisitorInquiredModifier>()))
         {
+            var text = TouLocale.GetParsed("TouRoleInquisitorInquiredNonHeretic")
+                .Replace("<player>", player.PlayerName);
             if (player.Object.HasModifier<InquisitorHereticModifier>())
             {
+                text = TouLocale.GetParsed("TouRoleInquisitorInquiredHeretic").Replace("<player>", player.PlayerName);
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture,
-                    $"Your inquiry reveals that {player.PlayerName} is a heretic!\n");
+                    $"{text}\n");
                 var roles = TargetRoles;
                 var lastRole = roles[roles.Count - 1];
-                roles.Remove(lastRole);
 
                 if (roles.Count != 0)
                 {
                     reportBuilder.Append(TownOfUsPlugin.Culture, $"(");
                     foreach (var role2 in roles)
                     {
-                        reportBuilder.Append(TownOfUsPlugin.Culture, $"{role2.NiceName}, ");
+                        if (role2 == lastRole)
+                        {
+                            reportBuilder.Append(TownOfUsPlugin.Culture,
+                                $"#{lastRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
+                        }
+                        else
+                        {
+                            reportBuilder.Append(TownOfUsPlugin.Culture,
+                                $"#{role2.GetRoleName().ToLowerInvariant().Replace(" ", "-")}, ");
+                        }
                     }
-
-                    reportBuilder = reportBuilder.Remove(reportBuilder.Length - 2, 2);
-                    reportBuilder.Append(TownOfUsPlugin.Culture, $" or {lastRole.NiceName})");
                 }
             }
             else
             {
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture,
-                    $"Your inquiry reveals that {player.PlayerName} is not a heretic!");
+                    $"{text}");
             }
 
             player.Object.RemoveModifier<InquisitorInquiredModifier>();
@@ -285,7 +319,8 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
         if (HudManager.Instance && report.Length > 0)
         {
-            var title = $"<color=#{TownOfUsColors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor Report</color>";
+            var title =
+                $"<color=#{TownOfUsColors.Inquisitor.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleInquisitorMessageTitle")}</color>";
             MiscUtils.AddFakeChat(Player.Data, title, report, false, true);
         }
     }
@@ -356,7 +391,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         InquisitorWin(player);
     }
-    
+
     public static void InquisitorWin(PlayerControl player)
     {
         if (player.Data.Role is not InquisitorRole)

@@ -10,8 +10,8 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class VeteranAlertButton : TownOfUsRoleButton<VeteranRole>
 {
-    public override string Name => "Alert";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleVeteranAlert", "Alert");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Veteran;
     public override float Cooldown => OptionGroupSingleton<VeteranOptions>.Instance.AlertCooldown + MapCooldown;
     public override float EffectDuration => OptionGroupSingleton<VeteranOptions>.Instance.AlertDuration;
@@ -22,11 +22,11 @@ public sealed class VeteranAlertButton : TownOfUsRoleButton<VeteranRole>
     protected override void OnClick()
     {
         PlayerControl.LocalPlayer.RpcAddModifier<VeteranAlertModifier>();
-        OverrideName("Alerting");
+        OverrideName(TouLocale.Get("TouRoleVeteranAlerting", "Alerting"));
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName("Alert");
+        OverrideName(TouLocale.Get("TouRoleVeteranAlert", "Alert"));
     }
 }

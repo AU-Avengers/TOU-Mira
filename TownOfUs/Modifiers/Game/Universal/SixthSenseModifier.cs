@@ -2,30 +2,31 @@
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.SixthSense, "Sixth Sense");
+    public override string LocaleKey => "SixthSense";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.SixthSense;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            "You will know when someone uses their ability on you.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "Know when someone interacts with you.";
-    }
 
     public override int GetAssignmentChance()
     {

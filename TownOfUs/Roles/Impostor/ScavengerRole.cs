@@ -24,8 +24,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 {
     public bool GameStarted { get; set; }
     public float TimeRemaining { get; set; }
-    [HideFromIl2Cpp]
-    public PlayerControl? Target { get; set; }
+    [HideFromIl2Cpp] public PlayerControl? Target { get; set; }
     public bool Scavenging { get; set; }
 
     public void FixedUpdate()
@@ -52,7 +51,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             GameStarted = false;
             return;
         }
-        
+
         if (!GameStarted && Player.killTimer > 0f)
         {
             GameStarted = true;
@@ -93,9 +92,18 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrackerTouRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => TouLocale.Get(TouNames.Scavenger, "Scavenger");
-    public string RoleDescription => "Hunt Down Your Prey";
-    public string RoleLongDescription => "Kill your given targets for a reduced kill cooldown";
+    public string LocaleKey => "Scavenger";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorKilling;
@@ -122,14 +130,6 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         }
 
         return stringB;
-    }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is an Impostor Killing role that gets new targets after every kill and when the round starts. "
-            + "If they kill their target, they get a reduced kill cooldown, but if they don't, their cooldown is increased significantly."
-            + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
@@ -163,7 +163,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
             scav.Target =
                 player.GetClosestLivingPlayer(false, float.MaxValue, true, x => !x.HasModifier<FirstDeadShield>())!;
-            
+
             if (player.HasModifier<LoverModifier>())
             {
                 scav.Target = player.GetClosestLivingPlayer(false, float.MaxValue, true,
@@ -211,7 +211,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
             // get new target
             Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true)!;
-            
+
             if (Player.HasModifier<LoverModifier>())
             {
                 Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true,

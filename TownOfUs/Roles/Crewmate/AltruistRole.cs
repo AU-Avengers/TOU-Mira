@@ -26,9 +26,32 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => TouLocale.Get(TouNames.Altruist, "Altruist");
-    public string RoleDescription => "Revive Dead Crewmates";
-    public string RoleLongDescription => "Revive dead crewmates in groups";
+    public string LocaleKey => "Altruist";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Revive", "Revive"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ReviveWikiDescription"),
+                    TouCrewAssets.ReviveSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Altruist;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
@@ -44,22 +67,6 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Protective role can revive dead players in groups. However, their location and the revived players' locations will be revealed to all Impostors." +
-            MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Revive",
-            "Revive a group of dead bodies near you. You will be frozen during the revival and you will be unable to move until the revival is complete." +
-            " Impostors will also have an arrow pointing towards you during the revival, so be cautious.",
-            TouCrewAssets.ReviveSprite)
-    ];
 
     public override void OnMeetingStart()
     {
@@ -134,9 +141,9 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
         }
 
-        yield return new WaitForSeconds(OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration);
+        yield return new WaitForSeconds(OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration.Value);
 
-        if (!MeetingHud.Instance)
+        if (!MeetingHud.Instance && !Player.HasDied())
         {
             GameHistory.ClearMurder(dead);
 

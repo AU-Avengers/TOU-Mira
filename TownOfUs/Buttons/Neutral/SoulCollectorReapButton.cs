@@ -13,8 +13,8 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
-    public override string Name => "Reap";
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override string Name => TouLocale.Get("TouRoleSoulCollectorReap", "Reap");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.SoulCollector;
     public override float Cooldown => OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ReapSprite;
@@ -38,10 +38,9 @@ public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRo
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.SoulCollector.ToTextColor()}You have taken {Target.Data.PlayerName}'s soul from their body, leaving a soulless player behind.</color></b>",
-                Color.white, spr: TouRoleIcons.SoulCollector.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.SoulCollector.LoadAsset());
 
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+            notif1.AdjustNotification();
         }
     }
 

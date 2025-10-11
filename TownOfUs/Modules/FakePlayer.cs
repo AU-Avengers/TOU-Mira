@@ -415,6 +415,7 @@ public sealed class FakePlayer : IDisposable
     {
         Dispose(true);
     }
+
     public void Dispose(bool disposing)
     {
         if (disposing)

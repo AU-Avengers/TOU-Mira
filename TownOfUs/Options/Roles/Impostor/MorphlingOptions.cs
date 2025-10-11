@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class MorphlingOptions : AbstractOptionGroup<MorphlingRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Morphling, "Morphling");
+    public override string GroupName => TouLocale.Get("TouRoleMorphling", "Morphling");
 
     [ModdedNumberOption("Samples Per Game", 0f, 15f, 5f, MiraNumberSuffixes.None, "0", true)]
     public float MaxSamples { get; set; } = 0f;

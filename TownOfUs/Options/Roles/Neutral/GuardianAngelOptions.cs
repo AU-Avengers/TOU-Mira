@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class GuardianAngelOptions : AbstractOptionGroup<GuardianAngelTouRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.GuardianAngel, "Guardian Angel");
+    public override string GroupName => TouLocale.Get("TouRoleGuardianAngel", "Guardian Angel");
 
     [ModdedNumberOption("Protect Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ProtectCooldown { get; set; } = 25f;
@@ -26,7 +26,7 @@ public sealed class GuardianAngelOptions : AbstractOptionGroup<GuardianAngelTouR
 
     [ModdedToggleOption("Target Knows GA Exists")]
     public bool GATargetKnows { get; set; } = true;
-    
+
     [ModdedToggleOption("GA Knows Targets Role")]
     public bool GAKnowsTargetRole { get; set; } = true;
 

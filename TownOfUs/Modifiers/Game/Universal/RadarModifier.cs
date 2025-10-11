@@ -12,24 +12,24 @@ namespace TownOfUs.Modifiers.Game.Universal;
 public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
 {
     private ArrowBehaviour _arrow;
-    public override string ModifierName => TouLocale.Get(TouNames.Radar, "Radar");
+    public override string LocaleKey => "Radar";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Radar;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalUtility;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            "Get an arrow to the closest player.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "You have an arrow pointing\n to the closest player.";
-    }
 
     public override int GetAssignmentChance()
     {

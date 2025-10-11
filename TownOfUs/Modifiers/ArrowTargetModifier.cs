@@ -60,7 +60,7 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
         if (Player == null)
         {
             ModifierComponent!.RemoveModifier(this);
-            return;       
+            return;
         }
     }
 }

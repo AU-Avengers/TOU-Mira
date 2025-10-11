@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class ImitatorOptions : AbstractOptionGroup<ImitatorRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Imitator, "Imitator");
+    public override string GroupName => TouLocale.Get("TouRoleImitator", "Imitator");
 
     [ModdedToggleOption("Imitate Specific Neutrals As Similar Crew Roles")]
     public bool ImitateNeutrals { get; set; } = true;

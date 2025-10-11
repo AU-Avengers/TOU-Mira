@@ -17,7 +17,7 @@ public sealed class GameTimerOptions : AbstractOptionGroup
         {
             Visible = () => OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled
         };
-    
+
     public ModdedEnumOption TimerEndOption { get; } =
         new("On Timer End", 1, typeof(GameTimerType), ["Impostor Win", "Game Draw"])
         {

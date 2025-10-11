@@ -17,9 +17,32 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MediumRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => TouLocale.Get(TouNames.SoulCollector, "Soul Collector");
-    public string RoleDescription => "Reap The Souls From Your Crewmates";
-    public string RoleLongDescription => "Reap the souls of others, leaving behind a lasting image";
+    public string LocaleKey => "SoulCollector";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Reap", "Reap"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ReapWikiDescription"),
+                    TouNeutAssets.ReapSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.SoulCollector;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;
@@ -52,21 +75,6 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind an soul-less decoy that looks identical to the reaped player, standing still."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Reap",
-            "Reaping acts like a kill button, but instead of making a dead body, makes a fake player in its place, appearing alive.",
-            TouNeutAssets.ReapSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {

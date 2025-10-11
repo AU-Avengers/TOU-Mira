@@ -12,8 +12,8 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class GlitchKillButton : TownOfUsRoleButton<GlitchRole, PlayerControl>, IDiseaseableButton, IKillButton
 {
-    public override string Name => "Kill";
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Glitch;
     public override float Cooldown => OptionGroupSingleton<GlitchOptions>.Instance.KillCooldown + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.GlitchKillSprite;
@@ -41,6 +41,7 @@ public sealed class GlitchKillButton : TownOfUsRoleButton<GlitchRole, PlayerCont
         {
             return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance, false, x => !x.IsLover());
         }
+
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }
 }

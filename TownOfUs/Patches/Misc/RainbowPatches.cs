@@ -68,6 +68,7 @@ public static class ChatNotifRainbowPatch
             __instance.playerNameText.text = "<color=#" + str + ">" + __instance.playerNameText.text.WithoutRichText();
         }
     }
+
     public static void Postfix(ChatNotification __instance)
     {
         if (__instance.gameObject.active && RainbowUtils.IsRainbow(__instance.player.cosmetics.ColorId))
@@ -87,43 +88,62 @@ public static class RainbowLobbyInfoPanePatch
         {
             NetworkedPlayerInfo host = GameData.Instance.GetHost();
             string text = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
-            __instance.hostLabel.text = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HostNounLabel, Array.Empty<Object>());
+            __instance.hostLabel.text =
+                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HostNounLabel,
+                    Array.Empty<Object>());
             if (__instance.ShouldBoldenHostLabel(DataManager.Settings.Language.CurrentLanguage))
             {
                 __instance.hostLabel.text = __instance.hostLabel.text.Insert(0, "<b>");
                 __instance.hostLabel.text = __instance.hostLabel.text.Insert(__instance.hostLabel.text.Length, "</b>");
             }
+
             if (AmongUsClient.Instance.AmHost)
             {
-                __instance.playerName.text = (string.IsNullOrEmpty(host.PlayerName) ? "..." : $"<color=#{text}>{host.PlayerName}</color>")
-                    + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" + DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HostYouLabel, Array.Empty<Object>());
+                __instance.playerName.text = (string.IsNullOrEmpty(host.PlayerName)
+                                                 ? "..."
+                                                 : $"<color=#{text}>{host.PlayerName}</color>")
+                                             + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" +
+                                             DestroyableSingleton<TranslationController>.Instance.GetString(
+                                                 StringNames.HostYouLabel, Array.Empty<Object>());
             }
             else
             {
-                __instance.playerName.text = (string.IsNullOrEmpty(host.PlayerName) ? "..." : $"<color=#{text}>{host.PlayerName}</color>") + " (" + __instance.player.ColorBlindName + ")";
+                __instance.playerName.text =
+                    (string.IsNullOrEmpty(host.PlayerName) ? "..." : $"<color=#{text}>{host.PlayerName}</color>") +
+                    " (" + __instance.player.ColorBlindName + ")";
             }
         }
     }
+
     public static void Postfix(HostInfoPanel __instance)
     {
         if (__instance.gameObject.activeInHierarchy && RainbowUtils.IsRainbow(__instance.player.cosmetics.ColorId))
         {
             NetworkedPlayerInfo host = GameData.Instance.GetHost();
             string text = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
-            __instance.hostLabel.text = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HostNounLabel, Array.Empty<Object>());
+            __instance.hostLabel.text =
+                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HostNounLabel,
+                    Array.Empty<Object>());
             if (__instance.ShouldBoldenHostLabel(DataManager.Settings.Language.CurrentLanguage))
             {
                 __instance.hostLabel.text = __instance.hostLabel.text.Insert(0, "<b>");
                 __instance.hostLabel.text = __instance.hostLabel.text.Insert(__instance.hostLabel.text.Length, "</b>");
             }
+
             if (AmongUsClient.Instance.AmHost)
             {
-                __instance.playerName.text = (string.IsNullOrEmpty(host.PlayerName) ? "..." : $"<color=#{text}>{host.PlayerName}</color>")
-                                             + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" + DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HostYouLabel, Array.Empty<Object>());
+                __instance.playerName.text = (string.IsNullOrEmpty(host.PlayerName)
+                                                 ? "..."
+                                                 : $"<color=#{text}>{host.PlayerName}</color>")
+                                             + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" +
+                                             DestroyableSingleton<TranslationController>.Instance.GetString(
+                                                 StringNames.HostYouLabel, Array.Empty<Object>());
             }
             else
             {
-                __instance.playerName.text = (string.IsNullOrEmpty(host.PlayerName) ? "..." : $"<color=#{text}>{host.PlayerName}</color>") + " (" + __instance.player.ColorBlindName + ")";
+                __instance.playerName.text =
+                    (string.IsNullOrEmpty(host.PlayerName) ? "..." : $"<color=#{text}>{host.PlayerName}</color>") +
+                    " (" + __instance.player.ColorBlindName + ")";
             }
         }
     }

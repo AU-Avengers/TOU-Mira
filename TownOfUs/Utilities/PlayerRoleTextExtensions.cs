@@ -94,14 +94,17 @@ public static class PlayerRoleTextExtensions
     public static string UpdateProtectionSymbols(this string name, PlayerControl player, bool hidden = false)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        if ((player.HasModifier<GuardianAngelTargetModifier>(x => x.OwnerId == PlayerControl.LocalPlayer.PlayerId) &&
-             PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>())
-            || (player.HasModifier<GuardianAngelTargetModifier>() &&
-                ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
-                 || (player.AmOwner &&
-                     OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows))))
+
+        if (player.Data != null && !player.Data.Disconnected &&
+            ((player.HasModifier<GuardianAngelTargetModifier>(x => x.OwnerId == PlayerControl.LocalPlayer.PlayerId) &&
+              PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>())
+             || (player.HasModifier<GuardianAngelTargetModifier>() &&
+                 ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
+                  || (player.AmOwner &&
+                      OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows)))))
         {
-            name += (player.HasModifier<GuardianAngelProtectModifier>() && OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect is not ProtectOptions.GA)
+            name += (player.HasModifier<GuardianAngelProtectModifier>() &&
+                     OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect is not ProtectOptions.GA)
                 ? "<color=#FFD900> ★</color>"
                 : "<color=#B3FFFF> ★</color>";
         }
@@ -114,7 +117,7 @@ public static class PlayerRoleTextExtensions
         {
             name += "<color=#006600> +</color>";
         }
-        
+
         if ((player.HasModifier<MagicMirrorModifier>(x => x.Mirrorcaster.AmOwner) &&
              PlayerControl.LocalPlayer.IsRole<MirrorcasterRole>())
             || (player.HasModifier<MagicMirrorModifier>() &&
@@ -159,10 +162,12 @@ public static class PlayerRoleTextExtensions
         }
 
         if (player.TryGetModifier<EgotistModifier>(out var egoMod) && (player.AmOwner ||
-                                                      (EgotistModifier.EgoVisibilityFlag(player) &&
-                                                       (player.GetModifiers<RevealModifier>().Any(x => x.Visible && x.RevealRole))) ||
-                                                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow &&
-                                                       !hidden)))
+                                                                       (EgotistModifier.EgoVisibilityFlag(player) &&
+                                                                        (player.GetModifiers<RevealModifier>().Any(x =>
+                                                                            x.Visible && x.RevealRole))) ||
+                                                                       (PlayerControl.LocalPlayer.HasDied() &&
+                                                                        genOpt.TheDeadKnow &&
+                                                                        !hidden)))
         {
             name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ModifierName}</color>)</color>";
         }

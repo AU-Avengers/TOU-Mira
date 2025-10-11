@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class VigilanteOptions : AbstractOptionGroup<VigilanteRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Vigilante, "Vigilante");
+    public override string GroupName => TouLocale.Get("TouRoleVigilante", "Vigilante");
 
     [ModdedNumberOption("Number Of Guesses", 1f, 15f)]
     public float VigilanteKills { get; set; } = 5f;
@@ -23,6 +23,9 @@ public sealed class VigilanteOptions : AbstractOptionGroup<VigilanteRole>
 
     [ModdedToggleOption("Can Guess Neutral Killing Roles")]
     public bool VigilanteGuessNeutralKilling { get; set; } = true;
+
+    [ModdedToggleOption("Can Guess Neutral Outlier Roles")]
+    public bool VigilanteGuessNeutralOutlier { get; set; } = true;
 
     [ModdedToggleOption("Can Guess Killer Modifiers")]
     public bool VigilanteGuessKillerMods { get; set; } = true;

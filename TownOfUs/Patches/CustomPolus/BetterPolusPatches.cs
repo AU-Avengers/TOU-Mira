@@ -317,12 +317,13 @@ public static class TaskTextUpdates
 {
     public static void Prefix(HudManager __instance)
     {
-        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data == null || PlayerControl.LocalPlayer.myTasks == null ||
+        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data == null ||
+            PlayerControl.LocalPlayer.myTasks == null ||
             PlayerControl.LocalPlayer.myTasks.Count == 0)
         {
             return;
         }
-        
+
         if (!MiscUtils.IsMap(2))
         {
             return;

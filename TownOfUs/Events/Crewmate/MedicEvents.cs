@@ -28,6 +28,7 @@ public static class MedicEvents
         {
             MedicRole.OnRoundStart();
         }
+
         var medicShields = ModifierUtils.GetActiveModifiers<MedicShieldModifier>();
 
         if (!medicShields.Any())
@@ -50,8 +51,9 @@ public static class MedicEvents
                 x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
             var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
                 x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        
-            mod.ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic || (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
+
+            mod.ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic ||
+                             (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
         }
     }
 
@@ -73,7 +75,7 @@ public static class MedicEvents
         var source = PlayerControl.LocalPlayer;
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var target = button?.Target;
-        if (target == null || button is not IKillButton)
+        if (target == null || button is not IKillButton || !button.CanClick())
         {
             return;
         }

@@ -18,9 +18,32 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     public bool Rampaging { get; set; }
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<HunterRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => TouLocale.Get(TouNames.Werewolf, "Werewolf");
-    public string RoleDescription => "Rampage To Kill Everyone";
-    public string RoleLongDescription => "Rampage to kill everyone in your path";
+    public string LocaleKey => "Werewolf";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Rampage", "Rampage"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}RampageWikiDescription"),
+                    TouNeutAssets.RampageSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Werewolf;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;
@@ -53,21 +76,6 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Neutral Killing role that wins by being the last killer alive. They can go on a rampage to gain the ability to kill." +
-            MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Rampage",
-            "Go on a Rampage, gaining the ability to kill and gain Impostor vision. During the Rampage your kill cooldown is significantly lower.",
-            TouNeutAssets.RampageSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {

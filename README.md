@@ -16,6 +16,20 @@
 
 An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on Town of Salem, designed to be a rewrite of Town of Us Reactivated!
 
+-----------------------
+
+# Key Differences with TOU Mira
+
+- Revamped visuals
+- New roles (Ambassador, Ambusher, Inquisitor, Mirrorcaster)
+- New modifiers (Scout, Telepath, Operative)
+- Localization to numerous languages (coming after v1.1.1)
+- Vanilla role support (allowing players to use vanilla roles alongside modded roles)
+- Balance changes into the mix for players to use
+- Compatibility with a handful of other role mods that run on MiraAPI.
+
+-----------------------
+
 > [!TIP]
 > Join the Reactivated [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or want to find people to play with!\
 > Check out the mod's [wiki](https://au-avengers.github.io/docs.toum.gg) for info!
@@ -134,13 +148,16 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 **Disclaimer: The mod is *not* guaranteed to work on the latest versions of Among Us when the game updates.**
 
-| Among Us   | Mod Version | Download Link                                                           |
-|------------|-------------|-------------------------------------------------------------------------|
-| 2025.5.20  | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
-| 2025.5.20  | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
-| 2025.5.20  | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
-| 2025.5.20  | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
-| 2025.5.20  | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
+| Among Us  | Mod Version | Download Link                                                           |
+|-----------|-------------|-------------------------------------------------------------------------|
+| 2025.9.9  | 1.2.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
+| 2025.9.9  | 1.2.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
+| 2025.5.20 | 1.1.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
+| 2025.5.20 | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
+| 2025.5.20 | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
+| 2025.5.20 | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
+| 2025.5.20 | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
+| 2025.5.20 | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
 
 <details>
 <summary>Older Versions</summary>

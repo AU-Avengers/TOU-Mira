@@ -17,6 +17,7 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Random = System.Random;
@@ -31,7 +32,11 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
 
     public void AssignTargets()
     {
-        if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Error($"SelectGATargets");
+        if (TownOfUsPlugin.IsDevBuild)
+        {
+            Logger<TownOfUsPlugin>.Error($"SelectGATargets");
+        }
+
         var evilTargetPercent = (int)OptionGroupSingleton<GuardianAngelOptions>.Instance.EvilTargetPercent;
 
         var gas = PlayerControl.AllPlayerControls.ToArray()
@@ -41,7 +46,8 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         {
             var filtered = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => !x.IsRole<GuardianAngelTouRole>() && !x.HasDied() &&
-                            !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>())
+                            !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
+                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName))
                 .ToList();
 
             if (evilTargetPercent > 0f)
@@ -64,16 +70,45 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             Random rndIndex = new();
             var randomTarget = filtered[rndIndex.Next(0, filtered.Count)];
 
-            if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Info($"Setting GA Target: {randomTarget.Data.PlayerName}");
+            if (TownOfUsPlugin.IsDevBuild)
+            {
+                Logger<TownOfUsPlugin>.Info($"Setting GA Target: {randomTarget.Data.PlayerName}");
+            }
+
             RpcSetGATarget(ga, randomTarget);
         }
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => TouLocale.Get(TouNames.GuardianAngel, "Guardian Angel");
-    public string RoleDescription => TargetString();
+    public string LocaleKey => "GuardianAngel";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription")
+                .Replace("<symbol>", "<color=#B3FFFFFF>★</color>") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    private static string _missingTargetDesc = TouLocale.GetParsed("TouRoleGuardianAngelIfNoTarget");
+    private static string _targetDesc = TouLocale.GetParsed("TouRoleGuardianAngelTabDescription");
+
+    private string TargetString(bool capitalize = false)
+    {
+        var desc = capitalize ? _missingTargetDesc.ToTitleCase() : _missingTargetDesc;
+        if (Target && Target != null)
+        {
+            desc = capitalize ? _targetDesc.ToTitleCase().Replace("<Target>", "<target>") : _targetDesc;
+            desc = desc.Replace("<target>", $"{Target.Data.PlayerName}");
+        }
+
+        return desc;
+    }
+
     public Color RoleColor => TownOfUsColors.GuardianAngel;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
@@ -110,23 +145,25 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Protect",
-            "Protect your target from getting killed.",
-            TouNeutAssets.ProtectSprite)
-    ];
-
-    public string GetAdvancedDescription()
+    public List<CustomButtonWikiDescription> Abilities
     {
-        return
-            $"The {RoleName} is a Neutral Benign that needs to protect their target (signified by <color=#B3FFFFFF>★</color>) from getting killed/ejected." +
-            MiscUtils.AppendOptionsText(GetType());
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Protect", "Protect"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ProtectWikiDescription"),
+                    TouNeutAssets.ProtectSprite)
+            };
+        }
     }
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        _missingTargetDesc = TouLocale.GetParsed("TouRoleGuardianAngelIfNoTarget");
+        _targetDesc = TouLocale.GetParsed("TouRoleGuardianAngelTabDescription");
+
         if (TutorialManager.InstanceExists && Target == null && Player.AmOwner && Player.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
@@ -146,11 +183,12 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         if (TutorialManager.InstanceExists && Player.AmOwner)
         {
             var players = ModifierUtils
-                .GetPlayersWithModifier<GuardianAngelTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
+                .GetPlayersWithModifier<
+                    GuardianAngelTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
                 .ToList();
             players.Do(x => x.RpcRemoveModifier<GuardianAngelTargetModifier>());
         }
-        
+
         if (!Player.HasModifier<BasicGhostModifier>() && Player.HasDied())
         {
             Player.AddModifier<BasicGhostModifier>();
@@ -159,12 +197,15 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
 
     public override bool DidWin(GameOverReason gameOverReason)
     {
-        var gaMod = ModifierUtils.GetActiveModifiers<GuardianAngelTargetModifier>().FirstOrDefault(x => x.OwnerId == Player.PlayerId);
+        var gaMod = ModifierUtils.GetActiveModifiers<GuardianAngelTargetModifier>()
+            .FirstOrDefault(x => x.OwnerId == Player.PlayerId);
         if (gaMod == null)
         {
             return false;
         }
-        return gaMod.Player.Data.Role.DidWin(gameOverReason) || gaMod.Player.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true);
+
+        return gaMod.Player.Data.Role.DidWin(gameOverReason) ||
+               gaMod.Player.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true);
     }
 
     public static bool GASeesRoleVisibilityFlag(PlayerControl player)
@@ -195,7 +236,11 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             return;
         }
 
-        if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Error($"OnPlayerDeath '{victim.Data.PlayerName}'");
+        if (TownOfUsPlugin.IsDevBuild)
+        {
+            Logger<TownOfUsPlugin>.Error($"OnPlayerDeath '{victim.Data.PlayerName}'");
+        }
+
         if (Target == null || victim == Target)
         {
             var roleType = OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath switch
@@ -208,7 +253,11 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
                 _ => (ushort)RoleTypes.Crewmate
             };
 
-            if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
+            if (TownOfUsPlugin.IsDevBuild)
+            {
+                Logger<TownOfUsPlugin>.Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
+            }
+
             Player.ChangeRole(roleType);
 
             if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
@@ -218,16 +267,6 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
                     new Action<float>(p => { Player.GetModifier<ScatterModifier>()?.OnRoundStart(); })));
             }
         }
-    }
-
-    private string TargetString()
-    {
-        if (!Target)
-        {
-            return "Protect Your Target With Your Life!";
-        }
-
-        return $"Protect {Target?.Data.PlayerName} With Your Life!";
     }
 
     [MethodRpc((uint)TownOfUsRpc.SetGATarget)]

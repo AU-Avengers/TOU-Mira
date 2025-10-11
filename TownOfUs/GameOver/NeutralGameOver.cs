@@ -25,17 +25,18 @@ public sealed class NeutralGameOver : CustomGameOver
 
         var mainRole = role;
 
-        Logger<TownOfUsPlugin>.Error($"VerifyCondition - mainRole: '{mainRole.NiceName}', IsDead: '{role.IsDead}'");
+        Logger<TownOfUsPlugin>.Error(
+            $"VerifyCondition - mainRole: '{mainRole.GetRoleName()}', IsDead: '{role.IsDead}'");
 
         if (role.IsDead && role is not PhantomTouRole or HaunterRole)
         {
             mainRole = role.Player.GetRoleWhenAlive();
 
-            Logger<TownOfUsPlugin>.Error($"VerifyCondition - RoleWhenAlive: '{mainRole?.NiceName}'");
+            Logger<TownOfUsPlugin>.Error($"VerifyCondition - RoleWhenAlive: '{mainRole?.GetRoleName()}'");
         }
 
-        _roleName = mainRole!.NiceName;
-        _roleColor = mainRole.TeamColor;
+        _roleName = mainRole!.GetRoleName();
+        _roleColor = mainRole!.TeamColor;
 
         return tRole.WinConditionMet();
     }

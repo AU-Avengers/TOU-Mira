@@ -32,9 +32,32 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => TouLocale.Get(TouNames.Warden, "Warden");
-    public string RoleDescription => "Fortify Crewmates";
-    public string RoleLongDescription => "Fortify crewmates to prevent interactions with them";
+    public string LocaleKey => "Warden";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Fortify", "Fortify"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}FortifyWikiDescription"),
+                    TouCrewAssets.FortifySprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Warden;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
@@ -58,21 +81,6 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         return stringB;
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Protective role that can fortify players to prevent them from being interacted with. "
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Fortify",
-            "Fortify a player to prevent them from being interacted with. If anyone tries to interact with a fortified player, the ability will not work and both the Warden and fortified player will be alerted with a purple flash.",
-            TouCrewAssets.FortifySprite)
-    ];
 
     public void Clear()
     {

@@ -3,6 +3,7 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -65,7 +66,8 @@ public sealed class BodyReport
 
     public static string ParseDetectiveReport(BodyReport br)
     {
-        if (br.KillAge > OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveFactionDuration * 1000 && OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveFactionDuration > 0)
+        if (br.KillAge > OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveFactionDuration * 1000 &&
+            OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveFactionDuration > 0)
         {
             return
                 $"Body Report: The corpse is too old to gain information from. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
@@ -85,7 +87,7 @@ public sealed class BodyReport
         }
 
         var prefix = "a";
-        if (role.NiceName.StartsWithVowel())
+        if (role.GetRoleName().StartsWithVowel())
         {
             prefix = "an";
         }
@@ -93,7 +95,7 @@ public sealed class BodyReport
         if (br.KillAge < OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveRoleDuration * 1000)
         {
             return
-                $"Body Report: The killer appears to be {prefix} {role.NiceName}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+                $"Body Report: The killer appears to be {prefix} {role.GetRoleName()}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
         }
 
         if (br.Killer.IsNeutral())
@@ -128,7 +130,7 @@ public static class GameHistory
 
     public static void RegisterRole(PlayerControl player, RoleBehaviour role, bool clean = false)
     {
-        //Logger<TownOfUsPlugin>.Message($"RegisterRole - player: '{player.Data.PlayerName}', role: '{role.NiceName}'");
+        //Logger<TownOfUsPlugin>.Message($"RegisterRole - player: '{player.Data.PlayerName}', role: '{role.GetRoleName()}'");
 
         if (clean)
         {

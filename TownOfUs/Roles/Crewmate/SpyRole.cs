@@ -14,9 +14,18 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Perception;
-    public string RoleName => TouLocale.Get(TouNames.Spy, "Spy");
-    public string RoleDescription => "Snoop Around And Find Stuff Out";
-    public string RoleLongDescription => "Gain extra information on the Admin Table";
+    public string LocaleKey => "Spy";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Spy;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
@@ -31,13 +40,6 @@ public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole
     public StringBuilder SetTabText()
     {
         return ITownOfUsRole.SetNewTabText(this);
-    }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Investigative role that gains extra information on the admin table. They not only see how many people are in a room, but will also see who is in every room."
-            + MiscUtils.AppendOptionsText(GetType());
     }
 
     public override void Initialize(PlayerControl player)

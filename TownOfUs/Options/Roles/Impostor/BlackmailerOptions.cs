@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class BlackmailerOptions : AbstractOptionGroup<BlackmailerRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Blackmailer, "Blackmailer");
+    public override string GroupName => TouLocale.Get("TouRoleBlackmailer", "Blackmailer");
 
     [ModdedNumberOption("Number Of Blackmail Uses Per Game", 0f, 15f, 5f, MiraNumberSuffixes.None, "0", true)]
     public float MaxBlackmails { get; set; } = 0f;
@@ -15,8 +15,8 @@ public sealed class BlackmailerOptions : AbstractOptionGroup<BlackmailerRole>
     [ModdedNumberOption("Blackmail Cooldown", 1f, 30f, suffixType: MiraNumberSuffixes.Seconds)]
     public float BlackmailCooldown { get; set; } = 20f;
 
-    [ModdedNumberOption("Max Players Alive Until Voting", 1f, 15f)]
-    public float MaxAliveForVoting { get; set; } = 10f;
+    [ModdedNumberOption("Max Players Alive Where Blackmailed Can Vote", 1f, 15f)]
+    public float MaxAliveForVoting { get; set; } = 5f;
 
     [ModdedToggleOption("Blackmail Same Person Twice In A Row")]
     public bool BlackmailInARow { get; set; } = false;

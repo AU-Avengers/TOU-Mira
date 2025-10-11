@@ -14,9 +14,9 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class OracleConfessButton : TownOfUsRoleButton<OracleRole, PlayerControl>
 {
-    public override string Name => "Confess";
+    public override string Name => TouLocale.Get("TouRoleOracleConfess", "Confess");
     public override Color TextOutlineColor => TownOfUsColors.Oracle;
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override float Cooldown => OptionGroupSingleton<OracleOptions>.Instance.ConfessCooldown;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.ConfessSprite;
 

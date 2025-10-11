@@ -12,8 +12,8 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>
 {
     public bool Usable = true;
-    public override string Name => "Camp";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleDeputyCamp", "Camp");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Deputy;
     public override float Cooldown => 0.001f + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CampButtonSprite;
@@ -51,8 +51,8 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>
         Target.RpcAddModifier<DeputyCampedModifier>(PlayerControl.LocalPlayer);
         Usable = false;
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>Wait for {Target.Data.PlayerName}'s death so you can avenge them in the meeting.</b>", Color.white,
+            $"<b>{TouLocale.GetParsed("TouRoleDeputyCampNotif").Replace("<player>", Target.Data.PlayerName)}</b>", Color.white,
             new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
-        notif1.Text.SetOutlineThickness(0.35f);
+        notif1.AdjustNotification();
     }
 }

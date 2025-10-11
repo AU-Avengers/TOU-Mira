@@ -14,9 +14,12 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifier
 {
-    public override string ModifierName => $"{TouLocale.Get(TouNames.Medic, "Medic")} Shield";
+    public override string ModifierName => TouLocale.Get("TouMedicShield", "Medic");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Medic;
-    public override string ShieldDescription => $"You are shielded by a {TouLocale.Get(TouNames.Medic, "Medic")} !\nYou may not die to other players";
+
+    public override string ShieldDescription =>
+        $"You are shielded by a {TouLocale.Get("TouRoleMedic", "Medic")} !\nYou may not die to other players";
+
     public PlayerControl Medic { get; } = medic;
     public GameObject? MedicShield { get; set; }
     public bool ShowShield { get; set; }
@@ -26,7 +29,8 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
         get
         {
             var showShielded = OptionGroupSingleton<MedicOptions>.Instance.ShowShielded;
-            return !TownOfUsPlugin.ShowShieldHud.Value || (showShielded is MedicOption.Medic or MedicOption.Nobody);
+            return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value ||
+                   (showShielded is MedicOption.Medic or MedicOption.Nobody);
         }
     }
 
@@ -60,9 +64,10 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
             x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        
-        ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic || (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
-        
+
+        ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic ||
+                     (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
+
         MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MedicShield.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
     }
 
@@ -81,7 +86,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
             ModifierComponent?.RemoveModifier(this);
             return;
         }
-        
+
         if (!MeetingHud.Instance && MedicShield?.gameObject != null)
         {
             MedicShield?.SetActive(!Player.IsConcealed() && IsVisible && ShowShield);

@@ -54,7 +54,7 @@ public static class ShowVentsPatch
             BodyIcons.Clear();
         }
 
-        if (!TownOfUsPlugin.ShowVents.Value)
+        if (!LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowVentsToggle.Value)
         {
             foreach (var icon in VentIcons.Values.Where(x => x))
             {

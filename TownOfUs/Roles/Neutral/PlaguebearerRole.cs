@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -54,9 +55,32 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AurialRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string RoleName => TouLocale.Get(TouNames.Plaguebearer, "Plaguebearer");
-    public string RoleDescription => "Infect Everyone To Become <color=#4D4D4DFF>Pestilence</color>";
-    public string RoleLongDescription => "Infect everyone to become <color=#4D4D4DFF>Pestilence</color>";
+    public string LocaleKey => "Plaguebearer";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Infect", "Infect"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}InfectWikiDescription"),
+                    TouNeutAssets.InfectSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Plaguebearer;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;
@@ -80,7 +104,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         if (allInfected.Any())
         {
-            stringB.Append("\n<b>Players Infected:</b>");
+            stringB.Append(CultureInfo.InvariantCulture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
@@ -89,7 +113,8 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
-        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>Players Left To Infect: {notInfected.Count()}</b>");
+
+        stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
 
         return stringB;
     }
@@ -106,24 +131,10 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         return result;
     }
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Neutral Killing role that needs to infect all other players to turn into the Pestilence." +
-            MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Infect",
-            "Infect a player, causing them to be infected. When a infected player or dead body interacts or get interacted with the infection will spread to all non-infected players.",
-            TouNeutAssets.InfectSprite)
-    ];
-
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        Player.AddModifier<PlaguebearerInfectedModifier>(Player.PlayerId);
         if (Player.AmOwner && (int)OptionGroupSingleton<PlaguebearerOptions>.Instance.PestChance != 0)
         {
             Coroutines.Start(CheckForPestChance(Player));

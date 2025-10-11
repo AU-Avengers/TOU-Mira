@@ -6,6 +6,7 @@ using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Patches;
 using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -23,8 +24,9 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
     public VisualAppearance GetVisualAppearance()
     {
-        var playerColor = (PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.DiedOtherRound() && OptionGroupSingleton<GeneralOptions>
-            .Instance.TheDeadKnow))
+        var playerColor = (PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.DiedOtherRound() &&
+                                                                      OptionGroupSingleton<GeneralOptions>
+                                                                          .Instance.TheDeadKnow))
             ? new Color(0f, 0f, 0f, 0.1f)
             : Color.clear;
 
@@ -63,7 +65,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
         var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
         button.OverrideSprite(TouImpAssets.UnswoopSprite.LoadAsset());
-        button.OverrideName("Unswoop");
+        button.OverrideName(TouLocale.Get("TouRoleSwooperUnswoop", "Unswoop"));
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperSwoop, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
@@ -86,13 +88,20 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         Player.ResetAppearance();
         Player.cosmetics.ToggleNameVisible(true);
 
-        var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
-        button.OverrideSprite(TouImpAssets.SwoopSprite.LoadAsset());
-        button.OverrideName("Swoop");
-
         if (Player.AmOwner)
         {
-            TouAudio.PlaySound(TouAudio.SwooperDeactivateSound);
+            var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
+            button.OverrideSprite(TouImpAssets.SwoopSprite.LoadAsset());
+            button.OverrideName(TouLocale.Get("TouRoleSwooperSwoop", "Swoop"));
+            if (MeetingHud.Instance == null)
+            {
+                TouAudio.PlaySound(TouAudio.SwooperDeactivateSound);
+            }
+        }
+
+        if (HudManagerPatches.CamouflageCommsEnabled)
+        {
+            Player.cosmetics.ToggleNameVisible(false);
         }
 
         var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();

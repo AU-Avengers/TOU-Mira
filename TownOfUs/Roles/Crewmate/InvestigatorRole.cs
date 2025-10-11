@@ -13,9 +13,18 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => TouLocale.Get(TouNames.Investigator, "Investigator");
-    public string RoleDescription => "Find All Impostors By Examining Footprints.";
-    public string RoleLongDescription => "You can see everyone's footprints.";
+    public string LocaleKey => "Investigator";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Investigator;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
@@ -30,13 +39,6 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     public StringBuilder SetTabText()
     {
         return ITownOfUsRole.SetNewTabText(this);
-    }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Investigative role can see player's footprints throughout the game. Swooped players' footprints will not be visible to the {RoleName}."
-            + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];

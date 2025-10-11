@@ -21,9 +21,37 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string RoleName => TouLocale.Get(TouNames.Oracle, "Oracle");
-    public string RoleDescription => "Get Other Player's To Confess Their Sins";
-    public string RoleLongDescription => "Get another player to confess on your passing";
+    public string LocaleKey => "Oracle";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription").Replace("<revealAccuracy>",
+                $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Bless", "Bless"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}BlessWikiDescription"),
+                    TouCrewAssets.BlessSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Confess", "Confess"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ConfessWikiDescription").Replace("<revealAccuracy>",
+                        $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}"),
+                    TouCrewAssets.ConfessSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Oracle;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
@@ -39,24 +67,6 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Protective role that can get another player to confess (revealing their faction with {OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}% accuracy if the Oracle dies) or can protect a player from meeting abilities."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Bless",
-            "Blessing a player prevents any harm from being done to them in the meeting.",
-            TouCrewAssets.BlessSprite),
-        new("Confess",
-            $"Make a player confess in a meeting, giving a vision of 3 possible evils (including the confessor), and also reveal their faction to everyone with {OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}% accuracy when the Oracle dies.",
-            TouCrewAssets.ConfessSprite)
-    ];
 
     public override void OnDeath(DeathReason reason)
     {
@@ -165,6 +175,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             mod.SavedFromExile = true;
         }
     }
+
     [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify)]
     public static void RpcOracleBlessNotify(PlayerControl oracle, PlayerControl source, PlayerControl target)
     {
@@ -179,18 +190,16 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>Your blessing has saved {TownOfUsColors.Oracle.ToTextColor()}{target.Data.PlayerName}</color> from getting guessed!</b>",
-                Color.white, spr: TouRoleIcons.Oracle.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
+            notif1.AdjustNotification();
         }
         else if (source.AmOwner)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{target.Data.PlayerName}</color> survived due to being blessed by an {TownOfUsColors.Oracle.ToTextColor()}Oracle</color>!</b>",
-                Color.white, spr: TouRoleIcons.Oracle.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
+            notif1.AdjustNotification();
         }
     }
 }

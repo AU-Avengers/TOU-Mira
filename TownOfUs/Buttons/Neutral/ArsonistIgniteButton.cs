@@ -20,8 +20,8 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
 {
     public PlayerControl? ClosestTarget;
-    public override string Name => "Ignite";
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override string Name => TouLocale.Get("TouRoleArsonistIgnite", "Ignite");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Arsonist;
     public override float Cooldown => OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.IgniteButtonSprite;
@@ -29,8 +29,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
     private static List<PlayerControl> PlayersInRange => Helpers.GetClosestPlayers(PlayerControl.LocalPlayer,
         OptionGroupSingleton<ArsonistOptions>.Instance.IgniteRadius.Value * ShipStatus.Instance.MaxLightRadius);
 
-    [HideFromIl2Cpp]
-    public Ignite? Ignite { get; set; }
+    [HideFromIl2Cpp] public Ignite? Ignite { get; set; }
 
     public override bool CanUse()
     {

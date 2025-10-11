@@ -14,6 +14,7 @@ using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -47,7 +48,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return false;
+        return !role.TryCast<SpectatorRole>();
     }
 
     public override void OnActivate()
@@ -102,7 +103,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
         {
             return;
         }
-        
+
         if (Minigame.Instance != null)
         {
             return;
@@ -128,7 +129,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
             ClickHandler(victim);
             LastAttemptedVictim = player;
-            LastGuessedItem = $"{role.TeamColor.ToTextColor()}{role.NiceName}</color>";
+            LastGuessedItem = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
         }
 
         void ClickModifierHandle(BaseModifier modifier)
@@ -144,6 +145,11 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
         void ClickHandler(PlayerControl victim)
         {
+            if (victim.HasDied() || Player.HasDied())
+            {
+                return;
+            }
+
             if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
             {
                 OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
@@ -165,10 +171,9 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}Your Double Shot has prevented you from dying this meeting!</color></b>",
-                    Color.white, spr: TouModifierIcons.DoubleShot.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.DoubleShot.LoadAsset());
 
-                notif1.Text.SetOutlineThickness(0.35f);
-                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                notif1.AdjustNotification();
 
                 shapeMenu.Close();
                 LastGuessedItem = string.Empty;
@@ -185,11 +190,16 @@ public abstract class AssassinModifier : ExcludedGameModifier
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
                 MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
-                DeathHandlerModifier.RpcUpdateDeathHandler(victim, "Guessed", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, $"By {Player.Data.PlayerName}", lockInfo: DeathHandlerOverride.SetTrue);
+                DeathHandlerModifier.RpcUpdateDeathHandler(victim, TouLocale.Get("DiedToGuess"),
+                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", Player.Data.PlayerName),
+                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
-                DeathHandlerModifier.RpcUpdateDeathHandler(victim, "Misguessed", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
+                DeathHandlerModifier.RpcUpdateDeathHandler(victim, TouLocale.Get("DiedToMisguess"),
+                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    lockInfo: DeathHandlerOverride.SetTrue);
             }
 
             maxKills--;
@@ -226,21 +236,25 @@ public abstract class AssassinModifier : ExcludedGameModifier
         }
 
         var options = OptionGroupSingleton<AssassinOptions>.Instance;
-        var touRole = role as ITownOfUsRole;
-        var assassinRole = Player.Data.Role as ITownOfUsRole;
-        var unguessableRole = role as IUnguessable;
 
-        if (touRole is IGhostRole)
+        if (role is IGhostRole)
         {
             return false;
         }
 
-        if (unguessableRole != null && !unguessableRole.IsGuessable)
+        if (role is IUnguessable { IsGuessable: false })
         {
             return false;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.CrewmateInvestigative)
+        var alignment = role.GetRoleAlignment();
+
+        if (alignment == RoleAlignment.GameOutlier)
+        {
+            return false;
+        }
+
+        if (alignment == RoleAlignment.CrewmateInvestigative)
         {
             return options.AssassinGuessInvest;
         }
@@ -255,25 +269,32 @@ public abstract class AssassinModifier : ExcludedGameModifier
             return true;
         }
 
+        var assassinAlignment = Player.Data.Role.GetRoleAlignment();
+
         if (role.IsImpostor() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostors &&
-            assassinRole?.RoleAlignment is RoleAlignment.NeutralKilling or RoleAlignment.NeutralEvil)
+            assassinAlignment is RoleAlignment.NeutralKilling or RoleAlignment.NeutralEvil)
         {
             return true;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralBenign)
+        if (alignment == RoleAlignment.NeutralBenign)
         {
             return options.AssassinGuessNeutralBenign;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralEvil)
+        if (alignment == RoleAlignment.NeutralEvil)
         {
             return options.AssassinGuessNeutralEvil;
         }
 
-        if (touRole?.RoleAlignment == RoleAlignment.NeutralKilling)
+        if (alignment == RoleAlignment.NeutralKilling)
         {
             return options.AssassinGuessNeutralKilling;
+        }
+
+        if (alignment == RoleAlignment.NeutralOutlier)
+        {
+            return options.AssassinGuessNeutralOutlier;
         }
 
         return false;

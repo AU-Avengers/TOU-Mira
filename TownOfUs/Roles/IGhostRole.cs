@@ -10,7 +10,7 @@ public interface IGhostRole
 
     void Spawn();
 
-    void FadeUpdate(HudManager instance);
+    void FadeUpdate();
 
     void Clicked();
 

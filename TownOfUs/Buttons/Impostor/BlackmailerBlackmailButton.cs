@@ -12,12 +12,18 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class BlackmailerBlackmailButton : TownOfUsRoleButton<BlackmailerRole, PlayerControl>,
     IAftermathablePlayerButton
 {
-    public override string Name => "Blackmail";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleBlackmailerBlackmail", "Blackmail");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => OptionGroupSingleton<BlackmailerOptions>.Instance.BlackmailCooldown;
     public override int MaxUses => (int)OptionGroupSingleton<BlackmailerOptions>.Instance.MaxBlackmails;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.BlackmailSprite;
+
+    public void AftermathHandler()
+    {
+        BlackmailerRole.RpcBlackmail(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
+        Timer = 60f;
+    }
 
     protected override void OnClick()
     {

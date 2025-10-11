@@ -12,8 +12,8 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
 {
-    public override string Name => "Mediate";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleMediumMediate", "Mediate");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medium;
     public override float Cooldown => OptionGroupSingleton<MediumOptions>.Instance.MediateCooldown + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MediateSprite;

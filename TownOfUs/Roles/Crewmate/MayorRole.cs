@@ -7,6 +7,7 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
@@ -26,9 +27,18 @@ public sealed class MayorRole(IntPtr cppPtr)
     private MeetingMenu meetingMenu;
     public bool Revealed { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string RoleName => TouLocale.Get(TouNames.Mayor, "Mayor");
-    public string RoleDescription => "Reveal Yourself To Save The Crew";
-    public string RoleLongDescription => "Lead the crew to victory!";
+    public string LocaleKey => "Mayor";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Mayor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
@@ -66,22 +76,17 @@ public sealed class MayorRole(IntPtr cppPtr)
     public bool IsGuessable => false;
     public RoleBehaviour AppearAs => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PoliticianRole>());
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Power role that gains three votes and is revealed to all players, also changing their look in meetings.";
-    }
-
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
         Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
-        if (Player.HasModifier<ToBecomeTraitorModifier>())
+        if (Player.TryGetModifier<ToBecomeTraitorModifier>(out var traitorMod) && PlayerControl.LocalPlayer.IsHost())
         {
-            Player.GetModifier<ToBecomeTraitorModifier>()!.Clear();
+            traitorMod.Clear();
         }
+
         if (MeetingHud.Instance && !DisabledAnimation)
         {
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
@@ -165,6 +170,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         {
             return;
         }
+
         var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == plr.PlayerId);
         Coroutines.Start(CoAnimateReveal(targetVoteArea));
     }

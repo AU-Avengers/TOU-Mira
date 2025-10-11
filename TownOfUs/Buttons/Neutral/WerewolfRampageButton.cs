@@ -7,18 +7,18 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>, IAftermathableButton
+public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>
 {
-    public override string Name => "Rampage";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleWerewolfRampage", "Rampage");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Werewolf;
     public override float Cooldown => OptionGroupSingleton<WerewolfOptions>.Instance.RampageCooldown + MapCooldown;
     public override float EffectDuration => OptionGroupSingleton<WerewolfOptions>.Instance.RampageDuration;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.RampageSprite;
 
-    public override bool CanUse()
+    public override bool CanClick()
     {
-        return base.CanUse() && Role?.Rampaging == false;
+        return base.CanClick() && Role?.Rampaging == false;
     }
 
     protected override void OnClick()

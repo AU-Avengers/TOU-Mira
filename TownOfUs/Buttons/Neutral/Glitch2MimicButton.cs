@@ -2,6 +2,7 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -15,8 +16,8 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAftermathableButton
 {
-    public override string Name => "Mimic";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleGlitchMimic", "Mimic");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Glitch;
     public override float Cooldown => OptionGroupSingleton<GlitchOptions>.Instance.MimicCooldown + MapCooldown;
     public override float EffectDuration => OptionGroupSingleton<GlitchOptions>.Instance.MimicDuration;
@@ -54,6 +55,32 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
         return role is GlitchRole;
     }
 
+    public void AftermathHandler()
+    {
+        if (!EffectActive)
+        {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(plr => (!plr.HasDied() ||
+                Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
+                FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {plr.gameObject.name}")
+                    ?.body && plr != PlayerControl.LocalPlayer)).Random();
+            if (player != null)
+            {
+                TouAudio.PlaySound(TouAudio.MimicSound);
+                PlayerControl.LocalPlayer.RpcAddModifier<GlitchMimicModifier>(player);
+
+                EffectActive = true;
+                Timer = EffectDuration;
+                OverrideName(TouLocale.Get("TouRoleGlitchUnmimic", "Unmimic"));
+            }
+        }
+        else
+        {
+            PlayerControl.LocalPlayer.RpcRemoveModifier<GlitchMimicModifier>();
+            OverrideName(TouLocale.Get("TouRoleGlitchMimic", "Mimic"));
+            TouAudio.PlaySound(TouAudio.UnmimicSound);
+        }
+    }
+
     protected override void OnClick()
     {
         if (!EffectActive)
@@ -84,7 +111,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
 
                         EffectActive = true;
                         Timer = EffectDuration;
-                        OverrideName("Unmimic");
+                        OverrideName(TouLocale.Get("TouRoleGlitchUnmimic", "Unmimic"));
                     }
                     else
                     {
@@ -104,20 +131,32 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
         else
         {
             PlayerControl.LocalPlayer.RpcRemoveModifier<GlitchMimicModifier>();
-            OverrideName("Mimic");
-            TouAudio.PlaySound(TouAudio.UnmimicSound);
+            OverrideName(TouLocale.Get("TouRoleGlitchMimic", "Mimic"));
+            if (MeetingHud.Instance == null)
+            {
+                TouAudio.PlaySound(TouAudio.UnmimicSound);
+            }
         }
     }
 
     public override void OnEffectEnd()
     {
-        TouAudio.PlaySound(TouAudio.UnmimicSound);
-        OverrideName("Mimic");
+        if (MeetingHud.Instance == null)
+        {
+            TouAudio.PlaySound(TouAudio.UnmimicSound);
+        }
+        OverrideName(TouLocale.Get("TouRoleGlitchMimic", "Mimic"));
     }
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
+                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }

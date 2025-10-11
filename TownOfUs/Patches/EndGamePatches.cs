@@ -8,12 +8,12 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events;
-using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
@@ -35,6 +35,19 @@ public static class EndGamePatches
         foreach (var playerControl in PlayerControl.AllPlayerControls)
         {
             playerRoleString.Clear();
+            if (playerControl.Data.Role is SpectatorRole)
+            {
+                EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
+                {
+                    PlayerName = playerControl.Data.PlayerName,
+                    RoleString = "Spectator",
+                    Winner = false,
+                    LastRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
+                    Team = ModdedRoleTeams.Custom,
+                    PlayerId = playerControl.PlayerId
+                });
+                continue;
+            }
 
             foreach (var role in GameHistory.RoleHistory.Where(x => x.Key == playerControl.PlayerId)
                          .Select(x => x.Value))
@@ -48,13 +61,15 @@ public static class EndGamePatches
                 var color = role.TeamColor;
                 string roleName;
 
-                if (!string.IsNullOrEmpty(role.NiceName.Trim()))
+                if (!string.IsNullOrEmpty(role.GetRoleName().Trim()))
                 {
-                    roleName = role.NiceName;
+                    roleName = role.GetRoleName();
                 }
                 else
                 {
-                    roleName = role.Player.IsImpostor() ? "Impostor" : "Crewmate";
+                    roleName = TranslationController.Instance.GetString(role.Player.IsImpostor()
+                        ? StringNames.Impostor
+                        : StringNames.Crewmate);
                 }
 
                 playerRoleString.Append(TownOfUsPlugin.Culture, $"{color.ToTextColor()}{roleName}</color> > ");
@@ -90,9 +105,10 @@ public static class EndGamePatches
             foreach (var modifierName in modifierNames)
             {
                 var modColor = MiscUtils.GetRoleColour(modifierName.Replace(" ", string.Empty));
-                if (modifiers.FirstOrDefault(x => x.ModifierName == modifierName) is IColoredModifier colorMod)
+                if (modColor == TownOfUsColors.Impostor)
                 {
-                    modColor = colorMod.ModifierColor;
+                    modColor = MiscUtils.GetModifierColour(
+                        modifiers.FirstOrDefault(x => x.ModifierName == modifierName)!);
                 }
 
                 modifierCount--;
@@ -109,32 +125,25 @@ public static class EndGamePatches
 
             if (playerControl.IsRole<PhantomTouRole>() || playerTeam == ModdedRoleTeams.Crewmate)
             {
-                    playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" {playerControl.TaskInfo()}");
+                playerRoleString.Append(TownOfUsPlugin.Culture,
+                    $" {playerControl.TaskInfo()}");
             }
 
             var killedPlayers = GameHistory.KilledPlayers.Count(x =>
                 x.KillerId == playerControl.PlayerId && x.VictimId != playerControl.PlayerId);
 
-            if (killedPlayers > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
-            {
-                playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" |{TownOfUsColors.Impostor.ToTextColor()} Kills: {killedPlayers}</color>");
-            }
-
             if (GameHistory.PlayerStats.TryGetValue(playerControl.PlayerId, out var stats))
             {
-                if (killedPlayers > 0 && playerControl.IsCrewmate() && stats.CorrectKills <= 0 &&
-                    stats.IncorrectKills <= 0 && !playerControl.Is(RoleAlignment.NeutralEvil))
-                {
-                    playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" |{TownOfUsColors.Impostor.ToTextColor()} Kills: {killedPlayers}</color>");
-                }
-
+                var basicKillCount = killedPlayers - stats.CorrectAssassinKills - stats.IncorrectKills;
                 if (stats.CorrectKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {Color.green.ToTextColor()}Kills: {stats.CorrectKills}</color>");
+                }
+                else if (basicKillCount > 0 && playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
+                {
+                    playerRoleString.Append(TownOfUsPlugin.Culture,
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}Kills: {basicKillCount}</color>");
                 }
 
                 if (stats.IncorrectKills > 0)
@@ -155,12 +164,22 @@ public static class EndGamePatches
                         $" | {TownOfUsColors.Impostor.ToTextColor()}Misguesses: {stats.IncorrectAssassinKills}</color>");
                 }
             }
+            else if (killedPlayers > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
+            {
+                playerRoleString.Append(TownOfUsPlugin.Culture,
+                    $" |{TownOfUsColors.Impostor.ToTextColor()} Kills: {killedPlayers}</color>");
+            }
+
             if (playerControl.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
             {
                 playerRoleString.Append(TownOfUsPlugin.Culture,
                     $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
-                if (deathHandler.KilledBy != string.Empty) playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" {deathHandler.KilledBy}");
+                if (deathHandler.KilledBy != string.Empty)
+                {
+                    playerRoleString.Append(TownOfUsPlugin.Culture,
+                        $" {deathHandler.KilledBy}");
+                }
+
                 playerRoleString.Append(TownOfUsPlugin.Culture,
                     $" (R{deathHandler.RoundOfDeath})");
             }
@@ -186,11 +205,7 @@ public static class EndGamePatches
             var alliance = playerControl.GetModifiers<AllianceGameModifier>().FirstOrDefault();
             if (alliance != null)
             {
-                var modColor = MiscUtils.GetRoleColour(alliance.ModifierName.Replace(" ", string.Empty));
-                if (alliance is IColoredModifier colorMod)
-                {
-                    modColor = colorMod.ModifierColor;
-                }
+                var modColor = MiscUtils.GetModifierColour(alliance);
 
                 playerName.Append(TownOfUsPlugin.Culture,
                     $" <b>{modColor.ToTextColor()}<size=60%>{alliance.Symbol}</size></color></b>");
@@ -202,7 +217,8 @@ public static class EndGamePatches
                 RoleString = playerRoleString.ToString(),
                 Winner = playerWinner,
                 LastRole = playerRoleType,
-                Team = playerTeam
+                Team = playerTeam,
+                PlayerId = playerControl.PlayerId
             });
         }
     }
@@ -399,7 +415,7 @@ public static class EndGamePatches
                 var nameTxt = player.cosmetics.nameText;
                 nameTxt.gameObject.SetActive(true);
                 player.SetName(
-                    $"\n<size=85%>{realPlayer.PlayerName}</size>\n<size=65%><color=#{role.TeamColor.ToHtmlStringRGBA()}>{role.NiceName}</size>",
+                    $"\n<size=85%>{realPlayer.PlayerName}</size>\n<size=65%><color=#{role.TeamColor.ToHtmlStringRGBA()}>{role.GetRoleName()}</size>",
                     new Vector3(1.1619f, 1.1619f, 1f), Color.white, -15f);
                 player.SetNamePosition(new Vector3(0f, -1.31f, -0.5f));
                 nameTxt.fontSize = 1.9f;
@@ -476,6 +492,7 @@ public static class EndGamePatches
             public bool Winner { get; set; }
             public RoleTypes LastRole { get; set; }
             public ModdedRoleTeams Team { get; set; }
+            public byte PlayerId { get; set; }
         }
     }
 }

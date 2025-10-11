@@ -9,10 +9,8 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Impostor;
@@ -107,30 +105,7 @@ public static class Extensions
 
     public static bool Is(this PlayerControl player, RoleAlignment roleAlignment)
     {
-        if (player.Data.Role is ITownOfUsRole role && role.RoleAlignment == roleAlignment)
-        {
-            return true;
-        }
-
-        if (player.Data.Role.Role is RoleTypes.Crewmate or RoleTypes.Scientist or RoleTypes.Noisemaker
-                or RoleTypes.Engineer &&
-            roleAlignment == RoleAlignment.CrewmateSupport)
-        {
-            return true;
-        }
-
-        if (player.Data.Role.Role is RoleTypes.Tracker && roleAlignment == RoleAlignment.CrewmateInvestigative)
-        {
-            return true;
-        }
-
-        if (player.Data.Role.Role is RoleTypes.Impostor && roleAlignment == RoleAlignment.ImpostorSupport)
-        {
-            return true;
-        }
-
-        if (player.Data.Role.Role is RoleTypes.Shapeshifter or RoleTypes.Phantom &&
-            roleAlignment == RoleAlignment.ImpostorConcealing)
+        if (player.Data.Role.GetRoleAlignment() == roleAlignment)
         {
             return true;
         }
@@ -299,47 +274,12 @@ public static class Extensions
         roleIcon.gameObject.GetComponent<SpriteRenderer>().sprite = roleImg;
         roleIcon.gameObject.SetActive(true);
 
-        //var material = panel.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
         var color = roleBehaviour is ICustomRole customRole ? customRole.RoleColor : roleBehaviour.TeamColor;
 
-        //var teamName = roleBehaviour is ITownOfUsRole touRole
-        //    ? touRole.Alignment.ToDisplayString()
-        //    : roleBehaviour.TeamType.ToDisplayString();
-        //if (roleBehaviour is ICustomRole customOther && roleBehaviour is not ITownOfUsRole) teamName = customOther.Team.ToDisplayString();
-
-        //if (teamName.Contains("Crewmate")) teamName = teamName.Replace("Crewmate", $"<color=#68ACF4FF>Crewmate</color>");
-        //else if (teamName.Contains("Impostor")) teamName = teamName.Replace("Impostor", $"<color=#D63F42FF>Impostor</color>");
-        //else if (roleBehaviour is not ITownOfUsRole)
-        //{
-        //    if (roleBehaviour is ITownOfUsRole) teamName = "Neutral Benign";
-        //    else if (roleBehaviour is ITownOfUsRole) teamName = "Neutral Evil";
-        //    else if (roleBehaviour is ITownOfUsRole) teamName = "Neutral Killing";
-        //    teamName = teamName.Replace("Neutral", $"<color=#8A8A8AFF>Neutral</color>");
-        //}
-
-        var alignment = roleBehaviour is ITownOfUsRole touRole
-            ? touRole.RoleAlignment.ToDisplayString()
-            : roleBehaviour.TeamType.ToDisplayString();
-
-        if (alignment.Contains("Crewmate"))
-        {
-            alignment = alignment.Replace("Crewmate", "<color=#68ACF4FF>Crewmate</color>");
-        }
-        else if (alignment.Contains("Impostor"))
-        {
-            alignment = alignment.Replace("Impostor", "<color=#D63F42FF>Impostor</color>");
-        }
-        else if (alignment.Contains("Neutral"))
-        {
-            alignment = alignment.Replace("Neutral", "<color=#8A8A8AFF>Neutral</color>");
-        }
+        var alignment = MiscUtils.GetParsedRoleAlignment(roleBehaviour, true);
 
         var finalString =
-            $"<size=88%>{roleBehaviour.NiceName}</size>\n<size=70%><color=white>{alignment}</color></size>";
-
-        // material.SetColor(PlayerMaterial.BackColor, color.DarkenColor(0.35f));
-        // material.SetColor(PlayerMaterial.BodyColor, color);
-        // material.SetColor(PlayerMaterial.VisorColor, Palette.VisorColor);
+            $"<size=88%>{roleBehaviour.GetRoleName()}</size>\n<size=70%><color=white>{alignment}</color></size>";
 
         panel.LevelNumberText.transform.parent.gameObject.SetActive(false);
         panel.NameText.color = color;
@@ -385,57 +325,18 @@ public static class Extensions
 
         var modImg = TouRoleIcons.RandomAny.LoadAsset();
 
-        var teamName = "Universal";
-        if (modifier is TouGameModifier touModifier)
+        var faction = modifier.GetModifierFaction();
+        if (faction.ToDisplayString().Contains("Crewmate"))
         {
-            if (touModifier.FactionType.ToDisplayString().Contains("Crewmate"))
-            {
-                modImg = TouRoleIcons.RandomCrew.LoadAsset();
-            }
-            else if (touModifier.FactionType.ToDisplayString().Contains("Neutral"))
-            {
-                modImg = TouRoleIcons.RandomNeut.LoadAsset();
-            }
-            else if (touModifier.FactionType.ToDisplayString().Contains("Impostor"))
-            {
-                modImg = TouRoleIcons.RandomImp.LoadAsset();
-            }
-
-            teamName = touModifier.FactionType.ToDisplayString();
+            modImg = TouRoleIcons.RandomCrew.LoadAsset();
         }
-        else if (modifier is UniversalGameModifier uniMod)
+        else if (faction.ToDisplayString().Contains("Neutral"))
         {
-            if (uniMod.FactionType.ToDisplayString().Contains("Crewmate"))
-            {
-                modImg = TouRoleIcons.RandomCrew.LoadAsset();
-            }
-            else if (uniMod.FactionType.ToDisplayString().Contains("Neutral"))
-            {
-                modImg = TouRoleIcons.RandomNeut.LoadAsset();
-            }
-            else if (uniMod.FactionType.ToDisplayString().Contains("Impostor"))
-            {
-                modImg = TouRoleIcons.RandomImp.LoadAsset();
-            }
-
-            teamName = uniMod.FactionType.ToDisplayString();
+            modImg = TouRoleIcons.RandomNeut.LoadAsset();
         }
-        else if (modifier is AllianceGameModifier allyModifier)
+        else if (faction.ToDisplayString().Contains("Impostor"))
         {
-            if (allyModifier.FactionType.ToDisplayString().Contains("Crewmate"))
-            {
-                modImg = TouRoleIcons.RandomCrew.LoadAsset();
-            }
-            else if (allyModifier.FactionType.ToDisplayString().Contains("Neutral"))
-            {
-                modImg = TouRoleIcons.RandomNeut.LoadAsset();
-            }
-            else if (allyModifier.FactionType.ToDisplayString().Contains("Impostor"))
-            {
-                modImg = TouRoleIcons.RandomImp.LoadAsset();
-            }
-
-            teamName = allyModifier.FactionType.ToDisplayString();
+            modImg = TouRoleIcons.RandomImp.LoadAsset();
         }
 
         if (modifier.ModifierIcon != null)
@@ -446,34 +347,10 @@ public static class Extensions
         roleIcon.gameObject.GetComponent<SpriteRenderer>().sprite = modImg;
         roleIcon.gameObject.SetActive(true);
 
-        // var material = panel.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-
-
-        if (teamName.Contains("Crewmate"))
-        {
-            teamName = teamName.Replace("Crewmate", "<color=#68ACF4FF>Crewmate</color>");
-        }
-        else if (teamName.Contains("Impostor"))
-        {
-            teamName = teamName.Replace("Impostor", "<color=#D63F42FF>Impostor</color>");
-        }
-        else
-        {
-            teamName = teamName.Replace("Neutral", "<color=#8A8A8AFF>Neutral</color>");
-        }
-        //teamName += " Modifier";
-
+        var teamName = MiscUtils.GetParsedModifierFaction(faction, true);
         var finalString =
-            $"<size=88%>{modifier.ModifierName}<color=white> (Modifier)</size>\n<size=70%>{teamName}</color></size>";
-        var color = MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        // material.SetColor(PlayerMaterial.BackColor, color.DarkenColor(0.35f));
-        // material.SetColor(PlayerMaterial.BodyColor, color);
-        // material.SetColor(PlayerMaterial.VisorColor, Palette.VisorColor);
+            $"<size=88%>{modifier.ModifierName}<color=white> ({TouLocale.Get("Modifier")})</size>\n<size=70%>{teamName}</color></size>";
+        var color = MiscUtils.GetModifierColour(modifier);
 
         panel.LevelNumberText.transform.parent.gameObject.SetActive(false);
         panel.NameText.color = color;

@@ -14,8 +14,8 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class AmbusherPursueButton : TownOfUsRoleButton<AmbusherRole, PlayerControl>
 {
-    public override string Name => "Pursue";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleAmbusherPursue", "Pursue");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
@@ -34,7 +34,7 @@ public sealed class AmbusherPursueButton : TownOfUsRoleButton<AmbusherRole, Play
         }
 
         Role.Pursued = Target;
-        
+
         Color color = Palette.PlayerColors[Target.GetDefaultAppearance().ColorId];
         var update = OptionGroupSingleton<AmbusherOptions>.Instance.UpdateInterval;
 
@@ -44,9 +44,8 @@ public sealed class AmbusherPursueButton : TownOfUsRoleButton<AmbusherRole, Play
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You are now pursuing {Target.Data.PlayerName}. Ambush anyone near them at any time you wish.</b></color>",
-            Color.white, spr: TouRoleIcons.Ambusher.LoadAsset());
-        notif1.Text.SetOutlineThickness(0.35f);
-        notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Ambusher.LoadAsset());
+        notif1.AdjustNotification();
 
         CustomButtonSingleton<AmbusherAmbushButton>.Instance.SetActive(true, Role);
         CustomButtonSingleton<AmbusherAmbushButton>.Instance.ResetCooldownAndOrEffect();

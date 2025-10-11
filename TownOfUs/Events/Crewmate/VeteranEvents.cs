@@ -32,6 +32,7 @@ public static class VeteranEvents
                 ++button.ExtraUses;
                 button.SetUses(button.UsesLeft);
             }
+
             ++vetRole.Alerts;
         }
     }

@@ -27,7 +27,8 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
         get
         {
             var showBarrier = OptionGroupSingleton<ClericOptions>.Instance.ShowBarriered;
-            return !TownOfUsPlugin.ShowShieldHud.Value || (showBarrier is BarrierOptions.Cleric);
+            return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value ||
+                   (showBarrier is BarrierOptions.Cleric);
         }
     }
 
@@ -63,10 +64,12 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
             x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        
-        ShowBarrier = showBarrierSelf || showBarrierCleric || (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
-        
-        ClericBarrier = AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
+
+        ShowBarrier = showBarrierSelf || showBarrierCleric ||
+                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
+
+        ClericBarrier =
+            AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
         ClericBarrier.GetComponent<SpriteAnim>().SetSpeed(2f);
     }
 
@@ -77,13 +80,23 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
             ModifierComponent?.RemoveModifier(this);
             return;
         }
-        
+
         if (!MeetingHud.Instance && ClericBarrier?.gameObject != null)
         {
             ClericBarrier?.SetActive(!Player.IsConcealed() && IsVisible && ShowBarrier);
         }
     }
-    
+
+    public override void OnDeath(DeathReason reason)
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
+
+    public override void OnMeetingStart()
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
+
     public override void OnDeactivate()
     {
         if (ClericBarrier?.gameObject != null)

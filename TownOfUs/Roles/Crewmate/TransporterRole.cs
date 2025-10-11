@@ -29,9 +29,32 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string RoleName => TouLocale.Get(TouNames.Transporter, "Transporter");
-    public string RoleDescription => "Choose Two Players To Swap Locations";
-    public string RoleLongDescription => "Choose two players to swap locations with one another";
+    public string LocaleKey => "Transporter";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Transport", "Transport"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}TransportWikiDescription"),
+                    TouCrewAssets.Transport)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Transporter;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;
@@ -47,22 +70,6 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Support role that can transport two players, dead or alive, to swap their locations."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Transport",
-            "Switch the positions of two players. Players can be transported out of vents." +
-            "A red flash means one of the players became an invalid target," +
-            "such as going on a ladder or zipline",
-            TouCrewAssets.Transport)
-    ];
 
     [MethodRpc((uint)TownOfUsRpc.Transport)]
     public static void RpcTransport(PlayerControl transporter, byte player1, byte player2)
@@ -232,10 +239,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             positions.Item1 = play1.Collider.bounds.center;
         }
+
         if (t2.TryCast<PlayerControl>() != null && t1.TryCast<DeadBody>() != null)
         {
             positions.Item2 = play2.Collider.bounds.center;
         }
+
         Transport(t1, positions.Item2);
         Transport(t2, positions.Item1);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.TransporterTransport, transporter, t1, t2);
@@ -257,18 +266,18 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
             }
 
-            TownOfUsColors.UseBasic = TownOfUsPlugin.UseCrewmateTeamColor.Value;
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+                .UseCrewmateTeamColorToggle.Value;
         }
 
         if (play1.AmOwner && t1 is PlayerControl || play2.AmOwner && t2 is PlayerControl)
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Transporter.ToTextColor()}You were transported!</color></b>", Color.white,
-                spr: TouRoleIcons.Transporter.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter.LoadAsset());
 
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
-            
+            notif1.AdjustNotification();
+
             if (Minigame.Instance != null)
             {
                 Minigame.Instance.Close();
@@ -295,12 +304,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             {
                 return null;
             }
-            
+
             if (pc.HasModifier<NoTransportModifier>())
             {
                 return null;
             }
-            
+
             if (pc.GetModifiers<BaseModifier>().Any(x => x is IUntransportable))
             {
                 return null;
@@ -435,6 +444,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             mono.transform.position += cd.bounds.center - position;
         }
+
         if (player != null)
         {
             player.MyPhysics.ResetMoveState();

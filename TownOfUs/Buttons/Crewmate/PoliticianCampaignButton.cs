@@ -11,8 +11,8 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class PoliticianCampaignButton : TownOfUsRoleButton<PoliticianRole, PlayerControl>
 {
-    public override string Name => "Campaign";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRolePoliticianCampaign", "Campaign");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override float Cooldown => OptionGroupSingleton<PoliticianOptions>.Instance.CampaignCooldown + MapCooldown;
     public override Color TextOutlineColor => TownOfUsColors.Politician;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CampaignButtonSprite;

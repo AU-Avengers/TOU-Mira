@@ -9,7 +9,8 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Immovable, "Immovable");
+    public override string LocaleKey => "Immovable";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Immovable;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
@@ -17,18 +18,17 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 
     public Vector3 Location { get; set; } = Vector3.zero;
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            "You cannot be teleported to the meeting area, and you cannot get dispersed or teleported.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "You are unable to be moved via abilities and meetings.";
-    }
 
     public override int GetAssignmentChance()
     {

@@ -19,7 +19,8 @@ public static class ImpostorTargeting
         var loveOpt = OptionGroupSingleton<LoversOptions>.Instance;
 
         __result &=
-            !(!loveOpt.LoversKillEachOther && target?.Object?.IsLover() == true && PlayerControl.LocalPlayer.IsLover()) &&
+            !(!loveOpt.LoversKillEachOther && target?.Object?.IsLover() == true &&
+              PlayerControl.LocalPlayer.IsLover()) &&
             !(target?.Object?.TryGetModifier<DisabledModifier>(out var mod) == true && !mod.CanBeInteractedWith) &&
             (target?.Object?.IsImpostor() == false ||
              genOpt.FFAImpostorMode ||

@@ -6,9 +6,10 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class WardenOptions : AbstractOptionGroup<WardenRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Warden, "Warden");
+    public override string GroupName => TouLocale.Get("TouRoleWarden", "Warden");
 
-    [ModdedEnumOption("Show Fortify Player", typeof(FortifyOptions), ["Fortified", "Warden", "Fortified + Warden", "Everyone"])]
+    [ModdedEnumOption("Show Fortify Player", typeof(FortifyOptions),
+        ["Fortified", "Warden", "Fortified + Warden", "Everyone"])]
     public FortifyOptions ShowFortified { get; set; } = FortifyOptions.SelfAndWarden;
 }
 

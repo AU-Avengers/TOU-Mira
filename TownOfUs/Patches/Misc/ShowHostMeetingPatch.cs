@@ -23,7 +23,7 @@ public static class ShowHostMeetingPatch
         if (host != null && HostName)
         {
             PlayerMaterial.SetColors(host.DefaultOutfit.ColorId, __instance.HostIcon);
-            HostName!.text = $"Host: {host.PlayerName}";
+            HostName!.text = $"{HudManagerPatches.StoredHostLocale}: {host.PlayerName}";
         }
     }
 

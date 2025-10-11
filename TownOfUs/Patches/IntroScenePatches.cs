@@ -1,8 +1,8 @@
-﻿
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using TownOfUs.Options;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using Object = Il2CppSystem.Object;
 
@@ -11,29 +11,67 @@ namespace TownOfUs.Patches;
 [HarmonyPatch]
 public static class IntroScenePatches
 {
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
+    public static class IntroCutsceneSpectatorPatch
+    {
+        public static void Prefix(ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
+        {
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
+                {
+                    teamToDisplay.Remove(player);
+                }
+            }
+        }
+    }
+    
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
+    [HarmonyPriority(Priority.Last)]
+    [HarmonyPrefix]
+    public static bool ImpostorBeginPatch(IntroCutscene __instance)
+    {
+        if ( /* OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles &&  */
+            !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
+        {
+            return true;
+        }
+
+        __instance.TeamTitle.text =
+            DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor, Array.Empty<Object>());
+        __instance.TeamTitle.color = Palette.ImpostorRed;
+
+        var player = __instance.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
+        __instance.ourCrewmate = player;
+
+        return false;
+    }
+    
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
-    [HarmonyPriority(Priority.Last)]
     [HarmonyPostfix]
     public static void ShowTeamPatchPostfix(IntroCutscene __instance)
     {
-        if (PlayerControl.LocalPlayer.IsImpostor())
-        {
-            if (OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
-            {
-                __instance.TeamTitle.text =
-                    DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor,
-                        Array.Empty<Object>());
-                __instance.TeamTitle.color = Palette.ImpostorRed;
+        SetHiddenImpostors(__instance);
 
-                var player = __instance.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
-                __instance.ourCrewmate = player;
+        foreach (var spec in PlayerControl.AllPlayerControls)
+        {
+            if (!spec || !SpectatorRole.TrackedSpectators.Contains(spec.Data.PlayerName))
+            {
+                continue;
+            }
+
+            spec!.Visible = false;
+            spec.Die(DeathReason.Exile, false);
+
+            if (spec.AmOwner)
+            {
+                HudManager.Instance.SetHudActive(false);
+                HudManager.Instance.ShadowQuad.gameObject.SetActive(false);
             }
         }
-        else
-        {
-            SetHiddenImpostors(__instance);
-        }
+
+        SpectatorRole.InitList();
     }
 
     public static void SetHiddenImpostors(IntroCutscene __instance)
@@ -45,7 +83,10 @@ public static class IntroScenePatches
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>");
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[]", "</color>");
 
-        if (!OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled) return;
+        if (!OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled)
+        {
+            return;
+        }
 
         var players = GameData.Instance.PlayerCount;
 
@@ -87,7 +128,10 @@ public static class IntroScenePatches
             }
         }
 
-        if (!buckets.Any(x => x is RoleListOption.Any)) return;
+        if (!buckets.Any(x => x is RoleListOption.Any))
+        {
+            return;
+        }
 
 
         __instance.ImpostorText.text =

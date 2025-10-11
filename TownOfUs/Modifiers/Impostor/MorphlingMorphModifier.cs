@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Modifiers.Impostor;
@@ -39,5 +40,10 @@ public sealed class MorphlingMorphModifier(PlayerControl target) : ConcealedModi
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MorphlingUnmorph, Player, target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+
+        if (HudManagerPatches.CamouflageCommsEnabled)
+        {
+            Player.cosmetics.ToggleNameVisible(false);
+        }
     }
 }

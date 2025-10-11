@@ -5,6 +5,7 @@ using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
+
 // This is intended to be used for roles such as Snitch or Mayor
 // for getting the role, use this: RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>())
 [MiraIgnore]
@@ -19,16 +20,17 @@ public abstract class RevealModifier(int roleChangeResult, bool revealRole, Role
     public string ExtraNameText { get; set; } = string.Empty;
     public Color? NameColor { get; set; }
     public bool RevealRole { get; set; } = revealRole;
-    
+
     public ChangeRoleResult ChangeRoleResult { get; set; } = (ChangeRoleResult)roleChangeResult;
-    
+
     public RoleBehaviour? ShownRole { get; set; }
-    
+
     public bool Visible { get; set; } = true;
 
     public override string GetDescription() => "You are Revealed!";
 
-    public void SetNewInfo(bool revealRole, string? nameTxt = null, string? roleTxt = null, RoleBehaviour? role2 = null, Color? nameColor = null)
+    public void SetNewInfo(bool revealRole, string? nameTxt = null, string? roleTxt = null, RoleBehaviour? role2 = null,
+        Color? nameColor = null)
     {
         RevealRole = revealRole;
         ExtraRoleText = roleTxt ?? ExtraRoleText; // Set to string.Empty to remove the text
@@ -44,6 +46,7 @@ public abstract class RevealModifier(int roleChangeResult, bool revealRole, Role
         {
             ShownRole = role != null ? role : Player.Data.Role;
         }
+
         if (MeetingHud.Instance && RevealRole)
         {
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);

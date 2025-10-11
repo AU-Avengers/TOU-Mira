@@ -13,27 +13,28 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Noisemaker, "Noisemaker");
-    public override string IntroInfo => "You will also alert all players to your body upon death.";
+    public override string LocaleKey => "Noisemaker";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<noiseTime>",
+            $"{OptionGroupSingleton<NoisemakerOptions>.Instance.AlertDuration}");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+               + MiscUtils.AppendOptionsText(GetType());
+    }
+
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Noisemaker;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
     public override ModifierFaction FactionType => ModifierFaction.CrewmatePostmortem;
 
-    public string GetAdvancedDescription()
-    {
-        return
-            "After your death, you will show a red body indicator to everyone on the map."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return
-            $"When you die, you will send an alert to all players on the map for {OptionGroupSingleton<NoisemakerOptions>.Instance.AlertDuration} second(s)";
-    }
 
     public override int GetAssignmentChance()
     {

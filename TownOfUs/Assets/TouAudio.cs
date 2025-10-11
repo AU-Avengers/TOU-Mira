@@ -42,11 +42,12 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> AltruistReviveSound { get; } =
         new LoadableBundleAsset<AudioClip>("AltruistIntro", TouAssets.MainBundle);
 
-    public static LoadableAsset<AudioClip> JailSound { get; } = new LoadableBundleAsset<AudioClip>("JailSound", TouAssets.MainBundle);
+    public static LoadableAsset<AudioClip> JailSound { get; } =
+        new LoadableBundleAsset<AudioClip>("JailSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> MayorRevealSound { get; set; } =
         new LoadableBundleAsset<AudioClip>("MayorRevealSound", TouAssets.MainBundle);
-    
+
     public static LoadableAsset<AudioClip> PoliticianIntroSound { get; set; } =
         new LoadableBundleAsset<AudioClip>("MayorRevealSound", TouAssets.MainBundle);
 
@@ -56,9 +57,14 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> TimeLordIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("TimeLordIntro", TouAssets.MainBundle);
 
-    public static LoadableAsset<AudioClip> EngiFix1 { get; } = new LoadableBundleAsset<AudioClip>("Fix1", TouAssets.MainBundle);
-    public static LoadableAsset<AudioClip> EngiFix2 { get; } = new LoadableBundleAsset<AudioClip>("Fix2", TouAssets.MainBundle);
-    public static LoadableAsset<AudioClip> EngiFix3 { get; } = new LoadableBundleAsset<AudioClip>("Fix3", TouAssets.MainBundle);
+    public static LoadableAsset<AudioClip> EngiFix1 { get; } =
+        new LoadableBundleAsset<AudioClip>("Fix1", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> EngiFix2 { get; } =
+        new LoadableBundleAsset<AudioClip>("Fix2", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> EngiFix3 { get; } =
+        new LoadableBundleAsset<AudioClip>("Fix3", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> GuardianAngelSound { get; } =
         new LoadableBundleAsset<AudioClip>("GuardianAngelProtect", TouAssets.MainBundle);
@@ -99,7 +105,8 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> SwooperDeactivateSound { get; } =
         new LoadableBundleAsset<AudioClip>("SwooperDeactivate", TouAssets.MainBundle);
 
-    public static LoadableAsset<AudioClip> MineSound { get; } = new LoadableBundleAsset<AudioClip>("MineSound", TouAssets.MainBundle);
+    public static LoadableAsset<AudioClip> MineSound { get; } =
+        new LoadableBundleAsset<AudioClip>("MineSound", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> EscapistMarkSound { get; } =
         new LoadableBundleAsset<AudioClip>("EscapistMark", TouAssets.MainBundle);

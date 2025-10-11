@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class LookoutOptions : AbstractOptionGroup<LookoutRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Lookout, "Lookout");
+    public override string GroupName => TouLocale.Get("TouRoleLookout", "Lookout");
 
     [ModdedNumberOption("Watch Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float WatchCooldown { get; set; } = 20f;

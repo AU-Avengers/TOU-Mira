@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class ArsonistOptions : AbstractOptionGroup<ArsonistRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Arsonist, "Arsonist");
+    public override string GroupName => TouLocale.Get("TouRoleArsonist", "Arsonist");
 
     [ModdedNumberOption("Douse Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float DouseCooldown { get; set; } = 25f;

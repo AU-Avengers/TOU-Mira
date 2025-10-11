@@ -9,9 +9,18 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class MysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Perception;
-    public string RoleName => TouLocale.Get(TouNames.Mystic, "Mystic");
-    public string RoleDescription => "Know When and Where Kills Happen";
-    public string RoleLongDescription => "Understand when and where kills happen";
+    public string LocaleKey => "Mystic";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Mystic;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
@@ -26,11 +35,5 @@ public sealed class MysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public StringBuilder SetTabText()
     {
         return ITownOfUsRole.SetNewTabText(this);
-    }
-
-    public string GetAdvancedDescription()
-    {
-        return $"The {RoleName} is a Crewmate Investigative role that gets an alert when someone dies."
-               + MiscUtils.AppendOptionsText(GetType());
     }
 }

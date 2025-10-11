@@ -2,6 +2,8 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
+using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Options;
 
@@ -12,9 +14,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedEnumOption("Modifier Type To Show In Role Intro", typeof(ModReveal))]
     public ModReveal ModifierReveal { get; set; } = ModReveal.Universal;
-    
-    /*[ModdedToggleOption("Non-Basic Vanilla Roles Are Guessable")]
-    public bool GuessVanillaRoles { get; set; } = true;*/
 
     [ModdedToggleOption("Show Faction Modifier On Role Reveal")]
     public bool TeamModifierReveal { get; set; } = true;
@@ -44,8 +43,39 @@ public sealed class GeneralOptions : AbstractOptionGroup
     [ModdedToggleOption("The Dead Know Everything")]
     public bool TheDeadKnow { get; set; } = true;
 
+    public ModdedToggleOption EnableSpectators { get; set; } = new("Allow More Spectators", true)
+    {
+        ChangedEvent = x =>
+        {
+            var list = SpectatorRole.TrackedSpectators;
+            foreach (var name in list)
+            {
+                SpectatorRole.TrackedSpectators.Remove(name);
+            }
+            Logger<TownOfUsPlugin>.Debug("Removed all spectators.");
+        },
+    };
+
     [ModdedNumberOption("Game Start Cooldowns", 10f, 30f, 2.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float GameStartCd { get; set; } = 10f;
+
+    [ModdedEnumOption("Start Cooldowns Apply For", typeof(StartCooldownType),
+        ["All Buttons", "Specific Cooldowns", "No Buttons"])]
+    public StartCooldownType StartCooldownMode { get; set; } = StartCooldownType.SpecificCooldowns;
+
+    public ModdedNumberOption StartCooldownMin { get; set; } = new("Minimum Cooldown To Be Applicable", 5f, 0f, 60f,
+        2.5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<GeneralOptions>.Instance.StartCooldownMode is StartCooldownType.SpecificCooldowns
+    };
+
+    public ModdedNumberOption StartCooldownMax { get; set; } = new("Maximum Cooldown To Be Applicable", 60f, 0f, 60f,
+        2.5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<GeneralOptions>.Instance.StartCooldownMode is StartCooldownType.SpecificCooldowns
+    };
 
     [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float TempSaveCdReset { get; set; } = 2.5f;
@@ -55,6 +85,7 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedEnumOption("Disable Meeting Skip Button", typeof(SkipState))]
     public SkipState SkipButtonDisable { get; set; } = SkipState.No;
+
     [ModdedNumberOption("Voting Time Added After Meeting Death", 0f, 15f, 1f, MiraNumberSuffixes.Seconds, "0.#")]
     public float AddedMeetingDeathTimer { get; set; } = 5f;
 
@@ -66,6 +97,13 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Hide Vent Animations Not In Vision")]
     public bool HideVentAnimationNotInVision { get; set; } = true;
+}
+
+public enum StartCooldownType
+{
+    AllButtons,
+    SpecificCooldowns,
+    NoButtons
 }
 
 public enum ModReveal

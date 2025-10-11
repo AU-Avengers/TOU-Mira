@@ -15,8 +15,8 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerControl>
 {
-    public override string Name => "Reveal";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleSeerReveal", "Reveal");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
     public override float Cooldown => OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SeerSprite;
@@ -61,9 +61,8 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You have revealed that {target.Data.PlayerName} is {possiblyGood} evil!</color></b>",
-                Color.white, spr: TouRoleIcons.Seer.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
+            notif1.AdjustNotification();
 
             if (options.ShowCrewmateKillingAsRed)
             {
@@ -83,6 +82,11 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
             if (options.ShowNeutralKillingAsRed)
             {
                 possibleAlignment.Append("Neutral Killer, ");
+            }
+
+            if (options.ShowNeutralOutlierAsRed)
+            {
+                possibleAlignment.Append("Neutral Outlier, ");
             }
 
             if (options.SwapTraitorColors)
@@ -116,9 +120,8 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{Palette.CrewmateBlue.ToTextColor()}You have revealed that {target.Data.PlayerName} is {possiblyGood} good!</color></b>",
-                Color.white, spr: TouRoleIcons.Seer.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
+            notif1.AdjustNotification();
 
             if (!options.ShowNeutralBenignAsRed)
             {
@@ -135,6 +138,11 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 possibleAlignment.Append("Neutral Killer, ");
             }
 
+            if (!options.ShowNeutralOutlierAsRed)
+            {
+                possibleAlignment.Append("Neutral Outlier, ");
+            }
+
             if (possibleAlignment.Length > 3)
             {
                 possibleAlignment = possibleAlignment.Remove(possibleAlignment.Length - 2, 2);
@@ -144,8 +152,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
             possibleAlignment.Append(impString);
             var notif2 =
                 Helpers.CreateAndShowNotification($"<b>They must be a {possibleAlignment}</b>", Palette.CrewmateBlue);
-            notif2.Text.SetOutlineThickness(0.35f);
-            notif2.transform.localPosition = new Vector3(0f, 1f, -20f);
+            notif2.AdjustNotification();
         }
     }
 
@@ -157,6 +164,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 (target.Is(RoleAlignment.NeutralBenign) && options.ShowNeutralBenignAsRed) ||
                 (target.Is(RoleAlignment.NeutralEvil) && options.ShowNeutralEvilAsRed) ||
                 (target.Is(RoleAlignment.NeutralKilling) && options.ShowNeutralKillingAsRed) ||
+                (target.Is(RoleAlignment.NeutralOutlier) && options.ShowNeutralOutlierAsRed) ||
                 (target.IsImpostor() && !target.HasModifier<TraitorCacheModifier>()) ||
                 (target.HasModifier<TraitorCacheModifier>() && options.SwapTraitorColors));
     }

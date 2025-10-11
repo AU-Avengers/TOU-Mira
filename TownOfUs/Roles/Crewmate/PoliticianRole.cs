@@ -22,9 +22,37 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public bool CanCampaign { get; set; } = true;
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string RoleName => TouLocale.Get(TouNames.Politician, "Politician");
-    public string RoleDescription => $"Campaign To Become The {TouLocale.Get(TouNames.Mayor, "Mayor")}!";
-    public string RoleLongDescription => $"Spread your campaign to become the {TouLocale.Get(TouNames.Mayor, "Mayor")}!";
+    public string LocaleKey => "Politician";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Campaign", "Campaign"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}CampaignWikiDescription"),
+                    TouCrewAssets.CampaignButtonSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}RevealWiki", "Reveal"),
+                    TouLocale.GetParsed(OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign
+                        ? $"TouRole{LocaleKey}RevealWikiDescriptionPunished"
+                        : $"TouRole{LocaleKey}RevealWikiDescription"),
+                    TouAssets.RevealCleanSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Politician;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
@@ -49,26 +77,6 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         return stringB;
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Power role that can reveal themselves to the crew as the {TouLocale.Get(TouNames.Mayor, "Mayor")}, given that they have campaigned at least half of the crewmates."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Campaign",
-            "Give a player a ballot, which will only be useful to you if they are a Crewmate.",
-            TouCrewAssets.CampaignButtonSprite),
-        new("Reveal (Meeting)",
-            $"If you reveal and you have more than half of the crewmates campaigned (or no other crewmates remain), you will become the {TouLocale.Get(TouNames.Mayor, "Mayor")}! Otherwise, your ability will fail and you " +
-            (OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign ? "cannot" : "can") +
-            " campaign the following round.",
-            TouAssets.RevealCleanSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {

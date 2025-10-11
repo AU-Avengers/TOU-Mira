@@ -10,9 +10,32 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string RoleName => TouLocale.Get(TouNames.Seer, "Seer");
-    public string RoleDescription => "Reveal The Alliance Of Other Players";
-    public string RoleLongDescription => "Reveal alliances of other players to find the Impostors";
+    public string LocaleKey => "Seer";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Reveal", "Reveal"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}RevealWikiDescription"),
+                    TouCrewAssets.SeerSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Seer;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
@@ -28,18 +51,4 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-
-    public string GetAdvancedDescription()
-    {
-        return $"The {RoleName} is a Crewmate Investigative role that can reveal the alliance of other players."
-               + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Reveal",
-            "Reveal the faction of a player",
-            TouCrewAssets.SeerSprite)
-    ];
 }

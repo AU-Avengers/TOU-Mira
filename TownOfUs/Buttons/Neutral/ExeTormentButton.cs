@@ -1,10 +1,9 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Networking;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -12,8 +11,8 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ExeTormentButton : TownOfUsButton
 {
-    public override string Name => "Torment";
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override string Name => TouLocale.Get("TouRoleExecutionerTorment", "Torment");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Executioner;
     public override float Cooldown => 0.01f;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ExeTormentSprite;
@@ -33,36 +32,39 @@ public sealed class ExeTormentButton : TownOfUsButton
         {
             return;
         }
+
         var playerMenu = CustomPlayerMenu.Create();
         playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.Begin(
-            plr => !plr.HasDied() && plr.HasModifier<MisfortuneTargetModifier>() && !plr.HasModifier<InvulnerabilityModifier>() && plr != PlayerControl.LocalPlayer,
+            plr => !plr.HasDied() && plr.HasModifier<MisfortuneTargetModifier>() &&
+                   !plr.HasModifier<InvulnerabilityModifier>() && plr != PlayerControl.LocalPlayer,
             plr =>
             {
                 playerMenu.ForceClose();
 
                 if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any())
                 {
-                    PlayerControl.LocalPlayer.RpcCustomMurder(plr, teleportMurderer: false);
-                    DeathHandlerModifier.RpcUpdateDeathHandler(plr, "Tormented", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue, $"By {PlayerControl.LocalPlayer.Data.PlayerName}", lockInfo: DeathHandlerOverride.SetTrue);
-
+                    PlayerControl.LocalPlayer.RpcGhostRoleMurder(plr);
                     foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
                     {
                         mod.ModifierComponent?.RemoveModifier(mod);
                     }
 
                     Show = false;
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "Victorious", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
-                    PlayerControl.LocalPlayer.RpcRemoveModifier<IndirectAttackerModifier>();
                 }
             });
     }
 
     public override bool CanUse()
     {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
     }
 }

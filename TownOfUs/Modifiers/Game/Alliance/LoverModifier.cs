@@ -23,9 +23,28 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Lover, "Lover");
-    public override string Symbol => "♥";
+    public override string LocaleKey => "Lover";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => LoverString();
+
+    public override string GetDescription()
+    {
+        return LoverString();
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+            .Replace("<symbol>", "<color=#FF66CCFF>♥</color>") + MiscUtils.AppendOptionsText(GetType());
+    }
+
+    public string LoverString()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}Info")
+            .Replace("<player>", OtherLover != null ? OtherLover.Data.PlayerName : "???");
+    }
+
+    public override string Symbol => "♥";
     public override float IntroSize => 3f;
     public override Color FreeplayFileColor => new Color32(220, 220, 220, 255);
 
@@ -62,6 +81,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
             var players = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
+                            !x.HasModifier<AllianceGameModifier>() &&
                             x.Data.Role is not InquisitorRole && (loveOpt.NeutralLovers || !x.IsNeutral())).ToList();
             players.Shuffle();
 
@@ -121,18 +141,6 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"As a {ModifierName.ToLowerInvariant()}, you can chat with your other {ModifierName.ToLowerInvariant()} (signified with <color=#FF66CCFF>♥</color>) during the round, and you can win with your {ModifierName.ToLowerInvariant()} if you are both a part of the final 3 players."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    public override string GetDescription()
-    {
-        return LoverString();
-    }
 
     public override int GetAmountPerGame()
     {
@@ -254,11 +262,6 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         }
 
         HudManager.Instance.Chat.SetVisible(true);
-    }
-
-    public string LoverString()
-    {
-        return !OtherLover ? "You are in love with nobody" : $"You are in love with {OtherLover!.Data.PlayerName}";
     }
 
     public PlayerControl? GetOtherLover()

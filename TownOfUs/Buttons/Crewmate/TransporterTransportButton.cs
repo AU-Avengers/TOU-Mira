@@ -11,8 +11,8 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterRole>
 {
-    public override string Name => "Transport";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleTransporterTransport", "Transport");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Transporter;
 
     public override float Cooldown =>
@@ -80,6 +80,7 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
                         {
                             return;
                         }
+
                         TransporterRole.RpcTransport(PlayerControl.LocalPlayer, plr.PlayerId, plr2.PlayerId);
                     }
                 );

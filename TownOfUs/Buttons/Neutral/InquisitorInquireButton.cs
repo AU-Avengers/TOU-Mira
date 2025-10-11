@@ -13,8 +13,8 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole, PlayerControl>
 {
-    public override string Name => "Inquire";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("InquisitorInquire", "Inquire");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override int MaxUses => (int)OptionGroupSingleton<InquisitorOptions>.Instance.MaxUses;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
 
@@ -54,9 +54,8 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}You will know if {Target.Data.PlayerName} is a heretic during the next meeting.</color></b>",
-            Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
-        notif1.Text.SetOutlineThickness(0.35f);
-        notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+        notif1.AdjustNotification();
     }
 }

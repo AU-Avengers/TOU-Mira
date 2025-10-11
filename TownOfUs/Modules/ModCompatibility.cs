@@ -126,13 +126,15 @@ public static class ModCompatibility
 
         harmony.Patch(submergedExileWrapUp, null,
             new HarmonyMethod(AccessTools.Method(compatType, nameof(ExileRoleChangePostfix))));
-        harmony.Patch(canUse, null, null, new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
+        harmony.Patch(canUse, null, null,
+            new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
 
         SubLoaded = true;
         Logger<TownOfUsPlugin>.Message("Submerged was detected");
     }
 
-    public static IEnumerable<CodeInstruction> SubmergedElevatorTranspilerPatch(IEnumerable<CodeInstruction> instructions)
+    public static IEnumerable<CodeInstruction> SubmergedElevatorTranspilerPatch(
+        IEnumerable<CodeInstruction> instructions)
     {
         var found = false;
         foreach (var instruction in instructions)
@@ -141,13 +143,15 @@ public static class ModCompatibility
                 instruction.operand is MethodInfo { Name: "get_IsDead", DeclaringType.Name: "NetworkedPlayerInfo" })
             {
                 found = true;
-                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utilities.Extensions), nameof(Utilities.Extensions.IsGhostDead)));
+                yield return new CodeInstruction(OpCodes.Call,
+                    AccessTools.Method(typeof(Utilities.Extensions), nameof(Utilities.Extensions.IsGhostDead)));
             }
             else
             {
                 yield return instruction;
             }
         }
+
         if (!found)
         {
             Logger<TownOfUsPlugin>.Error("Failed to find the IsDead call in SubmergedElevator transpiler");

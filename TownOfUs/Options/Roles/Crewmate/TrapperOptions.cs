@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class TrapperOptions : AbstractOptionGroup<TrapperRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Trapper, "Trapper");
+    public override string GroupName => TouLocale.Get("TouRoleTrapper", "Trapper");
 
     [ModdedNumberOption("Trap Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float TrapCooldown { get; set; } = 20f;

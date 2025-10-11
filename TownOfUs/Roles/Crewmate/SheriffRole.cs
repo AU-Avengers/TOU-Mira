@@ -9,7 +9,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -22,9 +22,32 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public override bool IsAffectedByComms => false;
     public bool HasMisfired { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string RoleName => TouLocale.Get(TouNames.Sheriff, "Sheriff");
-    public string RoleDescription => "Shoot The <color=#FF0000FF>Impostor</color>";
-    public string RoleLongDescription => "Kill off the impostors but don't kill crewmates";
+    public string LocaleKey => "Sheriff";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Shoot", "Shoot"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ShootWikiDescription"),
+                    TouCrewAssets.SheriffShootSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Sheriff;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateKilling;
@@ -39,56 +62,30 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-        var stringB = ITownOfUsRole.SetNewTabText(this);
-        var missType = OptionGroupSingleton<SheriffOptions>.Instance.MisfireType;
-
-        if (CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot)
+        var stringB = new StringBuilder();
+        stringB.AppendLine(CultureInfo.InvariantCulture,
+            $"{RoleColor.ToTextColor()}{TouLocale.Get("YouAreA")}<b> {RoleName}.</b></color>");
+        stringB.AppendLine(CultureInfo.InvariantCulture,
+            $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
+        stringB.Append("<size=70%>");
+        if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>You can no longer shoot.</b>");
+            stringB.AppendLine(CultureInfo.InvariantCulture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEgo")}");
         }
         else
         {
-            switch (missType)
+            stringB.AppendLine(CultureInfo.InvariantCulture, $"{RoleLongDescription}");
+            var addedText = "d";
+            if (!CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot)
             {
-                case MisfireOptions.Both:
-                    stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>Misfiring kills you and your target.</b>");
-                    break;
-                case MisfireOptions.Sheriff:
-                    stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>Misfiring will lead to suicide.</b>");
-                    break;
-                case MisfireOptions.Target:
-                    stringB.AppendLine(CultureInfo.InvariantCulture,
-                        $"<b>Misfiring will lead to your target's death,\nat the cost of your ability.</b>");
-                    break;
-                default:
-                    stringB.AppendLine(CultureInfo.InvariantCulture,
-                        $"<b>Misfiring will prevent you from shooting again.</b>");
-                    break;
+                var missType = OptionGroupSingleton<SheriffOptions>.Instance.MisfireType;
+                addedText = $"Kills{missType}";
             }
-        }
-
-        if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
-        {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>You may shoot without repercussions.</b>");
+            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{TouLocale.GetParsed($"TouRole{LocaleKey}TabMisfire{addedText}")}</b>");
         }
 
         return stringB;
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Killing that can shoot a player to attempt to kill them. If {RoleName} doesn't die to misfire, they will lose the ability to shoot." +
-            MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Shoot",
-            "Shoot a player to kill them, misfiring if they aren't a Impostor or one of the other selected shootable factions",
-            TouCrewAssets.SheriffShootSprite)
-    ];
 
     public static void OnRoundStart()
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using HarmonyLib;
 using Reactor.Utilities;
 using TownOfUs.Modules;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -46,9 +47,12 @@ public static class PlayerJoinPatch
 
         Logger<TownOfUsPlugin>.Info("Sending Message to Local Player...");
         TouRoleManagerPatches.ReplaceRoleManager = false;
+        SpectatorRole.TrackedPlayers.Clear();
+        SpectatorRole.FixedCam = false;
 
         var time = 0f;
-        if (GameHistory.EndGameSummary != string.Empty && TownOfUsPlugin.ShowSummaryMessage.Value)
+        if (GameHistory.EndGameSummary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+                .ShowSummaryMessageToggle.Value)
         {
             var factionText = string.Empty;
             var msg = string.Empty;
@@ -62,7 +66,7 @@ public static class PlayerJoinPatch
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
         }
 
-        if (!SentOnce && TownOfUsPlugin.ShowWelcomeMessage.Value)
+        if (!SentOnce && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowWelcomeMessageToggle.Value)
         {
             var name = "<color=#8BFDFD>System</color>";
             var msg =
@@ -70,7 +74,7 @@ public static class PlayerJoinPatch
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, name, msg, true);
             time = 5f;
         }
-        else if (!TownOfUsPlugin.ShowWelcomeMessage.Value)
+        else if (!LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowWelcomeMessageToggle.Value)
         {
             time = 2.48f;
         }

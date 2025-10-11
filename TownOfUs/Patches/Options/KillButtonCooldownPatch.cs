@@ -20,7 +20,7 @@ public static class KillButtonCooldownPatch
             return;
         }
 
-        if (!TownOfUsPlugin.PreciseCooldowns.Value)
+        if (!LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.PreciseCooldownsToggle.Value)
         {
             return;
         }

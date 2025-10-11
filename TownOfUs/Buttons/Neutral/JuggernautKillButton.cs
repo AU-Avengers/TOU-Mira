@@ -13,8 +13,8 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
-    public override string Name => "Kill";
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Juggernaut;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.JuggKillSprite;
     public override float Cooldown => GetCooldown();
@@ -43,6 +43,7 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
         {
             return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance, false, x => !x.IsLover());
         }
+
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }
 

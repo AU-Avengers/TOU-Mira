@@ -25,7 +25,7 @@ public static class FirstShieldEvents
         var source = PlayerControl.LocalPlayer;
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var target = button?.Target;
-        if (target == null || button is not IKillButton)
+        if (target == null || button is not IKillButton || !button.CanClick())
         {
             return;
         }

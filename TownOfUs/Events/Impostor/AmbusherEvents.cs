@@ -14,6 +14,7 @@ public static class AmbusherEvents
     {
         CustomRoleUtils.GetActiveRolesOfType<AmbusherRole>().Do(x => x.Clear());
     }
+
     [RegisterEvent]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {

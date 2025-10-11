@@ -17,12 +17,12 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
 {
     private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
-    public override string Name => "Block";
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override string Name => TouLocale.Get("TouRolePlumberBlock", "Block");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
     public override float Cooldown => OptionGroupSingleton<PlumberOptions>.Instance.BlockCooldown + MapCooldown;
     public override int MaxUses => (int)OptionGroupSingleton<PlumberOptions>.Instance.MaxBarricades;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.BarricadeSprite;
+    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.BlockSprite;
     public int ExtraUses { get; set; }
 
     public override bool IsTargetValid(Vent? target)
@@ -73,7 +73,13 @@ public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
         Target = IsTargetValid(newTarget) ? newTarget : null;
         SetOutline(true);
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
+                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -90,9 +96,9 @@ public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
         }
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.Plumber.ToTextColor()}This vent will be blocked at the beginning of the next round.</b></color>",
+            TouLocale.Get("TouRolePlumberBlockNotif"),
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Plumber.LoadAsset());
-        notif1.Text.SetOutlineThickness(0.35f);
+        notif1.AdjustNotification();
 
         PlumberRole.RpcPlumberBlockVent(PlayerControl.LocalPlayer, Target.Id);
 

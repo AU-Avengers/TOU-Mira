@@ -45,27 +45,25 @@ public static class InquisitorEvents
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.1f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}A Heretic has perished!</b></color>", Color.white,
+                    new Vector3(0f, 1f, -20f),
                     spr: TouRoleIcons.Inquisitor.LoadAsset());
-                notif1.Text.SetOutlineThickness(0.35f);
-                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                notif1.AdjustNotification();
             }
             else if (!victim.HasModifier<InquisitorHereticModifier>() && !victim.AmOwner && source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{victim.Data.PlayerName} was not a heretic!\nYou can no longer vanquish players.</b></color>",
-                    Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
-                notif1.Text.SetOutlineThickness(0.35f);
-                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                notif1.AdjustNotification();
             }
             else if (victim.HasModifier<InquisitorHereticModifier>() && !victim.AmOwner && source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Doomsayer, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{victim.Data.PlayerName} was a heretic!</b></color>",
-                    Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
-                notif1.Text.SetOutlineThickness(0.35f);
-                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                notif1.AdjustNotification();
             }
         }
 
@@ -94,31 +92,30 @@ public static class InquisitorEvents
         }
 
         CustomRoleUtils.GetActiveRolesOfType<InquisitorRole>().Do(x => x.CheckTargetDeath(exiled));
-        
+
         var inquis = CustomRoleUtils.GetActiveRolesOfType<InquisitorRole>().FirstOrDefault();
         if (inquis != null && inquis.TargetsDead && !inquis.Player.HasDied())
         {
             if (inquis.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>You have successfully won as the {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, as all Heretics have perished!</b>",
-                    Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    TouLocale.GetParsed("TouRoleInquisitorVictoryMessageSelf").Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>"),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
-                notif1.Text.SetOutlineThickness(0.35f);
-                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "Victorious",
+                notif1.AdjustNotification();
+                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
                     DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>",
-                    Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    TouLocale.GetParsed("TouRoleInquisitorVictoryMessage").Replace("<player>", inquis.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>"),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
-                notif1.Text.SetOutlineThickness(0.35f);
-                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                notif1.AdjustNotification();
             }
+
             inquis.Player.Exiled();
         }
     }
@@ -138,21 +135,22 @@ public static class InquisitorEvents
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>You have successfully won as the {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, as all Heretics have perished!</b>",
-                    Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
-                notif1.Text.SetOutlineThickness(0.35f);
-                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "Victorious", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
+                notif1.AdjustNotification();
+                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
+                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>",
-                    Color.white, spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
-                notif1.Text.SetOutlineThickness(0.35f);
-                notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                notif1.AdjustNotification();
             }
+
             inquis.Player.Exiled();
         }
     }

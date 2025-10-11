@@ -10,8 +10,8 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class DisperseButton : TownOfUsButton
 {
-    public override string Name => "Disperse";
-    public override string Keybind => Keybinds.ModifierAction;
+    public override string Name => TouLocale.Get("TouModifierDisperserDisperse", "Disperse");
+    public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f + MapCooldown;
     public override int MaxUses => 1;

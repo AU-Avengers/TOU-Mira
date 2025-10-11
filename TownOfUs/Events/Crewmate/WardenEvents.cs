@@ -42,8 +42,9 @@ public static class WardenEvents
                 x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
             var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
                 x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        
-            mod.ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden || (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
+
+            mod.ShowFort = showShieldedEveryone || showShieldedSelf || showShieldedWarden ||
+                           (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
         }
     }
 
@@ -100,7 +101,7 @@ public static class WardenEvents
         }
 
         @event.Cancel();
-        
+
         // The reason this exists is that otherwise, players can brute force through the warden fort if they spam fast enough
         if (@event is MiraButtonClickEvent buttonClick)
         {
@@ -110,6 +111,7 @@ public static class WardenEvents
                 button.Timer += 1f;
             }
         }
+
         if (@event is BeforeMurderEvent && source.IsImpostor())
         {
             source.SetKillTimer(source.killTimer + 1f);

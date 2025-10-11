@@ -22,5 +22,3 @@ public sealed class NeutralModifierOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<NeutralModifierOptions>.Instance.DoubleShotAmount > 0
         };
 }
-
-

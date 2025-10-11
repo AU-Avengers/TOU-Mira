@@ -35,7 +35,11 @@ public static class ChatControllerPatches
 
         if (!MeetingHud.Instance)
         {
-            if (_noticeText.text != string.Empty) _noticeText.text = string.Empty;
+            if (_noticeText.text != string.Empty)
+            {
+                _noticeText.text = string.Empty;
+            }
+
             return;
         }
 

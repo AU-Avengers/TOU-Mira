@@ -8,13 +8,11 @@ using TownOfUs.Utilities;
 namespace TownOfUs.Patches.Options;
 
 [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.Begin))]
-
 public static class AirshipSpawnPatch
 {
     private static List<StringNames> RemovedSpawns = [];
 
     [HarmonyPrefix]
-
     public static void Prefix(SpawnInMinigame __instance)
     {
         if (OptionGroupSingleton<AirshipOptions>.Instance.SpawnMode == AirshipOptions.SpawnModes.HostChoosesOne)
@@ -30,7 +28,11 @@ public static class AirshipSpawnPatch
         {
             if (AmongUsClient.Instance.AmHost)
             {
-                List<StringNames> picks = [StringNames.MainHall, StringNames.Kitchen, StringNames.CargoBay, StringNames.Engine, StringNames.Brig, StringNames.Records];
+                List<StringNames> picks =
+                [
+                    StringNames.MainHall, StringNames.Kitchen, StringNames.CargoBay, StringNames.Engine,
+                    StringNames.Brig, StringNames.Records
+                ];
                 picks.Shuffle();
 
                 RemoveSpawns(PlayerControl.LocalPlayer, picks[0], picks[1], picks[2]);
@@ -55,8 +57,8 @@ public static class AirshipSpawnPatch
     }
 
     [MethodRpc((uint)TownOfUsRpc.RemoveSpawns)]
-
-    public static void RemoveSpawns(PlayerControl player, StringNames location, StringNames location2, StringNames location3)
+    public static void RemoveSpawns(PlayerControl player, StringNames location, StringNames location2,
+        StringNames location3)
     {
         RemovedSpawns = [location, location2, location3];
     }

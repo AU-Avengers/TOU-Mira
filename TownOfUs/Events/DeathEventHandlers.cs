@@ -9,6 +9,7 @@ using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -18,12 +19,14 @@ namespace TownOfUs.Events;
 public static class DeathEventHandlers
 {
     public static bool IsDeathRecent { get; set; }
+
     public static IEnumerator CoWaitDeathHandler()
     {
         IsDeathRecent = true;
         yield return new WaitForSeconds(0.15f);
         IsDeathRecent = false;
     }
+
     public static int CurrentRound { get; set; } = 1;
 
     [RegisterEvent(-1)]
@@ -55,19 +58,20 @@ public static class DeathEventHandlers
             switch (@event.DeathReason)
             {
                 case DeathReason.Exile:
-                    cod = "Ejected";
+                    cod = "Ejection";
                     deathHandler.DiedThisRound = false;
                     break;
                 case DeathReason.Kill:
-                    cod = "Killed";
+                    cod = "Killer";
                     break;
             }
-            deathHandler.CauseOfDeath = cod;
+
+            deathHandler.CauseOfDeath = TouLocale.Get($"DiedTo{cod}");
             deathHandler.RoundOfDeath = CurrentRound;
             Coroutines.Start(CoWaitDeathHandler());
         }
     }
-    
+
     [RegisterEvent(500)]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
@@ -76,16 +80,23 @@ public static class DeathEventHandlers
         {
             return;
         }
+
         if (!exiled.HasModifier<DeathHandlerModifier>())
         {
-            DeathHandlerModifier.UpdateDeathHandler(exiled, "Ejected", CurrentRound, DeathHandlerOverride.SetFalse);
+            DeathHandlerModifier.UpdateDeathHandler(exiled, TouLocale.Get("DiedToEjection"), CurrentRound,
+                DeathHandlerOverride.SetFalse);
         }
     }
 
     [RegisterEvent(500)]
     public static void PlayerReviveEventHandler(PlayerReviveEvent reviveEvent)
     {
-        reviveEvent.Player.RemoveModifier<DeathHandlerModifier>();
+        var deathMods = reviveEvent.Player.GetModifiers<DeathHandlerModifier>();
+
+        foreach (var deathMod in deathMods)
+        {
+            deathMod.ModifierComponent?.RemoveModifier(deathMod);
+        }
     }
 
     [RegisterEvent(500)]
@@ -93,78 +104,47 @@ public static class DeathEventHandlers
     {
         var source = murderEvent.Source;
         var target = murderEvent.Target;
-        
-        if (target == source && target.TryGetModifier<DeathHandlerModifier>(out var deathHandler) && !deathHandler.LockInfo)
+
+        if (target == source && target.TryGetModifier<DeathHandlerModifier>(out var deathHandler) &&
+            !deathHandler.LockInfo)
         {
-            deathHandler.CauseOfDeath = "Suicide";
+            deathHandler.CauseOfDeath = TouLocale.Get("DiedToSuicide");
             deathHandler.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
             deathHandler.RoundOfDeath = CurrentRound;
             deathHandler.LockInfo = true;
         }
         else if (target.TryGetModifier<DeathHandlerModifier>(out var deathHandler2) && !deathHandler2.LockInfo)
         {
-            var cod = "Killed";
-            switch (source.GetRoleWhenAlive())
+            var role = source.GetRoleWhenAlive();
+            var cod = "Killer";
+            switch (role)
             {
-                case SheriffRole:
-                    cod = "Shot";
-                    break;
-                case DeputyRole:
-                    cod = "Blasted";
-                    break;
-                case VeteranRole:
-                    cod = "Attacked";
-                    break;
-                case JailorRole:
-                    cod = "Executed";
-                    break;
-                case ArsonistRole:
-                    cod = "Ignited";
-                    break;
-                case GlitchRole:
-                    cod = "Bugged";
-                    break;
-                case JuggernautRole:
-                    cod = "Destroyed";
-                    break;
-                case PestilenceRole:
-                    cod = "Diseased";
-                    break;
-                case SoulCollectorRole:
-                    cod = "Reaped";
-                    break;
-                case VampireRole:
-                    cod = "Bitten";
-                    break;
-                case WerewolfRole:
-                    cod = "Rampaged";
-                    break;
-                case DoomsayerRole:
-                    cod = "Doomed";
-                    break;
-                case JesterRole:
-                    cod = "Haunted";
-                    break;
-                case ExecutionerRole:
-                    cod = "Tormented";
-                    break;
                 case MirrorcasterRole mirror:
-                    cod = mirror.UnleashString != string.Empty ? mirror.UnleashString : "Killed";
+                    cod = mirror.UnleashString != string.Empty ? mirror.UnleashString : TouLocale.Get("DiedToKiller");
                     mirror.UnleashString = string.Empty;
                     mirror.ContainedRole = null;
                     break;
-                case InquisitorRole:
-                    cod = "Vanquished";
+                default:
+                    var touRole = role as ITownOfUsRole;
+                    if (touRole == null || touRole.LocaleKey == "KEY_MISS" ||
+                        TouLocale.Get($"DiedTo{touRole.LocaleKey}").Contains("STRMISS"))
+                    {
+                        break;
+                    }
+
+                    cod = touRole.LocaleKey;
                     break;
             }
 
-            if (source.Data.Role is PhantomTouRole)
+            if (source.Data.Role is PhantomTouRole phantomTouRole)
             {
-                cod = "Spooked";
+                role = source.Data.Role;
+                cod = phantomTouRole.LocaleKey;
             }
-            
-            deathHandler2.CauseOfDeath = cod;
-            deathHandler2.KilledBy = $"By {source.Data.PlayerName}";
+
+            deathHandler2.CauseOfDeath = role is MirrorcasterRole ? cod : TouLocale.Get($"DiedTo{cod}");
+            deathHandler2.KilledBy =
+                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName);
             deathHandler2.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
             deathHandler2.RoundOfDeath = CurrentRound;
         }

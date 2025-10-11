@@ -2,6 +2,7 @@
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
+using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -9,7 +10,8 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Giant, "Giant");
+    public override string LocaleKey => "Giant";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Giant;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -23,19 +25,20 @@ public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IV
         return appearance;
     }
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<giantSpeed>",
+            $"{Math.Round(OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed, 2)}");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            $"You are bigger than regular players, and you also move {Math.Round(OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed, 2)}x slower than regular players.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<giantSpeed>",
+                   $"{Math.Round(OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed, 2)}") +
+               MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return
-            $"You are bigger than the average player, moving {Math.Round(1f / OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed, 2)}x slower";
-    }
 
     public override int GetAssignmentChance()
     {

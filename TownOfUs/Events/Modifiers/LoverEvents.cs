@@ -21,23 +21,29 @@ public static class LoverEvents
         {
             return;
         }
-        
+
         if (!@event.Player.TryGetModifier<LoverModifier>(out var loveMod)
             || !OptionGroupSingleton<LoversOptions>.Instance.BothLoversDie || loveMod.OtherLover == null
             || loveMod.OtherLover.HasDied() || loveMod.OtherLover.HasModifier<InvulnerabilityModifier>())
         {
             return;
         }
+
         switch (@event.DeathReason)
         {
             case DeathReason.Exile:
                 loveMod.OtherLover.RpcPlayerExile();
-                DeathHandlerModifier.RpcUpdateDeathHandler(loveMod.OtherLover, "Heartbroken", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
+                DeathHandlerModifier.RpcUpdateDeathHandler(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
+                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    lockInfo: DeathHandlerOverride.SetTrue);
                 break;
             case DeathReason.Kill:
                 loveMod.OtherLover.RpcCustomMurder(loveMod.OtherLover);
-                DeathHandlerModifier.RpcUpdateDeathHandler(loveMod.OtherLover, "Heartbroken", DeathEventHandlers.CurrentRound,
-                    (!MeetingHud.Instance && !ExileController.Instance) ? DeathHandlerOverride.SetTrue : DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
+                DeathHandlerModifier.RpcUpdateDeathHandler(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
+                    DeathEventHandlers.CurrentRound,
+                    (!MeetingHud.Instance && !ExileController.Instance)
+                        ? DeathHandlerOverride.SetTrue
+                        : DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
                 break;
         }
     }

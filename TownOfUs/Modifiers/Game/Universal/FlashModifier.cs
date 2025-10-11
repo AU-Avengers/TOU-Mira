@@ -2,6 +2,7 @@
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
+using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -9,7 +10,8 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Flash, "Flash");
+    public override string LocaleKey => "Flash";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Flash;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -22,18 +24,20 @@ public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IV
         return appearance;
     }
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<flashSpeed>",
+            $"{Math.Round(OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed, 2)}");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            $"You move {Math.Round(OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed, 2)}x faster than regular players.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<flashSpeed>",
+                   $"{Math.Round(OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed, 2)}") +
+               MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return $"You move {Math.Round(OptionGroupSingleton<FlashOptions>.Instance.FlashSpeed, 2)}x faster.";
-    }
 
     public override int GetAssignmentChance()
     {

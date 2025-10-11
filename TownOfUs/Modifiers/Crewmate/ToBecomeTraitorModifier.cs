@@ -26,7 +26,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     public void AssignTargets()
     {
         if (GameOptionsManager.Instance.CurrentGameOptions.RoleOptions
-            .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0)
+                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0)
         {
             return;
         }
@@ -39,9 +39,8 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
                 (RoleTypes)RoleId.Get<TraitorRole>()))
         {
             var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => x.Is(ModdedRoleTeams.Crewmate) &&
-                            !x.Data.IsDead &&
-                            !x.Data.Disconnected &&
+                .Where(x => x.IsCrewmate() &&
+                            !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<EgotistModifier>() &&
                             x.Data.Role is not MayorRole).ToList();

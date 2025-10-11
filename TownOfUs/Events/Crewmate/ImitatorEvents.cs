@@ -1,9 +1,11 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
@@ -16,6 +18,21 @@ public static class ImitatorEvents
         if (@event.TriggeredByIntro)
         {
             return;
+        }
+
+        var imitatorRoles = CustomRoleUtils.GetActiveRolesOfType<ImitatorRole>();
+
+        if (imitatorRoles.Any())
+        {
+            foreach (var imitatorPlayer in imitatorRoles)
+            {
+                if (imitatorPlayer.Player.HasModifier<ImitatorCacheModifier>())
+                {
+                    continue;
+                }
+
+                imitatorPlayer.Player.AddModifier<ImitatorCacheModifier>();
+            }
         }
 
         var imitators = ModifierUtils.GetActiveModifiers<ImitatorCacheModifier>();
@@ -46,7 +63,11 @@ public static class ImitatorEvents
 
         if (player.HasModifier<ImitatorCacheModifier>() && !@event.NewRole.IsCrewmate())
         {
-            if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Role Change");
+            if (TownOfUsPlugin.IsDevBuild)
+            {
+                Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Role Change");
+            }
+
             player.RemoveModifier<ImitatorCacheModifier>();
         }
     }

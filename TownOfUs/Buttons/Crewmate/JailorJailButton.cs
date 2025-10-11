@@ -12,8 +12,8 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class JailorJailButton : TownOfUsRoleButton<JailorRole, PlayerControl>
 {
-    public override string Name => "Jail";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleJailorJail", "Jail");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Jailor;
     public override float Cooldown => OptionGroupSingleton<JailorOptions>.Instance.JailCooldown + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.JailSprite;

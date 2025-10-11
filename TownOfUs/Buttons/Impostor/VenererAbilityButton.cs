@@ -5,6 +5,7 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Impostor.Venerer;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
@@ -13,7 +14,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
 {
     private VenererAbility _queuedAbility = VenererAbility.None;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.NoAbilitySprite;
     public override float Cooldown => OptionGroupSingleton<VenererOptions>.Instance.AbilityCooldown;
     public override float EffectDuration => OptionGroupSingleton<VenererOptions>.Instance.AbilityDuration;
@@ -44,10 +45,9 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You have unlocked the {ability.ToString()} ability for getting a kill. {(EffectActive ? "You must wait until your current ability is over." : string.Empty)}</color></b>",
-                Color.white, spr: TouRoleIcons.Venerer.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Venerer.LoadAsset());
 
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+            notif1.AdjustNotification();
         }
 
         if (EffectActive)
@@ -87,7 +87,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
 
     private void SetAbility(string name, Sprite sprite)
     {
-        OverrideName(name);
+        OverrideName(TouLocale.Get($"TouRoleVenener{name}", name));
         OverrideSprite(sprite);
     }
 
@@ -108,6 +108,11 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
 
         UpdateButton(_queuedAbility);
         _queuedAbility = VenererAbility.None;
+    }
+    
+    public void AftermathHandler()
+    {
+        ClickHandler();
     }
 
     protected override void OnClick()

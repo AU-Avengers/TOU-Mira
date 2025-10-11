@@ -35,7 +35,7 @@ public static class MirrorcasterEvents
         var source = PlayerControl.LocalPlayer;
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var target = button?.Target;
-        if (target == null || button is not IKillButton)
+        if (target == null || button is not IKillButton || !button.CanClick())
         {
             return;
         }
@@ -76,13 +76,14 @@ public static class MirrorcasterEvents
             }
         }
     }
-    
+
     private static bool CheckForMagicMirror(MiraCancelableEvent @event, PlayerControl source, PlayerControl target)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
             return false;
         }
+
         // Magic Mirrors can NOT protect from Arsonist, bombs, veterans, anything of that nature.
         if (!target.HasModifier<MagicMirrorModifier>() ||
             source == null ||

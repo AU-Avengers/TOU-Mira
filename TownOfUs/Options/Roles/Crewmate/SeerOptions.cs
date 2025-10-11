@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class SeerOptions : AbstractOptionGroup<SeerRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Seer, "Seer");
+    public override string GroupName => TouLocale.Get("TouRoleSeer", "Seer");
 
     [ModdedNumberOption("Seer Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SeerCooldown { get; set; } = 25f;
@@ -23,6 +23,9 @@ public sealed class SeerOptions : AbstractOptionGroup<SeerRole>
 
     [ModdedToggleOption("Neutral Killing Roles Are Red")]
     public bool ShowNeutralKillingAsRed { get; set; } = true;
+
+    [ModdedToggleOption("Neutral Outlier Roles Are Red")]
+    public bool ShowNeutralOutlierAsRed { get; set; } = true;
 
     [ModdedToggleOption("Traitor Swaps Colors")]
     public bool SwapTraitorColors { get; set; } = true;

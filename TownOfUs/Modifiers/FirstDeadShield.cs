@@ -4,6 +4,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Patches;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -11,10 +12,12 @@ namespace TownOfUs.Modifiers;
 
 public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 {
-    public override string ModifierName => TouLocale.Get(TouNames.FirstDeathShield, "First Death Shield");
+    public override string ModifierName => TouLocale.Get("TouFirstDeathShield", "First Death Shield");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.FirstRoundShield;
 
-    public override bool HideOnUi => !TownOfUsPlugin.ShowShieldHud.Value;
+    public override bool HideOnUi =>
+        !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value;
+
     public override Color FreeplayFileColor => new Color32(100, 220, 100, 255);
 
     public GameObject? FirstRoundShield { get; set; }
@@ -58,7 +61,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        if (FirstDeadPatch.PlayerNames.Count == 0)
+        if (FirstDeadPatch.PlayerNames.Count == 0 || role is SpectatorRole)
         {
             return false;
         }

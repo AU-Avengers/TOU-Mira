@@ -15,9 +15,36 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => TouLocale.Get(TouNames.Cleric, "Cleric");
-    public string RoleDescription => "Save The Crewmates";
-    public string RoleLongDescription => "Barrier and Cleanse crewmates";
+    public string LocaleKey => "Cleric";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Barrier", "Barrier"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}BarrierWikiDescription").Replace("<BarrierCooldown>",
+                        $"{OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown}"),
+                    TouCrewAssets.BarrierSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Cleanse", "Cleanse"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}CleanseWikiDescription"),
+                    TouCrewAssets.CleanseSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Cleric;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
@@ -34,25 +61,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Protective that can protect crewmates by negating their negative effects, as well as placing barriers on them to prevent interactions." +
-            MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Barrier",
-            $"Prevent a Crewmate from being interacted with. The shield will last for {OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown} seconds.",
-            TouCrewAssets.BarrierSprite),
-        new("Cleanse",
-            "Remove all negative effects on a player. (Douse, Hack, Infect, Blackmail, Blind, Flash, and Hypnosis)",
-            TouCrewAssets.CleanseSprite)
-    ];
-
-    [MethodRpc((uint)TownOfUsRpc.ClericBarrierAttacked)]
+    [MethodRpc((uint)TownOfUsRpc.ClericBarrierAttacked, SendImmediately = true)]
     public static void RpcClericBarrierAttacked(PlayerControl cleric, PlayerControl source, PlayerControl shielded)
     {
         if (cleric.Data.Role is not ClericRole)

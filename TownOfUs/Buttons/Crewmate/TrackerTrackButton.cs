@@ -13,8 +13,8 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class TrackerTrackButton : TownOfUsRoleButton<TrackerTouRole, PlayerControl>
 {
-    public override string Name => "Track";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleTrackerTrack", "Track");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Tracker;
     public override float Cooldown => OptionGroupSingleton<TrackerOptions>.Instance.TrackCooldown + MapCooldown;
     public override int MaxUses => (int)OptionGroupSingleton<TrackerOptions>.Instance.MaxTracks;

@@ -7,7 +7,7 @@ namespace TownOfUs.Options.Roles.Impostor;
 
 public sealed class EclipsalOptions : AbstractOptionGroup<EclipsalRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Eclipsal, "Eclipsal");
+    public override string GroupName => TouLocale.Get("TouRoleEclipsal", "Eclipsal");
 
     [ModdedNumberOption("Blind Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BlindCooldown { get; set; } = 25f;

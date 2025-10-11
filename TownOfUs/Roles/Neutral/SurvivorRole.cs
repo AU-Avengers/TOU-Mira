@@ -13,15 +13,41 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class SurvivorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable
+public sealed class SurvivorRole(IntPtr cppPtr)
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable
 {
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => TouLocale.Get(TouNames.Survivor, "Survivor");
-    public string RoleDescription => "Do Whatever It Takes To Live";
-    public string RoleLongDescription => "Stay alive to win with any faction remaining";
+    public string LocaleKey => "Survivor";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Safeguard", "Safeguard"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}SafeguardWikiDescription"),
+                    TouNeutAssets.VestSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Survivor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
+
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
+
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
@@ -42,20 +68,6 @@ public sealed class SurvivorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public StringBuilder SetTabText()
     {
         return ITownOfUsRole.SetNewTabText(this);
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Vest",
-            "Put on a Vest protecting you from attacks.",
-            TouNeutAssets.VestSprite)
-    ];
-
-    public string GetAdvancedDescription()
-    {
-        return $"The {RoleName} is a Neutral Benign role that just needs to survive till the end of the game." +
-               MiscUtils.AppendOptionsText(GetType());
     }
 
     public override void Initialize(PlayerControl player)

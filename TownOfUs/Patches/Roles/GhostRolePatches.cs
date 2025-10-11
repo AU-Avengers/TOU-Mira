@@ -103,11 +103,11 @@ public static class GhostRolePatches
     [HarmonyPostfix]
     public static void HudManagerVentPatch(HudManager __instance)
     {
-        if (__instance.ImpostorVentButton == null ||
+        if (PlayerControl.LocalPlayer == null ||
+            PlayerControl.LocalPlayer.Data == null ||
+            __instance.ImpostorVentButton == null ||
             __instance.ImpostorVentButton.gameObject == null ||
-            __instance.ImpostorVentButton.IsNullOrDestroyed() ||
-            PlayerControl.LocalPlayer == null ||
-            PlayerControl.LocalPlayer.Data == null)
+            __instance.ImpostorVentButton.IsNullOrDestroyed())
         {
             return;
         }

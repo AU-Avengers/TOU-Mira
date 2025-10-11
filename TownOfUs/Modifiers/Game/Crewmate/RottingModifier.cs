@@ -13,25 +13,28 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Rotting, "Rotting");
-    public override string IntroInfo => "Your body will also rot away upon death.";
+    public override string LocaleKey => "Rotting";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<rotDelay>",
+            $"{OptionGroupSingleton<RottingOptions>.Instance.RotDelay}");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<rotDelay>",
+            $"{OptionGroupSingleton<RottingOptions>.Instance.RotDelay}");
+    }
+
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Rotting;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
     public override ModifierFaction FactionType => ModifierFaction.CrewmatePostmortem;
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"After {OptionGroupSingleton<RottingOptions>.Instance.RotDelay} second(s), your body will rot away, preventing you from being reported";
-    }
-
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return $"Your body will rot away after {OptionGroupSingleton<RottingOptions>.Instance.RotDelay} second(s).";
-    }
 
     public override int GetAssignmentChance()
     {

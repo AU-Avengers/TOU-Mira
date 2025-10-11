@@ -16,26 +16,27 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredModifier
 {
     public Color ModifierColor => new(0.8f, 0.64f, 0.8f, 1f);
-    public override string ModifierName => TouLocale.Get(TouNames.Spy, "Spy");
-    public override string IntroInfo => "You can also gain extra information on the Admin Table";
+    public override string LocaleKey => "Spy";
+    public override string ModifierName => TouLocale.Get($"TouRole{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+               + MiscUtils.AppendOptionsText(CustomRoleSingleton<SpyRole>.Instance.GetType());
+    }
+
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Spy;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
     public override ModifierFaction FactionType => ModifierFaction.CrewmateUtility;
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {ModifierName} gains extra information on the admin table. They now not only see how many people are in a room, but will also see who is in every room."
-            + MiscUtils.AppendOptionsText(CustomRoleSingleton<SpyRole>.Instance.GetType());
-    }
-
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "Gain extra information on the Admin Table.";
-    }
 
     public override void OnActivate()
     {

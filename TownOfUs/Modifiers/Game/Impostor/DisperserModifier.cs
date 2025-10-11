@@ -16,30 +16,36 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Disperser, "Disperser");
-    public override string IntroInfo => "You can also disperse players to vents around the map.";
+    public override string LocaleKey => "Disperser";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Disperser;
     public override ModifierFaction FactionType => ModifierFaction.ImpostorUtility;
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            $"Disperse everyone on the map to a random vent, given that they are not Immovable. You cannot have any other button modifiers with {ModifierName}.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Disperse",
-            "You can disperse players on the map to any vents, which you can do once per game.",
-            TouAssets.DisperseSprite)
-    ];
-
-    public override string GetDescription()
+    public List<CustomButtonWikiDescription> Abilities
     {
-        return "Separate the Crew.";
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.Get($"TouModifier{LocaleKey}Disperse"),
+                    TouLocale.GetParsed($"TouModifier{LocaleKey}DisperseWikiDescription"),
+                    TouAssets.DisperseSprite)
+            };
+        }
     }
 
     public override int GetAssignmentChance()
@@ -68,10 +74,9 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable
 
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}Everyone has been dispersed to a vent!</color></b>", Color.white,
-            spr: TouModifierIcons.Disperser.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Disperser.LoadAsset());
 
-        notif1.Text.SetOutlineThickness(0.35f);
-        notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+        notif1.AdjustNotification();
     }
 
     public static void DispersePlayersToCoordinates(Dictionary<byte, Vector2> coordinates)

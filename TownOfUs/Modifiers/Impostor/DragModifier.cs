@@ -19,6 +19,7 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
     public override bool HideOnUi => true;
 
     public byte BodyId { get; } = bodyId;
+    public float SpeedFactor { get; set; } = OptionGroupSingleton<UndertakerOptions>.Instance.DragSpeedMultiplier;
     public DeadBody? DeadBody { get; } = Helpers.GetBodyById(bodyId);
 
     public override bool? CanVent()
@@ -30,20 +31,33 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
     {
         if (Player != null)
         {
-            Player.MyPhysics.Speed *= OptionGroupSingleton<UndertakerOptions>.Instance.DragSpeedMultiplier;
+            SpeedFactor = OptionGroupSingleton<UndertakerOptions>.Instance.DragSpeedMultiplier;
             if (OptionGroupSingleton<UndertakerOptions>.Instance.AffectedSpeed)
             {
                 var dragged = MiscUtils.PlayerById(DeadBody!.ParentId)!;
                 if (dragged.HasModifier<GiantModifier>())
                 {
-                    Player.MyPhysics.Speed *= OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed;
+                    SpeedFactor *= OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed;
                 }
                 else if (dragged.HasModifier<MiniModifier>())
                 {
-                    Player.MyPhysics.Speed *= OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed;
+                    SpeedFactor *= OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed;
                 }
             }
         }
+    }
+
+    public override void OnMeetingStart()
+    {
+        ModifierComponent?.RemoveModifier(this);
+        if (Player.AmOwner)
+        {
+            CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
+        }
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, Player, DeadBody);
+        MiraEventManager.InvokeEvent(touAbilityEvent);
+
+        Player.GetModifierComponent()?.RemoveModifier(this);
     }
 
     public override void OnDeath(DeathReason reason)
@@ -51,12 +65,19 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
         ModifierComponent?.RemoveModifier(this);
         if (Player.AmOwner)
         {
-            CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
+            if (Player.AmOwner)
+            {
+                CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
+            }
+
+            Player.GetModifierComponent()?.RemoveModifier(this);
         }
+
         if (DeadBody == null)
         {
             return;
         }
+
         var dropPos = DeadBody.transform.position;
         dropPos.z = dropPos.y / 1000f;
         DeadBody.transform.position = dropPos;
@@ -64,30 +85,19 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
         var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, Player, DeadBody);
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
-    public override void OnDeactivate()
-    {
-        if (Player != null)
-        {
-            Player.MyPhysics.Speed /= OptionGroupSingleton<UndertakerOptions>.Instance.DragSpeedMultiplier;
-            if (OptionGroupSingleton<UndertakerOptions>.Instance.AffectedSpeed)
-            {
-                var dragged = MiscUtils.PlayerById(DeadBody!.ParentId)!;
-                if (dragged.HasModifier<GiantModifier>())
-                {
-                    Player.MyPhysics.Speed /= OptionGroupSingleton<GiantOptions>.Instance.GiantSpeed;
-                }
-                else if (dragged.HasModifier<MiniModifier>())
-                {
-                    Player.MyPhysics.Speed /= OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed;
-                }
-            }
-        }
-    }
 
     public override void Update()
     {
         if (DeadBody == null)
         {
+            var touAbilityEvent2 = new TouAbilityEvent(AbilityType.UndertakerDrop, Player, DeadBody);
+            MiraEventManager.InvokeEvent(touAbilityEvent2);
+            if (Player.AmOwner)
+            {
+                CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
+            }
+
+            Player.GetModifierComponent()?.RemoveModifier(this);
             return;
         }
 

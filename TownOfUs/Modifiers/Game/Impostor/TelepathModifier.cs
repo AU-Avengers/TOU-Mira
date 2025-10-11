@@ -10,13 +10,13 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Telepath, "Telepath");
+    public override string LocaleKey => "Telepath";
+    public override string ModifierName => TouLocale.Get("TouModifierTelepath", "Telepath");
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
-    public override string IntroInfo => "You also know information about teammates' kills" +
-                                        (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath
-                                            ? " and deaths."
-                                            : ".");
+    public override string IntroInfo => OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath
+        ? TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurbNoDeath")
+        : TouLocale.Get($"TouModifier{LocaleKey}IntroBlurb");
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Telepath;
     public override ModifierFaction FactionType => ModifierFaction.ImpostorPostmortem;
@@ -25,29 +25,28 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 
     public string GetAdvancedDescription()
     {
-        var options = OptionGroupSingleton<TelepathOptions>.Instance;
         return
-            (options.KnowKillLocation ? "Know when & where your teammate kills" : "Know when your teammate kills")
-            + (options.KnowDeath && !options.KnowDeathLocation ? ", know when they die." : string.Empty)
-            + (options.KnowDeath && options.KnowDeathLocation ? ", know when & where they die." : string.Empty)
-            + MiscUtils.AppendOptionsText(GetType());
+            GetDescription() + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
+#pragma warning disable S3358
     public override string GetDescription()
     {
+        var localekeyfull = $"TouModifier{LocaleKey}Description";
         return (OptionGroupSingleton<TelepathOptions>.Instance.KnowKillLocation
-                   ? "Know when & where your teammate kills"
-                   : "Know when your teammate kills")
-               + (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath &&
-                  !OptionGroupSingleton<TelepathOptions>.Instance.KnowDeathLocation
-                   ? ", know when they die"
-                   : string.Empty)
-               + (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath &&
-                  OptionGroupSingleton<TelepathOptions>.Instance.KnowDeathLocation
-                   ? ", know when & where they die."
-                   : string.Empty);
+            ? TouLocale.GetParsed($"{localekeyfull}IfKnowWhen")
+            : TouLocale.GetParsed($"{localekeyfull}Basic")
+              + (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath &&
+                 !OptionGroupSingleton<TelepathOptions>.Instance.KnowDeathLocation
+                  ? TouLocale.GetParsed($"{localekeyfull}AddIfKnowDeath")
+                  : string.Empty)
+              + (OptionGroupSingleton<TelepathOptions>.Instance.KnowDeath &&
+                 OptionGroupSingleton<TelepathOptions>.Instance.KnowDeathLocation
+                  ? TouLocale.GetParsed($"{localekeyfull}AddIfKnowDeathLoc")
+                  : string.Empty));
+#pragma warning restore S3358
     }
 
     public override int GetAssignmentChance()
@@ -62,7 +61,8 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role.IsImpostor() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode &&
+        return base.IsModifierValidOn(role) && role.IsImpostor() &&
+               !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode &&
                PlayerControl.AllPlayerControls.ToArray().Count(x => x.IsImpostor() && !x.HasDied()) != 1;
     }
 }

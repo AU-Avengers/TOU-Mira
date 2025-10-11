@@ -78,7 +78,8 @@ public static class AppearanceExtensions
                 Size = player.GetAppearance().Size
             });
         }
-        else if (!toggle && player.GetModifiers<BaseModifier>().Any(x => x is IVisualAppearance visual && visual.VisualPriority))
+        else if (!toggle && player.GetModifiers<BaseModifier>()
+                     .Any(x => x is IVisualAppearance visual && visual.VisualPriority))
         {
             var mod = player.GetModifiers<BaseModifier>()
                 .FirstOrDefault(x => x is IVisualAppearance visual2 && visual2.VisualPriority);
@@ -147,7 +148,7 @@ public static class AppearanceExtensions
 
         if (appearance.PlayerMaterialVisorColor != null)
         {
-            player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, 
+            player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor,
                 (Color)appearance.PlayerMaterialVisorColor);
             if (player.cosmetics.GetLongBoi() != null)
             {

@@ -15,26 +15,28 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable, IColoredModifier
 {
     public Color ModifierColor => new(0f, 0.7f, 0.7f, 1f);
-    public override string ModifierName => TouLocale.Get(TouNames.Investigator, "Investigator");
-    public override string IntroInfo => "You will also see everyone's footprints for some time.";
+    public override string LocaleKey => "Investigator";
+    public override string ModifierName => TouLocale.Get($"TouRole{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+               + MiscUtils.AppendOptionsText(CustomRoleSingleton<InvestigatorRole>.Instance.GetType());
+    }
+
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Investigator;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
     public override ModifierFaction FactionType => ModifierFaction.CrewmateUtility;
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {ModifierName} can see player's footprints throughout the game. Swooped players' footprints will not be visible to the {ModifierName}."
-            + MiscUtils.AppendOptionsText(CustomRoleSingleton<InvestigatorRole>.Instance.GetType());
-    }
-
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
-    public override string GetDescription()
-    {
-        return "You can see everyone's footprints.";
-    }
 
     public override int GetAssignmentChance()
     {

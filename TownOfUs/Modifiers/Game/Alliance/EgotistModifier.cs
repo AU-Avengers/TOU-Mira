@@ -14,8 +14,21 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Egotist, "Egotist");
-    public override string IntroInfo => "Your Ego is Thriving...";
+    public override string LocaleKey => "Egotist";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+            .Replace("<symbol>", "<color=#669966>#</color>");
+    }
+
     public override string Symbol => "#";
     public override float IntroSize => 4f;
     public override bool DoesTasks => false;
@@ -27,6 +40,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public int Priority { get; set; } = 5;
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
+
     public override void OnActivate()
     {
         base.OnActivate();
@@ -34,22 +48,11 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
         {
             Player.AddModifier<BasicGhostModifier>();
         }
-        
+
         if (Player.HasModifier<TraitorCacheModifier>())
         {
             Player.RemoveModifier<TraitorCacheModifier>();
         }
-    }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            "The Egotist is a Crewmate Alliance modifier (signified by <color=#669966>#</color>). As the Egotist, you can only win if Crewmates lose, even when dead. If no crewmates remain after a meeting ends, you will leave in victory, but the game will continue.";
-    }
-
-    public override string GetDescription()
-    {
-        return "<size=130%>Defy the crew,</size>\n<size=125%>win with killers.</size>";
     }
 
     public override int GetAssignmentChance()
@@ -64,8 +67,8 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public static bool EgoVisibilityFlag(PlayerControl player)
     {
-        return player.HasModifier<EgotistModifier>() &&
-               (PlayerControl.LocalPlayer.IsImpostor() || player.Is(RoleAlignment.NeutralKilling));
+        return player.Data != null && !player.Data.Disconnected && player.HasModifier<EgotistModifier>() &&
+               (PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling));
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)

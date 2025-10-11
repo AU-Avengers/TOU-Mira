@@ -13,8 +13,8 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class PestilenceKillButton : TownOfUsRoleButton<PestilenceRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
-    public override string Name => "Kill";
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Pestilence;
     public override float Cooldown => OptionGroupSingleton<PlaguebearerOptions>.Instance.PestKillCooldown;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.PestKillSprite;
@@ -30,6 +30,7 @@ public sealed class PestilenceKillButton : TownOfUsRoleButton<PestilenceRole, Pl
         {
             return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance, false, x => !x.IsLover());
         }
+
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }
 

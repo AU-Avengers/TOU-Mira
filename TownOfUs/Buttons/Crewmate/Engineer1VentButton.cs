@@ -14,8 +14,8 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Vent>
 {
     private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
-    public override string Name => "Vent";
-    public override string Keybind => Keybinds.VentAction;
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.VentLabel, "Vent");
+    public override BaseKeybind Keybind => Keybinds.VentAction;
     public override Color TextOutlineColor => TownOfUsColors.Engineer;
 
     public override float Cooldown =>
@@ -64,12 +64,19 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         Target = IsTargetValid(newTarget) ? newTarget : null;
         SetOutline(true);
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
         {
             return false;
         }
 
-        return ((Timer <= 0 && !PlayerControl.LocalPlayer.inVent && Target != null) || PlayerControl.LocalPlayer.inVent) && (MaxUses == 0 || UsesLeft > 0);
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
+                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        return ((Timer <= 0 && !PlayerControl.LocalPlayer.inVent && Target != null) ||
+                PlayerControl.LocalPlayer.inVent) && (MaxUses == 0 || UsesLeft > 0);
     }
 
     public override void ClickHandler()

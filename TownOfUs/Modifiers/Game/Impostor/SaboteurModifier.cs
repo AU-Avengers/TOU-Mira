@@ -8,7 +8,8 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Saboteur, "Saboteur");
+    public override string LocaleKey => "Saboteur";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => "You also have reduced sabotage cooldowns.";
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
@@ -17,19 +18,17 @@ public sealed class SaboteurModifier : TouGameModifier, IWikiDiscoverable
 
     public float Timer { get; set; }
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            "You have a reduced cooldown when sabotaging."
-            + MiscUtils.AppendOptionsText(GetType());
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "You have reduced sabotage cooldowns";
-    }
 
     public override int GetAssignmentChance()
     {

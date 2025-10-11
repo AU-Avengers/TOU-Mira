@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class AmnesiacOptions : AbstractOptionGroup<AmnesiacRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Amnesiac, "Amnesiac");
+    public override string GroupName => TouLocale.Get("TouRoleAmnesiac", "Amnesiac");
 
     [ModdedToggleOption("Show Arrows Pointing To Dead Bodies")]
     public bool RememberArrows { get; set; } = true;

@@ -13,7 +13,6 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -36,9 +35,35 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         .FirstOrDefault(x => x.GetModifier<JailedModifier>()?.JailorId == Player.PlayerId)!;
 
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string RoleName => TouLocale.Get(TouNames.Jailor, "Jailor");
-    public string RoleDescription => "Jail And Execute The <color=#FF0000FF>Impostors</color>";
-    public string RoleLongDescription => "Execute evildoers in meetings but avoid crewmates";
+    public string LocaleKey => "Jailor";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Jail", "Jail"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}JailWikiDescription"),
+                    TouCrewAssets.JailSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}ExecuteWiki", "Execute"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ExecuteWikiDescription"),
+                    TouAssets.ExecuteCleanSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Jailor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
@@ -67,24 +92,6 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         return stringB;
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Power role that can jail other players. During a meeting, the Jailor can choose to execute their jailed player. (Unless the Jailor is an Imitator)"
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Jail",
-            "Jail a player. During the meeting everyone will see who is jailed. You can privately talk with your detained player using the instructions that are in the private chatbox",
-            TouCrewAssets.JailSprite),
-        new("Execute (Meeting)",
-            "Execute the detained player. If the player is a crewmate the Jailor will lose the ability to Jail.",
-            TouAssets.ExecuteCleanSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {
@@ -119,7 +126,9 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             }
 
             var title = $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailor Feedback</color>";
-            MiscUtils.AddFakeChat(Jailed.Data, title, "Communicate with your jailee in the <b>RED</b> private chatbox next to the <b>REGULAR</b> chatbox.", false,
+            MiscUtils.AddFakeChat(Jailed.Data, title,
+                "Communicate with your jailee in the <b>RED</b> private chatbox next to the <b>REGULAR</b> chatbox.",
+                false,
                 true);
         }
 
@@ -237,14 +246,12 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 }
 
                 Player.RpcCustomMurder(Jailed, createDeadBody: false, teleportMurderer: false);
-                DeathHandlerModifier.RpcUpdateDeathHandler(Jailed, "Executed", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, $"By {Player.Data.PlayerName}", lockInfo: DeathHandlerOverride.SetTrue);
             }
 
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{text}</b>", Color.white, spr: TouRoleIcons.Jailor.LoadAsset());
+                $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor.LoadAsset());
 
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+            notif1.AdjustNotification();
         }
 
         return Listener;

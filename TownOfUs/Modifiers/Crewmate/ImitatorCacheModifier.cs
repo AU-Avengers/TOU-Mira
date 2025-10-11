@@ -49,7 +49,11 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
     {
         if (!Player.IsCrewmate())
         {
-            if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Meeting Start");
+            if (TownOfUsPlugin.IsDevBuild)
+            {
+                Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Meeting Start");
+            }
+
             ModifierComponent?.RemoveModifier(this);
             return;
         }
@@ -159,19 +163,24 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
             return true;
         }
 
-        return voteArea.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || !voteArea!.AmDead;
+        return voteArea.TargetPlayerId == Player.PlayerId || Player.Data.IsDead ||
+               (player != null && player.Object.Data.Disconnected) || !voteArea!.AmDead;
     }
 
     public void UpdateRole()
     {
         if (!Player.IsCrewmate())
         {
-            if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Attempt To Update Role");
+            if (TownOfUsPlugin.IsDevBuild)
+            {
+                Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Attempt To Update Role");
+            }
+
             ModifierComponent?.RemoveModifier(this);
             return;
         }
 
-        if (_selectedPlr == null || Player.Data.IsDead || !_selectedPlr.IsDead)
+        if (_selectedPlr == null || Player.HasDied() || !_selectedPlr.IsDead || _selectedPlr.Disconnected)
         {
             _selectedPlr = null;
             if (Player == null || Player.IsRole<ImitatorRole>())

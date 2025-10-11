@@ -31,13 +31,15 @@ public static class EndGameEvents
             or GameOverReason.ImpostorDisconnect)
         {
             winType = 1;
-            GameHistory.WinningFaction = $"<color=#{Palette.CrewmateBlue.ToHtmlStringRGBA()}>Crewmates</color>";
+            GameHistory.WinningFaction =
+                $"<color=#{Palette.CrewmateBlue.ToHtmlStringRGBA()}>{TranslationController.Instance.GetString(StringNames.Crewmates)}</color>";
         }
         else if (reason is GameOverReason.ImpostorsByKill or GameOverReason.ImpostorsBySabotage
                  or GameOverReason.ImpostorsByVote or GameOverReason.CrewmateDisconnect)
         {
             winType = 2;
-            GameHistory.WinningFaction = $"<color=#{Palette.ImpostorRed.ToHtmlStringRGBA()}>Impostors</color>";
+            GameHistory.WinningFaction =
+                $"<color=#{Palette.ImpostorRed.ToHtmlStringRGBA()}>{TranslationController.Instance.GetString(StringNames.ImpostorsCategory)}</color>";
         }
 
         if (reason == CustomGameOver.GameOverReason<DrawGameOver>())

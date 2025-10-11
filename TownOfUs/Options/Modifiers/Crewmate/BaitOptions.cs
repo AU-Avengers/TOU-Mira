@@ -8,7 +8,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class BaitOptions : AbstractOptionGroup<BaitModifier>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Bait, "Bait");
+    public override string GroupName => TouLocale.Get("TouModifierBait", "Bait");
     public override uint GroupPriority => 31;
     public override Color GroupColor => TownOfUsColors.Bait;
 

@@ -28,9 +28,10 @@ public sealed class AssassinOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins > 0
         };
 
-    public ModdedToggleOption AmneTurnImpAssassin { get; } = new($"{TouLocale.Get(TouNames.Amnesiac, "Amnesiac")} Turned Impostor Gets Ability", true);
+    public ModdedToggleOption AmneTurnImpAssassin { get; } = new($"Amnesiac Turned Impostor Gets Ability", true);
 
-    public ModdedToggleOption AmneTurnNeutAssassin { get; } = new($"{TouLocale.Get(TouNames.Amnesiac, "Amnesiac")} Turned Neutral Killing Gets Ability", true);
+    public ModdedToggleOption AmneTurnNeutAssassin { get; } =
+        new($"Amnesiac Turned Neutral Killing Gets Ability", true);
 
     [ModdedToggleOption("Traitor Gets Ability")]
     public bool TraitorCanAssassin { get; set; } = true;
@@ -40,6 +41,9 @@ public sealed class AssassinOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Assassin Can Kill More Than Once Per Meeting")]
     public bool AssassinMultiKill { get; set; } = true;
+
+    [ModdedToggleOption("Non-Basic Vanilla Roles Are Guessable")]
+    public bool GuessVanillaRoles { get; set; } = true;
 
     [ModdedToggleOption("Assassin Can Guess \"Crewmate\"")]
     public bool AssassinCrewmateGuess { get; set; } = false;
@@ -55,6 +59,9 @@ public sealed class AssassinOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Assassin Can Guess Neutral Killing Roles")]
     public bool AssassinGuessNeutralKilling { get; set; } = true;
+
+    [ModdedToggleOption("Assassin Can Guess Neutral Outlier Roles")]
+    public bool AssassinGuessNeutralOutlier { get; set; } = true;
 
     [ModdedToggleOption("Assassin Can Guess Impostor Roles")]
     public bool AssassinGuessImpostors { get; set; } = true;

@@ -21,10 +21,20 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public bool Announced { get; set; }
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AurialRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string RoleName => TouLocale.Get(TouNames.Pestilence, "Pestilence");
-    public string RoleDescription => "Horseman Of The Apocalypse!";
-    public string RoleLongDescription => "Kill everyone in your path that interacts with you!";
-    public string YouAreText => "You are";
+    public string YouAreText => TouLocale.Get("YouAre");
+    public string YouWereText => TouLocale.Get("YouWere");
+    public string LocaleKey => "Pestilence";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Pestilence;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;
@@ -58,14 +68,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-        var alignment = RoleAlignment.ToDisplayString();
-
-        alignment = alignment.Replace("Neutral", "<color=#8A8A8AFF>Neutral");
-
         var stringB = new StringBuilder();
         stringB.AppendLine(CultureInfo.InvariantCulture,
-            $"{RoleColor.ToTextColor()}You are<b> {RoleName},\n<size=80%>Horseman of the Apocalypse.</size></b></color>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"<size=60%>Alignment: <b>{alignment}</color></b></size>");
+            $"{RoleColor.ToTextColor()}{YouAreText}<b> {RoleName},\n<size=80%>{RoleDescription}</size></b></color>");
+        stringB.AppendLine(CultureInfo.InvariantCulture,
+            $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
         stringB.AppendLine(CultureInfo.InvariantCulture, $"{RoleLongDescription}");
 
@@ -74,13 +81,6 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public bool IsGuessable => false;
     public RoleBehaviour AppearAs => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlaguebearerRole>());
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive." +
-            MiscUtils.AppendOptionsText(GetType());
-    }
 
     public override void Initialize(PlayerControl player)
     {

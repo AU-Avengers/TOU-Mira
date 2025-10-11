@@ -25,4 +25,14 @@ public sealed class VeteranAlertModifier : TimedModifier
             vet.Alerts--;
         }
     }
+
+    public override void OnDeath(DeathReason reason)
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
+
+    public override void OnMeetingStart()
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
 }

@@ -27,7 +27,9 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         get
         {
             var showProtect = OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect;
-            return !TownOfUsPlugin.ShowShieldHud.Value || !OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows || showProtect is ProtectOptions.GA;
+            return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value ||
+                   !OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows ||
+                   showProtect is ProtectOptions.GA;
         }
     }
 
@@ -42,7 +44,8 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
 
         var showProtectEveryone = showProtect == ProtectOptions.Everyone;
         var showProtectSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId &&
-                              showProtect is ProtectOptions.SelfAndGA && OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows;
+                              showProtect is ProtectOptions.SelfAndGA &&
+                              OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows;
         var showProtectGA = PlayerControl.LocalPlayer.PlayerId == ga?.Player.PlayerId &&
                             showProtect is ProtectOptions.GA or ProtectOptions.SelfAndGA;
 
@@ -50,8 +53,10 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
             x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        
-        if (showProtectEveryone || showProtectSelf || showProtectGA || (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body))
+
+        if (showProtectEveryone || showProtectSelf || showProtectGA || (PlayerControl.LocalPlayer.HasDied() &&
+                                                                        genOpt.TheDeadKnow && !body &&
+                                                                        !fakePlayer?.body))
         {
             var roleEffectAnimation = Object.Instantiate(DestroyableSingleton<RoleManager>.Instance.protectLoopAnim,
                 Player.gameObject.transform);
@@ -76,16 +81,13 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         }
     }
 
+    public override void OnMeetingStart()
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
+
     public override void OnDeath(DeathReason reason)
     {
-        for (var i = Player.currentRoleAnimations.Count - 1; i >= 0; i--)
-        {
-            if (Player.currentRoleAnimations[i] != null && Player.currentRoleAnimations[i].effectType ==
-                RoleEffectAnimation.EffectType.ProtectLoop)
-            {
-                Object.Destroy(Player.currentRoleAnimations[i].gameObject);
-                Player.currentRoleAnimations.RemoveAt(i);
-            }
-        }
+        ModifierComponent?.RemoveModifier(this);
     }
 }

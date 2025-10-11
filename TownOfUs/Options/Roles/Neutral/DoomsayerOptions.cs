@@ -8,13 +8,14 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class DoomsayerOptions : AbstractOptionGroup<DoomsayerRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Doomsayer, "Doomsayer");
+    public override string GroupName => TouLocale.Get("TouRoleDoomsayer", "Doomsayer");
 
     [ModdedNumberOption("Observe Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float ObserveCooldown { get; set; } = 20f;
 
     [ModdedNumberOption("Number Of Guesses Needed To Win", 2f, 5f, 1f, MiraNumberSuffixes.None, "0")]
     public float DoomsayerGuessesToWin { get; set; } = 3f;
+
     [ModdedToggleOption("Doomsayer Can Guess Crew Investigative Roles")]
     public bool DoomGuessInvest { get; set; } = false;
 

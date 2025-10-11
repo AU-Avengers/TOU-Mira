@@ -13,8 +13,8 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
 {
-    public override string Name => "Watch";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.Get("TouRoleLookoutWatch", "Watch");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Lookout;
     public override float Cooldown => OptionGroupSingleton<LookoutOptions>.Instance.WatchCooldown + MapCooldown;
     public override int MaxUses => (int)OptionGroupSingleton<LookoutOptions>.Instance.MaxWatches;
@@ -42,8 +42,8 @@ public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
         Target.RpcAddModifier<LookoutWatchedModifier>(PlayerControl.LocalPlayer);
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>You will know what roles interact with {Target.Data.PlayerName} if they are not dead by next meeting.</b>",
+            $"<b>{TouLocale.GetParsed("TouRoleLookoutWatchNotif").Replace("<player>", Target.Data.PlayerName)}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Lookout.LoadAsset());
-        notif1.Text.SetOutlineThickness(0.35f);
+        notif1.AdjustNotification();
     }
 }

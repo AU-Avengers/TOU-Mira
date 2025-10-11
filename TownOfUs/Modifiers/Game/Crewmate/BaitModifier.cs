@@ -12,8 +12,20 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Bait, "Bait");
-    public override string IntroInfo => "You will also force your killer to report your body.";
+    public override string LocaleKey => "Bait";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+    }
+
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Bait;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
@@ -22,19 +34,7 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
     private static float MinDelay => OptionGroupSingleton<BaitOptions>.Instance.MinDelay;
     private static float MaxDelay => OptionGroupSingleton<BaitOptions>.Instance.MaxDelay;
 
-    public string GetAdvancedDescription()
-    {
-        return
-            "After you die, your killer will self-report, reporting your body."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "Force your killer to self-report.";
-    }
 
     public override int GetAssignmentChance()
     {
@@ -66,10 +66,9 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Bait.ToTextColor()}{target.Data.PlayerName} was a Bait, causing you to self report.</color></b>",
-                Color.white, spr: TouModifierIcons.Bait.LoadAsset());
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Bait.LoadAsset());
 
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+            notif1.AdjustNotification();
         }
     }
 }

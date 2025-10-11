@@ -40,9 +40,18 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string RoleName => TouLocale.Get(TouNames.Hypnotist, "Hypnotist");
-    public string RoleDescription => "Hypnotize Crewmates";
-    public string RoleLongDescription => "Hypnotize crewmates and drive them insane";
+    public string LocaleKey => "Hypnotist";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription").Replace("<symbol>", "<color=#D53F42>@</color>") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorSupport;
@@ -59,23 +68,22 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is an Impostor Support role that can hypnotize players. During a meeting they can release Mass Hysteria, which makes all hypnotized players (marked with <color=#D53F42>@</color>) have different visuals applied to players the following round."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Hypnotize",
-            "Hypnotize a player, causing them to see the game differently than non-hypnotized players if mass hysteria is active.",
-            TouImpAssets.HypnotiseButtonSprite),
-        new("Mass Hysteria (Meeting)",
-            "Cause all hypnotised players to have different visuals applied to players on their screen the following round.",
-            TouAssets.HysteriaCleanSprite)
-    ];
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Hypnotize", "Hypnotize"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}HypnotizeWikiDescription"),
+                    TouImpAssets.HypnotiseButtonSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}MassHysteriaWiki", "Mass Hysteria (Meeting)"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}MassHysteriaWikiDescription"),
+                    TouAssets.HysteriaCleanSprite)
+            };
+        }
+    }
 
     public override void Initialize(PlayerControl player)
     {

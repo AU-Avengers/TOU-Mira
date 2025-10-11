@@ -6,7 +6,7 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class PhantomOptions : AbstractOptionGroup<PhantomTouRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Phantom, "Phantom");
+    public override string GroupName => TouLocale.Get("TouRolePhantom", "Phantom");
 
     [ModdedNumberOption("Tasks Left Before Clickable", 1, 15)]
     public float NumTasksLeftBeforeClickable { get; set; } = 3f;

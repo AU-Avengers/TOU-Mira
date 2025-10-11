@@ -2,31 +2,32 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Sleuth, "Sleuth");
+    public override string LocaleKey => "Sleuth";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Sleuth;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
     public List<byte> Reported { get; set; } = [];
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            "You will see the roles of bodies you report.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "Know the roles of bodies you report.";
-    }
 
     public override int GetAssignmentChance()
     {

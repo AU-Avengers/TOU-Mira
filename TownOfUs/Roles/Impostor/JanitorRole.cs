@@ -36,15 +36,19 @@ public sealed class JanitorRole(IntPtr cppPtr)
                                                      (Player != null && MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DetectiveRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DetectiveTouRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => TouLocale.Get(TouNames.Janitor, "Janitor");
-    public string RoleDescription => "Sanitize The Ship";
+    public string LocaleKey => "Janitor";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
-    public string RoleLongDescription => "Clean bodies to hide kills" +
-                                         (OptionGroupSingleton<JanitorOptions>.Instance.CleanDelay == 0
-                                             ? string.Empty
-                                             : "\n<b>You must stay next to the body while cleaning.</b>");
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
 
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
@@ -63,19 +67,19 @@ public sealed class JanitorRole(IntPtr cppPtr)
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public string GetAdvancedDescription()
-    {
-        return $"The {RoleName} is an Impostor Support role that can clean dead bodies." +
-               MiscUtils.AppendOptionsText(GetType());
-    }
-
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Clean",
-            "Clean a dead body, making it disapear and making it unreportable.",
-            TouImpAssets.CleanButtonSprite)
-    ];
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Clean", "Clean"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}CleanWikiDescription"),
+                    TouImpAssets.CleanButtonSprite)
+            };
+        }
+    }
 
     [MethodRpc((uint)TownOfUsRpc.CleanBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcCleanBody(PlayerControl player, byte bodyId)

@@ -17,9 +17,18 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 {
     private readonly Dictionary<(Vector3, int), ArrowBehaviour> _senseArrows = new();
     public DoomableType DoomHintType => DoomableType.Perception;
-    public string RoleName => TouLocale.Get(TouNames.Aurial, "Aurial");
-    public string RoleDescription => "Sense Disturbances In Your Aura.";
-    public string RoleLongDescription => "Any player abilities used within your aura you will sense";
+    public string LocaleKey => "Aurial";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Aurial;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
@@ -40,13 +49,6 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public StringBuilder SetTabText()
     {
         return ITownOfUsRole.SetNewTabText(this);
-    }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Investigative role that will be alerted whenever a player near them uses one of their abilities." +
-            MiscUtils.AppendOptionsText(GetType());
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
