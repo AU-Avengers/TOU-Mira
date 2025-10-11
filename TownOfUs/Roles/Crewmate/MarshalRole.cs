@@ -38,6 +38,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Marshal,
+        MaxRoleCount = 1,
         IntroSound = TouAudio.TribunalSound
     };
 
@@ -132,8 +133,13 @@ public sealed class MarshalRole(IntPtr cppPtr)
         }
     }
 
-    public void Click(PlayerVoteArea voteArea, MeetingHud __)
+    public void Click(PlayerVoteArea voteArea, MeetingHud meetingHud)
     {
+        if (meetingHud.state == MeetingHud.VoteStates.Discussion)
+        {
+            return;
+        }
+
         if (!Player.AmOwner)
         {
             return;
@@ -143,7 +149,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             return;
         }
-        
+
         meetingMenu.HideButtons();
         RpcTribunal(Player);
     }
