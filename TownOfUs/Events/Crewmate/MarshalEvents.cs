@@ -44,12 +44,19 @@ public static class MarshalEvents
     [RegisterEvent]
     public static void HandleVoteEventHandler(HandleVoteEvent @event)
     {
-        if (!MarshalRole.TribunalHappening) return;
-
+        if (!MarshalRole.TribunalHappening)
+        {
+            return;
+        }
         if (MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo))
         {
             return;
         }
+        if (MarshalRole.EjectedPlayers.Count >= OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunalEjections)
+        {
+            return;
+        }
+        @event.Cancel();
         
         if (_previousVote != null)
         {
@@ -77,8 +84,6 @@ public static class MarshalEvents
             voterVoteData.VoteForPlayer(@event.TargetId);
         }
         
-        MarshalRole.UpdateVoteNumbers();
-        
         if (AmongUsClient.Instance.AmHost)
         {
             MarshalRole.CheckForEjection();
@@ -91,13 +96,15 @@ public static class MarshalEvents
         }
         
         _previousVote = @event.TargetId;
-        @event.Cancel();
     }
 
     [RegisterEvent]
     public static void DummyVoteEventHandler(DummyVoteEvent @event)
     {
-        if (!MarshalRole.TribunalHappening) return;
+        if (!MarshalRole.TribunalHappening)
+        {
+            return;
+        }
 
         var localVoteData = PlayerControl.LocalPlayer.GetVoteData();
         if (localVoteData.Votes.Count <= 0) 
@@ -105,18 +112,19 @@ public static class MarshalEvents
             @event.Cancel();
             return;
         }
-
+        
         // The only player valid is the player's vote
-        if (Random.RandomRangeInt(1, 10) == 1) // the randomness makes dummy voting not instant
-        {
-            @event.PlayerIsValid = p => p.PlayerId == localVoteData.Votes[0].Suspect;
-        }
+        @event.PlayerIsValid = p => p.PlayerId == localVoteData.Votes[0].Suspect;
+        @event.CanSkip = false;
     }
 
     [RegisterEvent]
     public static void MeetingSelectEventHandler(MeetingSelectEvent @event)
     {
-        if (!MarshalRole.TribunalHappening) return;
+        if (!MarshalRole.TribunalHappening)
+        {
+            return;
+        }
 
         // Players marked as ejected during a tribunal can't vote and other players can't vote them
         if (MarshalRole.EjectedPlayers.Contains(PlayerControl.LocalPlayer.Data) || MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo))
@@ -128,7 +136,10 @@ public static class MarshalEvents
     [RegisterEvent]
     public static void PopulateResultsEventHandler(PopulateResultsEvent @event)
     {
-        if (!MarshalRole.TribunalHappening) return;
+        if (!MarshalRole.TribunalHappening)
+        {
+            return;
+        }
         
         @event.Cancel();
     }
@@ -136,20 +147,31 @@ public static class MarshalEvents
     [RegisterEvent]
     public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
     {
-        if (!MarshalRole.TribunalHappening) return;
-        if (MarshalRole.EjectedPlayers.Count >=
-            OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunalEjections) return;
+        if (!MarshalRole.TribunalHappening)
+        {
+            return;
+        }
+        
+        if (MarshalRole.EjectedPlayers.Count >= OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunalEjections)
+        {
+            return;
+        }
         
         MeetingHud.Instance.playerStates.Do(x => x.UnsetVote());
-        
+
         if (AmongUsClient.Instance.AmHost)
+        {
             MarshalRole.RpcEndTribunal(PlayerControl.LocalPlayer);
+        }
     }
 
     [RegisterEvent]
     public static void BeforeRoundStartEventHandler(BeforeRoundStartEvent @event)
     {
-        if (!MarshalRole.TribunalHappening) return;
+        if (!MarshalRole.TribunalHappening)
+        {
+            return;
+        }
 
         if (MarshalRole.EjectedPlayers.Count > 0)
         {

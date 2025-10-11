@@ -19,6 +19,7 @@ using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Crewmate;
 
@@ -40,15 +41,13 @@ public sealed class MarshalRole(IntPtr cppPtr)
         IntroSound = TouAudio.TribunalSound
     };
 
-    public bool IsPowerCrew => true;
+    public bool IsPowerCrew => TribunalsLeft > 0;
 
     public int TribunalsLeft { get; private set; }
     
-    private static TextMeshPro? votesRequiredText { get; set; }
     public static bool TribunalHappening { get; set; }
     public static int RequiredVotes { get; private set; }
-    public static List<NetworkedPlayerInfo> EjectedPlayers { get; } = new();
-    public static Dictionary<byte, TextMeshPro> VoteNumbers { get; } = new();
+    public static List<NetworkedPlayerInfo> EjectedPlayers { get; } = [];
 
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
@@ -80,12 +79,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         RoleBehaviourStubs.Initialize(this, player);
 
         TribunalsLeft = (int)OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunals;
-
-        votesRequiredText = null;
-        TribunalHappening = false;
-        RequiredVotes = 0;
-        EjectedPlayers.Clear();
-        VoteNumbers.Clear();
+        Cleanup();
         
         if (Player.AmOwner)
         {
@@ -144,14 +138,26 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             return;
         }
-        meetingMenu.HideButtons();
+
+        if (TribunalsLeft <= 0)
+        {
+            return;
+        }
         
+        meetingMenu.HideButtons();
         RpcTribunal(Player);
     }
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
         return voteArea?.TargetPlayerId != Player.PlayerId;
+    }
+
+    private void Cleanup()
+    {
+        TribunalHappening = false;
+        RequiredVotes = 0;
+        EjectedPlayers.Clear();
     }
 
     [MethodRpc((uint)TownOfUsRpc.Tribunal)]
@@ -165,61 +171,44 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             return;
         }
-
         var meetingHud = MeetingHud.Instance;
         
         TouAudio.PlaySound(TouAudio.TribunalSound);
         Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Marshal, 1.5f, 0.1f));
         
-        var notif1 = Helpers.CreateAndShowNotification("<b>A tribunal has started!</b>", Color.white, spr: TouRoleIcons.Marshal.LoadAsset());
-        notif1.Text.SetOutlineThickness(0.35f);
-        notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+        var tribunalNotif = Helpers.CreateAndShowNotification("<b>A tribunal has started!</b>", Color.white, spr: TouRoleIcons.Marshal.LoadAsset());
+        tribunalNotif.Text.SetOutlineThickness(0.35f);
+        tribunalNotif.transform.localPosition = new Vector3(0f, 1f, -20f);
 
         TribunalHappening = true;
         marshalRole.TribunalsLeft--;
+        EjectedPlayers.Clear();
         player.GetVoteData().IncreaseRemainingVotes((int)OptionGroupSingleton<MarshalOptions>.Instance.MarshalExtraVotes);
         
+        // Votes required text
+        var text = MeetingHud.Instance.SkippedVoting.GetComponentInChildren<TextMeshPro>();
+        text.gameObject.GetComponent<TextTranslatorTMP>()?.DestroyImmediate();
+        text.transform.parent.gameObject.SetActive(true);
         UpdateVoteRequirement();
         
-        VoteNumbers.Clear();
-        EjectedPlayers.Clear();
+        // Remove the votes of all players
         foreach (var pva in meetingHud.playerStates)
         {
             pva.UnsetVote();
 
             var voteAreaPlayer = MiscUtils.PlayerById(pva.TargetPlayerId);
-
             if (voteAreaPlayer == null)
             {
                 continue;
             }
-
             if (voteAreaPlayer.HasDied())
             {
                 continue;
             }
 
             var voteData = voteAreaPlayer.GetVoteData();
-            var votes = voteData.Votes.RemoveAll(x => true);
-            voteData.VotesRemaining += votes;
-            
-            /*
-            var voteCountIcon = GameObject.Instantiate(pva.LevelNumberText.transform.parent.gameObject, pva.transform).GetComponent<SpriteRenderer>();
-            voteCountIcon.gameObject.name = "VoteCount";
-            voteCountIcon.transform.localPosition = new Vector3(-0.5f, 0.16f, -50);
-            voteCountIcon.transform.localScale = new Vector3(1.2f, 1.2f, 1);
-            voteCountIcon.transform.FindChild("LevelLabel").gameObject.Destroy();
-            voteCountIcon.sprite = meetingHud.PlayerVotePrefab.sprite;
-            voteCountIcon.material = meetingHud.PlayerVotePrefab.material;
-            PlayerMaterial.SetColors(Palette.DisabledGrey, voteCountIcon);
-            var voteCount = voteCountIcon.transform.FindChild("LevelNumber").GetComponent<TextMeshPro>();
-            voteCount.gameObject.name = "VotesNumber";
-            voteCount.transform.localPosition = new Vector3(-0.02f, 0f);
-            voteCount.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-            voteCount.text = "<b>0</b>";
-            VoteNumbers.Add(voteAreaPlayer.PlayerId, voteCount);
-            */
-            
+            voteData.VotesRemaining += voteData.Votes.Count;
+            voteData.Votes.Clear();
             pva.ThumbsDown.enabled = false;
         }
         
@@ -251,7 +240,10 @@ public sealed class MarshalRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.TribunalEjection)]
     private static void RpcTribunalEjection(PlayerControl victim)
     {
-        if (EjectedPlayers.Contains(victim.Data)) return;
+        if (EjectedPlayers.Contains(victim.Data))
+        {
+            return;
+        }
         
         EjectedPlayers.Add(victim.Data);
         ResetAllVotes();
@@ -274,9 +266,10 @@ public sealed class MarshalRole(IntPtr cppPtr)
             victimPva.XMark.gameObject.SetActive(true);
         }
         
+        MeetingHud.Instance.TimerText.color = Color.white;
+        
         AdjustTimeRemaining();
         UpdateVoteRequirement();
-        UpdateVoteNumbers();
     }
     
     [MethodRpc((uint)TownOfUsRpc.EndTribunal)]
@@ -290,6 +283,8 @@ public sealed class MarshalRole(IntPtr cppPtr)
         instance.state = MeetingHud.VoteStates.Results;
         PlayerControl.LocalPlayer.GetVoteData().VotesRemaining = 0;
         instance.TimerText.gameObject.SetActive(false);
+        instance.ProceedButton.gameObject.SetActive(false);
+        instance.playerStates.Do(x => x.SetDisabled());
 
         if (DestroyableSingleton<HudManager>.Instance.Chat.IsOpenOrOpening)
         {
@@ -341,32 +336,33 @@ public sealed class MarshalRole(IntPtr cppPtr)
             }
         }
         
-        ExileController exileController;
+        ExileController exileController = Object.Instantiate(ShipStatus.Instance.ExileCutscenePrefab, DestroyableSingleton<HudManager>.Instance.transform);
+        exileController.transform.localPosition = new Vector3(0f, 0f, -60f);
         if (skipped)
         {
             Logger<TownOfUsPlugin>.Warning($"The tribunal is skipped");
-            exileController = GameObject.Instantiate(ShipStatus.Instance.ExileCutscenePrefab, DestroyableSingleton<HudManager>.Instance.transform);
-            exileController.transform.localPosition = new Vector3(0f, 0f, -60f);
             exileController.BeginForGameplay(null, false);
             yield break;
         }
         
         Logger<TownOfUsPlugin>.Warning($"Creating exile controller for {exiled!.PlayerName}");
-        exileController = GameObject.Instantiate(ShipStatus.Instance.ExileCutscenePrefab, DestroyableSingleton<HudManager>.Instance.transform);
-        exileController.transform.localPosition = new Vector3(0f, 0f, -60f);
         exileController.BeginForGameplay(exiled, false);
     }
 
     public static void CheckForEjection()
     {
-        var mostVotes = VotingUtils.CalculateNumVotes(VotingUtils.CalculateVotes()
-                    .Where(v => !EjectedPlayers.FirstOrDefault(p => p.PlayerId == v.Voter)))
-                    .MaxPair(out _);
+        var mostVotes = VotingUtils
+            .CalculateNumVotes(VotingUtils.CalculateVotes()
+            .Where(v => !EjectedPlayers.FirstOrDefault(p => p.PlayerId == v.Voter)))
+            .MaxPair(out _);
         
         if (mostVotes.Value >= RequiredVotes)
         {
             var player = MiscUtils.PlayerById(mostVotes.Key);
-            if (player == null) return;
+            if (player == null)
+            {
+                return;
+            }
             
             Logger<TownOfUsPlugin>.Warning($"Player {player.Data.PlayerName} has enough votes to be ejected");
             RpcTribunalEjection(player);
@@ -387,19 +383,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         
         RequiredVotes = validPlayers.Count / 2 + 1;
         var text = MeetingHud.Instance.SkippedVoting.GetComponentInChildren<TextMeshPro>();
-        text.gameObject.GetComponent<TextTranslatorTMP>()?.DestroyImmediate();
-        text.gameObject.SetActive(true);
-        text.text = $"<size=50%>{RequiredVotes} votes needed to eject</size>";
-    }
-    
-    public static void UpdateVoteNumbers()
-    {
-        return;
-        foreach (var pva in MeetingHud.Instance.playerStates)
-        {
-            if (VoteNumbers.TryGetValue(pva.TargetPlayerId, out var num))
-                num.text = GetVotesRecievied(pva).Count.ToString(TownOfUsPlugin.Culture);
-        }
+        text.text = $"<size=80%>{RequiredVotes} votes needed to eject</size>";
     }
 
     private static void ResetAllVotes()
@@ -417,8 +401,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
 
     public static void RemoveBloopsOfId(byte id, PlayerVoteArea pva)
     {
-        var renderers = pva.transform.GetComponentsInChildren<SpriteRenderer>();
-        foreach (var rend in renderers)
+        foreach (var rend in pva.transform.GetComponentsInChildren<SpriteRenderer>())
         {
             if (rend.name == id.ToString(TownOfUsPlugin.Culture))
             {
@@ -433,14 +416,5 @@ public sealed class MarshalRole(IntPtr cppPtr)
         var meetingHud = MeetingHud.Instance;
         var logicOptions = GameManager.Instance.LogicOptions.TryCast<LogicOptionsNormal>();
         meetingHud.discussionTimer = (logicOptions!.GetDiscussionTime() + logicOptions.GetVotingTime()) - OptionGroupSingleton<MarshalOptions>.Instance.TribunalEjectionTime;
-    }
-    
-    private static List<CustomVote> GetVotesRecievied(PlayerVoteArea player)
-    {
-        return
-        [
-            .. Helpers.GetAlivePlayers()
-                .SelectMany(plr => plr.GetVoteData().Votes).Where(data => data.Suspect == player.TargetPlayerId)
-        ];
     }
 }
