@@ -159,7 +159,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         return voteArea?.TargetPlayerId != Player.PlayerId;
     }
 
-    private void Cleanup()
+    private static void Cleanup()
     {
         TribunalHappening = false;
         RequiredVotes = 0;
