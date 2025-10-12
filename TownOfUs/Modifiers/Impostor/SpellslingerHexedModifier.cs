@@ -7,8 +7,9 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Impostor;
 
-public sealed class SpellslingerHexedModifier : BaseModifier
+public sealed class SpellslingerHexedModifier(PlayerControl spellslinger) : BaseModifier
 {
+    public PlayerControl Spellslinger { get; } = spellslinger;
     private readonly Color color = TownOfUsColors.ImpSoft;
     public override string ModifierName => "Hexed";
     public override bool HideOnUi => true;

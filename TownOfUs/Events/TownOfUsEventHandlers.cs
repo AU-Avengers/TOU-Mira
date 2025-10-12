@@ -256,7 +256,8 @@ public static class TownOfUsEventHandlers
     {
         var killer = @event.Source;
         var victim = @event.Target;
-        Logger<TownOfUsPlugin>.Error($"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
+        Logger<TownOfUsPlugin>.Error(
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
     }
 
     [RegisterEvent(-100)]
@@ -264,7 +265,8 @@ public static class TownOfUsEventHandlers
     {
         var killer = @event.Source;
         var victim = @event.Target;
-        Logger<TownOfUsPlugin>.Error($"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
+        Logger<TownOfUsPlugin>.Error(
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
     }
 
     [RegisterEvent]
@@ -314,6 +316,10 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<VeteranAlertButton>.Instance.SetUses((int)OptionGroupSingleton<VeteranOptions>.Instance
             .MaxNumAlerts);
+
+        CustomButtonSingleton<SpellslingerHexButton>.Instance.SetUses((int)OptionGroupSingleton<SpellslingerOptions>
+            .Instance
+            .MaxHexes);
 
         CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = false;
 
@@ -467,6 +473,11 @@ public static class TownOfUsEventHandlers
 
         GameHistory.AddMurder(source, target);
 
+        if (SpellslingerRole.EveryoneHexed() && PlayerControl.LocalPlayer.Data.Role is SpellslingerRole)
+        {
+            CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, PlayerControl.LocalPlayer.Data.Role);
+        }
+
         if (target.AmOwner)
         {
             HudManager.Instance.SetHudActive(false);
@@ -573,7 +584,7 @@ public static class TownOfUsEventHandlers
             @event.Cancel();
         }
 
-        // Prevent last 2 players from venting
+        // Prevent last 2 players from venting (or however many are set up)
         if (@event.IsVent)
         {
             if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
@@ -593,15 +604,16 @@ public static class TownOfUsEventHandlers
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+            var minimum = (int)OptionGroupSingleton<GeneralOptions>.Instance.PlayerCountWhenVentsDisable;
 
-            if (PlayerControl.LocalPlayer.inVent && aliveCount <= 2 &&
+            if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&
                 PlayerControl.LocalPlayer.Data.Role is not IGhostRole)
             {
                 PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                 PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
             }
 
-            if (aliveCount <= 2)
+            if (aliveCount <= minimum)
             {
                 @event.Cancel();
             }
@@ -631,13 +643,7 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        foreach (var player in PlayerControl.AllPlayerControls)
-        {
-            if (SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
-            {
-                ChatPatches.RpcSelectSpectator(player);
-            }
-        }
+        ChatPatches.RpcSetSpectatorList(SpectatorRole.TrackedSpectators);
     }
 
     [RegisterEvent]

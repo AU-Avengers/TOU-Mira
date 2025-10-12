@@ -94,12 +94,13 @@ public static class PlayerRoleTextExtensions
     public static string UpdateProtectionSymbols(this string name, PlayerControl player, bool hidden = false)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var isDead = PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
 
         if (player.Data != null && !player.Data.Disconnected &&
             ((player.HasModifier<GuardianAngelTargetModifier>(x => x.OwnerId == PlayerControl.LocalPlayer.PlayerId) &&
               PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>())
              || (player.HasModifier<GuardianAngelTargetModifier>() &&
-                 ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
+                 (isDead
                   || (player.AmOwner &&
                       OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows)))))
         {
@@ -112,7 +113,7 @@ public static class PlayerRoleTextExtensions
         if ((player.HasModifier<MedicShieldModifier>(x => x.Medic.AmOwner) &&
              PlayerControl.LocalPlayer.IsRole<MedicRole>())
             || (player.HasModifier<MedicShieldModifier>() &&
-                ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
+                (isDead
                  || (player.AmOwner && player.TryGetModifier<MedicShieldModifier>(out var med) && med.VisibleSymbol))))
         {
             name += "<color=#006600> +</color>";
@@ -121,7 +122,7 @@ public static class PlayerRoleTextExtensions
         if ((player.HasModifier<MagicMirrorModifier>(x => x.Mirrorcaster.AmOwner) &&
              PlayerControl.LocalPlayer.IsRole<MirrorcasterRole>())
             || (player.HasModifier<MagicMirrorModifier>() &&
-                ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
+                (isDead
                  || (player.AmOwner && player.TryGetModifier<MagicMirrorModifier>(out var mm) && mm.VisibleSymbol))))
         {
             name += "<color=#90A2C3>〚〛</color>";
@@ -130,7 +131,7 @@ public static class PlayerRoleTextExtensions
         if ((player.HasModifier<ClericBarrierModifier>(x => x.Cleric.AmOwner) &&
              PlayerControl.LocalPlayer.IsRole<ClericRole>())
             || (player.HasModifier<ClericBarrierModifier>() &&
-                ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
+                (isDead
                  || (player.AmOwner && player.TryGetModifier<ClericBarrierModifier>(out var cleric) &&
                      cleric.VisibleSymbol))))
         {
@@ -140,7 +141,7 @@ public static class PlayerRoleTextExtensions
         if ((player.HasModifier<WardenFortifiedModifier>(x => x.Warden.AmOwner) &&
              PlayerControl.LocalPlayer.IsRole<WardenRole>())
             || (player.HasModifier<WardenFortifiedModifier>() &&
-                ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden)
+                (isDead
                  || (player.AmOwner && player.TryGetModifier<WardenFortifiedModifier>(out var warden) &&
                      warden.VisibleSymbol))))
         {
@@ -153,10 +154,9 @@ public static class PlayerRoleTextExtensions
     public static string UpdateAllianceSymbols(this string name, PlayerControl player, bool hidden = false)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var isDead = PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
 
-        if (player.HasModifier<LoverModifier>() && (PlayerControl.LocalPlayer.HasModifier<LoverModifier>() ||
-                                                    (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow &&
-                                                     !hidden)))
+        if (player.HasModifier<LoverModifier>() && (PlayerControl.LocalPlayer.HasModifier<LoverModifier>() || isDead))
         {
             name += "<color=#FF66CC> ♥</color>";
         }
@@ -164,10 +164,7 @@ public static class PlayerRoleTextExtensions
         if (player.TryGetModifier<EgotistModifier>(out var egoMod) && (player.AmOwner ||
                                                                        (EgotistModifier.EgoVisibilityFlag(player) &&
                                                                         (player.GetModifiers<RevealModifier>().Any(x =>
-                                                                            x.Visible && x.RevealRole))) ||
-                                                                       (PlayerControl.LocalPlayer.HasDied() &&
-                                                                        genOpt.TheDeadKnow &&
-                                                                        !hidden)))
+                                                                            x.Visible && x.RevealRole))) || isDead))
         {
             name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ModifierName}</color>)</color>";
         }
@@ -178,42 +175,43 @@ public static class PlayerRoleTextExtensions
     public static string UpdateStatusSymbols(this string name, PlayerControl player, bool hidden = false)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var isImp = PlayerControl.LocalPlayer.IsImpostor() && genOpt.ImpsKnowRoles && !genOpt.FFAImpostorMode;
+        var isDead = PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
 
         if ((player.HasModifier<PlaguebearerInfectedModifier>(x =>
                  x.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId) &&
              PlayerControl.LocalPlayer.IsRole<PlaguebearerRole>())
-            || (player.HasModifier<PlaguebearerInfectedModifier>() && PlayerControl.LocalPlayer.HasDied() &&
-                genOpt.TheDeadKnow && !hidden))
+            || (player.HasModifier<PlaguebearerInfectedModifier>() && isDead))
         {
             name += "<color=#E6FFB3> ¥</color>";
         }
 
         if ((player.HasModifier<ArsonistDousedModifier>(x => x.ArsonistId == PlayerControl.LocalPlayer.PlayerId) &&
              PlayerControl.LocalPlayer.IsRole<ArsonistRole>())
-            || (player.HasModifier<ArsonistDousedModifier>() && PlayerControl.LocalPlayer.HasDied() &&
-                genOpt.TheDeadKnow && !hidden))
+            || (player.HasModifier<ArsonistDousedModifier>() && isDead))
         {
             name += "<color=#FF4D00> Δ</color>";
         }
 
         if ((player.HasModifier<BlackmailedModifier>(x => x.BlackMailerId == PlayerControl.LocalPlayer.PlayerId) &&
              PlayerControl.LocalPlayer.IsRole<BlackmailerRole>())
-            || (player.HasModifier<BlackmailedModifier>() && PlayerControl.LocalPlayer.IsImpostor() &&
-                genOpt.ImpsKnowRoles && !genOpt.FFAImpostorMode)
-            || (player.HasModifier<BlackmailedModifier>() && PlayerControl.LocalPlayer.HasDied() &&
-                genOpt.TheDeadKnow && !hidden))
+            || (player.HasModifier<BlackmailedModifier>() && (isDead || isImp)))
         {
             name += "<color=#2A1119> M</color>";
         }
 
         if ((player.HasModifier<HypnotisedModifier>(x => x.Hypnotist.AmOwner) &&
              PlayerControl.LocalPlayer.IsRole<HypnotistRole>())
-            || (player.HasModifier<HypnotisedModifier>() && PlayerControl.LocalPlayer.IsImpostor() &&
-                genOpt.ImpsKnowRoles && !genOpt.FFAImpostorMode)
-            || (player.HasModifier<HypnotisedModifier>() && PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow &&
-                !hidden))
+            || (player.HasModifier<HypnotisedModifier>() && (isDead || isImp)))
         {
             name += "<color=#D53F42> @</color>";
+        }
+
+        if (player.HasModifier<SpellslingerHexedModifier>(x => x.Spellslinger.AmOwner) &&
+            PlayerControl.LocalPlayer.IsRole<SpellslingerRole>()
+            || player.HasModifier<SpellslingerHexedModifier>() && (isDead || isImp))
+        {
+            name += $" {TownOfUsColors.Impostor.ToTextColor()}乂</color>";
         }
 
         return name;

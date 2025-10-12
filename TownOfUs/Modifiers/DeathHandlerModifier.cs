@@ -2,12 +2,27 @@
 using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
 
 public sealed class DeathHandlerModifier : BaseModifier
 {
+    public static bool IsFullyDead(PlayerControl player)
+    {
+        if (!player.HasDied())
+        {
+            return false;
+        }
+
+        if (player.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
+        {
+            return !deathHandler.DiedThisRound;
+        }
+
+        return false;
+    }
     public override string ModifierName => "Death Handler";
     public override bool HideOnUi => true;
 

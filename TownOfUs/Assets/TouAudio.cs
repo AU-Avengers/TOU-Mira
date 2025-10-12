@@ -6,6 +6,8 @@ namespace TownOfUs.Assets;
 public static class TouAudio
 {
     // THIS FILE SHOULD ONLY HOLD AUDIO
+    public static LoadableAsset<AudioClip> HexBombAlarmSound { get; } =
+        new LoadableAudioResourceAsset($"TownOfUs.Resources.HexBombAlarm.wav");
     public static LoadableAsset<AudioClip> NoisemakerDeathSound { get; } =
         new LoadableBundleAsset<AudioClip>("NoisemakerDeath", TouAssets.MainBundle);
 

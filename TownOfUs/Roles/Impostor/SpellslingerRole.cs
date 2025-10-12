@@ -1,42 +1,25 @@
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using Reactor.Networking.Attributes;
 using TownOfUs.Utilities;
 using UnityEngine;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Impostor;
-using MiraAPI.Networking;
-using TownOfUs.Modifiers;
-// using TownOfUs.Events;
-// using TownOfUs.Modifiers;
-// using TownOfUs.Events;
+using MiraAPI.Patches.Stubs;
+using TownOfUs.Options;
 
 namespace TownOfUs.Roles.Impostor;
 
 public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
-    private bool _bombed;
-
-    public void FixedUpdate()
-    {
-        if (_bombed || Player == null || Player.Data?.Role is not SpellslingerRole || Player.HasDied())
-            return;
-
-        if (!EveryoneHexed())
-            return;
-
-        _bombed = true;
-        RpcHexBomb(Player);
-    }
-
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Spellslinger";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    private static List<PlayerControl> _alivePlayersList;
 
     public string GetAdvancedDescription()
     {
@@ -51,7 +34,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         new(TouLocale.GetParsed($"TouRole{LocaleKey}Hex", "Hex"),
             TouLocale.GetParsed($"TouRole{LocaleKey}HexWikiDescription"),
             TouImpAssets.HexSprite),
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}HexBomb", "Hex Bomb (Passive)"),
+        new(TouLocale.GetParsed($"TouRole{LocaleKey}HexBomb", "Hex Bomb"),
             TouLocale.GetParsed($"TouRole{LocaleKey}HexBombWikiDescription"),
             TouImpAssets.HexSprite)
     ];
@@ -67,17 +50,27 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         IntroSound = TouAudio.ArsoIgniteSound,
     };
 
+    public static void OnRoundStart()
+    {
+        _alivePlayersList = Helpers.GetAlivePlayers();
+    }
+
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        _alivePlayersList = Helpers.GetAlivePlayers();
+    }
+
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var sb = ITownOfUsRole.SetNewTabText(this);
-        var allAlive = Helpers.GetAlivePlayers();
 
-        var hexed = allAlive
+        var hexed = _alivePlayersList
             .Where(p => p.HasModifier<SpellslingerHexedModifier>())
             .ToList();
 
-        var unhexedNonImpostors = allAlive
+        var unhexedNonImpostors = _alivePlayersList
             .Where(p => !p.IsImpostor() && !p.HasModifier<SpellslingerHexedModifier>())
             .ToList();
 
@@ -100,91 +93,11 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         return sb;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Hex, SendImmediately = true)]
-    public static void RpcHex(PlayerControl player, PlayerControl target)
-    {
-        var canBeHexed = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() && !x.IsImpostor()).ToList();
-
-        if (player.Data.Role is not SpellslingerRole)
-        {
-            Logger<TownOfUsPlugin>.Error("RpcHex - Invalid Spellslinger");
-            return;
-        }
-
-        if (canBeHexed.Contains(target))
-        {
-            target.AddModifier<SpellslingerHexedModifier>();
-
-            if (player.AmOwner)
-            {
-                var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{target.CachedPlayerData.PlayerName} is hexed!</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spellslinger.LoadAsset());
-                notif1.Text.SetOutlineThickness(0.35f);
-            }
-        }
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.HexBomb, SendImmediately = true)]
-    public static void RpcHexBomb(PlayerControl player)
-    {
-        if (player.Data.Role is not SpellslingerRole)
-        {
-            Logger<TownOfUsPlugin>.Error("RpcHexBomb - Invalid Spellslinger");
-            return;
-        }
-
-        var hexed = PlayerControl.AllPlayerControls.ToArray()
-            .Where(p => !p.HasDied() && p.HasModifier<SpellslingerHexedModifier>())
-            .ToList();
-
-        if (hexed.Count == 0)
-        {
-            if (player.AmOwner)
-            {
-                var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>Nobody is hexed?? <color=#ff0000>(A bug occurred)</color></b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spellslinger.LoadAsset());
-                notif1.Text.SetOutlineThickness(0.35f);
-            }
-            return;
-        }
-
-        TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Impostor));
-        foreach (var target in hexed)
-        {
-            player.RpcAddModifier<IndirectAttackerModifier>(true);
-            player.RpcCustomMurder(target, teleportMurderer: false, playKillSound: false);
-            // DeathHandlerModifier.RpcUpdateDeathHandler(target, "Disintegrated", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue, $"By {player.Data.PlayerName}", lockInfo: DeathHandlerOverride.SetTrue);
-            target.RemoveModifier<SpellslingerHexedModifier>();
-
-            if (player.AmOwner && target == player)
-            {
-                var selfNotif = Helpers.CreateAndShowNotification(
-                    $"<b>You hexed... yourself?</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spellslinger.LoadAsset());
-                selfNotif.Text.SetOutlineThickness(0.4f);
-            }
-        }
-
-        if (player.AmOwner)
-        {
-            var notif = Helpers.CreateAndShowNotification(
-                $"<b>Disintegrated {hexed.Count} hexed players!</b>", 
-                Color.white, new Vector3(0f, 1f, -20f), 
-                spr: TouRoleIcons.Spellslinger.LoadAsset());
-            notif.Text.SetOutlineThickness(0.4f);
-        }
-
-        player.RpcRemoveModifier<IndirectAttackerModifier>();
-    }
-
     public static bool EveryoneHexed()
     {
         return PlayerControl.AllPlayerControls
             .ToArray()
-            .Where(p => !p.HasDied() && !p.IsImpostor())
+            .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostor() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
             .All(p => p.HasModifier<SpellslingerHexedModifier>());
     }
 

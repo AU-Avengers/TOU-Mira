@@ -304,6 +304,21 @@ public static class ChatPatches
         }
     }
 
+    [MethodRpc((uint)TownOfUsRpc.SetSpectatorList, SendImmediately = true)]
+    public static void RpcSetSpectatorList(HashSet<string> list)
+    {
+        var oldList = SpectatorRole.TrackedSpectators;
+        foreach (var name in oldList)
+        {
+            SpectatorRole.TrackedSpectators.Remove(name);
+        }
+        
+        foreach (var name in list)
+        {
+            SpectatorRole.TrackedSpectators.Add(name);
+        }
+    }
+
     [MethodRpc((uint)TownOfUsRpc.RemoveSpectator, SendImmediately = true)]
     public static void RpcRemoveSpectator(PlayerControl player)
     {

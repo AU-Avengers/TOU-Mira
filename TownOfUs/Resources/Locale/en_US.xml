@@ -931,11 +931,11 @@
   <string name="TouRoleSpellslinger">Spellslinger</string>
   <string name="TouRoleSpellslingerIntroBlurb">Hex Everyone To Bomb Them All</string>
   <string name="TouRoleSpellslingerTabDescription">Hex all non-Impostors to set off a Hex Bomb</string>
-  <string name="TouRoleSpellslingerWikiDescription">The Spellslinger is an Impostor Power role that can hex a player, priming them for detonation. Once all non Impostors are hexed, all hexed players will die.</string>
+  <string name="TouRoleSpellslingerWikiDescription">The Spellslinger is an Impostor Power role that can hex a player, priming them for detonation. Once all non Impostors are hexed, they may set off a Hex Bomb after a set amount of time to win.</string>
   <string name="TouRoleSpellslingerHex">Hex</string>
   <string name="TouRoleSpellslingerHexWikiDescription">Hex a player, priming them for detonation.</string>
-  <string name="TouRoleSpellslingerHexBomb">Hex Bomb (Passive)</string>
-  <string name="TouRoleSpellslingerHexBombWikiDescription">Kill all hexed players. The Hex Bomb will activate automatically once all non-Impostors are hexed.</string>
+  <string name="TouRoleSpellslingerHexBomb">Hex Bomb</string>
+  <string name="TouRoleSpellslingerHexBombWikiDescription">Begin the countdown for the hex bomb. If you are alive when the hex bomb triggers, impostors win!</string>
   <!-- Swooper Wiki / Abilities -->
   <string name="TouRoleSwooper">Swooper</string>
   <string name="TouRoleSwooperIntroBlurb">Turn Invisible Temporarily</string>

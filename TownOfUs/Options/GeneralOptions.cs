@@ -80,6 +80,9 @@ public sealed class GeneralOptions : AbstractOptionGroup
     [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float TempSaveCdReset { get; set; } = 2.5f;
 
+    [ModdedNumberOption("Maximum Amount of Players Before Vents Disable", 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#")]
+    public float PlayerCountWhenVentsDisable { get; set; } = 2f;
+
     [ModdedToggleOption("Parallel Medbay Scans")]
     public bool ParallelMedbay { get; set; } = true;
 

@@ -1,5 +1,6 @@
 using HarmonyLib;
 using Reactor.Utilities;
+using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Patches;
 
@@ -14,5 +15,7 @@ public static class AmongUsClientPatches
         {
             Logger<TownOfUsPlugin>.Error("AmongUsClient duplicate detected.");
         }
+
+        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat([(SystemTypes)HexBombSabotageSystem.SabotageId]).ToArray();
     }
 }
