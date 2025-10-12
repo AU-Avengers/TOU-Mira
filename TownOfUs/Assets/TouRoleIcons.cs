@@ -64,6 +64,9 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Politician { get; } =
         new LoadableBundleAsset<Sprite>("Politician", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Marshal { get; } =
+        new LoadableBundleAsset<Sprite>("Marshal", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> Mayor { get; } =
         new LoadableBundleAsset<Sprite>("Mayor", TouAssets.MainBundle);
 
@@ -194,6 +197,9 @@ public static class TouRoleIcons
 
     public static LoadableAsset<Sprite> Ambassador { get; } =
         new LoadableBundleAsset<Sprite>("Ambassador", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> Spellslinger { get; } =
+        new LoadableBundleAsset<Sprite>("Spellslinger", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Traitor { get; } =
         new LoadableBundleAsset<Sprite>("Traitor", TouAssets.MainBundle);

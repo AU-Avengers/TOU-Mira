@@ -250,7 +250,7 @@
   <string name="TouRoleDeputyTabDescription">Acampa tripulantes, después dispara a su asesino en la reunión!</string>
   <string name="TouRoleDeputyWikiDescription">El Diputado es un Tripulante asesino que puede acampar a otros jugadores. Si un jugador acampado muere, el Diputado es notificado de su muerte. En la siguiente reunión, el Diputado puede intentar disparar al asesino del jugador acampado. Si tiene éxito, el asesino muere; si no, no ocurre nada.</string>
   <string name="TouRoleDeputyCamp">Acampar</string>
-  <string name="TouRoleDeputyCampWikiDescription">Acampa a un jugador para recibir una alerta si muere. Tras su muerte, puedes intentar dispararle. Si tu disparo es acertado, el asesino muere; si no, no ocurrirá nada.</string>
+  <string name="TouRoleDeputyCampWikiDescription">Acampa a un jugador para recibir una alerta si muere. Tras su muerte, puedes intentar dispararle a su asesino. Si tu disparo es acertado, el asesino muere; si no, no ocurrirá nada.</string>
   <string name="TouRoleDeputyMissedShot">¡Fallaste! O no son los asesinos o son invencibles.</string>
   <string name="TouRoleDetective">Detective</string>
   <string name="TouRoleDetectiveIntroBlurb">Inspecciona las escenas del crimen para atrapar al asesino</string>
@@ -286,4 +286,8 @@
   <string name="TouOptionHaunterRevealNeutralRoles">Revelar Roles Neutrales</string>
   <string name="TouOptionHaunterCanBeClickedBy">Puede Ser Clickeado Por</string>
   <string name="TouRoleHaunterSelfAlertFeedback">¡Has alertado a los Asesinos!</string>
+  <string name="ClientTabGameplay">Juego</string>
+  <string name="ShowVanillaWikiEntries">Mostrar Entradas Base de la Wiki</string>
+  <string name="PlayerHasNoModifiers">No modificadores</string>
+  <string name="SpecialNeutral">Neutral Especial</string>
 </resources>

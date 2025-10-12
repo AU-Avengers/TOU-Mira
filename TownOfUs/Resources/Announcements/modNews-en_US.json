@@ -386,14 +386,15 @@
       ]
     },
     {
-      "Date": "2025-10-11T12:50:00Z",
-      "Number": "100024",
-      "ShortTitle": "TOU: Mira v1.2.2",
+      "Date": "2025-12-11T12:50:00Z",
+      "Number": "100025",
+      "ShortTitle": "TOU: Mira v1.3.0",
       "SubTitle": "I hereby declare you guilty.",
       "Title": "Judge, Jury, Executioner... Chef?",
       "Text": [
         "\n\n<b> This update adds a lot more localization for roles, which apply to everything except options, color names, and meeting abilities.</b>",
         "\nA new neutral role enters the fray: The Chef! This was a community-made suggestion by CraftR on the Tou Discord, under the Neutral Outlier bucket.",
+        "\nA new impostor role also joins the ranks: The Spellslinger! This role was PR'ed by Loonie over on Github, and is an Impostor Power role.",
         "\n\nAgain, the Mira team really appreciates all of your support, thank you so much for playing the mod!",
         "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.2>TOU Mira v1.2.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
         "\n\n\r<size=105%>Localization Updates:</size>",
@@ -427,7 +428,8 @@
         "\n- Inquisitor Vanquish Round One toggle has been added",
         "\n- Rich Presence on Discord now shows the mod icon.",
         "\n- New Neutral Buckets: Neutral Wildcard (Non-Killing Neutrals) and Neutral Special (Neutral Killing and Outlier)",
-        "\n- New Neutral Outlier Role: The Chef!\nThis role takes the dead bodies of players and feeds them to others, which all fulfills their quota to leave in victory!"
+        "\n- New Neutral Outlier Role: The Chef!\nThis role takes the dead bodies of players and feeds them to others, which all fulfills their quota to leave in victory!",
+        "\n- New Impostor Power Role: The Spellslinger!\nThis role hexes players to then set off a hex bomb, ending the game (this is unfinalized)"
       ]
     }
   ]

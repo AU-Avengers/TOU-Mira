@@ -1220,4 +1220,11 @@
   <string name="TouRolePlumberBlockNotif">该通风口将在下回合开始时被封锁。</string>
   <string name="TouRoleInquisitorVictoryMessage">\%role\%, \%player\%,已成功获胜，因为所有异端已被消灭！</string>
   <string name="TouRoleInquisitorVictoryMessageSelf">你作为 \%role\%,已成功获胜，所有异端已被消灭！</string>
+  <string name="TouRoleAmbusherTabPursuingPlayer">正在追踪： \%player\%</string>
+  <string name="TouRoleMorphlingTabMorphed">当前变身：\%player\%</string>
+  <string name="TouRoleJuggernautTabKillCounter">击杀次数:\%count\%</string>
+  <string name="TouRoleMercenaryTabGoldCounter">金币: \%count\%</string>
+  <string name="TouRoleMercenaryTabBribedInfo">已贿赂:</string>
+  <string name="TouRolePlaguebearerTabInfectCounter">剩余未感染玩家: \%count\%</string>
+  <string name="TouRolePlaguebearerTabInfectedInfo">已感染玩家:</string>
 </resources>

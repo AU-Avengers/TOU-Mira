@@ -193,9 +193,18 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 OptionGroupSingleton<SnitchOptions>.Instance.SnitchNeutralRoles);
     }
 
-    public override void OnDeath(DeathReason reason)
+    public override void Initialize(PlayerControl player)
     {
-        RoleBehaviourStubs.OnDeath(this, reason);
+        RoleBehaviourStubs.Initialize(this, player);
+
+        ClearArrows();
+        // incase amne becomes snitch or smth
+        CheckTaskRequirements();
+    }
+
+    public override void Deinitialize(PlayerControl targetPlayer)
+    {
+        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
         ClearArrows();
     }
