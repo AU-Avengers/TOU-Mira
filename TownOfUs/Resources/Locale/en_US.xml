@@ -936,6 +936,9 @@
   <string name="TouRoleSpellslingerHexWikiDescription">Hex a player, priming them for detonation.</string>
   <string name="TouRoleSpellslingerHexBomb">Hex Bomb</string>
   <string name="TouRoleSpellslingerHexBombWikiDescription">Begin the countdown for the hex bomb. If you are alive when the hex bomb triggers, impostors win!</string>
+  <string name="TouRoleSpellslingerMessageTitle">Spellslinger Warning</string>
+  <string name="TouRoleSpellslingerGlobalWarning">The \%role\% is unleashing a Hex Bomb! Find them before the timer ends! \%time\% seconds remain after this meeting.</string>
+  <string name="TouRoleSpellslingerWarningNotif">The \%role\% is unleashing a Hex Bomb in \%time\% seconds!</string>
   <!-- Swooper Wiki / Abilities -->
   <string name="TouRoleSwooper">Swooper</string>
   <string name="TouRoleSwooperIntroBlurb">Turn Invisible Temporarily</string>

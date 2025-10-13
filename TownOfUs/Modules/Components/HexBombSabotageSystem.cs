@@ -4,7 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using Reactor.Utilities.Attributes;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Patches;
+// using TownOfUs.Patches;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Modules.Components;
@@ -45,10 +45,12 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
             PlayerControl.LocalPlayer.AddSystemTask((SystemTypes)SabotageId);
         }
 
-        if (HexBombTimerPatch.GameTimerObj == null)
+        SpellslingerRole.SabotageTriggered = true;
+
+        /*if (HexBombTimerPatch.GameTimerObj == null)
         {
             HexBombTimerPatch.CreateHexTimer(HudManager.Instance, this);
-        }
+        }*/
 
         if (MeetingHud.Instance == null && ExileController.Instance == null)
         {

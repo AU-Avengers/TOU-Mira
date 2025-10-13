@@ -2,7 +2,10 @@ using System.Collections;
 using AmongUs.Data;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -48,6 +51,13 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
         _ogShakeAmt = HudManager.Instance.PlayerCam.shakeAmount;
         _ogShakePeriod = HudManager.Instance.PlayerCam.shakePeriod;
         DataManager.Settings.Gameplay.ScreenShake = true;
+        
+        var text = TouLocale.GetParsed("TouRoleSpellslingerWarningNotif").Replace("<role>", $"{TownOfUsColors.ImpSoft.ToTextColor()}{TouLocale.Get("TouRoleSpellslinger")}</color>");
+
+        var notif1 = Helpers.CreateAndShowNotification(
+            text.Replace("<time>", $"{(int)OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDuration}"),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spellslinger.LoadAsset());
+        notif1.AdjustNotification();
     }
 
     [HideFromIl2Cpp]
@@ -76,8 +86,8 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
             {
                 HudManager.Instance.FullScreen.color = new Color(Palette.CrewmateBlue.r, Palette.CrewmateBlue.g, Palette.CrewmateBlue.b, playSound ? 0.18f : 0.34f);
                 HudManager.Instance.FullScreen.gameObject.SetActive(true);
-                HudManager.Instance.PlayerCam.shakeAmount = _ogShakeAmt;
-                HudManager.Instance.PlayerCam.shakePeriod = _ogShakePeriod;
+                HudManager.Instance.PlayerCam.shakeAmount = 0f;
+                HudManager.Instance.PlayerCam.shakePeriod = 1f;
 
                 playSound = !playSound;
                 if (playSound)

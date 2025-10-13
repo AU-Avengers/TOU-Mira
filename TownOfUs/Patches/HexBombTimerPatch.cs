@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿/*using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
 using TMPro;
@@ -82,7 +82,7 @@ public static class HexBombTimerPatch
         {
             TimerSpriteObj.transform.localPosition = new Vector3(-1.5f, -0.25f, 0f);
             GameTimerPatch.TimerSpriteObj.transform.localPosition = new Vector3(-0.5f, -0.25f, 0f);
-        }*/
+        }#1#
     }
 
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
@@ -102,4 +102,4 @@ public static class HexBombTimerPatch
 
         UpdateGameTimer(__instance);
     }
-}
+}*/

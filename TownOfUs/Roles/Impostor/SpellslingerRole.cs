@@ -7,6 +7,7 @@ using UnityEngine;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using MiraAPI.Patches.Stubs;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
@@ -20,6 +21,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public static bool SabotageTriggered { get; internal set; }
 
     public string GetAdvancedDescription()
     {
@@ -54,6 +56,52 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     {
         RoleBehaviourStubs.Initialize(this, player);
         HexBombSabotageSystem.BombFinished = false;
+        SabotageTriggered = false;
+    }
+
+    public override void Deinitialize(PlayerControl targetPlayer)
+    {
+        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        HexBombSabotageSystem.BombFinished = false;
+        SabotageTriggered = false;
+    }
+    public override void OnMeetingStart()
+    {
+        RoleBehaviourStubs.OnMeetingStart(this);
+        if (SabotageTriggered)
+        {
+            GenerateReport();
+        }
+        SabotageTriggered = false;
+    }
+    private void GenerateReport()
+    {
+        var reportBuilder = new StringBuilder();
+
+        if (Player == null)
+        {
+            return;
+        }
+        var sabotage = ShipStatus.Instance.Systems[(SystemTypes)HexBombSabotageSystem.SabotageId]
+            .Cast<HexBombSabotageSystem>();
+        if (!sabotage.IsActive)
+        {
+            return;
+        }
+
+        var text = TouLocale.GetParsed("TouRoleSpellslingerGlobalWarning").Replace("<role>", $"#{RoleName.ToLowerInvariant().Replace(" ", "-")}");
+
+        reportBuilder.Append(TownOfUsPlugin.Culture,
+            $"{text.Replace("<time>", $"{(int)sabotage.TimeRemaining + 1}")}");
+
+        var report = reportBuilder.ToString();
+
+        if (HudManager.Instance && report.Length > 0)
+        {
+            var title =
+                $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleSpellslingerMessageTitle")}</color>";
+            MiscUtils.AddFakeChat(Player.Data, title, report, false, true);
+        }
     }
 
     [HideFromIl2Cpp]

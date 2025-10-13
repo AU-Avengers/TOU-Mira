@@ -1,4 +1,6 @@
 using HarmonyLib;
+using MiraAPI.Utilities;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
 
@@ -11,16 +13,32 @@ public static class MeetingDisconnectPatch
     {
         if (MeetingHud.Instance != null)
         {
-            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
-
-            if (!targetVoteArea)
+            foreach (var pva in MeetingHud.Instance.playerStates)
             {
-                return;
-            }
+                if (pva.VotedFor != player.PlayerId || pva.AmDead)
+                {
+                    continue;
+                }
 
-            if (targetVoteArea.DidVote)
-            {
-                targetVoteArea.UnsetVote();
+                pva.UnsetVote();
+
+                var voteAreaPlayer = MiscUtils.PlayerById(pva.TargetPlayerId);
+
+                if (voteAreaPlayer == null)
+                {
+                    continue;
+                }
+
+                var voteData = voteAreaPlayer.GetVoteData();
+                var votes = voteData.Votes.RemoveAll(x => x.Suspect == player.PlayerId);
+                voteData.VotesRemaining += votes;
+
+                if (!voteAreaPlayer.AmOwner)
+                {
+                    continue;
+                }
+
+                MeetingHud.Instance.ClearVote();
             }
         }
     }
