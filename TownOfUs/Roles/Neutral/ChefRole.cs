@@ -63,7 +63,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IntroSound = TouAudio.ToppatIntroSound,
+        IntroSound = TouAudio.ChefSound,
         Icon = TouRoleIcons.Chef,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()

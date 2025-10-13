@@ -1245,4 +1245,12 @@
   <string name="TouRoleMercenaryTabBribedInfo">Подкуплен:</string>
   <string name="TouRolePlaguebearerTabInfectCounter">Осталось заразить: \%count\%</string>
   <string name="TouRolePlaguebearerTabInfectedInfo">Заражено:</string>
+  <string name="TouRoleSpellslinger">Заклинатель</string>
+  <string name="TouRoleSpellslingerIntroBlurb">Заколдуйте всех, чтобы разбомбить их</string>
+  <string name="TouRoleSpellslingerTabDescription">Заколдуйте всех не предателей, чтобы активировать бомбу</string>
+  <string name="TouRoleSpellslingerWikiDescription">Заклинатель - Сильный Предатель, который может заколдовать игрока, подводя его ко взрыву. Как только все не предатели заколдованы, он может запустить бомбу через определённое время, чтобы выиграть.</string>
+  <string name="TouRoleSpellslingerHex">Сглаз</string>
+  <string name="TouRoleSpellslingerHexWikiDescription">Заколдуйте игрока, подводя его к детонации.</string>
+  <string name="TouRoleSpellslingerHexBomb">Колдовская\%nl\%Бомба</string>
+  <string name="TouRoleSpellslingerHexBombWikiDescription">Начните отсчёт до взрыва бомбы. Если вы остаётесь живым, когда бомба взрывается, предатели побеждают!</string>
 </resources>

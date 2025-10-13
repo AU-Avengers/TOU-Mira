@@ -74,6 +74,9 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> DiscoveredSound { get; } =
         new LoadableBundleAsset<AudioClip>("Discovered", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> ChefSound { get; } =
+        new LoadableBundleAsset<AudioClip>("ChefRing", TouAssets.MainBundle);
+
     public static LoadableAsset<AudioClip> GlitchSound { get; } =
         new LoadableBundleAsset<AudioClip>("GlitchIntro", TouAssets.MainBundle);
 

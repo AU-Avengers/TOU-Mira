@@ -120,6 +120,10 @@ public static class ShowVentsPatch
             foreach (var connectedgroup in VentNetworks)
             {
                 var index = Array.IndexOf(array, connectedgroup);
+                if (connectedgroup.Count == 0)
+                {
+                    continue;
+                }
                 connectedgroup.Do(x =>
                     VentIcons[x.Id].GetComponent<SpriteRenderer>().color = Palette.PlayerColors[index]);
             }
