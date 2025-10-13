@@ -134,13 +134,13 @@ public static class EndGamePatches
 
             if (GameHistory.PlayerStats.TryGetValue(playerControl.PlayerId, out var stats))
             {
-                var basicKillCount = killedPlayers - stats.CorrectAssassinKills - stats.IncorrectKills;
+                var basicKillCount = killedPlayers - stats.CorrectAssassinKills - stats.IncorrectKills - stats.IncorrectAssassinKills - stats.CorrectKills;
                 if (stats.CorrectKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {Color.green.ToTextColor()}Kills: {stats.CorrectKills}</color>");
                 }
-                else if (basicKillCount > 0 && playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
+                else if (basicKillCount > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {TownOfUsColors.Impostor.ToTextColor()}Kills: {basicKillCount}</color>");

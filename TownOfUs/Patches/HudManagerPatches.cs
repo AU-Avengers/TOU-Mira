@@ -59,27 +59,30 @@ public static class HudManagerPatches
 
     public static void ResizeUI(float scaleFactor)
     {
-        foreach (var aspect in HudManager.Instance.transform.FindChild("Buttons")
-                     .GetComponentsInChildren<AspectPosition>(true))
+        var baseButtons = HudManager.Instance.transform.FindChild("Buttons");
+        if (baseButtons != null)
         {
-            if (aspect.gameObject == null)
+            foreach (var aspect in baseButtons.GetComponentsInChildren<AspectPosition>(true))
             {
-                continue;
-            }
+                if (aspect.gameObject == null)
+                {
+                    continue;
+                }
 
-            if (aspect.gameObject.transform.parent.name == "TopRight")
-            {
-                continue;
-            }
+                if (aspect.gameObject.transform.parent.name == "TopRight")
+                {
+                    continue;
+                }
 
-            if (aspect.gameObject.transform.parent.transform.parent.name == "TopRight")
-            {
-                continue;
-            }
+                if (aspect.gameObject.transform.parent.transform.parent.name == "TopRight")
+                {
+                    continue;
+                }
 
-            aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
-            aspect.DistanceFromEdge *= new Vector2(scaleFactor, scaleFactor);
-            aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
+                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
+                aspect.DistanceFromEdge *= new Vector2(scaleFactor, scaleFactor);
+                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
+            }
         }
 
         foreach (var button in HudManager.Instance.GetComponentsInChildren<ActionButton>(true))
@@ -94,26 +97,28 @@ public static class HudManagerPatches
             button.gameObject.SetActive(!button.isActiveAndEnabled);
         }
 
-        foreach (var arrange in HudManager.Instance.transform.FindChild("Buttons")
-                     .GetComponentsInChildren<GridArrange>(true))
+        if (baseButtons != null)
         {
-            if (!arrange.gameObject || !arrange.transform)
+            foreach (var arrange in baseButtons.GetComponentsInChildren<GridArrange>(true))
             {
-                continue;
-            }
-
-            arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
-            arrange.CellSize = new Vector2(scaleFactor, scaleFactor);
-            arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
-            if (arrange.isActiveAndEnabled && arrange.gameObject.transform.childCount != 0)
-            {
-                try
+                if (!arrange.gameObject || !arrange.transform)
                 {
-                    arrange.ArrangeChilds();
+                    continue;
                 }
-                catch
+
+                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
+                arrange.CellSize = new Vector2(scaleFactor, scaleFactor);
+                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
+                if (arrange.isActiveAndEnabled && arrange.gameObject.transform.childCount != 0)
                 {
-                    // Logger<TownOfUsPlugin>.Error($"Error arranging child objects in GridArrange: {e}");
+                    try
+                    {
+                        arrange.ArrangeChilds();
+                    }
+                    catch
+                    {
+                        // Logger<TownOfUsPlugin>.Error($"Error arranging child objects in GridArrange: {e}");
+                    }
                 }
             }
         }

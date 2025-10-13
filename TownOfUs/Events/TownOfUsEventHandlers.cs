@@ -643,7 +643,7 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        ChatPatches.RpcSetSpectatorList(SpectatorRole.TrackedSpectators);
+        ChatPatches.RpcSetSpectatorList(PlayerControl.LocalPlayer, SpectatorRole.TrackedSpectators);
     }
 
     [RegisterEvent]
