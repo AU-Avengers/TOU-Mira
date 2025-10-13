@@ -931,6 +931,8 @@
   <string name="TouRoleSpellslinger">Spellslinger</string>
   <string name="TouRoleSpellslingerIntroBlurb">Hex Everyone To Bomb Them All</string>
   <string name="TouRoleSpellslingerTabDescription">Hex all non-Impostors to set off a Hex Bomb</string>
+  <string name="TouRoleSpellslingerTabHexCounter">Players Left To Hex: \%count\%</string>
+  <string name="TouRoleSpellslingerTabHexedInfo">Players Hexed:</string>
   <string name="TouRoleSpellslingerWikiDescription">The Spellslinger is an Impostor Power role that can hex a player, priming them for detonation. Once all non Impostors are hexed, they may set off a Hex Bomb after a set amount of time to win.</string>
   <string name="TouRoleSpellslingerHex">Hex</string>
   <string name="TouRoleSpellslingerHexWikiDescription">Hex a player, priming them for detonation.</string>

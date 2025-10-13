@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -107,7 +108,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-        var sb = ITownOfUsRole.SetNewTabText(this);
+        var stringB = ITownOfUsRole.SetNewTabText(this);
         var alivePlayers = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => !DeathHandlerModifier.IsFullyDead(x)).ToList();
 
@@ -121,21 +122,17 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
 
         if (hexed.Count > 0)
         {
-            sb.Append("\n<b>Hexed Players:</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexedInfo")}</b>");
             foreach (var player in hexed)
             {
                 var color = player.IsImpostor() ? "red" : "white";
-                sb.Append(TownOfUsPlugin.Culture, $"\n<color={color}><size=75%>{player.Data.PlayerName}</size></color>");
+                stringB.Append(TownOfUsPlugin.Culture, $"\n<color={color}><size=75%>{player.Data.PlayerName}</size></color>");
             }
         }
 
-        sb.Append(TownOfUsPlugin.Culture, $"\n\n<b>Players Left to Hex: {unhexedNonImpostors.Count}</b>");
-        // foreach (var player in unhexedNonImpostors)
-        // {
-        //     sb.Append(TownOfUsPlugin.Culture, $"\n{player.Data.PlayerName}");
-        // }
+        stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
 
-        return sb;
+        return stringB;
     }
 
     public static bool EveryoneHexed()
