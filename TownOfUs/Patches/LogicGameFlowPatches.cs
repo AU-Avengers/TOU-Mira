@@ -17,6 +17,7 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
@@ -67,7 +68,7 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaHexBomb(LogicGameFlowNormal instance)
     {
-        if (HexBombSabotageSystem.BombFinished)
+        if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed())
         {
             instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
             return true;

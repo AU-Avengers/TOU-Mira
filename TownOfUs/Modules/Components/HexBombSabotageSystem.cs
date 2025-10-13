@@ -17,7 +17,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
     public bool IsDirty { get; private set; }
     public float TimeRemaining { get; private set; }
     public HexBombStage Stage { get; private set; }
-    public static bool BombFinished { get; private set; }
+    public static bool BombFinished { get; internal set; }
 
     private float _dirtyTimer;
     public HexBombSabotageSystem() : this(ClassInjector.DerivedConstructorPointer<HexBombSabotageSystem>())

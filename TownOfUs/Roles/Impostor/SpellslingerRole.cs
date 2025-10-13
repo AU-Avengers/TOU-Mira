@@ -8,6 +8,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using MiraAPI.Patches.Stubs;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 
 namespace TownOfUs.Roles.Impostor;
@@ -58,6 +59,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        HexBombSabotageSystem.BombFinished = false;
         _alivePlayersList = Helpers.GetAlivePlayers();
     }
 
