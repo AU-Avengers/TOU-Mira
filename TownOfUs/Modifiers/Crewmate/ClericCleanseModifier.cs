@@ -19,7 +19,8 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         Blackmail,
         Blind,
         Flash,
-        Hypnosis
+        Hypnosis,
+        Hex
     }
 
     public override string ModifierName => "Cleric Cleanse";
@@ -117,6 +118,11 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         {
             Player.RemoveModifier<HypnotisedModifier>();
         }
+
+        if (Effects.Contains(EffectType.Hex))
+        {
+            Player.RemoveModifier<SpellslingerHexedModifier>();
+        }
     }
 
     public static List<EffectType> FindNegativeEffects(PlayerControl player)
@@ -156,6 +162,11 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         if (player.HasModifier<HypnotisedModifier>())
         {
             effects.Add(EffectType.Hypnosis);
+        }
+
+        if (player.HasModifier<SpellslingerHexedModifier>())
+        {
+            effects.Add(EffectType.Hex);
         }
 
         return effects;

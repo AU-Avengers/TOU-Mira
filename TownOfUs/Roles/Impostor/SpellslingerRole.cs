@@ -5,9 +5,9 @@ using MiraAPI.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using MiraAPI.Patches.Stubs;
+using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 
@@ -20,7 +20,6 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
-    private static List<PlayerControl> _alivePlayersList;
 
     public string GetAdvancedDescription()
     {
@@ -51,28 +50,24 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         IntroSound = TouAudio.ArsoIgniteSound,
     };
 
-    public static void OnRoundStart()
-    {
-        _alivePlayersList = Helpers.GetAlivePlayers();
-    }
-
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
         HexBombSabotageSystem.BombFinished = false;
-        _alivePlayersList = Helpers.GetAlivePlayers();
     }
 
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var sb = ITownOfUsRole.SetNewTabText(this);
+        var alivePlayers = PlayerControl.AllPlayerControls.ToArray()
+            .Where(x => !DeathHandlerModifier.IsFullyDead(x)).ToList();
 
-        var hexed = _alivePlayersList
+        var hexed = alivePlayers
             .Where(p => p.HasModifier<SpellslingerHexedModifier>())
             .ToList();
 
-        var unhexedNonImpostors = _alivePlayersList
+        var unhexedNonImpostors = alivePlayers
             .Where(p => !p.IsImpostor() && !p.HasModifier<SpellslingerHexedModifier>())
             .ToList();
 

@@ -181,7 +181,9 @@ public static class AppearanceExtensions
             player.Data.Outfits.Remove(player.CurrentOutfitType);
         }
 
-        /*player.CurrentOutfitType = (PlayerOutfitType)appearance.AppearanceType;
+        player.CurrentOutfitType = (PlayerOutfitType)appearance.AppearanceType;
+
+        /*
         if (player.CurrentOutfitType != 0 && player.CurrentOutfitType != (PlayerOutfitType)TownOfUsAppearances.Swooper)
         {
             player.Data.SetOutfit(player.CurrentOutfitType, appearance);

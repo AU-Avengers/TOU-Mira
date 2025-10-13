@@ -643,8 +643,15 @@ public static class TownOfUsEventHandlers
         {
             yield break;
         }
+        var fakeDictionary = new Dictionary<byte, string>();
+        byte specByte = 0;
+        foreach (var name in SpectatorRole.TrackedSpectators)
+        {
+            fakeDictionary.Add(specByte, name);
+            specByte++;
+        }
 
-        Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, SpectatorRole.TrackedSpectators.ToList());
+        Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
     }
 
     [RegisterEvent]

@@ -304,7 +304,7 @@ public static class ChatPatches
         }
     }
 
-    public static void SetSpectatorList(List<string> list)
+    public static void SetSpectatorList(Dictionary<byte, string> list)
     {
         var oldList = SpectatorRole.TrackedSpectators;
         foreach (var name in oldList)
@@ -312,7 +312,7 @@ public static class ChatPatches
             SpectatorRole.TrackedSpectators.Remove(name);
         }
         
-        foreach (var name in list)
+        foreach (var name in list.Select(x => x.Value))
         {
             SpectatorRole.TrackedSpectators.Add(name);
         }
