@@ -14,6 +14,12 @@ public sealed class SpellslingerHexBombButton : TownOfUsRoleButton<SpellslingerR
     public override float Cooldown => 0.001f;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.HexSprite;
 
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        _bombed = false;
+    }
+
     public override bool Enabled(RoleBehaviour? role)
     {
         return base.Enabled(role) && SpellslingerRole.EveryoneHexed();

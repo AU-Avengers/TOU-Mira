@@ -120,17 +120,24 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
             .Where(p => !p.IsImpostor() && !p.HasModifier<SpellslingerHexedModifier>())
             .ToList();
 
-        if (hexed.Count > 0)
+        if (EveryoneHexed())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexedInfo")}</b>");
-            foreach (var player in hexed)
-            {
-                var color = player.IsImpostor() ? "red" : "white";
-                stringB.Append(TownOfUsPlugin.Culture, $"\n<color={color}><size=75%>{player.Data.PlayerName}</size></color>");
-            }
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexFinished")}</b>");
         }
+        else
+        {
+            if (hexed.Count > 0)
+            {
+                stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexedInfo")}</b>");
+                foreach (var player in hexed)
+                {
+                    var color = player.IsImpostor() ? "red" : "white";
+                    stringB.Append(TownOfUsPlugin.Culture, $"\n<color={color}><size=75%>{player.Data.PlayerName}</size></color>");
+                }
+            }
 
-        stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
+            stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
+        }
 
         return stringB;
     }
