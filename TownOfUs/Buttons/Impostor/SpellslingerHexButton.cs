@@ -39,7 +39,7 @@ public sealed class SpellslingerHexButton : TownOfUsRoleButton<SpellslingerRole,
 
         if (SpellslingerRole.EveryoneHexed())
         {
-            CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, Role);
+            SetActive(false, Role);
             CustomButtonSingleton<SpellslingerHexBombButton>.Instance.SetActive(true, Role);
         }
     }

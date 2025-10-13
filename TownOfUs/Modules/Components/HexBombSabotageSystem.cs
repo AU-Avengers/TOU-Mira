@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using Reactor.Utilities.Attributes;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Modules.Components;
@@ -13,7 +14,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
 {
     public const byte SabotageId = 68;
 
-    public bool IsActive => TimeRemaining > 0 || Stage == HexBombStage.Warning || Stage == HexBombStage.Finished;
+    public bool IsActive => TimeRemaining > 0 || Stage == HexBombStage.Finished;
     public bool IsDirty { get; private set; }
     public float TimeRemaining { get; private set; }
     public HexBombStage Stage { get; private set; }
@@ -44,6 +45,11 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
             PlayerControl.LocalPlayer.AddSystemTask((SystemTypes)SabotageId);
         }
 
+        if (HexBombTimerPatch.GameTimerObj == null)
+        {
+            HexBombTimerPatch.CreateHexTimer(HudManager.Instance, this);
+        }
+
         if (MeetingHud.Instance == null && ExileController.Instance == null)
         {
             TimeRemaining -= deltaTime;
@@ -58,19 +64,19 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
 
         if (TimeRemaining <= 0)
         {
-            if (Stage == HexBombStage.Warning)
-            {
-                Stage = HexBombStage.Countdown;
-                TimeRemaining = OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDuration;
-                BombFinished = false;
-                IsDirty = true;
-            }
-            else if (Stage == HexBombStage.Countdown)
+            if (Stage == HexBombStage.Countdown)
             {
                 Stage = HexBombStage.Finished;
                 TimeRemaining = 3f;
                 BombFinished = false;
                 IsDirty = true;
+            }
+            else if (Stage == HexBombStage.SpellslingerDead)
+            {
+                IsDirty = true;
+                Stage = HexBombStage.None;
+
+                BombFinished = false;
             }
             else if (Stage == HexBombStage.Finished)
             {
@@ -81,21 +87,24 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 }
                 else
                 {
-                    var spellslinger = CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().FirstOrDefault();
-                    if (spellslinger != null)
-                    {
-                        BombFinished = true;
-                    }
+                    BombFinished = true;
                 }
             }
+        }
+        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
+        {
+            Stage = HexBombStage.SpellslingerDead;
+            TimeRemaining = 3f;
+            BombFinished = false;
+            IsDirty = true;
         }
     }
 
     public void UpdateSystem(PlayerControl player, MessageReader msgReader)
     {
         if (msgReader.ReadByte() != 1) return;
-        Stage = HexBombStage.Warning;
-        TimeRemaining = OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDelay;
+        Stage = HexBombStage.Countdown;
+        TimeRemaining = OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDuration;
         IsDirty = true;
     }
 
@@ -121,7 +130,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
 public enum HexBombStage
 {
     None,
-    Warning,
     Countdown,
     Finished,
+    SpellslingerDead,
 }

@@ -10,7 +10,8 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <Version>1.2.1-6</Version>
+        <Version>1.2.1-7</Version>
+
         <VersionSuffix>legacy</VersionSuffix>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, whichtwix, xerminator, XtraCube, Zeo</Authors>

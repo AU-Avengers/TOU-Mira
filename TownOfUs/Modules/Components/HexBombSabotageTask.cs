@@ -54,21 +54,36 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
     private IEnumerator CoFlash()
     {
         var wait = new WaitForSeconds(1f);
-        var playSound = true;
+        var playSound = false;
         while (_sabotage.TimeRemaining > 0)
         {
+            var disableBlare = (MeetingHud.Instance != null || ExileController.Instance != null);
             if (_sabotage.Stage == HexBombStage.Countdown)
             {
                 HudManager.Instance.FullScreen.color = new Color(0.38f, 0.2f, 0f, playSound ? 0.18f : 0.34f);
                 HudManager.Instance.FullScreen.gameObject.SetActive(true);
-                HudManager.Instance.PlayerCam.shakeAmount = 0.01f;
+                HudManager.Instance.PlayerCam.shakeAmount = 0.03f;
                 HudManager.Instance.PlayerCam.shakePeriod = 16f;
+
+                playSound = !playSound;
+                if (playSound && !disableBlare)
+                {
+                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
+                    SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 3f);
+                }
+            }
+            else if (_sabotage.Stage == HexBombStage.SpellslingerDead)
+            {
+                HudManager.Instance.FullScreen.color = new Color(Palette.CrewmateBlue.r, Palette.CrewmateBlue.g, Palette.CrewmateBlue.b, playSound ? 0.18f : 0.34f);
+                HudManager.Instance.FullScreen.gameObject.SetActive(true);
+                HudManager.Instance.PlayerCam.shakeAmount = _ogShakeAmt;
+                HudManager.Instance.PlayerCam.shakePeriod = _ogShakePeriod;
 
                 playSound = !playSound;
                 if (playSound)
                 {
                     SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
-                    SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 3f);
+                    SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 0.1f);
                 }
             }
             else if (_sabotage.Stage == HexBombStage.Finished)
@@ -88,7 +103,7 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
             else
             {
                 HudManager.Instance.FullScreen.color = new Color(1f, 0f, 0f, 0.37254903f);
-                if (!HudManager.Instance.FullScreen.gameObject.activeSelf)
+                if (!HudManager.Instance.FullScreen.gameObject.activeSelf && !disableBlare)
                 {
                     SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
                     SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 3f);
@@ -111,11 +126,12 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
         var text = "The Hex Bomb has been triggered!";
         switch (_sabotage.Stage)
         {
-            case HexBombStage.Warning:
-                text = $"The Spellslinger is unleashing a Hex Bomb!\nYou have {(int)_sabotage.TimeRemaining + 1} before it begins!";
-                break;
             case HexBombStage.Countdown:
-                text = $"Find the Spellslinger before time is up!\n{(int)_sabotage.TimeRemaining + 1} seconds left!";
+                text = $"The Spellslinger is unleashing a Hex Bomb!\n{(int)_sabotage.TimeRemaining + 1} seconds left!";
+                break;
+            case HexBombStage.SpellslingerDead:
+                color = Palette.CrewmateBlue;
+                text = $"The Spellslinger has perished!";
                 break;
         }
 
@@ -130,10 +146,10 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
             _flash = null;
             HudManager.Instance.FullScreen.gameObject.SetActive(false);
             SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
-            DataManager.Settings.Gameplay.ScreenShake = _ogShakeEnabled;
-            HudManager.Instance.PlayerCam.shakeAmount = _ogShakeAmt;
-            HudManager.Instance.PlayerCam.shakePeriod = _ogShakePeriod;
         }
+        DataManager.Settings.Gameplay.ScreenShake = _ogShakeEnabled;
+        HudManager.Instance.PlayerCam.shakeAmount = _ogShakeAmt;
+        HudManager.Instance.PlayerCam.shakePeriod = _ogShakePeriod;
 
         _isComplete = true;
         PlayerControl.LocalPlayer.RemoveTask(this);
