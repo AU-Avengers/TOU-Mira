@@ -68,7 +68,7 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaHexBomb(LogicGameFlowNormal instance)
     {
-        if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed())
+        if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
         {
             instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
             return true;
