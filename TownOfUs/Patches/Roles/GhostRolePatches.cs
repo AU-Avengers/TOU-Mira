@@ -1,3 +1,4 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Rewired.Utils;
 using TownOfUs.Roles;
@@ -117,5 +118,37 @@ public static class GhostRolePatches
         {
             __instance.ImpostorVentButton.gameObject.SetActive(PlayerControl.LocalPlayer.inVent);
         }
+    }
+
+    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ResetAnimState))]
+    [HarmonyPrefix]
+    public static bool ResetAnimStatePrefix(PlayerPhysics __instance)
+    {
+        __instance.myPlayer.FootSteps.Stop();
+        __instance.myPlayer.FootSteps.loop = false;
+        __instance.myPlayer.cosmetics.SetHatAndVisorIdle(__instance.myPlayer.CurrentOutfit.ColorId);
+        NetworkedPlayerInfo data = __instance.myPlayer.Data;
+        if (data == null || !data.IsDead || data.Role is IGhostRole { GhostActive: false })
+        {
+            __instance.myPlayer.cosmetics.AnimateSkinIdle();
+            __instance.Animations.PlayIdleAnimation();
+            __instance.myPlayer.Visible = true;
+            __instance.myPlayer.SetHatAndVisorAlpha(1f);
+            return false;
+        }
+        __instance.myPlayer.cosmetics.SetGhost();
+        if (data.Role != null)
+        {
+            if (data.Role.Role == RoleTypes.GuardianAngel)
+            {
+                __instance.Animations.PlayGuardianAngelIdleAnimation();
+            }
+            else
+            {
+                __instance.Animations.PlayGhostIdleAnimation();
+            }
+        }
+        __instance.myPlayer.SetHatAndVisorAlpha(0.5f);
+        return false;
     }
 }

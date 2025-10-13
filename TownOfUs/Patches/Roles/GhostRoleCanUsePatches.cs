@@ -47,5 +47,39 @@ public static class GhostRoleCanUsePatches
         {
             pc.IsDead = true;
         }
-    }
+    }/*
+
+    [HarmonyPatch]
+    public static class SpecificUsePatches
+    {
+        [HarmonyPatch(typeof(Ladder), nameof(Ladder.Use))]
+        [HarmonyPrefix]
+        public static bool LadderUsePrefix(Ladder __instance)
+        {
+            var data = PlayerControl.LocalPlayer.Data;
+            __instance.CanUse(data, out var flag, out var _);
+            if (flag)
+            {
+                PlayerControl.LocalPlayer.MyPhysics.RpcClimbLadder(__instance);
+                __instance.CoolDown = __instance.MaxCoolDown;
+            }
+
+            return false;
+        }
+
+        [HarmonyPatch(typeof(ZiplineConsole), nameof(ZiplineConsole.Use))]
+        [HarmonyPrefix]
+        public static bool ZiplineUsePrefix(ZiplineConsole __instance)
+        {
+            var data = PlayerControl.LocalPlayer.Data;
+            __instance.CanUse(data, out var flag, out var _);
+            if (flag)
+            {
+                __instance.zipline.Use(__instance.atTop, __instance);
+                __instance.CoolDown = __instance.MaxCoolDown;
+            }
+
+            return false;
+        }
+    }*/
 }

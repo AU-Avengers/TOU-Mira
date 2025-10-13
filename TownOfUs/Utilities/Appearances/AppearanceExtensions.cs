@@ -183,11 +183,11 @@ public static class AppearanceExtensions
 
         player.CurrentOutfitType = (PlayerOutfitType)appearance.AppearanceType;
 
-        /*
-        if (player.CurrentOutfitType != 0 && player.CurrentOutfitType != (PlayerOutfitType)TownOfUsAppearances.Swooper)
+        // This was originally removed by Pietro, but without it, ladders and ziplines are extremely broken
+        if (player.CurrentOutfitType != 0)
         {
             player.Data.SetOutfit(player.CurrentOutfitType, appearance);
-        }*/
+        }
     }
 
     public static TownOfUsAppearances GetAppearanceType(this PlayerControl player)
