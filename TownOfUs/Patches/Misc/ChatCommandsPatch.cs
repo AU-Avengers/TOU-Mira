@@ -304,8 +304,7 @@ public static class ChatPatches
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetSpectatorList, SendImmediately = true)]
-    public static void RpcSetSpectatorList(PlayerControl player, HashSet<string> list)
+    public static void SetSpectatorList(List<string> list)
     {
         var oldList = SpectatorRole.TrackedSpectators;
         foreach (var name in oldList)

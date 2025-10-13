@@ -94,6 +94,10 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         var realTasks = Player.myTasks.ToArray()
             .Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>()).ToList();
+        if (realTasks.Count <= 1)
+        {
+            return;
+        }
 
         var completedTasks = realTasks.Count(t => t.IsComplete);
         var tasksRemaining = realTasks.Count - completedTasks;

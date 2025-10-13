@@ -63,7 +63,7 @@ public static class AppearanceExtensions
 
     public static void SetCamouflage(this PlayerControl player, bool toggle = true)
     {
-        if (toggle && player.GetAppearanceType() != TownOfUsAppearances.Camouflage)
+        if (toggle && player.GetAppearanceType() != TownOfUsAppearances.Camouflage && !player.HasDied())
         {
             player.RawSetAppearance(new VisualAppearance(player.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
             {
@@ -181,11 +181,11 @@ public static class AppearanceExtensions
             player.Data.Outfits.Remove(player.CurrentOutfitType);
         }
 
-        player.CurrentOutfitType = (PlayerOutfitType)appearance.AppearanceType;
-        if (appearance.AppearanceType != 0)
+        /*player.CurrentOutfitType = (PlayerOutfitType)appearance.AppearanceType;
+        if (player.CurrentOutfitType != 0 && player.CurrentOutfitType != (PlayerOutfitType)TownOfUsAppearances.Swooper)
         {
             player.Data.SetOutfit(player.CurrentOutfitType, appearance);
-        }
+        }*/
     }
 
     public static TownOfUsAppearances GetAppearanceType(this PlayerControl player)

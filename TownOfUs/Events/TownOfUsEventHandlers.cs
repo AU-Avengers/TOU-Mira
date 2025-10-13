@@ -16,6 +16,7 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using PowerTools;
+using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
@@ -31,13 +32,13 @@ using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
-using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
@@ -643,7 +644,7 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        ChatPatches.RpcSetSpectatorList(PlayerControl.LocalPlayer, SpectatorRole.TrackedSpectators);
+        Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, SpectatorRole.TrackedSpectators.ToList());
     }
 
     [RegisterEvent]
