@@ -599,13 +599,26 @@ public static class TouRoleManagerPatches
             RoleListOption.NeutSpecial));
 
         var specialNeutRoles = neutOutlierRoles;
+        List<(ushort, int)> wildcardNeutRoles;
+        var wildcardRng = Random.RandomRangeInt(0, 10);
+        // Temporary for now
+        if (wildcardRng > 6)
+        {
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutWildcard));
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutWildcard));
+            wildcardNeutRoles = neutOutlierRoles;
 
-        var wildcardNeutRoles = neutOutlierRoles;
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, RoleListOption.NeutWildcard));
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, RoleListOption.NeutWildcard));
+            wildcardNeutRoles.AddRange(commonNeutRoles);
+        }
+        else
+        {
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, RoleListOption.NeutWildcard));
+            wildcardNeutRoles = commonNeutRoles;
 
-        wildcardNeutRoles.AddRange(commonNeutRoles);
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutWildcard));
+            wildcardNeutRoles.AddRange(neutOutlierRoles);
+        }
 
         crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutKillingRoles, RoleListOption.NeutKilling,
             RoleListOption.NeutSpecial));

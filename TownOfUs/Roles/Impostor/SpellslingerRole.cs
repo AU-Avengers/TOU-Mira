@@ -39,7 +39,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
             TouImpAssets.HexSprite),
         new(TouLocale.GetParsed($"TouRole{LocaleKey}HexBomb", "Hex Bomb"),
             TouLocale.GetParsed($"TouRole{LocaleKey}HexBombWikiDescription"),
-            TouImpAssets.HexSprite)
+            TouImpAssets.HexBombSprite)
     ];
 
     public Color RoleColor => TownOfUsColors.Impostor;

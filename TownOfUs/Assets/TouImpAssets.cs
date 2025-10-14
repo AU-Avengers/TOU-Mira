@@ -58,7 +58,10 @@ public static class TouImpAssets
         new LoadableBundleAsset<Sprite>("PlantButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> HexSprite { get; } =
-        new LoadableBundleAsset<Sprite>("PursueButton", TouAssets.MainBundle);
+        new LoadableBundleAsset<Sprite>("HexButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> HexBombSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HexBombButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> TraitorSelect { get; } =
         new LoadableBundleAsset<Sprite>("TraitorSelect", TouAssets.MainBundle);

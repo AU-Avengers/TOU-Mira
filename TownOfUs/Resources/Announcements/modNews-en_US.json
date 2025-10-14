@@ -386,19 +386,18 @@
       ]
     },
     {
-      "Date": "2025-12-11T12:50:00Z",
-      "Number": "100025",
+      "Date": "2025-12-14T12:50:00Z",
+      "Number": "100026",
       "ShortTitle": "TOU: Mira v1.3.0",
-      "SubTitle": "I hereby declare you guilty.",
-      "Title": "Judge, Jury, Executioner... Chef?",
+      "SubTitle": "Do I smell...smoke?",
+      "Title": "The Chef and Spellslinging-Slasher join the frey!",
       "Text": [
-        "\n\n<b> This update adds a lot more localization for roles, which apply to everything except options, color names, and meeting abilities.</b>",
+        "<b> This update adds a lot more localization for roles, which apply to everything except options, color names, and meeting abilities.</b>",
         "\nA new neutral role enters the fray: The Chef! This was a community-made suggestion by CraftR on the Tou Discord, under the Neutral Outlier bucket.",
         "\nA new impostor role also joins the ranks: The Spellslinger! This role was PR'ed by Loonie over on Github, and is an Impostor Power role.",
+        "\n\nThanks to the community testing out beta builds, we've finally cracked down on the major issues plaguing the mod, and we're immensely thankful for that.",
         "\n\nAgain, the Mira team really appreciates all of your support, thank you so much for playing the mod!",
-        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.2>TOU Mira v1.2.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
-        "\n\n\r<size=105%>Localization Updates:</size>",
-        "\n- All wiki entries are ready for localization.",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0>TOU Mira v1.3.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
         "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
         "\n- Vigilante no longer wastes a use while guessing.",
         "\n- If a Prosecutor is punished and dies as a Celebrity, their death is no longer displayed.",
@@ -406,6 +405,7 @@
         "\n- Hunter Retribution should appear for all clients properly now.",
         "\n- Medic will no longer trigger the shield if the kill button isn't usable.",
         "\n- Mirrorcaster will no longer trigger the mirror if the kill button isn't usable.",
+        "\n- When an Amnesiac/Imitator becomes snitch, their progress automatically updates.",
         "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
         "\n- If an Executioner's target becomes a Vampire, they will no longer be able to end the game, but will still win.",
         "\n- Mercenary can no longer become Phantom if they bribed a player, or had their role taken by an Amnesiac.",
@@ -420,6 +420,8 @@
         "\n- FFA Impostor Mode now hides impostor names from the chat.",
         "\n- Guess counts should no longer be counted in the main kill counter for the summary.",
         "\n- Haunter and Phantom no longer appear camouflaged during comms.",
+        "\n- When a player disconnects, anyone who voted for them should no longer be stuck without a vote.",
+        "\n- Client-sided murders should no longer be an issue now.",
         "\n\n\r<size=105%>Changes:</size>",
         "\n- Mirrorcaster now has four types of information it can display based on the attack.",
         "\n- Inquisitor is no longer a Neutral Evil, but rather a Neutral Outlier alongside the new neutral role.",
@@ -429,7 +431,7 @@
         "\n- Rich Presence on Discord now shows the mod icon.",
         "\n- New Neutral Buckets: Neutral Wildcard (Non-Killing Neutrals) and Neutral Special (Neutral Killing and Outlier)",
         "\n- New Neutral Outlier Role: The Chef!\nThis role takes the dead bodies of players and feeds them to others, which all fulfills their quota to leave in victory!",
-        "\n- New Impostor Power Role: The Spellslinger!\nThis role hexes players to then set off a hex bomb, ending the game (this is unfinalized)"
+        "\n- New Impostor Power Role: The Spellslinger!\nThis role hexes players to then set off a hex bomb, in which the crew will need to get rid of the Spellslinger or finish their tasks against the hex clock."
       ]
     }
   ]
