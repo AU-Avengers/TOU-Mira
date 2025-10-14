@@ -14,7 +14,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<MirrorcasterRole>, IAftermathableButton
 {
-    public override string Name => TouLocale.Get("TouRoleMirrorcasterMagicMirror", "Magic Mirror");
+    public override string Name => TouLocale.GetParsed("TouRoleMirrorcasterMagicMirror", "Magic Mirror");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mirrorcaster;
 

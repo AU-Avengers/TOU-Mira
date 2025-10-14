@@ -10,7 +10,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAftermathableButton
 {
-    public override string Name => TouLocale.Get("TouRoleMinerMine", "Mine");
+    public override string Name => TouLocale.GetParsed("TouRoleMinerMine", "Mine");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => OptionGroupSingleton<MinerOptions>.Instance.MineCooldown + MapCooldown;

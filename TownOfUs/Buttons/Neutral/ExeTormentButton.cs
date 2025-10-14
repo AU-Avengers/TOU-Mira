@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ExeTormentButton : TownOfUsButton
 {
-    public override string Name => TouLocale.Get("TouRoleExecutionerTorment", "Torment");
+    public override string Name => TouLocale.GetParsed("TouRoleExecutionerTorment", "Torment");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Executioner;
     public override float Cooldown => 0.01f;

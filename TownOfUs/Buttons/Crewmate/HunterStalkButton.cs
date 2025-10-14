@@ -14,7 +14,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleHunterStalk", "Stalk");
+    public override string Name => TouLocale.GetParsed("TouRoleHunterStalk", "Stalk");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Hunter;
     public override float Cooldown => OptionGroupSingleton<HunterOptions>.Instance.HunterStalkCooldown + MapCooldown;

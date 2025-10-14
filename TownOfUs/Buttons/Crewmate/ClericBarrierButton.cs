@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleClericBarrier", "Barrier");
+    public override string Name => TouLocale.GetParsed("TouRoleClericBarrier", "Barrier");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Cleric;
     public override float Cooldown => OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown + MapCooldown;

@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("InquisitorInquire", "Inquire");
+    public override string Name => TouLocale.GetParsed("InquisitorInquire", "Inquire");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override int MaxUses => (int)OptionGroupSingleton<InquisitorOptions>.Instance.MaxUses;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;

@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class PhantomSpookButton : TownOfUsButton
 {
-    public override string Name => TouLocale.Get("TouRolePhantomSpook", "Spook");
+    public override string Name => TouLocale.GetParsed("TouRolePhantomSpook", "Spook");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Phantom;
     public override float Cooldown => 0.01f;

@@ -14,7 +14,7 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class SatelliteButton : TownOfUsButton
 {
-    public override string Name => TouLocale.Get("TouModifierSatelliteBroadcast", "Broadcast");
+    public override string Name => TouLocale.GetParsed("TouModifierSatelliteBroadcast", "Broadcast");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Satellite;
     public override float Cooldown => OptionGroupSingleton<SatelliteOptions>.Instance.Cooldown + MapCooldown;

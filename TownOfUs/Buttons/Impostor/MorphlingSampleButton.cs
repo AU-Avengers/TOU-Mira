@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class MorphlingSampleButton : TownOfUsRoleButton<MorphlingRole, PlayerControl>, IAftermathablePlayerButton
 {
-    public override string Name => TouLocale.Get("TouRoleMorphlingSample", "Sample");
+    public override string Name => TouLocale.GetParsed("TouRoleMorphlingSample", "Sample");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;

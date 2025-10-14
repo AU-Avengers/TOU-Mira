@@ -12,7 +12,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>
 {
-    public override string Name => TouLocale.Get("TouRoleEngineerFix", "Fix");
+    public override string Name => TouLocale.GetParsed("TouRoleEngineerFix", "Fix");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Engineer;
     public override float Cooldown => 0.001f + MapCooldown;

@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ChefCookButton : TownOfUsRoleButton<ChefRole, DeadBody>
 {
-    public override string Name => TouLocale.Get("TouRoleChefCook", "Cook");
+    public override string Name => TouLocale.GetParsed("TouRoleChefCook", "Cook");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override int MaxUses => (int)OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded;
     public override Color TextOutlineColor => TownOfUsColors.Chef;

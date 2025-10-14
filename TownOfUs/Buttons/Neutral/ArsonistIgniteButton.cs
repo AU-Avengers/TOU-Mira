@@ -20,7 +20,7 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
 {
     public PlayerControl? ClosestTarget;
-    public override string Name => TouLocale.Get("TouRoleArsonistIgnite", "Ignite");
+    public override string Name => TouLocale.GetParsed("TouRoleArsonistIgnite", "Ignite");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Arsonist;
     public override float Cooldown => OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown;

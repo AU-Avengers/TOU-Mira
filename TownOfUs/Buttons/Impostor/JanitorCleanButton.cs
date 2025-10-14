@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class JanitorCleanButton : TownOfUsRoleButton<JanitorRole, DeadBody>, IAftermathableBodyButton,
     IDiseaseableButton
 {
-    public override string Name => TouLocale.Get("TouRoleJanitorClean", "Clean");
+    public override string Name => TouLocale.GetParsed("TouRoleJanitorClean", "Clean");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => OptionGroupSingleton<JanitorOptions>.Instance.CleanCooldown + MapCooldown;

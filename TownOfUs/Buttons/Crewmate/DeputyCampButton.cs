@@ -12,7 +12,7 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>
 {
     public bool Usable = true;
-    public override string Name => TouLocale.Get("TouRoleDeputyCamp", "Camp");
+    public override string Name => TouLocale.GetParsed("TouRoleDeputyCamp", "Camp");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Deputy;
     public override float Cooldown => 0.001f + MapCooldown;

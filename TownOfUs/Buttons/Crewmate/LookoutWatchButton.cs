@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleLookoutWatch", "Watch");
+    public override string Name => TouLocale.GetParsed("TouRoleLookoutWatch", "Watch");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Lookout;
     public override float Cooldown => OptionGroupSingleton<LookoutOptions>.Instance.WatchCooldown + MapCooldown;

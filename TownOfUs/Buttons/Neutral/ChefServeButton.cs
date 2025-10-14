@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ChefServeButton : TownOfUsRoleButton<ChefRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleChefServe", "Serve");
+    public override string Name => TouLocale.GetParsed("TouRoleChefServe", "Serve");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Chef;
     public override float Cooldown => OptionGroupSingleton<ChefOptions>.Instance.ServeCooldown + MapCooldown;

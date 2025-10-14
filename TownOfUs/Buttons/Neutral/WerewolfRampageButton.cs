@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>
 {
-    public override string Name => TouLocale.Get("TouRoleWerewolfRampage", "Rampage");
+    public override string Name => TouLocale.GetParsed("TouRoleWerewolfRampage", "Rampage");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Werewolf;
     public override float Cooldown => OptionGroupSingleton<WerewolfOptions>.Instance.RampageCooldown + MapCooldown;

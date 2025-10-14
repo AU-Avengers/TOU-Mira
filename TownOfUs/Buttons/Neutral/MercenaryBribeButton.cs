@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleMercenaryBribe", "Bribe");
+    public override string Name => TouLocale.GetParsed("TouRoleMercenaryBribe", "Bribe");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mercenary;
     public override float Cooldown => 0.001f + MapCooldown;

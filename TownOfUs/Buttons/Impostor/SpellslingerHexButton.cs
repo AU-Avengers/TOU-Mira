@@ -12,7 +12,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class SpellslingerHexButton : TownOfUsRoleButton<SpellslingerRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleSpellslingerHex", "Hex");
+    public override string Name => TouLocale.GetParsed("TouRoleSpellslingerHex", "Hex");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => OptionGroupSingleton<SpellslingerOptions>.Instance.HexCooldown + MapCooldown;
