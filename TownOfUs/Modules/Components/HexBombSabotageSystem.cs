@@ -3,9 +3,12 @@ using Il2CppInterop.Runtime.Injection;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Events;
+using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Impostor;
 // using TownOfUs.Patches;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Modules.Components;
 
@@ -69,7 +72,18 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
             if (Stage == HexBombStage.Countdown)
             {
                 Stage = HexBombStage.Finished;
-                TimeRemaining = 3f;
+                var spellslinger = CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().FirstOrDefault();
+                if (spellslinger != null)
+                {
+                    foreach (var player in PlayerControl.AllPlayerControls.ToArray()
+                                 .Where(x => !x.HasDied() && !x.IsImpostor()))
+                    {
+                        DeathHandlerModifier.UpdateDeathHandler(player, TouLocale.Get("DiedToSpellslingerHexBomb"), DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+                            TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", spellslinger.Player.Data.PlayerName),
+                            lockInfo: DeathHandlerOverride.SetTrue);
+                    }
+                }
+                TimeRemaining = 7f;
                 BombFinished = false;
                 IsDirty = true;
             }
@@ -96,7 +110,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
         else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
         {
             Stage = HexBombStage.SpellslingerDead;
-            TimeRemaining = 7f;
+            TimeRemaining = 3f;
             BombFinished = false;
             IsDirty = true;
         }

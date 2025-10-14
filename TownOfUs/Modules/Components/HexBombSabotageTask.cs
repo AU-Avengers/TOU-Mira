@@ -121,11 +121,11 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                     deathAnim.gameObject.layer = redBg.gameObject.layer;
                     if (PlayerControl.LocalPlayer.HasModifier<GiantModifier>())
                     {
-                        deathAnim.transform.localScale /= 0.7f;
+                        deathAnim.transform.localPosition += new Vector3(0.5f, 0.2f, 0f);
                     }
                     else if (PlayerControl.LocalPlayer.HasModifier<MiniModifier>())
                     {
-                        deathAnim.transform.localScale *= 0.7f;
+                        deathAnim.transform.localPosition += new Vector3(0f, -0.05f, 0f);
                     }
                     SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
                     SoundManager.Instance.PlaySound(TouAudio.HexBombDetonateSound.LoadAsset(), false, 1f);

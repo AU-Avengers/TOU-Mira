@@ -211,6 +211,7 @@
   <string name="DiedToInquisitor">Vanquished</string>
   <string name="DiedToAmbusherAmbush">Ambushed</string>
   <string name="DiedToBomberBomb">Bombed</string>
+  <string name="DiedToSpellslingerHexBomb">Disintegrated</string>
   <!-- Status Effects -->
   <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
