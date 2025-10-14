@@ -1121,6 +1121,32 @@ public static class MiscUtils
         }
     }
 
+    public static IEnumerator FadeInDualRenderers(SpriteRenderer? rend, SpriteRenderer? rend2, float delay = 0.01f, float increase = 0.01f, float rend2Mult = 1f)
+    {
+        if (rend == null || rend2 == null)
+        {
+            yield break;
+        }
+        
+        var tmp = rend.color;
+        tmp.a = 0;
+        rend.color = tmp;
+        var tmp2 = rend2.color;
+        tmp2.a = 0;
+        rend2.color = tmp2;
+
+        while (rend.color.a < 1)
+        {
+            tmp.a = Mathf.Min(rend.color.a + increase, 1f); // Ensure it doesn't go above 1
+            rend.color = tmp;
+            tmp2.a = Mathf.Min(rend2.color.a + increase * rend2Mult, 1f); // Ensure it doesn't go above 1
+            rend2.color = tmp2;
+
+            yield return new WaitForSeconds(delay);
+        }
+
+    }
+
     public static GameObject CreateSpherePrimitive(Vector3 location, float radius)
     {
         var spherePrimitive = GameObject.CreatePrimitive(PrimitiveType.Sphere);

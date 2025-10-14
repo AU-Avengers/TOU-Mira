@@ -3,11 +3,15 @@ using AmongUs.Data;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Components;
 
@@ -104,9 +108,31 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                 }
                 else
                 {
+                    var deathAnim = AnimStore.SpawnAnimBody(PlayerControl.LocalPlayer, TouAssets.HexBombDeathPrefab.LoadAsset());
+                    var redBg = Object.Instantiate(HudManager.Instance.FullScreen,
+                        deathAnim.transform.GetParent().transform);
+                    deathAnim.name = "Disintegrate Animation";
+                    deathAnim.SetActive(false);
+                    var deathRend = deathAnim.GetComponent<SpriteRenderer>();
+                    deathRend.color = new Color(0f, 0f, 0f, 0.17254903f);
+                    redBg.color = new Color(1f, 0f, 0f, 0.37254903f);
+                    deathAnim.transform.localPosition += new Vector3(-0.4f, 0.1f, redBg.transform.localPosition.z - 100f);
+                    redBg.transform.localScale *= 20f;
+                    deathAnim.gameObject.layer = redBg.gameObject.layer;
+                    if (PlayerControl.LocalPlayer.HasModifier<GiantModifier>())
+                    {
+                        deathAnim.transform.localScale /= 0.7f;
+                    }
+                    else if (PlayerControl.LocalPlayer.HasModifier<MiniModifier>())
+                    {
+                        deathAnim.transform.localScale *= 0.7f;
+                    }
+                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
+                    SoundManager.Instance.PlaySound(TouAudio.HexBombDetonateSound.LoadAsset(), false, 1f);
                     HudManager.Instance.FullScreen.gameObject.SetActive(true);
                     HudManager.Instance.FullScreen.color = new Color(1f, 0f, 0f, 0.37254903f);
-                    yield return MiscUtils.FadeIn(HudManager.Instance.FullScreen);
+                    deathAnim.SetActive(true);
+                    yield return MiscUtils.FadeInDualRenderers(redBg, deathRend, 0.01f, 0.03f, 5f);
                 }
                 _triggeredHexBomb = true;
             }

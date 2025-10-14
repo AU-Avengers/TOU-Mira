@@ -1253,4 +1253,9 @@
   <string name="TouRoleSpellslingerHexWikiDescription">Заколдуйте игрока, подводя его к детонации.</string>
   <string name="TouRoleSpellslingerHexBomb">Колдовская\%nl\%Бомба</string>
   <string name="TouRoleSpellslingerHexBombWikiDescription">Начните отсчёт до взрыва бомбы. Если вы остаётесь живым, когда бомба взрывается, предатели побеждают!</string>
+  <string name="TouRoleSpellslingerTabHexCounter">Осталось заколдовать: \%count\%</string>
+  <string name="TouRoleSpellslingerTabHexedInfo">Заколдовано:</string>
+  <string name="TouRoleSpellslingerMessageTitle">Предупреждение заклинателя</string>
+  <string name="TouRoleSpellslingerGlobalWarning">\%role\% заложил заколдованную бомбу! Найдите его до того, как выйдет время! После этого собрания останется \%time\% секунд.</string>
+  <string name="TouRoleSpellslingerWarningNotif">\%role\% взорвёт магическую бомбу через \%time\% секунд!</string>
 </resources>

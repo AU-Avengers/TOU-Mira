@@ -22,7 +22,8 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription");
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+               + MiscUtils.AppendOptionsText(GetType());
     }
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Taskmaster;

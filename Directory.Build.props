@@ -10,7 +10,7 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <Version>1.2.1-7</Version>
+        <Version>1.2.1-8</Version>
 
         <VersionSuffix>legacy</VersionSuffix>
 

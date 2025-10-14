@@ -9,6 +9,7 @@ namespace TownOfUs.Patches.Roles;
 public static class SpellslingerSabotagePatches
 {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.OnEnable))]
+    [HarmonyPatch(typeof(PolusShipStatus), nameof(PolusShipStatus.OnEnable))]
     [HarmonyPatch(typeof(AirshipStatus), nameof(AirshipStatus.OnEnable))]
     [HarmonyPatch(typeof(FungleShipStatus), nameof(FungleShipStatus.OnEnable))]
     [HarmonyPostfix]

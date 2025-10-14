@@ -97,6 +97,9 @@ public static class TouAssets
     public static LoadableAsset<GameObject> EclipsedPrefab { get; } =
         new LoadableBundleAsset<GameObject>("Eclipsed", MainBundle);
 
+    public static LoadableAsset<GameObject> HexBombDeathPrefab { get; } =
+        new LoadableBundleAsset<GameObject>("HexDeathAnimation", MainBundle);
+
     public static LoadableAsset<GameObject> AmbushPrefab { get; } =
         new LoadableBundleAsset<GameObject>("Ambush", MainBundle);
 
