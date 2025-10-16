@@ -140,7 +140,7 @@ public static class EndGamePatches
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {Color.green.ToTextColor()}Kills: {stats.CorrectKills}</color>");
                 }
-                else if (basicKillCount > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
+                else if (basicKillCount > 0 && !playerControl.IsCrewmate())
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {TownOfUsColors.Impostor.ToTextColor()}Kills: {basicKillCount}</color>");
