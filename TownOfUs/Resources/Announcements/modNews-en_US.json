@@ -445,6 +445,22 @@
         "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
         "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1>TOU Mira v1.3.1 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★"
       ]
+    },
+    {
+      "Date": "2025-12-16T12:50:00Z",
+      "Number": "100028",
+      "ShortTitle": "TOU: Mira v1.3.2 (Beta)",
+      "SubTitle": "Cheating isn't slick, y'know?",
+      "Title": "Improvements and Bugfixes",
+      "Text": [
+        "<b> This beta release aims to fix a few issues from previous releases.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.2>TOU Mira v1.3.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Screen Flashes (from the likes of Medic, Warden, etc) now work during sabotages.",
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Anticheat system now logs all mods that players are using. We do not condone cheating and would like all players to have a good time. (Only the host is notified of differing mods)"
+      ]
     }
   ]
 }

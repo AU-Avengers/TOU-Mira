@@ -1060,30 +1060,36 @@ public static class MiscUtils
         action(1f);
     }
 
+    public static SpriteRenderer FlashRenderer;
+
     public static IEnumerator CoFlash(Color color, float waitfor = 1f, float alpha = 0.3f)
     {
         color.a = alpha;
-        if (HudManager.InstanceExists && HudManager.Instance.FullScreen)
+        if (HudManager.InstanceExists && HudManager.Instance.FullScreen && !FlashRenderer)
         {
-            var fullscreen = HudManager.Instance.FullScreen;
-            fullscreen.enabled = true;
-            fullscreen.gameObject.SetActive(true);
-            fullscreen.color = color;
+            FlashRenderer = Object.Instantiate(HudManager.Instance.FullScreen,
+                HudManager.Instance.FullScreen.transform.parent);
         }
+
+        FlashRenderer.enabled = true;
+        FlashRenderer.gameObject.SetActive(true);
+        FlashRenderer.color = color;
 
         yield return new WaitForSeconds(waitfor);
 
-        if (HudManager.InstanceExists && HudManager.Instance.FullScreen)
+        if (HudManager.InstanceExists && HudManager.Instance.FullScreen && !FlashRenderer)
         {
-            var fullscreen = HudManager.Instance.FullScreen;
-            if (!fullscreen.color.Equals(color))
-            {
-                yield break;
-            }
-
-            fullscreen.color = new Color(1f, 0f, 0f, 0.37254903f);
-            fullscreen.enabled = false;
+            FlashRenderer = Object.Instantiate(HudManager.Instance.FullScreen,
+                HudManager.Instance.FullScreen.transform.parent);
         }
+
+        if (!FlashRenderer.color.Equals(color))
+        {
+            yield break;
+        }
+
+        FlashRenderer.color = new Color(1f, 0f, 0f, 0.37254903f);
+        FlashRenderer.enabled = false;
     }
 
     public static IEnumerator FadeOut(SpriteRenderer? rend, float delay = 0.01f, float decrease = 0.01f)
