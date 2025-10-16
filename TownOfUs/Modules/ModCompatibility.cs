@@ -90,18 +90,6 @@ public static class ModCompatibility
     {
         if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(SubmergedGuid, out var plugin))
         {
-            var normalOptions = GameOptionsManager.Instance.currentNormalGameOptions;
-            var hideNSeekOptions = GameOptionsManager.Instance.currentHideNSeekGameOptions;
-
-            // If Submerged is not loaded, and you were previously using Submerged, hosting a game shouldn't softlock
-            if (normalOptions.MapId == (byte)SubmergedMapType)
-            {
-                normalOptions.MapId = 0;
-            }
-            else if (hideNSeekOptions.MapId == (byte)SubmergedMapType)
-            {
-                hideNSeekOptions.MapId = 0;
-            }
             return;
         }
 
@@ -415,18 +403,6 @@ public static class ModCompatibility
     {
         if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(LevelImpostorGuid, out var value))
         {
-            var normalOptions = GameOptionsManager.Instance.currentNormalGameOptions;
-            var hideNSeekOptions = GameOptionsManager.Instance.currentHideNSeekGameOptions;
-
-            // If LI is not loaded, and you were previously using LI, hosting a game shouldn't softlock
-            if (normalOptions.MapId == (byte)LevelImpostorMapType)
-            {
-                normalOptions.MapId = 0;
-            }
-            else if (hideNSeekOptions.MapId == (byte)LevelImpostorMapType)
-            {
-                hideNSeekOptions.MapId = 0;
-            }
             return;
         }
 
