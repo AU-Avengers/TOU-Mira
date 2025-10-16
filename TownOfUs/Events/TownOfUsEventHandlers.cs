@@ -767,6 +767,31 @@ public static class TownOfUsEventHandlers
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
     {
+        if (MeetingHud.Instance.CurrentState == MeetingHud.VoteStates.Animating)
+        {
+            if (target.AmOwner)
+            {
+                MeetingMenu.Instances.Do(x => x.HideButtons());
+                Coroutines.Start(CoHideHud());
+            }
+            // hide meeting menu button for victim
+            else if (!source.AmOwner && !target.AmOwner)
+            {
+                MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
+            }
+            var targetVoteAreaEarly = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+
+            if (!targetVoteAreaEarly)
+            {
+                return;
+            }
+            
+            targetVoteAreaEarly.AmDead = true;
+            targetVoteAreaEarly.Overlay.gameObject.SetActive(true);
+            targetVoteAreaEarly.XMark.gameObject.SetActive(true);
+            return;
+        }
+
         var timer = (int)OptionGroupSingleton<GeneralOptions>.Instance.AddedMeetingDeathTimer;
         if (timer > 0 && timer <= 15)
         {
