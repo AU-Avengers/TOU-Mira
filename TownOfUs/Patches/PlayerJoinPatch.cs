@@ -1,7 +1,12 @@
 using System.Collections;
+using BepInEx;
+using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using Reactor.Networking.Rpc;
 using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -14,12 +19,12 @@ public static class PlayerJoinPatch
     public static bool SentOnce { get; private set; }
     public static HudManager HUD => HudManager.Instance;
 
-    public static void Postfix()
+    internal static void Postfix()
     {
         Coroutines.Start(CoSendJoinMsg());
     }
 
-    private static IEnumerator CoSendJoinMsg()
+    internal static IEnumerator CoSendJoinMsg()
     {
         while (!AmongUsClient.Instance)
         {
@@ -44,6 +49,18 @@ public static class PlayerJoinPatch
         {
             yield break;
         }
+
+        var mods = IL2CPPChainloader.Instance.Plugins;
+        var modDictionary = new Dictionary<byte, string>();
+        modDictionary.Add(0, "BepInEx " + Paths.BepInExVersion.WithoutBuild());
+        byte modByte = 1;
+        foreach (var mod in mods)
+        {
+            modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
+            modByte++;
+        }
+
+        Rpc<SendClientModInfoRpc>.Instance.Send(PlayerControl.LocalPlayer, modDictionary);
 
         Logger<TownOfUsPlugin>.Info("Sending Message to Local Player...");
         TouRoleManagerPatches.ReplaceRoleManager = false;

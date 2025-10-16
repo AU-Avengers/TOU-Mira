@@ -51,8 +51,16 @@ public static class DummyBehaviourPatches
             .ToList()
             .ForEach(player => roleList.Remove(player.Data.Role));
 
-        var roleType = RoleId.Get(roleList.Random()!.GetType());
-        dummy.RpcChangeRole(roleType);
+        var random = roleList.Random();
+        if (random != null)
+        {
+            var roleType = RoleId.Get(random.GetType());
+            dummy.RpcChangeRole(roleType);
+        }
+        else
+        {
+            dummy.RpcChangeRole(RoleId.Get(RoleManager.Instance.AllRoles[0].GetType()));
+        }
 
         dummy.RpcSetName(AccountManager.Instance.GetRandomName());
 

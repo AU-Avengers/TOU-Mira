@@ -79,3 +79,8 @@ public enum TownOfUsRpc : uint
     CookBody,
     ServeBody
 }
+
+internal enum TownOfUsInternalRpc : uint
+{
+    SendClientModInfo
+}

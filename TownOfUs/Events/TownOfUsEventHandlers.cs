@@ -3,6 +3,7 @@ using System.Globalization;
 using HarmonyLib;
 using MiraAPI.Events;
 using System.Text;
+using InnerNet;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
@@ -255,6 +256,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent(-100)]
     public static void BetaBeforeMurderHandler(BeforeMurderEvent @event)
     {
+        if (!TownOfUsPlugin.IsDevBuild)
+        {
+            return;
+        }
         var killer = @event.Source;
         var victim = @event.Target;
         Logger<TownOfUsPlugin>.Error(
@@ -264,6 +269,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent(-100)]
     public static void BetaAfterMurderHandler(AfterMurderEvent @event)
     {
+        if (!TownOfUsPlugin.IsDevBuild)
+        {
+            return;
+        }
         var killer = @event.Source;
         var victim = @event.Target;
         Logger<TownOfUsPlugin>.Error(
@@ -624,12 +633,12 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void PlayerJoinEventHandler(PlayerJoinEvent @event)
     {
-        Coroutines.Start(CoSendSpecData());
+        Coroutines.Start(CoSendSpecData(@event.ClientData));
     }
 
-    public static IEnumerator CoSendSpecData()
+    internal static IEnumerator CoSendSpecData(ClientData clientData)
     {
-        while (!AmongUsClient.Instance)
+        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
         {
             yield return null;
         }
@@ -638,6 +647,13 @@ public static class TownOfUsEventHandlers
         {
             yield return null;
         }
+
+        while (PlayerControl.LocalPlayer.Data == null)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);
 
         if (!PlayerControl.LocalPlayer.IsHost())
         {

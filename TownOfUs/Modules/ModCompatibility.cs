@@ -1,10 +1,14 @@
 using System.Collections;
+using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
+using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
@@ -16,6 +20,7 @@ namespace TownOfUs.Modules;
 
 public static class ModCompatibility
 {
+    internal static string InternalModList = "???";
     public const string SubmergedGuid = "Submerged";
     public const ShipStatus.MapType SubmergedMapType = (ShipStatus.MapType)6;
 
@@ -68,12 +73,35 @@ public static class ModCompatibility
     {
         InitSubmerged();
         InitLevelImpostor();
+
+        var sBuilder = new StringBuilder();
+
+        var mods = IL2CPPChainloader.Instance.Plugins;
+        sBuilder.Append("\nBepInEx " + Paths.BepInExVersion.WithoutBuild());
+        foreach (var mod in mods)
+        {
+            sBuilder.Append(CultureInfo.InvariantCulture, $"\n{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
+        }
+
+        InternalModList = sBuilder.ToString();
     }
 
     public static void InitSubmerged()
     {
         if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(SubmergedGuid, out var plugin))
         {
+            var normalOptions = GameOptionsManager.Instance.currentNormalGameOptions;
+            var hideNSeekOptions = GameOptionsManager.Instance.currentHideNSeekGameOptions;
+
+            // If Submerged is not loaded, and you were previously using Submerged, hosting a game shouldn't softlock
+            if (normalOptions.MapId == (byte)SubmergedMapType)
+            {
+                normalOptions.MapId = 0;
+            }
+            else if (hideNSeekOptions.MapId == (byte)SubmergedMapType)
+            {
+                hideNSeekOptions.MapId = 0;
+            }
             return;
         }
 
@@ -387,6 +415,18 @@ public static class ModCompatibility
     {
         if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(LevelImpostorGuid, out var value))
         {
+            var normalOptions = GameOptionsManager.Instance.currentNormalGameOptions;
+            var hideNSeekOptions = GameOptionsManager.Instance.currentHideNSeekGameOptions;
+
+            // If LI is not loaded, and you were previously using LI, hosting a game shouldn't softlock
+            if (normalOptions.MapId == (byte)LevelImpostorMapType)
+            {
+                normalOptions.MapId = 0;
+            }
+            else if (hideNSeekOptions.MapId == (byte)LevelImpostorMapType)
+            {
+                hideNSeekOptions.MapId = 0;
+            }
             return;
         }
 
