@@ -602,7 +602,7 @@ public static class TouRoleManagerPatches
         List<(ushort, int)> wildcardNeutRoles;
         var wildcardRng = Random.RandomRangeInt(0, 10);
         // Temporary for now
-        if (wildcardRng > 6)
+        if (wildcardRng > 6 && neutOutlierRoles.Count > 0)
         {
             crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutWildcard));
 

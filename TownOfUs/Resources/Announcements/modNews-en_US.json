@@ -459,6 +459,7 @@
         "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
         "\n- Mayor reveal no longer loops when opening the guess menu or wiki.",
         "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Fix the lack of Neutral Outliers causing Wildcard Role buckets to spawn basic Crewmates.",
         "\n- Screen Flashes (from the likes of Medic, Warden, etc) now work during sabotages.",
         "\n- When going from a build that has Level Impostor or Submerged to one without them, the host menu will no longer softlock the game.",
         "\n- Any players that become Phantom will no longer hide their kill counters in the end game summary.",
