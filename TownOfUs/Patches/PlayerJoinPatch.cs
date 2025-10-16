@@ -50,17 +50,20 @@ public static class PlayerJoinPatch
             yield break;
         }
 
-        var mods = IL2CPPChainloader.Instance.Plugins;
-        var modDictionary = new Dictionary<byte, string>();
-        modDictionary.Add(0, "BepInEx " + Paths.BepInExVersion.WithoutBuild());
-        byte modByte = 1;
-        foreach (var mod in mods)
+        if (!SentOnce)
         {
-            modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
-            modByte++;
-        }
+            var mods = IL2CPPChainloader.Instance.Plugins;
+            var modDictionary = new Dictionary<byte, string>();
+            modDictionary.Add(0, "BepInEx " + Paths.BepInExVersion.WithoutBuild());
+            byte modByte = 1;
+            foreach (var mod in mods)
+            {
+                modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
+                modByte++;
+            }
 
-        Rpc<SendClientModInfoRpc>.Instance.Send(PlayerControl.LocalPlayer, modDictionary);
+            Rpc<SendClientModInfoRpc>.Instance.Send(PlayerControl.LocalPlayer, modDictionary);
+        }
 
         Logger<TownOfUsPlugin>.Info("Sending Message to Local Player...");
         TouRoleManagerPatches.ReplaceRoleManager = false;
