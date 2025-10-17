@@ -1,4 +1,5 @@
 using System.Collections;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -54,12 +55,15 @@ public static class DummyBehaviourPatches
         var random = roleList.Random();
         if (random != null)
         {
-            var roleType = RoleId.Get(random.GetType());
-            dummy.RpcChangeRole(roleType);
-        }
-        else
-        {
-            dummy.RpcChangeRole(RoleId.Get(RoleManager.Instance.AllRoles[0].GetType()));
+            try
+            {
+                var roleType = RoleId.Get(random.GetType());
+                dummy.RpcChangeRole(roleType);
+            }
+            catch
+            {
+                dummy.RpcChangeRole((ushort)RoleTypes.Crewmate);
+            }
         }
 
         dummy.RpcSetName(AccountManager.Instance.GetRandomName());

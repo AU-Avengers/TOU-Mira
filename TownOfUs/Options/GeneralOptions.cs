@@ -21,8 +21,15 @@ public sealed class GeneralOptions : AbstractOptionGroup
     [ModdedToggleOption("Camouflage Comms")]
     public bool CamouflageComms { get; set; } = true;
 
-    [ModdedToggleOption("Kill Anyone During Camouflage")]
-    public bool KillDuringCamoComms { get; set; } = true;
+    public ModdedToggleOption KillDuringCamoComms { get; set; } = new("Kill Anyone During Camouflage", true)
+    {
+        Visible = () => OptionGroupSingleton<GeneralOptions>.Instance.CamouflageComms
+    };
+
+    public ModdedToggleOption CamoKillScreens { get; set; } = new("Camouflage Kill Screens During Comms", false)
+    {
+        Visible = () => OptionGroupSingleton<GeneralOptions>.Instance.CamouflageComms
+    };
 
     [ModdedToggleOption("Impostors Don't Know Each Other")]
     public bool FFAImpostorMode { get; set; } = false;
