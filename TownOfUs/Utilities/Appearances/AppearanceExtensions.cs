@@ -2,7 +2,7 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using UnityEngine;
 
 namespace TownOfUs.Utilities.Appearances;
@@ -12,7 +12,7 @@ public static class AppearanceExtensions
     public static void ResetAppearance(this PlayerControl player, bool override_checks = false, bool fullReset = false)
     {
         // swooper unswoop mid camo - needs testing
-        if (OptionGroupSingleton<GeneralOptions>.Instance.CamouflageComms &&
+        if (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms &&
             player.GetAppearanceType() == TownOfUsAppearances.Swooper)
         {
             var c = ShipStatus.Instance.Systems[SystemTypes.Comms];

@@ -19,6 +19,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches.Misc;
@@ -1471,7 +1472,7 @@ public static class MiscUtils
             return true;
         }
 
-        if (OptionGroupSingleton<GeneralOptions>.Instance.CamouflageComms)
+        if (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms)
         {
             if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem) ||
                 commsSystem == null)
@@ -1534,12 +1535,13 @@ public static class MiscUtils
     public static PlayerControl? GetImpostorTarget(float distance)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var saboOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;
         var closePlayer = PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, distance);
 
         var includePostors = genOpt.FFAImpostorMode ||
                              (PlayerControl.LocalPlayer.IsLover() &&
                               OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates) ||
-                             (genOpt.KillDuringCamoComms &&
+                             (saboOpt.KillDuringCamoComms &&
                               closePlayer?.GetAppearanceType() == TownOfUsAppearances.Camouflage);
         if (!OptionGroupSingleton<LoversOptions>.Instance.LoversKillEachOther && PlayerControl.LocalPlayer.IsLover())
         {

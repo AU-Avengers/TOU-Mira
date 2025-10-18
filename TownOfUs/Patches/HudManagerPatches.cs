@@ -19,6 +19,7 @@ using TownOfUs.Modifiers.Impostor.Venerer;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
@@ -236,7 +237,7 @@ public static class HudManagerPatches
 
     public static bool CommsSaboActive()
     {
-        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var genOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;
 
         // Camo comms
         if (!genOpt.CamouflageComms)

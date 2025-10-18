@@ -1,7 +1,7 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Action = Il2CppSystem.Action;
@@ -13,7 +13,7 @@ public static class KillOverlayPatch
 {
     public static bool Prefix(OverlayKillAnimation __instance, KillOverlayInitData initData)
     {
-        if (HudManagerPatches.CamouflageCommsEnabled && OptionGroupSingleton<GeneralOptions>.Instance.CamoKillScreens)
+        if (HudManagerPatches.CamouflageCommsEnabled && OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamoKillScreens)
         {
             __instance.initData = initData;
             var outfit = new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultAppearance(),
