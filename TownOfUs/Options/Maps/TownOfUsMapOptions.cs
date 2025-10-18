@@ -3,7 +3,7 @@ using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 
-namespace TownOfUs.Options;
+namespace TownOfUs.Options.Maps;
 
 public sealed class TownOfUsMapOptions : AbstractOptionGroup
 {

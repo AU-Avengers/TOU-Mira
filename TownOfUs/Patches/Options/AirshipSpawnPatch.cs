@@ -1,8 +1,7 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using Reactor.Networking.Attributes;
-using Reactor.Networking.Rpc;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Options;
@@ -15,7 +14,7 @@ public static class AirshipSpawnPatch
     [HarmonyPrefix]
     public static void Prefix(SpawnInMinigame __instance)
     {
-        if (OptionGroupSingleton<AirshipOptions>.Instance.SpawnMode == AirshipOptions.SpawnModes.HostChoosesOne)
+        if (OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == BetterAirshipOptions.SpawnModes.HostChoosesOne)
         {
             var location = __instance.Locations.FirstOrDefault(x => x.Name == EnumToType());
 
@@ -24,7 +23,7 @@ public static class AirshipSpawnPatch
                 __instance.Locations = new([location, location, location]);
             }
         }
-        else if (OptionGroupSingleton<AirshipOptions>.Instance.SpawnMode == AirshipOptions.SpawnModes.SameSpawns)
+        else if (OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == BetterAirshipOptions.SpawnModes.SameSpawns)
         {
             if (AmongUsClient.Instance.AmHost)
             {
@@ -44,7 +43,7 @@ public static class AirshipSpawnPatch
 
     static StringNames EnumToType()
     {
-        return OptionGroupSingleton<AirshipOptions>.Instance.SingleLocation.Value switch
+        return OptionGroupSingleton<BetterAirshipOptions>.Instance.SingleLocation.Value switch
         {
             0 => StringNames.MainHall,
             1 => StringNames.Kitchen,

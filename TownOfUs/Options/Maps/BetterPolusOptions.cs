@@ -1,9 +1,9 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 
-namespace TownOfUs.Options;
+namespace TownOfUs.Options.Maps;
 
-public sealed class BetterMapOptions : AbstractOptionGroup
+public sealed class BetterPolusOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Polus";

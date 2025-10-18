@@ -1,6 +1,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -61,7 +61,7 @@ public static class BetterPolusPatches
 
     public static void AdjustPolus()
     {
-        var options = OptionGroupSingleton<BetterMapOptions>.Instance;
+        var options = OptionGroupSingleton<BetterPolusOptions>.Instance;
         if (IsObjectsFetched && IsRoomsFetched)
         {
             if (options.BPVitalsInLab)
@@ -331,7 +331,7 @@ public static class TaskTextUpdates
 
         if (BetterPolusPatches.IsObjectsFetched && BetterPolusPatches.IsAdjustmentsDone)
         {
-            var opts = OptionGroupSingleton<BetterMapOptions>.Instance;
+            var opts = OptionGroupSingleton<BetterPolusOptions>.Instance;
 
             foreach (var task in PlayerControl.LocalPlayer.myTasks)
             {

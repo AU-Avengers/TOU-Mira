@@ -9,7 +9,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;

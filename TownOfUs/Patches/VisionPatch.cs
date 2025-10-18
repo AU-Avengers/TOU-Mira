@@ -4,7 +4,7 @@ using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;

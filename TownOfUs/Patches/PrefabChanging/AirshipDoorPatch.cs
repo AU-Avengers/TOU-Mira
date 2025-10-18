@@ -1,17 +1,17 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 
-namespace TownOfUs.Patches.PrefabSwitching;
+namespace TownOfUs.Patches.PrefabChanging;
 
 [HarmonyPatch]
-public static class AirshipDoors
+public static class AirshipDoorPatch
 {
     [HarmonyPatch(typeof(AirshipStatus), nameof(AirshipStatus.OnEnable))]
     [HarmonyPostfix]
     public static void Postfix(AirshipStatus __instance)
     {
-        if (!OptionGroupSingleton<AirshipOptions>.Instance.AirshipPolusDoors)
+        if (!OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipPolusDoors)
         {
             return;
         }

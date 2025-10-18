@@ -1,6 +1,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TaskLength = NormalPlayerTask.TaskLength;
 
 namespace TownOfUs.Patches.Options;

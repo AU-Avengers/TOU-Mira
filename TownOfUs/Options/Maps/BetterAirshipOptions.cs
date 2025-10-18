@@ -2,9 +2,9 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 
-namespace TownOfUs.Options;
+namespace TownOfUs.Options.Maps;
 
-public sealed class AirshipOptions : AbstractOptionGroup
+public sealed class BetterAirshipOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Airship";
@@ -19,7 +19,7 @@ public sealed class AirshipOptions : AbstractOptionGroup
     public ModdedEnumOption SingleLocation { get; } = new ModdedEnumOption("Spawn At", 0, typeof(Locations),
         ["Main Hall", "Kitchen", "Cargo Bay", "Engine Room", "Brig", "Records"])
     {
-        Visible = () => OptionGroupSingleton<AirshipOptions>.Instance.SpawnMode == SpawnModes.HostChoosesOne,
+        Visible = () => OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == SpawnModes.HostChoosesOne,
     };
 
     public enum SpawnModes

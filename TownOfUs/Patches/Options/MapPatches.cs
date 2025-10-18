@@ -6,7 +6,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Modules;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 
 namespace TownOfUs.Patches.Options;
 
