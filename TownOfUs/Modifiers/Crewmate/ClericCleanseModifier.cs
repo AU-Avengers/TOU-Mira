@@ -73,6 +73,11 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (Cleric == null)
+        {
+            ModifierComponent?.RemoveModifier(this);
+            return;
+        }
 
         if (!Cleansed)
         {

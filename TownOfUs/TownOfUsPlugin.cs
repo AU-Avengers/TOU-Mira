@@ -48,6 +48,9 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     public string OptionsTitleText => "TOU Mira";
 
     /// <inheritdoc />
+    public string CustomOptionMenuNameOne => "Better Maps";
+
+    /// <inheritdoc />
     public ConfigFile GetConfigFile()
     {
         return Config;

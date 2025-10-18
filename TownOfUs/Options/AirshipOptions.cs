@@ -6,13 +6,9 @@ namespace TownOfUs.Options;
 
 public sealed class AirshipOptions : AbstractOptionGroup
 {
+    public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Airship";
-    public override uint GroupPriority => 5;
-
-    public override Func<bool> GroupVisible => () =>
-        (GameOptionsManager.Instance.currentGameOptions.MapId == 4) ||
-        (OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps &&
-         OptionGroupSingleton<TownOfUsMapOptions>.Instance.AirshipChance > 0);
+    public override uint GroupPriority => 6;
 
     [ModdedToggleOption("Airship Doors Are Polus Doors")]
     public bool AirshipPolusDoors { get; set; } = false;

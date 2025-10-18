@@ -46,6 +46,12 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
     public override void FixedUpdate()
     {
+        if (Player == null)
+        {
+            ModifierComponent!.RemoveModifier(this);
+            return;
+        }
+
         if (_updateInterval <= 0 || _time <= DateTime.UtcNow.AddSeconds(-_updateInterval))
         {
             if (_arrow != null)
@@ -55,12 +61,6 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
             }
 
             _time = DateTime.UtcNow;
-        }
-
-        if (Player == null)
-        {
-            ModifierComponent!.RemoveModifier(this);
-            return;
         }
     }
 }
