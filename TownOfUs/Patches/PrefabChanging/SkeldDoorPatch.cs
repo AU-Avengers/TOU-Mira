@@ -1,10 +1,7 @@
 using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.GameOptions;
 using PowerTools;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Maps;
-using UnityEngine.ProBuilder;
 
 namespace TownOfUs.Patches.PrefabChanging;
 
@@ -23,7 +20,7 @@ public static class SkeldDoorPatch
         var polusdoor = PrefabLoader.Polus.GetComponentInChildren<DoorConsole>().MinigamePrefab;
         var doors = __instance.GetComponentsInChildren<AutoOpenDoor>().Select(x => x.gameObject).ToArray();
 
-        var newDoorList = new Il2CppReferenceArray<OpenableDoor>(doors.Length);
+        // var skeldDoors = new Il2CppReferenceArray<OpenableDoor>(doors.Length);
         foreach (var door in doors)
         {
             var autoDoor = door.GetComponent<AutoOpenDoor>();
@@ -39,29 +36,16 @@ public static class SkeldDoorPatch
             plainDoor.Id = autoDoor.Id;
             plainDoor.size = autoDoor.size;
             plainDoor.Room = autoDoor.Room;
+            consoleDoor.MyDoor = autoDoor;
             plainDoor.SetDoorway(autoDoor.Open);
+            plainDoor.Room = autoDoor.Room;
             consoleDoor.MinigamePrefab = polusdoor;
-            autoDoor.Destroy();
-            newDoorList.Add(plainDoor);
+            // autoDoor.Destroy();
+            // skeldDoors.Add(plainDoor);
         }
 
-        __instance.AllDoors = newDoorList;
-        
-        var newDict = new Il2CppSystem.Collections.Generic.Dictionary<SystemTypes, ISystemType>();
-        newDict.Add(SystemTypes.Electrical, new SwitchSystem().TryCast<ISystemType>()!);
-        newDict.Add(SystemTypes.MedBay, new MedScanSystem().TryCast<ISystemType>()!);
-        newDict.Add(SystemTypes.Doors, new DoorsSystemType().TryCast<ISystemType>()!);
-        newDict.Add(SystemTypes.Comms, new HudOverrideSystemType().TryCast<ISystemType>()!);
-        newDict.Add(SystemTypes.Security, new SecurityCameraSystemType().TryCast<ISystemType>()!);
-        newDict.Add(SystemTypes.Reactor, new ReactorSystemType(30f, SystemTypes.Reactor).TryCast<ISystemType>()!);
-        newDict.Add(SystemTypes.LifeSupp, new LifeSuppSystemType(30f).TryCast<ISystemType>()!);
-        newDict.Add(SystemTypes.Ventilation, new VentilationSystem().TryCast<ISystemType>()!);
-
-        if (__instance.Systems.TryGetValue(SystemTypes.Sabotage, out var sabotage))
-        {
-            newDict.Add(SystemTypes.Sabotage, sabotage);
-        }
-        
-        __instance.Systems = newDict;
+        __instance.Systems.Remove(SystemTypes.Doors);
+        //__instance.AllDoors = _skeldDoors;
+        __instance.Systems.Add(SystemTypes.Doors, new DoorsSystemType().TryCast<ISystemType>());
     }
 }
