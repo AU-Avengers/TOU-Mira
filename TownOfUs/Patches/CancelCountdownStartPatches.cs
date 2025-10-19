@@ -1,3 +1,4 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Events;
@@ -48,6 +49,16 @@ internal static class CancelCountdownStart
         CancelStartButton.gameObject.SetActive(false);
     }
 
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
+    [HarmonyPostfix]
+    public static void PostfixStart(GameStartManager __instance)
+    {
+        if (TownOfUsPlugin.IsDevBuild)
+        {
+            __instance.MinPlayers = 1;
+        }
+    }
+
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
     [HarmonyPrefix]
     public static void Prefix(GameStartManager __instance)
@@ -73,6 +84,35 @@ internal static class CancelCountdownStart
         else
         {
             CancelStartButton.gameObject.SetActive(false);
+        }
+    }
+    
+    // Stops errors when trying to load in dlekS
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
+    [HarmonyPostfix]
+    public static void Postfix(GameStartManager __instance)
+    {
+        if (__instance == null) return;
+
+        if (!__instance.AllMapIcons._items.Any(x => x.Name == MapNames.Dleks))
+        {
+            __instance.AllMapIcons.Add(new()
+            {
+                Name = MapNames.Dleks,
+                MapImage = TouAssets.DleksBanner.LoadAsset(),
+                MapIcon = TouAssets.DleksText.LoadAsset(),
+                NameImage = TouAssets.DleksIcon.LoadAsset(),
+            });
+        }
+
+        var normalOptions = GameOptionsManager.Instance.currentNormalGameOptions;
+        var hideNSeekOptions = GameOptionsManager.Instance.currentHideNSeekGameOptions;
+
+        var gameMode = GameOptionsManager.Instance.CurrentGameOptions.GameMode;
+        if ((gameMode is GameModes.HideNSeek or GameModes.SeekFools &&
+             hideNSeekOptions.MapId == 3) || normalOptions.MapId == 3)
+        {
+            __instance.UpdateMapImage(MapNames.Dleks);
         }
     }
 }

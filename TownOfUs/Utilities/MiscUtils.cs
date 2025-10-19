@@ -1744,38 +1744,24 @@ public static class MiscUtils
     {
         get
         {
-            if (ShipStatus.Instance is AirshipStatus)
+            var mapId = (ActiveMap)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+            if (TutorialManager.InstanceExists)
             {
-                return ActiveMap.Airship;
-            }
-            else if (ModCompatibility.IsSubmerged())
-            {
-                return ActiveMap.Submerged;
-            }
-            else if (ModCompatibility.IsLevelImpostor())
-            {
-                return ActiveMap.LevelImpostor;
+                mapId = (ActiveMap)AmongUsClient.Instance.TutorialMapId;
             }
 
-            switch (ShipStatus.Instance.Type)
-            {
-                case ShipStatus.MapType.Hq:
-                    return ActiveMap.MiraHq;
-                case ShipStatus.MapType.Pb:
-                    return ActiveMap.Polus;
-                case ShipStatus.MapType.Fungle:
-                    return ActiveMap.Fungle;
-                default:
-                    return ActiveMap.Skeld;
-            }
+            return mapId;
         }
     }
+    public static bool IsSmallMap => GetCurrentMap is ActiveMap.MiraHq or ActiveMap.Skeld or ActiveMap.Dleks;
+    public static bool IsBigMap => GetCurrentMap is ActiveMap.Airship or ActiveMap.Submerged;
 }
 public enum ActiveMap
 {
     Skeld,
     MiraHq,
     Polus,
+    Dleks,
     Airship,
     Fungle,
     Submerged,

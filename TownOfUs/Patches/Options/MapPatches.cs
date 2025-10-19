@@ -49,6 +49,7 @@ public static class MapPatches
         }
 
         var skeldChance = OptionGroupSingleton<TownOfUsMapOptions>.Instance.SkeldChance.Value;
+        var backwardsSkeldChance = OptionGroupSingleton<TownOfUsMapOptions>.Instance.BackwardsSkeldChance.Value;
         var miraChance = OptionGroupSingleton<TownOfUsMapOptions>.Instance.MiraChance.Value;
         var polusChance = OptionGroupSingleton<TownOfUsMapOptions>.Instance.PolusChance.Value;
         var airshipChance = OptionGroupSingleton<TownOfUsMapOptions>.Instance.AirshipChance.Value;
@@ -60,6 +61,7 @@ public static class MapPatches
         float totalWeight = 0;
 
         totalWeight += skeldChance;
+        totalWeight += backwardsSkeldChance;
         totalWeight += miraChance;
         totalWeight += polusChance;
         totalWeight += airshipChance;
@@ -83,6 +85,13 @@ public static class MapPatches
 
         randomNumber -= skeldChance;
 
+        if (randomNumber < backwardsSkeldChance)
+        {
+            return 3;
+        }
+
+        randomNumber -= backwardsSkeldChance;
+        
         if (randomNumber < miraChance)
         {
             return 1;

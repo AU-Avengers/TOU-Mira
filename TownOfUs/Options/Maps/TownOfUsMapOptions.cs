@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Modules;
 
 namespace TownOfUs.Options.Maps;
 
@@ -15,6 +16,11 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     public bool RandomMaps { get; set; } = false;
 
     public ModdedNumberOption SkeldChance { get; } = new("Skeld Chance", 0, 0, 100f, 10f, MiraNumberSuffixes.Percent)
+    {
+        Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
+    };
+
+    public ModdedNumberOption BackwardsSkeldChance { get; } = new("dlekS ecnahC", 0, 0, 100f, 10f, MiraNumberSuffixes.Percent)
     {
         Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
     };
@@ -40,19 +46,16 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
         Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
     };
 
-    // [ModdedNumberOption("dlekS Chance", 0f, 100f, 10f, MiraNumberSuffixes.Percent)]
-    // public float dlekSChance { get; set; }
-
     public ModdedNumberOption SubmergedChance { get; } =
         new("Submerged Chance", 0, 0f, 100f, 10f, MiraNumberSuffixes.Percent)
         {
-            Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
+            Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps && ModCompatibility.SubLoaded
         };
 
     public ModdedNumberOption LevelImpostorChance { get; } =
         new("Level Impostor Chance", 0, 0f, 100f, 10f, MiraNumberSuffixes.Percent)
         {
-            Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps
+            Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps && ModCompatibility.LILoaded
         };
 
     [ModdedToggleOption("Half Vision On Skeld/Mira")]

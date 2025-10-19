@@ -1,10 +1,8 @@
 using System.Collections;
-using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Other;

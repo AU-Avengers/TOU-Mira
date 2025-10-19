@@ -30,6 +30,7 @@ public static class ReactorPatch
             var seconds = MiscUtils.GetCurrentMap switch
             {
                 ActiveMap.Skeld => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownReactor,
+                ActiveMap.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownReactor,
                 ActiveMap.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownReactor,
                 ActiveMap.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.SaboCountdownReactor,
                 ActiveMap.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownReactor,
@@ -81,6 +82,7 @@ public static class O2Patch
             var seconds = MiscUtils.GetCurrentMap switch
             {
                 ActiveMap.Skeld => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownOxygen,
+                ActiveMap.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownOxygen,
                 ActiveMap.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownOxygen,
                 _ => __instance.LifeSuppDuration
             };

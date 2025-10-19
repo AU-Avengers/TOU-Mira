@@ -34,6 +34,17 @@ public static class TouAssets
 
         return sprite;
     }
+    public static LoadableAsset<Sprite> DleksBanner { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksBanner.png");
+
+    public static LoadableAsset<Sprite> DleksText { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png");
+
+    public static LoadableAsset<Sprite> DleksTextAlt { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png", 150f);
+
+    public static LoadableAsset<Sprite> DleksIcon { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksIcon.png");
 
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
         new LoadableResourceAsset($"{ShortPath}.AprilFools.Normal.png");
