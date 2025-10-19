@@ -1,6 +1,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
+using MiraAPI.Utilities;
 
 namespace TownOfUs.Options.Maps;
 
@@ -8,7 +9,7 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Airship";
-    public override uint GroupPriority => 6;
+    public override uint GroupPriority => 5;
 
     [ModdedToggleOption("Airship Doors Are Polus Doors")]
     public bool AirshipPolusDoors { get; set; } = false;
@@ -21,6 +22,9 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     {
         Visible = () => OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == SpawnModes.HostChoosesOne,
     };
+
+    [ModdedNumberOption("Crash Course Sabotage Countdown", 15f, 90f, 5f, MiraNumberSuffixes.Seconds)]
+    public float SaboCountdownReactor { get; set; } = 90f;
 
     public enum SpawnModes
     {

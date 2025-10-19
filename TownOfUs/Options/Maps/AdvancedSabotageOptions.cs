@@ -8,7 +8,7 @@ public sealed class AdvancedSabotageOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Advanced Sabotages";
-    public override uint GroupPriority => 2;
+    public override uint GroupPriority => 1;
     
     [ModdedToggleOption("Camouflage Comms")]
     public bool CamouflageComms { get; set; } = true;

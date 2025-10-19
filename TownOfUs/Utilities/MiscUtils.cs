@@ -1739,4 +1739,45 @@ public static class MiscUtils
 
     public static IEnumerable<T> Excluding<T>(this IEnumerable<T> source, Func<T, bool> predicate) =>
         source.Where(x => !predicate(x)); // Added for easier inversion and reading
+
+    public static ActiveMap GetCurrentMap
+    {
+        get
+        {
+            if (ShipStatus.Instance is AirshipStatus)
+            {
+                return ActiveMap.Airship;
+            }
+            else if (ModCompatibility.IsSubmerged())
+            {
+                return ActiveMap.Submerged;
+            }
+            else if (ModCompatibility.IsLevelImpostor())
+            {
+                return ActiveMap.LevelImpostor;
+            }
+
+            switch (ShipStatus.Instance.Type)
+            {
+                case ShipStatus.MapType.Hq:
+                    return ActiveMap.MiraHq;
+                case ShipStatus.MapType.Pb:
+                    return ActiveMap.Polus;
+                case ShipStatus.MapType.Fungle:
+                    return ActiveMap.Fungle;
+                default:
+                    return ActiveMap.Skeld;
+            }
+        }
+    }
+}
+public enum ActiveMap
+{
+    Skeld,
+    MiraHq,
+    Polus,
+    Airship,
+    Fungle,
+    Submerged,
+    LevelImpostor
 }
