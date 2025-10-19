@@ -41,7 +41,7 @@ public static class TouAssets
         new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png");
 
     public static LoadableAsset<Sprite> DleksTextAlt { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png", 150f);
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png", 155f);
 
     public static LoadableAsset<Sprite> DleksIcon { get; } =
         new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksIcon.png");

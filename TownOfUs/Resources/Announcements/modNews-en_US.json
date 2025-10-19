@@ -447,7 +447,7 @@
       ]
     },
     {
-      "Date": "2025-12-16T12:50:00Z",
+      "Date": "2025-12-19T12:50:00Z",
       "Number": "100028",
       "ShortTitle": "TOU: Mira v1.3.2 (Beta)",
       "SubTitle": "Cheating isn't slick, y'know?",
@@ -465,7 +465,10 @@
         "\n- Any players that become Phantom will no longer hide their kill counters in the end game summary.",
         "\n- Dummies in Freeplay/Practice Mode will always get a role without erroring out.",
         "\n\n\r<size=105%>Additions:</size>",
-        "\n- New option: Camouflage Kill Screens in Comms.",
+        "\n- New options for Camouflage Comms: Camouflage Kill Screens in Comms, Hide Player Size, and Hide Player Speed.",
+        "\n- New option for Better Skeld: Replace Doors with Polus Doors.",
+        "\n- Added dlekS into the randomized map list and in the game settings window.",
+        "\n- All sabotage countdowns are now configurable.",
         "\n- Anticheat system now logs all mods that players are using. We do not condone cheating and would like all players to have a good time. (Only the host is notified of differing mods)"
       ]
     }

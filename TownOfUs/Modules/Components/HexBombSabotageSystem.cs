@@ -15,7 +15,7 @@ namespace TownOfUs.Modules.Components;
 [RegisterInIl2Cpp(typeof(ISystemType), typeof(IActivatable))]
 public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cppPtr)
 {
-    public const byte SabotageId = 68;
+    public const byte SabotageId = 70;
 
     public bool IsActive => TimeRemaining > 0 || Stage == HexBombStage.Finished;
     public bool IsDirty { get; private set; }
