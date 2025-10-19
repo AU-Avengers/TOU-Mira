@@ -54,8 +54,7 @@ public static class PlayerJoinPatch
         {
             var mods = IL2CPPChainloader.Instance.Plugins;
             var modDictionary = new Dictionary<byte, string>();
-            modDictionary.Add(0, "BepInEx " + Paths.BepInExVersion.WithoutBuild());
-            byte modByte = 1;
+            byte modByte = 0;
             foreach (var mod in mods)
             {
                 modDictionary.Add(modByte, $"{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
