@@ -75,7 +75,7 @@ public static class AppearanceExtensions
                 PetId = string.Empty,
                 NameVisible = false,
                 PlayerMaterialColor = Color.grey,
-                Size = player.GetAppearance().Size
+                Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : player.GetAppearance().Size
             });
         }
         else if (!toggle && player.GetModifiers<BaseModifier>()

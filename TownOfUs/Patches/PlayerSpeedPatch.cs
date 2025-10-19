@@ -4,6 +4,7 @@ using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Venerer;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options.Maps;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities.Appearances;
 
@@ -15,7 +16,11 @@ public static class PlayerSpeedPatch
     // ReSharper disable once InconsistentNaming
     public static void Postfix(PlayerControl pc, ref float __result)
     {
-        __result *= pc.GetAppearance().Speed;
+        if (!(HudManagerPatches.CamouflageCommsEnabled &&
+             OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSpeedInCamo))
+        {
+            __result *= pc.GetAppearance().Speed;
+        }
 
 
         if (pc.HasModifier<VenererSprintModifier>())

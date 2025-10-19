@@ -22,4 +22,14 @@ public sealed class AdvancedSabotageOptions : AbstractOptionGroup
     {
         Visible = () => OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms
     };
+
+    public ModdedToggleOption HidePlayerSizeInCamo { get; set; } = new("Camouflage Hides Player Size", false)
+    {
+        Visible = () => OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms
+    };
+
+    public ModdedToggleOption HidePlayerSpeedInCamo { get; set; } = new("Camouflage Hides Player Speed", false)
+    {
+        Visible = () => OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms
+    };
 }
