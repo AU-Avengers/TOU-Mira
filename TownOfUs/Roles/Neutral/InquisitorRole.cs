@@ -15,6 +15,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
@@ -46,9 +47,17 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
         if (inquis == null)
         {
-            if (TownOfUsPlugin.IsDevBuild)
+            var textlognotfound = $"Inquisitor not found.";
+            if (MiscUtils.CanSeeAdvancedLogs)
             {
-                Logger<TownOfUsPlugin>.Error("Inquisitor not found.");
+                Logger<TownOfUsPlugin>.Error(textlognotfound);
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlognotfound));
+            }
+            else if (MiscUtils.CanSeePostGameLogs)
+            {
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlognotfound));
             }
 
             return;
@@ -57,9 +66,17 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         var required = (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics;
         var players = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
-        if (TownOfUsPlugin.IsDevBuild)
+        var textlog = $"Players in heretic list possible: {players.Count}";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Warning($"Players in heretic list possible: {players.Count}");
+            Logger<TownOfUsPlugin>.Warning(textlog);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
         }
 
         players.Shuffle();

@@ -1740,6 +1740,44 @@ public static class MiscUtils
     public static IEnumerable<T> Excluding<T>(this IEnumerable<T> source, Func<T, bool> predicate) =>
         source.Where(x => !predicate(x)); // Added for easier inversion and reading
 
+    public static bool CanSeeAdvancedLogs
+    {
+        get
+        {
+            if (!TownOfUsPlugin.IsDevBuild)
+            {
+                return false;
+            }
+
+            var logLevel = (LoggingLevel)OptionGroupSingleton<GeneralOptions>.Instance.BetaLoggingLevel.Value;
+            if (PlayerControl.LocalPlayer.IsHost() && logLevel is LoggingLevel.LogForHost)
+            {
+                return true;
+            }
+            else if (logLevel is LoggingLevel.LogForEveryone)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    public static bool CanSeePostGameLogs
+    {
+        get
+        {
+            if (!TownOfUsPlugin.IsDevBuild)
+            {
+                return false;
+            }
+
+            var logLevel = (LoggingLevel)OptionGroupSingleton<GeneralOptions>.Instance.BetaLoggingLevel.Value;
+
+            return logLevel is LoggingLevel.LogForEveryonePostGame;
+        }
+    }
+
     public static ActiveMap GetCurrentMap
     {
         get

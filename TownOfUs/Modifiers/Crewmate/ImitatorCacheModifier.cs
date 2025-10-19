@@ -3,6 +3,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Utilities;
+using TownOfUs.Events;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -49,9 +50,17 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
     {
         if (!Player.IsCrewmate())
         {
-            if (TownOfUsPlugin.IsDevBuild)
+            var text = "Removed Imitator Cache Modifier On Meeting Start";
+            if (MiscUtils.CanSeeAdvancedLogs)
             {
-                Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Meeting Start");
+                Logger<TownOfUsPlugin>.Error(text);
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+            }
+            else if (MiscUtils.CanSeePostGameLogs)
+            {
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
             }
 
             ModifierComponent?.RemoveModifier(this);
@@ -171,9 +180,17 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
     {
         if (!Player.IsCrewmate())
         {
-            if (TownOfUsPlugin.IsDevBuild)
+            var text = "Removed Imitator Cache Modifier On Attempt To Update Role";
+            if (MiscUtils.CanSeeAdvancedLogs)
             {
-                Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Attempt To Update Role");
+                Logger<TownOfUsPlugin>.Error(text);
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+            }
+            else if (MiscUtils.CanSeePostGameLogs)
+            {
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
             }
 
             ModifierComponent?.RemoveModifier(this);

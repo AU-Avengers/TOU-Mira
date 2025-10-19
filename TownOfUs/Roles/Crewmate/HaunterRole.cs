@@ -7,6 +7,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -77,9 +78,17 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             Player.SetCamouflage(false);
         }
 
-        if (TownOfUsPlugin.IsDevBuild)
+        var text = $"Setup HaunterRole '{Player.Data.PlayerName}'";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Error($"Setup HaunterRole '{Player.Data.PlayerName}'");
+            Logger<TownOfUsPlugin>.Error(text);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
         }
 
         Player.gameObject.layer = LayerMask.NameToLayer("Players");
@@ -134,9 +143,17 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public void Clicked()
     {
-        if (TownOfUsPlugin.IsDevBuild)
+        var text = $"Clicked HaunterRole: '{Player.Data.PlayerName}'";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Message($"HaunterRole.Clicked");
+            Logger<TownOfUsPlugin>.Message(text);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Message,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Message,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
         }
 
         Caught = true;
@@ -370,10 +387,17 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             }
         }
 
-        if (TownOfUsPlugin.IsDevBuild)
+        var text = $"Haunter Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Error(
-                $"Haunter Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})");
+            Logger<TownOfUsPlugin>.Error(text);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
         }
     }
 

@@ -1,6 +1,8 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Events;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +38,33 @@ public static class AprilFoolsPatches
     [HarmonyPrefix]
     public static void Prefix(MainMenuManager __instance)
     {
+        if (TownOfUsEventHandlers.LogBuffer.Count != 0)
+        {
+            foreach (var log in TownOfUsEventHandlers.LogBuffer)
+            {
+                var text = log.Value;
+                switch (log.Key)
+                {
+                    case TownOfUsEventHandlers.LogLevel.Error:
+                        Logger<TownOfUsPlugin>.Error(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Warning:
+                        Logger<TownOfUsPlugin>.Warning(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Debug:
+                        Logger<TownOfUsPlugin>.Debug(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Info:
+                        Logger<TownOfUsPlugin>.Info(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Message:
+                        Logger<TownOfUsPlugin>.Message(text);
+                        break;
+                }
+            }
+
+            TownOfUsEventHandlers.LogBuffer.Clear();
+        }
         if (__instance.newsButton != null)
         {
             var aprilfoolstoggle = Object.Instantiate(__instance.newsButton, null);

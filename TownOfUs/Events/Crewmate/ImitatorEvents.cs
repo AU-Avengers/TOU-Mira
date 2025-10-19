@@ -63,9 +63,17 @@ public static class ImitatorEvents
 
         if (player.HasModifier<ImitatorCacheModifier>() && !@event.NewRole.IsCrewmate())
         {
-            if (TownOfUsPlugin.IsDevBuild)
+            var text = "Removed Imitator Cache Modifier On Role Change";
+            if (MiscUtils.CanSeeAdvancedLogs)
             {
-                Logger<TownOfUsPlugin>.Error($"Removed Imitator Cache Modifier On Role Change");
+                Logger<TownOfUsPlugin>.Error(text);
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+            }
+            else if (MiscUtils.CanSeePostGameLogs)
+            {
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
             }
 
             player.RemoveModifier<ImitatorCacheModifier>();

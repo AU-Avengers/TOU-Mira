@@ -9,6 +9,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
@@ -55,9 +56,17 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
             Player.SetCamouflage(false);
         }
 
-        if (TownOfUsPlugin.IsDevBuild)
+        var textlog = $"Setup PhantomTouRole: '{Player.Data.PlayerName}'";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Error($"Setup PhantomTouRole '{Player.Data.PlayerName}'");
+            Logger<TownOfUsPlugin>.Error(textlog);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
         }
 
         Player.gameObject.layer = LayerMask.NameToLayer("Players");
@@ -96,7 +105,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
 
             Faded = false;
 
-            // if (TownOfUsPlugin.IsDevBuild) Logger<TownOfUsPlugin>.Message($"PhantomTouRole.FadeUpdate UnFaded");
+            // if (MiscUtils.CanSeeAdvancedLogs) Logger<TownOfUsPlugin>.Message($"PhantomTouRole.FadeUpdate UnFaded");
         }
     }
 
@@ -112,9 +121,17 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
 
     public void Clicked()
     {
-        if (TownOfUsPlugin.IsDevBuild)
+        var textlog = $"Clicked PhantomTouRole: '{Player.Data.PlayerName}'";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Message($"PhantomTouRole.Clicked");
+            Logger<TownOfUsPlugin>.Message(textlog);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Message,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Message,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
         }
 
         Caught = true;
@@ -281,10 +298,17 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
             TaskStage = GhostTaskStage.CompletedTasks;
         }
 
-        if (TownOfUsPlugin.IsDevBuild)
+        var textlog = $"Phantom Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Error(
-                $"Phantom Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})");
+            Logger<TownOfUsPlugin>.Error(textlog);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
         }
 
         if (OptionGroupSingleton<PhantomOptions>.Instance.PhantomWin is not PhantomWinOptions.Spooks ||

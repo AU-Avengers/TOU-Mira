@@ -53,6 +53,15 @@ namespace TownOfUs.Events;
 
 public static class TownOfUsEventHandlers
 {
+    public enum LogLevel
+    {
+        Error,
+        Warning,
+        Info,
+        Debug,
+        Message
+    }
+    public static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
     internal static TextMeshPro ModifierText;
 
     public static void RunModChecks()
@@ -256,27 +265,40 @@ public static class TownOfUsEventHandlers
     [RegisterEvent(-100)]
     public static void BetaBeforeMurderHandler(BeforeMurderEvent @event)
     {
-        if (!TownOfUsPlugin.IsDevBuild)
-        {
-            return;
-        }
         var killer = @event.Source;
         var victim = @event.Target;
-        Logger<TownOfUsPlugin>.Error(
-            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
+        var text =
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+
+        if (!MiscUtils.CanSeeAdvancedLogs)
+        {
+            if (MiscUtils.CanSeePostGameLogs)
+            {
+                LogBuffer.Add(new(LogLevel.Error, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+            }
+            return;
+        }
+        Logger<TownOfUsPlugin>.Error(text);
+        LogBuffer.Add(new(LogLevel.Error, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
     }
 
     [RegisterEvent(-100)]
     public static void BetaAfterMurderHandler(AfterMurderEvent @event)
     {
-        if (!TownOfUsPlugin.IsDevBuild)
-        {
-            return;
-        }
         var killer = @event.Source;
         var victim = @event.Target;
-        Logger<TownOfUsPlugin>.Error(
-            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
+        var text =
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+        if (!MiscUtils.CanSeeAdvancedLogs)
+        {
+            if (MiscUtils.CanSeePostGameLogs)
+            {
+                LogBuffer.Add(new(LogLevel.Error, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+            }
+            return;
+        }
+        Logger<TownOfUsPlugin>.Error(text);
+        LogBuffer.Add(new(LogLevel.Error, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
     }
 
     [RegisterEvent]

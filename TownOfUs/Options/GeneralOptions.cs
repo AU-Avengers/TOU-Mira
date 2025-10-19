@@ -12,6 +12,12 @@ public sealed class GeneralOptions : AbstractOptionGroup
     public override string GroupName => "General";
     public override uint GroupPriority => 1;
 
+    public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryone, typeof(LoggingLevel),
+        ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"])
+    {
+        Visible = () => TownOfUsPlugin.IsDevBuild
+    };
+
     [ModdedEnumOption("Modifier Type To Show In Role Intro", typeof(ModReveal))]
     public ModReveal ModifierReveal { get; set; } = ModReveal.Universal;
 
@@ -115,4 +121,12 @@ public enum SkipState
     No,
     Emergency,
     Always
+}
+
+public enum LoggingLevel
+{
+    NoLogging,
+    LogForHost,
+    LogForEveryone,
+    LogForEveryonePostGame
 }

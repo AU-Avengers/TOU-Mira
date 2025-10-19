@@ -5,6 +5,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events;
@@ -466,6 +467,33 @@ public static class EndGamePatches
     [HarmonyPostfix]
     public static void AmongUsClientGameEndPatch()
     {
+        if (TownOfUsEventHandlers.LogBuffer.Count != 0)
+        {
+            foreach (var log in TownOfUsEventHandlers.LogBuffer)
+            {
+                var text = log.Value;
+                switch (log.Key)
+                {
+                    case TownOfUsEventHandlers.LogLevel.Error:
+                        Logger<TownOfUsPlugin>.Error(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Warning:
+                        Logger<TownOfUsPlugin>.Warning(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Debug:
+                        Logger<TownOfUsPlugin>.Debug(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Info:
+                        Logger<TownOfUsPlugin>.Info(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Message:
+                        Logger<TownOfUsPlugin>.Message(text);
+                        break;
+                }
+            }
+            TownOfUsEventHandlers.LogBuffer.Clear();
+        }
+
         BuildEndGameData();
     }
 

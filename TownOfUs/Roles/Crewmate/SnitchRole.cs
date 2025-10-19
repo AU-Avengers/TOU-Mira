@@ -10,6 +10,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
@@ -177,10 +178,17 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             }
         }
 
-        if (TownOfUsPlugin.IsDevBuild)
+        var textlog = $"Snitch Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Error(
-                $"Snitch Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})");
+            Logger<TownOfUsPlugin>.Error(textlog);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
         }
     }
 

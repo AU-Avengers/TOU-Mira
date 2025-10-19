@@ -12,6 +12,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
@@ -32,9 +33,17 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
 
     public void AssignTargets()
     {
-        if (TownOfUsPlugin.IsDevBuild)
+        var textlog = $"Selecting GA Targets.";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Error($"SelectGATargets");
+            Logger<TownOfUsPlugin>.Error(textlog);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
         }
 
         var evilTargetPercent = (int)OptionGroupSingleton<GuardianAngelOptions>.Instance.EvilTargetPercent;
@@ -70,9 +79,17 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             Random rndIndex = new();
             var randomTarget = filtered[rndIndex.Next(0, filtered.Count)];
 
-            if (TownOfUsPlugin.IsDevBuild)
+            var textlogtarget = $"Setting GA Target: {randomTarget.Data.PlayerName}";
+            if (MiscUtils.CanSeeAdvancedLogs)
             {
-                Logger<TownOfUsPlugin>.Info($"Setting GA Target: {randomTarget.Data.PlayerName}");
+                Logger<TownOfUsPlugin>.Info(textlogtarget);
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Info,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogtarget));
+            }
+            else if (MiscUtils.CanSeePostGameLogs)
+            {
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Info,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogtarget));
             }
 
             RpcSetGATarget(ga, randomTarget);
@@ -235,10 +252,17 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         {
             return;
         }
-
-        if (TownOfUsPlugin.IsDevBuild)
+        var textlogtarget = $"On GA Player Death: {victim.Data.PlayerName}";
+        if (MiscUtils.CanSeeAdvancedLogs)
         {
-            Logger<TownOfUsPlugin>.Error($"OnPlayerDeath '{victim.Data.PlayerName}'");
+            Logger<TownOfUsPlugin>.Info(textlogtarget);
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Info,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogtarget));
+        }
+        else if (MiscUtils.CanSeePostGameLogs)
+        {
+            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Info,
+                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogtarget));
         }
 
         if (Target == null || victim == Target)
@@ -253,9 +277,17 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
                 _ => (ushort)RoleTypes.Crewmate
             };
 
-            if (TownOfUsPlugin.IsDevBuild)
+            var textlogchange = $"On GA Player Death - Change Role: {roleType}";
+            if (MiscUtils.CanSeeAdvancedLogs)
             {
-                Logger<TownOfUsPlugin>.Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
+                Logger<TownOfUsPlugin>.Error(textlogchange);
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogchange));
+            }
+            else if (MiscUtils.CanSeePostGameLogs)
+            {
+                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
+                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogchange));
             }
 
             Player.ChangeRole(roleType);
