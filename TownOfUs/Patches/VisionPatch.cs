@@ -33,8 +33,10 @@ public static class VisionPatch
             visionFactor = mod.VisionPerc;
         }
 
+        var impVision = player.Role.IsImpostor ||
+                        (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision);
 
-        if (player.Role.IsImpostor || (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision))
+        if (impVision)
         {
             __result = __instance.MaxLightRadius *
                        GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod * visionFactor;
@@ -74,10 +76,15 @@ public static class VisionPatch
                 __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, t) *
                            GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod * visionFactor;
 
-                if (!player.Role.IsImpostor && OptionGroupSingleton<TownOfUsMapOptions>.Instance.SmallMapHalfVision &&
-                    MiscUtils.IsSmallMap)
+                var curMap = MiscUtils.GetCurrentMap;
+                switch (curMap)
                 {
-                    __result /= 2;
+                    case ActiveMap.MiraHq:
+                        __result *= OptionGroupSingleton<BetterMiraHqOptions>.Instance.VisionMultiplier;
+                        break;
+                    case ActiveMap.Skeld or ActiveMap.Dleks:
+                        __result *= OptionGroupSingleton<BetterSkeldOptions>.Instance.VisionMultiplier;
+                        break;
                 }
 
                 if (player._object.HasModifier<ScoutModifier>())

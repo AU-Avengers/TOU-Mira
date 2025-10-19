@@ -11,6 +11,15 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     public override string GroupName => "Better Airship";
     public override uint GroupPriority => 5;
 
+    [ModdedNumberOption("Cooldown Increase", 0f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
+    public float CooldownIncrease { get; set; } = 0f;
+
+    [ModdedNumberOption("Decreased Short Tasks", 0f, 5f)]
+    public float DecreasedShortTasks { get; set; } = 0f;
+
+    [ModdedNumberOption("Decreased Long Tasks", 0f, 3f)]
+    public float DecreasedLongTasks { get; set; } = 0f;
+
     [ModdedToggleOption("Airship Doors Are Polus Doors")]
     public bool AirshipPolusDoors { get; set; } = false;
 
@@ -23,8 +32,15 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
         Visible = () => OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == SpawnModes.HostChoosesOne,
     };
 
-    [ModdedNumberOption("Crash Course Sabotage Countdown", 15f, 90f, 5f, MiraNumberSuffixes.Seconds)]
-    public float SaboCountdownReactor { get; set; } = 90f;
+    [ModdedToggleOption("Change Sabotage Timers")]
+    public bool ChangeSaboTimers { get; set; } = true;
+
+    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("Crash Course Sabotage Countdown", 90f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterAirshipOptions>.Instance.ChangeSaboTimers
+    };
 
     public enum SpawnModes
     {

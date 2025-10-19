@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using HarmonyLib;
-using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
@@ -22,7 +21,7 @@ public abstract class TownOfUsButton : CustomActionButton
     public override string Name => string.Empty;
 
     public static float MapCooldown =>
-        OptionGroupSingleton<TownOfUsMapOptions>.Instance.GetMapBasedCooldownDifference();
+        TownOfUsMapOptions.GetMapBasedCooldownDifference();
 
     public override float InitialCooldown => 10;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
@@ -230,7 +229,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     public override string Name => string.Empty;
 
     public static float MapCooldown =>
-        OptionGroupSingleton<TownOfUsMapOptions>.Instance.GetMapBasedCooldownDifference();
+        TownOfUsMapOptions.GetMapBasedCooldownDifference();
 
     public override float InitialCooldown => 10;
     public override ButtonLocation Location => ButtonLocation.BottomRight;

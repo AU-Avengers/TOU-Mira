@@ -16,6 +16,10 @@ public static class ReactorPatch
             ActiveMap.Airship => false,
             ActiveMap.Submerged => false,
             ActiveMap.LevelImpostor => false,
+            ActiveMap.Skeld or ActiveMap.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers,
+            ActiveMap.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.ChangeSaboTimers,
+            ActiveMap.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.ChangeSaboTimers,
+            ActiveMap.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers,
             _ => true
         };
 
@@ -29,11 +33,10 @@ public static class ReactorPatch
         {
             var seconds = MiscUtils.GetCurrentMap switch
             {
-                ActiveMap.Skeld => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownReactor,
-                ActiveMap.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownReactor,
-                ActiveMap.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownReactor,
-                ActiveMap.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.SaboCountdownReactor,
-                ActiveMap.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownReactor,
+                ActiveMap.Skeld or ActiveMap.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownReactor.Value,
+                ActiveMap.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownReactor.Value,
+                ActiveMap.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.SaboCountdownReactor.Value,
+                ActiveMap.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownReactor.Value,
                 _ => __instance.ReactorDuration
             };
             if (seconds >= 15f && seconds <= 90f)
@@ -66,8 +69,8 @@ public static class O2Patch
     {
         var flag = MiscUtils.GetCurrentMap switch
         {
-            ActiveMap.Skeld => true,
-            ActiveMap.MiraHq => true,
+            ActiveMap.Skeld or ActiveMap.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers,
+            ActiveMap.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.ChangeSaboTimers,
             _ => false
         };
 
@@ -81,9 +84,8 @@ public static class O2Patch
         {
             var seconds = MiscUtils.GetCurrentMap switch
             {
-                ActiveMap.Skeld => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownOxygen,
-                ActiveMap.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownOxygen,
-                ActiveMap.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownOxygen,
+                ActiveMap.Skeld or ActiveMap.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownOxygen.Value,
+                ActiveMap.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownOxygen.Value,
                 _ => __instance.LifeSuppDuration
             };
             if (seconds >= 15f && seconds <= 90f)
@@ -107,7 +109,7 @@ public static class HeliPatch
 {
     public static bool Prefix(HeliSabotageSystem __instance, PlayerControl player, MessageReader msgReader)
     {
-        if (MiscUtils.GetCurrentMap != ActiveMap.Airship)
+        if (MiscUtils.GetCurrentMap != ActiveMap.Airship || !OptionGroupSingleton<BetterAirshipOptions>.Instance.ChangeSaboTimers)
             return true;
 
         var b = msgReader.ReadByte();
@@ -126,7 +128,7 @@ public static class HeliPatch
         else if (tags == HeliSabotageSystem.Tags.DamageBit)
         {
             __instance.codeResetTimer = -1f;
-            var seconds = OptionGroupSingleton<BetterAirshipOptions>.Instance.SaboCountdownReactor;
+            var seconds = OptionGroupSingleton<BetterAirshipOptions>.Instance.SaboCountdownReactor.Value;
             if (seconds >= 15f && seconds <= 90f)
             {
                 __instance.Countdown = seconds;
@@ -145,7 +147,7 @@ public static class MixUpPatch
 {
     public static bool Prefix(MushroomMixupSabotageSystem __instance, PlayerControl player, MessageReader msgReader)
     {
-        if (MiscUtils.GetCurrentMap != ActiveMap.Fungle)
+        if (MiscUtils.GetCurrentMap != ActiveMap.Fungle || !OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers)
             return true;
         
         MushroomMixupSabotageSystem.Operation operation = (MushroomMixupSabotageSystem.Operation)msgReader.ReadByte();
@@ -155,7 +157,7 @@ public static class MixUpPatch
             __instance.MushroomMixUp();
             __instance.currentState = MushroomMixupSabotageSystem.State.JustTriggered;
             var seconds =
-                OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownMixUp;
+                OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownMixUp.Value;
             if (seconds >= 5f && seconds <= 60f)
             {
                 __instance.currentSecondsUntilHeal = seconds;
@@ -165,3 +167,4 @@ public static class MixUpPatch
         return false;
     }
 }
+// TODO: Add Better Submerged settings once a build of sub is available for testing.

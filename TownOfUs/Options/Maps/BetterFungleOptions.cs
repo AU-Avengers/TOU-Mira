@@ -10,9 +10,21 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Fungle";
     public override uint GroupPriority => 6;
-    [ModdedNumberOption("Mix-Up Sabotage Duration", 5f, 60f, 5f, MiraNumberSuffixes.Seconds)]
-    public float SaboCountdownMixUp { get; set; } = 10f;
 
-    [ModdedNumberOption("Reactor Sabotage Countdown", 15f, 90f, 5f, MiraNumberSuffixes.Seconds)]
-    public float SaboCountdownReactor { get; set; } = 60f;
+    [ModdedToggleOption("Change Sabotage Timers")]
+    public bool ChangeSaboTimers { get; set; } = true;
+
+    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("Reactor Sabotage Countdown", 60f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers
+    };
+
+    public ModdedNumberOption SaboCountdownMixUp { get; set; } = new("Mix-Up Sabotage Duration", 10f, 5f, 60f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers
+    };
 }

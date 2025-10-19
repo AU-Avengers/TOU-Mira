@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Maps;
 public sealed class TownOfUsMapOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => "Map Options";
+    public override string GroupName => "Random Map Choice";
     public override uint GroupPriority => 0;
 
     [ModdedToggleOption("Enable Random Maps")]
@@ -58,54 +58,38 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<TownOfUsMapOptions>.Instance.RandomMaps && ModCompatibility.LILoaded
         };
 
-    [ModdedToggleOption("Half Vision On Skeld/Mira")]
-    public bool SmallMapHalfVision { get; set; } = false;
-
-    [ModdedNumberOption("Mira HQ Decreased Cooldowns", 0f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float SmallMapDecreasedCooldown { get; set; } = 0f;
-
-    [ModdedNumberOption("Airship/Submerged Increased Cooldowns", 0f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float LargeMapIncreasedCooldown { get; set; } = 0f;
-
-    [ModdedNumberOption("Skeld/Mira Increased Short Tasks", 0f, 5f)]
-    public float SmallMapIncreasedShortTasks { get; set; } = 0f;
-
-    [ModdedNumberOption("Skeld/Mira Increased Long Tasks", 0f, 3f)]
-    public float SmallMapIncreasedLongTasks { get; set; } = 0f;
-
-    [ModdedNumberOption("Airship/Submerged Decreased Short Tasks", 0f, 5f)]
-    public float LargeMapDecreasedShortTasks { get; set; } = 0f;
-
-    [ModdedNumberOption("Airship/Submerged Decreased Long Tasks", 0f, 3f)]
-    public float LargeMapDecreasedLongTasks { get; set; } = 0f;
-
     // MapNames 6 is Submerged
-    public float GetMapBasedCooldownDifference()
+    public static float GetMapBasedCooldownDifference()
     {
         return (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
         {
-            MapNames.MiraHQ => -SmallMapDecreasedCooldown,
-            MapNames.Airship or (MapNames)6 => LargeMapIncreasedCooldown,
+            MapNames.MiraHQ => -OptionGroupSingleton<BetterMiraHqOptions>.Instance.CooldownDecrease,
+            MapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.CooldownIncrease,
+            (MapNames)6 => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CooldownIncrease,
             _ => 0
         };
     }
 
-    public int GetMapBasedShortTasks()
+    public static int GetMapBasedShortTasks()
     {
         return (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
         {
-            MapNames.MiraHQ or MapNames.Skeld or MapNames.Dleks => (int)SmallMapIncreasedShortTasks,
-            MapNames.Airship or (MapNames)6 => -(int)LargeMapDecreasedShortTasks,
+            MapNames.Skeld or MapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.IncreasedShortTasks,
+            MapNames.MiraHQ => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.IncreasedShortTasks,
+            MapNames.Airship => -(int)OptionGroupSingleton<BetterAirshipOptions>.Instance.DecreasedShortTasks,
+            (MapNames)6 => -(int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.DecreasedShortTasks,
             _ => 0
         };
     }
 
-    public int GetMapBasedLongTasks()
+    public static int GetMapBasedLongTasks()
     {
         return (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
         {
-            MapNames.MiraHQ or MapNames.Skeld or MapNames.Dleks => (int)SmallMapIncreasedLongTasks,
-            MapNames.Airship or (MapNames)6 => -(int)LargeMapDecreasedLongTasks,
+            MapNames.Skeld or MapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.IncreasedLongTasks,
+            MapNames.MiraHQ => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.IncreasedLongTasks,
+            MapNames.Airship => -(int)OptionGroupSingleton<BetterAirshipOptions>.Instance.DecreasedLongTasks,
+            (MapNames)6 => -(int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.DecreasedLongTasks,
             _ => 0
         };
     }

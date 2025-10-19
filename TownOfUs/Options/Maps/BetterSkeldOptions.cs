@@ -10,13 +10,33 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Skeld";
     public override uint GroupPriority => 2;
+    
+    [ModdedNumberOption("Vision Multiplier", 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    public float VisionMultiplier { get; set; } = 1f;
+
+    [ModdedNumberOption("Increased Short Tasks", 0f, 5f)]
+    public float IncreasedShortTasks { get; set; } = 0f;
+
+    [ModdedNumberOption("Increased Long Tasks", 0f, 3f)]
+    public float IncreasedLongTasks { get; set; } = 0f;
 
     [ModdedToggleOption("Skeld Doors Are Polus Doors")]
     public bool SkeldPolusDoors { get; set; } = false;
+    
+    [ModdedToggleOption("Change Sabotage Timers")]
+    public bool ChangeSaboTimers { get; set; } = true;
 
-    [ModdedNumberOption("Oxygen Sabotage Countdown", 15f, 90f, 5f, MiraNumberSuffixes.Seconds)]
-    public float SaboCountdownOxygen { get; set; } = 30f;
+    public ModdedNumberOption SaboCountdownOxygen { get; set; } = new("Oxygen Sabotage Countdown", 30f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers
+    };
 
-    [ModdedNumberOption("Reactor Sabotage Countdown", 15f, 90f, 5f, MiraNumberSuffixes.Seconds)]
-    public float SaboCountdownReactor { get; set; } = 30f;
+    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("Reactor Sabotage Countdown", 30f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers
+    };
 }

@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 
 namespace TownOfUs.Options.Maps;
@@ -22,6 +23,13 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
     [ModdedToggleOption("Reboot Wifi And Chart Course Swapped")]
     public bool BPSwapWifiAndChart { get; set; } = false;
 
-    [ModdedNumberOption("Seismic Stabilizer Sabotage Countdown", 15f, 90f, 5f, MiraNumberSuffixes.Seconds)]
-    public float SaboCountdownReactor { get; set; } = 60f;
+    [ModdedToggleOption("Change Sabotage Timers")]
+    public bool ChangeSaboTimers { get; set; } = true;
+
+    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("Seismic Stabilizer Sabotage Countdown", 60f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterPolusOptions>.Instance.ChangeSaboTimers
+    };
 }
