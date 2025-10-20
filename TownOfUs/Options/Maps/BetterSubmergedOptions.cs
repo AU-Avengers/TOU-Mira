@@ -3,6 +3,7 @@ using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Modules;
+using UnityEngine;
 
 namespace TownOfUs.Options.Maps;
 
@@ -12,6 +13,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     public override string GroupName => "Better Submerged";
     public override uint GroupPriority => 7;
     public override Func<bool> GroupVisible => () => ModCompatibility.SubLoaded;
+    public override Color GroupColor => new Color32(50, 100, 255, 255);
 
     [ModdedNumberOption("Cooldown Increase", 0f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CooldownIncrease { get; set; } = 0f;

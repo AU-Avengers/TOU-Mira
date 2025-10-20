@@ -2,6 +2,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options.Maps;
 
@@ -10,6 +11,7 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Airship";
     public override uint GroupPriority => 5;
+    public override Color GroupColor => new Color32(255, 76, 73, 255);
 
     [ModdedNumberOption("Cooldown Increase", 0f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CooldownIncrease { get; set; } = 0f;

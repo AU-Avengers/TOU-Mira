@@ -2,6 +2,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Options.Maps;
 
@@ -10,6 +11,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Fungle";
     public override uint GroupPriority => 6;
+    public override Color GroupColor => new Color32(239, 98, 162, 255);
 
     [ModdedToggleOption("Change Sabotage Timers")]
     public bool ChangeSaboTimers { get; set; } = true;

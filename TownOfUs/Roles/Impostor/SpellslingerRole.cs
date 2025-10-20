@@ -101,7 +101,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         {
             var title =
                 $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleSpellslingerMessageTitle")}</color>";
-            MiscUtils.AddFakeChat(Player.Data, title, report, false, true);
+            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, report, false, true);
         }
     }
 
