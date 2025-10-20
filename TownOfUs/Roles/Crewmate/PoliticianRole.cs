@@ -141,13 +141,14 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         meetingMenu.HideButtons();
 
-        var aliveCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() && x.IsCrewmate());
+        // All living crewmates excluding the Politician
+        var aliveCrew = PlayerControl.AllPlayerControls.ToArray()
+            .Where(x => !x.HasDied() && x.IsCrewmate() && x.Data.Role is not PoliticianRole).ToList();
+        // All living crewmates excluding the Politician that are campaigned
         var aliveCampaigned = aliveCrew.Count(x => x.HasModifier<PoliticianCampaignedModifier>());
         var hasMajority =
-            aliveCampaigned >=
-            Math.Max((aliveCrew.Count() - 1) / 2,
-                1); // minus one to account for politician, max of at least 1 crewmate campaigned
-        if (aliveCrew.Count() == 1)
+            aliveCampaigned >= (aliveCrew.Count / 2f);
+        if (aliveCrew.Count == 0)
         {
             hasMajority = true; // if all crew are dead, politician can reveal
         }
