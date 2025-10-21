@@ -1778,23 +1778,23 @@ public static class MiscUtils
         }
     }
 
-    public static ActiveMap GetCurrentMap
+    public static ExpandedMapNames GetCurrentMap
     {
         get
         {
-            var mapId = (ActiveMap)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
             if (TutorialManager.InstanceExists)
             {
-                mapId = (ActiveMap)AmongUsClient.Instance.TutorialMapId;
+                mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
             }
 
             return mapId;
         }
     }
-    public static bool IsSmallMap => GetCurrentMap is ActiveMap.MiraHq or ActiveMap.Skeld or ActiveMap.Dleks;
-    public static bool IsBigMap => GetCurrentMap is ActiveMap.Airship or ActiveMap.Submerged;
+    public static bool IsSmallMap => GetCurrentMap is ExpandedMapNames.MiraHq or ExpandedMapNames.Skeld or ExpandedMapNames.Dleks;
+    public static bool IsBigMap => GetCurrentMap is ExpandedMapNames.Airship or ExpandedMapNames.Submerged;
 }
-public enum ActiveMap
+public enum ExpandedMapNames
 {
     Skeld,
     MiraHq,

@@ -15,14 +15,22 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     public override Func<bool> GroupVisible => () => ModCompatibility.SubLoaded;
     public override Color GroupColor => new Color32(50, 100, 255, 255);
 
-    [ModdedNumberOption("Cooldown Increase", 0f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float CooldownIncrease { get; set; } = 0f;
+    [ModdedNumberOption("Crew Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    public float CrewVisionMultiplier { get; set; } = 1f;
+    
+    [ModdedNumberOption("Impostor Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    public float ImpVisionMultiplier { get; set; } = 1f;
 
-    [ModdedNumberOption("Decreased Short Tasks", 0f, 5f)]
-    public float DecreasedShortTasks { get; set; } = 0f;
+    [ModdedNumberOption("Cooldown Increase/Decrease", -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
+    public float CooldownOffset { get; set; } = 0f;
 
-    [ModdedNumberOption("Decreased Long Tasks", 0f, 3f)]
-    public float DecreasedLongTasks { get; set; } = 0f;
+    [ModdedNumberOption("Increased/Decreased Short Tasks", -5f, 5f)]
+    public float OffsetShortTasks { get; set; } = 0f;
+
+    [ModdedNumberOption("Increased/Decreased Long Tasks", -3f, 3f)]
+    public float OffsetLongTasks { get; set; } = 0f;
+
+    public ModdedEnumOption SubmergedDoorType { get; set; } = new("Door Type on Submerged", (int)MapDoorType.Submerged, typeof(MapDoorType));
 
     [ModdedToggleOption("Submerged Doors Are Polus Doors")]
     public bool SubmergedPolusDoors { get; set; } = false;

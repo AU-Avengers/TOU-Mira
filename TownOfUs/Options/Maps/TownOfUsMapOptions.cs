@@ -3,6 +3,7 @@ using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Modules;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Options.Maps;
 
@@ -61,36 +62,53 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
     // MapNames 6 is Submerged
     public static float GetMapBasedCooldownDifference()
     {
-        return (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
         {
-            MapNames.MiraHQ => -OptionGroupSingleton<BetterMiraHqOptions>.Instance.CooldownDecrease,
-            MapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.CooldownIncrease,
-            (MapNames)6 => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CooldownIncrease,
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CooldownOffset,
+            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CooldownOffset,
+            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.CooldownOffset,
+            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.CooldownOffset,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.CooldownOffset,
+            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CooldownOffset,
             _ => 0
         };
     }
 
     public static int GetMapBasedShortTasks()
     {
-        return (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
         {
-            MapNames.Skeld or MapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.IncreasedShortTasks,
-            MapNames.MiraHQ => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.IncreasedShortTasks,
-            MapNames.Airship => -(int)OptionGroupSingleton<BetterAirshipOptions>.Instance.DecreasedShortTasks,
-            (MapNames)6 => -(int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.DecreasedShortTasks,
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.OffsetShortTasks,
+            ExpandedMapNames.MiraHq => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.OffsetShortTasks,
+            ExpandedMapNames.Polus => (int)OptionGroupSingleton<BetterPolusOptions>.Instance.OffsetShortTasks,
+            ExpandedMapNames.Airship => (int)OptionGroupSingleton<BetterAirshipOptions>.Instance.OffsetShortTasks,
+            ExpandedMapNames.Fungle => (int)OptionGroupSingleton<BetterFungleOptions>.Instance.OffsetShortTasks,
+            ExpandedMapNames.Submerged => (int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.OffsetShortTasks,
             _ => 0
         };
     }
 
     public static int GetMapBasedLongTasks()
     {
-        return (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
         {
-            MapNames.Skeld or MapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.IncreasedLongTasks,
-            MapNames.MiraHQ => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.IncreasedLongTasks,
-            MapNames.Airship => -(int)OptionGroupSingleton<BetterAirshipOptions>.Instance.DecreasedLongTasks,
-            (MapNames)6 => -(int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.DecreasedLongTasks,
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.OffsetLongTasks,
+            ExpandedMapNames.MiraHq => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.OffsetLongTasks,
+            ExpandedMapNames.Polus => (int)OptionGroupSingleton<BetterPolusOptions>.Instance.OffsetLongTasks,
+            ExpandedMapNames.Airship => (int)OptionGroupSingleton<BetterAirshipOptions>.Instance.OffsetLongTasks,
+            ExpandedMapNames.Fungle => (int)OptionGroupSingleton<BetterFungleOptions>.Instance.OffsetLongTasks,
+            ExpandedMapNames.Submerged => (int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.OffsetLongTasks,
             _ => 0
         };
     }
+}
+
+public enum MapDoorType
+{
+    Random,
+    Skeld,
+    Polus,
+    Airship,
+    Fungle,
+    Submerged, // This is just cause it would be cool to implement, if submerged isn't installed, it will autoset to a different option
 }

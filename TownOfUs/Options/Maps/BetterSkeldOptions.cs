@@ -12,19 +12,24 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
     public override string GroupName => "Better Skeld";
     public override uint GroupPriority => 2;
     public override Color GroupColor => new Color32(188, 206, 200, 255);
+
+    [ModdedNumberOption("Crew Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    public float CrewVisionMultiplier { get; set; } = 1f;
     
-    [ModdedNumberOption("Vision Multiplier", 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
-    public float VisionMultiplier { get; set; } = 1f;
+    [ModdedNumberOption("Impostor Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    public float ImpVisionMultiplier { get; set; } = 1f;
 
-    [ModdedNumberOption("Increased Short Tasks", 0f, 5f)]
-    public float IncreasedShortTasks { get; set; } = 0f;
+    [ModdedNumberOption("Cooldown Increase/Decrease", -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
+    public float CooldownOffset { get; set; } = 0f;
 
-    [ModdedNumberOption("Increased Long Tasks", 0f, 3f)]
-    public float IncreasedLongTasks { get; set; } = 0f;
+    [ModdedNumberOption("Increased/Decreased Short Tasks", -5f, 5f)]
+    public float OffsetShortTasks { get; set; } = 0f;
 
-    [ModdedToggleOption("Skeld Doors Are Polus Doors")]
-    public bool SkeldPolusDoors { get; set; } = false;
-    
+    [ModdedNumberOption("Increased/Decreased Long Tasks", -3f, 3f)]
+    public float OffsetLongTasks { get; set; } = 0f;
+
+    public ModdedEnumOption SkeldDoorType { get; set; } = new("Door Type on Skeld", (int)MapDoorType.Skeld, typeof(MapDoorType));
+
     [ModdedToggleOption("Change Sabotage Timers")]
     public bool ChangeSaboTimers { get; set; } = true;
 

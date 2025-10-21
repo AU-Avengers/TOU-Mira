@@ -8,7 +8,7 @@ using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Options.Maps;
 
-namespace TownOfUs.Patches.Options;
+namespace TownOfUs.Patches.BetterMaps;
 
 [HarmonyPatch]
 public static class MapPatches
@@ -61,13 +61,12 @@ public static class MapPatches
         float totalWeight = 0;
 
         totalWeight += skeldChance;
-        totalWeight += backwardsSkeldChance;
         totalWeight += miraChance;
         totalWeight += polusChance;
+        totalWeight += backwardsSkeldChance;
         totalWeight += airshipChance;
         totalWeight += fungleChance;
 
-        // totalWeight += ModCompatibility.UnlockDleksLoaded ? OptionGroupSingleton<Options.MapOptions>.Instance.dlekSChance : 0;
         totalWeight += ModCompatibility.SubLoaded ? submergedChance : 0;
         totalWeight += ModCompatibility.LILoaded ? liChance : 0;
 
@@ -85,13 +84,6 @@ public static class MapPatches
 
         randomNumber -= skeldChance;
 
-        if (randomNumber < backwardsSkeldChance)
-        {
-            return 3;
-        }
-
-        randomNumber -= backwardsSkeldChance;
-        
         if (randomNumber < miraChance)
         {
             return 1;
@@ -105,6 +97,13 @@ public static class MapPatches
         }
 
         randomNumber -= polusChance;
+
+        if (randomNumber < backwardsSkeldChance)
+        {
+            return 3;
+        }
+
+        randomNumber -= backwardsSkeldChance;
 
         if (randomNumber < airshipChance)
         {

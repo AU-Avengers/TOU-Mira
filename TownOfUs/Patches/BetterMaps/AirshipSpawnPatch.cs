@@ -4,7 +4,7 @@ using Reactor.Networking.Attributes;
 using TownOfUs.Options.Maps;
 using TownOfUs.Utilities;
 
-namespace TownOfUs.Patches.Options;
+namespace TownOfUs.Patches.BetterMaps;
 
 [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.Begin))]
 public static class AirshipSpawnPatch
