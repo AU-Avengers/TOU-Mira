@@ -16,12 +16,12 @@ public static class PlayerSpeedPatch
     // ReSharper disable once InconsistentNaming
     public static void Postfix(PlayerControl pc, ref float __result)
     {
+        __result *= TownOfUsMapOptions.GetMapBasedSpeedMultiplier();
         if (!(HudManagerPatches.CamouflageCommsEnabled &&
              OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSpeedInCamo))
         {
             __result *= pc.GetAppearance().Speed;
         }
-
 
         if (pc.HasModifier<VenererSprintModifier>())
         {
