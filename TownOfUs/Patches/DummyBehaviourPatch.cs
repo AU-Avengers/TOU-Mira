@@ -41,7 +41,7 @@ public static class DummyBehaviourPatches
         }
 
         yield return new WaitForSeconds(0.01f + 0.01f * dummy.PlayerId);
-        var roleList = RoleManager.Instance.AllRoles.ToArray()
+        var roleList = RoleManager.Instance.AllRoles
             .Where(role => !role.IsDead)
             .Where(role => !role.IsImpostor())
             .ToList();

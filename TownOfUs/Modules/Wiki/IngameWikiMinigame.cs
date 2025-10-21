@@ -474,11 +474,11 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
                 allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
                 allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
+                // allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
                 // allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
                 allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Shapeshifter));
                 allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Phantom));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
+                // allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
             }
 
             var roles = allRoles.OrderBy(x => x, comparer);

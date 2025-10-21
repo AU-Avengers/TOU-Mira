@@ -60,7 +60,7 @@ public static class WikiHyperLinkPatches
                 else
                 {
                     // Non-custom roles (aka vanilla ones) can also be tagged, but they have no wiki entries.
-                    role = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x =>
+                    role = RoleManager.Instance.AllRoles.FirstOrDefault(x =>
                         x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
                     if (role != null)
                     {

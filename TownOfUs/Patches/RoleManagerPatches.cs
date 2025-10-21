@@ -942,7 +942,7 @@ public static class TouRoleManagerPatches
         if ( /*!player.Data.Role.IsImpostor && */specialRolesAllowed && !player.HasModifier<BasicGhostModifier>())
             // Logger<TownOfUsPlugin>.Message($"AssignRoleOnDeathPatch - !player.Data.Role.IsImpostor: '{!player.Data.Role.IsImpostor}' specialRolesAllowed: {specialRolesAllowed}");
         {
-            RoleManager.TryAssignSpecialGhostRoles(player, player.IsImpostor());
+            RoleManager.TryAssignSpecialGhostRoles(player);
         }
 
         if (!RoleManager.IsGhostRole(player.Data.Role.Role))
