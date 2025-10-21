@@ -13,6 +13,9 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     public override uint GroupPriority => 6;
     public override Color GroupColor => new Color32(255, 76, 73, 255);
 
+    [ModdedNumberOption("Speed Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    public float SpeedMultiplier { get; set; } = 1f;
+
     [ModdedNumberOption("Crew Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float CrewVisionMultiplier { get; set; } = 1f;
     
@@ -22,10 +25,10 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     [ModdedNumberOption("Cooldown Increase/Decrease", -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CooldownOffset { get; set; } = 0f;
 
-    [ModdedNumberOption("Increased/Decreased Short Tasks", -5f, 5f)]
+    [ModdedNumberOption("Offset Short Tasks", -5f, 5f)]
     public float OffsetShortTasks { get; set; } = 0f;
 
-    [ModdedNumberOption("Increased/Decreased Long Tasks", -3f, 3f)]
+    [ModdedNumberOption("Offset Long Tasks", -3f, 3f)]
     public float OffsetLongTasks { get; set; } = 0f;
 
     public ModdedEnumOption AirshipDoorType { get; set; } = new("Door Type on Airship", (int)MapDoorType.Airship, typeof(MapDoorType));

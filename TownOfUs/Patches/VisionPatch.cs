@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
@@ -35,34 +34,13 @@ public static class VisionPatch
 
         var impVision = player.Role.IsImpostor ||
                         (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision);
-        var curMap = MiscUtils.GetCurrentMap;
 
         if (impVision)
         {
             __result = __instance.MaxLightRadius *
                        GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod * visionFactor;
-            
-            switch (curMap)
-            {
-                case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
-                    __result *= OptionGroupSingleton<BetterSkeldOptions>.Instance.ImpVisionMultiplier;
-                    break;
-                case ExpandedMapNames.MiraHq:
-                    __result *= OptionGroupSingleton<BetterMiraHqOptions>.Instance.ImpVisionMultiplier;
-                    break;
-                case ExpandedMapNames.Polus:
-                    __result *= OptionGroupSingleton<BetterPolusOptions>.Instance.ImpVisionMultiplier;
-                    break;
-                case ExpandedMapNames.Airship:
-                    __result *= OptionGroupSingleton<BetterAirshipOptions>.Instance.ImpVisionMultiplier;
-                    break;
-                case ExpandedMapNames.Fungle:
-                    __result *= OptionGroupSingleton<BetterFungleOptions>.Instance.ImpVisionMultiplier;
-                    break;
-                case ExpandedMapNames.Submerged:
-                    __result *= OptionGroupSingleton<BetterSubmergedOptions>.Instance.ImpVisionMultiplier;
-                    break;
-            }
+
+            __result *= TownOfUsMapOptions.GetMapBasedImpostorVision();
         }
         else
         {
@@ -78,27 +56,7 @@ public static class VisionPatch
                     __result *= visionFactor;
                 }
 
-                switch (curMap)
-                {
-                    case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
-                        __result *= OptionGroupSingleton<BetterSkeldOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.MiraHq:
-                        __result *= OptionGroupSingleton<BetterMiraHqOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.Polus:
-                        __result *= OptionGroupSingleton<BetterPolusOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.Airship:
-                        __result *= OptionGroupSingleton<BetterAirshipOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.Fungle:
-                        __result *= OptionGroupSingleton<BetterFungleOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.Submerged:
-                        __result *= OptionGroupSingleton<BetterSubmergedOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                }
+                __result *= TownOfUsMapOptions.GetMapBasedCrewmateVision();
             }
             else
             {
@@ -121,27 +79,7 @@ public static class VisionPatch
                 __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, t) *
                            GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod * visionFactor;
 
-                switch (curMap)
-                {
-                    case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
-                        __result *= OptionGroupSingleton<BetterSkeldOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.MiraHq:
-                        __result *= OptionGroupSingleton<BetterMiraHqOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.Polus:
-                        __result *= OptionGroupSingleton<BetterPolusOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.Airship:
-                        __result *= OptionGroupSingleton<BetterAirshipOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.Fungle:
-                        __result *= OptionGroupSingleton<BetterFungleOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                    case ExpandedMapNames.Submerged:
-                        __result *= OptionGroupSingleton<BetterSubmergedOptions>.Instance.CrewVisionMultiplier;
-                        break;
-                }
+                __result *= TownOfUsMapOptions.GetMapBasedCrewmateVision();
 
                 if (player._object.HasModifier<ScoutModifier>())
                 {

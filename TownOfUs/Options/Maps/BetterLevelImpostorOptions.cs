@@ -2,16 +2,18 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Options.Maps;
 
-public sealed class BetterSkeldOptions : AbstractOptionGroup
+public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
-    public override string GroupName => "Better Skeld";
-    public override uint GroupPriority => 3;
-    public override Color GroupColor => new Color32(188, 206, 200, 255);
+    public override string GroupName => "Better Level Impostor";
+    public override uint GroupPriority => 9;
+    public override Func<bool> GroupVisible => () => ModCompatibility.LILoaded;
+    public override Color GroupColor => new Color32(16, 131, 176, 255);
 
     [ModdedNumberOption("Speed Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float SpeedMultiplier { get; set; } = 1f;
@@ -31,22 +33,13 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
     [ModdedNumberOption("Offset Long Tasks", -3f, 3f)]
     public float OffsetLongTasks { get; set; } = 0f;
 
-    public ModdedEnumOption SkeldDoorType { get; set; } = new("Door Type on Skeld", (int)MapDoorType.Skeld, typeof(MapDoorType));
-
-    [ModdedToggleOption("Change Sabotage Timers")]
+    /*[ModdedToggleOption("Change Sabotage Timers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
     public ModdedNumberOption SaboCountdownOxygen { get; set; } = new("Oxygen Sabotage Countdown", 30f, 15f, 90f,
         5f, MiraNumberSuffixes.Seconds, "0.#")
     {
         Visible = () =>
-            OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers
-    };
-
-    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("Reactor Sabotage Countdown", 30f, 15f, 90f,
-        5f, MiraNumberSuffixes.Seconds, "0.#")
-    {
-        Visible = () =>
-            OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers
-    };
+            OptionGroupSingleton<BetterSubmergedOptions>.Instance.ChangeSaboTimers
+    };*/
 }
