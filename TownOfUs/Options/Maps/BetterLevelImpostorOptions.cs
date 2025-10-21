@@ -24,7 +24,7 @@ public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
     [ModdedNumberOption("Impostor Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float ImpVisionMultiplier { get; set; } = 1f;
 
-    [ModdedNumberOption("Cooldown Increase/Decrease", -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Cooldown Offset", -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CooldownOffset { get; set; } = 0f;
 
     [ModdedNumberOption("Offset Short Tasks", -5f, 5f)]
