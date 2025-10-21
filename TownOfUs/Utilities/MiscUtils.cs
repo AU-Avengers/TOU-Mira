@@ -73,7 +73,7 @@ public static class MiscUtils
 
     public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
 
-    public static IEnumerable<RoleBehaviour> AllRoles => RoleManager.Instance.AllRoles;
+    public static IEnumerable<RoleBehaviour> AllRoles => CustomRoleManager.CustomRoleBehaviours;
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
