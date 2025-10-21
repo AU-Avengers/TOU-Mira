@@ -10,7 +10,7 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Polus";
-    public override uint GroupPriority => 4;
+    public override uint GroupPriority => 5;
     public override Color GroupColor => new Color32(157, 146, 198, 255);
 
     [ModdedNumberOption("Crew Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]

@@ -11,7 +11,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Submerged";
-    public override uint GroupPriority => 7;
+    public override uint GroupPriority => 8;
     public override Func<bool> GroupVisible => () => ModCompatibility.SubLoaded;
     public override Color GroupColor => new Color32(50, 100, 255, 255);
 

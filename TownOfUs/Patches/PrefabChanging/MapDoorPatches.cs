@@ -15,6 +15,10 @@ public static class MapDoorPatches
     public static void SkeldDoorPatchPostfix(ShipStatus __instance)
     {
         var doorType = (MapDoorType)OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value;
+        if (doorType is MapDoorType.Random)
+        {
+            doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
+        }
         if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
         {
             return;
@@ -67,6 +71,10 @@ public static class MapDoorPatches
     public static void PolusDoorPatchPostfix(PolusShipStatus __instance)
     {
         var doorType = (MapDoorType)OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value;
+        if (doorType is MapDoorType.Random)
+        {
+            doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
+        }
         if (doorType is MapDoorType.Polus || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
         {
             return;
@@ -137,6 +145,10 @@ public static class MapDoorPatches
     public static void AirshipDoorPatchPostfix(AirshipStatus __instance)
     {
         var doorType = (MapDoorType)OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value;
+        if (doorType is MapDoorType.Random)
+        {
+            doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
+        }
         if (doorType is MapDoorType.Airship || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
         {
             return;
@@ -207,6 +219,10 @@ public static class MapDoorPatches
     public static void FungleDoorPatchPostfix(FungleShipStatus __instance)
     {
         var doorType = (MapDoorType)OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value;
+        if (doorType is MapDoorType.Random)
+        {
+            doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
+        }
         if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
         {
             return;

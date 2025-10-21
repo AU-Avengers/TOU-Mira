@@ -10,7 +10,7 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Airship";
-    public override uint GroupPriority => 5;
+    public override uint GroupPriority => 6;
     public override Color GroupColor => new Color32(255, 76, 73, 255);
 
     [ModdedNumberOption("Crew Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]

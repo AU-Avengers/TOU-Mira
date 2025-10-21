@@ -10,7 +10,7 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Fungle";
-    public override uint GroupPriority => 6;
+    public override uint GroupPriority => 7;
     public override Color GroupColor => new Color32(239, 98, 162, 255);
 
     [ModdedNumberOption("Crew Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]

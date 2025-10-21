@@ -102,13 +102,3 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
         };
     }
 }
-
-public enum MapDoorType
-{
-    Random,
-    Skeld,
-    Polus,
-    Airship,
-    Fungle,
-    Submerged, // This is just cause it would be cool to implement, if submerged isn't installed, it will autoset to a different option
-}

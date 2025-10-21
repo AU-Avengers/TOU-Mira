@@ -10,7 +10,7 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
 {
     public override MenuCategory ParentMenu => MenuCategory.CustomOne;
     public override string GroupName => "Better Skeld";
-    public override uint GroupPriority => 2;
+    public override uint GroupPriority => 3;
     public override Color GroupColor => new Color32(188, 206, 200, 255);
 
     [ModdedNumberOption("Crew Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
