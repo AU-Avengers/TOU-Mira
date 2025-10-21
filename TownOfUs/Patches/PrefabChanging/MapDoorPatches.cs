@@ -231,8 +231,9 @@ public static class MapDoorPatches
         var doorMinigame = PrefabLoader.Polus.GetComponentInChildren<DoorConsole>().MinigamePrefab;
         switch (doorType)
         {
+            // TODO: Fix Skeld doors on fungle, they error out entirely on update and will likely require a component replacement
             case MapDoorType.Skeld:
-                var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
+                /*var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
                 var skeldDoors = __instance.AllDoors.ToList();
                 foreach (var door in doors)
                 {
@@ -267,7 +268,7 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = skeldDoors.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());*/
 
                 return;
             case MapDoorType.Airship:
