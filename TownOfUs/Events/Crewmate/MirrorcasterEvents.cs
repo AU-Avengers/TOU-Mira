@@ -96,6 +96,7 @@ public static class MirrorcasterEvents
         }
 
         @event.Cancel();
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a magic mirror, stopping an attack {source.Data.PlayerName}!");
 
         var mirrorcaster = target.GetModifier<MagicMirrorModifier>()?.Mirrorcaster.GetRole<MirrorcasterRole>();
 

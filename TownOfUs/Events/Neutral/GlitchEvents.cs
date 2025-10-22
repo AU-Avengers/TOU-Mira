@@ -3,6 +3,7 @@ using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Neutral;
 
@@ -43,6 +44,7 @@ public static class GlitchEvents
         }
 
         miraEvent.Cancel();
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{source.Data.PlayerName} was hacked, cancelling their interaction!");
 
         if (source.AmOwner)
         {

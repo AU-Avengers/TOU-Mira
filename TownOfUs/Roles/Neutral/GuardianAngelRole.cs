@@ -34,17 +34,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
     public void AssignTargets()
     {
         var textlog = $"Selecting GA Targets.";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Error(textlog);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
         var evilTargetPercent = (int)OptionGroupSingleton<GuardianAngelOptions>.Instance.EvilTargetPercent;
 
@@ -80,17 +70,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             var randomTarget = filtered[rndIndex.Next(0, filtered.Count)];
 
             var textlogtarget = $"Setting GA Target: {randomTarget.Data.PlayerName}";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Info(textlogtarget);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Info,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogtarget));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Info,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogtarget));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Info, textlogtarget);
 
             RpcSetGATarget(ga, randomTarget);
         }
@@ -253,17 +233,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             return;
         }
         var textlogtarget = $"On GA Player Death: {victim.Data.PlayerName}";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Info(textlogtarget);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Info,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogtarget));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Info,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogtarget));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Info, textlogtarget);
 
         if (Target == null || victim == Target)
         {
@@ -278,17 +248,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             };
 
             var textlogchange = $"On GA Player Death - Change Role: {roleType}";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Error(textlogchange);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogchange));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlogchange));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlogchange);
 
             Player.ChangeRole(roleType);
 

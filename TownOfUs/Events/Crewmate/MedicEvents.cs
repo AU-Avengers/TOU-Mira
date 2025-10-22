@@ -172,6 +172,7 @@ public static class MedicEvents
         }
 
         @event.Cancel();
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a medic shield, stopping an attack from {source.Data.PlayerName}!");
 
         var medic = target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
 

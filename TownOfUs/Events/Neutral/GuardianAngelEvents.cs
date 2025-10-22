@@ -90,6 +90,7 @@ public static class GuardianAngelEvents
         }
 
         @event.Cancel();
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a ga shield, stopping an attack from {source.Data.PlayerName}!");
 
         return true;
     }

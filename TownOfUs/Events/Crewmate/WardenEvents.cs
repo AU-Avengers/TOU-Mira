@@ -101,6 +101,7 @@ public static class WardenEvents
         }
 
         @event.Cancel();
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a warden fort, stopping an interaction from {source.Data.PlayerName}!");
 
         // The reason this exists is that otherwise, players can brute force through the warden fort if they spam fast enough
         if (@event is MiraButtonClickEvent buttonClick)

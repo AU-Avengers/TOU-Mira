@@ -13,7 +13,9 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TMPro;
+using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
@@ -1791,8 +1793,37 @@ public static class MiscUtils
             return mapId;
         }
     }
-    public static bool IsSmallMap => GetCurrentMap is ExpandedMapNames.MiraHq or ExpandedMapNames.Skeld or ExpandedMapNames.Dleks;
-    public static bool IsBigMap => GetCurrentMap is ExpandedMapNames.Airship or ExpandedMapNames.Submerged;
+    public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
+    {
+        if (!CanSeeAdvancedLogs)
+        {
+            if (CanSeePostGameLogs)
+            {
+                TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+            }
+            return;
+        }
+
+        switch (logLevel)
+        {
+            case TownOfUsEventHandlers.LogLevel.Error:
+                Logger<TownOfUsPlugin>.Error(text);
+                break;
+            case TownOfUsEventHandlers.LogLevel.Warning:
+                Logger<TownOfUsPlugin>.Warning(text);
+                break;
+            case TownOfUsEventHandlers.LogLevel.Debug:
+                Logger<TownOfUsPlugin>.Debug(text);
+                break;
+            case TownOfUsEventHandlers.LogLevel.Info:
+                Logger<TownOfUsPlugin>.Info(text);
+                break;
+            case TownOfUsEventHandlers.LogLevel.Message:
+                Logger<TownOfUsPlugin>.Message(text);
+                break;
+        }
+        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+    }
 }
 public enum ExpandedMapNames
 {

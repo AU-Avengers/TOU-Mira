@@ -71,6 +71,7 @@ public static class SurvivorEvents
             return false;
         }
 
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a survivor vest!");
         @event.Cancel();
 
         return true;
