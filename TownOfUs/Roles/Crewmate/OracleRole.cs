@@ -114,6 +114,8 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() &&
                                                                                (x.IsImpostor() ||
+                                                                                   (x.Is(RoleAlignment.NeutralOutlier) &&
+                                                                                       options.ShowNeutralOutlierAsEvil) ||
                                                                                    (x.Is(RoleAlignment
                                                                                            .NeutralKilling) &&
                                                                                        options

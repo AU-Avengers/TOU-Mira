@@ -26,4 +26,7 @@ public sealed class OracleOptions : AbstractOptionGroup<OracleRole>
 
     [ModdedToggleOption("Neutral Killing Show Up As Evil")]
     public bool ShowNeutralKillingAsEvil { get; set; } = true;
+
+    [ModdedToggleOption("Neutral Outliers Show Up As Evil")]
+    public bool ShowNeutralOutlierAsEvil { get; set; } = true;
 }
