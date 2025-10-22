@@ -766,12 +766,20 @@ public static class TownOfUsEventHandlers
         SoundManager.Instance.PlaySound(voteArea.GetPlayer()!.KillSfx, false);
 
         yield return new WaitForSeconds(bodyAnimLength - 0.25f);
-        voteArea.Overlay.gameObject.SetActive(true);
-        animation.gameObject.Destroy();
+        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
+        try
+        {
+            voteArea.Overlay.gameObject.SetActive(true);
+        }
+        catch (Exception e)
+        {
+            System.Console.WriteLine(e);
+            throw;
+        }
+        animation.Destroy();
         voteArea.XMark.gameObject.SetActive(true);
         SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
         Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
-        voteArea.Overlay.gameObject.SetActive(true);
     }
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
