@@ -12,6 +12,7 @@ namespace TownOfUs.Patches.PrefabChanging;
 [HarmonyPatch]
 public static class MapDoorPatches
 {
+    public static MapDoorType RandomDoorType = MapDoorType.None;
 
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowSabotageMap))]
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowCountOverlay))]
@@ -32,7 +33,14 @@ public static class MapDoorPatches
         var doorType = (MapDoorType)OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
-            doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
+            if (TutorialManager.InstanceExists)
+            {
+                doorType = RandomDoorMapOptions.GetRandomDoorType(MapDoorType.Skeld);
+            }
+            else
+            {
+                doorType = RandomDoorType;
+            }
         }
 
         if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
@@ -91,7 +99,14 @@ public static class MapDoorPatches
         var doorType = (MapDoorType)OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
-            doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
+            if (TutorialManager.InstanceExists)
+            {
+                doorType = RandomDoorMapOptions.GetRandomDoorType(MapDoorType.Polus);
+            }
+            else
+            {
+                doorType = RandomDoorType;
+            }
         }
 
         if (doorType is MapDoorType.Polus || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
@@ -172,7 +187,14 @@ public static class MapDoorPatches
         var doorType = (MapDoorType)OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
-            doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
+            if (TutorialManager.InstanceExists)
+            {
+                doorType = RandomDoorMapOptions.GetRandomDoorType(MapDoorType.Airship);
+            }
+            else
+            {
+                doorType = RandomDoorType;
+            }
         }
 
         if (doorType is MapDoorType.Airship || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
@@ -253,7 +275,14 @@ public static class MapDoorPatches
         var doorType = (MapDoorType)OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
-            doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
+            if (TutorialManager.InstanceExists)
+            {
+                doorType = RandomDoorMapOptions.GetRandomDoorType(MapDoorType.Fungle);
+            }
+            else
+            {
+                doorType = RandomDoorType;
+            }
         }
 
         if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
