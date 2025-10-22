@@ -3,6 +3,7 @@ using MiraAPI.GameOptions;
 using PowerTools;
 using TownOfUs.Modules;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
 
 namespace TownOfUs.Patches.PrefabChanging;
@@ -233,7 +234,7 @@ public static class MapDoorPatches
         {
             // TODO: Fix Skeld doors on fungle, they error out entirely on update and will likely require a component replacement
             case MapDoorType.Skeld:
-                /*var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
+                var doors = __instance.GetComponentsInChildren<MushroomWallDoor>().Select(x => x.gameObject).ToArray();
                 var skeldDoors = __instance.AllDoors.ToList();
                 foreach (var door in doors)
                 {
@@ -241,25 +242,28 @@ public static class MapDoorPatches
                     var consoleDoor = door.GetComponent<DoorConsole>();
 
                     var closeSound = plainDoor.closeSound;
-                    var myCollider = plainDoor.wallCollider;
                     var openSound = plainDoor.openSound;
-                    var shadowCollider = plainDoor.shadowColl;
+                    var wallCollider = plainDoor.wallCollider;
+                    var shadowColl = plainDoor.shadowColl;
+                    var bottomColl = plainDoor.bottomColl;
+                    var mushrooms = plainDoor.mushrooms;
                     var id = plainDoor.Id;
                     var room = plainDoor.Room;
 
                     skeldDoors.Remove(plainDoor);
-                    // plainDoor.Destroy();
+                    plainDoor.Destroy();
 
-                    var autoDoor = door.AddComponent<AutoOpenDoor>();
+                    var autoDoor = door.AddComponent<AutoOpenMushroomDoor>();
 
-                    autoDoor.CloseSound = closeSound;
-                    autoDoor.myCollider = myCollider;
-                    autoDoor.OpenSound = openSound;
-                    autoDoor.shadowCollider = shadowCollider;
+                    autoDoor.closeSound = closeSound;
+                    autoDoor.openSound = openSound;
+                    autoDoor.wallCollider = wallCollider;
+                    autoDoor.shadowColl = shadowColl;
+                    autoDoor.bottomColl = bottomColl;
+                    autoDoor.mushrooms = mushrooms;
                     autoDoor.Id = id;
                     autoDoor.Room = room;
                     autoDoor.SetDoorway(true);
-                    autoDoor.Room = plainDoor.Room;
 
                     skeldDoors.Add(autoDoor);
 
@@ -268,7 +272,7 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = skeldDoors.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());*/
+                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
 
                 return;
             case MapDoorType.Airship:
