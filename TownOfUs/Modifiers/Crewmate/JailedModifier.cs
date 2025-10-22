@@ -38,6 +38,11 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
             return;
         }
 
+        if (Player.Data.Role is ProsecutorRole pros)
+        {
+            pros.HideProsButton = true;
+        }
+
         if (Player.AmOwner)
         {
             var title = $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailee Feedback</color>";
