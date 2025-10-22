@@ -2,7 +2,6 @@ using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
