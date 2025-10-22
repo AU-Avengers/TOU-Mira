@@ -79,17 +79,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
 
         var text = $"Setup HaunterRole '{Player.Data.PlayerName}'";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Error(text);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
 
         Player.gameObject.layer = LayerMask.NameToLayer("Players");
 
@@ -144,17 +134,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
     public void Clicked()
     {
         var text = $"Clicked HaunterRole: '{Player.Data.PlayerName}'";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Message(text);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Message,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Message,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Message, text);
 
         Caught = true;
         Player.Exiled();
@@ -388,17 +368,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         }
 
         var text = $"Haunter Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Error(text);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
     }
 
     public static bool IsTargetOfHaunter(PlayerControl player)

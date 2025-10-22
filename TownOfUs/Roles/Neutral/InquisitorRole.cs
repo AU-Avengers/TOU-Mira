@@ -48,17 +48,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         if (inquis == null)
         {
             var textlognotfound = $"Inquisitor not found.";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Error(textlognotfound);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlognotfound));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlognotfound));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
 
             return;
         }
@@ -67,17 +57,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         var players = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
         var textlog = $"Players in heretic list possible: {players.Count}";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Warning(textlog);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, textlog);
 
         players.Shuffle();
         players.Shuffle();

@@ -38,17 +38,7 @@ public static class TouRoleManagerPatches
         var ghostRoles = MiscUtils.GetRegisteredGhostRoles();
 
         var text = $"GhostRoleSetup - ghostRoles Count: {ghostRoles.Count()}";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Warning(text);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);
 
         CrewmateGhostRolePool.Clear();
         ImpostorGhostRolePool.Clear();
@@ -57,17 +47,8 @@ public static class TouRoleManagerPatches
         foreach (var role in ghostRoles)
         {
             var ghostText = $"GhostRoleSetup - ghostRoles role NiceName: {role.GetRoleName()}";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Warning(ghostText);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + ghostText));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + ghostText));
-            }
+            
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, ghostText);
 
             var data = MiscUtils.GetAssignData(role.Role);
 
@@ -232,17 +213,8 @@ public static class TouRoleManagerPatches
             impCount = 1;
 
             var impText = $"Removing Impostor Roles because of {uniqueRole.GetRoleName()}";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Warning(impText);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + impText));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + impText));
-            }
+            
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, impText);
 
             impRoles.RemoveAll(x => x != RoleId.Get(uniqueRole.GetType()));
 
@@ -286,17 +258,7 @@ public static class TouRoleManagerPatches
             crewmates.RemoveAt(num);
 
             var roleText = $"SelectRoles - player: '{player.Data.PlayerName}', role: '{RoleManager.Instance.GetRole((RoleTypes)role).GetRoleName()}'";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Warning(roleText);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + roleText));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + roleText));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
         }
 
         foreach (var role in impRoles)
@@ -309,17 +271,7 @@ public static class TouRoleManagerPatches
             impostors.RemoveAt(num);
 
             var roleText = $"SelectRoles - player: '{player.Data.PlayerName}', role: '{RoleManager.Instance.GetRole((RoleTypes)role).GetRoleName()}'";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Warning(roleText);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + roleText));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + roleText));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
         }
 
         foreach (var player in crewmates)
@@ -699,17 +651,7 @@ public static class TouRoleManagerPatches
             impCount = 1;
 
             var impText = $"Removing Impostor Roles because of {uniqueRole.GetRoleName()}";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Warning(impText);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + impText));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + impText));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, impText);
 
             while (impostors.Count > impCount)
             {
@@ -729,17 +671,7 @@ public static class TouRoleManagerPatches
             impostors.RemoveAt(num);
 
             var roleText = $"SelectRoles - player: '{player.Data.PlayerName}', role: '{RoleManager.Instance.GetRole((RoleTypes)role).GetRoleName()}'";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Warning(roleText);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + roleText));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + roleText));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
         }
 
         foreach (var role in crewRoles)
@@ -752,17 +684,7 @@ public static class TouRoleManagerPatches
             crewmates.RemoveAt(num);
 
             var roleText = $"SelectRoles - player: '{player.Data.PlayerName}', role: '{RoleManager.Instance.GetRole((RoleTypes)role).GetRoleName()}'";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Warning(roleText);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + roleText));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + roleText));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
         }
 
         // Assign vanilla roles to anyone who did not receive a role.
@@ -921,17 +843,7 @@ public static class TouRoleManagerPatches
         // the original won't spawn the Phantom and just spawns Neutral Ghost instead
 
         var text = $"AssignRoleOnDeathPatch - Player: '{player.Data.PlayerName}', specialRolesAllowed: {specialRolesAllowed}";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Warning(text);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);
 
         if (player == null || !player.Data.IsDead)
             // Logger<TownOfUsPlugin>.Message($"AssignRoleOnDeathPatch - !player.Data.IsDead: '{!player.Data.IsDead}'");
@@ -959,17 +871,7 @@ public static class TouRoleManagerPatches
     public static bool TryAssignSpecialGhostRolesPatch(RoleManager __instance, PlayerControl player)
     {
         var text = $"TryAssignSpecialGhostRolesPatch - Player: '{player.Data.PlayerName}'";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Warning(text);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Warning,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);
 
         var ghostRole = RoleTypes.CrewmateGhost;
 

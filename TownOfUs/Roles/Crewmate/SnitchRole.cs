@@ -179,17 +179,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var textlog = $"Snitch Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Error(textlog);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
     }
 
     public static bool IsTargetOfSnitch(PlayerControl player)

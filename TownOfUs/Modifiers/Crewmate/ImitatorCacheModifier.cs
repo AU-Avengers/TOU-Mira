@@ -51,17 +51,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
         if (!Player.IsCrewmate())
         {
             var text = "Removed Imitator Cache Modifier On Meeting Start";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Error(text);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
 
             ModifierComponent?.RemoveModifier(this);
             return;
@@ -181,17 +171,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
         if (!Player.IsCrewmate())
         {
             var text = "Removed Imitator Cache Modifier On Attempt To Update Role";
-            if (MiscUtils.CanSeeAdvancedLogs)
-            {
-                Logger<TownOfUsPlugin>.Error(text);
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-            }
-            else if (MiscUtils.CanSeePostGameLogs)
-            {
-                TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                    $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-            }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
 
             ModifierComponent?.RemoveModifier(this);
             return;

@@ -61,6 +61,7 @@ public static class TownOfUsEventHandlers
         Debug,
         Message
     }
+
     public static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
     internal static TextMeshPro ModifierText;
 
@@ -270,16 +271,8 @@ public static class TownOfUsEventHandlers
         var text =
             $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
 
-        if (!MiscUtils.CanSeeAdvancedLogs)
-        {
-            if (MiscUtils.CanSeePostGameLogs)
-            {
-                LogBuffer.Add(new(LogLevel.Error, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-            }
-            return;
-        }
-        Logger<TownOfUsPlugin>.Error(text);
-        LogBuffer.Add(new(LogLevel.Error, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+
+        MiscUtils.LogInfo(LogLevel.Error, text);
     }
 
     [RegisterEvent(-100)]
@@ -289,16 +282,8 @@ public static class TownOfUsEventHandlers
         var victim = @event.Target;
         var text =
             $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
-        if (!MiscUtils.CanSeeAdvancedLogs)
-        {
-            if (MiscUtils.CanSeePostGameLogs)
-            {
-                LogBuffer.Add(new(LogLevel.Error, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
-            }
-            return;
-        }
-        Logger<TownOfUsPlugin>.Error(text);
-        LogBuffer.Add(new(LogLevel.Error, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+
+        MiscUtils.LogInfo(LogLevel.Error, text);
     }
 
     [RegisterEvent]
@@ -681,6 +666,7 @@ public static class TownOfUsEventHandlers
         {
             yield break;
         }
+
         var fakeDictionary = new Dictionary<byte, string>();
         byte specByte = 0;
         foreach (var name in SpectatorRole.TrackedSpectators)
@@ -801,13 +787,14 @@ public static class TownOfUsEventHandlers
             {
                 MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
             }
+
             var targetVoteAreaEarly = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
 
             if (!targetVoteAreaEarly)
             {
                 return;
             }
-            
+
             targetVoteAreaEarly.AmDead = true;
             targetVoteAreaEarly.Overlay.gameObject.SetActive(true);
             targetVoteAreaEarly.XMark.gameObject.SetActive(true);

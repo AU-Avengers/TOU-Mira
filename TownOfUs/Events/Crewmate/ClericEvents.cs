@@ -80,6 +80,7 @@ public static class ClericEvents
             return false;
         }
 
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a cleric barrier, stopping an interaction from {source.Data.PlayerName}!");
         @event.Cancel();
 
         var cleric = target.GetModifier<ClericBarrierModifier>()?.Cleric.GetRole<ClericRole>();

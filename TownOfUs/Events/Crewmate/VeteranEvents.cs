@@ -113,6 +113,7 @@ public static class VeteranEvents
             {
                 target.RpcCustomMurder(source);
             }
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a veteran alert, attacking {source.Data.PlayerName}!");
         }
     }
 }

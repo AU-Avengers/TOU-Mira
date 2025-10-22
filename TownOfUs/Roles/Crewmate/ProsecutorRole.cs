@@ -167,6 +167,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public void Cleanup()
     {
+        HideProsButton = false;
         ProsecuteButton = null;
         SelectingProsecuteVictim = false;
         ProsecuteVictim = byte.MaxValue;

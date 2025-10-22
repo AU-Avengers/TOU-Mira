@@ -57,17 +57,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         }
 
         var textlog = $"Setup PhantomTouRole: '{Player.Data.PlayerName}'";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Error(textlog);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
         Player.gameObject.layer = LayerMask.NameToLayer("Players");
 
@@ -104,8 +94,6 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
             Player.MyPhysics.ResetMoveState();
 
             Faded = false;
-
-            // if (MiscUtils.CanSeeAdvancedLogs) Logger<TownOfUsPlugin>.Message($"PhantomTouRole.FadeUpdate UnFaded");
         }
     }
 
@@ -122,17 +110,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
     public void Clicked()
     {
         var textlog = $"Clicked PhantomTouRole: '{Player.Data.PlayerName}'";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Message(textlog);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Message,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Message,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Message, textlog);
 
         Caught = true;
         Player.Exiled();
@@ -299,17 +277,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         }
 
         var textlog = $"Phantom Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
-        if (MiscUtils.CanSeeAdvancedLogs)
-        {
-            Logger<TownOfUsPlugin>.Error(textlog);
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
-        else if (MiscUtils.CanSeePostGameLogs)
-        {
-            TownOfUsEventHandlers.LogBuffer.Add(new(TownOfUsEventHandlers.LogLevel.Error,
-                $"At {DateTime.UtcNow.ToLongTimeString()} -> " + textlog));
-        }
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
         if (OptionGroupSingleton<PhantomOptions>.Instance.PhantomWin is not PhantomWinOptions.Spooks ||
             !CompletedAllTasks)
