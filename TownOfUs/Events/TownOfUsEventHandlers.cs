@@ -62,7 +62,8 @@ public static class TownOfUsEventHandlers
         Message
     }
 
-    public static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
+    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
+
     internal static TextMeshPro ModifierText;
 
     public static void RunModChecks()
