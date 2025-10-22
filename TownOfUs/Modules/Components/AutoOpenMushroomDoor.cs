@@ -8,12 +8,12 @@ namespace TownOfUs.Modules.Components;
 [RegisterInIl2Cpp]
 public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
 {
-    public override bool DoUpdate(float deltaTime)
+    public override bool DoUpdate(float dt)
     {
-        CooldownTimer = Math.Max(CooldownTimer - deltaTime, 0f);
+        CooldownTimer = Math.Max(CooldownTimer - dt, 0f);
         if (ClosedTimer > 0f)
         {
-            ClosedTimer = Math.Max(ClosedTimer - deltaTime, 0f);
+            ClosedTimer = Math.Max(ClosedTimer - dt, 0f);
             if (ClosedTimer == 0f)
             {
                 SetDoorway(true);
@@ -37,13 +37,6 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
 		{
 			return open;
 		}
-	}
-
-	private void Start()
-	{
-		allowAudio = false;
-		SetDoorway(true);
-		allowAudio = true;
 	}
 
     private void SoundDynamics(AudioSource source)
@@ -91,7 +84,7 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
 		}
 		if (open)
 		{
-			if (Constants.ShouldPlaySfx() && allowAudio)
+			if (Constants.ShouldPlaySfx()/* && allowAudio*/)
 			{
                 var audio = SoundManager.Instance.PlaySound(openSound, false, 1,
                     SoundManager.Instance.SfxChannel);
@@ -100,7 +93,7 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
 			VibrationManager.Vibrate(2.5f, base.transform.position, 3f, 0f, VibrationManager.VibrationFalloff.None, openSound, false);
 			return;
 		}
-		if (Constants.ShouldPlaySfx() && allowAudio)
+		if (Constants.ShouldPlaySfx()/* && allowAudio*/)
 		{
             var audio = SoundManager.Instance.PlaySound(closeSound, false, 1,
                 SoundManager.Instance.SfxChannel);
@@ -153,5 +146,5 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
 
 	private bool open;
 
-	private bool allowAudio;
+	// private bool allowAudio;
 }

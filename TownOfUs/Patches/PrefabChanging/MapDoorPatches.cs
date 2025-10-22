@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.GameOptions;
 using PowerTools;
 using TownOfUs.Modules;
@@ -11,6 +12,19 @@ namespace TownOfUs.Patches.PrefabChanging;
 [HarmonyPatch]
 public static class MapDoorPatches
 {
+
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowSabotageMap))]
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowCountOverlay))]
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
+    [HarmonyPostfix]
+    public static void OverlayShowPatch(MapBehaviour __instance)
+    {
+        if (!ShipStatus.Instance.Systems.ContainsKey(SystemTypes.Doors) && __instance.infectedOverlay.allButtons.Any(x => x.gameObject.name == "closeDoors"))
+        {
+            __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "closeDoors", x => x.gameObject.Destroy());
+        }
+    }
+
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.OnEnable))]
     [HarmonyPostfix]
     public static void SkeldDoorPatchPostfix(ShipStatus __instance)
@@ -20,14 +34,23 @@ public static class MapDoorPatches
         {
             doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
         }
+
         if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
         {
             return;
         }
 
+
         var doorMinigame = PrefabLoader.Polus.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+        var doors = __instance.GetComponentsInChildren<AutoOpenDoor>().Select(x => x.gameObject).ToArray();
         switch (doorType)
         {
+            case MapDoorType.None:
+                doors.Do(x => x.Destroy());
+
+                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.Systems.Remove(SystemTypes.Doors);
+                return;
             case MapDoorType.Airship:
                 doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
@@ -36,9 +59,6 @@ public static class MapDoorPatches
                 break;
         }
 
-        var doors = __instance.GetComponentsInChildren<AutoOpenDoor>().Select(x => x.gameObject).ToArray();
-
-        // var skeldDoors = new Il2CppReferenceArray<OpenableDoor>(doors.Length);
         foreach (var door in doors)
         {
             var autoDoor = door.GetComponent<AutoOpenDoor>();
@@ -58,12 +78,9 @@ public static class MapDoorPatches
             plainDoor.SetDoorway(autoDoor.Open);
             plainDoor.Room = autoDoor.Room;
             consoleDoor.MinigamePrefab = doorMinigame;
-            // autoDoor.Destroy();
-            // skeldDoors.Add(plainDoor);
         }
 
         __instance.Systems.Remove(SystemTypes.Doors);
-        //__instance.AllDoors = _skeldDoors;
         __instance.Systems.Add(SystemTypes.Doors, new DoorsSystemType().TryCast<ISystemType>());
     }
 
@@ -76,17 +93,24 @@ public static class MapDoorPatches
         {
             doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
         }
+
         if (doorType is MapDoorType.Polus || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
         {
             return;
         }
 
         var doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+        var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
+        var doorList = __instance.AllDoors.ToList();
         switch (doorType)
         {
+            case MapDoorType.None:
+                doors.Do(x => x.Destroy());
+
+                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.Systems.Remove(SystemTypes.Doors);
+                return;
             case MapDoorType.Skeld:
-                var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
-                var skeldDoors = __instance.AllDoors.ToList();
                 foreach (var door in doors)
                 {
                     var autoDoor = door.AddComponent<AutoOpenDoor>();
@@ -104,7 +128,7 @@ public static class MapDoorPatches
                     var size = plainDoor.size;
                     var room = plainDoor.Room;
 
-                    skeldDoors.Remove(plainDoor);
+                    doorList.Remove(plainDoor);
                     plainDoor.Destroy();
 
                     autoDoor.animator = animator;
@@ -120,12 +144,12 @@ public static class MapDoorPatches
                     autoDoor.SetDoorway(plainDoor.Open);
                     autoDoor.Room = plainDoor.Room;
 
-                    skeldDoors.Add(autoDoor);
+                    doorList.Add(autoDoor);
 
                     consoleDoor.Destroy();
                 }
 
-                __instance.AllDoors = skeldDoors.ToArray();
+                __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
                 __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
 
@@ -150,17 +174,24 @@ public static class MapDoorPatches
         {
             doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
         }
+
         if (doorType is MapDoorType.Airship || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
         {
             return;
         }
 
         var doorMinigame = PrefabLoader.Polus.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+        var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
+        var doorList = __instance.AllDoors.ToList();
         switch (doorType)
         {
+            case MapDoorType.None:
+                doors.Do(x => x.Destroy());
+
+                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.Systems.Remove(SystemTypes.Doors);
+                return;
             case MapDoorType.Skeld:
-                var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
-                var skeldDoors = __instance.AllDoors.ToList();
                 foreach (var door in doors)
                 {
                     var autoDoor = door.AddComponent<AutoOpenDoor>();
@@ -178,7 +209,7 @@ public static class MapDoorPatches
                     var size = plainDoor.size;
                     var room = plainDoor.Room;
 
-                    skeldDoors.Remove(plainDoor);
+                    doorList.Remove(plainDoor);
                     plainDoor.Destroy();
 
                     autoDoor.animator = animator;
@@ -194,12 +225,12 @@ public static class MapDoorPatches
                     autoDoor.SetDoorway(plainDoor.Open);
                     autoDoor.Room = plainDoor.Room;
 
-                    skeldDoors.Add(autoDoor);
+                    doorList.Add(autoDoor);
 
                     consoleDoor.Destroy();
                 }
 
-                __instance.AllDoors = skeldDoors.ToArray();
+                __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
                 __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
 
@@ -224,18 +255,24 @@ public static class MapDoorPatches
         {
             doorType = RandomDoorMapOptions.GetRandomDoorType(doorType);
         }
+
         if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
         {
             return;
         }
 
         var doorMinigame = PrefabLoader.Polus.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+        var doors = __instance.GetComponentsInChildren<MushroomWallDoor>().Select(x => x.gameObject).ToArray();
+        var doorList = __instance.AllDoors.ToList();
         switch (doorType)
         {
-            // TODO: Fix Skeld doors on fungle, they error out entirely on update and will likely require a component replacement
+            case MapDoorType.None:
+                doors.Do(x => x.Destroy());
+
+                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.Systems.Remove(SystemTypes.Doors);
+                return;
             case MapDoorType.Skeld:
-                var doors = __instance.GetComponentsInChildren<MushroomWallDoor>().Select(x => x.gameObject).ToArray();
-                var skeldDoors = __instance.AllDoors.ToList();
                 foreach (var door in doors)
                 {
                     var plainDoor = door.GetComponent<MushroomWallDoor>();
@@ -250,7 +287,7 @@ public static class MapDoorPatches
                     var id = plainDoor.Id;
                     var room = plainDoor.Room;
 
-                    skeldDoors.Remove(plainDoor);
+                    doorList.Remove(plainDoor);
                     plainDoor.Destroy();
 
                     var autoDoor = door.AddComponent<AutoOpenMushroomDoor>();
@@ -265,12 +302,12 @@ public static class MapDoorPatches
                     autoDoor.Room = room;
                     autoDoor.SetDoorway(true);
 
-                    skeldDoors.Add(autoDoor);
+                    doorList.Add(autoDoor);
 
                     consoleDoor.Destroy();
                 }
 
-                __instance.AllDoors = skeldDoors.ToArray();
+                __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
                 __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
 
