@@ -98,11 +98,11 @@ public sealed class RandomDoorMapOptions : AbstractOptionGroup
 
 public enum MapDoorType
 {
-    Random, // This is used when the door chance is applicable
     Skeld,
     Polus,
     Airship,
     Fungle,
     Submerged, // This is just cause it would be cool to implement, if submerged isn't installed, it will autoset to the default
     None, // Disables all doors, like Mira HQ
+    Random, // This is used when the door chance is applicable
 }

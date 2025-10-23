@@ -118,29 +118,33 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
             text = TouLocale.GetParsed("TouRoleMirrorcasterAlreadyDiedNotif");
         }
 
-        if (Role.Protected != null && Role.Protected.HasDied())
+        // Incase the player changed roles
+        if (PlayerControl.LocalPlayer.Data.Role is MirrorcasterRole)
         {
-            text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDiedNotif");
-        }
-        else if (Role.Protected != null && !Role.Protected.HasDied())
-        {
-            text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDidNotDieNotif");
-        }
+            if (Role.Protected != null && Role.Protected.HasDied())
+            {
+                text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDiedNotif");
+            }
+            else if (Role.Protected != null && !Role.Protected.HasDied())
+            {
+                text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDidNotDieNotif");
+            }
 
-        if (text.Contains("<player>") && Role.Protected != null)
-        {
-            text = text.Replace("<player>", Role.Protected.Data.PlayerName);
-        }
+            if (text.Contains("<player>") && Role.Protected != null)
+            {
+                text = text.Replace("<player>", Role.Protected.Data.PlayerName);
+            }
 
-        if (text != string.Empty && MeetingHud.Instance == null)
-        {
-            var notif1 = Helpers.CreateAndShowNotification(text,
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
-            notif1.AdjustNotification();
+            if (text != string.Empty && MeetingHud.Instance == null)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(text,
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
+                notif1.AdjustNotification();
+            }
+            MirrorcasterRole.RpcClearMagicMirror(PlayerControl.LocalPlayer);
         }
 
         TargetWasValid = false;
-        MirrorcasterRole.RpcClearMagicMirror(PlayerControl.LocalPlayer);
         OverrideName(TouLocale.Get("TouRoleMirrorcasterMagicMirror", "Magic Mirror"));
     }
 }

@@ -78,7 +78,8 @@ public enum TownOfUsRpc : uint
     RemoveSpectator,
     SetSpectatorList,
     CookBody,
-    ServeBody
+    ServeBody,
+    SetRandomDoors,
 }
 
 internal enum TownOfUsInternalRpc : uint
