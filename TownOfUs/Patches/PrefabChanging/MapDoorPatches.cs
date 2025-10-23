@@ -20,9 +20,17 @@ public static class MapDoorPatches
     [HarmonyPostfix]
     public static void OverlayShowPatch(MapBehaviour __instance)
     {
-        if (!ShipStatus.Instance.Systems.ContainsKey(SystemTypes.Doors) && __instance.infectedOverlay.allButtons.Any(x => x.gameObject.name == "closeDoors"))
+        if (!ShipStatus.Instance.Systems.ContainsKey(SystemTypes.Doors))
         {
-            __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "closeDoors", x => x.gameObject.Destroy());
+            if (__instance.infectedOverlay.allButtons.Any(x => x.gameObject.name == "closeDoors"))
+            {
+                __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "closeDoors", x => x.gameObject.Destroy());
+            }
+
+            if (__instance.infectedOverlay.allButtons.Any(x => x.gameObject.name == "Doors"))
+            {
+                __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "Doors", x => x.gameObject.Destroy());
+            }
         }
     }
 
@@ -48,7 +56,6 @@ public static class MapDoorPatches
             return;
         }
 
-
         var doorMinigame = PrefabLoader.Polus.GetComponentInChildren<DoorConsole>().MinigamePrefab;
         var doors = __instance.GetComponentsInChildren<AutoOpenDoor>().Select(x => x.gameObject).ToArray();
         switch (doorType)
@@ -66,28 +73,52 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
+        var doorList = new List<OpenableDoor>();
 
         foreach (var door in doors)
         {
             var autoDoor = door.GetComponent<AutoOpenDoor>();
             var plainDoor = door.AddComponent<PlainDoor>();
             var consoleDoor = door.AddComponent<DoorConsole>();
-            plainDoor.animator = door.GetComponent<SpriteAnim>();
-            plainDoor.CloseDoorAnim = autoDoor.CloseDoorAnim;
-            plainDoor.CloseSound = autoDoor.CloseSound;
-            plainDoor.myCollider = autoDoor.myCollider;
-            plainDoor.OpenDoorAnim = autoDoor.OpenDoorAnim;
-            plainDoor.OpenSound = autoDoor.OpenSound;
-            plainDoor.shadowCollider = autoDoor.shadowCollider;
-            plainDoor.Id = autoDoor.Id;
-            plainDoor.size = autoDoor.size;
-            plainDoor.Room = autoDoor.Room;
-            consoleDoor.MyDoor = autoDoor;
-            plainDoor.SetDoorway(autoDoor.Open);
-            plainDoor.Room = autoDoor.Room;
+            
+            var animator = door.GetComponent<SpriteAnim>();
+            var closeDoorAnim = autoDoor.CloseDoorAnim;
+            var closeSound = autoDoor.CloseSound;
+            var myCollider = autoDoor.myCollider;
+            var openDoorAnim = autoDoor.OpenDoorAnim;
+            var openSound = autoDoor.OpenSound;
+            var shadowCollider = autoDoor.shadowCollider;
+            var id = autoDoor.Id;
+            var size = autoDoor.size;
+            var room = autoDoor.Room;
+
+            autoDoor.Destroy();
+
+            plainDoor.animator = animator;
+            plainDoor.CloseDoorAnim = closeDoorAnim;
+            plainDoor.CloseSound = closeSound;
+            plainDoor.myCollider = myCollider;
+            plainDoor.OpenDoorAnim = openDoorAnim;
+            plainDoor.OpenSound = openSound;
+            plainDoor.shadowCollider = shadowCollider;
+            plainDoor.Id = id;
+            plainDoor.size = size;
+            plainDoor.Room = room;
+            plainDoor.SetDoorway(plainDoor.Open);
             consoleDoor.MinigamePrefab = doorMinigame;
+            consoleDoor.MyDoor = plainDoor;
+            
+            var vector = plainDoor.myCollider.size;
+            plainDoor.size = ((vector.x > vector.y) ? vector.y : vector.x);
+            plainDoor.Open = plainDoor.myCollider.isTrigger;
+            plainDoor.animator.Play(plainDoor.Open ? plainDoor.OpenDoorAnim : plainDoor.CloseDoorAnim, 1000f);
+            plainDoor.UpdateShadow();
+
+            doorList.Add(plainDoor);
+            autoDoor.Destroy();
         }
 
+        __instance.AllDoors = doorList.ToArray();
         __instance.Systems.Remove(SystemTypes.Doors);
         __instance.Systems.Add(SystemTypes.Doors, new DoorsSystemType().TryCast<ISystemType>());
     }
