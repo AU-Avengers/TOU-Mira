@@ -17,9 +17,9 @@ public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, Pla
     public override float Cooldown => 0.001f + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.BribeSprite;
 
-    public override bool Enabled(RoleBehaviour? role)
+    public override bool CanUse()
     {
-        return base.Enabled(role) && role is MercenaryRole && !PlayerControl.LocalPlayer.Data.IsDead && Role.CanBribe;
+        return base.CanUse() && Role.CanBribe;
     }
 
     protected override void OnClick()
