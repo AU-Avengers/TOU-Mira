@@ -12,6 +12,17 @@ public sealed class GeneralOptions : AbstractOptionGroup
     public override string GroupName => "General";
     public override uint GroupPriority => 1;
 
+    // Legacy Compatibility, this allows mods like ChaosTokens to still use this value as normal.
+    
+#pragma warning disable S2325 // Make 'TheDeadKnow' a static property.
+    
+#pragma warning disable CA1822 // Member 'TheDeadKnow' does not access instance data and can be marked as static
+    public bool TheDeadKnow => OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow.Value;
+    
+#pragma warning restore CA1822 // Member 'TheDeadKnow' does not access instance data and can be marked as static
+    
+#pragma warning restore S2325 // Make 'TheDeadKnow' a static property.
+
     public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryone, typeof(LoggingLevel),
         ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"])
     {
@@ -39,9 +50,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Vampires Get A Private Meeting Chat")]
     public bool VampireChat { get; set; } = true;
-
-    [ModdedToggleOption("The Dead Know Everything")]
-    public bool TheDeadKnow { get; set; } = true;
 
     public ModdedToggleOption EnableSpectators { get; set; } = new("Allow More Spectators", true)
     {

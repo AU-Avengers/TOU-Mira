@@ -30,7 +30,7 @@ public static class LocalSettings
             return;
         }
 
-        if (!OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
+        if (!OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow)
         {
             return;
         }

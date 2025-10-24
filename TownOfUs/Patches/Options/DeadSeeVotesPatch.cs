@@ -26,7 +26,7 @@ public static class DeadSeeVoteColorsPatch
             PlayerMaterial.SetColors(Palette.DisabledGrey, spriteRenderer);
         }
         else if (GameOptionsManager.Instance.currentNormalGameOptions.AnonymousVotes &&
-                 (!OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow || !PlayerControl.LocalPlayer.Data.IsDead))
+                 (!OptionGroupSingleton<PostmortemOptions>.Instance.DeadSeeVotes || !PlayerControl.LocalPlayer.Data.IsDead))
         {
             PlayerMaterial.SetColors(Palette.DisabledGrey, spriteRenderer);
         }

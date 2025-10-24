@@ -28,14 +28,18 @@ public static class HauntMenuMinigamePatch
             return;
         }
 
-        if (!TutorialManager.InstanceExists && !PlayerControl.LocalPlayer.DiedOtherRound() &&
-            PlayerControl.LocalPlayer.Data.Role is not SpectatorRole)
+        var hauntMode = (GhostMode)OptionGroupSingleton<PostmortemOptions>.Instance.DeadCanHaunt.Value;
+        var canHaunt = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.Data.Role is SpectatorRole ||
+                       hauntMode is GhostMode.Always || (PlayerControl.LocalPlayer.DiedOtherRound() &&
+                                                         hauntMode is GhostMode.DisabledUponDeath);
+
+        if (!canHaunt)
         {
             __instance.Close();
             __instance.NameText.text = string.Empty;
             __instance.FilterText.text = string.Empty;
 
-            var text = "You must wait until next round to haunt!";
+            var text = (hauntMode is GhostMode.Disabled) ? "Haunting was disabled by the host!" : "You must wait until next round to haunt!";
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectator.LoadAsset());
 
@@ -82,7 +86,7 @@ public static class HauntMenuMinigamePatch
 
         var rColor = role is ICustomRole custom ? custom.RoleColor : role.TeamColor;
 
-        if (!OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow && !TutorialManager.InstanceExists)
+        if (!OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow && !TutorialManager.InstanceExists)
         {
             if (role.IsNeutral())
             {

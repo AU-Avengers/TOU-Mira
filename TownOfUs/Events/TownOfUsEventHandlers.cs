@@ -503,7 +503,10 @@ public static class TownOfUsEventHandlers
             if (!MeetingHud.Instance)
             {
                 HudManager.Instance.SetHudActive(true);
-                HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
+                if (OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton)
+                {
+                    HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
+                }
             }
         }
 

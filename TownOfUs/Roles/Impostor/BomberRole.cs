@@ -88,7 +88,7 @@ public sealed class BomberRole(IntPtr cppPtr)
             Coroutines.Start(Bomb.BombShowTeammate(player, position));
         }
         else if ((PlayerControl.LocalPlayer.DiedOtherRound() &&
-                  OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+                  OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             Coroutines.Start(Bomb.BombShowTeammate(player, position));
         }

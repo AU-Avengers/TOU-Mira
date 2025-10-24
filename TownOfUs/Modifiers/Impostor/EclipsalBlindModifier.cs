@@ -34,7 +34,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
         VisionPerc = 1f;
 
         if (PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
-                                                       OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+                                                       OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
         }
@@ -84,7 +84,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
 
         EclipseBack?.SetActive(false);
         if ((PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
-                                                        OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)) &&
+                                                        OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow)) &&
             EclipseBack?.gameObject != null)
         {
             var visible = true;
@@ -108,7 +108,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
         VisionPerc = 1f;
 
         if (PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
-                                                       OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+                                                       OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
         }

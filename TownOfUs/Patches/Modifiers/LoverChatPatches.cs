@@ -53,7 +53,7 @@ public static class LoverChatPatches
     public static void RpcSendLoveChat(PlayerControl player, string text)
     {
         if ((PlayerControl.LocalPlayer.IsLover() && player != PlayerControl.LocalPlayer) ||
-            (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+            (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             LoverMessage = true;
             if (player != PlayerControl.LocalPlayer)
