@@ -7,6 +7,7 @@ using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Components;
@@ -277,7 +278,7 @@ public static class ModCompatibility
 
     public static void ResetTimers()
     {
-        // Utils.ResetCustomTimers();
+        ButtonResetPatches.ResetCooldowns();
     }
 
     public static void GhostRoleBegin()
