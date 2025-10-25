@@ -13,7 +13,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     public override string GroupName => "Better Submerged";
     public override uint GroupPriority => 8;
     public override Func<bool> GroupVisible => () => ModCompatibility.SubLoaded;
-    public override Color GroupColor => new Color32(50, 100, 255, 255);
+    public override Color GroupColor => new Color32(10, 150, 255, 255);
 
     [ModdedNumberOption("Speed Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float SpeedMultiplier { get; set; } = 1f;

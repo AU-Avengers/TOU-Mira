@@ -8,6 +8,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
@@ -107,6 +108,11 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
+            var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent;
+            var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
+            var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(ignite, !canVent));
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ArsoVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Arsonist);
         }

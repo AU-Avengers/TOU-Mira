@@ -60,6 +60,7 @@ public static class ModCompatibility
     public static Assembly SubAssembly { get; private set; }
     public static Type[] SubTypes { get; private set; }
     public static Dictionary<string, Type> SubInjectedTypes { get; private set; }
+    public static GameObject SubmergedDoorMinigame { get; private set; }
 
     public static TaskTypes RetrieveOxygenMask { get; private set; }
 
@@ -106,10 +107,11 @@ public static class ModCompatibility
         var submarineStatusType = SubTypes.First(t => t.Name == "SubmarineStatus");
         submergedInstance = AccessTools.Field(submarineStatusType, "instance");
         submergedElevators = AccessTools.Field(submarineStatusType, "elevators");
+        SubmergedDoorMinigame = Il2CppType.From(SubTypes.First(t => t.Name == "OpenDoorsMinigame")).TryCast<GameObject>()!;
 
         var floorHandler = SubTypes.First(t => t.Name == "FloorHandler");
         getFloorHandler = AccessTools.Method(floorHandler, "GetFloorHandler", [typeof(PlayerControl)]);
-        rpcRequestChangeFloor = AccessTools.Method(floorHandler, "RpcRequestChangeFloor");
+        rpcRequestChangeFloor = AccessTools.Method(floorHandler, "RpcRequestChangeFloor", [typeof(bool)]);
         registerFloorOverride = AccessTools.Method(floorHandler, "RegisterFloorOverride");
 
         var ventPatchData = SubTypes.First(t => t.Name == "VentPatchData");

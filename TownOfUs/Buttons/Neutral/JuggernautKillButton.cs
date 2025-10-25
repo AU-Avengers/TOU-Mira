@@ -19,6 +19,12 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.JuggKillSprite;
     public override float Cooldown => GetCooldown();
 
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
+    }
+
     public static float BaseCooldown => OptionGroupSingleton<JuggernautOptions>.Instance.KillCooldown + MapCooldown;
 
     public void SetDiseasedTimer(float multiplier)

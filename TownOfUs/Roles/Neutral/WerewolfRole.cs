@@ -2,9 +2,12 @@
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -82,6 +85,11 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
+            var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent;
+            var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
+            var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.WerewolfVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Werewolf);
         }

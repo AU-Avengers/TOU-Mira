@@ -19,6 +19,12 @@ public sealed class PestilenceKillButton : TownOfUsRoleButton<PestilenceRole, Pl
     public override float Cooldown => OptionGroupSingleton<PlaguebearerOptions>.Instance.PestKillCooldown;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.PestKillSprite;
 
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
+    }
+
     public void SetDiseasedTimer(float multiplier)
     {
         SetTimer(Cooldown * multiplier);

@@ -95,7 +95,7 @@ public static class LogicGameFlowPatches
                 continue;
             }
 
-            if ((GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks || !playerInfo.IsDead) &&
+            if ((!playerInfo.IsDead || GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks) &&
                 !playerInfo._object.IsImpostor() &&
                 !(
                     (playerInfo._object.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks)

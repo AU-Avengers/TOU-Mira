@@ -9,6 +9,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
@@ -1823,6 +1824,34 @@ public static class MiscUtils
                 break;
         }
         TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+    }
+
+
+    /// <summary>
+    ///     A Coroutine to be used for adjusting custom buttons to be ahead or behind the vent button.
+    /// </summary>
+    /// <param name="button">The custom button to move.</param>
+    /// <param name="beforeVent">Determines whether the button appears before the vent button, as it is normally the very last button in the list.</param>
+    public static IEnumerator CoMoveButtonIndex(CustomActionButton button, bool beforeVent = true)
+    {
+        yield return new WaitForEndOfFrame();
+        if (button.Button == null)
+        {
+            yield break;
+        }
+        var bottomLeft = MiraAPI.Patches.HudManagerPatches.BottomLeft!;
+        var bottomRight = MiraAPI.Patches.HudManagerPatches.BottomRight;
+        var location = button.Location switch
+        {
+            ButtonLocation.BottomLeft => bottomLeft.transform,
+            ButtonLocation.BottomRight => bottomRight,
+            _ => null,
+        };
+        button.Button.transform.SetParent(null);
+        button.Button.transform.SetParent(location);
+
+        var index = HudManager.Instance.ImpostorVentButton.transform.GetSiblingIndex();
+        button.Button.transform.SetSiblingIndex(index + (beforeVent ? -1 : 1));
     }
 }
 public enum ExpandedMapNames

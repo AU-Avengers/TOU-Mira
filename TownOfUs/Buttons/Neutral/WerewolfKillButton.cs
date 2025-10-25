@@ -24,9 +24,9 @@ public sealed class WerewolfKillButton : TownOfUsRoleButton<WerewolfRole, Player
         SetTimer(Cooldown * multiplier);
     }
 
-    public override bool Enabled(RoleBehaviour? role)
+    public override bool CanUse()
     {
-        return role is WerewolfRole { Rampaging: true };
+        return base.CanUse() && Role.Rampaging;
     }
 
     protected override void OnClick()

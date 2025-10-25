@@ -6,6 +6,7 @@ using TownOfUs.Modules;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.PrefabChanging;
 
@@ -38,6 +39,10 @@ public static class MapDoorPatches
     [HarmonyPostfix]
     public static void SkeldDoorPatchPostfix(ShipStatus __instance)
     {
+        if (MiscUtils.GetCurrentMap != ExpandedMapNames.Skeld && MiscUtils.GetCurrentMap != ExpandedMapNames.Dleks)
+        {
+            return;
+        }
         var doorType = (MapDoorType)OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value;
         if (doorType is MapDoorType.Random)
         {
@@ -71,6 +76,9 @@ public static class MapDoorPatches
                 break;
             case MapDoorType.Fungle:
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                break;
+            case MapDoorType.Submerged:
+                doorMinigame = ModCompatibility.SubmergedDoorMinigame.GetComponent<Minigame>();
                 break;
         }
         var doorList = new List<OpenableDoor>();
@@ -203,6 +211,9 @@ public static class MapDoorPatches
             case MapDoorType.Fungle:
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
+            case MapDoorType.Submerged:
+                doorMinigame = ModCompatibility.SubmergedDoorMinigame.GetComponent<Minigame>();
+                break;
         }
 
         foreach (var door in __instance.GetComponentsInChildren<DoorConsole>())
@@ -291,6 +302,9 @@ public static class MapDoorPatches
             case MapDoorType.Fungle:
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
+            case MapDoorType.Submerged:
+                doorMinigame = ModCompatibility.SubmergedDoorMinigame.GetComponent<Minigame>();
+                break;
         }
 
         foreach (var door in __instance.GetComponentsInChildren<DoorConsole>())
@@ -374,6 +388,105 @@ public static class MapDoorPatches
                 return;
             case MapDoorType.Airship:
                 doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                break;
+            case MapDoorType.Submerged:
+                doorMinigame = ModCompatibility.SubmergedDoorMinigame.GetComponent<Minigame>();
+                break;
+        }
+
+        foreach (var door in __instance.GetComponentsInChildren<DoorConsole>())
+        {
+            door.MinigamePrefab = doorMinigame;
+        }
+    }
+
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.OnEnable))]
+    [HarmonyPostfix]
+    public static void SubmergedDoorPatchPostfix(ShipStatus __instance)
+    {
+        if (!ModCompatibility.SubLoaded || MiscUtils.GetCurrentMap != ExpandedMapNames.Submerged)
+        {
+            return;
+        }
+
+        var doorType = (MapDoorType)OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType.Value;
+        if (doorType is MapDoorType.Random)
+        {
+            if (TutorialManager.InstanceExists)
+            {
+                doorType = RandomDoorMapOptions.GetRandomDoorType(MapDoorType.Submerged);
+            }
+            else
+            {
+                doorType = RandomDoorType;
+            }
+        }
+
+        if (doorType is MapDoorType.Submerged)
+        {
+            return;
+        }
+
+        var doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+        var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
+        var doorList = __instance.AllDoors.ToList();
+        switch (doorType)
+        {
+            case MapDoorType.None:
+                doors.Do(x => x.Destroy());
+
+                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.Systems.Remove(SystemTypes.Doors);
+                return;
+            case MapDoorType.Skeld:
+                foreach (var door in doors)
+                {
+                    var autoDoor = door.AddComponent<AutoOpenDoor>();
+                    var plainDoor = door.GetComponent<PlainDoor>();
+                    var consoleDoor = door.GetComponent<DoorConsole>();
+
+                    var animator = door.GetComponent<SpriteAnim>();
+                    var closeDoorAnim = plainDoor.CloseDoorAnim;
+                    var closeSound = plainDoor.CloseSound;
+                    var myCollider = plainDoor.myCollider;
+                    var openDoorAnim = plainDoor.OpenDoorAnim;
+                    var openSound = plainDoor.OpenSound;
+                    var shadowCollider = plainDoor.shadowCollider;
+                    var id = plainDoor.Id;
+                    var size = plainDoor.size;
+                    var room = plainDoor.Room;
+
+                    doorList.Remove(plainDoor);
+                    plainDoor.Destroy();
+
+                    autoDoor.animator = animator;
+                    autoDoor.CloseDoorAnim = closeDoorAnim;
+                    autoDoor.CloseSound = closeSound;
+                    autoDoor.myCollider = myCollider;
+                    autoDoor.OpenDoorAnim = openDoorAnim;
+                    autoDoor.OpenSound = openSound;
+                    autoDoor.shadowCollider = shadowCollider;
+                    autoDoor.Id = id;
+                    autoDoor.size = size;
+                    autoDoor.Room = room;
+                    autoDoor.SetDoorway(plainDoor.Open);
+                    autoDoor.Room = plainDoor.Room;
+
+                    doorList.Add(autoDoor);
+
+                    consoleDoor.Destroy();
+                }
+
+                __instance.AllDoors = doorList.ToArray();
+                __instance.Systems.Remove(SystemTypes.Doors);
+                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
+
+                return;
+            case MapDoorType.Polus:
+                doorMinigame = PrefabLoader.Polus.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                break;
+            case MapDoorType.Fungle:
+                doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 

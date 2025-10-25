@@ -6,6 +6,7 @@ namespace TownOfUs.Patches.AprilFools;
 public static class DleksMapOptionPickerPatches
 {
     [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.Initialize))]
+    [HarmonyPriority(Priority.First)]
     [HarmonyPrefix]
     public static void LobbyOptionsDleksPatch(GameOptionsMapPicker __instance)
     {
@@ -22,6 +23,7 @@ public static class DleksMapOptionPickerPatches
     }
     
     [HarmonyPatch(typeof(CreateGameMapPicker), nameof(CreateGameMapPicker.Initialize))]
+    [HarmonyPriority(Priority.First)]
     [HarmonyPrefix]
     public static void CreateGameDleksPatch(CreateGameMapPicker __instance)
     {
@@ -93,6 +95,7 @@ public static class DleksMapOptionPickerPatches
     }*/
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
+    [HarmonyPriority(Priority.First)]
     [HarmonyPrefix]
     public static void GameManagerDleksPatch(GameStartManager __instance)
     {

@@ -19,6 +19,12 @@ public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRo
     public override float Cooldown => OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ReapSprite;
 
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
+    }
+
     public void SetDiseasedTimer(float multiplier)
     {
         SetTimer(Cooldown * multiplier);

@@ -1,6 +1,7 @@
 using System.Collections;
 using HarmonyLib;
 using Reactor.Utilities;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Patches.PrefabChanging;
@@ -18,7 +19,7 @@ public class PrefabLoader
 
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.Awake))]
     [HarmonyPostfix]
-    [HarmonyPriority(Priority.Last)]
+    [HarmonyPriority(Priority.VeryLow)]
     public static void Postfix()
     {
         Coroutines.Start(LoadMaps());
@@ -29,6 +30,11 @@ public class PrefabLoader
         while (AmongUsClient.Instance == null)
         {
             yield return null;
+        }
+
+        if (ModCompatibility.SubLoaded)
+        {
+            yield return new WaitForSeconds(7.5f);
         }
 
         if (!Skeld)
