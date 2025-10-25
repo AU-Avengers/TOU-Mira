@@ -1,10 +1,8 @@
 using HarmonyLib;
 using Hazel;
 using MiraAPI.GameOptions;
-using MiraAPI.Roles;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Roles;
@@ -47,7 +45,7 @@ public static class SpellslingerSabotagePatches
     {
         if (!__instance.AmOwner) return true;
 
-        if (system == (SystemTypes)HexBombSabotageSystem.SabotageId && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
+        if (system == (SystemTypes)HexBombSabotageSystem.SabotageId)
         {
             var task = new GameObject("HexBombTask").AddComponent<HexBombSabotageTask>();
             task.gameObject.transform.SetParent(__instance.gameObject.transform);

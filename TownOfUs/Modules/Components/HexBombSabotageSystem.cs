@@ -15,7 +15,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
     public const byte SabotageId = 150;
     public readonly float duration;
 
-    public bool IsActive => (TimeRemaining > 0 || Stage == HexBombStage.Finished) && !InMeeting;
+    public bool IsActive => (TimeRemaining > 0 || Stage == HexBombStage.Finished);
     public static bool InMeeting => MeetingHud.Instance != null || ExileController.Instance != null;
     public bool IsDirty { get; private set; }
     public float TimeRemaining { get; private set; }
@@ -33,7 +33,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
     public static HexBombSabotageSystem Instance { get; private set; }
     public void Deteriorate(float deltaTime)
     {
-        if (!IsActive && !InMeeting)
+        if (!IsActive)
         {
             if (Stage != HexBombStage.None)
             {
@@ -42,6 +42,11 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 BombFinished = false;
             }
 
+            return;
+        }
+
+        if (InMeeting)
+        {
             return;
         }
 
