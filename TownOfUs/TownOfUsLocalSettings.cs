@@ -1,8 +1,12 @@
 using BepInEx.Configuration;
+using InnerNet;
+using MiraAPI.Hud;
 using MiraAPI.Utilities;
+using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.Patches;
+using TownOfUs.Roles;
 
 namespace TownOfUs;
 
@@ -40,6 +44,26 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
                 HudManagerPatches.ResizeUI(1f / slider.OldValue);
                 HudManagerPatches.ResizeUI(slider.GetValue());
             }
+        }
+        else if (configEntry == OffsetButtonsToggle)
+        {
+            if ((AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
+                 !TutorialManager.InstanceExists) || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
+                PlayerControl.LocalPlayer.Data.Role == null || !ShipStatus.Instance)
+            {
+                return;
+            }
+
+            var role = PlayerControl.LocalPlayer.Data.Role;
+
+            var fakeVent = CustomButtonSingleton<FakeVentButton>.Instance;
+            fakeVent.SetActive(fakeVent.Enabled(role), role);
+            if (role is not ITownOfUsRole touRole)
+            {
+                return;
+            }
+
+            touRole.OffsetButtons();
         }
     }
 

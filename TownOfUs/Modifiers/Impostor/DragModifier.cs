@@ -103,8 +103,7 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
 
         var targetPos = Player.transform.position;
         targetPos.z = targetPos.y / 1000f;
-
-
+        
         if (Player.inVent)
         {
             DeadBody.transform.position = targetPos;

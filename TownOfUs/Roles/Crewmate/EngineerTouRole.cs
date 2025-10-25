@@ -86,10 +86,9 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public static void EngineerFix(PlayerControl engineer)
     {
-        switch (GameOptionsManager.Instance.currentNormalGameOptions.MapId)
+        switch ((ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId)
         {
-            case 0:
-            case 3:
+            case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
                 var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
                 if (comms1.IsActive)
                 {
@@ -115,7 +114,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 1:
+            case ExpandedMapNames.MiraHq:
                 var comms2 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HqHudSystemType>();
                 if (comms2.IsActive)
                 {
@@ -141,7 +140,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 2:
+            case ExpandedMapNames.Polus:
                 var comms3 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
                 if (comms3.IsActive)
                 {
@@ -161,7 +160,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 4:
+            case ExpandedMapNames.Airship:
                 var comms4 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
                 if (comms4.IsActive)
                 {
@@ -181,7 +180,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 5:
+            case ExpandedMapNames.Fungle:
                 var reactor7 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
                 if (reactor7.IsActive)
                 {
@@ -202,7 +201,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 6:
+            case ExpandedMapNames.Submerged:
                 var reactor5 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
                 if (reactor5.IsActive)
                 {
@@ -230,7 +229,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 7:
+            case ExpandedMapNames.LevelImpostor:
                 var comms6 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
                 if (comms6.IsActive)
                 {
@@ -319,7 +318,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         }
         else if (type == 2)
         {
-            ModCompatibility.RepairOxygen();
+            ModCompatibility.RepairSubOxygen();
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, engineer);

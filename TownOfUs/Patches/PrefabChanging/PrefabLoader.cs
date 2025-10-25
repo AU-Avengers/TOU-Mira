@@ -1,7 +1,9 @@
 using System.Collections;
 using HarmonyLib;
+using Il2CppInterop.Runtime;
 using Reactor.Utilities;
 using TownOfUs.Modules;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.PrefabChanging;
@@ -16,6 +18,41 @@ public class PrefabLoader
     public static AirshipStatus Airship { get; private set; }
 
     public static FungleShipStatus Fungle { get; private set; }
+
+    public static ShipStatus? Submerged => SubmarineStatus as ShipStatus;
+    private static MonoBehaviour _submarineStatus;
+    public static MonoBehaviour SubmarineStatus
+    {
+        get
+        {
+            if (!ModCompatibility.SubLoaded) return null!;
+
+            if (_submarineStatus == null || _submarineStatus.WasCollected || !_submarineStatus || _submarineStatus == null)
+            {
+                if (ShipStatus.Instance is null || ShipStatus.Instance.WasCollected || !ShipStatus.Instance || ShipStatus.Instance == null)
+                {
+                    return _submarineStatus = null!;
+                }
+                else
+                {
+                    if (ShipStatus.Instance.Type == ModCompatibility.SubmergedMapType)
+                    {
+                        return _submarineStatus =
+                            (ShipStatus.Instance.GetComponent(Il2CppType.From(ModCompatibility.SubmarineStatusType))
+                                ?.TryOtherCast(ModCompatibility.SubmarineStatusType) as MonoBehaviour)!;
+                    }
+                    else
+                    {
+                        return _submarineStatus = null!;
+                    }
+                }
+            }
+            else
+            {
+                return _submarineStatus;
+            }
+        }
+    }
 
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.Awake))]
     [HarmonyPostfix]

@@ -78,7 +78,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = ModCompatibility.SubmergedDoorMinigame.GetComponent<Minigame>();
+                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
         var doorList = new List<OpenableDoor>();
@@ -212,7 +212,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = ModCompatibility.SubmergedDoorMinigame.GetComponent<Minigame>();
+                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 
@@ -303,7 +303,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = ModCompatibility.SubmergedDoorMinigame.GetComponent<Minigame>();
+                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 
@@ -390,7 +390,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = ModCompatibility.SubmergedDoorMinigame.GetComponent<Minigame>();
+                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 

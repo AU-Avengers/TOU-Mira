@@ -1,6 +1,10 @@
 using HarmonyLib;
 using Hazel;
+using MiraAPI.GameOptions;
+using MiraAPI.Roles;
 using TownOfUs.Modules.Components;
+using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Roles;
@@ -17,10 +21,10 @@ public static class SpellslingerSabotagePatches
     {
         if (!__instance.Systems.TryGetValue((SystemTypes)HexBombSabotageSystem.SabotageId, out _))
         {
-            var meteorSab = new HexBombSabotageSystem();
+            var hexBombSabo = new HexBombSabotageSystem(OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDuration);
             __instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>().specials
-                .Add(meteorSab.Cast<IActivatable>());
-            __instance.Systems.Add((SystemTypes)HexBombSabotageSystem.SabotageId, meteorSab.Cast<ISystemType>());
+                .Add(hexBombSabo.Cast<IActivatable>());
+            __instance.Systems.Add((SystemTypes)HexBombSabotageSystem.SabotageId, hexBombSabo.Cast<ISystemType>());
         }
     }
 
@@ -30,7 +34,8 @@ public static class SpellslingerSabotagePatches
     {
         var amount = reader.Buffer[reader.readHead - 1];
 
-        if (!MeetingHud.Instance && AmongUsClient.Instance.AmHost && amount == HexBombSabotageSystem.SabotageId)
+        if (AmongUsClient.Instance.AmHost && MeetingHud.Instance == null && ExileController.Instance == null &&
+            amount == HexBombSabotageSystem.SabotageId)
         {
             ShipStatus.Instance.UpdateSystem((SystemTypes)HexBombSabotageSystem.SabotageId, player, 1);
         }
@@ -42,7 +47,7 @@ public static class SpellslingerSabotagePatches
     {
         if (!__instance.AmOwner) return true;
 
-        if (system == (SystemTypes)HexBombSabotageSystem.SabotageId)
+        if (system == (SystemTypes)HexBombSabotageSystem.SabotageId && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
         {
             var task = new GameObject("HexBombTask").AddComponent<HexBombSabotageTask>();
             task.gameObject.transform.SetParent(__instance.gameObject.transform);

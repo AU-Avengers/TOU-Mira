@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Hud;
@@ -1852,6 +1853,16 @@ public static class MiscUtils
 
         var index = HudManager.Instance.ImpostorVentButton.transform.GetSiblingIndex();
         button.Button.transform.SetSiblingIndex(index + (beforeVent ? -1 : 1));
+    }
+    //Submerged utils
+    public static object? TryOtherCast(this Il2CppObjectBase self, Type type)
+    {
+        return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type).Invoke(self, Array.Empty<object>());
+    }
+    public static IList CreateList(Type myType)
+    {
+        Type genericListType = typeof(List<>).MakeGenericType(myType);
+        return (IList)Activator.CreateInstance(genericListType)!;
     }
 }
 public enum ExpandedMapNames

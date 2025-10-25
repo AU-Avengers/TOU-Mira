@@ -60,7 +60,8 @@ public static class ModCompatibility
     public static Assembly SubAssembly { get; private set; }
     public static Type[] SubTypes { get; private set; }
     public static Dictionary<string, Type> SubInjectedTypes { get; private set; }
-    public static GameObject SubmergedDoorMinigame { get; private set; }
+
+    public static Type SubmarineStatusType;
 
     public static TaskTypes RetrieveOxygenMask { get; private set; }
 
@@ -104,10 +105,9 @@ public static class ModCompatibility
             .PropertyGetter(SubTypes.FirstOrDefault(t => t.Name == "ComponentExtensions"), "RegisteredTypes")
             .Invoke(null, null)!;
 
-        var submarineStatusType = SubTypes.First(t => t.Name == "SubmarineStatus");
-        submergedInstance = AccessTools.Field(submarineStatusType, "instance");
-        submergedElevators = AccessTools.Field(submarineStatusType, "elevators");
-        SubmergedDoorMinigame = Il2CppType.From(SubTypes.First(t => t.Name == "OpenDoorsMinigame")).TryCast<GameObject>()!;
+        SubmarineStatusType = SubTypes.First(t => t.Name == "SubmarineStatus");
+        submergedInstance = AccessTools.Field(SubmarineStatusType, "instance");
+        submergedElevators = AccessTools.Field(SubmarineStatusType, "elevators");
 
         var floorHandler = SubTypes.First(t => t.Name == "FloorHandler");
         getFloorHandler = AccessTools.Method(floorHandler, "GetFloorHandler", [typeof(PlayerControl)]);
@@ -372,9 +372,9 @@ public static class ModCompatibility
         return (bool)inTransition.GetValue(null)!;
     }
 
-    public static void RepairOxygen()
+    public static void RepairSubOxygen()
     {
-        if (!SubLoaded)
+        if (!IsSubmerged())
         {
             return;
         }

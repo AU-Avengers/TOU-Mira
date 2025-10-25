@@ -121,7 +121,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable
             PlayerControl.LocalPlayer.MyPhysics.StopAllCoroutines();
         }
 
-        if (ModCompatibility.SubLoaded)
+        if (ModCompatibility.IsSubmerged())
         {
             ModCompatibility.ChangeFloor(PlayerControl.LocalPlayer.transform.position.y > -7f);
         }

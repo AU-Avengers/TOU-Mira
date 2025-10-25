@@ -105,6 +105,27 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralEvil;
 
+    public bool SetupIntroTeam(IntroCutscene instance,
+        ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+    {
+        if (Player != PlayerControl.LocalPlayer)
+        {
+            return true;
+        }
+
+        var exeTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+
+        exeTeam.Add(PlayerControl.LocalPlayer);
+        if (Target != null)
+        {
+            exeTeam.Add(Target);
+        }
+
+        yourTeam = exeTeam;
+
+        return true;
+    }
+
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.DiscoveredSound,

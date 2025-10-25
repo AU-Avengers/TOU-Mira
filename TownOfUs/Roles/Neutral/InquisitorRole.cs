@@ -204,9 +204,23 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable = true;
     }
 
+    public void OffsetButtons()
+    {
+        var canVent = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var inquire = CustomButtonSingleton<InquisitorInquireButton>.Instance;
+        var vanquish = CustomButtonSingleton<InquisitorVanquishButton>.Instance;
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(inquire, !canVent));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(vanquish, !canVent));
+    }
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        if (Player.AmOwner)
+        {
+            OffsetButtons();
+        }
+
         CanVanquish = true;
 
         // if Inuquisitor was revived

@@ -80,16 +80,21 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         return ITownOfUsRole.SetNewTabText(this);
     }
 
+    public void OffsetButtons()
+    {
+        var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
+        var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
+    }
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
-            var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent;
-            var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
-            var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
+            OffsetButtons();
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.WerewolfVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Werewolf);
         }

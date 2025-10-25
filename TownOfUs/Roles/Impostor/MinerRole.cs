@@ -101,6 +101,11 @@ public sealed class MinerRole(IntPtr cppPtr)
         //Logger<TownOfUsPlugin>.Error("RpcPlaceVent");
 
         var ventPrefab = ShipStatus.Instance.AllVents[0];
+        if (ModCompatibility.IsSubmerged())
+        {
+            // Cafeteria Vent for upper floor, Electrical Vent for lower floor
+            ventPrefab = (position.y > -7) ? ShipStatus.Instance.AllVents[5] : ShipStatus.Instance.AllVents[15];
+        }
         var vent = Instantiate(ventPrefab, ventPrefab.transform.parent);
         vent.name = $"MinerVent-{player.PlayerId}-{ventId}";
 
@@ -170,7 +175,7 @@ public sealed class MinerRole(IntPtr cppPtr)
             if (vent.gameObject.transform.position.y > -7)
             {
                 vent.gameObject.transform.position = new Vector3(vent.gameObject.transform.position.x,
-                    vent.gameObject.transform.position.y, 0.03f);
+                    vent.gameObject.transform.position.y, 0.02f);
             }
             else
             {

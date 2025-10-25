@@ -88,16 +88,19 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
             }
             else if (_sabotage.Stage == HexBombStage.SpellslingerDead)
             {
-                HudManager.Instance.FullScreen.color = new Color(Palette.CrewmateBlue.r, Palette.CrewmateBlue.g, Palette.CrewmateBlue.b, playSound ? 0.18f : 0.34f);
-                HudManager.Instance.FullScreen.gameObject.SetActive(true);
-                HudManager.Instance.PlayerCam.shakeAmount = 0f;
-                HudManager.Instance.PlayerCam.shakePeriod = 1f;
-
-                playSound = !playSound;
-                if (playSound)
+                if (!HexBombSabotageSystem.BombFinished)
                 {
-                    SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
-                    SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 0.1f);
+                    HudManager.Instance.FullScreen.color = new Color(Palette.CrewmateBlue.r, Palette.CrewmateBlue.g, Palette.CrewmateBlue.b, playSound ? 0.18f : 0.34f);
+                    HudManager.Instance.FullScreen.gameObject.SetActive(true);
+                    HudManager.Instance.PlayerCam.shakeAmount = 0f;
+                    HudManager.Instance.PlayerCam.shakePeriod = 1f;
+
+                    playSound = !playSound;
+                    if (playSound)
+                    {
+                        SoundManager.Instance.StopSound(TouAudio.HexBombAlarmSound.LoadAsset());
+                        SoundManager.Instance.PlaySound(TouAudio.HexBombAlarmSound.LoadAsset(), false, 0.1f);
+                    }
                 }
             }
             else if (_sabotage.Stage == HexBombStage.Finished)
@@ -112,11 +115,12 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                     var redBg = Object.Instantiate(HudManager.Instance.FullScreen,
                         deathAnim.transform.GetParent().transform);
                     deathAnim.name = "Disintegrate Animation";
+                    redBg.gameObject.name = "Red Background";
                     deathAnim.SetActive(false);
                     var deathRend = deathAnim.GetComponent<SpriteRenderer>();
                     deathRend.color = new Color(0f, 0f, 0f, 0.17254903f);
                     redBg.color = new Color(1f, 0f, 0f, 0.37254903f);
-                    deathAnim.transform.localPosition += new Vector3(-0.4f, 0.1f, redBg.transform.localPosition.z - 100f);
+                    deathAnim.transform.localPosition += new Vector3((PlayerControl.LocalPlayer.MyPhysics.FlipX) ? 0f : -0.4f, 0.1f, redBg.transform.localPosition.z - 100f);
                     redBg.transform.localScale *= 20f;
                     deathAnim.gameObject.layer = redBg.gameObject.layer;
                     if (PlayerControl.LocalPlayer.HasModifier<GiantModifier>())
@@ -133,6 +137,9 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
                     HudManager.Instance.FullScreen.color = new Color(1f, 0f, 0f, 0.37254903f);
                     deathAnim.SetActive(true);
                     yield return MiscUtils.FadeInDualRenderers(redBg, deathRend, 0.01f, 0.03f, 5f);
+                    yield return new WaitForSeconds(10f);
+                    Destroy(redBg);
+                    Destroy(deathAnim);
                 }
                 _triggeredHexBomb = true;
             }
@@ -162,6 +169,9 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
         var text = "The Hex Bomb has been triggered!";
         switch (_sabotage.Stage)
         {
+            case HexBombStage.Initiate:
+                text = $"The Spellslinger is unleashing a Hex Bomb!\n{(int)_sabotage.TimeRemaining + 1 + (int)_sabotage.duration} seconds left!";
+                break;
             case HexBombStage.Countdown:
                 text = $"The Spellslinger is unleashing a Hex Bomb!\n{(int)_sabotage.TimeRemaining + 1} seconds left!";
                 break;

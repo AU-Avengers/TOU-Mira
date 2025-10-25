@@ -134,7 +134,10 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         var gaTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
 
         gaTeam.Add(PlayerControl.LocalPlayer);
-        gaTeam.Add(Target!);
+        if (Target != null)
+        {
+            gaTeam.Add(Target);
+        }
 
         yourTeam = gaTeam;
 

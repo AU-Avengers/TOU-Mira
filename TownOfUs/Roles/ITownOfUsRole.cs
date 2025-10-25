@@ -144,6 +144,13 @@ public interface ITownOfUsRole : ICustomRole
     {
     }
 
+    /// <summary>
+    ///     OffsetButtons - Called when the role initializes and when the player offsets their buttons even without a vent button.
+    /// </summary>
+    void OffsetButtons()
+    {
+    }
+
     public static StringBuilder SetNewTabText(ICustomRole role)
     {
         return TouRoleUtils.SetTabText(role);

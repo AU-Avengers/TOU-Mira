@@ -1,5 +1,6 @@
 using MiraAPI.Hud;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modules;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public sealed class EscapistMarkButton : TownOfUsRoleButton<EscapistRole>, IAfte
 
     public override bool CanUse()
     {
-        return base.CanUse() && Role is { MarkedLocation: null };
+        return base.CanUse() && Role is { MarkedLocation: null } && !ModCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1;
     }
 
     protected override void OnClick()

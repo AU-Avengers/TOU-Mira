@@ -103,16 +103,21 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         return result;
     }
 
+    public void OffsetButtons()
+    {
+        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
+        var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(ignite, !canVent));
+    }
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
-            var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent;
-            var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
-            var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(ignite, !canVent));
+            OffsetButtons();
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ArsoVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Arsonist);
         }
