@@ -43,6 +43,7 @@ public static class HudManagerPatches
     public static GameObject WikiButton;
     public static GameObject RoleList;
     public static GameObject TeamChatButton;
+    public static GameObject SubmergedFloorButton;
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
@@ -888,7 +889,7 @@ public static class HudManagerPatches
             ZoomButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
             ZoomButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
-            ZoomButton.name = "Zoom";
+            ZoomButton.name = "ZoomButton";
             ZoomButton.transform.Find("Background").localPosition = Vector3.zero;
             ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinus.LoadAsset();
@@ -904,6 +905,22 @@ public static class HudManagerPatches
             distanceFromEdge.y = 0.485f;
             aspectPosition.DistanceFromEdge = distanceFromEdge;
             aspectPosition.AdjustPosition();
+        }
+    }
+
+    public static void UpdateSubmergedButtons(HudManager instance)
+    {
+        if (ModCompatibility.IsSubmerged())
+        {
+            if (!SubmergedFloorButton)
+            {
+                SubmergedFloorButton = instance.MapButton.transform.parent.Find(instance.MapButton.name + "(Clone)")
+                    .gameObject;
+            }
+            if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
+            {
+                SubmergedFloorButton.SetActive(ghost.Caught);
+            }
         }
     }
 
@@ -934,6 +951,7 @@ public static class HudManagerPatches
         if (!WikiButton)
         {
             WikiButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
+            WikiButton.name = "WikiButton";
             WikiButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             WikiButton.GetComponent<PassiveButton>().OnClick.AddListener((UnityAction)(() =>
             {
@@ -1012,6 +1030,7 @@ public static class HudManagerPatches
         UpdateTeamChat();
         UpdateCamouflageComms();
         UpdateRoleNameText();
+        UpdateSubmergedButtons(__instance);
     }
 
     private static bool _registeredSoftModifiers;
