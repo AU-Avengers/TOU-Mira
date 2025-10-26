@@ -35,9 +35,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
 
     public ModdedEnumOption SubmergedDoorType { get; set; } = new("Door Type on Submerged", (int)MapDoorType.Submerged, typeof(MapDoorType));
 
-    [ModdedToggleOption("Submerged Doors Are Polus Doors")]
-    public bool SubmergedPolusDoors { get; set; } = false;
-
+    /*
     [ModdedEnumOption("Spawn Mode", typeof(SubSpawnLocation), ["Selectable", "Upper Deck", "Lower Deck"])]
     public SubSpawnLocation SpawnMode { get; set; } = SubSpawnLocation.Selectable;
 
@@ -49,7 +47,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     {
         Visible = () =>
             OptionGroupSingleton<BetterSubmergedOptions>.Instance.ChangeSaboTimers
-    };
+    };*/
 
     public enum SubSpawnLocation
     {
