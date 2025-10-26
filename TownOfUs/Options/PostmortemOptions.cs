@@ -12,7 +12,7 @@ public sealed class PostmortemOptions : AbstractOptionGroup
 
     public ModdedToggleOption DeadSeeVotes { get; set; } = new("The Dead See Votes", true);
 
-    public ModdedEnumOption DeadSeePrivateChat { get; set; } = new("The Dead See Private Chat", (int)GhostMode.DisabledUponDeath, typeof(GhostMode),
+    public ModdedEnumOption DeadSeePrivateChat { get; set; } = new("The Dead See Private Chat", (int)GhostModeGlobal.DisabledUponDeath, typeof(GhostModeGlobal),
         ["Disabled", "Disabled Upon Death", "In Meetings", "Always"]);
 
     public ModdedEnumOption DeadCanHaunt { get; set; } = new("Haunt (Follow) Mode", (int)GhostModeInGame.DisabledUponDeath, typeof(GhostModeInGame),
@@ -29,7 +29,7 @@ public enum GhostModeInGame
     Always,
 }
 
-public enum GhostMode
+public enum GhostModeGlobal
 {
     Disabled,
     DisabledUponDeath,

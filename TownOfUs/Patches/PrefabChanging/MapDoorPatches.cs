@@ -86,8 +86,6 @@ public static class MapDoorPatches
         foreach (var door in doors)
         {
             var autoDoor = door.GetComponent<AutoOpenDoor>();
-            var plainDoor = door.AddComponent<PlainDoor>();
-            var consoleDoor = door.AddComponent<DoorConsole>();
             
             var animator = door.GetComponent<SpriteAnim>();
             var closeDoorAnim = autoDoor.CloseDoorAnim;
@@ -101,6 +99,9 @@ public static class MapDoorPatches
             var room = autoDoor.Room;
 
             autoDoor.Destroy();
+
+            var plainDoor = door.AddComponent<PlainDoor>();
+            var consoleDoor = door.AddComponent<DoorConsole>();
 
             plainDoor.animator = animator;
             plainDoor.CloseDoorAnim = closeDoorAnim;
@@ -433,9 +434,9 @@ public static class MapDoorPatches
         switch (doorType)
         {
             case MapDoorType.None:
-                doors.Do(x => x.Destroy());
+                doors.DoIf(x => !x.gameObject.name.Contains("Inner") && !x.gameObject.name.Contains("Outer"), x => x.gameObject.Destroy());
 
-                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(doors.Length);
                 __instance.Systems.Remove(SystemTypes.Doors);
                 return;
             case MapDoorType.Skeld:

@@ -28,10 +28,10 @@ public static class HauntMenuMinigamePatch
             return;
         }
 
-        var hauntMode = (GhostMode)OptionGroupSingleton<PostmortemOptions>.Instance.DeadCanHaunt.Value;
+        var hauntMode = (GhostModeInGame)OptionGroupSingleton<PostmortemOptions>.Instance.DeadCanHaunt.Value;
         var canHaunt = TutorialManager.InstanceExists || PlayerControl.LocalPlayer.Data.Role is SpectatorRole ||
-                       hauntMode is GhostMode.Always || (PlayerControl.LocalPlayer.DiedOtherRound() &&
-                                                         hauntMode is GhostMode.DisabledUponDeath);
+                       hauntMode is GhostModeInGame.Always || (PlayerControl.LocalPlayer.DiedOtherRound() &&
+                                                               hauntMode is GhostModeInGame.DisabledUponDeath);
 
         if (!canHaunt)
         {
@@ -39,7 +39,7 @@ public static class HauntMenuMinigamePatch
             __instance.NameText.text = string.Empty;
             __instance.FilterText.text = string.Empty;
 
-            var text = (hauntMode is GhostMode.Disabled) ? "Haunting was disabled by the host!" : "You must wait until next round to haunt!";
+            var text = (hauntMode is GhostModeInGame.Disabled) ? "Haunting was disabled by the host!" : "You must wait until next round to haunt!";
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectator.LoadAsset());
 
