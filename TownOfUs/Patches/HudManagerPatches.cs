@@ -914,8 +914,11 @@ public static class HudManagerPatches
         {
             if (!SubmergedFloorButton)
             {
-                SubmergedFloorButton = instance.MapButton.transform.parent.Find(instance.MapButton.name + "(Clone)")
-                    .gameObject;
+                var transform = instance.MapButton.transform.parent.Find(instance.MapButton.name + "(Clone)");
+                if (transform != null)
+                {
+                    SubmergedFloorButton = transform.gameObject;
+                }
             }
             if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
             {
