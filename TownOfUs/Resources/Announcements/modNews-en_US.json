@@ -465,6 +465,7 @@
         "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
         "\n- Spellslinger is no longer outed in the meeting.",
         "\n- Miner vents in Submerged now use the regular vent type rather than the pipe vent.",
+        "\n- Traitor no longer spawns without cooldowns.",
         "\n\n\r<size=105%>Other Bugfixes:</size>",
         "\n- Fix the lack of Neutral Outliers causing Wildcard Role buckets to spawn basic Crewmates.",
         "\n- Screen Flashes (from the likes of Medic, Warden, etc) now work during sabotages.",

@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
+using MiraAPI.Patches.Hud;
+using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Utilities;
@@ -31,6 +33,16 @@ public sealed class TraitorRole(IntPtr cppPtr)
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorPower;
+
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        if (Player.AmOwner)
+        {
+            ButtonResetPatches.ResetCooldowns();
+            Player.SetKillTimer(Player.GetKillCooldown());
+        }
+    }
 
     public CustomRoleConfiguration Configuration => new(this)
     {
