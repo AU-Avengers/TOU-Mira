@@ -16,8 +16,6 @@ public static class MapDoorPatches
     public static MapDoorType RandomDoorType = MapDoorType.None;
 
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowSabotageMap))]
-    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowCountOverlay))]
-    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
     [HarmonyPostfix]
     public static void OverlayShowPatch(MapBehaviour __instance)
     {
