@@ -175,7 +175,7 @@
   <string name="TouHypnosis">催眠</string>
   <string name="TouInfection">感染</string>
   <string name="TouScatter">碎散</string>
-  <string name="TouRoleSpectator">观察者</string>
+  <string name="TouRoleSpectator">观众</string>
   <string name="TouRoleSpectatorIntroBlurb">在远处观察混乱</string>
   <string name="TouRoleAltruistTabDescription">复活死去的船员，以%nl\%的代价告知杀手并移除会议使用次数。</string>
   <string name="TouRoleAltruistWikiDescription">殉道者是一个可以复活成群死去的玩家的船员保护型职业。然而，他的位置和复活的玩家的位置会显示给所有的伪装者。</string>
