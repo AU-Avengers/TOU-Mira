@@ -506,6 +506,11 @@ public static class Extensions
 
         var pos = new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
+        if (ModCompatibility.IsSubmerged())
+        {
+            ModCompatibility.ChangeFloor(startingVent.transform.position.y > -7f);
+        }
+
         player.RpcSetPos(pos);
     }
 
