@@ -131,16 +131,24 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
 
         if (target.HasModifier<LoverModifier>())
         {
-            canConvertAlliance = options.ConvertOptions.ToDisplayString().Contains("Lovers");
+            canConvertAlliance = options.ConvertLovers;
         }
 
-        if (target.Is(RoleAlignment.NeutralBenign))
+        if (options.ValidConversions.Value is ValidBites.NonKillerNeutrals)
         {
-            canConvertRole = options.ConvertOptions.ToDisplayString().Contains("Neutral Benign");
+            canConvertRole = true;
+        }
+        else if (target.Is(RoleAlignment.NeutralBenign))
+        {
+            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Benign");
         }
         else if (target.Is(RoleAlignment.NeutralEvil))
         {
-            canConvertRole = options.ConvertOptions.ToDisplayString().Contains("Neutral Evil");
+            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Evil");
+        }
+        else if (target.Is(RoleAlignment.NeutralOutlier))
+        {
+            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Outlier");
         }
 
         return canConvertRole && canConvertAlliance && vampireCount < 2 && totalVamps < options.MaxVampires &&
