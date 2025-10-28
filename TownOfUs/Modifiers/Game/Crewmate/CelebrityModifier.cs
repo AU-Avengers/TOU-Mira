@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
@@ -128,7 +127,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
                 break;
             case MirrorcasterRole mirror:
                 cod = mirror.UnleashString != string.Empty
-                    ? mirror.UnleashString.ToLower(CultureInfo.InvariantCulture)
+                    ? mirror.UnleashString.ToLower(TownOfUsPlugin.Culture)
                     : "killed";
                 if (mirror.ContainedRole != null)
                 {

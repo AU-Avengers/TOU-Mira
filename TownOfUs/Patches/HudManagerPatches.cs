@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Globalization;
 using System.Text;
 using HarmonyLib;
 using InnerNet;
@@ -861,13 +860,13 @@ public static class HudManagerPatches
             }
             else
             {
-                rolelistBuilder.AppendLine(CultureInfo.InvariantCulture,
+                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
                     $"{NeutralBenigns}: {list.MinNeutralBenign.Value} {StoredMinimum}, {list.MaxNeutralBenign.Value} {StoredMaximum}");
-                rolelistBuilder.AppendLine(CultureInfo.InvariantCulture,
+                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
                     $"{NeutralEvils}: {list.MinNeutralEvil.Value} {StoredMinimum}, {list.MaxNeutralEvil.Value} {StoredMaximum}");
-                rolelistBuilder.AppendLine(CultureInfo.InvariantCulture,
+                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
                     $"{NeutralKillers}: {list.MinNeutralKiller.Value} {StoredMinimum}, {list.MaxNeutralKiller.Value} {StoredMaximum}");
-                rolelistBuilder.AppendLine(CultureInfo.InvariantCulture,
+                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
                     $"{NeutralOutliers}: {list.MinNeutralOutlier.Value} {StoredMinimum}, {list.MaxNeutralOutlier.Value} {StoredMaximum}");
                 objText.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
             }

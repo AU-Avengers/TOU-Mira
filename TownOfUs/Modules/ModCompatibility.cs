@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
@@ -83,7 +82,7 @@ public static class ModCompatibility
         sBuilder.Append("\nBepInEx " + Paths.BepInExVersion.WithoutBuild());
         foreach (var mod in mods)
         {
-            sBuilder.Append(CultureInfo.InvariantCulture, $"\n{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
+            sBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
         }
 
         InternalModList = sBuilder.ToString();

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -115,12 +114,12 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         var text = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            text.AppendLine(CultureInfo.InvariantCulture, $"<b>You may prosecute crew.</b>");
+            text.AppendLine(TownOfUsPlugin.Culture, $"<b>You may prosecute crew.</b>");
         }
 
         var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions - ProsecutionsCompleted;
         var newText = prosecutes == 1 ? "1 Prosecution Remaining." : $"\n{prosecutes} Prosecutions Remaining.";
-        text.AppendLine(CultureInfo.InvariantCulture, $"{newText}");
+        text.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         return text;
     }
 

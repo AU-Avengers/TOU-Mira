@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -83,7 +82,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (Shielded != null)
         {
-            stringB.Append(CultureInfo.InvariantCulture,
+            stringB.Append(TownOfUsPlugin.Culture,
                 $"\n<b>Shielded: </b>{Color.white.ToTextColor()}{Shielded.Data.PlayerName}</color>");
         }
 
@@ -396,6 +395,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (shieldBreaks)
         {
+            if (source.AmOwner)
+            {
+                source.SetKillTimer(source.GetKillCooldown());
+            }
+
             var role = medic.GetRole<MedicRole>();
             role?.SetShieldedPlayer(null);
         }

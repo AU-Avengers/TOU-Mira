@@ -96,7 +96,7 @@ public static class MiscUtils
         }
 
         var builder = new StringBuilder();
-        builder.AppendLine(CultureInfo.InvariantCulture,
+        builder.AppendLine(TownOfUsPlugin.Culture,
             $"\n<size=50%> \n</size><b>{TownOfUsColors.Vigilante.ToTextColor()}{TouLocale.Get("Options")}</color></b>");
 
         foreach (var option in options)
@@ -111,6 +111,14 @@ public static class MiscUtils
 
                     builder.AppendLine(option.Title + ": " + toggleOption.Value);
                     break;
+                /*case ModdedMultiSelectOption<Enum> enumOption:
+                    if (!enumOption.Visible())
+                    {
+                        continue;
+                    }
+
+                    builder.AppendLine(enumOption.Title + ": " + enumOption.Values[enumOption.Value]);
+                    break;*/
                 case ModdedEnumOption enumOption:
                     if (!enumOption.Visible())
                     {

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -94,7 +93,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
         if (Protected != null)
         {
-            stringB.Append(CultureInfo.InvariantCulture,
+            stringB.Append(TownOfUsPlugin.Culture,
                 $"\n<b>Protecting: </b>{Color.white.ToTextColor()}{Protected.Data.PlayerName}</color>");
         }
 

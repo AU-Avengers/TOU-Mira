@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using AmongUs.Data;
+﻿using AmongUs.Data;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.GameOptions;
@@ -362,10 +361,10 @@ public sealed class FakePlayer : IDisposable
 
         if (array.Length != 0)
         {
-            array[0] = char.ToUpper(array[0], CultureInfo.InvariantCulture);
+            array[0] = char.ToUpper(array[0], TownOfUsPlugin.Culture);
             for (var i = 1; i < array.Length; i++)
             {
-                array[i] = char.ToLower(array[i], CultureInfo.InvariantCulture);
+                array[i] = char.ToLower(array[i], TownOfUsPlugin.Culture);
             }
         }
 

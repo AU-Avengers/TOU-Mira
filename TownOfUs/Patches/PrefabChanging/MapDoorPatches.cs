@@ -2,6 +2,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.GameOptions;
 using PowerTools;
+using Reactor.Utilities;
 using TownOfUs.Modules;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Components;
@@ -15,11 +16,54 @@ public static class MapDoorPatches
 {
     public static MapDoorType RandomDoorType = MapDoorType.None;
 
+    public static MapDoorType ActiveDoorType
+    {
+        get
+        {
+            var currentDoorType = MiscUtils.GetCurrentMap switch
+            {
+                ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (MapDoorType)OptionGroupSingleton<BetterSkeldOptions>.Instance.SkeldDoorType.Value,
+                ExpandedMapNames.Polus => (MapDoorType)OptionGroupSingleton<BetterPolusOptions>.Instance.PolusDoorType.Value,
+                ExpandedMapNames.Airship => (MapDoorType)OptionGroupSingleton<BetterAirshipOptions>.Instance.AirshipDoorType.Value,
+                ExpandedMapNames.Fungle => (MapDoorType)OptionGroupSingleton<BetterFungleOptions>.Instance.FungleDoorType.Value,
+                ExpandedMapNames.Submerged => (MapDoorType)OptionGroupSingleton<BetterSubmergedOptions>.Instance.SubmergedDoorType.Value,
+                _ => MapDoorType.None
+            };
+            return currentDoorType is MapDoorType.Random ? RandomDoorType : currentDoorType;
+        }
+    }
+
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
+    [HarmonyPrefix]
+    public static bool CloseDoorsOfTypePrefix(SystemTypes room)
+    {
+        var instance = ShipStatus.Instance;
+        if (instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
+        {
+            Logger<TownOfUsPlugin>.Info(string.Format(TownOfUsPlugin.Culture, "Closing doors of room {0}", room));
+            var doorSys = systemType.Cast<IDoorSystem>();
+            doorSys.CloseDoorsOfType(room);
+            return false;
+        }
+
+        if (instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
+        {
+            Logger<TownOfUsPlugin>.Info(string.Format(TownOfUsPlugin.Culture, "Closing doors of room {0}", room));
+            var doorSys = systemType2.Cast<IDoorSystem>();
+            doorSys.CloseDoorsOfType(room);
+            return false;
+        }
+
+        return true;
+    }
+
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowSabotageMap))]
     [HarmonyPostfix]
     public static void OverlayShowPatch(MapBehaviour __instance)
     {
-        if (!ShipStatus.Instance.Systems.ContainsKey(SystemTypes.Doors))
+        if (!ShipStatus.Instance.Systems.ContainsKey(SystemTypes.Doors) &&
+            !ShipStatus.Instance.Systems.ContainsKey(SkeldDoorsSystemType.SystemType) &&
+            !ShipStatus.Instance.Systems.ContainsKey(ManualDoorsSystemType.SystemType))
         {
             if (__instance.infectedOverlay.allButtons.Any(x => x.gameObject.name == "closeDoors"))
             {
@@ -30,6 +74,82 @@ public static class MapDoorPatches
             {
                 __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "Doors", x => x.gameObject.Destroy());
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(MapRoom), nameof(MapRoom.DoorsUpdate))]
+    [HarmonyPrefix]
+    public static bool DoorsUpdatePrefix(MapRoom __instance)
+    {
+        var instance = ShipStatus.Instance;
+        if (__instance.door && instance && instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
+        {
+            float timer = systemType.Cast<RunTimer>().GetTimer(__instance.room);
+            float num = __instance.Parent.CanUseDoors ? timer : 1f;
+            __instance.door.material.SetFloat("_Percent", num);
+            return false;
+        }
+
+        if (__instance.door && instance && instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
+        {
+            float timer = systemType2.Cast<RunTimer>().GetTimer(__instance.room);
+            float num = __instance.Parent.CanUseDoors ? timer : 1f;
+            __instance.door.material.SetFloat("_Percent", num);
+            return false;
+        }
+
+        return true;
+    }
+
+    [HarmonyPatch(typeof(MapRoom), nameof(MapRoom.SabotageDoors))]
+    [HarmonyPrefix]
+    public static bool SabotageDoorsPrefix(MapRoom __instance)
+    {
+        if (!__instance.Parent.CanUseDoors)
+        {
+            return false;
+        }
+
+        var instance = ShipStatus.Instance;
+        if (instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
+        {
+            if (systemType.Cast<RunTimer>().GetTimer(__instance.room) > 0f)
+            {
+                return false;
+            }
+            instance.RpcCloseDoorsOfType(__instance.room);
+            DestroyableSingleton<DebugAnalytics>.Instance.Analytics.SabotageStart(SkeldDoorsSystemType.SystemType);
+            return false;
+        }
+
+        if (instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
+        {
+            if (systemType2.Cast<RunTimer>().GetTimer(__instance.room) > 0f)
+            {
+                return false;
+            }
+            instance.RpcCloseDoorsOfType(__instance.room);
+            DestroyableSingleton<DebugAnalytics>.Instance.Analytics.SabotageStart(ManualDoorsSystemType.SystemType);
+            return false;
+        }
+        return true;
+    }
+    
+    [HarmonyPatch(typeof(InfectedOverlay), nameof(InfectedOverlay.Start))]
+    [HarmonyPostfix]
+    public static void StartPostfix(InfectedOverlay __instance)
+    {
+        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Doors, out var systemType))
+        {
+            __instance.doors = systemType.Cast<IActivatable>();
+        }
+        else if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType2))
+        {
+            __instance.doors = systemType2.Cast<IActivatable>();
+        }
+        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType3))
+        {
+            __instance.doors = systemType3.Cast<IActivatable>();
         }
     }
 
@@ -76,7 +196,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                doorMinigame = PrefabLoader.Submerged.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
         var doorList = new List<OpenableDoor>();
@@ -127,7 +247,7 @@ public static class MapDoorPatches
 
         __instance.AllDoors = doorList.ToArray();
         __instance.Systems.Remove(SystemTypes.Doors);
-        __instance.Systems.Add(SystemTypes.Doors, new DoorsSystemType().TryCast<ISystemType>());
+        __instance.Systems.Add(ManualDoorsSystemType.SystemType, new ManualDoorsSystemType().TryCast<ISystemType>());
     }
 
     [HarmonyPatch(typeof(PolusShipStatus), nameof(PolusShipStatus.OnEnable))]
@@ -204,14 +324,14 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType().TryCast<ISystemType>());
 
                 return;
             case MapDoorType.Fungle:
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                doorMinigame = PrefabLoader.Submerged.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 
@@ -295,14 +415,14 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType().TryCast<ISystemType>());
 
                 return;
             case MapDoorType.Fungle:
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                doorMinigame = PrefabLoader.Submerged.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 
@@ -382,14 +502,14 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType().TryCast<ISystemType>());
 
                 return;
             case MapDoorType.Airship:
                 doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                doorMinigame = PrefabLoader.Submerged.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 
@@ -427,7 +547,10 @@ public static class MapDoorPatches
         }
 
         var doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
-        var doors = __instance.GetComponentsInChildren<PlainDoor>().Select(x => x.gameObject).ToArray();
+        // Ignores elevator doors
+        var doors = __instance.GetComponentsInChildren<PlainDoor>()
+            .Where(x => !x.gameObject.name.Contains("Inner") && !x.gameObject.name.Contains("Outer"))
+            .Select(x => x.gameObject).ToArray();
         var doorList = __instance.AllDoors.ToList();
         switch (doorType)
         {
@@ -479,7 +602,7 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType().TryCast<ISystemType>());
 
                 return;
             case MapDoorType.Polus:

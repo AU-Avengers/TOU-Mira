@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -136,7 +135,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
                 }
             }
 
-            stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
         }
 
         return stringB;

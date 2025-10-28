@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -104,7 +103,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         if (allInfected.Any())
         {
-            stringB.Append(CultureInfo.InvariantCulture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
@@ -114,7 +113,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
 
-        stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
 
         return stringB;
     }

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
@@ -68,7 +67,7 @@ public sealed class TrackerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
         stringB.Append("\n<b>Tracked Players:</b>");
         foreach (var plr in playerControls)
         {
-            stringB.Append(CultureInfo.InvariantCulture, $"\n{plr.Data.PlayerName}");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n{plr.Data.PlayerName}");
         }
 
         return stringB;

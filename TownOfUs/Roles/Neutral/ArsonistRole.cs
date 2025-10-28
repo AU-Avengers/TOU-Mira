@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
@@ -83,7 +82,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
             stringB.Append("\n<b>Players Doused:</b>");
             foreach (var plr in allDoused)
             {
-                stringB.Append(CultureInfo.InvariantCulture,
+                stringB.Append(TownOfUsPlugin.Culture,
                     $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
             }
         }

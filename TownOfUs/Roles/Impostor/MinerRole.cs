@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -69,7 +68,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (OptionGroupSingleton<MinerOptions>.Instance.MineVisibility is MineVisiblityOptions.AfterUse)
         {
-            stringB.Append(CultureInfo.InvariantCulture, $"Vents will only be visible once used");
+            stringB.Append(TownOfUsPlugin.Culture, $"Vents will only be visible once used");
         }
 
         return stringB;

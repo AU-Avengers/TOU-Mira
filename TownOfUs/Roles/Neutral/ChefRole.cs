@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
@@ -80,7 +79,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{_tabCounter.Replace("<bodiesFed>", $"{BodiesServed}")}</b>");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{_tabCounter.Replace("<bodiesFed>", $"{BodiesServed}")}</b>");
 
         return stringB;
     }

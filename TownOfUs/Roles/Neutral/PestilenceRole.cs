@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
@@ -69,12 +68,12 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();
-        stringB.AppendLine(CultureInfo.InvariantCulture,
+        stringB.AppendLine(TownOfUsPlugin.Culture,
             $"{RoleColor.ToTextColor()}{YouAreText}<b> {RoleName},\n<size=80%>{RoleDescription}</size></b></color>");
-        stringB.AppendLine(CultureInfo.InvariantCulture,
+        stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"{RoleLongDescription}");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"{RoleLongDescription}");
 
         return stringB;
     }

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using Hazel;
@@ -92,10 +91,10 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             if (newModDictionary.Count > 0)
             {
                 var stringBuilder = new StringBuilder();
-                stringBuilder.Append(CultureInfo.InvariantCulture, $"{client.Data.PlayerName} is joining with these different mods:");
+                stringBuilder.Append(TownOfUsPlugin.Culture, $"{client.Data.PlayerName} is joining with these different mods:");
                 foreach (var mod in newModDictionary)
                 {
-                    stringBuilder.Append(CultureInfo.InvariantCulture, $"\n{mod}");
+                    stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
                 }
                 MiscUtils.AddFakeChat(client.Data, "<color=#D53F42>Anticheat System</color>", stringBuilder.ToString(), true, altColors:true);
             }

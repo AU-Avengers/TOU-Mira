@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -61,7 +60,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"You can also guess Crewmates.");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"You can also guess Crewmates.");
         }
 
         if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
@@ -69,7 +68,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             var newText = SafeShotsLeft == 0
                 ? "You have no more safe shots left."
                 : $"{SafeShotsLeft} safe shot(s) left.";
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"{newText}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         }
 
         return stringB;

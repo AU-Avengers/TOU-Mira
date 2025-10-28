@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -76,7 +75,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
-        stringB.AppendLine(CultureInfo.InvariantCulture,
+        stringB.AppendLine(TownOfUsPlugin.Culture,
             $"{RetrainsString()}");
 
         return stringB;
