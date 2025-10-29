@@ -74,7 +74,7 @@ public static class ChefEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessageSelf").Replace("<player>", chef.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
+                    TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -114,7 +114,7 @@ public static class ChefEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessageSelf").Replace("<player>", chef.Player.Data.PlayerName),
+                    TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
