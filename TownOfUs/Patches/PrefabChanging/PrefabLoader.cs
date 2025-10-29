@@ -71,7 +71,7 @@ public class PrefabLoader
 
         if (ModCompatibility.SubLoaded)
         {
-            yield return new WaitForSeconds(7.5f);
+            yield return new WaitForSeconds(2.5f);
         }
 
         if (!Skeld)

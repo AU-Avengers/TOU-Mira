@@ -125,8 +125,8 @@ public class SkeldDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), Ba
 		}
 		for (int i = 0; i < GetAutoDoors().Length; i++)
 		{
-			OpenableDoor openableDoor = GetAutoDoors()[i];
-			if (openableDoor.Room == system && openableDoor is AutoOpenDoor autoDoor)
+			var autoDoor = GetAutoDoors()[i];
+			if (autoDoor.Room == system)
 			{
 				return autoDoor.CooldownTimer / 30f;
 			}

@@ -134,7 +134,7 @@ public static class MapDoorPatches
         }
         return true;
     }
-    
+
     [HarmonyPatch(typeof(InfectedOverlay), nameof(InfectedOverlay.Start))]
     [HarmonyPostfix]
     public static void StartPostfix(InfectedOverlay __instance)
@@ -196,7 +196,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
         var doorList = new List<OpenableDoor>();
@@ -331,7 +331,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 
@@ -422,7 +422,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 
@@ -509,7 +509,7 @@ public static class MapDoorPatches
                 doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
             case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged.GetComponentInChildren<DoorConsole>().MinigamePrefab;
+                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 

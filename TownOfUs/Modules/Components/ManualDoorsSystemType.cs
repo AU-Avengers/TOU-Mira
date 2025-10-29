@@ -48,9 +48,9 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 	public void UpdateSystem(PlayerControl player, MessageReader msgReader)
 	{
 		byte b = msgReader.ReadByte();
-		int id = (b & 31);
-		int num = (b & 192);
-		if (num == 64)
+		int id = (b & IdMask);
+		int num = (b & ActionMask);
+		if (num == OpenDoor)
 		{
 			OpenableDoor openableDoor = ShipStatus.Instance.AllDoors.First((OpenableDoor d) => d.Id == id);
 			if (openableDoor == null)

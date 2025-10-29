@@ -86,6 +86,13 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
+        var customSysTypes = new List<SystemTypes>()
+        {
+            SkeldDoorsSystemType.SystemType,
+            ManualDoorsSystemType.SystemType,
+        };
+        // This allows the custom door types to update properly
+        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat(customSysTypes).ToArray();
     }
 
     public static void InitSubmerged()
