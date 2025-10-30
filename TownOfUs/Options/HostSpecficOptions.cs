@@ -9,7 +9,7 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
     public override string GroupName => "Host-Specific Options";
     public override uint GroupPriority => 0;
 
-    public ModdedToggleOption TheDeadKnow { get; set; } = new("The Dead Know Players", true, false);
+    public ModdedToggleOption AntiCheatWarnings { get; set; } = new("Enable Anti Cheat Warnings", true, false);
 
     public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryone, typeof(LoggingLevel),
         ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"], false)

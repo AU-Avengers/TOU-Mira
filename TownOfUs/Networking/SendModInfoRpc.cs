@@ -2,10 +2,12 @@
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using Hazel;
+using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Options;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Networking;
@@ -87,7 +89,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                 newModDictionary.Add(mod.Value);
             }
 
-            if (newModDictionary.Count > 0)
+            if (newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings)
             {
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append(TownOfUsPlugin.Culture, $"{client.Data.PlayerName} is joining with these different mods:");
