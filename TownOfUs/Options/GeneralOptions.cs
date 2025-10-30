@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
-using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Options;
 
@@ -21,12 +20,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
 #pragma warning restore CA1822 // Member 'TheDeadKnow' does not access instance data and can be marked as static
     
 #pragma warning restore S2325 // Make 'TheDeadKnow' a static property.
-
-    public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryone, typeof(LoggingLevel),
-        ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"])
-    {
-        Visible = () => TownOfUsPlugin.IsDevBuild
-    };
 
     [ModdedEnumOption("Modifier Type To Show In Role Intro", typeof(ModReveal))]
     public ModReveal ModifierReveal { get; set; } = ModReveal.Universal;
@@ -49,19 +42,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Vampires Get A Private Meeting Chat")]
     public bool VampireChat { get; set; } = true;
-
-    public ModdedToggleOption EnableSpectators { get; set; } = new("Allow More Spectators", true)
-    {
-        ChangedEvent = x =>
-        {
-            var list = SpectatorRole.TrackedSpectators;
-            foreach (var name in list)
-            {
-                SpectatorRole.TrackedSpectators.Remove(name);
-            }
-            Debug("Removed all spectators.");
-        },
-    };
 
     [ModdedNumberOption("Game Start Cooldowns", 10f, 30f, 2.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float GameStartCd { get; set; } = 10f;
@@ -128,12 +108,4 @@ public enum SkipState
     No,
     Emergency,
     Always
-}
-
-public enum LoggingLevel
-{
-    NoLogging,
-    LogForHost,
-    LogForEveryone,
-    LogForEveryonePostGame
 }

@@ -1,10 +1,15 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using TownOfUs.Buttons.Neutral;
+using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 
@@ -12,6 +17,23 @@ namespace TownOfUs.Events.Neutral;
 
 public static class MercenaryEvents
 {
+    private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
+    {
+        button?.ResetCooldownAndOrEffect();
+
+        if (source.Data.Role is WerewolfRole)
+        {
+            CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
+        }
+
+        // Reset impostor kill cooldown if they attack a shielded player
+        if (!source.AmOwner || !source.IsImpostor())
+        {
+            return;
+        }
+
+        source.SetKillTimer(source.GetKillCooldown());
+    }
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
@@ -25,7 +47,7 @@ public static class MercenaryEvents
         }
 
         // only check if this interaction was via a custom button
-        CheckForMercenaryGuard(source, target);
+        CheckForMercenaryGuard(@event, source, target);
     }
 
     [RegisterEvent]
@@ -38,27 +60,53 @@ public static class MercenaryEvents
         if (source.Data.Role is ICustomRole { Configuration.UseVanillaKillButton: true } ||
             (source.Data.Role is not ICustomRole && source.IsImpostor()))
         {
-            CheckForMercenaryGuard(source, target);
+            CheckForMercenaryGuard(@event, source, target);
         }
     }
 
-    private static void CheckForMercenaryGuard(PlayerControl source, PlayerControl target)
+    private static void CheckForMercenaryGuard(MiraCancelableEvent @event, PlayerControl source, PlayerControl target)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
             return;
         }
 
-        if (!target.HasModifier<MercenaryGuardModifier>())
+        if (!target.TryGetModifier<MercenaryGuardModifier>(out var guardMod))
         {
             return;
         }
 
-        var mercenary = target.GetModifier<MercenaryGuardModifier>()?.Mercenary;
+        var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
 
-        if (mercenary && source.AmOwner)
+        var noAttack = (target.PlayerId == source.PlayerId ||
+                        source.HasModifier<IndirectAttackerModifier>() ||
+                        source.HasModifier<InvulnerabilityModifier>() ||
+                        source.HasModifier<VeteranAlertModifier>() ||
+                        @event is not BeforeMurderEvent);
+
+        var isAttack = false;
+        CustomActionButton<PlayerControl>? button = null;
+        if (@event is MiraButtonClickEvent clickEvent)
         {
-            MercenaryRole.RpcGuarded(mercenary!);
+            var button2 = clickEvent.Button as CustomActionButton<PlayerControl>;
+            var target2 = button?.Target;
+
+            if (target2 != null && button != null && button.CanClick())
+            {
+                button = button2;
+            }
+        }
+        if (mercOpts.GuardProtection.Value && (!noAttack || isAttack))
+        {
+            @event.Cancel();
+            ResetButtonTimer(source, button);
+        }
+
+        var mercenary = guardMod.Mercenary;
+
+        if (mercenary != null && source.AmOwner)
+        {
+            MercenaryRole.RpcGuarded(mercenary, mercOpts.GuardProtection.Value && (!noAttack || isAttack));
         }
     }
 }

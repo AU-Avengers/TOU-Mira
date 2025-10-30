@@ -45,7 +45,7 @@ public static class ChatPatches
                         "You are no longer a spectator!");
                     RpcRemoveSpectator(PlayerControl.LocalPlayer);
                 }
-                else if (!OptionGroupSingleton<GeneralOptions>.Instance.EnableSpectators)
+                else if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators)
                 {
                     MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                         "The host has disabled /spec!");
@@ -284,7 +284,7 @@ public static class ChatPatches
     [MethodRpc((uint)TownOfUsRpc.SelectSpectator, SendImmediately = true)]
     public static void RpcSelectSpectator(PlayerControl player)
     {
-        if (!OptionGroupSingleton<GeneralOptions>.Instance.EnableSpectators.Value)
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators.Value)
         {
             return;
         }

@@ -2,13 +2,11 @@
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using TownOfUs.Buttons.Neutral;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -119,39 +117,33 @@ public sealed class MercenaryRole(IntPtr cppPtr)
             x.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true));
     }
 
-    public void AddPayment()
+    public void AddPayment(int gold = 1)
     {
-        Gold++;
-
-        if (CanBribe)
-        {
-            CustomButtonSingleton<MercenaryBribeButton>.Instance.SetActive(true, this);
-        }
+        Gold += gold;
     }
 
     public void Clear()
     {
         Gold = 0;
-
-        CustomButtonSingleton<MercenaryGuardButton>.Instance.SetActive(true, this);
-        CustomButtonSingleton<MercenaryBribeButton>.Instance.SetActive(false, this);
     }
 
     [MethodRpc((uint)TownOfUsRpc.Guarded)]
-    public static void RpcGuarded(PlayerControl player)
+    public static void RpcGuarded(PlayerControl player, bool isMurder = false)
     {
-        if (player.Data.Role is not MercenaryRole)
+        if (player.Data.Role is not MercenaryRole mercenary)
         {
             Error("RpcGuarded - Invalid mercenary");
             return;
         }
 
-        if (!player.AmOwner)
+        var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
+        if (isMurder && mercOpts.GuardProtection.Value)
         {
-            return;
+            mercenary.AddPayment(mercOpts.GoldGivenFromAttack);
         }
-
-        var mercenary = player.GetRole<MercenaryRole>();
-        mercenary?.AddPayment();
+        else
+        {
+            mercenary.AddPayment();
+        }
     }
 }

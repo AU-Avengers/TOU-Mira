@@ -21,6 +21,12 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
     public override float Cooldown => OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SeerSprite;
 
+    public override bool Enabled(RoleBehaviour? role)
+    {
+        return base.Enabled(role) &&
+               !OptionGroupSingleton<SeerOptions>.Instance.SalemSeer;
+    }
+
     public override bool IsTargetValid(PlayerControl? target)
     {
         return base.IsTargetValid(target) && !target!.HasModifier<SeerGoodRevealModifier>() &&
