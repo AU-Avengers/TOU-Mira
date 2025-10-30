@@ -169,7 +169,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     private void GenerateReport()
     {
-        Logger<TownOfUsPlugin>.Info($"Generating Doomsayer report");
+        Info($"Generating Doomsayer report");
 
         var reportBuilder = new StringBuilder();
 
@@ -460,7 +460,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not DoomsayerRole doom)
         {
-            Logger<TownOfUsPlugin>.Error("RpcDoomsayerWin - Invalid Doomsayer");
+            Error("RpcDoomsayerWin - Invalid Doomsayer");
             return;
         }
 

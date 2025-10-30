@@ -7,7 +7,6 @@ using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
@@ -301,7 +300,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         if (engineer.Data.Role is not EngineerTouRole)
         {
-            Logger<TownOfUsPlugin>.Error("Invalid engineer");
+            Error("Invalid engineer");
             return;
         }
 
@@ -330,7 +329,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         if (engi.Data.Role is not EngineerTouRole)
         {
-            Logger<TownOfUsPlugin>.Error("Invalid engineer");
+            Error("Invalid engineer");
             return;
         }
 

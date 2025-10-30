@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Options;
@@ -60,7 +59,7 @@ public sealed class GeneralOptions : AbstractOptionGroup
             {
                 SpectatorRole.TrackedSpectators.Remove(name);
             }
-            Logger<TownOfUsPlugin>.Debug("Removed all spectators.");
+            Debug("Removed all spectators.");
         },
     };
 

@@ -72,7 +72,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not BomberRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlantBomb - Invalid bomber");
+            Error("RpcPlantBomb - Invalid bomber");
             return;
         }
 

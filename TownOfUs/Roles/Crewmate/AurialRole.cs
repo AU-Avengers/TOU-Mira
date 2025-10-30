@@ -140,7 +140,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (player.Data.Role is not AurialRole aurial)
         {
-            Logger<TownOfUsPlugin>.Error("Invalid Aurial");
+            Error("Invalid Aurial");
             return;
         }
 

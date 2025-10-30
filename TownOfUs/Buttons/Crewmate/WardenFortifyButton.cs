@@ -1,5 +1,4 @@
 ﻿using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -28,7 +27,7 @@ public sealed class WardenFortifyButton : TownOfUsRoleButton<WardenRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Warden Fortify: Target is null");
+            Error("Warden Fortify: Target is null");
             return;
         }
 

@@ -44,7 +44,7 @@ public sealed class PestilenceKillButton : TownOfUsRoleButton<PestilenceRole, Pl
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Pestilence Shoot: Target is null");
+            Error("Pestilence Shoot: Target is null");
             return;
         }
 

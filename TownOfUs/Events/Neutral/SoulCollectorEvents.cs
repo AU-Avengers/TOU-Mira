@@ -16,7 +16,7 @@ public static class SoulCollectorEvents
 
         if (source.IsRole<SoulCollectorRole>() && !MeetingHud.Instance)
             // leave behind standing body
-            // Logger<TownOfUsPlugin>.Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
+            // Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
         {
             _ = new FakePlayer(target);
         }

@@ -15,7 +15,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -786,14 +785,14 @@ public static class MiscUtils
 
         var crewmateRole = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
         roleList = roleList.AddItem(crewmateRole!);
-        //Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - crewmateRole: '{crewmateRole?.GetRoleName()}'");
+        //Error($"GetPotentialRoles - crewmateRole: '{crewmateRole?.GetRoleName()}'");
 
         var impostorRole = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == RoleTypes.Impostor);
         roleList = roleList.AddItem(impostorRole!);
 
-        //Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - impostorRole: '{impostorRole?.GetRoleName()}'");
+        //Error($"GetPotentialRoles - impostorRole: '{impostorRole?.GetRoleName()}'");
 
-        //roleList.Do(x => Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - role: '{x.GetRoleName()}'"));
+        //roleList.Do(x => Error($"GetPotentialRoles - role: '{x.GetRoleName()}'"));
 
         return roleList;
     }
@@ -1817,19 +1816,19 @@ public static class MiscUtils
         switch (logLevel)
         {
             case TownOfUsEventHandlers.LogLevel.Error:
-                Logger<TownOfUsPlugin>.Error(text);
+                Error(text);
                 break;
             case TownOfUsEventHandlers.LogLevel.Warning:
-                Logger<TownOfUsPlugin>.Warning(text);
+                Warning(text);
                 break;
             case TownOfUsEventHandlers.LogLevel.Debug:
-                Logger<TownOfUsPlugin>.Debug(text);
+                Debug(text);
                 break;
             case TownOfUsEventHandlers.LogLevel.Info:
-                Logger<TownOfUsPlugin>.Info(text);
+                Info(text);
                 break;
             case TownOfUsEventHandlers.LogLevel.Message:
-                Logger<TownOfUsPlugin>.Message(text);
+                Message(text);
                 break;
         }
         TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));

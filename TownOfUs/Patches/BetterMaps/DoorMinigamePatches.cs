@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using Rewired;
 using TownOfUs.Modules.Components;
@@ -8,6 +9,25 @@ namespace TownOfUs.Patches.BetterMaps;
 
 public static class DoorMinigamePatches
 {
+    [MethodRpc((uint)TownOfUsRpc.OpenManualDoors)]
+    public static void RpcOpenManualDoors(PlayerControl player, int id)
+    {
+        var shipInstance = ShipStatus.Instance;
+        if (shipInstance.Systems.ContainsKey(ManualDoorsSystemType.SystemType))
+        {
+            Info(string.Format(TownOfUsPlugin.Culture, "Player {0} modifying system {1}", player.PlayerId, ManualDoorsSystemType.SystemType));
+            OpenableDoor openableDoor = ShipStatus.Instance.AllDoors.First(d => d.Id == id);
+            if (openableDoor == null)
+            {
+                Warning(string.Format(TownOfUsPlugin.Culture, "Couldn't find door {0}", id));
+            }
+            else
+            {
+                openableDoor.SetDoorway(true);
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(DoorBreakerGame), nameof(DoorBreakerGame.FlipSwitch))]
     [HarmonyPrefix]
     public static bool PolusFlipSwitchPrefix(DoorBreakerGame __instance, SpriteRenderer button)
@@ -21,18 +41,21 @@ public static class DoorMinigamePatches
         button.GetComponent<PassiveButton>().enabled = false;
         var doorSys = SystemTypes.Doors;
         var shipInstance = ShipStatus.Instance;
-        if (shipInstance.Systems.ContainsKey(SkeldDoorsSystemType.SystemType))
-        {
-            doorSys = SkeldDoorsSystemType.SystemType;
-        }
-        else if (shipInstance.Systems.ContainsKey(ManualDoorsSystemType.SystemType))
+        if (shipInstance.Systems.ContainsKey(ManualDoorsSystemType.SystemType))
         {
             doorSys = ManualDoorsSystemType.SystemType;
         }
         if (__instance.Buttons.All((SpriteRenderer s) => !s.flipX))
         {
-            shipInstance.RpcUpdateSystem(doorSys, (byte)(__instance.MyDoor.Id | 64));
-            __instance.MyDoor.SetDoorway(true);
+            if (doorSys is ManualDoorsSystemType.SystemType)
+            {
+                RpcOpenManualDoors(PlayerControl.LocalPlayer, __instance.MyDoor.Id);
+            }
+            else
+            {
+                shipInstance.RpcUpdateSystem(doorSys, (byte)(__instance.MyDoor.Id | 64));
+                __instance.MyDoor.SetDoorway(true);
+            }
             __instance.StartCoroutine(__instance.CoStartClose(0.4f));
         }
 
@@ -126,8 +149,15 @@ public static class DoorMinigamePatches
 									__instance.State = DoorCardSwipeGame.TaskStages.After;
 									__instance.StatusText.text = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.SwipeCardAccepted);
 									__instance.StartCoroutine(__instance.PutCardBack());
-									ShipStatus.Instance.RpcUpdateSystem(doorSys, (byte)(__instance.MyDoor.Id | 64));
-									__instance.MyDoor.SetDoorway(true);
+                                    if (doorSys is ManualDoorsSystemType.SystemType)
+                                    {
+                                        RpcOpenManualDoors(PlayerControl.LocalPlayer, __instance.MyDoor.Id);
+                                    }
+                                    else
+                                    {
+                                        shipInstance.RpcUpdateSystem(doorSys, (byte)(__instance.MyDoor.Id | 64));
+                                        __instance.MyDoor.SetDoorway(true);
+                                    }
 									__instance.StartCoroutine(__instance.CoStartClose(0.4f));
 									__instance.confirmSymbol.sprite = __instance.AcceptSymbol;
 								}
@@ -220,8 +250,15 @@ public static class DoorMinigamePatches
 							__instance.State = DoorCardSwipeGame.TaskStages.After;
 							__instance.StatusText.text = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.SwipeCardAccepted);
 							__instance.StartCoroutine(__instance.PutCardBack());
-							ShipStatus.Instance.RpcUpdateSystem(doorSys, (byte)(__instance.MyDoor.Id | 64));
-							__instance.MyDoor.SetDoorway(true);
+                            if (doorSys is ManualDoorsSystemType.SystemType)
+                            {
+                                RpcOpenManualDoors(PlayerControl.LocalPlayer, __instance.MyDoor.Id);
+                            }
+                            else
+                            {
+                                shipInstance.RpcUpdateSystem(doorSys, (byte)(__instance.MyDoor.Id | 64));
+                                __instance.MyDoor.SetDoorway(true);
+                            }
 							__instance.StartCoroutine(__instance.CoStartClose(0.4f));
 							__instance.confirmSymbol.sprite = __instance.AcceptSymbol;
 						}
@@ -266,8 +303,15 @@ public static class DoorMinigamePatches
         {
             doorSys = ManualDoorsSystemType.SystemType;
         }
-        ShipStatus.Instance.RpcUpdateSystem(doorSys, (byte)(__instance.myDoor.Id | 64));
-        __instance.myDoor.SetDoorway(true);
+        if (doorSys is ManualDoorsSystemType.SystemType)
+        {
+            RpcOpenManualDoors(PlayerControl.LocalPlayer, __instance.myDoor.Id);
+        }
+        else
+        {
+            shipInstance.RpcUpdateSystem(doorSys, (byte)(__instance.myDoor.Id | 64));
+            __instance.myDoor.SetDoorway(true);
+        }
         __instance.Close();
         return false;
     }

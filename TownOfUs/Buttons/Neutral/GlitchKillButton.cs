@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -28,7 +27,7 @@ public sealed class GlitchKillButton : TownOfUsRoleButton<GlitchRole, PlayerCont
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Glitch Shoot: Target is null");
+            Error("Glitch Shoot: Target is null");
             return;
         }
 

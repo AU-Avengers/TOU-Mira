@@ -6,7 +6,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
@@ -96,7 +95,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         if (sheriff.Data.Role is not SheriffRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSheriffMisfire - Invalid sheriff");
+            Error("RpcSheriffMisfire - Invalid sheriff");
             return;
         }
 

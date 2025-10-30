@@ -219,7 +219,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Message($"CmdReportDeadBody");
+        // Message($"CmdReportDeadBody");
         var br = new BodyReport
         {
             Killer = MiscUtils.PlayerById(killer.KillerId),
@@ -327,7 +327,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMedicShield - Invalid medic");
+            Error("RpcMedicShield - Invalid medic");
             return;
         }
 
@@ -346,7 +346,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("ClearMedicShield - Invalid medic");
+            Error("ClearMedicShield - Invalid medic");
             return;
         }
 
@@ -360,7 +360,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMedicShieldAttacked - Invalid medic");
+            Error("RpcMedicShieldAttacked - Invalid medic");
             return;
         }
 

@@ -93,7 +93,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         if (hunter.Data.Role is not HunterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCatchPlayer - Invalid hunter");
+            Error("RpcCatchPlayer - Invalid hunter");
             return;
         }
 
@@ -114,7 +114,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         if (hunter.Data.Role is not HunterRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCatchPlayer - Invalid hunter");
+            Error("RpcCatchPlayer - Invalid hunter");
             return;
         }
 

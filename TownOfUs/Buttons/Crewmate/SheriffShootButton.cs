@@ -40,7 +40,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Misfire: Target is null");
+            Error("Misfire: Target is null");
             return;
         }
 
@@ -87,7 +87,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Sheriff Shoot: Target is null");
+            Error("Sheriff Shoot: Target is null");
             return;
         }
 

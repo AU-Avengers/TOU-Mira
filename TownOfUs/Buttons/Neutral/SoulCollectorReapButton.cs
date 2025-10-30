@@ -34,7 +34,7 @@ public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRo
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Soul Collector Reap: Target is null");
+            Error("Soul Collector Reap: Target is null");
             return;
         }
 

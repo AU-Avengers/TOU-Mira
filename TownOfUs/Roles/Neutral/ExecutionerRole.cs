@@ -38,7 +38,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public void AssignTargets()
     {
-        // Logger<TownOfUsPlugin>.Error($"SelectExeTargets");
+        // Error($"SelectExeTargets");
         var exes = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => x.IsRole<ExecutionerRole>() && !x.HasDied());
 
@@ -58,7 +58,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
             if (filtered.Count > 0)
             {
-                // filtered.ForEach(x => Logger<TownOfUsPlugin>.Error($"EXE Possible Target: {x.Data.PlayerName}"));
+                // filtered.ForEach(x => Error($"EXE Possible Target: {x.Data.PlayerName}"));
                 Random rndIndex = new();
                 var randomTarget = filtered[rndIndex.Next(0, filtered.Count)];
 
@@ -232,7 +232,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Error($"OnPlayerDeath '{victim.Data.PlayerName}'");
+        // Error($"OnPlayerDeath '{victim.Data.PlayerName}'");
         if (Target == null || victim == Target)
         {
             var roleType = OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath switch
@@ -245,7 +245,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
                 _ => (ushort)RoleTypes.Crewmate
             };
 
-            // Logger<TownOfUsPlugin>.Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
+            // Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
             Player.ChangeRole(roleType);
 
             if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
@@ -262,7 +262,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     {
         if (player.Data.Role is not ExecutionerRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSetExeTarget - Invalid executioner");
+            Error("RpcSetExeTarget - Invalid executioner");
             return;
         }
 
@@ -278,7 +278,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Message($"RpcSetExeTarget - Target: '{target.Data.PlayerName}'");
+        // Message($"RpcSetExeTarget - Target: '{target.Data.PlayerName}'");
         role.Target = target;
 
         target.AddModifier<ExecutionerTargetModifier>(player.PlayerId);

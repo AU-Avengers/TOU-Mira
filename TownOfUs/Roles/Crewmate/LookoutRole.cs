@@ -3,7 +3,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -61,7 +60,7 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         if (!target.TryGetModifier<LookoutWatchedModifier>(out var mod))
         {
-            Logger<TownOfUsPlugin>.Error("Not a watched player");
+            Error("Not a watched player");
             return;
         }
 

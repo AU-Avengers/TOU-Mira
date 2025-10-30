@@ -5,7 +5,6 @@ using Hazel;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Utilities;
 
@@ -59,11 +58,11 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
 
     internal static void ReceiveClientModInfo(PlayerControl client, Dictionary<byte, string> list)
     {
-        Logger<TownOfUsPlugin>.Error(
+        Error(
             $"{client.Data.PlayerName} is joining with the following mods:");
         foreach (var mod in list)
         {
-            Logger<TownOfUsPlugin>.Warning(
+            Warning(
                 $"{mod.Value}");
         }
 

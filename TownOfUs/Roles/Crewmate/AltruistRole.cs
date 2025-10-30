@@ -72,7 +72,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        Logger<TownOfUsPlugin>.Error($"AltruistRole.OnMeetingStart");
+        Error($"AltruistRole.OnMeetingStart");
 
         ClearArrows();
     }
@@ -101,11 +101,11 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [HideFromIl2Cpp]
     public static void ClearArrows()
     {
-        Logger<TownOfUsPlugin>.Error($"AltruistRole.ClearArrows");
+        Error($"AltruistRole.ClearArrows");
 
         if (PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
         {
-            Logger<TownOfUsPlugin>.Error($"AltruistRole.ClearArrows BadGuys Only");
+            Error($"AltruistRole.ClearArrows BadGuys Only");
 
             foreach (var playerWithArrow in ModifierUtils.GetPlayersWithModifier<AltruistArrowModifier>())
             {
@@ -121,7 +121,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         //if (roleWhenAlive == null)
         //{
-        //    Logger<TownOfUsPlugin>.Error($"CoRevivePlayer - Dead player {dead.PlayerId} does not have a role when alive, cannot revive");
+        //    Error($"CoRevivePlayer - Dead player {dead.PlayerId} does not have a role when alive, cannot revive");
         //    yield break; // cannot revive if no role when alive
         //}
 
@@ -224,7 +224,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         if (alt.Data.Role is not AltruistRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRevive - Invalid altruist");
+            Error("RpcRevive - Invalid altruist");
             return;
         }
 

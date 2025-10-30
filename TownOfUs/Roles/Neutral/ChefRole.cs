@@ -148,7 +148,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         if (chef.Data.Role is not ChefRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCookBody - Invalid chef");
+            Error("RpcCookBody - Invalid chef");
             return;
         }
 
@@ -185,13 +185,13 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         if (chef.Data.Role is not ChefRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcServeBody - Invalid chef");
+            Error("RpcServeBody - Invalid chef");
             return;
         }
 
         if (role.StoredBodies.Count == 0)
         {
-            Logger<TownOfUsPlugin>.Error("RpcServeBody - No Bodies found!");
+            Error("RpcServeBody - No Bodies found!");
             return;
         }
 

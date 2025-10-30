@@ -4,7 +4,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -113,7 +112,7 @@ public abstract class TownOfUsButton : CustomActionButton
         base.CreateButton(parent);
         if (Button == null)
         {
-            Logger<TownOfUsPlugin>.Error($"Button is null for {GetType().FullName}");
+            Error($"Button is null for {GetType().FullName}");
             return;
         }
 
@@ -342,7 +341,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         base.CreateButton(parent);
         if (Button == null)
         {
-            Logger<TownOfUsPlugin>.Error($"Button is null for {GetType().FullName}");
+            Error($"Button is null for {GetType().FullName}");
             return;
         }
 

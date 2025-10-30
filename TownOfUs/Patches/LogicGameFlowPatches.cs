@@ -5,7 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.GameOver;
@@ -209,7 +208,7 @@ public static class LogicGameFlowPatches
                 .OrderBy(x => (x as ITownOfUsRole)!.RoleAlignment)
                 .FirstOrDefault(x => x is ITownOfUsRole role && role.WinConditionMet()) is { } winner)
         {
-            Logger<TownOfUsPlugin>.Message($"Game Over");
+            Message($"Game Over");
             CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
 
             return false;

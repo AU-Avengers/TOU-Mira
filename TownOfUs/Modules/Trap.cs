@@ -76,10 +76,10 @@ public sealed class Trap : IDisposable
                     role = cachedMod.CachedRole;
                 }
 
-                // Logger<TownOfUsPlugin>.Error($"player with byte {entry.PlayerId} is logged with time {_players[entry.PlayerId]}");
+                // Error($"player with byte {entry.PlayerId} is logged with time {_players[entry.PlayerId]}");
                 if (_players[entry.PlayerId] > MinAmountOfTimeInTrap && !_owner!.TrappedPlayers.Contains(role) &&
                     entry != _owner.Player)
-                    // Logger<TownOfUsPlugin>.Error($"Trap.Updated add role: {role.GetRoleName()}");
+                    // Error($"Trap.Updated add role: {role.GetRoleName()}");
                 {
                     _owner.TrappedPlayers.Add(role);
                 }

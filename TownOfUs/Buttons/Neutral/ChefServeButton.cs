@@ -2,7 +2,6 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -58,7 +57,7 @@ public sealed class ChefServeButton : TownOfUsRoleButton<ChefRole, PlayerControl
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Chef Serve: Target is null");
+            Error("Chef Serve: Target is null");
             return;
         }
 

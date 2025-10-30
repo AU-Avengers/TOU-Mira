@@ -2,7 +2,6 @@
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -27,7 +26,7 @@ public sealed class ChefCookButton : TownOfUsRoleButton<ChefRole, DeadBody>
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Chef Cook: Target is null");
+            Error("Chef Cook: Target is null");
             return;
         }
 

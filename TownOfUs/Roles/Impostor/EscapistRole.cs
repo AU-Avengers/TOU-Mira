@@ -6,7 +6,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Anims;
@@ -103,7 +102,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not EscapistRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRecall - Invalid escapist");
+            Error("RpcRecall - Invalid escapist");
             return;
         }
 
@@ -116,7 +115,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not EscapistRole henry)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRecall - Invalid escapist");
+            Error("RpcRecall - Invalid escapist");
             return;
         }
 

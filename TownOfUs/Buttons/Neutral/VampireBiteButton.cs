@@ -80,7 +80,7 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Bite: Target is null");
+            Error("Bite: Target is null");
             return;
         }
 

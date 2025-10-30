@@ -1,7 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -40,7 +39,7 @@ public sealed class InquisitorVanquishButton : TownOfUsRoleButton<InquisitorRole
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Inquisitor Vanquish: Target is null");
+            Error("Inquisitor Vanquish: Target is null");
             return;
         }
 

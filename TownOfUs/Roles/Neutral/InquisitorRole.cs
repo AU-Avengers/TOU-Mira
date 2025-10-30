@@ -271,7 +271,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     private void GenerateReport()
     {
-        Logger<TownOfUsPlugin>.Info($"Generating Inquisitor report");
+        Info($"Generating Inquisitor report");
 
         var reportBuilder = new StringBuilder();
 
@@ -364,7 +364,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
 
         if (Targets.All(x => x.HasDied() || x == exiled))
-            // Logger<TownOfUsPlugin>.Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
+            // Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
         {
             InquisitorWin(Player);
         }
@@ -375,7 +375,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         if (player.Data.Role is not InquisitorRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcAddInquisTarget - Invalid Inquisitor");
+            Error("RpcAddInquisTarget - Invalid Inquisitor");
             return;
         }
 
@@ -406,7 +406,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         if (player.Data.Role is not InquisitorRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcInquisitorWin - Invalid Inquisitor");
+            Error("RpcInquisitorWin - Invalid Inquisitor");
             return;
         }
 

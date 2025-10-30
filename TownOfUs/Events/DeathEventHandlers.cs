@@ -35,13 +35,13 @@ public static class DeathEventHandlers
         if (@event.TriggeredByIntro)
         {
             CurrentRound = 1;
-            Logger<TownOfUsPlugin>.Warning("Game Has Started");
+            Warning("Game Has Started");
         }
         else
         {
             ++CurrentRound;
             ModifierUtils.GetActiveModifiers<DeathHandlerModifier>().Do(x => x.DiedThisRound = false);
-            Logger<TownOfUsPlugin>.Warning($"New Round Started: {CurrentRound}");
+            Warning($"New Round Started: {CurrentRound}");
         }
     }
 

@@ -76,7 +76,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         if (transporter.Data.Role is not TransporterRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcTransport - Invalid Transporter");
+            Error("RpcTransport - Invalid Transporter");
             return;
         }
 
@@ -362,7 +362,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
             if (transportable.TryCast<DeadBody>() == null && transportable2.TryCast<DeadBody>() == null)
             {
-                Logger<TownOfUsPlugin>.Error($"type: {transportable.GetIl2CppType().Name}");
+                Error($"type: {transportable.GetIl2CppType().Name}");
                 var TP1 = transportable.TryCast<PlayerControl>()!;
                 TP1Position = TP1.GetTruePosition();
                 TP1Position = new Vector2(TP1Position.x, TP1Position.y + 0.3636f);

@@ -4,7 +4,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Options.Maps;
 
@@ -18,7 +17,7 @@ public static class MapPatches
     {
         if (!player.IsHost())
         {
-            Logger<TownOfUsPlugin>.Error("Only the host can change the map.");
+            Error("Only the host can change the map.");
             return;
         }
 

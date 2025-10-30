@@ -66,10 +66,10 @@ public static class ModNewsFetcher
 
     public static void CheckForNews()
     {
-        Logger<TownOfUsPlugin>.Error($"Running Mod News Fetcher...");
+        Error($"Running Mod News Fetcher...");
         if ( /*Environment.Is64BitProcess || */TownOfUsPlugin.IsDevBuild)
         {
-            Logger<TownOfUsPlugin>.Error($"Loading News Locally, as this is a DEVELOPER BUILD");
+            Error($"Loading News Locally, as this is a DEVELOPER BUILD");
             LoadTouMiraModNewsFromResources();
             return;
         }
@@ -108,7 +108,7 @@ public static class ModNewsFetcher
         if (request.isNetworkError || request.isHttpError)
         {
             downloaded = false;
-            Logger<TownOfUsPlugin>.Error($"Couldn't fetch mod news from github: {request.error}");
+            Error($"Couldn't fetch mod news from github: {request.error}");
             LoadTouMiraModNewsFromResources();
             yield break;
         }
@@ -143,7 +143,7 @@ public static class ModNewsFetcher
         }
         catch (Exception ex)
         {
-            Logger<TownOfUsPlugin>.Error(
+            Error(
                 $"Couldn't fetch mod news from github, loading from resources instead: {ex.Message}");
             // Use local Mod news instead
             LoadTouMiraModNewsFromResources();
@@ -216,7 +216,7 @@ public static class ModNewsFetcher
         {
             if (AllModNews.Count == 0)
             {
-                Logger<TownOfUsPlugin>.Error($"No mod news were found.");
+                Error($"No mod news were found.");
                 return;
             }
 

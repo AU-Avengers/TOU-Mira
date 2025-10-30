@@ -54,7 +54,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Message($"HypnotisedModifier.Hysteria - {Player.Data.PlayerName}");
+        // Message($"HypnotisedModifier.Hysteria - {Player.Data.PlayerName}");
         var players = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() && x != Player).ToList();
 
         var bodyType = Random.RandomRangeInt(0, 10);
@@ -150,7 +150,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Message($"HypnotisedModifier.UnHysteria - {Player.Data.PlayerName}");
+        // Message($"HypnotisedModifier.UnHysteria - {Player.Data.PlayerName}");
         foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied()))
         {
             player.MyPhysics.SetForcedBodyType(PlayerControl.LocalPlayer.BodyType);

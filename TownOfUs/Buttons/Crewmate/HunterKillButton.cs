@@ -44,7 +44,7 @@ public sealed class HunterKillButton : TownOfUsRoleButton<HunterRole, PlayerCont
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Hunter HunterKill: Target is null");
+            Error("Hunter HunterKill: Target is null");
             return;
         }
 

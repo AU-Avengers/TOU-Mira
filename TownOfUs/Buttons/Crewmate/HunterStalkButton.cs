@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
@@ -27,7 +26,7 @@ public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerCon
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Stalk: Target is null");
+            Error("Stalk: Target is null");
             return;
         }
 

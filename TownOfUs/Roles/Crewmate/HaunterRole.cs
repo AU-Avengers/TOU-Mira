@@ -117,7 +117,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
             Faded = false;
 
-            // Logger<TownOfUsPlugin>.Message($"HaunterRole.FadeUpdate UnFaded");
+            // Message($"HaunterRole.FadeUpdate UnFaded");
         }
     }
 
@@ -331,7 +331,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer))
             {
-                // Logger<TownOfUsPlugin>.Error($"CheckTaskRequirements IsTargetOfHaunter");
+                // Error($"CheckTaskRequirements IsTargetOfHaunter");
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
 
                 Player.AddModifier<HaunterArrowModifier>(PlayerControl.LocalPlayer, RoleColor);
@@ -356,7 +356,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer))
             {
-                // Logger<TownOfUsPlugin>.Error($"CheckTaskRequirements IsTargetOfHaunter");
+                // Error($"CheckTaskRequirements IsTargetOfHaunter");
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
 
                 Player.AddModifier<HaunterArrowModifier>(PlayerControl.LocalPlayer, RoleColor);

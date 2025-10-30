@@ -2,7 +2,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.GameOptions;
 using PowerTools;
-using Reactor.Utilities;
 using TownOfUs.Modules;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Components;
@@ -40,7 +39,7 @@ public static class MapDoorPatches
         var instance = ShipStatus.Instance;
         if (instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
         {
-            Logger<TownOfUsPlugin>.Info(string.Format(TownOfUsPlugin.Culture, "Closing doors of room {0}", room));
+            Info(string.Format(TownOfUsPlugin.Culture, "Closing doors of room {0}", room));
             var doorSys = systemType.Cast<IDoorSystem>();
             doorSys.CloseDoorsOfType(room);
             return false;
@@ -48,7 +47,7 @@ public static class MapDoorPatches
 
         if (instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
         {
-            Logger<TownOfUsPlugin>.Info(string.Format(TownOfUsPlugin.Culture, "Closing doors of room {0}", room));
+            Info(string.Format(TownOfUsPlugin.Culture, "Closing doors of room {0}", room));
             var doorSys = systemType2.Cast<IDoorSystem>();
             doorSys.CloseDoorsOfType(room);
             return false;

@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
@@ -33,7 +32,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsRoleButton<MirrorcasterR
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Mirrorcaster Unleash: Target is null");
+            Error("Mirrorcaster Unleash: Target is null");
             return;
         }
 

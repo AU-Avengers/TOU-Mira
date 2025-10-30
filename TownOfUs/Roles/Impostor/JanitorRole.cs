@@ -86,7 +86,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not JanitorRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCleanBody - Invalid Janitor");
+            Error("RpcCleanBody - Invalid Janitor");
             return;
         }
 

@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -36,7 +35,7 @@ public sealed class MedicShieldButton : TownOfUsRoleButton<MedicRole, PlayerCont
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Medic Shield: Target is null");
+            Error("Medic Shield: Target is null");
             return;
         }
 

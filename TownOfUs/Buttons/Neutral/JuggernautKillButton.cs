@@ -36,7 +36,7 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Juggernaut Shoot: Target is null");
+            Error("Juggernaut Shoot: Target is null");
             return;
         }
 

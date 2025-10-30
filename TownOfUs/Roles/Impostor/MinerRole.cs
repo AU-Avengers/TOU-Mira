@@ -6,7 +6,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
@@ -93,11 +92,11 @@ public sealed class MinerRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not MinerRole miner)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlaceVent - Invalid miner");
+            Error("RpcPlaceVent - Invalid miner");
             return;
         }
 
-        //Logger<TownOfUsPlugin>.Error("RpcPlaceVent");
+        //Error("RpcPlaceVent");
 
         var ventPrefab = ShipStatus.Instance.AllVents[0];
         if (ModCompatibility.IsSubmerged())
@@ -108,11 +107,11 @@ public sealed class MinerRole(IntPtr cppPtr)
         var vent = Instantiate(ventPrefab, ventPrefab.transform.parent);
         vent.name = $"MinerVent-{player.PlayerId}-{ventId}";
 
-        Logger<TownOfUsPlugin>.Error($"RpcPlaceVent - vent: {vent.name} - {immediate}");
+        Error($"RpcPlaceVent - vent: {vent.name} - {immediate}");
 
         if (!player.AmOwner && !immediate)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlaceVent - Hide Vent");
+            Error("RpcPlaceVent - Hide Vent");
             vent.gameObject.SetActive(false);
         }
 
@@ -199,7 +198,7 @@ public sealed class MinerRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not MinerRole miner)
         {
-            Logger<TownOfUsPlugin>.Error("RpcShowVent - Invalid miner");
+            Error("RpcShowVent - Invalid miner");
             return;
         }
 

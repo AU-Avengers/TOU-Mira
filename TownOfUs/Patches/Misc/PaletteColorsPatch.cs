@@ -1,5 +1,4 @@
 using HarmonyLib;
-using UnityEngine;
 using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches.Misc;
@@ -12,7 +11,7 @@ public static class PaletteColorsPatch
     {
         if (colorId < 0 || colorId >= Palette.ColorNames.Length)
         {
-            Debug.LogError(string.Format(TownOfUsPlugin.Culture, "Color ID {0}, but Palette Length of {1}", colorId, Palette.ColorNames.Length));
+            Error(string.Format(TownOfUsPlugin.Culture, "Color ID {0}, but Palette Length of {1}", colorId, Palette.ColorNames.Length));
             __result = "???";
             return false;
         }

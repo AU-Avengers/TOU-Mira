@@ -2,7 +2,6 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -34,7 +33,7 @@ public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error($"{Name}: Target is null");
+            Error($"{Name}: Target is null");
             return;
         }
 

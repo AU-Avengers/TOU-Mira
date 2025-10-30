@@ -57,7 +57,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
         maxKills = (int)OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills;
 
-        //Logger<TownOfUsPlugin>.Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
+        //Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
         if (Player.AmOwner)
         {
             meetingMenu = new MeetingMenu(
@@ -72,7 +72,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
     public override void OnMeetingStart()
     {
-        //Logger<TownOfUsPlugin>.Error($"AssassinModifier.OnMeetingStart maxKills: {maxKills}");
+        //Error($"AssassinModifier.OnMeetingStart maxKills: {maxKills}");
         if (Player.AmOwner)
         {
             meetingMenu.GenButtons(MeetingHud.Instance,

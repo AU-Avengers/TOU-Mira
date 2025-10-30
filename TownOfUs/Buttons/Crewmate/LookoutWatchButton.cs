@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -35,7 +34,7 @@ public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Watch: Target is null");
+            Error("Watch: Target is null");
             return;
         }
 

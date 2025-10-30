@@ -28,7 +28,7 @@ public sealed class ClericCleanseButton : TownOfUsRoleButton<ClericRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error($"{Name}: Target is null");
+            Error($"{Name}: Target is null");
             return;
         }
 

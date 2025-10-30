@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles;
@@ -64,7 +63,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
     {
         if (!player.HasModifier<CelebrityModifier>())
         {
-            Logger<TownOfUsPlugin>.Error("RpcCelebrityKilled - Invalid Celebrity");
+            Error("RpcCelebrityKilled - Invalid Celebrity");
             return;
         }
 
@@ -164,11 +163,11 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
     {
         if (!player.HasModifier<CelebrityModifier>())
         {
-            Logger<TownOfUsPlugin>.Error("RpcUpdateCelebrityKilled - Invalid Celebrity");
+            Error("RpcUpdateCelebrityKilled - Invalid Celebrity");
             return;
         }
 
-        Logger<TownOfUsPlugin>.Error($"RpcUpdateCelebrityKilled milliseconds: {milliseconds}");
+        Error($"RpcUpdateCelebrityKilled milliseconds: {milliseconds}");
 
         var celeb = player.GetModifier<CelebrityModifier>()!;
 

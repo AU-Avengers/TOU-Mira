@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -35,7 +34,7 @@ public sealed class TrackerTrackButton : TownOfUsRoleButton<TrackerTouRole, Play
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Track: Target is null");
+            Error("Track: Target is null");
             return;
         }
 

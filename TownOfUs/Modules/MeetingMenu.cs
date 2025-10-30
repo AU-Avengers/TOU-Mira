@@ -122,7 +122,7 @@ public sealed class MeetingMenu : IDisposable
     {
         HideButtons();
 
-        // Logger<TownOfUsPlugin>.Message($"MeetingMenu.GenButtons '{Owner.Player.Data.PlayerName}' AmOwner: {Owner.Player.AmOwner}");
+        // Message($"MeetingMenu.GenButtons '{Owner.Player.Data.PlayerName}' AmOwner: {Owner.Player.AmOwner}");
         if (!usable || !Owner.Player.AmOwner)
         {
             return;

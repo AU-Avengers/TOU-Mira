@@ -66,7 +66,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (cleric.Data.Role is not ClericRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcClericBarrierAttacked - Invalid cleric");
+            Error("RpcClericBarrierAttacked - Invalid cleric");
             return;
         }
 

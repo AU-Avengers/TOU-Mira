@@ -114,7 +114,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (player.Data.Role is not WardenRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcWardenFortify - Invalid warden");
+            Error("RpcWardenFortify - Invalid warden");
             return;
         }
 
@@ -127,7 +127,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (player.Data.Role is not WardenRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcClearWardenFortify - Invalid warden");
+            Error("RpcClearWardenFortify - Invalid warden");
             return;
         }
 
@@ -140,11 +140,11 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (player.Data.Role is not WardenRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcWardenNotify - Invalid warden");
+            Error("RpcWardenNotify - Invalid warden");
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Error("RpcWardenNotify");
+        // Error("RpcWardenNotify");
         if (player.AmOwner)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Warden));

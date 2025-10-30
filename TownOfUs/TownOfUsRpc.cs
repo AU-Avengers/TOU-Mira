@@ -5,6 +5,8 @@ public enum TownOfUsRpc : uint
     OffsetForAnticheat,
     GhostRoleMurder,
     RemoveSpawns,
+    OpenManualDoors,
+    CloseSkeldDoors,
 
     UpdateDeathHandler,
     SetMap,

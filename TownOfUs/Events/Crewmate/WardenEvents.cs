@@ -51,7 +51,7 @@ public static class WardenEvents
     [RegisterEvent(-1)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
-        // Logger<TownOfUsPlugin>.Error("WardenEvents KillButtonClickHandler");
+        // Error("WardenEvents KillButtonClickHandler");
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var source = PlayerControl.LocalPlayer;
         var target = button?.Target;

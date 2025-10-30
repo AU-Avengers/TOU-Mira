@@ -150,7 +150,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     {
         if (ambusher.Data.Role is not AmbusherRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcAmbushPlayer - Invalid ambusher");
+            Error("RpcAmbushPlayer - Invalid ambusher");
             return;
         }
 

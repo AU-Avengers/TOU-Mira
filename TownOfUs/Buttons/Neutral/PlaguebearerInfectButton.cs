@@ -1,7 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -28,7 +27,7 @@ public sealed class PlaguebearerInfectButton : TownOfUsRoleButton<PlaguebearerRo
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Plaguebearer Infect: Target is null");
+            Error("Plaguebearer Infect: Target is null");
             return;
         }
 

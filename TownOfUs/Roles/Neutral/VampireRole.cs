@@ -8,7 +8,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Neutral;
@@ -129,7 +128,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     {
         if (player.Data.Role is not VampireRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcVampireBite - Invalid vampire");
+            Error("RpcVampireBite - Invalid vampire");
             return;
         }
 

@@ -269,7 +269,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
     {
         if (player.Data.Role is not GuardianAngelTouRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSetGATarget - Invalid guardian angel");
+            Error("RpcSetGATarget - Invalid guardian angel");
             return;
         }
 
@@ -285,7 +285,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Message($"RpcSetGATarget - Target: '{target.Data.PlayerName}'");
+        // Message($"RpcSetGATarget - Target: '{target.Data.PlayerName}'");
         role.Target = target;
 
         target.AddModifier<GuardianAngelTargetModifier>(player.PlayerId);

@@ -138,7 +138,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         if (mc.Data.Role is not MirrorcasterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMagicMirror - Invalid mirrorcaster");
+            Error("RpcMagicMirror - Invalid mirrorcaster");
             return;
         }
 
@@ -156,7 +156,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         if (mc.Data.Role is not MirrorcasterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("ClearMagicMirror - Invalid mirrorcaster");
+            Error("ClearMagicMirror - Invalid mirrorcaster");
             return;
         }
 
@@ -167,7 +167,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         if (mc.Data.Role is not MirrorcasterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("ClearMagicMirror - Invalid mirrorcaster");
+            Error("ClearMagicMirror - Invalid mirrorcaster");
             return;
         }
 
@@ -180,7 +180,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         if (mirrorcaster.Data.Role is not MirrorcasterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMagicMirrorAttacked - Invalid mirrorcaster");
+            Error("RpcMagicMirrorAttacked - Invalid mirrorcaster");
             return;
         }
 

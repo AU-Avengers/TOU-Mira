@@ -109,7 +109,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
             if (crewmates.Count < 2 || impostors.Count < 1)
             {
-                Logger<TownOfUsPlugin>.Error("Not enough players to select lovers");
+                Error("Not enough players to select lovers");
                 return;
             }
 
@@ -274,7 +274,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     {
         if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSetOtherLover - Lovers Already Spawned!");
+            Error("RpcSetOtherLover - Lovers Already Spawned!");
             return;
         }
 

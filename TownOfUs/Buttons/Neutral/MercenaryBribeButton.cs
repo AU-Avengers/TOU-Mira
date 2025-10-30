@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -26,7 +25,7 @@ public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, Pla
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Mercenary Bribed: Target is null");
+            Error("Mercenary Bribed: Target is null");
             return;
         }
 

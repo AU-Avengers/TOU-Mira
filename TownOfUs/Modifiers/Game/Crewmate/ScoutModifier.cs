@@ -3,7 +3,6 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
-using static ShipStatus;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
@@ -42,6 +41,6 @@ public sealed class ScoutModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role.IsCrewmate() && Instance.Type != MapType.Fungle;
+        return base.IsModifierValidOn(role) && role.IsCrewmate() && MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle;
     }
 }

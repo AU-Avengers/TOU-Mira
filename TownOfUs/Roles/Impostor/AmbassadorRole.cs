@@ -7,7 +7,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;
@@ -293,13 +292,13 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     {
         if (ambassador.Data.Role is not AmbassadorRole ambassadorRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRetrainConfirm - Invalid ambassador");
+            Error("RpcRetrainConfirm - Invalid ambassador");
             return;
         }
 
         if (player != ambassadorRole.SelectedPlr?._object)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRetrainConfirm - Retrainee is not valid!");
+            Error("RpcRetrainConfirm - Retrainee is not valid!");
             return;
         }
 
@@ -307,13 +306,13 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             ambassadorRole.Player.Data.IsDead || ambassadorRole.SelectedPlr.IsDead)
         {
             ambassadorRole.Clear();
-            Logger<TownOfUsPlugin>.Error("RpcRetrainConfirm - A player or role check failed");
+            Error("RpcRetrainConfirm - A player or role check failed");
             return;
         }
 
         if (MeetingHud.Instance || ExileController.Instance)
         {
-            Logger<TownOfUsPlugin>.Error(
+            Error(
                 "RpcRetrainConfirm - You thought you were slick, huh? No, you can't retrain outside of rounds!");
             return;
         }
@@ -381,7 +380,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     {
         if (player.Data.Role is not AmbassadorRole ambassador)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRetrain - Invalid ambassador");
+            Error("RpcRetrain - Invalid ambassador");
             return;
         }
 

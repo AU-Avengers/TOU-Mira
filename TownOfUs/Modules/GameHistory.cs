@@ -130,7 +130,7 @@ public static class GameHistory
 
     public static void RegisterRole(PlayerControl player, RoleBehaviour role, bool clean = false)
     {
-        //Logger<TownOfUsPlugin>.Message($"RegisterRole - player: '{player.Data.PlayerName}', role: '{role.GetRoleName()}'");
+        //Message($"RegisterRole - player: '{player.Data.PlayerName}', role: '{role.GetRoleName()}'");
 
         if (clean)
         {

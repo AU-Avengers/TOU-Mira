@@ -8,7 +8,6 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
@@ -143,7 +142,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not MercenaryRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcGuarded - Invalid mercenary");
+            Error("RpcGuarded - Invalid mercenary");
             return;
         }
 

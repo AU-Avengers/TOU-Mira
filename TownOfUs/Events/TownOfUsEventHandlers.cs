@@ -308,7 +308,7 @@ public static class TownOfUsEventHandlers
 
             stringB = stringB.Remove(stringB.Length - 2, 2);
 
-            Logger<TownOfUsPlugin>.Warning(stringB.ToString());
+            Warning(stringB.ToString());
         }
 
         FirstDeadPatch.PlayerNames = [];

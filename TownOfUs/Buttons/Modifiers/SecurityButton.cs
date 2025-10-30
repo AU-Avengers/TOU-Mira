@@ -2,7 +2,6 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Neutral;
@@ -151,7 +150,7 @@ public sealed class SecurityButton : TownOfUsButton
 
     protected override void OnClick()
     {
-        // Logger<TownOfUsPlugin>.Warning($"Checking Base Conditions");
+        // Warning($"Checking Base Conditions");
         var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
         if (TutorialManager.InstanceExists)
         {
@@ -164,7 +163,7 @@ public sealed class SecurityButton : TownOfUsButton
             x.name.Contains("BinocularsSecurityConsole"));
         if (mapId is ExpandedMapNames.Airship)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Airship Conditions");
+            // Warning($"Checking Airship Conditions");
             basicCams = Object.FindObjectsOfType<SystemConsole>()
                 .FirstOrDefault(x => x.gameObject.name.Contains("task_cams"));
             PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -172,7 +171,7 @@ public sealed class SecurityButton : TownOfUsButton
         }
         else if (mapId is ExpandedMapNames.Skeld or ExpandedMapNames.Dleks)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Skeld Conditions");
+            // Warning($"Checking Skeld Conditions");
             basicCams = Object.FindObjectsOfType<SystemConsole>()
                 .FirstOrDefault(x => x.gameObject.name.Contains("SurvConsole"));
             PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -180,7 +179,7 @@ public sealed class SecurityButton : TownOfUsButton
         }
         else if (mapId is ExpandedMapNames.MiraHq)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Mira HQ Conditions");
+            // Warning($"Checking Mira HQ Conditions");
             basicCams = Object.FindObjectsOfType<SystemConsole>()
                 .FirstOrDefault(x => x.gameObject.name.Contains("SurvLogConsole"));
             if (!OptionGroupSingleton<OperativeOptions>.Instance.MoveOnMira)
@@ -191,13 +190,13 @@ public sealed class SecurityButton : TownOfUsButton
         }
         else if (mapId is ExpandedMapNames.Fungle)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Fungle Conditions");
+            // Warning($"Checking Fungle Conditions");
             PlayerControl.LocalPlayer.NetTransform.Halt();
             canMoveWithMinigame = false;
         }
         else if (mapId is ExpandedMapNames.Submerged)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Submerged Conditions");
+            // Warning($"Checking Submerged Conditions");
             basicCams = Object.FindObjectsOfType<SystemConsole>()
                 .FirstOrDefault(x => x.gameObject.name.Contains("SecurityConsole"));
             PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -206,7 +205,7 @@ public sealed class SecurityButton : TownOfUsButton
 
         if (basicCams == null)
         {
-            Logger<TownOfUsPlugin>.Error($"No Camera System Found!");
+            Error($"No Camera System Found!");
             return;
         }
 

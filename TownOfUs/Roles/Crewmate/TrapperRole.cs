@@ -82,7 +82,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public void Report()
     {
-        // Logger<TownOfUsPlugin>.Error($"TrapperRole.Report");
+        // Error($"TrapperRole.Report");
         if (!Player.AmOwner)
         {
             return;

@@ -735,14 +735,14 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.Last)]
     public static bool SelectRolesPatch(RoleManager __instance)
     {
-        Logger<TownOfUsPlugin>.Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager}");
+        Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager}");
 
         if (TutorialManager.InstanceExists || ReplaceRoleManager)
         {
             return true;
         }
 
-        //Logger<TownOfUsPlugin>.Error($"RoleManager.SelectRoles 2");
+        //Error($"RoleManager.SelectRoles 2");
         var spectators = GameData.Instance.AllPlayers.ToArray()
             .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
         var specId = (RoleTypes)RoleId.Get<SpectatorRole>();
@@ -846,19 +846,19 @@ public static class TouRoleManagerPatches
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);
 
         if (player == null || !player.Data.IsDead)
-            // Logger<TownOfUsPlugin>.Message($"AssignRoleOnDeathPatch - !player.Data.IsDead: '{!player.Data.IsDead}'");
+            // Message($"AssignRoleOnDeathPatch - !player.Data.IsDead: '{!player.Data.IsDead}'");
         {
             return false;
         }
 
         if ( /*!player.Data.Role.IsImpostor && */specialRolesAllowed && !player.HasModifier<BasicGhostModifier>())
-            // Logger<TownOfUsPlugin>.Message($"AssignRoleOnDeathPatch - !player.Data.Role.IsImpostor: '{!player.Data.Role.IsImpostor}' specialRolesAllowed: {specialRolesAllowed}");
+            // Message($"AssignRoleOnDeathPatch - !player.Data.Role.IsImpostor: '{!player.Data.Role.IsImpostor}' specialRolesAllowed: {specialRolesAllowed}");
         {
             RoleManager.TryAssignSpecialGhostRoles(player, player.IsImpostor());
         }
 
         if (!RoleManager.IsGhostRole(player.Data.Role.Role))
-            // Logger<TownOfUsPlugin>.Message($"AssignRoleOnDeathPatch - !RoleManager.IsGhostRole(player.Data.Role.Role): '{!RoleManager.IsGhostRole(player.Data.Role.Role)}'");
+            // Message($"AssignRoleOnDeathPatch - !RoleManager.IsGhostRole(player.Data.Role.Role): '{!RoleManager.IsGhostRole(player.Data.Role.Role)}'");
         {
             player.RpcSetRole(player.Data.Role.DefaultGhostRole);
         }
@@ -891,7 +891,7 @@ public static class TouRoleManagerPatches
         if (ghostRole != RoleTypes.CrewmateGhost && ghostRole != RoleTypes.ImpostorGhost &&
             ghostRole != (RoleTypes)RoleId.Get<NeutralGhostRole>())
             // var newRole = RoleManager.Instance.GetRole(ghostRole);
-            // Logger<TownOfUsPlugin>.Message($"TryAssignSpecialGhostRolesPatch - ghostRoles role: {newRole.GetRoleName()}");
+            // Message($"TryAssignSpecialGhostRolesPatch - ghostRoles role: {newRole.GetRoleName()}");
         {
             player.RpcChangeRole((ushort)ghostRole);
         }

@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -33,7 +32,7 @@ public sealed class WerewolfKillButton : TownOfUsRoleButton<WerewolfRole, Player
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Werewolf Shoot: Target is null");
+            Error("Werewolf Shoot: Target is null");
             return;
         }
 

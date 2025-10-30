@@ -281,7 +281,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         if (player.Data.Role is not PlumberRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlumberFlush - Invalid Plumber");
+            Error("RpcPlumberFlush - Invalid Plumber");
             return;
         }
 
@@ -316,7 +316,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         if (player.Data.Role is not PlumberRole plumber)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlumberBlockVent - Invalid Plumber");
+            Error("RpcPlumberBlockVent - Invalid Plumber");
             return;
         }
 

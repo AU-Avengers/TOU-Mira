@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -29,7 +28,7 @@ public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, Pla
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Mercenary Guard: Target is null");
+            Error("Mercenary Guard: Target is null");
             return;
         }
 

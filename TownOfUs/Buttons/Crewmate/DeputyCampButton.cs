@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -37,7 +36,7 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Camp: Target is null");
+            Error("Camp: Target is null");
             return;
         }
 

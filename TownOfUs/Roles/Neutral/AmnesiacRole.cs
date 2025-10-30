@@ -9,7 +9,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
@@ -105,7 +104,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not AmnesiacRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRemember - Invalid amnesiac");
+            Error("RpcRemember - Invalid amnesiac");
             return;
         }
 

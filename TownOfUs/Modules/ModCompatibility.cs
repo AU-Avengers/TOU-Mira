@@ -155,7 +155,7 @@ public static class ModCompatibility
             new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
 
         SubLoaded = true;
-        Logger<TownOfUsPlugin>.Message("Submerged was detected");
+        Message("Submerged was detected");
     }
 
     public static IEnumerable<CodeInstruction> SubmergedElevatorTranspilerPatch(
@@ -179,7 +179,7 @@ public static class ModCompatibility
 
         if (!found)
         {
-            Logger<TownOfUsPlugin>.Error("Failed to find the IsDead call in SubmergedElevator transpiler");
+            Error("Failed to find the IsDead call in SubmergedElevator transpiler");
         }
     }
 
@@ -447,7 +447,7 @@ public static class ModCompatibility
             new HarmonyMethod(AccessTools.Method(compatType, nameof(TriggerPostfix))));
 
         LILoaded = true;
-        Logger<TownOfUsPlugin>.Message("LevelImpostor was detected");
+        Message("LevelImpostor was detected");
     }
 
     public static string GetLIVentType(Vent vent)

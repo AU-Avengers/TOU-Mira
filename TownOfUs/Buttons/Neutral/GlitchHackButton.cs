@@ -3,7 +3,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -36,7 +35,7 @@ public sealed class GlitchHackButton : TownOfUsRoleButton<GlitchRole, PlayerCont
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Glitch Hack: Target is null");
+            Error("Glitch Hack: Target is null");
             return;
         }
 

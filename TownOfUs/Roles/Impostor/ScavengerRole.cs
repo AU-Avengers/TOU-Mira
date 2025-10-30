@@ -59,7 +59,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         // scavenge mode starts once kill timer reaches 0
         if (Player.killTimer <= 0f && !Scavenging && GameStarted && !Player.HasDied())
         {
-            // Logger<TownOfUsPlugin>.Message($"Scavenge Begin");
+            // Message($"Scavenge Begin");
             Scavenging = true;
             TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
 
@@ -84,7 +84,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         {
             Clear();
 
-            // Logger<TownOfUsPlugin>.Message($"Scavenge End");
+            // Message($"Scavenge End");
             Player.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());
         }
     }
@@ -156,7 +156,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         scav.Scavenging = false;
         if (player.killTimer <= 0f && !player.HasDied())
         {
-            // Logger<TownOfUsPlugin>.Message($"Scavenge Begin");
+            // Message($"Scavenge Begin");
             scav.Scavenging = true;
             scav.TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
 

@@ -29,7 +29,7 @@ public static class PlayerJoinPatch
             yield return null;
         }
 
-        Logger<TownOfUsPlugin>.Info("Client Initialized?");
+        Info("Client Initialized?");
 
         while (!PlayerControl.LocalPlayer)
         {
@@ -62,7 +62,7 @@ public static class PlayerJoinPatch
             Rpc<SendClientModInfoRpc>.Instance.Send(PlayerControl.LocalPlayer, modDictionary);
         }
 
-        Logger<TownOfUsPlugin>.Info("Sending Message to Local Player...");
+        Info("Sending Message to Local Player...");
         TouRoleManagerPatches.ReplaceRoleManager = false;
         SpectatorRole.TrackedPlayers.Clear();
         SpectatorRole.FixedCam = false;
@@ -102,7 +102,7 @@ public static class PlayerJoinPatch
         }
 
         yield return new WaitForSeconds(time);
-        Logger<TownOfUsPlugin>.Info("Offset Wiki Button (if needed)");
+        Info("Offset Wiki Button (if needed)");
         SentOnce = true;
     }
 }

@@ -3,7 +3,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -58,7 +57,7 @@ public sealed class PlumberFlushButton : TownOfUsRoleButton<PlumberRole, Vent>
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error($"{Name}: Target is null");
+            Error($"{Name}: Target is null");
             return;
         }
 

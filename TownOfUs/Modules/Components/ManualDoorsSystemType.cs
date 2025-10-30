@@ -8,7 +8,7 @@ namespace TownOfUs.Modules.Components;
 // This is a reimplementation of DoorsSystemType for vanilla maps (mainly just skeld), as Impostor servers assume they're unchanged.
 
 [RegisterInIl2Cpp(typeof(ISystemType), typeof(IActivatable), typeof(RunTimer), typeof(IDoorSystem))]
-public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), BaseGame.ISystemType, BaseGame.IActivatable, BaseGame.RunTimer, BaseGame.IDoorSystem
+public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), BaseGame.ISystemType, BaseGame.IActivatable, BaseGame.IRunTimer, BaseGame.IDoorSystem
 {
     public const byte SystemId = 152;
     public const SystemTypes SystemType = (SystemTypes)SystemId;
@@ -55,7 +55,7 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 			OpenableDoor openableDoor = ShipStatus.Instance.AllDoors.First((OpenableDoor d) => d.Id == id);
 			if (openableDoor == null)
 			{
-				Debug.LogWarning(string.Format(TownOfUsPlugin.Culture, "Couldn't find door {0}", id));
+				Warning(string.Format(TownOfUsPlugin.Culture, "Couldn't find door {0}", id));
 			}
 			else
 			{
@@ -113,14 +113,14 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 		IsDirty = true;
 	}
 
-	public float GetTimer(SystemTypes room)
+	public float GetTimer(SystemTypes system)
 	{
 		if (initialCooldown > 0f)
 		{
 			return initialCooldown / 10f;
 		}
 		float num;
-		if (timers.TryGetValue(room, out num))
+		if (timers.TryGetValue(system, out num))
 		{
 			return num / 30f;
 		}
