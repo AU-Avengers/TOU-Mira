@@ -28,6 +28,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable,
     IDoomable, IAssignableTargets, ICrewVariant
 {
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MirrorcasterRole>());
     public PlayerControl? Target { get; set; }
     public int Priority { get; set; } = 1;
 
@@ -76,7 +77,6 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Protective;
     public string LocaleKey => "GuardianAngel";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

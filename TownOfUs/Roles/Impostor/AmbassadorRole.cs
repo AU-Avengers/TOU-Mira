@@ -14,13 +14,15 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Ambassador";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

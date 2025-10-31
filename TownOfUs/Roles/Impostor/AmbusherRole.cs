@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
+using AmongUs.GameOptions;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -21,14 +22,16 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
 public sealed class AmbusherRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrackerTouRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Ambusher";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

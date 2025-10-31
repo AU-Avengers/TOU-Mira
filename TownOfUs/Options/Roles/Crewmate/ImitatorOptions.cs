@@ -1,5 +1,5 @@
 using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
@@ -8,9 +8,9 @@ public sealed class ImitatorOptions : AbstractOptionGroup<ImitatorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleImitator", "Imitator");
 
-    [ModdedToggleOption("Imitate Specific Neutrals As Similar Crew Roles")]
-    public bool ImitateNeutrals { get; set; } = true;
+    public ModdedToggleOption ImitateNeutrals { get; set; } = new("Imitate Specific Neutrals As Similar Crew Roles", true);
 
-    [ModdedToggleOption("Imitate Specific Impostors As Similar Crew Roles")]
-    public bool ImitateImpostors { get; set; } = true;
+    public ModdedToggleOption ImitateImpostors { get; set; } = new("Imitate Specific Impostors As Similar Crew Roles", true);
+
+    public ModdedToggleOption ImitateBasicCrewmate { get; set; } = new("Imitate Basic Crewmate", true);
 }

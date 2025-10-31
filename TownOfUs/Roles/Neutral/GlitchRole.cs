@@ -19,7 +19,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class GlitchRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SheriffRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Glitch";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

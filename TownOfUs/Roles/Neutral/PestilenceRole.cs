@@ -18,7 +18,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IUnguessable, ICrewVariant
 {
     public bool Announced { get; set; }
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AurialRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string YouAreText => TouLocale.Get("YouAre");
     public string YouWereText => TouLocale.Get("YouWere");

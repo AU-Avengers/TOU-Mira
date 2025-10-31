@@ -1,4 +1,5 @@
 using System.Text;
+using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
@@ -11,11 +12,13 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
+using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Spellslinger";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

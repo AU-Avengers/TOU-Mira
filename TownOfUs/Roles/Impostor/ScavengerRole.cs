@@ -89,7 +89,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrackerTouRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<InvestigatorRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string LocaleKey => "Scavenger";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

@@ -24,7 +24,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     [HideFromIl2Cpp] public List<byte> Voters { get; } = [];
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlumberRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<EngineerTouRole>());
 
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>

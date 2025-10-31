@@ -35,7 +35,7 @@ public sealed class MinerRole(IntPtr cppPtr)
                                                      (Player != null && MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<EngineerTouRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlumberRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Miner";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

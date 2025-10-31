@@ -5,6 +5,7 @@ using MiraAPI.Roles;
 using TownOfUs.Events;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -112,57 +113,48 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
     {
         var player = GameData.Instance.GetPlayerById(voteArea.TargetPlayerId);
         var opts = OptionGroupSingleton<ImitatorOptions>.Instance;
-        if (player != null && player.Object.GetRoleWhenAlive() is ICrewVariant neutVariant &&
-            player.Object.IsNeutral() && opts.ImitateNeutrals &&
-            MiscUtils.GetPotentialRoles().Contains(neutVariant.CrewVariant))
+        if (Player.Data.IsDead || player == null || player.Object == null || voteArea.TargetPlayerId == Player.PlayerId || player.Object.Data.Disconnected || !voteArea.AmDead)
         {
-            return voteArea.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || !voteArea!.AmDead;
+            return true;
+        }
+        var playerRole = player.Object.GetRoleWhenAlive();
+        var playerRoleId = playerRole.Role;
+        var crewRole = (playerRole is ICrewVariant crewVariant) ? crewVariant.CrewVariant : playerRole;
+        var otherPlayersWithPowerRole = PlayerControl.AllPlayerControls.ToArray().Count(x => x.Data.Role.Role == playerRoleId && x != player.Object && x != Player) > 1;
+        var otherImitatorsExist = MiraAPI.Utilities.Helpers.GetAlivePlayers()
+            .Any(x => x.HasModifier<ImitatorCacheModifier>() && !x != Player);
+
+        if (crewRole.IsCrewmate() &&
+            player.Object.IsNeutral() &&
+            MiscUtils.GetPotentialRoles().Contains(crewRole))
+        {
+            return !opts.ImitateNeutrals;
         }
 
-        if (player != null && player.Object.GetRoleWhenAlive() is ICrewVariant impVariant &&
-            player.Object.IsImpostor() && opts.ImitateImpostors &&
-            MiscUtils.GetPotentialRoles().Contains(impVariant.CrewVariant))
+        if (crewRole.IsCrewmate() &&
+            player.Object.IsImpostor() &&
+            MiscUtils.GetPotentialRoles().Contains(crewRole))
         {
-            return voteArea.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || !voteArea!.AmDead;
+            return !opts.ImitateImpostors;
         }
 
 
-        if (player != null && !player.Object.IsCrewmate())
+        if (!player.Object.IsCrewmate() || !playerRole.IsCrewmate())
         {
             return true;
         }
 
-        if (player != null && player.Object.GetRoleWhenAlive() is JailorRole &&
-            !CustomRoleUtils.GetActiveRolesOfType<JailorRole>().Any() && PlayerControl.AllPlayerControls.ToArray()
-                .Any(x => x.HasModifier<ImitatorCacheModifier>() && !x.Data.IsDead && !x != Player))
+        if (playerRole.GetRoleAlignment() is RoleAlignment.CrewmatePower && otherPlayersWithPowerRole && otherImitatorsExist)
         {
             return true;
         }
 
-        if (player != null && player.Object.GetRoleWhenAlive() is ProsecutorRole &&
-            !CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>().Any() && PlayerControl.AllPlayerControls.ToArray()
-                .Any(x => x.HasModifier<ImitatorCacheModifier>() && !x.Data.IsDead && !x != Player))
+        if (playerRole is ImitatorRole || playerRole is SurvivorRole || playerRole.IsSimpleRole)
         {
-            return true;
+            return !opts.ImitateBasicCrewmate;
         }
 
-        if (player != null && player.Object.GetRoleWhenAlive() is MayorRole)
-        {
-            return true;
-        }
-
-        if (player != null && player.Object.GetRoleWhenAlive() is PoliticianRole)
-        {
-            return true;
-        }
-
-        if (player != null && player.Object.GetRoleWhenAlive() is ImitatorRole)
-        {
-            return true;
-        }
-
-        return voteArea.TargetPlayerId == Player.PlayerId || Player.Data.IsDead ||
-               (player != null && player.Object.Data.Disconnected) || !voteArea!.AmDead;
+        return false;
     }
 
     public void UpdateRole()
