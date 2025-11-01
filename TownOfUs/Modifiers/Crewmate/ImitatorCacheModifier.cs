@@ -183,6 +183,10 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             }
 
             Player.RpcChangeRole(RoleId.Get<ImitatorRole>(), false);
+            if (Player.HasDied())
+            {
+                Player.RpcChangeRole((ushort)RoleTypes.CrewmateGhost, false);
+            }
             return;
         }
 
