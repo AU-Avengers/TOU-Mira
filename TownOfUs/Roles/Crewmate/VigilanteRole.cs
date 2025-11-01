@@ -13,12 +13,10 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -148,24 +146,29 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         void ClickRoleHandle(RoleBehaviour role)
         {
-            var pickVictim = role.Role == player.Data.Role.Role;
+            var realRole = player.Data.Role;
 
-            if (player.IsImpostor())
+            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
+
+            var pickVictim = role.Role == realRole.Role;
+            if (cachedMod != null)
             {
-                if (role.Role == player.Data.Role.Role && !player.HasModifier<TraitorCacheModifier>())
+                switch (cachedMod.GuessMode)
                 {
-                    pickVictim = true;
-                }
-                else if (role is TraitorRole && player.HasModifier<TraitorCacheModifier>())
-                {
-                    pickVictim = true;
-                }
-                else
-                {
-                    pickVictim = false;
+                    case CacheRoleGuess.ActiveRole:
+                        // Checks for the role the player is at the moment
+                        pickVictim = role.Role == realRole.Role;
+                        break;
+                    case CacheRoleGuess.CachedRole:
+                        // Checks for the cached role itself (like Imitator or Traitor)
+                        pickVictim = role.Role == cachedMod.CachedRole.Role;
+                        break;
+                    default:
+                        // Checks if it's the cached or active role
+                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
+                        break;
                 }
             }
-
             var victim = pickVictim ? player : Player;
 
             ClickHandler(victim);

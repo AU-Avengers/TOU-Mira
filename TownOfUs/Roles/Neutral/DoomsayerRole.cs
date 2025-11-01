@@ -305,14 +305,28 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         void ClickRoleHandle(RoleBehaviour role)
         {
             var realRole = player.Data.Role;
-
+            
             var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-            if (cachedMod != null)
-            {
-                realRole = cachedMod.CachedRole;
-            }
 
             var pickVictim = role.Role == realRole.Role;
+            if (cachedMod != null)
+            {
+                switch (cachedMod.GuessMode)
+                {
+                    case CacheRoleGuess.ActiveRole:
+                        // Checks for the role the player is at the moment
+                        pickVictim = role.Role == realRole.Role;
+                        break;
+                    case CacheRoleGuess.CachedRole:
+                        // Checks for the cached role itself (like Imitator or Traitor)
+                        pickVictim = role.Role == cachedMod.CachedRole.Role;
+                        break;
+                    default:
+                        // Checks if it's the cached or active role
+                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
+                        break;
+                }
+            }
             var victim = pickVictim ? player : Player;
 
             ClickHandler(victim, voteArea.TargetPlayerId);

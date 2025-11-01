@@ -13,4 +13,6 @@ public sealed class ImitatorOptions : AbstractOptionGroup<ImitatorRole>
     public ModdedToggleOption ImitateImpostors { get; set; } = new("Imitate Specific Impostors As Similar Crew Roles", true);
 
     public ModdedToggleOption ImitateBasicCrewmate { get; set; } = new("Imitate Basic Crewmate", true);
+
+    public ModdedEnumOption ImitatorGuess { get; set; } = new("Imitator Must Be Guessed As", (int)CacheRoleGuess.ActiveOrCachedRole, typeof(CacheRoleGuess), ["Imitator", "Imitated Role", "Imitator or Imitated Role"]);
 }
