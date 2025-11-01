@@ -178,7 +178,7 @@
   <string name="DiedToGuess">Adivinado</string>
   <string name="DiedToHeartbreak">Corazón roto</string>
   <string name="DiedToSheriff">Disparado</string>
-  <string name="DiedToDeputy">Blasteado</string>
+  <string name="DiedToDeputy">Disparado</string>
   <string name="DiedToVeteran">Atacado</string>
   <string name="DiedToJailor">Ejecutado</string>
   <string name="DiedToProsecutor">Ejecutado por el Fiscal</string>
@@ -262,7 +262,7 @@
   <string name="TouRoleDetectiveExamineWikiDescription">Examina jugadores tras examinar una escena del crimen. Serás dicho si el jugador estaba en la escena del crimen.</string>
   <string name="TouOptionDetectiveExamineCooldown">Tiempo de espera para examinar</string>
   <string name="TouOptionDetectiveReportOn">Mostrar Informes de Detective</string>
-  <string name="TouOptionDetectiveRoleDuration">Tiempo durante el que el detective tendrá el rol</string>
+  <string name="TouOptionDetectiveRoleDuration">Tiempo Durante el que el Detective Tendrá el Rol</string>
   <string name="TouOptionDetectiveFactionDuration">Tiempo Durante el cual Detective Tendrá Facción</string>
   <string name="TouRoleDetectiveAtScene">\%player\% estaba en la escena de la muerte de \%deadPlayer\%\%nl\%Es posible que sea el asesino o un testigo.</string>
   <string name="TouRoleDetectiveNotAtScene">\%player\%no estaba en la escena del crimen.</string>
@@ -290,4 +290,21 @@
   <string name="ShowVanillaWikiEntries">Mostrar Entradas Base de la Wiki</string>
   <string name="PlayerHasNoModifiers">No modificadores</string>
   <string name="SpecialNeutral">Neutral Especial</string>
+  <string name="TouRoleDeputyCampNotif">Espera para la muerte de \%player\% para poder disparar a su asesino en la discusión.</string>
+  <string name="TouRoleDeputyMessageTitle">Comentarios del Diputado</string>
+  <string name="TouRoleDetectiveInspectNotif">Has inspeccionados la escena del crimen de \%player\%. El asesino, o cualquiera que haya pisado en la escena del crimen, parpadeará rojo cuando sea examinado.</string>
+  <string name="TouOptionEngineerTaskUses">Consigue Más Usos de las Ventilaciones al Completar Tareas</string>
+  <string name="TouOptionEngineerVentCooldown">Tiempo de Espera de Ventilaciones</string>
+  <string name="TouRoleHaunterImpAlertFeedback">Un Perseguidor está libre, ¡Atrápalo antes de que pueda revelarte!</string>
+  <string name="TouRoleHunter">Cazador</string>
+  <string name="TouRoleHunterIntroBlurb">Acecha El \%color=#FF0000FF\%Impostor\%/color\%</string>
+  <string name="TouRoleHunterTabDescription">Acecha jugadores para ser alertado cuando usan una habilidad. \%nl\%Una vez usen una habilidad, podrás matarlos.</string>
+  <string name="TouRoleHunterCaughtPlayersText">Jugadores Atrapados:</string>
+  <string name="TouRoleHunterWikiDescription">El Cazador es un rol de Tripulante Asesino que puede acechar jugadores durante la ronda. Si un jugador acechado usa una habilidad, podrán ser matados por el Cazador en cualquier punto de la partida, incluso Tripulantes.</string>
+  <string name="TouRoleHunterStalk">Acechar</string>
+  <string name="TouRoleHunterStalking">Acechando</string>
+  <string name="TouRoleHunterStalkWikiDescription">Elige un objetivo para acechar. Puedes acechar \%hunterMaxStalkUsages\% jugadores. Si usan cualquier habilidad mientras son acechados, serán añadidos a tu lista de objetivos, y podrán ser matados.</string>
+  <string name="TouRoleHunterStalkNotif">Si \%player\% usa una habilidad, serás capaz de matarlos en cualquier momento de la ronda.</string>
+  <string name="TouOptionHunterKillCooldown">Tiempo de Espera tras Matar del Cazador</string>
+  <string name="TouOptionHunterStalkCooldown">Tiempo de Espera de Acechamiento del Cazador</string>
 </resources>
