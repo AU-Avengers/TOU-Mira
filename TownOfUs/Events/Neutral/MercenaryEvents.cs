@@ -5,6 +5,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -100,6 +101,7 @@ public static class MercenaryEvents
         {
             @event.Cancel();
             ResetButtonTimer(source, button);
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Mercenary, alpha: 0.5f));
         }
 
         var mercenary = guardMod.Mercenary;
