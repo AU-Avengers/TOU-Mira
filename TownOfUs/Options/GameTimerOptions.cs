@@ -10,10 +10,11 @@ public sealed class GameTimerOptions : AbstractOptionGroup
     public override string GroupName => "End Game Timer";
     public override uint GroupPriority => 3;
 
-    [ModdedToggleOption("Game Timer")] public bool GameTimerEnabled { get; set; } = false;
+    [ModdedToggleOption("Game Timer")] 
+    public bool GameTimerEnabled { get; set; } = false;
 
-    public ModdedEnumOption PauseInMeetings { get; } =
-        new("Pause Timer In Meetings", 1, typeof(PauseInMeetingsType), ["Below 5 Mins", "Below 10 Mins", "Always"])
+    public ModdedNumberOption PauseInMeetings { get; } =
+        new("Pause Timer In Meetings", 5f, 1f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled
         };
