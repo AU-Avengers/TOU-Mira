@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Patches.Hud;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
@@ -95,5 +96,11 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
 
         CustomRoleUtils.GetActiveRolesOfType<SnitchRole>().ToList()
             .ForEach(snitch => snitch.AddSnitchTraitorArrows());
+
+        if (player.AmOwner)
+        {
+            ButtonResetPatches.ResetCooldowns();
+            player.SetKillTimer(player.GetKillCooldown());
+        }
     }
 }
