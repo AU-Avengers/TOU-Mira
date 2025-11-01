@@ -247,7 +247,7 @@ public static class TownOfUsEventHandlers
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
         // Incase the kill animation is stuck somehow
-        HudManager.Instance.KillOverlay.gameObject.SetActive(false);
+        // HudManager.Instance.KillOverlay.gameObject.SetActive(false);
         foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
         {
             mod.ModifierComponent?.RemoveModifier(mod);
