@@ -107,6 +107,7 @@ public static class MercenaryEvents
         if (mercenary != null && source.AmOwner)
         {
             MercenaryRole.RpcGuarded(mercenary, mercOpts.GuardProtection.Value && (!noAttack || isAttack));
+            target.RpcRemoveModifier<MercenaryGuardModifier>();
         }
     }
 }
