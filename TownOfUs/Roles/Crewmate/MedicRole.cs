@@ -189,7 +189,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public void SetShieldedPlayer(PlayerControl? player)
     {
-        Shielded?.RemoveModifier<MedicShieldModifier>();
+        if (Shielded?.TryGetModifier<MedicShieldModifier>(out var mod) == true)
+        {
+            // This should prevent any issues with murder attempts
+            mod.StartTimer();
+        }
 
         Shielded = player;
 

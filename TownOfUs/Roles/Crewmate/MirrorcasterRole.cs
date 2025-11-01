@@ -121,7 +121,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public void SetProtectedPlayer(PlayerControl? player)
     {
-        Protected?.RemoveModifier<MagicMirrorModifier>();
+        if (Protected?.TryGetModifier<MagicMirrorModifier>(out var mod) == true)
+        {
+            // This should prevent any issues with murder attempts
+            mod.StartTimer();
+        }
 
         Protected = (player?.HasDied() == true) ? null : player;
 
