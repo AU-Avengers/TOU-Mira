@@ -714,7 +714,7 @@
   <!-- Vigilante - Crewmate Killing -->
   <!-- Vigilante Wiki / Description -->
   <string name="TouRoleVigilante">Vigilante</string>
-  <string name="TouRoleVigilanteIntroBlurb">Kill Impostors If You Can Guess Their Roles</string>
+  <string name="TouRoleVigilanteIntroBlurb">Kill \%color=#FF0000FF\%Impostors\%/color\% If You Can Guess Their Roles</string>
   <string name="TouRoleVigilanteTabDescription">Guess the roles of impostors mid-meeting to kill them!</string>
   <string name="TouRoleVigilanteWikiDescription">The Vigilante is a Crewmate Killing role that can guess roles of players in meetings. If they guess correctly, the other player will die. If not, they will die. </string>
   <!-- Vigilante Options -->
@@ -739,7 +739,7 @@
   <!-- Impostor Roles -->
   <!-- Ambassador Wiki / Abilities -->
   <string name="TouRoleAmbassador">Ambassador</string>
-  <string name="TouRoleAmbassadorIntroBlurb">Lead The Impostors To Victory</string>
+  <string name="TouRoleAmbassadorIntroBlurb">Lead The \%color=#FF0000FF\%Impostors\%/color\% To Victory</string>
   <string name="TouRoleAmbassadorTabDescription">Retrain yourself or fellow impostors into another role\%nl\%\%b\%Imp Killing cannot be a Power role\%/b\%\%nl\%\%b\%Imp Concealing/Support cannot be a Killing/Power role\%/b\%</string>
   <string name="TouRoleAmbassadorWikiDescription">The Ambassador is an Impostor Power role that can retrain impostors into other impostor roles.</string>
   <string name="TouRoleAmbassadorRetrain">Retrain</string>
@@ -1310,6 +1310,13 @@
   <string name="TouOptionWerewolfCanVent">Werewolf Can Vent When Rampaged</string>
   <!-- Alliance Modifiers -->
 
+  <!-- Crewpostor - Crewmate Alliance -->
+  <!-- Crewpostor Wiki / Description -->
+  <string name="TouModifierCrewpostor">Crewpostor</string>
+  <string name="TouModifierCrewpostorColoredName">\%color=#8CFFFF\%Crew\%/color\%\%color=#FF0000FF\%postor\%/color\%</string>
+  <string name="TouModifierCrewpostorIntroBlurb">Aid The \%color=#FF0000FF\%Impostors\%/color\%</string>
+  <string name="TouModifierCrewpostorTabDescription">Betray the crewmates as an Impostor.</string>
+  <string name="TouModifierCrewpostorWikiDescription">The Crewpostor is a Crewmate Alliance modifier, which forces a crewmate to work for the impostor faction. If all impostors are dead, you become a Traitor.</string>
   <!-- Egotist - Crewmate Alliance -->
   <!-- Egotist Wiki / Description -->
   <string name="TouModifierEgotist">Egotist</string>

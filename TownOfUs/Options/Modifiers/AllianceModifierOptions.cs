@@ -12,6 +12,9 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
     public override bool ShowInModifiersMenu => true;
     public override uint GroupPriority => 0;
 
+    [ModdedNumberOption("Crewpostor Chance", 0, 100, 10f, MiraNumberSuffixes.Percent)]
+    public float CrewpostorChance { get; set; } = 0;
+
     [ModdedNumberOption("Egotist Chance", 0, 100f, 10f, MiraNumberSuffixes.Percent)]
     public float EgotistChance { get; set; } = 0;
 

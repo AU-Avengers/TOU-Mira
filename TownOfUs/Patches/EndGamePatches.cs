@@ -158,11 +158,11 @@ public static class EndGamePatches
                         $" | {Color.green.ToTextColor()}Guesses: {stats.CorrectAssassinKills}</color>");
                 }
 
-                if (stats.IncorrectAssassinKills > 0)
+                /*if (stats.IncorrectAssassinKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {TownOfUsColors.Impostor.ToTextColor()}Misguesses: {stats.IncorrectAssassinKills}</color>");
-                }
+                }*/
             }
             else if (killedPlayers > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
             {

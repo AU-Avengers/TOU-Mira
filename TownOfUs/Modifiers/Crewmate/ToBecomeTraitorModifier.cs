@@ -32,7 +32,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     public void AssignTargets()
     {
         if (GameOptionsManager.Instance.CurrentGameOptions.RoleOptions
-                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0)
+                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().Any())
         {
             return;
         }

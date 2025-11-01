@@ -6,6 +6,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
@@ -24,7 +25,7 @@ namespace TownOfUs.Roles.Neutral;
 
 public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
 {
-    public bool ContinuesGame => StoredBodies.Count != 0;
+    public bool ContinuesGame => StoredBodies.Count != 0 && Helpers.GetAlivePlayers().Any(x => !x.HasModifier<ChefServedModifier>() && x != Player);
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DetectiveTouRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     [HideFromIl2Cpp] public List<KeyValuePair<int, PlatterType>> StoredBodies { get; set; } = [];
