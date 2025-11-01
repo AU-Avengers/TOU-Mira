@@ -11,6 +11,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Neutral;
@@ -24,7 +25,7 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class DoomsayerRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
 {
     private MeetingMenu meetingMenu;
 
@@ -34,6 +35,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     [HideFromIl2Cpp] public List<PlayerControl> AllVictims { get; } = [];
 
+    public bool ContinuesGame => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Doomsayer";

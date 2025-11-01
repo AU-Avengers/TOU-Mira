@@ -2,11 +2,14 @@ using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
@@ -15,8 +18,10 @@ using Random = System.Random;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
-public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableTargets
+public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableTargets, IContinuesGame
 {
+    public bool ContinuesGame => Helpers.GetAlivePlayers().Count >
+                                 (int)OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1;
     public override string ModifierName => "Possible Traitor";
     public override bool HideOnUi => true;
 

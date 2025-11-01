@@ -15,6 +15,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
@@ -26,8 +27,9 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
-    IAssignableTargets, ICrewVariant
+    IAssignableTargets, ICrewVariant, IContinuesGame
 {
+    public bool ContinuesGame => OptionGroupSingleton<InquisitorOptions>.Instance.StallGame && CanVanquish && TargetsDead && Helpers.GetAlivePlayers().Count <= 3;
     public bool CanVanquish { get; set; } = true;
 
     [HideFromIl2Cpp] public List<PlayerControl> Targets { get; set; } = [];

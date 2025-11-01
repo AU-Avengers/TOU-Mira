@@ -3,6 +3,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Events;
+using TownOfUs.Interfaces;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
@@ -13,8 +14,9 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
-public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole
+public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinuesGame
 {
+    public bool ContinuesGame => PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsDead && x.GetRoleWhenAlive() is ITouCrewRole crewRole && crewRole.IsPowerCrew);
     private MeetingMenu? _meetingMenu;
     private NetworkedPlayerInfo? _selectedPlr;
     public override string ModifierName => "Imitator";

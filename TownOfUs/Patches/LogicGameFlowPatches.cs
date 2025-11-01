@@ -171,11 +171,10 @@ public static class LogicGameFlowPatches
                 continue;
             }
 
-            var criticalSabotage = sabo;
-            if (criticalSabotage != null && criticalSabotage.Countdown < 0f)
+            if (sabo.Countdown < 0f)
             {
                 __instance.EndGameForSabotage();
-                criticalSabotage.ClearSabotage();
+                sabo.ClearSabotage();
             }
         }
 
@@ -205,7 +204,7 @@ public static class LogicGameFlowPatches
         // If any neutral win condition is met -> game over
         // Using RoleAlignment as a quick and basic way to prioritise NeutralEvil wins over NeutralKiller wins
         if (CustomRoleUtils.GetActiveRolesOfTeam(ModdedRoleTeams.Custom)
-                .OrderBy(x => (x as ITownOfUsRole)!.RoleAlignment)
+                .OrderBy(x => x.GetRoleAlignment())
                 .FirstOrDefault(x => x is ITownOfUsRole role && role.WinConditionMet()) is { } winner)
         {
             Message($"Game Over");
@@ -214,18 +213,9 @@ public static class LogicGameFlowPatches
             return false;
         }
 
-        // Prevents game end when all impostors are dead but there are neutral killers left alive
-        if (MiscUtils.NKillersAliveCount > 0 ||
-            (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0))
-        {
-            return false;
-        }
-
-        // Prevents game end when all impostors are dead but there is a possibility for a traitor to spawn given the conditions
-        var possibleTraitor = ModifierUtils.GetActiveModifiers<ToBecomeTraitorModifier>()
-            .FirstOrDefault(x => !x.Player.HasDied() && x.Player.IsCrewmate());
-        if (Helpers.GetAlivePlayers().Count > (int)OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1 &&
-            possibleTraitor != null)
+        // Prevents game end when all impostors are dead but there are neutral killers alive, or when roles like doom are present.
+        if (MiscUtils.ImpAliveCount > 0 || MiscUtils.NKillersAliveCount > 0 ||
+            (MiscUtils.CrewKillersAliveCount > 0 && MiscUtils.GameHaltersAliveCount > 0))
         {
             return false;
         }

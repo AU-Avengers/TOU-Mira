@@ -32,6 +32,8 @@ public sealed class DoomsayerOptions : AbstractOptionGroup<DoomsayerRole>
 
     [ModdedEnumOption("Doomsayer Win", typeof(DoomWinOptions), ["Ends Game", "Leaves In Victory", "Nothing"])]
     public DoomWinOptions DoomWin { get; set; } = DoomWinOptions.Leaves;
+
+    public ModdedToggleOption DoomContinuesGame { get; set; } = new("Doomsayer Continues The Game", true);
 }
 
 public enum DoomWinOptions
