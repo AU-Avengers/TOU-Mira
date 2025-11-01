@@ -174,7 +174,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return;
         }
 
-        if (_selectedPlr == null || Player.HasDied() || !_selectedPlr.IsDead || _selectedPlr.Disconnected)
+        if (_selectedPlr == null || Player.HasDied() || !_selectedPlr.IsDead || _selectedPlr.Disconnected || _selectedPlr.Object == null)
         {
             _selectedPlr = null;
             if (Player == null || Player.IsRole<ImitatorRole>())
@@ -190,6 +190,12 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         if (roleWhenAlive is ICrewVariant crewType)
         {
             roleWhenAlive = crewType.CrewVariant;
+        }
+
+        // Only the imitator will see this!
+        if (!_selectedPlr.Object.HasModifier<ImitatedRevealedModifier>())
+        {
+            _selectedPlr.Object.AddModifier<ImitatedRevealedModifier>(roleWhenAlive);
         }
 
         if (Player.Data.Role.GetType() != roleWhenAlive.GetType())

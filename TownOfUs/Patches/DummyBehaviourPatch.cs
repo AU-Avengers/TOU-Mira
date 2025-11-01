@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game;
@@ -67,6 +68,7 @@ public static class DummyBehaviourPatches
         }
 
         dummy.RpcSetName(AccountManager.Instance.GetRandomName());
+        Warning($"Dummy {dummy.Data.PlayerName} role: {dummy.Data.Role.GetRoleName()}");
 
         dummy.SetSkin(HatManager.Instance.allSkins[Random.Range(0, HatManager.Instance.allSkins.Count)].ProdId, 0);
         dummy.SetNamePlate(HatManager.Instance
