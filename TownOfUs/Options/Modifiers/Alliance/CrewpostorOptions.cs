@@ -17,5 +17,5 @@ public sealed class CrewpostorOptions : AbstractOptionGroup<CrewpostorModifier>
 
     public ModdedToggleOption CrewpostorVision { get; set; } = new("Crewpostor Gets Impostor Vision", true);
 
-    public ModdedToggleOption ShowsAsImpostor { get; set; } = new("Crewpostor Appears Like An Impostor", false);
+    public ModdedToggleOption ShowsAsImpostor { get; set; } = new("Crewpostor Appears Like A Traitor", false);
 }

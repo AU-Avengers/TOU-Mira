@@ -2,6 +2,7 @@
 using AmongUs.GameOptions;
 using LibCpp2IL;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -15,6 +16,7 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
@@ -77,8 +79,12 @@ public static class Extensions
 
     public static bool IsTraitor(this PlayerControl player)
     {
-        return player?.Data && player?.Data?.Role && player?.Data?.Role.IsImpostor() == true &&
-               (player?.HasModifier<TraitorCacheModifier>() == true || player?.Data?.Role is TraitorRole);
+        if (player == null || player.Data == null || player.Data.Role == null)
+        {
+            return false;
+        }
+        return player.Data.Role.IsImpostor() && (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
+               (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor && player.HasModifier<CrewpostorModifier>());
     }
 
     public static bool IsCrewmate(this PlayerControl player)

@@ -81,9 +81,10 @@ public sealed class BodyReport
 
         // if the killer died, they would still appear correctly here
         var role = br.Killer.GetRoleWhenAlive();
-        if (br.Killer.HasModifier<TraitorCacheModifier>())
+        var cacheMod = br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
+        if (cacheMod != null)
         {
-            role = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>());
+            role = cacheMod.CachedRole;
         }
 
         var prefix = "a";

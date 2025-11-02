@@ -165,13 +165,12 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
     public static bool IsEvil(PlayerControl target)
     {
         var options = OptionGroupSingleton<SeerOptions>.Instance;
-        return !target.HasModifier<ImitatorCacheModifier>() &&
-               ((target.Is(RoleAlignment.CrewmateKilling) && options.ShowCrewmateKillingAsRed) ||
+        return ((target.Is(RoleAlignment.CrewmateKilling) && options.ShowCrewmateKillingAsRed) ||
                 (target.Is(RoleAlignment.NeutralBenign) && options.ShowNeutralBenignAsRed) ||
                 (target.Is(RoleAlignment.NeutralEvil) && options.ShowNeutralEvilAsRed) ||
                 (target.Is(RoleAlignment.NeutralKilling) && options.ShowNeutralKillingAsRed) ||
                 (target.Is(RoleAlignment.NeutralOutlier) && options.ShowNeutralOutlierAsRed) ||
-                (target.IsImpostor() && !target.HasModifier<TraitorCacheModifier>()) ||
-                (target.HasModifier<TraitorCacheModifier>() && options.SwapTraitorColors));
+                (target.IsImpostor() && !target.IsTraitor()) ||
+                (target.IsTraitor() && options.SwapTraitorColors));
     }
 }
