@@ -63,6 +63,11 @@ public static class Extensions
         return player?.Data && player?.Data?.Role && player?.Data?.Role.IsImpostor() == true;
     }
 
+    public static bool IsImpostorAligned(this PlayerControl player)
+    {
+        return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true || player?.HasModifier<CrewpostorModifier>() == true);
+    }
+
     public static bool IsImpostor(this RoleBehaviour role)
     {
         return role is ICustomRole customRole

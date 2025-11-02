@@ -35,7 +35,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     [HideFromIl2Cpp] public List<PlayerControl> AllVictims { get; } = [];
 
-    public bool ContinuesGame => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame && Helpers.GetAlivePlayers().Count > 1;
+    public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame && Helpers.GetAlivePlayers().Count > 1;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Doomsayer";

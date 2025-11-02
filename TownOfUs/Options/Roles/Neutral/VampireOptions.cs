@@ -33,6 +33,17 @@ public sealed class VampireOptions : AbstractOptionGroup<VampireRole>
     [ModdedToggleOption("Vampires Can Vent")]
     public bool CanVent { get; set; } = true;
 }
+// TODO: Implement multi-select options in MiraAPI by using flags rather than enums.
+/*[Flags]
+public enum ValidBites : uint
+{
+    None = 0,
+    NeutralBenign = 1,
+    NeutralEvil = 2,
+    NeutralOutlier = 3,
+    Lovers = 8,
+    All = 10,
+}*/
 
 public enum ValidBites
 {

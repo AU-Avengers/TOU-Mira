@@ -335,7 +335,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             player.AddModifier<AmbassadorRetrainedModifier>((ushort)player.Data.Role.Role);
             player.ChangeRole(role);
 
-            if (PlayerControl.LocalPlayer.IsImpostor() &&
+            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                 (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner))
             {
                 var text =
@@ -356,7 +356,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
                 notif1.AdjustNotification();
             }
         }
-        else if (PlayerControl.LocalPlayer.IsImpostor() &&
+        else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                  (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || ambassador.AmOwner))
         {
             var text =
@@ -388,7 +388,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
         if (playerId == byte.MaxValue || role == 0)
         {
-            if (PlayerControl.LocalPlayer.IsImpostor() && ambassador.SelectedPlr != null &&
+            if (PlayerControl.LocalPlayer.IsImpostorAligned() && ambassador.SelectedPlr != null &&
                 (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || player.AmOwner))
             {
                 var text =
@@ -412,7 +412,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
         ambassador.SelectedPlr = GameData.Instance.GetPlayerById(playerId);
         ambassador.SelectedRole = RoleManager.Instance.GetRole((RoleTypes)role);
-        if (PlayerControl.LocalPlayer.IsImpostor() &&
+        if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
             (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode || player.AmOwner))
         {
             var text =

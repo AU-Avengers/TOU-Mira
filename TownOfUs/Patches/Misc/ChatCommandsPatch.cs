@@ -211,7 +211,7 @@ public static class ChatPatches
 
         if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied() &&
             (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() ||
-             PlayerControl.LocalPlayer.Data.Role is VampireRole || PlayerControl.LocalPlayer.IsImpostor()))
+             PlayerControl.LocalPlayer.Data.Role is VampireRole || PlayerControl.LocalPlayer.IsImpostorAligned()))
         {
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
             if (PlayerControl.LocalPlayer.Data.Role is JailorRole)
@@ -259,7 +259,7 @@ public static class ChatPatches
                 return false;
             }
 
-            if (PlayerControl.LocalPlayer.IsImpostor() &&
+            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                 genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
             {
                 TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);

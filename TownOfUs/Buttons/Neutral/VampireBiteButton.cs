@@ -106,7 +106,7 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
             return false;
         }
 
-        if (target.IsImpostor())
+        if (target.IsImpostorAligned())
         {
             return false;
         }

@@ -728,10 +728,10 @@ public static class TownOfUsEventHandlers
     private static IEnumerator CoHideHud()
     {
         yield return new WaitForSeconds(0.01f);
-        HudManager.Instance.SetHudActive(false);
         HudManager.Instance.AbilityButton.SetDisabled();
         HudManager.Instance.SabotageButton.SetDisabled();
         HudManager.Instance.UseButton.SetDisabled();
+        HudManager.Instance.SetHudActive(false);
     }
 
     private static IEnumerator CoAnimateDeath(PlayerVoteArea voteArea)

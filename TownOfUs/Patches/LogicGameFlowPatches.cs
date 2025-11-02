@@ -212,8 +212,9 @@ public static class LogicGameFlowPatches
         }
 
         // Prevents game end when all impostors are dead but there are neutral killers alive, or when roles like doom are present.
-        if (MiscUtils.ImpAliveCount > 0 || MiscUtils.NKillersAliveCount > 0 ||
-            (MiscUtils.CrewKillersAliveCount > 0 && MiscUtils.GameHaltersAliveCount > 0))
+        if (MiscUtils.NKillersAliveCount > 0 ||
+            (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0) ||
+            (MiscUtils.GameHaltersAliveCount > 0 && Helpers.GetAlivePlayers().Count > 1))
         {
             return false;
         }

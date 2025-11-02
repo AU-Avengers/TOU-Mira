@@ -33,7 +33,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
 
         VisionPerc = 1f;
 
-        if (PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
+        if (PlayerControl.LocalPlayer.IsImpostorAligned() || (PlayerControl.LocalPlayer.HasDied() &&
                                                        OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
@@ -64,7 +64,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
 
         var opts = OptionGroupSingleton<EclipsalOptions>.Instance;
 
-        if (PlayerControl.LocalPlayer.IsImpostor())
+        if (PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Color.black);
         }
@@ -83,7 +83,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
         }
 
         EclipseBack?.SetActive(false);
-        if ((PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
+        if ((PlayerControl.LocalPlayer.IsImpostorAligned() || (PlayerControl.LocalPlayer.HasDied() &&
                                                         OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow)) &&
             EclipseBack?.gameObject != null)
         {
@@ -107,7 +107,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
 
         VisionPerc = 1f;
 
-        if (PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
+        if (PlayerControl.LocalPlayer.IsImpostorAligned() || (PlayerControl.LocalPlayer.HasDied() &&
                                                        OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);

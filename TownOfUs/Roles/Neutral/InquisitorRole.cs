@@ -29,7 +29,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
     IAssignableTargets, ICrewVariant, IContinuesGame
 {
-    public bool ContinuesGame => OptionGroupSingleton<InquisitorOptions>.Instance.StallGame && CanVanquish && !TargetsDead && Helpers.GetAlivePlayers().Count <= 3;
+    public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<InquisitorOptions>.Instance.StallGame && CanVanquish && !TargetsDead && Helpers.GetAlivePlayers().Count <= 3;
     public bool CanVanquish { get; set; } = true;
 
     [HideFromIl2Cpp] public List<PlayerControl> Targets { get; set; } = [];

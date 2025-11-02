@@ -23,7 +23,7 @@ public static class DeathEventHandlers
     public static IEnumerator CoWaitDeathHandler()
     {
         IsDeathRecent = true;
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.75f);
         IsDeathRecent = false;
     }
 
@@ -68,6 +68,7 @@ public static class DeathEventHandlers
 
             deathHandler.CauseOfDeath = TouLocale.Get($"DiedTo{cod}");
             deathHandler.RoundOfDeath = CurrentRound;
+            // Coroutines.Stop(CoWaitDeathHandler());
             Coroutines.Start(CoWaitDeathHandler());
         }
     }

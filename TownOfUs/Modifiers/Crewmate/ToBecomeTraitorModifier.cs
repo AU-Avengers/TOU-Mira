@@ -21,7 +21,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableTargets, IContinuesGame
 {
-    public bool ContinuesGame => Helpers.GetAlivePlayers().Count >
+    public bool ContinuesGame => !Player.HasDied() && Helpers.GetAlivePlayers().Count >
                                  (int)OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1;
     public override string ModifierName => "Possible Traitor";
     public override bool HideOnUi => true;
@@ -81,13 +81,16 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     [MethodRpc((uint)TownOfUsRpc.SetTraitor)]
     public static void RpcSetTraitor(PlayerControl player)
     {
-        if (!player.HasModifier<ToBecomeTraitorModifier>())
+        if (!player.HasModifier<ToBecomeTraitorModifier>() && !player.HasModifier<CrewpostorModifier>())
         {
             return;
         }
 
         player.ChangeRole(RoleId.Get<TraitorRole>());
-        player.RemoveModifier<ToBecomeTraitorModifier>();
+        if (player.HasModifier<ToBecomeTraitorModifier>())
+        {
+            player.RemoveModifier<ToBecomeTraitorModifier>();
+        }
 
         if (OptionGroupSingleton<AssassinOptions>.Instance.TraitorCanAssassin)
         {

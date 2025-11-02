@@ -165,7 +165,7 @@ public static class AppearanceExtensions
         {
             player.cosmetics.nameText.color = (Color)appearance.NameColor;
         }
-        else if (player.IsImpostor())
+        else if (player.IsImpostorAligned())
         {
             player.cosmetics.nameText.color = TownOfUsColors.Impostor;
         }

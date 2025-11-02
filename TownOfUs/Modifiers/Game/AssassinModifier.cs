@@ -233,7 +233,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
         return voteArea?.TargetPlayerId == Player.PlayerId ||
                Player.Data.IsDead ||
                voteArea!.AmDead ||
-               (Player.IsImpostor() && votePlayer?.IsImpostor() == true &&
+               (Player.IsImpostorAligned() && votePlayer?.IsImpostorAligned() == true &&
                 !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode) ||
                (Player.Data.Role is VampireRole && votePlayer?.Data.Role is VampireRole) ||
                (votePlayer?.Data.Role is MayorRole mayor && mayor.Revealed) ||

@@ -1,9 +1,12 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
+using UnityEngine;
 using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches;
@@ -14,7 +17,7 @@ public static class IntroScenePatches
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
     public static class IntroCutsceneSpectatorPatch
     {
-        public static void Prefix(ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
+        public static void Prefix(ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay, IntroCutscene __instance)
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
@@ -22,6 +25,18 @@ public static class IntroScenePatches
                 {
                     teamToDisplay.Remove(player);
                 }
+            }
+            if (PlayerControl.LocalPlayer.HasModifier<CrewpostorModifier>() && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
+            {
+                var impTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+
+                impTeam.Add(PlayerControl.LocalPlayer);
+                foreach (var impostor in Helpers.GetAlivePlayers().Where(x => x.IsImpostor()))
+                {
+                    impTeam.Add(impostor);
+                }
+
+                teamToDisplay = impTeam;
             }
         }
     }
@@ -31,9 +46,13 @@ public static class IntroScenePatches
     [HarmonyPrefix]
     public static bool ImpostorBeginPatch(IntroCutscene __instance)
     {
-        if ( /* OptionGroupSingleton<GeneralOptions>.Instance.ImpsKnowRoles &&  */
-            !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
+        if (!OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
         {
+            var crewpostor = ModifierUtils.GetPlayersWithModifier<CrewpostorModifier>().FirstOrDefault();
+            if (crewpostor != null && !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
+            {
+                __instance.CreatePlayer(Helpers.GetAlivePlayers().Count(x => x.IsImpostor()), 1, crewpostor.Data, true);
+            }
             return true;
         }
 
@@ -53,6 +72,13 @@ public static class IntroScenePatches
     public static void ShowTeamPatchPostfix(IntroCutscene __instance)
     {
         SetHiddenImpostors(__instance);
+        if (PlayerControl.LocalPlayer.HasModifier<CrewpostorModifier>())
+        {
+            __instance.TeamTitle.text =
+                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor, Array.Empty<Object>());
+            __instance.TeamTitle.color = Palette.ImpostorRed;
+            __instance.ImpostorText.gameObject.SetActive(false);
+        }
 
         foreach (var spec in PlayerControl.AllPlayerControls)
         {
@@ -72,6 +98,44 @@ public static class IntroScenePatches
         }
 
         SpectatorRole.InitList();
+    }
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CreatePlayer))]
+    [HarmonyPrefix]
+    public static bool CreatePlayerPrefix(IntroCutscene __instance, int i, int maxDepth, NetworkedPlayerInfo pData, bool impostorPositioning, ref PoolablePlayer __result)
+    {
+        int num = (i % 2 == 0) ? -1 : 1;
+        int num2 = (i + 1) / 2;
+        float num3 = (i == 0) ? -8 : -1;
+        PoolablePlayer poolablePlayer = UnityEngine.Object.Instantiate<PoolablePlayer>(__instance.PlayerPrefab, __instance.transform);
+        poolablePlayer.name = pData.PlayerName + "Dummy";
+        poolablePlayer.SetFlipX(i % 2 == 0);
+        if (impostorPositioning)
+        {
+            poolablePlayer.transform.localPosition = new Vector3((num * num2) * 1.5f, -1f + num2 * 0.15f, num3 + num2 * 0.01f) * 1f;
+            float num4 = (1f - num2 * 0.075f) * 1f;
+            var vector = new Vector3(num4, num4, 1f);
+            poolablePlayer.transform.localScale = vector;
+            poolablePlayer.SetNameScale(vector.Inv());
+        }
+        else
+        {
+            float num5 = num2 / maxDepth;
+            float num6 = Mathf.Lerp(1f, 0.75f, num5);
+            poolablePlayer.transform.localPosition = new Vector3(0.9f * num * num2 * num6, FloatRange.SpreadToEdges(-1.125f, 0f, num2, maxDepth), num3 + num2 * 0.01f) * 1f;
+            float num7 = Mathf.Lerp((i == 0) ? 1.2f : 1f, 0.65f, num5) * 1f;
+            poolablePlayer.transform.localScale = new Vector3(num7, num7, 1f);
+        }
+        poolablePlayer.UpdateFromEitherPlayerDataOrCache(pData, PlayerOutfitType.Default, PlayerMaterial.MaskType.None, true, null);
+        if (impostorPositioning)
+        {
+            var namePosition = new Vector3(0f, -1.31f, -0.5f);
+            poolablePlayer.SetNamePosition(namePosition);
+            poolablePlayer.SetName(pData.PlayerName);
+            poolablePlayer.SetNameColor(TownOfUsColors.Impostor);
+        }
+        poolablePlayer.ToggleName(impostorPositioning);
+        __result = poolablePlayer;
+        return false;
     }
 
     public static void SetHiddenImpostors(IntroCutscene __instance)

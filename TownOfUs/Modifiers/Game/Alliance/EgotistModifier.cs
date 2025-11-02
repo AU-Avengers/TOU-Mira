@@ -67,7 +67,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public static bool EgoVisibilityFlag(PlayerControl player)
     {
-        return player.Data != null && !player.Data.Disconnected && player.HasModifier<EgotistModifier>() &&
+        return player.Data != null && !player.Data.Disconnected &&
                (PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling));
     }
 

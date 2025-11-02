@@ -169,10 +169,7 @@ public static class PlayerRoleTextExtensions
             name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ModifierName}</color>)</color>";
         }
 
-        if (player.IsCrewmate() && player.TryGetModifier<CrewpostorModifier>(out var postorMod) && (player.AmOwner ||
-                                                                       (CrewpostorModifier.CrewpostorVisibilityFlag(player) &&
-                                                                        (player.GetModifiers<RevealModifier>().Any(x =>
-                                                                            x.Visible && x.RevealRole))) || isDead))
+        if (player.IsCrewmate() && player.TryGetModifier<CrewpostorModifier>(out var postorMod) && (CrewpostorModifier.CrewpostorVisibilityFlag(player) || isDead))
         {
             name += $"<color=#FFFFFF> (<color=#D64042>{postorMod.ModifierName}</color>)</color>";
         }

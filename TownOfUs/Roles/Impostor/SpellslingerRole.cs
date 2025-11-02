@@ -119,7 +119,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
             .ToList();
 
         var unhexedNonImpostors = alivePlayers
-            .Where(p => !p.IsImpostor() && !p.HasModifier<SpellslingerHexedModifier>())
+            .Where(p => !p.IsImpostorAligned() && !p.HasModifier<SpellslingerHexedModifier>())
             .ToList();
 
         if (EveryoneHexed())
@@ -133,7 +133,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
                 stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexedInfo")}</b>");
                 foreach (var player in hexed)
                 {
-                    var color = player.IsImpostor() ? "red" : "white";
+                    var color = player.IsImpostorAligned() ? "red" : "white";
                     stringB.Append(TownOfUsPlugin.Culture, $"\n<color={color}><size=75%>{player.Data.PlayerName}</size></color>");
                 }
             }
@@ -148,7 +148,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     {
         return PlayerControl.AllPlayerControls
             .ToArray()
-            .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostor() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
+            .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostorAligned() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
             .All(p => p.HasModifier<SpellslingerHexedModifier>());
     }
 

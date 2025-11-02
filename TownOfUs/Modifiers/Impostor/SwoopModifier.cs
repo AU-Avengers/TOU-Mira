@@ -24,7 +24,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
     public VisualAppearance GetVisualAppearance()
     {
-        var playerColor = (PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.DiedOtherRound() &&
+        var playerColor = (PlayerControl.LocalPlayer.IsImpostorAligned() || (PlayerControl.LocalPlayer.DiedOtherRound() &&
                                                                       OptionGroupSingleton<GeneralOptions>
                                                                           .Instance.TheDeadKnow))
             ? new Color(0f, 0f, 0f, 0.1f)

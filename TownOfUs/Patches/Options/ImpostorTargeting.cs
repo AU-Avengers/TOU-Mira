@@ -24,7 +24,7 @@ public static class ImpostorTargeting
             !(!loveOpt.LoversKillEachOther && target?.Object?.IsLover() == true &&
               PlayerControl.LocalPlayer.IsLover()) &&
             !(target?.Object?.TryGetModifier<DisabledModifier>(out var mod) == true && !mod.CanBeInteractedWith) &&
-            (target?.Object?.IsImpostor() == false ||
+            (target?.Object?.IsImpostorAligned() == false ||
              genOpt.FFAImpostorMode ||
              (PlayerControl.LocalPlayer.IsLover() && loveOpt.LoverKillTeammates) ||
              (saboOpt.KillDuringCamoComms && target?.Object?.GetAppearanceType() == TownOfUsAppearances.Camouflage));

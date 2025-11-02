@@ -32,7 +32,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
         if (EscapeMark != null)
         {
-            EscapeMark.SetActive(PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
+            EscapeMark.SetActive(PlayerControl.LocalPlayer.IsImpostorAligned() || (PlayerControl.LocalPlayer.HasDied() &&
                                                                             OptionGroupSingleton<GeneralOptions>
                                                                                 .Instance.TheDeadKnow));
             if (MarkedLocation == null)

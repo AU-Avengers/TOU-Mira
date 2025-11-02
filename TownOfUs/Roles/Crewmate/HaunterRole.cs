@@ -53,13 +53,13 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         var options = OptionGroupSingleton<HaunterOptions>.Instance;
 
         if (options.HaunterCanBeClickedBy == HaunterRoleClickableType.ImpsOnly &&
-            !PlayerControl.LocalPlayer.IsImpostor())
+            !PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             return false;
         }
 
         if (options.HaunterCanBeClickedBy == HaunterRoleClickableType.NonCrew &&
-            !(PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling)
+            !(PlayerControl.LocalPlayer.IsImpostorAligned() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling)
                                                      || PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(
                                                          out var allyMod) && allyMod.GetsPunished))
         {

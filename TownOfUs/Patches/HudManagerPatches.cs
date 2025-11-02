@@ -207,7 +207,7 @@ public static class HudManagerPatches
 
         var isValid = MeetingHud.Instance &&
                       (PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
-                       (PlayerControl.LocalPlayer.IsImpostor() && genOpt is
+                       (PlayerControl.LocalPlayer.IsImpostorAligned() && genOpt is
                            { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
                        (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat));
 
@@ -373,7 +373,7 @@ public static class HudManagerPatches
                 var playerName = player.GetDefaultAppearance().PlayerName ?? "Unknown";
                 var playerColor = Color.white;
 
-                if (PlayerControl.LocalPlayer.IsImpostor() && player.IsImpostor() &&
+                if (PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() &&
                     PlayerControl.LocalPlayer != player && !genOpt.FFAImpostorMode)
                 {
                     playerColor = Color.red;
@@ -404,7 +404,7 @@ public static class HudManagerPatches
                 var roleName = "";
 
                 if (player.AmOwner ||
-                    (PlayerControl.LocalPlayer.IsImpostor() && player.IsImpostor() && genOpt is
+                    (PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() && genOpt is
                         { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
                     (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                     (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow) ||
@@ -428,7 +428,7 @@ public static class HudManagerPatches
                         roleName += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
                     }
 
-                    if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostor())
+                    if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostorAligned())
                     {
                         roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                     }
@@ -463,7 +463,7 @@ public static class HudManagerPatches
                             roleName += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
                         }
 
-                        if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostor())
+                        if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostorAligned())
                         {
                             roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                         }
@@ -529,7 +529,7 @@ public static class HudManagerPatches
 
                 if (player.Data?.Disconnected == true)
                 {
-                    if (!((PlayerControl.LocalPlayer.IsImpostor() && player.IsImpostor() && genOpt is
+                    if (!((PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() && genOpt is
                               { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
                           (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                           (!TutorialManager.InstanceExists &&
@@ -585,7 +585,7 @@ public static class HudManagerPatches
                 var playerName = player.GetAppearance().PlayerName ?? "Unknown";
                 var playerColor = Color.white;
 
-                if (PlayerControl.LocalPlayer.IsImpostor() && player.IsImpostor() &&
+                if (PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() &&
                     PlayerControl.LocalPlayer != player && !genOpt.FFAImpostorMode)
                 {
                     playerColor = Color.red;
@@ -608,7 +608,7 @@ public static class HudManagerPatches
                 var roleName = "";
                 var canSeeDeathReason = false;
                 if (player.AmOwner ||
-                    (PlayerControl.LocalPlayer.IsImpostor() && player.IsImpostor() && genOpt is
+                    (PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() && genOpt is
                         { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
                     (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                     (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && isVisible) ||
@@ -640,7 +640,7 @@ public static class HudManagerPatches
                             : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
-                    if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostor())
+                    if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostorAligned())
                     {
                         roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                     }
@@ -665,7 +665,7 @@ public static class HudManagerPatches
                             roleName += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
                         }
 
-                        if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostor())
+                        if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostorAligned())
                         {
                             roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                         }

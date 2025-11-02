@@ -18,7 +18,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinuesGame
 {
     public bool ContinuesGame =>
-        PlayerControl.AllPlayerControls.ToArray().Any(x =>
+        !Player.HasDied() && PlayerControl.AllPlayerControls.ToArray().Any(x =>
             x.Data.IsDead && x.GetRoleWhenAlive() is ITouCrewRole crewRole && crewRole.IsPowerCrew) &&
         Helpers.GetAlivePlayers().Count > 1;
     private MeetingMenu? _meetingMenu;
