@@ -1,9 +1,12 @@
 ﻿using HarmonyLib;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options.Maps;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -32,7 +35,8 @@ public static class VisionPatch
             visionFactor = mod.VisionPerc;
         }
 
-        var impVision = player.Role.IsImpostor ||
+        var impVision = player.Role.IsImpostor || player._object.HasModifier<CrewpostorModifier>() &&
+                        OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorVision ||
                         (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision);
 
         if (impVision)

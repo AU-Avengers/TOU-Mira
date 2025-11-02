@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 public sealed class SatelliteOptions : AbstractOptionGroup<SatelliteModifier>
 {
     public override string GroupName => TouLocale.Get("TouModifierSatellite", "Satellite");
-    public override uint GroupPriority => 27;
+    public override uint GroupPriority => 34;
     public override Color GroupColor => TownOfUsColors.Satellite;
 
     [ModdedNumberOption("Button Cooldown", 5f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]

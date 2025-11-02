@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 public sealed class DiseasedOptions : AbstractOptionGroup<DiseasedModifier>
 {
     public override string GroupName => TouLocale.Get("TouModifierDiseased", "Diseased");
-    public override uint GroupPriority => 32;
+    public override uint GroupPriority => 21;
     public override Color GroupColor => TownOfUsColors.Diseased;
 
     [ModdedNumberOption("Diseased Kill Multiplier", 1.5f, 5f, 0.5f, MiraNumberSuffixes.Multiplier)]

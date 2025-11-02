@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 public sealed class ButtonBarryOptions : AbstractOptionGroup<ButtonBarryModifier>
 {
     public override string GroupName => TouLocale.Get("TouModifierButtonBarry", "Button Barry");
-    public override uint GroupPriority => 22;
+    public override uint GroupPriority => 30;
     public override Color GroupColor => TownOfUsColors.ButtonBarry;
 
     [ModdedNumberOption("Button Cooldown", 2.5f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]

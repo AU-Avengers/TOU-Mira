@@ -77,7 +77,7 @@ public static class LogicGameFlowPatches
     [HarmonyPrefix]
     private static bool RecomputeTasksPatch(GameData __instance)
     {
-        if (__instance == null || GameOptionsManager.Instance == null)
+        if (__instance == null || GameOptionsManager.Instance == null || GameManager.Instance == null)
         {
             return false;
         }
@@ -87,7 +87,7 @@ public static class LogicGameFlowPatches
         for (var i = 0; i < __instance.AllPlayers.Count; i++)
         {
             var playerInfo = __instance.AllPlayers.ToArray()[i];
-            if (playerInfo == null || playerInfo.Disconnected || !playerInfo.Object || playerInfo.Tasks == null || playerInfo.Object == null || playerInfo.Object.GetModifierComponent() == null)
+            if (playerInfo == null || playerInfo.Disconnected || !playerInfo.Object || playerInfo.Tasks == null || playerInfo.Object == null || !playerInfo.Object.TryGetComponent<ModifierComponent>(out _))
             {
                 continue;
             }

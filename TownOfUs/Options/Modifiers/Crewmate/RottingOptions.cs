@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 public sealed class RottingOptions : AbstractOptionGroup<RottingModifier>
 {
     public override string GroupName => TouLocale.Get("TouModifierRotting", "Rotting");
-    public override uint GroupPriority => 36;
+    public override uint GroupPriority => 25;
     public override Color GroupColor => TownOfUsColors.Rotting;
 
     [ModdedNumberOption("Time Before Body Rots Away", 0f, 25f, 1f, MiraNumberSuffixes.Seconds)]

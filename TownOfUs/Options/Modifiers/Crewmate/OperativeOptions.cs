@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 public sealed class OperativeOptions : AbstractOptionGroup<OperativeModifier>
 {
     public override string GroupName => TouLocale.Get("TouModifierOperative", "Operative");
-    public override uint GroupPriority => 35;
+    public override uint GroupPriority => 24;
 
     public override Color GroupColor => new(0.8f, 0.33f, 0.37f, 1f);
 

@@ -9,7 +9,7 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 public sealed class ScientistOptions : AbstractOptionGroup<ScientistModifier>
 {
     public override string GroupName => TouLocale.Get("TouModifierScientist", "Scientist");
-    public override uint GroupPriority => 37;
+    public override uint GroupPriority => 26;
     public override Color GroupColor => TownOfUsColors.Scientist;
 
     [ModdedToggleOption("Move While Using Vitals")]

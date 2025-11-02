@@ -11,7 +11,7 @@ public sealed class TelepathOptions : AbstractOptionGroup<TelepathModifier>
 {
     public override string GroupName => TouLocale.Get("TouModifierTelepath", "Telepath");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
-    public override uint GroupPriority => 42;
+    public override uint GroupPriority => 41;
 
     [ModdedToggleOption("Know Where Teammate Kills")]
     public bool KnowKillLocation { get; set; } = true;
