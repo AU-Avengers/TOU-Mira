@@ -43,10 +43,10 @@ public sealed class GeneralOptions : AbstractOptionGroup
     [ModdedToggleOption("Vampires Get A Private Meeting Chat")]
     public bool VampireChat { get; set; } = true;
 
-    [ModdedNumberOption("Game Start Cooldowns", 10f, 30f, 2.5f, MiraNumberSuffixes.Seconds, "0.#")]
+    [ModdedNumberOption("Initial Button Cooldowns", 10f, 30f, 2.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float GameStartCd { get; set; } = 10f;
 
-    [ModdedEnumOption("Start Cooldowns Apply For", typeof(StartCooldownType),
+    [ModdedEnumOption("Initial Cooldowns Apply For", typeof(StartCooldownType),
         ["All Buttons", "Specific Cooldowns", "No Buttons"])]
     public StartCooldownType StartCooldownMode { get; set; } = StartCooldownType.SpecificCooldowns;
 
