@@ -1,13 +1,9 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;

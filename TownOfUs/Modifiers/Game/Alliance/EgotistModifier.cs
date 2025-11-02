@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
@@ -49,9 +48,9 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        if (Player.HasModifier<TraitorCacheModifier>())
+        if (Player.HasModifier<ToBecomeTraitorModifier>())
         {
-            Player.RemoveModifier<TraitorCacheModifier>();
+            Player.RemoveModifier<ToBecomeTraitorModifier>();
         }
     }
 

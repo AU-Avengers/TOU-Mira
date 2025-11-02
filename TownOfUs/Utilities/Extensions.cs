@@ -84,7 +84,7 @@ public static class Extensions
             return false;
         }
         return player.Data.Role.IsImpostor() && (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
-               (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor && player.HasModifier<CrewpostorModifier>());
+               (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor.Value && player.HasModifier<CrewpostorModifier>());
     }
 
     public static bool IsCrewmate(this PlayerControl player)

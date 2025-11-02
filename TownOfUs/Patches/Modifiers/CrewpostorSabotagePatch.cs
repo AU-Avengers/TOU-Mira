@@ -13,7 +13,7 @@ public static class CrewpostorSabotagePatch
     [HarmonyPrefix]
     public static bool GetMapOptions(ref MapOptions __result)
     {
-        if (!OptionGroupSingleton<CrewpostorOptions>.Instance.CanAlwaysSabotage)
+        if (!OptionGroupSingleton<CrewpostorOptions>.Instance.CanAlwaysSabotage.Value)
         {
             return true;
         }
