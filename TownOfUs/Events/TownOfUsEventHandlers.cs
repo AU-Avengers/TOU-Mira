@@ -313,8 +313,11 @@ public static class TownOfUsEventHandlers
 
         FirstDeadPatch.PlayerNames = [];
 
-        HudManager.Instance.SetHudActive(false);
-        HudManager.Instance.SetHudActive(true);
+        if (HudManager.InstanceExists)
+        {
+            HudManager.Instance.SetHudActive(false);
+            HudManager.Instance.SetHudActive(true);
+        }
         CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable =
             OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
 

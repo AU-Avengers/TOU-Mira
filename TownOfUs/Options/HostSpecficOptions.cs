@@ -1,6 +1,8 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using TownOfUs.Roles.Other;
+using TownOfUs.Utilities;
+using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Options;
 
@@ -17,7 +19,19 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
         Visible = () => TownOfUsPlugin.IsDevBuild
     };
 
-    public ModdedToggleOption DisableAprilFools { get; set; } = new("Disable April Fools Visuals", false, false);
+    public ModdedToggleOption AllowAprilFools { get; set; } = new("Allow April Fools Visuals", true, false)
+    {
+        ChangedEvent = x =>
+        {
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                player.MyPhysics.SetForcedBodyType(player.BodyType);
+                player.ResetAppearance();
+            }
+
+            Debug("Toggle April Fools mode.");
+        }
+    };
     public ModdedToggleOption EnableSpectators { get; set; } = new("Allow More Spectators", true, false)
     {
         ChangedEvent = x =>

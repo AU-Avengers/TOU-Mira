@@ -34,7 +34,6 @@ public static class AppearanceExtensions
         {
             return;
         }
-
         if (fullReset)
         {
             player.RawSetAppearance(new VisualAppearance(player.GetDefaultAppearance(), TownOfUsAppearances.Default)
@@ -225,12 +224,26 @@ public static class AppearanceExtensions
 
     public static VisualAppearance GetDefaultAppearance(this PlayerControl playerControl)
     {
+        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker)
+        {
+            return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
+            {
+                SkinId = string.Empty
+            };
+        }
         return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default);
     }
 
     public static VisualAppearance GetDefaultModifiedAppearance(this PlayerControl playerControl)
     {
         var appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default);
+        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker)
+        {
+            appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
+            {
+                SkinId = string.Empty
+            };
+        }
         if (playerControl.HasModifier<MiniModifier>())
         {
             appearance = playerControl.GetModifier<MiniModifier>()!.GetVisualAppearance()!;

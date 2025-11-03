@@ -1,7 +1,9 @@
 using HarmonyLib;
+using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events;
+using TownOfUs.Options;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -169,6 +171,10 @@ public static class AprilFoolsPatches
     [HarmonyPrefix]
     public static void Prefix(ref PlayerBodyTypes bodyType)
     {
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools)
+        {
+            return;
+        }
         switch (CurrentMode)
         {
             case 1:
@@ -187,6 +193,10 @@ public static class AprilFoolsPatches
     [HarmonyPrefix]
     public static bool Prefix2(ref PlayerBodyTypes __result)
     {
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools)
+        {
+            return true;
+        }
         switch (CurrentMode)
         {
             case 1:
