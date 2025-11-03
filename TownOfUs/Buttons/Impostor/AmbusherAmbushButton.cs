@@ -17,7 +17,7 @@ public sealed class AmbusherAmbushButton : TownOfUsRoleButton<AmbusherRole, Play
     public override string Name => TouLocale.GetParsed("TouRoleAmbusherAmbush", "Ambush");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown() + MapCooldown;
+    public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
     public override int MaxUses => (int)OptionGroupSingleton<AmbusherOptions>.Instance.MaxAmbushes;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.AmbushSprite;
 

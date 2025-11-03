@@ -23,13 +23,14 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Seer";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public static string ReworkString => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value ? "Alt" : string.Empty;
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -38,11 +39,16 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     {
         get
         {
+            var abilityName = TouLocale.GetParsed($"TouRole{LocaleKey}Reveal", "Reveal");
+            var abilityDesc = TouLocale.GetParsed($"TouRole{LocaleKey}RevealWikiDescription");
+            if (OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value)
+            {
+                abilityName = TouLocale.GetParsed($"TouRole{LocaleKey}Compare", "Compare");
+                abilityDesc = TouLocale.GetParsed($"TouRole{LocaleKey}CompareWikiDescription");
+            }
             return new List<CustomButtonWikiDescription>
             {
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Reveal", "Reveal"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}RevealWikiDescription"),
-                    TouCrewAssets.SeerSprite)
+                new(abilityName, abilityDesc, TouCrewAssets.SeerSprite)
             };
         }
     }

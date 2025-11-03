@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SeerCompareButton : TownOfUsRoleButton<SeerRole>
 {
-    public override string Name => "Compare";
+    public override string Name => TouLocale.Get($"TouRoleSeerCompare", "Compare");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
 
@@ -54,7 +54,7 @@ public sealed class SeerCompareButton : TownOfUsRoleButton<SeerRole>
     player1Menu.Begin(
         plr =>
             plr != PlayerControl.LocalPlayer &&
-            ((!plr.Data.Disconnected && !plr.Data.IsDead) || plr.Data.Role is MayorRole mayor && mayor.Revealed || Helpers.GetBodyById(plr.PlayerId)) &&
+            ((!plr.Data.Disconnected && !plr.Data.IsDead) || plr.Data.Role is MayorRole mayor && mayor.Revealed || plr.IsRevealed() || Helpers.GetBodyById(plr.PlayerId)) &&
             (plr.moveable || plr.inVent),
         plr =>
         {
@@ -75,7 +75,7 @@ public sealed class SeerCompareButton : TownOfUsRoleButton<SeerRole>
                 plr2 =>
                     plr2 != PlayerControl.LocalPlayer &&
                     plr2.PlayerId != plr.PlayerId &&
-                    (!plr2.HasDied() || plr2.Data.Role is MayorRole mayor && mayor.Revealed || Helpers.GetBodyById(plr2.PlayerId)) &&
+                    (!plr2.HasDied() || plr2.Data.Role is MayorRole mayor && mayor.Revealed || plr.IsRevealed() || Helpers.GetBodyById(plr2.PlayerId)) &&
                     (plr2.moveable || plr2.inVent),
                 plr2 =>
                 {
@@ -85,6 +85,11 @@ public sealed class SeerCompareButton : TownOfUsRoleButton<SeerRole>
                         return;
                     }
                     SeerRole.RpcSeerCompare(PlayerControl.LocalPlayer, plr.PlayerId, plr2.PlayerId);
+                    if (MaxUses != 0)
+                    {
+                        UsesLeft--;
+                        Button?.SetUsesRemaining(UsesLeft);
+                    }
                 }
             );
             foreach (var panel in player2Menu.potentialVictims)

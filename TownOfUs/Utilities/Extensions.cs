@@ -16,6 +16,7 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
+using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
@@ -576,7 +577,7 @@ public static class Extensions
 
     public static float GetKillCooldown(this PlayerControl player)
     {
-        return UnderdogModifier.GetKillCooldown(player);
+        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(), 10f, 120f);
     }
 
     /// <summary>

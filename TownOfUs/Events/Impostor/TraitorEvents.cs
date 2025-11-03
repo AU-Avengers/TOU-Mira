@@ -14,8 +14,7 @@ namespace TownOfUs.Events.Impostor;
 
 public static class TraitorEvents
 {
-
-    [RegisterEvent]
+    [RegisterEvent(-1)]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
         var source = @event.Source;

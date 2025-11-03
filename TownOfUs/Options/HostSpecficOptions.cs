@@ -16,6 +16,8 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
     {
         Visible = () => TownOfUsPlugin.IsDevBuild
     };
+
+    public ModdedToggleOption DisableAprilFools { get; set; } = new("Disable April Fools Visuals", false, false);
     public ModdedToggleOption EnableSpectators { get; set; } = new("Allow More Spectators", true, false)
     {
         ChangedEvent = x =>

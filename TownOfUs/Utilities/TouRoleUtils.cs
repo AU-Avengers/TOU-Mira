@@ -1,13 +1,19 @@
 using System.Text;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using TownOfUs.Modifiers;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Utilities;
 
 public static class TouRoleUtils
 {
+    public static bool IsRevealed(this PlayerControl? player) =>
+        player?.GetModifiers<RevealModifier>().Any(x => x.Visible && x.RevealRole) == true ||
+        player?.Data?.Role is MayorRole mayor && mayor.Revealed;
     public static StringBuilder SetTabText(ICustomRole role)
     {
         var alignment = MiscUtils.GetRoleAlignment(role);

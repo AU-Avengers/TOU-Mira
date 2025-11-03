@@ -17,7 +17,7 @@ public static class LoverEvents
     [RegisterEvent(400)]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
-        if (@event.Player == null || !@event.Player.AmOwner)
+        if (@event.Player == null)
         {
             return;
         }
@@ -32,14 +32,21 @@ public static class LoverEvents
         switch (@event.DeathReason)
         {
             case DeathReason.Exile:
-                loveMod.OtherLover.RpcPlayerExile();
-                DeathHandlerModifier.RpcUpdateDeathHandler(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
+                loveMod.OtherLover.Exiled();
+                DeathHandlerModifier.UpdateDeathHandler(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
                     DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
                 break;
             case DeathReason.Kill:
-                loveMod.OtherLover.RpcCustomMurder(loveMod.OtherLover);
-                DeathHandlerModifier.RpcUpdateDeathHandler(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
+                var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
+
+                loveMod.OtherLover.CustomMurder(
+                    loveMod.OtherLover,
+                    murderResultFlags2,
+                    false,
+                    true,
+                    false);
+                DeathHandlerModifier.UpdateDeathHandler(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
                     DeathEventHandlers.CurrentRound,
                     (!MeetingHud.Instance && !ExileController.Instance)
                         ? DeathHandlerOverride.SetTrue
