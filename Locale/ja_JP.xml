@@ -1188,123 +1188,123 @@
   <string name="TouOptionJesterAfterWin">After Win Type</string>
   <!-- Juggernaut -->
   <!-- Juggernaut Wiki / Description -->
-  <string name="TouRoleJuggernaut">Juggernaut</string>
+  <string name="TouRoleJuggernaut">ジャガーノート</string>
   <string name="TouRoleJuggernautIntroBlurb">Your Power Grows With Every Kill</string>
-  <string name="TouRoleJuggernautTabDescription">With each kill your kill cooldown decreases.</string>
-  <string name="TouRoleJuggernautTabKillCounter">Kill Count: \%count\%</string>
-  <string name="TouRoleJuggernautWikiDescription">The Juggernaut is a Neutral Killing role that wins by being the last killer alive. For each kill they get, their kill cooldown gets reduced.</string>
+  <string name="TouRoleJuggernautTabDescription">あなたがキルするごとにキルクールダウンが減少します。</string>
+  <string name="TouRoleJuggernautTabKillCounter">キル数: \%count\%</string>
+  <string name="TouRoleJuggernautWikiDescription">ジャガーノートはニュートラルのキル役職です。他陣営のキラーを全滅させた上で最後まで生き残ると勝利します。キルするごとにキルクールダウンが減少するという特徴を持っています。</string>
   <!-- Juggernaut Options -->
-  <string name="TouOptionJuggernautInitialCooldown">Initial Kill Cooldown</string>
-  <string name="TouOptionJuggernautCooldownReduction">Kill Cooldown Reduction</string>
-  <string name="TouOptionJuggernautCanVent">Juggernaut Can Vent</string>
+  <string name="TouOptionJuggernautInitialCooldown">初期キルクールダウン</string>
+  <string name="TouOptionJuggernautCooldownReduction">短縮されるキルクールダウン</string>
+  <string name="TouOptionJuggernautCanVent">ベントを使用可能</string>
   <!-- Mercenary -->
   <!-- Mercenary Wiki / Abilities -->
-  <string name="TouRoleMercenary">Mercenary</string>
-  <string name="TouRoleMercenaryIntroBlurb">Bribe The Crewmates</string>
-  <string name="TouRoleMercenaryTabDescription">Guard players to get gold upon interaction,\%nl\%then bribe the winners!</string>
-  <string name="TouRoleMercenaryTabGoldCounter">Gold: \%count\%</string>
-  <string name="TouRoleMercenaryTabBribedInfo">Bribed:</string>
-  <string name="TouRoleMercenaryWikiDescription">The Mercenary is a Neutral Benign role that can only win by bribing players, allowing them to gain multiple win conditions.</string>
-  <string name="TouRoleMercenaryGuard">Guard</string>
-  <string name="TouRoleMercenaryGuardWikiDescription">Guarding a player allows the Mercenary to absorb an ability used on the target. This will grant them gold, for Bribing. If any bribed targets win, the Mercenary will win with them.</string>
-  <string name="TouRoleMercenaryBribe">Bribe</string>
-  <string name="TouRoleMercenaryBribeWikiDescription">Bribing a player allows the Mercenary to gain their win condition, given that they have gold to spare.</string>
+  <string name="TouRoleMercenary">傭兵</string>
+  <string name="TouRoleMercenaryIntroBlurb">クルーメイトに賄賂を贈りましょう</string>
+  <string name="TouRoleMercenaryTabDescription">報酬のためにクルーメイトを守り、賄賂を贈って共に勝利しましょう。</string>
+  <string name="TouRoleMercenaryTabGoldCounter">所持金: \%count\%</string>
+  <string name="TouRoleMercenaryTabBribedInfo">賄賂額:</string>
+  <string name="TouRoleMercenaryWikiDescription">傭兵はキル能力を持たないニュートラル役職です。傭兵は賄賂を贈ったプレイヤーたちと共にのみ勝利することができ、複数の勝利条件を獲得することができます。</string>
+  <string name="TouRoleMercenaryGuard">守る</string>
+  <string name="TouRoleMercenaryGuardWikiDescription">守られたプレイヤーは、自分に対して使われた能力を傭兵に肩代わりさせることができます。This will grant them gold, for Bribing. If any bribed targets win, the Mercenary will win with them.</string>
+  <string name="TouRoleMercenaryBribe">賄賂</string>
+  <string name="TouRoleMercenaryBribeWikiDescription">傭兵は、賄賂を贈ったプレイヤーの勝利条件を獲得することができます。賄賂は十分な金を持っていなければ贈れません。</string>
   <!-- Mercenary Options -->
-  <string name="TouOptionMercenaryCooldown">Bribe Cooldown</string>
-  <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
-  <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
+  <string name="TouOptionMercenaryCooldown">賄賂クールダウン</string>
+  <string name="TouOptionMercenaryMaxGuards">守れる最大人数</string>
+  <string name="TouOptionMercenaryBribeCost">賄賂に必要な所持金</string>
   <!-- Pestilence -->
   <!-- Pestilence Wiki / Description -->
-  <string name="TouRolePestilence">Pestilence</string>
-  <string name="TouRolePestilenceIntroBlurb">Horseman Of The Apocalypse!</string>
-  <string name="TouRolePestilenceTabDescription">Kill everyone in your path that interacts with you!</string>
-  <string name="TouRolePestilenceYouAreText">You Are</string>
-  <string name="TouRolePestilenceWikiDescription">The Pestilence is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive.</string>
+  <string name="TouRolePestilence">疫病</string>
+  <string name="TouRolePestilenceIntroBlurb">アポカリプス</string>
+  <string name="TouRolePestilenceTabDescription">あなたと関わった全ての人間を殺害しましょう。</string>
+  <string name="TouRolePestilenceYouAreText">あなたは</string>
+  <string name="TouRolePestilenceWikiDescription">疫病はニュートラルのキル役職です。他陣営のキラーを全滅させた上で最後まで生き残ると勝利します。追放されるまたは推察に失敗さえしなければ死ぬことはありません。</string>
   <!-- Phantom -->
   <!-- Phantom Wiki / Description -->
-  <string name="TouRolePhantom">Phantom</string>
-  <string name="TouRolePhantomIntroBlurb"> </string>
+  <string name="TouRolePhantom">ファントム</string>
+  <string name="TouRolePhantomIntroBlurb">intro</string>
   <!-- You cannot start the game as this role, and thus, it has no intro blurb -->
-  <string name="TouRolePhantomTabDescription">Complete all your tasks without being caught!</string>
-  <string name="TouRolePhantomWikiDescription">The Phantom is a Neutral Ghost role that wins the game by finishing their tasks before a alive player has clicked on them.</string>
-  <string name="TouRolePhantomSpook">Spook</string>
+  <string name="TouRolePhantomTabDescription">捕まることなく全てのタスクを完了させましょう。</string>
+  <string name="TouRolePhantomWikiDescription">ファントムはニュートラルの幽霊役職です。勝利条件は生存しているプレイヤーがあなたをクリックする前に全てのタスクを完了させることです。</string>
+  <string name="TouRolePhantomSpook">亡霊</string>
   <!-- Phantom Options -->
-  <string name="TouOptionPhantomTasksLeftClickable">Tasks Left Before Clickable</string>
-  <string name="TouOptionPhantomWin">Phantom Win</string>
+  <string name="TouOptionPhantomTasksLeftClickable">クリック可能になるまでのタスク数</string>
+  <string name="TouOptionPhantomWin">ファントム 勝利</string>
   <!-- Plaguebearer -->
   <!-- Plaguebearer Wiki / Abilities -->
-  <string name="TouRolePlaguebearer">Plaguebearer</string>
-  <string name="TouRolePlaguebearerIntroBlurb">Infect Everyone To Become \%color=#4D4D4DFF\%Pestilence\%/color\%</string>
-  <string name="TouRolePlaguebearerTabDescription">Infect everyone to become \%color=#4D4D4DFF\%Pestilence\%/color\%</string>
-  <string name="TouRolePlaguebearerTabInfectCounter">Players Left To Infect: \%count\%</string>
-  <string name="TouRolePlaguebearerTabInfectedInfo">Players Infected:</string>
-  <string name="TouRolePlaguebearerWikiDescription">The Plaguebearer is a Neutral Killing role that needs to infect all other players to turn into the Pestilence.</string>
-  <string name="TouRolePlaguebearerInfect">Infect</string>
-  <string name="TouRolePlaguebearerInfectWikiDescription">Infect a player, causing them to be infected. When an infected player or dead body interacts or gets interacted with, the infection will spread to the interacted/interacting player.</string>
+  <string name="TouRolePlaguebearer">ペストキャリヤー</string>
+  <string name="TouRolePlaguebearerIntroBlurb">全員に \%color=#4D4D4DFF\%Pestilence\%/color\% を感染させよ</string>
+  <string name="TouRolePlaguebearerTabDescription">全員に \%color=#4D4D4DFF\%Pestilence\%/color\% を感染させよ</string>
+  <string name="TouRolePlaguebearerTabInfectCounter">未感染者: \%count\%</string>
+  <string name="TouRolePlaguebearerTabInfectedInfo">感染者:</string>
+  <string name="TouRolePlaguebearerWikiDescription">ペスト医師はニュートラルのキル役職です。ペスト医師は全員に疫病を感染させる必要があります。</string>
+  <string name="TouRolePlaguebearerInfect">感染</string>
+  <string name="TouRolePlaguebearerInfectWikiDescription">プレイヤーを感染状態にします。他プレイヤーが感染したプレイヤーやその死体に接触すると、そのプレイヤーは感染状態になります。</string>
   <!-- Rewritten for clarity and grammar issues -->
 
   <!-- Plaguebearer options -->
-  <string name="TouOptionPlaguebearerInstantPesti">Instant Pestilence Chance</string>
-  <string name="TouOptionPlaguebearerInfectCooldown">Infect Cooldown</string>
-  <string name="TouOptionPlaguebearerAnnounceTransformation">Announce Pestilence Transformation</string>
-  <string name="TouOptionPlaguebearerPestilenceKillCooldown">Pestilence Kill Cooldown</string>
-  <string name="TouOptionPlaguebearerPestilenceCanVent">Pestilence Can Vent</string>
+  <string name="TouOptionPlaguebearerInstantPesti">即時感染確率</string>
+  <string name="TouOptionPlaguebearerInfectCooldown">感染クールダウン</string>
+  <string name="TouOptionPlaguebearerAnnounceTransformation">疫病を変化可能</string>
+  <string name="TouOptionPlaguebearerPestilenceKillCooldown">キルクールダウン</string>
+  <string name="TouOptionPlaguebearerPestilenceCanVent">ベントを使用可能</string>
   <!-- Soul Collector -->
   <!-- Soul Collector Wiki / Abilities -->
-  <string name="TouRoleSoulCollector">Soul Collector</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">Reap The Souls From Your Crewmates</string>
-  <string name="TouRoleSoulCollectorTabDescription">Reap the souls of others, leaving behind a lasting image</string>
-  <string name="TouRoleSoulCollectorWikiDescription">The Soul Collector is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind a soul-less decoy that looks identical to the reaped player, standing still.</string>
-  <string name="TouRoleSoulCollectorReap">Reap</string>
+  <string name="TouRoleSoulCollector">ソウルコレクター</string>
+  <string name="TouRoleSoulCollectorIntroBlurb">魂を刈り取る</string>
+  <string name="TouRoleSoulCollectorTabDescription">ソウルコレクターは他人の命を刈り取り、永続的なマークをつけます。</string>
+  <string name="TouRoleSoulCollectorWikiDescription">ソウルコレクターはニュートラルのキル役職です。他プレイヤーの命を刈り取ります。死体を残す代わりに、魂を刈り取ったプレイヤーと同じ見た目のデコイが静止します。</string>
+  <string name="TouRoleSoulCollectorReap">刈り取る</string>
   <string name="TouRoleSoulCollectorReapWikiDescription">Reaping acts like a kill button, but instead of making a dead body, makes a fake player in its place, appearing alive.</string>
   <!-- Soul Collector Options -->
-  <string name="TouOptionSoulCollectorReapCooldown">Reap Cooldown</string>
-  <string name="TouOptionSoulCollectorCanVent">Soul Collector Can Vent</string>
+  <string name="TouOptionSoulCollectorReapCooldown">刈り取りクールダウン</string>
+  <string name="TouOptionSoulCollectorCanVent">ベントを使用可能</string>
   <!-- Survivor -->
   <!-- Survivor Wiki / Abilities -->
-  <string name="TouRoleSurvivor">Survivor</string>
-  <string name="TouRoleSurvivorIntroBlurb">Do Whatever It Takes To Live</string>
-  <string name="TouRoleSurvivorTabDescription">Stay alive to win with any faction remaining</string>
-  <string name="TouRoleSurvivorWikiDescription">The Survivor is a Neutral Benign role that just needs to survive until the end of the game.</string>
+    <string name="TouRoleSurvivor">サバイバー</string>
+  <string name="TouRoleSurvivorIntroBlurb">intro</string>
+  <string name="TouRoleSurvivorTabDescription">勝利陣営に関係なく、最後まで生き残ることが勝利条件です。</string>
+  <string name="TouRoleSurvivorWikiDescription">サバイバーはキル能力を持たないニュートラル役職です。サバイバーは勝利陣営に関係なく最後まで生き残ることで勝利できます。</string>
   <!-- till to until for clarity -->
 
-  <string name="TouRoleSurvivorSafeguard">Safeguard</string>
-  <string name="TouRoleSurvivorSafeguardWikiDescription">Put on a Vest protecting you from attacks.</string>
+  <string name="TouRoleSurvivorSafeguard">安全保安員</string>
+  <string name="TouRoleSurvivorSafeguardWikiDescription">あなたは身を守るためにベストを着用することができます。</string>
   <!-- Survivor Options -->
-  <string name="TouOptionSurvivorVestCooldown">Vest Cooldown</string>
-  <string name="TouOptionSurvivorVestDuration">Vest Duration</string>
-  <string name="TouOptionSurvivorMaxVests">Max Number Of Vests</string>
-  <string name="TouOptionSurvivorScatterEnabled">Survivor Scatter Mechanic Enabled</string>
-  <string name="TouOptionSurvivorScatterTimer">Survivor Scatter Timer</string>
+  <string name="TouOptionSurvivorVestCooldown">ベスト着用クールダウン</string>
+  <string name="TouOptionSurvivorVestDuration">ベスト着用継続時間</string>
+  <string name="TouOptionSurvivorMaxVests">ベストの個数</string>
+  <string name="TouOptionSurvivorScatterEnabled">生存者配布システムが有効</string>
+  <string name="TouOptionSurvivorScatterTimer">生存者配布タイマー</string>
   <!-- Vampire -->
   <!-- Vampire Wiki / Abilities -->
-  <string name="TouRoleVampire">Vampire</string>
-  <string name="TouRoleVampireIntroBlurb">Convert Crewmates And Kill The Rest</string>
-  <string name="TouRoleVampireTabDescription">Bite other players to convert them or kill them</string>
-  <string name="TouRoleVampireWikiDescription">The Vampire is a Neutral Killing role that wins by being the last killer(s) alive. They can bite, changing others into Vampires, or kill players.</string>
-  <string name="TouRoleVampireBite">Bite</string>
-  <string name="TouRoleVampireBiteWikiDescription">Bite a player. If the bitten player is convertible, and you have not exceeded the maximum number of vampires in a game yet, you convert them into a vampire. Otherwise, they will just die.</string>
+  <string name="TouRoleVampire">ヴァンパイア</string>
+  <string name="TouRoleVampireIntroBlurb">intro</string>
+  <string name="TouRoleVampireTabDescription">他人に噛みついて、その人を感染させるまたは殺すことができます。</string>
+  <string name="TouRoleVampireWikiDescription">ヴァンパイアはニュートラルのキル役職です。他陣営のキラーを全滅させた上で最後まで生き残ると勝利します。ヴァンパイアは他人の血を吸うことができ、吸った相手をヴァンパイアにするまたは殺すことができます。</string>
+  <string name="TouRoleVampireBite">吸血</string>
+  <string name="TouRoleVampireBiteWikiDescription">他人の血を吸います。吸った相手が役職を変更可能ならば、また1ゲームにおけるヴァンパイアの人数上限に達していなければ、あなたは相手をヴァンパイアへ変えることができます。もしも条件を満たしていなければ、相手は死亡します。</string>
   <!-- Vampire Options -->
-  <string name="TouOptionVampireBiteCooldown">Bite Cooldown</string>
-  <string name="TouOptionVampireMaxVamps">Max Number Of Vampires Per Game</string>
-  <string name="TouOptionVampireImpostorVision">Vampires Have Impostor Vision</string>
-  <string name="TouOptionVampireNewVampsAssassinate">New Vampires Can Assassinate</string>
-  <string name="TouOptionVampireValidConversions">Valid Conversions</string>
-  <string name="TouOptionVampireNewVampiresConvert">New Vampires Can Convert</string>
-  <string name="TouOptionVampireCanVent">Vampires Can Vent</string>
+  <string name="TouOptionVampireBiteCooldown">吸血クールダウン</string>
+  <string name="TouOptionVampireMaxVamps">最大ヴァンパイア人数</string>
+  <string name="TouOptionVampireImpostorVision">ヴァンパイアはインポスター視界を持つ</string>
+  <string name="TouOptionVampireNewVampsAssassinate">作られたヴァンパイアはキル能力を持つ</string>
+  <string name="TouOptionVampireValidConversions">役職変更可能</string>
+  <string name="TouOptionVampireNewVampiresConvert">作られたヴァンパイアも他人をヴァンパイアにできる</string>
+  <string name="TouOptionVampireCanVent">ベントを使用可能</string>
   <!-- Werewolf -->
   <!-- Werewolf Wiki / Abilities -->
-  <string name="TouRoleWerewolf">Werewolf</string>
-  <string name="TouRoleWerewolfIntroBlurb">Rampage To Kill Everyone</string>
-  <string name="TouRoleWerewolfTabDescription">Rampage to kill quickly, increase your\%nl\%vision, and vent away temporarily</string>
-  <string name="TouRoleWerewolfWikiDescription">The Werewolf is a Neutral Killing role that wins by being the last killer alive. They can go on a rampage to gain the ability to kill.</string>
-  <string name="TouRoleWerewolfRampage">Rampage</string>
-  <string name="TouRoleWerewolfRampageWikiDescription">Go on a Rampage, gaining the ability to kill and gain Impostor vision. During the Rampage your kill cooldown is significantly lower.</string>
+	<string name="TouRoleWerewolf">狼男</string>
+  <string name="TouRoleWerewolfIntroBlurb">intro</string>
+  <string name="TouRoleWerewolfTabDescription">暴走し、大量キルを決めよ。暴走時、あなたの視界は増加しあなたはキル能力を得ます。</string>
+  <string name="TouRoleWerewolfWikiDescription">狼男はニュートラルのキル役職です。他陣営のキラーを全滅させた上で最後まで生き残ると勝利します。暴走によってキル能力を得ることができます。</string>
+  <string name="TouRoleWerewolfRampage">暴走</string>
+  <string name="TouRoleWerewolfRampageWikiDescription">暴走状態に入ると、あなたはキル能力とインポスターの視界を獲得します。暴走時、あなたのキルクールダウンは大幅に減少します。</string>
   <!-- Werewolf Options -->
-  <string name="TouOptionWerewolfRampageCooldown">Rampage Cooldown</string>
-  <string name="TouOptionWerewolfRampageDuration">Rampage Duration</string>
-  <string name="TouOptionWerewolfKillCooldown">Rampage Kill Cooldown</string>
-  <string name="TouOptionWerewolfCanVent">Werewolf Can Vent When Rampaged</string>
+  <string name="TouOptionWerewolfRampageCooldown">暴走クールダウン</string>
+  <string name="TouOptionWerewolfRampageDuration">暴走継続時間</string>
+  <string name="TouOptionWerewolfKillCooldown">暴走時のキルクールダウン</string>
+  <string name="TouOptionWerewolfCanVent">暴走時ベントを使用可能</string>
   <!-- Alliance Modifiers -->
 
   <!-- Egotist - Crewmate Alliance -->
