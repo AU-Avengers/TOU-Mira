@@ -87,9 +87,9 @@ public sealed class Bomb : IDisposable
                 continue;
             }
 
-            DeathHandlerModifier.RpcUpdateDeathHandler(player, TouLocale.Get("DiedToBomberBomb"),
+            DeathHandlerModifier.RpcUpdateLocalDeathHandler(player, "DiedToBomberBomb",
                 DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
-                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", _bomber.Data.PlayerName),
+                "DiedByStringBasic", _bomber,
                 lockInfo: DeathHandlerOverride.SetTrue);
         }
     }

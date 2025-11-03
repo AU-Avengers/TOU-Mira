@@ -67,9 +67,6 @@ public static class ChefEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
@@ -79,6 +76,9 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
+            DeathHandlerModifier.UpdateDeathHandler(chef.Player, TouLocale.Get("DiedToWinning"),
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue);
 
             chef.Player.Exiled();
         }
@@ -107,9 +107,6 @@ public static class ChefEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
@@ -119,6 +116,9 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
+            DeathHandlerModifier.UpdateDeathHandler(chef.Player, TouLocale.Get("DiedToWinning"),
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue);
 
             chef.Player.Exiled();
         }

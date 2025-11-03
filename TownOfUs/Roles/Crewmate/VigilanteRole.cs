@@ -223,14 +223,14 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             if (victim != Player)
             {
                 meetingMenu?.HideSingle(victim.PlayerId);
-                DeathHandlerModifier.RpcUpdateDeathHandler(victim, TouLocale.Get("DiedToGuess"),
+                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToGuess",
                     DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", Player.Data.PlayerName),
+                    "DiedByStringBasic", Player,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
-                DeathHandlerModifier.RpcUpdateDeathHandler(victim, TouLocale.Get("DiedToMisguess"),
+                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToMisguess",
                     DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }

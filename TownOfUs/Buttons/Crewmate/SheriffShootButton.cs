@@ -55,8 +55,9 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
         if (missType is MisfireOptions.Sheriff or MisfireOptions.Both)
         {
             PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
-            DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToSuicide"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
+            DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, "DiedToSuicide",
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+                lockInfo: DeathHandlerOverride.SetTrue);
         }
 
         FailedShot = true;

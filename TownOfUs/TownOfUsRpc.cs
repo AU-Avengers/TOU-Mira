@@ -9,6 +9,7 @@ public enum TownOfUsRpc : uint
     CloseSkeldDoors,
 
     UpdateDeathHandler,
+    UpdateLocalDeathHandler,
     SetMap,
     ChangeRole,
     PlayerExile,
