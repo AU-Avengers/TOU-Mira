@@ -138,36 +138,36 @@ public static class EndGamePatches
                 if (stats.CorrectKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {Color.green.ToTextColor()}Kills: {stats.CorrectKills}</color>");
+                        $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{stats.CorrectKills}")}</color>");
                 }
                 else if (basicKillCount > 0 && !playerControl.IsCrewmate())
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {TownOfUsColors.Impostor.ToTextColor()}Kills: {basicKillCount}</color>");
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{basicKillCount}")}</color>");
                 }
 
                 if (stats.IncorrectKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {TownOfUsColors.Impostor.ToTextColor()}Mis-kills: {stats.IncorrectKills}</color>");
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsBadKillCount").Replace("<count>", $"{stats.IncorrectKills}")}</color>");
                 }
 
                 if (stats.CorrectAssassinKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {Color.green.ToTextColor()}Guesses: {stats.CorrectAssassinKills}</color>");
+                        $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsGoodGuessCount").Replace("<count>", $"{stats.CorrectAssassinKills}")}</color>");
                 }
 
                 /*if (stats.IncorrectAssassinKills > 0)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
-                        $" | {TownOfUsColors.Impostor.ToTextColor()}Misguesses: {stats.IncorrectAssassinKills}</color>");
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsBadGuessCount").Replace("<count>", $"{stats.IncorrectAssassinKills}")}</color>");
                 }*/
             }
             else if (killedPlayers > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
             {
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" |{TownOfUsColors.Impostor.ToTextColor()} Kills: {killedPlayers}</color>");
+                    $" |{TownOfUsColors.Impostor.ToTextColor()} {TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
             }
 
             if (playerControl.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
@@ -181,12 +181,12 @@ public static class EndGamePatches
                 }
 
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" (R{deathHandler.RoundOfDeath})");
+                    $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{deathHandler.RoundOfDeath}")})");
             }
             else
             {
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" | {Color.yellow.ToTextColor()}Alive</color>");
+                    $" | {Color.yellow.ToTextColor()}{TouLocale.Get("Alive")}</color>");
             }
 
             var playerName = new StringBuilder();
@@ -250,8 +250,9 @@ public static class EndGamePatches
         var roleSummaryText2 = new StringBuilder();
         var roleSummaryTextFull = new StringBuilder();
         var roleSummaryBackup = new StringBuilder();
-        roleSummaryText1.AppendLine("End game summary:");
-        roleSummaryTextFull.AppendLine("End game summary:");
+        var summaryTxt = TouLocale.Get("EndGameSummary") + ":";
+        roleSummaryText1.AppendLine(summaryTxt);
+        roleSummaryTextFull.AppendLine(summaryTxt);
         var count = 0;
         foreach (var data in EndGameData.PlayerRecords)
         {
@@ -439,12 +440,12 @@ public static class EndGamePatches
         switch (EndGameEvents.winType)
         {
             case 1:
-                text.text = "<size=4>Crewmates Win!</size>";
+                text.text = $"<size=4>{TouLocale.Get("CrewmatesWin")}!</size>";
                 text.color = Palette.CrewmateBlue;
                 instance.BackgroundBar.material.SetColor(ShaderID.Color, Palette.CrewmateBlue);
                 break;
             case 2:
-                text.text = "<size=4>Impostors Win!</size>";
+                text.text = $"<size=4>{TouLocale.Get("ImpostorsWin")}!</size>";
                 text.color = Palette.ImpostorRed;
                 instance.BackgroundBar.material.SetColor(ShaderID.Color, Palette.ImpostorRed);
                 break;

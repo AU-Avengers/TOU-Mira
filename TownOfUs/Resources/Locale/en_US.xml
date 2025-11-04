@@ -23,7 +23,7 @@
   <string name="ArrowDarkGlow">Dark Glow</string>
   <string name="ArrowColorGlow">Color Glow</string>
   <string name="ArrowLegacy">Legacy</string>
-  <!-- Player Colors, currently they are not functional -->
+  <!-- Player Colors -->
   <string name="Watermelon">Watermelon</string>
   <string name="Chocolate">Chocolate</string>
   <string name="SkyBlue">Sky Blue</string>
@@ -179,6 +179,57 @@
   <string name="YouWereAn">You were an</string>
   <string name="YouWereThe">You were the</string>
   <string name="YouWere">You were</string>
+  <!-- Chat Changes -->
+  <string name="LoverChatTitle">\%player\% (Lover Chat)</string>
+  <string name="ImpostorChatTitle">\%player\% (Impostor Chat)</string>
+  <string name="VampireChatTitle">\%player\% (Vampire Chat)</string>
+  <string name="JailorChatTitle">\%player\% (Jailor)</string>
+  <string name="JaileeChatTitle">\%player\% (Jailed)</string>
+  <string name="SystemChatTitle">System</string>
+  <string name="AnticheatChatTitle">Anticheat System</string>
+  <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
+  <string name="SpectatorCommandList">spec:spectate</string>
+  <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
+  <string name="SpectatorToggleOn">Set yourself as a spectator!</string>
+  <string name="SpectatorToggleOff">You are no longer a spectator!</string>
+  <string name="SpectatorHostError">The host has disabled /spec!</string>
+  <string name="SummaryCommandList">summary:gamesummary:gamesum</string>
+  <string name="SummaryMissingError">No game summary to show!</string>
+  <string name="NerfMeCommandList">nerf:nerfme:vision</string>
+  <string name="NerfMeLobbyError">You cannot Nerf yourself outside the lobby!</string>
+  <string name="NerfMeToggleOn">Toggled nerf status on. Your vision will be cut in half.</string>
+  <string name="NerfMeToggleOff">Toggled nerf status off. Your vision will be normal.</string>
+  <string name="SetNameCommandList">setname:changename:rename:name</string>
+  <string name="SetNameLobbyError">You cannot change your name outside the lobby!</string>
+  <string name="SetNameRequirementError">The player name must be at least one character long and cannot be more than 12 characters long!</string>
+  <string name="SetNameSimilarError">Another player has a name too similar to \%name\%! Please try a different name.</string>
+  <string name="SetNameSuccess">Changed player name for the next match to: \%name\%.</string>
+  <string name="WelcomeMessageBlurb">Welcome to Town of Us Mira v\%modVersion\%!\%nl\%Use the wiki (the globe icon) to get more info on roles or modifiers, where you can use the searchbar. Otherwise, use /help in the chat to get a list of commands.\%nl\%You may disable this message through your option menu.</string>
+  <string name="HelpCommandList">help:support:command:commands:guide</string>
+  <string name="HelpMessageTitle">Chat Commands:</string>
+  <string name="HelpCommandDescription">/help - Shows this message</string>
+  <string name="NerfMeCommandDescription">/nerfme - Cuts your vision in half</string>
+  <string name="SetNameCommandDescription">/setname - Change your name to whatever text follows the command (like /setname \%randomName\%) for the next match.</string>
+  <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
+  <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>
+  <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
+  <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
+  <!-- End Game Summary Details -->
+  <string name="EndGameSummary">End Game Summary</string>
+  <string name="EndResult">End Result: \%victoryType\%</string>
+  <string name="CrewmatesWin">Crewmates Win</string>
+  <string name="ImpostorsWin">Impostors Win</string>
+  <string name="CrewmateWin">Crewmate Win</string>
+  <string name="ImpostorWin">Impostor Win</string>
+  <string name="NobodyWins">Game Draw</string>
+  <string name="SoloWin">\%role\% Wins</string>
+  <string name="TeamWin">\%role\% Win</string>
+  <string name="LoversWin">Lovers Win</string>
+  <string name="StatsKillCount">Kills: \%count\%</string>
+  <string name="StatsBadKillCount">Mis-kills: \%count\%</string>
+  <string name="StatsGoodGuessCount">Guesses: \%count\%</string>
+  <string name="StatsBadGuessCount">Misguesses Guesses: \%count\%</string>
+  <string name="RoundOfDeath">R\%count\%</string>
   <!-- Cause of Deaths -->
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>

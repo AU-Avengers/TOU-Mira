@@ -13,7 +13,8 @@ namespace TownOfUs.GameOver;
 public sealed class NeutralGameOver : CustomGameOver
 {
     private Color _roleColor;
-    private string _roleName = "PLACEHOLDER";
+    private RoleBehaviour _role;
+    private bool _soloWin = true;
 
     public override bool VerifyCondition(PlayerControl playerControl, NetworkedPlayerInfo[] winners)
     {
@@ -34,7 +35,11 @@ public sealed class NeutralGameOver : CustomGameOver
             Error($"VerifyCondition - RoleWhenAlive: '{mainRole?.GetRoleName()}'");
         }
 
-        _roleName = mainRole!.GetRoleName();
+        _role = mainRole!;
+        if (PlayerControl.AllPlayerControls.ToArray().Any(x => x != role.Player && x.GetRoleWhenAlive() == mainRole))
+        {
+            _soloWin = false;
+        }
         _roleColor = mainRole!.TeamColor;
 
         return tRole.WinConditionMet();
@@ -45,9 +50,11 @@ public sealed class NeutralGameOver : CustomGameOver
         endGameManager.BackgroundBar.material.SetColor(ShaderID.Color, _roleColor);
 
         var text = Object.Instantiate(endGameManager.WinText);
-        text.text = $"{_roleName} Wins!";
+        var winText = _soloWin ? TouLocale.GetParsed("SoloWin") : TouLocale.GetParsed("TeamWin");
+        winText = winText.Replace("<role>", _role.GetRoleName());
+        text.text = $"{winText}!";
         text.color = _roleColor;
-        GameHistory.WinningFaction = $"<color=#{_roleColor.ToHtmlStringRGBA()}>{_roleName}</color>";
+        GameHistory.WinningFaction = $"<color=#{_roleColor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TeamWin").Replace("<role>", _role.GetRoleName())}</color>";
 
         var pos = endGameManager.WinText.transform.localPosition;
         pos.y = 1.5f;

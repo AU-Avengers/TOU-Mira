@@ -92,12 +92,12 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             if (newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings)
             {
                 var stringBuilder = new StringBuilder();
-                stringBuilder.Append(TownOfUsPlugin.Culture, $"{client.Data.PlayerName} is joining with these different mods:");
+                stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");
                 foreach (var mod in newModDictionary)
                 {
                     stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
                 }
-                MiscUtils.AddFakeChat(client.Data, "<color=#D53F42>Anticheat System</color>", stringBuilder.ToString(), true, altColors:true);
+                MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
             }
         }
     }

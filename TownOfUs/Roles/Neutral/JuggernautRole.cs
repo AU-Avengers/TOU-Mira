@@ -36,7 +36,6 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         CanUseVent = OptionGroupSingleton<JuggernautOptions>.Instance.CanVent,
         IntroSound = TouAudio.WarlockIntroSound,
         Icon = TouRoleIcons.Juggernaut,
-        MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -53,13 +52,14 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var juggCount = CustomRoleUtils.GetActiveRolesOfType<JuggernautRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > juggCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-        return result;
+        return juggCount >= Helpers.GetAlivePlayers().Count - juggCount;
     }
 
     public override void Initialize(PlayerControl player)

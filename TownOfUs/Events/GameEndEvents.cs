@@ -32,14 +32,14 @@ public static class EndGameEvents
         {
             winType = 1;
             GameHistory.WinningFaction =
-                $"<color=#{Palette.CrewmateBlue.ToHtmlStringRGBA()}>{TranslationController.Instance.GetString(StringNames.Crewmates)}</color>";
+                $"<color=#{Palette.CrewmateBlue.ToHtmlStringRGBA()}>{TouLocale.Get("CrewmateWin")}</color>";
         }
         else if (reason is GameOverReason.ImpostorsByKill or GameOverReason.ImpostorsBySabotage
                  or GameOverReason.ImpostorsByVote or GameOverReason.CrewmateDisconnect)
         {
             winType = 2;
             GameHistory.WinningFaction =
-                $"<color=#{Palette.ImpostorRed.ToHtmlStringRGBA()}>{TranslationController.Instance.GetString(StringNames.ImpostorsCategory)}</color>";
+                $"<color=#{Palette.ImpostorRed.ToHtmlStringRGBA()}>{TouLocale.Get("ImpostorWin")}</color>";
         }
 
         if (reason == CustomGameOver.GameOverReason<DrawGameOver>())

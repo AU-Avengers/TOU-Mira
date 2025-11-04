@@ -58,7 +58,6 @@ public sealed class GlitchRole(IntPtr cppPtr)
     {
         CanUseVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent,
         IntroSound = TouAudio.GlitchSound,
-        MaxRoleCount = 1,
         Icon = TouRoleIcons.Glitch,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -67,14 +66,14 @@ public sealed class GlitchRole(IntPtr cppPtr)
 
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var glitchCount = CustomRoleUtils.GetActiveRolesOfType<GlitchRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > glitchCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return glitchCount >= Helpers.GetAlivePlayers().Count - glitchCount;
     }
 
     [HideFromIl2Cpp]

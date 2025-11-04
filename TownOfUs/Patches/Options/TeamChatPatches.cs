@@ -43,12 +43,12 @@ public static class TeamChatPatches
         if (PlayerControl.LocalPlayer.IsJailed())
         {
             MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailor</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleJailor")}</color>", text);
         }
         else if (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow)
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Jailor)</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text);
         }
     }
 
@@ -60,7 +60,7 @@ public static class TeamChatPatches
                                                                       .TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Jailed)</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JaileeChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text);
         }
     }
 
@@ -71,7 +71,7 @@ public static class TeamChatPatches
             (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Vampire Chat)</color>",
+                $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{TouLocale.GetParsed("VampireChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text);
         }
     }
@@ -83,7 +83,7 @@ public static class TeamChatPatches
             (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Impostor Chat)</color>",
+                $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.GetParsed("ImpostorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text);
         }
     }

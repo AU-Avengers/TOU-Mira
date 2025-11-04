@@ -56,7 +56,6 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent /* && (Rampaging || Player.inVent)*/,
         IntroSound = TouAudio.WerewolfRampageSound,
         Icon = TouRoleIcons.Werewolf,
-        MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -64,14 +63,14 @@ public sealed class WerewolfRole(IntPtr cppPtr)
 
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var wwCount = CustomRoleUtils.GetActiveRolesOfType<WerewolfRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > wwCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return wwCount >= Helpers.GetAlivePlayers().Count - wwCount;
     }
 
     [HideFromIl2Cpp]

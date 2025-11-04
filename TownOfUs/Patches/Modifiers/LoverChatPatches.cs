@@ -70,7 +70,7 @@ public static class LoverChatPatches
         if (LoverMessage && !overrideMessages)
         {
             __instance.NameText.color = TownOfUsColors.Lover;
-            __instance.NameText.text = playerName + " (Lover)";
+            __instance.NameText.text = TouLocale.GetParsed("LoverChatTitle").Replace("<player>", playerName);
             LoverMessage = false;
         }
     }
