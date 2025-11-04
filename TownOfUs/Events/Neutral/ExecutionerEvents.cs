@@ -181,7 +181,7 @@ public static class ExecutionerEvents
 
             if (!exiled.IsCrewmate() && winOption is ExeWinOptions.EndsGame)
             {
-                winOption = ExeWinOptions.Torments;
+                winOption = ExeWinOptions.Nothing;
             }
 
             if (exe.AmOwner && winOption is ExeWinOptions.Torments)
