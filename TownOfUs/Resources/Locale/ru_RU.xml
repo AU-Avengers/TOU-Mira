@@ -1251,7 +1251,7 @@
   <string name="TouRoleSpellslingerWikiDescription">Заклинатель - Сильный Предатель, который может заколдовать игрока, подводя его ко взрыву. Как только все не предатели заколдованы, он может запустить бомбу через определённое время, чтобы выиграть.</string>
   <string name="TouRoleSpellslingerHex">Сглаз</string>
   <string name="TouRoleSpellslingerHexWikiDescription">Заколдуйте игрока, подводя его к детонации.</string>
-  <string name="TouRoleSpellslingerHexBomb">Колдовская\%nl\%Бомба</string>
+  <string name="TouRoleSpellslingerHexBomb">Бомба</string>
   <string name="TouRoleSpellslingerHexBombWikiDescription">Начните отсчёт до взрыва бомбы. Если вы остаётесь живым, когда бомба взрывается, предатели побеждают!</string>
   <string name="TouRoleSpellslingerTabHexCounter">Осталось заколдовать: \%count\%</string>
   <string name="TouRoleSpellslingerTabHexedInfo">Заколдовано:</string>

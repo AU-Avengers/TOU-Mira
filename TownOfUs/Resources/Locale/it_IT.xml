@@ -366,4 +366,30 @@
   <string name="NeutralOutlier">Neutrale Anomalo</string>
   <string name="WildcardNeutral">Neutrale Jolly</string>
   <string name="TouScatter">Scatto</string>
+  <string name="TouRoleDetectiveWikiDescription">Il Detective può ispezionare una scena del crimine ed esaminare i giocatori per vedere se fanno parte del caso, la luce rossa indica se loro fossero lì.</string>
+  <string name="TouRoleDetectiveInspect">Ispeziona</string>
+  <string name="TouRoleDetectiveInspectWikiDescription">Le scene del crimine cominceranno con tutti i corpi morti. Ispeziona una scena del crimine ed Esamina i giocatori per scovare indizi. Durante la riunione successiva, riceverai una segnalazione rivelando il ruolo dell'assassino.</string>
+  <string name="TouRoleDetectiveExamine">Esamina</string>
+  <string name="TouRoleDetectiveExamineWikiDescription">Esamina i giocatori dopo aver ispezionato una scena del crimine. Ti sarà detto se il giocatore esaminato era nella scena del crimine.</string>
+  <string name="TouRoleDetectiveInspectNotif">Hai ispezionato la scena del crimine di \%player\%. L'assassino o chiunque metta i piedi sulla scena del crimine lampeggerà in rosso quando esaminato.</string>
+  <string name="TouOptionDetectiveRoleDuration">Tempo Dove Il Detective Avrà Il Ruolo</string>
+  <string name="TouRoleDetectiveAtScene">\%player\% era alla scena di morte di \%deadPlayer\%! Potrebbe essere al \%nl\% l'assassino o un testimone.</string>
+  <string name="TouRoleEngineerIntroBlurb">Mantieni Sistemi Importanti Nella Navicella</string>
+  <string name="TouRoleHunterIntroBlurb">Pedina Gli \%color=#FF0000FF\%Impostori\%/color\%</string>
+  <string name="TouRoleHunterTabDescription">Pedina i giocatori per essere allertato quando usano una abilità. Al \%nl\% quando usano una abilità, potresti ucciderli.</string>
+  <string name="TouRoleHunterCaughtPlayersText">Giocatori Catturati:</string>
+  <string name="TouRoleHunterWikiDescription">Il Cacciatore è un Astronauta Uccisore che può pedinare i giocatori durante il round. Se un giocatore pedinato usa una abilità, potrebbe venir ucciso dal Cacciatore a qualsiasi punto della partita, anche se è un Compagno d'Equipaggio.</string>
+  <string name="TouRoleHunterStalk">Pedina</string>
+  <string name="TouRoleHunterStalking">Pedinando</string>
+  <string name="TouRoleHunterStalkWikiDescription">Scegli un bersaglio da pedinare. Puoi pedinare \%hunterMaxStalkUsages\% giocatori. Se provano ad usare una abilità mentre sono pedinati, sono aggiunti alla tua hitlist e potrebbero essere uccisi.</string>
+  <string name="TouRoleHunterStalkNotif">Se \%player\% usa una sua abilità, sarai in grado di udciderlo in qualsiasi momento nel round.</string>
+  <string name="TouOptionHunterStalkCooldown">Ricarica Pedina Cacciatore</string>
+  <string name="TouOptionHunterStalkDuration">Durata Pedina Cacciatore</string>
+  <string name="TouOptionHunterStalkUses">Usi Massimi Pedina</string>
+  <string name="TouOptionHunterTaskUses">Ottieni Più Usi Completando Gli Incarichi</string>
+  <string name="TouOptionHunterRetributionOnVote">Il Cacciatore Uccide l'Ultimo Votatore Se Viene Espulso</string>
+  <string name="TouOptionHunterHunterBodyReport">Il Cacciatore Può Segnalare Chi Ha Ucciso</string>
+  <string name="TouRoleImitator">Imitatore</string>
+  <string name="TouRoleImitatorIntroBlurb">Usa I Ruoli Dei Morti A Beneficio Dell'Equipaggio</string>
+  <string name="TouRoleImitatorTabDescription">Usa i giocatori morti a beneficio dell'equipaggio imitando nelle riunioni</string>
 </resources>
