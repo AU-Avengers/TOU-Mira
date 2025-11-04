@@ -204,14 +204,14 @@ public abstract class AssassinModifier : ExcludedGameModifier
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
                 MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(player, "DiedToGuess",
+                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToGuess",
                     DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                     "DiedByStringBasic", Player,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(player, "DiedToMisguess",
+                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToMisguess",
                     DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
             }
