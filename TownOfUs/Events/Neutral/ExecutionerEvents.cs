@@ -179,7 +179,7 @@ public static class ExecutionerEvents
             }
             var winOption = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin;
 
-            if (!exiled.IsCrewmate() && winOption is ExeWinOptions.EndsGame)
+            if (!exiled.IsCrewmate())
             {
                 winOption = ExeWinOptions.Nothing;
             }
