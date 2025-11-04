@@ -437,7 +437,7 @@
   <string name="TouRoleMirrorcasterWikiDescription">魔镜师是船员保护型职业，可以为一名玩家施加魔法镜进行保护。如果被直接攻击，魔镜师可以将攻击反射到另一名玩家身上。</string>
   <string name="TouRoleMirrorcasterUnleash">反射</string>
   <string name="TouRoleMirrorcasterUnleashWikiDescription">一旦魔法镜破碎，利用其力量将攻击反射到另一名玩家！</string>
-  <string name="TouRoleAmbassadorIntroBlurb">带领伪装者取得胜利</string>
+  <string name="TouRoleAmbassadorIntroBlurb">带领\%color=#FF0000FF\%伪装者\%/color\%取得胜利</string>
   <string name="TouRoleAmbassadorTabDescription">将自己或其他伪装者覆写为其他职业\%nl\%\%b\%伪装者击杀不能成为强力职业\%/b\%\%nl\%\%b\%伪装者隐匿/辅助不能成为击杀/强力职业\%/b\%</string>
   <string name="TouRoleAmbassadorWikiDescription">伪面使是伪装者强力型职业，可以将伪装者覆写为其他伪装者职业。</string>
   <string name="TouRoleAmbassadorRetrain">覆写</string>
@@ -1026,7 +1026,7 @@
   <string name="TouOptionVeteranCanBeKilledOnAlert">警戒时可被击杀</string>
   <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">完成任务可获得更多警戒次数</string>or G
 
-  <string name="TouRoleVigilanteIntroBlurb">猜中身份即可击杀伪装者</string>
+  <string name="TouRoleVigilanteIntroBlurb">猜中身份即可击杀 \%color=#FF0000FF\%伪装者\%/color\%</string>
   <string name="TouRoleVigilanteTabDescription">在会议中猜测伪装者的身份并击杀他们！</string>
   <string name="TouRoleVigilanteWikiDescription">侠客是一名船员击杀型职业，可以在会议中猜测玩家身份。 </string>
   <string name="TouOptionVigilanteNumberOfGuesses">侠客可猜测次数</string>
@@ -1260,4 +1260,63 @@
   <string name="TouOptionChefLinkedCooldowns">烹饪\%and\% 和喂食冷却同步重置</string>
   <string name="TouOptionChefServingAmount">所需喂食数量</string>
   <string name="TouOptionChefServingEffects">喂食有副作用</string>
+  <string name="TouRoleSeerAltIntroBlurb">比较两名玩家的阵营</string>
+  <string name="TouRoleSeerAltTabDescription">比较两名玩家，查看他们的阵营是匹配的还是冲突的</string>
+  <string name="TouRoleSeerAltWikiDescription">预言家是一名船员调查型职业，能够比较两名玩家，判断他们的阵营是匹配的还是冲突的。</string>
+  <string name="TouRoleSeerCompare">比较</string>
+  <string name="TouRoleSeerCompareWikiDescription">比较两名玩家的阵营。如果他们的阵营不匹配，你会得到相应的提示。</string>
+  <string name="TouModifierCrewpostor">伪船员</string>
+  <string name="TouModifierCrewpostorColoredName">看似\%color=#8CFFFF\%船员\%/color\%实际是\%color=#FF0000FF\%伪装者\%/color\%</string>
+  <string name="TouModifierCrewpostorIntroBlurb">协助\%color=#FF0000FF\%伪装者\%/color\%</string>
+  <string name="TouModifierCrewpostorTabDescription">作为伪装者背叛船员。</string>
+  <string name="TouModifierCrewpostorWikiDescription">伪船员是一种船员同盟附加特性，会强迫一名船员为伪装者阵营效力。若所有内鬼死亡，你将变为背叛者。</string>
+  <string name="CrewmatesWin">船员胜利</string>
+  <string name="ImpostorsWin">伪装者胜利</string>
+  <string name="CrewmateWin">船员胜利</string>
+  <string name="ImpostorWin">伪装者胜利</string>
+  <string name="NobodyWins">游戏平局</string>
+  <string name="SoloWin">\%role\% 胜利</string>
+  <string name="TeamWin">\%role\% 胜利</string>
+  <string name="LoversWin">恋人胜利</string>
+  <string name="StatsKillCount">正确击杀: \%count\%</string>
+  <string name="StatsBadKillCount">错误击杀: \%count\%</string>
+  <string name="StatsGoodGuessCount">正确猜测: \%count\%</string>
+  <string name="StatsBadGuessCount">错误猜测: \%count\%</string>
+  <string name="RoundOfDeath">第\%count\%回合</string>
+  <string name="EndGameSummary">游戏结算总结</string>
+  <string name="EndResult">获胜阵营: \%victoryType\%</string>
+  <string name="LoverChatTitle">\%player\% (恋人聊天)</string>
+  <string name="ImpostorChatTitle">\%player\% (伪装者聊天)</string>
+  <string name="VampireChatTitle">\%player\% (吸血魔聊天)</string>
+  <string name="JailorChatTitle">\%player\% (典狱长)</string>
+  <string name="JaileeChatTitle">\%player\% (被囚禁者)</string>
+  <string name="SystemChatTitle">系统</string>
+  <string name="AnticheatChatTitle">反作弊系统</string>
+  <string name="AnticheatMessage">\%player\%正在使用以下不同的模组加入游戏：</string>
+  <string name="SpectatorCommandList">观众:观战</string>
+  <string name="SpectatorLobbyError">你不能在大厅之外切换观战模式！</string>
+  <string name="SpectatorToggleOn">将自己设置为观众！</string>
+  <string name="SpectatorToggleOff">你已不再是观众！</string>
+  <string name="SpectatorHostError">“房主已禁用 /spec 命令！</string>
+  <string name="SummaryCommandList">结算:游戏总结：游戏汇总</string>
+  <string name="SummaryMissingError">没有可显示的游戏总结！</string>
+  <string name="NerfMeCommandList">削弱:削弱我:视野</string>
+  <string name="NerfMeLobbyError">你不能在大厅外削弱自己！</string>
+  <string name="NerfMeToggleOn">已开启削弱状态。你的视野将减半。</string>
+  <string name="NerfMeToggleOff">已关闭削弱状态。你的视野将恢复正常。</string>
+  <string name="SetNameCommandList">设置名称:更改名称:重命名:名称</string>
+  <string name="SetNameLobbyError">你不能在大厅外更改名字！</string>
+  <string name="SetNameRequirementError">玩家名称必须至少有1个字符，且不能超过12个字符！</string>
+  <string name="SetNameSimilarError">另一位玩家的名字与 \%name\%太相似！请尝试使用其他名字。</string>
+  <string name="SetNameSuccess">已将下一场比赛的玩家名称更改为： \%name\%。</string>
+  <string name="WelcomeMessageBlurb">欢迎来到我们的小镇 Mira v\%modVersion\%!\%nl\%使用百科（地球图标）可获取更多关于角色或附加特性的信息。你可以使用搜索栏，或者在聊天中输入 /help 获取命令列表。\%nl\%你也可以在选项菜单中关闭此消息。</string>
+  <string name="HelpCommandList">帮助:支持:指令:命令:指南</string>
+  <string name="HelpMessageTitle">聊天指令：</string>
+  <string name="HelpCommandDescription">/help - 显示此消息</string>
+  <string name="NerfMeCommandDescription">/nerfme - 将你的视野减半</string>
+  <string name="SetNameCommandDescription">/setname - 将你的名字更改为命令后所跟的文本（例如 /setname \%randomName\%），适用于下一局游戏。</string>
+  <string name="SpectateCommandDescription">/spec - 允许你在剩余的游戏时间内自动观战。（前提是房主已启用）</string>
+  <string name="SummaryCommandDescription">/summary - 显示上一局游戏的结算总结</string>
+  <string name="JailCommandError">该模组不再使用 /jail 聊天。请改用游戏内的红色聊天按钮。</string>
+  <string name="NoCommandFoundError">无效指令。如果你需要查看聊天指令的信息，请输入 /help。如果你想了解某个职业或修饰词的作用，请点击屏幕右上角的地球图标查看游戏内维基百科。</string>
 </resources>
