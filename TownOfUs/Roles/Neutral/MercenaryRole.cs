@@ -128,7 +128,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     }
 
     [MethodRpc((uint)TownOfUsRpc.Guarded)]
-    public static void RpcGuarded(PlayerControl player, bool isMurder = false)
+    public static void RpcGuarded(PlayerControl player, PlayerControl target, bool isMurder = false)
     {
         if (player.Data.Role is not MercenaryRole mercenary)
         {
@@ -144,6 +144,12 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         else
         {
             mercenary.AddPayment();
+        }
+
+        if (target.TryGetModifier<MercenaryGuardModifier>(out var mercGuard))
+        {
+            // This will remove it after a few seconds
+            mercGuard.StartTimer();
         }
     }
 }
