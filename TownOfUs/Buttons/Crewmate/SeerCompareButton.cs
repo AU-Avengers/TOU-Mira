@@ -84,7 +84,7 @@ public sealed class SeerCompareButton : TownOfUsRoleButton<SeerRole>
                     {
                         return;
                     }
-                    SeerRole.RpcSeerCompare(PlayerControl.LocalPlayer, plr.PlayerId, plr2.PlayerId);
+                    SeerRole.SeerCompare(PlayerControl.LocalPlayer, plr.PlayerId, plr2.PlayerId);
                     if (MaxUses != 0)
                     {
                         UsesLeft--;

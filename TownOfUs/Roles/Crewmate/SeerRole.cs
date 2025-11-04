@@ -68,25 +68,15 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-    [MethodRpc((uint)TownOfUsRpc.SeerCompare, SendImmediately = true)]
-    public static void RpcSeerCompare(PlayerControl seer, byte player1, byte player2)
+    public static void SeerCompare(PlayerControl seer, byte player1, byte player2)
     {
-        if (seer.Data.Role is not SeerRole)
-        {
-            Logger<TownOfUsPlugin>.Error("RpcCompare - Invalid Seer");
-            return;
-        }
-
         var t1 = GetTarget(player1);
         var t2 = GetTarget(player2);
 
         if (t1 == null || t2 == null)
         {
-            if (seer.AmOwner)
-            {
-                Coroutines.Start(MiscUtils.CoFlash(Color.red));
-                ShowNotification($"<b>You need to pick two targets.</b>");
-            }
+            Coroutines.Start(MiscUtils.CoFlash(Color.red));
+            ShowNotification($"<b>You need to pick two targets.</b>");
             return;
         }
 
@@ -102,33 +92,29 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
 
         if (play1.TryGetModifier<InvulnerabilityModifier>(out var invic) && invic.AttackAllInteractions)
         {
-            if (seer.AmOwner) play1.RpcCustomMurder(seer);
+            play1.RpcCustomMurder(seer);
             return;
         }
 
         if (play2.TryGetModifier<InvulnerabilityModifier>(out var invic2) && invic2.AttackAllInteractions)
         {
-            if (seer.AmOwner) play2.RpcCustomMurder(seer);
+            play2.RpcCustomMurder(seer);
             return;
         }
 
         if (play1.HasModifier<VeteranAlertModifier>())
         {
-            if (seer.AmOwner) play1.RpcCustomMurder(seer);
+            play1.RpcCustomMurder(seer);
             return;
         }
 
         if (play2.HasModifier<VeteranAlertModifier>())
         {
-            if (seer.AmOwner) play2.RpcCustomMurder(seer);
+            play2.RpcCustomMurder(seer);
             return;
         }
-
-        if (seer.AmOwner)
-        {
-            var button = CustomButtonSingleton<SeerCompareButton>.Instance;
-            button.ResetCooldownAndOrEffect();
-        }
+        var button = CustomButtonSingleton<SeerCompareButton>.Instance;
+        button.ResetCooldownAndOrEffect();
 
 
         var playerA = play1.CachedPlayerData.PlayerName;
@@ -136,12 +122,9 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
 
         void ShowNotification(string message)
         {
-            if (seer.AmOwner)
-            {
-                var notif = Helpers.CreateAndShowNotification(
-                    message, Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
-                notif.Text.SetOutlineThickness(0.35f);
-            }
+            var notif = Helpers.CreateAndShowNotification(message, Color.white, new Vector3(0f, 1f, -20f),
+                spr: TouRoleIcons.Seer.LoadAsset());
+            notif.AdjustNotification();
         }
 
         bool enemies = Enemies(play1, play2);
