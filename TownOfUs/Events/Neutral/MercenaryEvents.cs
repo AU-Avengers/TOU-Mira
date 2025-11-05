@@ -100,8 +100,11 @@ public static class MercenaryEvents
         if (mercOpts.GuardProtection.Value && (!noAttack || isAttack))
         {
             @event.Cancel();
-            ResetButtonTimer(source, button);
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Mercenary, alpha: 0.5f));
+            if (source.AmOwner)
+            {
+                ResetButtonTimer(source, button);
+                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Mercenary, alpha: 0.5f));
+            }
         }
 
         var mercenary = guardMod.Mercenary;

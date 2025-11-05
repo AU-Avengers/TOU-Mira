@@ -273,7 +273,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         if (play1.AmOwner && t1 is PlayerControl || play2.AmOwner && t2 is PlayerControl)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Transporter.ToTextColor()}You were transported!</color></b>", Color.white,
+                $"<b>{TownOfUsColors.Transporter.ToTextColor()}{TouLocale.GetParsed("TouRoleTransporterTransportNotif")}</color></b>", Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter.LoadAsset());
 
             notif1.AdjustNotification();

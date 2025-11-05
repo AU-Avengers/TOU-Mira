@@ -43,7 +43,7 @@ public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRo
         if (Target.Data.IsDead)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.SoulCollector.ToTextColor()}You have taken {Target.Data.PlayerName}'s soul from their body, leaving a soulless player behind.</color></b>",
+                TouLocale.GetParsed("TouRoleSoulCollectorReapNotif").Replace("<player>", $"{TownOfUsColors.SoulCollector.ToTextColor()}{Target.Data.PlayerName}</color>"),
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.SoulCollector.LoadAsset());
 
             notif1.AdjustNotification();

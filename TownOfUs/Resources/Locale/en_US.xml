@@ -724,6 +724,7 @@
   <string name="TouRoleTransporterWikiDescription">The Transporter is a Crewmate Support role that can transport two players, dead or alive, to swap their locations.</string>
   <string name="TouRoleTransporterTransport">Transport</string>
   <string name="TouRoleTransporterTransportWikiDescription">Switch the positions of two players. Players can be transported out of vents. A red flash means one of the players became an invalid target, such as going on a ladder or zipline</string>
+  <string name="TouRoleTransporterTransportNotif">You have been transported!</string>
   <!-- Transporter Options -->
   <string name="TouOptionTransporterTransportCooldown">Transport Cooldown</string>
   <string name="TouOptionTransporterMaxUses">Max Uses</string>
@@ -906,6 +907,7 @@
   <string name="TouRoleGrenadierWikiDescription">The Grenadier is an Impostor Concealing role that can throw down a grenade that will blind all other players</string>
   <string name="TouRoleGrenadierFlash">Flash</string>
   <string name="TouRoleGrenadierFlashWikiDescription">Throw down a grenade flashing all players in its radius.</string>
+  <string name="TouRoleGrenadierFlashNotif">All players around you have been flash banged!</string>
   <!-- Grenadier Options -->
   <string name="TouOptionGrenadierFlashUsesPerGame">Flash Uses Per Game</string>
   <string name="TouOptionGrenadierFlashGrenadeCooldown">Flash Grenade Cooldown</string>
@@ -967,6 +969,7 @@
   <string name="TouRoleMorphlingMorph">Morph</string>
   <string name="TouRoleMorphlingUnmorph">Unmorph</string>
   <string name="TouRoleMorphlingMorphWikiDescription">Morph into the appearance of the sampled player, which can be canceled early.</string>
+  <string name="TouRoleMorphlingSampleNotif">You have sampled \%player\%. The sample will be reset after this round.</string>
   <!-- Morphling Options -->
   <string name="TouOptionMorphlingSamplesPerGame">Samples Per Game</string>
   <string name="TouOptionMorphlingMorphUsesPerRound">Morph Uses Per Round</string>
@@ -1081,6 +1084,8 @@
   <string name="TouRoleAmnesiacWikiDescription">The Amnesiac is a Neutral Benign role that gains access to a new role from remembering a dead body’s role. Use the role you remember to win the game.</string>
   <string name="TouRoleAmnesiacRemember">Remember</string>
   <string name="TouRoleAmnesiacRememberWikiDescription">Remember the role of a dead body. If the dead body's role is a unique role, you will remember the base faction's role instead.</string>
+  <string name="TouRoleAmnesiacRememberNotif">You remembered that you were like \%player\%, turning into \%role\%</string>
+  <string name="TouRoleAmnesiacRememberFailNotif">\%player\% was \%role\%, so their role cannot be picked up.</string>
   <!-- Amnesiac Options -->
   <string name="TouOptionAmnesiacShowArrows">Show Arrows Pointing To Dead Bodies</string>
   <string name="TouOptionAmnesiacArrowDelay">Time After Death Arrow Appears</string>
@@ -1112,6 +1117,7 @@
   <string name="TouRoleDoomsayerWikiDescriptionIfCanObserve">The Doomsayer is a Neutral Evil role that wins by guessing \%guessCount\% players' roles. They may observe players to get a hint of what their roles are the following meeting.</string>
   <string name="TouRoleDoomsayerObserve">Observe</string>
   <string name="TouRoleDoomsayerObserveWikiDescription">Observe a player, gaining a hint in the next meeting what their role could be.</string>
+  <string name="TouRoleDoomsayerObserveNotif">You will receive a report on \%player\% in the following meeting. This will help you narrow down their role.</string>
   <!-- Doomsayer Options -->
   <string name="TouOptionDoomsayerCooldown">Observe Cooldown</string>
   <string name="TouOptionDoomsayerNecessaryGuessed">Number Of Guesses Needed To Win</string>
@@ -1155,6 +1161,7 @@
   <string name="TouRoleGlitchMimicWikiDescription">Mimic the appearance of another player, taking on their whole appearance.</string>
   <string name="TouRoleGlitchHack">Hack</string>
   <string name="TouRoleGlitchHackWikiDescription">Disable a player's abilities.</string>
+  <string name="TouRoleGlitchHackNotif">Once \%player\% attempts to use any ability, their abilities will be disabled temporarily.</string>
   <!-- Glitch Options -->
   <string name="TouOptionGlitchKillCooldown">Kill Cooldown</string>
   <string name="TouOptionGlitchMimicCooldown">Mimic Cooldown</string>
@@ -1189,6 +1196,7 @@
   <string name="TouRoleInquisitorTabAddition">The roles of your Heretics:</string>
   <string name="TouRoleInquisitorWikiDescription">The Inquisitor is a Neutral Outlier role that wins if their targets (Heretics) die. The only information provided is their roles, and it's up to the Inquisitor to identify those players (marked with \%symbol\% to the dead) and get them killed by any means necessary.</string>
   <!-- Inquisitor Feedback -->
+  <string name="TouRoleInquisitorInquireNotif">You will know if \%player\% is a heretic in the following meeting.</string>
   <string name="TouRoleInquisitorMessageTitle">Inquisitor Report</string>
   <string name="TouRoleInquisitorInquiredHeretic">Your inquiry reveals that \%player\% is a heretic!</string>
   <string name="TouRoleInquisitorInquiredNonHeretic">Your inquiry reveals that \%player\% is not a heretic!</string>
@@ -1268,6 +1276,7 @@
   <string name="TouRoleMercenaryGuardWikiDescription">Guarding a player allows the Mercenary to absorb an ability used on the target. This will grant them gold, for Bribing. If any bribed targets win, the Mercenary will win with them.</string>
   <string name="TouRoleMercenaryBribe">Bribe</string>
   <string name="TouRoleMercenaryBribeWikiDescription">Bribing a player allows the Mercenary to gain their win condition, given that they have gold to spare.</string>
+  <string name="TouRoleMercenaryGuardNotif">Once \%player\% is interacted with, you will get gold in return.</string>
   <!-- Mercenary Options -->
   <string name="TouOptionMercenaryCooldown">Bribe Cooldown</string>
   <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
@@ -1316,6 +1325,7 @@
   <string name="TouRoleSoulCollectorWikiDescription">The Soul Collector is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind a soul-less decoy that looks identical to the reaped player, standing still.</string>
   <string name="TouRoleSoulCollectorReap">Reap</string>
   <string name="TouRoleSoulCollectorReapWikiDescription">Reaping acts like a kill button, but instead of making a dead body, makes a fake player in its place, appearing alive.</string>
+  <string name="TouRoleSoulCollectorReapNotif">You have taken \%player\%'s soul, leaving their lifeless body standing.</string>
   <!-- Soul Collector Options -->
   <string name="TouOptionSoulCollectorReapCooldown">Reap Cooldown</string>
   <string name="TouOptionSoulCollectorCanVent">Soul Collector Can Vent</string>

@@ -34,7 +34,7 @@ public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, Pla
 
         Target.RpcAddModifier<MercenaryGuardModifier>(PlayerControl.LocalPlayer);
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>Once {Target.Data.PlayerName} is interacted with, you will get one gold.</b>", Color.white,
+            TouLocale.GetParsed("TouRoleMercenaryGuardNotif").Replace("<player>", $"{TownOfUsColors.Mercenary.ToTextColor()}{Target.Data.PlayerName}</color>"), Color.white,
             new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mercenary.LoadAsset());
         notif1.AdjustNotification();
     }
