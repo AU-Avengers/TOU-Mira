@@ -33,6 +33,21 @@ public static class ChatPatches
         var nameCommandList = TouLocale.GetParsed("SetNameCommandList").Split(":");
         var helpCommandList = TouLocale.GetParsed("HelpCommandList").Split(":");
 
+        if (TranslationController.InstanceExists &&
+            TranslationController.Instance.currentLanguage.languageID is not SupportedLangs.English)
+        {
+            var specCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "SpectatorCommandList").Split(":");
+            var summaryCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "SummaryCommandList").Split(":");
+            var nerfCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "NerfMeCommandList").Split(":");
+            var nameCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "SetNameCommandList").Split(":");
+            var helpCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "HelpCommandList").Split(":");
+            specCommandList.AddRangeToArray(specCommandListEng);
+            summaryCommandList.AddRangeToArray(summaryCommandListEng);
+            nerfCommandList.AddRangeToArray(nerfCommandListEng);
+            nameCommandList.AddRangeToArray(nameCommandListEng);
+            helpCommandList.AddRangeToArray(helpCommandListEng);
+        }
+
         var spaceLess = text.Replace(" ", string.Empty);
         if (specCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {

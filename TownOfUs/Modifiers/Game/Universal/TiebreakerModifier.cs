@@ -1,16 +1,13 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Interfaces;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverable, IContinuesGame
+public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public bool ContinuesGame => !Player.HasDied() && Helpers.GetAlivePlayers().Count > 1;
     public override string LocaleKey => "Tiebreaker";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Tiebreaker;

@@ -199,10 +199,12 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             if (target.IsCrewmate())
             {
                 target.ChangeRole((ushort)RoleTypes.Crewmate);
+                target.ChangeRole((ushort)RoleTypes.CrewmateGhost, false);
             }
             else if (target.IsImpostor())
             {
                 target.ChangeRole((ushort)RoleTypes.Impostor);
+                target.ChangeRole((ushort)RoleTypes.ImpostorGhost, false);
             }
             /*else if (target.IsNeutral() && player.Data.Role is ITownOfUsRole touRole)
             {
@@ -229,6 +231,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 {
                     target.AddModifier<BasicGhostModifier>();
                 }
+                target.ChangeRole(RoleId.Get<NeutralGhostRole>(), false);
             }
         }
 
