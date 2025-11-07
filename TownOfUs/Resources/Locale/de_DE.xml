@@ -507,4 +507,8 @@
   <string name="TouOptionDetectiveFactionDuration">Zeit, in welcher der Detektiv die Fraktion bekommt</string>
   <string name="TouRoleDetectiveMessageTitle">Detektiv Bericht</string>
   <string name="TouRoleDetectiveAtScene">\%player\% war am Tatort, wo \%deadPlayer\% ermordet wurde! \%nl\% Er könnte der Mörder oder ein Zeuge sein.</string>
+  <string name="TouRoleDetectiveNotAtScene">\%player\% war nicht am Tatort.</string>
+  <string name="TouRoleEngineerIntroBlurb">Erhalte die wichtigsten Systeme auf dem Schiff</string>
+  <string name="TouRoleEngineerTabDescription">Krieche durch Schächte und repariere Sabotagen aus der Distanz</string>
+  <string name="TouRoleEngineerWikiDescription">Der Engineer ist eine Besatzungs Unterstützungs Rolle, welche die Schächte benutzen kann und Sabotagen auch über Distanz reparieren kann.</string>
 </resources>
