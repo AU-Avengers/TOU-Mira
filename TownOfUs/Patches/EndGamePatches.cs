@@ -40,7 +40,7 @@ public static class EndGamePatches
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
                     PlayerName = playerControl.Data.PlayerName,
-                    RoleString = "Spectator",
+                    RoleString = TouLocale.Get("TouRoleSpectator"),
                     Winner = false,
                     LastRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
                     Team = ModdedRoleTeams.Custom,
@@ -318,7 +318,15 @@ public static class EndGamePatches
         GameSummaryButton.transform.position += Vector3.up * 1.65f;
         if (GameSummaryButton.transform.GetChild(1).TryGetComponent<TextTranslatorTMP>(out var tmp2))
         {
-            tmp2.defaultStr = "<size=70%>Game</size>\n<size=55%>Summary</size>";
+            var text = TouLocale.GetParsed("GameSummaryModeButton").Split(":");
+            if (text.Length == 1 || text.Any(x => x == string.Empty))
+            {
+                tmp2.defaultStr = text[0];
+            }
+            else
+            {
+                tmp2.defaultStr = $"<size=70%>{text[0]}</size>\n<size=55%>{text[1]}</size>";
+            }
             tmp2.TargetText = StringNames.None;
             tmp2.ResetText();
         }

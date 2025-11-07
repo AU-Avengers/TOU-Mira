@@ -304,7 +304,7 @@
   <string name="TouOptionJailorMaxExecutes">Maximale aantal executies</string>
   <string name="TouOptionJailorJailInARow">Sluit dezelfde speler 2 keer achter elkaar op</string>
   <string name="TouOptionJailorJaileePublicChat">Gevangene kan publieke chat gebruiken</string>
-  <string name="TouRoleJailorJailorFeedback ">Communiceer met je gevangene in de %b\%RODE%/b\% privé-chatbox naast de %b\%NORMALE%/b\% chatbox.</string>
+  <string name="TouRoleJailorJailorFeedback">Communiceer met je gevangene in de %b\%RODE%/b\% privé-chatbox naast de %b\%NORMALE%/b\% chatbox.</string>
   <string name="TouRoleJailorCannotExecute">%player\% kan niet worden geëxecuteerd! Ze zijn onkwetsbaar of gezegend!</string>
   <string name="TouRoleJailorExecutedCrew">%player\% was een Bemanningslid! Je kunt niemand meer opsluiten!</string>
   <string name="TouRoleJailorExecutedEvil">%player\% was succesvol geëxecuteerd!</string>

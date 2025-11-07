@@ -114,8 +114,9 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             if (player.AmOwner)
             {
+                var text = TouLocale.GetParsed("TouRoleAmnesiacRememberFailNotif").Replace("<player>", target.Data.PlayerName);
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{target.CachedPlayerData.PlayerName} was an {TownOfUsColors.Amnesiac.ToTextColor()}Amnesiac</color>, so their role cannot be picked up.</b>",
+                    $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -186,8 +187,9 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
         if (player.AmOwner)
         {
+            var text = TouLocale.GetParsed("TouRoleAmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>You remembered that you were like {target.Data.PlayerName}, the {player.Data.Role.TeamColor.ToTextColor()}{player.Data.Role.GetRoleName()}</color>.</b>",
+                $"<b>{text.Replace("<role>", $"{player.Data.Role.TeamColor.ToTextColor()}{player.Data.Role.GetRoleName()}</color>")}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
             notif1.AdjustNotification();
         }
@@ -199,10 +201,12 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             if (target.IsCrewmate())
             {
                 target.ChangeRole((ushort)RoleTypes.Crewmate);
+                target.ChangeRole((ushort)RoleTypes.CrewmateGhost, false);
             }
             else if (target.IsImpostor())
             {
                 target.ChangeRole((ushort)RoleTypes.Impostor);
+                target.ChangeRole((ushort)RoleTypes.ImpostorGhost, false);
             }
             /*else if (target.IsNeutral() && player.Data.Role is ITownOfUsRole touRole)
             {
@@ -229,6 +233,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 {
                     target.AddModifier<BasicGhostModifier>();
                 }
+                target.ChangeRole(RoleId.Get<NeutralGhostRole>(), false);
             }
         }
 

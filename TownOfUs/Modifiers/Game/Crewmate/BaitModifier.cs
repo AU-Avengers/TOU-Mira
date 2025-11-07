@@ -60,6 +60,11 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 
         yield return new WaitForSeconds(Random.RandomRange(MinDelay, MaxDelay));
 
+        if (MeetingHud.Instance != null)
+        {
+            yield break;
+        }
+
         if (killer.AmOwner)
         {
             killer.CmdReportDeadBody(target.Data);

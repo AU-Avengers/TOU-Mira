@@ -40,7 +40,7 @@ public sealed class GlitchHackButton : TownOfUsRoleButton<GlitchRole, PlayerCont
         }
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>Once {Target.Data.PlayerName} attempts to use an ability, all their abilities will get disabled.</b>",
+            TouLocale.GetParsed("TouRoleGlitchHackNotif").Replace("<player>", $"{TownOfUsColors.Glitch.ToTextColor()}{Target.Data.PlayerName}</color>"),
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Glitch.LoadAsset());
         notif1.AdjustNotification();
 

@@ -58,8 +58,12 @@ public static class TouLocale
             TranslationController.InstanceExists
                 ? TranslationController.Instance.currentLanguage.languageID
                 : SupportedLangs.English;
+        return Get(currentLanguage, name, defaultValue);
+    }
 
-        if (TouLocalization.TryGetValue(currentLanguage, out var translations) &&
+    public static string Get(SupportedLangs language, string name, string? defaultValue = null)
+    {
+        if (TouLocalization.TryGetValue(language, out var translations) &&
             translations.TryGetValue(name, out var translation))
         {
             return translation;
@@ -73,16 +77,20 @@ public static class TouLocale
 
         return defaultValue ?? "STRMISS_" + name;
     }
-
     public static string GetParsed(string name, string? defaultValue = null,
         Dictionary<string, string>? parseList = null)
     {
-        var text = defaultValue ?? "STRMISS_" + name;
-
         var currentLanguage =
             TranslationController.InstanceExists
                 ? TranslationController.Instance.currentLanguage.languageID
                 : SupportedLangs.English;
+        return GetParsed(currentLanguage, name, defaultValue, parseList);
+    }
+
+    public static string GetParsed(SupportedLangs language, string name, string? defaultValue = null,
+        Dictionary<string, string>? parseList = null)
+    {
+        var text = defaultValue ?? "STRMISS_" + name;
 
         if (TouLocalization.TryGetValue(SupportedLangs.English, out var translationsEng) &&
             translationsEng.TryGetValue(name, out var translationEng))
@@ -90,7 +98,7 @@ public static class TouLocale
             text = translationEng;
         }
 
-        if (TouLocalization.TryGetValue(currentLanguage, out var translations) &&
+        if (language is not SupportedLangs.English && TouLocalization.TryGetValue(language, out var translations) &&
             translations.TryGetValue(name, out var translation))
         {
             text = translation;

@@ -335,7 +335,7 @@
   <string name="TouOptionJailorMaxExecutes">最大的处决次数</string>
   <string name="TouOptionJailorJailInARow">允许连续两次关押同一个人</string>
   <string name="TouOptionJailorJaileePublicChat">被关押者可以使用公开聊天</string>
-  <string name="TouRoleJailorJailorFeedback ">请在\%b\%常规\%/b\%聊天框旁边的\%b\%红色\%/b\%私聊框与被关押者进行沟通。</string>
+  <string name="TouRoleJailorJailorFeedback">请在\%b\%常规\%/b\%聊天框旁边的\%b\%红色\%/b\%私聊框与被关押者进行沟通。</string>
   <string name="TouRoleJailorCannotExecute">\%player\%无法被处决！他们一定是无敌的或者被佑护的！</string>
   <string name="TouRoleJailorExecutedCrew">\%player\%是船员！你不能再关押任何人了！</string>
   <string name="TouRoleJailorExecutedEvil">\%player\%被成功处决！</string>
