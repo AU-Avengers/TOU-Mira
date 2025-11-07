@@ -86,25 +86,22 @@ public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 
     public void ExaminePlayer(PlayerControl player)
     {
-        if (InvestigatedPlayers.Contains(player.PlayerId))
+        var text = TouLocale.GetParsed("TouRoleDetectiveAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
+        if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene != null && InvestigatingScene.DeadPlayer != null)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
 
-            var deadPlayer = InvestigatingScene?.DeadPlayer!;
-
-            var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName} was at the scene of {deadPlayer.Data.PlayerName}'s death!\nThey might be the killer or a witness.</b></color>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Detective.LoadAsset());
-            notif1.AdjustNotification();
+            var deadPlayer = InvestigatingScene.DeadPlayer;
+            text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
         }
         else
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.green));
-            var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName} was not at the scene of the crime.</b></color>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Detective.LoadAsset());
-            notif1.AdjustNotification();
+            text = TouLocale.GetParsed("TouRoleDetectiveNotAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
         }
+        var notif1 = Helpers.CreateAndShowNotification(text,
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Detective.LoadAsset());
+        notif1.AdjustNotification();
     }
 
     public void Report(byte deadPlayerId)
@@ -146,7 +143,7 @@ public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         }
 
         // Send the message through chat only visible to the detective
-        var title = $"<color=#{TownOfUsColors.Detective.ToHtmlStringRGBA()}>Detective Report</color>";
+        var title = $"<color=#{TownOfUsColors.Detective.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleDetectiveMessageTitle")}</color>";
         var reported = Player;
         if (br.Body != null)
         {

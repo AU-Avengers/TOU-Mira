@@ -36,16 +36,11 @@ public static class ChatPatches
         if (TranslationController.InstanceExists &&
             TranslationController.Instance.currentLanguage.languageID is not SupportedLangs.English)
         {
-            var specCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "SpectatorCommandList").Split(":");
-            var summaryCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "SummaryCommandList").Split(":");
-            var nerfCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "NerfMeCommandList").Split(":");
-            var nameCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "SetNameCommandList").Split(":");
-            var helpCommandListEng = TouLocale.GetParsed(SupportedLangs.English, "HelpCommandList").Split(":");
-            specCommandList.AddRangeToArray(specCommandListEng);
-            summaryCommandList.AddRangeToArray(summaryCommandListEng);
-            nerfCommandList.AddRangeToArray(nerfCommandListEng);
-            nameCommandList.AddRangeToArray(nameCommandListEng);
-            helpCommandList.AddRangeToArray(helpCommandListEng);
+            specCommandList = specCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SpectatorCommandList").Split(":"));
+            summaryCommandList = summaryCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SummaryCommandList").Split(":"));
+            nerfCommandList = nerfCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "NerfMeCommandList").Split(":"));
+            nameCommandList = nameCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SetNameCommandList").Split(":"));
+            helpCommandList = helpCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "HelpCommandList").Split(":"));
         }
 
         var spaceLess = text.Replace(" ", string.Empty);
@@ -53,22 +48,26 @@ public static class ChatPatches
         {
             if (!LobbyBehaviour.Instance)
             {
-                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("SpectatorLobbyError"));
+                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    TouLocale.GetParsed("SpectatorLobbyError"));
             }
             else
             {
                 if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("SpectatorToggleOff"));
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                        TouLocale.GetParsed("SpectatorToggleOff"));
                     RpcRemoveSpectator(PlayerControl.LocalPlayer);
                 }
                 else if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators)
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("SpectatorHostError"));
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                        TouLocale.GetParsed("SpectatorHostError"));
                 }
                 else
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("SpectatorToggleOn"));
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                        TouLocale.GetParsed("SpectatorToggleOn"));
                     RpcSelectSpectator(PlayerControl.LocalPlayer);
                 }
             }
@@ -91,7 +90,8 @@ public static class ChatPatches
                 var factionText = string.Empty;
                 if (GameHistory.WinningFaction != string.Empty)
                 {
-                    factionText = $"<size=80%>{TouLocale.GetParsed("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
+                    factionText =
+                        $"<size=80%>{TouLocale.GetParsed("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
                 }
 
                 title = $"{systemName}\n<size=62%>{factionText}{GameHistory.EndGameSummary}</size>";
@@ -127,7 +127,8 @@ public static class ChatPatches
 
         if (nameCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            var stringToCheck = nameCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
+            var stringToCheck =
+                nameCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
             if (text.StartsWith($"/{stringToCheck} ", StringComparison.OrdinalIgnoreCase))
             {
                 var charCount = $"/{stringToCheck} ".Length;
@@ -218,7 +219,8 @@ public static class ChatPatches
 
         if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase))
         {
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("NoCommandFoundError"));
+            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                TouLocale.GetParsed("NoCommandFoundError"));
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -320,7 +322,7 @@ public static class ChatPatches
         {
             SpectatorRole.TrackedSpectators.Remove(name);
         }
-        
+
         foreach (var name in list.Select(x => x.Value))
         {
             SpectatorRole.TrackedSpectators.Add(name);

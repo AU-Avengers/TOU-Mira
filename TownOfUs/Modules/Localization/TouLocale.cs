@@ -92,18 +92,13 @@ public static class TouLocale
     {
         var text = defaultValue ?? "STRMISS_" + name;
 
-        var currentLanguage =
-            TranslationController.InstanceExists
-                ? TranslationController.Instance.currentLanguage.languageID
-                : SupportedLangs.English;
-
         if (TouLocalization.TryGetValue(SupportedLangs.English, out var translationsEng) &&
             translationsEng.TryGetValue(name, out var translationEng))
         {
             text = translationEng;
         }
 
-        if (TouLocalization.TryGetValue(currentLanguage, out var translations) &&
+        if (language is not SupportedLangs.English && TouLocalization.TryGetValue(language, out var translations) &&
             translations.TryGetValue(name, out var translation))
         {
             text = translation;

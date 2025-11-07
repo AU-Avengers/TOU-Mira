@@ -215,6 +215,7 @@
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->
+  <string name="GameSummaryModeButton">\%size=70%\%Game\%/size\%\%nl\%\%size=55%\%Summary\%/size\%</string>
   <string name="EndGameSummary">End Game Summary</string>
   <string name="EndResult">End Result: \%victoryType\%</string>
   <string name="CrewmatesWin">Crewmates Win</string>
@@ -355,6 +356,7 @@
   <string name="TouOptionDetectiveRoleDuration">Time Where Detective Will Have Role</string>
   <string name="TouOptionDetectiveFactionDuration">Time Where Detective Will Have Faction</string>
   <!-- Detective Feedback -->
+  <string name="TouRoleDetectiveMessageTitle">Detective Report</string>
   <string name="TouRoleDetectiveAtScene">\%player\% was at the scene of \%deadPlayer\%'s death!\%nl\%They might be the killer or a witness.</string>
   <string name="TouRoleDetectiveNotAtScene">\%player\% was not at the scene of the crime.</string>
   <!-- Engineer - Crewmate Investigative -->
@@ -439,6 +441,7 @@
   <string name="TouRoleJailor">Jailor</string>
   <string name="TouRoleJailorIntroBlurb">Jail And Execute The \%color=#FF0000FF\%Impostors\%/color\%</string>
   <string name="TouRoleJailorTabDescription">Discuss with crewmates in meetings privately, and\%nl\%execute them if they are an evildoer</string>
+  <string name="TouRoleJailorTabDescriptionEvil">Discuss with crewmates in meetings privately, and\%nl\%execute them if you so desire</string>
   <string name="TouRoleJailorWikiDescription">The Jailor is a Crewmate Power role that can jail other players. During a meeting, the Jailor can choose to execute their jailed player. (Unless the Jailor is an Imitator)</string>
   <string name="TouRoleJailorJail">Jail</string>
   <string name="TouRoleJailorJailWikiDescription">Jail a player. During the meeting everyone will see who is jailed. You can privately talk with your detained player using the instructions that are in the private chatbox</string>
@@ -451,7 +454,8 @@
   <string name="TouOptionJailorJailInARow">Jail Same Person Twice In A Row</string>
   <string name="TouOptionJailorJaileePublicChat">Jailee Can Use Public Chat</string>
   <!-- Jailor Feedback -->
-  <string name="TouRoleJailorJailorFeedback ">Communicate with your jailee in the \%b\%RED\%/b\% private chatbox next to the \%b\%REGULAR\%/b\% chatbox.</string>
+  <string name="TouRoleJailorMessageTitle">Jailor Feedback</string>
+  <string name="TouRoleJailorJailorFeedback">Communicate with your jailee in the \%b\%RED\%/b\% private chatbox next to the \%b\%REGULAR\%/b\% chatbox.</string>
   <string name="TouRoleJailorCannotExecute">\%player\% cannot be executed! They must be Invulnerable or blessed!</string>
   <string name="TouRoleJailorExecutedCrew">\%player\% was a crewmate! You can no longer jail anyone!</string>
   <string name="TouRoleJailorExecutedEvil">\%player\% was successfully executed!</string>
@@ -475,6 +479,7 @@
   <string name="TouRoleMayorIntroBlurb">Reveal Yourself To Save The Crew</string>
   <string name="TouRoleMayorTabDescription">Lead the crew to victory!</string>
   <string name="TouRoleMayorTabDescriptionEgo">Lead the evils to victory!</string>
+  <string name="TouRoleMayorTabDescriptionPostor">Lead the impostors to victory!</string>
   <string name="TouRoleMayorUnrevealedTabText">Reveal yourself whenever you wish.</string>
   <string name="TouRoleMayorWikiDescription">The Mayor is a Crewmate Power role that gains three votes and is revealed to all players, also changing their look in meetings.</string>
   <!-- Medic - Crewmate Protective -->
@@ -1633,7 +1638,7 @@
   <!-- Scout -->
   <!-- Scout Wiki / Description -->
   <string name="TouModifierScout">Scout</string>
-  <string name="TouModifierScoutIntroBlurb">You can also see farther in light but very low in dark.</string>
+  <string name="TouModifierScoutIntroBlurb">You can also see farther in light but lower in dark.</string>
   <string name="TouModifierScoutTabDescription">Your vision is higher when lights are on, but very low when lights are off.</string>
   <string name="TouModifierScoutWikiDescription">While you can see twice as far as a regular crewmate, your vision falters when lights are off.</string>
   <!-- Spy -->

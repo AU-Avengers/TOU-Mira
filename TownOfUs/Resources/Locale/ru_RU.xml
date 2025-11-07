@@ -305,7 +305,7 @@
   <string name="TouOptionJailorMaxExecutes">Макс. Казней</string>
   <string name="TouOptionJailorJailInARow">Заключать одного и того же человека два раза подряд</string>
   <string name="TouOptionJailorJaileePublicChat">Заключённый может использовать общий чат</string>
-  <string name="TouRoleJailorJailorFeedback ">Общайтесь в вашим заключённым в \%b\%Красном\%/b\% личном чате рядом с \%b\%Общим\%/b\% чатом.</string>
+  <string name="TouRoleJailorJailorFeedback">Общайтесь в вашим заключённым в \%b\%Красном\%/b\% личном чате рядом с \%b\%Общим\%/b\% чатом.</string>
   <string name="TouRoleJailorCannotExecute">\%player\% не может быть казнён! Он либо Неуязвим либо Благословлён!</string>
   <string name="TouRoleJailorExecutedCrew">\%player\% был Членом Экипажа! Вы больше не можете никого заключать!</string>
   <string name="TouRoleJailorExecutedEvil">\%player\% был казнён!</string>
