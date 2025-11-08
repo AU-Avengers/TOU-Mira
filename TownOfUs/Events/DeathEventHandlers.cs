@@ -48,6 +48,12 @@ public static class DeathEventHandlers
     [RegisterEvent(1000)]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
+        Coroutines.Start(CoWaitForDeathHandler(@event));
+    }
+
+    public static IEnumerator CoWaitForDeathHandler(PlayerDeathEvent @event)
+    {
+        yield return new WaitForSeconds(0.02f);
         var victim = @event.Player;
         if (!victim.HasModifier<DeathHandlerModifier>())
         {
@@ -68,12 +74,11 @@ public static class DeathEventHandlers
 
             deathHandler.CauseOfDeath = TouLocale.Get($"DiedTo{cod}");
             deathHandler.RoundOfDeath = CurrentRound;
-            // Coroutines.Stop(CoWaitDeathHandler());
-            Coroutines.Start(CoWaitDeathHandler());
+            yield return CoWaitDeathHandler();
         }
     }
 
-    [RegisterEvent(500)]
+    [RegisterEvent(10000)]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
@@ -81,7 +86,12 @@ public static class DeathEventHandlers
         {
             return;
         }
+        Coroutines.Start(CoWaitForDeathHandler(exiled));
+    }
 
+    public static IEnumerator CoWaitForDeathHandler(PlayerControl exiled)
+    {
+        yield return new WaitForSeconds(0.02f);
         if (!exiled.HasModifier<DeathHandlerModifier>())
         {
             DeathHandlerModifier.UpdateDeathHandler(exiled, TouLocale.Get("DiedToEjection"), CurrentRound,
