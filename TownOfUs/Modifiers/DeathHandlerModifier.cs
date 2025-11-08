@@ -67,7 +67,7 @@ public sealed class DeathHandlerModifier : BaseModifier
     {
         if (!player.HasModifier<DeathHandlerModifier>())
         {
-            Error("RpcUpdateDeathHandler - Player had no DeathHandlerModifier");
+            Error("UpdateDeathHandler - Player had no DeathHandlerModifier");
             player.AddModifier<DeathHandlerModifier>();
         }
 

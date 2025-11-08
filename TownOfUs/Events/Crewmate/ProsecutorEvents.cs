@@ -128,7 +128,7 @@ public static class ProsecutorEvents
                     return;
                 }
 
-                if (player.IsCrewmate())
+                if (player.IsCrewmate() && player != pros.Player)
                 {
                     if (OptionGroupSingleton<ProsecutorOptions>.Instance.ExileOnCrewmate)
                     {

@@ -12,7 +12,7 @@ public sealed class EgotistOptions : AbstractOptionGroup<EgotistModifier>
     public override uint GroupPriority => 11;
     public override Color GroupColor => TownOfUsColors.Egotist;
 
-    public ModdedToggleOption EgotistMustSurvive { get; set; } = new("Egotist Must Stay Alive", false);
+    public ModdedToggleOption EgotistMustSurvive { get; set; } = new("Egotist Must Stay Alive To Win", false);
 
     public ModdedToggleOption EgotistSpeedsUp { get; set; } = new("Egotist Speeds Up The Game", true);
 
