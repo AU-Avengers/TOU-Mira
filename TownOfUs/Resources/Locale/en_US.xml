@@ -414,9 +414,9 @@
   <string name="TouRoleImitator">Imitator</string>
   <string name="TouRoleImitatorIntroBlurb">Use Dead Roles To Benefit The Crew</string>
   <string name="TouRoleImitatorTabDescription">Use dead players to benefit the crew via imitation in meetings</string>
-  <string name="TouRoleImitatorWikiDescription">The Imitator is a Crewmate Support role that can select a dead crewmate to imitate their role. They will become their role and abilities until they change targets. Certain roles are innacessible if there are multiple living imitators.</string>
+  <string name="TouRoleImitatorWikiDescription">The Imitator is a Crewmate Support role that can select a dead crewmate to imitate their role until they change targets. Certain roles are inaccessible if there are multiple living imitators.</string>
   <string name="TouRoleImitatorCrewmateImitation">Crewmate Imitation</string>
-  <string name="TouRoleImitatorCrewmateImitationWikiDescription">All crewmate roles are available besides Imitator, Politician, Mayor, and Crewmate. Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
+  <string name="TouRoleImitatorCrewmateImitationWikiDescription">All crewmate roles are available besides Politician and Mayor. Roles like Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
   <string name="TouRoleImitatorNeutralCounterparts">Neutral Counterparts</string>
   <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch\%nl\%Glitch ⇨ Sheriff | GA ⇨ Cleric | Inquis ⇨ Oracle\%nl\%Jester ⇨ Plumber | Merc ⇨ Warden\%nl\%Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
   <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
@@ -999,7 +999,7 @@
   <string name="TouRoleSpellslingerTabHexCounter">Players Left To Hex: \%count\%</string>
   <string name="TouRoleSpellslingerTabHexFinished">All players are Hexed.</string>
   <string name="TouRoleSpellslingerTabHexedInfo">Players Hexed:</string>
-  <string name="TouRoleSpellslingerWikiDescription">The Spellslinger is an Impostor Power role that can hex a player, priming them for detonation. Once all non Impostors are hexed, they may set off a Hex Bomb after a set amount of time to win.</string>
+  <string name="TouRoleSpellslingerWikiDescription">The Spellslinger is an Impostor Power role that can hex a player, priming them for detonation. Once all non-Impostors are hexed, they may set off a Hex Bomb after a set amount of time to win.</string>
   <string name="TouRoleSpellslingerHex">Hex</string>
   <string name="TouRoleSpellslingerHexWikiDescription">Hex a player, priming them for detonation.</string>
   <string name="TouRoleSpellslingerHexBomb">Hex Bomb</string>
@@ -1138,7 +1138,7 @@
   <string name="TouRoleDoomsayerRoleHintPerception">You observe that \%player\% has an altered perception of reality</string>
   <string name="TouRoleDoomsayerRoleHintInsight">You observe that \%player\% has an insight for private information</string>
   <string name="TouRoleDoomsayerRoleHintDeath">You observe that \%player\% has an unusual obsession with dead bodies</string>
-  <string name="TouRoleDoomsayerRoleHintHunter">You observe that \%player\% is well trained in hunting down prey</string>
+  <string name="TouRoleDoomsayerRoleHintHunter">You observe that \%player\% is well-trained in hunting down prey</string>
   <string name="TouRoleDoomsayerRoleHintFearmonger">You observe that \%player\% spreads fear amongst the group</string>
   <string name="TouRoleDoomsayerRoleHintProtective">You observe that \%player\% hides to guard themselves or others</string>
   <string name="TouRoleDoomsayerRoleHintTrickster">You observe that \%player\% has a trick up their sleeve</string>
@@ -1299,7 +1299,7 @@
   <string name="TouRolePhantomIntroBlurb"> </string>
   <!-- You cannot start the game as this role, and thus, it has no intro blurb -->
   <string name="TouRolePhantomTabDescription">Complete all your tasks without being caught!</string>
-  <string name="TouRolePhantomWikiDescription">The Phantom is a Neutral Ghost role that wins the game by finishing their tasks before a alive player has clicked on them.</string>
+  <string name="TouRolePhantomWikiDescription">The Phantom is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
   <string name="TouRolePhantomSpook">Spook</string>
   <!-- Phantom Options -->
   <string name="TouOptionPhantomTasksLeftClickable">Tasks Left Before Clickable</string>
@@ -1384,7 +1384,6 @@
   <!-- Crewpostor - Crewmate Alliance -->
   <!-- Crewpostor Wiki / Description -->
   <string name="TouModifierCrewpostor">Crewpostor</string>
-  <string name="TouModifierCrewpostorColoredName">\%color=#8CFFFF\%Crew\%/color\%\%color=#FF0000FF\%postor\%/color\%</string>
   <string name="TouModifierCrewpostorIntroBlurb">Aid The \%color=#FF0000FF\%Impostors\%/color\%</string>
   <string name="TouModifierCrewpostorTabDescription">Betray the crewmates as an Impostor.</string>
   <string name="TouModifierCrewpostorWikiDescription">The Crewpostor is a Crewmate Alliance modifier, which forces a crewmate to work for the impostor faction. If all impostors are dead, you become a Traitor.</string>

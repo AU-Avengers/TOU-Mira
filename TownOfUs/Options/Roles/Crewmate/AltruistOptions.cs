@@ -9,6 +9,9 @@ public sealed class AltruistOptions : AbstractOptionGroup<AltruistRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleAltruist", "Altruist");
 
+    public ModdedEnumOption ReviveMode { get; } =
+        new("Revive Type", (int)ReviveType.GroupSacrifice, typeof(ReviveType), ["Sacrifice", "Group Sacrifice", "Group Revive"]);
+
     public ModdedNumberOption ReviveDuration { get; } =
         new(TouLocale.Get("TouOptionAltruistReviveDuration", "Revive Duration"), 10f, 1f, 15f, 1f,
             MiraNumberSuffixes.Seconds);
@@ -22,4 +25,11 @@ public sealed class AltruistOptions : AbstractOptionGroup<AltruistRole>
 
     public ModdedToggleOption HideAtBeginningOfRevive { get; } =
         new(TouLocale.Get("TouOptionAltruistHideAtBeginningOfRevive", "Hide Bodies at Beginning Of Revive"), false);
+}
+
+public enum ReviveType
+{
+    Sacrifice,
+    GroupSacrifice,
+    GroupRevive,
 }

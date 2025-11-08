@@ -76,6 +76,26 @@ public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         return ITownOfUsRole.SetNewTabText(this);
     }
 
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+
+        if (CrimeSceneComponent._crimeScenes.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var scene in CrimeSceneComponent._crimeScenes)
+        {
+            if (scene == null || scene.gameObject == null || !scene.gameObject)
+            {
+                continue;
+            }
+
+            scene.gameObject.SetActive(false);
+        }
+    }
+
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
