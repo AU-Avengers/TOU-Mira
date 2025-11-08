@@ -27,9 +27,20 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Altruist";
+    public static string ReviveString()
+    {
+        switch ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value)
+        {
+            case ReviveType.Sacrifice:
+                return "Sacrifice";
+            case ReviveType.GroupSacrifice:
+                return "GroupSacrifice";
+        }
+        return string.Empty;
+    }
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription{ReviveString()}");
 
     public string GetAdvancedDescription()
     {
@@ -46,7 +57,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             return new List<CustomButtonWikiDescription>
             {
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Revive", "Revive"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}ReviveWikiDescription"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}Revive{ReviveString()}WikiDescription"),
                     TouCrewAssets.ReviveSprite)
             };
         }

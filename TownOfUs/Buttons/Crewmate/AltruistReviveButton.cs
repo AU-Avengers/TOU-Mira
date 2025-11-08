@@ -1,7 +1,10 @@
+using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
@@ -22,6 +25,11 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.ReviveSprite;
 
     public bool RevivedInRound { get; set; }
+
+    public override bool Enabled(RoleBehaviour? role)
+    {
+        return base.Enabled(role) && (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value is not ReviveType.Sacrifice;
+    }
 
     public override void CreateButton(Transform parent)
     {
@@ -79,5 +87,18 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
     {
         RevivedInRound = true;
         OverrideName(TouLocale.Get("TouRoleAltruistRevive", "Revive"));
+        if ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value is ReviveType.GroupSacrifice)
+        {
+            Coroutines.Start(CoSacrifite(PlayerControl.LocalPlayer));
+        }
+    }
+
+    public static IEnumerator CoSacrifite(PlayerControl player)
+    {
+        yield return new WaitForSeconds(0.01f);
+        if (MeetingHud.Instance == null && ExileController.Instance == null && !player.HasDied())
+        {
+            player.RpcCustomMurder(player);
+        }
     }
 }
