@@ -539,11 +539,11 @@
   <string name="TouOptionHunterRetributionOnVote">Jäger töten die letzte Stimme falls rausgeworfen</string>
   <string name="TouOptionHunterHunterBodyReport">Jäger kann seine eigenen Morde melden</string>
   <string name="TouRoleImitatorTabDescription">Nutze Tote Spieler um der Besatzung zu helfen, in dem du diese während Versammlungen imitierst</string>
-  <string name="TouRoleImitatorWikiDescription">Der Imitator ist eine Besatzungs Unterstützungs Rolle welche die Rolle ein totes Besatzungsmitglied imitieren kann. Sie werden die Rolle und erhalten deren Fähigkeiten, bis sie das Ziel wechseln. Bestimmte Rollen können nicht imitiert werden wenn es mehrere lebendige Imitatoren gibt.</string>
+  <string name="TouRoleImitatorWikiDescription">Der Imitator ist eine Besatzungs Unterstützungs Rolle welche die Rolle ein totes Besatzungsmitglied imitieren kann, bis sie das Ziel wechseln. Bestimmte Rollen können nicht imitiert werden wenn es mehrere lebendige Imitatoren gibt.</string>
   <string name="TouRoleImitatorCrewmateImitation">Besatzungs Imitation</string>
   <string name="TouRoleAmbusher">Meuchler</string>
   <string name="TouRoleAmbassador">Botschafter</string>
-  <string name="TouRoleImitatorCrewmateImitationWikiDescription">Alle Besatzungs Rollen sind verfügbar, außer Imitator, Politiker, Bürgermeister und Besatzung. Wärter und Ankläger können ihre Versammlungs Fähigkeiten nicht benutzen und der Vigilante bekommt keinen sicheren Schuß.</string>
+  <string name="TouRoleImitatorCrewmateImitationWikiDescription">Alle Besatzungs Rollen sind verfügbar außer Politiker und Bürgermeister. Rollen wie Wärter und Ankläger können ihre Versammlungs Fähigkeiten nicht benutzen und der Vigilante bekommt keinen sicheren Schuss.</string>
   <string name="TouRoleImitatorNeutralCounterparts">Neutrale Abänderungen</string>
   <string name="TouRoleImitatorImpostorCounterparts">Verräter Abänderungen</string>
   <string name="TouOptionImitatorImitateNeutrals">Imitiere spezifizierte Neutrale als eine ähnliche Besatzungs Rolle</string>
