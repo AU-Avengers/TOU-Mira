@@ -14,6 +14,7 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 {
+    public bool LeaveMessageSent { get; set; }
     public bool HasSurvived { get; set; }
     public static float CooldownReduction { get; set; }
     public static float SpeedMultiplier { get; set; } = 1f;
