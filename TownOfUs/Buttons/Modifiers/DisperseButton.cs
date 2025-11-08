@@ -13,7 +13,7 @@ public sealed class DisperseButton : TownOfUsButton
     public override string Name => TouLocale.GetParsed("TouModifierDisperserDisperse", "Disperse");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => 0.001f + MapCooldown;
+    public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override int MaxUses => 1;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.DisperseSprite;

@@ -15,7 +15,7 @@ public sealed class TrackerTrackButton : TownOfUsRoleButton<TrackerTouRole, Play
     public override string Name => TouLocale.GetParsed("TouRoleTrackerTrack", "Track");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Tracker;
-    public override float Cooldown => OptionGroupSingleton<TrackerOptions>.Instance.TrackCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<TrackerOptions>.Instance.TrackCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<TrackerOptions>.Instance.MaxTracks;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrackSprite;
     public int ExtraUses { get; set; }

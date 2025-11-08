@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Venerer;
 using TownOfUs.Modifiers.Neutral;
@@ -17,6 +18,7 @@ public static class PlayerSpeedPatch
     public static void Postfix(PlayerControl pc, ref float __result)
     {
         __result *= TownOfUsMapOptions.GetMapBasedSpeedMultiplier();
+        __result *= EgotistModifier.SpeedMultiplier;
         if (!(HudManagerPatches.CamouflageCommsEnabled &&
              OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSpeedInCamo))
         {

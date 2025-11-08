@@ -13,7 +13,7 @@ public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, Pla
     public override string Name => TouLocale.GetParsed("TouRoleMercenaryBribe", "Bribe");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mercenary;
-    public override float Cooldown => 0.001f + MapCooldown;
+    public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.BribeSprite;
 
     public override bool CanUse()

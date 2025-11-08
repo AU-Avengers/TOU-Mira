@@ -17,7 +17,7 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
     public override string Name => TouLocale.GetParsed("TouRoleGrenadierFlash", "Flash");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<GrenadierOptions>.Instance.GrenadeCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<GrenadierOptions>.Instance.GrenadeCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<GrenadierOptions>.Instance.GrenadeDuration;
     public override int MaxUses => (int)OptionGroupSingleton<GrenadierOptions>.Instance.MaxFlashes;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.FlashSprite;

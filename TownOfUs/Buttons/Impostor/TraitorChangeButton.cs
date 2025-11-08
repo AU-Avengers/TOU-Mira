@@ -18,7 +18,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
     public override string Name => TouLocale.GetParsed("TouRoleTraitorChangeRole", "Change Role");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => 1f;
+    public override float Cooldown => 0.01f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.TraitorSelect;
 

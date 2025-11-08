@@ -25,7 +25,7 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
     }
 
-    public static float BaseCooldown => OptionGroupSingleton<JuggernautOptions>.Instance.KillCooldown + MapCooldown;
+    public static float BaseCooldown => Math.Clamp(OptionGroupSingleton<JuggernautOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
 
     public void SetDiseasedTimer(float multiplier)
     {

@@ -13,7 +13,7 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
     public override string Name => TouLocale.GetParsed("TouRoleMinerMine", "Mine");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<MinerOptions>.Instance.MineCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<MinerOptions>.Instance.MineCooldown + MapCooldown, 5f, 120f);
 
     public override float EffectDuration =>
         OptionGroupSingleton<MinerOptions>.Instance.MineVisibility is MineVisiblityOptions.Immediate

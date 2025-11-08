@@ -15,7 +15,7 @@ public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
     public override string Name => TouLocale.GetParsed("TouRoleLookoutWatch", "Watch");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Lookout;
-    public override float Cooldown => OptionGroupSingleton<LookoutOptions>.Instance.WatchCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<LookoutOptions>.Instance.WatchCooldown + MapCooldown, 1f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<LookoutOptions>.Instance.MaxWatches;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.WatchSprite;
     public int ExtraUses { get; set; }

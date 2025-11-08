@@ -16,7 +16,7 @@ public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRo
     public override string Name => TouLocale.GetParsed("TouRoleSoulCollectorReap", "Reap");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.SoulCollector;
-    public override float Cooldown => OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ReapSprite;
 
     public override void CreateButton(Transform parent)

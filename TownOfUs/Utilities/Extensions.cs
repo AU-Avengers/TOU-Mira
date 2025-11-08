@@ -577,7 +577,7 @@ public static class Extensions
 
     public static float GetKillCooldown(this PlayerControl player)
     {
-        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(), 10f, 120f);
+        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(), 5f, 120f);
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ public sealed class SeerCompareButton : TownOfUsRoleButton<SeerRole>
     public override Color TextOutlineColor => TownOfUsColors.Seer;
 
     public override float Cooldown =>
-        OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown;
+        Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<SeerOptions>.Instance.MaxCompares;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SeerSprite;
 

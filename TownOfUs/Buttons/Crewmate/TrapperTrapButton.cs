@@ -13,7 +13,7 @@ public sealed class TrapperTrapButton : TownOfUsRoleButton<TrapperRole>
     public override string Name => TouLocale.GetParsed("TouRoleTrapperTrap", "Trap");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Trapper;
-    public override float Cooldown => OptionGroupSingleton<TrapperOptions>.Instance.TrapCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<TrapperOptions>.Instance.TrapCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<TrapperOptions>.Instance.MaxTraps;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrapSprite;
     public int ExtraUses { get; set; }

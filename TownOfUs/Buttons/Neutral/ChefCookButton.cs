@@ -14,7 +14,7 @@ public sealed class ChefCookButton : TownOfUsRoleButton<ChefRole, DeadBody>
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override int MaxUses => (int)OptionGroupSingleton<ChefOptions>.Instance.ServingsNeeded;
     public override Color TextOutlineColor => TownOfUsColors.Chef;
-    public override float Cooldown => OptionGroupSingleton<ChefOptions>.Instance.CookCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ChefOptions>.Instance.CookCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.IgniteButtonSprite;
 
     public override bool Enabled(RoleBehaviour? role)

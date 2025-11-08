@@ -19,7 +19,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
     public override Color TextOutlineColor => TownOfUsColors.Mirrorcaster;
 
     public override float Cooldown =>
-        OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorCooldown.Value + MapCooldown + 0.001f;
+        Math.Clamp(OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorCooldown.Value + MapCooldown, 0.001f, 120f);
 
     public override float EffectDuration => OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorDuration.Value;
     public override int MaxUses => (int)OptionGroupSingleton<MirrorcasterOptions>.Instance.MaxMirrors;

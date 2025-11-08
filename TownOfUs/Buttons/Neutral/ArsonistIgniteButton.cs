@@ -23,7 +23,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
     public override string Name => TouLocale.GetParsed("TouRoleArsonistIgnite", "Ignite");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Arsonist;
-    public override float Cooldown => OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.IgniteButtonSprite;
 
     private static List<PlayerControl> PlayersInRange => Helpers.GetClosestPlayers(PlayerControl.LocalPlayer,

@@ -15,7 +15,7 @@ public sealed class OracleBlessButton : TownOfUsRoleButton<OracleRole, PlayerCon
     public override string Name => TouLocale.GetParsed("TouRoleOracleBless", "Bless");
     public override Color TextOutlineColor => TownOfUsColors.Oracle;
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
-    public override float Cooldown => OptionGroupSingleton<OracleOptions>.Instance.BlessCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<OracleOptions>.Instance.BlessCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.BlessSprite;
 
     public override PlayerControl? GetTarget()

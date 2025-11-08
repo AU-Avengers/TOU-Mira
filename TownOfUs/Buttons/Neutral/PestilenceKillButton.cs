@@ -16,7 +16,7 @@ public sealed class PestilenceKillButton : TownOfUsRoleButton<PestilenceRole, Pl
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Pestilence;
-    public override float Cooldown => OptionGroupSingleton<PlaguebearerOptions>.Instance.PestKillCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlaguebearerOptions>.Instance.PestKillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.PestKillSprite;
 
     public override void CreateButton(Transform parent)

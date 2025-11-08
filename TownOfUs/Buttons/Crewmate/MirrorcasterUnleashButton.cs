@@ -19,7 +19,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsRoleButton<MirrorcasterR
     public override Color TextOutlineColor => TownOfUsColors.Mirrorcaster;
 
     public override float Cooldown =>
-        OptionGroupSingleton<MirrorcasterOptions>.Instance.UnleashCooldown.Value + MapCooldown;
+        Math.Clamp(OptionGroupSingleton<MirrorcasterOptions>.Instance.UnleashCooldown.Value + MapCooldown, 5f, 120f);
 
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.UnleashSprite;
 

@@ -17,7 +17,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
     public override string Name => TouLocale.GetParsed("TouRoleSeerReveal", "Reveal");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
-    public override float Cooldown => OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SeerSprite;
 
     public override bool Enabled(RoleBehaviour? role)

@@ -11,7 +11,8 @@ public sealed class AmnesiacRememberButton : TownOfUsRoleButton<AmnesiacRole, De
     public override string Name => TouLocale.GetParsed("TouRoleAmnesiacRemember", "Remember");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Amnesiac;
-    public override float Cooldown => 0.001f + MapCooldown;
+    public override float Cooldown => 0.001f;
+    public override float InitialCooldown => 0.001f;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.RememberButtonSprite;
 
     public override DeadBody? GetTarget()

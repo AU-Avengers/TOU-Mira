@@ -15,7 +15,7 @@ public sealed class ChefServeButton : TownOfUsRoleButton<ChefRole, PlayerControl
     public override string Name => TouLocale.GetParsed("TouRoleChefServe", "Serve");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Chef;
-    public override float Cooldown => OptionGroupSingleton<ChefOptions>.Instance.ServeCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ChefOptions>.Instance.ServeCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ChefServeEmptySprite;
 
     public void UpdateServingType()

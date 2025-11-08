@@ -23,7 +23,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
     public override string Name => TouLocale.GetParsed("TouRoleSheriffShoot", "Shoot");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sheriff;
-    public override float Cooldown => OptionGroupSingleton<SheriffOptions>.Instance.KillCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SheriffOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SheriffShootSprite;
 
     public bool Usable { get; set; } =

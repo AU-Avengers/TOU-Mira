@@ -14,7 +14,7 @@ public sealed class GuardianAngelProtectButton : TownOfUsRoleButton<GuardianAnge
     public override string Name => TouLocale.GetParsed("TouRoleGuardianAngelProtect", "Protect");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.GuardianAngel;
-    public override float Cooldown => OptionGroupSingleton<GuardianAngelOptions>.Instance.ProtectCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<GuardianAngelOptions>.Instance.ProtectCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<GuardianAngelOptions>.Instance.ProtectDuration;
     public override int MaxUses => (int)OptionGroupSingleton<GuardianAngelOptions>.Instance.MaxProtects;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ProtectSprite;

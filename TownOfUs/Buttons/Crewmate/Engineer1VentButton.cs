@@ -19,7 +19,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
     public override Color TextOutlineColor => TownOfUsColors.Engineer;
 
     public override float Cooldown =>
-        OptionGroupSingleton<EngineerOptions>.Instance.VentCooldown + 0.001f + MapCooldown;
+        Math.Clamp(OptionGroupSingleton<EngineerOptions>.Instance.VentCooldown + MapCooldown, 0.001f, 120f);
 
     public override float EffectDuration => OptionGroupSingleton<EngineerOptions>.Instance.VentDuration;
     public override int MaxUses => (int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents;

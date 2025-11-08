@@ -14,7 +14,7 @@ public sealed class GlitchKillButton : TownOfUsRoleButton<GlitchRole, PlayerCont
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Glitch;
-    public override float Cooldown => OptionGroupSingleton<GlitchOptions>.Instance.KillCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<GlitchOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.GlitchKillSprite;
     public override bool ShouldPauseInVent => false;
 

@@ -19,7 +19,7 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
 
     public override float Cooldown =>
-        OptionGroupSingleton<InquisitorOptions>.Instance.InquireCooldown.Value + MapCooldown;
+        Math.Clamp(OptionGroupSingleton<InquisitorOptions>.Instance.InquireCooldown.Value + MapCooldown, 5f, 120f);
 
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.InquireSprite;
 

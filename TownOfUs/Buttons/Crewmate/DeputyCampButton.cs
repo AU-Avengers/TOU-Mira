@@ -14,7 +14,7 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>
     public override string Name => TouLocale.GetParsed("TouRoleDeputyCamp", "Camp");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Deputy;
-    public override float Cooldown => 0.001f + MapCooldown;
+    public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CampButtonSprite;
 
     public override bool CanUse()

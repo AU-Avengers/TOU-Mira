@@ -16,7 +16,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.NoAbilitySprite;
-    public override float Cooldown => OptionGroupSingleton<VenererOptions>.Instance.AbilityCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<VenererOptions>.Instance.AbilityCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<VenererOptions>.Instance.AbilityDuration;
 
     public VenererAbility ActiveAbility { get; private set; } = VenererAbility.None;

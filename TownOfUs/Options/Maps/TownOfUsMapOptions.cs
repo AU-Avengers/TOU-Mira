@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Utilities;
 
@@ -106,7 +107,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
 
     public static float GetMapBasedCooldownDifference()
     {
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        var offset = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
         {
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CooldownOffset,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CooldownOffset,
@@ -117,6 +118,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.CooldownOffset,
             _ => 0
         };
+        return offset - EgotistModifier.CooldownReduction;
     }
 
     public static int GetMapBasedShortTasks()

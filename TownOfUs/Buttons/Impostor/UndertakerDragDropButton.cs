@@ -14,7 +14,7 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
     public override string Name => TouLocale.GetParsed("TouRoleUndertakerDrag", "Drag");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<UndertakerOptions>.Instance.DragCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<UndertakerOptions>.Instance.DragCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.DragSprite;
 
     public override void ClickHandler()

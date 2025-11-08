@@ -19,7 +19,7 @@ public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
     public override string Name => TouLocale.GetParsed("TouRolePlumberBlock", "Block");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
-    public override float Cooldown => OptionGroupSingleton<PlumberOptions>.Instance.BlockCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlumberOptions>.Instance.BlockCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<PlumberOptions>.Instance.MaxBarricades;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.BlockSprite;
     public int ExtraUses { get; set; }

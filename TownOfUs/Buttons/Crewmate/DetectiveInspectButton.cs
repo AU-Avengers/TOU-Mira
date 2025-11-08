@@ -12,7 +12,7 @@ public sealed class DetectiveInspectButton : TownOfUsRoleButton<DetectiveTouRole
     public override string Name => TouLocale.GetParsed("TouRoleDetectiveInspect", "Inspect");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Detective;
-    public override float Cooldown => 1f + MapCooldown;
+    public override float Cooldown => Math.Clamp(MapCooldown, 1f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.InspectSprite;
 
     public override CrimeSceneComponent? GetTarget()

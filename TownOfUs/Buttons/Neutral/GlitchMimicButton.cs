@@ -19,7 +19,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
     public override string Name => TouLocale.GetParsed("TouRoleGlitchMimic", "Mimic");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Glitch;
-    public override float Cooldown => OptionGroupSingleton<GlitchOptions>.Instance.MimicCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<GlitchOptions>.Instance.MimicCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<GlitchOptions>.Instance.MimicDuration;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.MimicSprite;
     public override ButtonLocation Location => ButtonLocation.BottomRight;

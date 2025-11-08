@@ -12,7 +12,7 @@ public sealed class WerewolfRampageButton : TownOfUsRoleButton<WerewolfRole>
     public override string Name => TouLocale.GetParsed("TouRoleWerewolfRampage", "Rampage");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Werewolf;
-    public override float Cooldown => OptionGroupSingleton<WerewolfOptions>.Instance.RampageCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<WerewolfOptions>.Instance.RampageCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<WerewolfOptions>.Instance.RampageDuration;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.RampageSprite;
 

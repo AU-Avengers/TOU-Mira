@@ -15,7 +15,7 @@ public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerC
     public override string Name => TouLocale.GetParsed("TouRoleClericBarrier", "Barrier");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Cleric;
-    public override float Cooldown => OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<ClericOptions>.Instance.BarrierDuration;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.BarrierSprite;
 

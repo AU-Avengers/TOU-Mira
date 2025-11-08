@@ -21,7 +21,7 @@ public sealed class SecurityButton : TownOfUsButton
 
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Operative;
-    public override float Cooldown => OptionGroupSingleton<OperativeOptions>.Instance.DisplayCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<OperativeOptions>.Instance.DisplayCooldown + MapCooldown, 0.001f, 120f);
     public float AvailableCharge { get; set; } = OptionGroupSingleton<OperativeOptions>.Instance.StartingCharge;
 
     public override float EffectDuration
