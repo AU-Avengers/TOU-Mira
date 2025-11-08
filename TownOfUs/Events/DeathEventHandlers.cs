@@ -123,7 +123,17 @@ public static class DeathEventHandlers
             }
             if (target == source)
             {
-                deathHandler.CauseOfDeath = TouLocale.Get("DiedToSuicide");
+                var role = source.GetRoleWhenAlive();
+                var text = TouLocale.Get("DiedToSuicide");
+                
+                var touRole = role as ITownOfUsRole;
+                if (touRole != null && touRole.LocaleKey != "KEY_MISS" &&
+                    !TouLocale.Get($"DiedToSuicide{touRole.LocaleKey}").Contains("STRMISS"))
+                {
+                    text = TouLocale.Get($"DiedToSuicide{touRole.LocaleKey}");
+                }
+
+                deathHandler.CauseOfDeath = text;
                 deathHandler.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
                 deathHandler.RoundOfDeath = CurrentRound;
                 deathHandler.LockInfo = true;
@@ -170,7 +180,17 @@ public static class DeathEventHandlers
         {
             if (target == source)
             {
-                DeathHandlerModifier.UpdateDeathHandler(target, TouLocale.Get("DiedToSuicide"), CurrentRound,
+                var role = source.GetRoleWhenAlive();
+                var text = TouLocale.Get("DiedToSuicide");
+                
+                var touRole = role as ITownOfUsRole;
+                if (touRole != null && touRole.LocaleKey != "KEY_MISS" &&
+                    !TouLocale.Get($"DiedToSuicide{touRole.LocaleKey}").Contains("STRMISS"))
+                {
+                    text = TouLocale.Get($"DiedToSuicide{touRole.LocaleKey}");
+                }
+                
+                DeathHandlerModifier.UpdateDeathHandler(target, text, CurrentRound,
                     !MeetingHud.Instance && !ExileController.Instance
                         ? DeathHandlerOverride.SetTrue
                         : DeathHandlerOverride.SetFalse,

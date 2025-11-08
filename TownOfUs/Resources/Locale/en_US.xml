@@ -241,6 +241,8 @@
   <string name="DiedToPunishment">Punished</string>
   <string name="DiedToWinning">Victorious</string>
   <string name="DiedToSuicide">Suicide</string>
+  <string name="DiedToSuicideAltruist">Sacrificed</string>
+  <string name="DiedToSuicideSheriff">Misfired</string>
   <string name="DiedToMisguess">Misguessed</string>
   <string name="DiedToGuess">Guessed</string>
   <string name="DiedToHeartbreak">Heartbroken</string>
@@ -287,11 +289,15 @@
   <string name="TouRoleAltruist">Altruist</string>
   <string name="TouRoleAltruistIntroBlurb">Revive Dead Crewmates</string>
   <string name="TouRoleAltruistTabDescription">Revive dead crewmates in groups, at the\%nl\%cost of alerting killers and removing meeting uses.</string>
+  <string name="TouRoleAltruistTabDescriptionGroupSacrifice">Sacrifice yourself for dead crewmates in groups at the cost of\%nl\%alerting killers and your own life.</string>
+  <string name="TouRoleAltruistTabDescriptionSacrifice">Sacrifice yourself for a dead crewmate at the\%nl\%cost of alerting killers and your own life.</string>
   <!-- Altruist Wiki / Abilities -->
   <string name="TouRoleAltruistWikiDescription">The Altruist is a Crewmate Protective role can revive dead players in groups. However, their location and the revived players' locations will be revealed to all Impostors.</string>
   <string name="TouRoleAltruistRevive">Revive</string>
   <string name="TouRoleAltruistReviving">Reviving</string>
   <string name="TouRoleAltruistReviveWikiDescription">Revive a group of dead bodies near you. You will be frozen during the revival, and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious.</string>
+  <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">Revive a group of dead bodies near you. You will be frozen during the revival, and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious. If the revive finishes, you will also die.</string>
+  <string name="TouRoleAltruistReviveSacrificeWikiDescription">Revive the closest dead body. You will be frozen during the revival, and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious. If the revive finishes, you will also die.</string>
   <!-- Altruist Options -->
   <string name="TouOptionAltruistReviveDuration">Revive Duration</string>
   <string name="TouOptionAltruistReviveRange">Revive Range</string>
