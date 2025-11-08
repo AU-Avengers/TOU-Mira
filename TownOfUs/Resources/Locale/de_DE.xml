@@ -490,7 +490,7 @@
   <string name="TouOptionClericAttackNotif">Kleriker bekommt Angriffs Meldung</string>
   <string name="TouRoleDeputyIntroBlurb">Belagere die Besatzung, um deren Mörder zu fangen</string>
   <string name="TouRoleDeputyTabDescription">Belagere die Besatzung, dann erschieße deren Mördern in den Versammlungen!</string>
-  <string name="TouRoleDeputyWikiDescription">Der Hilfssheriff ist eine Besatzungs Mord Rolle, welche andere Spiele belagern kann. Sobald ein belagerter Spieler stirbt, wir der Hilfssheriff über dessen Tod benachrichtigt. Im der darauf folgenden Versammlung darf der Hilfssheriff dann versuchen, den Mörder des belagerten Spielers zu erschießen. Nach Erfolg stirbt der Mörder, und bei Fehlschlag passiert nichts.</string>
+  <string name="TouRoleDeputyWikiDescription">Der Stellvertreter ist eine Besatzung Mord Rolle, welche andere Spiele belagern kann. Sobald ein belagerter Spieler stirbt, wir der Hilfssheriff über dessen Tod benachrichtigt. Im der darauf folgenden Versammlung darf der Hilfssheriff dann versuchen, den Mörder des belagerten Spielers zu erschießen. Nach Erfolg stirbt der Mörder, und bei Fehlschlag passiert nichts.</string>
   <string name="TouRoleDeputyCamp">Belager</string>
   <string name="TouRoleDeputyCampWikiDescription">Belagere einen Spieler, um alarmiert zu werden, sobald dieser stirbt. Nach dessen Tod darfst du versuchen, den Mörder zu erschießen. Wenn dein Schuss erfolgreich war, stirbt der Mörder, wenn nicht, passiert nichts.</string>
   <string name="TouRoleDeputyCampNotif">Warte auf \%player\% Tod, so dass du deren Mörder in den Versammlungen erschießen kannst.</string>
@@ -581,4 +581,17 @@
   <string name="TouOptionLookoutMaxWatches">Maximale Spieler die man Beobachten kann</string>
   <string name="TouOptionLookoutLoResetOnNewRound">Wache Beobachtungen setzen sich nach jeder Runde zurück</string>
   <string name="TouOptionLookoutTaskUses">Bekomme mehr Nutzen durch das Beenden von Aufgaben</string>
+  <string name="TouRoleMedicIntroBlurb">Erschaffe ein Schild um ein Besatzungsmitglied zu schützen</string>
+  <string name="TouRoleMedicTabDescription">Schütze ein Besatzungsmitglied mit einem Schild was for Angriffen schützt</string>
+  <string name="TouRoleMedicWikiDescription">Der Arzt ist eine Besatzungs Schutz Rolle welche ein Schild zu einem Spieler vergeben kann.</string>
+  <string name="TouRoleMedicShield">Schild</string>
+  <string name="TouRoleSoulCollectorIntroBlurb">Ernte die Seelen von der Besatzung</string>
+  <string name="TouRoleSoulCollectorTabDescription">Ernte the Seelen anderer, welche ein lebloses bild hinterlassen</string>
+  <string name="TouRoleSoulCollectorWikiDescription">Der Seelensammler ist eine Neutrale Mord Rolle welche die Seelen anderer Spieler nimmt.</string>
+  <string name="TouRoleSoulCollectorReap">Ernten</string>
+  <string name="TouRoleSoulCollectorReapNotif">Du hast %player\%'s Seele geernted,</string>
+  <string name="TouOptionSoulCollectorCanVent">Seelensammler can in Schächte</string>
+  <string name="TouRoleExecutionerTabDescription">Werfe %target\% raus um zu gewinnen.</string>
+  <string name="TouRoleExecutionerTorment">Quälen</string>
+  <string name="TouRolePhantomSpook">Spuken</string>
 </resources>
