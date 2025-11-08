@@ -1266,7 +1266,6 @@
   <string name="TouRoleSeerCompare">比较</string>
   <string name="TouRoleSeerCompareWikiDescription">比较两名玩家的阵营。如果他们的阵营不匹配，你会得到相应的提示。</string>
   <string name="TouModifierCrewpostor">伪船员</string>
-  <string name="TouModifierCrewpostorColoredName">看似\%color=#8CFFFF\%船员\%/color\%实际是\%color=#FF0000FF\%伪装者\%/color\%</string>
   <string name="TouModifierCrewpostorIntroBlurb">协助\%color=#FF0000FF\%伪装者\%/color\%</string>
   <string name="TouModifierCrewpostorTabDescription">作为伪装者背叛船员。</string>
   <string name="TouModifierCrewpostorWikiDescription">伪船员是一种船员同盟附加特性，会强迫一名船员为伪装者阵营效力。若所有内鬼死亡，你将变为背叛者。</string>
