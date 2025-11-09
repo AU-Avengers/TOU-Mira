@@ -205,19 +205,14 @@ public sealed class AmbusherRole(IntPtr cppPtr)
                 lockInfo: DeathHandlerOverride.SetTrue);
 
             var bodyPos = body.transform.position;
-            if (MeetingHud.Instance == null)
+            if (MeetingHud.Instance == null && ambusher.AmOwner)
             {
+                ambusher.moveable = false;
+                ambusher.MyPhysics.ResetMoveState();
+                ambusher.NetTransform.SetPaused(true);
                 bodyPos.y += 0.175f;
                 bodyPos.z = bodyPos.y / 1000f;
-                if (ambusher.AmOwner)
-                {
-                    ambusher.moveable = false;
-                    ambusher.MyPhysics.ResetMoveState();
-                    ambusher.NetTransform.SetPaused(true);
-                    ambusher.RpcSetPos(bodyPos);
-                }
-                ambusher.transform.position = bodyPos;
-                ambusher.NetTransform.SnapTo(bodyPos);
+                ambusher.RpcSetPos(bodyPos);
             }
 
             // Hide real player
@@ -337,8 +332,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
                 {
                     ambusher.RpcSetPos(ogPos);
                 }
-                ambusher.transform.position = ogPos;
-                ambusher.NetTransform.SnapTo(ogPos);
                 var targetPos = ogPos + new Vector3(-0.05f, 0.175f, 0f);
                 targetPos.z = targetPos.y / 1000f;
                 body.transform.position = (ambusher.Collider.bounds.center - targetPos) + targetPos;
