@@ -8,6 +8,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
@@ -129,6 +130,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public IEnumerator CoRevivePlayer(PlayerControl dead)
     {
         var roleWhenAlive = dead.GetRoleWhenAlive();
+        var freezeAltruist = OptionGroupSingleton<AltruistOptions>.Instance.FreezeDuringRevive.Value;
 
         //if (roleWhenAlive == null)
         //{
@@ -136,8 +138,11 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         //    yield break; // cannot revive if no role when alive
         //}
 
-        Player.moveable = false;
-        Player.NetTransform.Halt();
+        if (freezeAltruist)
+        {
+            Player.moveable = false;
+            Player.NetTransform.Halt();
+        }
 
         var body = FindObjectsOfType<DeadBody>()
             .FirstOrDefault(b => b.ParentId == dead.PlayerId);
@@ -213,7 +218,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 Destroy(body.gameObject);
             }
 
-            if (PlayerControl.LocalPlayer.IsImpostorAligned() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
+            var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KIllersAlertedAtEnd.Value;
+            if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
             {
                 if (Player.HasModifier<AltruistArrowModifier>())
                 {
@@ -227,7 +233,10 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
         }
 
-        Player.moveable = true;
+        if (freezeAltruist)
+        {
+            Player.moveable = true;
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.AltruistRevive)]
@@ -239,7 +248,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             return;
         }
 
-        if (PlayerControl.LocalPlayer.IsImpostorAligned() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
+        var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KIllersAlertedAtStart.Value;
+        if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Altruist));
 

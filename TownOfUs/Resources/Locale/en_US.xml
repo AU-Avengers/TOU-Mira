@@ -288,20 +288,21 @@
   <!-- Altruist - Crewmate Protective -->
   <string name="TouRoleAltruist">Altruist</string>
   <string name="TouRoleAltruistIntroBlurb">Revive Dead Crewmates</string>
-  <string name="TouRoleAltruistTabDescription">Revive dead crewmates in groups, at the\%nl\%cost of alerting killers and removing meeting uses.</string>
-  <string name="TouRoleAltruistTabDescriptionGroupSacrifice">Sacrifice yourself for dead crewmates in groups at the cost of\%nl\%alerting killers and your own life.</string>
-  <string name="TouRoleAltruistTabDescriptionSacrifice">Sacrifice yourself for a dead crewmate at the\%nl\%cost of alerting killers and your own life.</string>
+  <string name="TouRoleAltruistTabDescription">Revive dead crewmates in groups, but\%nl\%.</string>
+  <string name="TouRoleAltruistTabDescriptionGroupSacrifice">Sacrifice yourself for dead crewmates in groups\%nl\%at the cost of your own life.</string>
+  <string name="TouRoleAltruistTabDescriptionSacrifice">Sacrifice yourself for a dead crewmate.</string>
   <!-- Altruist Wiki / Abilities -->
-  <string name="TouRoleAltruistWikiDescription">The Altruist is a Crewmate Protective role can revive dead players in groups. However, their location and the revived players' locations will be revealed to all Impostors.</string>
+  <string name="TouRoleAltruistWikiDescription">The Altruist is a Crewmate Protective role that can revive dead crewmates, but prevents meetings being called by themselves or the crewmates they revive.</string>
   <string name="TouRoleAltruistRevive">Revive</string>
   <string name="TouRoleAltruistReviving">Reviving</string>
-  <string name="TouRoleAltruistReviveWikiDescription">Revive a group of dead bodies near you. You will be frozen during the revival, and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious.</string>
-  <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">Revive a group of dead bodies near you. You will be frozen during the revival, and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious. If the revive finishes, you will also die.</string>
-  <string name="TouRoleAltruistReviveSacrificeWikiDescription">Revive the closest dead body. You will be frozen during the revival, and you will be unable to move until the revival is complete. Impostors will also have an arrow pointing towards you during the revival, so be cautious. If the revive finishes, you will also die.</string>
+  <string name="TouRoleAltruistReviveWikiDescription">Revive a group of dead bodies near you.</string>
+  <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">Revive a group of dead bodies near you. If the revival finishes, you will also die without leaving a body behind.</string>
+  <string name="TouRoleAltruistReviveSacrificeWikiDescription">Revive the closest dead body. If the revival finishes, you will also die without leaving a body behind.</string>
   <!-- Altruist Options -->
   <string name="TouOptionAltruistReviveDuration">Revive Duration</string>
   <string name="TouOptionAltruistReviveRange">Revive Range</string>
   <string name="TouOptionAltruistMaxRevives">Revive Uses</string>
+  <string name="TouOptionAltruistFreezeDuringRevive">Freeze Altruist During Revive</string>
   <string name="TouOptionAltruistHideAtBeginningOfRevive">Hide Bodies at Beginning Of Revive</string>
   <!-- Aurial - Crewmate Investigative -->
   <string name="TouRoleAurial">Aurial</string>
