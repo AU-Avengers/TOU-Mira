@@ -5,7 +5,6 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Interfaces;
-using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
