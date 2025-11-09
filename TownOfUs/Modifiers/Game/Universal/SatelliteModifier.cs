@@ -1,9 +1,12 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Modifiers;
+using TownOfUs.Interfaces;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
@@ -14,7 +17,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
+public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable, IButtonModifier
 {
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
@@ -65,7 +68,8 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role is not MysticRole;
+        return base.IsModifierValidOn(role) && role is not MysticRole &&
+            !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 
     public void OnRoundStart()

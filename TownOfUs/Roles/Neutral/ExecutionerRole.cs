@@ -49,10 +49,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
                             x.Is(ModdedRoleTeams.Crewmate) &&
                             !x.HasModifier<GuardianAngelTargetModifier>() &&
                             !x.HasModifier<AllianceGameModifier>() &&
-                            x.Data.Role is not SwapperRole &&
-                            x.Data.Role is not ProsecutorRole &&
-                            x.Data.Role is not PoliticianRole &&
-                            x.Data.Role is not JailorRole &&
+                            !x.Is(RoleAlignment.CrewmatePower) &&
                             x.Data.Role is not VigilanteRole &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName)).ToList();
 

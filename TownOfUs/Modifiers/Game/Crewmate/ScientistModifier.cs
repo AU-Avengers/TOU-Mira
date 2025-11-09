@@ -1,8 +1,10 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
@@ -13,7 +15,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
-public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable
+public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
     public override string LocaleKey => "Scientist";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
@@ -79,8 +81,7 @@ public sealed class ScientistModifier : TouGameModifier, IWikiDiscoverable
             return false;
         }
 
-        return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not ScientistRole
-               && !role.Player.GetModifierComponent().HasModifier<SatelliteModifier>(true)
-               && !role.Player.GetModifierComponent().HasModifier<ButtonBarryModifier>(true);
+        return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not ScientistRole &&
+               !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 }

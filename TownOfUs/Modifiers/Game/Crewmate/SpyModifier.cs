@@ -1,5 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
@@ -12,7 +14,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
-public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredModifier
+public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredModifier, IButtonModifier
 {
     public Color ModifierColor => new(0.8f, 0.64f, 0.8f, 1f);
     public override string LocaleKey => "Spy";
@@ -75,6 +77,7 @@ public sealed class SpyModifier : TouGameModifier, IWikiDiscoverable, IColoredMo
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role is not SpyRole && role.IsCrewmate() &&
-               MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle;
+               MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle &&
+               !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 }
