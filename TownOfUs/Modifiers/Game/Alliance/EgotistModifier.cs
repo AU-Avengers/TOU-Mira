@@ -15,7 +15,7 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 {
     public bool LeaveMessageSent { get; set; }
-    public bool HasSurvived { get; set; }
+    public bool HasSurvived { get; set; } = true;
     public static float CooldownReduction { get; set; }
     public static float SpeedMultiplier { get; set; } = 1f;
     public override string LocaleKey => "Egotist";

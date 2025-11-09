@@ -1,8 +1,10 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -114,6 +116,43 @@ public static class EgotistEvents
                 notif1.AdjustNotification();
             }
             EgotistRoundTracker = (int)egoOpts.RoundsToApplyEffects.Value;
+        }
+    }
+
+    [RegisterEvent(50)]
+    public static void AfterMurderEventHandler(AfterMurderEvent murderEvent)
+    {
+        var target = murderEvent.Target;
+
+        if (target.TryGetModifier<EgotistModifier>(out var egoModifier))
+        {
+            egoModifier.HasSurvived = false;
+        }
+    }
+
+    [RegisterEvent(50)]
+    public static void EjectionEventHandler(EjectionEvent @event)
+    {
+        var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
+        if (exiled == null)
+        {
+            return;
+        }
+
+        if (exiled.TryGetModifier<EgotistModifier>(out var egoModifier))
+        {
+            egoModifier.HasSurvived = false;
+        }
+    }
+
+    [RegisterEvent(500)]
+    public static void PlayerReviveEventHandler(PlayerReviveEvent reviveEvent)
+    {
+        var target = reviveEvent.Player;
+
+        if (target.TryGetModifier<EgotistModifier>(out var egoModifier))
+        {
+            egoModifier.HasSurvived = true;
         }
     }
 }
