@@ -288,7 +288,7 @@
   <!-- Altruist - Crewmate Protective -->
   <string name="TouRoleAltruist">Altruist</string>
   <string name="TouRoleAltruistIntroBlurb">Revive Dead Crewmates</string>
-  <string name="TouRoleAltruistTabDescription">Revive dead crewmates in groups, but\%nl\%.</string>
+  <string name="TouRoleAltruistTabDescription">Revive dead crewmates in groups.</string>
   <string name="TouRoleAltruistTabDescriptionGroupSacrifice">Sacrifice yourself for dead crewmates in groups\%nl\%at the cost of your own life.</string>
   <string name="TouRoleAltruistTabDescriptionSacrifice">Sacrifice yourself for a dead crewmate.</string>
   <!-- Altruist Wiki / Abilities -->
@@ -353,7 +353,7 @@
   <string name="TouRoleDetectiveTabDescription">Inspect crime scenes, then examine players to\%nl\%see if they were at the scene.</string>
   <string name="TouRoleDetectiveWikiDescription">The Detective can inspect a crime scene and examine players to see if they were at the crime scene, flashing red if they were there.</string>
   <string name="TouRoleDetectiveInspect">Inspect</string>
-  <string name="TouRoleDetectiveInspectWikiDescription">Crime scenes will spawn with all dead bodies. Inspect the crime scene and then examine players to discover clues. During the next meeting, you will recieve a report revealing the killer's role.</string>
+  <string name="TouRoleDetectiveInspectWikiDescription">Crime scenes will spawn with all dead bodies. Inspect the crime scene and then examine players to discover clues. During the next meeting, you will receive a report revealing the killer's role.</string>
   <string name="TouRoleDetectiveExamine">Examine</string>
   <string name="TouRoleDetectiveExamineWikiDescription">Examine players after inspecting a crime scene. You will be told if the player was at the crime scene.</string>
   <string name="TouRoleDetectiveInspectNotif">You have inspected the crime scene of \%player\%. The killer or anyone that steps foot in the crime scene will flash red when examined.</string>
@@ -1600,7 +1600,7 @@
   <string name="TouModifierMultitasker">Multitasker</string>
   <string name="TouModifierMultitaskerIntroBlurb">You can also see through tasks.</string>
   <string name="TouModifierMultitaskerTabDescription">Your tasks are transparent.</string>
-  <string name="TouModifierMultitaskerWikiDescription">All your menus are seethrough, allowing you to look behind menus!</string>
+  <string name="TouModifierMultitaskerWikiDescription">All your menus are see-through, allowing you to look behind menus!</string>
   <!-- Noisemaker -->
   <!-- Noisemaker Wiki / Description -->
   <string name="TouModifierNoisemaker">Noisemaker</string>
