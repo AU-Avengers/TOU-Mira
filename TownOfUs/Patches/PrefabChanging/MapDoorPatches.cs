@@ -173,7 +173,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
+        if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Polus || doorType is MapDoorType.Airship || doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
         {
             return;
         }
@@ -266,7 +266,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Polus || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
+        if (doorType is MapDoorType.Polus || doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
         {
             return;
         }
@@ -357,7 +357,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Airship || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
+        if (doorType is MapDoorType.Airship || doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
         {
             return;
         }
@@ -448,7 +448,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged && !ModCompatibility.SubLoaded)
+        if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
         {
             return;
         }
