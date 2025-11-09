@@ -98,7 +98,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
         yield return new WaitForSeconds(0.01f);
         if (MeetingHud.Instance == null && ExileController.Instance == null && !player.HasDied())
         {
-            player.RpcCustomMurder(player);
+            player.RpcCustomMurder(player, showKillAnim: false, createDeadBody: false);
         }
     }
 }
