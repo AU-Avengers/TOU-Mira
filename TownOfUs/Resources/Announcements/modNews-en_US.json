@@ -386,7 +386,7 @@
       ]
     },
     {
-      "Date": "2025-12-14T12:50:00Z",
+      "Date": "2025-10-14T12:50:00Z",
       "Number": "100026",
       "ShortTitle": "TOU: Mira v1.3.0",
       "SubTitle": "Do I smell...smoke?",
@@ -435,7 +435,7 @@
       ]
     },
     {
-      "Date": "2025-12-14T12:51:00Z",
+      "Date": "2025-10-14T12:51:00Z",
       "Number": "100027",
       "ShortTitle": "TOU: Mira v1.3.1",
       "SubTitle": "Just an API change",
@@ -447,9 +447,9 @@
       ]
     },
     {
-      "Date": "2025-12-25T12:50:00Z",
-      "Number": "100028",
-      "ShortTitle": "TOU: Mira v1.3.2 (Beta)",
+      "Date": "2025-11-08T12:50:00Z",
+      "Number": "100029",
+      "ShortTitle": "TOU: Mira v1.4.0 (Beta)",
       "SubTitle": "Cheating isn't slick, y'know?",
       "Title": "Improvements and Bugfixes",
       "Text": [
@@ -476,6 +476,10 @@
         "\n\n\r<size=105%>Improvements:</size>",
         "\n- Kill buttons and vent buttons are now organized in such a way to match vanilla and TOUR respectively.",
         "\n- All maps now have offsets for Short Tasks, Long Tasks, and Cooldowns under the Better Map options.",
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Altruist by default sacrifices themselves when reviving, and can be changed to be like old Altruist or even older Altruist.",
+        "\n- Egotist now speeds up players and lowers cooldowns the longer they stay alive, which is configurable.",
+        "\n- Mercenary will protect players from attacks and gain double the profit by default.",
         "\n\n\r<size=105%>Additions:</size>",
         "\n- New options were added for independent configuration of dead players.",
         "\n- New options for Camouflage Comms: Camouflage Kill Screens in Comms, Hide Player Size, and Hide Player Speed.",
