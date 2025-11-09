@@ -140,6 +140,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             ModifierUtils.GetActiveModifiers<PlaguebearerInfectedModifier>()
                 .Do(x => x.ModifierComponent?.RemoveModifier(x));
+            player.AddModifier<PlaguebearerInfectedModifier>(player.PlayerId);
         }
         else if (player.Data.Role is ArsonistRole)
         {

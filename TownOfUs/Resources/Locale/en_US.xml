@@ -241,6 +241,7 @@
   <string name="DiedToPunishment">Punished</string>
   <string name="DiedToWinning">Victorious</string>
   <string name="DiedToSuicide">Suicide</string>
+  <string name="DiedToSubmergedOxygen">Suffocated</string>
   <string name="DiedToSuicideAltruist">Sacrificed</string>
   <string name="DiedToSuicideSheriff">Misfired</string>
   <string name="DiedToMisguess">Misguessed</string>

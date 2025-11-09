@@ -25,7 +25,7 @@ public sealed class PoliticianCampaignButton : TownOfUsRoleButton<PoliticianRole
     public override PlayerControl? GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
-            predicate: x => !x.HasModifier<PoliticianCampaignedModifier>());
+            predicate: x => !x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner));
     }
 
     protected override void OnClick()

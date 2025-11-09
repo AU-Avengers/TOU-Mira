@@ -40,8 +40,8 @@ public static class PlayerRoleTextExtensions
             color = Color.red;
         }
 
-        if (player.HasModifier<PoliticianCampaignedModifier>(x => x.Politician.AmOwner) &&
-            PlayerControl.LocalPlayer.IsRole<PoliticianRole>())
+        if (player.HasModifier<PoliticianCampaignedModifier>(x => x.Politician.AmOwner && x.Politician.IsCrewmate()) &&
+            (PlayerControl.LocalPlayer.IsRole<PoliticianRole>() || PlayerControl.LocalPlayer.IsRole<MayorRole>()))
         {
             color = Color.cyan;
         }
@@ -184,9 +184,9 @@ public static class PlayerRoleTextExtensions
         var isDead = PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
 
         if ((player.HasModifier<PlaguebearerInfectedModifier>(x =>
-                 x.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId) &&
+                 x.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId && x.PlagueBearerId != x.Player.PlayerId) &&
              PlayerControl.LocalPlayer.IsRole<PlaguebearerRole>())
-            || (player.HasModifier<PlaguebearerInfectedModifier>() && isDead))
+            || (player.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId != x.Player.PlayerId) && isDead))
         {
             name += "<color=#E6FFB3> ¥</color>";
         }
