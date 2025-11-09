@@ -15,7 +15,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>
     public override string Name => TouLocale.GetParsed("TouRoleEngineerFix", "Fix");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Engineer;
-    public override float Cooldown => 0.001f + MapCooldown;
+    public override float Cooldown => Math.Clamp(MapCooldown, 0.01f, 120f);
     public override float EffectDuration => Math.Clamp(OptionGroupSingleton<EngineerOptions>.Instance.FixDelay, 0.01f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.FixButtonSprite;

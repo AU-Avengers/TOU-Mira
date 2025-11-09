@@ -54,7 +54,8 @@ public sealed class SeerCompareButton : TownOfUsRoleButton<SeerRole>
     player1Menu.Begin(
         plr =>
             plr != PlayerControl.LocalPlayer &&
-            ((!plr.Data.Disconnected && !plr.Data.IsDead) || plr.Data.Role is MayorRole mayor && mayor.Revealed || plr.IsRevealed() || Helpers.GetBodyById(plr.PlayerId)) &&
+            ((!plr.Data.Disconnected && !plr.Data.IsDead) ||
+             !plr.IsRevealed() || Helpers.GetBodyById(plr.PlayerId)) &&
             (plr.moveable || plr.inVent),
         plr =>
         {
