@@ -540,7 +540,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Submerged)
+        if (doorType is MapDoorType.Submerged || doorType is MapDoorType.Skeld || doorType is MapDoorType.None)
         {
             return;
         }
