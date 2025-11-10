@@ -177,13 +177,13 @@
   <string name="TouScatter">碎散</string>
   <string name="TouRoleSpectator">观众</string>
   <string name="TouRoleSpectatorIntroBlurb">在远处观察混乱</string>
-  <string name="TouRoleAltruistTabDescription">复活死去的船员，以%nl\%的代价告知杀手并移除会议使用次数。</string>
-  <string name="TouRoleAltruistWikiDescription">殉道者是一个可以复活成群死去的玩家的船员保护型职业。然而，他的位置和复活的玩家的位置会显示给所有的伪装者。</string>
+  <string name="TouRoleAltruistTabDescription">复活死去的船员，但%nl\%。</string>
+  <string name="TouRoleAltruistWikiDescription">殉道者是一个可以复活玩家的船员保护型职业。然而，自己和被复活的船员无法召集会议。</string>
   <string name="TouRoleAltruist">殉道者</string>
   <string name="TouRoleAltruistIntroBlurb">复活死去的船员</string>
   <string name="TouRoleAltruistRevive">复活</string>
   <string name="TouRoleAltruistReviving">复活中</string>
-  <string name="TouRoleAltruistReviveWikiDescription">复活你附近的尸体。在复活过程中你将被定住，并且在复活完成之前你都无法移动。在复活期间，伪装者将会有一个箭头指向你，所以要小心。</string>
+  <string name="TouRoleAltruistReviveWikiDescription">复活你附近的尸体。</string>
   <string name="TouOptionAltruistReviveDuration">复活持续时间</string>
   <string name="TouOptionAltruistReviveRange">复活范围</string>
   <string name="TouOptionAltruistMaxRevives">复活使用次数</string>
@@ -304,9 +304,9 @@
   <string name="TouRoleImitator">效仿者</string>
   <string name="TouRoleImitatorIntroBlurb">使用死亡职业使船员受益</string>
   <string name="TouRoleImitatorTabDescription">在会议中借助忠诚船员的亡魂以再次帮助船员</string>
-  <string name="TouRoleImitatorWikiDescription">效仿者是一个船员辅助型职业，可以选择死去的船员来效仿他们的职业。他们将获得他们死去的职业和技能，直到他们改变目标。如果有多个活着的效仿者，某些职业将是无法效仿的。</string>
+  <string name="TouRoleImitatorWikiDescription">效仿者是一个船员辅助型职业，可以选择死去的船员来效仿他们的职业，直到他们改变目标。如果有多个活着的效仿者，某些职业将是无法效仿的。</string>
   <string name="TouRoleImitatorCrewmateImitation">船员效仿</string>
-  <string name="TouRoleImitatorCrewmateImitationWikiDescription">除了效仿者、政治家、市长和船员之外，所有船员职业都可用。典狱长和检察官无法使用他们的会议技能，侠客无法获得安全猜测。</string>
+  <string name="TouRoleImitatorCrewmateImitationWikiDescription">除了政治家、市长之外，所有船员职业都可用。典狱长和检察官无法使用他们的会议技能，侠客无法获得安全猜测。</string>
   <string name="TouRoleImitatorNeutralCounterparts">中立对应表</string>
   <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">失忆者 ⇨ 法医 |末日预言者 ⇨ 侠客 |行刑者 ⇨ 告密者\%nl\%混沌 ⇨ 警长 |守护天使 ⇨ 牧师 |审判官 ⇨ 神谕者\%nl\%小丑 ⇨ 水管工 |雇佣兵 ⇨ 护卫者\%nl\%瘟疫之源/万疫之神 ⇨ 感应者 |噬魂兽 ⇨ 招魂师 |月下狼人 ⇨ 巡猎者</string>
   <string name="TouRoleImitatorImpostorCounterparts">伪装者对应表</string>
@@ -1333,4 +1333,11 @@
   <string name="TouRoleInquisitorInquireNotif">你将在下次会议中得知\%player\%是否为异教徒。</string>
   <string name="TouRoleMercenaryGuardNotif">当\%player\%被互动时，你将获得一枚金币。</string>
   <string name="TouRoleSoulCollectorReapNotif">你夺取了 \%player\%的灵魂，留下了一个无魂之躯。</string>
+  <string name="DiedToSuicideAltruist">牺牲</string>
+  <string name="DiedToSuicideSheriff">走火</string>
+  <string name="TouRoleAltruistTabDescriptionGroupSacrifice">为已死亡的船员集体牺牲自己，\%nl\%以自身性命为代价。</string>
+  <string name="TouRoleAltruistTabDescriptionSacrifice">为一名已死亡的船员牺牲自己。</string>
+  <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">复活你附近的一群尸体。若复活完成，你也会死亡，且不会留下尸体。</string>
+  <string name="TouRoleAltruistReviveSacrificeWikiDescription">复活离你最近的一具尸体。若复活完成，你也会死亡，且不会留下尸体。</string>
+  <string name="TouOptionAltruistFreezeDuringRevive">复活期间冻结殉道者</string>
 </resources>
