@@ -1340,4 +1340,10 @@
   <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">复活你附近的一群尸体。若复活完成，你也会死亡，且不会留下尸体。</string>
   <string name="TouRoleAltruistReviveSacrificeWikiDescription">复活离你最近的一具尸体。若复活完成，你也会死亡，且不会留下尸体。</string>
   <string name="TouOptionAltruistFreezeDuringRevive">复活期间冻结殉道者</string>
+  <string name="TouModifierEgotistVictoryMessage">\%modifier\%, \%player\%,已成功获胜，因为没有船员幸存！</string>
+  <string name="TouModifierEgotistVictoryMessageSelf">你已以 \%modifier\%的身份成功获胜，因为没有船员幸存！</string>
+  <string name="TouModifierEgotistSpeedChangeMessage">\%modifier\%的肾上腺素正在增强。玩家的移动速度现已提升至 \%newSpeed\% 倍！</string>
+  <string name="TouModifierEgotistCooldownChangeMessage">\%modifier\%的肾上腺素正在增强。技能冷却时间现已缩短 \%newOffset\% 秒！</string>
+  <string name="TouModifierEgotistCooldownSpeedChangeMessage">\%modifier\%的肾上腺素正在增强。技能冷却时间现已缩短 \%newOffset\% 秒，玩家移动速度提升至 \%newSpeed\% 倍！</string>
+  <string name="TouModifierEgotistDeadMessage">\%modifier\% 已死亡，他们的肾上腺素也随之消退！</string>
 </resources>
