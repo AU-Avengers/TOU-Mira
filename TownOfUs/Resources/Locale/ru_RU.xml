@@ -1260,4 +1260,17 @@
   <string name="TouRoleSpellslingerWarningNotif">\%role\% взорвёт магическую бомбу через \%time\% секунд!</string>
   <string name="DiedToSpellslingerHexBomb">Дезинтегрирован</string>
   <string name="TouRoleSpellslingerTabHexFinished">Все игроки были прокляты.</string>
+  <string name="LoverChatTitle">\%player\% (Чат Любовников)</string>
+  <string name="ImpostorChatTitle">\%player\% (Чат Предателей)</string>
+  <string name="VampireChatTitle">\%player\% (Чат Вампиров)</string>
+  <string name="JailorChatTitle">\%player\% (Тюремщик)</string>
+  <string name="JaileeChatTitle">\%player\% (Заключённый)</string>
+  <string name="SystemChatTitle">Система</string>
+  <string name="AnticheatChatTitle">Античит</string>
+  <string name="AnticheatMessage">\%player\% присоединяется с иными модами:</string>
+  <string name="SpectatorLobbyError">Вы не можете наблюдать вне лобби!</string>
+  <string name="SpectatorToggleOn">Сделайте себя наблюдателем!</string>
+  <string name="SpectatorToggleOff">Вы больше не наблюдатель!</string>
+  <string name="SpectatorHostError">Наблюдатель отключён хостом!</string>
+  <string name="SummaryMissingError">Нет игровой статистики для показа!</string>
 </resources>
