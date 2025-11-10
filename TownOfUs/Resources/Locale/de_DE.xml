@@ -619,4 +619,23 @@
   <string name="TouRoleMediumWikiDescription">Das Medium ist eine Besatzungs Unterstützungs Rolle die meditieren kann um einen Geist pro nutzen zu sehen. Sowohl das Medium als auch der Geist haben einen Pfeil, welcher dauerhaft zu deinen Partner zeigt.</string>
   <string name="TouRoleMediumMediate">Meditiere</string>
   <string name="TouRoleMediumMediateWikiDescription">Kommunizier mit den Toten, welche euch zu den Mördern weisen könnten.</string>
+  <string name="TouRoleWardenIntroBlurb">Verschanze Besatzungsmitglieder</string>
+  <string name="TouRoleWardenTabDescription">Verschanze Besastzungsmitglieder um interactionen mit ihnen zu verhindern</string>
+  <string name="TouRoleWardenWikiDescription">Der Wächter ist eine Besatzungs Schutz Rolle welche Spieler Verschanzen kann um interationen mit ihnen zu verhindern. </string>
+  <string name="TouRoleWardenFortify">Verschanzen</string>
+  <string name="TouRoleWardenFortifyWikiDescription">Verschanze einen Spieler um interaktionen mit disem zu verhindern. Wenn irgendjemand versucht mit dem verschanzten Spieler zu interagieren, wird die fähigkeit nicht funktionieren und der Wächter und der Verschanzte Spieler werden mit einem lilanen flash alarmiert.</string>
+  <string name="TouOptionWardenShowFortifyPlayer">Zeige Verschanzten Spieler</string>
+  <string name="TouRoleAmbassadorIntroBlurb">Leite die %color=#FF0000FF\%Verräter%/color\% zun Sieg</string>
+  <string name="TouRoleVigilanteIntroBlurb">Töte %color=#FF0000FF\%Verräter%/color\% wenn du ihre Rollen raten kannst</string>
+  <string name="TouRoleVigilanteTabDescription">Rate die Rollen der Verräter in Treffen um sie zu töten!</string>
+  <string name="TouRoleVigilanteWikiDescription">Der Vigilante ist eine Besatzung Mord Rolle welche die Rollen anderer Spieler in Treffen raten kann. If they guess correctly, the other player will die. If not, they will die. </string>
+  <string name="TouOptionVigilanteNumberOfGuesses">Rat Anzahl</string>
+  <string name="TouOptionVigilanteCanGuessMoreThanOncePerMeeting">Kann Mehr Als Einmal im Treffen Raten</string>
+  <string name="TouOptionVigilanteCanGuessNeutralBenignRoles">Kann Neutral Gutartige Rollen Raten</string>
+  <string name="TouOptionVigilanteCanGuessNeutralEvilRoles">Kann Neutral Böse Rollen Raten</string>
+  <string name="TouOptionVigilanteCanGuessNeutralKillingRoles">Kann Neutral Mord Rollen Raten</string>
+  <string name="TouOptionVigilanteCanGuessKillerModifiers">Kann Mord Modifikator Raten</string>
+  <string name="TouOptionVigilanteCanGuessAlliances">Kann Allianzen Raten</string>
+  <string name="TouOptionVigilanteSafeShotsAvailable">Verfügbare Sichere Schüsse</string>
+  <string name="TouRoleVeteranIntroBlurb">Alamiere um Jeden zu Töten der mit dir interagiert</string>
 </resources>
