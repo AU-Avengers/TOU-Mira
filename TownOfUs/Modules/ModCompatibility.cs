@@ -9,6 +9,8 @@ using Il2CppInterop.Runtime;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events;
+using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
@@ -132,6 +134,7 @@ public static class ModCompatibility
         var submarineOxygenSystem = SubTypes.First(t => t.Name == "SubmarineOxygenSystem");
         submarineOxygenSystemInstance = AccessTools.Property(submarineOxygenSystem, "Instance");
         repairDamage = AccessTools.Method(submarineOxygenSystem, "RepairDamage");
+        var rpcOxygenDeath = AccessTools.Method(submarineOxygenSystem, "RpcOxygenDeath");
         var submergedExileController = SubTypes.First(t => t.Name == "SubmergedExileController");
         var submergedExileWrapUp = AccessTools.Method(submergedExileController, "WrapUpAndSpawn");
 
@@ -151,6 +154,9 @@ public static class ModCompatibility
 
         harmony.Patch(submergedExileWrapUp, null,
             new HarmonyMethod(AccessTools.Method(compatType, nameof(ExileRoleChangePostfix))));
+
+        harmony.Patch(rpcOxygenDeath, null,
+            new HarmonyMethod(AccessTools.Method(compatType, nameof(OxygenDeathPostfix))));
         harmony.Patch(canUse, null, null,
             new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
 
@@ -257,6 +263,13 @@ public static class ModCompatibility
         }
 
         return Tuple.Create(false, (object)null!);
+    }
+
+    public static void OxygenDeathPostfix(PlayerControl player)
+    {
+        DeathHandlerModifier.UpdateDeathHandler(player, TouLocale.Get("DiedToSubmergedOxygen"),
+        DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+        lockInfo: DeathHandlerOverride.SetTrue);
     }
 
     public static void ExileRoleChangePostfix()
