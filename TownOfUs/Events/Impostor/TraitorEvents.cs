@@ -36,11 +36,11 @@ public static class TraitorEvents
             return;
         }
         var crewpostor = ModifierUtils.GetActiveModifiers<CrewpostorModifier>()
-            .FirstOrDefault(x => !x.Player.HasDied() && x.Player.IsCrewmate());
+            .FirstOrDefault(x => x.Player.IsCrewmate());
         var alives = Helpers.GetAlivePlayers().ToList();
         if (crewpostor != null)
         {
-            if (alives.Any(x => x.IsImpostor()))
+            if (crewpostor.Player.HasDied() || alives.Any(x => x.IsImpostor()))
             {
                 return;
             }

@@ -3,13 +3,13 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -68,7 +68,6 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
 
     protected override void OnClick()
     {
-        PlayerControl.LocalPlayer.RpcAddModifier<IndirectAttackerModifier>(false);
         var dousedPlayers = PlayersInRange.Where(x => x.HasModifier<ArsonistDousedModifier>()).ToList();
         if (OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist)
         {
@@ -87,13 +86,11 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
             {
                 continue;
             }
-
-            PlayerControl.LocalPlayer.RpcCustomMurder(doused, resetKillTimer: false, teleportMurderer: false,
-                playKillSound: false);
+            PlayerControl.LocalPlayer.RpcSpecialMurder(doused, true, teleportMurderer: false,
+                playKillSound: false,
+                causeOfDeath: "Arsonist");
             RpcIgniteSound(doused);
         }
-
-        PlayerControl.LocalPlayer.RpcRemoveModifier<IndirectAttackerModifier>();
 
         TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
 

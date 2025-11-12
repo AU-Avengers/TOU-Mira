@@ -71,7 +71,7 @@ public static class CustomTouMurderRpcs
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
             DeathHandlerModifier.UpdateDeathHandler(target, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
-                DeathHandlerOverride.SetTrue,
+                (MeetingHud.Instance == null && ExileController.Instance == null) ? DeathHandlerOverride.SetTrue : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue);
         }

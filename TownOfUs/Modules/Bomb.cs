@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
