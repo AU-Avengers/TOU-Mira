@@ -7,6 +7,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -32,7 +33,6 @@ public sealed class Bomb : IDisposable
 
     private IEnumerator CoDetonate()
     {
-        _bomber?.RpcAddModifier<IndirectAttackerModifier>(false);
         yield return new WaitForSeconds(0.1f);
 
         var radius = OptionGroupSingleton<BomberOptions>.Instance.DetonateRadius * ShipStatus.Instance.MaxLightRadius;
@@ -48,8 +48,6 @@ public sealed class Bomb : IDisposable
 
         if (MeetingHud.Instance || ExileController.Instance)
         {
-            _bomber?.RpcRemoveModifier<IndirectAttackerModifier>();
-
             _obj.Destroy();
             yield break;
         }
@@ -72,26 +70,12 @@ public sealed class Bomb : IDisposable
                 continue;
             }
 
-            _bomber?.RpcCustomMurder(player, teleportMurderer: false);
+            _bomber?.RpcSpecialMurder(player, true, teleportMurderer: false,
+                causeOfDeath: "BomberBomb");
             killList.Add(player);
         }
 
-        _bomber?.RpcRemoveModifier<IndirectAttackerModifier>();
-
         _obj.Destroy();
-        yield return new WaitForSeconds(0.1f);
-        foreach (var player in killList)
-        {
-            if (!player.HasDied() || _bomber == null)
-            {
-                continue;
-            }
-
-            DeathHandlerModifier.RpcUpdateLocalDeathHandler(player, "DiedToBomberBomb",
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
-                "DiedByStringBasic", _bomber,
-                lockInfo: DeathHandlerOverride.SetTrue);
-        }
     }
 
     public static Bomb CreateBomb(PlayerControl player, Vector3 location)

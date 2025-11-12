@@ -316,11 +316,25 @@ public static class TouRoleManagerPatches
         ];
         List<RoleListOption> buckets =
         [
-            (RoleListOption)opts.Slot1.Value, (RoleListOption)opts.Slot2.Value, (RoleListOption)opts.Slot3.Value,
-            (RoleListOption)opts.Slot4.Value
+            (RoleListOption)opts.Slot1.Value
         ];
         var impCount = 0;
         var anySlots = 0;
+
+        if (players > 1)
+        {
+            buckets.Add((RoleListOption)opts.Slot2.Value);
+        }
+
+        if (players > 2)
+        {
+            buckets.Add((RoleListOption)opts.Slot3.Value);
+        }
+
+        if (players > 3)
+        {
+            buckets.Add((RoleListOption)opts.Slot4.Value);
+        }
 
         if (players > 4)
         {

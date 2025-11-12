@@ -171,6 +171,15 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
 
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
+            murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
+        {
+            DeathHandlerModifier.UpdateDeathHandler(target, TouLocale.Get("DiedToAmbusherAmbush"), DeathEventHandlers.CurrentRound,
+                DeathHandlerOverride.SetTrue,
+                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", ambusher.Data.PlayerName),
+                lockInfo: DeathHandlerOverride.SetTrue);
+        }
+
         ambusher.CustomMurder(
             target,
             murderResultFlags2,

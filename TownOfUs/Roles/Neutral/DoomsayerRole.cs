@@ -17,6 +17,7 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -397,9 +398,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     }
                     else
                     {
-                        Player.RpcCustomMurder(victim, createDeadBody: false, teleportMurderer: false,
+                        Player.RpcSpecialMurder(victim, true, createDeadBody: false, teleportMurderer: false,
                             showKillAnim: false,
-                            playKillSound: false);
+                            playKillSound: false,
+                            causeOfDeath: "Doomsayer");
                     }
                 }
                 else
@@ -412,9 +414,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                         }
                         else
                         {
-                            Player.RpcCustomMurder(victim2, createDeadBody: false, teleportMurderer: false,
+                            Player.RpcSpecialMurder(victim2, true, createDeadBody: false, teleportMurderer: false,
                                 showKillAnim: false,
-                                playKillSound: false);
+                                playKillSound: false,
+                                causeOfDeath: "Doomsayer");
                         }
                     }
                 }

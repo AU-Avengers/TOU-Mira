@@ -15,6 +15,7 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -216,23 +217,14 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 return;
             }
-
-            Player.RpcCustomMurder(victim, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
-                playKillSound: false);
+            Player.RpcSpecialMurder(victim, true, createDeadBody: false, teleportMurderer: false,
+                showKillAnim: false,
+                playKillSound: false,
+                causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
             {
                 meetingMenu?.HideSingle(victim.PlayerId);
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToGuess",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    "DiedByStringBasic", Player,
-                    lockInfo: DeathHandlerOverride.SetTrue);
-            }
-            else
-            {
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToMisguess",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
 
             shapeMenu.Close();
