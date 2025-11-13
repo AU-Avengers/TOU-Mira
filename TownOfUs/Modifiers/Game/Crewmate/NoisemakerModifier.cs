@@ -5,6 +5,7 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -115,6 +116,6 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not NoisemakerRole;
+        return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not NoisemakerRole && role is not AltruistRole;
     }
 }

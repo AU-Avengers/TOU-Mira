@@ -5,6 +5,7 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -59,5 +60,25 @@ public static class LoverEvents
     public static void RoundStartHandler(RoundStartEvent @event)
     {
         ModifierUtils.GetActiveModifiers<LoverModifier>().Do(x => x.OnRoundStart());
+    }
+
+    [RegisterEvent]
+    public static void ChangeRoleHandler(ChangeRoleEvent @event)
+    {
+        if (!PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+
+        var player = @event.Player;
+
+        if (player.TryGetModifier<LoverModifier>(out var lover) && !@event.NewRole.IsCrewmate())
+        {
+            lover.ForceDisableTasks = true;
+            if (lover.OtherLover != null && lover.OtherLover.TryGetModifier<LoverModifier>(out var lover2))
+            {
+                lover2.ForceDisableTasks = true;
+            }
+        }
     }
 }

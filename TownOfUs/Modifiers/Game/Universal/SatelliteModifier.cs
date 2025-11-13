@@ -68,7 +68,7 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role is not MysticRole &&
+        return base.IsModifierValidOn(role) && role is not MysticRole && role is not MediumRole &&
             !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 

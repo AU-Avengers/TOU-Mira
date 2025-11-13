@@ -49,29 +49,9 @@ public sealed class Bomb : IDisposable
             _obj.Destroy();
             yield break;
         }
-
-        List<PlayerControl> killList = new();
-        foreach (var player in affected)
-        {
-            if (player.HasDied())
-            {
-                continue;
-            }
-
-            if (player.HasModifier<BaseShieldModifier>() && _bomber == player)
-            {
-                continue;
-            }
-
-            if (player.HasModifier<FirstDeadShield>() && _bomber == player)
-            {
-                continue;
-            }
-
-            _bomber?.RpcSpecialMurder(player, true, teleportMurderer: false,
-                causeOfDeath: "BomberBomb");
-            killList.Add(player);
-        }
+        var targetList = affected.Where(x => !x.HasDied() && !(x.HasModifier<BaseShieldModifier>() && x.AmOwner) && !(x.HasModifier<FirstDeadShield>() && x.AmOwner)).ToList();
+        _bomber?.RpcSpecialMultiMurder(targetList, true, teleportMurderer: false,
+            causeOfDeath: "BomberBomb");
 
         _obj.Destroy();
     }
