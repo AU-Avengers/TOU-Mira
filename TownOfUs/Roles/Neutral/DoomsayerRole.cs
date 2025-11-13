@@ -414,7 +414,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                         }
                         else
                         {
-                            Player.RpcSpecialMurder(victim2, true, createDeadBody: false, teleportMurderer: false,
+                            Player.RpcSpecialMurder(victim2, true, true, createDeadBody: false, teleportMurderer: false,
                                 showKillAnim: false,
                                 playKillSound: false,
                                 causeOfDeath: "Doomsayer");

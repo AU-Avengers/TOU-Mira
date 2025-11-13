@@ -1,15 +1,14 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Events;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -195,25 +194,16 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
                 return;
             }
-
-            Player.RpcCustomMurder(victim, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
-                playKillSound: false);
+            Player.RpcSpecialMurder(victim, true, true, createDeadBody: false, teleportMurderer: false,
+                showKillAnim: false,
+                playKillSound: false,
+                causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
             {
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
                 MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToGuess",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    "DiedByStringBasic", Player,
-                    lockInfo: DeathHandlerOverride.SetTrue);
-            }
-            else
-            {
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToMisguess",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
 
             maxKills--;

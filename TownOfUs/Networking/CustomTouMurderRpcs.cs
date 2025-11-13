@@ -20,6 +20,7 @@ public static class CustomTouMurderRpcs
     /// <param name="source">The killer.</param>
     /// <param name="targets">The players to murder.</param>
     /// <param name="isIndirect">Determines if the attack is indirect.</param>
+    /// <param name="ignoreShields">If indirect, determines if shields are ignored.</param>
     /// <param name="didSucceed">Whether the murder was successful or not.</param>
     /// <param name="resetKillTimer">Should the kill timer be reset.</param>
     /// <param name="createDeadBody">Should a dead body be created.</param>
@@ -31,6 +32,7 @@ public static class CustomTouMurderRpcs
         this PlayerControl source,
         List<PlayerControl> targets,
         bool isIndirect = false,
+        bool ignoreShields = false,
         bool didSucceed = true,
         bool resetKillTimer = true,
         bool createDeadBody = true,
@@ -40,7 +42,7 @@ public static class CustomTouMurderRpcs
         string causeOfDeath = "null")
     {
         var newTargets = targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName)).ToDictionary(x => x.Key, x => x.Value);
-        RpcSpecialMultiMurder(source, newTargets, isIndirect, didSucceed, resetKillTimer, createDeadBody,
+        RpcSpecialMultiMurder(source, newTargets, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
             teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
     }
 
@@ -50,6 +52,7 @@ public static class CustomTouMurderRpcs
     /// <param name="source">The killer.</param>
     /// <param name="targets">The players to murder.</param>
     /// <param name="isIndirect">Determines if the attack is indirect.</param>
+    /// <param name="ignoreShields">If indirect, determines if shields are ignored.</param>
     /// <param name="didSucceed">Whether the murder was successful or not.</param>
     /// <param name="resetKillTimer">Should the kill timer be reset.</param>
     /// <param name="createDeadBody">Should a dead body be created.</param>
@@ -62,6 +65,7 @@ public static class CustomTouMurderRpcs
         this PlayerControl source,
         Dictionary<byte, string> targets,
         bool isIndirect = false,
+        bool ignoreShields = false,
         bool didSucceed = true,
         bool resetKillTimer = true,
         bool createDeadBody = true,
@@ -73,7 +77,7 @@ public static class CustomTouMurderRpcs
         var role = source.GetRoleWhenAlive();
         if (isIndirect)
         {
-            source.AddModifier<IndirectAttackerModifier>(true);
+            source.AddModifier<IndirectAttackerModifier>(ignoreShields);
         }
 
         var cod = "Killer";
@@ -133,6 +137,7 @@ public static class CustomTouMurderRpcs
     /// <param name="source">The killer.</param>
     /// <param name="target">The player to murder.</param>
     /// <param name="isIndirect">Determines if the attack is indirect.</param>
+    /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
     /// <param name="didSucceed">Whether the murder was successful or not.</param>
     /// <param name="resetKillTimer">Should the kill timer be reset.</param>
     /// <param name="createDeadBody">Should a dead body be created.</param>
@@ -145,6 +150,7 @@ public static class CustomTouMurderRpcs
         this PlayerControl source,
         PlayerControl target,
         bool isIndirect = false,
+        bool ignoreShield = false,
         bool didSucceed = true,
         bool resetKillTimer = true,
         bool createDeadBody = true,
@@ -156,7 +162,7 @@ public static class CustomTouMurderRpcs
         var role = source.GetRoleWhenAlive();
         if (isIndirect)
         {
-            source.AddModifier<IndirectAttackerModifier>(true);
+            source.AddModifier<IndirectAttackerModifier>(isIndirect);
         }
 
         var cod = "Killer";
