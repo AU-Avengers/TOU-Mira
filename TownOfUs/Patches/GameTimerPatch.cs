@@ -134,8 +134,8 @@ public static class GameTimerPatch
         {
             TimerSprite.sprite = TouAssets.TimerDrawSprite.LoadAsset();
         }
-        Enabled = true;
         TriggerEndGame = false;
+        Enabled = true;
     }
 
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
