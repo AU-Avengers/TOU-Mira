@@ -709,7 +709,7 @@
   <string name="TouRoleSwapper">Swapper</string>
   <string name="TouRoleSwapperIntroBlurb">Swap Votes To Save The Crew!</string>
   <string name="TouRoleSwapperTabDescription">Swap votes from one player to another during a meeting</string>
-  <string name="TouRoleSwapperWikiDescription">The Swapper is a Crewmate Power that can swap the votes of two players in a meeting. Their meeting vote areas will be swapped visually, and the votes will be swapped. If player 1 recieved the most votes, and you swap them with player 2, player 2 will now be ejected instead. </string>
+  <string name="TouRoleSwapperWikiDescription">The Swapper is a Crewmate Power that can swap the votes of two players in a meeting. Their meeting vote areas will be swapped visually, and the votes will be swapped. If player 1 received the most votes, and you swap them with player 2, player 2 will now be ejected instead. </string>
   <string name="TouRoleSwapperSwap">Swap</string>
   <string name="TouRoleSwapperSwapWiki">Swap (Meeting)</string>
   <string name="TouRoleSwapperSwapWikiDescription">Select two players to swap votes for, and at the end of the meeting, they will swap spots!</string>
