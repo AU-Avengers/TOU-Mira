@@ -123,8 +123,6 @@ public static class GameTimerPatch
 
     public static void BeginTimer()
     {
-        Enabled = true;
-        TriggerEndGame = false;
         GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.GetFloatData() * 60f;
 
         if ((GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value is GameTimerType
@@ -136,6 +134,8 @@ public static class GameTimerPatch
         {
             TimerSprite.sprite = TouAssets.TimerDrawSprite.LoadAsset();
         }
+        TriggerEndGame = false;
+        Enabled = true;
     }
 
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
