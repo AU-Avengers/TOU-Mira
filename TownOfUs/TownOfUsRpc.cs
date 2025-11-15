@@ -4,6 +4,8 @@ public enum TownOfUsRpc : uint
 {
     OffsetForAnticheat,
     GhostRoleMurder,
+    SpecialMurder,
+    SpecialMultiMurder,
     RemoveSpawns,
     OpenManualDoors,
     CloseSkeldDoors,
@@ -34,7 +36,6 @@ public enum TownOfUsRpc : uint
     MedicShieldAttacked,
     EngineerFix,
     EngineerEventFix,
-    IgniteSound,
     PlaceVent,
     ShowVent,
     Remember,

@@ -10,9 +10,12 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <Version>1.3.1-4</Version>
+        <VersionPrefix>1.3.1</VersionPrefix>
+        <VersionSuffix>beta.5</VersionSuffix>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, Nix, whichtwix, xerminator, XtraCube, Zeo</Authors>
+        <Company>Among Us Avengers</Company>
+        <RepositoryUrl>https://github.com/AU-Avengers/TOU-Mira</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
 
         <!-- SourceLink -->

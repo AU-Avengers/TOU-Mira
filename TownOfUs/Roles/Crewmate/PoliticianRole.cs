@@ -144,7 +144,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         var aliveCrew = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => !x.HasDied() && x.IsCrewmate() && x.Data.Role is not PoliticianRole).ToList();
         // All living crewmates excluding the Politician that are campaigned
-        var aliveCampaigned = aliveCrew.Count(x => x.HasModifier<PoliticianCampaignedModifier>());
+        var aliveCampaigned = aliveCrew.Count(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner));
         var hasMajority =
             aliveCampaigned >= (aliveCrew.Count / 2f);
         if (aliveCrew.Count == 0)

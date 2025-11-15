@@ -4,17 +4,15 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Events;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -44,7 +42,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     public Color RoleColor => TownOfUsColors.Vigilante;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateKilling;
-    public bool IsPowerCrew => MaxKills > 0; // Always disable end game checks with a vigi running around
+    public bool IsPowerCrew => MaxKills > 0; // Always disable end game checks with a vigilante running around
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -122,7 +120,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu.Dispose();
             meetingMenu = null!;
         }
     }
@@ -187,7 +185,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             if (!OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteMultiKill || MaxKills == 0 ||
                 victim == Player)
             {
-                meetingMenu?.HideButtons();
+                meetingMenu.HideButtons();
             }
 
             if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
@@ -216,23 +214,14 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 return;
             }
-
-            Player.RpcCustomMurder(victim, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
-                playKillSound: false);
+            Player.RpcSpecialMurder(victim, true, true, createDeadBody: false, teleportMurderer: false,
+                showKillAnim: false,
+                playKillSound: false,
+                causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
             {
-                meetingMenu?.HideSingle(victim.PlayerId);
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToGuess",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    "DiedByStringBasic", Player,
-                    lockInfo: DeathHandlerOverride.SetTrue);
-            }
-            else
-            {
-                DeathHandlerModifier.RpcUpdateLocalDeathHandler(victim, "DiedToMisguess",
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                meetingMenu.HideSingle(victim.PlayerId);
             }
 
             shapeMenu.Close();
@@ -241,8 +230,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId == Player.PlayerId ||
-               Player.Data.IsDead || voteArea!.AmDead ||
+        return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
@@ -312,14 +300,11 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     private static bool IsModifierValid(BaseModifier modifier)
     {
-        var isValid = true;
         // This will remove modifiers that alter their chance/amount
-        if ((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
-            (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
-            (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)))
-        {
-            isValid = false;
-        }
+        var isValid =
+            !((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
+              (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
+              (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)));
 
         if (!isValid)
         {
@@ -332,8 +317,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return true;
         }
 
-        var impMod = modifier as TouGameModifier;
-        if (impMod != null &&
+        if (modifier is TouGameModifier impMod &&
             (impMod.FactionType.ToDisplayString().Contains("Imp") ||
              impMod.FactionType.ToDisplayString().Contains("Killer")) &&
             !impMod.FactionType.ToDisplayString().Contains("Non"))

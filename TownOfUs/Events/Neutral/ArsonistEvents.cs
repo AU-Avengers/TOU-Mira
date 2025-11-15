@@ -1,5 +1,6 @@
 using MiraAPI.Events;
 using MiraAPI.Events.Mira;
+using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -27,6 +28,17 @@ public static class ArsonistEvents
         if (!source.HasModifier<ArsonistDousedModifier>())
         {
             source.RpcAddModifier<ArsonistDousedModifier>(target.PlayerId);
+        }
+    }
+
+    [RegisterEvent]
+    public static void AfterMurderEventHandler(AfterMurderEvent @event)
+    {
+        var source = @event.Source;
+        var victim = @event.Target;
+        if (source.Data.Role is ArsonistRole && victim.AmOwner && MeetingHud.Instance == null && ExileController.Instance == null)
+        {
+            TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
         }
     }
 }

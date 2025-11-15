@@ -241,6 +241,7 @@
   <string name="DiedToPunishment">Punished</string>
   <string name="DiedToWinning">Victorious</string>
   <string name="DiedToSuicide">Suicide</string>
+  <string name="DiedToSubmergedOxygen">Suffocated</string>
   <string name="DiedToSuicideAltruist">Sacrificed</string>
   <string name="DiedToSuicideSheriff">Misfired</string>
   <string name="DiedToMisguess">Misguessed</string>
@@ -288,7 +289,7 @@
   <!-- Altruist - Crewmate Protective -->
   <string name="TouRoleAltruist">Altruist</string>
   <string name="TouRoleAltruistIntroBlurb">Revive Dead Crewmates</string>
-  <string name="TouRoleAltruistTabDescription">Revive dead crewmates in groups, but\%nl\%.</string>
+  <string name="TouRoleAltruistTabDescription">Revive dead crewmates in groups.</string>
   <string name="TouRoleAltruistTabDescriptionGroupSacrifice">Sacrifice yourself for dead crewmates in groups\%nl\%at the cost of your own life.</string>
   <string name="TouRoleAltruistTabDescriptionSacrifice">Sacrifice yourself for a dead crewmate.</string>
   <!-- Altruist Wiki / Abilities -->
@@ -318,6 +319,7 @@
   <string name="TouRoleCleric">Cleric</string>
   <string name="TouRoleClericIntroBlurb">Save The Crewmates</string>
   <string name="TouRoleClericTabDescription">Cleanse negative effects off of crewmates and\%nl\%cast Barriers to stop any interactions altogether</string>
+  <string name="TouRoleClericTabProtecting">Barrier On: \%player\%</string>
   <!-- Cleric Wiki / Abilities -->
   <string name="TouRoleClericWikiDescription">The Cleric is a Crewmate Protective that can protect crewmates by negating their negative effects, as well as placing barriers on them to prevent interactions.</string>
   <string name="TouRoleClericBarrier">Barrier</string>
@@ -353,7 +355,7 @@
   <string name="TouRoleDetectiveTabDescription">Inspect crime scenes, then examine players to\%nl\%see if they were at the scene.</string>
   <string name="TouRoleDetectiveWikiDescription">The Detective can inspect a crime scene and examine players to see if they were at the crime scene, flashing red if they were there.</string>
   <string name="TouRoleDetectiveInspect">Inspect</string>
-  <string name="TouRoleDetectiveInspectWikiDescription">Crime scenes will spawn with all dead bodies. Inspect the crime scene and then examine players to discover clues. During the next meeting, you will recieve a report revealing the killer's role.</string>
+  <string name="TouRoleDetectiveInspectWikiDescription">Crime scenes will spawn with all dead bodies. Inspect the crime scene and then examine players to discover clues. During the next meeting, you will receive a report revealing the killer's role.</string>
   <string name="TouRoleDetectiveExamine">Examine</string>
   <string name="TouRoleDetectiveExamineWikiDescription">Examine players after inspecting a crime scene. You will be told if the player was at the crime scene.</string>
   <string name="TouRoleDetectiveInspectNotif">You have inspected the crime scene of \%player\%. The killer or anyone that steps foot in the crime scene will flash red when examined.</string>
@@ -494,6 +496,7 @@
   <string name="TouRoleMedic">Medic</string>
   <string name="TouRoleMedicIntroBlurb">Create A Shield To Protect A Crewmate</string>
   <string name="TouRoleMedicTabDescription">Protect a crewmate with a shield to defend them from attacks</string>
+  <string name="TouRoleMedicTabProtecting">Shielded: \%player\%</string>
   <string name="TouRoleMedicWikiDescription">The Medic is a Crewmate Protective role that can give a Shield to a player.</string>
   <string name="TouRoleMedicShield">Shield</string>
   <string name="TouRoleMedicShieldWikiDescription">Give a Shield to a player, protecting them from being killed by others</string>
@@ -524,6 +527,7 @@
   <string name="TouRoleMirrorcaster">Mirrorcaster</string>
   <string name="TouRoleMirrorcasterIntroBlurb">Reflect Attacks Onto Others</string>
   <string name="TouRoleMirrorcasterTabDescription">Protect a player with a Magic Mirror.\%nl\%If they are directly attacked, then\%nl\%unleash the attack onto another player!</string>
+  <string name="TouRoleMirrorcasterTabProtecting">Protecting: \%player\%</string>
   <string name="TouRoleMirrorcasterWikiDescription">The Mirrorcaster is a Crewmate Protective role that can cast a Magic Mirror on a player to protect them. If attacked directly, the Mirrorcaster can then unleash onto another player.</string>
   <string name="TouRoleMirrorcasterMagicMirror">Magic Mirror</string>
   <string name="TouRoleMirrorcasterMagicMirrorProtecting">Protecting</string>
@@ -708,7 +712,7 @@
   <string name="TouRoleSwapper">Swapper</string>
   <string name="TouRoleSwapperIntroBlurb">Swap Votes To Save The Crew!</string>
   <string name="TouRoleSwapperTabDescription">Swap votes from one player to another during a meeting</string>
-  <string name="TouRoleSwapperWikiDescription">The Swapper is a Crewmate Power that can swap the votes of two players in a meeting. Their meeting vote areas will be swapped visually, and the votes will be swapped. If player 1 recieved the most votes, and you swap them with player 2, player 2 will now be ejected instead. </string>
+  <string name="TouRoleSwapperWikiDescription">The Swapper is a Crewmate Power that can swap the votes of two players in a meeting. Their meeting vote areas will be swapped visually, and the votes will be swapped. If player 1 received the most votes, and you swap them with player 2, player 2 will now be ejected instead. </string>
   <string name="TouRoleSwapperSwap">Swap</string>
   <string name="TouRoleSwapperSwapWiki">Swap (Meeting)</string>
   <string name="TouRoleSwapperSwapWikiDescription">Select two players to swap votes for, and at the end of the meeting, they will swap spots!</string>
@@ -800,6 +804,7 @@
   <string name="TouRoleWarden">Warden</string>
   <string name="TouRoleWardenIntroBlurb">Fortify Crewmates</string>
   <string name="TouRoleWardenTabDescription">Fortify crewmates to prevent interactions with them</string>
+  <string name="TouRoleWardenTabProtecting">Fortifying: \%player\%</string>
   <string name="TouRoleWardenWikiDescription">The Warden is a Crewmate Protective role that can fortify players to prevent them from being interacted with. </string>
   <string name="TouRoleWardenFortify">Fortify</string>
   <string name="TouRoleWardenFortifyWikiDescription">Fortify a player to prevent them from being interacted with. If anyone tries to interact with a fortified player, the ability will not work and both the Warden and fortified player will be alerted with a purple flash.</string>
@@ -994,6 +999,8 @@
   <string name="TouRoleScavengerTabDescription">Kill your given targets for a reduced cooldown.\%nl\%If you fail to kill them, you will get penalized.</string>
   <string name="TouRoleScavengerWikiDescription">The Scavenger is an Impostor Killing role that gets new targets after every kill and when the round starts. If they kill their target, they get a reduced kill cooldown, but if they don't, their cooldown is increased significantly.</string>
   <string name="TouRoleScavengerYourNextTarget">Is Your Next Target.</string>
+  <string name="TouRoleScavengerTabTimer">Scavenge Time: \%timeLeft\%</string>
+  <string name="TouRoleScavengerTabTarget">Current Target: \%player\%</string>
   <!-- Scavenger Options -->
   <string name="TouOptionScavengerScavengeDuration">Scavenge Duration</string>
   <string name="TouOptionScavengerScavengeDurationIncreasePerKill">Scavenge Duration Increase Per Kill</string>
@@ -1600,7 +1607,7 @@
   <string name="TouModifierMultitasker">Multitasker</string>
   <string name="TouModifierMultitaskerIntroBlurb">You can also see through tasks.</string>
   <string name="TouModifierMultitaskerTabDescription">Your tasks are transparent.</string>
-  <string name="TouModifierMultitaskerWikiDescription">All your menus are seethrough, allowing you to look behind menus!</string>
+  <string name="TouModifierMultitaskerWikiDescription">All your menus are see-through, allowing you to look behind menus!</string>
   <!-- Noisemaker -->
   <!-- Noisemaker Wiki / Description -->
   <string name="TouModifierNoisemaker">Noisemaker</string>
@@ -1664,6 +1671,7 @@
   <string name="TouModifierTaskmasterIntroBlurb">You also finish random tasks each round.</string>
   <string name="TouModifierTaskmasterTabDescription">A random task is auto completed for you after each meeting.</string>
   <string name="TouModifierTaskmasterWikiDescription">Every time a round starts, you will automatically finish a task.</string>
+  <string name="TouModifierTaskmasterTaskNotif">The task \%taskName\%' has been completed for you.</string>
   <!-- Torch -->
   <!-- Torch Wiki / Description -->
   <string name="TouModifierTorch">Torch</string>

@@ -602,7 +602,7 @@ public static class Extensions
                                  ((playerInfo.TryGetModifier<DisabledModifier>(out var mod) && mod.IsConsideredAlive) ||
                                   !playerInfo.HasModifier<DisabledModifier>()) &&
                                  !playerInfo.Data.IsDead &&
-                                 (includeImpostors || !playerInfo.Data.Role.IsImpostor))
+                                 (includeImpostors || !playerInfo.IsImpostorAligned()))
             .ToList();
 
         return predicate != null ? filteredPlayers.Find(predicate) : filteredPlayers.FirstOrDefault();

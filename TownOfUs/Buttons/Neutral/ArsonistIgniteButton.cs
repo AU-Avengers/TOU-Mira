@@ -3,13 +3,11 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Networking.Attributes;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -68,7 +66,6 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
 
     protected override void OnClick()
     {
-        PlayerControl.LocalPlayer.RpcAddModifier<IndirectAttackerModifier>(false);
         var dousedPlayers = PlayersInRange.Where(x => x.HasModifier<ArsonistDousedModifier>()).ToList();
         if (OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist)
         {
@@ -76,24 +73,9 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
                 .Where(x => x.HasModifier<ArsonistDousedModifier>()).ToList();
         }
 
-        foreach (var doused in dousedPlayers)
-        {
-            if (doused.HasModifier<FirstDeadShield>())
-            {
-                continue;
-            }
-
-            if (doused.HasModifier<BaseShieldModifier>())
-            {
-                continue;
-            }
-
-            PlayerControl.LocalPlayer.RpcCustomMurder(doused, resetKillTimer: false, teleportMurderer: false,
-                playKillSound: false);
-            RpcIgniteSound(doused);
-        }
-
-        PlayerControl.LocalPlayer.RpcRemoveModifier<IndirectAttackerModifier>();
+        PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, true, teleportMurderer: false,
+            playKillSound: false,
+            causeOfDeath: "Arsonist");
 
         TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
 
@@ -113,14 +95,5 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
         ClosestTarget = PlayerControl.LocalPlayer.GetClosestLivingPlayer(true,
             killDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance],
             predicate: x => x.HasModifier<ArsonistDousedModifier>());
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.IgniteSound)]
-    public static void RpcIgniteSound(PlayerControl player)
-    {
-        if (player.AmOwner)
-        {
-            TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
-        }
     }
 }

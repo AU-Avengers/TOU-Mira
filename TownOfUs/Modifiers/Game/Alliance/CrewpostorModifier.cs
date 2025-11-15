@@ -58,6 +58,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             var filtered = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
+                            !x.HasModifier<AllianceGameModifier>() &&
                             !x.HasModifier<ExecutionerTargetModifier>()).ToList();
 
             if (filtered.Count == 0)

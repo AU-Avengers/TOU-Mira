@@ -128,9 +128,9 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         var playerRole = player.Object.GetRoleWhenAlive();
         var playerRoleId = playerRole.Role;
         var crewRole = (playerRole is ICrewVariant crewVariant) ? crewVariant.CrewVariant : playerRole;
-        var otherPlayersWithPowerRole = PlayerControl.AllPlayerControls.ToArray().Count(x => x.Data.Role.Role == playerRoleId && x != player.Object && x != Player) > 1;
-        var otherImitatorsExist = MiraAPI.Utilities.Helpers.GetAlivePlayers()
-            .Any(x => x.HasModifier<ImitatorCacheModifier>() && !x != Player);
+        var otherPlayersWithPowerRole = PlayerControl.AllPlayerControls.ToArray().Count(x => x.Data.Role.Role == playerRoleId && x != player.Object && !x.AmOwner) > 1;
+        var otherImitatorsExist = Helpers.GetAlivePlayers()
+            .Any(x => x.HasModifier<ImitatorCacheModifier>() && x.IsCrewmate() && !x.AmOwner);
 
         if (crewRole.IsCrewmate() &&
             player.Object.IsNeutral() &&
@@ -146,8 +146,12 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return !opts.ImitateImpostors;
         }
 
-
         if (!player.Object.IsCrewmate() || !playerRole.IsCrewmate())
+        {
+            return true;
+        }
+        
+        if (playerRole is MayorRole || playerRole is PoliticianRole)
         {
             return true;
         }

@@ -120,12 +120,8 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
         if (Target != null && Scavenging)
         {
-            stringB.Append("\n<b>Scavenge Time:</b> ");
-            stringB.Append(TownOfUsPlugin.Culture,
-                $"{Color.white.ToTextColor()}{TimeRemaining.ToString("0", TownOfUsPlugin.Culture)}</color>");
-            stringB.Append("\n\n<b>Current Target:</b> ");
-            stringB.Append(TownOfUsPlugin.Culture,
-                $"{Color.white.ToTextColor()}{Target.Data.PlayerName}</color>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TimerString.Replace("<timeLeft>", TimeRemaining.ToString("0", TownOfUsPlugin.Culture))}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TargetString.Replace("<player>", Target.Data.PlayerName)}</b>");
         }
 
         return stringB;
@@ -140,9 +136,13 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         Clear();
     }
 
+    public static string TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
+    public static string TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
+        TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
         if (TutorialManager.InstanceExists && Target == null && Player.AmOwner)
         {
             Coroutines.Start(SetTutorialTarget(this, Player));

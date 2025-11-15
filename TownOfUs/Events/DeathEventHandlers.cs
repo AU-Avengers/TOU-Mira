@@ -123,7 +123,7 @@ public static class DeathEventHandlers
             }
             if (target == source)
             {
-                var role = source.GetRoleWhenAlive();
+                var role = target.GetRoleWhenAlive();
                 var text = TouLocale.Get("DiedToSuicide");
                 
                 var touRole = role as ITownOfUsRole;
@@ -180,9 +180,9 @@ public static class DeathEventHandlers
         {
             if (target == source)
             {
-                var role = source.GetRoleWhenAlive();
+                var role = target.GetRoleWhenAlive();
                 var text = TouLocale.Get("DiedToSuicide");
-                
+
                 var touRole = role as ITownOfUsRole;
                 if (touRole != null && touRole.LocaleKey != "KEY_MISS" &&
                     !TouLocale.Get($"DiedToSuicide{touRole.LocaleKey}").Contains("STRMISS"))

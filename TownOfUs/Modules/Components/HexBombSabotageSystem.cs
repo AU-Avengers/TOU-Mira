@@ -61,12 +61,12 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
         {
             TimeRemaining -= deltaTime;
             _dirtyTimer += deltaTime;
-        }
-
-        if (_dirtyTimer > 2f)
-        {
-            _dirtyTimer = 0f;
-            IsDirty = true;
+            
+            if (_dirtyTimer > 2f)
+            {
+                _dirtyTimer = 0f;
+                IsDirty = true;
+            }
         }
 
         if (TimeRemaining <= 0)

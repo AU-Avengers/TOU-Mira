@@ -50,7 +50,9 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public override bool DoesTasks =>
         (OtherLover == null || OtherLover.IsCrewmate()) &&
-        Player.IsCrewmate(); // Lovers do tasks if they are not lovers with an Evil
+        Player.IsCrewmate() && !ForceDisableTasks; // Lovers do tasks if they are not lovers with an Evil
+
+    public bool ForceDisableTasks;
 
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Lover;
@@ -282,5 +284,10 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var sourceModifier = player.AddModifier<LoverModifier>();
         targetModifier!.OtherLover = player;
         sourceModifier!.OtherLover = target;
+        if (!player.IsCrewmate() || !target.IsCrewmate())
+        {
+            targetModifier.ForceDisableTasks = true;
+            sourceModifier.ForceDisableTasks = true;
+        }
     }
 }

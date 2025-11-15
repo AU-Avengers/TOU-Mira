@@ -79,7 +79,7 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendImpTeamChat)]
     public static void RpcSendImpTeamChat(PlayerControl player, string text)
     {
-        if ((PlayerControl.LocalPlayer.IsImpostor() && player != PlayerControl.LocalPlayer) ||
+        if ((PlayerControl.LocalPlayer.IsImpostorAligned() && player != PlayerControl.LocalPlayer) ||
             (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
@@ -126,9 +126,9 @@ public static class TeamChatPatches
             }
 
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostor() &&
+            if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() &&
                 !PlayerControl.LocalPlayer.HasDied() &&
-                !player.AmOwner && player.IsImpostor() && MeetingHud.Instance)
+                !player.AmOwner && player.IsImpostorAligned() && MeetingHud.Instance)
             {
                 __instance.NameText.color = Color.white;
             }
@@ -230,7 +230,7 @@ public static class TeamChatPatches
                             _teamText.text = "Jailor Chat is Open. Only the Jailor and Jailee can see this.";
                             _teamText.color = TownOfUsColors.Jailor;
                         }
-                        else if (PlayerControl.LocalPlayer.IsImpostor() &&
+                        else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                                  genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } &&
                                  !PlayerControl.LocalPlayer.Data.IsDead && _teamText != null)
                         {

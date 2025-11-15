@@ -82,16 +82,18 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (Shielded != null)
         {
-            stringB.Append(TownOfUsPlugin.Culture,
-                $"\n<b>Shielded: </b>{Color.white.ToTextColor()}{Shielded.Data.PlayerName}</color>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Shielded.Data.PlayerName)}</b>");
         }
 
         return stringB;
     }
 
+    public static string ProtectionString = TouLocale.GetParsed("TouRoleMedicTabProtecting");
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        ProtectionString = TouLocale.GetParsed("TouRoleMedicTabProtecting");
 
         if (Player.AmOwner)
         {
