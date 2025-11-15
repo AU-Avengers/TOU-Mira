@@ -86,6 +86,14 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         ModifierUtils.GetActiveModifiers<MagicMirrorModifier>()
             .Any(); // Always disable end game checks if there is an Unleash available
 
+    public static string ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
+
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
+    }
+
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
@@ -93,8 +101,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
         if (Protected != null)
         {
-            stringB.Append(TownOfUsPlugin.Culture,
-                $"\n<b>Protecting: </b>{Color.white.ToTextColor()}{Protected.Data.PlayerName}</color>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Protected.Data.PlayerName)}</b>");
         }
 
         return stringB;

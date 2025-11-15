@@ -75,7 +75,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
                 taskText = taskText.Replace(Environment.NewLine, "");
 
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Taskmaster.ToTextColor()}The task '{taskText}' has been completed for you.</b></color>",
+                    $"<b>{TownOfUsColors.Taskmaster.ToTextColor()}{TouLocale.GetParsed("TouModifierTaskmasterTaskNotif").Replace("<taskName>", taskText)}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Taskmaster.LoadAsset());
                 notif1.AdjustNotification();
             }

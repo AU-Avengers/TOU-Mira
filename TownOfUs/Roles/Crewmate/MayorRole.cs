@@ -11,7 +11,6 @@ using PowerTools;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -61,12 +60,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (!Revealed)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>Reveal yourself whenever you wish.</b>");
-        }
-
-        if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
-        {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>The Impostors know your true motives.</b>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{UnrevealedString}</b>");
         }
 
         return stringB;
@@ -77,9 +71,12 @@ public sealed class MayorRole(IntPtr cppPtr)
 
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
+
+    public static string UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
         Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
         if (Player.TryGetModifier<ToBecomeTraitorModifier>(out var traitorMod) && PlayerControl.LocalPlayer.IsHost())
         {

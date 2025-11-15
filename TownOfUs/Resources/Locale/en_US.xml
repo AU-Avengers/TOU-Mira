@@ -319,6 +319,7 @@
   <string name="TouRoleCleric">Cleric</string>
   <string name="TouRoleClericIntroBlurb">Save The Crewmates</string>
   <string name="TouRoleClericTabDescription">Cleanse negative effects off of crewmates and\%nl\%cast Barriers to stop any interactions altogether</string>
+  <string name="TouRoleClericTabProtecting">Barrier On: \%player\%</string>
   <!-- Cleric Wiki / Abilities -->
   <string name="TouRoleClericWikiDescription">The Cleric is a Crewmate Protective that can protect crewmates by negating their negative effects, as well as placing barriers on them to prevent interactions.</string>
   <string name="TouRoleClericBarrier">Barrier</string>
@@ -495,6 +496,7 @@
   <string name="TouRoleMedic">Medic</string>
   <string name="TouRoleMedicIntroBlurb">Create A Shield To Protect A Crewmate</string>
   <string name="TouRoleMedicTabDescription">Protect a crewmate with a shield to defend them from attacks</string>
+  <string name="TouRoleMedicTabProtecting">Shielded: \%player\%</string>
   <string name="TouRoleMedicWikiDescription">The Medic is a Crewmate Protective role that can give a Shield to a player.</string>
   <string name="TouRoleMedicShield">Shield</string>
   <string name="TouRoleMedicShieldWikiDescription">Give a Shield to a player, protecting them from being killed by others</string>
@@ -525,6 +527,7 @@
   <string name="TouRoleMirrorcaster">Mirrorcaster</string>
   <string name="TouRoleMirrorcasterIntroBlurb">Reflect Attacks Onto Others</string>
   <string name="TouRoleMirrorcasterTabDescription">Protect a player with a Magic Mirror.\%nl\%If they are directly attacked, then\%nl\%unleash the attack onto another player!</string>
+  <string name="TouRoleMirrorcasterTabProtecting">Protecting: \%player\%</string>
   <string name="TouRoleMirrorcasterWikiDescription">The Mirrorcaster is a Crewmate Protective role that can cast a Magic Mirror on a player to protect them. If attacked directly, the Mirrorcaster can then unleash onto another player.</string>
   <string name="TouRoleMirrorcasterMagicMirror">Magic Mirror</string>
   <string name="TouRoleMirrorcasterMagicMirrorProtecting">Protecting</string>
@@ -801,6 +804,7 @@
   <string name="TouRoleWarden">Warden</string>
   <string name="TouRoleWardenIntroBlurb">Fortify Crewmates</string>
   <string name="TouRoleWardenTabDescription">Fortify crewmates to prevent interactions with them</string>
+  <string name="TouRoleWardenTabProtecting">Fortifying: \%player\%</string>
   <string name="TouRoleWardenWikiDescription">The Warden is a Crewmate Protective role that can fortify players to prevent them from being interacted with. </string>
   <string name="TouRoleWardenFortify">Fortify</string>
   <string name="TouRoleWardenFortifyWikiDescription">Fortify a player to prevent them from being interacted with. If anyone tries to interact with a fortified player, the ability will not work and both the Warden and fortified player will be alerted with a purple flash.</string>
@@ -995,6 +999,8 @@
   <string name="TouRoleScavengerTabDescription">Kill your given targets for a reduced cooldown.\%nl\%If you fail to kill them, you will get penalized.</string>
   <string name="TouRoleScavengerWikiDescription">The Scavenger is an Impostor Killing role that gets new targets after every kill and when the round starts. If they kill their target, they get a reduced kill cooldown, but if they don't, their cooldown is increased significantly.</string>
   <string name="TouRoleScavengerYourNextTarget">Is Your Next Target.</string>
+  <string name="TouRoleScavengerTabTimer">Scavenge Time: \%timeLeft\%</string>
+  <string name="TouRoleScavengerTabTarget">Current Target: \%player\%</string>
   <!-- Scavenger Options -->
   <string name="TouOptionScavengerScavengeDuration">Scavenge Duration</string>
   <string name="TouOptionScavengerScavengeDurationIncreasePerKill">Scavenge Duration Increase Per Kill</string>
@@ -1665,6 +1671,7 @@
   <string name="TouModifierTaskmasterIntroBlurb">You also finish random tasks each round.</string>
   <string name="TouModifierTaskmasterTabDescription">A random task is auto completed for you after each meeting.</string>
   <string name="TouModifierTaskmasterWikiDescription">Every time a round starts, you will automatically finish a task.</string>
+  <string name="TouModifierTaskmasterTaskNotif">The task \%taskName\%' has been completed for you.</string>
   <!-- Torch -->
   <!-- Torch Wiki / Description -->
   <string name="TouModifierTorch">Torch</string>

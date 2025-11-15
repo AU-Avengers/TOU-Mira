@@ -67,6 +67,14 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         Icon = TouRoleIcons.Warden
     };
 
+    public static string ProtectionString = TouLocale.GetParsed("TouRoleWardenTabProtecting");
+
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        ProtectionString = TouLocale.GetParsed("TouRoleWardenTabProtecting");
+    }
+
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
@@ -74,8 +82,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (Fortified != null)
         {
-            stringB.Append(TownOfUsPlugin.Culture,
-                $"\n<b>Fortified: </b>{Color.white.ToTextColor()}{Fortified.Data.PlayerName}</color>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Fortified.Data.PlayerName)}</b>");
         }
 
         return stringB;
