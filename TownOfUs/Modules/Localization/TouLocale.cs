@@ -33,6 +33,26 @@ public static class TouLocale
         { SupportedLangs.Irish, "ga_IE.xml" },
         { (SupportedLangs)16, "pl_PL.xml" } // Polish
     };
+    public static Dictionary<SupportedLangs, string> LangCultureList { get; } = new()
+    {
+        { SupportedLangs.English, "en-US" },
+        { SupportedLangs.Latam, "es-419" },
+        { SupportedLangs.Brazilian, "pt-BR" },
+        { SupportedLangs.Portuguese, "pt-PT" },
+        { SupportedLangs.Korean, "ko-KR" },
+        { SupportedLangs.Russian, "ru-RU" },
+        { SupportedLangs.Dutch, "nl-NL" },
+        { SupportedLangs.Filipino, "fil-PH" },
+        { SupportedLangs.French, "fr-FR" },
+        { SupportedLangs.German, "de-DE" },
+        { SupportedLangs.Italian, "it-IT" },
+        { SupportedLangs.Japanese, "ja-JP" },
+        { SupportedLangs.Spanish, "es-ES" },
+        { SupportedLangs.SChinese, "zh-CN" },
+        { SupportedLangs.TChinese, "zh-TW" },
+        { SupportedLangs.Irish, "ga-IE" },
+        { (SupportedLangs)16, "pl-PL" } // Polish
+    };
 
     public static string BepinexLocaleDirectory =>
         Path.Combine(BepInEx.Paths.BepInExRootPath, "MiraLocales", "TownOfUs");
