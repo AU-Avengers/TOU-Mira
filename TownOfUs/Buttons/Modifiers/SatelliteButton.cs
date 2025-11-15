@@ -49,12 +49,18 @@ public sealed class SatelliteButton : TownOfUsButton
         var deadBodies = Object.FindObjectsOfType<DeadBody>().ToList();
 
         deadBodies.Do(x => PlayerControl.LocalPlayer.AddModifier<SatelliteArrowModifier>(x, Color.white));
-        if (deadBodies.Count == 0)
+        var text = TouLocale.Get("TouModifierSatelliteFailedNotif");
+        if (deadBodies.Count == 1)
         {
-            var notif1 = Helpers.CreateAndShowNotification("<b>No bodies were found on the map.</b>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Satellite.LoadAsset());
-            notif1.AdjustNotification();
+            text = TouLocale.Get("TouModifierSatelliteSingleNotif");
         }
+        else if (deadBodies.Count > 1)
+        {
+            text = TouLocale.GetParsed("TouModifierSatellitePluralNotif").Replace("<count>", deadBodies.Count.ToString(TownOfUsPlugin.Culture));
+        }
+        var notif1 = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white,
+            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Satellite.LoadAsset());
+        notif1.AdjustNotification();
 
         if (OptionGroupSingleton<SatelliteOptions>.Instance.OneUsePerRound)
         {

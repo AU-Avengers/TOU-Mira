@@ -1478,6 +1478,9 @@
   <string name="TouModifierSatelliteWikiDescription">You can check for bodies on the map, which you can do \%maxUses\% time(s) per game.</string>
   <string name="TouModifierSatelliteBroadcast">Broadcast</string>
   <string name="TouModifierSatelliteBroadcastWikiDescription">You can check for bodies on the map, which you can do \%maxUses\% time(s) per game.</string>
+  <string name="TouModifierSatelliteFailedNotif">No bodies were found on the map.</string>
+  <string name="TouModifierSatelliteSingleNotif">One body was found on the map.</string>
+  <string name="TouModifierSatellitePluralNotif">\%count\% bodies were found on the map.</string>
   <!-- Satellite Options -->
   <string name="TouOptionRadarCooldown">Button Cooldown</string>
   <string name="TouOptionRadarMaxUses">Max Uses</string>
@@ -1533,6 +1536,10 @@
   <string name="TouModifierTelepathDescriptionIfKnowWhen">Know when \%and\% where your teammate kills</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeath">, know when they die</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeathLoc">, know when \%and\% where they die.</string>
+  <string name="TouModifierTelepathKillNotif">Your teammate, \%player\%, has killed.</string>
+  <string name="TouModifierTelepathDeathNotif">Your teammate, \%player\%, has been murdered!</string>
+  <string name="TouModifierTelepathGuessNotif">Your teammate, \%player\%, guessed \%victim\% as \%role\%!</string>
+  <string name="TouModifierTelepathMisguessNotif">Your teammate, \%player\%, attempted to guess \%victim\% as \%role\%, but failed!</string>
   <!-- Telepath Options -->
   <string name="TouOptionTelepathKnowKill">Know Where Teammate Kills</string>
   <string name="TouOptionTelepathKnowDeath">Know When Teammate Dies</string>
@@ -1565,12 +1572,14 @@
   <string name="TouModifierAftermathIntroBlurb">You will also trigger your killer's abilities upon death.</string>
   <string name="TouModifierAftermathTabDescription">Your killer will be forced to use their abilities!</string>
   <string name="TouModifierAftermathWikiDescription">After you die, your killer will be forced to use their abilities on your body or themselves.</string>
+  <string name="TouModifierAftermathTriggeredNotif">\%player\% was \%modifier\%, forcing you to use your ability.</string>
   <!-- Bait -->
   <!-- Bait Wiki / Description -->
   <string name="TouModifierBait">Bait</string>
   <string name="TouModifierBaitIntroBlurb">You will also force your killer to report your body.</string>
   <string name="TouModifierBaitTabDescription">Force your killer to self-report.</string>
   <string name="TouModifierBaitWikiDescription">After you die, your killer will self-report, reporting your body.</string>
+  <string name="TouModifierBaitTriggeredNotif">\%player\% was \%modifier\%, causing you to self report.</string>
   <!-- Bait Options -->
   <string name="TouOptionBaitMinDelay">Min Bait Report Delay</string>
   <string name="TouOptionBaitMaxDelay">Max Bait Report Delay</string>
@@ -1580,12 +1589,17 @@
   <string name="TouModifierCelebrityIntroBlurb">You will also reveal info about your death in the meeting.</string>
   <string name="TouModifierCelebrityTabDescription">Announce how you died on your passing.</string>
   <string name="TouModifierCelebrityWikiDescription">After you die, details about your death will be revealed such as where you were killed and which role killed you during the meeting.</string>
+  <string name="TouModifierCelebrityPopup">\The Celebrity, \%player\%, has died!:(Details in chat)</string>
+  <string name="TouRoleCelebrityMessageTitle">Celebrity Report</string>
+  <string name="TouModifierCelebrityDetailsSelf">\The \%modifier\%, \%player\%, has died! Location: \%room\%, Death: By Suicide, Time: \%timeAgo\% seconds ago.</string>
+  <string name="TouModifierCelebrityDetailsKilled">\The \%modifier\%, \%player\%, was \%killed\%! Location: \%room\%, Death: By The \%role\%, Time: \%timeAgo\% seconds ago.</string>
   <!-- Diseased -->
   <!-- Diseased Wiki / Description -->
   <string name="TouModifierDiseased">Diseased</string>
   <string name="TouModifierDiseasedIntroBlurb">You will also extend your killer's cooldown upon death.</string>
   <string name="TouModifierDiseasedTabDescription">Increase your killer's kill cooldown.</string>
   <string name="TouModifierDiseasedWikiDescription">Your murderer's kill cooldown is multiplied by a factor of \%cooldownMultiplier\%x.</string>
+  <string name="TouModifierDiseasedTriggeredNotif">\%player\% was \%modifier\%, causing your kill cooldown to multiply by \%cooldownMultiplier\%.</string>
   <!-- Diseased Options-->
   <string name="TouOptionDiseasedCooldownModifier">Diseased Kill Modifier</string>
   <!-- Frosty -->
@@ -1594,6 +1608,7 @@
   <string name="TouModifierFrostyIntroBlurb">You will also slow down your killer upon death.</string>
   <string name="TouModifierFrostyTabDescription">Slow your killer for a short duration.</string>
   <string name="TouModifierFrostyWikiDescription">After you die, your killer will be slowed down!</string>
+  <string name="TouModifierFrostyTriggeredNotif">\%player\% was \%modifier\%, causing you to be slower for \%time\% seconds.</string>
   <!-- Frosty Options -->
   <string name="TouOptionFrostyChillDuration">Chill Duration</string>
   <string name="TouOptionFrostyChillStartSpeed">Chill Start Speed</string>
