@@ -11,7 +11,6 @@ public class SkeldDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), Ba
 {
     public const byte SystemId = 151;
     public const SystemTypes SystemType = (SystemTypes)SystemId;
-    public static AutoOpenDoor[] GetAutoDoors() => ShipStatus.Instance.AllDoors.OfType<AutoOpenDoor>().ToArray();
     public SkeldDoorsSystemType() : this(ClassInjector.DerivedConstructorPointer<SkeldDoorsSystemType>())
     {
         ClassInjector.DerivedConstructorBody(this);
@@ -21,7 +20,7 @@ public class SkeldDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), Ba
 	{
 		get
 		{
-			return GetAutoDoors().Any(x => !x.IsOpen);
+			return ShipStatus.Instance.AllDoors.Any(b => !b.IsOpen);
 		}
 	}
 
@@ -35,9 +34,9 @@ public class SkeldDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), Ba
 
 	public void Deteriorate(float deltaTime)
 	{
-		for (int i = 0; i < GetAutoDoors().Length; i++)
+		for (int i = 0; i < ShipStatus.Instance.AllDoors.Length; i++)
 		{
-			if (GetAutoDoors()[i].DoUpdate(deltaTime))
+			if (ShipStatus.Instance.AllDoors[i].DoUpdate(deltaTime))
 			{
 				dirtyBits |= 1U << i;
 			}
@@ -62,18 +61,18 @@ public class SkeldDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), Ba
 	{
 		if (initialState)
 		{
-			for (int i = 0; i < GetAutoDoors().Length; i++)
+			for (int i = 0; i < ShipStatus.Instance.AllDoors.Length; i++)
 			{
-                GetAutoDoors()[i].Serialize(writer);
+                ShipStatus.Instance.AllDoors[i].Serialize(writer);
 			}
 			return;
 		}
 		writer.WritePacked(dirtyBits);
-		for (int j = 0; j < GetAutoDoors().Length; j++)
+		for (int j = 0; j < ShipStatus.Instance.AllDoors.Length; j++)
 		{
 			if ((dirtyBits & 1U << j) != 0U)
 			{
-                GetAutoDoors()[j].Serialize(writer);
+                ShipStatus.Instance.AllDoors[j].Serialize(writer);
 			}
 		}
 	}
@@ -82,18 +81,18 @@ public class SkeldDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), Ba
 	{
 		if (initialState)
 		{
-			for (int i = 0; i < GetAutoDoors().Length; i++)
+			for (int i = 0; i < ShipStatus.Instance.AllDoors.Length; i++)
 			{
-                GetAutoDoors()[i].Deserialize(reader);
+                ShipStatus.Instance.AllDoors[i].Deserialize(reader);
 			}
 			return;
 		}
 		uint num = reader.ReadPackedUInt32();
-		for (int j = 0; j < GetAutoDoors().Length; j++)
+		for (int j = 0; j < ShipStatus.Instance.AllDoors.Length; j++)
 		{
 			if ((num & 1U << j) != 0U)
 			{
-                GetAutoDoors()[j].Deserialize(reader);
+                ShipStatus.Instance.AllDoors[j].Deserialize(reader);
 			}
 		}
 	}
@@ -101,14 +100,15 @@ public class SkeldDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), Ba
 	public void SetDoor(AutoOpenDoor door, bool open)
 	{
 		door.SetDoorway(open);
-		dirtyBits |= 1U << Array.IndexOf(GetAutoDoors(), door);
+		dirtyBits |= 1U << Array.IndexOf(ShipStatus.Instance.AllDoors, door);
 	}
 
 	public void CloseDoorsOfType(SystemTypes room)
 	{
-		for (int i = 0; i < GetAutoDoors().Length; i++)
+        Info($"Skeld Doors on this map: {ShipStatus.Instance.AllDoors.Length}");
+		for (int i = 0; i < ShipStatus.Instance.AllDoors.Length; i++)
 		{
-			var openableDoor = GetAutoDoors()[i];
+			var openableDoor = ShipStatus.Instance.AllDoors[i];
 			if (openableDoor.Room == room)
 			{
 				openableDoor.SetDoorway(false);
@@ -123,13 +123,13 @@ public class SkeldDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), Ba
 		{
 			return initialCooldown / 10f;
 		}
-		for (int i = 0; i < GetAutoDoors().Length; i++)
+		for (int i = 0; i < ShipStatus.Instance.AllDoors.Length; i++)
 		{
-			var autoDoor = GetAutoDoors()[i];
-			if (autoDoor.Room == system)
-			{
-				return autoDoor.CooldownTimer / 30f;
-			}
+            OpenableDoor openableDoor = ShipStatus.Instance.AllDoors[i];
+            if (openableDoor.Room == system)
+            {
+                return openableDoor.Cast<AutoOpenDoor>().CooldownTimer / 30f;
+            }
 		}
 		return 0f;
 	}

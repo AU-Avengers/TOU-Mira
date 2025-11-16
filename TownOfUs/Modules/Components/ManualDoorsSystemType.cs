@@ -101,6 +101,7 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 
 	public void CloseDoorsOfType(SystemTypes room)
 	{
+        Info($"Manual doors on this map: {ShipStatus.Instance.AllDoors.Length}");
 		timers[room] = 30f;
 		for (int i = 0; i < ShipStatus.Instance.AllDoors.Length; i++)
 		{

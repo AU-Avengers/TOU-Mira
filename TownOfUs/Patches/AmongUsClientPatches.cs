@@ -15,6 +15,6 @@ public static class AmongUsClientPatches
             Error("AmongUsClient duplicate detected.");
         }
 
-        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat([(SystemTypes)HexBombSabotageSystem.SabotageId]).ToArray();
+        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat([(SystemTypes)HexBombSabotageSystem.SabotageId, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]).ToArray();
     }
 }

@@ -1,5 +1,7 @@
 using HarmonyLib;
+using Hazel;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using InnerNet;
 using MiraAPI.GameOptions;
 using PowerTools;
 using TownOfUs.Modules;
@@ -30,6 +32,95 @@ public static class MapDoorPatches
             };
             return currentDoorType is MapDoorType.Random ? RandomDoorType : currentDoorType;
         }
+    }
+    
+    [HarmonyPatch(typeof(InfectedOverlay), nameof(InfectedOverlay.CanUseDoors), MethodType.Getter)]
+    [HarmonyPrefix]
+    public static bool CanUseDoors(InfectedOverlay __instance, ref bool __result)
+    {
+        __result = ShipStatus.Instance.Type == ShipStatus.MapType.Pb && ActiveDoorType is not MapDoorType.Skeld || !__instance.sabSystem.AnyActive;
+        return false;
+    }
+    
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcCloseDoorsOfType))]
+    [HarmonyPrefix]
+    public static bool RpcCloseDoorsOfType(ShipStatus __instance, SystemTypes type)
+    {
+        if (type is not SystemTypes.Doors || !__instance.Systems.ContainsKey(SkeldDoorsSystemType.SystemType))
+        {
+            return true;
+        }
+        
+        if (AmongUsClient.Instance.AmHost)
+        {
+            __instance.CloseDoorsOfType(type);
+            return false;
+        }
+        MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, 27, (SendOption)1, AmongUsClient.Instance.HostId);
+        messageWriter.Write((byte)type);
+        AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        return false;
+    }
+    
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcUpdateSystem), typeof(SystemTypes), typeof(byte))]
+    [HarmonyPrefix]
+    public static bool RpcUpdateSystem(ShipStatus __instance, SystemTypes systemType, byte amount)
+    {
+        if (systemType is not SystemTypes.Doors || !__instance.Systems.ContainsKey(SkeldDoorsSystemType.SystemType) || !__instance.Systems.ContainsKey(ManualDoorsSystemType.SystemType))
+        {
+            return true;
+        }
+        var newSysType = SystemTypes.Doors;
+        if (__instance.Systems.ContainsKey(SkeldDoorsSystemType.SystemType))
+        {
+            newSysType = SkeldDoorsSystemType.SystemType;
+        }
+        else if (__instance.Systems.ContainsKey(ManualDoorsSystemType.SystemType))
+        {
+            newSysType = ManualDoorsSystemType.SystemType;
+        }
+        if (AmongUsClient.Instance.AmHost)
+        {
+            __instance.UpdateSystem(newSysType, PlayerControl.LocalPlayer, amount);
+            return false;
+        }
+        MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, 35, (SendOption)1, AmongUsClient.Instance.HostId);
+        messageWriter.Write((byte)newSysType);
+        messageWriter.WriteNetObject(PlayerControl.LocalPlayer);
+        messageWriter.Write(amount);
+        AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        return false;
+    }
+
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcUpdateSystem), typeof(SystemTypes), typeof(MessageWriter))]
+    [HarmonyPrefix]
+    public static bool RpcUpdateSystem(ShipStatus __instance, SystemTypes systemType, MessageWriter msgWriter)
+    {
+        if (systemType is not SystemTypes.Doors || !__instance.Systems.ContainsKey(SkeldDoorsSystemType.SystemType) || !__instance.Systems.ContainsKey(ManualDoorsSystemType.SystemType))
+        {
+            return true;
+        }
+        var newSysType = SystemTypes.Doors;
+        if (__instance.Systems.ContainsKey(SkeldDoorsSystemType.SystemType))
+        {
+            newSysType = SkeldDoorsSystemType.SystemType;
+        }
+        else if (__instance.Systems.ContainsKey(ManualDoorsSystemType.SystemType))
+        {
+            newSysType = ManualDoorsSystemType.SystemType;
+        }
+        if (AmongUsClient.Instance.AmHost)
+        {
+            MessageReader msgReader = MessageReader.Get(msgWriter.ToByteArray(false));
+            __instance.UpdateSystem(newSysType, PlayerControl.LocalPlayer, msgReader);
+            return false;
+        }
+        MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, 35, (SendOption)1, AmongUsClient.Instance.HostId);
+        messageWriter.Write((byte)newSysType);
+        messageWriter.WriteNetObject(PlayerControl.LocalPlayer);
+        messageWriter.Write(msgWriter, false);
+        AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        return false;
     }
 
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
@@ -173,7 +264,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Polus || doorType is MapDoorType.Airship || doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
+        if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
         {
             return;
         }
@@ -266,7 +357,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Polus || doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
+        if (doorType is MapDoorType.Polus || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
         {
             return;
         }
@@ -357,7 +448,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Airship || doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
+        if (doorType is MapDoorType.Airship || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
         {
             return;
         }
@@ -448,7 +539,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
+        if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
         {
             return;
         }
