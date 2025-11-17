@@ -190,6 +190,7 @@
   <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
+  <string name="SpectatorStartError">You cannot toggle spectator mode while the game is starting!</string>
   <string name="SpectatorToggleOn">Set yourself as a spectator!</string>
   <string name="SpectatorToggleOff">You are no longer a spectator!</string>
   <string name="SpectatorHostError">The host has disabled /spec!</string>
