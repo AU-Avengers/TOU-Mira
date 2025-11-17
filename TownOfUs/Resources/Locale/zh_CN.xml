@@ -177,7 +177,7 @@
   <string name="TouScatter">碎散</string>
   <string name="TouRoleSpectator">观众</string>
   <string name="TouRoleSpectatorIntroBlurb">在远处观察混乱</string>
-  <string name="TouRoleAltruistTabDescription">复活死去的船员，但%nl\%。</string>
+  <string name="TouRoleAltruistTabDescription">成组复活死去的船员。</string>
   <string name="TouRoleAltruistWikiDescription">殉道者是一个可以复活玩家的船员保护型职业。然而，自己和被复活的船员无法召集会议。</string>
   <string name="TouRoleAltruist">殉道者</string>
   <string name="TouRoleAltruistIntroBlurb">复活死去的船员</string>
@@ -1346,4 +1346,27 @@
   <string name="TouModifierEgotistCooldownChangeMessage">\%modifier\%的肾上腺素正在增强。技能冷却时间现已缩短 \%newOffset\% 秒！</string>
   <string name="TouModifierEgotistCooldownSpeedChangeMessage">\%modifier\%的肾上腺素正在增强。技能冷却时间现已缩短 \%newOffset\% 秒，玩家移动速度提升至 \%newSpeed\% 倍！</string>
   <string name="TouModifierEgotistDeadMessage">\%modifier\% 已死亡，他们的肾上腺素也随之消退！</string>
+  <string name="DiedToSubmergedOxygen">窒息</string>
+  <string name="TouRoleClericTabProtecting">屏障开启： \%player\%</string>
+  <string name="TouRoleMedicTabProtecting">被上盾: \%player\%</string>
+  <string name="TouRoleMirrorcasterTabProtecting">保护中: \%player\%</string>
+  <string name="TouRoleWardenTabProtecting">正在强化: \%player\%</string>
+  <string name="TouRoleScavengerTabTimer">追猎时间：\%timeLeft\%</string>
+  <string name="TouRoleScavengerTabTarget">当前目标: \%player\%</string>
+  <string name="TouModifierSatelliteFailedNotif">地图上未发现任何尸体。</string>
+  <string name="TouModifierSatelliteSingleNotif">在地图上发现了一具尸体。</string>
+  <string name="TouModifierSatellitePluralNotif">在地图上发现了\%count\% 具尸体。</string>
+  <string name="TouModifierTelepathKillNotif">你的队友, \%player\%, 进行了击杀。</string>
+  <string name="TouModifierTelepathDeathNotif">你的队友, \%player\%, 被杀害了！</string>
+  <string name="TouModifierTelepathGuessNotif">你的队友,\%player\%,以 \%role\%身份猜杀了 \%victim\%！</string>
+  <string name="TouModifierTelepathMisguessNotif">你的队友,\%player\%,尝试以 \%role\%身份猜杀 \%victim\%，但失败了！</string>
+  <string name="TouModifierAftermathTriggeredNotif">\%player\%是\%modifier\% ，迫使你使用了你的技能。</string>
+  <string name="TouModifierBaitTriggeredNotif">\%player\% 是 \%modifier\%，导致你强制自报尸体。</string>
+  <string name="TouModifierCelebrityPopup">名人, \%player\%,已死亡!:(详情见聊天框)</string>
+  <string name="TouRoleCelebrityMessageTitle">名人报告</string>
+  <string name="TouModifierCelebrityDetailsSelf">\%modifier\%, \%player\%,死亡! 地点:\%room\%, 死因: 自杀, 时间:\%timeAgo\%秒前。</string>
+  <string name="TouModifierCelebrityDetailsKilled">\%modifier\%, \%player\%,遭 \%killed\%! 地点:\%room\%, 凶手: \%role\%, 时间:\%timeAgo\%秒前。</string>
+  <string name="TouModifierDiseasedTriggeredNotif">\%player\% 是 \%modifier\%，你的击杀冷却将乘以 \%cooldownMultiplier\%倍。</string>
+  <string name="TouModifierFrostyTriggeredNotif">\%player\% 是 \%modifier\%，你将在 \%time\% 秒内变得更慢。</string>
+  <string name="TouModifierTaskmasterTaskNotif">任务 \%taskName\%已为你自动完成。</string>
 </resources>
