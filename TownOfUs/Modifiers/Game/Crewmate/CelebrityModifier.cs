@@ -72,90 +72,71 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
         var celeb = player.GetModifier<CelebrityModifier>()!;
         celeb.StoredRoom = room;
         celeb.DeathTime = DateTime.UtcNow;
+        var splitCelebrityString = TouLocale.GetParsed("TouModifierCelebrityPopup").Split(":");
 
-        celeb.AnnounceMessage =
-            $"<size=90%>The Celebrity, {player.GetDefaultAppearance().PlayerName}, has died!</size>\n<size=70%>(Details in chat)</size>";
-
-        var cod = "killed";
-        var role = source.GetRoleWhenAlive();
-        if (source.Data.Role is IGhostRole)
+        var announceText = splitCelebrityString[0];
+        if (splitCelebrityString.Length > 1)
         {
-            role = source.Data.Role;
+            announceText = $"<size=90%>{splitCelebrityString[0]}</size>\n<size=70%>{splitCelebrityString[1]}</size>";
         }
 
-        switch (role)
-        {
-            case SheriffRole:
-                cod = "shot";
-                break;
-            case VeteranRole:
-                cod = "attacked";
-                break;
-            case InquisitorRole:
-                cod = "vanquished";
-                break;
-            case ArsonistRole:
-                cod = "ignited";
-                break;
-            case GlitchRole:
-                cod = "bugged";
-                break;
-            case JuggernautRole:
-                cod = "destroyed";
-                break;
-            case PestilenceRole:
-                cod = "diseased";
-                break;
-            case SoulCollectorRole:
-                cod = "reaped";
-                break;
-            case VampireRole:
-                cod = "bitten";
-                break;
-            case WerewolfRole:
-                cod = "rampaged";
-                break;
-            case JesterRole:
-                cod = "haunted";
-                break;
-            case ExecutionerRole:
-                cod = "tormented";
-                break;
-            case PhantomTouRole:
-                cod = "spooked";
-                break;
-            case MirrorcasterRole mirror:
-                cod = mirror.UnleashString != string.Empty
-                    ? mirror.UnleashString.ToLower(TownOfUsPlugin.Culture)
-                    : "killed";
-                if (mirror.ContainedRole != null)
-                {
-                    role = mirror.ContainedRole;
-                }
+        announceText = announceText.Replace("<player>", player.GetDefaultAppearance().PlayerName);
 
-                break;
-        }
-
-        if (customDeath != string.Empty && customDeath != "")
-        {
-            cod = customDeath;
-        }
+        celeb.AnnounceMessage = announceText;
 
         if (MeetingHud.Instance || ExileController.Instance)
         {
             celeb.Announced = true;
         }
 
+        var celebHyperlink = $"&{TouLocale.Get("TouModifierCelebrity")}";
+
         if (source == player)
         {
-            celeb.DeathMessage =
-                $"The &Celebrity, {player.GetDefaultAppearance().PlayerName}, was killed! Location: {celeb.StoredRoom}, Death: By Suicide, Time: ";
+            celeb.DeathMessage = TouLocale.GetParsed("TouModifierCelebrityDetailsSelf");
         }
         else
         {
+            var role = source.GetRoleWhenAlive();
+            var cod = "Killer";
+            switch (role)
+            {
+                case MirrorcasterRole mirror:
+                    cod = mirror.UnleashString != string.Empty
+                        ? mirror.UnleashString
+                        : TouLocale.Get("DiedToKiller");
+                    mirror.UnleashString = string.Empty;
+                    mirror.ContainedRole = null;
+                    break;
+                default:
+                    var touRole = role as ITownOfUsRole;
+                    if (touRole == null || touRole.LocaleKey == "KEY_MISS" ||
+                        TouLocale.Get($"DiedTo{touRole.LocaleKey}").Contains("STRMISS"))
+                    {
+                        break;
+                    }
+
+                    cod = touRole.LocaleKey;
+                    break;
+            }
+
+            if (source.Data.Role is PhantomTouRole phantomTouRole)
+            {
+                role = source.Data.Role;
+                cod = phantomTouRole.LocaleKey;
+            }
+
+            var text = role is MirrorcasterRole
+                ? cod.ToLowerInvariant()
+                : TouLocale.Get($"DiedTo{cod}").ToLowerInvariant();
+            celeb.DeathMessage = TouLocale.GetParsed("TouModifierCelebrityDetailsKilled").Replace("<killed>", text);
             celeb.DeathMessage =
-                $"The &Celebrity, {player.GetDefaultAppearance().PlayerName}, was {cod}! Location: {celeb.StoredRoom}, Death: By the #{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")}, Time: ";
+                celeb.DeathMessage.Replace("<role>", $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")}");
         }
+
+        celeb.DeathMessage = celeb.DeathMessage.Replace("<modifier>", celebHyperlink);
+        celeb.DeathMessage = celeb.DeathMessage.Replace("<player>", player.GetDefaultAppearance().PlayerName);
+        celeb.DeathMessage = celeb.DeathMessage.Replace("<room>", celeb.StoredRoom);
     }
 
     [MethodRpc((uint)TownOfUsRpc.UpdateCelebrityKilled)]

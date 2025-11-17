@@ -1072,6 +1072,7 @@ public static class MiscUtils
         {
             FlashRenderer = Object.Instantiate(HudManager.Instance.FullScreen,
                 HudManager.Instance.FullScreen.transform.parent);
+            FlashRenderer.transform.localScale *= 10f;
         }
 
         FlashRenderer.enabled = true;
@@ -1084,6 +1085,7 @@ public static class MiscUtils
         {
             FlashRenderer = Object.Instantiate(HudManager.Instance.FullScreen,
                 HudManager.Instance.FullScreen.transform.parent);
+            FlashRenderer.transform.localScale *= 10f;
         }
 
         if (!FlashRenderer.color.Equals(color))
