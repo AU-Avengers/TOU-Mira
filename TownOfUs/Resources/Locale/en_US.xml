@@ -1592,8 +1592,8 @@
   <string name="TouModifierCelebrityWikiDescription">After you die, details about your death will be revealed such as where you were killed and which role killed you during the meeting.</string>
   <string name="TouModifierCelebrityPopup">The Celebrity, \%player\%, has died!:(Details in chat)</string>
   <string name="TouRoleCelebrityMessageTitle">Celebrity Report</string>
-  <string name="TouModifierCelebrityDetailsSelf">The \%modifier\%, \%player\%, has died! Location: \%room\%, Death: By Suicide, Time: \%timeAgo\% seconds ago.</string>
-  <string name="TouModifierCelebrityDetailsKilled">The \%modifier\%, \%player\%, was \%killed\%! Location: \%room\%, Death: By The \%role\%, Time: \%timeAgo\% seconds ago.</string>
+  <string name="TouModifierCelebrityDetailsSelf">The \%modifier\%, \%player\%, has died!\%nl\%Location: \%room\%\%nl\%Death: By Suicide\%nl\%Time: \%timeAgo\% seconds ago.</string>
+  <string name="TouModifierCelebrityDetailsKilled">The \%modifier\%, \%player\%, was \%killed\%!\%nl\%Location: \%room\%\%nl\%Death: By The \%role\%\%nl\%Time: \%timeAgo\% seconds ago.</string>
   <!-- Diseased -->
   <!-- Diseased Wiki / Description -->
   <string name="TouModifierDiseased">Diseased</string>
