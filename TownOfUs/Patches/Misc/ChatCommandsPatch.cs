@@ -53,7 +53,13 @@ public static class ChatPatches
             }
             else
             {
-                if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
+                if (GameStartManager.InstanceExists &&
+                    GameStartManager.Instance.startState is GameStartManager.StartingStates.Countdown)
+                {
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                        TouLocale.GetParsed("SpectatorStartError"));
+                }
+                else if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
                 {
                     MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                         TouLocale.GetParsed("SpectatorToggleOff"));

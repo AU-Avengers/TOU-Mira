@@ -190,6 +190,7 @@
   <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
+  <string name="SpectatorStartError">You cannot toggle spectator mode while the game is starting!</string>
   <string name="SpectatorToggleOn">Set yourself as a spectator!</string>
   <string name="SpectatorToggleOff">You are no longer a spectator!</string>
   <string name="SpectatorHostError">The host has disabled /spec!</string>
@@ -1589,10 +1590,10 @@
   <string name="TouModifierCelebrityIntroBlurb">You will also reveal info about your death in the meeting.</string>
   <string name="TouModifierCelebrityTabDescription">Announce how you died on your passing.</string>
   <string name="TouModifierCelebrityWikiDescription">After you die, details about your death will be revealed such as where you were killed and which role killed you during the meeting.</string>
-  <string name="TouModifierCelebrityPopup">\The Celebrity, \%player\%, has died!:(Details in chat)</string>
+  <string name="TouModifierCelebrityPopup">The Celebrity, \%player\%, has died!:(Details in chat)</string>
   <string name="TouRoleCelebrityMessageTitle">Celebrity Report</string>
-  <string name="TouModifierCelebrityDetailsSelf">\The \%modifier\%, \%player\%, has died! Location: \%room\%, Death: By Suicide, Time: \%timeAgo\% seconds ago.</string>
-  <string name="TouModifierCelebrityDetailsKilled">\The \%modifier\%, \%player\%, was \%killed\%! Location: \%room\%, Death: By The \%role\%, Time: \%timeAgo\% seconds ago.</string>
+  <string name="TouModifierCelebrityDetailsSelf">The \%modifier\%, \%player\%, has died! Location: \%room\%, Death: By Suicide, Time: \%timeAgo\% seconds ago.</string>
+  <string name="TouModifierCelebrityDetailsKilled">The \%modifier\%, \%player\%, was \%killed\%! Location: \%room\%, Death: By The \%role\%, Time: \%timeAgo\% seconds ago.</string>
   <!-- Diseased -->
   <!-- Diseased Wiki / Description -->
   <string name="TouModifierDiseased">Diseased</string>

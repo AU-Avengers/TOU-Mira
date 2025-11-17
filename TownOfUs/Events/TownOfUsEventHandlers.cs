@@ -792,7 +792,6 @@ public static class TownOfUsEventHandlers
         catch (Exception e)
         {
             System.Console.WriteLine(e);
-            throw;
         }
         animation.Destroy();
         voteArea.XMark.gameObject.SetActive(true);
