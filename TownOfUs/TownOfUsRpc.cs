@@ -7,8 +7,8 @@ public enum TownOfUsRpc : uint
     SpecialMurder,
     SpecialMultiMurder,
     RemoveSpawns,
-    OpenManualDoors,
-    CloseSkeldDoors,
+    RerouteSystemByte,
+    RerouteSystemMsg,
 
     UpdateDeathHandler,
     UpdateLocalDeathHandler,

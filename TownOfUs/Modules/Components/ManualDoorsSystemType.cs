@@ -52,7 +52,7 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 		int num = (b & ActionMask);
 		if (num == OpenDoor)
 		{
-			OpenableDoor openableDoor = ShipStatus.Instance.AllDoors.First((OpenableDoor d) => d.Id == id);
+			OpenableDoor openableDoor = ShipStatus.Instance.AllDoors.First(d => d.Id == id);
 			if (openableDoor == null)
 			{
 				Warning(string.Format(TownOfUsPlugin.Culture, "Couldn't find door {0}", id));
