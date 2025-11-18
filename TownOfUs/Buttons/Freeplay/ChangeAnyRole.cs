@@ -1,10 +1,8 @@
-﻿using MiraAPI.GameOptions;
-using MiraAPI.Hud;
-using MiraAPI.Modifiers;
+﻿using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
-using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -58,21 +56,30 @@ public sealed class GhangeAnyRole : TownOfUsButton
                 }
 
                 var roleMenu = GuesserMenu.Create();
-                roleMenu.Begin(IsRoleValid, ClickRoleHandle, IsModifierValid, ClickModifierHandle);
+                roleMenu.Begin(IsRoleValid, ClickRoleHandle);
 
                 void ClickRoleHandle(RoleBehaviour role)
                 {
                     if (plr.HasDied())
                     {
+                        var body = UnityEngine.Object.FindObjectsOfType<DeadBody>()
+                            .FirstOrDefault(b => b.ParentId == plr.PlayerId);
+                        var position = new Vector2(PlayerControl.LocalPlayer.transform.localPosition.x, PlayerControl.LocalPlayer.transform.localPosition.y);
+
+                        if (body != null)
+                        {
+                            position = new Vector2(body.transform.localPosition.x, body.transform.localPosition.y + 0.3636f);
+                            UnityEngine.Object.Destroy(body.gameObject);
+                        }
+
+                        GameHistory.ClearMurder(plr);
+
                         plr.Revive();
+
+                        plr.transform.position = new Vector2(position.x, position.y);
                     }
                     plr.ChangeRole((ushort)role.Role);
                     roleMenu.ForceClose();
-                }
-
-                void ClickModifierHandle(BaseModifier modifier)
-                {
-                    // Ignored
                 }
             });
 
@@ -101,17 +108,10 @@ public sealed class GhangeAnyRole : TownOfUsButton
             return false;
         }
 
-        var options = OptionGroupSingleton<AssassinOptions>.Instance;
-
         if (role is IGhostRole)
         {
             return false;
         }
         return true;
-    }
-
-    private static bool IsModifierValid(BaseModifier modifier)
-    {
-        return false;
     }
 }
