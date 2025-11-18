@@ -789,12 +789,20 @@ public static class TownOfUsEventHandlers
         {
             voteArea.Overlay.gameObject.SetActive(true);
         }
-        catch (Exception e)
+        catch
         {
-            System.Console.WriteLine(e);
+            // ignored
         }
         animation.Destroy();
-        voteArea.XMark.gameObject.SetActive(true);
+        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
+        try
+        {
+            voteArea.XMark.gameObject.SetActive(true);
+        }
+        catch
+        {
+            // ignored
+        }
         SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
         Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
     }
