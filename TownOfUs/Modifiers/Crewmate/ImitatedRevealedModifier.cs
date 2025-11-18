@@ -23,9 +23,15 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
     }
 
     // TODO: Fix Imitator not showing role icons on already imitated players. Is this required? No, but it makes it more visually appealing.
-    /*public override void OnMeetingStart()
+    public override void OnMeetingStart()
     {
-        if (ShownRole == null)
+        var roleWhenAlive = Player.GetRoleWhenAlive();
+        if (roleWhenAlive is ICrewVariant crewType)
+        {
+            roleWhenAlive = crewType.CrewVariant;
+        }
+        SetNewInfo(true, null, null, roleWhenAlive);
+        /*if (ShownRole == null)
         {
             return;
         }
@@ -54,6 +60,6 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
 
                 break;
             }
-        }
-    }*/
+        }*/
+    }
 }
