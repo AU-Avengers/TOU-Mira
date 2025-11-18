@@ -18,6 +18,7 @@ public sealed class GhangeAnyRole : TownOfUsButton
     public override float EffectDuration => 3;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.CameraSprite;
+    public override bool UsableInDeath => true;
 
     public override bool Enabled(RoleBehaviour? role)
     {

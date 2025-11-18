@@ -1,13 +1,12 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Networking;
-using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Freeplay;
 
-public sealed class SelfKillButton : TownOfUsButton
+public sealed class RemoteKillButton : TownOfUsButton
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
@@ -18,6 +17,7 @@ public sealed class SelfKillButton : TownOfUsButton
     public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
     public PlayerControl? Killer;
     public PlayerControl? Victim;
+    public override bool UsableInDeath => true;
 
     public override void ClickHandler()
     {
@@ -32,8 +32,7 @@ public sealed class SelfKillButton : TownOfUsButton
     public override bool Enabled(RoleBehaviour? role)
     {
         return PlayerControl.LocalPlayer != null &&
-               TutorialManager.InstanceExists &&
-               !PlayerControl.LocalPlayer.Data.IsDead;
+               TutorialManager.InstanceExists;
     }
 
     protected override void OnClick()
@@ -55,7 +54,7 @@ public sealed class SelfKillButton : TownOfUsButton
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         player1Menu.Begin(
-            plr => ((!plr.Data.Disconnected && !plr.Data.IsDead) || Helpers.GetBodyById(plr.PlayerId)) &&
+            plr => !plr.Data.Disconnected && !plr.Data.IsDead &&
                    (plr.moveable || plr.inVent),
             plr =>
             {
@@ -74,8 +73,7 @@ public sealed class SelfKillButton : TownOfUsButton
 
                 player2Menu.Begin(
                     plr2 => plr2.PlayerId != plr.PlayerId &&
-                            (!plr2.HasDied() ||
-                             Helpers.GetBodyById(plr2.PlayerId) /*  || MiscUtils.GetFakePlayer(plr2)?.body */) &&
+                            !plr.Data.Disconnected && !plr.Data.IsDead &&
                             (plr2.moveable || plr2.inVent),
                     plr2 =>
                     {
