@@ -1,5 +1,6 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Networking;
+using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -15,6 +16,18 @@ public sealed class SelfKillButton : TownOfUsButton
     public override float EffectDuration => 3;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
+    public PlayerControl? Killer;
+    public PlayerControl? Victim;
+
+    public override void ClickHandler()
+    {
+        if (!CanClick())
+        {
+            return;
+        }
+
+        OnClick();
+    }
 
     public override bool Enabled(RoleBehaviour? role)
     {
@@ -25,14 +38,85 @@ public sealed class SelfKillButton : TownOfUsButton
 
     protected override void OnClick()
     {
-        // Nothing happens
+        PlayerControl.LocalPlayer.NetTransform.Halt();
+
+        if (Minigame.Instance)
+        {
+            return;
+        }
+
+        Killer = null;
+        Victim = null;
+
+        var player1Menu = CustomPlayerMenu.Create();
+        player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+            PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
+        player1Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+            PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
+
+        player1Menu.Begin(
+            plr => ((!plr.Data.Disconnected && !plr.Data.IsDead) || Helpers.GetBodyById(plr.PlayerId)) &&
+                   (plr.moveable || plr.inVent),
+            plr =>
+            {
+                player1Menu.ForceClose();
+
+                if (plr == null)
+                {
+                    return;
+                }
+
+                var player2Menu = CustomPlayerMenu.Create();
+                player2Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+                    plr.cosmetics.currentBodySprite.BodySprite.material;
+                player2Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+                    plr.cosmetics.currentBodySprite.BodySprite.material;
+
+                player2Menu.Begin(
+                    plr2 => plr2.PlayerId != plr.PlayerId &&
+                            (!plr2.HasDied() ||
+                             Helpers.GetBodyById(plr2.PlayerId) /*  || MiscUtils.GetFakePlayer(plr2)?.body */) &&
+                            (plr2.moveable || plr2.inVent),
+                    plr2 =>
+                    {
+                        player2Menu.Close();
+                        if (plr2 == null)
+                        {
+                            return;
+                        }
+
+                        Killer = plr;
+                        Victim = plr2;
+                        EffectActive = true;
+                        Timer = EffectDuration;
+                    }
+                );
+                foreach (var panel in player2Menu.potentialVictims)
+                {
+                    panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
+                    if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
+                    {
+                        panel.NameText.color = Color.white;
+                    }
+                }
+            }
+        );
+        foreach (var panel in player1Menu.potentialVictims)
+        {
+            panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
+            if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
+            {
+                panel.NameText.color = Color.white;
+            }
+        }
     }
 
     public override void OnEffectEnd()
     {
-        if (!PlayerControl.LocalPlayer.HasDied())
+        if (Killer == null || Victim == null || Killer.HasDied() || Victim.HasDied())
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
+            return;
         }
+        Killer.RpcCustomMurder(Victim);
     }
 }

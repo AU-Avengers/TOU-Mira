@@ -37,6 +37,12 @@ public sealed class GhangeAnyRole : TownOfUsButton
 
     protected override void OnClick()
     {
+        PlayerControl.LocalPlayer.NetTransform.Halt();
+
+        if (Minigame.Instance)
+        {
+            return;
+        }
 
         var player1Menu = CustomPlayerMenu.Create();
         player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
@@ -101,7 +107,7 @@ public sealed class GhangeAnyRole : TownOfUsButton
         }
     }
 
-    private bool IsRoleValid(RoleBehaviour role)
+    private static bool IsRoleValid(RoleBehaviour role)
     {
         if (role.IsDead)
         {
