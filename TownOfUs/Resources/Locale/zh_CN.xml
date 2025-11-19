@@ -1364,8 +1364,8 @@
   <string name="TouModifierBaitTriggeredNotif">\%player\% 是 \%modifier\%，导致你强制自报尸体。</string>
   <string name="TouModifierCelebrityPopup">名人, \%player\%,已死亡!:(详情见聊天框)</string>
   <string name="TouRoleCelebrityMessageTitle">名人报告</string>
-  <string name="TouModifierCelebrityDetailsSelf">\%modifier\%, \%player\%,死亡! 地点:\%room\%, 死因: 自杀, 时间:\%timeAgo\%秒前。</string>
-  <string name="TouModifierCelebrityDetailsKilled">\%modifier\%, \%player\%,遭 \%killed\%! 地点:\%room\%, 凶手: \%role\%, 时间:\%timeAgo\%秒前。</string>
+  <string name="TouModifierCelebrityDetailsSelf">\%modifier\%, \%player\%,死亡! \%nl\%地点:\%room\%, \%nl\%死因: 自杀, \%nl\%时间:\%timeAgo\%秒前。</string>
+  <string name="TouModifierCelebrityDetailsKilled">\%modifier\%, \%player\%,遭 \%killed\%! \%nl\%地点:\%room\%, \%nl\%凶手: \%role\%, \%nl\%时间:\%timeAgo\%秒前。</string>
   <string name="TouModifierDiseasedTriggeredNotif">\%player\% 是 \%modifier\%，你的击杀冷却将乘以 \%cooldownMultiplier\%倍。</string>
   <string name="TouModifierFrostyTriggeredNotif">\%player\% 是 \%modifier\%，你将在 \%time\% 秒内变得更慢。</string>
   <string name="TouModifierTaskmasterTaskNotif">任务 \%taskName\%已为你自动完成。</string>
