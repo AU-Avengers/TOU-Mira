@@ -281,6 +281,11 @@
   <string name="TouScatter">Scatter</string>
   <!-- Common Terms -->
   <string name="TargetingNobody">Nobody</string>
+  <!-- Freeplay Terms -->
+  <string name="FreeplayKillButton">Remote Kill</string>
+  <string name="FreeplaySetRoleButton">Set Role</string>
+  <string name="FreeplayRestartButton">Reset Game</string>
+  <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch The Chaos From Afar</string>

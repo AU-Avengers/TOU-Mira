@@ -11,7 +11,7 @@ namespace TownOfUs.Buttons.Freeplay;
 
 public sealed class GhangeAnyRole : TownOfUsButton
 {
-    public override string Name => TouLocale.GetParsed("TouRoleTraitorChangeRole", "Change Role");
+    public override string Name => TouLocale.GetParsed("FreeplaySetRoleButton", "Set Role");
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
@@ -52,7 +52,7 @@ public sealed class GhangeAnyRole : TownOfUsButton
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         player1Menu.Begin(
-            plr => true,
+            _ => true,
             plr =>
             {
                 player1Menu.ForceClose();
@@ -92,7 +92,6 @@ public sealed class GhangeAnyRole : TownOfUsButton
 
         foreach (var panel in player1Menu.potentialVictims)
         {
-            panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
             if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
             {
                 panel.NameText.color = Color.white;
@@ -110,15 +109,16 @@ public sealed class GhangeAnyRole : TownOfUsButton
 
     private static bool IsRoleValid(RoleBehaviour role)
     {
+        if (role is IGhostRole)
+        {
+            return true;
+        }
+
         if (role.IsDead)
         {
             return false;
         }
 
-        if (role is IGhostRole)
-        {
-            return false;
-        }
         return true;
     }
 }

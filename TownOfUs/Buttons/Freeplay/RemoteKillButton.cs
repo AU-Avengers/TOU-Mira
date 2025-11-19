@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Freeplay;
 
 public sealed class RemoteKillButton : TownOfUsButton
 {
-    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
+    public override string Name => TouLocale.GetParsed("FreeplayKillButton", "Reset Game");
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
@@ -54,7 +54,7 @@ public sealed class RemoteKillButton : TownOfUsButton
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         player1Menu.Begin(
-            plr => !plr.Data.Disconnected && !plr.Data.IsDead &&
+            plr => !plr.Data.Disconnected &&
                    (plr.moveable || plr.inVent),
             plr =>
             {
@@ -72,8 +72,7 @@ public sealed class RemoteKillButton : TownOfUsButton
                     plr.cosmetics.currentBodySprite.BodySprite.material;
 
                 player2Menu.Begin(
-                    plr2 => plr2.PlayerId != plr.PlayerId &&
-                            !plr.Data.Disconnected && !plr.Data.IsDead &&
+                    plr2 => !plr2.Data.Disconnected && !plr2.Data.IsDead &&
                             (plr2.moveable || plr2.inVent),
                     plr2 =>
                     {
@@ -91,7 +90,6 @@ public sealed class RemoteKillButton : TownOfUsButton
                 );
                 foreach (var panel in player2Menu.potentialVictims)
                 {
-                    panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
                     if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
                     {
                         panel.NameText.color = Color.white;
@@ -101,7 +99,6 @@ public sealed class RemoteKillButton : TownOfUsButton
         );
         foreach (var panel in player1Menu.potentialVictims)
         {
-            panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
             if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
             {
                 panel.NameText.color = Color.white;
@@ -111,7 +108,7 @@ public sealed class RemoteKillButton : TownOfUsButton
 
     public override void OnEffectEnd()
     {
-        if (Killer == null || Victim == null || Killer.HasDied() || Victim.HasDied())
+        if (Killer == null || Victim == null || Victim.HasDied())
         {
             return;
         }

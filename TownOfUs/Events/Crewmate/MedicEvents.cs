@@ -176,7 +176,7 @@ public static class MedicEvents
 
         var medic = target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
 
-        if (medic != null && source.AmOwner)
+        if (medic != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
             MedicRole.RpcMedicShieldAttacked(medic.Player, source, target);
         }
