@@ -65,7 +65,7 @@ public static class EgotistEvents
             notif1.AdjustNotification();
         }
 
-        if (ego == null || ego.Player.HasDied())
+        if (ego == null || ego.Player.HasDied() || !egoOpts.EgotistSpeedsUp)
         {
             EgotistModifier.CooldownReduction = 0f;
             EgotistModifier.SpeedMultiplier = 1f;

@@ -49,20 +49,6 @@ public sealed class ResetFreeplayButton : TownOfUsButton
 
     private static IEnumerator SetDummyData()
     {
-        while (PlayerControl.LocalPlayer == null)
-        {
-            yield return null;
-        }
-
-        while (PlayerControl.LocalPlayer.Data == null)
-        {
-            yield return null;
-        }
-
-        while (PlayerControl.LocalPlayer.Data.Role == null)
-        {
-            yield return null;
-        }
         yield return new WaitForSeconds(0.01f);
 
         var roleList = RoleManager.Instance.AllRoles.ToArray()
