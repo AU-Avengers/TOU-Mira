@@ -66,7 +66,7 @@ public static class WikiHyperLinkPatches
                 else
                 {
                     // Some non-custom roles (specifically Impostor and Crewmate) can also be tagged, but they have no wiki entries.
-                    role = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x =>
+                    role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
                         x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
                     if (role != null)
                     {

@@ -67,7 +67,7 @@ public static class GuardianAngelEvents
     [RegisterEvent]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
-        foreach (var ga in CustomRoleUtils.GetActiveRolesOfType<GuardianAngelTouRole>())
+        foreach (var ga in CustomRoleUtils.GetActiveRolesOfType<FairyRole>())
         {
             ga.CheckTargetDeath(@event.Player);
         }

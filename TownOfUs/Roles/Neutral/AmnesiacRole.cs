@@ -63,8 +63,8 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
-             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<GuardianAngelTouRole>())) &&
-         OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath is BecomeOptions.Amnesiac)
+             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<FairyRole>())) &&
+         OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath is BecomeOptions.Amnesiac)
         || (MiscUtils.GetPotentialRoles()
                 .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ExecutionerRole>())) &&
             OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Amnesiac);
@@ -150,7 +150,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             mayor.Revealed = false;
         }
-        else if (player.Data.Role is GuardianAngelTouRole ga)
+        else if (player.Data.Role is FairyRole ga)
         {
             var gaTarget = ModifierUtils.GetPlayersWithModifier<GuardianAngelTargetModifier>()
                 .FirstOrDefault(x => x.PlayerId == target.PlayerId);

@@ -10,13 +10,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class TrackerTrackButton : TownOfUsRoleButton<TrackerTouRole, PlayerControl>
+public sealed class TrackerTrackButton : TownOfUsRoleButton<SonarRole, PlayerControl>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleTrackerTrack", "Track");
+    public override string Name => TouLocale.GetParsed("TouRoleSonarTrack", "Track");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Tracker;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<TrackerOptions>.Instance.TrackCooldown + MapCooldown, 5f, 120f);
-    public override int MaxUses => (int)OptionGroupSingleton<TrackerOptions>.Instance.MaxTracks;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SonarOptions>.Instance.TrackCooldown + MapCooldown, 5f, 120f);
+    public override int MaxUses => (int)OptionGroupSingleton<SonarOptions>.Instance.MaxTracks;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrackSprite;
     public int ExtraUses { get; set; }
 
@@ -39,7 +39,7 @@ public sealed class TrackerTrackButton : TownOfUsRoleButton<TrackerTouRole, Play
         }
 
         Color color = Palette.PlayerColors[Target.GetDefaultAppearance().ColorId];
-        var update = OptionGroupSingleton<TrackerOptions>.Instance.UpdateInterval;
+        var update = OptionGroupSingleton<SonarOptions>.Instance.UpdateInterval;
 
         Target.AddModifier<TrackerArrowTargetModifier>(PlayerControl.LocalPlayer, color, update);
 

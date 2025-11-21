@@ -263,11 +263,12 @@
   <string name="DiedToDoomsayer">Doomed</string>
   <string name="DiedToJester">Haunted</string>
   <string name="DiedToExecutioner">Tormented</string>
-  <string name="DiedToPhantom">Spooked</string>
+  <string name="DiedToSpectre">Spooked</string>
   <string name="DiedToInquisitor">Vanquished</string>
   <string name="DiedToAmbusherAmbush">Ambushed</string>
   <string name="DiedToBomberBomb">Bombed</string>
   <string name="DiedToSpellslingerHexBomb">Disintegrated</string>
+  <string name="DiedToViper">Dissolved</string>
   <!-- Status Effects -->
   <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
@@ -354,26 +355,26 @@
   <string name="TouRoleDeputyCampNotif">Wait for \%player\%'s death so you can blast their killer in the meeting.</string>
   <string name="TouRoleDeputyMessageTitle">Deputy Feedback</string>
   <string name="TouRoleDeputyMissedShot">You missed your shot! They are either not the killer or are invincible.</string>
-  <!-- Detective - Crewmate Investigative -->
-  <!-- Detective Wiki / Abilities -->
-  <string name="TouRoleDetective">Detective</string>
-  <string name="TouRoleDetectiveIntroBlurb">Inspect Crime Scenes To Catch The Killer</string>
-  <string name="TouRoleDetectiveTabDescription">Inspect crime scenes, then examine players to\%nl\%see if they were at the scene.</string>
-  <string name="TouRoleDetectiveWikiDescription">The Detective can inspect a crime scene and examine players to see if they were at the crime scene, flashing red if they were there.</string>
-  <string name="TouRoleDetectiveInspect">Inspect</string>
-  <string name="TouRoleDetectiveInspectWikiDescription">Crime scenes will spawn with all dead bodies. Inspect the crime scene and then examine players to discover clues. During the next meeting, you will receive a report revealing the killer's role.</string>
-  <string name="TouRoleDetectiveExamine">Examine</string>
-  <string name="TouRoleDetectiveExamineWikiDescription">Examine players after inspecting a crime scene. You will be told if the player was at the crime scene.</string>
-  <string name="TouRoleDetectiveInspectNotif">You have inspected the crime scene of \%player\%. The killer or anyone that steps foot in the crime scene will flash red when examined.</string>
-  <!-- Detective Options -->
-  <string name="TouOptionDetectiveExamineCooldown">Examine Cooldown</string>
-  <string name="TouOptionDetectiveReportOn">Show Detective Reports</string>
-  <string name="TouOptionDetectiveRoleDuration">Time Where Detective Will Have Role</string>
-  <string name="TouOptionDetectiveFactionDuration">Time Where Detective Will Have Faction</string>
-  <!-- Detective Feedback -->
-  <string name="TouRoleDetectiveMessageTitle">Detective Report</string>
-  <string name="TouRoleDetectiveAtScene">\%player\% was at the scene of \%deadPlayer\%'s death!\%nl\%They might be the killer or a witness.</string>
-  <string name="TouRoleDetectiveNotAtScene">\%player\% was not at the scene of the crime.</string>
+  <!-- Forensic - Crewmate Investigative -->
+  <!-- Forensic Wiki / Abilities -->
+  <string name="TouRoleForensic">Forensic</string>
+  <string name="TouRoleForensicIntroBlurb">Inspect Crime Scenes To Catch The Killer</string>
+  <string name="TouRoleForensicTabDescription">Inspect crime scenes, then examine players to\%nl\%see if they were at the scene.</string>
+  <string name="TouRoleForensicWikiDescription">The Forensic can inspect a crime scene and examine players to see if they were at the crime scene, flashing red if they were there.</string>
+  <string name="TouRoleForensicInspect">Inspect</string>
+  <string name="TouRoleForensicInspectWikiDescription">Crime scenes will spawn with all dead bodies. Inspect the crime scene and then examine players to discover clues. During the next meeting, you will receive a report revealing the killer's role.</string>
+  <string name="TouRoleForensicExamine">Examine</string>
+  <string name="TouRoleForensicExamineWikiDescription">Examine players after inspecting a crime scene. You will be told if the player was at the crime scene.</string>
+  <string name="TouRoleForensicInspectNotif">You have inspected the crime scene of \%player\%. The killer or anyone that steps foot in the crime scene will flash red when examined.</string>
+  <!-- Forensic Options -->
+  <string name="TouOptionForensicExamineCooldown">Examine Cooldown</string>
+  <string name="TouOptionForensicReportOn">Show Forensic Reports</string>
+  <string name="TouOptionForensicRoleDuration">Time Where Forensic Will Have Role</string>
+  <string name="TouOptionForensicFactionDuration">Time Where Forensic Will Have Faction</string>
+  <!-- Forensic Feedback -->
+  <string name="TouRoleForensicMessageTitle">Forensic Report</string>
+  <string name="TouRoleForensicAtScene">\%player\% was at the scene of \%deadPlayer\%'s death!\%nl\%They might be the killer or a witness.</string>
+  <string name="TouRoleForensicNotAtScene">\%player\% was not at the scene of the crime.</string>
   <!-- Engineer - Crewmate Investigative -->
   <!-- Engineer Wiki / Abilities -->
   <string name="TouRoleEngineer">Engineer</string>
@@ -433,7 +434,7 @@
   <string name="TouRoleImitatorCrewmateImitation">Crewmate Imitation</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">All crewmate roles are available besides Politician and Mayor. Roles like Jailor and Prosecutor cannot use their meeting abilities, and Vigi does not get safe shots.</string>
   <string name="TouRoleImitatorNeutralCounterparts">Neutral Counterparts</string>
-  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch\%nl\%Glitch ⇨ Sheriff | GA ⇨ Cleric | Inquis ⇨ Oracle\%nl\%Jester ⇨ Plumber | Merc ⇨ Warden\%nl\%Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch\%nl\%Glitch ⇨ Sheriff | Fairy ⇨ Cleric | Inquis ⇨ Oracle\%nl\%Jester ⇨ Plumber | Merc ⇨ Warden\%nl\%Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
   <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
   <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Detective\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Tracker\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
   <!-- Imitator Options -->
@@ -724,20 +725,20 @@
   <string name="TouRoleSwapperSwapWikiDescription">Select two players to swap votes for, and at the end of the meeting, they will swap spots!</string>
   <!-- Swapper Options -->
   <string name="TouOptionSwapperCanCallButton">Can Call Button</string>
-  <!-- Tracker - Crewmate Investigative -->
-  <!-- Tracker Wiki / Abilities -->
-  <string name="TouRoleTracker">Tracker</string>
-  <string name="TouRoleTrackerIntroBlurb">Track Everyone's Movement</string>
-  <string name="TouRoleTrackerTabDescription">Track suspicious players to see where they go</string>
-  <string name="TouRoleTrackerWikiDescription">The Tracker is a Crewmate Investigative role that can track other players to see their general position across the map, getting colored arrows towards all tracked players.</string>
-  <string name="TouRoleTrackerTrack">Track</string>
-  <string name="TouRoleTrackerTrackWikiDescription">Track a player to see where they go. You will have an arrow pointing to their location that will update periodically. It will disappear if they die, or depending on settings, the trackers will be reset after a meeting.</string>
-  <!-- Tracker Options -->
-  <string name="TouOptionTrackerTrackCooldown">Track Cooldown</string>
-  <string name="TouOptionTrackerMaxNumberOfTracks">Max Number Of Tracks</string>
-  <string name="TouOptionTrackerArrowUpdateInterval">Arrow Update Interval</string>
-  <string name="TouOptionTrackerArrowsMakeSoundOnDeath">Tracker Arrows Make Sound On Death</string>
-  <string name="TouOptionTrackerArrowsResetAfterEachRound">Tracker Arrows Reset After Each Round</string>
+  <!-- Sonar - Crewmate Investigative -->
+  <!-- Sonar Wiki / Abilities -->
+  <string name="TouRoleSonar">Sonar</string>
+  <string name="TouRoleSonarIntroBlurb">Track Everyone's Movement</string>
+  <string name="TouRoleSonarTabDescription">Track suspicious players to see where they go</string>
+  <string name="TouRoleSonarWikiDescription">The Sonar is a Crewmate Investigative role that can track other players to see their general position across the map, getting colored arrows towards all tracked players.</string>
+  <string name="TouRoleSonarTrack">Track</string>
+  <string name="TouRoleSonarTrackWikiDescription">Track a player to see where they go. You will have an arrow pointing to their location that will update periodically. It will disappear if they die, or depending on settings, the trackers will be reset after a meeting.</string>
+  <!-- Sonar Options -->
+  <string name="TouOptionSonarTrackCooldown">Track Cooldown</string>
+  <string name="TouOptionSonarMaxNumberOfTracks">Max Number Of Tracks</string>
+  <string name="TouOptionSonarArrowUpdateInterval">Arrow Update Interval</string>
+  <string name="TouOptionSonarArrowsMakeSoundOnDeath">Trackers Make Sound On Death</string>
+  <string name="TouOptionSonarArrowsResetAfterEachRound">Trackers Reset After Each Round</string>
   <!-- Transporter - Crewmate Support -->
   <!-- Transporter Wiki / Abilities -->
   <string name="TouRoleTransporter">Transporter</string>
@@ -1196,23 +1197,23 @@
   <string name="TouOptionGlitchHackCooldown">Hack Cooldown</string>
   <string name="TouOptionGlitchHackDuration">Hack Duration</string>
   <string name="TouOptionGlitchCan Vent">Glitch Can Vent</string>
-  <!-- Guardian Angel -->
-  <!-- Guardian Angel Wiki / Abilities -->
-  <string name="TouRoleGuardianAngel">Guardian Angel</string>
-  <string name="TouRoleGuardianAngelTabDescription">Protect \%target\% with your life!</string>
-  <string name="TouRoleGuardianAngelIfNoTarget">Protect your target with your life!</string>
-  <string name="TouRoleGuardianAngelWikiDescription">The Guardian Angel is a Neutral Benign that needs to protect their target (signified by \%symbol\%) from getting killed/ejected.</string>
-  <string name="TouRoleGuardianAngelProtect">Protect</string>
-  <string name="TouRoleGuardianAngelProtectWikiDescription">Protect your target from getting killed.</string>
-  <!-- Guardian Angel Options -->
-  <string name="TouOptionGuardianAngelCooldown">Protect Cooldown</string>
-  <string name="TouOptionGuardianAngelDuration">Protect Duration</string>
-  <string name="TouOptionGuardianAngelMaxProtects">Max Number Of Protects</string>
-  <string name="TouOptionGuardianAngelShowProtected">Show Protected Player</string>
-  <string name="TouOptionGuardianAngelOnDeathGABecomes">On Target Death, GA Becomes</string>
-  <string name="TouOptionGuardianAngelTargetKnowsGAExists">Target Knows GA Exists</string>
-  <string name="TouOptionGuardianAngelGAKnowsRole">GA Knows Targets Role</string>
-  <string name="TouOptionGuardianAngelEvilOdds">Odds Of Target Being Evil</string>
+  <!-- Fairy -->
+  <!-- Fairy Wiki / Abilities -->
+  <string name="TouRoleFairy">Fairy</string>
+  <string name="TouRoleFairyTabDescription">Protect \%target\% with your life!</string>
+  <string name="TouRoleFairyIfNoTarget">Protect your target with your life!</string>
+  <string name="TouRoleFairyWikiDescription">The Fairy is a Neutral Benign that needs to protect their target (signified by \%symbol\%) from getting killed/ejected.</string>
+  <string name="TouRoleFairyProtect">Protect</string>
+  <string name="TouRoleFairyProtectWikiDescription">Protect your target from getting killed.</string>
+  <!-- Fairy Options -->
+  <string name="TouOptionFairyCooldown">Protect Cooldown</string>
+  <string name="TouOptionFairyDuration">Protect Duration</string>
+  <string name="TouOptionFairyMaxProtects">Max Number Of Protects</string>
+  <string name="TouOptionFairyShowProtected">Show Protected Player</string>
+  <string name="TouOptionFairyOnDeathFairyBecomes">On Target Death, Fairy Becomes</string>
+  <string name="TouOptionFairyTargetKnowsFairyExists">Target Knows Fairy Exists</string>
+  <string name="TouOptionFairyFairyKnowsRole">Fairy Knows Targets Role</string>
+  <string name="TouOptionFairyEvilOdds">Odds Of Target Being Evil</string>
   <!-- Inquisitor -->
   <!-- Inquisitor Wiki / Abilities -->
   <string name="TouRoleInquisitor">Inquisitor</string>
@@ -1313,17 +1314,17 @@
   <string name="TouRolePestilenceTabDescription">Kill everyone in your path that interacts with you!</string>
   <string name="TouRolePestilenceYouAreText">You Are</string>
   <string name="TouRolePestilenceWikiDescription">The Pestilence is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive.</string>
-  <!-- Phantom -->
-  <!-- Phantom Wiki / Description -->
-  <string name="TouRolePhantom">Phantom</string>
-  <string name="TouRolePhantomIntroBlurb"> </string>
+  <!-- Spectre -->
+  <!-- Spectre Wiki / Description -->
+  <string name="TouRoleSpectre">Spectre</string>
+  <string name="TouRoleSpectreIntroBlurb"> </string>
   <!-- You cannot start the game as this role, and thus, it has no intro blurb -->
-  <string name="TouRolePhantomTabDescription">Complete all your tasks without being caught!</string>
-  <string name="TouRolePhantomWikiDescription">The Phantom is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
-  <string name="TouRolePhantomSpook">Spook</string>
-  <!-- Phantom Options -->
-  <string name="TouOptionPhantomTasksLeftClickable">Tasks Left Before Clickable</string>
-  <string name="TouOptionPhantomWin">Phantom Win</string>
+  <string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
+  <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
+  <string name="TouRoleSpectreSpook">Spook</string>
+  <!-- Spectre Options -->
+  <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>
+  <string name="TouOptionSpectreWin">Spectre Win</string>
   <!-- Plaguebearer -->
   <!-- Plaguebearer Wiki / Abilities -->
   <string name="TouRolePlaguebearer">Plaguebearer</string>

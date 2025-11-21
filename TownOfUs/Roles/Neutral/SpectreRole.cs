@@ -21,7 +21,7 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class PhantomTouRole(IntPtr cppPtr)
+public sealed class SpectreRole(IntPtr cppPtr)
     : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
 {
     public bool CompletedAllTasks => TaskStage is GhostTaskStage.CompletedTasks;
@@ -56,7 +56,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
             Player.SetCamouflage(false);
         }
 
-        var textlog = $"Setup PhantomTouRole: '{Player.Data.PlayerName}'";
+        var textlog = $"Setup SpectreRole: '{Player.Data.PlayerName}'";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
         Player.gameObject.layer = LayerMask.NameToLayer("Players");
@@ -99,7 +99,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not PhantomTouRole || MeetingHud.Instance)
+        if (Player == null || Player.Data.Role is not SpectreRole || MeetingHud.Instance)
         {
             return;
         }
@@ -109,7 +109,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
 
     public void Clicked()
     {
-        var textlog = $"Clicked PhantomTouRole: '{Player.Data.PlayerName}'";
+        var textlog = $"Clicked SpectreRole: '{Player.Data.PlayerName}'";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Message, textlog);
 
         Caught = true;
@@ -121,7 +121,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         }
     }
 
-    public string LocaleKey => "Phantom";
+    public string LocaleKey => "Spectre";
     public override string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public override string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public override string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
@@ -147,7 +147,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
 
     public override bool WinConditionMet()
     {
-        return OptionGroupSingleton<PhantomOptions>.Instance.PhantomWin is PhantomWinOptions.EndsGame &&
+        return OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.EndsGame &&
                CompletedAllTasks;
     }
 
@@ -258,7 +258,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         var tasksRemaining = realTasks.Count - completedTasks;
 
         if (TaskStage is GhostTaskStage.Unclickable && tasksRemaining <=
-            (int)OptionGroupSingleton<PhantomOptions>.Instance.NumTasksLeftBeforeClickable)
+            (int)OptionGroupSingleton<SpectreOptions>.Instance.NumTasksLeftBeforeClickable)
         {
             TaskStage = GhostTaskStage.Clickable;
             if (Player.AmOwner)
@@ -279,7 +279,7 @@ public sealed class PhantomTouRole(IntPtr cppPtr)
         var textlog = $"Phantom Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
-        if (OptionGroupSingleton<PhantomOptions>.Instance.PhantomWin is not PhantomWinOptions.Spooks ||
+        if (OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is not SpectreWinOptions.Spooks ||
             !CompletedAllTasks)
         {
             return;

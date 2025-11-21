@@ -51,7 +51,7 @@ public sealed class ResetFreeplayButton : TownOfUsButton
     {
         yield return new WaitForSeconds(0.01f);
 
-        var roleList = RoleManager.Instance.AllRoles.ToArray()
+        var roleList = MiscUtils.AllRegisteredRoles
             .Where(role => !role.IsDead)
             .Where(role => !role.IsImpostor())
             .ToList();

@@ -47,7 +47,7 @@ public enum TownOfUsRpc : uint
     Mediate,
     VampireBite,
     CheckInfected,
-    SetGATarget,
+    SetFairyTarget,
     SetOtherLover,
     SetTraitor,
     DragBody,

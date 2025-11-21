@@ -25,7 +25,7 @@ using Random = System.Random;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable,
+public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable,
     IDoomable, IAssignableTargets, ICrewVariant
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MirrorcasterRole>());
@@ -34,18 +34,18 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
 
     public void AssignTargets()
     {
-        var textlog = $"Selecting GA Targets.";
+        var textlog = $"Selecting Fairy Targets.";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
-        var evilTargetPercent = (int)OptionGroupSingleton<GuardianAngelOptions>.Instance.EvilTargetPercent;
+        var evilTargetPercent = (int)OptionGroupSingleton<FairyOptions>.Instance.EvilTargetPercent;
 
         var gas = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => x.IsRole<GuardianAngelTouRole>() && !x.HasDied());
+            .Where(x => x.IsRole<FairyRole>() && !x.HasDied());
 
         foreach (var ga in gas)
         {
             var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.IsRole<GuardianAngelTouRole>() && !x.HasDied() &&
+                .Where(x => !x.IsRole<FairyRole>() && !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName))
                 .ToList();
@@ -70,15 +70,15 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             Random rndIndex = new();
             var randomTarget = filtered[rndIndex.Next(0, filtered.Count)];
 
-            var textlogtarget = $"Setting GA Target: {randomTarget.Data.PlayerName}";
+            var textlogtarget = $"Setting Fairy Target: {randomTarget.Data.PlayerName}";
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Info, textlogtarget);
 
-            RpcSetGATarget(ga, randomTarget);
+            RpcSetFairyTarget(ga, randomTarget);
         }
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string LocaleKey => "GuardianAngel";
+    public string LocaleKey => "Fairy";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
@@ -91,8 +91,8 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    private static string _missingTargetDesc = TouLocale.GetParsed("TouRoleGuardianAngelIfNoTarget");
-    private static string _targetDesc = TouLocale.GetParsed("TouRoleGuardianAngelTabDescription");
+    private static string _missingTargetDesc = TouLocale.GetParsed("TouRoleFairyIfNoTarget");
+    private static string _targetDesc = TouLocale.GetParsed("TouRoleFairyTabDescription");
 
     private string TargetString(bool capitalize = false)
     {
@@ -161,8 +161,8 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        _missingTargetDesc = TouLocale.GetParsed("TouRoleGuardianAngelIfNoTarget");
-        _targetDesc = TouLocale.GetParsed("TouRoleGuardianAngelTabDescription");
+        _missingTargetDesc = TouLocale.GetParsed("TouRoleFairyIfNoTarget");
+        _targetDesc = TouLocale.GetParsed("TouRoleFairyTabDescription");
 
         if (TutorialManager.InstanceExists && Target == null && Player.AmOwner && Player.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
@@ -171,7 +171,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         }
     }
 
-    private static IEnumerator SetTutorialTargets(GuardianAngelTouRole ga)
+    private static IEnumerator SetTutorialTargets(FairyRole ga)
     {
         yield return new WaitForSeconds(0.01f);
         ga.AssignTargets();
@@ -208,23 +208,23 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
                gaMod.Player.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true);
     }
 
-    public static bool GASeesRoleVisibilityFlag(PlayerControl player)
+    public static bool FairySeesRoleVisibilityFlag(PlayerControl player)
     {
-        var gaKnowsTargetRole = OptionGroupSingleton<GuardianAngelOptions>.Instance.GAKnowsTargetRole &&
-                                PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>() &&
-                                PlayerControl.LocalPlayer.GetRole<GuardianAngelTouRole>()!.Target == player;
+        var gaKnowsTargetRole = OptionGroupSingleton<FairyOptions>.Instance.FairyKnowsTargetRole &&
+                                PlayerControl.LocalPlayer.IsRole<FairyRole>() &&
+                                PlayerControl.LocalPlayer.GetRole<FairyRole>()!.Target == player;
 
         return gaKnowsTargetRole;
     }
 
-    public static bool GATargetSeesVisibilityFlag(PlayerControl player)
+    public static bool FairyTargetSeesVisibilityFlag(PlayerControl player)
     {
         var gaTargetKnows =
-            OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect is ProtectOptions.SelfAndGA &&
+            OptionGroupSingleton<FairyOptions>.Instance.ShowProtect is ProtectOptions.SelfAndFairy &&
             player.HasModifier<GuardianAngelTargetModifier>();
 
-        var gaKnowsTargetRole = PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>() &&
-                                PlayerControl.LocalPlayer.GetRole<GuardianAngelTouRole>()!.Target == player;
+        var gaKnowsTargetRole = PlayerControl.LocalPlayer.IsRole<FairyRole>() &&
+                                PlayerControl.LocalPlayer.GetRole<FairyRole>()!.Target == player;
 
         return gaTargetKnows || gaKnowsTargetRole;
     }
@@ -235,12 +235,12 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         {
             return;
         }
-        var textlogtarget = $"On GA Player Death: {victim.Data.PlayerName}";
+        var textlogtarget = $"On Fairy Player Death: {victim.Data.PlayerName}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Info, textlogtarget);
 
         if (Target == null || victim == Target)
         {
-            var roleType = OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath switch
+            var roleType = OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath switch
             {
                 BecomeOptions.Crew => (ushort)RoleTypes.Crewmate,
                 BecomeOptions.Jester => RoleId.Get<JesterRole>(),
@@ -250,7 +250,7 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
                 _ => (ushort)RoleTypes.Crewmate
             };
 
-            var textlogchange = $"On GA Player Death - Change Role: {roleType}";
+            var textlogchange = $"On Fairy Player Death - Change Role: {roleType}";
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlogchange);
 
             Player.ChangeRole(roleType);
@@ -264,12 +264,12 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SetGATarget)]
-    public static void RpcSetGATarget(PlayerControl player, PlayerControl target)
+    [MethodRpc((uint)TownOfUsRpc.SetFairyTarget)]
+    public static void RpcSetFairyTarget(PlayerControl player, PlayerControl target)
     {
-        if (player.Data.Role is not GuardianAngelTouRole)
+        if (player.Data.Role is not FairyRole)
         {
-            Error("RpcSetGATarget - Invalid guardian angel");
+            Error("RpcSetFairyTarget - Invalid guardian angel");
             return;
         }
 
@@ -278,14 +278,14 @@ public sealed class GuardianAngelTouRole(IntPtr cppPtr) : NeutralRole(cppPtr), I
             return;
         }
 
-        var role = player.GetRole<GuardianAngelTouRole>();
+        var role = player.GetRole<FairyRole>();
 
         if (role == null)
         {
             return;
         }
 
-        // Message($"RpcSetGATarget - Target: '{target.Data.PlayerName}'");
+        // Message($"RpcSetFairyTarget - Target: '{target.Data.PlayerName}'");
         role.Target = target;
 
         target.AddModifier<GuardianAngelTargetModifier>(player.PlayerId);

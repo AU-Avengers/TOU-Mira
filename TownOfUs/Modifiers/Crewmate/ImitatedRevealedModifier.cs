@@ -52,7 +52,7 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
 
                 if (roleImg != null)
                 {
-                    var newIcon = Object.Instantiate(voteArea.GAIcon, voteArea.transform);
+                    var newIcon = Object.Instantiate(voteArea.FairyIcon, voteArea.transform);
                     newIcon.gameObject.SetActive(true);
                     newIcon.sprite = roleImg;
                     newIcon.SetSizeLimit(1.44f);

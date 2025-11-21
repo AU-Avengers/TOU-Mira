@@ -16,7 +16,7 @@ public static class PhantomEvents
     [RegisterEvent]
     public static void CompleteTaskEventHandler(CompleteTaskEvent @event)
     {
-        if (@event.Player.Data.Role is not PhantomTouRole phantom)
+        if (@event.Player.Data.Role is not SpectreRole phantom)
         {
             return;
         }
@@ -24,7 +24,7 @@ public static class PhantomEvents
         phantom.CheckTaskRequirements();
 
         if (phantom.CompletedAllTasks &&
-            OptionGroupSingleton<PhantomOptions>.Instance.PhantomWin is not PhantomWinOptions.EndsGame)
+            OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is not SpectreWinOptions.EndsGame)
         {
             phantom.Clicked();
             if (phantom.Player.AmOwner)
@@ -35,7 +35,7 @@ public static class PhantomEvents
 
                 notif1.AdjustNotification();
                 HudManagerPatches.ZoomButton.SetActive(true);
-                if (OptionGroupSingleton<PhantomOptions>.Instance.PhantomWin is PhantomWinOptions.Spooks)
+                if (OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
                 {
                     DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);

@@ -11,6 +11,21 @@ namespace TownOfUs.Utilities;
 
 public static class TouRoleUtils
 {
+    public static string GetRoleLocaleKey(this RoleBehaviour role)
+    {
+        var touRole = role as ITownOfUsRole;
+        if (touRole != null && touRole.LocaleKey != "KEY_MISS")
+        {
+            return touRole.LocaleKey;
+        }
+
+        if (!role.IsCustomRole())
+        {
+            return role.Role.ToString();
+        }
+
+        return role.GetRoleName().Replace(" ", "");
+    }
     public static bool IsRevealed(this PlayerControl? player) =>
         player?.GetModifiers<RevealModifier>().Any(x => x.Visible && x.RevealRole) == true ||
         player?.Data?.Role is MayorRole mayor && mayor.Revealed;

@@ -34,7 +34,7 @@ public static class TouRoleManagerPatches
 
     private static void GhostRoleSetup()
     {
-        // var ghostRoles = RoleManager.Instance.AllRoles.Where(x => x.IsDead);
+        // var ghostRoles = MiscUtils.AllRegisteredRoles.Where(x => x.IsDead);
         var ghostRoles = MiscUtils.GetRegisteredGhostRoles();
 
         var text = $"GhostRoleSetup - ghostRoles Count: {ghostRoles.Count()}";
@@ -107,7 +107,7 @@ public static class TouRoleManagerPatches
 
         CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get<HaunterRole>());
         CustomGhostRolePool.RemoveAll(x =>
-            x == (RoleTypes)RoleId.Get<PhantomTouRole>() || x == (RoleTypes)RoleId.Get<SpectatorRole>());
+            x == (RoleTypes)RoleId.Get<SpectreRole>() || x == (RoleTypes)RoleId.Get<SpectatorRole>());
     }
 
     private static void AssignRoles(List<NetworkedPlayerInfo> infected)
