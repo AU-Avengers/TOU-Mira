@@ -69,6 +69,8 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> AllRoles => CustomRoleManager.CustomRoleBehaviours;
 
+    public static RoleBehaviour[] AllRegisteredRoles => RoleManager.Instance.AllRoles.ToArray();
+
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
         var optionGroups =
@@ -244,7 +246,7 @@ public static class MiscUtils
             var isForCrew = false;
             var isForNeut = false;
             var isForImp = false;
-            foreach (var crewRole in AllRoles.Where(x => x.IsCrewmate()))
+            foreach (var crewRole in AllRegisteredRoles.Where(x => x.IsCrewmate()))
             {
                 if (!isForCrew && gameMod.IsModifierValidOn(crewRole))
                 {
@@ -253,7 +255,7 @@ public static class MiscUtils
                 }
             }
 
-            foreach (var neutRole in AllRoles.Where(x => x.IsNeutral()))
+            foreach (var neutRole in AllRegisteredRoles.Where(x => x.IsNeutral()))
             {
                 if (!isForNeut && gameMod.IsModifierValidOn(neutRole))
                 {
@@ -262,7 +264,7 @@ public static class MiscUtils
                 }
             }
 
-            foreach (var impRole in AllRoles.Where(x => x.IsImpostor()))
+            foreach (var impRole in AllRegisteredRoles.Where(x => x.IsImpostor()))
             {
                 if (!isForImp && gameMod.IsModifierValidOn(impRole))
                 {
@@ -532,17 +534,18 @@ public static class MiscUtils
         {
             case RoleAlignment.CrewmateInvestigative:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
-                //registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
                 break;
             case RoleAlignment.CrewmateSupport:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Crewmate));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case RoleAlignment.ImpostorSupport:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
-                //registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
                 break;
             case RoleAlignment.ImpostorConcealing:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Shapeshifter));
@@ -566,10 +569,13 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case ModdedRoleTeams.Impostor:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Shapeshifter));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Phantom));
                 break;
         }
@@ -750,29 +756,35 @@ public static class MiscUtils
 
         var roleList = assignmentData.Where(x => x is { Chance: > 0, Count: > 0, Role: ICustomRole })
             .Select(x => x.Role);
-
-        /*if (OptionGroupSingleton<GeneralOptions>.Instance.GuessVanillaRoles)
+        if (OptionGroupSingleton<VanillaTweakOptions>.Instance.GuessVanillaRoles)
         {
+            var array = RoleManager.Instance.AllRoles.ToArray();
+            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Detective) is { Chance: > 0, Count: > 0 })
+                roleList = roleList.AddItem(
+                    array.FirstOrDefault(x => x.Role == RoleTypes.Detective)!);
             if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Tracker) is { Chance: > 0, Count: > 0 })
                 roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Tracker)!);
+                    array.FirstOrDefault(x => x.Role == RoleTypes.Tracker)!);
             if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Noisemaker) is { Chance: > 0, Count: > 0 })
                 roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Noisemaker)!);
+                    array.FirstOrDefault(x => x.Role == RoleTypes.Noisemaker)!);
             if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Engineer) is { Chance: > 0, Count: > 0 })
                 roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Engineer)!);
+                    array.FirstOrDefault(x => x.Role == RoleTypes.Engineer)!);
             if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Scientist) is { Chance: > 0, Count: > 0 })
                 roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Scientist)!);
+                    array.FirstOrDefault(x => x.Role == RoleTypes.Scientist)!);
             if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Shapeshifter) is
                 { Chance: > 0, Count: > 0 })
                 roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Shapeshifter)!);
+                    array.FirstOrDefault(x => x.Role == RoleTypes.Shapeshifter)!);
             if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Phantom) is { Chance: > 0, Count: > 0 })
                 roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Phantom)!);
-        }*/
+                    array.FirstOrDefault(x => x.Role == RoleTypes.Phantom)!);
+            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Viper) is { Chance: > 0, Count: > 0 })
+                roleList = roleList.AddItem(
+                    array.FirstOrDefault(x => x.Role == RoleTypes.Viper)!);
+        }
 
         var crewmateRole = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
         roleList = roleList.AddItem(crewmateRole!);
@@ -780,6 +792,11 @@ public static class MiscUtils
 
         var impostorRole = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == RoleTypes.Impostor);
         roleList = roleList.AddItem(impostorRole!);
+
+        if (TutorialManager.InstanceExists)
+        {
+            roleList = RoleManager.Instance.AllRoles.ToArray();
+        }
 
         //Error($"GetPotentialRoles - impostorRole: '{impostorRole?.GetRoleName()}'");
 

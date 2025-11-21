@@ -307,7 +307,7 @@ public static class ChatPatches
         return true;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SelectSpectator, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.SelectSpectator)]
     public static void RpcSelectSpectator(PlayerControl player)
     {
         if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators.Value)
@@ -335,7 +335,7 @@ public static class ChatPatches
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.RemoveSpectator, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.RemoveSpectator)]
     public static void RpcRemoveSpectator(PlayerControl player)
     {
         if (SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))

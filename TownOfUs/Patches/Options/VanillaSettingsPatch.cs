@@ -14,6 +14,22 @@ public static class VanillaSettingsPatch
         {
             try
             {
+                var impostorCount = __instance.Children.ToArray()
+                    ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumImpostors)
+                    ?.Cast<NumberOption>();
+                if (impostorCount != null)
+                {
+                    impostorCount.ValidRange = new FloatRange(0f, 5f);
+                }
+
+                var impostorMaxCount = __instance.Children.ToArray()
+                    ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.MaxImpostors)
+                    ?.Cast<NumberOption>();
+                if (impostorMaxCount != null)
+                {
+                    impostorMaxCount.ValidRange = new FloatRange(0f, 5f);
+                }
+
                 var commonTasks = __instance.Children.ToArray()
                     ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumCommonTasks)
                     ?.Cast<NumberOption>();

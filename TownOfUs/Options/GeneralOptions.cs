@@ -67,12 +67,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
     [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float TempSaveCdReset { get; set; } = 2.5f;
 
-    [ModdedNumberOption("Max Players Alive When Vents Disable", 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#")]
-    public float PlayerCountWhenVentsDisable { get; set; } = 2f;
-
-    [ModdedToggleOption("Parallel Medbay Scans")]
-    public bool ParallelMedbay { get; set; } = true;
-
     [ModdedEnumOption("Disable Meeting Skip Button", typeof(SkipState))]
     public SkipState SkipButtonDisable { get; set; } = SkipState.No;
 
@@ -84,9 +78,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Powerful Crew Continue The Game")]
     public bool CrewKillersContinue { get; set; } = true;
-
-    [ModdedToggleOption("Hide Vent Animations Not In Vision")]
-    public bool HideVentAnimationNotInVision { get; set; } = true;
 }
 
 public enum StartCooldownType

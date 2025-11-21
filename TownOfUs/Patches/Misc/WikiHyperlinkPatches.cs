@@ -49,7 +49,7 @@ public static class WikiHyperLinkPatches
             bool shouldHyperlink = true;
             if (match.Value[0] == '#') // Role tag
             {
-                var role = MiscUtils.AllRoles.FirstOrDefault(x =>
+                var role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
                     x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
                 if (role is ICustomRole customRole)
                 {
