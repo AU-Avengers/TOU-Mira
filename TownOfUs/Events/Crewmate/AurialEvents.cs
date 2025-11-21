@@ -28,7 +28,7 @@ public static class AurialEvents
     {
         var source = @event.Source;
 
-        if (!source.AmOwner)
+        if (!(TutorialManager.InstanceExists || source.AmOwner))
         {
             return;
         }

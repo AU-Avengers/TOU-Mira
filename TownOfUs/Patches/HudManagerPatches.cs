@@ -408,7 +408,7 @@ public static class HudManagerPatches
                         { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
                     (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                     (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow) ||
-                    GuardianAngelTouRole.GASeesRoleVisibilityFlag(player) ||
+                    FairyRole.FairySeesRoleVisibilityFlag(player) ||
                     SleuthModifier.SleuthVisibilityFlag(player) ||
                     revealMods.Any(x => x.Visible && x.RevealRole))
                 {
@@ -442,14 +442,13 @@ public static class HudManagerPatches
                             : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
-                    // Guardian Angel here is vanilla's GA, NOT Town of Us GA
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
                     {
                         roleName = $"<size=80%>{gaRole.TeamColor.ToTextColor()}{gaRole.GetRoleName()}</color></size>";
                     }
 
                     if (SleuthModifier.SleuthVisibilityFlag(player) || (player.Data.IsDead &&
-                                                                        role is not PhantomTouRole &&
+                                                                        role is not SpectreRole &&
                                                                         role is not GuardianAngelRole &&
                                                                         role is not HaunterRole))
                     {
@@ -494,7 +493,7 @@ public static class HudManagerPatches
 
                 if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
                      (PlayerControl.LocalPlayer.HasDied() && taskOpt.ShowTaskDead)) &&
-                    (player.IsCrewmate() || player.Data.Role is PhantomTouRole))
+                    (player.IsCrewmate() || player.Data.Role is SpectreRole))
                 {
                     if (roleName != string.Empty)
                     {
@@ -534,7 +533,7 @@ public static class HudManagerPatches
                           (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                           (!TutorialManager.InstanceExists &&
                            ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow) ||
-                            GuardianAngelTouRole.GASeesRoleVisibilityFlag(player) ||
+                            FairyRole.FairySeesRoleVisibilityFlag(player) ||
                             SleuthModifier.SleuthVisibilityFlag(player) ||
                             revealMods.Any(x => x.Visible && x.RevealRole)))))
                     {
@@ -612,7 +611,7 @@ public static class HudManagerPatches
                         { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
                     (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                     (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && isVisible) ||
-                    GuardianAngelTouRole.GASeesRoleVisibilityFlag(player) ||
+                    FairyRole.FairySeesRoleVisibilityFlag(player) ||
                     revealMods.Any(x => x.Visible && x.RevealRole))
                 {
                     color = role.TeamColor;
@@ -645,14 +644,13 @@ public static class HudManagerPatches
                         roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                     }
 
-                    // Guardian Angel here is vanilla's GA, NOT Town of Us GA
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
                     {
                         roleName = $"<size=80%>{gaRole.TeamColor.ToTextColor()}{gaRole.GetRoleName()}</color></size>";
                     }
 
                     if (SleuthModifier.SleuthVisibilityFlag(player) || (player.Data.IsDead &&
-                                                                        role is not PhantomTouRole &&
+                                                                        role is not SpectreRole &&
                                                                         role is not GuardianAngelRole &&
                                                                         role is not HaunterRole))
                     {
@@ -698,7 +696,7 @@ public static class HudManagerPatches
                 if (((taskOpt.ShowTaskRound && player.AmOwner) || (PlayerControl.LocalPlayer.HasDied() &&
                                                                    taskOpt.ShowTaskDead && isVisible)) &&
                     (player.IsCrewmate() ||
-                     player.Data.Role is PhantomTouRole))
+                     player.Data.Role is SpectreRole))
                 {
                     if (roleName != string.Empty)
                     {

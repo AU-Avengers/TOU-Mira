@@ -126,8 +126,13 @@ public static class ShowVentsPatch
                 {
                     continue;
                 }
-                connectedgroup.Do(x =>
-                    VentIcons[x.Id].GetComponent<SpriteRenderer>().color = Palette.PlayerColors[index]);
+                foreach (var vent in connectedgroup)
+                {
+                    if (VentIcons[vent.Id].TryGetComponent<SpriteRenderer>(out var sprite))
+                    {
+                        sprite.color = Palette.PlayerColors[index];
+                    }
+                }
             }
         }
     }

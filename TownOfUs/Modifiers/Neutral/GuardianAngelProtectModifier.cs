@@ -15,7 +15,7 @@ namespace TownOfUs.Modifiers.Neutral;
 
 public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : BaseShieldModifier
 {
-    public override float Duration => OptionGroupSingleton<GuardianAngelOptions>.Instance.ProtectDuration;
+    public override float Duration => OptionGroupSingleton<FairyOptions>.Instance.ProtectDuration;
     public override string ModifierName => "Protected";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.GuardianAngel;
     public override string ShieldDescription => "You are protected by your Guardian Angel!\nYou cannot be killed.";
@@ -26,10 +26,10 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
     {
         get
         {
-            var showProtect = OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect;
+            var showProtect = OptionGroupSingleton<FairyOptions>.Instance.ShowProtect;
             return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value ||
-                   !OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows ||
-                   showProtect is ProtectOptions.GA;
+                   !OptionGroupSingleton<FairyOptions>.Instance.FairyTargetKnows ||
+                   showProtect is ProtectOptions.Fairy;
         }
     }
 
@@ -39,22 +39,22 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        var showProtect = OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect;
-        var ga = CustomRoleUtils.GetActiveRolesOfType<GuardianAngelTouRole>().FirstOrDefault(x => x.Target == Player);
+        var showProtect = OptionGroupSingleton<FairyOptions>.Instance.ShowProtect;
+        var ga = CustomRoleUtils.GetActiveRolesOfType<FairyRole>().FirstOrDefault(x => x.Target == Player);
 
         var showProtectEveryone = showProtect == ProtectOptions.Everyone;
         var showProtectSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId &&
-                              showProtect is ProtectOptions.SelfAndGA &&
-                              OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows;
-        var showProtectGA = PlayerControl.LocalPlayer.PlayerId == ga?.Player.PlayerId &&
-                            showProtect is ProtectOptions.GA or ProtectOptions.SelfAndGA;
+                              showProtect is ProtectOptions.SelfAndFairy &&
+                              OptionGroupSingleton<FairyOptions>.Instance.FairyTargetKnows;
+        var showProtectFairy = PlayerControl.LocalPlayer.PlayerId == ga?.Player.PlayerId &&
+                            showProtect is ProtectOptions.Fairy or ProtectOptions.SelfAndFairy;
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
             x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
 
-        if (showProtectEveryone || showProtectSelf || showProtectGA || (PlayerControl.LocalPlayer.HasDied() &&
+        if (showProtectEveryone || showProtectSelf || showProtectFairy || (PlayerControl.LocalPlayer.HasDied() &&
                                                                         genOpt.TheDeadKnow && !body &&
                                                                         !fakePlayer?.body))
         {

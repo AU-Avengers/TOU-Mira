@@ -98,14 +98,14 @@ public static class PlayerRoleTextExtensions
 
         if (player.Data != null && !player.Data.Disconnected &&
             ((player.HasModifier<GuardianAngelTargetModifier>(x => x.OwnerId == PlayerControl.LocalPlayer.PlayerId) &&
-              PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>())
+              PlayerControl.LocalPlayer.IsRole<FairyRole>())
              || (player.HasModifier<GuardianAngelTargetModifier>() &&
                  (isDead
                   || (player.AmOwner &&
-                      OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows)))))
+                      OptionGroupSingleton<FairyOptions>.Instance.FairyTargetKnows)))))
         {
             name += (player.HasModifier<GuardianAngelProtectModifier>() &&
-                     OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect is not ProtectOptions.GA)
+                     OptionGroupSingleton<FairyOptions>.Instance.ShowProtect is not ProtectOptions.Fairy)
                 ? "<color=#FFD900> ★</color>"
                 : "<color=#B3FFFF> ★</color>";
         }

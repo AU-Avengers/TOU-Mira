@@ -77,7 +77,7 @@ public static class LookoutEvents
             return;
         }
 
-        if (!target.HasModifier<LookoutWatchedModifier>() || !source.AmOwner)
+        if (!target.HasModifier<LookoutWatchedModifier>() || !(TutorialManager.InstanceExists || source.AmOwner))
         {
             return;
         }

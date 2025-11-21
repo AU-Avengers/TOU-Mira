@@ -34,7 +34,7 @@ public static class TouRoleManagerPatches
 
     private static void GhostRoleSetup()
     {
-        // var ghostRoles = RoleManager.Instance.AllRoles.Where(x => x.IsDead);
+        // var ghostRoles = MiscUtils.AllRegisteredRoles.Where(x => x.IsDead);
         var ghostRoles = MiscUtils.GetRegisteredGhostRoles();
 
         var text = $"GhostRoleSetup - ghostRoles Count: {ghostRoles.Count()}";
@@ -107,7 +107,7 @@ public static class TouRoleManagerPatches
 
         CrewmateGhostRolePool.RemoveAll(x => x == (RoleTypes)RoleId.Get<HaunterRole>());
         CustomGhostRolePool.RemoveAll(x =>
-            x == (RoleTypes)RoleId.Get<PhantomTouRole>() || x == (RoleTypes)RoleId.Get<SpectatorRole>());
+            x == (RoleTypes)RoleId.Get<SpectreRole>() || x == (RoleTypes)RoleId.Get<SpectatorRole>());
     }
 
     private static void AssignRoles(List<NetworkedPlayerInfo> infected)
@@ -202,12 +202,12 @@ public static class TouRoleManagerPatches
             }
         }
 
-        var excluded = MiscUtils.AllRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role);
+        var excluded = MiscUtils.AllRegisteredRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role);
 
         var impRoles =
             MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Impostor, impCount, x => !excluded.Contains(x.Role));
 
-        var uniqueRole = MiscUtils.AllRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
+        var uniqueRole = MiscUtils.AllRegisteredRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
         if (uniqueRole != null && impRoles.Contains(RoleId.Get(uniqueRole.GetType())))
         {
             impCount = 1;
@@ -421,6 +421,7 @@ public static class TouRoleManagerPatches
             impCount -= 1;
         }
 
+        // This needs to be adjusted for NKs and Impostors
         while (impCount + anySlots < impostors.Count)
         {
             buckets.Shuffle();
@@ -498,7 +499,7 @@ public static class TouRoleManagerPatches
             crewFilter = x => x.Role != (RoleTypes)RoleId.Get<SpyRole>();
         }
 
-        var excluded = MiscUtils.AllRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role).ToList();
+        var excluded = MiscUtils.AllRegisteredRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role).ToList();
 
         var crewInvestRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateInvestigative, crewFilter);
         var crewKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateKilling);
@@ -659,7 +660,7 @@ public static class TouRoleManagerPatches
         var chosenImpRoles = impRoles.Take(impCount).ToList();
         chosenImpRoles = chosenImpRoles.Pad(impCount, (ushort)RoleTypes.Impostor);
 
-        var uniqueRole = MiscUtils.AllRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
+        var uniqueRole = MiscUtils.AllRegisteredRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
         if (uniqueRole != null && chosenImpRoles.Contains(RoleId.Get(uniqueRole.GetType())))
         {
             impCount = 1;
@@ -721,7 +722,7 @@ public static class TouRoleManagerPatches
 
     public static IEnumerator CoAssignTargets()
     {
-        foreach (var role in MiscUtils.AllRoles.Where(x => x is IAssignableTargets)
+        foreach (var role in MiscUtils.AllRegisteredRoles.Where(x => x is IAssignableTargets)
                      .OrderBy(x => (x as IAssignableTargets)!.Priority))
         {
             if (role is IAssignableTargets assignRole)
@@ -772,6 +773,7 @@ public static class TouRoleManagerPatches
             .Excluding(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
         players.Shuffle();
 
+        // TODO: PATCH THE GETTER FOR THIS!!!
         var impCount = GameOptionsManager.Instance.CurrentGameOptions.GetAdjustedNumImpostors(players.Count);
         List<NetworkedPlayerInfo> infected = [];
 

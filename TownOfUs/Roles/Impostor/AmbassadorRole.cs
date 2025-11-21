@@ -217,8 +217,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             }
         }
 
-        var excluded = MiscUtils.AllRoles
-            .Where(x => x is ISpawnChange { NoSpawn: true } || x is ITownOfUsRole
+        var excluded = MiscUtils.AllRegisteredRoles
+            .Where(x => x is ISpawnChange { NoSpawn: true } || x.Role is RoleTypes.Impostor || x.IsDead || x is ITownOfUsRole
             {
                 RoleAlignment: RoleAlignment.ImpostorPower
             }).Select(x => x.Role).ToList();
@@ -243,19 +243,37 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         }
 
         var roleList = MiscUtils.GetPotentialRoles()
-            .Where(role => role is ICustomRole)
-            .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+            .Where(role => impRoles.Contains((ushort)role.Role))
             .ToList();
+
+        if (TutorialManager.InstanceExists)
+        {
+            impRoles = MiscUtils.GetRegisteredRoles(ModdedRoleTeams.Impostor)
+                .Where(x => !excluded.Contains(x.Role))
+                .Select(x => (ushort)x.Role).ToList();
+            roleList = MiscUtils.AllRegisteredRoles
+                .Where(role => impRoles.Contains((ushort)role.Role))
+                .ToList();
+        }
 
         if (!player._object.Is(RoleAlignment.ImpostorKilling) && !player._object.Is(RoleAlignment.ImpostorPower))
         {
             var curRoleList = MiscUtils.GetPotentialRoles()
-                .Where(role => role is ICustomRole)
                 .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
                 .ToList();
+
+            if (TutorialManager.InstanceExists)
+            {
+                impRoles = MiscUtils.GetRegisteredRoles(ModdedRoleTeams.Impostor)
+                    .Where(x => !excluded.Contains(x.Role))
+                    .Select(x => (ushort)x.Role).ToList();
+                curRoleList = MiscUtils.AllRegisteredRoles
+                    .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+                    .ToList();
+            }
             foreach (var roleBehaviour in curRoleList)
             {
-                if (roleBehaviour is ITownOfUsRole touRole && touRole.RoleAlignment == RoleAlignment.ImpostorKilling)
+                if (roleBehaviour.GetRoleAlignment() == RoleAlignment.ImpostorKilling)
                 {
                     roleList.Remove(roleBehaviour);
                 }

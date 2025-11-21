@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
 
@@ -23,7 +23,7 @@ public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     [HideFromIl2Cpp] public List<byte> InvestigatedPlayers { get; init; } = new();
 
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string LocaleKey => "Detective";
+    public string LocaleKey => "Forensic";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
@@ -106,7 +106,7 @@ public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 
     public void ExaminePlayer(PlayerControl player)
     {
-        var text = TouLocale.GetParsed("TouRoleDetectiveAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
+        var text = TouLocale.GetParsed("TouRoleForensicAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
         if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene != null && InvestigatingScene.DeadPlayer != null)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
@@ -117,7 +117,7 @@ public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         else
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.green));
-            text = TouLocale.GetParsed("TouRoleDetectiveNotAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
+            text = TouLocale.GetParsed("TouRoleForensicNotAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
         }
         var notif1 = Helpers.CreateAndShowNotification(text,
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Detective.LoadAsset());
@@ -126,7 +126,7 @@ public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 
     public void Report(byte deadPlayerId)
     {
-        var areReportsEnabled = OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveReportOn;
+        var areReportsEnabled = OptionGroupSingleton<ForensicOptions>.Instance.ForensicReportOn;
 
         if (!areReportsEnabled)
         {
@@ -155,15 +155,15 @@ public sealed class DetectiveTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
             KillAge = (float)(DateTime.UtcNow - killer.KillTime).TotalMilliseconds
         };
 
-        var reportMsg = BodyReport.ParseDetectiveReport(br);
+        var reportMsg = BodyReport.ParseForensicReport(br);
 
         if (string.IsNullOrWhiteSpace(reportMsg))
         {
             return;
         }
 
-        // Send the message through chat only visible to the detective
-        var title = $"<color=#{TownOfUsColors.Detective.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleDetectiveMessageTitle")}</color>";
+        // Send the message through chat only visible to the forensic
+        var title = $"<color=#{TownOfUsColors.Detective.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleForensicMessageTitle")}</color>";
         var reported = Player;
         if (br.Body != null)
         {

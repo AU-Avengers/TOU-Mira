@@ -152,7 +152,7 @@ public static class HunterEvents
 
         var mod = source.GetModifier<HunterStalkedModifier>();
 
-        if (mod?.Hunter == null || !source.AmOwner)
+        if (mod?.Hunter == null || !(TutorialManager.InstanceExists || source.AmOwner))
         {
             return;
         }

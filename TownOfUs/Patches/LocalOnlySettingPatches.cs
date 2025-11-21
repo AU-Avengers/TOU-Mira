@@ -49,7 +49,7 @@ public static class LocalSettings
 
             switch (player.Data.Role)
             {
-                case PhantomTouRole { Caught: false }:
+                case SpectreRole { Caught: false }:
                 case HaunterRole { Caught: false }:
                     continue;
             }

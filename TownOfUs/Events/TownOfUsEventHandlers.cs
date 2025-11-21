@@ -325,7 +325,7 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance
             .MaxWatches);
         CustomButtonSingleton<TrackerTrackButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<TrackerTrackButton>.Instance.SetUses((int)OptionGroupSingleton<TrackerOptions>.Instance
+        CustomButtonSingleton<TrackerTrackButton>.Instance.SetUses((int)OptionGroupSingleton<SonarOptions>.Instance
             .MaxTracks);
         CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
@@ -640,7 +640,7 @@ public static class TownOfUsEventHandlers
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<GeneralOptions>.Instance.PlayerCountWhenVentsDisable;
+            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable;
 
             if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&
                 PlayerControl.LocalPlayer.Data.Role is not IGhostRole)
@@ -789,12 +789,20 @@ public static class TownOfUsEventHandlers
         {
             voteArea.Overlay.gameObject.SetActive(true);
         }
-        catch (Exception e)
+        catch
         {
-            System.Console.WriteLine(e);
+            // ignored
         }
         animation.Destroy();
-        voteArea.XMark.gameObject.SetActive(true);
+        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
+        try
+        {
+            voteArea.XMark.gameObject.SetActive(true);
+        }
+        catch
+        {
+            // ignored
+        }
         SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
         Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
     }

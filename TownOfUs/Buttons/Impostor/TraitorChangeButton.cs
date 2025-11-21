@@ -1,4 +1,5 @@
-﻿using MiraAPI.GameOptions;
+﻿using AmongUs.GameOptions;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Roles;
 using MiraAPI.Utilities.Assets;
@@ -36,8 +37,8 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
     {
         if (Role.ChosenRoles.Count == 0)
         {
-            var excluded = MiscUtils.AllRoles
-                .Where(x => x is ISpawnChange { NoSpawn: true } || x is ITownOfUsRole
+            var excluded = MiscUtils.AllRegisteredRoles
+                .Where(x => x is ISpawnChange { NoSpawn: true } || x.Role is RoleTypes.Impostor || x.IsDead || x is ITownOfUsRole
                 {
                     RoleAlignment: RoleAlignment.ImpostorPower
                 }).Select(x => x.Role).ToList();
@@ -45,11 +46,22 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
                 .Select(x => x.RoleType).ToList();
 
             var roleList = MiscUtils.GetPotentialRoles()
-                .Where(role => role is ICustomRole)
                 .Where(role => role is not ITraitorIgnore ignore || !ignore.IsIgnored)
-                .Where(role => impRoles.Contains(RoleId.Get(role.GetType())))
+                .Where(role => impRoles.Contains((ushort)role.Role))
                 .Where(role => role is not TraitorRole)
                 .ToList();
+
+            if (TutorialManager.InstanceExists)
+            {
+                impRoles = MiscUtils.GetRegisteredRoles(ModdedRoleTeams.Impostor)
+                    .Where(x => !excluded.Contains(x.Role))
+                    .Select(x => (ushort)x.Role).ToList();
+                roleList = MiscUtils.AllRegisteredRoles
+                    .Where(role => role is not ITraitorIgnore ignore || !ignore.IsIgnored)
+                    .Where(role => impRoles.Contains((ushort)role.Role))
+                    .Where(role => role is not TraitorRole)
+                    .ToList();
+            }
 
             if (OptionGroupSingleton<TraitorOptions>.Instance.RemoveExistingRoles)
             {

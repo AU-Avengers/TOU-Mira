@@ -12,6 +12,7 @@ using TownOfUs.Modules;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events;
@@ -152,18 +153,18 @@ public static class DeathEventHandlers
                         mirror.ContainedRole = null;
                         break;
                     default:
-                        var touRole = role as ITownOfUsRole;
-                        if (touRole == null || touRole.LocaleKey == "KEY_MISS" ||
-                            TouLocale.Get($"DiedTo{touRole.LocaleKey}").Contains("STRMISS"))
+                        var localeKey = role.GetRoleLocaleKey();
+                        if (localeKey == "KEY_MISS" ||
+                            TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
                         {
                             break;
                         }
 
-                        cod = touRole.LocaleKey;
+                        cod = localeKey;
                         break;
                 }
 
-                if (source.Data.Role is PhantomTouRole phantomTouRole)
+                if (source.Data.Role is SpectreRole phantomTouRole)
                 {
                     role = source.Data.Role;
                     cod = phantomTouRole.LocaleKey;
@@ -210,18 +211,18 @@ public static class DeathEventHandlers
                         mirror.ContainedRole = null;
                         break;
                     default:
-                        var touRole = role as ITownOfUsRole;
-                        if (touRole == null || touRole.LocaleKey == "KEY_MISS" ||
-                            TouLocale.Get($"DiedTo{touRole.LocaleKey}").Contains("STRMISS"))
+                        var localeKey = role.GetRoleLocaleKey();
+                        if (localeKey == "KEY_MISS" ||
+                            TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
                         {
                             break;
                         }
 
-                        cod = touRole.LocaleKey;
+                        cod = localeKey;
                         break;
                 }
 
-                if (source.Data.Role is PhantomTouRole phantomTouRole)
+                if (source.Data.Role is SpectreRole phantomTouRole)
                 {
                     role = source.Data.Role;
                     cod = phantomTouRole.LocaleKey;

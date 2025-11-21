@@ -118,10 +118,6 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
         config.Bind("Miscellaneous", "ShowSummaryMessage", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> VanillaWikiEntriesToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowVanillaWikiEntries", false);
 }
 
 public enum ArrowStyleType

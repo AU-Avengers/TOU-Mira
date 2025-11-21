@@ -15,8 +15,8 @@ public static class TrackerEvents
     [RegisterEvent]
     public static void CompleteTaskEvent(CompleteTaskEvent @event)
     {
-        var opt = OptionGroupSingleton<TrackerOptions>.Instance;
-        if (@event.Player.AmOwner && @event.Player.Data.Role is TrackerTouRole &&
+        var opt = OptionGroupSingleton<SonarOptions>.Instance;
+        if (@event.Player.AmOwner && @event.Player.Data.Role is SonarRole &&
             opt.TaskUses && !opt.ResetOnNewRound)
         {
             var button = CustomButtonSingleton<TrackerTrackButton>.Instance;
@@ -29,17 +29,17 @@ public static class TrackerEvents
     [RegisterEvent]
     public static void EjectionEventEventHandler(EjectionEvent @event)
     {
-        if (!OptionGroupSingleton<TrackerOptions>.Instance.ResetOnNewRound)
+        if (!OptionGroupSingleton<SonarOptions>.Instance.ResetOnNewRound)
         {
             return;
         }
 
-        foreach (var tracker in CustomRoleUtils.GetActiveRolesOfType<TrackerTouRole>())
+        foreach (var tracker in CustomRoleUtils.GetActiveRolesOfType<SonarRole>())
         {
             tracker.Clear();
         }
 
         var button = CustomButtonSingleton<TrackerTrackButton>.Instance;
-        button.SetUses((int)OptionGroupSingleton<TrackerOptions>.Instance.MaxTracks);
+        button.SetUses((int)OptionGroupSingleton<SonarOptions>.Instance.MaxTracks);
     }
 }

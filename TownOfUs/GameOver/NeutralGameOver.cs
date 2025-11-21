@@ -28,7 +28,7 @@ public sealed class NeutralGameOver : CustomGameOver
         Error(
             $"VerifyCondition - mainRole: '{mainRole.GetRoleName()}', IsDead: '{role.IsDead}'");
 
-        if (role.IsDead && role is not PhantomTouRole or HaunterRole)
+        if (role.IsDead && role is not SpectreRole or HaunterRole)
         {
             mainRole = role.Player.GetRoleWhenAlive();
 

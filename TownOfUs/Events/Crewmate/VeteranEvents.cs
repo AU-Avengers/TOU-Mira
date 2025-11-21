@@ -109,7 +109,7 @@ public static class VeteranEvents
                 miraEvent.Cancel();
             }
 
-            if (source.AmOwner && !preventAttack && !alertMod.WasAttacked(source))
+            if ((TutorialManager.InstanceExists || source.AmOwner) && !preventAttack && !alertMod.WasAttacked(source))
             {
                 target.RpcCustomMurder(source);
             }

@@ -12,7 +12,7 @@ public static class MedScanMinigameFixedUpdatePatch
     [HarmonyPatch(nameof(MedScanMinigame.FixedUpdate))]
     public static void Prefix(MedScanMinigame __instance)
     {
-        if (OptionGroupSingleton<GeneralOptions>.Instance.ParallelMedbay)
+        if (OptionGroupSingleton<VanillaTweakOptions>.Instance.ParallelMedbay)
         {
             // Allows multiple medbay scans at once
             __instance.medscan.CurrentUser = PlayerControl.LocalPlayer.PlayerId;

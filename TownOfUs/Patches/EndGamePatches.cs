@@ -123,7 +123,7 @@ public static class EndGamePatches
                 }
             }
 
-            if (playerControl.IsRole<PhantomTouRole>() || playerTeam == ModdedRoleTeams.Crewmate)
+            if (playerControl.IsRole<SpectreRole>() || playerTeam == ModdedRoleTeams.Crewmate)
             {
                 playerRoleString.Append(TownOfUsPlugin.Culture,
                     $" {playerControl.TaskInfo()}");

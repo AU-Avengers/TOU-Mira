@@ -121,7 +121,7 @@ public static class WardenEvents
         // Find the warden which fortified the target
         var warden = target.GetModifier<WardenFortifiedModifier>()?.Warden.GetRole<WardenRole>();
 
-        if (warden != null && source.AmOwner)
+        if (warden != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
             WardenRole.RpcWardenNotify(warden.Player, source, target);
         }

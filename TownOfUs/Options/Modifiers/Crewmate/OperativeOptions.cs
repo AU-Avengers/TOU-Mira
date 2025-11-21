@@ -13,7 +13,7 @@ public sealed class OperativeOptions : AbstractOptionGroup<OperativeModifier>
 
     public override Color GroupColor => new(0.8f, 0.33f, 0.37f, 1f);
 
-    // THESE BREAK THE CAMERA MINIGAME!!
+    // THESE BREAK THE CAMERA MINIFairyME!!
 /*
         [ModdedToggleOption("Move While Using Cameras")]
         public bool MoveWithCams { get; set; } = false;

@@ -1,5 +1,4 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.Modifiers;
@@ -465,21 +464,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
 
             var comparer = new RoleComparer(roleList);
-            var allRoles = MiscUtils.AllRoles.ToList();
-            if (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.VanillaWikiEntriesToggle.Value)
-            {
-                // allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Crewmate));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
-                // allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Shapeshifter));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Phantom));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
-            }
+            var allRoles = MiscUtils.AllRegisteredRoles.ToList();
 
             var roles = allRoles.OrderBy(x => x, comparer);
 

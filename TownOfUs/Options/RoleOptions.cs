@@ -49,8 +49,17 @@ public sealed class RoleOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias
         };
 
+    public ModdedToggleOption GuaranteedImpostor { get; } =
+        new("Guaranteed Impostor", true);
+
     [ModdedToggleOption("Role List Enabled")]
     public bool RoleListEnabled { get; set; } = true;
+
+    /*public ModdedEnumOption GuaranteedKiller { get; } =
+        new("Guaranteed Killer", (int)RequiredKiller.ImpostorOrNeutralKiller, typeof(RequiredKiller), ["Impostor", "Neutral Killer", "Impostor or Neutral Killer"])
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+        };*/
 
     public ModdedEnumOption Slot1 { get; } =
         new("Slot 1", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
@@ -189,6 +198,13 @@ public sealed class RoleOptions : AbstractOptionGroup
         {
             Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
         };
+}
+
+public enum RequiredKiller
+{
+    Impostor,
+    NeutralKiller,
+    ImpostorOrNeutralKiller,
 }
 
 public enum RoleListOption
