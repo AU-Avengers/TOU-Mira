@@ -1369,4 +1369,10 @@
   <string name="TouModifierDiseasedTriggeredNotif">\%player\% 是 \%modifier\%，你的击杀冷却将乘以 \%cooldownMultiplier\%倍。</string>
   <string name="TouModifierFrostyTriggeredNotif">\%player\% 是 \%modifier\%，你将在 \%time\% 秒内变得更慢。</string>
   <string name="TouModifierTaskmasterTaskNotif">任务 \%taskName\%已为你自动完成。</string>
+  <string name="SpectatorStartError">游戏正在开始时你无法切换观战模式！</string>
+  <string name="DiedToViper">被溶解</string>
+  <string name="FreeplayKillButton">远程击杀</string>
+  <string name="FreeplaySetRoleButton">设置职业</string>
+  <string name="FreeplayRestartButton">重置游戏</string>
+  <string name="FreeplayRestartPopup">所有死亡玩家已被复活，任务已重置！</string>
 </resources>
