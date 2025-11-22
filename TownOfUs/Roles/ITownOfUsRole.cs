@@ -14,6 +14,11 @@ public interface ITownOfUsRole : ICustomRole
     public virtual string LocaleKey => "KEY_MISS";
     public static Dictionary<string, string> LocaleList => [];
 
+    public CustomRoleConfiguration Configuration => new(this)
+    {
+        /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.Normal*/
+    };
+
     public virtual string YouAreText
     {
         get
@@ -118,6 +123,36 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.NeutralKiller;
             }
 
+            if (RoleAlignment == RoleAlignment.CrewmateHider)
+            {
+                return TouRoleGroups.CrewHider;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorSeeker)
+            {
+                return TouRoleGroups.ImpSeeker;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorCultist || RoleAlignment == RoleAlignment.ImpostorRecruit)
+            {
+                return TouRoleGroups.ImpCultist;
+            }
+
+            if (RoleAlignment == RoleAlignment.CrewmateBeliever)
+            {
+                return TouRoleGroups.CrewBeliever;
+            }
+
+            if (RoleAlignment == RoleAlignment.CrewmateObstinate)
+            {
+                return TouRoleGroups.CrewObstinate;
+            }
+
+            if (RoleAlignment == RoleAlignment.NeutralObstinate)
+            {
+                return TouRoleGroups.NeutralObstinate;
+            }
+
             if (RoleAlignment == RoleAlignment.GameOutlier)
             {
                 return TouRoleGroups.Other;
@@ -170,6 +205,7 @@ public interface ITownOfUsRole : ICustomRole
 
 public enum RoleAlignment
 {
+    // Base Town of Us Alignments
     CrewmateInvestigative,
     CrewmateKilling,
     CrewmateProtective,
@@ -183,5 +219,14 @@ public enum RoleAlignment
     NeutralEvil,
     NeutralOutlier,
     NeutralKilling,
-    GameOutlier // I honestly have no idea what else to put here lol
+    GameOutlier, // I honestly have no idea what else to put here 
+    // Hide and Seek Alignments
+    CrewmateHider,
+    ImpostorSeeker,
+    // Cultist Alignments
+    ImpostorCultist,
+    ImpostorRecruit,
+    CrewmateBeliever,
+    CrewmateObstinate,
+    NeutralObstinate,
 }

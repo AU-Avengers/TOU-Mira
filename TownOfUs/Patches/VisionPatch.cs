@@ -20,6 +20,10 @@ public static class VisionPatch
 
     public static void Postfix(ShipStatus __instance, NetworkedPlayerInfo player, ref float __result)
     {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
         if (player == null || player.IsDead)
         {
             __result = __instance.MaxLightRadius;

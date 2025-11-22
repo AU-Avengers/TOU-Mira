@@ -1,5 +1,4 @@
 using System.Text;
-using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -22,7 +21,7 @@ public static class HauntMenuMinigamePatch
 {
     public static void Postfix(HauntMenuMinigame __instance)
     {
-        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek)
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;
         }

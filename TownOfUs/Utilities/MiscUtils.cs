@@ -1470,7 +1470,7 @@ public static class MiscUtils
     public static bool IsMap(byte mapid)
     {
         return (GameOptionsManager.Instance != null &&
-                GameOptionsManager.Instance.currentNormalGameOptions.MapId == mapid)
+                GameOptionsManager.Instance.currentGameOptions.MapId == mapid)
                || (TutorialManager.InstanceExists && AmongUsClient.Instance.TutorialMapId == mapid);
     }
 
@@ -1812,6 +1812,13 @@ public static class MiscUtils
             return mapId;
         }
     }
+
+    public static TouGamemode CurrentGamemode()
+    {
+        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek)
+            return TouGamemode.HideAndSeek;
+        return TouGamemode.Normal;
+    }
     public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
     {
         if (!CanSeeAdvancedLogs)
@@ -1881,6 +1888,12 @@ public static class MiscUtils
         Type genericListType = typeof(List<>).MakeGenericType(myType);
         return (IList)Activator.CreateInstance(genericListType)!;
     }
+}
+public enum TouGamemode
+{
+    Normal,
+    HideAndSeek,
+    Cultist
 }
 public enum ExpandedMapNames
 {

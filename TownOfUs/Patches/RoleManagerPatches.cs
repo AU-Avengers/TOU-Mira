@@ -750,9 +750,11 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.Last)]
     public static bool SelectRolesPatch(RoleManager __instance)
     {
-        Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager}");
+        var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+        Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
+        GameManager.Instance.LogicOptions.SyncOptions();
 
-        if (TutorialManager.InstanceExists || ReplaceRoleManager)
+        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
         {
             return true;
         }
@@ -810,7 +812,7 @@ public static class TouRoleManagerPatches
         }
 
         LastImps = [.. infected.Select(x => x.ClientId)];
-        if (OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled)
+        if (assignmentType is RoleSelectionMode.RoleList)
         {
             AssignRolesFromRoleList(infected);
         }
@@ -824,9 +826,15 @@ public static class TouRoleManagerPatches
             player.Object.RpcSetRole(specId);
         }
 
-        AssignTargets();
-
         return false;
+    }
+
+    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
+    [HarmonyPostfix]
+    [HarmonyPriority(Priority.First)]
+    public static void AssignCustomModifiersPatch(RoleManager __instance)
+    {
+        AssignTargets();
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
@@ -925,12 +933,14 @@ public static class TouRoleManagerPatches
     [HarmonyPrefix]
     public static bool GetAdjustedImposters(IGameOptions __instance, ref int __result)
     {
-        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {
             return true;
         }
 
-        if (!OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled)
+        var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+
+        if (assignmentType is not RoleSelectionMode.RoleList)
         {
             return true;
         }

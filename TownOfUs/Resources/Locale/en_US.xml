@@ -96,6 +96,13 @@
   <string name="ImpostorKilling">Impostor Killing</string>
   <string name="ImpostorPower">Impostor Power</string>
   <string name="ImpostorSupport">Impostor Support</string>
+  <string name="CrewmateHider">Crewmate Hider</string>
+  <string name="ImpostorSeeker">Impostor Seeker</string>
+  <string name="ImpostorCultist">Impostor Cultist</string>
+  <string name="ImpostorRecruit">Impostor Recruit</string>
+  <string name="CrewmateBeliever">Crewmate Believer</string>
+  <string name="CrewmateObstinate">Crewmate Obstinate</string>
+  <string name="NeutralObstinate">Neutral Obstinate</string>
   <!-- Role Buckets with Role List -->
   <string name="CommonCrew">Common Crew</string>
   <string name="SpecialCrew">Special Crew</string>
@@ -292,6 +299,13 @@
   <string name="TouRoleSpectatorIntroBlurb">Watch The Chaos From Afar</string>
   <string name="TouRoleSpectatorTabDescription">Never participate, watch as the chaos unfolds in-game!</string>
   <string name="TouRoleSpectatorWikiDescription">You don't participate in-game nor interact with players. All you can do is watch.</string>
+  <!-- Mystic - Crewmate Hider -->
+  <!-- Mystic Wiki / Description -->
+  <string name="TouRoleHiderMystic">Mystic</string>
+  <string name="TouRoleHiderMysticTabDescription">Understand where kills happen</string>
+  <string name="TouRoleHiderMysticWikiDescription">The Mystic is a Crewmate hider that gets an arrow pointing to every kill.</string>
+  <!-- Mystic Options -->
+  <string name="TouOptionHiderMysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
   <!-- Crewmate Roles -->
   <!-- Altruist - Crewmate Protective -->
   <string name="TouRoleAltruist">Altruist</string>

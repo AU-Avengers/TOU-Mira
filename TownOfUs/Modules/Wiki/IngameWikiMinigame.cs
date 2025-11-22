@@ -470,7 +470,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
             foreach (var role in roles)
             {
-                if (role is not IWikiDiscoverable && !SoftWikiEntries.RoleEntries.ContainsKey(role))
+                if (!SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable || role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList)
                 {
                     continue;
                 }

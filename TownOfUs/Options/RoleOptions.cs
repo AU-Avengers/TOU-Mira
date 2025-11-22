@@ -49,154 +49,152 @@ public sealed class RoleOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias
         };
 
-    public ModdedToggleOption GuaranteedImpostor { get; } =
-        new("Guaranteed Impostor", true);
+    public ModdedEnumOption RoleAssignmentType { get; } =
+        new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List"]);
 
-    [ModdedToggleOption("Role List Enabled")]
-    public bool RoleListEnabled { get; set; } = true;
-
+    public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
     /*public ModdedEnumOption GuaranteedKiller { get; } =
         new("Guaranteed Killer", (int)RequiredKiller.ImpostorOrNeutralKiller, typeof(RequiredKiller), ["Impostor", "Neutral Killer", "Impostor or Neutral Killer"])
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };*/
 
     public ModdedEnumOption Slot1 { get; } =
         new("Slot 1", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot2 { get; } =
         new("Slot 2", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot3 { get; } =
         new("Slot 3", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot4 { get; } =
         new("Slot 4", (int)RoleListOption.ImpCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot5 { get; } =
         new("Slot 5", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot6 { get; } =
         new("Slot 6", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot7 { get; } =
         new("Slot 7", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot8 { get; } =
         new("Slot 8", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot9 { get; } =
         new("Slot 9", (int)RoleListOption.ImpCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot10 { get; } =
         new("Slot 10", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot11 { get; } =
         new("Slot 11", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot12 { get; } =
         new("Slot 12", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot13 { get; } =
         new("Slot 13", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot14 { get; } =
         new("Slot 14", (int)RoleListOption.ImpCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedEnumOption Slot15 { get; } =
         new("Slot 15", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.RoleList
         };
 
     public ModdedNumberOption MinNeutralBenign { get; } =
         new("Min Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralBenign { get; } =
         new("Max Neutral Benign", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.MinMaxList
         };
 
     public ModdedNumberOption MinNeutralEvil { get; } =
         new("Min Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralEvil { get; } =
         new("Max Neutral Evil", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.MinMaxList
         };
 
     public ModdedNumberOption MinNeutralKiller { get; } =
         new("Min Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralKiller { get; } =
         new("Max Neutral Killer", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.MinMaxList
         };
 
     public ModdedNumberOption MinNeutralOutlier { get; } =
         new("Min Neutral Outliers", 0f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralOutlier { get; } =
         new("Max Neutral Outliers", 0f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
         {
-            Visible = () => !OptionGroupSingleton<RoleOptions>.Instance.RoleListEnabled
+            Visible = () => (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value is RoleSelectionMode.MinMaxList
         };
 }
 
@@ -205,6 +203,13 @@ public enum RequiredKiller
     Impostor,
     NeutralKiller,
     ImpostorOrNeutralKiller,
+}
+
+public enum RoleSelectionMode
+{
+    Vanilla,
+    RoleList,
+    MinMaxList,
 }
 
 public enum RoleListOption

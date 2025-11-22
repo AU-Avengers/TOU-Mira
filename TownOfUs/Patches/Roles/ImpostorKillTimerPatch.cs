@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Roles;
@@ -10,6 +11,10 @@ public static class ImpostorKillTimerPatch
     [HarmonyPrefix]
     public static bool SetKillTimerPatch(PlayerControl __instance, ref float time)
     {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return true;
+        }
         if (__instance.Data.Role.CanUseKillButton)
         {
             if (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown <= 0f)
