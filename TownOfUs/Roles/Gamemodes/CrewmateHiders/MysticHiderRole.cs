@@ -28,6 +28,11 @@ public sealed class MysticHiderRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     private bool isExitVentQueued;
 
+    public override void AppendTaskHint(Il2CppSystem.Text.StringBuilder taskStringBuilder)
+    {
+        taskStringBuilder.AppendLine($"\n{RoleLongDescription}");
+    }
+
     public void Awake()
     {
         var engineer = RoleManager.Instance.GetRole(RoleTypes.Engineer).Cast<EngineerRole>();
@@ -219,7 +224,7 @@ public sealed class MysticHiderRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    public Color RoleColor => Palette.CrewmateBlue;
+    public Color RoleColor => TownOfUsColors.Mystic;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateHider;
 
@@ -227,7 +232,8 @@ public sealed class MysticHiderRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
-        Icon = TouRoleIcons.Mystic
+        Icon = TouRoleIcons.Mystic,
+        RoleHintType = RoleHintType.TaskHint
     };
 
     public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;

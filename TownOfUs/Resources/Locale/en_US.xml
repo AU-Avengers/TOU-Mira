@@ -302,7 +302,7 @@
   <!-- Mystic - Crewmate Hider -->
   <!-- Mystic Wiki / Description -->
   <string name="TouRoleHiderMystic">Mystic</string>
-  <string name="TouRoleHiderMysticTabDescription">Understand where kills happen</string>
+  <string name="TouRoleHiderMysticTabDescription">Mystic Hint\%nl\%Understand where kills happen.</string>
   <string name="TouRoleHiderMysticWikiDescription">The Mystic is a Crewmate hider that gets an arrow pointing to every kill.</string>
   <!-- Mystic Options -->
   <string name="TouOptionHiderMysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
