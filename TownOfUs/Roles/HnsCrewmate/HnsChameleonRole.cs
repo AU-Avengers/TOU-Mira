@@ -13,7 +13,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 {
     public string LocaleKey => "Chameleon";
     public string RoleName => TouLocale.Get($"HnsRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"HnsRole{LocaleKey}IntroBlurb");
+    public string RoleDescription => "...";
     public string RoleLongDescription => TouLocale.GetParsed($"HnsRole{LocaleKey}TabDescription");
     public string RoleHintText => TouLocale.GetParsed($"HnsRole{LocaleKey}TabHint");
 
@@ -61,6 +61,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
 
     public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
+    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
     public override bool IsAffectedByComms => false;
 
     private Vent currentTarget;

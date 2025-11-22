@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Roles;
+using TownOfUs.Options;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Roles;
@@ -18,6 +20,7 @@ public interface ITownOfUsRole : ICustomRole
     {
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.Normal*/
     };
+    Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
 
     public virtual string YouAreText
     {

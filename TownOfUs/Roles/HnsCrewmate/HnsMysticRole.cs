@@ -43,6 +43,7 @@ public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
 
     public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
+    Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
     public override bool IsAffectedByComms => false;
 
     private Vent currentTarget;

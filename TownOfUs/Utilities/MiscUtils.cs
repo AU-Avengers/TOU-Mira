@@ -1817,7 +1817,7 @@ public static class MiscUtils
 
     public static TouGamemode CurrentGamemode()
     {
-        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek)
+        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
             return TouGamemode.HideAndSeek;
         return TouGamemode.Normal;
     }

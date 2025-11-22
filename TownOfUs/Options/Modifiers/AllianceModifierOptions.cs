@@ -8,6 +8,7 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class AllianceModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => "Alliance Modifiers";
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override Color GroupColor => Color.white;
     public override bool ShowInModifiersMenu => true;
     public override uint GroupPriority => 0;
