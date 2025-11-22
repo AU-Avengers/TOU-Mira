@@ -16,6 +16,7 @@ public sealed class MysticHiderRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => "...";
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string RoleHintText => TouLocale.GetParsed($"TouRole{LocaleKey}TabHint");
     public override bool IsAffectedByComms => false;
 
     private Vent currentTarget;
@@ -30,7 +31,7 @@ public sealed class MysticHiderRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public override void AppendTaskHint(Il2CppSystem.Text.StringBuilder taskStringBuilder)
     {
-        taskStringBuilder.AppendLine($"\n{RoleLongDescription}");
+        taskStringBuilder.AppendLine($"\n{RoleHintText}\n{RoleLongDescription}");
     }
 
     public void Awake()
