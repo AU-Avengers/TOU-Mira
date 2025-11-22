@@ -99,7 +99,7 @@
   <string name="CrewmateHider">Crewmate Hider</string>
   <string name="ImpostorSeeker">Impostor Seeker</string>
   <string name="ImpostorCultist">Impostor Cultist</string>
-  <string name="ImpostorRecruit">Impostor Recruit</string>
+  <string name="ImpostorFollower">Impostor Follower</string>
   <string name="CrewmateBeliever">Crewmate Believer</string>
   <string name="CrewmateObstinate">Crewmate Obstinate</string>
   <string name="NeutralObstinate">Neutral Obstinate</string>
@@ -299,14 +299,35 @@
   <string name="TouRoleSpectatorIntroBlurb">Watch The Chaos From Afar</string>
   <string name="TouRoleSpectatorTabDescription">Never participate, watch as the chaos unfolds in-game!</string>
   <string name="TouRoleSpectatorWikiDescription">You don't participate in-game nor interact with players. All you can do is watch.</string>
-  <!-- Mystic - Crewmate Hider -->
+  <!-- Hide and Seek - Hiders -->
   <!-- Mystic Wiki / Description -->
-  <string name="TouRoleHiderMystic">Mystic</string>
-  <string name="TouRoleHiderMysticTabHint">Mystic Hint</string>
-  <string name="TouRoleHiderMysticTabDescription">Understand where kills happen.</string>
-  <string name="TouRoleHiderMysticWikiDescription">The Mystic is a Crewmate that gets an arrow pointing to every kill.</string>
-  <!-- Mystic Options -->
-  <string name="TouOptionHiderMysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
+  <string name="HnsRoleMystic">Mystic</string>
+  <string name="HnsRoleMysticTabHint">Mystic Hint</string>
+  <string name="HnsRoleMysticTabDescription">Understand where kills happen.</string>
+  <string name="HnsRoleMysticWikiDescription">The Mystic is a Crewmate that gets an arrow pointing to every kill.</string>
+  <!-- Chameleon Wiki / Description -->
+  <string name="HnsRoleChameleon">Chameleon</string>
+  <string name="HnsRoleChameleonTabHint">Chameleon Hint</string>
+  <string name="HnsRoleChameleonTabDescription">Hide away from the seeker temporarily.</string>
+  <string name="HnsRoleChameleonWikiDescription">The Chameleon is a Crewmate that can temporarily go invisible to hide from the seeker.</string>
+  <string name="HnsRoleChameleonSwoop">Swoop</string>
+  <string name="HnsRoleChameleonSwoopWikiDescription">Turn invisible to the seeker.</string>
+  <string name="HnsRoleChameleonUnswoop">Unswoop</string>
+  <string name="HnsRoleChameleonUnswoopWikiDescription">Cancel your swoop early, or let it finish fully to make yourself visible once again.</string>
+  <!-- Swooper Options -->
+  <string name="HnsOptionChameleonSwoopUsesPerRound">Swoop Uses Per Round</string>
+  <string name="HnsOptionChameleonSwoopCooldown">Swoop Cooldown</string>
+  <string name="HnsOptionChameleonSwoopDuration">Swoop Duration</string>
+  <string name="HnsOptionChameleonCanVent">Chameleon Can Vent</string>
+  <!-- Cultist Mode - Impostors -->
+  <!-- Necromancer - Impostor Cultist -->
+  <string name="CultistRoleNecromancer">Necromancer</string>
+  <string name="CultistRoleNecromancerIntroBlurb">Revive The Dead To Do Your Bidding</string>
+  <string name="CultistRoleNecromancerTabDescription">Kill crewmates and convert believers\%nl\into equivalent impostor roles!</string>
+  <string name="CultistRoleNecromancerWikiDescription">The Necromancer is an Impostor Cultist role that can kill players like normal, but can also revive Crewmate Believers into Impostor Followers.</string>
+  <string name="CultistRoleNecromancerRevive">Revive</string>
+  <string name="CultistRoleNecromancerReviving">Reviving</string>
+  <string name="CultistRoleNecromancerReviveWikiDescription">Revive the closest convertible body into an impostor.</string>
   <!-- Crewmate Roles -->
   <!-- Altruist - Crewmate Protective -->
   <string name="TouRoleAltruist">Altruist</string>

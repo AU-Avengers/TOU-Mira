@@ -13,6 +13,7 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
+    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek && MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle;
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Spy";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

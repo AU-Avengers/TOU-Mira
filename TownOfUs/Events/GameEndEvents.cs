@@ -28,14 +28,14 @@ public static class EndGameEvents
         }
 
         if (reason is GameOverReason.CrewmatesByVote or GameOverReason.CrewmatesByTask
-            or GameOverReason.ImpostorDisconnect)
+            or GameOverReason.ImpostorDisconnect or GameOverReason.HideAndSeek_CrewmatesByTimer)
         {
             winType = 1;
             GameHistory.WinningFaction =
                 $"<color=#{Palette.CrewmateBlue.ToHtmlStringRGBA()}>{TouLocale.Get("CrewmateWin")}</color>";
         }
         else if (reason is GameOverReason.ImpostorsByKill or GameOverReason.ImpostorsBySabotage
-                 or GameOverReason.ImpostorsByVote or GameOverReason.CrewmateDisconnect)
+                 or GameOverReason.ImpostorsByVote or GameOverReason.CrewmateDisconnect or GameOverReason.HideAndSeek_ImpostorsByKills)
         {
             winType = 2;
             GameHistory.WinningFaction =

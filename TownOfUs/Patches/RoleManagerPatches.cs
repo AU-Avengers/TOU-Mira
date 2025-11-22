@@ -202,12 +202,12 @@ public static class TouRoleManagerPatches
             }
         }
 
-        var excluded = MiscUtils.AllRegisteredRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role);
+        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role);
 
         var impRoles =
             MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Impostor, impCount, x => !excluded.Contains(x.Role));
 
-        var uniqueRole = MiscUtils.AllRegisteredRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
+        var uniqueRole = MiscUtils.SpawnableRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
         if (uniqueRole != null && impRoles.Contains(RoleId.Get(uniqueRole.GetType())))
         {
             impCount = 1;
@@ -231,14 +231,7 @@ public static class TouRoleManagerPatches
 
         var crewCount = crewmates.Count - nbRoles.Count - neRoles.Count - nkRoles.Count - noRoles.Count;
 
-        Func<RoleBehaviour, bool>? crewFilter = null;
-
-        if ((MapNames)GameOptionsManager.Instance.GameHostOptions.MapId == MapNames.Fungle)
-        {
-            crewFilter = x => x.Role != (RoleTypes)RoleId.Get<SpyRole>();
-        }
-
-        var crewRoles = MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Crewmate, crewCount, crewFilter);
+        var crewRoles = MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Crewmate, crewCount);
 
         var crewAndNeutRoles = new List<ushort>();
         crewAndNeutRoles.AddRange(nbRoles);
@@ -493,24 +486,18 @@ public static class TouRoleManagerPatches
             }
         }
 
-        Func<RoleBehaviour, bool>? crewFilter = null;
-        if ((MapNames)GameOptionsManager.Instance.GameHostOptions.MapId == MapNames.Fungle)
-        {
-            crewFilter = x => x.Role != (RoleTypes)RoleId.Get<SpyRole>();
-        }
+        var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role).ToList();
 
-        var excluded = MiscUtils.AllRegisteredRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role).ToList();
-
-        var crewInvestRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateInvestigative, crewFilter);
-        var crewKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateKilling);
-        var crewProtectRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateProtective);
-        var crewPowerRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmatePower);
-        var crewSupportRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateSupport);
-        var neutBenignRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralBenign);
-        var neutEvilRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralEvil);
-        var neutKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralKilling);
-        var neutOutlierRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralOutlier);
-        var impConcealRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorConcealing);
+        var crewInvestRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateInvestigative, x => !excluded.Contains(x.Role));
+        var crewKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateKilling, x => !excluded.Contains(x.Role));
+        var crewProtectRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateProtective, x => !excluded.Contains(x.Role));
+        var crewPowerRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmatePower, x => !excluded.Contains(x.Role));
+        var crewSupportRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateSupport, x => !excluded.Contains(x.Role));
+        var neutBenignRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralBenign, x => !excluded.Contains(x.Role));
+        var neutEvilRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralEvil, x => !excluded.Contains(x.Role));
+        var neutKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralKilling, x => !excluded.Contains(x.Role));
+        var neutOutlierRoles = MiscUtils.GetRolesToAssign(RoleAlignment.NeutralOutlier, x => !excluded.Contains(x.Role));
+        var impConcealRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorConcealing, x => !excluded.Contains(x.Role));
         var impKillingRoles =
             MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorKilling, x => !excluded.Contains(x.Role));
         var impPowerRoles =
@@ -660,7 +647,7 @@ public static class TouRoleManagerPatches
         var chosenImpRoles = impRoles.Take(impCount).ToList();
         chosenImpRoles = chosenImpRoles.Pad(impCount, (ushort)RoleTypes.Impostor);
 
-        var uniqueRole = MiscUtils.AllRegisteredRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
+        var uniqueRole = MiscUtils.SpawnableRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
         if (uniqueRole != null && chosenImpRoles.Contains(RoleId.Get(uniqueRole.GetType())))
         {
             impCount = 1;
@@ -722,7 +709,7 @@ public static class TouRoleManagerPatches
 
     public static IEnumerator CoAssignTargets()
     {
-        foreach (var role in MiscUtils.AllRegisteredRoles.Where(x => x is IAssignableTargets)
+        foreach (var role in MiscUtils.SpawnableRoles.Where(x => x is IAssignableTargets)
                      .OrderBy(x => (x as IAssignableTargets)!.Priority))
         {
             if (role is IAssignableTargets assignRole)
@@ -757,16 +744,6 @@ public static class TouRoleManagerPatches
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
         {
             return true;
-        }
-
-        //Error($"RoleManager.SelectRoles 2");
-        var spectators = GameData.Instance.AllPlayers.ToArray()
-            .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
-        var specId = (RoleTypes)RoleId.Get<SpectatorRole>();
-
-        foreach (var player in spectators)
-        {
-            player.Object.RpcSetRole(RoleTypes.Crewmate);
         }
 
         var random = new System.Random();
@@ -821,11 +798,6 @@ public static class TouRoleManagerPatches
             AssignRoles(infected);
         }
 
-        foreach (var player in spectators)
-        {
-            player.Object.RpcSetRole(specId);
-        }
-
         return false;
     }
 
@@ -834,6 +806,20 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.First)]
     public static void AssignCustomModifiersPatch(RoleManager __instance)
     {
+        var spectators = GameData.Instance.AllPlayers.ToArray()
+            .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
+        var specId = (RoleTypes)RoleId.Get<SpectatorRole>();
+
+        foreach (var player in spectators)
+        {
+            player.Object.RpcSetRole(RoleTypes.Crewmate);
+        }
+
+        foreach (var player in spectators)
+        {
+            player.Object.RpcSetRole(specId);
+        }
+
         AssignTargets();
     }
 

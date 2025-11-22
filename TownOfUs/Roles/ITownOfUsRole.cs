@@ -133,7 +133,7 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.ImpSeeker;
             }
 
-            if (RoleAlignment == RoleAlignment.ImpostorCultist || RoleAlignment == RoleAlignment.ImpostorRecruit)
+            if (RoleAlignment == RoleAlignment.ImpostorCultist || RoleAlignment == RoleAlignment.ImpostorFollower)
             {
                 return TouRoleGroups.ImpCultist;
             }
@@ -225,7 +225,7 @@ public enum RoleAlignment
     ImpostorSeeker,
     // Cultist Alignments
     ImpostorCultist,
-    ImpostorRecruit,
+    ImpostorFollower,
     CrewmateBeliever,
     CrewmateObstinate,
     NeutralObstinate,

@@ -71,6 +71,8 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> AllRegisteredRoles => RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
 
+    public static IEnumerable<RoleBehaviour> SpawnableRoles => AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
         var optionGroups =
@@ -1283,9 +1285,9 @@ public static class MiscUtils
                 }
 
                 if (normalPlayerTask.TaskType is TaskTypes.EmptyGarbage or TaskTypes.EmptyChute
-                    && (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 0 ||
-                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 3 ||
-                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4))
+                    && (GameOptionsManager.Instance.currentGameOptions.MapId == 0 ||
+                        GameOptionsManager.Instance.currentGameOptions.MapId == 3 ||
+                        GameOptionsManager.Instance.currentGameOptions.MapId == 4))
                 {
                     normalPlayerTask.taskStep = 1;
                 }
@@ -1803,7 +1805,7 @@ public static class MiscUtils
     {
         get
         {
-            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
             if (TutorialManager.InstanceExists)
             {
                 mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
