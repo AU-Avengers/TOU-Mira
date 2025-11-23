@@ -771,6 +771,8 @@ public static class HudManagerPatches
             return;
         }
 
+        var roleAssignmentType = OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution();
+
         if (CancelCountdownStart.CancelStartButton && AmongUsClient.Instance.AmHost)
         {
             CancelCountdownStart.CancelStartButton.gameObject.SetActive(
@@ -821,6 +823,11 @@ public static class HudManagerPatches
         else
         {
             RoleList.SetActive(false);
+            if (roleAssignmentType is RoleDistribution.Cultist || roleAssignmentType is RoleDistribution.Vanilla || roleAssignmentType is RoleDistribution.HideAndSeek)
+            {
+                return;
+            }
+
             var objText = RoleList.GetComponent<TextMeshPro>();
             var rolelistBuilder = new StringBuilder();
 
@@ -828,45 +835,47 @@ public static class HudManagerPatches
             var maxSlots = players < 15 ? players : 15;
 
             var list = OptionGroupSingleton<RoleOptions>.Instance;
-            if (list.RoleListEnabled)
+            switch (roleAssignmentType)
             {
-                for (var i = 0; i < maxSlots; i++)
-                {
-                    var slotValue = i switch
+                case RoleDistribution.RoleList:
+                    for (var i = 0; i < maxSlots; i++)
                     {
-                        0 => list.Slot1,
-                        1 => list.Slot2,
-                        2 => list.Slot3,
-                        3 => list.Slot4,
-                        4 => list.Slot5,
-                        5 => list.Slot6,
-                        6 => list.Slot7,
-                        7 => list.Slot8,
-                        8 => list.Slot9,
-                        9 => list.Slot10,
-                        10 => list.Slot11,
-                        11 => list.Slot12,
-                        12 => list.Slot13,
-                        13 => list.Slot14,
-                        14 => list.Slot15,
-                        _ => -1
-                    };
+                        var slotValue = i switch
+                        {
+                            0 => list.Slot1,
+                            1 => list.Slot2,
+                            2 => list.Slot3,
+                            3 => list.Slot4,
+                            4 => list.Slot5,
+                            5 => list.Slot6,
+                            6 => list.Slot7,
+                            7 => list.Slot8,
+                            8 => list.Slot9,
+                            9 => list.Slot10,
+                            10 => list.Slot11,
+                            11 => list.Slot12,
+                            12 => list.Slot13,
+                            13 => list.Slot14,
+                            14 => list.Slot15,
+                            _ => -1
+                        };
 
-                    rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
-                    objText.text = $"<color=#FFD700>{StoredRoleList}:</color>\n{rolelistBuilder}";
-                }
-            }
-            else
-            {
-                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                    $"{NeutralBenigns}: {list.MinNeutralBenign.Value} {StoredMinimum}, {list.MaxNeutralBenign.Value} {StoredMaximum}");
-                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                    $"{NeutralEvils}: {list.MinNeutralEvil.Value} {StoredMinimum}, {list.MaxNeutralEvil.Value} {StoredMaximum}");
-                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                    $"{NeutralKillers}: {list.MinNeutralKiller.Value} {StoredMinimum}, {list.MaxNeutralKiller.Value} {StoredMaximum}");
-                rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                    $"{NeutralOutliers}: {list.MinNeutralOutlier.Value} {StoredMinimum}, {list.MaxNeutralOutlier.Value} {StoredMaximum}");
-                objText.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
+                        rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
+                        objText.text = $"<color=#FFD700>{StoredRoleList}:</color>\n{rolelistBuilder}";
+                    }
+
+                    break;
+                case RoleDistribution.MinMaxList:
+                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                        $"{NeutralBenigns}: {list.MinNeutralBenign.Value} {StoredMinimum}, {list.MaxNeutralBenign.Value} {StoredMaximum}");
+                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                        $"{NeutralEvils}: {list.MinNeutralEvil.Value} {StoredMinimum}, {list.MaxNeutralEvil.Value} {StoredMaximum}");
+                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                        $"{NeutralKillers}: {list.MinNeutralKiller.Value} {StoredMinimum}, {list.MaxNeutralKiller.Value} {StoredMaximum}");
+                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
+                        $"{NeutralOutliers}: {list.MinNeutralOutlier.Value} {StoredMinimum}, {list.MaxNeutralOutlier.Value} {StoredMaximum}");
+                    objText.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
+                    break;
             }
 
             objText.alignment = TextAlignmentOptions.TopLeft;

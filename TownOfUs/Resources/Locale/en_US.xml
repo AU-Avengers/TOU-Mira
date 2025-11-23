@@ -96,6 +96,13 @@
   <string name="ImpostorKilling">Impostor Killing</string>
   <string name="ImpostorPower">Impostor Power</string>
   <string name="ImpostorSupport">Impostor Support</string>
+  <string name="CrewmateHider">Crewmate Hider</string>
+  <string name="ImpostorSeeker">Impostor Seeker</string>
+  <string name="ImpostorCultist">Impostor Cultist</string>
+  <string name="ImpostorFollower">Impostor Follower</string>
+  <string name="CrewmateBeliever">Crewmate Believer</string>
+  <string name="CrewmateObstinate">Crewmate Obstinate</string>
+  <string name="NeutralObstinate">Neutral Obstinate</string>
   <!-- Role Buckets with Role List -->
   <string name="CommonCrew">Common Crew</string>
   <string name="SpecialCrew">Special Crew</string>
@@ -292,6 +299,52 @@
   <string name="TouRoleSpectatorIntroBlurb">Watch The Chaos From Afar</string>
   <string name="TouRoleSpectatorTabDescription">Never participate, watch as the chaos unfolds in-game!</string>
   <string name="TouRoleSpectatorWikiDescription">You don't participate in-game nor interact with players. All you can do is watch.</string>
+  <!-- Hide and Seek - Hiders -->
+  <!-- Chameleon Wiki / Description -->
+  <string name="HnsRoleChameleon">Chameleon</string>
+  <string name="HnsRoleChameleonTabHint">Chameleon Hint</string>
+  <string name="HnsRoleChameleonTabDescription">Hide away from the seeker temporarily.</string>
+  <string name="HnsRoleChameleonWikiDescription">The Chameleon is a Crewmate that can temporarily go invisible to hide from the seeker.</string>
+  <string name="HnsRoleChameleonSwoop">Swoop</string>
+  <string name="HnsRoleChameleonSwoopWikiDescription">Turn invisible to the seeker.</string>
+  <string name="HnsRoleChameleonUnswoop">Unswoop</string>
+  <string name="HnsRoleChameleonUnswoopWikiDescription">Cancel your swoop early, or let it finish fully to make yourself visible once again.</string>
+  <!-- Chameleon Options -->
+  <string name="HnsOptionChameleonSwoopUsesPerRound">Swoop Uses In Total</string>
+  <string name="HnsOptionChameleonSwoopCooldown">Swoop Cooldown</string>
+  <string name="HnsOptionChameleonSwoopDuration">Swoop Duration</string>
+  <string name="HnsOptionChameleonCanVent">Chameleon Can Vent</string>
+  <!-- Mystic Wiki / Description -->
+  <string name="HnsRoleMystic">Mystic</string>
+  <string name="HnsRoleMysticTabHint">Mystic Hint</string>
+  <string name="HnsRoleMysticTabDescription">Understand where kills happen.</string>
+  <string name="HnsRoleMysticWikiDescription">The Mystic is a Crewmate that gets an arrow pointing to every kill.</string>
+  <!-- Mystic Options -->
+  <string name="HnsOptionMysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
+  <!-- Snitch Wiki / Description -->
+  <string name="HnsRoleSnitch">Snitch</string>
+  <string name="HnsRoleSnitchTabHint">Snitch Hint</string>
+  <string name="HnsRoleSnitchTabDescription">Your tasks decrease the timer quicker,\%nl\%at the cost of outing your location.</string>
+  <string name="HnsRoleSnitchWikiDescription">The Snitch is a Crewmate that decreases the time remaining quicker than other players with tasks, but at the cost of outing themselves to the seeker.</string>
+  <!-- Snitch Options -->
+  <string name="HnsOptionSnitchCommonTaskMultiplier">Common Task Multiplier</string>
+  <string name="HnsOptionSnitchShortTaskMultiplier">Short Task Multiplier</string>
+  <string name="HnsOptionSnitchLongTaskMultiplier">Long Task Multiplier</string>
+  <string name="HnsOptionSnitchNotifyDuration">Seeker Notify Duration</string>
+  <!-- Noisemaker Wiki / Description -->
+  <string name="HnsRoleNoisemaker">Noisemaker</string>
+  <string name="HnsRoleNoisemakerTabHint">Noisemaker Hint</string>
+  <string name="HnsRoleNoisemakerTabDescription">Alert all crewmates of your location when killed.</string>
+  <string name="HnsRoleNoisemakerWikiDescription">The Noisemaker is a Crewmate that alerts all players on the map once they are killed, showing a red body indicator.</string>
+  <!-- Cultist Mode - Impostors -->
+  <!-- Necromancer - Impostor Cultist -->
+  <string name="CultistRoleNecromancer">Necromancer</string>
+  <string name="CultistRoleNecromancerIntroBlurb">Revive The Dead To Do Your Bidding</string>
+  <string name="CultistRoleNecromancerTabDescription">Kill crewmates and convert believers\%nl\%into equivalent impostor roles!</string>
+  <string name="CultistRoleNecromancerWikiDescription">The Necromancer is an Impostor Cultist role that can kill players like normal, but can also revive Crewmate Believers into Impostor Followers.</string>
+  <string name="CultistRoleNecromancerRevive">Revive</string>
+  <string name="CultistRoleNecromancerReviving">Reviving</string>
+  <string name="CultistRoleNecromancerReviveWikiDescription">Revive the closest convertible body into an impostor.</string>
   <!-- Crewmate Roles -->
   <!-- Altruist - Crewmate Protective -->
   <string name="TouRoleAltruist">Altruist</string>
@@ -307,11 +360,21 @@
   <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">Revive a group of dead bodies near you. If the revival finishes, you will also die without leaving a body behind.</string>
   <string name="TouRoleAltruistReviveSacrificeWikiDescription">Revive the closest dead body. If the revival finishes, you will also die without leaving a body behind.</string>
   <!-- Altruist Options -->
+  <string name="TouOptionAltruistReviveType">Revive Type</string>
+  <string name="TouOptionAltruistReviveEnumSacrifice">Sacrifice</string>
+  <string name="TouOptionAltruistReviveEnumGroupSacrifice">Group Sacrifice</string>
+  <string name="TouOptionAltruistReviveEnumGroupRevive">Group Revive</string>
   <string name="TouOptionAltruistReviveDuration">Revive Duration</string>
   <string name="TouOptionAltruistReviveRange">Revive Range</string>
   <string name="TouOptionAltruistMaxRevives">Revive Uses</string>
   <string name="TouOptionAltruistFreezeDuringRevive">Freeze Altruist During Revive</string>
   <string name="TouOptionAltruistHideAtBeginningOfRevive">Hide Bodies at Beginning Of Revive</string>
+  <string name="TouOptionAltruistKillersAlertedAtStart">Killers Alerted Before Revive</string>
+  <string name="TouOptionAltruistKillersAlertedAtEnd">Killers Alerted After Revive</string>
+  <string name="TouOptionAltruistKillerEnumNobody">Nobody</string>
+  <string name="TouOptionAltruistKillerEnumNeutrals">Neutrals</string>
+  <string name="TouOptionAltruistKillerEnumImpostors">Impostors</string>
+  <string name="TouOptionAltruistKillerEnumNeutralsAndImpostors">Neutrals and Impostors</string>
   <!-- Aurial - Crewmate Investigative -->
   <string name="TouRoleAurial">Aurial</string>
   <string name="TouRoleAurialIntroBlurb">Sense Disturbances In Your Aura.</string>
@@ -341,7 +404,7 @@
   <string name="TouOptionClericBarrierCooldown">Barrier Cooldown</string>
   <string name="TouOptionClericBarrierDuration">Barrier Duration</string>
   <string name="TouOptionClericCleanseCooldown">Cleanse Cooldown</string>
-  <string name="TouOptionClericShowBarriered">Show Barriered Player</string>
+  <string name="TouOptionClericProtectedSeesBarrier">Protected Player Sees Barrier</string>
   <string name="TouOptionClericAttackNotif">Cleric Gets Attack Notification</string>
   <!-- Deputy - Crewmate Killing -->
   <!-- Deputy Wiki / Abilities -->
@@ -403,6 +466,9 @@
   <string name="TouOptionHaunterNumTasksLeftBeforeAlerted">Tasks Left Before Alerted</string>
   <string name="TouOptionHaunterRevealNeutralRoles">Reveal Neutral Roles</string>
   <string name="TouOptionHaunterCanBeClickedBy">Can Be Clicked By</string>
+  <string name="TouOptionHaunterClickEnumEveryone">Everyone</string>
+  <string name="TouOptionHaunterClickEnumNonCrew">Non-Crew</string>
+  <string name="TouOptionHaunterClickEnumImpsOnly">Impostors Only</string>
   <!-- Haunter Feedback -->
   <string name="TouRoleHaunterSelfAlertFeedback">You have alerted the Killers!</string>
   <string name="TouRoleHaunterImpAlertFeedback">A Haunter is loose, catch them before they reveal you!</string>
@@ -438,8 +504,13 @@
   <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
   <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Detective\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Tracker\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
   <!-- Imitator Options -->
-  <string name="TouOptionImitatorImitateNeutrals">Imitate Specific Neutrals As Similar Crew Roles</string>
-  <string name="TouOptionImitatorImitateImpostors">Imitate Specific Impostors As Similar Crew Roles</string>
+  <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
+  <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>
+  <string name="TouOptionImitatorImitateBasicCrewmate">Imitate Basic Crewmate</string>
+  <string name="TouOptionImitatorGuessAs">Imitator Must Be Guessed As</string>
+  <string name="TouOptionImitatorGuessEnumCached">Imitator</string>
+  <string name="TouOptionImitatorGuessEnumActive">Imitated Role</string>
+  <string name="TouOptionImitatorGuessEnumActiveOrCached">Imitator or Imitated Role</string>
   <!-- Investigator - Crewmate Investigative -->
   <!-- Investigator Wiki / Description -->
   <string name="TouRoleInvestigator">Investigator</string>
@@ -516,6 +587,11 @@
   <string name="TouOptionMedicShowReportsInChat">Show Reports in Chat</string>
   <string name="TouOptionMedicTimeWhereMedicWillHaveName">Time Where Medic Will Have Name</string>
   <string name="TouOptionMedicTimeWhereMedicWillHaveColorType">Time Where Medic Will Have Color Type</string>
+  <string name="TouOptionMedicShieldEnumMedic">Medic</string>
+  <string name="TouOptionMedicShieldEnumShielded">Shielded</string>
+  <string name="TouOptionMedicShieldEnumShieldedAndMedic">Shielded + Medic</string>
+  <string name="TouOptionMedicShieldEnumEveryone">Everyone</string>
+  <string name="TouOptionMedicShieldEnumNobody">Nobody</string>
   <!-- Medium - Crewmate Support -->
   <!-- Medium Wiki / Abilities -->
   <string name="TouRoleMedium">Medium</string>
@@ -526,9 +602,17 @@
   <string name="TouRoleMediumMediateWikiDescription">Communicate with the dead, which may lead you to the killers.</string>
   <!-- Medium Options -->
   <string name="TouOptionMediumMediateCooldown">Mediate Cooldown</string>
-  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">Reveal Appearance of Mediate Target</string>
+  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">Reveal Appearance of Mediated Target</string>
   <string name="TouOptionMediumArrowVisibility">Arrow Visibility</string>
+  <string name="TouOptionMediumArrowEnumShowMedium">Medium</string>
+  <string name="TouOptionMediumArrowEnumShowMediated">Mediated</string>
+  <string name="TouOptionMediumArrowEnumBoth">Medium + Mediated</string>
+  <string name="TouOptionMediumArrowEnumNone">Disabled</string>
   <string name="TouOptionMediumWhoisRevealed">Who is Revealed</string>
+  <string name="TouOptionMediumGhostEnumOldestDead">Oldest Dead</string>
+  <string name="TouOptionMediumGhostEnumNewestDead">Newest Dead</string>
+  <string name="TouOptionMediumGhostEnumRandomDead">Random Dead</string>
+  <string name="TouOptionMediumGhostEnumAllDead">All Dead</string>
   <!-- Mirrorcaster - Crewmate Protective -->
   <!-- Mirrorcaster Wiki / Abilities -->
   <string name="TouRoleMirrorcaster">Mirrorcaster</string>
@@ -546,10 +630,16 @@
   <string name="TouRoleMirrorcasterTargetDidNotDieNotif">\%player\% was not attacked.</string>
   <!-- Mirrorcaster Options -->
   <string name="TouOptionMirrorcasterWhoGetsMurderAttemptIndicator">Who Gets Murder Attempt Indicator</string>
+  <string name="TouOptionMirrorcasterNotifEnumMirrorcaster">Mirrorcaster</string>
+  <string name="TouOptionMirrorcasterNotifEnumMirrorcasterAndKiller">Mirrorcaster + Killer</string>
   <string name="TouOptionMirrorcasterMagicMirrorCooldown">Magic Mirror Cooldown</string>
   <string name="TouOptionMirrorcasterMagicMirrorDuration">Magic Mirror Duration</string>
   <string name="TouOptionMirrorcasterUnleashCooldown">Unleash Cooldown</string>
-  <string name="TouOptionMirrorcasterKnowsTheAbsorbedTypeOfAttack">Mirrorcaster Knows The Absorbed Type Of Attack</string>
+  <string name="TouOptionMirrorcasterAttackInformationGiven">Information Received Upon Attack</string>
+  <string name="TouOptionMirrorcasterInfoEnumRole">Role</string>
+  <string name="TouOptionMirrorcasterInfoEnumSubalignment">Subalignment</string>
+  <string name="TouOptionMirrorcasterInfoEnumFaction">Faction</string>
+  <string name="TouOptionMirrorcasterInfoEnumNothing">Nothing</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Accumulate Multiple Unleashes</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Max Number Of Magic Mirrors</string>
   <!-- Mirrorcaster Feedback -->
@@ -577,9 +667,10 @@
   <string name="TouOptionOracleConfessCooldown">Confess Cooldown</string>
   <string name="TouOptionOracleBlessCooldown">Bless Cooldown</string>
   <string name="TouOptionOracleRevealAccuracy">Reveal Accuracy</string>
-  <string name="TouOptionOracleNeutralBenignShowUpAsEvil">Neutral Benign Show Up As Evil</string>
-  <string name="TouOptionOracleNeutralEvilShowUpAsEvil">Neutral Evil Show Up As Evil</string>
-  <string name="TouOptionOracleNeutralKillingShowUpAsEvil">Neutral Killing Show Up As Evil</string>
+  <string name="TouOptionOracleNeutralBenignShowEvil">Neutral Benign Show Up As Evil</string>
+  <string name="TouOptionOracleNeutralEvilShowEvil">Neutral Evils Show Up As Evil</string>
+  <string name="TouOptionOracleNeutralKillingShowEvil">Neutral Killers Show Up As Evil</string>
+  <string name="TouOptionOracleNeutralOutlierShowEvil">Neutral Outliers Show Up As Evil</string>
   <!-- Oracle Feedback -->
   <string name="TouRoleOracleConfessorDied">Your confessor failed to survive so you received no confession</string>
   <string name="TouRoleOracleTooFew">Too few people alive to receive a confessional</string>
@@ -655,11 +746,17 @@
   <string name="TouRoleSeerCompare">Compare</string>
   <string name="TouRoleSeerCompareWikiDescription">Compare the alignments of two players. If they don't match, you will be informed of such.</string>
   <!-- Seer Options -->
-  <string name="TouOptionSeerSeerCooldown">Seer Cooldown</string>
+  <string name="TouOptionSeerSalemMode">Compare Players Instead of Checking Alignments</string>
+  <string name="TouOptionSeerCooldown">Reveal/Compare Cooldown</string>
+  <string name="TouOptionSeerUses">Max Uses of Reveal/Compare</string>
+  <string name="TouOptionSeerNeutralBenignFriendly">Neutral Benign Show Friends To All</string>
+  <string name="TouOptionSeerNeutralEvilFriendly">Neutral Evils Show Friends To All</string>
+  <string name="TouOptionSeerNeutralOutlierFriendly">Neutral Outliers Show Friends To All</string>
   <string name="TouOptionSeerCrewmateKillingRolesAreRed">Crewmate Killing Roles Are Red</string>
   <string name="TouOptionSeerNeutralBenignRolesAreRed">Neutral Benign Roles Are Red</string>
   <string name="TouOptionSeerNeutralEvilRolesAreRed">Neutral Evil Roles Are Red</string>
   <string name="TouOptionSeerNeutralKillingRolesAreRed">Neutral Killing Roles Are Red</string>
+  <string name="TouOptionSeerNeutralOutlierRolesAreRed">Neutral Outlier Roles Are Red</string>
   <string name="TouOptionSeerTraitorSwapsColors">Traitor Swaps Colors</string>
   <!-- Sheriff - Crewmate Killing -->
   <!-- Sheriff Wiki / Abilities -->
@@ -684,7 +781,12 @@
   <string name="TouOptionSheriffAllowShootinginFirstRound">Allow Shooting in First Round</string>
   <string name="TouOptionSheriffCanShootNeutralEvilRoles">Can Shoot Neutral Evil Roles</string>
   <string name="TouOptionSheriffCanShootNeutralKillingRoles">Can Shoot Neutral Killing Roles</string>
+  <string name="TouOptionSheriffCanShootNeutralOutlierRoles">Can Shoot Neutral Outlier Roles</string>
   <string name="TouOptionSheriffMisfireKills">Misfire Kills</string>
+  <string name="TouOptionSheriffKillEnumSheriff">Self</string>
+  <string name="TouOptionSheriffKillEnumTarget">Target</string>
+  <string name="TouOptionSheriffKillEnumBoth">Self + Target</string>
+  <string name="TouOptionSheriffKillEnumNobody">Nobody</string>
   <!-- Snitch - Crewmate Investigative -->
   <!-- Snitch Wiki / Description -->
   <string name="TouRoleSnitch">Snitch</string>
@@ -707,7 +809,15 @@
   <string name="TouRoleSpyWikiDescription">The Spy is a Crewmate Investigative role that gains extra information on the admin table. They not only see how many people are in a room, but will also see who is in every room.</string>
   <!-- Spy Options -->
   <string name="TouOptionSpyWhoSeesDeadBodiesOnAdmin">Who Sees Dead Bodies On Admin</string>
+  <string name="TouOptionSpyDeadEnumNobody">Nobody</string>
+  <string name="TouOptionSpyDeadEnumSpy">Spy</string>
+  <string name="TouOptionSpyDeadEnumEveryoneButSpy">Everyone But Spy</string>
+  <string name="TouOptionSpyDeadEnumEveryone">Everyone</string>
   <string name="TouOptionSpyAllowPortableAdminTableFor">Allow Portable Admin Table For</string>
+  <string name="TouOptionSpyPortableEnumRole">Role</string>
+  <string name="TouOptionSpyPortableEnumModifier">Modifier</string>
+  <string name="TouOptionSpyPortableEnumBoth">Role + Modifier</string>
+  <string name="TouOptionSpyPortableEnumNone">Disabled</string>
   <string name="TouOptionSpyMoveWhileUsingPortableAdmin">Move While Using Portable Admin</string>
   <string name="TouOptionSpyStartingCharge">Starting Charge</string>
   <string name="TouOptionSpyBatteryChargedEachRound">Battery Charged Each Round</string>
@@ -739,6 +849,7 @@
   <string name="TouOptionSonarArrowUpdateInterval">Arrow Update Interval</string>
   <string name="TouOptionSonarArrowsMakeSoundOnDeath">Trackers Make Sound On Death</string>
   <string name="TouOptionSonarArrowsResetAfterEachRound">Trackers Reset After Each Round</string>
+  <string name="TouOptionSonarTaskUses">Get More Uses From Completing Tasks</string>
   <!-- Transporter - Crewmate Support -->
   <!-- Transporter Wiki / Abilities -->
   <string name="TouRoleTransporter">Transporter</string>
@@ -770,6 +881,7 @@
   <string name="TouOptionTrapperMaxNumberOfTraps">Max Number Of Traps</string>
   <string name="TouOptionTrapperTrapSize">Trap Size</string>
   <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+  <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
   <!-- Trapper Feedback -->
   <string name="TouRoleTrapperNoPlayers">No players entered any of your traps</string>
@@ -803,6 +915,7 @@
   <string name="TouOptionVigilanteCanGuessNeutralBenignRoles">Can Guess Neutral Benign Roles</string>
   <string name="TouOptionVigilanteCanGuessNeutralEvilRoles">Can Guess Neutral Evil Roles</string>
   <string name="TouOptionVigilanteCanGuessNeutralKillingRoles">Can Guess Neutral Killing Roles</string>
+  <string name="TouOptionVigilanteCanGuessNeutralOutlierRoles">Can Guess Neutral Outlier Roles</string>
   <string name="TouOptionVigilanteCanGuessKillerModifiers">Can Guess Killer Modifiers</string>
   <string name="TouOptionVigilanteCanGuessAlliances">Can Guess Alliances</string>
   <string name="TouOptionVigilanteSafeShotsAvailable">Safe Shots Available</string>
@@ -816,7 +929,11 @@
   <string name="TouRoleWardenFortify">Fortify</string>
   <string name="TouRoleWardenFortifyWikiDescription">Fortify a player to prevent them from being interacted with. If anyone tries to interact with a fortified player, the ability will not work and both the Warden and fortified player will be alerted with a purple flash.</string>
   <!-- Warden Options -->
-  <string name="TouOptionWardenShowFortifyPlayer">Show Fortify Player</string>
+  <string name="TouOptionWardenShowFortifyPlayer">Show Fortified Player</string>
+  <string name="TouOptionWardenFortEnumSelf">Fortified</string>
+  <string name="TouOptionWardenFortEnumWarden">Warden</string>
+  <string name="TouOptionWardenFortEnumSelfAndWarden">Fortified + Warden</string>
+  <string name="TouOptionWardenFortEnumEveryone">Everyone</string>
   <!-- Impostor Roles -->
   <!-- Ambassador Wiki / Abilities -->
   <string name="TouRoleAmbassador">Ambassador</string>
@@ -981,6 +1098,8 @@
   <string name="TouOptionMinerMineCooldown">Mine Cooldown</string>
   <string name="TouOptionMinerMineVisibility">Mine Visibility</string>
   <string name="TouOptionMinerMineDelay">Mine Delay</string>
+  <string name="TouOptionMinerDelayEnumImmediate">Immediate</string>
+  <string name="TouOptionMinerDelayEnumAfterUse">AfterUse</string>
   <string name="TouOptionMinerCanKillWithTeammate">Miner Can Kill With Teammate</string>
   <!-- Morphling Wiki / Abilities -->
   <string name="TouRoleMorphling">Morphling</string>
@@ -1028,6 +1147,10 @@
   <string name="TouRoleSpellslingerMessageTitle">Spellslinger Warning</string>
   <string name="TouRoleSpellslingerGlobalWarning">The \%role\% is unleashing a Hex Bomb! Find them before the timer ends! \%time\% seconds remain after this meeting.</string>
   <string name="TouRoleSpellslingerWarningNotif">The \%role\% is unleashing a Hex Bomb in \%time\% seconds!</string>
+  <!-- Spellslinger Options -->
+  <string name="TouOptionSpellslingerHexCooldown">Hex Cooldown</string>
+  <string name="TouOptionSpellslingerMaxHexes">Max Hexes</string>
+  <string name="TouOptionSpellslingerHexBombDuration">Hex Bomb Countdown Duration</string>
   <!-- Swooper Wiki / Abilities -->
   <string name="TouRoleSwooper">Swooper</string>
   <string name="TouRoleSwooperIntroBlurb">Turn Invisible Temporarily</string>
@@ -1055,6 +1178,10 @@
   <string name="TouOptionTraitorMinimumPeopleAlive">Minimum People Alive When Traitor Can Spawn</string>
   <string name="TouOptionTraitorTraitorWontSpawnIfNKIsAlive">Traitor Won't Spawn If NK Is Alive</string>
   <string name="TouOptionTraitorDisableExistingImpostorRoles">Disable Existing Impostor Roles</string>
+  <string name="TouOptionTraitorGuessAs">Traitor Must Be Guessed As</string>
+  <string name="TouOptionTraitorGuessEnumCached">Traitor</string>
+  <string name="TouOptionTraitorGuessEnumActive">New Role</string>
+  <string name="TouOptionTraitorGuessEnumActiveOrCached">Traitor or New Role</string>
   <!-- Undertaker Wiki / Abilities -->
   <string name="TouRoleUndertaker">Undertaker</string>
   <string name="TouRoleUndertakerIntroBlurb">Drag Bodies And Hide Them</string>
@@ -1133,6 +1260,7 @@
   <string name="TouOptionArsonistDouseCooldown">Douse Cooldown</string>
   <string name="TouOptionArsonistDouseInteractions">Douse From Interactions</string>
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
+  <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>
   <string name="TouOptionArsonistCanVent">Arsonist Can Vent</string>
   <!-- Doomsayer -->
   <!-- Doomsayer Wiki / Abilities -->
@@ -1150,7 +1278,12 @@
   <string name="TouOptionDoomsayerGuessCrewInvestigative">Doomsayer Can Guess Crew Investigative Roles</string>
   <string name="TouOptionDoomsayerGuessesAllAtOnce">Doomsayer Guesses All Roles At Once</string>
   <string name="TouOptionDoomsayerCantObserve">Doomsayer Can't Observe</string>
+  <string name="TouOptionDoomsayerOnlyKillLast">Kill Only The Last Victim</string>
   <string name="TouOptionDoomsayerWin">Doomsayer Win</string>
+  <string name="TouOptionDoomsayerWinEnumEndsGame">Ends Game</string>
+  <string name="TouOptionDoomsayerWinEnumLeaves">Leaves In Victory</string>
+  <string name="TouOptionDoomsayerWinEnumNothing">Nothing</string>
+  <string name="TouOptionDoomsayerContinuesGame">Doomsayer Continues The Game</string>
   <!-- Doomsayer Misguess -->
   <string name="TouRoleDoomsayerMisguessOne">Only one guess was incorrect!</string>
   <string name="TouRoleDoomsayerMisguessMultiple">\%misguessCount\% guesses were incorrect.</string>
@@ -1176,6 +1309,9 @@
   <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
   <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>
   <string name="TouOptionExecutionerWin">Executioner Win</string>
+  <string name="TouOptionExecutionerWinEnumEndsGame">Ends Game</string>
+  <string name="TouOptionExecutionerWinEnumTorments">Leaves \%and\% Torments</string>
+  <string name="TouOptionExecutionerWinEnumNothing">Nothing</string>
   <!-- Glitch -->
   <!-- Glitch Wiki / Abilities -->
   <string name="TouRoleGlitch">Glitch</string>
@@ -1210,6 +1346,9 @@
   <string name="TouOptionFairyDuration">Protect Duration</string>
   <string name="TouOptionFairyMaxProtects">Max Number Of Protects</string>
   <string name="TouOptionFairyShowProtected">Show Protected Player</string>
+  <string name="TouOptionFairyProtectionEnumFairy">Fairy</string>
+  <string name="TouOptionFairyProtectionEnumFairyAndTarget">Fairy + Target</string>
+  <string name="TouOptionFairyProtectionEnumEveryone">Everyone</string>
   <string name="TouOptionFairyOnDeathFairyBecomes">On Target Death, Fairy Becomes</string>
   <string name="TouOptionFairyTargetKnowsFairyExists">Target Knows Fairy Exists</string>
   <string name="TouOptionFairyFairyKnowsRole">Fairy Knows Targets Role</string>
@@ -1234,6 +1373,7 @@
   <string name="TouRoleInquisitorVanquishWikiDescription">Vanquish a player to kill them. If they are a heretic, you will be told, and you can continue vanquishing. However, if the victim isn't a heretic, you will lose the ability to vanquish for the rest of the game.</string>
   <!-- Inquisitor Options -->
   <string name="TouOptionInquisitorVanquishCooldown">Vanquish Cooldown</string>
+  <string name="TouOptionInquisitorRoundOneVanquish">Allow Vanquish in First Round</string>
   <string name="TouOptionInquisitorContinuesGame">Inquisitor Continues Game In Final 3</string>
   <string name="TouOptionInquisitorCantInquire">Inquisitor Can't Inquire</string>
   <string name="TouOptionInquisitorInquireCooldown">Inquire Cooldown</string>
@@ -1260,7 +1400,10 @@
   <string name="TouOptionChefCookCooldown">Cook Cooldown</string>
   <string name="TouOptionChefLinkedCooldowns">Reset Cook \%and\% Serve Cooldowns Together</string>
   <string name="TouOptionChefServingAmount">Amount Of Servings Needed</string>
-  <string name="TouOptionChefServingEffects">Servings Have Side Effects</string>
+  <string name="TouOptionChefServingSideEffects">Duration of Side Effects</string>
+  <string name="TouOptionChefArrowsToBodies">Show Arrows Pointing To Dead Bodies</string>
+  <string name="TouOptionChefArrowDelay">Dead Body Arrow Delay</string>
+  <string name="TouOptionChefArrowDuration">Dead Body Arrow Duration</string>
   <!-- Jester -->
   <!-- Jester Wiki / Description -->
   <string name="TouRoleJester">Jester</string>
@@ -1279,6 +1422,9 @@
   <string name="TouOptionJesterScatterEnabled">Scatter Mechanic Enabled</string>
   <string name="TouOptionJesterScatterTimer">Scatter Timer</string>
   <string name="TouOptionJesterAfterWin">After Win Type</string>
+  <string name="TouOptionJesterWinEnumEndsGame">Ends Game</string>
+  <string name="TouOptionJesterWinEnumHaunts">Haunts</string>
+  <string name="TouOptionJesterWinEnumNothing">Nothing</string>
   <!-- Juggernaut -->
   <!-- Juggernaut Wiki / Description -->
   <string name="TouRoleJuggernaut">Juggernaut</string>
@@ -1307,6 +1453,8 @@
   <string name="TouOptionMercenaryCooldown">Bribe Cooldown</string>
   <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
   <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
+  <string name="TouOptionMercenaryProtectiveGuard">Guarding Stops Attacks</string>
+  <string name="TouOptionMercenaryProtectiveGuardGold">Gold Given From An Attack</string>
   <!-- Pestilence -->
   <!-- Pestilence Wiki / Description -->
   <string name="TouRolePestilence">Pestilence</string>
@@ -1325,6 +1473,9 @@
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>
   <string name="TouOptionSpectreWin">Spectre Win</string>
+  <string name="TouOptionSpectreWinEnumEndsGame">Ends Game</string>
+  <string name="TouOptionSpectreWinEnumSpooks">Spooks</string>
+  <string name="TouOptionSpectreWinEnumNothing">Nothing</string>
   <!-- Plaguebearer -->
   <!-- Plaguebearer Wiki / Abilities -->
   <string name="TouRolePlaguebearer">Plaguebearer</string>
@@ -1384,7 +1535,16 @@
   <string name="TouOptionVampireMaxVamps">Max Number Of Vampires Per Game</string>
   <string name="TouOptionVampireImpostorVision">Vampires Have Impostor Vision</string>
   <string name="TouOptionVampireNewVampsAssassinate">New Vampires Can Assassinate</string>
-  <string name="TouOptionVampireValidConversions">Valid Conversions</string>
+  <string name="TouOptionVampireValidNeutralConversions">Valid Neutral Conversions</string>
+  <string name="TouOptionVampireNeutConvertEnumOnlyCrew">Only Crew</string>
+  <string name="TouOptionVampireNeutConvertEnumOnlyBenign">Benign</string>
+  <string name="TouOptionVampireNeutConvertEnumOnlyEvil">Evils</string>
+  <string name="TouOptionVampireNeutConvertEnumOnlyOutlier">Outliers</string>
+  <string name="TouOptionVampireNeutConvertEnumBenignEvil">Benign \%and\% Evils</string>
+  <string name="TouOptionVampireNeutConvertEnumBenignOutlier">Benign \%and\% Outliers</string>
+  <string name="TouOptionVampireNeutConvertEnumEvilOutlier">Evils \%and\% Outliers</string>
+  <string name="TouOptionVampireNeutConvertEnumMostNeuts">Non-Killer Neutrals</string>
+  <string name="TouOptionVampireConvertLovers">Can Convert Lovers</string>
   <string name="TouOptionVampireNewVampiresConvert">New Vampires Can Convert</string>
   <string name="TouOptionVampireCanVent">Vampires Can Vent</string>
   <!-- Werewolf -->

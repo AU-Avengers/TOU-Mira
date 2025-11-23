@@ -1,3 +1,4 @@
+using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
@@ -7,6 +8,9 @@ namespace TownOfUs.Options;
 
 public sealed class GameTimerOptions : AbstractOptionGroup
 {
+    public override Func<bool> GroupVisible => () =>
+        !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
+            or GameModes.SeekFools);
     public override string GroupName => "End Game Timer";
     public override uint GroupPriority => 3;
 

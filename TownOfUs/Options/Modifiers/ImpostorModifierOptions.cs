@@ -9,6 +9,7 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class ImpostorModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => "Impostor Modifiers";
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override bool ShowInModifiersMenu => true;
     public override uint GroupPriority => 3;

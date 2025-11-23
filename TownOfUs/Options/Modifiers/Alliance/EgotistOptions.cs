@@ -8,6 +8,7 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 
 public sealed class EgotistOptions : AbstractOptionGroup<EgotistModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierEgotist", "Egotist");
     public override uint GroupPriority => 11;
     public override Color GroupColor => TownOfUsColors.Egotist;

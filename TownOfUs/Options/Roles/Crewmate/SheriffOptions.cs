@@ -9,25 +9,25 @@ public sealed class SheriffOptions : AbstractOptionGroup<SheriffRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSheriff", "Sheriff");
 
-    [ModdedNumberOption("Kill Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionSheriffKillCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;
 
-    [ModdedToggleOption("Can Self Report")]
+    [ModdedToggleOption("TouOptionSheriffCanSelfReport")]
     public bool SheriffBodyReport { get; set; } = false;
 
-    [ModdedToggleOption("Allow Shooting in First Round")]
+    [ModdedToggleOption("TouOptionSheriffAllowShootinginFirstRound")]
     public bool FirstRoundUse { get; set; } = false;
 
-    [ModdedToggleOption("Can Shoot Neutral Evil Roles")]
+    [ModdedToggleOption("TouOptionSheriffCanShootNeutralEvilRoles")]
     public bool ShootNeutralEvil { get; set; } = true;
 
-    [ModdedToggleOption("Can Shoot Neutral Killing Roles")]
+    [ModdedToggleOption("TouOptionSheriffCanShootNeutralKillingRoles")]
     public bool ShootNeutralKiller { get; set; } = true;
 
-    [ModdedToggleOption("Can Shoot Neutral Outlier Roles")]
+    [ModdedToggleOption("TouOptionSheriffCanShootNeutralOutlierRoles")]
     public bool ShootNeutralOutlier { get; set; } = true;
 
-    [ModdedEnumOption("Misfire Kills", typeof(MisfireOptions), ["Self", "Target", "Self & Target", "No One"])]
+    [ModdedEnumOption("TouOptionSheriffMisfireKills", typeof(MisfireOptions), ["TouOptionSheriffKillEnumSheriff", "TouOptionSheriffKillEnumTarget", "TouOptionSheriffKillEnumBoth", "TouOptionSheriffKillEnumNobody"])]
     public MisfireOptions MisfireType { get; set; } = MisfireOptions.Sheriff;
 }
 

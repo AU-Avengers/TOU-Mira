@@ -10,27 +10,33 @@ public sealed class VampireOptions : AbstractOptionGroup<VampireRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleVampire", "Vampire");
 
-    [ModdedNumberOption("Bite Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionVampireBiteCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BiteCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Max Number Of Vampires Per Game", 2, 5, 1, MiraNumberSuffixes.None, "0")]
+    [ModdedNumberOption("TouOptionVampireMaxVamps", 2, 5, 1, MiraNumberSuffixes.None, "0")]
     public float MaxVampires { get; set; } = 2;
 
-    [ModdedToggleOption("Vampires Have Impostor Vision")]
+    [ModdedToggleOption("TouOptionVampireImpostorVision")]
     public bool HasVision { get; set; } = true;
 
-    [ModdedToggleOption("New Vampires Can Assassinate")]
+    [ModdedToggleOption("TouOptionVampireNewVampsAssassinate")]
     public bool CanGuessAsNewVamp { get; set; } = true;
 
-    public ModdedEnumOption<ValidBites> ValidConversions { get; } = new("Valid Neutral Conversions", ValidBites.BenignAndEvil,
-        ["Only Crew", "Benign", "Evils", "Outliers", "Benign & Evil", "Benign & Outlier", "Evil & Outlier", "Non-Killer Neutrals"]);
+    public ModdedEnumOption<ValidBites> ValidConversions { get; } = new("TouOptionVampireValidNeutralConversions",
+        ValidBites.BenignAndEvil,
+        [
+            "TouOptionVampireNeutConvertEnumOnlyCrew", "TouOptionVampireNeutConvertEnumOnlyBenign",
+            "TouOptionVampireNeutConvertEnumOnlyEvil", "TouOptionVampireNeutConvertEnumOnlyOutlier",
+            "TouOptionVampireNeutConvertEnumBenignEvil", "TouOptionVampireNeutConvertEnumBenignOutlier",
+            "TouOptionVampireNeutConvertEnumEvilOutlier", "TouOptionVampireNeutConvertEnumMostNeuts"
+        ]);
 
-    public ModdedToggleOption ConvertLovers { get; set; } = new("Can Convert Lovers", false);
+    public ModdedToggleOption ConvertLovers { get; set; } = new("TouOptionVampireConvertLovers", false);
 
-    [ModdedToggleOption("New Vampires Can Convert")]
+    [ModdedToggleOption("TouOptionVampireNewVampiresConvert")]
     public bool CanConvertAsNewVamp { get; set; } = true;
 
-    [ModdedToggleOption("Vampires Can Vent")]
+    [ModdedToggleOption("TouOptionVampireCanVent")]
     public bool CanVent { get; set; } = true;
 }
 // TODO: Implement multi-select options in MiraAPI by using flags rather than enums.
@@ -47,12 +53,12 @@ public enum ValidBites : uint
 
 public enum ValidBites
 {
+    OnlyCrew,
     NeutralBenign,
     NeutralEvil,
     NeutralOutlier,
     BenignAndEvil,
     BenignAndOutlier,
     EvilAndOutlier,
-    OnlyCrew,
     NonKillerNeutrals,
 }

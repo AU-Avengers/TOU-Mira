@@ -26,9 +26,8 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     {
         get
         {
-            var showBarrier = OptionGroupSingleton<ClericOptions>.Instance.ShowBarriered;
             return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value ||
-                   (showBarrier is BarrierOptions.Cleric);
+                   !OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
         }
     }
 
@@ -36,9 +35,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     {
         get
         {
-            var showBarrier = OptionGroupSingleton<ClericOptions>.Instance.ShowBarriered;
-            var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId &&
-                                  (showBarrier == BarrierOptions.Self || showBarrier == BarrierOptions.SelfAndCleric);
+            var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId && OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
             return showBarrierSelf;
         }
     }
@@ -53,19 +50,15 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        var showBarrier = OptionGroupSingleton<ClericOptions>.Instance.ShowBarriered;
 
-        var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId &&
-                              (showBarrier == BarrierOptions.Self || showBarrier == BarrierOptions.SelfAndCleric);
-        var showBarrierCleric = PlayerControl.LocalPlayer.PlayerId == Cleric.PlayerId &&
-                                (showBarrier == BarrierOptions.Cleric || showBarrier == BarrierOptions.SelfAndCleric);
+        var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId && OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
             x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
 
-        ShowBarrier = showBarrierSelf || showBarrierCleric ||
+        ShowBarrier = showBarrierSelf || PlayerControl.LocalPlayer.PlayerId == Cleric.PlayerId ||
                       (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
         ClericBarrier =

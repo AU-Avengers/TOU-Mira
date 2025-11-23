@@ -3,6 +3,7 @@ using MiraAPI.Patches.Freeplay;
 using HarmonyLib;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -15,6 +16,19 @@ public static class MiraApiPatches
     {
         // Since TOU Engineer is just vanilla engineer with the fix mechanic, no need to have two engis around!
         if (role.Role is RoleTypes.Engineer)
+        {
+            __result = true;
+            return false;
+        }
+
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek && (role.Role is RoleTypes.Detective ||
+                                                                       role.Role is RoleTypes.GuardianAngel ||
+                                                                       role.Role is RoleTypes.Noisemaker ||
+                                                                       role.Role is RoleTypes.Phantom ||
+                                                                       role.Role is RoleTypes.Scientist ||
+                                                                       role.Role is RoleTypes.Shapeshifter ||
+                                                                       role.Role is RoleTypes.Tracker ||
+                                                                       role.Role is RoleTypes.Viper))
         {
             __result = true;
             return false;

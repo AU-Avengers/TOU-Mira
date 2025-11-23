@@ -8,11 +8,16 @@ public sealed class ImitatorOptions : AbstractOptionGroup<ImitatorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleImitator", "Imitator");
 
-    public ModdedToggleOption ImitateNeutrals { get; set; } = new("Imitate Specific Neutrals As Similar Crew Roles", true);
+    public ModdedToggleOption ImitateNeutrals { get; set; } = new("TouOptionImitatorImitateNeutrals", true);
 
-    public ModdedToggleOption ImitateImpostors { get; set; } = new("Imitate Specific Impostors As Similar Crew Roles", true);
+    public ModdedToggleOption ImitateImpostors { get; set; } = new("TouOptionImitatorImitateImpostors", true);
 
-    public ModdedToggleOption ImitateBasicCrewmate { get; set; } = new("Imitate Basic Crewmate", true);
+    public ModdedToggleOption ImitateBasicCrewmate { get; set; } = new("TouOptionImitatorImitateBasicCrewmate", true);
 
-    public ModdedEnumOption ImitatorGuess { get; set; } = new("Imitator Must Be Guessed As", (int)CacheRoleGuess.ActiveOrCachedRole, typeof(CacheRoleGuess), ["Imitator", "Imitated Role", "Imitator or Imitated Role"]);
+    public ModdedEnumOption ImitatorGuess { get; set; } = new("TouOptionImitatorGuessAs",
+        (int)CacheRoleGuess.ActiveOrCachedRole, typeof(CacheRoleGuess),
+        [
+            "TouOptionImitatorGuessEnumCached", "TouOptionImitatorGuessEnumActive",
+            "TouOptionImitatorGuessEnumActiveOrCached"
+        ]);
 }

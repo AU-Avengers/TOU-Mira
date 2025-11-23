@@ -7,6 +7,7 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 
 public sealed class CrewpostorOptions : AbstractOptionGroup<CrewpostorModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierCrewpostor", "Crewpostor");
     public override uint GroupPriority => 10;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;

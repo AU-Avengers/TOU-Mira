@@ -9,6 +9,7 @@ namespace TownOfUs.Options.Modifiers.Impostor;
 
 public sealed class TelepathOptions : AbstractOptionGroup<TelepathModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierTelepath", "Telepath");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override uint GroupPriority => 41;

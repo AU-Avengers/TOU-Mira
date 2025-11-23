@@ -75,9 +75,10 @@ public static class CustomTouMurderRpcs
         string causeOfDeath = "null")
     {
         var role = source.GetRoleWhenAlive();
+        IndirectAttackerModifier? attackerMod = null;
         if (isIndirect)
         {
-            source.AddModifier<IndirectAttackerModifier>(ignoreShields);
+            attackerMod = source.AddModifier<IndirectAttackerModifier>(ignoreShields);
         }
 
         var cod = "Killer";
@@ -126,9 +127,9 @@ public static class CustomTouMurderRpcs
                 showKillAnim,
                 playKillSound);
         }
-        if (isIndirect)
+        if (attackerMod != null)
         {
-            source.RemoveModifier<IndirectAttackerModifier>();
+            source.RemoveModifier(attackerMod);
         }
     }
     /// <summary>
@@ -160,9 +161,10 @@ public static class CustomTouMurderRpcs
         string causeOfDeath = "null")
     {
         var role = source.GetRoleWhenAlive();
+        IndirectAttackerModifier? attackerMod = null;
         if (isIndirect)
         {
-            source.AddModifier<IndirectAttackerModifier>(isIndirect);
+            attackerMod = source.AddModifier<IndirectAttackerModifier>(ignoreShield);
         }
 
         var cod = "Killer";
@@ -203,9 +205,9 @@ public static class CustomTouMurderRpcs
             teleportMurderer,
             showKillAnim,
             playKillSound);
-        if (isIndirect)
+        if (attackerMod != null)
         {
-            source.RemoveModifier<IndirectAttackerModifier>();
+            source.RemoveModifier(attackerMod);
         }
     }
     /// <summary>
@@ -235,7 +237,7 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        source.AddModifier<IndirectAttackerModifier>(true);
+        var indirectMod = source.AddModifier<IndirectAttackerModifier>(true);
 
         var cod = "Killer";
         if (touRole.LocaleKey != "KEY_MISS")
@@ -253,6 +255,6 @@ public static class CustomTouMurderRpcs
             target,
             MurderResultFlags.Succeeded);
 
-        source.RemoveModifier<IndirectAttackerModifier>();
+        source.RemoveModifier(indirectMod!);
     }
 }

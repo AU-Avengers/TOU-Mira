@@ -8,6 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class SatelliteOptions : AbstractOptionGroup<SatelliteModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierSatellite", "Satellite");
     public override uint GroupPriority => 34;
     public override Color GroupColor => TownOfUsColors.Satellite;

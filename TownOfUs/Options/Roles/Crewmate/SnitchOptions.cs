@@ -8,15 +8,15 @@ public sealed class SnitchOptions : AbstractOptionGroup<SnitchRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSnitch", "Snitch");
 
-    [ModdedToggleOption("Snitch Reveals Neutral Killers")]
+    [ModdedToggleOption("TouOptionSnitchRevealsNeutralKillers")]
     public bool SnitchNeutralRoles { get; set; } = false;
 
-    [ModdedToggleOption("Snitch Sees Traitor")]
+    [ModdedToggleOption("TouOptionSnitchSeesTraitor")]
     public bool SnitchSeesTraitor { get; set; } = true;
 
-    [ModdedToggleOption("Snitch Sees Impostors In Meetings")]
+    [ModdedToggleOption("TouOptionSnitchSeesImpostorsInMeetings")]
     public bool SnitchSeesImpostorsMeetings { get; set; } = true;
 
-    [ModdedNumberOption("Tasks Remaining When Revealed", 1, 3)]
+    [ModdedNumberOption("TouOptionSnitchTasksRemainingWhenRevealed", 1, 3)]
     public float TaskRemainingWhenRevealed { get; set; } = 1;
 }

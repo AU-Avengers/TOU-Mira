@@ -8,6 +8,7 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class UniversalModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => "Universal Modifiers";
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override bool ShowInModifiersMenu => true;
     public override uint GroupPriority => 1;
 

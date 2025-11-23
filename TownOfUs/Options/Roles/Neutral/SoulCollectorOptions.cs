@@ -9,9 +9,9 @@ public sealed class SoulCollectorOptions : AbstractOptionGroup<SoulCollectorRole
 {
     public override string GroupName => TouLocale.Get("TouRoleSoulCollector", "Soul Collector");
 
-    [ModdedNumberOption("Reap Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionSoulCollectorReapCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;
 
-    [ModdedToggleOption("Soul Collector Can Vent")]
+    [ModdedToggleOption("TouOptionSoulCollectorCanVent")]
     public bool CanVent { get; set; } = false;
 }

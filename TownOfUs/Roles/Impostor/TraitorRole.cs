@@ -13,6 +13,7 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class TraitorRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ISpawnChange
 {
+    public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.Normal;
     [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
     [HideFromIl2Cpp] public RoleBehaviour? RandomRole { get; set; }
     [HideFromIl2Cpp] public RoleBehaviour? SelectedRole { get; set; }

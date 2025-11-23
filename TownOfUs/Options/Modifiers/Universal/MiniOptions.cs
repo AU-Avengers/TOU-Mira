@@ -8,6 +8,7 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class MiniOptions : AbstractOptionGroup<MiniModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierMini", "Mini");
     public override uint GroupPriority => 33;
     public override Color GroupColor => TownOfUsColors.Mini;

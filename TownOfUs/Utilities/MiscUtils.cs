@@ -71,6 +71,8 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> AllRegisteredRoles => RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
 
+    public static IEnumerable<RoleBehaviour> SpawnableRoles => AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
         var optionGroups =
@@ -101,7 +103,7 @@ public static class MiscUtils
                         continue;
                     }
 
-                    builder.AppendLine(option.Title + ": " + toggleOption.Value);
+                    builder.AppendLine(TranslationController.Instance.GetString(toggleOption.StringName) + ": " + toggleOption.Value);
                     break;
                 /*case ModdedMultiSelectOption<Enum> enumOption:
                     if (!enumOption.Visible())
@@ -117,7 +119,7 @@ public static class MiscUtils
                         continue;
                     }
 
-                    builder.AppendLine(enumOption.Title + ": " + enumOption.Values[enumOption.Value]);
+                    builder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " + TouLocale.GetParsed(enumOption.Values[enumOption.Value], enumOption.Values[enumOption.Value]));
                     break;
                 case ModdedNumberOption numberOption:
                     if (!numberOption.Visible())
@@ -139,13 +141,14 @@ public static class MiscUtils
                         optionStr = optionStr.Replace(".0", "");
                     }
 
+                    var title = TranslationController.Instance.GetString(numberOption.StringName);
                     if (numberOption is { ZeroInfinity: true, Value: 0 })
                     {
-                        builder.AppendLine(numberOption.Title + ": ∞");
+                        builder.AppendLine(title + ": ∞");
                     }
                     else
                     {
-                        builder.AppendLine(numberOption.Title + ": " + optionStr);
+                        builder.AppendLine(title + ": " + optionStr);
                     }
 
                     break;
@@ -1283,9 +1286,9 @@ public static class MiscUtils
                 }
 
                 if (normalPlayerTask.TaskType is TaskTypes.EmptyGarbage or TaskTypes.EmptyChute
-                    && (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 0 ||
-                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 3 ||
-                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4))
+                    && (GameOptionsManager.Instance.currentGameOptions.MapId == 0 ||
+                        GameOptionsManager.Instance.currentGameOptions.MapId == 3 ||
+                        GameOptionsManager.Instance.currentGameOptions.MapId == 4))
                 {
                     normalPlayerTask.taskStep = 1;
                 }
@@ -1470,7 +1473,7 @@ public static class MiscUtils
     public static bool IsMap(byte mapid)
     {
         return (GameOptionsManager.Instance != null &&
-                GameOptionsManager.Instance.currentNormalGameOptions.MapId == mapid)
+                GameOptionsManager.Instance.currentGameOptions.MapId == mapid)
                || (TutorialManager.InstanceExists && AmongUsClient.Instance.TutorialMapId == mapid);
     }
 
@@ -1803,7 +1806,7 @@ public static class MiscUtils
     {
         get
         {
-            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
             if (TutorialManager.InstanceExists)
             {
                 mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
@@ -1811,6 +1814,13 @@ public static class MiscUtils
 
             return mapId;
         }
+    }
+
+    public static TouGamemode CurrentGamemode()
+    {
+        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
+            return TouGamemode.HideAndSeek;
+        return TouGamemode.Normal;
     }
     public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
     {
@@ -1881,6 +1891,12 @@ public static class MiscUtils
         Type genericListType = typeof(List<>).MakeGenericType(myType);
         return (IList)Activator.CreateInstance(genericListType)!;
     }
+}
+public enum TouGamemode
+{
+    Normal,
+    HideAndSeek,
+    Cultist
 }
 public enum ExpandedMapNames
 {
