@@ -771,7 +771,7 @@ public static class HudManagerPatches
             return;
         }
 
-        var roleAssignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+        var roleAssignmentType = OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution();
 
         if (CancelCountdownStart.CancelStartButton && AmongUsClient.Instance.AmHost)
         {
@@ -823,7 +823,7 @@ public static class HudManagerPatches
         else
         {
             RoleList.SetActive(false);
-            if (roleAssignmentType is RoleSelectionMode.Vanilla)
+            if (roleAssignmentType is RoleDistribution.Cultist || roleAssignmentType is RoleDistribution.Vanilla || roleAssignmentType is RoleDistribution.HideAndSeek)
             {
                 return;
             }
@@ -837,7 +837,7 @@ public static class HudManagerPatches
             var list = OptionGroupSingleton<RoleOptions>.Instance;
             switch (roleAssignmentType)
             {
-                case RoleSelectionMode.RoleList:
+                case RoleDistribution.RoleList:
                     for (var i = 0; i < maxSlots; i++)
                     {
                         var slotValue = i switch
@@ -865,7 +865,7 @@ public static class HudManagerPatches
                     }
 
                     break;
-                case RoleSelectionMode.MinMaxList:
+                case RoleDistribution.MinMaxList:
                     rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
                         $"{NeutralBenigns}: {list.MinNeutralBenign.Value} {StoredMinimum}, {list.MaxNeutralBenign.Value} {StoredMaximum}");
                     rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
