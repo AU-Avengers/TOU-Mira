@@ -9,28 +9,28 @@ public sealed class FairyOptions : AbstractOptionGroup<FairyRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleFairy", "Fairy");
 
-    [ModdedNumberOption("Protect Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionFairyCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ProtectCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Protect Duration", 5f, 15f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionFairyDuration", 5f, 15f, 1f, MiraNumberSuffixes.Seconds)]
     public float ProtectDuration { get; set; } = 10f;
 
-    [ModdedNumberOption("Max Number Of Protects", 1, 15, 1, MiraNumberSuffixes.None, "0")]
+    [ModdedNumberOption("TouOptionFairyMaxProtects", 1, 15, 1, MiraNumberSuffixes.None, "0")]
     public float MaxProtects { get; set; } = 5;
 
-    [ModdedEnumOption("Show Protected Player", typeof(ProtectOptions), ["Fairy", "Target + Fairy", "Everyone"])]
+    [ModdedEnumOption("TouOptionFairyShowProtected", typeof(ProtectOptions), ["TouOptionFairyProtectionEnumFairy", "TouOptionFairyProtectionEnumFairyAndTarget", "TouOptionFairyProtectionEnumEveryone"])]
     public ProtectOptions ShowProtect { get; set; } = ProtectOptions.SelfAndFairy;
 
-    [ModdedEnumOption("On Target Death, Fairy Becomes", typeof(BecomeOptions))]
+    [ModdedEnumOption("TouOptionFairyOnDeathFairyBecomes", typeof(BecomeOptions), ["CrewmateKeyword", "TouRoleAmnesiac", "TouRoleSurvivor", "TouRoleMercenary", "TouRoleJester"])]
     public BecomeOptions OnTargetDeath { get; set; } = BecomeOptions.Amnesiac;
 
-    [ModdedToggleOption("Target Knows Fairy Exists")]
+    [ModdedToggleOption("TouOptionFairyTargetKnowsFairyExists")]
     public bool FairyTargetKnows { get; set; } = true;
 
-    [ModdedToggleOption("Fairy Knows Targets Role")]
+    [ModdedToggleOption("TouOptionFairyFairyKnowsRole")]
     public bool FairyKnowsTargetRole { get; set; } = true;
 
-    [ModdedNumberOption("Odds Of Target Being Evil", 0f, 100f, 10f, MiraNumberSuffixes.Percent, "0")]
+    [ModdedNumberOption("TouOptionFairyEvilOdds", 0f, 100f, 10f, MiraNumberSuffixes.Percent, "0")]
     public float EvilTargetPercent { get; set; } = 20f;
 }
 

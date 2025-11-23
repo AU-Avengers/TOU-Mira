@@ -22,7 +22,7 @@ public class TouLocalizationProvider : LocalizationProvider
                 result = "STRMISS";
                 return true;
             }
-            var localeText = TouLocale.Get(reactorText!);
+            var localeText = TouLocale.GetParsed(reactorText!);
             if (!localeText.Contains("STRMISS"))
             {
                 result = localeText;

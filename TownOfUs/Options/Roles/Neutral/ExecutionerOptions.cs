@@ -8,7 +8,7 @@ public sealed class ExecutionerOptions : AbstractOptionGroup<ExecutionerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleExecutioner", "Executioner");
 
-    [ModdedEnumOption("On Target Death, Executioner Becomes", typeof(BecomeOptions))]
+    [ModdedEnumOption("TouOptionExecutionerBecomesTargetDeath", typeof(BecomeOptions), ["CrewmateKeyword", "TouRoleAmnesiac", "TouRoleSurvivor", "TouRoleMercenary", "TouRoleJester"])]
     public BecomeOptions OnTargetDeath { get; set; } = BecomeOptions.Jester;
 
     [ModdedToggleOption("Executioner Can Button")]

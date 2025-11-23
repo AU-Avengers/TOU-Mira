@@ -310,7 +310,7 @@
   <string name="HnsRoleChameleonUnswoop">Unswoop</string>
   <string name="HnsRoleChameleonUnswoopWikiDescription">Cancel your swoop early, or let it finish fully to make yourself visible once again.</string>
   <!-- Chameleon Options -->
-  <string name="HnsOptionChameleonSwoopUsesPerRound">Swoop Uses Per Round</string>
+  <string name="HnsOptionChameleonSwoopUsesPerRound">Swoop Uses In Total</string>
   <string name="HnsOptionChameleonSwoopCooldown">Swoop Cooldown</string>
   <string name="HnsOptionChameleonSwoopDuration">Swoop Duration</string>
   <string name="HnsOptionChameleonCanVent">Chameleon Can Vent</string>
@@ -319,11 +319,18 @@
   <string name="HnsRoleMysticTabHint">Mystic Hint</string>
   <string name="HnsRoleMysticTabDescription">Understand where kills happen.</string>
   <string name="HnsRoleMysticWikiDescription">The Mystic is a Crewmate that gets an arrow pointing to every kill.</string>
+  <!-- Mystic Options -->
+  <string name="HnsOptionMysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
   <!-- Snitch Wiki / Description -->
   <string name="HnsRoleSnitch">Snitch</string>
   <string name="HnsRoleSnitchTabHint">Snitch Hint</string>
   <string name="HnsRoleSnitchTabDescription">Your tasks decrease the timer quicker,\%nl\%at the cost of outing your location.</string>
   <string name="HnsRoleSnitchWikiDescription">The Snitch is a Crewmate that decreases the time remaining quicker than other players with tasks, but at the cost of outing themselves to the seeker.</string>
+  <!-- Snitch Options -->
+  <string name="HnsOptionSnitchCommonTaskMultiplier">Common Task Multiplier</string>
+  <string name="HnsOptionSnitchShortTaskMultiplier">Short Task Multiplier</string>
+  <string name="HnsOptionSnitchLongTaskMultiplier">Long Task Multiplier</string>
+  <string name="HnsOptionSnitchNotifyDuration">Seeker Notify Duration</string>
   <!-- Noisemaker Wiki / Description -->
   <string name="HnsRoleNoisemaker">Noisemaker</string>
   <string name="HnsRoleNoisemakerTabHint">Noisemaker Hint</string>
@@ -1091,6 +1098,8 @@
   <string name="TouOptionMinerMineCooldown">Mine Cooldown</string>
   <string name="TouOptionMinerMineVisibility">Mine Visibility</string>
   <string name="TouOptionMinerMineDelay">Mine Delay</string>
+  <string name="TouOptionMinerDelayEnumImmediate">Immediate</string>
+  <string name="TouOptionMinerDelayEnumAfterUse">AfterUse</string>
   <string name="TouOptionMinerCanKillWithTeammate">Miner Can Kill With Teammate</string>
   <!-- Morphling Wiki / Abilities -->
   <string name="TouRoleMorphling">Morphling</string>
@@ -1138,6 +1147,10 @@
   <string name="TouRoleSpellslingerMessageTitle">Spellslinger Warning</string>
   <string name="TouRoleSpellslingerGlobalWarning">The \%role\% is unleashing a Hex Bomb! Find them before the timer ends! \%time\% seconds remain after this meeting.</string>
   <string name="TouRoleSpellslingerWarningNotif">The \%role\% is unleashing a Hex Bomb in \%time\% seconds!</string>
+  <!-- Spellslinger Options -->
+  <string name="TouOptionSpellslingerHexCooldown">Hex Cooldown</string>
+  <string name="TouOptionSpellslingerMaxHexes">Max Hexes</string>
+  <string name="TouOptionSpellslingerHexBombDuration">Hex Bomb Countdown Duration</string>
   <!-- Swooper Wiki / Abilities -->
   <string name="TouRoleSwooper">Swooper</string>
   <string name="TouRoleSwooperIntroBlurb">Turn Invisible Temporarily</string>
@@ -1165,6 +1178,10 @@
   <string name="TouOptionTraitorMinimumPeopleAlive">Minimum People Alive When Traitor Can Spawn</string>
   <string name="TouOptionTraitorTraitorWontSpawnIfNKIsAlive">Traitor Won't Spawn If NK Is Alive</string>
   <string name="TouOptionTraitorDisableExistingImpostorRoles">Disable Existing Impostor Roles</string>
+  <string name="TouOptionTraitorGuessAs">Traitor Must Be Guessed As</string>
+  <string name="TouOptionTraitorGuessEnumCached">Traitor</string>
+  <string name="TouOptionTraitorGuessEnumActive">New Role</string>
+  <string name="TouOptionTraitorGuessEnumActiveOrCached">Traitor or New Role</string>
   <!-- Undertaker Wiki / Abilities -->
   <string name="TouRoleUndertaker">Undertaker</string>
   <string name="TouRoleUndertakerIntroBlurb">Drag Bodies And Hide Them</string>
@@ -1243,6 +1260,7 @@
   <string name="TouOptionArsonistDouseCooldown">Douse Cooldown</string>
   <string name="TouOptionArsonistDouseInteractions">Douse From Interactions</string>
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
+  <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>
   <string name="TouOptionArsonistCanVent">Arsonist Can Vent</string>
   <!-- Doomsayer -->
   <!-- Doomsayer Wiki / Abilities -->
@@ -1260,7 +1278,12 @@
   <string name="TouOptionDoomsayerGuessCrewInvestigative">Doomsayer Can Guess Crew Investigative Roles</string>
   <string name="TouOptionDoomsayerGuessesAllAtOnce">Doomsayer Guesses All Roles At Once</string>
   <string name="TouOptionDoomsayerCantObserve">Doomsayer Can't Observe</string>
+  <string name="TouOptionDoomsayerOnlyKillLast">Kill Only The Last Victim</string>
   <string name="TouOptionDoomsayerWin">Doomsayer Win</string>
+  <string name="TouOptionDoomsayerWinEnumEndsGame">Ends Game</string>
+  <string name="TouOptionDoomsayerWinEnumLeaves">Leaves In Victory</string>
+  <string name="TouOptionDoomsayerWinEnumNothing">Nothing</string>
+  <string name="TouOptionDoomsayerContinuesGame">Doomsayer Continues The Game</string>
   <!-- Doomsayer Misguess -->
   <string name="TouRoleDoomsayerMisguessOne">Only one guess was incorrect!</string>
   <string name="TouRoleDoomsayerMisguessMultiple">\%misguessCount\% guesses were incorrect.</string>
@@ -1286,6 +1309,9 @@
   <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
   <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>
   <string name="TouOptionExecutionerWin">Executioner Win</string>
+  <string name="TouOptionExecutionerWinEnumEndsGame">Ends Game</string>
+  <string name="TouOptionExecutionerWinEnumTorments">Leaves \%and\% Torments</string>
+  <string name="TouOptionExecutionerWinEnumNothing">Nothing</string>
   <!-- Glitch -->
   <!-- Glitch Wiki / Abilities -->
   <string name="TouRoleGlitch">Glitch</string>
@@ -1320,6 +1346,9 @@
   <string name="TouOptionFairyDuration">Protect Duration</string>
   <string name="TouOptionFairyMaxProtects">Max Number Of Protects</string>
   <string name="TouOptionFairyShowProtected">Show Protected Player</string>
+  <string name="TouOptionFairyProtectionEnumFairy">Fairy</string>
+  <string name="TouOptionFairyProtectionEnumFairyAndTarget">Fairy + Target</string>
+  <string name="TouOptionFairyProtectionEnumEveryone">Everyone</string>
   <string name="TouOptionFairyOnDeathFairyBecomes">On Target Death, Fairy Becomes</string>
   <string name="TouOptionFairyTargetKnowsFairyExists">Target Knows Fairy Exists</string>
   <string name="TouOptionFairyFairyKnowsRole">Fairy Knows Targets Role</string>
@@ -1344,6 +1373,7 @@
   <string name="TouRoleInquisitorVanquishWikiDescription">Vanquish a player to kill them. If they are a heretic, you will be told, and you can continue vanquishing. However, if the victim isn't a heretic, you will lose the ability to vanquish for the rest of the game.</string>
   <!-- Inquisitor Options -->
   <string name="TouOptionInquisitorVanquishCooldown">Vanquish Cooldown</string>
+  <string name="TouOptionInquisitorRoundOneVanquish">Allow Vanquish in First Round</string>
   <string name="TouOptionInquisitorContinuesGame">Inquisitor Continues Game In Final 3</string>
   <string name="TouOptionInquisitorCantInquire">Inquisitor Can't Inquire</string>
   <string name="TouOptionInquisitorInquireCooldown">Inquire Cooldown</string>
@@ -1370,7 +1400,10 @@
   <string name="TouOptionChefCookCooldown">Cook Cooldown</string>
   <string name="TouOptionChefLinkedCooldowns">Reset Cook \%and\% Serve Cooldowns Together</string>
   <string name="TouOptionChefServingAmount">Amount Of Servings Needed</string>
-  <string name="TouOptionChefServingEffects">Servings Have Side Effects</string>
+  <string name="TouOptionChefServingSideEffects">Duration of Side Effects</string>
+  <string name="TouOptionChefArrowsToBodies">Show Arrows Pointing To Dead Bodies</string>
+  <string name="TouOptionChefArrowDelay">Dead Body Arrow Delay</string>
+  <string name="TouOptionChefArrowDuration">Dead Body Arrow Duration</string>
   <!-- Jester -->
   <!-- Jester Wiki / Description -->
   <string name="TouRoleJester">Jester</string>
@@ -1389,6 +1422,9 @@
   <string name="TouOptionJesterScatterEnabled">Scatter Mechanic Enabled</string>
   <string name="TouOptionJesterScatterTimer">Scatter Timer</string>
   <string name="TouOptionJesterAfterWin">After Win Type</string>
+  <string name="TouOptionJesterWinEnumEndsGame">Ends Game</string>
+  <string name="TouOptionJesterWinEnumHaunts">Haunts</string>
+  <string name="TouOptionJesterWinEnumNothing">Nothing</string>
   <!-- Juggernaut -->
   <!-- Juggernaut Wiki / Description -->
   <string name="TouRoleJuggernaut">Juggernaut</string>
@@ -1417,6 +1453,8 @@
   <string name="TouOptionMercenaryCooldown">Bribe Cooldown</string>
   <string name="TouOptionMercenaryMaxGuards">Max Number Of Guards</string>
   <string name="TouOptionMercenaryBribeCost">Bribe Cost</string>
+  <string name="TouOptionMercenaryProtectiveGuard">Guarding Stops Attacks</string>
+  <string name="TouOptionMercenaryProtectiveGuardGold">Gold Given From An Attack</string>
   <!-- Pestilence -->
   <!-- Pestilence Wiki / Description -->
   <string name="TouRolePestilence">Pestilence</string>
@@ -1435,6 +1473,9 @@
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>
   <string name="TouOptionSpectreWin">Spectre Win</string>
+  <string name="TouOptionSpectreWinEnumEndsGame">Ends Game</string>
+  <string name="TouOptionSpectreWinEnumSpooks">Spooks</string>
+  <string name="TouOptionSpectreWinEnumNothing">Nothing</string>
   <!-- Plaguebearer -->
   <!-- Plaguebearer Wiki / Abilities -->
   <string name="TouRolePlaguebearer">Plaguebearer</string>
@@ -1494,7 +1535,16 @@
   <string name="TouOptionVampireMaxVamps">Max Number Of Vampires Per Game</string>
   <string name="TouOptionVampireImpostorVision">Vampires Have Impostor Vision</string>
   <string name="TouOptionVampireNewVampsAssassinate">New Vampires Can Assassinate</string>
-  <string name="TouOptionVampireValidConversions">Valid Conversions</string>
+  <string name="TouOptionVampireValidNeutralConversions">Valid Neutral Conversions</string>
+  <string name="TouOptionVampireNeutConvertEnumOnlyCrew">Only Crew</string>
+  <string name="TouOptionVampireNeutConvertEnumOnlyBenign">Benign</string>
+  <string name="TouOptionVampireNeutConvertEnumOnlyEvil">Evils</string>
+  <string name="TouOptionVampireNeutConvertEnumOnlyOutlier">Outliers</string>
+  <string name="TouOptionVampireNeutConvertEnumBenignEvil">Benign \%and\% Evils</string>
+  <string name="TouOptionVampireNeutConvertEnumBenignOutlier">Benign \%and\% Outliers</string>
+  <string name="TouOptionVampireNeutConvertEnumEvilOutlier">Evils \%and\% Outliers</string>
+  <string name="TouOptionVampireNeutConvertEnumMostNeuts">Non-Killer Neutrals</string>
+  <string name="TouOptionVampireConvertLovers">Can Convert Lovers</string>
   <string name="TouOptionVampireNewVampiresConvert">New Vampires Can Convert</string>
   <string name="TouOptionVampireCanVent">Vampires Can Vent</string>
   <!-- Werewolf -->

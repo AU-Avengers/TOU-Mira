@@ -9,13 +9,13 @@ public sealed class HnsChameleonOptions : AbstractOptionGroup<HnsChameleonRole>
 {
     public override string GroupName => TouLocale.Get("HnsRoleChameleon", "Chameleon");
 
-    [ModdedNumberOption("Swoop Uses In Total", 1f, 10f, 1f, MiraNumberSuffixes.None, "0", true)]
+    [ModdedNumberOption("HnsOptionChameleonSwoopUsesPerRound", 1f, 10f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxSwoops { get; set; } = 5f;
 
-    [ModdedNumberOption("Swoop Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("HnsOptionChameleonSwoopCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SwoopCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Swoop Duration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("HnsOptionChameleonSwoopDuration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float SwoopDuration { get; set; } = 10f;
 
     /*[ModdedToggleOption("Swooper Can Vent")]
