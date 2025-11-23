@@ -670,4 +670,12 @@
   <string name="TouOptionMirrorcasterKnowsTheAbsorbedTypeOfAttack">Spiegelwerfer kennt den Typen des Absorbierten Angriffs</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Sammle mehrere Reflektierungs nutzen</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Max Anzahl an Magischen Spiegeln</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\% wurde vom \%attackerRole\%! Du kannst jetzt den Angriff auf jemand anderen reflektieren!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">%player\% wurde angegriffen! Du kannst jetzt den Angriff auf jemand anderen reflektieren!</string>
+  <string name="TouRoleMysticIntroBlurb">Lerne, wo und wann Morde passieren</string>
+  <string name="TouRoleMysticTabDescription">Verstehe, wo und wann morde geschehen</string>
+  <string name="TouRoleMysticWikiDescription">Der Mystiker ist eine Besatzungs Ermittlung Rolle, die einen Alarm bekommt, wenn jemand stirbt.</string>
+  <string name="TouOptionMysticDeadBodyArrowDuration">Toter Körper Pfeil Dauer</string>
+  <string name="TouRoleOracleIntroBlurb">Sorge dafür, das die Besatzung ihre Sünden gestehen</string>s
+  <string name="TouRoleOracleTabDescription">Segne die Besatzung um die in Versammlungen zu beschützen, %nl\%und lass sie ihre Sünden beichten</string>
 </resources>
