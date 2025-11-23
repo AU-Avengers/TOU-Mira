@@ -7,7 +7,6 @@ using MiraAPI.Modifiers;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
-using TownOfUs.Roles;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Events;

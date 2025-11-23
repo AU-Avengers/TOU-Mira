@@ -10,16 +10,16 @@ public sealed class LookoutOptions : AbstractOptionGroup<LookoutRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleLookout", "Lookout");
 
-    [ModdedNumberOption("Watch Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionLookoutWatchCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float WatchCooldown { get; set; } = 20f;
 
-    [ModdedNumberOption("Max Players That Can Be Watched", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
+    [ModdedNumberOption("TouOptionLookoutMaxWatches", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxWatches { get; set; } = 5;
 
-    [ModdedToggleOption("Lookout Watches Reset After Each Round")]
+    [ModdedToggleOption("TouOptionLookoutLoResetOnNewRound")]
     public bool LoResetOnNewRound { get; set; } = true;
 
-    public ModdedToggleOption TaskUses { get; } = new("Get More Uses From Completing Tasks", false)
+    public ModdedToggleOption TaskUses { get; } = new("TouOptionLookoutTaskUses", false)
     {
         Visible = () => !OptionGroupSingleton<LookoutOptions>.Instance.LoResetOnNewRound
     };

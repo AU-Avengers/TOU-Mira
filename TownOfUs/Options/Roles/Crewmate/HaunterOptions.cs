@@ -8,17 +8,17 @@ public sealed class HaunterOptions : AbstractOptionGroup<HaunterRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleHaunter", "Haunter");
 
-    [ModdedNumberOption("Tasks Left Before Clickable", 0f, 5)]
+    [ModdedNumberOption("TouOptionHaunterNumTasksLeftBeforeClickable", 0f, 5)]
     public float NumTasksLeftBeforeClickable { get; set; } = 3f;
 
-    [ModdedNumberOption("Tasks Left Before Alerted", 0f, 15)]
+    [ModdedNumberOption("TouOptionHaunterNumTasksLeftBeforeAlerted", 0f, 15)]
     public float NumTasksLeftBeforeAlerted { get; set; } = 1f;
 
-    [ModdedToggleOption("Reveal Neutral Roles")]
+    [ModdedToggleOption("TouOptionHaunterRevealNeutralRoles")]
     public bool RevealNeutralRoles { get; set; } = false;
 
-    [ModdedEnumOption("Can Be Clicked By", typeof(HaunterRoleClickableType),
-        ["Everyone", "Non-Crew", "Impostors Only"])]
+    [ModdedEnumOption("TouOptionHaunterCanBeClickedBy", typeof(HaunterRoleClickableType),
+        ["TouOptionHaunterClickEnumEveryone", "TouOptionHaunterClickEnumNonCrew", "TouOptionHaunterClickEnumImpsOnly"])]
     public HaunterRoleClickableType HaunterCanBeClickedBy { get; set; } = HaunterRoleClickableType.NonCrew;
 }
 

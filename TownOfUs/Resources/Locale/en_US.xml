@@ -353,11 +353,21 @@
   <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">Revive a group of dead bodies near you. If the revival finishes, you will also die without leaving a body behind.</string>
   <string name="TouRoleAltruistReviveSacrificeWikiDescription">Revive the closest dead body. If the revival finishes, you will also die without leaving a body behind.</string>
   <!-- Altruist Options -->
+  <string name="TouOptionAltruistReviveType">Revive Type</string>
+  <string name="TouOptionAltruistReviveEnumSacrifice">Sacrifice</string>
+  <string name="TouOptionAltruistReviveEnumGroupSacrifice">Group Sacrifice</string>
+  <string name="TouOptionAltruistReviveEnumGroupRevive">Group Revive</string>
   <string name="TouOptionAltruistReviveDuration">Revive Duration</string>
   <string name="TouOptionAltruistReviveRange">Revive Range</string>
   <string name="TouOptionAltruistMaxRevives">Revive Uses</string>
   <string name="TouOptionAltruistFreezeDuringRevive">Freeze Altruist During Revive</string>
   <string name="TouOptionAltruistHideAtBeginningOfRevive">Hide Bodies at Beginning Of Revive</string>
+  <string name="TouOptionAltruistKillersAlertedAtStart">Killers Alerted Before Revive</string>
+  <string name="TouOptionAltruistKillersAlertedAtEnd">Killers Alerted After Revive</string>
+  <string name="TouOptionAltruistKillerEnumNobody">Nobody</string>
+  <string name="TouOptionAltruistKillerEnumNeutrals">Neutrals</string>
+  <string name="TouOptionAltruistKillerEnumImpostors">Impostors</string>
+  <string name="TouOptionAltruistKillerEnumNeutralsAndImpostors">Neutrals and Impostors</string>
   <!-- Aurial - Crewmate Investigative -->
   <string name="TouRoleAurial">Aurial</string>
   <string name="TouRoleAurialIntroBlurb">Sense Disturbances In Your Aura.</string>
@@ -387,7 +397,7 @@
   <string name="TouOptionClericBarrierCooldown">Barrier Cooldown</string>
   <string name="TouOptionClericBarrierDuration">Barrier Duration</string>
   <string name="TouOptionClericCleanseCooldown">Cleanse Cooldown</string>
-  <string name="TouOptionClericShowBarriered">Show Barriered Player</string>
+  <string name="TouOptionClericProtectedSeesBarrier">Protected Player Sees Barrier</string>
   <string name="TouOptionClericAttackNotif">Cleric Gets Attack Notification</string>
   <!-- Deputy - Crewmate Killing -->
   <!-- Deputy Wiki / Abilities -->
@@ -449,6 +459,9 @@
   <string name="TouOptionHaunterNumTasksLeftBeforeAlerted">Tasks Left Before Alerted</string>
   <string name="TouOptionHaunterRevealNeutralRoles">Reveal Neutral Roles</string>
   <string name="TouOptionHaunterCanBeClickedBy">Can Be Clicked By</string>
+  <string name="TouOptionHaunterClickEnumEveryone">Everyone</string>
+  <string name="TouOptionHaunterClickEnumNonCrew">Non-Crew</string>
+  <string name="TouOptionHaunterClickEnumImpsOnly">Impostors Only</string>
   <!-- Haunter Feedback -->
   <string name="TouRoleHaunterSelfAlertFeedback">You have alerted the Killers!</string>
   <string name="TouRoleHaunterImpAlertFeedback">A Haunter is loose, catch them before they reveal you!</string>
@@ -484,8 +497,13 @@
   <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
   <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Detective\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Tracker\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
   <!-- Imitator Options -->
-  <string name="TouOptionImitatorImitateNeutrals">Imitate Specific Neutrals As Similar Crew Roles</string>
-  <string name="TouOptionImitatorImitateImpostors">Imitate Specific Impostors As Similar Crew Roles</string>
+  <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
+  <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>
+  <string name="TouOptionImitatorImitateBasicCrewmate">Imitate Basic Crewmate</string>
+  <string name="TouOptionImitatorGuessAs">Imitator Must Be Guessed As</string>
+  <string name="TouOptionImitatorGuessEnumCached">Imitator</string>
+  <string name="TouOptionImitatorGuessEnumActive">Imitated Role</string>
+  <string name="TouOptionImitatorGuessEnumActiveOrCached">Imitator or Imitated Role</string>
   <!-- Investigator - Crewmate Investigative -->
   <!-- Investigator Wiki / Description -->
   <string name="TouRoleInvestigator">Investigator</string>

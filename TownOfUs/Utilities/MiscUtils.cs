@@ -103,7 +103,7 @@ public static class MiscUtils
                         continue;
                     }
 
-                    builder.AppendLine(option.Title + ": " + toggleOption.Value);
+                    builder.AppendLine(TranslationController.Instance.GetString(toggleOption.StringName) + ": " + toggleOption.Value);
                     break;
                 /*case ModdedMultiSelectOption<Enum> enumOption:
                     if (!enumOption.Visible())
@@ -119,7 +119,7 @@ public static class MiscUtils
                         continue;
                     }
 
-                    builder.AppendLine(enumOption.Title + ": " + enumOption.Values[enumOption.Value]);
+                    builder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " + TouLocale.GetParsed(enumOption.Values[enumOption.Value], enumOption.Values[enumOption.Value]));
                     break;
                 case ModdedNumberOption numberOption:
                     if (!numberOption.Visible())
@@ -141,13 +141,14 @@ public static class MiscUtils
                         optionStr = optionStr.Replace(".0", "");
                     }
 
+                    var title = TranslationController.Instance.GetString(numberOption.StringName);
                     if (numberOption is { ZeroInfinity: true, Value: 0 })
                     {
-                        builder.AppendLine(numberOption.Title + ": ∞");
+                        builder.AppendLine(title + ": ∞");
                     }
                     else
                     {
-                        builder.AppendLine(numberOption.Title + ": " + optionStr);
+                        builder.AppendLine(title + ": " + optionStr);
                     }
 
                     break;

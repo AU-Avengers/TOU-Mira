@@ -1,4 +1,5 @@
-﻿using MiraAPI.Events;
+﻿using BepInEx.Logging;
+using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -19,6 +20,7 @@ public static class HnsSnitchEvents
         var player = @event.Player;
         if (hnsInstance != null && player.Data.Role is HnsSnitchRole)
         {
+            Log(LogLevel.Error, $"{player.Data.PlayerName} did a task!");
             if (PlayerControl.LocalPlayer.IsImpostor())
             {
                 var color = Palette.PlayerColors[player.GetDefaultAppearance().ColorId];
