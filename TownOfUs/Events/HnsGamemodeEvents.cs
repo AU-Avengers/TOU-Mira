@@ -54,8 +54,8 @@ public static class HnsGamemodeEvents
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
             var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable;
 
-            if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum 
-                || PlayerControl.LocalPlayer.IsImpostor())
+            if (PlayerControl.LocalPlayer.inVent && (aliveCount <= minimum
+                                                     || PlayerControl.LocalPlayer.IsImpostor()))
             {
                 PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                 PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();

@@ -1,4 +1,3 @@
-using BepInEx.Logging;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Reactor.Localization;
 using Reactor.Localization.Providers;
