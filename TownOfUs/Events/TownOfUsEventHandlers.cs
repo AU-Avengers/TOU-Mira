@@ -615,6 +615,11 @@ public static class TownOfUsEventHandlers
             return;
         }
 
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
+
         if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             @event.Cancel();

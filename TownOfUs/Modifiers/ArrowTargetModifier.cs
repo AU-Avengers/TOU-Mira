@@ -1,4 +1,4 @@
-﻿using MiraAPI.Modifiers;
+﻿using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Utilities;
@@ -7,9 +7,11 @@ using UnityEngine;
 namespace TownOfUs.Modifiers;
 
 [MiraIgnore]
-public abstract class ArrowTargetModifier(PlayerControl owner, Color color, float updateInterval) : BaseModifier
+public abstract class ArrowTargetModifier(PlayerControl owner, Color color, float updateInterval) : TimedModifier
 {
     private readonly float _updateInterval = updateInterval;
+    public override float Duration => 1f;
+    public override bool AutoStart => false;
 
     private ArrowBehaviour? _arrow;
     private DateTime _time = DateTime.UnixEpoch;

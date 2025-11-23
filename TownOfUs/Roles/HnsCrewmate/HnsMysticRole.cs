@@ -179,27 +179,6 @@ public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         return GameManager.Instance.LogicOptions.GetEngineerInVentTime();
     }
 
-    public override bool CanUse(IUsable console)
-    {
-        if (!GameManager.Instance.LogicUsables.CanUse(console, Player))
-        {
-            return false;
-        }
-        var console2 = console.TryCast<Console>()!;
-        if (console2 == null)
-        {
-            return false;
-        }
-
-        if (console2.TryCast<Vent>())
-        {
-            return (!IsAffectedByComms || Player.inVent) && usesRemaining > 0;
-        }
-
-        return console2.TryCast<ZiplineConsole>() || console2.TryCast<Ladder>() || console2.TryCast<PlatformConsole>() ||
-               console2.TryCast<DoorConsole>();
-    }
-
     public override void SetUsableTarget(IUsable target)
     {
         var newTarget = GetTarget();

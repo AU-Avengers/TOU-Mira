@@ -1,17 +1,16 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Roles;
-using AmongUs.Data;
+﻿using AmongUs.Data;
 using AmongUs.GameOptions;
 using MiraAPI.Patches.Stubs;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.HnsCrewmate;
 
-public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
+public sealed class HnsSnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
-    public string LocaleKey => "Chameleon";
+    public string LocaleKey => "Snitch";
     public string RoleName => TouLocale.Get($"HnsRole{LocaleKey}");
     public string RoleDescription => "...";
     public string RoleLongDescription => TouLocale.GetParsed($"HnsRole{LocaleKey}TabDescription");
@@ -24,24 +23,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities
-    {
-        get
-        {
-            return new List<CustomButtonWikiDescription>
-            {
-                new(TouLocale.GetParsed($"HnsRole{LocaleKey}Swoop", "Swoop"),
-                    TouLocale.GetParsed($"HnsRole{LocaleKey}SwoopWikiDescription"),
-                    TouCrewAssets.CrewSwoopSprite),
-                new(TouLocale.GetParsed($"HnsRole{LocaleKey}Unswoop", "Unswoop"),
-                    TouLocale.GetParsed($"HnsRole{LocaleKey}UnswoopWikiDescription"),
-                    TouCrewAssets.CrewUnswoopSprite)
-            };
-        }
-    }
-
-    public Color RoleColor => TownOfUsColors.Chameleon;
+    public Color RoleColor => TownOfUsColors.Snitch;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateHider;
 
@@ -49,7 +31,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     {
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
-        Icon = TouRoleIcons.Chameleon,
+        Icon = TouRoleIcons.Snitch,
         RoleHintType = RoleHintType.TaskHint
     };
 

@@ -300,11 +300,6 @@
   <string name="TouRoleSpectatorTabDescription">Never participate, watch as the chaos unfolds in-game!</string>
   <string name="TouRoleSpectatorWikiDescription">You don't participate in-game nor interact with players. All you can do is watch.</string>
   <!-- Hide and Seek - Hiders -->
-  <!-- Mystic Wiki / Description -->
-  <string name="HnsRoleMystic">Mystic</string>
-  <string name="HnsRoleMysticTabHint">Mystic Hint</string>
-  <string name="HnsRoleMysticTabDescription">Understand where kills happen.</string>
-  <string name="HnsRoleMysticWikiDescription">The Mystic is a Crewmate that gets an arrow pointing to every kill.</string>
   <!-- Chameleon Wiki / Description -->
   <string name="HnsRoleChameleon">Chameleon</string>
   <string name="HnsRoleChameleonTabHint">Chameleon Hint</string>
@@ -314,16 +309,31 @@
   <string name="HnsRoleChameleonSwoopWikiDescription">Turn invisible to the seeker.</string>
   <string name="HnsRoleChameleonUnswoop">Unswoop</string>
   <string name="HnsRoleChameleonUnswoopWikiDescription">Cancel your swoop early, or let it finish fully to make yourself visible once again.</string>
-  <!-- Swooper Options -->
+  <!-- Chameleon Options -->
   <string name="HnsOptionChameleonSwoopUsesPerRound">Swoop Uses Per Round</string>
   <string name="HnsOptionChameleonSwoopCooldown">Swoop Cooldown</string>
   <string name="HnsOptionChameleonSwoopDuration">Swoop Duration</string>
   <string name="HnsOptionChameleonCanVent">Chameleon Can Vent</string>
+  <!-- Mystic Wiki / Description -->
+  <string name="HnsRoleMystic">Mystic</string>
+  <string name="HnsRoleMysticTabHint">Mystic Hint</string>
+  <string name="HnsRoleMysticTabDescription">Understand where kills happen.</string>
+  <string name="HnsRoleMysticWikiDescription">The Mystic is a Crewmate that gets an arrow pointing to every kill.</string>
+  <!-- Snitch Wiki / Description -->
+  <string name="HnsRoleSnitch">Snitch</string>
+  <string name="HnsRoleSnitchTabHint">Snitch Hint</string>
+  <string name="HnsRoleSnitchTabDescription">Your tasks decrease the timer quicker,\%nl\%at the cost of outing your location.</string>
+  <string name="HnsRoleSnitchWikiDescription">The Snitch is a Crewmate that decreases the time remaining quicker than other players with tasks, but at the cost of outing themselves to the seeker.</string>
+  <!-- Noisemaker Wiki / Description -->
+  <string name="HnsRoleNoisemaker">Noisemaker</string>
+  <string name="HnsRoleNoisemakerTabHint">Noisemaker Hint</string>
+  <string name="HnsRoleNoisemakerTabDescription">Alert all crewmates of your location when killed.</string>
+  <string name="HnsRoleNoisemakerWikiDescription">The Noisemaker is a Crewmate that alerts all players on the map once they are killed, showing a red body indicator.</string>
   <!-- Cultist Mode - Impostors -->
   <!-- Necromancer - Impostor Cultist -->
   <string name="CultistRoleNecromancer">Necromancer</string>
   <string name="CultistRoleNecromancerIntroBlurb">Revive The Dead To Do Your Bidding</string>
-  <string name="CultistRoleNecromancerTabDescription">Kill crewmates and convert believers\%nl\into equivalent impostor roles!</string>
+  <string name="CultistRoleNecromancerTabDescription">Kill crewmates and convert believers\%nl\%into equivalent impostor roles!</string>
   <string name="CultistRoleNecromancerWikiDescription">The Necromancer is an Impostor Cultist role that can kill players like normal, but can also revive Crewmate Believers into Impostor Followers.</string>
   <string name="CultistRoleNecromancerRevive">Revive</string>
   <string name="CultistRoleNecromancerReviving">Reviving</string>

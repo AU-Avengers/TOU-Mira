@@ -11,6 +11,7 @@ public static class TouRoleGroups
     public static RoleOptionsGroup CrewObstinate { get; } = new("Crewmate Obstinate Roles (Cultist)", TownOfUsColors.Amnesiac, -7);
     public static RoleOptionsGroup NeutralObstinate { get; } = new("Neutral Obstinate Roles (Cultist)", TownOfUsColors.Mercenary, -6);
     public static RoleOptionsGroup ImpCultist { get; } = new("Impostor Cultists (Cultist)", TownOfUsColors.Juggernaut, -5);
+    public static RoleOptionsGroup ImpFollower { get; } = new("Impostor Followers (Cultist)", TownOfUsColors.Juggernaut, -5);
     public static RoleOptionsGroup CrewInvest { get; } = new("Crewmate Investigative Roles", TownOfUsColors.Crewmate);
     public static RoleOptionsGroup CrewKiller { get; } = new("Crewmate Killing Roles", TownOfUsColors.Crewmate);
     public static RoleOptionsGroup CrewProc { get; } = new("Crewmate Protective Roles", TownOfUsColors.Crewmate);
