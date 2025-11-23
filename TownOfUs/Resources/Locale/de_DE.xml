@@ -486,7 +486,6 @@
   <string name="TouOptionClericBarrierCooldown">Barriere Abklingzeit</string>
   <string name="TouOptionClericBarrierDuration">Barriere Dauer</string>
   <string name="TouOptionClericCleanseCooldown">Reingigungs Cooldown</string>
-  <string name="TouOptionClericShowBarriered">Zeige den geschützten Spieler</string>
   <string name="TouOptionClericAttackNotif">Kleriker bekommt Angriffs Meldung</string>
   <string name="TouRoleDeputyIntroBlurb">Belagere die Besatzung, um deren Mörder zu fangen</string>
   <string name="TouRoleDeputyTabDescription">Belagere die Besatzung, dann erschieße deren Mördern in den Versammlungen!</string>
@@ -667,7 +666,6 @@
   <string name="TouOptionMirrorcasterMagicMirrorCooldown">Magischer Spiegel Abklingzeit</string>
   <string name="TouOptionMirrorcasterMagicMirrorDuration">Magischer Spiegel Dauer</string>
   <string name="TouOptionMirrorcasterUnleashCooldown">Reflektieren Abklingzeit</string>
-  <string name="TouOptionMirrorcasterKnowsTheAbsorbedTypeOfAttack">Spiegelwerfer kennt den Typen des Absorbierten Angriffs</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Sammle mehrere Reflektierungs nutzen</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Max Anzahl an Magischen Spiegeln</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\% wurde vom \%attackerRole\%! Du kannst jetzt den Angriff auf jemand anderen reflektieren!</string>

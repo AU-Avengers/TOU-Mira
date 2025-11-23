@@ -243,7 +243,6 @@
   <string name="TouOptionClericBarrierCooldown">Tiempo de espera de barrera</string>
   <string name="TouOptionClericBarrierDuration">Duración de la barrera</string>
   <string name="TouOptionClericCleanseCooldown">Tiempo de espera de limpieza</string>
-  <string name="TouOptionClericShowBarriered">Mostrar al jugador con barrera</string>
   <string name="TouOptionClericAttackNotif">El clérigo recibe una notificación de ataque</string>
   <string name="TouRoleDeputy">Diputado</string>
   <string name="TouRoleDeputyIntroBlurb">Acampar tripulantes para atrapar a su Asesino</string>

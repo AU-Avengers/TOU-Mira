@@ -230,7 +230,6 @@
   <string name="TouOptionClericBarrierCooldown">屏障冷却时间</string>
   <string name="TouOptionClericBarrierDuration">屏障持续时间</string>
   <string name="TouOptionClericCleanseCooldown">净化冷却时间</string>
-  <string name="TouOptionClericShowBarriered">屏障显示对象</string>
   <string name="TouOptionClericAttackNotif">牧师收到攻击通知</string>
   <string name="TouRoleDeputy">副手</string>
   <string name="TouRoleDeputyIntroBlurb">保护船员抓住杀手</string>
@@ -543,7 +542,6 @@
   <string name="TouOptionVampireMaxVamps">每局最大吸血魔数量（含原生、死亡的）</string>
   <string name="TouOptionVampireImpostorVision">吸血魔拥有伪装者视野</string>
   <string name="TouOptionVampireNewVampsAssassinate">新吸血魔可猜测</string>
-  <string name="TouOptionVampireValidConversions">有效转化对象</string>
   <string name="TouOptionVampireNewVampiresConvert">新吸血魔可转化</string>
   <string name="TouOptionVampireCanVent">吸血魔可进通风口</string>
   <string name="TouRoleMercenaryIntroBlurb">贿赂船员</string>
@@ -560,7 +558,6 @@
   <string name="TouOptionMirrorcasterMagicMirrorCooldown">魔法镜冷却时间</string>
   <string name="TouOptionMirrorcasterMagicMirrorDuration">魔法镜持续时间</string>
   <string name="TouOptionMirrorcasterUnleashCooldown">反射（击杀）冷却时间</string>
-  <string name="TouOptionMirrorcasterKnowsTheAbsorbedTypeOfAttack">魔镜师知晓吸收的攻击类型</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">可累积并多次反射</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">魔法镜最大数量</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\%被\%attackerRole\%攻击！你现在可以将攻击反射到另一名玩家！</string>
@@ -575,9 +572,6 @@
   <string name="TouOptionOracleConfessCooldown">坦白冷却时间</string>
   <string name="TouOptionOracleBlessCooldown">佑护冷却时间</string>
   <string name="TouOptionOracleRevealAccuracy">揭示准确率</string>
-  <string name="TouOptionOracleNeutralBenignShowUpAsEvil">中立善良型显示为邪恶</string>
-  <string name="TouOptionOracleNeutralEvilShowUpAsEvil">中立邪恶型显示为邪恶</string>
-  <string name="TouOptionOracleNeutralKillingShowUpAsEvil">中立杀手型显示为邪恶</string>
   <string name="TouRoleOracleConfessorDied">你的坦白者未能存活，因此没有获得坦白信息</string>
   <string name="TouRoleOracleTooFew">存活人数过少，无法获得坦白信息</string>
   <string name="TouRoleOracleNoMoreEvil">\%player\%坦白得知场上已无恶人!</string>
@@ -1146,7 +1140,6 @@
   <string name="TouRoleSeerWikiDescription">预言家是一名船员调查型职业，可以揭示其他玩家的阵营。</string>
   <string name="TouRoleSeerReveal">揭示</string>
   <string name="TouRoleSeerRevealWikiDescription">揭示一名玩家的阵营</string>
-  <string name="TouOptionSeerSeerCooldown">预言家冷却</string>
   <string name="TouOptionSeerCrewmateKillingRolesAreRed">船员击杀职业显示为红色</string>
   <string name="TouOptionSeerNeutralBenignRolesAreRed">中立善良职业显示为红色</string>
   <string name="TouOptionSeerNeutralEvilRolesAreRed">中立邪恶职业显示为红色</string>
@@ -1259,7 +1252,6 @@
   <string name="TouOptionChefCookCooldown">烹饪冷却</string>
   <string name="TouOptionChefLinkedCooldowns">烹饪\%and\% 和喂食冷却同步重置</string>
   <string name="TouOptionChefServingAmount">所需喂食数量</string>
-  <string name="TouOptionChefServingEffects">喂食有副作用</string>
   <string name="TouRoleSeerAltIntroBlurb">比较两名玩家的阵营</string>
   <string name="TouRoleSeerAltTabDescription">比较两名玩家，查看他们的阵营是匹配的还是冲突的</string>
   <string name="TouRoleSeerAltWikiDescription">预言家是一名船员调查型职业，能够比较两名玩家，判断他们的阵营是匹配的还是冲突的。</string>

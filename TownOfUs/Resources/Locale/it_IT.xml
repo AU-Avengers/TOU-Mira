@@ -242,7 +242,6 @@
   <string name="TouOptionClericBarrierCooldown">Ricarica Barriera</string>
   <string name="TouOptionClericBarrierDuration">Durata Barriera</string>
   <string name="TouOptionClericCleanseCooldown">Ricarica Rimuovi</string>
-  <string name="TouOptionClericShowBarriered">Mostra Giocatore Barrierato</string>
   <string name="TouOptionClericAttackNotif">Il Chierico riceve Notifiche di Attacco</string>
   <string name="TouRoleDeputy">Vice</string>
   <string name="TouRoleDeputyWikiDescription">Il Vice è un Astronauta Uccisore che può accampare altri giocatori. Quando un giocatore accampato muore, il Vice viene avvisato della sua morte. Nella riunione successiva, il Vice può quindi tentare di sparare all'assassino del giocatore accampato. Se ha successo, l'assassino muore, altrimenti non succede nulla.</string>

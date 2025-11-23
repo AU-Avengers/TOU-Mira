@@ -230,7 +230,6 @@
   <string name="TouOptionClericBarrierCooldown">Barrière Afkoelperiode</string>
   <string name="TouOptionClericBarrierDuration">Barrière Duur</string>
   <string name="TouOptionClericCleanseCooldown">Reinigen Afkoelperiode</string>
-  <string name="TouOptionClericShowBarriered">Toon Afgeschermde Speler</string>
   <string name="TouOptionClericAttackNotif">Geestelijke Krijgt Aanvals Notificatie</string>
   <string name="TouRoleDeputy">Hulpsheriff</string>
   <string name="TouRoleDeputyIntroBlurb">Bewaak Bemanningsleden Om Hun Moordenaar Te Vangen</string>
@@ -375,7 +374,6 @@
   <string name="TouOptionMirrorcasterMagicMirrorCooldown">Magische Spiegel afkoelperiode</string>
   <string name="TouOptionMirrorcasterMagicMirrorDuration">Magische Spiegel duur</string>
   <string name="TouOptionMirrorcasterUnleashCooldown">Ontketen afkoelperiode</string>
-  <string name="TouOptionMirrorcasterKnowsTheAbsorbedTypeOfAttack">Reflector kent de geabsorbeerde type aanval</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Verzamel meerdere ontketeningen</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Maximale aantal Magische Spiegels</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithType">%player\% was aangevallen door de %attackerRole\%! Je kunt nu je aanval op een andere speler ontketenen!</string>
@@ -403,9 +401,6 @@
   <string name="TouOptionOracleConfessCooldown">Biechten Afkoelperiode</string>
   <string name="TouOptionOracleBlessCooldown">Zegen Afkoelperiode</string>
   <string name="TouOptionOracleRevealAccuracy">Onthul Nauwkeurigheid</string>
-  <string name="TouOptionOracleNeutralBenignShowUpAsEvil">Neutraal Goedaardig verschijnt als Slecht</string>
-  <string name="TouOptionOracleNeutralEvilShowUpAsEvil">Neutraal Kwaadaardig verschijnt als Slecht</string>
-  <string name="TouOptionOracleNeutralKillingShowUpAsEvil">Neutraal Doden verschijnt als Slecht</string>
   <string name="TouRoleOracleConfessorDied">Je biechtvader heeft het niet overleefd, dus krijg je geen bekentenis</string>
   <string name="TouRoleOracleTooFew">Er zijn te weinig overlevende op een bekentenis te krijgen</string>
   <string name="TouRoleOracleNoMoreEvil">%player\% biecht op te weten dat er geen slechte spelers meer zijn!</string>
@@ -494,7 +489,6 @@
   <string name="TouRoleSeerWikiDescription">De Ziener is een Bemannings Onderzoekende rol die alianties van andere spelers kan onthullen.</string>
   <string name="TouRoleSeerReveal">Onthul</string>
   <string name="TouRoleSeerRevealWikiDescription">Onthul de aliantie van een speler</string>
-  <string name="TouOptionSeerSeerCooldown">Ziener Afkoelperiode</string>
   <string name="TouRoleMirrorcasterAlreadyDiedNotif">De speler die je probeerde te beschermen was al dood!</string>
   <string name="TouRoleMirrorcasterTargetDiedNotif">%player\% ging dood aan een indirecte aanval, die je spiegels niet konden tegenhouden.</string>
   <string name="TouRoleMirrorcasterTargetDidNotDieNotif">%player\% was niet aangevallen.</string>

@@ -235,7 +235,6 @@
   <string name="TouOptionClericBarrierCooldown">Откат щита</string>
   <string name="TouOptionClericBarrierDuration">Длительность щита</string>
   <string name="TouOptionClericCleanseCooldown">Откат Очищения</string>
-  <string name="TouOptionClericShowBarriered">Показывать Защищённого игрока</string>
   <string name="TouOptionClericAttackNotif">Клирик получает уведомление об атаке</string>
   <string name="NeutralOutliers">Нейтралы-Останцы</string>
   <string name="NeutralOutlier">Нейтрал-Останец</string>
@@ -361,7 +360,6 @@
   <string name="TouOptionMirrorcasterMagicMirrorCooldown">Откат Магического Зеркала</string>
   <string name="TouOptionMirrorcasterMagicMirrorDuration">Длительность Магического Зеркала</string>
   <string name="TouOptionMirrorcasterUnleashCooldown">Откат Атаки</string>
-  <string name="TouOptionMirrorcasterKnowsTheAbsorbedTypeOfAttack">Отражатель знает тип поглощённой атаки</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">Накапливать Атаки</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">Макс. количество Магических Зеркал</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithType">\%attackerRole\% атаковал(-а) \%player\%! Теперь вы можете атаковать другого игрока!</string>
@@ -382,9 +380,6 @@
   <string name="TouOptionOracleConfessCooldown">Откат Признания</string>
   <string name="TouOptionOracleBlessCooldown">Откат Благословения</string>
   <string name="TouOptionOracleRevealAccuracy">Шанс Раскрытия</string>
-  <string name="TouOptionOracleNeutralBenignShowUpAsEvil">Нейтральные-мирные показываются как злодеи</string>
-  <string name="TouOptionOracleNeutralEvilShowUpAsEvil">Нейтральные Злодеи показываются как злодеи</string>
-  <string name="TouOptionOracleNeutralKillingShowUpAsEvil">Нейтральные Убийцы показываются как злодеи</string>
   <string name="TouOptionSonarTrackCooldown">Откат Слежки</string>
   <string name="TouRoleOracleConfessorDied">Ваш признающийся не выжил, поэтому вы не получили признания</string>
   <string name="TouRoleOracleTooFew">Слишком мало людей живы, чтобы получить признание</string>
@@ -484,7 +479,6 @@
   <string name="TouRoleSeerWikiDescription">Провидец - Расследующий Член Экипажа, который может раскрыть фракцию других игроков.</string>
   <string name="TouRoleSeerReveal">Раскрыть</string>
   <string name="TouRoleSeerRevealWikiDescription">Раскройте фракцию игрока</string>
-  <string name="TouOptionSeerSeerCooldown">Откат Раскрытия</string>
   <string name="TouOptionSeerCrewmateKillingRolesAreRed">Убивающие Члены Экипажа будут красными</string>
   <string name="TouOptionSeerNeutralBenignRolesAreRed">Нейтральные-мирные будут красными</string>
   <string name="TouOptionSeerNeutralEvilRolesAreRed">Нейтральные Злодеи будут красными</string>
@@ -1003,7 +997,6 @@
   <string name="TouOptionChefCookCooldown">Откат Готовки</string>
   <string name="TouOptionChefLinkedCooldowns">Совместный откат Готовки и Подачи</string>
   <string name="TouOptionChefServingAmount">Необходимое количество подач</string>
-  <string name="TouOptionChefServingEffects">Блюда обладают побочными эффектами</string>
   <string name="TouOptionSpectreTasksLeftClickable">Осталось заданий до того как можно будет нажать</string>
   <string name="TouOptionSpectreWin">Фантом побеждает</string>
   <string name="TouRolePlaguebearer">Чумоносец</string>
@@ -1046,7 +1039,6 @@
   <string name="TouOptionVampireMaxVamps">Макс. количество Вампиров</string>
   <string name="TouOptionVampireImpostorVision">Вампир имеет дальность обзора Предателя</string>
   <string name="TouOptionVampireNewVampsAssassinate">Новые Вампиры могут угадывать</string>
-  <string name="TouOptionVampireValidConversions">Допустимые Преобразования</string>
   <string name="TouOptionVampireNewVampiresConvert">Новые Вампиры могут преобразовывать</string>
   <string name="TouOptionVampireCanVent">Вампир может исп. вент.</string>
   <string name="TouRoleWerewolf">Ликантроп</string>
