@@ -423,7 +423,7 @@
   <string name="TouRoleForensic">Forensic</string>
   <string name="TouRoleForensicIntroBlurb">Inspect Crime Scenes To Catch The Killer</string>
   <string name="TouRoleForensicTabDescription">Inspect crime scenes, then examine players to\%nl\%see if they were at the scene.</string>
-  <string name="TouRoleForensicWikiDescription">The Forensic can inspect a crime scene and examine players to see if they were at the crime scene, flashing red if they were there.</string>
+  <string name="TouRoleForensicWikiDescription">The Forensic is a Crewmate Investigative role that can inspect crime scenes and examine players to see if they were at the crime scene, flashing red if they were there.</string>
   <string name="TouRoleForensicInspect">Inspect</string>
   <string name="TouRoleForensicInspectWikiDescription">Crime scenes will spawn with all dead bodies. Inspect the crime scene and then examine players to discover clues. During the next meeting, you will receive a report revealing the killer's role.</string>
   <string name="TouRoleForensicExamine">Examine</string>
@@ -502,7 +502,7 @@
   <string name="TouRoleImitatorNeutralCounterparts">Neutral Counterparts</string>
   <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch\%nl\%Glitch ⇨ Sheriff | Fairy ⇨ Cleric | Inquis ⇨ Oracle\%nl\%Jester ⇨ Plumber | Merc ⇨ Warden\%nl\%Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
   <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Detective\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Tracker\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Forensic\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Tracker\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
   <!-- Imitator Options -->
   <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
   <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>
@@ -1071,7 +1071,6 @@
   <!-- Hypnotist Options -->
   <string name="TouOptionHypnotistHypnotizeCooldown">Hypnotize Cooldown</string>
   <string name="TouOptionHypnotistHypnotistCanKillWithTeammate">Hypnotist Can Kill With Teammate</string>
-
   <!-- Janitor Wiki / Abilities -->
   <string name="TouRoleJanitor">Janitor</string>
   <string name="TouRoleJanitorIntroBlurb">Sanitize The Ship</string>
@@ -1351,7 +1350,7 @@
   <string name="TouOptionFairyProtectionEnumEveryone">Everyone</string>
   <string name="TouOptionFairyOnDeathFairyBecomes">On Target Death, Fairy Becomes</string>
   <string name="TouOptionFairyTargetKnowsFairyExists">Target Knows Fairy Exists</string>
-  <string name="TouOptionFairyFairyKnowsRole">Fairy Knows Targets Role</string>
+  <string name="TouOptionFairyFairyKnowsRole">Fairy Knows Target's Role</string>
   <string name="TouOptionFairyEvilOdds">Odds Of Target Being Evil</string>
   <!-- Inquisitor -->
   <!-- Inquisitor Wiki / Abilities -->
@@ -1468,7 +1467,7 @@
   <string name="TouRoleSpectreIntroBlurb"> </string>
   <!-- You cannot start the game as this role, and thus, it has no intro blurb -->
   <string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
-  <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
+  <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Evil Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
   <string name="TouRoleSpectreSpook">Spook</string>
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>
