@@ -8,6 +8,6 @@ public sealed class SwapperOptions : AbstractOptionGroup<SwapperRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSwapper", "Swapper");
 
-    [ModdedToggleOption("Can Call Button")]
+    [ModdedToggleOption("TouOptionSwapperCanCallButton")]
     public bool CanButton { get; set; } = true;
 }

@@ -10,44 +10,44 @@ public sealed class SpyOptions : AbstractOptionGroup<SpyRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSpy", "Spy");
 
-    [ModdedEnumOption("Who Sees Dead Bodies On Admin", typeof(AdminDeadPlayers),
-        ["Nobody", "Spy", "Everyone But Spy", "Everyone"])]
+    [ModdedEnumOption("TouOptionSpyWhoSeesDeadBodiesOnAdmin", typeof(AdminDeadPlayers),
+        ["TouOptionSpyDeadEnumNobody", "TouOptionSpyDeadEnumSpy", "TouOptionSpyDeadEnumEveryoneButSpy", "TouOptionSpyDeadEnumEveryone"])]
     public AdminDeadPlayers WhoSeesDead { get; set; } = AdminDeadPlayers.Nobody;
 
-    [ModdedEnumOption("Allow Portable Admin Table For", typeof(PortableAdmin),
-        ["Role", "Modifier", "Role & Modifier", "Disabled"])]
+    [ModdedEnumOption("TouOptionSpyAllowPortableAdminTableFor", typeof(PortableAdmin),
+        ["TouOptionSpyPortableEnumRole", "TouOptionSpyPortableEnumModifier", "TouOptionSpyPortableEnumBoth", "TouOptionSpyPortableEnumNone"])]
     public PortableAdmin HasPortableAdmin { get; set; } = PortableAdmin.Both;
 
-    public ModdedToggleOption MoveWithMenu { get; } = new("Move While Using Portable Admin", true)
+    public ModdedToggleOption MoveWithMenu { get; } = new("TouOptionSpyMoveWhileUsingPortableAdmin", true)
     {
         Visible = () => OptionGroupSingleton<SpyOptions>.Instance.HasPortableAdmin is not PortableAdmin.None
     };
 
     public ModdedNumberOption StartingCharge { get; } =
-        new("Starting Charge", 20f, 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionSpyStartingCharge", 20f, 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
         {
             Visible = () => OptionGroupSingleton<SpyOptions>.Instance.HasPortableAdmin is not PortableAdmin.None
         };
 
     public ModdedNumberOption RoundCharge { get; } =
-        new("Battery Charged Each Round", 15f, 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionSpyBatteryChargedEachRound", 15f, 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
         {
             Visible = () => OptionGroupSingleton<SpyOptions>.Instance.HasPortableAdmin is not PortableAdmin.None
         };
 
     public ModdedNumberOption TaskCharge { get; } =
-        new("Battery Charged Per Task", 10f, 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionSpyBatteryChargedPerTask", 10f, 0f, 30f, 2.5f, MiraNumberSuffixes.Seconds)
         {
             Visible = () => OptionGroupSingleton<SpyOptions>.Instance.HasPortableAdmin is not PortableAdmin.None
         };
 
-    public ModdedNumberOption DisplayCooldown { get; } = new("Portable Admin Display Cooldown", 15f, 0f, 30f, 5f,
+    public ModdedNumberOption DisplayCooldown { get; } = new("TouOptionSpyPortableAdminDisplayCooldown", 15f, 0f, 30f, 5f,
         MiraNumberSuffixes.Seconds)
     {
         Visible = () => OptionGroupSingleton<SpyOptions>.Instance.HasPortableAdmin is not PortableAdmin.None
     };
 
-    public ModdedNumberOption DisplayDuration { get; } = new("Portable Admin Display Duration", 15f, 0f, 30f, 5f,
+    public ModdedNumberOption DisplayDuration { get; } = new("TouOptionSpyPortableAdminDisplayDuration", 15f, 0f, 30f, 5f,
         MiraNumberSuffixes.Seconds, zeroInfinity: true)
     {
         Visible = () => OptionGroupSingleton<SpyOptions>.Instance.HasPortableAdmin is not PortableAdmin.None
