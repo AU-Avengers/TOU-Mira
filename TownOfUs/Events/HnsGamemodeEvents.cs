@@ -1,32 +1,41 @@
-
-
-using HarmonyLib;
+using System.Collections;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Events;
 
 public static class HnsGamemodeEvents
 {
+    public static IEnumerator CoChangeImpostorRole(IntroCutscene cutscene)
+    {
+        yield return new WaitForSeconds(0.01f);
+        
+        var seeker = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.IsImpostor());
+        if (seeker != null)
+        {
+            cutscene.ImpostorTitle.text = seeker.Data.Role.GetRoleName();
+        }
+    }
 
     [RegisterEvent]
-    public static void RoundStartHandler(RoundStartEvent @event)
+    public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
-        if (!@event.TriggeredByIntro)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek)
         {
-            return; // Only run when game starts.
+            return;
         }
-
-        var bodyType = AprilFoolsMode.ShouldHorseAround() ? PlayerBodyTypes.Normal : PlayerBodyTypes.Seeker;
-        PlayerControl.AllPlayerControls.ToArray().DoIf(x => x.IsImpostor(),
-            x => x.MyPhysics.SetForcedBodyType(bodyType));
+        var cutscene = @event.IntroCutscene;
+        Coroutines.Start(CoChangeImpostorRole(cutscene));
     }
 
     [RegisterEvent]

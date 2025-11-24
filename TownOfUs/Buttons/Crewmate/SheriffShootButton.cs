@@ -107,7 +107,6 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
         {
             switch (alignment)
             {
-                case RoleAlignment.NeutralBenign:
                 case RoleAlignment.CrewmateInvestigative:
                 case RoleAlignment.CrewmateKilling:
                 case RoleAlignment.CrewmateProtective:
@@ -142,6 +141,18 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
 
                 case RoleAlignment.NeutralEvil:
                     if (!options.ShootNeutralEvil)
+                    {
+                        Misfire();
+                    }
+                    else
+                    {
+                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                    }
+
+                    break;
+
+                case RoleAlignment.NeutralBenign:
+                    if (!options.ShootNeutralBenign)
                     {
                         Misfire();
                     }

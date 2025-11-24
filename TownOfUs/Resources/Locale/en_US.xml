@@ -344,6 +344,10 @@
   <!-- Frosty Options -->
   <string name="HnsOptionFrostyChillDuration">Chill Duration</string>
   <string name="HnsOptionFrostyChillStartSpeed">Chill Start Speed</string>
+  <!-- Oblivious Modifier Wiki / Description -->
+  <string name="HnsModifierOblivious">Oblivious</string>
+  <string name="HnsModifierObliviousTabDescription">You lack seeker awareness.</string>
+  <string name="HnsModifierObliviousWikiDescription">No indicator is present to show you when the seeker is close.</string>
   <!-- Giant Modifier Wiki / Description -->
   <string name="HnsModifierGiant">Giant</string>
   <string name="HnsModifierGiantTabDescription">You are bigger than other hiders.</string>
@@ -356,6 +360,19 @@
   <string name="HnsModifierMultitasker">Multitasker</string>
   <string name="HnsModifierMultitaskerTabDescription">Your tasks are transparent.</string>
   <string name="HnsModifierMultitaskerWikiDescription">All your menus are see-through, allowing you to look behind menus!</string>
+  <!-- Hide and Seek - Seekers -->
+  <!-- Camouflager Wiki / Description -->
+  <string name="HnsRoleCamouflager">Camouflager</string>
+  <string name="HnsRoleCamouflagerTabHint">Camouflager Hint</string>
+  <string name="HnsRoleCamouflagerTabDescription">Confuse the hiders by blending in.</string>
+  <string name="HnsRoleCamouflagerWikiDescription">The Camouflager is an Impostor that can temporarily make all players appear the same as themselves.</string>
+  <string name="HnsRoleCamouflagerCamo">Camo</string>
+  <string name="HnsRoleCamouflagerCamoWikiDescription">Trigger a global camouflage to blend in.</string>
+  <!-- Camouflager Options -->
+  <string name="HnsOptionCamouflagerCamoUses">Camo Uses In Total</string>
+  <string name="HnsOptionCamouflagerCamoCooldown">Camo Cooldown</string>
+  <string name="HnsOptionCamouflagerCamoDuration">Camo Duration</string>
+  <string name="HnsOptionCamouflagerCamoDisablesProxBar">Camo Disables Proximity Bar</string>
   <!-- Cultist Mode - Impostors -->
   <!-- Necromancer - Impostor Cultist -->
   <string name="CultistRoleNecromancer">Necromancer</string>
@@ -799,6 +816,7 @@
   <string name="TouOptionSheriffKillCooldown">Kill Cooldown</string>
   <string name="TouOptionSheriffCanSelfReport">Can Self Report</string>
   <string name="TouOptionSheriffAllowShootinginFirstRound">Allow Shooting in First Round</string>
+  <string name="TouOptionSheriffCanShootNeutralBenignRoles">Can Shoot Neutral Benign Roles</string>
   <string name="TouOptionSheriffCanShootNeutralEvilRoles">Can Shoot Neutral Evil Roles</string>
   <string name="TouOptionSheriffCanShootNeutralKillingRoles">Can Shoot Neutral Killing Roles</string>
   <string name="TouOptionSheriffCanShootNeutralOutlierRoles">Can Shoot Neutral Outlier Roles</string>

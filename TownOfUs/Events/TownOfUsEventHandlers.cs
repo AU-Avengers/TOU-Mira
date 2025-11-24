@@ -128,6 +128,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
         var cutscene = @event.IntroCutscene;
         Coroutines.Start(CoChangeModifierText(cutscene));
     }

@@ -77,6 +77,11 @@ public static class LogicGameFlowPatches
     [HarmonyPrefix]
     private static bool RecomputeTasksPatch(GameData __instance)
     {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return true;
+        }
+
         if (__instance == null || GameOptionsManager.Instance == null || GameManager.Instance == null)
         {
             return false;
