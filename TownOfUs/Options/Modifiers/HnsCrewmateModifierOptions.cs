@@ -50,7 +50,7 @@ public sealed class HnsCrewmateModifierOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption ObliviousAmount { get; } =
-        new("Oblivious Amount (N/A)", 1f, 0f, 15f, 1f, MiraNumberSuffixes.None);
+        new("Oblivious Amount", 1f, 0f, 15f, 1f, MiraNumberSuffixes.None);
 
     public ModdedNumberOption ObliviousChance { get; } =
         new("Oblivious Chance", 10f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
@@ -58,8 +58,8 @@ public sealed class HnsCrewmateModifierOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.ObliviousAmount > 0
         };
 
-    public ModdedNumberOption TransporterAmount { get; } =
-        new("Transporter Amount (N/A)", 1f, 0f, 15f, 1f, MiraNumberSuffixes.None);
+    /*public ModdedNumberOption TransporterAmount { get; } =
+        new("Transporter Amount", 1f, 0f, 15f, 1f, MiraNumberSuffixes.None);
 
     public ModdedNumberOption TransporterChance { get; } =
         new("Transporter Chance", 10f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
@@ -68,11 +68,11 @@ public sealed class HnsCrewmateModifierOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption WaryAmount { get; } =
-        new("Wary Amount (N/A)", 1f, 0f, 15f, 1f, MiraNumberSuffixes.None);
+        new("Wary Amount", 1f, 0f, 15f, 1f, MiraNumberSuffixes.None);
 
     public ModdedNumberOption WaryChance { get; } =
         new("Wary Chance", 10f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
         {
             Visible = () => OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.WaryAmount > 0
-        };
+        };*/
 }

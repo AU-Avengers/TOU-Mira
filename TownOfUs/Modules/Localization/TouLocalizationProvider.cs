@@ -61,5 +61,15 @@ public class TouLocalizationProvider : LocalizationProvider
         {
             TownOfUsPlugin.Culture = new(culture);
         }
+        /*Warning($"<?xml version='1.0' encoding='UTF-8'?>");
+        Warning($"<resources>");
+        foreach (var stringName in TranslationController.Instance.currentLanguage.AllStrings)
+        {
+            var value = stringName.Value.Replace("\n", "\\%nl\\%");
+            value = value.Replace("{", "\\%");
+            value = value.Replace("}", "\\%");
+            Warning($"<string name=\"{stringName.Key}\">{value}</string>");
+        }
+        Warning($"</resources>");*/
     }
 }
