@@ -2,6 +2,7 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Options.Maps;
 using UnityEngine;
 
@@ -251,6 +252,14 @@ public static class AppearanceExtensions
         else if (playerControl.HasModifier<GiantModifier>())
         {
             appearance = playerControl.GetModifier<GiantModifier>()!.GetVisualAppearance()!;
+        }
+        else if (playerControl.HasModifier<HnsMiniModifier>())
+        {
+            appearance = playerControl.GetModifier<HnsMiniModifier>()!.GetVisualAppearance()!;
+        }
+        else if (playerControl.HasModifier<HnsGiantModifier>())
+        {
+            appearance = playerControl.GetModifier<HnsGiantModifier>()!.GetVisualAppearance()!;
         }
         else if (playerControl.HasModifier<FlashModifier>())
         {
