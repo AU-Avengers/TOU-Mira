@@ -241,7 +241,7 @@
   <string name="TouRoleJuggernaut">Moloch</string>
   <string name="TouRoleJester">Narr</string>
   <string name="TouRoleExecutioner">Henker</string>
-  <string name="TouRoleSpectre">Phantom</string>
+  <string name="TouRoleSpectre">Gespenst</string>
   <string name="TouRoleMercenary">Söldner</string>
   <string name="TouRoleDoomsayer">Unheilsprophet</string>
   <string name="TouRolePlaguebearer">Seuchenbringer</string>
@@ -284,7 +284,7 @@
   <string name="TouRoleSeer">Seher</string>
   <string name="TouRoleSeerIntroBlurb">Decke die Allianz anderer Spieler auf</string>
   <string name="TouRoleSpy">Spion</string>
-  <string name="TouRoleSonar">Spürnase</string>
+  <string name="TouRoleSonar">Sonar</string>
   <string name="TouRoleProsecutor">Anklager</string>
   <string name="TouRoleSwapper">Tauscher</string>
   <string name="TouRoleTransporter">Transportierer</string>
@@ -435,7 +435,7 @@
   <string name="TouRoleAltruistWikiDescription">Der Altruist ist eine Besatzungs Schutz Rolle, die Tote Spieler wiederbeleben kann. Allerdings können weder der Altruist noch die wiederbelebten Spieler eine Versammlung Einrufen.</string>
   <string name="TouRoleAltruistReviveWikiDescription">Belebe eine Gruppe toter Körper in deiner Nähe wieder.</string>
   <string name="TouRoleAurialTabDescription">Nehme Jede Spieler Fähigkeit war, die in deiner Umgebung benutzt wurde</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bombenleger ⇨ Fallensteller | Hypnotiseur ⇨ Wache | Hausmeister ⇨ Detektiv\%nl\%Grubenarbeiter ⇨ Ingenieur | Geier ⇨ Spürnase\%nl\%Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bombenleger ⇨ Fallensteller | Hypnotiseur ⇨ Wache | Hausmeister ⇨ Spurensucher\%nl\%Grubenarbeiter ⇨ Ingenieur | Geier ⇨ Spürnase\%nl\%Grabschänder ⇨ Altruist | Hexenmeister ⇨ Veteran</string>
   <string name="TouRoleBomberIntroBlurb">Plaziere Bomben um mehrere Besatzungsmitglieder gleichzeitig zu töten</string>
   <string name="TouRoleBomberTabDescription">Plaziere Bomben um mehrere Besatzungsmitglieder bei Sprengung zu töten</string>
   <string name="TouRoleBomberWikiDescription">Der Bombenleger ist eine Verräter Mord Rolle die eine Bombe legen kann, welche nach %detonateDelay\% Sekund(en) explodiert.</string>
@@ -501,10 +501,10 @@
   <string name="TouRoleForensicExamineWikiDescription">Untersuche Spieler nachdem du einen Tatort inspiziert hast. Du erfährst, ob der Spieler sich an dem Tatort befand.</string>
   <string name="TouRoleForensicInspectNotif">Du hast den Tatort von \%player\% inspiziert. Der Mörder und jeder andere, der auf den Tatort tritt, wird rot aufleuchten, wenn du diesen untersuchst.</string>
   <string name="TouOptionForensicExamineCooldown">Untersuchen Abklingzeit</string>
-  <string name="TouOptionForensicReportOn">Zeige Detektiv Bericht</string>
+  <string name="TouOptionForensicReportOn">Zeige Spurensucher Bericht</string>
   <string name="TouOptionForensicRoleDuration">Zeit, in welcher der Detektiv die Rolle des Spielers bekommt</string>
-  <string name="TouOptionForensicFactionDuration">Zeit, in welcher der Detektiv die Fraktion bekommt</string>
-  <string name="TouRoleForensicMessageTitle">Detektiv Bericht</string>
+  <string name="TouOptionForensicFactionDuration">Zeit, in welcher der Spurensucher die Fraktion bekommt</string>
+  <string name="TouRoleForensicMessageTitle">Spurensucher Bericht</string>
   <string name="TouRoleForensicAtScene">\%player\% war am Tatort, wo \%deadPlayer\% ermordet wurde! \%nl\% Er könnte der Mörder oder ein Zeuge sein.</string>
   <string name="TouRoleForensicNotAtScene">\%player\% war nicht am Tatort.</string>
   <string name="TouRoleEngineerIntroBlurb">Erhalte die wichtigsten Systeme auf dem Schiff</string>
@@ -677,4 +677,6 @@
   <string name="TouRoleOracleIntroBlurb">Sorge dafür, das die Besatzung ihre Sünden gestehen</string>s
   <string name="TouRoleOracleTabDescription">Segne die Besatzung um die in Versammlungen zu beschützen, %nl\%und lass sie ihre Sünden beichten</string>
   <string name="CrewmateHider">Besatzung Verstecken</string>
+  <string name="TouRoleSonarWikiDescription">Der Sonar ist eine Besatzung Ermittlung Rolle welche</string>
+  <string name="TouOptionSpectreWin">Gespenst Gewinnt</string>
 </resources>
