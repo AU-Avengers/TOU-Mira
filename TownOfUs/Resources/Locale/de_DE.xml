@@ -676,4 +676,5 @@
   <string name="TouOptionMysticDeadBodyArrowDuration">Toter Körper Pfeil Dauer</string>
   <string name="TouRoleOracleIntroBlurb">Sorge dafür, das die Besatzung ihre Sünden gestehen</string>s
   <string name="TouRoleOracleTabDescription">Segne die Besatzung um die in Versammlungen zu beschützen, %nl\%und lass sie ihre Sünden beichten</string>
+  <string name="CrewmateHider">Besatzung Verstecken</string>
 </resources>
