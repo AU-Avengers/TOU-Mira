@@ -2,7 +2,6 @@
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -13,8 +12,6 @@ public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVi
     public override string LocaleKey => "Mini";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Mini;
-
-    public bool IsHiddenFromList => !(MiscUtils.CurrentGamemode() is TouGamemode.Normal or TouGamemode.HideAndSeek);
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);

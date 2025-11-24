@@ -17,8 +17,6 @@ public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IV
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
 
-    public bool IsHiddenFromList => !(MiscUtils.CurrentGamemode() is TouGamemode.Normal or TouGamemode.HideAndSeek);
-
     public VisualAppearance GetVisualAppearance()
     {
         var appearance = Player.GetDefaultAppearance();

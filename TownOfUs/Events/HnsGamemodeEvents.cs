@@ -1,6 +1,8 @@
 
 
+using HarmonyLib;
 using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -13,6 +15,20 @@ namespace TownOfUs.Events;
 
 public static class HnsGamemodeEvents
 {
+
+    [RegisterEvent]
+    public static void RoundStartHandler(RoundStartEvent @event)
+    {
+        if (!@event.TriggeredByIntro)
+        {
+            return; // Only run when game starts.
+        }
+
+        var bodyType = AprilFoolsMode.ShouldHorseAround() ? PlayerBodyTypes.Normal : PlayerBodyTypes.Seeker;
+        PlayerControl.AllPlayerControls.ToArray().DoIf(x => x.IsImpostor(),
+            x => x.MyPhysics.SetForcedBodyType(bodyType));
+    }
+
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {

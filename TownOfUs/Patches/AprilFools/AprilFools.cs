@@ -171,7 +171,7 @@ public static class AprilFoolsPatches
     [HarmonyPrefix]
     public static void Prefix(ref PlayerBodyTypes bodyType)
     {
-        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools)
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools || GameManager.Instance.IsHideAndSeek())
         {
             return;
         }
@@ -193,7 +193,7 @@ public static class AprilFoolsPatches
     [HarmonyPrefix]
     public static bool Prefix2(ref PlayerBodyTypes __result)
     {
-        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools)
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools || GameManager.Instance.IsHideAndSeek())
         {
             return true;
         }

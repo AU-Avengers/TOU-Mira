@@ -336,6 +336,26 @@
   <string name="HnsRoleNoisemakerTabHint">Noisemaker Hint</string>
   <string name="HnsRoleNoisemakerTabDescription">Alert all crewmates of your location when killed.</string>
   <string name="HnsRoleNoisemakerWikiDescription">The Noisemaker is a Crewmate that alerts all players on the map once they are killed, showing a red body indicator.</string>
+  <!-- Frosty Modifier Wiki / Description -->
+  <string name="HnsModifierFrosty">Frosty</string>
+  <string name="HnsModifierFrostyTabDescription">Slow your killer for a short duration.</string>
+  <string name="HnsModifierFrostyWikiDescription">After you die, your killer will be slowed down!</string>
+  <string name="HnsModifierFrostyTriggeredNotif">\%player\% was \%modifier\%, causing you to be slower for \%time\% seconds.</string>
+  <!-- Frosty Options -->
+  <string name="HnsOptionFrostyChillDuration">Chill Duration</string>
+  <string name="HnsOptionFrostyChillStartSpeed">Chill Start Speed</string>
+  <!-- Giant Modifier Wiki / Description -->
+  <string name="HnsModifierGiant">Giant</string>
+  <string name="HnsModifierGiantTabDescription">You are bigger than other hiders.</string>
+  <string name="HnsModifierGiantWikiDescription">You are bigger than the average player, sticking out to the seeker.</string>
+  <!-- Mini Modifier Wiki / Description -->
+  <string name="HnsModifierMini">Mini</string>
+  <string name="HnsModifierMiniTabDescription">You are smaller than other hiders.</string>
+  <string name="HnsModifierMiniWikiDescription">You are smaller than the average player, allowing you to hide from the seeker with ease.</string>
+  <!-- Multitasker Modifier Wiki / Description -->
+  <string name="HnsModifierMultitasker">Multitasker</string>
+  <string name="HnsModifierMultitaskerTabDescription">Your tasks are transparent.</string>
+  <string name="HnsModifierMultitaskerWikiDescription">All your menus are see-through, allowing you to look behind menus!</string>
   <!-- Cultist Mode - Impostors -->
   <!-- Necromancer - Impostor Cultist -->
   <string name="CultistRoleNecromancer">Necromancer</string>
