@@ -650,7 +650,7 @@ public static class TownOfUsEventHandlers
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable;
+            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
             if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&
                 PlayerControl.LocalPlayer.Data.Role is not IGhostRole)

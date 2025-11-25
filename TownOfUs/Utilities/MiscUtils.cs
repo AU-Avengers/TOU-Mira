@@ -225,7 +225,7 @@ public static class MiscUtils
 
         if (role.Role is RoleTypes.Viper)
         {
-            return RoleAlignment.ImpostorSupport;
+            return RoleAlignment.ImpostorKilling;
         }
 
         if (role.IsNeutral())
@@ -548,6 +548,8 @@ public static class MiscUtils
                 break;
             case RoleAlignment.ImpostorSupport:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
+                break;
+            case RoleAlignment.ImpostorKilling:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
                 break;
             case RoleAlignment.ImpostorConcealing:
@@ -759,35 +761,32 @@ public static class MiscUtils
 
         var roleList = assignmentData.Where(x => x is { Chance: > 0, Count: > 0, Role: ICustomRole })
             .Select(x => x.Role);
-        if (OptionGroupSingleton<VanillaTweakOptions>.Instance.GuessVanillaRoles)
-        {
-            var array = AllRegisteredRoles;
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Detective) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == RoleTypes.Detective)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Tracker) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == RoleTypes.Tracker)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Noisemaker) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == RoleTypes.Noisemaker)!);
-            /*if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Engineer) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == RoleTypes.Engineer)!);*/
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Scientist) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == RoleTypes.Scientist)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Shapeshifter) is
-                { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == RoleTypes.Shapeshifter)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Phantom) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == RoleTypes.Phantom)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Viper) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    array.FirstOrDefault(x => x.Role == RoleTypes.Viper)!);
-        }
+        var array = AllRegisteredRoles;
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Detective) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Detective)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Tracker) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Tracker)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Noisemaker) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Noisemaker)!);
+        /*if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Engineer) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Engineer)!);*/
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Scientist) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Scientist)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Shapeshifter) is
+            { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Shapeshifter)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Phantom) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Phantom)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Viper) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Viper)!);
 
         var crewmateRole = AllRegisteredRoles.FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
         roleList = roleList.AddItem(crewmateRole!);
