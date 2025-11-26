@@ -2,14 +2,11 @@ using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers;
-using MiraAPI.Networking;
+using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -61,63 +58,42 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         Icon = TouRoleIcons.Seer,
         IntroSound = TouAudio.QuestionSound
     };
+    public PlayerControl? GazeTarget { get; set; }
+    public PlayerControl? IntuitTarget { get; set; }
+
+    public override void Initialize(PlayerControl player)
+    {
+        GazeTarget = null;
+        IntuitTarget = null;
+        RoleBehaviourStubs.Initialize(this, player);
+    }
 
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-    public static void SeerCompare(PlayerControl seer, byte player1, byte player2)
+    public void SeerCompare(PlayerControl seer)
     {
-        var t1 = GetTarget(player1);
-        var t2 = GetTarget(player2);
-
-        if (t1 == null || t2 == null)
+        if (GazeTarget == null || IntuitTarget == null)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
             ShowNotification($"<b>You need to pick two targets.</b>");
             return;
         }
 
-        if (t1 == seer || t2 == seer)
+        if (GazeTarget == seer || IntuitTarget == seer)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
             ShowNotification($"<b>You can't use yourself to compare!</b>");
             return;
         }
-
-        var play1 = MiscUtils.PlayerById(player1)!;
-        var play2 = MiscUtils.PlayerById(player2)!;
-
-        if (play1.TryGetModifier<InvulnerabilityModifier>(out var invic) && invic.AttackAllInteractions)
-        {
-            play1.RpcCustomMurder(seer);
-            return;
-        }
-
-        if (play2.TryGetModifier<InvulnerabilityModifier>(out var invic2) && invic2.AttackAllInteractions)
-        {
-            play2.RpcCustomMurder(seer);
-            return;
-        }
-
-        if (play1.HasModifier<VeteranAlertModifier>())
-        {
-            play1.RpcCustomMurder(seer);
-            return;
-        }
-
-        if (play2.HasModifier<VeteranAlertModifier>())
-        {
-            play2.RpcCustomMurder(seer);
-            return;
-        }
-        var button = CustomButtonSingleton<SeerCompareButton>.Instance;
-        button.ResetCooldownAndOrEffect();
-
-
-        var playerA = play1.CachedPlayerData.PlayerName;
-        var playerB = play2.CachedPlayerData.PlayerName;
+        var gazeButton = CustomButtonSingleton<SeerGazeButton>.Instance;
+        gazeButton.ResetCooldownAndOrEffect();
+        var intuitButton = CustomButtonSingleton<SeerIntuitButton>.Instance;
+        intuitButton.ResetCooldownAndOrEffect();
+        var playerA = GazeTarget.CachedPlayerData.PlayerName;
+        var playerB = IntuitTarget.CachedPlayerData.PlayerName;
 
         void ShowNotification(string message)
         {
@@ -126,7 +102,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             notif.AdjustNotification();
         }
 
-        bool enemies = Enemies(play1, play2);
+        bool enemies = Enemies(GazeTarget, IntuitTarget);
         bool Enemies(PlayerControl p1, PlayerControl p2)
         {
             if (p1 == null || p2 == null) return false;
@@ -158,35 +134,14 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         if (enemies)
         {
             Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed));
-            ShowNotification($"<b>{Palette.ImpostorRed.ToTextColor()}{playerA} and {playerB} seem to have conflicting alignments!</color></b>");
+            ShowNotification($"<b>{Palette.ImpostorRed.ToTextColor()}{playerA} and {playerB} appear as enemies!</color></b>");
         }
         else
         {
             Coroutines.Start(MiscUtils.CoFlash(Palette.CrewmateBlue));
-            ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{playerA} and {playerB} seem to have matching alignments!</color></b>");
+            ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{playerA} and {playerB} appear friendly to each other!</color></b>");
         }
-
-        static MonoBehaviour? GetTarget(byte id)
-        {
-            var data = GameData.Instance.GetPlayerById(id);
-            if (!data)
-            {
-                return null;
-            }
-
-            var body = Helpers.GetBodyById(id);
-            if (data.IsDead && body)
-            {
-                return body;
-            }
-
-            var pc = data.Object;
-            if (!pc)
-            {
-                return null;
-            }
-
-            return pc;
-        }
+        IntuitTarget = null;
+        GazeTarget = null;
     }
 }

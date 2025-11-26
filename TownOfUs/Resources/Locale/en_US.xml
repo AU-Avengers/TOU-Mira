@@ -780,8 +780,10 @@
   <string name="TouRoleSeerAltWikiDescription">The Seer is a Crewmate Investigative role that can compare two players to see if they have matching or conflicting alignments.</string>
   <string name="TouRoleSeerReveal">Reveal</string>
   <string name="TouRoleSeerRevealWikiDescription">Reveal the faction of a player</string>
-  <string name="TouRoleSeerCompare">Compare</string>
-  <string name="TouRoleSeerCompareWikiDescription">Compare the alignments of two players. If they don't match, you will be informed of such.</string>
+  <string name="TouRoleSeerIntuit">Intuit</string>
+  <string name="TouRoleSeerGaze">Gaze</string>
+  <string name="TouRoleSeerCompare">Intuit \%and\% Gaze </string>
+  <string name="TouRoleSeerCompareWikiDescription">Compare the alignments of two players by using your Intuit and Gaze abilities on two different people. If they appear as enemies, you will be informed of such.</string>
   <!-- Seer Options -->
   <string name="TouOptionSeerSalemMode">Compare Players Instead of Checking Alignments</string>
   <string name="TouOptionSeerCooldown">Reveal/Compare Cooldown</string>
