@@ -259,13 +259,13 @@ public sealed class RoleOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption MinNeutralOutlier { get; } =
-        new("Min Neutral Outliers", 0f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        new("Min Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };
 
     public ModdedNumberOption MaxNeutralOutlier { get; } =
-        new("Max Neutral Outliers", 0f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        new("Max Neutral Outliers", 0f, 0f, 15f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.MinMaxList
         };

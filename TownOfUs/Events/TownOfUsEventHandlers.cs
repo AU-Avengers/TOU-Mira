@@ -29,6 +29,7 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
@@ -127,6 +128,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
         var cutscene = @event.IntroCutscene;
         Coroutines.Start(CoChangeModifierText(cutscene));
     }
@@ -518,7 +523,7 @@ public static class TownOfUsEventHandlers
             if (!MeetingHud.Instance)
             {
                 HudManager.Instance.SetHudActive(true);
-                if (OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton)
+                if (OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.HideAndSeek)
                 {
                     HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
                 }
@@ -579,12 +584,12 @@ public static class TownOfUsEventHandlers
         {
             var body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == target.PlayerId);
 
-            if (target.HasModifier<MiniModifier>() && body != null)
+            if ((target.HasModifier<MiniModifier>() || target.HasModifier<HnsMiniModifier>()) && body != null)
             {
                 body.transform.localScale *= 0.7f;
             }
 
-            if (target.HasModifier<GiantModifier>() && body != null)
+            if ((target.HasModifier<GiantModifier>() || target.HasModifier<HnsGiantModifier>()) && body != null)
             {
                 body.transform.localScale /= 0.7f;
             }
@@ -645,7 +650,7 @@ public static class TownOfUsEventHandlers
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable;
+            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
             if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&
                 PlayerControl.LocalPlayer.Data.Role is not IGhostRole)

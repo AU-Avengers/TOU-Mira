@@ -545,7 +545,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     var roleEntry = SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!;
                     roleEntry.EntryName = TranslationController.Instance.GetString(role.StringName);
                     roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(role.BlurbNameLong);
-                    if (roleEntry.GetAdvancedDescription == "STRMISS")
+                    if (roleEntry.GetAdvancedDescription.Contains("STRMISS"))
                     {
                         var baseName = ($"{role.StringName}").Replace("Role", "");
                         if (Enum.TryParse<StringNames>($"RolesHelp_{baseName}_01", out var helpName))

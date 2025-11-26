@@ -1,5 +1,4 @@
-﻿using BepInEx.Logging;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -8,26 +7,26 @@ using TownOfUs.Options.Roles.HnsCrewmate;
 using TownOfUs.Roles.HnsCrewmate;
 using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
+using UnityEngine;
 
 namespace TownOfUs.Events.HnsCrewmate;
 
 public static class HnsSnitchEvents
 {
     [RegisterEvent]
-    public static void CompleteTaskEvent(CompleteTaskEvent @event)
+    public static void CompleteHnsTaskEvent(CompleteHnsTaskEvent @event)
     {
-        var hnsInstance = GameManager.Instance as HideAndSeekManager;
+        var hnsInstance = @event.HnsManager;
         var player = @event.Player;
-        if (hnsInstance != null && player.Data.Role is HnsSnitchRole)
+        if (player.Data.Role is HnsSnitchRole)
         {
-            Log(LogLevel.Error, $"{player.Data.PlayerName} did a task!");
             if (PlayerControl.LocalPlayer.IsImpostor())
             {
-                var color = Palette.PlayerColors[player.GetDefaultAppearance().ColorId];
+                Color color = Palette.PlayerColors[player.GetDefaultAppearance().ColorId];
                 player.AddModifier<HnsSnitchArrowModifier>(PlayerControl.LocalPlayer, color, 0f);
             }
             var normalPlayerTask = @event.Task as NormalPlayerTask;
-            
+
             if (normalPlayerTask != null)
             {
                 switch (normalPlayerTask.Length)

@@ -39,6 +39,8 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
     public override void OnDeactivate()
     {
+        base.OnDeactivate();
+
         if (!_arrow.IsDestroyedOrNull())
         {
             _arrow?.gameObject.Destroy();
@@ -48,6 +50,7 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
     public override void FixedUpdate()
     {
+        base.FixedUpdate();
         if (Player == null)
         {
             ModifierComponent!.RemoveModifier(this);

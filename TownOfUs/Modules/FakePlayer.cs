@@ -7,6 +7,7 @@ using PowerTools;
 using TMPro;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
+using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -241,7 +242,7 @@ public sealed class FakePlayer : IDisposable
             petBehaviour.transform.localScale = Scale;
             petBehaviour.FlipX = flipX;
 
-            RemovePet(playerRef);
+            MiscUtils.RemovePet(playerRef);
 
             DestroyAllCollider(petBehaviour.gameObject);
 
@@ -434,21 +435,6 @@ public sealed class FakePlayer : IDisposable
                 Object.Destroy(_rend);
             }
         }
-    }
-
-    public static void RemovePet(PlayerControl pc)
-    {
-        if (pc == null || !pc.Data.IsDead)
-        {
-            return;
-        }
-
-        if (pc.CurrentOutfit.PetId == "")
-        {
-            return;
-        }
-
-        pc.SetPet("");
     }
 
     private struct PlayerCosmicInfo

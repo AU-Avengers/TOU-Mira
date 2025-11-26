@@ -6,7 +6,7 @@ public enum TownOfUsAppearances : uint
     Default,
     Shapeshifted,
     HorseWrangler,
-    MushroomMixup,
+    MushroomMixUp,
 
     // Custom
     Swooper,

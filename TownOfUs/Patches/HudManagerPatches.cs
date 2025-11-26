@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
@@ -444,13 +445,12 @@ public static class HudManagerPatches
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
                     {
-                        roleName = $"<size=80%>{gaRole.TeamColor.ToTextColor()}{gaRole.GetRoleName()}</color></size>";
+                        roleName = $"<size=80%>{gaRole.TeamColor.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
                     }
 
                     if (SleuthModifier.SleuthVisibilityFlag(player) || (player.Data.IsDead &&
-                                                                        role is not SpectreRole &&
-                                                                        role is not GuardianAngelRole &&
-                                                                        role is not HaunterRole))
+                                                                        role.Role is RoleTypes.CrewmateGhost
+                                                                            or RoleTypes.ImpostorGhost))
                     {
                         var roleWhenAlive = player.GetRoleWhenAlive();
                         color = roleWhenAlive.TeamColor;
@@ -646,13 +646,12 @@ public static class HudManagerPatches
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
                     {
-                        roleName = $"<size=80%>{gaRole.TeamColor.ToTextColor()}{gaRole.GetRoleName()}</color></size>";
+                        roleName = $"<size=80%>{gaRole.TeamColor.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
                     }
 
                     if (SleuthModifier.SleuthVisibilityFlag(player) || (player.Data.IsDead &&
-                                                                        role is not SpectreRole &&
-                                                                        role is not GuardianAngelRole &&
-                                                                        role is not HaunterRole))
+                                                                        role.Role is RoleTypes.CrewmateGhost
+                                                                            or RoleTypes.ImpostorGhost))
                     {
                         var roleWhenAlive = player.GetRoleWhenAlive();
                         color = roleWhenAlive.TeamColor;

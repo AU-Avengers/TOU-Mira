@@ -67,9 +67,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
     [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
     public float TempSaveCdReset { get; set; } = 2.5f;
 
-    [ModdedEnumOption("Disable Meeting Skip Button", typeof(SkipState))]
-    public SkipState SkipButtonDisable { get; set; } = SkipState.No;
-
     [ModdedNumberOption("Voting Time Added After Meeting Death", 0f, 15f, 1f, MiraNumberSuffixes.Seconds, "0.#")]
     public float AddedMeetingDeathTimer { get; set; } = 5f;
 
@@ -92,11 +89,4 @@ public enum ModReveal
     Alliance,
     Universal,
     Neither
-}
-
-public enum SkipState
-{
-    No,
-    Emergency,
-    Always
 }

@@ -18,6 +18,9 @@ public sealed class SheriffOptions : AbstractOptionGroup<SheriffRole>
     [ModdedToggleOption("TouOptionSheriffAllowShootinginFirstRound")]
     public bool FirstRoundUse { get; set; } = false;
 
+    [ModdedToggleOption("TouOptionSheriffCanShootNeutralBenignRoles")]
+    public bool ShootNeutralBenign { get; set; } = false;
+
     [ModdedToggleOption("TouOptionSheriffCanShootNeutralEvilRoles")]
     public bool ShootNeutralEvil { get; set; } = true;
 

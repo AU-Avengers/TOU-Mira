@@ -7,7 +7,7 @@
 <div align="center">
   <img src="./Images/Logo.png" alt="Town of Us Mira"/>
   <p>Town Of Us Mira</p>
-  <a href="https://store.steampowered.com/app/945360/Among_Us"> <img alt="Latest AU Version" src="https://badgen.net/static/AmongUs/2025.5.20/yellow"></a>
+  <a href="https://store.steampowered.com/app/945360/Among_Us"> <img alt="Latest AU Version" src="https://badgen.net/static/AmongUs/2025.10.28/yellow"></a>
   <a href="https://github.com/AU-Avengers/TOU-Mira/releases/"> <img alt="Latest Release" src="https://badgen.net/github/release/AU-Avengers/TOU-Mira?icon=github"></a>
   <a href="https://github.com/AU-Avengers/TOU-Mira/releases"> <img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/AU-Avengers/TOU-Mira/total"></a>
   <a href="https://discord.gg/ugyc4EVUYZ"> <img alt="Mod Discord" src="https://img.shields.io/discord/1039196456667582555.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2"></a>

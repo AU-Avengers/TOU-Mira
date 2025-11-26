@@ -1,18 +1,43 @@
-
-
+using System.Collections;
 using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Events;
 
 public static class HnsGamemodeEvents
 {
+    public static IEnumerator CoChangeImpostorRole(IntroCutscene cutscene)
+    {
+        yield return new WaitForSeconds(0.01f);
+        
+        var seeker = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.IsImpostor());
+        if (seeker != null)
+        {
+            cutscene.ImpostorTitle.text = seeker.Data.Role.GetRoleName();
+        }
+    }
+
+    [RegisterEvent]
+    public static void IntroBeginEventHandler(IntroBeginEvent @event)
+    {
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek)
+        {
+            return;
+        }
+        var cutscene = @event.IntroCutscene;
+        Coroutines.Start(CoChangeImpostorRole(cutscene));
+    }
+
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
@@ -52,10 +77,10 @@ public static class HnsGamemodeEvents
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable;
+            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
-            if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum 
-                || PlayerControl.LocalPlayer.IsImpostor())
+            if (PlayerControl.LocalPlayer.inVent && (aliveCount <= minimum
+                                                     || PlayerControl.LocalPlayer.IsImpostor()))
             {
                 PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                 PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
