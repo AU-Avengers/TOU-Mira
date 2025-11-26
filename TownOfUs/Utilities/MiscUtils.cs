@@ -1890,6 +1890,22 @@ public static class MiscUtils
         Type genericListType = typeof(List<>).MakeGenericType(myType);
         return (IList)Activator.CreateInstance(genericListType)!;
     }
+
+    public static void RemovePet(PlayerControl pc)
+    {
+        if (pc == null || !pc.Data.IsDead)
+        {
+            return;
+        }
+
+        if (pc.CurrentOutfit.PetId == "")
+        {
+            return;
+        }
+
+        pc.SetPet("");
+    }
+
 }
 public enum TouGamemode
 {

@@ -57,7 +57,7 @@ public class TouLocalizationProvider : LocalizationProvider
             ActiveTexts[i].ResetText();
         }
 
-        if (TouLocale.LangCultureList.TryGetValue(newLanguage, out var culture))
+        if (TouLocale.LangCultureList.TryGetValue((ExtendedLangs)newLanguage, out var culture))
         {
             TownOfUsPlugin.Culture = new(culture);
         }
