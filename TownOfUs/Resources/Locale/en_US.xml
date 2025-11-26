@@ -775,7 +775,7 @@
   <string name="TouRoleSeerIntroBlurb">Reveal The Alliance Of Other Players</string>
   <string name="TouRoleSeerAltIntroBlurb">Compare The Alignment Of Two Players</string>
   <string name="TouRoleSeerTabDescription">Reveal alliances of other players to find the Impostors</string>
-  <string name="TouRoleSeerAltTabDescription">Compare two players to see if they have matching or conflicting alignments</string>
+  <string name="TouRoleSeerAltTabDescription">Compare two players to check if\%nl\%they are friends or enemies!</string>
   <string name="TouRoleSeerWikiDescription">The Seer is a Crewmate Investigative role that can reveal the alliance of other players.</string>
   <string name="TouRoleSeerAltWikiDescription">The Seer is a Crewmate Investigative role that can compare two players to see if they have matching or conflicting alignments.</string>
   <string name="TouRoleSeerReveal">Reveal</string>
@@ -784,6 +784,14 @@
   <string name="TouRoleSeerGaze">Gaze</string>
   <string name="TouRoleSeerCompare">Intuit \%and\% Gaze </string>
   <string name="TouRoleSeerCompareWikiDescription">Compare the alignments of two players by using your Intuit and Gaze abilities on two different people. If they appear as enemies, you will be informed of such.</string>
+  <string name="TouRoleSeerGazeNotif">Currently gazing \%player\%. You may change this if needed. </string>
+  <string name="TouRoleSeerIntuitNotif">Currently intuiting \%player\%. You may change this if needed. </string>
+  <string name="TouRoleSeerCompareErrorAmountNotif">You must to pick two targets to gaze and intuit.</string>
+  <string name="TouRoleSeerCompareErrorSelfNotif">You can't use yourself to compare!</string>
+  <string name="TouRoleSeerCompareEnemiesNotif">\%gazed\% and \%intuited\% appear to be enemies!</string>
+  <string name="TouRoleSeerCompareFriendsNotif">\%gazed\% and \%intuited\% appear to be friendly!</string>
+  <string name="TouRoleSeerTabHeader">Previous Comparisons:</string>
+  <string name="TouRoleSeerTabComparison">\%gazed\% vs \%intuited\% (Round \%num\%)</string>
   <!-- Seer Options -->
   <string name="TouOptionSeerSalemMode">Compare Players Instead of Checking Alignments</string>
   <string name="TouOptionSeerCooldown">Reveal/Compare Cooldown</string>

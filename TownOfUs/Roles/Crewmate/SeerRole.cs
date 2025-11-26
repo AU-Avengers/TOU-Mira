@@ -1,4 +1,5 @@
 using System.Text;
+using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -7,6 +8,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -22,6 +24,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     public static string ReworkString => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value ? "Alt" : string.Empty;
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
+    public List<string> ComparisonList = new ();
 
     public string GetAdvancedDescription()
     {
@@ -61,31 +64,53 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     public PlayerControl? GazeTarget { get; set; }
     public PlayerControl? IntuitTarget { get; set; }
 
+    public static string TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
     public override void Initialize(PlayerControl player)
     {
         GazeTarget = null;
         IntuitTarget = null;
         RoleBehaviourStubs.Initialize(this, player);
+        ComparisonList = new List<string>();
+        TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
     }
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
+    public override void OnMeetingStart()
     {
-        return ITownOfUsRole.SetNewTabText(this);
+        RoleBehaviourStubs.OnMeetingStart(this);
+
+        if (Player.AmOwner)
+        {
+            var gazeButton = CustomButtonSingleton<SeerGazeButton>.Instance;
+            gazeButton.ResetCooldownAndOrEffect();
+            var intuitButton = CustomButtonSingleton<SeerIntuitButton>.Instance;
+            intuitButton.ResetCooldownAndOrEffect();
+
+            if (IntuitTarget != null)
+            {
+                ++intuitButton.UsesLeft;
+                intuitButton.SetUses(intuitButton.UsesLeft);
+            }
+
+            if (GazeTarget != null)
+            {
+                ++gazeButton.UsesLeft;
+                gazeButton.SetUses(gazeButton.UsesLeft);
+            }
+        }
     }
     public void SeerCompare(PlayerControl seer)
     {
         if (GazeTarget == null || IntuitTarget == null)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
-            ShowNotification($"<b>You need to pick two targets.</b>");
+            ShowNotification($"<b>{TouLocale.GetParsed("TouRoleSeerCompareErrorAmountNotif")}</b>");
             return;
         }
 
         if (GazeTarget == seer || IntuitTarget == seer)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
-            ShowNotification($"<b>You can't use yourself to compare!</b>");
+            ShowNotification($"<b>{TouLocale.GetParsed("TouRoleSeerCompareErrorSelfNotif")}</b>");
             return;
         }
         var gazeButton = CustomButtonSingleton<SeerGazeButton>.Instance;
@@ -130,18 +155,42 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             return true;
         }
 
+        var players = new [] {playerA, playerB}.OrderBy(x => x.ToLowerInvariant()).ToArray();
 
         if (enemies)
         {
-            Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed));
-            ShowNotification($"<b>{Palette.ImpostorRed.ToTextColor()}{playerA} and {playerB} appear as enemies!</color></b>");
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft));
+            var text = TouLocale.GetParsed("TouRoleSeerCompareEnemiesNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>");
+            var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ComparisonList.Add($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{compareResult.Replace("<num>", DeathEventHandlers.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
         else
         {
             Coroutines.Start(MiscUtils.CoFlash(Palette.CrewmateBlue));
-            ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{playerA} and {playerB} appear friendly to each other!</color></b>");
+            var text = TouLocale.GetParsed("TouRoleSeerCompareFriendsNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{text}</color></b>");
+            var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ComparisonList.Add($"<b>{Palette.CrewmateBlue.ToTextColor()}{compareResult.Replace("<num>", DeathEventHandlers.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
         IntuitTarget = null;
         GazeTarget = null;
+    }
+
+    [HideFromIl2Cpp]
+    public StringBuilder SetTabText()
+    {
+        var stringB = ITownOfUsRole.SetNewTabText(this);
+        if (ComparisonList.Count != 0)
+        {
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{TabHeaderString}</b>");
+            foreach (var comparison in ComparisonList)
+            {
+                var newText = $"<b><size=70%>{comparison}</size></b>";
+                stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
+            }
+        }
+
+        return stringB;
     }
 }

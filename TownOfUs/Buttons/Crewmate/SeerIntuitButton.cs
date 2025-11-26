@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -53,6 +54,13 @@ public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerContro
         if (Role.GazeTarget != null && Role.IntuitTarget != null)
         {
             Role.SeerCompare(PlayerControl.LocalPlayer);
+        }
+        else
+        {
+            var text = TouLocale.GetParsed("TouRoleSeerIntuitNotif").Replace("<player>", Target.Data.PlayerName);
+            var notif = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f),
+                spr: TouRoleIcons.Seer.LoadAsset());
+            notif.AdjustNotification();
         }
     }
 }
