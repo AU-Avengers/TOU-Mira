@@ -16,6 +16,7 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Patches;
@@ -166,6 +167,15 @@ public static class Extensions
     {
         var renderer = body.bodyRenderers[^1];
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
+        var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
+        if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+        {
+            var player = MiscUtils.PlayerById(body.ParentId);
+            if (player != null && !player.AmOwner)
+            {
+                MiscUtils.RemovePet(player);
+            }
+        }
         body.gameObject.Destroy();
     }
 

@@ -25,8 +25,13 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public ModdedToggleOption HideVentAnimationNotInVision { get; set; } =
         new("Hide Vent Animations Not In Vision", true);
 
-    public ModdedEnumOption ShowPetsMode { get; set; } = new("Pet Visibility", (int)PetVisiblity.WhenAlive,
+    public ModdedEnumOption ShowPetsMode { get; set; } = new("Pet Visibility", (int)PetVisiblity.AlwaysVisible,
         typeof(PetVisiblity), ["Client Side", "When Alive", "Always Visible"]);
+
+    public ModdedToggleOption HidePetsOnBodyRemove { get; set; } = new("Remove Pets Upon Janitor/Chef Clean", true)
+    {
+        Visible = () => (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value is PetVisiblity.AlwaysVisible
+    };
 }
 
 public enum PetVisiblity
