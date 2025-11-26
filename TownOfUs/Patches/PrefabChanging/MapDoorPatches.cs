@@ -282,7 +282,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
+        if (doorType is MapDoorType.Skeld || doorType is MapDoorType.Submerged)
         {
             return;
         }
@@ -302,9 +302,6 @@ public static class MapDoorPatches
                 break;
             case MapDoorType.Fungle:
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
-                break;
-            case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
         var doorList = new List<OpenableDoor>();
@@ -375,7 +372,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Polus || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
+        if (doorType is MapDoorType.Polus || doorType is MapDoorType.Submerged)
         {
             return;
         }
@@ -438,9 +435,6 @@ public static class MapDoorPatches
             case MapDoorType.Fungle:
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
-            case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
-                break;
         }
 
         foreach (var door in __instance.GetComponentsInChildren<DoorConsole>())
@@ -466,7 +460,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Airship || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
+        if (doorType is MapDoorType.Airship || doorType is MapDoorType.Submerged)
         {
             return;
         }
@@ -529,9 +523,6 @@ public static class MapDoorPatches
             case MapDoorType.Fungle:
                 doorMinigame = PrefabLoader.Fungle.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
-            case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
-                break;
         }
 
         foreach (var door in __instance.GetComponentsInChildren<DoorConsole>())
@@ -557,7 +548,7 @@ public static class MapDoorPatches
             }
         }
 
-        if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged/* && !ModCompatibility.SubLoaded*/)
+        if (doorType is MapDoorType.Fungle || doorType is MapDoorType.Submerged)
         {
             return;
         }
@@ -615,9 +606,6 @@ public static class MapDoorPatches
                 return;
             case MapDoorType.Airship:
                 doorMinigame = PrefabLoader.Airship.GetComponentInChildren<DoorConsole>().MinigamePrefab;
-                break;
-            case MapDoorType.Submerged:
-                doorMinigame = PrefabLoader.Submerged!.GetComponentInChildren<DoorConsole>().MinigamePrefab;
                 break;
         }
 
