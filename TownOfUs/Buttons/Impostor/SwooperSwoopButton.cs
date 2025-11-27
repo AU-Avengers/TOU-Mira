@@ -13,9 +13,9 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAftermathableButton
 {
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override string Name => TouLocale.Get("TouRoleSwooperSwoop", "Swoop");
+    public override string Name => TouLocale.GetParsed("TouRoleSwooperSwoop", "Swoop");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
-    public override float Cooldown => OptionGroupSingleton<SwooperOptions>.Instance.SwoopCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SwooperOptions>.Instance.SwoopCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<SwooperOptions>.Instance.SwoopDuration;
     public override int MaxUses => (int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.SwoopSprite;

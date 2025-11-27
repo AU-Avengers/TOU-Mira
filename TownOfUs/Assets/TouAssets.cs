@@ -8,10 +8,11 @@ public static class TouAssets
 {
     private const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
+    private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
-    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner.png");
+    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
         new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 150);
@@ -34,6 +35,17 @@ public static class TouAssets
 
         return sprite;
     }
+    public static LoadableAsset<Sprite> DleksBanner { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksBanner.png");
+
+    public static LoadableAsset<Sprite> DleksText { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png");
+
+    public static LoadableAsset<Sprite> DleksTextAlt { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png", 155f);
+
+    public static LoadableAsset<Sprite> DleksIcon { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksIcon.png");
 
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
         new LoadableResourceAsset($"{ShortPath}.AprilFools.Normal.png");

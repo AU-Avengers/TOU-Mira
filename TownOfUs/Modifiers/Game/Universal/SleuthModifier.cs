@@ -2,6 +2,7 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -37,6 +38,11 @@ public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
     public override int GetAmountPerGame()
     {
         return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthAmount;
+    }
+
+    public override bool IsModifierValidOn(RoleBehaviour role)
+    {
+        return base.IsModifierValidOn(role) && role is not AltruistRole;
     }
 
     public static bool SleuthVisibilityFlag(PlayerControl player)

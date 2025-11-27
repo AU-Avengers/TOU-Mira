@@ -105,9 +105,6 @@ public static class InquisitorEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
@@ -117,6 +114,9 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
+            DeathHandlerModifier.UpdateDeathHandler(inquis.Player, TouLocale.Get("DiedToWinning"),
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue);
 
             inquis.Player.Exiled();
         }
@@ -142,9 +142,6 @@ public static class InquisitorEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
@@ -154,6 +151,9 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
+            DeathHandlerModifier.UpdateDeathHandler(inquis.Player, TouLocale.Get("DiedToWinning"),
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue);
 
             inquis.Player.Exiled();
         }

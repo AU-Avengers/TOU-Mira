@@ -38,7 +38,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
         Effects = FindNegativeEffects(Player);
 
-        // Logger<TownOfUsPlugin>.Error($"ClericCleanseModifier.OnActivate");
+        // Error($"ClericCleanseModifier.OnActivate");
     }
 
     public override void OnDeath(DeathReason reason)
@@ -48,7 +48,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
     public override void OnMeetingStart()
     {
-        // Logger<TownOfUsPlugin>.Error($"ClericCleanseModifier.OnMeetingStart");
+        // Error($"ClericCleanseModifier.OnMeetingStart");
         if (Cleric.AmOwner)
         {
             var text = new StringBuilder($"Cleansed effects on {Player.Data.PlayerName}:");
@@ -73,6 +73,11 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (Cleric == null)
+        {
+            ModifierComponent?.RemoveModifier(this);
+            return;
+        }
 
         if (!Cleansed)
         {
@@ -83,7 +88,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
     private void CleansePlayer()
     {
-        // Logger<TownOfUsPlugin>.Error($"ClericCleanseModifier.CleansePlayer");
+        // Error($"ClericCleanseModifier.CleansePlayer");
         if (Effects.Contains(EffectType.Douse))
         {
             Player.RemoveModifier<ArsonistDousedModifier>();

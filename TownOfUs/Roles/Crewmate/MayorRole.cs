@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -12,7 +11,6 @@ using PowerTools;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -62,12 +60,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (!Revealed)
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>Reveal yourself whenever you wish.</b>");
-        }
-
-        if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
-        {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>The Impostors know your true motives.</b>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{UnrevealedString}</b>");
         }
 
         return stringB;
@@ -78,9 +71,12 @@ public sealed class MayorRole(IntPtr cppPtr)
 
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
+
+    public static string UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
         Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
         if (Player.TryGetModifier<ToBecomeTraitorModifier>(out var traitorMod) && PlayerControl.LocalPlayer.IsHost())
         {
@@ -119,7 +115,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         }
 
         if (Player.AmOwner && !Revealed)
-            // Logger<TownOfUsPlugin>.Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
+            // Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
         {
             meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
@@ -235,6 +231,29 @@ public sealed class MayorRole(IntPtr cppPtr)
         }
 
         yield return new WaitForSeconds(bodysAnim.m_currAnim.length - 0.25f);
+        DestroyReveal(voteArea);
+        MayorPlayer = Instantiate(TouAssets.MayorPostRevealPrefab.LoadAsset(), voteArea.transform);
+        MayorPlayer.transform.localPosition = new Vector3(-0.8f, 0, 0);
+        MayorPlayer.transform.localScale = new Vector3(0.375f, 0.375f, 1f);
+        MayorPlayer.gameObject.layer = MayorPlayer.transform.GetChild(0).gameObject.layer = voteArea.gameObject.layer;
+
+        animationRend = MayorPlayer.GetComponent<SpriteRenderer>();
+        animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
+        handRend = MayorPlayer.transform.FindRecursive("Hands").GetComponent<SpriteRenderer>();
+        if (!handRend)
+        {
+            handRend = MayorPlayer.transform.FindRecursive("Hand").GetComponent<SpriteRenderer>();
+        }
+
+        if (handRend)
+        {
+            handRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
+        }
+
+        voteArea.PlayerIcon.gameObject.SetActive(false);
+        MayorPlayer.gameObject.SetActive(true);
+        MayorPlayer.transform.GetChild(0).gameObject.SetActive(true);
+        MayorPlayer.transform.GetChild(1).gameObject.SetActive(true);
     }
 
     private static IEnumerator CoAnimatePostReveal(PlayerVoteArea voteArea)

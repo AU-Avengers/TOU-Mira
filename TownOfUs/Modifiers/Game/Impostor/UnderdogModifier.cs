@@ -71,7 +71,7 @@ public sealed class UnderdogModifier : TouGameModifier, IWikiDiscoverable
         var kc = ExtraImpsKillCooldown ? upperKc : baseKillCooldown;
         var timer = LastImpostor() ? lowerKc : kc;
 
-        // Logger<TownOfUsPlugin>.Error($"GetKillCooldown({player.Data.PlayerName}) baseKillCooldown: {baseKillCooldown}, baseKillCooldown2: {baseKillCooldown2}, lowerKc {lowerKc}, upperKc {upperKc}, kc {kc}, timer {timer}");
+        // Error($"GetKillCooldown({player.Data.PlayerName}) baseKillCooldown: {baseKillCooldown}, baseKillCooldown2: {baseKillCooldown2}, lowerKc {lowerKc}, upperKc {upperKc}, kc {kc}, timer {timer}");
 
         return timer;
     }

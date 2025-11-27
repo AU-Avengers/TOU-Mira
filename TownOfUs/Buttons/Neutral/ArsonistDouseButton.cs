@@ -2,7 +2,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
@@ -14,17 +13,17 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleArsonistDouse", "Douse");
+    public override string Name => TouLocale.GetParsed("TouRoleArsonistDouse", "Douse");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Arsonist;
-    public override float Cooldown => OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.DouseButtonSprite;
 
     protected override void OnClick()
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Arsonist Attack: Target is null");
+            Error("Arsonist Attack: Target is null");
             return;
         }
 

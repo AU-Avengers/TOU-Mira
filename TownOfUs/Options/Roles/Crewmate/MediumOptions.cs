@@ -9,18 +9,18 @@ public sealed class MediumOptions : AbstractOptionGroup<MediumRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleMedium", "Medium");
 
-    [ModdedNumberOption("Mediate Cooldown", 0, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionMediumMediateCooldown", 0, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float MediateCooldown { get; set; } = 10;
 
-    [ModdedToggleOption("Reveal Appearance of Mediate Target")]
+    [ModdedToggleOption("TouOptionMediumRevealAppearanceOfMediateTarget")]
     public bool RevealMediateAppearance { get; set; } = true;
 
-    [ModdedEnumOption("Arrow Visibility", typeof(MediumVisibility),
-        ["Medium", "Mediated", "Medium + Mediated", "Neither"])]
+    [ModdedEnumOption("TouOptionMediumArrowVisibility", typeof(MediumVisibility),
+        ["TouOptionMediumArrowEnumShowMedium", "TouOptionMediumArrowEnumShowMediated", "TouOptionMediumArrowEnumBoth", "TouOptionMediumArrowEnumNone"])]
     public MediumVisibility ArrowVisibility { get; set; } = MediumVisibility.Both;
 
-    [ModdedEnumOption("Who is Revealed", typeof(MediateRevealedTargets),
-        ["Oldest Dead", "Newest Dead", "Random Dead", "All Dead"])]
+    [ModdedEnumOption("TouOptionMediumWhoisRevealed", typeof(MediateRevealedTargets),
+        ["TouOptionMediumGhostEnumOldestDead", "TouOptionMediumGhostEnumNewestDead", "TouOptionMediumGhostEnumRandomDead", "TouOptionMediumGhostEnumAllDead"])]
     public MediateRevealedTargets WhoIsRevealed { get; set; } = MediateRevealedTargets.OldestDead;
 }
 

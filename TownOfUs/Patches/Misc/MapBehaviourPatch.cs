@@ -68,6 +68,7 @@ public static class ShowVentsPatch
 
         var task = PlayerControl.LocalPlayer.myTasks.ToArray()
             .FirstOrDefault(x => x.TaskType == TaskTypes.VentCleaning);
+        var xPos = MiscUtils.GetCurrentMap is ExpandedMapNames.Dleks ? -1 : 1;
 
         foreach (var vent in ShipStatus.Instance.AllVents)
         {
@@ -77,6 +78,7 @@ public static class ShowVentsPatch
             }
 
             var location = vent.transform.position / ShipStatus.Instance.MapScale;
+            location.x *= xPos;
             location.z = -0.99f;
 
             if (!VentIcons.TryGetValue(vent.Id, out var Icon) || Icon == null)
@@ -124,8 +126,13 @@ public static class ShowVentsPatch
                 {
                     continue;
                 }
-                connectedgroup.Do(x =>
-                    VentIcons[x.Id].GetComponent<SpriteRenderer>().color = Palette.PlayerColors[index]);
+                foreach (var vent in connectedgroup)
+                {
+                    if (VentIcons[vent.Id].TryGetComponent<SpriteRenderer>(out var sprite))
+                    {
+                        sprite.color = Palette.PlayerColors[index];
+                    }
+                }
             }
         }
     }

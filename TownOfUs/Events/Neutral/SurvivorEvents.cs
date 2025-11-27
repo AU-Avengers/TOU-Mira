@@ -24,7 +24,7 @@ public static class SurvivorEvents
             return;
         }
 
-        CheckForSurvivorVest(@event, target);
+        CheckForSurvivorVest(@event, PlayerControl.LocalPlayer, target);
     }
 
     [RegisterEvent]
@@ -53,24 +53,25 @@ public static class SurvivorEvents
         var source = @event.Source;
         var target = @event.Target;
 
-        if (CheckForSurvivorVest(@event, target))
+        if (CheckForSurvivorVest(@event, source, target))
         {
             ResetButtonTimer(source);
         }
     }
 
-    private static bool CheckForSurvivorVest(MiraCancelableEvent @event, PlayerControl target)
+    private static bool CheckForSurvivorVest(MiraCancelableEvent @event, PlayerControl source, PlayerControl target)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
             return false;
         }
 
-        if (!target.HasModifier<SurvivorVestModifier>())
+        if (!target.HasModifier<SurvivorVestModifier>() || target == source)
         {
             return false;
         }
 
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a survivor vest!");
         @event.Cancel();
 
         return true;

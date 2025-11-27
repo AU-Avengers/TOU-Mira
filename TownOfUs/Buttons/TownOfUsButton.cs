@@ -1,15 +1,13 @@
 ﻿using System.Globalization;
 using HarmonyLib;
-using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -22,7 +20,7 @@ public abstract class TownOfUsButton : CustomActionButton
     public override string Name => string.Empty;
 
     public static float MapCooldown =>
-        OptionGroupSingleton<TownOfUsMapOptions>.Instance.GetMapBasedCooldownDifference();
+        TownOfUsMapOptions.GetMapBasedCooldownDifference();
 
     public override float InitialCooldown => 10;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
@@ -114,7 +112,7 @@ public abstract class TownOfUsButton : CustomActionButton
         base.CreateButton(parent);
         if (Button == null)
         {
-            Logger<TownOfUsPlugin>.Error($"Button is null for {GetType().FullName}");
+            Error($"Button is null for {GetType().FullName}");
             return;
         }
 
@@ -230,7 +228,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     public override string Name => string.Empty;
 
     public static float MapCooldown =>
-        OptionGroupSingleton<TownOfUsMapOptions>.Instance.GetMapBasedCooldownDifference();
+        TownOfUsMapOptions.GetMapBasedCooldownDifference();
 
     public override float InitialCooldown => 10;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
@@ -343,7 +341,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         base.CreateButton(parent);
         if (Button == null)
         {
-            Logger<TownOfUsPlugin>.Error($"Button is null for {GetType().FullName}");
+            Error($"Button is null for {GetType().FullName}");
             return;
         }
 

@@ -49,7 +49,7 @@ public static class WikiHyperLinkPatches
             bool shouldHyperlink = true;
             if (match.Value[0] == '#') // Role tag
             {
-                var role = MiscUtils.AllRoles.FirstOrDefault(x =>
+                var role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
                     x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
                 if (role is ICustomRole customRole)
                 {
@@ -57,10 +57,16 @@ public static class WikiHyperLinkPatches
                         $"{fontTag}<b>{customRole.RoleColor.ToTextColor()}<link={customRole.GetType().FullName}:{linkIndex}>{customRole.RoleName}</link></color></b></font>";
                     shouldHyperlink = customRole is IWikiDiscoverable || SoftWikiEntries.RoleEntries.ContainsKey(role);
                 }
+                else if (role != null && SoftWikiEntries.RoleEntries.ContainsKey(role))
+                {
+                    replacement =
+                        $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={role.GetType().FullName}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                    shouldHyperlink = true;
+                }
                 else
                 {
-                    // Non-custom roles (aka vanilla ones) can also be tagged, but they have no wiki entries.
-                    role = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x =>
+                    // Some non-custom roles (specifically Impostor and Crewmate) can also be tagged, but they have no wiki entries.
+                    role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
                         x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
                     if (role != null)
                     {

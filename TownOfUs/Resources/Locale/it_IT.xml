@@ -184,7 +184,7 @@
   <string name="DiedToDoomsayer">Condannato</string>
   <string name="DiedToJester">Infestato</string>
   <string name="DiedToExecutioner">Tormentato</string>
-  <string name="DiedToPhantom">Spaventato</string>
+  <string name="DiedToSpectre">Spaventato</string>
   <string name="DiedToAmbusherAmbush">Imboscato</string>
   <string name="DiedToBomberBomb">Bombardato</string>
   <string name="TouFirstDeathShield">Scudo del Primo Morto</string>
@@ -242,7 +242,6 @@
   <string name="TouOptionClericBarrierCooldown">Ricarica Barriera</string>
   <string name="TouOptionClericBarrierDuration">Durata Barriera</string>
   <string name="TouOptionClericCleanseCooldown">Ricarica Rimuovi</string>
-  <string name="TouOptionClericShowBarriered">Mostra Giocatore Barrierato</string>
   <string name="TouOptionClericAttackNotif">Il Chierico riceve Notifiche di Attacco</string>
   <string name="TouRoleDeputy">Vice</string>
   <string name="TouRoleDeputyWikiDescription">Il Vice è un Astronauta Uccisore che può accampare altri giocatori. Quando un giocatore accampato muore, il Vice viene avvisato della sua morte. Nella riunione successiva, il Vice può quindi tentare di sparare all'assassino del giocatore accampato. Se ha successo, l'assassino muore, altrimenti non succede nulla.</string>
@@ -250,13 +249,13 @@
   <string name="TouRoleDeputyCampWikiDescription">Accampa un giocatore per sapere quando muore. Dopo la sua morte, puoi provare a sparare all'assassino. Se il tuo colpo va a segno, l'assassino muore, altrimenti non succederà nulla.</string>
   <string name="TouRoleDeputyMessageTitle">Feedback Vice</string>
   <string name="TouRoleDeputyMissedShot">Hai mancato il tuo colpo! Non è un assassino oppure è invincibile.</string>
-  <string name="TouRoleDetective">Ispettore</string>
-  <string name="TouRoleDetectiveIntroBlurb">Ispeziona Scene Del Crimine Per Catturare Gli Assassini</string>
-  <string name="TouRoleDetectiveTabDescription">Ispeziona le scene del crimine, quindi esamina i giocatori per \%nl\% vedere se erano sulla scena.</string>
+  <string name="TouRoleForensic">Ispettore</string>
+  <string name="TouRoleForensicIntroBlurb">Ispeziona Scene Del Crimine Per Catturare Gli Assassini</string>
+  <string name="TouRoleForensicTabDescription">Ispeziona le scene del crimine, quindi esamina i giocatori per \%nl\% vedere se erano sulla scena.</string>
   <string name="TouOptionHunterKillCooldown">Ricarica Uccisione Cacciatore</string>
-  <string name="TouOptionDetectiveExamineCooldown">Esamina Ricarica</string>
-  <string name="TouOptionDetectiveReportOn">Mostra Segnalazioni Detective</string>
-  <string name="TouRoleDetectiveNotAtScene">\%player\% non era nella scena del crimine.</string>
+  <string name="TouOptionForensicExamineCooldown">Esamina Ricarica</string>
+  <string name="TouOptionForensicReportOn">Mostra Segnalazioni Detective</string>
+  <string name="TouRoleForensicNotAtScene">\%player\% non era nella scena del crimine.</string>
   <string name="TouRoleEngineer">Ingegnere</string>
   <string name="TouRoleEngineerTabDescription">Botola in giro e sistema i sabotaggi da remoto</string>
   <string name="TouRoleEngineerWikiDescription">L'ingegnere è un ruolo da Astronauta Supporto che può botola e sistemare i sabotaggi da remoto.</string>
@@ -366,4 +365,30 @@
   <string name="NeutralOutlier">Neutrale Anomalo</string>
   <string name="WildcardNeutral">Neutrale Jolly</string>
   <string name="TouScatter">Scatto</string>
+  <string name="TouRoleForensicWikiDescription">Il Detective può ispezionare una scena del crimine ed esaminare i giocatori per vedere se fanno parte del caso, la luce rossa indica se loro fossero lì.</string>
+  <string name="TouRoleForensicInspect">Ispeziona</string>
+  <string name="TouRoleForensicInspectWikiDescription">Le scene del crimine cominceranno con tutti i corpi morti. Ispeziona una scena del crimine ed Esamina i giocatori per scovare indizi. Durante la riunione successiva, riceverai una segnalazione rivelando il ruolo dell'assassino.</string>
+  <string name="TouRoleForensicExamine">Esamina</string>
+  <string name="TouRoleForensicExamineWikiDescription">Esamina i giocatori dopo aver ispezionato una scena del crimine. Ti sarà detto se il giocatore esaminato era nella scena del crimine.</string>
+  <string name="TouRoleForensicInspectNotif">Hai ispezionato la scena del crimine di \%player\%. L'assassino o chiunque metta i piedi sulla scena del crimine lampeggerà in rosso quando esaminato.</string>
+  <string name="TouOptionForensicRoleDuration">Tempo Dove Il Detective Avrà Il Ruolo</string>
+  <string name="TouRoleForensicAtScene">\%player\% era alla scena di morte di \%deadPlayer\%! Potrebbe essere al \%nl\% l'assassino o un testimone.</string>
+  <string name="TouRoleEngineerIntroBlurb">Mantieni Sistemi Importanti Nella Navicella</string>
+  <string name="TouRoleHunterIntroBlurb">Pedina Gli \%color=#FF0000FF\%Impostori\%/color\%</string>
+  <string name="TouRoleHunterTabDescription">Pedina i giocatori per essere allertato quando usano una abilità. Al \%nl\% quando usano una abilità, potresti ucciderli.</string>
+  <string name="TouRoleHunterCaughtPlayersText">Giocatori Catturati:</string>
+  <string name="TouRoleHunterWikiDescription">Il Cacciatore è un Astronauta Uccisore che può pedinare i giocatori durante il round. Se un giocatore pedinato usa una abilità, potrebbe venir ucciso dal Cacciatore a qualsiasi punto della partita, anche se è un Compagno d'Equipaggio.</string>
+  <string name="TouRoleHunterStalk">Pedina</string>
+  <string name="TouRoleHunterStalking">Pedinando</string>
+  <string name="TouRoleHunterStalkWikiDescription">Scegli un bersaglio da pedinare. Puoi pedinare \%hunterMaxStalkUsages\% giocatori. Se provano ad usare una abilità mentre sono pedinati, sono aggiunti alla tua hitlist e potrebbero essere uccisi.</string>
+  <string name="TouRoleHunterStalkNotif">Se \%player\% usa una sua abilità, sarai in grado di udciderlo in qualsiasi momento nel round.</string>
+  <string name="TouOptionHunterStalkCooldown">Ricarica Pedina Cacciatore</string>
+  <string name="TouOptionHunterStalkDuration">Durata Pedina Cacciatore</string>
+  <string name="TouOptionHunterStalkUses">Usi Massimi Pedina</string>
+  <string name="TouOptionHunterTaskUses">Ottieni Più Usi Completando Gli Incarichi</string>
+  <string name="TouOptionHunterRetributionOnVote">Il Cacciatore Uccide l'Ultimo Votatore Se Viene Espulso</string>
+  <string name="TouOptionHunterHunterBodyReport">Il Cacciatore Può Segnalare Chi Ha Ucciso</string>
+  <string name="TouRoleImitator">Imitatore</string>
+  <string name="TouRoleImitatorIntroBlurb">Usa I Ruoli Dei Morti A Beneficio Dell'Equipaggio</string>
+  <string name="TouRoleImitatorTabDescription">Usa i giocatori morti a beneficio dell'equipaggio imitando nelle riunioni</string>
 </resources>

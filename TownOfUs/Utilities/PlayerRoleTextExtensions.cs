@@ -40,8 +40,8 @@ public static class PlayerRoleTextExtensions
             color = Color.red;
         }
 
-        if (player.HasModifier<PoliticianCampaignedModifier>(x => x.Politician.AmOwner) &&
-            PlayerControl.LocalPlayer.IsRole<PoliticianRole>())
+        if (player.HasModifier<PoliticianCampaignedModifier>(x => x.Politician.AmOwner && x.Politician.IsCrewmate()) &&
+            (PlayerControl.LocalPlayer.IsRole<PoliticianRole>() || PlayerControl.LocalPlayer.IsRole<MayorRole>()))
         {
             color = Color.cyan;
         }
@@ -98,14 +98,14 @@ public static class PlayerRoleTextExtensions
 
         if (player.Data != null && !player.Data.Disconnected &&
             ((player.HasModifier<GuardianAngelTargetModifier>(x => x.OwnerId == PlayerControl.LocalPlayer.PlayerId) &&
-              PlayerControl.LocalPlayer.IsRole<GuardianAngelTouRole>())
+              PlayerControl.LocalPlayer.IsRole<FairyRole>())
              || (player.HasModifier<GuardianAngelTargetModifier>() &&
                  (isDead
                   || (player.AmOwner &&
-                      OptionGroupSingleton<GuardianAngelOptions>.Instance.GATargetKnows)))))
+                      OptionGroupSingleton<FairyOptions>.Instance.FairyTargetKnows)))))
         {
             name += (player.HasModifier<GuardianAngelProtectModifier>() &&
-                     OptionGroupSingleton<GuardianAngelOptions>.Instance.ShowProtect is not ProtectOptions.GA)
+                     OptionGroupSingleton<FairyOptions>.Instance.ShowProtect is not ProtectOptions.Fairy)
                 ? "<color=#FFD900> ★</color>"
                 : "<color=#B3FFFF> ★</color>";
         }
@@ -161,12 +161,17 @@ public static class PlayerRoleTextExtensions
             name += "<color=#FF66CC> ♥</color>";
         }
 
-        if (player.TryGetModifier<EgotistModifier>(out var egoMod) && (player.AmOwner ||
+        if (player.IsCrewmate() && player.TryGetModifier<EgotistModifier>(out var egoMod) && (player.AmOwner ||
                                                                        (EgotistModifier.EgoVisibilityFlag(player) &&
                                                                         (player.GetModifiers<RevealModifier>().Any(x =>
                                                                             x.Visible && x.RevealRole))) || isDead))
         {
             name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ModifierName}</color>)</color>";
+        }
+
+        if (player.IsCrewmate() && player.TryGetModifier<CrewpostorModifier>(out var postorMod) && (CrewpostorModifier.CrewpostorVisibilityFlag(player) || isDead))
+        {
+            name += $"<color=#FFFFFF> (<color=#D64042>{postorMod.ModifierName}</color>)</color>";
         }
 
         return name;
@@ -179,9 +184,9 @@ public static class PlayerRoleTextExtensions
         var isDead = PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden;
 
         if ((player.HasModifier<PlaguebearerInfectedModifier>(x =>
-                 x.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId) &&
+                 x.PlagueBearerId == PlayerControl.LocalPlayer.PlayerId && x.PlagueBearerId != x.Player.PlayerId) &&
              PlayerControl.LocalPlayer.IsRole<PlaguebearerRole>())
-            || (player.HasModifier<PlaguebearerInfectedModifier>() && isDead))
+            || (player.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId != x.Player.PlayerId) && isDead))
         {
             name += "<color=#E6FFB3> ¥</color>";
         }

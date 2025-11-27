@@ -29,7 +29,7 @@ public static class GhostRoleCanUsePatches
 
         if (playerControl.Data.Role is IGhostRole ghost && ghost.GhostActive && pc.IsDead)
         {
-            // Logger<TownOfUsPlugin>.Message($"CanUsePrefixPatch IsDead");
+            // Message($"CanUsePrefixPatch IsDead");
             pc.IsDead = false; // TODO: find a better way
             __state = true;
         }
@@ -43,7 +43,7 @@ public static class GhostRoleCanUsePatches
         ref bool __state)
     {
         if (__state)
-            // Logger<TownOfUsPlugin>.Message($"CanUsePostfixPatch IsDead");
+            // Message($"CanUsePostfixPatch IsDead");
         {
             pc.IsDead = true;
         }

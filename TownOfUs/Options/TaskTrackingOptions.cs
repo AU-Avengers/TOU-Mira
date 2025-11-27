@@ -5,6 +5,7 @@ namespace TownOfUs.Options;
 
 public sealed class TaskTrackingOptions : AbstractOptionGroup
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => "Task Tracking";
     public override uint GroupPriority => 4;
 

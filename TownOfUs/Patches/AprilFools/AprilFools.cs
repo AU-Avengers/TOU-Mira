@@ -1,6 +1,9 @@
 using HarmonyLib;
+using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Events;
+using TownOfUs.Options;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +39,33 @@ public static class AprilFoolsPatches
     [HarmonyPrefix]
     public static void Prefix(MainMenuManager __instance)
     {
+        if (TownOfUsEventHandlers.LogBuffer.Count != 0)
+        {
+            foreach (var log in TownOfUsEventHandlers.LogBuffer)
+            {
+                var text = log.Value;
+                switch (log.Key)
+                {
+                    case TownOfUsEventHandlers.LogLevel.Error:
+                        Error(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Warning:
+                        Warning(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Debug:
+                        Debug(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Info:
+                        Info(text);
+                        break;
+                    case TownOfUsEventHandlers.LogLevel.Message:
+                        Message(text);
+                        break;
+                }
+            }
+
+            TownOfUsEventHandlers.LogBuffer.Clear();
+        }
         if (__instance.newsButton != null)
         {
             var aprilfoolstoggle = Object.Instantiate(__instance.newsButton, null);
@@ -141,6 +171,10 @@ public static class AprilFoolsPatches
     [HarmonyPrefix]
     public static void Prefix(ref PlayerBodyTypes bodyType)
     {
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools || GameManager.Instance.IsHideAndSeek())
+        {
+            return;
+        }
         switch (CurrentMode)
         {
             case 1:
@@ -159,6 +193,10 @@ public static class AprilFoolsPatches
     [HarmonyPrefix]
     public static bool Prefix2(ref PlayerBodyTypes __result)
     {
+        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools || GameManager.Instance.IsHideAndSeek())
+        {
+            return true;
+        }
         switch (CurrentMode)
         {
             case 1:

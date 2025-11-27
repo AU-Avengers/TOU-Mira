@@ -18,7 +18,7 @@ public static class SkipButtonPatches
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
     public static void Postfix(MeetingHud __instance)
     {
-        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance.SkipButtonDisable;
+        var genOpt = (SkipState)OptionGroupSingleton<VanillaTweakOptions>.Instance.SkipButtonDisable.Value;
 
         // Deactivate skip Button if skipping on emergency meetings is disabled
         if ((!meetingTarget && genOpt == SkipState.Emergency) || genOpt == SkipState.Always)

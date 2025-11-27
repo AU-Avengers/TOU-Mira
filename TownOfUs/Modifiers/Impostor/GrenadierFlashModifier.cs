@@ -53,7 +53,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     {
         base.FixedUpdate();
 
-        if (!Player.IsImpostor() && PlayerControl.LocalPlayer.IsImpostor())
+        if (!Player.IsImpostorAligned() && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             if (TimeRemaining <= Duration - 0.5f && TimeRemaining >= 0.5f)
             {
@@ -142,7 +142,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
             flash?.Destroy();
         }
 
-        if (!Player.IsImpostor() && PlayerControl.LocalPlayer.IsImpostor())
+        if (!Player.IsImpostorAligned() && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
         }
@@ -169,11 +169,11 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
 
     private static bool ShouldPlayerBeDimmed(PlayerControl player)
     {
-        return (player.IsImpostor() || player.HasDied()) && !MeetingHud.Instance;
+        return (player.IsImpostorAligned() || player.HasDied()) && !MeetingHud.Instance;
     }
 
     private static bool ShouldPlayerBeBlinded(PlayerControl player)
     {
-        return !player.IsImpostor() && !player.HasDied() && !MeetingHud.Instance;
+        return !player.IsImpostorAligned() && !player.HasDied() && !MeetingHud.Instance;
     }
 }

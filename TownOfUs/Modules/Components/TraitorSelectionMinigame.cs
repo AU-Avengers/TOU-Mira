@@ -80,6 +80,7 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
 
     public override void Close()
     {
+        Coroutines.Stop(CoAnimateCards());
         HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(_bgColor, Color.clear));
         CurrentCard = -1;
         MinigameStubs.Close(this);

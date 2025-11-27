@@ -5,17 +5,14 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
-using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
@@ -80,7 +77,12 @@ public static class LogicGameFlowPatches
     [HarmonyPrefix]
     private static bool RecomputeTasksPatch(GameData __instance)
     {
-        if (__instance == null || GameOptionsManager.Instance == null)
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return true;
+        }
+
+        if (__instance == null || GameOptionsManager.Instance == null || GameManager.Instance == null)
         {
             return false;
         }
@@ -90,12 +92,12 @@ public static class LogicGameFlowPatches
         for (var i = 0; i < __instance.AllPlayers.Count; i++)
         {
             var playerInfo = __instance.AllPlayers.ToArray()[i];
-            if (playerInfo == null || playerInfo.Disconnected || !playerInfo.Object || playerInfo.Tasks == null || playerInfo.Object == null)
+            if (playerInfo == null || playerInfo.Disconnected || !playerInfo.Object || playerInfo.Tasks == null || playerInfo.Object == null || !playerInfo.Object.TryGetComponent<ModifierComponent>(out _))
             {
                 continue;
             }
 
-            if ((GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks || !playerInfo.IsDead) &&
+            if ((!playerInfo.IsDead || GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks) &&
                 !playerInfo._object.IsImpostor() &&
                 !(
                     (playerInfo._object.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks)
@@ -172,11 +174,10 @@ public static class LogicGameFlowPatches
                 continue;
             }
 
-            var criticalSabotage = sabo;
-            if (criticalSabotage != null && criticalSabotage.Countdown < 0f)
+            if (sabo.Countdown < 0f)
             {
                 __instance.EndGameForSabotage();
-                criticalSabotage.ClearSabotage();
+                sabo.ClearSabotage();
             }
         }
 
@@ -206,27 +207,19 @@ public static class LogicGameFlowPatches
         // If any neutral win condition is met -> game over
         // Using RoleAlignment as a quick and basic way to prioritise NeutralEvil wins over NeutralKiller wins
         if (CustomRoleUtils.GetActiveRolesOfTeam(ModdedRoleTeams.Custom)
-                .OrderBy(x => (x as ITownOfUsRole)!.RoleAlignment)
+                .OrderBy(x => x.GetRoleAlignment())
                 .FirstOrDefault(x => x is ITownOfUsRole role && role.WinConditionMet()) is { } winner)
         {
-            Logger<TownOfUsPlugin>.Message($"Game Over");
+            Message($"Game Over");
             CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
 
             return false;
         }
 
-        // Prevents game end when all impostors are dead but there are neutral killers left alive
+        // Prevents game end when all impostors are dead but there are neutral killers alive, or when roles like doom are present.
         if (MiscUtils.NKillersAliveCount > 0 ||
-            (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0))
-        {
-            return false;
-        }
-
-        // Prevents game end when all impostors are dead but there is a possibility for a traitor to spawn given the conditions
-        var possibleTraitor = ModifierUtils.GetActiveModifiers<ToBecomeTraitorModifier>()
-            .FirstOrDefault(x => !x.Player.HasDied() && x.Player.IsCrewmate());
-        if (Helpers.GetAlivePlayers().Count > (int)OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1 &&
-            possibleTraitor != null)
+            (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0) ||
+            (MiscUtils.GameHaltersAliveCount > 0 && Helpers.GetAlivePlayers().Count > 1))
         {
             return false;
         }

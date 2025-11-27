@@ -8,8 +8,9 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class FrostyOptions : AbstractOptionGroup<FrostyModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierFrosty", "Frosty");
-    public override uint GroupPriority => 33;
+    public override uint GroupPriority => 22;
     public override Color GroupColor => TownOfUsColors.Frosty;
 
     [ModdedNumberOption("Chill Duration", 0f, 15f, suffixType: MiraNumberSuffixes.Seconds)]

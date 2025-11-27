@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -87,6 +86,14 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         ModifierUtils.GetActiveModifiers<MagicMirrorModifier>()
             .Any(); // Always disable end game checks if there is an Unleash available
 
+    public static string ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
+
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
+    }
+
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
@@ -94,8 +101,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
         if (Protected != null)
         {
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"\n<b>Protecting: </b>{Color.white.ToTextColor()}{Protected.Data.PlayerName}</color>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Protected.Data.PlayerName)}</b>");
         }
 
         return stringB;
@@ -122,7 +128,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public void SetProtectedPlayer(PlayerControl? player)
     {
-        Protected?.RemoveModifier<MagicMirrorModifier>();
+        if (Protected?.TryGetModifier<MagicMirrorModifier>(out var mod) == true)
+        {
+            // This should prevent any issues with murder attempts
+            mod.StartTimer();
+        }
 
         Protected = (player?.HasDied() == true) ? null : player;
 
@@ -139,7 +149,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         if (mc.Data.Role is not MirrorcasterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMagicMirror - Invalid mirrorcaster");
+            Error("RpcMagicMirror - Invalid mirrorcaster");
             return;
         }
 
@@ -157,7 +167,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         if (mc.Data.Role is not MirrorcasterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("ClearMagicMirror - Invalid mirrorcaster");
+            Error("ClearMagicMirror - Invalid mirrorcaster");
             return;
         }
 
@@ -168,7 +178,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         if (mc.Data.Role is not MirrorcasterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("ClearMagicMirror - Invalid mirrorcaster");
+            Error("ClearMagicMirror - Invalid mirrorcaster");
             return;
         }
 
@@ -181,7 +191,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         if (mirrorcaster.Data.Role is not MirrorcasterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMagicMirrorAttacked - Invalid mirrorcaster");
+            Error("RpcMagicMirrorAttacked - Invalid mirrorcaster");
             return;
         }
 
@@ -233,7 +243,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         role.UnleashString = cod;
 
         var opt = OptionGroupSingleton<MirrorcasterOptions>.Instance;
-        var attackInfo = opt.AttackInformationGiven;
+        var attackInfo = (MirrorAttackInfo)opt.AttackInformationGiven.Value;
         if (mirrorcaster.AmOwner)
         {
             CustomButtonSingleton<MirrorcasterMagicMirrorButton>.Instance.ResetCooldownAndOrEffect();

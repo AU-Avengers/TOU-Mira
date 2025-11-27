@@ -3,10 +3,10 @@ using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -40,7 +40,8 @@ public sealed class Trap : IDisposable
 
     public void Update()
     {
-        if (PlayerControl.LocalPlayer == null ||
+        if (_transform == null ||
+            PlayerControl.LocalPlayer == null ||
             PlayerControl.LocalPlayer.Data == null ||
             PlayerControl.LocalPlayer.Data.Role == null ||
             !ShipStatus.Instance ||
@@ -49,15 +50,10 @@ public sealed class Trap : IDisposable
             return;
         }
 
-        foreach (var player in PlayerControl.AllPlayerControls)
+        foreach (var player in Helpers.GetAlivePlayers())
         {
-            if (player.HasDied())
-            {
-                continue;
-            }
-
             // PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"player with byte {player.PlayerId} is {Vector2.Distance(transform.position, player.GetTruePosition())} away");
-            if (Vector2.Distance(_transform!.position, player.GetTruePosition()) <
+            if (Vector2.Distance(_transform.position, player.GetTruePosition()) <
                 (TrapSize + 0.01f) * ShipStatus.Instance.MaxLightRadius)
             {
                 _players.TryAdd(player.PlayerId, 0f);
@@ -80,10 +76,10 @@ public sealed class Trap : IDisposable
                     role = cachedMod.CachedRole;
                 }
 
-                // Logger<TownOfUsPlugin>.Error($"player with byte {entry.PlayerId} is logged with time {_players[entry.PlayerId]}");
+                // Error($"player with byte {entry.PlayerId} is logged with time {_players[entry.PlayerId]}");
                 if (_players[entry.PlayerId] > MinAmountOfTimeInTrap && !_owner!.TrappedPlayers.Contains(role) &&
                     entry != _owner.Player)
-                    // Logger<TownOfUsPlugin>.Error($"Trap.Updated add role: {role.GetRoleName()}");
+                    // Error($"Trap.Updated add role: {role.GetRoleName()}");
                 {
                     _owner.TrappedPlayers.Add(role);
                 }

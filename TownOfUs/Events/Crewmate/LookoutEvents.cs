@@ -33,7 +33,7 @@ public static class LookoutEvents
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
-        // Logger<TownOfUsPlugin>.Warning("Lookout click event!");
+        // Warning("Lookout click event!");
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var source = PlayerControl.LocalPlayer;
         var target = button?.Target;
@@ -77,7 +77,7 @@ public static class LookoutEvents
             return;
         }
 
-        if (!target.HasModifier<LookoutWatchedModifier>() || !source.AmOwner)
+        if (!target.HasModifier<LookoutWatchedModifier>() || !(TutorialManager.InstanceExists || source.AmOwner))
         {
             return;
         }

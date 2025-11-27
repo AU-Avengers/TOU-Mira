@@ -2,9 +2,13 @@
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
+using TownOfUs.Buttons;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -15,7 +19,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class GlitchRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SheriffRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Glitch";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -54,7 +58,6 @@ public sealed class GlitchRole(IntPtr cppPtr)
     {
         CanUseVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent,
         IntroSound = TouAudio.GlitchSound,
-        MaxRoleCount = 1,
         Icon = TouRoleIcons.Glitch,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -63,14 +66,14 @@ public sealed class GlitchRole(IntPtr cppPtr)
 
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var glitchCount = CustomRoleUtils.GetActiveRolesOfType<GlitchRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > glitchCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return glitchCount >= Helpers.GetAlivePlayers().Count - glitchCount;
     }
 
     [HideFromIl2Cpp]
@@ -79,13 +82,37 @@ public sealed class GlitchRole(IntPtr cppPtr)
         return ITownOfUsRole.SetNewTabText(this);
     }
 
+
+    public void OffsetButtons()
+    {
+        // Because Glitch has multiple buttons, there's no need to offset it without a vent button; it looks weird with a random space - Atony
+        var canVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent;
+        var hack = CustomButtonSingleton<GlitchHackButton>.Instance;
+        var mimic = CustomButtonSingleton<GlitchMimicButton>.Instance;
+        var kill = CustomButtonSingleton<GlitchKillButton>.Instance;
+        if (!canVent)
+        {
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(hack));
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(mimic, !canVent));
+        }
+        else
+        {
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(hack, false));
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(mimic, false));
+            Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, false));
+        }
+    }
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
+            OffsetButtons();
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Glitch);
+            CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
         }
     }
 
@@ -96,6 +123,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
+            CustomButtonSingleton<FakeVentButton>.Instance.Show = true;
         }
     }
 

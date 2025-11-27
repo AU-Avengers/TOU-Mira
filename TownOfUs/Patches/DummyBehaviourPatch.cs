@@ -1,7 +1,9 @@
 using System.Collections;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game;
@@ -40,7 +42,7 @@ public static class DummyBehaviourPatches
         }
 
         yield return new WaitForSeconds(0.01f + 0.01f * dummy.PlayerId);
-        var roleList = RoleManager.Instance.AllRoles.ToArray()
+        var roleList = MiscUtils.AllRegisteredRoles
             .Where(role => !role.IsDead)
             .Where(role => !role.IsImpostor())
             .ToList();
@@ -51,10 +53,22 @@ public static class DummyBehaviourPatches
             .ToList()
             .ForEach(player => roleList.Remove(player.Data.Role));
 
-        var roleType = RoleId.Get(roleList.Random()!.GetType());
-        dummy.RpcChangeRole(roleType);
+        var random = roleList.Random();
+        if (random != null)
+        {
+            try
+            {
+                var roleType = RoleId.Get(random.GetType());
+                dummy.RpcChangeRole(roleType);
+            }
+            catch
+            {
+                dummy.RpcChangeRole((ushort)RoleTypes.Crewmate);
+            }
+        }
 
         dummy.RpcSetName(AccountManager.Instance.GetRandomName());
+        Warning($"Dummy {dummy.Data.PlayerName} role: {dummy.Data.Role.GetRoleName()}");
 
         dummy.SetSkin(HatManager.Instance.allSkins[Random.Range(0, HatManager.Instance.allSkins.Count)].ProdId, 0);
         dummy.SetNamePlate(HatManager.Instance

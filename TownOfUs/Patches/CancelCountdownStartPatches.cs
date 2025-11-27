@@ -1,4 +1,9 @@
 using HarmonyLib;
+using MiraAPI.Utilities;
+using Reactor.Networking.Attributes;
+using TownOfUs.Options.Maps;
+using TownOfUs.Patches.PrefabChanging;
+using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -46,6 +51,48 @@ internal static class CancelCountdownStart
             }
         }));
         CancelStartButton.gameObject.SetActive(false);
+    }
+
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
+    [HarmonyPostfix]
+    public static void PostfixBeginGame(GameStartManager __instance)
+    {
+        if (AmongUsClient.Instance.AmHost)
+        {
+            var curMap = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+            var defaultDoorType = curMap switch
+            {
+                ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => MapDoorType.Skeld,
+                ExpandedMapNames.Polus => MapDoorType.Polus,
+                ExpandedMapNames.Airship => MapDoorType.Airship,
+                ExpandedMapNames.Fungle => MapDoorType.Fungle,
+                ExpandedMapNames.Submerged => MapDoorType.Submerged,
+                _ => MapDoorType.None
+            };
+            var doorType = RandomDoorMapOptions.GetRandomDoorType(defaultDoorType);
+            RpcSetRandomDoors(PlayerControl.LocalPlayer, (int)doorType);
+        }
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.SetRandomDoors)]
+    public static void RpcSetRandomDoors(PlayerControl player, int doorType)
+    {
+        if (!player.IsHost() || doorType == (int)MapDoorType.None)
+        {
+            return;
+        }
+
+        MapDoorPatches.RandomDoorType = (MapDoorType)doorType;
+    }
+
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
+    [HarmonyPostfix]
+    public static void PostfixStart(GameStartManager __instance)
+    {
+        /*if (MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek)
+        {
+        }*/
+        __instance.MinPlayers = 1;
     }
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]

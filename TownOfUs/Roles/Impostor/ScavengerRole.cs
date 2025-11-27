@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
@@ -60,7 +59,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         // scavenge mode starts once kill timer reaches 0
         if (Player.killTimer <= 0f && !Scavenging && GameStarted && !Player.HasDied())
         {
-            // Logger<TownOfUsPlugin>.Message($"Scavenge Begin");
+            // Message($"Scavenge Begin");
             Scavenging = true;
             TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
 
@@ -85,12 +84,12 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         {
             Clear();
 
-            // Logger<TownOfUsPlugin>.Message($"Scavenge End");
+            // Message($"Scavenge End");
             Player.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrackerTouRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<InvestigatorRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string LocaleKey => "Scavenger";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -121,12 +120,8 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
         if (Target != null && Scavenging)
         {
-            stringB.Append("\n<b>Scavenge Time:</b> ");
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"{Color.white.ToTextColor()}{TimeRemaining.ToString("0", CultureInfo.InvariantCulture)}</color>");
-            stringB.Append("\n\n<b>Current Target:</b> ");
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"{Color.white.ToTextColor()}{Target.Data.PlayerName}</color>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TimerString.Replace("<timeLeft>", TimeRemaining.ToString("0", TownOfUsPlugin.Culture))}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TargetString.Replace("<player>", Target.Data.PlayerName)}</b>");
         }
 
         return stringB;
@@ -141,9 +136,13 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         Clear();
     }
 
+    public static string TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
+    public static string TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
+        TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
         if (TutorialManager.InstanceExists && Target == null && Player.AmOwner)
         {
             Coroutines.Start(SetTutorialTarget(this, Player));
@@ -157,7 +156,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         scav.Scavenging = false;
         if (player.killTimer <= 0f && !player.HasDied())
         {
-            // Logger<TownOfUsPlugin>.Message($"Scavenge Begin");
+            // Message($"Scavenge Begin");
             scav.Scavenging = true;
             scav.TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
 

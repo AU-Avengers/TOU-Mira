@@ -10,28 +10,30 @@ public sealed class DoomsayerOptions : AbstractOptionGroup<DoomsayerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleDoomsayer", "Doomsayer");
 
-    [ModdedNumberOption("Observe Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionDoomsayerCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float ObserveCooldown { get; set; } = 20f;
 
-    [ModdedNumberOption("Number Of Guesses Needed To Win", 2f, 5f, 1f, MiraNumberSuffixes.None, "0")]
+    [ModdedNumberOption("TouOptionDoomsayerNecessaryGuessed", 2f, 5f, 1f, MiraNumberSuffixes.None, "0")]
     public float DoomsayerGuessesToWin { get; set; } = 3f;
 
-    [ModdedToggleOption("Doomsayer Can Guess Crew Investigative Roles")]
+    [ModdedToggleOption("TouOptionDoomsayerGuessCrewInvestigative")]
     public bool DoomGuessInvest { get; set; } = false;
 
-    [ModdedToggleOption("Doomsayer Guesses All Roles At Once")]
+    [ModdedToggleOption("TouOptionDoomsayerGuessesAllAtOnce")]
     public bool DoomsayerGuessAllAtOnce { get; set; } = false;
 
-    public ModdedToggleOption DoomsayerKillOnlyLast { get; set; } = new("Kill Only The Last Victim", false)
+    public ModdedToggleOption DoomsayerKillOnlyLast { get; set; } = new("TouOptionDoomsayerOnlyKillLast", false)
     {
         Visible = () => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessAllAtOnce
     };
 
-    [ModdedToggleOption("Doomsayer Can't Observe")]
+    [ModdedToggleOption("TouOptionDoomsayerCantObserve")]
     public bool CantObserve { get; set; } = false;
 
-    [ModdedEnumOption("Doomsayer Win", typeof(DoomWinOptions), ["Ends Game", "Leaves In Victory", "Nothing"])]
+    [ModdedEnumOption("TouOptionDoomsayerWin", typeof(DoomWinOptions), ["TouOptionDoomsayerWinEnumEndsGame", "TouOptionDoomsayerWinEnumLeaves", "TouOptionDoomsayerWinEnumNothing"])]
     public DoomWinOptions DoomWin { get; set; } = DoomWinOptions.Leaves;
+
+    public ModdedToggleOption DoomContinuesGame { get; set; } = new("TouOptionDoomsayerContinuesGame", true);
 }
 
 public enum DoomWinOptions

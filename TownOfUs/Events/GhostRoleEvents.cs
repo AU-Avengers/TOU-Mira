@@ -75,10 +75,10 @@ public static class GhostRoleEvents
                 }
             }
 
-            var phantomData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<PhantomTouRole>());
+            var phantomData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
 
             if (phantomData != null &&
-                CustomRoleUtils.GetActiveRoles().OfType<PhantomTouRole>().Count() < phantomData.Count)
+                CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < phantomData.Count)
             {
                 var isSkipped = phantomData.Chance < 100 && HashRandom.Next(101) > phantomData.Chance;
 
@@ -98,7 +98,7 @@ public static class GhostRoleEvents
 
                         if (player != null)
                         {
-                            player.RpcChangeRole(RoleId.Get<PhantomTouRole>());
+                            player.RpcChangeRole(RoleId.Get<SpectreRole>());
                         }
                     }
                 }

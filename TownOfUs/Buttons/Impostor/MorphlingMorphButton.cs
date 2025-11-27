@@ -12,10 +12,10 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IAftermathableButton
 {
-    public override string Name => TouLocale.Get("TouRoleMorphlingMorph", "Morph");
+    public override string Name => TouLocale.GetParsed("TouRoleMorphlingMorph", "Morph");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<MorphlingOptions>.Instance.MorphlingCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<MorphlingOptions>.Instance.MorphlingCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<MorphlingOptions>.Instance.MorphlingDuration;
     public override int MaxUses => (int)OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.MorphSprite;

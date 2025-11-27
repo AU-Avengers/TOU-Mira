@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -55,7 +54,7 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (Sampled != null && Player.HasModifier<MorphlingMorphModifier>())
         {
-            stringB.Append(CultureInfo.InvariantCulture,
+            stringB.Append(TownOfUsPlugin.Culture,
                 $"\n<b>{MorphedString.Replace("<player>", $"{Sampled.Data.Color.ToTextColor()}{Sampled.Data.PlayerName}</color>")}</b>");
         }
 

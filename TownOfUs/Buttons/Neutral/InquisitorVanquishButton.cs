@@ -1,7 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -12,10 +11,10 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class InquisitorVanquishButton : TownOfUsRoleButton<InquisitorRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
-    public override string Name => TouLocale.Get("TouRoleInquisitorVanquish", "Vanquish");
+    public override string Name => TouLocale.GetParsed("TouRoleInquisitorVanquish", "Vanquish");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
-    public override float Cooldown => OptionGroupSingleton<InquisitorOptions>.Instance.VanquishCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<InquisitorOptions>.Instance.VanquishCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.InquisKillSprite;
 
     public bool Usable { get; set; } =
@@ -40,7 +39,7 @@ public sealed class InquisitorVanquishButton : TownOfUsRoleButton<InquisitorRole
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Inquisitor Vanquish: Target is null");
+            Error("Inquisitor Vanquish: Target is null");
             return;
         }
 

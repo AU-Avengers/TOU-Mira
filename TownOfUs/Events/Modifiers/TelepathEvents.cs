@@ -23,7 +23,7 @@ public static class TelepathEvents
         if (PlayerControl.LocalPlayer.HasModifier<TelepathModifier>() && !source.AmOwner && !victim.AmOwner)
         {
             var options = OptionGroupSingleton<TelepathOptions>.Instance;
-            if (victim.IsImpostor() && source == victim && options.KnowFailedGuess && MeetingHud.Instance &&
+            if (victim.IsImpostorAligned() && source == victim && options.KnowFailedGuess && MeetingHud.Instance &&
                 victim.TryGetModifier<ImpostorAssassinModifier>(out var assassin) && assassin.LastAttemptedVictim)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft, alpha: 0.4f));
@@ -32,7 +32,7 @@ public static class TelepathEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Telepath.LoadAsset());
                 notif1.AdjustNotification();
             }
-            else if (source.IsImpostor() && source != victim && options.KnowCorrectGuess && MeetingHud.Instance)
+            else if (source.IsImpostorAligned() && source != victim && options.KnowCorrectGuess && MeetingHud.Instance)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft, alpha: 0.05f));
                 var notif1 = Helpers.CreateAndShowNotification(
@@ -40,7 +40,7 @@ public static class TelepathEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Telepath.LoadAsset());
                 notif1.AdjustNotification();
             }
-            else if (source.IsImpostor() && source != victim)
+            else if (source.IsImpostorAligned() && source != victim)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft, alpha: 0.05f));
                 var notif1 = Helpers.CreateAndShowNotification(
@@ -52,7 +52,7 @@ public static class TelepathEvents
                     victim?.AddModifier<TelepathDeathNotifierModifier>(PlayerControl.LocalPlayer);
                 }
             }
-            else if (victim.IsImpostor() && options.KnowDeath)
+            else if (victim.IsImpostorAligned() && options.KnowDeath)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(

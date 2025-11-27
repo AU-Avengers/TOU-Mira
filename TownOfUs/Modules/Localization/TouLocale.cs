@@ -13,25 +13,52 @@ public static class TouLocale
 {
     public static string LocaleDirectory => Path.Combine(Application.persistentDataPath, "TownOfUs", "Locales");
 
-    public static Dictionary<SupportedLangs, string> LangList { get; } = new()
+
+    public static Dictionary<ExtendedLangs, string> LangList { get; } = new()
     {
-        { SupportedLangs.English, "en_US.xml" },
-        { SupportedLangs.Latam, "es_419.xml" },
-        { SupportedLangs.Brazilian, "pt_BR.xml" },
-        { SupportedLangs.Portuguese, "pt_PT.xml" },
-        { SupportedLangs.Korean, "ko_KR.xml" },
-        { SupportedLangs.Russian, "ru_RU.xml" },
-        { SupportedLangs.Dutch, "nl_NL.xml" },
-        { SupportedLangs.Filipino, "fil_PH.xml" },
-        { SupportedLangs.French, "fr_FR.xml" },
-        { SupportedLangs.German, "de_DE.xml" },
-        { SupportedLangs.Italian, "it_IT.xml" },
-        { SupportedLangs.Japanese, "ja_JP.xml" },
-        { SupportedLangs.Spanish, "es_ES.xml" },
-        { SupportedLangs.SChinese, "zh_CN.xml" },
-        { SupportedLangs.TChinese, "zh_TW.xml" },
-        { SupportedLangs.Irish, "ga_IE.xml" },
-        { (SupportedLangs)16, "pl_PL.xml" } // Polish
+        { ExtendedLangs.English, "en_US.xml" },
+        { ExtendedLangs.Latam, "es_419.xml" },
+        { ExtendedLangs.Brazilian, "pt_BR.xml" },
+        { ExtendedLangs.Portuguese, "pt_PT.xml" },
+        { ExtendedLangs.Korean, "ko_KR.xml" },
+        { ExtendedLangs.Russian, "ru_RU.xml" },
+        { ExtendedLangs.Dutch, "nl_NL.xml" },
+        { ExtendedLangs.Filipino, "fil_PH.xml" },
+        { ExtendedLangs.French, "fr_FR.xml" },
+        { ExtendedLangs.German, "de_DE.xml" },
+        { ExtendedLangs.Italian, "it_IT.xml" },
+        { ExtendedLangs.Japanese, "ja_JP.xml" },
+        { ExtendedLangs.Spanish, "es_ES.xml" },
+        { ExtendedLangs.SChinese, "zh_CN.xml" },
+        { ExtendedLangs.TChinese, "zh_TW.xml" },
+        { ExtendedLangs.Irish, "ga_IE.xml" },
+        { ExtendedLangs.Polish, "pl_PL.xml" }, // Custom
+        { ExtendedLangs.Turkish, "tr_TR.xml" }, // Custom
+        { ExtendedLangs.Swedish, "sv_SE.xml" }, // Custom
+        { ExtendedLangs.Lithuanian, "lt_LT.xml" }, // Custom
+    };
+    public static Dictionary<ExtendedLangs, string> LangCultureList { get; } = new()
+    {
+        { ExtendedLangs.English, "en-US" },
+        { ExtendedLangs.Latam, "es-419" },
+        { ExtendedLangs.Brazilian, "pt-BR" },
+        { ExtendedLangs.Portuguese, "pt-PT" },
+        { ExtendedLangs.Korean, "ko-KR" },
+        { ExtendedLangs.Russian, "ru-RU" },
+        { ExtendedLangs.Dutch, "nl-NL" },
+        { ExtendedLangs.Filipino, "fil-PH" },
+        { ExtendedLangs.French, "fr-FR" },
+        { ExtendedLangs.German, "de-DE" },
+        { ExtendedLangs.Italian, "it-IT" },
+        { ExtendedLangs.Japanese, "ja-JP" },
+        { ExtendedLangs.Spanish, "es-ES" },
+        { ExtendedLangs.SChinese, "zh-CN" },
+        { ExtendedLangs.TChinese, "zh-TW" },
+        { ExtendedLangs.Irish, "ga-IE" },
+        { ExtendedLangs.Polish, "pl-PL" }, // Custom
+        { ExtendedLangs.Turkish, "tr-TR" }, // Custom
+        { ExtendedLangs.Swedish, "sv-SE" }, // Custom
+        { ExtendedLangs.Lithuanian, "lt-LT" }, // Custom
     };
 
     public static string BepinexLocaleDirectory =>
@@ -58,8 +85,12 @@ public static class TouLocale
             TranslationController.InstanceExists
                 ? TranslationController.Instance.currentLanguage.languageID
                 : SupportedLangs.English;
+        return Get(currentLanguage, name, defaultValue);
+    }
 
-        if (TouLocalization.TryGetValue(currentLanguage, out var translations) &&
+    public static string Get(SupportedLangs language, string name, string? defaultValue = null)
+    {
+        if (TouLocalization.TryGetValue(language, out var translations) &&
             translations.TryGetValue(name, out var translation))
         {
             return translation;
@@ -73,16 +104,20 @@ public static class TouLocale
 
         return defaultValue ?? "STRMISS_" + name;
     }
-
     public static string GetParsed(string name, string? defaultValue = null,
         Dictionary<string, string>? parseList = null)
     {
-        var text = defaultValue ?? "STRMISS_" + name;
-
         var currentLanguage =
             TranslationController.InstanceExists
                 ? TranslationController.Instance.currentLanguage.languageID
                 : SupportedLangs.English;
+        return GetParsed(currentLanguage, name, defaultValue, parseList);
+    }
+
+    public static string GetParsed(SupportedLangs language, string name, string? defaultValue = null,
+        Dictionary<string, string>? parseList = null)
+    {
+        var text = defaultValue ?? "STRMISS_" + name;
 
         if (TouLocalization.TryGetValue(SupportedLangs.English, out var translationsEng) &&
             translationsEng.TryGetValue(name, out var translationEng))
@@ -90,7 +125,7 @@ public static class TouLocale
             text = translationEng;
         }
 
-        if (TouLocalization.TryGetValue(currentLanguage, out var translations) &&
+        if (language is not SupportedLangs.English && TouLocalization.TryGetValue(language, out var translations) &&
             translations.TryGetValue(name, out var translation))
         {
             text = translation;
@@ -155,8 +190,8 @@ public static class TouLocale
             using StreamReader reader = new(resourceStream);
             string xmlContent = reader.ReadToEnd();
 
-            TouLocalization.TryAdd(locale.Key, []);
-            ParseXmlFile(xmlContent, locale.Key);
+            TouLocalization.TryAdd((SupportedLangs)locale.Key, []);
+            ParseXmlFile(xmlContent, (SupportedLangs)locale.Key);
         }
     }
 
@@ -181,23 +216,23 @@ public static class TouLocale
             Logger.LogWarning($"Adding locale for: {localeName} in {file}");
 
             var language = LangList.FirstOrDefault(x => x.Value == localeName + ".xml").Key;
-            TouLocalization.TryAdd(language, []);
+            TouLocalization.TryAdd((SupportedLangs)language, []);
             var xmlContent = File.ReadAllText(file);
-            ParseXmlFile(xmlContent, language);
+            ParseXmlFile(xmlContent, (SupportedLangs)language);
         }
 
         var translations = Directory.GetFiles(directory, "*.txt");
         foreach (var file in translations)
         {
             var localeName = Path.GetFileNameWithoutExtension(file);
-            if (!Enum.TryParse<SupportedLangs>(localeName, out var language))
+            if (!Enum.TryParse<ExtendedLangs>(localeName, out var language))
             {
                 Logger.LogError($"Invalid locale name: {localeName}");
                 continue;
             }
 
-            TouLocalization.TryAdd(language, []);
-            ParseFile(file, language);
+            TouLocalization.TryAdd((SupportedLangs)language, []);
+            ParseFile(file, (SupportedLangs)language);
         }
     }
 
@@ -260,8 +295,10 @@ public static class TouLocale
                     }
                 }
 
+                var customLang = (ExtendedLangs)language;
+
                 Logger.LogWarning(
-                    $"{TouLocalization[language].Count} Localization strings added to {language.ToDisplayString()}!");
+                    $"{TouLocalization[language].Count} Localization strings added to {customLang.ToDisplayString()}!");
             }
             else
             {
@@ -273,4 +310,28 @@ public static class TouLocale
             Logger.LogError($"XML parsing error: {ex.Message}");
         }
     }
+}
+
+public enum ExtendedLangs
+{
+    English,
+    Latam,
+    Brazilian,
+    Portuguese,
+    Korean,
+    Russian,
+    Dutch,
+    Filipino,
+    French,
+    German,
+    Italian,
+    Japanese,
+    Spanish,
+    SChinese,
+    TChinese,
+    Irish,
+    Polish,
+    Turkish,
+    Swedish,
+    Lithuanian,
 }

@@ -1,5 +1,5 @@
-using System.Globalization;
 using System.Text;
+using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
@@ -12,11 +12,13 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
+using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Spellslinger";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -101,7 +103,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
         {
             var title =
                 $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleSpellslingerMessageTitle")}</color>";
-            MiscUtils.AddFakeChat(Player.Data, title, report, false, true);
+            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, report, false, true);
         }
     }
 
@@ -117,7 +119,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
             .ToList();
 
         var unhexedNonImpostors = alivePlayers
-            .Where(p => !p.IsImpostor() && !p.HasModifier<SpellslingerHexedModifier>())
+            .Where(p => !p.IsImpostorAligned() && !p.HasModifier<SpellslingerHexedModifier>())
             .ToList();
 
         if (EveryoneHexed())
@@ -131,12 +133,12 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
                 stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexedInfo")}</b>");
                 foreach (var player in hexed)
                 {
-                    var color = player.IsImpostor() ? "red" : "white";
+                    var color = player.IsImpostorAligned() ? "red" : "white";
                     stringB.Append(TownOfUsPlugin.Culture, $"\n<color={color}><size=75%>{player.Data.PlayerName}</size></color>");
                 }
             }
 
-            stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
         }
 
         return stringB;
@@ -146,7 +148,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     {
         return PlayerControl.AllPlayerControls
             .ToArray()
-            .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostor() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
+            .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostorAligned() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
             .All(p => p.HasModifier<SpellslingerHexedModifier>());
     }
 

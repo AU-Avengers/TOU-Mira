@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
@@ -7,22 +6,27 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.Neutral;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
 {
+    public bool ContinuesGame => !Player.HasDied() && StoredBodies.Count != 0 && Helpers.GetAlivePlayers().Any(x => !x.HasModifier<ChefServedModifier>() && x != Player);
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     [HideFromIl2Cpp] public List<KeyValuePair<int, PlatterType>> StoredBodies { get; set; } = [];
     public string LocaleKey => "Chef";
@@ -80,7 +84,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{_tabCounter.Replace("<bodiesFed>", $"{BodiesServed}")}</b>");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{_tabCounter.Replace("<bodiesFed>", $"{BodiesServed}")}</b>");
 
         return stringB;
     }
@@ -149,7 +153,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         if (chef.Data.Role is not ChefRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCookBody - Invalid chef");
+            Error("RpcCookBody - Invalid chef");
             return;
         }
 
@@ -186,13 +190,13 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         if (chef.Data.Role is not ChefRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcServeBody - Invalid chef");
+            Error("RpcServeBody - Invalid chef");
             return;
         }
 
         if (role.StoredBodies.Count == 0)
         {
-            Logger<TownOfUsPlugin>.Error("RpcServeBody - No Bodies found!");
+            Error("RpcServeBody - No Bodies found!");
             return;
         }
 

@@ -1,13 +1,9 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -27,7 +23,7 @@ public sealed class PlayerStats(byte playerId)
     public int IncorrectAssassinKills { get; set; }
 }
 
-// body report class for when medic/detective reports a body
+// body report class for when medic/Forensic reports a body
 public sealed class BodyReport
 {
     public PlayerControl? Killer { get; set; }
@@ -64,10 +60,10 @@ public sealed class BodyReport
             $"Body Report: The killer appears to be a {typeOfColor} color. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
     }
 
-    public static string ParseDetectiveReport(BodyReport br)
+    public static string ParseForensicReport(BodyReport br)
     {
-        if (br.KillAge > OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveFactionDuration * 1000 &&
-            OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveFactionDuration > 0)
+        if (br.KillAge > OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration * 1000 &&
+            OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration > 0)
         {
             return
                 $"Body Report: The corpse is too old to gain information from. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
@@ -81,9 +77,10 @@ public sealed class BodyReport
 
         // if the killer died, they would still appear correctly here
         var role = br.Killer.GetRoleWhenAlive();
-        if (br.Killer.HasModifier<TraitorCacheModifier>())
+        var cacheMod = br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
+        if (cacheMod != null)
         {
-            role = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>());
+            role = cacheMod.CachedRole;
         }
 
         var prefix = "a";
@@ -92,7 +89,7 @@ public sealed class BodyReport
             prefix = "an";
         }
 
-        if (br.KillAge < OptionGroupSingleton<DetectiveOptions>.Instance.DetectiveRoleDuration * 1000)
+        if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
         {
             return
                 $"Body Report: The killer appears to be {prefix} {role.GetRoleName()}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
@@ -130,7 +127,7 @@ public static class GameHistory
 
     public static void RegisterRole(PlayerControl player, RoleBehaviour role, bool clean = false)
     {
-        //Logger<TownOfUsPlugin>.Message($"RegisterRole - player: '{player.Data.PlayerName}', role: '{role.GetRoleName()}'");
+        //Message($"RegisterRole - player: '{player.Data.PlayerName}', role: '{role.GetRoleName()}'");
 
         if (clean)
         {

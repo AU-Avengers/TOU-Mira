@@ -2,9 +2,11 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
@@ -14,7 +16,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modifiers.Game.Impostor;
 
-public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable
+public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
     public override string LocaleKey => "Disperser";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
@@ -61,8 +63,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsImpostor() &&
-               !role.Player.GetModifierComponent().HasModifier<SatelliteModifier>(true) &&
-               !role.Player.GetModifierComponent().HasModifier<ButtonBarryModifier>(true);
+            !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 
     public static IEnumerator CoDisperse(Dictionary<byte, Vector2> coordinates)
@@ -121,7 +122,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable
             PlayerControl.LocalPlayer.MyPhysics.StopAllCoroutines();
         }
 
-        if (ModCompatibility.SubLoaded)
+        if (ModCompatibility.IsSubmerged())
         {
             ModCompatibility.ChangeFloor(PlayerControl.LocalPlayer.transform.position.y > -7f);
         }

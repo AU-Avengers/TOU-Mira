@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -72,29 +71,31 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var stalkedPlayer = ModifierUtils.GetPlayersWithModifier<HunterStalkedModifier>(x => x.Hunter.AmOwner)
             .FirstOrDefault();
-        var stalked = stalkedPlayer != null && !stalkedPlayer.HasDied() ? stalkedPlayer.Data.PlayerName : "Nobody";
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"{TouLocale.Get("TouRoleHunterStalking")}: <b>{stalked}</b>");
+        if (stalkedPlayer != null && !stalkedPlayer.HasDied() && !CaughtPlayers.Contains(stalkedPlayer))
+        {
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.Get("TouRoleHunterStalking")}: <b>{stalkedPlayer.Data.PlayerName}</b>");
+        }
         if (CaughtPlayers.Count != 0)
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture,
+            stringB.AppendLine(TownOfUsPlugin.Culture,
                 $"<b>{TouLocale.Get("TouRoleHunterCaughtPlayersText")}</b>");
         }
 
         foreach (var player in CaughtPlayers)
         {
             var newText = $"<b><size=80%>{player.Data.PlayerName}</size></b>";
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"{newText}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         }
 
         return stringB;
     }
 
-    [MethodRpc((uint)TownOfUsRpc.CatchPlayer, SendImmediately = true)]
+    [MethodRpc((uint)TownOfUsRpc.CatchPlayer)]
     public static void RpcCatchPlayer(PlayerControl hunter, PlayerControl source)
     {
         if (hunter.Data.Role is not HunterRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCatchPlayer - Invalid hunter");
+            Error("RpcCatchPlayer - Invalid hunter");
             return;
         }
 
@@ -115,7 +116,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         if (hunter.Data.Role is not HunterRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCatchPlayer - Invalid hunter");
+            Error("RpcCatchPlayer - Invalid hunter");
             return;
         }
 

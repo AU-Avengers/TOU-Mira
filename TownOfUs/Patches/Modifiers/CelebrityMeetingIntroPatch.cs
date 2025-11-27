@@ -37,7 +37,7 @@ public static class CelebrityMeetingIntroPatch
         celebrity.Announced = true;
 
         //var milliSeconds = (float)(DateTime.UtcNow - celebrity.DeathTime).TotalMilliseconds;
-        var message = celebrity.DeathMessage + $"{Math.Round(celebrity.DeathTimeMilliseconds / 1000)} seconds ago.";
+        var message = celebrity.DeathMessage.Replace("<timeAgo>", Math.Round(celebrity.DeathTimeMilliseconds / 1000).ToString(TownOfUsPlugin.Culture));
 
         textTMP.text = celebrity.AnnounceMessage;
 
@@ -47,7 +47,7 @@ public static class CelebrityMeetingIntroPatch
 
         if (HudManager.Instance != null)
         {
-            var title = $"<color=#{TownOfUsColors.Celebrity.ToHtmlStringRGBA()}>Celebrity Report</color>";
+            var title = $"<color=#{TownOfUsColors.Celebrity.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleCelebrityMessageTitle")}</color>";
             MiscUtils.AddFakeChat(celebrity.Player.Data, title, message, false, true);
         }
     }

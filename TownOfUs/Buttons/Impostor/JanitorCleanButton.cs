@@ -11,10 +11,10 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class JanitorCleanButton : TownOfUsRoleButton<JanitorRole, DeadBody>, IAftermathableBodyButton,
     IDiseaseableButton
 {
-    public override string Name => TouLocale.Get("TouRoleJanitorClean", "Clean");
+    public override string Name => TouLocale.GetParsed("TouRoleJanitorClean", "Clean");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<JanitorOptions>.Instance.CleanCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<JanitorOptions>.Instance.CleanCooldown + MapCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<JanitorOptions>.Instance.CleanDelay + 0.001f;
     public override int MaxUses => (int)OptionGroupSingleton<JanitorOptions>.Instance.MaxClean;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.CleanButtonSprite;

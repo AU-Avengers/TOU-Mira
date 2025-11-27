@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -83,16 +82,18 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (Shielded != null)
         {
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"\n<b>Shielded: </b>{Color.white.ToTextColor()}{Shielded.Data.PlayerName}</color>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Shielded.Data.PlayerName)}</b>");
         }
 
         return stringB;
     }
 
+    public static string ProtectionString = TouLocale.GetParsed("TouRoleMedicTabProtecting");
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        ProtectionString = TouLocale.GetParsed("TouRoleMedicTabProtecting");
 
         if (Player.AmOwner)
         {
@@ -190,7 +191,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public void SetShieldedPlayer(PlayerControl? player)
     {
-        Shielded?.RemoveModifier<MedicShieldModifier>();
+        if (Shielded?.TryGetModifier<MedicShieldModifier>(out var mod) == true)
+        {
+            // This should prevent any issues with murder attempts
+            mod.StartTimer();
+        }
 
         Shielded = player;
 
@@ -220,7 +225,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Message($"CmdReportDeadBody");
+        // Message($"CmdReportDeadBody");
         var br = new BodyReport
         {
             Killer = MiscUtils.PlayerById(killer.KillerId),
@@ -328,7 +333,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMedicShield - Invalid medic");
+            Error("RpcMedicShield - Invalid medic");
             return;
         }
 
@@ -347,7 +352,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("ClearMedicShield - Invalid medic");
+            Error("ClearMedicShield - Invalid medic");
             return;
         }
 
@@ -361,7 +366,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMedicShieldAttacked - Invalid medic");
+            Error("RpcMedicShieldAttacked - Invalid medic");
             return;
         }
 
@@ -396,6 +401,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (shieldBreaks)
         {
+            if (source.AmOwner)
+            {
+                source.SetKillTimer(source.GetKillCooldown());
+            }
+
             var role = medic.GetRole<MedicRole>();
             role?.SetShieldedPlayer(null);
         }

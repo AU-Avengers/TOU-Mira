@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -71,7 +70,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture,
+            stringB.AppendLine(TownOfUsPlugin.Culture,
                 $"<b>The Impostors will know your true motives when revealed.</b>");
         }
 
@@ -104,7 +103,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         CanCampaign = true;
 
         if (Player.AmOwner)
-            // Logger<TownOfUsPlugin>.Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
+            // Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
         {
             meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
@@ -141,13 +140,14 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         meetingMenu.HideButtons();
 
-        var aliveCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() && x.IsCrewmate());
-        var aliveCampaigned = aliveCrew.Count(x => x.HasModifier<PoliticianCampaignedModifier>());
+        // All living crewmates excluding the Politician
+        var aliveCrew = PlayerControl.AllPlayerControls.ToArray()
+            .Where(x => !x.HasDied() && x.IsCrewmate() && x.Data.Role is not PoliticianRole).ToList();
+        // All living crewmates excluding the Politician that are campaigned
+        var aliveCampaigned = aliveCrew.Count(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner));
         var hasMajority =
-            aliveCampaigned >=
-            Math.Max((aliveCrew.Count() - 1) / 2,
-                1); // minus one to account for politician, max of at least 1 crewmate campaigned
-        if (aliveCrew.Count() == 1)
+            aliveCampaigned >= (aliveCrew.Count / 2f);
+        if (aliveCrew.Count == 0)
         {
             hasMajority = true; // if all crew are dead, politician can reveal
         }

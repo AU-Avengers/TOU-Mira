@@ -2,7 +2,6 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -13,10 +12,10 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ChefServeButton : TownOfUsRoleButton<ChefRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleChefServe", "Serve");
+    public override string Name => TouLocale.GetParsed("TouRoleChefServe", "Serve");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Chef;
-    public override float Cooldown => OptionGroupSingleton<ChefOptions>.Instance.ServeCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ChefOptions>.Instance.ServeCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ChefServeEmptySprite;
 
     public void UpdateServingType()
@@ -58,7 +57,7 @@ public sealed class ChefServeButton : TownOfUsRoleButton<ChefRole, PlayerControl
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Chef Serve: Target is null");
+            Error("Chef Serve: Target is null");
             return;
         }
 

@@ -65,6 +65,9 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        player.AddModifier<ImitatorCacheModifier>();
+        if (!player.HasModifier<ImitatorCacheModifier>())
+        {
+            player.AddModifier<ImitatorCacheModifier>();
+        }
     }
 }

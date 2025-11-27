@@ -71,6 +71,10 @@ public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         {
             wikiEntry = softRoleWiki;
         }
+        else if (modifier != null && SoftWikiEntries.ModifierEntries.TryGetValue(modifier, out var softModWiki))
+        {
+            wikiEntry = softModWiki;
+        }
         else
         {
             return;

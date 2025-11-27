@@ -56,6 +56,7 @@ public static class FirstShieldEvents
             return;
         }
 
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a first round shield, fending off {source.Data.PlayerName}!");
         @event.Cancel();
 
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;

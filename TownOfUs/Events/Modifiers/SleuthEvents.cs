@@ -21,6 +21,6 @@ public static class SleuthEvents
         var mod = player.GetModifier<SleuthModifier>();
         mod?.Reported.Add(target.PlayerId);
 
-        // Logger<TownOfUsPlugin>.Error($"SleuthEvents.ReportBodyEventHandler '{target.PlayerName}'");
+        // Error($"SleuthEvents.ReportBodyEventHandler '{target.PlayerName}'");
     }
 }

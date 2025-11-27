@@ -1,4 +1,5 @@
-﻿using MiraAPI.Events;
+﻿using AmongUs.GameOptions;
+using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using TownOfUs.Options;
@@ -21,7 +22,8 @@ public static class TimeLimitEventHandlers
             return; // Shouldn't run in Freeplay
         }
 
-        if (!OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled)
+        if (!OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled || GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
+                or GameModes.SeekFools)
         {
             return;
         }

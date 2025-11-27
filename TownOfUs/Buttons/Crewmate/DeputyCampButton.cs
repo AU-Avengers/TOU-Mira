@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -12,10 +11,10 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>
 {
     public bool Usable = true;
-    public override string Name => TouLocale.Get("TouRoleDeputyCamp", "Camp");
+    public override string Name => TouLocale.GetParsed("TouRoleDeputyCamp", "Camp");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Deputy;
-    public override float Cooldown => 0.001f + MapCooldown;
+    public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CampButtonSprite;
 
     public override bool CanUse()
@@ -37,7 +36,7 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Camp: Target is null");
+            Error("Camp: Target is null");
             return;
         }
 

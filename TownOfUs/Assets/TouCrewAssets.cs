@@ -6,6 +6,12 @@ namespace TownOfUs.Assets;
 public static class TouCrewAssets
 {
     // THIS FILE SHOULD ONLY HOLD BUTTONS AND ROLE BANNERS, EVERYTHING ELSE BELONGS IN TouAssets.cs
+
+    public static LoadableAsset<Sprite> CrewSwoopSprite { get; } =
+        new LoadableBundleAsset<Sprite>("CrewSwoopButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> CrewUnswoopSprite { get; } =
+        new LoadableBundleAsset<Sprite>("CrewUnswoopButton", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> InspectSprite { get; } =
         new LoadableBundleAsset<Sprite>("InspectButton", TouAssets.MainBundle);
 

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -15,6 +14,8 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Events;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
@@ -26,8 +27,9 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
-    IAssignableTargets, ICrewVariant
+    IAssignableTargets, ICrewVariant, IContinuesGame
 {
+    public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<InquisitorOptions>.Instance.StallGame && CanVanquish && !TargetsDead && Helpers.GetAlivePlayers().Count <= 3;
     public bool CanVanquish { get; set; } = true;
 
     [HideFromIl2Cpp] public List<PlayerControl> Targets { get; set; } = [];
@@ -46,10 +48,8 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
         if (inquis == null)
         {
-            if (TownOfUsPlugin.IsDevBuild)
-            {
-                Logger<TownOfUsPlugin>.Error("Inquisitor not found.");
-            }
+            var textlognotfound = $"Inquisitor not found.";
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
 
             return;
         }
@@ -57,10 +57,8 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         var required = (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics;
         var players = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
-        if (TownOfUsPlugin.IsDevBuild)
-        {
-            Logger<TownOfUsPlugin>.Warning($"Players in heretic list possible: {players.Count}");
-        }
+        var textlog = $"Players in heretic list possible: {players.Count}";
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, textlog);
 
         players.Shuffle();
         players.Shuffle();
@@ -121,7 +119,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<OracleRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SheriffRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string LocaleKey => "Inquisitor";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -192,11 +190,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{TouLocale.Get("TouRoleInquisitorTabAddition")}</b>");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{TouLocale.Get("TouRoleInquisitorTabAddition")}</b>");
         foreach (var role in TargetRoles)
         {
             var newText = $"<b><size=80%>{role.TeamColor.ToTextColor()}{role.GetRoleName()}</size></b>";
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"{newText}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         }
 
         return stringB;
@@ -207,9 +205,23 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable = true;
     }
 
+    public void OffsetButtons()
+    {
+        var canVent = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var inquire = CustomButtonSingleton<InquisitorInquireButton>.Instance;
+        var vanquish = CustomButtonSingleton<InquisitorVanquishButton>.Instance;
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(inquire, !canVent));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(vanquish, !canVent));
+    }
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        if (Player.AmOwner)
+        {
+            OffsetButtons();
+        }
+
         CanVanquish = true;
 
         // if Inuquisitor was revived
@@ -261,7 +273,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     private void GenerateReport()
     {
-        Logger<TownOfUsPlugin>.Info($"Generating Inquisitor report");
+        Info($"Generating Inquisitor report");
 
         var reportBuilder = new StringBuilder();
 
@@ -354,7 +366,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
 
         if (Targets.All(x => x.HasDied() || x == exiled))
-            // Logger<TownOfUsPlugin>.Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
+            // Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
         {
             InquisitorWin(Player);
         }
@@ -365,7 +377,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         if (player.Data.Role is not InquisitorRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcAddInquisTarget - Invalid Inquisitor");
+            Error("RpcAddInquisTarget - Invalid Inquisitor");
             return;
         }
 
@@ -396,7 +408,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         if (player.Data.Role is not InquisitorRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcInquisitorWin - Invalid Inquisitor");
+            Error("RpcInquisitorWin - Invalid Inquisitor");
             return;
         }
 

@@ -7,6 +7,7 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -112,7 +113,7 @@ public static class HunterEvents
     }
 
 
-    [RegisterEvent]
+    [RegisterEvent(300)]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
         if (!OptionGroupSingleton<HunterOptions>.Instance.RetributionOnVote)
@@ -127,7 +128,14 @@ public static class HunterEvents
             return;
         }
 
-        HunterRole.Retribution(hunter.Player, hunter.LastVoted!);
+        var target = hunter.LastVoted!;
+        var pros = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>().FirstOrDefault();
+        if (pros != null && pros.HasProsecuted)
+        {
+            target = pros.Player;
+        }
+
+        HunterRole.Retribution(hunter.Player, target);
     }
 
     private static void CheckForHunterStalked(PlayerControl source)
@@ -144,7 +152,7 @@ public static class HunterEvents
 
         var mod = source.GetModifier<HunterStalkedModifier>();
 
-        if (mod?.Hunter == null || !source.AmOwner)
+        if (mod?.Hunter == null || !(TutorialManager.InstanceExists || source.AmOwner))
         {
             return;
         }

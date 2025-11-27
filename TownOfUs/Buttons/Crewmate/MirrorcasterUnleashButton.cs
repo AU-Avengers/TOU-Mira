@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
@@ -15,12 +14,12 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class MirrorcasterUnleashButton : TownOfUsRoleButton<MirrorcasterRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
-    public override string Name => TouLocale.Get("TouRoleMirrorcasterUnleash", "Unleash");
+    public override string Name => TouLocale.GetParsed("TouRoleMirrorcasterUnleash", "Unleash");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mirrorcaster;
 
     public override float Cooldown =>
-        OptionGroupSingleton<MirrorcasterOptions>.Instance.UnleashCooldown.Value + MapCooldown;
+        Math.Clamp(OptionGroupSingleton<MirrorcasterOptions>.Instance.UnleashCooldown.Value + MapCooldown, 5f, 120f);
 
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.UnleashSprite;
 
@@ -33,7 +32,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsRoleButton<MirrorcasterR
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Mirrorcaster Unleash: Target is null");
+            Error("Mirrorcaster Unleash: Target is null");
             return;
         }
 

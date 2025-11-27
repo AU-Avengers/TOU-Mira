@@ -1,8 +1,11 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
+using TownOfUs.Interfaces;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Crewmate;
@@ -14,7 +17,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverable
+public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverable, IButtonModifier
 {
     public override string LocaleKey => "ButtonBarry";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
@@ -76,7 +79,8 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
             return false;
         }
 
-        return base.IsModifierValidOn(role);
+        return base.IsModifierValidOn(role) &&
+               !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 
     public static void OnRoundStart()

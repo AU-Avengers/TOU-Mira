@@ -1,15 +1,14 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Events;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -57,7 +56,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
         maxKills = (int)OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills;
 
-        //Logger<TownOfUsPlugin>.Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
+        //Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
         if (Player.AmOwner)
         {
             meetingMenu = new MeetingMenu(
@@ -72,7 +71,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
     public override void OnMeetingStart()
     {
-        //Logger<TownOfUsPlugin>.Error($"AssassinModifier.OnMeetingStart maxKills: {maxKills}");
+        //Error($"AssassinModifier.OnMeetingStart maxKills: {maxKills}");
         if (Player.AmOwner)
         {
             meetingMenu.GenButtons(MeetingHud.Instance,
@@ -119,12 +118,26 @@ public abstract class AssassinModifier : ExcludedGameModifier
             var realRole = player.Data.Role;
 
             var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-            if (cachedMod != null)
-            {
-                realRole = cachedMod.CachedRole;
-            }
 
             var pickVictim = role.Role == realRole.Role;
+            if (cachedMod != null)
+            {
+                switch (cachedMod.GuessMode)
+                {
+                    case CacheRoleGuess.ActiveRole:
+                        // Checks for the role the player is at the moment
+                        pickVictim = role.Role == realRole.Role;
+                        break;
+                    case CacheRoleGuess.CachedRole:
+                        // Checks for the cached role itself (like Imitator or Traitor)
+                        pickVictim = role.Role == cachedMod.CachedRole.Role;
+                        break;
+                    default:
+                        // Checks if it's the cached or active role
+                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
+                        break;
+                }
+            }
             var victim = pickVictim ? player : Player;
 
             ClickHandler(victim);
@@ -181,25 +194,16 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
                 return;
             }
-
-            Player.RpcCustomMurder(victim, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
-                playKillSound: false);
+            Player.RpcSpecialMurder(victim, true, true, createDeadBody: false, teleportMurderer: false,
+                showKillAnim: false,
+                playKillSound: false,
+                causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
             {
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
                 MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
-                DeathHandlerModifier.RpcUpdateDeathHandler(victim, TouLocale.Get("DiedToGuess"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", Player.Data.PlayerName),
-                    lockInfo: DeathHandlerOverride.SetTrue);
-            }
-            else
-            {
-                DeathHandlerModifier.RpcUpdateDeathHandler(victim, TouLocale.Get("DiedToMisguess"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
 
             maxKills--;
@@ -219,11 +223,11 @@ public abstract class AssassinModifier : ExcludedGameModifier
         return voteArea?.TargetPlayerId == Player.PlayerId ||
                Player.Data.IsDead ||
                voteArea!.AmDead ||
-               (Player.IsImpostor() && votePlayer?.IsImpostor() == true &&
+               (Player.IsImpostorAligned() && votePlayer?.IsImpostorAligned() == true &&
                 !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode) ||
                (Player.Data.Role is VampireRole && votePlayer?.Data.Role is VampireRole) ||
                (votePlayer?.Data.Role is MayorRole mayor && mayor.Revealed) ||
-               (votePlayer?.GetModifiers<RevealModifier>().Any(x => x.Visible && x.RevealRole) == true) ||
+               votePlayer.IsRevealed() ||
                (Player.IsLover() && votePlayer?.IsLover() == true) ||
                votePlayer?.HasModifier<JailedModifier>() == true;
     }

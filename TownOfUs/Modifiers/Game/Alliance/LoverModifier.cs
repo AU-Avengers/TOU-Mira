@@ -50,7 +50,9 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public override bool DoesTasks =>
         (OtherLover == null || OtherLover.IsCrewmate()) &&
-        Player.IsCrewmate(); // Lovers do tasks if they are not lovers with an Evil
+        Player.IsCrewmate() && !ForceDisableTasks; // Lovers do tasks if they are not lovers with an Evil
+
+    public bool ForceDisableTasks;
 
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Lover;
@@ -109,7 +111,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
             if (crewmates.Count < 2 || impostors.Count < 1)
             {
-                Logger<TownOfUsPlugin>.Error("Not enough players to select lovers");
+                Error("Not enough players to select lovers");
                 return;
             }
 
@@ -274,7 +276,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     {
         if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSetOtherLover - Lovers Already Spawned!");
+            Error("RpcSetOtherLover - Lovers Already Spawned!");
             return;
         }
 
@@ -282,5 +284,10 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var sourceModifier = player.AddModifier<LoverModifier>();
         targetModifier!.OtherLover = player;
         sourceModifier!.OtherLover = target;
+        if (!player.IsCrewmate() || !target.IsCrewmate())
+        {
+            targetModifier.ForceDisableTasks = true;
+            sourceModifier.ForceDisableTasks = true;
+        }
     }
 }

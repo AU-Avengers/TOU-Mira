@@ -9,6 +9,7 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class CrewmateModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => "Crewmate Modifiers";
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override Color GroupColor => Palette.CrewmateRoleHeaderBlue;
     public override bool ShowInModifiersMenu => true;
     public override uint GroupPriority => 2;

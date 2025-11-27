@@ -7,6 +7,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -52,13 +53,13 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         var options = OptionGroupSingleton<HaunterOptions>.Instance;
 
         if (options.HaunterCanBeClickedBy == HaunterRoleClickableType.ImpsOnly &&
-            !PlayerControl.LocalPlayer.IsImpostor())
+            !PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             return false;
         }
 
         if (options.HaunterCanBeClickedBy == HaunterRoleClickableType.NonCrew &&
-            !(PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling)
+            !(PlayerControl.LocalPlayer.IsImpostorAligned() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling)
                                                      || PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(
                                                          out var allyMod) && allyMod.GetsPunished))
         {
@@ -77,10 +78,8 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             Player.SetCamouflage(false);
         }
 
-        if (TownOfUsPlugin.IsDevBuild)
-        {
-            Logger<TownOfUsPlugin>.Error($"Setup HaunterRole '{Player.Data.PlayerName}'");
-        }
+        var text = $"Setup HaunterRole '{Player.Data.PlayerName}'";
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
 
         Player.gameObject.layer = LayerMask.NameToLayer("Players");
 
@@ -118,7 +117,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
             Faded = false;
 
-            // Logger<TownOfUsPlugin>.Message($"HaunterRole.FadeUpdate UnFaded");
+            // Message($"HaunterRole.FadeUpdate UnFaded");
         }
     }
 
@@ -134,10 +133,8 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public void Clicked()
     {
-        if (TownOfUsPlugin.IsDevBuild)
-        {
-            Logger<TownOfUsPlugin>.Message($"HaunterRole.Clicked");
-        }
+        var text = $"Clicked HaunterRole: '{Player.Data.PlayerName}'";
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Message, text);
 
         Caught = true;
         Player.Exiled();
@@ -334,7 +331,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer))
             {
-                // Logger<TownOfUsPlugin>.Error($"CheckTaskRequirements IsTargetOfHaunter");
+                // Error($"CheckTaskRequirements IsTargetOfHaunter");
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
 
                 Player.AddModifier<HaunterArrowModifier>(PlayerControl.LocalPlayer, RoleColor);
@@ -359,7 +356,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer))
             {
-                // Logger<TownOfUsPlugin>.Error($"CheckTaskRequirements IsTargetOfHaunter");
+                // Error($"CheckTaskRequirements IsTargetOfHaunter");
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
 
                 Player.AddModifier<HaunterArrowModifier>(PlayerControl.LocalPlayer, RoleColor);
@@ -370,11 +367,8 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             }
         }
 
-        if (TownOfUsPlugin.IsDevBuild)
-        {
-            Logger<TownOfUsPlugin>.Error(
-                $"Haunter Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})");
-        }
+        var text = $"Haunter Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, text);
     }
 
     public static bool IsTargetOfHaunter(PlayerControl player)

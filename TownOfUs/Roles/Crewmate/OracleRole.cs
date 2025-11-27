@@ -114,6 +114,8 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() &&
                                                                                (x.IsImpostor() ||
+                                                                                   (x.Is(RoleAlignment.NeutralOutlier) &&
+                                                                                       options.ShowNeutralOutlierAsEvil) ||
                                                                                    (x.Is(RoleAlignment
                                                                                            .NeutralKilling) &&
                                                                                        options
@@ -166,11 +168,11 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.OracleBless)]
     public static void RpcOracleBless(PlayerControl exiled)
     {
-        // Logger<TownOfUsPlugin>.Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
+        // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
         var mod = exiled.GetModifier<OracleBlessedModifier>();
 
         if (mod != null)
-            // Logger<TownOfUsPlugin>.Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}' SavedFromExile");
+            // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}' SavedFromExile");
         {
             mod.SavedFromExile = true;
         }
@@ -181,7 +183,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (oracle.Data.Role is not OracleRole || !source.AmOwner && !oracle.AmOwner)
         {
-            Logger<TownOfUsPlugin>.Error("RpcOracleBlessNotify - Invalid oracle");
+            Error("RpcOracleBlessNotify - Invalid oracle");
             return;
         }
 

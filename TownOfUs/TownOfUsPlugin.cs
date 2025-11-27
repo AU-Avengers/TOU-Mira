@@ -30,7 +30,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// <summary>
     ///     Gets the specified Culture for string manipulations.
     /// </summary>
-    public static CultureInfo Culture { get; } = new("en-US");
+    public static CultureInfo Culture { get; internal set; } = new("en-US");
 
     /// <summary>
     ///     Gets the Harmony instance for patching.
@@ -46,6 +46,9 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 
     /// <inheritdoc />
     public string OptionsTitleText => "TOU Mira";
+
+    /// <inheritdoc />
+    public string CustomOptionMenuNameOne => "Better Maps/Sabotages";
 
     /// <inheritdoc />
     public ConfigFile GetConfigFile()

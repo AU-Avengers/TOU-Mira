@@ -8,9 +8,9 @@ public sealed class ProsecutorOptions : AbstractOptionGroup<ProsecutorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleProsecutor", "Prosecutor");
 
-    [ModdedToggleOption("Prosecutor Dies When They Exile A Crewmate")]
+    [ModdedToggleOption("TouOptionProsecutorDiesWhenCrewmateExiled")]
     public bool ExileOnCrewmate { get; set; } = true;
 
-    [ModdedNumberOption("Max Prosecutions", 1, 5)]
+    [ModdedNumberOption("TouOptionProsecutorMaxProsecutions", 1, 5)]
     public float MaxProsecutions { get; set; } = 2f;
 }

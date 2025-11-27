@@ -13,10 +13,10 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class DoomsayerObserveButton : TownOfUsRoleButton<DoomsayerRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleDoomsayerObserve", "Observe");
+    public override string Name => TouLocale.GetParsed("TouRoleDoomsayerObserve", "Observe");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Doomsayer;
-    public override float Cooldown => OptionGroupSingleton<DoomsayerOptions>.Instance.ObserveCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<DoomsayerOptions>.Instance.ObserveCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.Observe;
 
     public override bool Enabled(RoleBehaviour? role)
@@ -43,7 +43,7 @@ public sealed class DoomsayerObserveButton : TownOfUsRoleButton<DoomsayerRole, P
         Target.AddModifier<DoomsayerObservedModifier>();
 
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.Doomsayer.ToTextColor()}You will recieve a report on {Target.Data.PlayerName} during the next meeting. This will help you narrow down their role.</color></b>",
+            TouLocale.GetParsed("TouRoleDoomsayerObserveNotif").Replace("<player>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{Target.Data.PlayerName}</color>"),
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
 
         notif1.AdjustNotification();

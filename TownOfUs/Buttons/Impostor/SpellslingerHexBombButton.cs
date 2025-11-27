@@ -7,27 +7,23 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class SpellslingerHexBombButton : TownOfUsRoleButton<SpellslingerRole>
 {
-    private bool _bombed;
-    public override string Name => TouLocale.Get("TouRoleSpellslingerHexBomb", "Hex Bomb");
+    public override string Name => TouLocale.GetParsed("TouRoleSpellslingerHexBomb", "Hex Bomb");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;
+    public override float InitialCooldown => 0.001f;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.HexBombSprite;
-
-    public override void CreateButton(Transform parent)
-    {
-        base.CreateButton(parent);
-        _bombed = false;
-    }
 
     public override bool Enabled(RoleBehaviour? role)
     {
         return base.Enabled(role) && SpellslingerRole.EveryoneHexed();
     }
 
-    public override bool CanClick()
+    public override bool CanUse()
     {
-        return base.CanClick() && !_bombed;
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+
+        return base.CanUse() && system is { AnyActive: false };
     }
 
     protected override void OnClick()
@@ -53,7 +49,5 @@ public sealed class SpellslingerHexBombButton : TownOfUsRoleButton<SpellslingerR
         }
         
         ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Sabotage, HexBombSabotageSystem.SabotageId);
-
-        _bombed = true;
     }
 }

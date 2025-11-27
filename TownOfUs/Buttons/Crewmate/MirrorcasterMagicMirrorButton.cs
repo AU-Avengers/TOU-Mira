@@ -14,12 +14,12 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<MirrorcasterRole>, IAftermathableButton
 {
-    public override string Name => TouLocale.Get("TouRoleMirrorcasterMagicMirror", "Magic Mirror");
+    public override string Name => TouLocale.GetParsed("TouRoleMirrorcasterMagicMirror", "Magic Mirror");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mirrorcaster;
 
     public override float Cooldown =>
-        OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorCooldown.Value + MapCooldown + 0.001f;
+        Math.Clamp(OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorCooldown.Value + MapCooldown, 0.001f, 120f);
 
     public override float EffectDuration => OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorDuration.Value;
     public override int MaxUses => (int)OptionGroupSingleton<MirrorcasterOptions>.Instance.MaxMirrors;
@@ -118,29 +118,33 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
             text = TouLocale.GetParsed("TouRoleMirrorcasterAlreadyDiedNotif");
         }
 
-        if (Role.Protected != null && Role.Protected.HasDied())
+        // Incase the player changed roles
+        if (PlayerControl.LocalPlayer.Data.Role is MirrorcasterRole)
         {
-            text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDiedNotif");
-        }
-        else if (Role.Protected != null && !Role.Protected.HasDied())
-        {
-            text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDidNotDieNotif");
-        }
+            if (Role.Protected != null && Role.Protected.HasDied())
+            {
+                text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDiedNotif");
+            }
+            else if (Role.Protected != null && !Role.Protected.HasDied())
+            {
+                text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDidNotDieNotif");
+            }
 
-        if (text.Contains("<player>") && Role.Protected != null)
-        {
-            text = text.Replace("<player>", Role.Protected.Data.PlayerName);
-        }
+            if (text.Contains("<player>") && Role.Protected != null)
+            {
+                text = text.Replace("<player>", Role.Protected.Data.PlayerName);
+            }
 
-        if (text != string.Empty && MeetingHud.Instance == null)
-        {
-            var notif1 = Helpers.CreateAndShowNotification(text,
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
-            notif1.AdjustNotification();
+            if (text != string.Empty && MeetingHud.Instance == null)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(text,
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
+                notif1.AdjustNotification();
+            }
+            MirrorcasterRole.RpcClearMagicMirror(PlayerControl.LocalPlayer);
         }
 
         TargetWasValid = false;
-        MirrorcasterRole.RpcClearMagicMirror(PlayerControl.LocalPlayer);
         OverrideName(TouLocale.Get("TouRoleMirrorcasterMagicMirror", "Magic Mirror"));
     }
 }

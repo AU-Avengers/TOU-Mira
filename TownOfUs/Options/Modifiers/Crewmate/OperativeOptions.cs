@@ -8,12 +8,13 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class OperativeOptions : AbstractOptionGroup<OperativeModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierOperative", "Operative");
-    public override uint GroupPriority => 35;
+    public override uint GroupPriority => 24;
 
     public override Color GroupColor => new(0.8f, 0.33f, 0.37f, 1f);
 
-    // THESE BREAK THE CAMERA MINIGAME!!
+    // THESE BREAK THE CAMERA MINIFairyME!!
 /*
         [ModdedToggleOption("Move While Using Cameras")]
         public bool MoveWithCams { get; set; } = false;

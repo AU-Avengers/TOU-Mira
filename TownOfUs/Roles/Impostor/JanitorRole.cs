@@ -36,7 +36,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
                                                      (Player != null && MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DetectiveTouRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Janitor";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -86,7 +86,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not JanitorRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCleanBody - Invalid Janitor");
+            Error("RpcCleanBody - Invalid Janitor");
             return;
         }
 

@@ -1,12 +1,16 @@
 using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Patches.Hud;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
@@ -15,8 +19,10 @@ using Random = System.Random;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
-public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableTargets
+public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableTargets, IContinuesGame
 {
+    public bool ContinuesGame => !Player.HasDied() && Helpers.GetAlivePlayers().Count >
+                                 (int)OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1;
     public override string ModifierName => "Possible Traitor";
     public override bool HideOnUi => true;
 
@@ -26,7 +32,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     public void AssignTargets()
     {
         if (GameOptionsManager.Instance.CurrentGameOptions.RoleOptions
-                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0)
+                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().Any())
         {
             return;
         }
@@ -75,13 +81,16 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     [MethodRpc((uint)TownOfUsRpc.SetTraitor)]
     public static void RpcSetTraitor(PlayerControl player)
     {
-        if (!player.HasModifier<ToBecomeTraitorModifier>())
+        if (!player.HasModifier<ToBecomeTraitorModifier>() && !player.HasModifier<CrewpostorModifier>())
         {
             return;
         }
 
         player.ChangeRole(RoleId.Get<TraitorRole>());
-        player.RemoveModifier<ToBecomeTraitorModifier>();
+        if (player.HasModifier<ToBecomeTraitorModifier>())
+        {
+            player.RemoveModifier<ToBecomeTraitorModifier>();
+        }
 
         if (OptionGroupSingleton<AssassinOptions>.Instance.TraitorCanAssassin)
         {
@@ -90,5 +99,11 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
 
         CustomRoleUtils.GetActiveRolesOfType<SnitchRole>().ToList()
             .ForEach(snitch => snitch.AddSnitchTraitorArrows());
+
+        if (player.AmOwner)
+        {
+            ButtonResetPatches.ResetCooldowns();
+            player.SetKillTimer(player.GetKillCooldown());
+        }
     }
 }

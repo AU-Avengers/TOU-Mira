@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Globalization;
 using System.Text;
+using AmongUs.GameOptions;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -22,14 +22,16 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
 public sealed class AmbusherRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SonarRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Ambusher";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -84,7 +86,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
         if (Pursued && Pursued != null)
         {
-            stringB.Append(CultureInfo.InvariantCulture,
+            stringB.Append(TownOfUsPlugin.Culture,
                 $"\n<b>{PursuingString.Replace("<player>", $"{Pursued.Data.Color.ToTextColor()}{Pursued.Data.PlayerName}</color>")}</b>");
         }
 
@@ -151,7 +153,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     {
         if (ambusher.Data.Role is not AmbusherRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcAmbushPlayer - Invalid ambusher");
+            Error("RpcAmbushPlayer - Invalid ambusher");
             return;
         }
 
@@ -168,6 +170,15 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         }
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
+
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
+            murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
+        {
+            DeathHandlerModifier.UpdateDeathHandler(target, TouLocale.Get("DiedToAmbusherAmbush"), DeathEventHandlers.CurrentRound,
+                DeathHandlerOverride.SetTrue,
+                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", ambusher.Data.PlayerName),
+                lockInfo: DeathHandlerOverride.SetTrue);
+        }
 
         ambusher.CustomMurder(
             target,
@@ -210,8 +221,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
                 ambusher.NetTransform.SetPaused(true);
                 bodyPos.y += 0.175f;
                 bodyPos.z = bodyPos.y / 1000f;
-                ambusher.transform.position = bodyPos;
-                ambusher.NetTransform.SnapTo(bodyPos);
+                ambusher.RpcSetPos(bodyPos);
             }
 
             // Hide real player
@@ -327,8 +337,10 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
             if (MeetingHud.Instance == null && target.HasDied())
             {
-                ambusher.transform.position = ogPos;
-                ambusher.NetTransform.SnapTo(ogPos);
+                if (ambusher.AmOwner)
+                {
+                    ambusher.RpcSetPos(ogPos);
+                }
                 var targetPos = ogPos + new Vector3(-0.05f, 0.175f, 0f);
                 targetPos.z = targetPos.y / 1000f;
                 body.transform.position = (ambusher.Collider.bounds.center - targetPos) + targetPos;

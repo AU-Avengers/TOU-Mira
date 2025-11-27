@@ -17,12 +17,12 @@ public static class PlaguebearerEvents
     [RegisterEvent]
     public static void ReportBodyEventHandler(ReportBodyEvent @event)
     {
-        if (!@event.Target)
+        if (@event.Target == null)
         {
             return;
         }
 
-        PlaguebearerRole.CheckInfected(@event.Target!.Object, @event.Reporter);
+        PlaguebearerRole.CheckInfected(@event.Target.Object, @event.Reporter);
     }
 
     [RegisterEvent]

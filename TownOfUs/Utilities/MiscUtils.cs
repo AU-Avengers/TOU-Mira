@@ -7,23 +7,25 @@ using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TMPro;
+using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
-using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -34,31 +36,24 @@ namespace TownOfUs.Utilities;
 
 public static class MiscUtils
 {
+
+    public static int GameHaltersAliveCount => Helpers.GetAlivePlayers().Count(x =>
+        x.Data.Role is IContinuesGame gameHalt && gameHalt.ContinuesGame || x.GetModifiers<BaseModifier>()
+            .Any(y => y is IContinuesGame gameHaltMod && gameHaltMod.ContinuesGame));
     public static int KillersAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor() ||
         x.Is(RoleAlignment.NeutralKilling) ||
-        (x.Data.Role is InquisitorRole inquis && OptionGroupSingleton<InquisitorOptions>.Instance.StallGame &&
-         inquis is { CanVanquish: true, TargetsDead: false } && Helpers.GetAlivePlayers().Count <= 3) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
          OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
 
     public static int RealKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
-        x.IsImpostor() || x.Is(RoleAlignment.NeutralKilling) || (x.Data.Role is InquisitorRole inquis &&
-                                                                 OptionGroupSingleton<InquisitorOptions>.Instance
-                                                                     .StallGame && inquis is
-                                                                     { CanVanquish: true, TargetsDead: false }
-                                                                 && Helpers.GetAlivePlayers().Count <= 3));
+        x.IsImpostor() || x.Is(RoleAlignment.NeutralKilling));
 
     public static int NKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
-        x.Is(RoleAlignment.NeutralKilling) || (x.Data.Role is InquisitorRole inquis &&
-                                               OptionGroupSingleton<InquisitorOptions>.Instance.StallGame &&
-                                               inquis is { CanVanquish: true, TargetsDead: false }
-                                               && Helpers.GetAlivePlayers().Count <= 3));
+        x.Is(RoleAlignment.NeutralKilling));
 
     public static int NonImpKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Is(RoleAlignment.NeutralKilling) ||
-        (x.Data.Role is InquisitorRole inquis && OptionGroupSingleton<InquisitorOptions>.Instance.StallGame &&
-         inquis is { CanVanquish: true, TargetsDead: false } && Helpers.GetAlivePlayers().Count <= 3) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
          OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
@@ -73,6 +68,10 @@ public static class MiscUtils
     public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
 
     public static IEnumerable<RoleBehaviour> AllRoles => CustomRoleManager.CustomRoleBehaviours;
+
+    public static IEnumerable<RoleBehaviour> AllRegisteredRoles => RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
+
+    public static IEnumerable<RoleBehaviour> SpawnableRoles => AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
@@ -91,7 +90,7 @@ public static class MiscUtils
         }
 
         var builder = new StringBuilder();
-        builder.AppendLine(CultureInfo.InvariantCulture,
+        builder.AppendLine(TownOfUsPlugin.Culture,
             $"\n<size=50%> \n</size><b>{TownOfUsColors.Vigilante.ToTextColor()}{TouLocale.Get("Options")}</color></b>");
 
         foreach (var option in options)
@@ -104,15 +103,23 @@ public static class MiscUtils
                         continue;
                     }
 
-                    builder.AppendLine(option.Title + ": " + toggleOption.Value);
+                    builder.AppendLine(TranslationController.Instance.GetString(toggleOption.StringName) + ": " + toggleOption.Value);
                     break;
-                case ModdedEnumOption enumOption:
+                /*case ModdedMultiSelectOption<Enum> enumOption:
                     if (!enumOption.Visible())
                     {
                         continue;
                     }
 
                     builder.AppendLine(enumOption.Title + ": " + enumOption.Values[enumOption.Value]);
+                    break;*/
+                case ModdedEnumOption enumOption:
+                    if (!enumOption.Visible())
+                    {
+                        continue;
+                    }
+
+                    builder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " + TouLocale.GetParsed(enumOption.Values[enumOption.Value], enumOption.Values[enumOption.Value]));
                     break;
                 case ModdedNumberOption numberOption:
                     if (!numberOption.Visible())
@@ -134,13 +141,14 @@ public static class MiscUtils
                         optionStr = optionStr.Replace(".0", "");
                     }
 
+                    var title = TranslationController.Instance.GetString(numberOption.StringName);
                     if (numberOption is { ZeroInfinity: true, Value: 0 })
                     {
-                        builder.AppendLine(numberOption.Title + ": ∞");
+                        builder.AppendLine(title + ": ∞");
                     }
                     else
                     {
-                        builder.AppendLine(numberOption.Title + ": " + optionStr);
+                        builder.AppendLine(title + ": " + optionStr);
                     }
 
                     break;
@@ -217,7 +225,7 @@ public static class MiscUtils
 
         if (role.Role is RoleTypes.Viper)
         {
-            return RoleAlignment.ImpostorSupport;
+            return RoleAlignment.ImpostorKilling;
         }
 
         if (role.IsNeutral())
@@ -241,7 +249,7 @@ public static class MiscUtils
             var isForCrew = false;
             var isForNeut = false;
             var isForImp = false;
-            foreach (var crewRole in AllRoles.Where(x => x.IsCrewmate()))
+            foreach (var crewRole in AllRegisteredRoles.Where(x => x.IsCrewmate()))
             {
                 if (!isForCrew && gameMod.IsModifierValidOn(crewRole))
                 {
@@ -250,7 +258,7 @@ public static class MiscUtils
                 }
             }
 
-            foreach (var neutRole in AllRoles.Where(x => x.IsNeutral()))
+            foreach (var neutRole in AllRegisteredRoles.Where(x => x.IsNeutral()))
             {
                 if (!isForNeut && gameMod.IsModifierValidOn(neutRole))
                 {
@@ -259,7 +267,7 @@ public static class MiscUtils
                 }
             }
 
-            foreach (var impRole in AllRoles.Where(x => x.IsImpostor()))
+            foreach (var impRole in AllRegisteredRoles.Where(x => x.IsImpostor()))
             {
                 if (!isForImp && gameMod.IsModifierValidOn(impRole))
                 {
@@ -529,17 +537,20 @@ public static class MiscUtils
         {
             case RoleAlignment.CrewmateInvestigative:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
-                //registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
                 break;
             case RoleAlignment.CrewmateSupport:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Crewmate));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
-                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
+                // registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case RoleAlignment.ImpostorSupport:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
-                //registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
+                break;
+            case RoleAlignment.ImpostorKilling:
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
                 break;
             case RoleAlignment.ImpostorConcealing:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Shapeshifter));
@@ -561,12 +572,15 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Crewmate));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
-                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
+                // registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case ModdedRoleTeams.Impostor:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Shapeshifter));
+                registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Phantom));
                 break;
         }
@@ -576,7 +590,7 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> GetRegisteredGhostRoles()
     {
-        var baseGhostRoles = RoleManager.Instance.AllRoles.ToArray()
+        var baseGhostRoles = AllRegisteredRoles
             .Where(x => x.IsDead && AllRoles.All(y => y.Role != x.Role));
         var ghostRoles = AllRoles.Where(x => x.IsDead && !x.TryCast<SpectatorRole>()).Union(baseGhostRoles);
 
@@ -587,7 +601,7 @@ public static class MiscUtils
     {
         // we want to prioritize the custom roles because the role has the right RoleColour/TeamColor
         var role = AllRoles.FirstOrDefault(x => x.Role == roleType) ??
-                   RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == roleType);
+                   AllRegisteredRoles.FirstOrDefault(x => x.Role == roleType);
 
         return role;
     }
@@ -741,46 +755,54 @@ public static class MiscUtils
     {
         var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
         var roleOptions = currentGameOptions.RoleOptions;
-        var assignmentData = RoleManager.Instance.AllRoles.ToArray().Select(role =>
+        var assignmentData = AllRegisteredRoles.Select(role =>
             new RoleManager.RoleAssignmentData(role, roleOptions.GetNumPerGame(role.Role),
                 roleOptions.GetChancePerGame(role.Role))).ToList();
 
         var roleList = assignmentData.Where(x => x is { Chance: > 0, Count: > 0, Role: ICustomRole })
             .Select(x => x.Role);
+        var array = AllRegisteredRoles;
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Detective) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Detective)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Tracker) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Tracker)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Noisemaker) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Noisemaker)!);
+        /*if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Engineer) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Engineer)!);*/
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Scientist) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Scientist)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Shapeshifter) is
+            { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Shapeshifter)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Phantom) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Phantom)!);
+        if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Viper) is { Chance: > 0, Count: > 0 })
+            roleList = roleList.AddItem(
+                array.FirstOrDefault(x => x.Role == RoleTypes.Viper)!);
 
-        /*if (OptionGroupSingleton<GeneralOptions>.Instance.GuessVanillaRoles)
-        {
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Tracker) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Tracker)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Noisemaker) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Noisemaker)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Engineer) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Engineer)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Scientist) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Scientist)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Shapeshifter) is
-                { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Shapeshifter)!);
-            if (assignmentData.FirstOrDefault(x => x.Role.Role is RoleTypes.Phantom) is { Chance: > 0, Count: > 0 })
-                roleList = roleList.AddItem(
-                    RoleManager.Instance.AllRoles.FirstOrDefault(x => x.Role == RoleTypes.Phantom)!);
-        }*/
-
-        var crewmateRole = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
+        var crewmateRole = AllRegisteredRoles.FirstOrDefault(x => x.Role == RoleTypes.Crewmate);
         roleList = roleList.AddItem(crewmateRole!);
-        //Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - crewmateRole: '{crewmateRole?.GetRoleName()}'");
+        //Error($"GetPotentialRoles - crewmateRole: '{crewmateRole?.GetRoleName()}'");
 
-        var impostorRole = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x => x.Role == RoleTypes.Impostor);
+        var impostorRole = AllRegisteredRoles.FirstOrDefault(x => x.Role == RoleTypes.Impostor);
         roleList = roleList.AddItem(impostorRole!);
 
-        //Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - impostorRole: '{impostorRole?.GetRoleName()}'");
+        if (TutorialManager.InstanceExists)
+        {
+            roleList = AllRegisteredRoles;
+        }
 
-        //roleList.Do(x => Logger<TownOfUsPlugin>.Error($"GetPotentialRoles - role: '{x.GetRoleName()}'"));
+        //Error($"GetPotentialRoles - impostorRole: '{impostorRole?.GetRoleName()}'");
+
+        //roleList.Do(x => Error($"GetPotentialRoles - role: '{x.GetRoleName()}'"));
 
         return roleList;
     }
@@ -1060,30 +1082,38 @@ public static class MiscUtils
         action(1f);
     }
 
+    public static SpriteRenderer FlashRenderer;
+
     public static IEnumerator CoFlash(Color color, float waitfor = 1f, float alpha = 0.3f)
     {
         color.a = alpha;
-        if (HudManager.InstanceExists && HudManager.Instance.FullScreen)
+        if (HudManager.InstanceExists && HudManager.Instance.FullScreen && !FlashRenderer)
         {
-            var fullscreen = HudManager.Instance.FullScreen;
-            fullscreen.enabled = true;
-            fullscreen.gameObject.SetActive(true);
-            fullscreen.color = color;
+            FlashRenderer = Object.Instantiate(HudManager.Instance.FullScreen,
+                HudManager.Instance.FullScreen.transform.parent);
+            FlashRenderer.transform.localScale *= 10f;
         }
+
+        FlashRenderer.enabled = true;
+        FlashRenderer.gameObject.SetActive(true);
+        FlashRenderer.color = color;
 
         yield return new WaitForSeconds(waitfor);
 
-        if (HudManager.InstanceExists && HudManager.Instance.FullScreen)
+        if (HudManager.InstanceExists && HudManager.Instance.FullScreen && !FlashRenderer)
         {
-            var fullscreen = HudManager.Instance.FullScreen;
-            if (!fullscreen.color.Equals(color))
-            {
-                yield break;
-            }
-
-            fullscreen.color = new Color(1f, 0f, 0f, 0.37254903f);
-            fullscreen.enabled = false;
+            FlashRenderer = Object.Instantiate(HudManager.Instance.FullScreen,
+                HudManager.Instance.FullScreen.transform.parent);
+            FlashRenderer.transform.localScale *= 10f;
         }
+
+        if (!FlashRenderer.color.Equals(color))
+        {
+            yield break;
+        }
+
+        FlashRenderer.color = new Color(1f, 0f, 0f, 0.37254903f);
+        FlashRenderer.enabled = false;
     }
 
     public static IEnumerator FadeOut(SpriteRenderer? rend, float delay = 0.01f, float decrease = 0.01f)
@@ -1255,9 +1285,9 @@ public static class MiscUtils
                 }
 
                 if (normalPlayerTask.TaskType is TaskTypes.EmptyGarbage or TaskTypes.EmptyChute
-                    && (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 0 ||
-                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 3 ||
-                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4))
+                    && (GameOptionsManager.Instance.currentGameOptions.MapId == 0 ||
+                        GameOptionsManager.Instance.currentGameOptions.MapId == 3 ||
+                        GameOptionsManager.Instance.currentGameOptions.MapId == 4))
                 {
                     normalPlayerTask.taskStep = 1;
                 }
@@ -1442,7 +1472,7 @@ public static class MiscUtils
     public static bool IsMap(byte mapid)
     {
         return (GameOptionsManager.Instance != null &&
-                GameOptionsManager.Instance.currentNormalGameOptions.MapId == mapid)
+                GameOptionsManager.Instance.currentGameOptions.MapId == mapid)
                || (TutorialManager.InstanceExists && AmongUsClient.Instance.TutorialMapId == mapid);
     }
 
@@ -1465,7 +1495,7 @@ public static class MiscUtils
             return true;
         }
 
-        if (OptionGroupSingleton<GeneralOptions>.Instance.CamouflageComms)
+        if (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms)
         {
             if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem) ||
                 commsSystem == null)
@@ -1528,12 +1558,13 @@ public static class MiscUtils
     public static PlayerControl? GetImpostorTarget(float distance)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var saboOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;
         var closePlayer = PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, distance);
 
         var includePostors = genOpt.FFAImpostorMode ||
                              (PlayerControl.LocalPlayer.IsLover() &&
                               OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates) ||
-                             (genOpt.KillDuringCamoComms &&
+                             (saboOpt.KillDuringCamoComms &&
                               closePlayer?.GetAppearanceType() == TownOfUsAppearances.Camouflage);
         if (!OptionGroupSingleton<LoversOptions>.Instance.LoversKillEachOther && PlayerControl.LocalPlayer.IsLover())
         {
@@ -1731,4 +1762,165 @@ public static class MiscUtils
 
     public static IEnumerable<T> Excluding<T>(this IEnumerable<T> source, Func<T, bool> predicate) =>
         source.Where(x => !predicate(x)); // Added for easier inversion and reading
+
+    public static bool CanSeeAdvancedLogs
+    {
+        get
+        {
+            if (!TownOfUsPlugin.IsDevBuild)
+            {
+                return false;
+            }
+
+            var logLevel = (LoggingLevel)OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel.Value;
+            if (PlayerControl.LocalPlayer.IsHost() && logLevel is LoggingLevel.LogForHost)
+            {
+                return true;
+            }
+            else if (logLevel is LoggingLevel.LogForEveryone)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    public static bool CanSeePostGameLogs
+    {
+        get
+        {
+            if (!TownOfUsPlugin.IsDevBuild)
+            {
+                return false;
+            }
+
+            var logLevel = (LoggingLevel)OptionGroupSingleton<HostSpecificOptions>.Instance.BetaLoggingLevel.Value;
+
+            return logLevel is LoggingLevel.LogForEveryonePostGame;
+        }
+    }
+
+    public static ExpandedMapNames GetCurrentMap
+    {
+        get
+        {
+            var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
+            if (TutorialManager.InstanceExists)
+            {
+                mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
+            }
+
+            return mapId;
+        }
+    }
+
+    public static TouGamemode CurrentGamemode()
+    {
+        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
+            return TouGamemode.HideAndSeek;
+        return TouGamemode.Normal;
+    }
+    public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
+    {
+        if (!CanSeeAdvancedLogs)
+        {
+            if (CanSeePostGameLogs)
+            {
+                TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+            }
+            return;
+        }
+
+        switch (logLevel)
+        {
+            case TownOfUsEventHandlers.LogLevel.Error:
+                Error(text);
+                break;
+            case TownOfUsEventHandlers.LogLevel.Warning:
+                Warning(text);
+                break;
+            case TownOfUsEventHandlers.LogLevel.Debug:
+                Debug(text);
+                break;
+            case TownOfUsEventHandlers.LogLevel.Info:
+                Info(text);
+                break;
+            case TownOfUsEventHandlers.LogLevel.Message:
+                Message(text);
+                break;
+        }
+        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+    }
+
+
+    /// <summary>
+    ///     A Coroutine to be used for adjusting custom buttons to be ahead or behind the vent button.
+    /// </summary>
+    /// <param name="button">The custom button to move.</param>
+    /// <param name="beforeVent">Determines whether the button appears before the vent button, as it is normally the very last button in the list.</param>
+    public static IEnumerator CoMoveButtonIndex(CustomActionButton button, bool beforeVent = true)
+    {
+        yield return new WaitForEndOfFrame();
+        if (button.Button == null)
+        {
+            yield break;
+        }
+        var bottomLeft = MiraAPI.Patches.HudManagerPatches.BottomLeft!;
+        var bottomRight = MiraAPI.Patches.HudManagerPatches.BottomRight;
+        var location = button.Location switch
+        {
+            ButtonLocation.BottomLeft => bottomLeft.transform,
+            ButtonLocation.BottomRight => bottomRight,
+            _ => null,
+        };
+        button.Button.transform.SetParent(null);
+        button.Button.transform.SetParent(location);
+
+        var index = HudManager.Instance.ImpostorVentButton.transform.GetSiblingIndex();
+        button.Button.transform.SetSiblingIndex(index + (beforeVent ? -1 : 1));
+    }
+    //Submerged utils
+    public static object? TryOtherCast(this Il2CppObjectBase self, Type type)
+    {
+        return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type).Invoke(self, Array.Empty<object>());
+    }
+    public static IList CreateList(Type myType)
+    {
+        Type genericListType = typeof(List<>).MakeGenericType(myType);
+        return (IList)Activator.CreateInstance(genericListType)!;
+    }
+
+    public static void RemovePet(PlayerControl pc)
+    {
+        if (pc == null || !pc.Data.IsDead)
+        {
+            return;
+        }
+
+        if (pc.CurrentOutfit.PetId == "")
+        {
+            return;
+        }
+
+        pc.SetPet("");
+    }
+
+}
+public enum TouGamemode
+{
+    Normal,
+    HideAndSeek,
+    Cultist
+}
+public enum ExpandedMapNames
+{
+    Skeld,
+    MiraHq,
+    Polus,
+    Dleks,
+    Airship,
+    Fungle,
+    Submerged,
+    LevelImpostor
 }

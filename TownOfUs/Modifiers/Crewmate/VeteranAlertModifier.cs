@@ -12,6 +12,8 @@ public sealed class VeteranAlertModifier : TimedModifier
     public override float Duration => OptionGroupSingleton<VeteranOptions>.Instance.AlertDuration;
     public override string ModifierName => "Alerted";
     public override bool HideOnUi => true;
+    public List<PlayerControl> AttackedPlayers { get; set; } = [];
+    public bool WasAttacked(PlayerControl player) => AttackedPlayers.Contains(player);
 
     public override void OnActivate()
     {
@@ -23,6 +25,13 @@ public sealed class VeteranAlertModifier : TimedModifier
         if (Player.Data.Role is VeteranRole vet)
         {
             vet.Alerts--;
+        }
+    }
+    public void MarkPlayer(PlayerControl attacker)
+    {
+        if (!AttackedPlayers.Contains(attacker))
+        {
+            AttackedPlayers.Add(attacker);
         }
     }
 

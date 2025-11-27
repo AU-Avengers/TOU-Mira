@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
@@ -8,16 +7,19 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Arsonist";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -82,7 +84,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
             stringB.Append("\n<b>Players Doused:</b>");
             foreach (var plr in allDoused)
             {
-                stringB.Append(CultureInfo.InvariantCulture,
+                stringB.Append(TownOfUsPlugin.Culture,
                     $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
             }
         }
@@ -102,11 +104,21 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         return result;
     }
 
+    public void OffsetButtons()
+    {
+        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
+        var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(ignite, !canVent));
+    }
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
+            OffsetButtons();
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ArsoVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Arsonist);
         }

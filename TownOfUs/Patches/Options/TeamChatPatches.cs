@@ -43,12 +43,12 @@ public static class TeamChatPatches
         if (PlayerControl.LocalPlayer.IsJailed())
         {
             MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailor</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleJailor")}</color>", text);
         }
-        else if (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
+        else if (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow)
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Jailor)</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text);
         }
     }
 
@@ -60,7 +60,7 @@ public static class TeamChatPatches
                                                                       .TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Jailed)</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JaileeChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text);
         }
     }
 
@@ -68,10 +68,10 @@ public static class TeamChatPatches
     public static void RpcSendVampTeamChat(PlayerControl player, string text)
     {
         if ((PlayerControl.LocalPlayer.Data.Role is VampireRole && player != PlayerControl.LocalPlayer) ||
-            (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+            (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Vampire Chat)</color>",
+                $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{TouLocale.GetParsed("VampireChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text);
         }
     }
@@ -79,11 +79,11 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendImpTeamChat)]
     public static void RpcSendImpTeamChat(PlayerControl player, string text)
     {
-        if ((PlayerControl.LocalPlayer.IsImpostor() && player != PlayerControl.LocalPlayer) ||
-            (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+        if ((PlayerControl.LocalPlayer.IsImpostorAligned() && player != PlayerControl.LocalPlayer) ||
+            (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Impostor Chat)</color>",
+                $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.GetParsed("ImpostorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text);
         }
     }
@@ -126,9 +126,9 @@ public static class TeamChatPatches
             }
 
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostor() &&
+            if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() &&
                 !PlayerControl.LocalPlayer.HasDied() &&
-                !player.AmOwner && player.IsImpostor() && MeetingHud.Instance)
+                !player.AmOwner && player.IsImpostorAligned() && MeetingHud.Instance)
             {
                 __instance.NameText.color = Color.white;
             }
@@ -230,7 +230,7 @@ public static class TeamChatPatches
                             _teamText.text = "Jailor Chat is Open. Only the Jailor and Jailee can see this.";
                             _teamText.color = TownOfUsColors.Jailor;
                         }
-                        else if (PlayerControl.LocalPlayer.IsImpostor() &&
+                        else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                                  genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } &&
                                  !PlayerControl.LocalPlayer.Data.IsDead && _teamText != null)
                         {

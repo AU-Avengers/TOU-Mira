@@ -3,8 +3,8 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modules;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -61,11 +61,12 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         if (!target.TryGetModifier<LookoutWatchedModifier>(out var mod))
         {
-            Logger<TownOfUsPlugin>.Error("Not a watched player");
+            Error("Not a watched player");
             return;
         }
 
-        var role = source.Data.Role;
+        // Fixes desync for when a player dies while interacting.
+        var role = source.GetRoleWhenAlive();
 
         var cachedMod = source.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
         if (cachedMod != null)

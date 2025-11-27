@@ -14,7 +14,7 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class AmbusherPursueButton : TownOfUsRoleButton<AmbusherRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleAmbusherPursue", "Pursue");
+    public override string Name => TouLocale.GetParsed("TouRoleAmbusherPursue", "Pursue");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;

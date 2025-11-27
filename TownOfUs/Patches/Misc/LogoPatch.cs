@@ -33,7 +33,7 @@ public static class LogoPatch
             // RoleManager.Instance.GetRole(RoleTypes.Crewmate),
             RoleManager.Instance.GetRole(RoleTypes.Scientist),
             RoleManager.Instance.GetRole(RoleTypes.Noisemaker),
-            RoleManager.Instance.GetRole(RoleTypes.Engineer),
+            // RoleManager.Instance.GetRole(RoleTypes.Engineer),
             RoleManager.Instance.GetRole(RoleTypes.Tracker),
             RoleManager.Instance.GetRole(RoleTypes.GuardianAngel),
             RoleManager.Instance.GetRole(RoleTypes.Detective),

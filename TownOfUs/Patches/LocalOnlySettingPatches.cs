@@ -30,7 +30,7 @@ public static class LocalSettings
             return;
         }
 
-        if (!OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
+        if (!OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow)
         {
             return;
         }
@@ -49,7 +49,7 @@ public static class LocalSettings
 
             switch (player.Data.Role)
             {
-                case PhantomTouRole { Caught: false }:
+                case SpectreRole { Caught: false }:
                 case HaunterRole { Caught: false }:
                     continue;
             }
@@ -81,17 +81,5 @@ public static class LocalSettings
         {
             yield return go.transform.GetChild(i).gameObject;
         }
-    }
-
-    public sealed class SelectionBehaviour
-    {
-        public bool DefaultValue;
-        public string ObjName;
-
-        public Func<bool> OnClick;
-        public string Title;
-        public Color Enabled { get; set; } = Color.green;
-        public Color Disabled { get; set; } = Palette.ImpostorRed;
-        public Color Hover { get; set; } = new Color32(34, 139, 34, 255);
     }
 }

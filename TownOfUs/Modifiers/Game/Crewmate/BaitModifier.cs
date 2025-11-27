@@ -60,12 +60,19 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 
         yield return new WaitForSeconds(Random.RandomRange(MinDelay, MaxDelay));
 
+        if (MeetingHud.Instance != null)
+        {
+            yield break;
+        }
+
         if (killer.AmOwner)
         {
             killer.CmdReportDeadBody(target.Data);
 
+            var text = TouLocale.GetParsed("TouModifierBaitTriggeredNotif").Replace("<player>", target.Data.PlayerName);
+
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Bait.ToTextColor()}{target.Data.PlayerName} was a Bait, causing you to self report.</color></b>",
+                $"<b>{text.Replace("<modifier>", $"{TownOfUsColors.Bait.ToTextColor()}{TouLocale.Get("TouModifierBait")}</color>")}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Bait.LoadAsset());
 
             notif1.AdjustNotification();
