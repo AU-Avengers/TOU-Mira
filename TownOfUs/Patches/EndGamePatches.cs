@@ -30,17 +30,20 @@ public static class EndGamePatches
         EndGameData.Clear();
 
         var playerRoleString = new StringBuilder();
+        var playerRoleStringShort = new StringBuilder();
 
         // Theres a better way of doing this e.g. switch statement or dictionary. But this works for now.
         foreach (var playerControl in PlayerControl.AllPlayerControls)
         {
             playerRoleString.Clear();
+            playerRoleStringShort.Clear();
             if (playerControl.Data.Role is SpectatorRole)
             {
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
                     PlayerName = playerControl.Data.PlayerName,
                     RoleString = TouLocale.Get("TouRoleSpectator"),
+                    RoleStringShort = TouLocale.Get("TouRoleSpectator"),
                     Winner = false,
                     LastRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
                     Team = ModdedRoleTeams.Custom,
@@ -170,9 +173,13 @@ public static class EndGamePatches
                     $" |{TownOfUsColors.Impostor.ToTextColor()} {TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
             }
 
+            playerRoleStringShort.Append(playerRoleString);
+
             if (playerControl.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
             {
                 playerRoleString.Append(TownOfUsPlugin.Culture,
+                    $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
+                playerRoleStringShort.Append(TownOfUsPlugin.Culture,
                     $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
                 if (deathHandler.KilledBy != string.Empty)
                 {
@@ -182,10 +189,15 @@ public static class EndGamePatches
 
                 playerRoleString.Append(TownOfUsPlugin.Culture,
                     $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{deathHandler.RoundOfDeath}")})");
+
+                playerRoleStringShort.Append(TownOfUsPlugin.Culture,
+                    $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{deathHandler.RoundOfDeath}")})");
             }
             else
             {
                 playerRoleString.Append(TownOfUsPlugin.Culture,
+                    $" | {Color.yellow.ToTextColor()}{TouLocale.Get("Alive")}</color>");
+                playerRoleStringShort.Append(TownOfUsPlugin.Culture,
                     $" | {Color.yellow.ToTextColor()}{TouLocale.Get("Alive")}</color>");
             }
 
@@ -215,6 +227,7 @@ public static class EndGamePatches
             {
                 PlayerName = playerName.ToString(),
                 RoleString = playerRoleString.ToString(),
+                RoleStringShort = playerRoleStringShort.ToString(),
                 Winner = playerWinner,
                 LastRole = playerRoleType,
                 Team = playerTeam,
@@ -257,13 +270,14 @@ public static class EndGamePatches
         foreach (var data in EndGameData.PlayerRecords)
         {
             var role = string.Join(" ", data.RoleString);
+            var role2 = string.Join(" ", data.RoleStringShort);
             if (count % 2 == 0)
             {
-                roleSummaryText2.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
+                roleSummaryText2.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role2}");
             }
             else
             {
-                roleSummaryText1.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
+                roleSummaryText1.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role2}");
             }
 
             count++;
@@ -525,6 +539,7 @@ public static class EndGamePatches
         {
             public string? PlayerName { get; set; }
             public string? RoleString { get; set; }
+            public string? RoleStringShort { get; set; }
             public bool Winner { get; set; }
             public RoleTypes LastRole { get; set; }
             public ModdedRoleTeams Team { get; set; }
