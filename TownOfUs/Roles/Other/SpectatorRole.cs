@@ -90,7 +90,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        DeathHandlerModifier.UpdateDeathHandler(Player, "Spectating", 0, DeathHandlerOverride.SetFalse);
+        DeathHandlerModifier.UpdateDeathHandlerImmediate(Player, "Spectating", 0, DeathHandlerOverride.SetFalse);
 
         if (!Player.AmOwner)
         {

@@ -149,7 +149,7 @@ public static class LogicGameFlowPatches
             return false;
         }
 
-        if (DeathHandlerModifier.IsCoroutineRunning || DeathEventHandlers.IsDeathRecent)
+        if (DeathHandlerModifier.IsCoroutineRunning || DeathHandlerModifier.IsAltCoroutineRunning || DeathEventHandlers.IsDeathRecent)
         {
             return false;
         }

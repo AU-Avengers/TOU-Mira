@@ -112,7 +112,7 @@ public static class CustomTouMurderRpcs
             if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
                 murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
             {
-                DeathHandlerModifier.UpdateDeathHandler(newPlayer, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
+                DeathHandlerModifier.UpdateDeathHandlerImmediate(newPlayer, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
                     (MeetingHud.Instance == null && ExileController.Instance == null) ? DeathHandlerOverride.SetTrue : DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
                     lockInfo: DeathHandlerOverride.SetTrue);
@@ -191,7 +191,7 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
             murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
         {
-            DeathHandlerModifier.UpdateDeathHandler(target, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
                 (MeetingHud.Instance == null && ExileController.Instance == null) ? DeathHandlerOverride.SetTrue : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
                 lockInfo: DeathHandlerOverride.SetTrue);
@@ -245,11 +245,11 @@ public static class CustomTouMurderRpcs
             cod = touRole.LocaleKey;
         }
 
-        DeathHandlerModifier.UpdateDeathHandler(target, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
+        DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
             DeathHandlerOverride.SetTrue,
             TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
             lockInfo: DeathHandlerOverride.SetTrue);
-        DeathHandlerModifier.UpdateDeathHandler(source, "null", -1, DeathHandlerOverride.SetFalse,
+        DeathHandlerModifier.UpdateDeathHandlerImmediate(source, "null", -1, DeathHandlerOverride.SetFalse,
             lockInfo: DeathHandlerOverride.SetTrue);
         source.CustomMurder(
             target,

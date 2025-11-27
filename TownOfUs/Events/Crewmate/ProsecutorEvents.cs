@@ -112,7 +112,7 @@ public static class ProsecutorEvents
 
             if (hasProsecuted)
             {
-                DeathHandlerModifier.UpdateDeathHandler(player, TouLocale.Get("DiedToProsecutor"),
+                DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToProsecutor"),
                     DeathEventHandlers.CurrentRound,
                     DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
@@ -137,7 +137,7 @@ public static class ProsecutorEvents
                             celeb.Announced = true;
                         }
 
-                        DeathHandlerModifier.UpdateDeathHandler(pros.Player, TouLocale.Get("DiedToPunishment"),
+                        DeathHandlerModifier.UpdateDeathHandlerImmediate(pros.Player, TouLocale.Get("DiedToPunishment"),
                             DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                             lockInfo: DeathHandlerOverride.SetTrue);
 
