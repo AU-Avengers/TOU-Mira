@@ -1,15 +1,14 @@
 using System.Text;
+using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers;
-using MiraAPI.Networking;
+using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Events;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -25,6 +24,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     public static string ReworkString => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value ? "Alt" : string.Empty;
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
+    public List<string> ComparisonList = new ();
 
     public string GetAdvancedDescription()
     {
@@ -61,63 +61,64 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         Icon = TouRoleIcons.Seer,
         IntroSound = TouAudio.QuestionSound
     };
+    public PlayerControl? GazeTarget { get; set; }
+    public PlayerControl? IntuitTarget { get; set; }
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
+    public static string TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
+    public override void Initialize(PlayerControl player)
     {
-        return ITownOfUsRole.SetNewTabText(this);
+        GazeTarget = null;
+        IntuitTarget = null;
+        RoleBehaviourStubs.Initialize(this, player);
+        ComparisonList = new List<string>();
+        TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
     }
-    public static void SeerCompare(PlayerControl seer, byte player1, byte player2)
+
+    public override void OnMeetingStart()
     {
-        var t1 = GetTarget(player1);
-        var t2 = GetTarget(player2);
+        RoleBehaviourStubs.OnMeetingStart(this);
 
-        if (t1 == null || t2 == null)
+        if (Player.AmOwner)
+        {
+            var gazeButton = CustomButtonSingleton<SeerGazeButton>.Instance;
+            gazeButton.ResetCooldownAndOrEffect();
+            var intuitButton = CustomButtonSingleton<SeerIntuitButton>.Instance;
+            intuitButton.ResetCooldownAndOrEffect();
+
+            if (IntuitTarget != null)
+            {
+                ++intuitButton.UsesLeft;
+                intuitButton.SetUses(intuitButton.UsesLeft);
+            }
+
+            if (GazeTarget != null)
+            {
+                ++gazeButton.UsesLeft;
+                gazeButton.SetUses(gazeButton.UsesLeft);
+            }
+        }
+    }
+    public void SeerCompare(PlayerControl seer)
+    {
+        if (GazeTarget == null || IntuitTarget == null)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
-            ShowNotification($"<b>You need to pick two targets.</b>");
+            ShowNotification($"<b>{TouLocale.GetParsed("TouRoleSeerCompareErrorAmountNotif")}</b>");
             return;
         }
 
-        if (t1 == seer || t2 == seer)
+        if (GazeTarget == seer || IntuitTarget == seer)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
-            ShowNotification($"<b>You can't use yourself to compare!</b>");
+            ShowNotification($"<b>{TouLocale.GetParsed("TouRoleSeerCompareErrorSelfNotif")}</b>");
             return;
         }
-
-        var play1 = MiscUtils.PlayerById(player1)!;
-        var play2 = MiscUtils.PlayerById(player2)!;
-
-        if (play1.TryGetModifier<InvulnerabilityModifier>(out var invic) && invic.AttackAllInteractions)
-        {
-            play1.RpcCustomMurder(seer);
-            return;
-        }
-
-        if (play2.TryGetModifier<InvulnerabilityModifier>(out var invic2) && invic2.AttackAllInteractions)
-        {
-            play2.RpcCustomMurder(seer);
-            return;
-        }
-
-        if (play1.HasModifier<VeteranAlertModifier>())
-        {
-            play1.RpcCustomMurder(seer);
-            return;
-        }
-
-        if (play2.HasModifier<VeteranAlertModifier>())
-        {
-            play2.RpcCustomMurder(seer);
-            return;
-        }
-        var button = CustomButtonSingleton<SeerCompareButton>.Instance;
-        button.ResetCooldownAndOrEffect();
-
-
-        var playerA = play1.CachedPlayerData.PlayerName;
-        var playerB = play2.CachedPlayerData.PlayerName;
+        var gazeButton = CustomButtonSingleton<SeerGazeButton>.Instance;
+        gazeButton.ResetCooldownAndOrEffect();
+        var intuitButton = CustomButtonSingleton<SeerIntuitButton>.Instance;
+        intuitButton.ResetCooldownAndOrEffect();
+        var playerA = GazeTarget.CachedPlayerData.PlayerName;
+        var playerB = IntuitTarget.CachedPlayerData.PlayerName;
 
         void ShowNotification(string message)
         {
@@ -126,7 +127,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             notif.AdjustNotification();
         }
 
-        bool enemies = Enemies(play1, play2);
+        bool enemies = Enemies(GazeTarget, IntuitTarget);
         bool Enemies(PlayerControl p1, PlayerControl p2)
         {
             if (p1 == null || p2 == null) return false;
@@ -154,39 +155,42 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             return true;
         }
 
+        var players = new [] {playerA, playerB}.OrderBy(x => x.ToLowerInvariant()).ToArray();
 
         if (enemies)
         {
-            Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed));
-            ShowNotification($"<b>{Palette.ImpostorRed.ToTextColor()}{playerA} and {playerB} seem to have conflicting alignments!</color></b>");
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft));
+            var text = TouLocale.GetParsed("TouRoleSeerCompareEnemiesNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>");
+            var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ComparisonList.Add($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{compareResult.Replace("<num>", DeathEventHandlers.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
         else
         {
             Coroutines.Start(MiscUtils.CoFlash(Palette.CrewmateBlue));
-            ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{playerA} and {playerB} seem to have matching alignments!</color></b>");
+            var text = TouLocale.GetParsed("TouRoleSeerCompareFriendsNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{text}</color></b>");
+            var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
+            ComparisonList.Add($"<b>{Palette.CrewmateBlue.ToTextColor()}{compareResult.Replace("<num>", DeathEventHandlers.CurrentRound.ToString(TownOfUsPlugin.Culture))}</color></b>");
         }
+        IntuitTarget = null;
+        GazeTarget = null;
+    }
 
-        static MonoBehaviour? GetTarget(byte id)
+    [HideFromIl2Cpp]
+    public StringBuilder SetTabText()
+    {
+        var stringB = ITownOfUsRole.SetNewTabText(this);
+        if (ComparisonList.Count != 0)
         {
-            var data = GameData.Instance.GetPlayerById(id);
-            if (!data)
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{TabHeaderString}</b>");
+            foreach (var comparison in ComparisonList)
             {
-                return null;
+                var newText = $"<b><size=70%>{comparison}</size></b>";
+                stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
             }
-
-            var body = Helpers.GetBodyById(id);
-            if (data.IsDead && body)
-            {
-                return body;
-            }
-
-            var pc = data.Object;
-            if (!pc)
-            {
-                return null;
-            }
-
-            return pc;
         }
+
+        return stringB;
     }
 }

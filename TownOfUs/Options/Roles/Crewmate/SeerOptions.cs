@@ -13,7 +13,7 @@ public sealed class SeerOptions : AbstractOptionGroup<SeerRole>
     public ModdedToggleOption SalemSeer { get; set; } = new("TouOptionSeerSalemMode", true);
     
     [ModdedNumberOption("TouOptionSeerCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float SeerCooldown { get; set; } = 25f;
+    public float SeerCooldown { get; set; } = 20f;
 
     [ModdedNumberOption("TouOptionSeerUses", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxCompares { get; set; } = 5f;
