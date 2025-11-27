@@ -106,6 +106,7 @@ public sealed class RoleOptions : AbstractOptionGroup
 
                 Debug($"New gamemode is {newGm.ToString().ToLowerInvariant()}!");
             }*/
+            Visible = () => false
         };
     public ModdedEnumOption RoleAssignmentType { get; } =
         new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List"])
@@ -116,13 +117,13 @@ public sealed class RoleOptions : AbstractOptionGroup
     public ModdedToggleOption LastImpostorBias { get; } =
         new("Reduce Impostor Streak", true)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla
         };
 
     public ModdedNumberOption ImpostorBiasPercent { get; } =
         new("Reduction Chance", 15f, 0f, 100f, 5f, MiraNumberSuffixes.Percent)
         {
-            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla
         };
 
     public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
