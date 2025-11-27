@@ -1481,4 +1481,5 @@
   <string name="TouOptionVampireNeutConvertEnumEvilOutlier">中立邪恶 \%and\% 中立外来者</string>
   <string name="TouOptionVampireNeutConvertEnumMostNeuts">非杀手中立类</string>
   <string name="TouOptionVampireConvertLovers">可以转化恋人</string>
+  <string name="TouOptionSheriffCanShootNeutralBenignRoles">警长可射击中立善良职业</string>
 </resources>
