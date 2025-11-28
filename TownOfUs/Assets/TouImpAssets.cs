@@ -6,7 +6,8 @@ namespace TownOfUs.Assets;
 public static class TouImpAssets
 {
     // THIS FILE SHOULD ONLY HOLD BUTTONS AND ROLE BANNERS, EVERYTHING ELSE BELONGS IN TouAssets.cs
-    public static LoadableAsset<Sprite> MarkSprite { get; } = new LoadableBundleAsset<Sprite>("MarkButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> MarkSprite { get; } =
+        new LoadableBundleAsset<Sprite>("MarkButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> RecallSprite { get; } =
         new LoadableBundleAsset<Sprite>("RecallButton", TouAssets.MainBundle);
@@ -43,10 +44,10 @@ public static class TouImpAssets
 
     public static LoadableAsset<Sprite> PursueSprite { get; } =
         new LoadableBundleAsset<Sprite>("PursueButton", TouAssets.MainBundle);
-    
+
     public static LoadableAsset<Sprite> AmbushSprite { get; } =
         new LoadableBundleAsset<Sprite>("AmbushButton", TouAssets.MainBundle);
-    
+
     public static LoadableAsset<Sprite> PlaceSprite { get; } =
         new LoadableBundleAsset<Sprite>("PlaceButton", TouAssets.MainBundle);
 
@@ -55,6 +56,12 @@ public static class TouImpAssets
 
     public static LoadableAsset<Sprite> PlantSprite { get; } =
         new LoadableBundleAsset<Sprite>("PlantButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> HexSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HexButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> HexBombSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HexBombButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> TraitorSelect { get; } =
         new LoadableBundleAsset<Sprite>("TraitorSelect", TouAssets.MainBundle);
@@ -68,9 +75,15 @@ public static class TouImpAssets
     public static LoadableAsset<Sprite> CleanButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("CleanButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> MineSprite { get; } = new LoadableBundleAsset<Sprite>("MineButton", TouAssets.MainBundle);
-    public static LoadableAsset<Sprite> DragSprite { get; } = new LoadableBundleAsset<Sprite>("DragButton", TouAssets.MainBundle);
-    public static LoadableAsset<Sprite> DropSprite { get; } = new LoadableBundleAsset<Sprite>("DropButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> MineSprite { get; } =
+        new LoadableBundleAsset<Sprite>("MineButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> MinerRoleBanner { get; } = new LoadableBundleAsset<Sprite>("MinerBanner", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> DragSprite { get; } =
+        new LoadableBundleAsset<Sprite>("DragButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> DropSprite { get; } =
+        new LoadableBundleAsset<Sprite>("DropButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> MinerRoleBanner { get; } =
+        new LoadableBundleAsset<Sprite>("MinerBanner", TouAssets.MainBundle);
 }

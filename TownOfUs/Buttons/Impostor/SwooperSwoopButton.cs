@@ -13,12 +13,29 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAftermathableButton
 {
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override string Name => "Swoop";
-    public override string Keybind => Keybinds.SecondaryAction;
-    public override float Cooldown => OptionGroupSingleton<SwooperOptions>.Instance.SwoopCooldown + MapCooldown;
+    public override string Name => TouLocale.GetParsed("TouRoleSwooperSwoop", "Swoop");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SwooperOptions>.Instance.SwoopCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<SwooperOptions>.Instance.SwoopDuration;
     public override int MaxUses => (int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.SwoopSprite;
+
+    public void AftermathHandler()
+    {
+        if (!EffectActive)
+        {
+            PlayerControl.LocalPlayer.RpcAddModifier<SwoopModifier>();
+            UsesLeft--;
+            if (LimitedUses)
+            {
+                Button?.SetUsesRemaining(UsesLeft);
+            }
+        }
+        else
+        {
+            OnEffectEnd();
+        }
+    }
 
     public override void ClickHandler()
     {
@@ -47,12 +64,19 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
         {
             return false;
         }
 
-        return ((Timer <= 0 && !EffectActive && (MaxUses == 0 || UsesLeft > 0)) || (EffectActive && Timer <= EffectDuration - 2f));
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
+                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        return ((Timer <= 0 && !EffectActive && (MaxUses == 0 || UsesLeft > 0)) ||
+                (EffectActive && Timer <= EffectDuration - 2f));
     }
 
     protected override void OnClick()
@@ -61,7 +85,7 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
         {
             PlayerControl.LocalPlayer.RpcAddModifier<SwoopModifier>();
             UsesLeft--;
-            if (MaxUses != 0)
+            if (LimitedUses)
             {
                 Button?.SetUsesRemaining(UsesLeft);
             }

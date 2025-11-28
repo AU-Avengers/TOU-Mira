@@ -27,7 +27,6 @@ public static class GlitchPatches
         return true;
     }
 
-    [HarmonyPatch(typeof(VentButton), nameof(VentButton.DoClick))]
     [HarmonyPatch(typeof(UseButton), nameof(UseButton.DoClick))]
     [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.DoClick))]
     [HarmonyPriority(Priority.First)]

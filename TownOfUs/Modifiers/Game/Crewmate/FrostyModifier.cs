@@ -8,26 +8,27 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class FrostyModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Frosty, "Frosty");
-    public override string IntroInfo => "You will also slow down your killer upon death.";
+    public override string LocaleKey => "Frosty";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+               + MiscUtils.AppendOptionsText(GetType());
+    }
+
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Frosty;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
     public override ModifierFaction FactionType => ModifierFaction.CrewmatePostmortem;
 
-    public string GetAdvancedDescription()
-    {
-        return
-            "After you die, your killer will be slowed down!"
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "Slow your killer for a short duration.";
-    }
 
     public override int GetAssignmentChance()
     {

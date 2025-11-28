@@ -1,3 +1,5 @@
+using MiraAPI.Utilities;
+
 namespace TownOfUs.Modules.Wiki;
 
 public class RoleComparer(List<ushort> currentRoles) : IComparer<RoleBehaviour>
@@ -32,6 +34,6 @@ public class RoleComparer(List<ushort> currentRoles) : IComparer<RoleBehaviour>
             return 1;
         }
 
-        return string.Compare(x.NiceName, y.NiceName, StringComparison.OrdinalIgnoreCase);
+        return string.Compare(x.GetRoleName(), y.GetRoleName(), StringComparison.OrdinalIgnoreCase);
     }
 }

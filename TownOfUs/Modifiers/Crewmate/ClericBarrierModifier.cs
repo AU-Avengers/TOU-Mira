@@ -26,8 +26,8 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     {
         get
         {
-            var showBarrier = OptionGroupSingleton<ClericOptions>.Instance.ShowBarriered;
-            return !TownOfUsPlugin.ShowShieldHud.Value || (showBarrier is BarrierOptions.Cleric);
+            return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value ||
+                   !OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
         }
     }
 
@@ -35,9 +35,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     {
         get
         {
-            var showBarrier = OptionGroupSingleton<ClericOptions>.Instance.ShowBarriered;
-            var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId &&
-                                  (showBarrier == BarrierOptions.Self || showBarrier == BarrierOptions.SelfAndCleric);
+            var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId && OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
             return showBarrierSelf;
         }
     }
@@ -52,21 +50,19 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        var showBarrier = OptionGroupSingleton<ClericOptions>.Instance.ShowBarriered;
 
-        var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId &&
-                              (showBarrier == BarrierOptions.Self || showBarrier == BarrierOptions.SelfAndCleric);
-        var showBarrierCleric = PlayerControl.LocalPlayer.PlayerId == Cleric.PlayerId &&
-                                (showBarrier == BarrierOptions.Cleric || showBarrier == BarrierOptions.SelfAndCleric);
+        var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId && OptionGroupSingleton<ClericOptions>.Instance.ShowBarrier;
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
             x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
-        
-        ShowBarrier = showBarrierSelf || showBarrierCleric || (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
-        
-        ClericBarrier = AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
+
+        ShowBarrier = showBarrierSelf || PlayerControl.LocalPlayer.PlayerId == Cleric.PlayerId ||
+                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
+
+        ClericBarrier =
+            AnimStore.SpawnAnimBody(Player, TouAssets.ClericBarrier.LoadAsset(), false, -1.1f, -0.35f, 1.5f)!;
         ClericBarrier.GetComponent<SpriteAnim>().SetSpeed(2f);
     }
 
@@ -77,13 +73,23 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
             ModifierComponent?.RemoveModifier(this);
             return;
         }
-        
+
         if (!MeetingHud.Instance && ClericBarrier?.gameObject != null)
         {
             ClericBarrier?.SetActive(!Player.IsConcealed() && IsVisible && ShowBarrier);
         }
     }
-    
+
+    public override void OnDeath(DeathReason reason)
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
+
+    public override void OnMeetingStart()
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
+
     public override void OnDeactivate()
     {
         if (ClericBarrier?.gameObject != null)

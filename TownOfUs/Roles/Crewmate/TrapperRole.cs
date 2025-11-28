@@ -4,6 +4,7 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
@@ -19,9 +20,32 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [HideFromIl2Cpp] public List<RoleBehaviour> TrappedPlayers { get; set; } = new();
 
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string RoleName => TouLocale.Get(TouNames.Trapper, "Trapper");
-    public string RoleDescription => "Catch Killers In The Act";
-    public string RoleLongDescription => "Place traps around the map, revealing roles within them";
+    public string LocaleKey => "Trapper";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Trap", "Trap"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}TrapWikiDescription"),
+                    TouCrewAssets.TrapSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Trapper;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
@@ -43,22 +67,6 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public string GetAdvancedDescription()
-    {
-        return $"The {RoleName} is a Crewmate Investigative role that can place traps around the map. " +
-               "If someone stays in it for enough time and enough players go through, " +
-               "they will get a list of their roles in the next meeting in random order." +
-               MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Trap",
-            "Places a trap. Depending on settings they may stay the entire game or reset after meetings.",
-            TouCrewAssets.TrapSprite)
-    ];
-
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
@@ -74,7 +82,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public void Report()
     {
-        // Logger<TownOfUsPlugin>.Error($"TrapperRole.Report");
+        // Error($"TrapperRole.Report");
         if (!Player.AmOwner)
         {
             return;
@@ -95,7 +103,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
             foreach (var role in TrappedPlayers)
             {
-                message.Append(TownOfUsPlugin.Culture, $"{role.NiceName}, ");
+                message.Append(TownOfUsPlugin.Culture, $"{role.GetRoleName()}, ");
             }
 
             message = message.Remove(message.Length - 2, 2);

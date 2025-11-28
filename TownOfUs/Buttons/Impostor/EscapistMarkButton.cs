@@ -1,5 +1,6 @@
 using MiraAPI.Hud;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modules;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
@@ -7,12 +8,17 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class EscapistMarkButton : TownOfUsRoleButton<EscapistRole>, IAftermathableButton
 {
-    public override string Name => "Mark Location";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleEscapistMark", "Mark");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.MarkSprite;
+
+    public void AftermathHandler()
+    {
+        ClickHandler();
+    }
 
     public override bool Enabled(RoleBehaviour? role)
     {
@@ -21,7 +27,7 @@ public sealed class EscapistMarkButton : TownOfUsRoleButton<EscapistRole>, IAfte
 
     public override bool CanUse()
     {
-        return base.CanUse() && Role is { MarkedLocation: null };
+        return base.CanUse() && Role is { MarkedLocation: null } && !ModCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1;
     }
 
     protected override void OnClick()

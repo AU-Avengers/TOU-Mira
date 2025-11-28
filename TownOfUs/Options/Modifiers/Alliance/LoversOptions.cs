@@ -8,8 +8,9 @@ namespace TownOfUs.Options.Modifiers.Alliance;
 
 public sealed class LoversOptions : AbstractOptionGroup<LoverModifier>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Lovers, "Lovers");
-    public override uint GroupPriority => 11;
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override string GroupName => TouLocale.Get("TouModifierLovers", "Lovers");
+    public override uint GroupPriority => 12;
     public override Color GroupColor => TownOfUsColors.Lover;
 
     [ModdedToggleOption("Both Lovers Die And Revive Together")]

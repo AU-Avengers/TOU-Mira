@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -13,10 +12,10 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>
 {
-    public override string Name => "Guard";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleMercenaryGuard", "Guard");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mercenary;
-    public override float Cooldown => OptionGroupSingleton<MercenaryOptions>.Instance.GuardCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<MercenaryOptions>.Instance.GuardCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<MercenaryOptions>.Instance.MaxUses;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.GuardSprite;
 
@@ -29,15 +28,15 @@ public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, Pla
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Mercenary Guard: Target is null");
+            Error("Mercenary Guard: Target is null");
             return;
         }
 
         Target.RpcAddModifier<MercenaryGuardModifier>(PlayerControl.LocalPlayer);
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>Once {Target.Data.PlayerName} is interacted with, you will get one gold.</b>", Color.white,
+            TouLocale.GetParsed("TouRoleMercenaryGuardNotif").Replace("<player>", $"{TownOfUsColors.Mercenary.ToTextColor()}{Target.Data.PlayerName}</color>"), Color.white,
             new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mercenary.LoadAsset());
-        notif1.Text.SetOutlineThickness(0.35f);
+        notif1.AdjustNotification();
     }
 
     public override PlayerControl? GetTarget()

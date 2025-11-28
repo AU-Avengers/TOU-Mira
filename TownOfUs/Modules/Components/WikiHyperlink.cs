@@ -24,10 +24,17 @@ public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public void Update()
     {
-        if (!tmp) return;
+        if (!tmp)
+        {
+            return;
+        }
+
         tmp.text = tmp.text.Replace(HoverHyperlinkString, HyperlinkString);
-        if (!worldCamera) return;
-        
+        if (!worldCamera)
+        {
+            return;
+        }
+
         Vector3 mousePos = Input.mousePosition;
 
         int linkIndex = TMP_TextUtilities.FindIntersectingLink(tmp, mousePos, worldCamera);
@@ -46,7 +53,7 @@ public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public static void OpenHyperlink(TMP_LinkInfo linkInfo)
     {
         string id = linkInfo.GetLinkID().Split(':')[0]; // The id is {RoleClassFullName}:{linkIdx}
-        
+
         var role = MiscUtils.AllRoles.FirstOrDefault(x => x.GetType().FullName == id) ??
                    RoleManager.Instance.GetRole(RoleTypes.Crewmate); // i hate il2cpp
         var modifier = MiscUtils.AllModifiers.FirstOrDefault(x => x.GetType().FullName == id);
@@ -63,6 +70,10 @@ public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         else if (SoftWikiEntries.RoleEntries.TryGetValue(role, out var softRoleWiki))
         {
             wikiEntry = softRoleWiki;
+        }
+        else if (modifier != null && SoftWikiEntries.ModifierEntries.TryGetValue(modifier, out var softModWiki))
+        {
+            wikiEntry = softModWiki;
         }
         else
         {

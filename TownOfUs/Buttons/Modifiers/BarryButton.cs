@@ -11,10 +11,10 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class BarryButton : TownOfUsButton
 {
-    public override string Name => "Button";
-    public override string Keybind => Keybinds.ModifierAction;
+    public override string Name => TouLocale.GetParsed("TouModifierButtonBarryButton", "Button");
+    public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.ButtonBarry;
-    public override float Cooldown => OptionGroupSingleton<ButtonBarryOptions>.Instance.Cooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ButtonBarryOptions>.Instance.Cooldown + MapCooldown + MapCooldown, 2.5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<ButtonBarryOptions>.Instance.MaxNumButtons;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.BarryButtonSprite;

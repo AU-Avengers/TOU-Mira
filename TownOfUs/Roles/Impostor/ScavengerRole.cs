@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
@@ -24,8 +23,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 {
     public bool GameStarted { get; set; }
     public float TimeRemaining { get; set; }
-    [HideFromIl2Cpp]
-    public PlayerControl? Target { get; set; }
+    [HideFromIl2Cpp] public PlayerControl? Target { get; set; }
     public bool Scavenging { get; set; }
 
     public void FixedUpdate()
@@ -52,7 +50,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             GameStarted = false;
             return;
         }
-        
+
         if (!GameStarted && Player.killTimer > 0f)
         {
             GameStarted = true;
@@ -61,7 +59,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         // scavenge mode starts once kill timer reaches 0
         if (Player.killTimer <= 0f && !Scavenging && GameStarted && !Player.HasDied())
         {
-            // Logger<TownOfUsPlugin>.Message($"Scavenge Begin");
+            // Message($"Scavenge Begin");
             Scavenging = true;
             TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
 
@@ -86,16 +84,25 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         {
             Clear();
 
-            // Logger<TownOfUsPlugin>.Message($"Scavenge End");
+            // Message($"Scavenge End");
             Player.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());
         }
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrackerTouRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<InvestigatorRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => TouLocale.Get(TouNames.Scavenger, "Scavenger");
-    public string RoleDescription => "Hunt Down Your Prey";
-    public string RoleLongDescription => "Kill your given targets for a reduced kill cooldown";
+    public string LocaleKey => "Scavenger";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorKilling;
@@ -113,23 +120,11 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
         if (Target != null && Scavenging)
         {
-            stringB.Append("\n<b>Scavenge Time:</b> ");
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"{Color.white.ToTextColor()}{TimeRemaining.ToString("0", CultureInfo.InvariantCulture)}</color>");
-            stringB.Append("\n\n<b>Current Target:</b> ");
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"{Color.white.ToTextColor()}{Target.Data.PlayerName}</color>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TimerString.Replace("<timeLeft>", TimeRemaining.ToString("0", TownOfUsPlugin.Culture))}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TargetString.Replace("<player>", Target.Data.PlayerName)}</b>");
         }
 
         return stringB;
-    }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is an Impostor Killing role that gets new targets after every kill and when the round starts. "
-            + "If they kill their target, they get a reduced kill cooldown, but if they don't, their cooldown is increased significantly."
-            + MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
@@ -141,9 +136,13 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         Clear();
     }
 
+    public static string TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
+    public static string TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
+        TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
         if (TutorialManager.InstanceExists && Target == null && Player.AmOwner)
         {
             Coroutines.Start(SetTutorialTarget(this, Player));
@@ -157,13 +156,13 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         scav.Scavenging = false;
         if (player.killTimer <= 0f && !player.HasDied())
         {
-            // Logger<TownOfUsPlugin>.Message($"Scavenge Begin");
+            // Message($"Scavenge Begin");
             scav.Scavenging = true;
             scav.TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
 
             scav.Target =
                 player.GetClosestLivingPlayer(false, float.MaxValue, true, x => !x.HasModifier<FirstDeadShield>())!;
-            
+
             if (player.HasModifier<LoverModifier>())
             {
                 scav.Target = player.GetClosestLivingPlayer(false, float.MaxValue, true,
@@ -211,7 +210,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
             // get new target
             Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true)!;
-            
+
             if (Player.HasModifier<LoverModifier>())
             {
                 Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true,

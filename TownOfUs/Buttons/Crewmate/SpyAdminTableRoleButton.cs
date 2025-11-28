@@ -12,10 +12,10 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
 {
-    public override string Name => "Admin";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.Admin, "Admin");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Spy;
-    public override float Cooldown => OptionGroupSingleton<SpyOptions>.Instance.DisplayCooldown.Value + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SpyOptions>.Instance.DisplayCooldown.Value + MapCooldown, 0.001f, 120f);
     public float AvailableCharge { get; set; } = OptionGroupSingleton<SpyOptions>.Instance.StartingCharge.Value;
     public bool usingPortable { get; set; }
 
@@ -97,7 +97,13 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
+                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -111,6 +117,10 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
         AvailableCharge = OptionGroupSingleton<SpyOptions>.Instance.StartingCharge.Value;
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y, -150f);
+        if (KeybindIcon != null)
+        {
+            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
+        }
     }
 
     protected override void OnClick()

@@ -8,37 +8,37 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class MedicOptions : AbstractOptionGroup<MedicRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Medic, "Medic");
+    public override string GroupName => TouLocale.Get("TouRoleMedic", "Medic");
 
-    [ModdedEnumOption("Show Shielded Player", typeof(MedicOption),
-        ["Medic", "Shielded", "Shielded + Medic", "Everyone", "No One"])]
+    [ModdedEnumOption("TouOptionMedicShowShieldedPlayer", typeof(MedicOption),
+        ["TouOptionMedicShieldEnumMedic", "TouOptionMedicShieldEnumShielded", "TouOptionMedicShieldEnumShieldedAndMedic", "TouOptionMedicShieldEnumEveryone", "TouOptionMedicShieldEnumNobody"])]
     public MedicOption ShowShielded { get; set; } = MedicOption.ShieldedAndMedic;
 
-    [ModdedEnumOption("Who Gets Murder Attempt Indicator", typeof(MedicOption),
-        ["Medic", "Shielded", "Shielded + Medic", "Everyone", "No One"])]
+    [ModdedEnumOption("TouOptionMedicWhoGetsMurderAttemptIndicator", typeof(MedicOption),
+        ["TouOptionMedicShieldEnumMedic", "TouOptionMedicShieldEnumShielded", "TouOptionMedicShieldEnumShieldedAndMedic", "TouOptionMedicShieldEnumEveryone", "TouOptionMedicShieldEnumNobody"])]
     public MedicOption WhoGetsNotification { get; set; } = MedicOption.Medic;
 
-    [ModdedToggleOption("Can Give Shield Away Next Round")]
+    [ModdedToggleOption("TouOptionMedicCanGiveShieldAwayNextRound")]
     public bool ChangeTarget { get; set; } = true;
-    public ModdedNumberOption MedicShieldUses { get; } = new($"Max Amount of Shield Uses", 3f, 0f, 15f,
-        1f, MiraNumberSuffixes.None, "0", true)
+
+    public ModdedNumberOption MedicShieldUses { get; } = new("TouOptionMedicMaxAmountOfShieldUses", 3f, 0f, 15f, 1f, "∞", "#", MiraNumberSuffixes.None, "0", false)
     {
         Visible = () => OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
     };
 
-    [ModdedToggleOption("Shield Breaks On Murder Attempt")]
+    [ModdedToggleOption("TouOptionMedicShieldBreaksOnMurderAttempt")]
     public bool ShieldBreaks { get; set; } = false;
 
-    [ModdedToggleOption("Show Reports in Chat")]
+    [ModdedToggleOption("TouOptionMedicShowReportsInChat")]
     public bool ShowReports { get; set; } = true;
 
-    public ModdedNumberOption MedicReportNameDuration { get; } = new($"Time Where {TouLocale.Get(TouNames.Medic, "Medic")} Will Have Name", 0f, 0f, 60f,
+    public ModdedNumberOption MedicReportNameDuration { get; } = new("TouOptionMedicTimeWhereMedicWillHaveName", 0f, 0f, 60f,
         2.5f, MiraNumberSuffixes.Seconds)
     {
         Visible = () => OptionGroupSingleton<MedicOptions>.Instance.ShowReports
     };
 
-    public ModdedNumberOption MedicReportColorDuration { get; } = new($"Time Where {TouLocale.Get(TouNames.Medic, "Medic")} Will Have Color Type", 15, 0f,
+    public ModdedNumberOption MedicReportColorDuration { get; } = new("TouOptionMedicTimeWhereMedicWillHaveColorType", 15, 0f,
         60f, 2.5f, MiraNumberSuffixes.Seconds)
     {
         Visible = () => OptionGroupSingleton<MedicOptions>.Instance.ShowReports

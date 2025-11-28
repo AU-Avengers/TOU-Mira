@@ -114,6 +114,7 @@ public static class AnimStore
 
         return animation;
     }
+
     public static GameObject SpawnFliplessAnimBody(
         PlayerControl player,
         GameObject prefab,

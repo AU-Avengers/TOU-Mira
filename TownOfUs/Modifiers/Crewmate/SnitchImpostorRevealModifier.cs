@@ -9,11 +9,11 @@ public sealed class SnitchImpostorRevealModifier()
     : RevealModifier((int)ChangeRoleResult.Nothing, true, null!)
 {
     public override string ModifierName => "Revealed Impostor";
-    
+
     public override void OnActivate()
     {
         base.OnActivate();
-        SetNewInfo(false, null,null, null, Color.red);
+        SetNewInfo(false, null, null, null, Color.red);
     }
 
     public override void FixedUpdate()

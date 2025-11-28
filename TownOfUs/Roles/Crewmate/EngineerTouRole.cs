@@ -7,7 +7,6 @@ using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
@@ -21,9 +20,33 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => TouLocale.Get(TouNames.Engineer, "Engineer");
-    public string RoleDescription => "Maintain Important Systems On The Ship";
-    public string RoleLongDescription => "Vent around and fix sabotages remotely";
+    public string LocaleKey => "Engineer";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Fix", "Fix"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}FixWikiDescription").Replace("<engiMaxFixes>",
+                        $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
+                    TouCrewAssets.FixButtonSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Engineer;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;
@@ -41,20 +64,6 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-
-    public string GetAdvancedDescription()
-    {
-        return $"The {RoleName} is a Crewmate Support role that can vent and fix sabotages remotely."
-               + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Fix",
-            $"It doesn't matter where you are on the map, you can use your fix button to instantly fix the active sabotage. You can do this {OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes} times per game.",
-            TouCrewAssets.FixButtonSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {
@@ -76,10 +85,9 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public static void EngineerFix(PlayerControl engineer)
     {
-        switch (GameOptionsManager.Instance.currentNormalGameOptions.MapId)
+        switch ((ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId)
         {
-            case 0:
-            case 3:
+            case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
                 var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
                 if (comms1.IsActive)
                 {
@@ -105,7 +113,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 1:
+            case ExpandedMapNames.MiraHq:
                 var comms2 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HqHudSystemType>();
                 if (comms2.IsActive)
                 {
@@ -131,7 +139,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 2:
+            case ExpandedMapNames.Polus:
                 var comms3 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
                 if (comms3.IsActive)
                 {
@@ -151,7 +159,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 4:
+            case ExpandedMapNames.Airship:
                 var comms4 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
                 if (comms4.IsActive)
                 {
@@ -171,7 +179,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 5:
+            case ExpandedMapNames.Fungle:
                 var reactor7 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
                 if (reactor7.IsActive)
                 {
@@ -192,7 +200,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 6:
+            case ExpandedMapNames.Submerged:
                 var reactor5 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
                 if (reactor5.IsActive)
                 {
@@ -220,7 +228,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
 
                 break;
-            case 7:
+            case ExpandedMapNames.LevelImpostor:
                 var comms6 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
                 if (comms6.IsActive)
                 {
@@ -292,7 +300,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         if (engineer.Data.Role is not EngineerTouRole)
         {
-            Logger<TownOfUsPlugin>.Error("Invalid engineer");
+            Error("Invalid engineer");
             return;
         }
 
@@ -309,7 +317,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         }
         else if (type == 2)
         {
-            ModCompatibility.RepairOxygen();
+            ModCompatibility.RepairSubOxygen();
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.EngineerFix, engineer);
@@ -321,7 +329,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         if (engi.Data.Role is not EngineerTouRole)
         {
-            Logger<TownOfUsPlugin>.Error("Invalid engineer");
+            Error("Invalid engineer");
             return;
         }
 

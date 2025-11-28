@@ -8,8 +8,9 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class NoisemakerOptions : AbstractOptionGroup<NoisemakerModifier>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Noisemaker, "Noisemaker");
-    public override uint GroupPriority => 34;
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override string GroupName => TouLocale.Get("TouModifierNoisemaker", "Noisemaker");
+    public override uint GroupPriority => 23;
     public override Color GroupColor => TownOfUsColors.Noisemaker;
 
     [ModdedToggleOption("Impostors Get Alert")]

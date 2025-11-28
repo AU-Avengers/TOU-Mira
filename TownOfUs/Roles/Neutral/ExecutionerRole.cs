@@ -14,8 +14,10 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Random = System.Random;
@@ -27,6 +29,8 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 {
     public PlayerControl? Target { get; set; }
     public bool TargetVoted { get; set; }
+    // If the Executioner's target is evil, then they will not be able to end the game, and will instead torment.
+    public bool TargetVotedAsEvil { get; set; }
     public bool AboutToWin { get; set; }
 
     [HideFromIl2Cpp] public List<byte> Voters { get; set; } = [];
@@ -35,7 +39,12 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public void AssignTargets()
     {
-        // Logger<TownOfUsPlugin>.Error($"SelectExeTargets");
+        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        {
+            return;
+        }
+
+        // Error($"SelectExeTargets");
         var exes = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => x.IsRole<ExecutionerRole>() && !x.HasDied());
 
@@ -46,15 +55,13 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
                             x.Is(ModdedRoleTeams.Crewmate) &&
                             !x.HasModifier<GuardianAngelTargetModifier>() &&
                             !x.HasModifier<AllianceGameModifier>() &&
-                            x.Data.Role is not SwapperRole &&
-                            x.Data.Role is not ProsecutorRole &&
-                            x.Data.Role is not PoliticianRole &&
-                            x.Data.Role is not JailorRole &&
-                            x.Data.Role is not VigilanteRole).ToList();
+                            !x.Is(RoleAlignment.CrewmatePower) &&
+                            x.Data.Role is not VigilanteRole &&
+                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName)).ToList();
 
             if (filtered.Count > 0)
             {
-                // filtered.ForEach(x => Logger<TownOfUsPlugin>.Error($"EXE Possible Target: {x.Data.PlayerName}"));
+                // filtered.ForEach(x => Error($"EXE Possible Target: {x.Data.PlayerName}"));
                 Random rndIndex = new();
                 var randomTarget = filtered[rndIndex.Next(0, filtered.Count)];
 
@@ -69,12 +76,58 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SnitchRole>());
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string RoleName => TouLocale.Get(TouNames.Executioner, "Executioner");
-    public string RoleDescription => TargetString();
+    public string LocaleKey => "Executioner";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TargetString(true);
     public string RoleLongDescription => TargetString();
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription")
+                .Replace("<symbol>", "<color=#643B1FFF>X</color>") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    private static string _missingTargetDesc = TouLocale.GetParsed("TouRoleExecutionerMissingTargetDescription");
+    private static string _targetDesc = TouLocale.GetParsed("TouRoleExecutionerTabDescription");
+
+    private string TargetString(bool capitalize = false)
+    {
+        var desc = capitalize ? _missingTargetDesc.ToTitleCase() : _missingTargetDesc;
+        if (Target && Target != null)
+        {
+            desc = capitalize ? _targetDesc.ToTitleCase().Replace("<Target>", "<target>") : _targetDesc;
+            desc = desc.Replace("<target>", $"{Target.Data.PlayerName}");
+        }
+
+        return desc;
+    }
+
     public Color RoleColor => TownOfUsColors.Executioner;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralEvil;
+
+    public bool SetupIntroTeam(IntroCutscene instance,
+        ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+    {
+        if (Player != PlayerControl.LocalPlayer)
+        {
+            return true;
+        }
+
+        var exeTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+
+        exeTeam.Add(PlayerControl.LocalPlayer);
+        if (Target != null)
+        {
+            exeTeam.Add(Target);
+        }
+
+        yourTeam = exeTeam;
+
+        return true;
+    }
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -89,7 +142,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public bool MetWinCon => TargetVoted;
+    public bool MetWinCon => TargetVoted || TargetVotedAsEvil;
 
     public bool WinConditionMet()
     {
@@ -101,16 +154,12 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         return OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is ExeWinOptions.EndsGame && TargetVoted;
     }
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Neutral Evil role that wins by getting their target (signified by <color=#643B1FFF>X</color>) ejected in a meeting." +
-            MiscUtils.AppendOptionsText(GetType());
-    }
-
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+
+        _missingTargetDesc = TouLocale.GetParsed("TouRoleExecutionerMissingTargetDescription");
+        _targetDesc = TouLocale.GetParsed("TouRoleExecutionerTabDescription");
 
         if (!OptionGroupSingleton<ExecutionerOptions>.Instance.CanButton)
         {
@@ -149,8 +198,8 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
                 .ToList();
             players.Do(x => x.RpcRemoveModifier<ExecutionerTargetModifier>());
         }
-        
-        if (!Player.HasModifier<BasicGhostModifier>() && TargetVoted)
+
+        if (!Player.HasModifier<BasicGhostModifier>() && (TargetVoted || TargetVotedAsEvil))
         {
             Player.AddModifier<BasicGhostModifier>();
         }
@@ -176,27 +225,17 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public override bool DidWin(GameOverReason gameOverReason)
     {
-        return TargetVoted;
-    }
-
-    private string TargetString()
-    {
-        if (!Target)
-        {
-            return "Get your target voted out to win.";
-        }
-
-        return $"Get {Target?.Data.PlayerName} voted out to win.";
+        return TargetVoted || TargetVotedAsEvil;
     }
 
     public void CheckTargetDeath(PlayerControl? victim)
     {
-        if (Player.HasDied() || AboutToWin || TargetVoted)
+        if (Player.HasDied() || AboutToWin || TargetVoted || TargetVotedAsEvil)
         {
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Error($"OnPlayerDeath '{victim.Data.PlayerName}'");
+        // Error($"OnPlayerDeath '{victim.Data.PlayerName}'");
         if (Target == null || victim == Target)
         {
             var roleType = OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath switch
@@ -209,7 +248,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
                 _ => (ushort)RoleTypes.Crewmate
             };
 
-            // Logger<TownOfUsPlugin>.Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
+            // Error($"OnPlayerDeath - ChangeRole: '{roleType}'");
             Player.ChangeRole(roleType);
 
             if ((roleType == RoleId.Get<JesterRole>() && OptionGroupSingleton<JesterOptions>.Instance.ScatterOn) ||
@@ -226,7 +265,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     {
         if (player.Data.Role is not ExecutionerRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSetExeTarget - Invalid executioner");
+            Error("RpcSetExeTarget - Invalid executioner");
             return;
         }
 
@@ -242,7 +281,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Message($"RpcSetExeTarget - Target: '{target.Data.PlayerName}'");
+        // Message($"RpcSetExeTarget - Target: '{target.Data.PlayerName}'");
         role.Target = target;
 
         target.AddModifier<ExecutionerTargetModifier>(player.PlayerId);

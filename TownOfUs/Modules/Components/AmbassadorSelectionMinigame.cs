@@ -9,7 +9,6 @@ using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
-using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
@@ -56,19 +55,19 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
 
         StatusText.font = HudManager.Instance.TaskPanel.taskText.font;
         StatusText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        StatusText.text = "Choose a role for retraining.";
+        StatusText.text = TouLocale.Get("TouRoleAmbassadorChooseRole");
         StatusText.gameObject.SetActive(false);
-        
+
         RoleName.font = HudManager.Instance.TaskPanel.taskText.font;
         RoleName.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        RoleName.text = "Random";
+        RoleName.text = TouLocale.Get("Random");
         RoleName.gameObject.SetActive(false);
-        
+
         RoleTeam.font = HudManager.Instance.TaskPanel.taskText.font;
         RoleTeam.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        RoleTeam.text = "Random Impostor";
+        RoleTeam.text = TouLocale.Get("TouRoleAmbassadorRandomImpostorOption");
         RoleTeam.gameObject.SetActive(false);
-        
+
         RoleIcon.sprite = TouRoleIcons.RandomImp.LoadAsset();
         RoleIcon.gameObject.SetActive(false);
         RedRing.SetActive(false);
@@ -126,17 +125,12 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         RedRing!.SetActive(true);
         WarpRing!.SetActive(true);
         RoleIcon!.SetSizeLimit(2.8f);
-        
+
         foreach (var role in availableRoles)
         {
-            var teamName = role.GetRoleAlignment().ToDisplayString();
+            var teamName = MiscUtils.GetParsedRoleAlignment(role);
 
-            if (role is ITownOfUsRole touRole)
-            {
-                teamName = touRole.RoleAlignment.ToDisplayString();
-            }
-
-            var roleName = role.NiceName;
+            var roleName = role.GetRoleName();
             var roleImg = TouRoleIcons.RandomAny.LoadAsset();
 
             if (role is ICustomRole customRole)
@@ -171,7 +165,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             card.OnClick.AddListener((UnityAction)(() => { clickHandler.Invoke(role); }));
         }
 
-        var randomCard = CreateCard("Random", "Random Impostor", TouRoleIcons.RandomImp.LoadAsset(),
+        var randomCard = CreateCard(TouLocale.Get("Random"), TouLocale.Get("TouRoleAmbassadorRandomImpostorOption"), TouRoleIcons.RandomImp.LoadAsset(),
             TownOfUsColors.Impostor);
         randomCard.OnClick.RemoveAllListeners();
         randomCard.OnClick.AddListener((UnityAction)(() =>
@@ -186,7 +180,6 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
 
     private PassiveButton CreateCard(string roleName, string teamName, Sprite? sprite, Color color)
     {
-
         var newRoleObj = Instantiate(RolePrefab, RolesHolder);
         var actualCard = newRoleObj!.transform.GetChild(0);
         var roleText = actualCard.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>();
@@ -202,22 +195,23 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             selection.SetActive(true);
             RoleName!.text = roleName;
             RoleTeam!.text = teamName;
-            if (sprite != null) RoleIcon!.sprite = sprite;
+            if (sprite != null)
+            {
+                RoleIcon!.sprite = sprite;
+            }
+
             RoleIcon!.SetSizeLimit(2.8f);
         }));
-        passiveButton.OnMouseOut.AddListener((UnityAction)(() =>
-        {
-            selection.SetActive(false);
-        }));
+        passiveButton.OnMouseOut.AddListener((UnityAction)(() => { selection.SetActive(false); }));
 
         float angle = (2 * Mathf.PI / RoleCount) * CurrentCard;
         float x = 1.9f * Mathf.Cos(angle);
         float y = 0.1f + 1.9f * Mathf.Sin(angle);
-        
+
         newRoleObj.transform.localPosition =
             new Vector3(x, y, -1f);
         newRoleObj.name = roleName + " Selection";
-        
+
         roleText.text = roleName;
         teamText.text = teamName;
 
@@ -245,7 +239,8 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             }
 
             var child = card.GetChild(0);
-            Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: 0.5f - (RoleCount * 0.0075f), duration: 0.1f, intensity: 0.11f));
+            Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: 0.5f - (RoleCount * 0.0075f), duration: 0.1f,
+                intensity: 0.11f));
             yield return new WaitForSeconds(0.01f);
         }
 

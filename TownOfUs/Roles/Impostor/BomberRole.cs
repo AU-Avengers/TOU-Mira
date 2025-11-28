@@ -23,9 +23,19 @@ public sealed class BomberRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrapperRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;
 
-    public string RoleName => TouLocale.Get(TouNames.Bomber, "Bomber");
-    public string RoleDescription => "Plant Bombs To Kill Multiple Crewmates At Once";
-    public string RoleLongDescription => "Plant bombs to kill several crewmates at once";
+    public string LocaleKey => "Bomber";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription").Replace("<detonateDelay>",
+                $"{OptionGroupSingleton<BomberOptions>.Instance.DetonateDelay}") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorKilling;
@@ -42,27 +52,27 @@ public sealed class BomberRole(IntPtr cppPtr)
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is an Impostor Killing role that can drop a bomb on the map, which detonates after {OptionGroupSingleton<BomberOptions>.Instance.DetonateDelay} second(s)" +
-            MiscUtils.AppendOptionsText(GetType());
-    }
-
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Place",
-            $"Place a bomb, showing the radius in which it'll kill, killing up to {(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation} player(s)",
-            TouImpAssets.PlaceSprite)
-    ];
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Place", "Place"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}PlaceWikiDescription").Replace("<maxKills>",
+                        $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
+                    TouImpAssets.PlaceSprite)
+            };
+        }
+    }
 
     [MethodRpc((uint)TownOfUsRpc.PlantBomb)]
     public static void RpcPlantBomb(PlayerControl player, Vector2 position)
     {
         if (player.Data.Role is not BomberRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlantBomb - Invalid bomber");
+            Error("RpcPlantBomb - Invalid bomber");
             return;
         }
 
@@ -73,12 +83,12 @@ public sealed class BomberRole(IntPtr cppPtr)
         {
             role.Bomb = Bomb.CreateBomb(player, position);
         }
-        else if (OptionGroupSingleton<BomberOptions>.Instance.AllImpsSeeBomb && PlayerControl.LocalPlayer.IsImpostor())
+        else if (OptionGroupSingleton<BomberOptions>.Instance.AllImpsSeeBomb && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             Coroutines.Start(Bomb.BombShowTeammate(player, position));
         }
         else if ((PlayerControl.LocalPlayer.DiedOtherRound() &&
-                  OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+                  OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             Coroutines.Start(Bomb.BombShowTeammate(player, position));
         }

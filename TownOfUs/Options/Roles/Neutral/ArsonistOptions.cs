@@ -8,23 +8,23 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class ArsonistOptions : AbstractOptionGroup<ArsonistRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Arsonist, "Arsonist");
+    public override string GroupName => TouLocale.Get("TouRoleArsonist", "Arsonist");
 
-    [ModdedNumberOption("Douse Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionArsonistDouseCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float DouseCooldown { get; set; } = 25f;
 
-    [ModdedToggleOption("Douse From Interactions")]
+    [ModdedToggleOption("TouOptionArsonistDouseInteractions")]
     public bool DouseInteractions { get; set; } = true;
 
-    [ModdedToggleOption("Legacy Mode (No Radius)")]
+    [ModdedToggleOption("TouOptionArsonistLegacyMode")]
     public bool LegacyArsonist { get; set; } = true;
 
-    public ModdedNumberOption IgniteRadius { get; set; } = new("Ignite Radius", 0.25f, 0.05f, 1f, 0.05f,
+    public ModdedNumberOption IgniteRadius { get; set; } = new("TouOptionArsonistIgniteRadius", 0.25f, 0.05f, 1f, 0.05f,
         MiraNumberSuffixes.Multiplier, "0.00")
     {
         Visible = () => !OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
     };
 
-    [ModdedToggleOption("Arsonist Can Vent")]
+    [ModdedToggleOption("TouOptionArsonistCanVent")]
     public bool CanVent { get; set; }
 }

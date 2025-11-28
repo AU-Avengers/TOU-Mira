@@ -4,6 +4,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,10 +31,16 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
     public override void OnMeetingStart()
     {
         Clear();
-        if (GameData.Instance.GetPlayerById(JailorId).Object.HasDied() || Player.HasDied() ||
+        if (GameData.Instance.GetPlayerById(JailorId).Object.HasDied() ||
+            GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is not JailorRole || Player.HasDied() ||
             !MeetingHud.Instance)
         {
             return;
+        }
+
+        if (Player.Data.Role is ProsecutorRole pros)
+        {
+            pros.HideProsButton = true;
         }
 
         if (Player.AmOwner)
@@ -51,10 +58,9 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Jailor.ToTextColor()}{text}</color></b>", Color.white,
-                spr: TouRoleIcons.Jailor.LoadAsset());
+                new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor.LoadAsset());
 
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+            notif1.AdjustNotification();
         }
 
         foreach (var voteArea in MeetingHud.Instance.playerStates)

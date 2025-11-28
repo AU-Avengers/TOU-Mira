@@ -11,10 +11,10 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole, DeadBody>, IAftermathableBodyButton
 {
-    public override string Name => "Drag";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleUndertakerDrag", "Drag");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<UndertakerOptions>.Instance.DragCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<UndertakerOptions>.Instance.DragCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.DragSprite;
 
     public override void ClickHandler()
@@ -39,6 +39,26 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
         return PlayerControl.LocalPlayer?.GetNearestDeadBody(PlayerControl.LocalPlayer.MaxReportDistance / 4f);
     }
 
+    public void AftermathHandler()
+    {
+        DeadBody? deadBody = null;
+        if (PlayerControl.LocalPlayer.TryGetModifier<DragModifier>(out var dragMod))
+        {
+            deadBody = dragMod.DeadBody!;
+            UndertakerRole.RpcStopDragging(PlayerControl.LocalPlayer, dragMod.DeadBody!.transform.position);
+        }
+
+        var body = Helpers
+            .GetNearestDeadBodies(PlayerControl.LocalPlayer.GetTruePosition(), Distance, Helpers.CreateFilter(Constants.NotShipMask))
+            .Find(component => component && !component.Reported && component != deadBody);
+        if (body == null)
+        {
+            return;
+        }
+
+        UndertakerRole.RpcStartDragging(PlayerControl.LocalPlayer, body.ParentId);
+    }
+
     protected override void OnClick()
     {
         if (Target == null)
@@ -46,9 +66,9 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
             return;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<DragModifier>())
+        if (PlayerControl.LocalPlayer.TryGetModifier<DragModifier>(out var dragMod))
         {
-            UndertakerRole.RpcStopDragging(PlayerControl.LocalPlayer, Target.transform.position);
+            UndertakerRole.RpcStopDragging(PlayerControl.LocalPlayer, dragMod.DeadBody!.transform.position);
             Timer = Cooldown;
         }
         else
@@ -78,13 +98,13 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
     public void SetDrag()
     {
         OverrideSprite(TouImpAssets.DragSprite.LoadAsset());
-        OverrideName("Drag");
+        OverrideName(TouLocale.Get("TouRoleUndertakerDrag", "Drag"));
     }
 
     public void SetDrop()
     {
         OverrideSprite(TouImpAssets.DropSprite.LoadAsset());
-        OverrideName("Drop");
+        OverrideName(TouLocale.Get("TouRoleUndertakerDrop", "Drop"));
     }
 
     public override bool IsTargetValid(DeadBody? target)

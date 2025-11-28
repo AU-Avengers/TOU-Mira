@@ -8,45 +8,68 @@ public static class TouAssets
 {
     private const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
+    private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
-    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner.png");
-    
+    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
+
+    public static LoadableAsset<Sprite> TouMiraIcon { get; } =
+        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 150);
+
     public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
     {
-            var sprite = FoolsNormal;
-            switch (value)
-            {
-                case 1:
-                    sprite = FoolsHorse;
-                    break;
-                case 2:
-                    sprite = FoolsLong;
-                    break;
-                case 3:
-                    sprite = FoolsLongHorse;
-                    break;
-            }
-            return sprite;
+        var sprite = FoolsNormal;
+        switch (value)
+        {
+            case 1:
+                sprite = FoolsHorse;
+                break;
+            case 2:
+                sprite = FoolsLong;
+                break;
+            case 3:
+                sprite = FoolsLongHorse;
+                break;
+        }
+
+        return sprite;
     }
+    public static LoadableAsset<Sprite> DleksBanner { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksBanner.png");
+
+    public static LoadableAsset<Sprite> DleksText { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png");
+
+    public static LoadableAsset<Sprite> DleksTextAlt { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png", 155f);
+
+    public static LoadableAsset<Sprite> DleksIcon { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksIcon.png");
+
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
         new LoadableResourceAsset($"{ShortPath}.AprilFools.Normal.png");
+
     public static LoadableAsset<Sprite> FoolsHorse { get; } =
         new LoadableResourceAsset($"{ShortPath}.AprilFools.Horse.png");
+
     public static LoadableAsset<Sprite> FoolsLong { get; } =
         new LoadableResourceAsset($"{ShortPath}.AprilFools.Long.png");
+
     public static LoadableAsset<Sprite> FoolsLongHorse { get; } =
         new LoadableResourceAsset($"{ShortPath}.AprilFools.LongHorse.png");
 
     public static LoadableAsset<Sprite> BlankSprite { get; } =
         new LoadableResourceAsset($"{ShortPath}.BlankSprite.png");
+
     public static LoadableAsset<Sprite> RangeSprite { get; } = new LoadableResourceAsset($"{ShortPath}.Range.png");
+
     public static LoadableAsset<Sprite> CircleSprite { get; } =
         new LoadableResourceAsset($"{ShortPath}.Circle.png", 512);
 
     public static LoadableAsset<Sprite> AuAvengersSprite { get; } =
         new LoadableResourceAsset($"{ShortPath}.AuAvengers.png", 290);
+
     public static LoadableAsset<Sprite> AbilityCounterPlayerSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Player.png");
 
@@ -58,13 +81,13 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Basic.png");
-    
+
     public static readonly LoadableAsset<GameObject> RoleSelectionGame =
         new LoadableBundleAsset<GameObject>("SelectRoleGame", MainBundle);
-    
+
     public static readonly LoadableAsset<GameObject> AltRoleSelectionGame =
         new LoadableBundleAsset<GameObject>("AmbassadorRoleGame", MainBundle);
-    
+
     public static readonly LoadableAsset<GameObject> ConfirmMinigame =
         new LoadableBundleAsset<GameObject>("AmbassadorConfirmGame", MainBundle);
 
@@ -79,13 +102,16 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> MedicShield { get; } =
         new LoadableBundleAsset<GameObject>("MedicShield", MainBundle);
-    
+
     public static LoadableAsset<GameObject> WardenFort { get; } =
         new LoadableBundleAsset<GameObject>("WardenFort", MainBundle);
 
     public static LoadableAsset<GameObject> EclipsedPrefab { get; } =
         new LoadableBundleAsset<GameObject>("Eclipsed", MainBundle);
-    
+
+    public static LoadableAsset<GameObject> HexBombDeathPrefab { get; } =
+        new LoadableBundleAsset<GameObject>("HexDeathAnimation", MainBundle);
+
     public static LoadableAsset<GameObject> AmbushPrefab { get; } =
         new LoadableBundleAsset<GameObject>("Ambush", MainBundle);
 
@@ -97,7 +123,7 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> MayorRevealPrefab { get; set; } =
         new LoadableBundleAsset<GameObject>("MayorReveal", MainBundle);
-    
+
     public static LoadableAsset<GameObject> MayorPostRevealPrefab { get; set; } =
         new LoadableBundleAsset<GameObject>("MayorPostReveal", MainBundle);
 
@@ -124,11 +150,12 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> MenuOption { get; } =
         new LoadableBundleAsset<Sprite>("MenuOption.png", MainBundle);
-        
+
     public static LoadableAsset<Sprite> MenuOptionActive { get; } =
         new LoadableBundleAsset<Sprite>("MenuOptionActive.png", MainBundle);
-    
-    public static LoadableAsset<Sprite> WikiButton { get; } = new LoadableBundleAsset<Sprite>("WikiButton.png", MainBundle);
+
+    public static LoadableAsset<Sprite> WikiButton { get; } =
+        new LoadableBundleAsset<Sprite>("WikiButton.png", MainBundle);
 
     public static LoadableAsset<Sprite> WikiButtonActive { get; } =
         new LoadableBundleAsset<Sprite>("WikiButtonActive.png", MainBundle);
@@ -166,7 +193,8 @@ public static class TouAssets
     public static LoadableAsset<Sprite> VitalsSprite { get; } =
         new LoadableBundleAsset<Sprite>("VitalsButton", MainBundle);
 
-    public static LoadableAsset<Sprite> CameraSprite { get; } = new LoadableBundleAsset<Sprite>("CamButton", MainBundle);
+    public static LoadableAsset<Sprite> CameraSprite { get; } =
+        new LoadableBundleAsset<Sprite>("CamButton", MainBundle);
 
     public static LoadableAsset<Sprite> AdminSprite { get; } =
         new LoadableBundleAsset<Sprite>("AdminButton", MainBundle);
@@ -224,16 +252,18 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> RetrainSprite { get; } =
         new LoadableBundleAsset<Sprite>("Retrain.png", MainBundle);
-    
+
     public static LoadableAsset<Sprite> RetrainCleanSprite { get; } =
         new LoadableBundleAsset<Sprite>("RetrainClean.png", MainBundle);
-    
+
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableBundleAsset<Sprite>("Hacked", MainBundle);
 
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);
+
     public static LoadableAsset<Sprite> BarricadeVentSprite2 { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent2.png", MainBundle);
+
     public static LoadableAsset<Sprite> BarricadeVentSprite3 { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent3.png", MainBundle);
 
@@ -248,46 +278,32 @@ public static class TouAssets
         get
         {
             var sprite = ArrowBasicSprite;
-            switch (TownOfUsPlugin.ArrowStyle.Value)
+            switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ArrowStyleEnum.Value)
             {
-                case 1:
+                case ArrowStyleType.DarkGlow:
                     sprite = ArrowDarkOutSprite;
                     break;
-                case 2:
+                case ArrowStyleType.ColorGlow:
                     sprite = ArrowLightOutSprite;
                     break;
-                case 3:
+                case ArrowStyleType.Legacy:
                     sprite = ArrowLegacySprite;
                     break;
             }
+
             return sprite;
         }
     }
-    public static string ArrowSpriteName
-    {
-        get
-        {
-            var name = TouLocale.Get(TouNames.ArrowDefault);
-            switch (TownOfUsPlugin.ArrowStyle.Value)
-            {
-                case 1:
-                    name = TouLocale.Get(TouNames.ArrowDarkGlow);
-                    break;
-                case 2:
-                    name = TouLocale.Get(TouNames.ArrowColorGlow);
-                    break;
-                case 3:
-                    name = TouLocale.Get(TouNames.ArrowLegacy);
-                    break;
-            }
-            return name;
-        }
-    }
 
-    public static LoadableAsset<Sprite> ArrowBasicSprite { get; } = new LoadableBundleAsset<Sprite>("Arrow.png", MainBundle);
-    public static LoadableAsset<Sprite> ArrowDarkOutSprite { get; } = new LoadableBundleAsset<Sprite>("ArrowDarkOut.png", MainBundle);
-    public static LoadableAsset<Sprite> ArrowLightOutSprite { get; } = new LoadableBundleAsset<Sprite>("ArrowLightOut.png", MainBundle);
-    
+    public static LoadableAsset<Sprite> ArrowBasicSprite { get; } =
+        new LoadableBundleAsset<Sprite>("Arrow.png", MainBundle);
+
+    public static LoadableAsset<Sprite> ArrowDarkOutSprite { get; } =
+        new LoadableBundleAsset<Sprite>("ArrowDarkOut.png", MainBundle);
+
+    public static LoadableAsset<Sprite> ArrowLightOutSprite { get; } =
+        new LoadableBundleAsset<Sprite>("ArrowLightOut.png", MainBundle);
+
     public static LoadableAsset<Sprite> ArrowLegacySprite { get; } =
         new LoadableBundleAsset<Sprite>("ArrowLegacy", MainBundle);
 

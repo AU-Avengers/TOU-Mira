@@ -4,8 +4,8 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -14,8 +14,25 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Egotist, "Egotist");
-    public override string IntroInfo => "Your Ego is Thriving...";
+    public bool LeaveMessageSent { get; set; }
+    public bool HasSurvived { get; set; } = true;
+    public static float CooldownReduction { get; set; }
+    public static float SpeedMultiplier { get; set; } = 1f;
+    public override string LocaleKey => "Egotist";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+            .Replace("<symbol>", "<color=#669966>#</color>") + MiscUtils.AppendOptionsText(GetType());
+    }
+
     public override string Symbol => "#";
     public override float IntroSize => 4f;
     public override bool DoesTasks => false;
@@ -27,29 +44,21 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public int Priority { get; set; } = 5;
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
+
     public override void OnActivate()
     {
         base.OnActivate();
+        CooldownReduction = 0f;
+        SpeedMultiplier = 1f;
         if (!Player.HasModifier<BasicGhostModifier>())
         {
             Player.AddModifier<BasicGhostModifier>();
         }
-        
-        if (Player.HasModifier<TraitorCacheModifier>())
+
+        if (Player.HasModifier<ToBecomeTraitorModifier>())
         {
-            Player.RemoveModifier<TraitorCacheModifier>();
+            Player.RemoveModifier<ToBecomeTraitorModifier>();
         }
-    }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            "The Egotist is a Crewmate Alliance modifier (signified by <color=#669966>#</color>). As the Egotist, you can only win if Crewmates lose, even when dead. If no crewmates remain after a meeting ends, you will leave in victory, but the game will continue.";
-    }
-
-    public override string GetDescription()
-    {
-        return "<size=130%>Defy the crew,</size>\n<size=125%>win with killers.</size>";
     }
 
     public override int GetAssignmentChance()
@@ -64,7 +73,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public static bool EgoVisibilityFlag(PlayerControl player)
     {
-        return player.Data != null && !player.Data.Disconnected && player.HasModifier<EgotistModifier>() &&
+        return player.Data != null && !player.Data.Disconnected &&
                (PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling));
     }
 
@@ -75,7 +84,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public override bool? DidWin(GameOverReason reason)
     {
-        return !(reason is GameOverReason.CrewmatesByVote or GameOverReason.CrewmatesByTask
+        return (!OptionGroupSingleton<EgotistOptions>.Instance.EgotistMustSurvive.Value || HasSurvived || !Player.HasDied()) && !(reason is GameOverReason.CrewmatesByVote or GameOverReason.CrewmatesByTask
             or GameOverReason.ImpostorDisconnect || reason == CustomGameOver.GameOverReason<DrawGameOver>());
     }
 }

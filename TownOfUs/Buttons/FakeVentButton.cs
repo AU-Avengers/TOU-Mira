@@ -28,9 +28,9 @@ public sealed class FakeVentButton : CustomActionButton
         }
 
         Button!.TryCast<AbilityButton>()!
-                .commsDown
-                .GetComponent<SpriteRenderer>()
-                .sprite = Sprite.LoadAsset();
+            .commsDown
+            .GetComponent<SpriteRenderer>()
+            .sprite = Sprite.LoadAsset();
 
         SetButtonLocation(ButtonLocation.BottomLeft);
         SetButtonLocation(ButtonLocation.BottomRight);
@@ -38,9 +38,10 @@ public sealed class FakeVentButton : CustomActionButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return TownOfUsPlugin.OffsetButtons.Value && Show && HudManager.InstanceExists && !MeetingHud.Instance &&
-               role != null && !role.IsImpostor
-               && (!role.CanVent || (role is ICustomRole customRole && !customRole.Configuration.CanUseVent));
+        return PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null && role != null &&
+               LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value && Show &&
+               HudManager.InstanceExists && !MeetingHud.Instance &&
+               !role.IsImpostor && (!role.CanVent || (role is ICustomRole customRole && !customRole.Configuration.CanUseVent));
     }
 
     protected override void OnClick()

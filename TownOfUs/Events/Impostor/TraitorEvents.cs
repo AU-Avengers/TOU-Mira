@@ -5,28 +5,52 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Impostor;
 
 public static class TraitorEvents
 {
-    [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    [RegisterEvent(-1)]
+    public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (@event.TriggeredByIntro)
+        var source = @event.Source;
+        var victim = @event.Target;
+        var canSendLocally = source.IsHost() ? victim.AmOwner : source.AmOwner;
+
+        if (source == victim || !canSendLocally || !source.HasModifier<CrewpostorModifier>() || !source.IsCrewmate() || Helpers.GetAlivePlayers().Any(x => x.IsImpostor()))
         {
             return;
         }
-
+        // If no impostors remain, then the crewpostor will become an impostor to fix the end game result
+        ToBecomeTraitorModifier.RpcSetTraitor(source);
+    }
+    [RegisterEvent]
+    public static void RoundStartEventHandler(RoundStartEvent @event)
+    {
+        if (@event.TriggeredByIntro || !PlayerControl.LocalPlayer.IsHost())
+        {
+            return;
+        }
+        var crewpostor = ModifierUtils.GetActiveModifiers<CrewpostorModifier>()
+            .FirstOrDefault(x => x.Player.IsCrewmate());
+        var alives = Helpers.GetAlivePlayers().ToList();
+        if (crewpostor != null)
+        {
+            if (crewpostor.Player.HasDied() || alives.Any(x => x.IsImpostor()))
+            {
+                return;
+            }
+            ToBecomeTraitorModifier.RpcSetTraitor(crewpostor.Player);
+            return;
+        }
         var traitor = ModifierUtils.GetActiveModifiers<ToBecomeTraitorModifier>()
             .Where(x => !x.Player.HasDied() && x.Player.IsCrewmate()).Random();
-        if (traitor != null && AmongUsClient.Instance.AmHost)
+        if (traitor != null)
         {
-            var alives = Helpers.GetAlivePlayers().ToList();
             if (alives.Count < OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn)
             {
                 return;
@@ -56,12 +80,5 @@ public static class TraitorEvents
 
             ToBecomeTraitorModifier.RpcSetTraitor(traitorPlayer);
         }
-
-        if (PlayerControl.LocalPlayer?.Data?.Role is not TraitorRole traitorRole)
-        {
-            return;
-        }
-
-        traitorRole.UpdateRole();
     }
 }

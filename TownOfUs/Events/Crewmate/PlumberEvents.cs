@@ -23,6 +23,7 @@ public static class PlumberEvents
             PlumberRole.ClearAll();
         }
     }
+
     [RegisterEvent]
     public static void CompleteTaskEvent(CompleteTaskEvent @event)
     {
@@ -35,7 +36,7 @@ public static class PlumberEvents
             button.SetUses(button.UsesLeft);
         }
     }
-    
+
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
@@ -72,25 +73,32 @@ public static class PlumberEvents
                         UnityEngine.Object.Destroy(barricadePair.Key);
                         continue;
                     }
+
                     barricadeList.Add(new(barricadePair.Key, barricadePair.Value - 1));
                 }
             }
+
             PlumberRole.Barricades.Clear();
             PlumberRole.Barricades = barricadeList;
-        
+
             var ventList = new List<KeyValuePair<int, int>>();
             if (PlumberRole.VentsBlocked.Count > 0)
             {
                 foreach (var ventPair in PlumberRole.VentsBlocked)
                 {
-                    if (ventPair.Value == 1) continue;
+                    if (ventPair.Value == 1)
+                    {
+                        continue;
+                    }
+
                     ventList.Add(new(ventPair.Key, ventPair.Value - 1));
                 }
             }
+
             PlumberRole.VentsBlocked.Clear();
             PlumberRole.VentsBlocked = ventList;
         }
-        
+
         foreach (var plumber in CustomRoleUtils.GetActiveRolesOfType<PlumberRole>())
         {
             plumber.SetupBarricades();

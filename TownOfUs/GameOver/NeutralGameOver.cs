@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameEnd;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
@@ -14,7 +13,8 @@ namespace TownOfUs.GameOver;
 public sealed class NeutralGameOver : CustomGameOver
 {
     private Color _roleColor;
-    private string _roleName = "PLACEHOLDER";
+    private RoleBehaviour _role;
+    private bool _soloWin = true;
 
     public override bool VerifyCondition(PlayerControl playerControl, NetworkedPlayerInfo[] winners)
     {
@@ -25,17 +25,22 @@ public sealed class NeutralGameOver : CustomGameOver
 
         var mainRole = role;
 
-        Logger<TownOfUsPlugin>.Error($"VerifyCondition - mainRole: '{mainRole.NiceName}', IsDead: '{role.IsDead}'");
+        Error(
+            $"VerifyCondition - mainRole: '{mainRole.GetRoleName()}', IsDead: '{role.IsDead}'");
 
-        if (role.IsDead && role is not PhantomTouRole or HaunterRole)
+        if (role.IsDead && role is not SpectreRole or HaunterRole)
         {
             mainRole = role.Player.GetRoleWhenAlive();
 
-            Logger<TownOfUsPlugin>.Error($"VerifyCondition - RoleWhenAlive: '{mainRole?.NiceName}'");
+            Error($"VerifyCondition - RoleWhenAlive: '{mainRole?.GetRoleName()}'");
         }
 
-        _roleName = mainRole!.NiceName;
-        _roleColor = mainRole.TeamColor;
+        _role = mainRole!;
+        if (PlayerControl.AllPlayerControls.ToArray().Any(x => x != role.Player && x.GetRoleWhenAlive().GetType() == _role.GetType()))
+        {
+            _soloWin = false;
+        }
+        _roleColor = _role.TeamColor;
 
         return tRole.WinConditionMet();
     }
@@ -45,9 +50,11 @@ public sealed class NeutralGameOver : CustomGameOver
         endGameManager.BackgroundBar.material.SetColor(ShaderID.Color, _roleColor);
 
         var text = Object.Instantiate(endGameManager.WinText);
-        text.text = $"{_roleName} Wins!";
+        var winText = _soloWin ? TouLocale.GetParsed("SoloWin") : TouLocale.GetParsed("TeamWin");
+        winText = winText.Replace("<role>", _role.GetRoleName());
+        text.text = $"{winText}!";
         text.color = _roleColor;
-        GameHistory.WinningFaction = $"<color=#{_roleColor.ToHtmlStringRGBA()}>{_roleName}</color>";
+        GameHistory.WinningFaction = $"<color=#{_roleColor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TeamWin").Replace("<role>", _role.GetRoleName())}</color>";
 
         var pos = endGameManager.WinText.transform.localPosition;
         pos.y = 1.5f;

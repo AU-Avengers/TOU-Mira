@@ -11,12 +11,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class AmbusherAmbushButton : TownOfUsRoleButton<AmbusherRole, PlayerControl>, IKillButton, IDiseaseableButton
+public sealed class AmbusherAmbushButton : TownOfUsRoleButton<AmbusherRole, PlayerControl>, IKillButton,
+    IDiseaseableButton
 {
-    public override string Name => "Ambush";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleAmbusherAmbush", "Ambush");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown() + MapCooldown;
+    public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
     public override int MaxUses => (int)OptionGroupSingleton<AmbusherOptions>.Instance.MaxAmbushes;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.AmbushSprite;
 
@@ -24,7 +25,7 @@ public sealed class AmbusherAmbushButton : TownOfUsRoleButton<AmbusherRole, Play
     {
         SetTimer(Cooldown * multiplier);
     }
-    
+
     public override PlayerControl? GetTarget()
     {
         return Role.Pursued?.GetClosestLivingPlayer(false, Distance);
@@ -41,6 +42,7 @@ public sealed class AmbusherAmbushButton : TownOfUsRoleButton<AmbusherRole, Play
         {
             return;
         }
+
         AmbusherRole.RpcAmbushPlayer(PlayerControl.LocalPlayer, Target);
         if (OptionGroupSingleton<AmbusherOptions>.Instance.ResetAmbush)
         {
@@ -48,7 +50,8 @@ public sealed class AmbusherAmbushButton : TownOfUsRoleButton<AmbusherRole, Play
             CustomButtonSingleton<AmbusherPursueButton>.Instance.SetActive(true, Role);
             CustomButtonSingleton<AmbusherPursueButton>.Instance.ResetCooldownAndOrEffect();
             SetActive(false, Role);
-            ModifierUtils.GetActiveModifiers<AmbusherArrowTargetModifier>().Do(x => x.ModifierComponent?.RemoveModifier(x));
+            ModifierUtils.GetActiveModifiers<AmbusherArrowTargetModifier>()
+                .Do(x => x.ModifierComponent?.RemoveModifier(x));
         }
     }
 }

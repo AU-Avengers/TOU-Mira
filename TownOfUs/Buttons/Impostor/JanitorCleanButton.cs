@@ -11,10 +11,10 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class JanitorCleanButton : TownOfUsRoleButton<JanitorRole, DeadBody>, IAftermathableBodyButton,
     IDiseaseableButton
 {
-    public override string Name => "Clean";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleJanitorClean", "Clean");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<JanitorOptions>.Instance.CleanCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<JanitorOptions>.Instance.CleanCooldown + MapCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<JanitorOptions>.Instance.CleanDelay + 0.001f;
     public override int MaxUses => (int)OptionGroupSingleton<JanitorOptions>.Instance.MaxClean;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.CleanButtonSprite;
@@ -31,6 +31,18 @@ public sealed class JanitorCleanButton : TownOfUsRoleButton<JanitorRole, DeadBod
         return PlayerControl.LocalPlayer.GetNearestDeadBody(Distance);
     }
 
+    public void AftermathHandler()
+    {
+        var body = PlayerControl.LocalPlayer.GetNearestDeadBody(Distance);
+        if (body == null)
+        {
+            return;
+        }
+        CleaningBody = body;
+
+        OnEffectEnd();
+    }
+
     protected override void OnClick()
     {
         if (Target == null)
@@ -39,12 +51,12 @@ public sealed class JanitorCleanButton : TownOfUsRoleButton<JanitorRole, DeadBod
         }
 
         CleaningBody = Target;
-        OverrideName("Cleaning");
+        OverrideName(TouLocale.Get("TouRoleJanitorCleaning", "Cleaning"));
     }
 
     public override void OnEffectEnd()
     {
-        OverrideName("Clean");
+        OverrideName(TouLocale.Get("TouRoleJanitorClean", "Clean"));
         if (CleaningBody == Target && CleaningBody != null)
         {
             JanitorRole.RpcCleanBody(PlayerControl.LocalPlayer, CleaningBody.ParentId);

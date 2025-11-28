@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -32,9 +31,32 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => TouLocale.Get(TouNames.Warden, "Warden");
-    public string RoleDescription => "Fortify Crewmates";
-    public string RoleLongDescription => "Fortify crewmates to prevent interactions with them";
+    public string LocaleKey => "Warden";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Fortify", "Fortify"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}FortifyWikiDescription"),
+                    TouCrewAssets.FortifySprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Warden;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
@@ -45,6 +67,14 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         Icon = TouRoleIcons.Warden
     };
 
+    public static string ProtectionString = TouLocale.GetParsed("TouRoleWardenTabProtecting");
+
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        ProtectionString = TouLocale.GetParsed("TouRoleWardenTabProtecting");
+    }
+
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
@@ -52,27 +82,11 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (Fortified != null)
         {
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"\n<b>Fortified: </b>{Color.white.ToTextColor()}{Fortified.Data.PlayerName}</color>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Fortified.Data.PlayerName)}</b>");
         }
 
         return stringB;
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Protective role that can fortify players to prevent them from being interacted with. "
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Fortify",
-            "Fortify a player to prevent them from being interacted with. If anyone tries to interact with a fortified player, the ability will not work and both the Warden and fortified player will be alerted with a purple flash.",
-            TouCrewAssets.FortifySprite)
-    ];
 
     public void Clear()
     {
@@ -107,7 +121,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (player.Data.Role is not WardenRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcWardenFortify - Invalid warden");
+            Error("RpcWardenFortify - Invalid warden");
             return;
         }
 
@@ -120,7 +134,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (player.Data.Role is not WardenRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcClearWardenFortify - Invalid warden");
+            Error("RpcClearWardenFortify - Invalid warden");
             return;
         }
 
@@ -133,11 +147,11 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (player.Data.Role is not WardenRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcWardenNotify - Invalid warden");
+            Error("RpcWardenNotify - Invalid warden");
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Error("RpcWardenNotify");
+        // Error("RpcWardenNotify");
         if (player.AmOwner)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Warden));

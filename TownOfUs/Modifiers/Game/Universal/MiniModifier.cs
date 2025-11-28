@@ -9,7 +9,8 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Mini, "Mini");
+    public override string LocaleKey => "Mini";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Mini;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -23,19 +24,19 @@ public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVi
         return appearance;
     }
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription").Replace("<miniSpeed>",
+            $"{Math.Round(OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed, 2)}");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            $"You are smaller than regular players, and you also move {Math.Round(OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed, 2)}x faster than regular players.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<miniSpeed>",
+            $"{Math.Round(OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed, 2)}");
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return
-            $"You are smaller than the average player, moving {Math.Round(OptionGroupSingleton<MiniOptions>.Instance.MiniSpeed, 2)}x faster.";
-    }
 
     public override int GetAssignmentChance()
     {

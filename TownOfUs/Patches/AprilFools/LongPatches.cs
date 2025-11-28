@@ -12,7 +12,8 @@ public static class LongBoiPatches
     {
         __instance.cosmeticLayer.OnSetBodyAsGhost += (Action)__instance.SetPoolableGhost;
         __instance.cosmeticLayer.OnColorChange += (Action<int>)__instance.SetHeightFromColor;
-        __instance.cosmeticLayer.OnCosmeticSet += (Action<string, int, CosmeticsLayer.CosmeticKind>)__instance.OnCosmeticSet;
+        __instance.cosmeticLayer.OnCosmeticSet +=
+            (Action<string, int, CosmeticsLayer.CosmeticKind>)__instance.OnCosmeticSet;
         __instance.gameObject.layer = 8;
 
         return false;

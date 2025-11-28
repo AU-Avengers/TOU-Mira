@@ -8,6 +8,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
@@ -26,9 +27,43 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Death;
-    public string RoleName => TouLocale.Get(TouNames.Altruist, "Altruist");
-    public string RoleDescription => "Revive Dead Crewmates";
-    public string RoleLongDescription => "Revive dead crewmates in groups";
+    public string LocaleKey => "Altruist";
+    public static string ReviveString()
+    {
+        switch ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value)
+        {
+            case ReviveType.Sacrifice:
+                return "Sacrifice";
+            case ReviveType.GroupSacrifice:
+                return "GroupSacrifice";
+        }
+        return string.Empty;
+    }
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription{ReviveString()}");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Revive", "Revive"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}Revive{ReviveString()}WikiDescription"),
+                    TouCrewAssets.ReviveSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Altruist;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
@@ -45,27 +80,11 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Protective role can revive dead players in groups. However, their location and the revived players' locations will be revealed to all Impostors." +
-            MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Revive",
-            "Revive a group of dead bodies near you. You will be frozen during the revival and you will be unable to move until the revival is complete." +
-            " Impostors will also have an arrow pointing towards you during the revival, so be cautious.",
-            TouCrewAssets.ReviveSprite)
-    ];
-
     public override void OnMeetingStart()
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        Logger<TownOfUsPlugin>.Error($"AltruistRole.OnMeetingStart");
+        Error($"AltruistRole.OnMeetingStart");
 
         ClearArrows();
     }
@@ -94,11 +113,11 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [HideFromIl2Cpp]
     public static void ClearArrows()
     {
-        Logger<TownOfUsPlugin>.Error($"AltruistRole.ClearArrows");
+        Error($"AltruistRole.ClearArrows");
 
-        if (PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
+        if (PlayerControl.LocalPlayer.IsImpostorAligned() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
         {
-            Logger<TownOfUsPlugin>.Error($"AltruistRole.ClearArrows BadGuys Only");
+            Error($"AltruistRole.ClearArrows BadGuys Only");
 
             foreach (var playerWithArrow in ModifierUtils.GetPlayersWithModifier<AltruistArrowModifier>())
             {
@@ -111,15 +130,19 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public IEnumerator CoRevivePlayer(PlayerControl dead)
     {
         var roleWhenAlive = dead.GetRoleWhenAlive();
+        var freezeAltruist = OptionGroupSingleton<AltruistOptions>.Instance.FreezeDuringRevive.Value;
 
         //if (roleWhenAlive == null)
         //{
-        //    Logger<TownOfUsPlugin>.Error($"CoRevivePlayer - Dead player {dead.PlayerId} does not have a role when alive, cannot revive");
+        //    Error($"CoRevivePlayer - Dead player {dead.PlayerId} does not have a role when alive, cannot revive");
         //    yield break; // cannot revive if no role when alive
         //}
 
-        Player.moveable = false;
-        Player.NetTransform.Halt();
+        if (freezeAltruist)
+        {
+            Player.moveable = false;
+            Player.NetTransform.Halt();
+        }
 
         var body = FindObjectsOfType<DeadBody>()
             .FirstOrDefault(b => b.ParentId == dead.PlayerId);
@@ -134,7 +157,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
         }
 
-        yield return new WaitForSeconds(OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration);
+        yield return new WaitForSeconds(OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration.Value);
 
         if (!MeetingHud.Instance && !Player.HasDied())
         {
@@ -195,7 +218,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 Destroy(body.gameObject);
             }
 
-            if (PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
+            var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtEnd.Value;
+            if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
             {
                 if (Player.HasModifier<AltruistArrowModifier>())
                 {
@@ -209,7 +233,10 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
         }
 
-        Player.moveable = true;
+        if (freezeAltruist)
+        {
+            Player.moveable = true;
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.AltruistRevive)]
@@ -217,11 +244,12 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         if (alt.Data.Role is not AltruistRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRevive - Invalid altruist");
+            Error("RpcRevive - Invalid altruist");
             return;
         }
 
-        if (PlayerControl.LocalPlayer.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
+        var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtStart.Value;
+        if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Altruist));
 

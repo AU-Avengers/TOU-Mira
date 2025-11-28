@@ -13,17 +13,17 @@ public static class SaboteurPatches
     [HarmonyPostfix]
     public static void HudManagerUpdatePostfix(HudManager __instance)
     {
-        if (PlayerControl.AllPlayerControls.Count <= 1)
-        {
-            return;
-        }
-
         if (PlayerControl.LocalPlayer == null)
         {
             return;
         }
 
         if (PlayerControl.LocalPlayer.Data == null)
+        {
+            return;
+        }
+
+        if (PlayerControl.AllPlayerControls.Count <= 1)
         {
             return;
         }

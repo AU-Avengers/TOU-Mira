@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Patches.Stubs;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
@@ -47,15 +48,16 @@ public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
         TitleText.font = HudManager.Instance.TaskPanel.taskText.font;
         TitleText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
         TitleText.text = "Ambassador Retrain";
-        
+
         RetrainText.font = HudManager.Instance.TaskPanel.taskText.font;
         RetrainText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
-        RetrainText.text = $"Are you sure you want to be retrained into {NewRole.NiceName}?\nThis change is permanent.";
-        
+        RetrainText.text =
+            $"Are you sure you want to be retrained into {NewRole.GetRoleName()}?\nThis change is permanent.";
+
         RoleIcon.sprite = NewRole.RoleIconWhite ?? TouRoleIcons.RandomImp.LoadAsset();
-        
+
         RoleIcon.SetSizeLimit(2.8f);
-        
+
         TitleText.gameObject.SetActive(false);
         RoleIcon.gameObject.SetActive(false);
         RetrainText.gameObject.SetActive(false);
@@ -111,13 +113,13 @@ public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
         Box!.SetActive(true);
         DenyButton!.SetActive(true);
         AcceptButton!.SetActive(true);
-        
+
         DenyButton!.GetComponent<PassiveButton>().OnClick.RemoveAllListeners();
         DenyButton!.GetComponent<PassiveButton>().OnClick.AddListener((UnityAction)(() =>
         {
             clickHandler.Invoke(false);
         }));
-        
+
         AcceptButton!.GetComponent<PassiveButton>().OnClick.RemoveAllListeners();
         AcceptButton!.GetComponent<PassiveButton>().OnClick.AddListener((UnityAction)(() =>
         {

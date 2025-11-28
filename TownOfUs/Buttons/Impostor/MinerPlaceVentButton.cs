@@ -10,10 +10,10 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAftermathableButton
 {
-    public override string Name => "Mine";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleMinerMine", "Mine");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<MinerOptions>.Instance.MineCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<MinerOptions>.Instance.MineCooldown + MapCooldown, 5f, 120f);
 
     public override float EffectDuration =>
         OptionGroupSingleton<MinerOptions>.Instance.MineVisibility is MineVisiblityOptions.Immediate
@@ -49,7 +49,8 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
         var hits = Physics2D.OverlapBoxAll(PlayerControl.LocalPlayer.transform.position, VentSize, 0);
 
         hits = hits.Where(c =>
-            (c.name.Contains("Vent") || c.name.Contains("Door") || !c.isTrigger) && c.gameObject.layer != 8 && c.gameObject.layer != 5).ToArray();
+            (c.name.Contains("Vent") || c.name.Contains("Door") || !c.isTrigger) && c.gameObject.layer != 8 &&
+            c.gameObject.layer != 5).ToArray();
 
         var noConflict = !PhysicsHelpers.AnythingBetween(PlayerControl.LocalPlayer.Collider,
             PlayerControl.LocalPlayer.Collider.bounds.center, PlayerControl.LocalPlayer.transform.position,
@@ -57,6 +58,11 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
             false);
 
         return hits.Count == 0 && noConflict && !ModCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1;
+    }
+
+    public void AftermathHandler()
+    {
+        ClickHandler();
     }
 
     protected override void OnClick()

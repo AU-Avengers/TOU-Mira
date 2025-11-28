@@ -2,6 +2,7 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options;
 using TownOfUs.Utilities;
@@ -52,7 +53,7 @@ public static class LoverChatPatches
     public static void RpcSendLoveChat(PlayerControl player, string text)
     {
         if ((PlayerControl.LocalPlayer.IsLover() && player != PlayerControl.LocalPlayer) ||
-            (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+            (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             LoverMessage = true;
             if (player != PlayerControl.LocalPlayer)
@@ -69,7 +70,7 @@ public static class LoverChatPatches
         if (LoverMessage && !overrideMessages)
         {
             __instance.NameText.color = TownOfUsColors.Lover;
-            __instance.NameText.text = playerName + " (Lover)";
+            __instance.NameText.text = TouLocale.GetParsed("LoverChatTitle").Replace("<player>", playerName);
             LoverMessage = false;
         }
     }

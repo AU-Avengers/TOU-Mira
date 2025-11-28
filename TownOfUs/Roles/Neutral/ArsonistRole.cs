@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
@@ -8,23 +7,56 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string RoleName => TouLocale.Get(TouNames.Arsonist, "Arsonist");
-    public string RoleDescription => "Douse Players And Ignite The Light";
+    public string LocaleKey => "Arsonist";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
 
     public string RoleLongDescription => OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-        ? "Douse players and ignite the closest one to kill all doused targets"
-        : "Douse players and ignite to kill all nearby doused targets";
+        ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionLegacy")
+        : TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            TouLocale.GetParsed(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
+                ? $"TouRole{LocaleKey}WikiAdditionLegacy"
+                : $"TouRole{LocaleKey}WikiAddition") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Douse", "Douse"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}DouseWikiDescription"),
+                    TouNeutAssets.DouseButtonSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Ignite", "Ignite"),
+                    TouLocale.GetParsed(OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
+                        ? $"TouRole{LocaleKey}IgniteWikiDescriptionLegacy"
+                        : $"TouRole{LocaleKey}IgniteWikiDescription"),
+                    TouNeutAssets.IgniteButtonSprite)
+            };
+        }
+    }
 
     public Color RoleColor => TownOfUsColors.Arsonist;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
@@ -52,7 +84,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
             stringB.Append("\n<b>Players Doused:</b>");
             foreach (var plr in allDoused)
             {
-                stringB.Append(CultureInfo.InvariantCulture,
+                stringB.Append(TownOfUsPlugin.Culture,
                     $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
             }
         }
@@ -72,32 +104,21 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         return result;
     }
 
-    public string GetAdvancedDescription()
+    public void OffsetButtons()
     {
-        return $"The {RoleName} is a Neutral Killing role that wins by being the last killer alive. " +
-               (OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-                   ? "They can douse players and ignite one of them to ignite all doused players on the map."
-                   : "They can douse players and ignite them when close.") + MiscUtils.AppendOptionsText(GetType());
+        var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
+        var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(ignite, !canVent));
     }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Douse",
-            "Douse a player in gasoline",
-            TouNeutAssets.DouseButtonSprite),
-        new("Ignite",
-            OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
-                ? "Kill every doused player on the map as long as you ignite one player close by."
-                : "Kill multiple doused players around you, given that they are within your radius.",
-            TouNeutAssets.IgniteButtonSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
+            OffsetButtons();
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ArsoVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Arsonist);
         }
@@ -117,7 +138,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     {
         var button = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
 
-        if (button != null && button.Ignite != null)
+        if (button.Ignite != null)
         {
             button.Ignite.Clear();
             button.Ignite = null;

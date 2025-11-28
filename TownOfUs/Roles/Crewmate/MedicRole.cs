@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -24,8 +23,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
 
-    [HideFromIl2Cpp]
-    public PlayerControl? Shielded { get; set; }
+    [HideFromIl2Cpp] public PlayerControl? Shielded { get; set; }
 
     public void FixedUpdate()
     {
@@ -41,9 +39,32 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => TouLocale.Get(TouNames.Medic, "Medic");
-    public string RoleDescription => "Create A Shield To Protect A Crewmate";
-    public string RoleLongDescription => "Protect a crewmate with a shield";
+    public string LocaleKey => "Medic";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Shield", "Shield"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ShieldWikiDescription"),
+                    TouCrewAssets.MedicSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Medic;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
@@ -61,30 +82,18 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (Shielded != null)
         {
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"\n<b>Shielded: </b>{Color.white.ToTextColor()}{Shielded.Data.PlayerName}</color>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Shielded.Data.PlayerName)}</b>");
         }
 
         return stringB;
     }
 
-    public string GetAdvancedDescription()
-    {
-        return $"The {RoleName} is a Crewmate Protective role that can give a Shield to a player."
-               + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Shield",
-            "Give a Shield to a player, protecting them from being killed by others",
-            TouCrewAssets.MedicSprite)
-    ];
+    public static string ProtectionString = TouLocale.GetParsed("TouRoleMedicTabProtecting");
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        ProtectionString = TouLocale.GetParsed("TouRoleMedicTabProtecting");
 
         if (Player.AmOwner)
         {
@@ -182,7 +191,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public void SetShieldedPlayer(PlayerControl? player)
     {
-        Shielded?.RemoveModifier<MedicShieldModifier>();
+        if (Shielded?.TryGetModifier<MedicShieldModifier>(out var mod) == true)
+        {
+            // This should prevent any issues with murder attempts
+            mod.StartTimer();
+        }
 
         Shielded = player;
 
@@ -212,7 +225,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return;
         }
 
-        // Logger<TownOfUsPlugin>.Message($"CmdReportDeadBody");
+        // Message($"CmdReportDeadBody");
         var br = new BodyReport
         {
             Killer = MiscUtils.PlayerById(killer.KillerId),
@@ -320,7 +333,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMedicShield - Invalid medic");
+            Error("RpcMedicShield - Invalid medic");
             return;
         }
 
@@ -339,7 +352,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("ClearMedicShield - Invalid medic");
+            Error("ClearMedicShield - Invalid medic");
             return;
         }
 
@@ -353,7 +366,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (medic.Data.Role is not MedicRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcMedicShieldAttacked - Invalid medic");
+            Error("RpcMedicShieldAttacked - Invalid medic");
             return;
         }
 
@@ -388,6 +401,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (shieldBreaks)
         {
+            if (source.AmOwner)
+            {
+                source.SetKillTimer(source.GetKillCooldown());
+            }
+
             var role = medic.GetRole<MedicRole>();
             role?.SetShieldedPlayer(null);
         }

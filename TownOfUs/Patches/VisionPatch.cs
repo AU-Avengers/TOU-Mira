@@ -1,10 +1,12 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -18,6 +20,10 @@ public static class VisionPatch
 
     public static void Postfix(ShipStatus __instance, NetworkedPlayerInfo player, ref float __result)
     {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
         if (player == null || player.IsDead)
         {
             __result = __instance.MaxLightRadius;
@@ -33,11 +39,16 @@ public static class VisionPatch
             visionFactor = mod.VisionPerc;
         }
 
+        var impVision = player.Role.IsImpostor || player._object.HasModifier<CrewpostorModifier>() &&
+                        OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorVision.Value ||
+                        (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision);
 
-        if (player.Role.IsImpostor || (player._object.Data.Role is ITownOfUsRole touRole && touRole.HasImpostorVision))
+        if (impVision)
         {
             __result = __instance.MaxLightRadius *
                        GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod * visionFactor;
+
+            __result *= TownOfUsMapOptions.GetMapBasedImpostorVision();
         }
         else
         {
@@ -52,6 +63,8 @@ public static class VisionPatch
                 {
                     __result *= visionFactor;
                 }
+
+                __result *= TownOfUsMapOptions.GetMapBasedCrewmateVision();
             }
             else
             {
@@ -73,17 +86,8 @@ public static class VisionPatch
 
                 __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, t) *
                            GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod * visionFactor;
-                var mapId = (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
-                if (TutorialManager.InstanceExists)
-                {
-                    mapId = (MapNames)AmongUsClient.Instance.TutorialMapId;
-                }
 
-                if (!player.Role.IsImpostor && OptionGroupSingleton<TownOfUsMapOptions>.Instance.SmallMapHalfVision &&
-                    mapId is MapNames.MiraHQ or MapNames.Skeld or MapNames.Dleks)
-                {
-                    __result /= 2;
-                }
+                __result *= TownOfUsMapOptions.GetMapBasedCrewmateVision();
 
                 if (player._object.HasModifier<ScoutModifier>())
                 {

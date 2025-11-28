@@ -14,6 +14,7 @@ public static class BomberEvents
         {
             return;
         }
+
         CustomButtonSingleton<BomberPlantButton>.Instance.Usable = true;
     }
 }

@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
+using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
+using TownOfUs.Events;
+using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
@@ -16,6 +22,7 @@ namespace TownOfUs.Modules;
 
 public static class ModCompatibility
 {
+    internal static string InternalModList = "???";
     public const string SubmergedGuid = "Submerged";
     public const ShipStatus.MapType SubmergedMapType = (ShipStatus.MapType)6;
 
@@ -56,6 +63,8 @@ public static class ModCompatibility
     public static Type[] SubTypes { get; private set; }
     public static Dictionary<string, Type> SubInjectedTypes { get; private set; }
 
+    public static Type SubmarineStatusType;
+
     public static TaskTypes RetrieveOxygenMask { get; private set; }
 
     public static bool LILoaded { get; private set; }
@@ -68,6 +77,24 @@ public static class ModCompatibility
     {
         InitSubmerged();
         InitLevelImpostor();
+
+        var sBuilder = new StringBuilder();
+
+        var mods = IL2CPPChainloader.Instance.Plugins;
+        sBuilder.Append("\nBepInEx " + Paths.BepInExVersion.WithoutBuild());
+        foreach (var mod in mods)
+        {
+            sBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
+        }
+
+        InternalModList = sBuilder.ToString();
+        var customSysTypes = new List<SystemTypes>()
+        {
+            SkeldDoorsSystemType.SystemType,
+            ManualDoorsSystemType.SystemType,
+        };
+        // This allows the custom door types to update properly
+        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat(customSysTypes).ToArray();
     }
 
     public static void InitSubmerged()
@@ -87,13 +114,13 @@ public static class ModCompatibility
             .PropertyGetter(SubTypes.FirstOrDefault(t => t.Name == "ComponentExtensions"), "RegisteredTypes")
             .Invoke(null, null)!;
 
-        var submarineStatusType = SubTypes.First(t => t.Name == "SubmarineStatus");
-        submergedInstance = AccessTools.Field(submarineStatusType, "instance");
-        submergedElevators = AccessTools.Field(submarineStatusType, "elevators");
+        SubmarineStatusType = SubTypes.First(t => t.Name == "SubmarineStatus");
+        submergedInstance = AccessTools.Field(SubmarineStatusType, "instance");
+        submergedElevators = AccessTools.Field(SubmarineStatusType, "elevators");
 
         var floorHandler = SubTypes.First(t => t.Name == "FloorHandler");
         getFloorHandler = AccessTools.Method(floorHandler, "GetFloorHandler", [typeof(PlayerControl)]);
-        rpcRequestChangeFloor = AccessTools.Method(floorHandler, "RpcRequestChangeFloor");
+        rpcRequestChangeFloor = AccessTools.Method(floorHandler, "RpcRequestChangeFloor", [typeof(bool)]);
         registerFloorOverride = AccessTools.Method(floorHandler, "RegisterFloorOverride");
 
         var ventPatchData = SubTypes.First(t => t.Name == "VentPatchData");
@@ -107,6 +134,7 @@ public static class ModCompatibility
         var submarineOxygenSystem = SubTypes.First(t => t.Name == "SubmarineOxygenSystem");
         submarineOxygenSystemInstance = AccessTools.Property(submarineOxygenSystem, "Instance");
         repairDamage = AccessTools.Method(submarineOxygenSystem, "RepairDamage");
+        var rpcOxygenDeath = AccessTools.Method(submarineOxygenSystem, "RpcOxygenDeath");
         var submergedExileController = SubTypes.First(t => t.Name == "SubmergedExileController");
         var submergedExileWrapUp = AccessTools.Method(submergedExileController, "WrapUpAndSpawn");
 
@@ -126,13 +154,18 @@ public static class ModCompatibility
 
         harmony.Patch(submergedExileWrapUp, null,
             new HarmonyMethod(AccessTools.Method(compatType, nameof(ExileRoleChangePostfix))));
-        harmony.Patch(canUse, null, null, new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
+
+        harmony.Patch(rpcOxygenDeath, null,
+            new HarmonyMethod(AccessTools.Method(compatType, nameof(OxygenDeathPostfix))));
+        harmony.Patch(canUse, null, null,
+            new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
 
         SubLoaded = true;
-        Logger<TownOfUsPlugin>.Message("Submerged was detected");
+        Message("Submerged was detected");
     }
 
-    public static IEnumerable<CodeInstruction> SubmergedElevatorTranspilerPatch(IEnumerable<CodeInstruction> instructions)
+    public static IEnumerable<CodeInstruction> SubmergedElevatorTranspilerPatch(
+        IEnumerable<CodeInstruction> instructions)
     {
         var found = false;
         foreach (var instruction in instructions)
@@ -141,16 +174,18 @@ public static class ModCompatibility
                 instruction.operand is MethodInfo { Name: "get_IsDead", DeclaringType.Name: "NetworkedPlayerInfo" })
             {
                 found = true;
-                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Utilities.Extensions), nameof(Utilities.Extensions.IsGhostDead)));
+                yield return new CodeInstruction(OpCodes.Call,
+                    AccessTools.Method(typeof(Utilities.Extensions), nameof(Utilities.Extensions.IsGhostDead)));
             }
             else
             {
                 yield return instruction;
             }
         }
+
         if (!found)
         {
-            Logger<TownOfUsPlugin>.Error("Failed to find the IsDead call in SubmergedElevator transpiler");
+            Error("Failed to find the IsDead call in SubmergedElevator transpiler");
         }
     }
 
@@ -230,6 +265,13 @@ public static class ModCompatibility
         return Tuple.Create(false, (object)null!);
     }
 
+    public static void OxygenDeathPostfix(PlayerControl player)
+    {
+        DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToSubmergedOxygen"),
+        DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+        lockInfo: DeathHandlerOverride.SetTrue);
+    }
+
     public static void ExileRoleChangePostfix()
     {
         Coroutines.Start(WaitMeeting(ResetTimers));
@@ -255,7 +297,7 @@ public static class ModCompatibility
 
     public static void ResetTimers()
     {
-        // Utils.ResetCustomTimers();
+        ButtonResetPatches.ResetCooldowns();
     }
 
     public static void GhostRoleBegin()
@@ -350,9 +392,9 @@ public static class ModCompatibility
         return (bool)inTransition.GetValue(null)!;
     }
 
-    public static void RepairOxygen()
+    public static void RepairSubOxygen()
     {
-        if (!SubLoaded)
+        if (!IsSubmerged())
         {
             return;
         }
@@ -418,7 +460,7 @@ public static class ModCompatibility
             new HarmonyMethod(AccessTools.Method(compatType, nameof(TriggerPostfix))));
 
         LILoaded = true;
-        Logger<TownOfUsPlugin>.Message("LevelImpostor was detected");
+        Message("LevelImpostor was detected");
     }
 
     public static string GetLIVentType(Vent vent)

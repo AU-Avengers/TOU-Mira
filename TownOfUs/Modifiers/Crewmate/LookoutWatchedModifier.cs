@@ -1,8 +1,10 @@
 ﻿using System.Text;
 using MiraAPI.Events;
 using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -36,7 +38,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
 
     public override void OnMeetingStart()
     {
-        if (!Lookout.AmOwner)
+        if (Lookout.HasDied() || !Lookout.AmOwner || PlayerControl.LocalPlayer.Data.Role is not LookoutRole)
         {
             return;
         }
@@ -52,7 +54,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
 
             foreach (var role in SeenPlayers)
             {
-                message.Append(TownOfUsPlugin.Culture, $"{role.NiceName}, ");
+                message.Append(TownOfUsPlugin.Culture, $"{role.GetRoleName()}, ");
             }
 
             message = message.Remove(message.Length - 2, 2);

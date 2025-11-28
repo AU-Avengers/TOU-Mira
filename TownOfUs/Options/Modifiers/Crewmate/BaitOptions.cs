@@ -8,8 +8,9 @@ namespace TownOfUs.Options.Modifiers.Crewmate;
 
 public sealed class BaitOptions : AbstractOptionGroup<BaitModifier>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Bait, "Bait");
-    public override uint GroupPriority => 31;
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override string GroupName => TouLocale.Get("TouModifierBait", "Bait");
+    public override uint GroupPriority => 20;
     public override Color GroupColor => TownOfUsColors.Bait;
 
     [ModdedNumberOption("Min Bait Report Delay", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds)]

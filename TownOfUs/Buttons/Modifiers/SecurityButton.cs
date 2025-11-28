@@ -2,11 +2,11 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Crewmate;
+using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -15,10 +15,13 @@ namespace TownOfUs.Buttons.Modifiers;
 public sealed class SecurityButton : TownOfUsButton
 {
     public Minigame? securityMinigame;
-    public override string Name => "Security";
-    public override string Keybind => Keybinds.ModifierAction;
+
+    public override string Name =>
+        TranslationController.Instance.GetStringWithDefault(StringNames.Security, "Security");
+
+    public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Operative;
-    public override float Cooldown => OptionGroupSingleton<OperativeOptions>.Instance.DisplayCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<OperativeOptions>.Instance.DisplayCooldown + MapCooldown, 0.001f, 120f);
     public float AvailableCharge { get; set; } = OptionGroupSingleton<OperativeOptions>.Instance.StartingCharge;
 
     public override float EffectDuration
@@ -54,6 +57,10 @@ public sealed class SecurityButton : TownOfUsButton
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y, -150f);
         AvailableCharge = OptionGroupSingleton<OperativeOptions>.Instance.StartingCharge;
+        if (KeybindIcon != null)
+        {
+            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
+        }
     }
 
     private void RefreshAbilityButton()
@@ -102,7 +109,13 @@ public sealed class SecurityButton : TownOfUsButton
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
+                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
@@ -137,36 +150,36 @@ public sealed class SecurityButton : TownOfUsButton
 
     protected override void OnClick()
     {
-        // Logger<TownOfUsPlugin>.Warning($"Checking Base Conditions");
-        var mapId = (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+        // Warning($"Checking Base Conditions");
+        var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
         if (TutorialManager.InstanceExists)
         {
-            mapId = (MapNames)AmongUsClient.Instance.TutorialMapId;
+            mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
         }
 
         canMoveWithMinigame = true;
         var basicCams = Object.FindObjectsOfType<SystemConsole>().FirstOrDefault(x =>
             x.gameObject.name.Contains("Surv_Panel") || x.name.Contains("Cam") ||
             x.name.Contains("BinocularsSecurityConsole"));
-        if (mapId is MapNames.Airship)
+        if (mapId is ExpandedMapNames.Airship)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Airship Conditions");
+            // Warning($"Checking Airship Conditions");
             basicCams = Object.FindObjectsOfType<SystemConsole>()
                 .FirstOrDefault(x => x.gameObject.name.Contains("task_cams"));
             PlayerControl.LocalPlayer.NetTransform.Halt();
             canMoveWithMinigame = false;
         }
-        else if (mapId is MapNames.Skeld or MapNames.Dleks)
+        else if (mapId is ExpandedMapNames.Skeld or ExpandedMapNames.Dleks)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Skeld Conditions");
+            // Warning($"Checking Skeld Conditions");
             basicCams = Object.FindObjectsOfType<SystemConsole>()
                 .FirstOrDefault(x => x.gameObject.name.Contains("SurvConsole"));
             PlayerControl.LocalPlayer.NetTransform.Halt();
             canMoveWithMinigame = false;
         }
-        else if (mapId is MapNames.MiraHQ)
+        else if (mapId is ExpandedMapNames.MiraHq)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Mira HQ Conditions");
+            // Warning($"Checking Mira HQ Conditions");
             basicCams = Object.FindObjectsOfType<SystemConsole>()
                 .FirstOrDefault(x => x.gameObject.name.Contains("SurvLogConsole"));
             if (!OptionGroupSingleton<OperativeOptions>.Instance.MoveOnMira)
@@ -175,16 +188,24 @@ public sealed class SecurityButton : TownOfUsButton
                 canMoveWithMinigame = false;
             }
         }
-        else if (mapId is MapNames.Fungle)
+        else if (mapId is ExpandedMapNames.Fungle)
         {
-            // Logger<TownOfUsPlugin>.Warning($"Checking Fungle Conditions");
+            // Warning($"Checking Fungle Conditions");
+            PlayerControl.LocalPlayer.NetTransform.Halt();
+            canMoveWithMinigame = false;
+        }
+        else if (mapId is ExpandedMapNames.Submerged)
+        {
+            // Warning($"Checking Submerged Conditions");
+            basicCams = Object.FindObjectsOfType<SystemConsole>()
+                .FirstOrDefault(x => x.gameObject.name.Contains("SecurityConsole"));
             PlayerControl.LocalPlayer.NetTransform.Halt();
             canMoveWithMinigame = false;
         }
 
         if (basicCams == null)
         {
-            Logger<TownOfUsPlugin>.Error($"No Camera System Found!");
+            Error($"No Camera System Found!");
             return;
         }
 

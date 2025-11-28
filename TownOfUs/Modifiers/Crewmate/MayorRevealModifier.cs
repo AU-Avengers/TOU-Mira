@@ -12,7 +12,7 @@ public sealed class MayorRevealModifier(RoleBehaviour role)
         base.OnDeath(reason);
         ModifierComponent?.RemoveModifier(this);
     }
-    
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();

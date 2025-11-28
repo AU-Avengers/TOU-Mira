@@ -1,9 +1,12 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Modifiers;
+using TownOfUs.Interfaces;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
@@ -14,34 +17,43 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
+public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable, IButtonModifier
 {
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
-    public override string ModifierName => TouLocale.Get(TouNames.Satellite, "Satellite");
+    public override string LocaleKey => "Satellite";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Satellite;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalUtility;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
     public int Priority { get; set; } = 5;
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
     public string GetAdvancedDescription()
     {
-        return "You can broadcast a signal to know where dead bodies are."
-               + MiscUtils.AppendOptionsText(GetType());
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription").Replace("<maxUses>",
+                   $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}") +
+               MiscUtils.AppendOptionsText(GetType());
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Broadcast",
-            $"You can check for bodies on the map, which you can do {OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast} time(s) per game.",
-            TouAssets.BroadcastSprite)
-    ];
-
-    public override string GetDescription()
+    public List<CustomButtonWikiDescription> Abilities
     {
-        return "You can broadcast a signal to detect all dead bodies on the map.";
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.Get($"TouModifier{LocaleKey}Broadcast"),
+                    TouLocale.GetParsed($"TouModifier{LocaleKey}BroadcastWikiDescription").Replace("<maxUses>",
+                        $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}"),
+                    TouAssets.BroadcastSprite)
+            };
+        }
     }
 
     public override int GetAssignmentChance()
@@ -56,7 +68,8 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role is not MysticRole;
+        return base.IsModifierValidOn(role) && role is not MysticRole && role is not MediumRole &&
+            !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 
     public void OnRoundStart()

@@ -8,8 +8,9 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class ShyOptions : AbstractOptionGroup<ShyModifier>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Shy, "Shy");
-    public override uint GroupPriority => 28;
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    public override string GroupName => TouLocale.Get("TouModifierShy", "Shy");
+    public override uint GroupPriority => 35;
     public override Color GroupColor => TownOfUsColors.Shy;
 
     [ModdedNumberOption("Transparency Delay", 0f, 15f, 1f, MiraNumberSuffixes.Seconds)]

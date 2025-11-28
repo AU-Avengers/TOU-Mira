@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -7,7 +6,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
@@ -37,11 +35,20 @@ public sealed class MinerRole(IntPtr cppPtr)
                                                      (Player != null && MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<EngineerTouRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlumberRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string RoleName => TouLocale.Get(TouNames.Miner, "Miner");
-    public string RoleDescription => "From The Top, Make It Drop, That's A Vent";
-    public string RoleLongDescription => "Place interconnected vents around the map";
+    public string LocaleKey => "Miner";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorSupport;
@@ -60,23 +67,24 @@ public sealed class MinerRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (OptionGroupSingleton<MinerOptions>.Instance.MineVisibility is MineVisiblityOptions.AfterUse)
         {
-            stringB.Append(CultureInfo.InvariantCulture, $"Vents will only be visible once used");
+            stringB.Append(TownOfUsPlugin.Culture, $"Vents will only be visible once used");
         }
 
         return stringB;
     }
 
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Mine",
-            "Place a vent where you are standing. These vents won't connect to already existing vents on the map but with each other.",
-            TouImpAssets.MineSprite)
-    ];
-
-    public string GetAdvancedDescription()
+    public List<CustomButtonWikiDescription> Abilities
     {
-        return $"The {RoleName} is an Impostor Support role that can create vents." + MiscUtils.AppendOptionsText(GetType());
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Mine", "Mine"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}MineWikiDescription"),
+                    TouImpAssets.MineSprite)
+            };
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.PlaceVent)]
@@ -84,22 +92,27 @@ public sealed class MinerRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not MinerRole miner)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlaceVent - Invalid miner");
+            Error("RpcPlaceVent - Invalid miner");
             return;
         }
 
-        //Logger<TownOfUsPlugin>.Error("RpcPlaceVent");
+        //Error("RpcPlaceVent");
 
         var ventPrefab = ShipStatus.Instance.AllVents[0];
+        if (ModCompatibility.IsSubmerged())
+        {
+            // Cafeteria Vent for upper floor, Electrical Vent for lower floor
+            ventPrefab = (position.y > -7) ? ShipStatus.Instance.AllVents[5] : ShipStatus.Instance.AllVents[15];
+        }
         var vent = Instantiate(ventPrefab, ventPrefab.transform.parent);
         vent.name = $"MinerVent-{player.PlayerId}-{ventId}";
 
-        Logger<TownOfUsPlugin>.Error($"RpcPlaceVent - vent: {vent.name} - {immediate}");
+        Error($"RpcPlaceVent - vent: {vent.name} - {immediate}");
 
         if (!player.AmOwner && !immediate)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlaceVent - Hide Vent");
-            vent.myRend.enabled = false;
+            Error("RpcPlaceVent - Hide Vent");
+            vent.gameObject.SetActive(false);
         }
 
         vent.Id = ventId;
@@ -129,7 +142,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         ShipStatus.Instance.AllVents = allVents.ToArray();
 
         miner.Vents.Add(vent);
-        
+
         PlainShipRoom? plainShipRoom = null;
 
         var allRooms2 = ShipStatus.Instance.FastRooms;
@@ -140,7 +153,7 @@ public sealed class MinerRole(IntPtr cppPtr)
                 plainShipRoom = plainShipRoom2;
             }
         }
-        
+
         var mapId = (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
         if (TutorialManager.InstanceExists)
         {
@@ -160,7 +173,7 @@ public sealed class MinerRole(IntPtr cppPtr)
             if (vent.gameObject.transform.position.y > -7)
             {
                 vent.gameObject.transform.position = new Vector3(vent.gameObject.transform.position.x,
-                    vent.gameObject.transform.position.y, 0.03f);
+                    vent.gameObject.transform.position.y, 0.02f);
             }
             else
             {
@@ -185,7 +198,7 @@ public sealed class MinerRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not MinerRole miner)
         {
-            Logger<TownOfUsPlugin>.Error("RpcShowVent - Invalid miner");
+            Error("RpcShowVent - Invalid miner");
             return;
         }
 
@@ -193,7 +206,7 @@ public sealed class MinerRole(IntPtr cppPtr)
 
         if (vent != null)
         {
-            vent.myRend.enabled = true;
+            vent.gameObject.SetActive(true);
 
             var touAbilityEvent = new TouAbilityEvent(AbilityType.MinerRevealVent, player, vent);
             MiraEventManager.InvokeEvent(touAbilityEvent);

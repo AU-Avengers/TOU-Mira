@@ -6,6 +6,12 @@ namespace TownOfUs.Assets;
 public static class TouCrewAssets
 {
     // THIS FILE SHOULD ONLY HOLD BUTTONS AND ROLE BANNERS, EVERYTHING ELSE BELONGS IN TouAssets.cs
+
+    public static LoadableAsset<Sprite> CrewSwoopSprite { get; } =
+        new LoadableBundleAsset<Sprite>("CrewSwoopButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> CrewUnswoopSprite { get; } =
+        new LoadableBundleAsset<Sprite>("CrewUnswoopButton", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> InspectSprite { get; } =
         new LoadableBundleAsset<Sprite>("InspectButton", TouAssets.MainBundle);
 
@@ -21,12 +27,14 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> BlessSprite { get; } =
         new LoadableBundleAsset<Sprite>("BlessButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> SeerSprite { get; } = new LoadableBundleAsset<Sprite>("SeerButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> SeerSprite { get; } =
+        new LoadableBundleAsset<Sprite>("SeerButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> TrackSprite { get; } =
         new LoadableBundleAsset<Sprite>("TrackButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> TrapSprite { get; } = new LoadableBundleAsset<Sprite>("TrapButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> TrapSprite { get; } =
+        new LoadableBundleAsset<Sprite>("TrapButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> CampButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("CampButton", TouAssets.MainBundle);
@@ -34,7 +42,8 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> StalkButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("StalkButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> JailSprite { get; } = new LoadableBundleAsset<Sprite>("JailButton", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> JailSprite { get; } =
+        new LoadableBundleAsset<Sprite>("JailButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> AlertSprite { get; } =
         new LoadableBundleAsset<Sprite>("AlertButton", TouAssets.MainBundle);
@@ -59,9 +68,10 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> MagicMirrorSprite { get; } =
         new LoadableBundleAsset<Sprite>("MagicMirrorButton", TouAssets.MainBundle);
-    
+
     public static LoadableAsset<Sprite> UnleashSprite { get; } =
         new LoadableBundleAsset<Sprite>("UnleashButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> FortifySprite { get; } =
         new LoadableBundleAsset<Sprite>("FortifyButton", TouAssets.MainBundle);
 
@@ -80,7 +90,7 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> FlushSprite { get; } =
         new LoadableBundleAsset<Sprite>("FlushButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> BarricadeSprite { get; } =
+    public static LoadableAsset<Sprite> BlockSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Transport { get; } =

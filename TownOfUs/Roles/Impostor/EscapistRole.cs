@@ -6,7 +6,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Anims;
@@ -21,10 +20,8 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class EscapistRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
-    [HideFromIl2Cpp]
-    public Vector2? MarkedLocation { get; set; }
-    [HideFromIl2Cpp]
-    public GameObject? EscapeMark { get; set; }
+    [HideFromIl2Cpp] public Vector2? MarkedLocation { get; set; }
+    [HideFromIl2Cpp] public GameObject? EscapeMark { get; set; }
 
     public void FixedUpdate()
     {
@@ -35,7 +32,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
         if (EscapeMark != null)
         {
-            EscapeMark.SetActive(PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
+            EscapeMark.SetActive(PlayerControl.LocalPlayer.IsImpostorAligned() || (PlayerControl.LocalPlayer.HasDied() &&
                                                                             OptionGroupSingleton<GeneralOptions>
                                                                                 .Instance.TheDeadKnow));
             if (MarkedLocation == null)
@@ -48,9 +45,18 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TransporterRole>());
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => TouLocale.Get(TouNames.Escapist, "Escapist");
-    public string RoleDescription => "Get Away From Kills With Ease";
-    public string RoleLongDescription => "Teleport to get away from the scene of the crime";
+    public string LocaleKey => "Escapist";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorConcealing;
@@ -68,23 +74,22 @@ public sealed class EscapistRole(IntPtr cppPtr)
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is an Impostor Concealing role that can mark a location and then recall (teleport) to that location."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
     [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Mark",
-            "Mark a location for later use.",
-            TouImpAssets.MarkSprite),
-        new("Recall",
-            "Recall to the marked location.",
-            TouImpAssets.RecallSprite)
-    ];
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Mark", "Mark"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}MarkWikiDescription"),
+                    TouImpAssets.MarkSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Recall", "Recall"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}RecallWikiDescription"),
+                    TouImpAssets.RecallSprite)
+            };
+        }
+    }
 
     public override void Deinitialize(PlayerControl targetPlayer)
     {
@@ -97,7 +102,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not EscapistRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRecall - Invalid escapist");
+            Error("RpcRecall - Invalid escapist");
             return;
         }
 
@@ -110,7 +115,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not EscapistRole henry)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRecall - Invalid escapist");
+            Error("RpcRecall - Invalid escapist");
             return;
         }
 

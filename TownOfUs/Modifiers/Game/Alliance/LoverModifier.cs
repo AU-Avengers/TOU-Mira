@@ -11,6 +11,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
@@ -23,15 +24,36 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Lover, "Lover");
-    public override string Symbol => "♥";
+    public override string LocaleKey => "Lover";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => LoverString();
+
+    public override string GetDescription()
+    {
+        return LoverString();
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+            .Replace("<symbol>", "<color=#FF66CCFF>♥</color>") + MiscUtils.AppendOptionsText(GetType());
+    }
+
+    public string LoverString()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}Info")
+            .Replace("<player>", OtherLover != null ? OtherLover.Data.PlayerName : "???");
+    }
+
+    public override string Symbol => "♥";
     public override float IntroSize => 3f;
     public override Color FreeplayFileColor => new Color32(220, 220, 220, 255);
 
     public override bool DoesTasks =>
         (OtherLover == null || OtherLover.IsCrewmate()) &&
-        Player.IsCrewmate(); // Lovers do tasks if they are not lovers with an Evil
+        Player.IsCrewmate() && !ForceDisableTasks; // Lovers do tasks if they are not lovers with an Evil
+
+    public bool ForceDisableTasks;
 
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Lover;
@@ -46,6 +68,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public void AssignTargets()
     {
+        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        {
+            return;
+        }
+
         foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>())
                      .ToList())
         {
@@ -61,7 +88,8 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             var impTargetPercent = (int)loveOpt.LovingImpPercent;
 
             var players = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
+                .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
+                            !x.HasModifier<AllianceGameModifier>() &&
                             x.Data.Role is not InquisitorRole && (loveOpt.NeutralLovers || !x.IsNeutral())).ToList();
             players.Shuffle();
 
@@ -89,7 +117,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
             if (crewmates.Count < 2 || impostors.Count < 1)
             {
-                Logger<TownOfUsPlugin>.Error("Not enough players to select lovers");
+                Error("Not enough players to select lovers");
                 return;
             }
 
@@ -121,18 +149,6 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"As a {ModifierName.ToLowerInvariant()}, you can chat with your other {ModifierName.ToLowerInvariant()} (signified with <color=#FF66CCFF>♥</color>) during the round, and you can win with your {ModifierName.ToLowerInvariant()} if you are both a part of the final 3 players."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    public override string GetDescription()
-    {
-        return LoverString();
-    }
 
     public override int GetAmountPerGame()
     {
@@ -256,11 +272,6 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         HudManager.Instance.Chat.SetVisible(true);
     }
 
-    public string LoverString()
-    {
-        return !OtherLover ? "You are in love with nobody" : $"You are in love with {OtherLover!.Data.PlayerName}";
-    }
-
     public PlayerControl? GetOtherLover()
     {
         return OtherLover;
@@ -271,7 +282,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     {
         if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSetOtherLover - Lovers Already Spawned!");
+            Error("RpcSetOtherLover - Lovers Already Spawned!");
             return;
         }
 
@@ -279,5 +290,10 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var sourceModifier = player.AddModifier<LoverModifier>();
         targetModifier!.OtherLover = player;
         sourceModifier!.OtherLover = target;
+        if (!player.IsCrewmate() || !target.IsCrewmate())
+        {
+            targetModifier.ForceDisableTasks = true;
+            sourceModifier.ForceDisableTasks = true;
+        }
     }
 }

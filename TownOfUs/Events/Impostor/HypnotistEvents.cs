@@ -17,12 +17,13 @@ public static class HypnotistEvents
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
         foreach (var mod in ModifierUtils.GetActiveModifiers<HypnotisedModifier>())
         {
-            if (mod.Hypnotist == exiled || mod.Hypnotist == null || mod.Hypnotist.HasDied() || mod.Hypnotist.Data.Role is not HypnotistRole)
+            if (mod.Hypnotist == exiled || mod.Hypnotist == null || mod.Hypnotist.HasDied() ||
+                mod.Hypnotist.Data.Role is not HypnotistRole)
             {
                 mod.ModifierComponent?.RemoveModifier(mod);
             }
         }
-        
+
         foreach (var hypnotist in CustomRoleUtils.GetActiveRolesOfType<HypnotistRole>())
         {
             if (!hypnotist.HysteriaActive)

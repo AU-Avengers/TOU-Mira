@@ -16,7 +16,7 @@ public static class SixthSenseEvents
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
-        // Logger<TownOfUsPlugin>.Warning("SixthSense click event!");
+        // Warning("SixthSense click event!");
         if (MeetingHud.Instance || ExileController.Instance)
         {
             return;

@@ -1,9 +1,10 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
-using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Interfaces;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
 using TownOfUs.Utilities;
@@ -11,28 +12,29 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
 
-public sealed class OperativeModifier : TouGameModifier, IWikiDiscoverable
+public sealed class OperativeModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Operative, "Operative");
-    public override string IntroInfo => "You can also use security systems on-the-go.";
+    public override string LocaleKey => "Operative";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+               + MiscUtils.AppendOptionsText(GetType());
+    }
+
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Operative;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
     public override ModifierFaction FactionType => ModifierFaction.CrewmateUtility;
 
-    public string GetAdvancedDescription()
-    {
-        return
-            "Use cameras at anytime with a limited battery charge."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "Utilize the Cameras from anywhere";
-    }
 
     public override void OnActivate()
     {
@@ -72,7 +74,6 @@ public sealed class OperativeModifier : TouGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsCrewmate() &&
-               !role.Player.GetModifierComponent().HasModifier<SatelliteModifier>(true) &&
-               !role.Player.GetModifierComponent().HasModifier<ButtonBarryModifier>(true);
+               !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
     }
 }

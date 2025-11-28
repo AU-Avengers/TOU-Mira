@@ -67,7 +67,7 @@ public static class GuardianAngelEvents
     [RegisterEvent]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
-        foreach (var ga in CustomRoleUtils.GetActiveRolesOfType<GuardianAngelTouRole>())
+        foreach (var ga in CustomRoleUtils.GetActiveRolesOfType<FairyRole>())
         {
             ga.CheckTargetDeath(@event.Player);
         }
@@ -90,6 +90,7 @@ public static class GuardianAngelEvents
         }
 
         @event.Cancel();
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a ga shield, stopping an attack from {source.Data.PlayerName}!");
 
         return true;
     }

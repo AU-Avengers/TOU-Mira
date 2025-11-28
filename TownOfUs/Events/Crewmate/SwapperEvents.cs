@@ -19,7 +19,7 @@ public static class SwapperEvents
     [RegisterEvent(10)]
     public static void ProcessVotesEventHandler(ProcessVotesEvent @event)
     {
-        // Logger<TownOfUsPlugin>.Error($"SwapperEvents.ProcessVotesEventHandler");
+        // Error($"SwapperEvents.ProcessVotesEventHandler");
         CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().Do(x => SwapVotes(@event, x));
     }
 

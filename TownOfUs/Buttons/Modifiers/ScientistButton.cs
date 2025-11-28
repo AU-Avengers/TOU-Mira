@@ -15,10 +15,13 @@ namespace TownOfUs.Buttons.Modifiers;
 public sealed class ScientistButton : TownOfUsButton
 {
     public VitalsMinigame? vitals;
-    public override string Name => "Vitals";
-    public override string Keybind => Keybinds.ModifierAction;
+
+    public override string Name =>
+        TranslationController.Instance.GetStringWithDefault(StringNames.VitalsAbility, "Vitals");
+
+    public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Scientist;
-    public override float Cooldown => OptionGroupSingleton<ScientistOptions>.Instance.DisplayCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ScientistOptions>.Instance.DisplayCooldown + MapCooldown + MapCooldown, 0.001f, 120f);
     public float AvailableCharge { get; set; } = OptionGroupSingleton<ScientistOptions>.Instance.StartingCharge;
 
     public override float EffectDuration
@@ -50,6 +53,10 @@ public sealed class ScientistButton : TownOfUsButton
     {
         base.CreateButton(parent);
         AvailableCharge = OptionGroupSingleton<ScientistOptions>.Instance.StartingCharge;
+        if (KeybindIcon != null)
+        {
+            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
+        }
     }
 
     private void RefreshAbilityButton()
@@ -99,7 +106,13 @@ public sealed class ScientistButton : TownOfUsButton
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
+                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }

@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -15,11 +14,17 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerControl>
 {
-    public override string Name => "Reveal";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleSeerReveal", "Reveal");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
-    public override float Cooldown => OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SeerSprite;
+
+    public override bool Enabled(RoleBehaviour? role)
+    {
+        return base.Enabled(role) &&
+               !OptionGroupSingleton<SeerOptions>.Instance.SalemSeer;
+    }
 
     public override bool IsTargetValid(PlayerControl? target)
     {
@@ -61,9 +66,8 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You have revealed that {target.Data.PlayerName} is {possiblyGood} evil!</color></b>",
-                Color.white, spr: TouRoleIcons.Seer.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
+            notif1.AdjustNotification();
 
             if (options.ShowCrewmateKillingAsRed)
             {
@@ -83,6 +87,11 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
             if (options.ShowNeutralKillingAsRed)
             {
                 possibleAlignment.Append("Neutral Killer, ");
+            }
+
+            if (options.ShowNeutralOutlierAsRed)
+            {
+                possibleAlignment.Append("Neutral Outlier, ");
             }
 
             if (options.SwapTraitorColors)
@@ -116,9 +125,8 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
 
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{Palette.CrewmateBlue.ToTextColor()}You have revealed that {target.Data.PlayerName} is {possiblyGood} good!</color></b>",
-                Color.white, spr: TouRoleIcons.Seer.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Seer.LoadAsset());
+            notif1.AdjustNotification();
 
             if (!options.ShowNeutralBenignAsRed)
             {
@@ -135,6 +143,11 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                 possibleAlignment.Append("Neutral Killer, ");
             }
 
+            if (!options.ShowNeutralOutlierAsRed)
+            {
+                possibleAlignment.Append("Neutral Outlier, ");
+            }
+
             if (possibleAlignment.Length > 3)
             {
                 possibleAlignment = possibleAlignment.Remove(possibleAlignment.Length - 2, 2);
@@ -144,20 +157,19 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
             possibleAlignment.Append(impString);
             var notif2 =
                 Helpers.CreateAndShowNotification($"<b>They must be a {possibleAlignment}</b>", Palette.CrewmateBlue);
-            notif2.Text.SetOutlineThickness(0.35f);
-            notif2.transform.localPosition = new Vector3(0f, 1f, -20f);
+            notif2.AdjustNotification();
         }
     }
 
     public static bool IsEvil(PlayerControl target)
     {
         var options = OptionGroupSingleton<SeerOptions>.Instance;
-        return !target.HasModifier<ImitatorCacheModifier>() &&
-               ((target.Is(RoleAlignment.CrewmateKilling) && options.ShowCrewmateKillingAsRed) ||
+        return ((target.Is(RoleAlignment.CrewmateKilling) && options.ShowCrewmateKillingAsRed) ||
                 (target.Is(RoleAlignment.NeutralBenign) && options.ShowNeutralBenignAsRed) ||
                 (target.Is(RoleAlignment.NeutralEvil) && options.ShowNeutralEvilAsRed) ||
                 (target.Is(RoleAlignment.NeutralKilling) && options.ShowNeutralKillingAsRed) ||
-                (target.IsImpostor() && !target.HasModifier<TraitorCacheModifier>()) ||
-                (target.HasModifier<TraitorCacheModifier>() && options.SwapTraitorColors));
+                (target.Is(RoleAlignment.NeutralOutlier) && options.ShowNeutralOutlierAsRed) ||
+                (target.IsImpostor() && !target.IsTraitor()) ||
+                (target.IsTraitor() && options.SwapTraitorColors));
     }
 }

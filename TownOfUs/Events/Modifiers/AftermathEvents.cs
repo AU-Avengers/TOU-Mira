@@ -5,6 +5,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Modifiers.Game.Crewmate;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;
@@ -28,12 +29,13 @@ public static class AftermathEvents
             return;
         }
 
-        var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.Aftermath.ToTextColor()}{@event.Target.Data.PlayerName} was an Aftermath, forcing you to use your ability.</color></b>",
-            Color.white, spr: TouModifierIcons.Aftermath.LoadAsset());
+        var text = TouLocale.GetParsed("TouModifierAftermathTriggeredNotif").Replace("<player>", @event.Target.Data.PlayerName);
 
-        notif1.Text.SetOutlineThickness(0.35f);
-        notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+        var notif1 = Helpers.CreateAndShowNotification(
+            $"<b>{text.Replace("<modifier>", $"{TownOfUsColors.Aftermath.ToTextColor()}{TouLocale.Get("TouModifierAftermath")}</color>")}</b>",
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Aftermath.LoadAsset());
+
+        notif1.AdjustNotification();
 
         switch (button)
         {
@@ -46,6 +48,6 @@ public static class AftermathEvents
                 break;
         }
 
-        button.ClickHandler();
+        button.AftermathHandler();
     }
 }

@@ -1,16 +1,14 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
-using TownOfUs.Buttons.Neutral;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -28,17 +26,45 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public bool CanBribe => Gold >= BrideCost;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<WardenRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string RoleName => TouLocale.Get(TouNames.Mercenary, "Mercenary");
-    public string RoleDescription => "Bribe The Crewmates";
-    public string RoleLongDescription => "Guard crewmates, and then bribe the winners!";
+    public string LocaleKey => "Mercenary";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Guard", "Guard"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}GuardWikiDescription"),
+                    TouNeutAssets.GuardSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Bribe", "Bribe"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}BribeWikiDescription"),
+                    TouNeutAssets.BribeSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Mercenary;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
+
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
+
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
-             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<GuardianAngelTouRole>())) &&
-         OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary)
+             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<FairyRole>())) &&
+         OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary)
         || (MiscUtils.GetPotentialRoles()
                 .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ExecutionerRole>())) &&
             OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary);
@@ -56,80 +82,74 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var players = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>();
 
-        stringB.Append(CultureInfo.InvariantCulture, $"\n<b>Gold:</b> {Gold}");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.GetParsed("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
 
         var playerControls = players as PlayerControl[] ?? [.. players];
         if (playerControls.Length != 0)
         {
-            stringB.Append("\n<b>Bribed:</b>");
-        }
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleMercenaryTabBribedInfo")}</b>");
 
-        foreach (var player in playerControls)
-        {
-            stringB.Append(CultureInfo.InvariantCulture, $"\n{player.Data.PlayerName}");
+            foreach (var player in playerControls)
+            {
+                stringB.Append(TownOfUsPlugin.Culture, $"\n{player.Data.PlayerName}");
+            }
         }
 
         return stringB;
     }
-
-    public string GetAdvancedDescription()
+    
+    public override void Deinitialize(PlayerControl targetPlayer)
     {
-        return
-            $"The {RoleName} is a Neutral Benign role that can only win by bribing players, allowing them to gain multiple win conditions."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
+        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Guard",
-            "Guarding a player allows the Mercenary to absorb an ability used on the target. This will grant them gold, for Bribing. If any bribed targets win, the Mercenary will win with them.",
-            TouNeutAssets.GuardSprite),
-        new("Bribe",
-            "Bribing a player allows the Mercenary to gain their win condition, given that they have gold to spare.",
-            TouNeutAssets.BribeSprite)
-    ];
+        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils.GetActiveModifiers<MercenaryBribedModifier>(x => x.Mercenary == Player).Any())
+        {
+            Player.AddModifier<BasicGhostModifier>();
+        }
+    }
 
     public override bool DidWin(GameOverReason gameOverReason)
     {
         var bribed = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>(x => x.Mercenary == Player);
 
-        return bribed.Any(x => x.Data.Role.DidWin(gameOverReason) || x.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true));
+        return bribed.Any(x =>
+            x.Data.Role.DidWin(gameOverReason) ||
+            x.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true));
     }
 
-    public void AddPayment()
+    public void AddPayment(int gold = 1)
     {
-        Gold++;
-
-        if (CanBribe)
-        {
-            CustomButtonSingleton<MercenaryBribeButton>.Instance.SetActive(true, this);
-        }
+        Gold += gold;
     }
 
     public void Clear()
     {
         Gold = 0;
-
-        CustomButtonSingleton<MercenaryGuardButton>.Instance.SetActive(true, this);
-        CustomButtonSingleton<MercenaryBribeButton>.Instance.SetActive(false, this);
     }
 
     [MethodRpc((uint)TownOfUsRpc.Guarded)]
-    public static void RpcGuarded(PlayerControl player)
+    public static void RpcGuarded(PlayerControl player, PlayerControl target, bool isMurder = false)
     {
-        if (player.Data.Role is not MercenaryRole)
+        if (player.Data.Role is not MercenaryRole mercenary)
         {
-            Logger<TownOfUsPlugin>.Error("RpcGuarded - Invalid mercenary");
+            Error("RpcGuarded - Invalid mercenary");
             return;
         }
 
-        if (!player.AmOwner)
+        var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
+        if (isMurder && mercOpts.GuardProtection.Value)
         {
-            return;
+            mercenary.AddPayment(mercOpts.GoldGivenFromAttack);
+        }
+        else
+        {
+            mercenary.AddPayment();
         }
 
-        var mercenary = player.GetRole<MercenaryRole>();
-        mercenary?.AddPayment();
+        if (target.TryGetModifier<MercenaryGuardModifier>(out var mercGuard))
+        {
+            // This will remove it after a few seconds
+            mercGuard.StartTimer();
+        }
     }
 }

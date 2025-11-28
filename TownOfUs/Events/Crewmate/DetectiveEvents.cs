@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
-using MiraAPI.Utilities;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
@@ -19,7 +18,7 @@ public static class DetectiveEvents
             return;
         }
 
-        if (@event.Reporter.Data.Role is DetectiveRole detective && @event.Reporter.AmOwner)
+        if (@event.Reporter.Data.Role is ForensicRole detective && @event.Reporter.AmOwner)
         {
             detective.Report(@event.Target.PlayerId);
         }
@@ -38,21 +37,17 @@ public static class DetectiveEvents
             return;
         }
 
-        if (!Helpers.GetAlivePlayers().Any(x => x.Data.Role is DetectiveRole))
-        {
-            return;
-        }
-
         foreach (var scene in CrimeSceneComponent._crimeScenes)
         {
             if (scene == null || scene.gameObject == null || !scene.gameObject)
             {
                 continue;
             }
+
             scene.gameObject.SetActive(false);
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is DetectiveRole)
+        if (PlayerControl.LocalPlayer.Data.Role is ForensicRole)
         {
             foreach (var scene in CrimeSceneComponent._crimeScenes)
             {
@@ -60,6 +55,7 @@ public static class DetectiveEvents
                 {
                     continue;
                 }
+
                 scene.gameObject.SetActive(true);
             }
         }

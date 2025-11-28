@@ -1,22 +1,19 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -36,9 +33,35 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         .FirstOrDefault(x => x.GetModifier<JailedModifier>()?.JailorId == Player.PlayerId)!;
 
     public DoomableType DoomHintType => DoomableType.Relentless;
-    public string RoleName => TouLocale.Get(TouNames.Jailor, "Jailor");
-    public string RoleDescription => "Jail And Execute The <color=#FF0000FF>Impostors</color>";
-    public string RoleLongDescription => "Execute evildoers in meetings but avoid crewmates";
+    public string LocaleKey => "Jailor";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEvil") : TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Jail", "Jail"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}JailWikiDescription"),
+                    TouCrewAssets.JailSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}ExecuteWiki", "Execute"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ExecuteWikiDescription"),
+                    TouAssets.ExecuteCleanSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Jailor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
@@ -62,29 +85,11 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"You can execute crewmates.");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"You can execute crewmates.");
         }
 
         return stringB;
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Power role that can jail other players. During a meeting, the Jailor can choose to execute their jailed player. (Unless the Jailor is an Imitator)"
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Jail",
-            "Jail a player. During the meeting everyone will see who is jailed. You can privately talk with your detained player using the instructions in the private Jailor chat.",
-            TouCrewAssets.JailSprite),
-        new("Execute (Meeting)",
-            "Execute the detained player. If the player is a crewmate the Jailor will lose the ability to Jail.",
-            TouAssets.ExecuteCleanSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {
@@ -118,8 +123,10 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 return;
             }
 
-            var title = $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailor Feedback</color>";
-            MiscUtils.AddFakeChat(Jailed.Data, title, "Communicate with your jailee in the chatbox above the user report button.", false,
+            var title = $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleJailorMessageTitle")}</color>";
+            MiscUtils.AddFakeChat(Jailed.Data, title,
+                TouLocale.GetParsed("TouRoleJailorJailorFeedback"),
+                false,
                 true);
         }
 
@@ -217,7 +224,8 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             Clear();
 
             Executes--;
-            var text = $"{Jailed.Data.PlayerName} cannot be executed! They must be Invulnerable!";
+            var text = TouLocale.GetParsed("TouRoleJailorCannotExecute");
+            var color = TownOfUsColors.Jailor;
             if (!Jailed.HasModifier<InvulnerabilityModifier>())
             {
                 if (Jailed.Is(ModdedRoleTeams.Crewmate) &&
@@ -227,24 +235,27 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 {
                     Executes = 0;
 
+                    color = TownOfUsColors.ImpSoft;
                     CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = true;
-                    text = $"{Jailed.Data.PlayerName} was a crewmate! You can no longer jail anyone!";
+                    text = TouLocale.GetParsed("TouRoleJailorExecutedCrew");
                 }
                 else
                 {
-                    Coroutines.Start(MiscUtils.CoFlash(Color.green));
-                    text = $"{Jailed.Data.PlayerName} was successfully executed!";
+                    color = Color.green;
+                    text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
                 }
 
-                Player.RpcCustomMurder(Jailed, createDeadBody: false, teleportMurderer: false);
-                DeathHandlerModifier.RpcUpdateDeathHandler(Jailed, "Executed", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, $"By {Player.Data.PlayerName}", lockInfo: DeathHandlerOverride.SetTrue);
+                Player.RpcSpecialMurder(Jailed, true, true, createDeadBody: false, teleportMurderer: false,
+                    showKillAnim: false,
+                    playKillSound: false,
+                    causeOfDeath: "Jailor");
             }
+            text = text.Replace("<player>", Jailed.Data.PlayerName);
 
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{text}</b>", Color.white, spr: TouRoleIcons.Jailor.LoadAsset());
+                $"<b>{text}</b>", color, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jailor.LoadAsset());
 
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+            notif1.AdjustNotification();
         }
 
         return Listener;

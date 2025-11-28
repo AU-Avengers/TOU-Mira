@@ -4,10 +4,11 @@ using TownOfUs.Events.TouEvents;
 
 namespace TownOfUs.Patches;
 
-[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Revive))]
+[HarmonyPatch]
 public static class PlayerRevivePatch
 {
-
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Revive))]
     public static void Postfix(PlayerControl __instance)
     {
         var reviveEvent = new PlayerReviveEvent(__instance);

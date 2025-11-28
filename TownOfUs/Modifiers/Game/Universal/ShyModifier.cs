@@ -1,6 +1,7 @@
 ﻿using AmongUs.Data;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
@@ -14,7 +15,8 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Shy, "Shy");
+    public override string LocaleKey => "Shy";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Shy;
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalVisibility;
@@ -29,19 +31,17 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
     private DateTime LastMoved { get; set; }
     private bool StopShy { get; set; }
 
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
     public string GetAdvancedDescription()
     {
-        return
-            "You blend in with the environment, becoming transparent when staying still."
-            + MiscUtils.AppendOptionsText(GetType());
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
-
-    public override string GetDescription()
-    {
-        return "You become transparent when \nstanding still for a short duration.";
-    }
 
     public override int GetAssignmentChance()
     {
@@ -110,11 +110,11 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
                 StopShy = true;
                 SetVisibility(Player, 1f);
             }
+
             return;
         }
 
         StopShy = false;
-
         // check movement by animation
         var playerPhysics = Player.MyPhysics;
         var currentPhysicsAnim = playerPhysics.Animations.Animator.GetCurrentAnimation();
@@ -122,12 +122,16 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             LastMoved = DateTime.UtcNow;
         }
-
-        if (Player.GetAppearanceType() == TownOfUsAppearances.Swooper)
+        
+        if (HexBombSabotageSystem.BombFinished)
+        {
+            SetVisibility(Player, 1f);
+        }
+        else if (Player.GetAppearanceType() == TownOfUsAppearances.Swooper)
         {
             var opacity = 0f;
 
-            if ((PlayerControl.LocalPlayer.IsImpostor() && Player.Data.Role is SwooperRole) ||
+            if ((PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
                 (Player.AmOwner && Player.Data.Role is SwooperRole))
             {
                 opacity = 0.1f;
@@ -139,7 +143,8 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             SetVisibility(Player, 1f, true);
         }
-        else if (Player.GetAppearanceType() == TownOfUsAppearances.Morph || Player.GetAppearanceType() == TownOfUsAppearances.Mimic)
+        else if (Player.GetAppearanceType() == TownOfUsAppearances.Morph ||
+                 Player.GetAppearanceType() == TownOfUsAppearances.Mimic)
         {
             SetVisibility(Player, 1f);
         }
@@ -195,10 +200,14 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         cosmetics.skin.layer.color = cosmetics.skin.layer.color.SetAlpha(transparency);
         if (player.cosmetics.GetLongBoi() != null)
         {
-            player.cosmetics.GetLongBoi().headSprite.color = player.cosmetics.GetLongBoi().headSprite.color.SetAlpha(transparency);
-            player.cosmetics.GetLongBoi().neckSprite.color = player.cosmetics.GetLongBoi().neckSprite.color.SetAlpha(transparency);
-            player.cosmetics.GetLongBoi().foregroundNeckSprite.color = player.cosmetics.GetLongBoi().foregroundNeckSprite.color.SetAlpha(transparency);
+            player.cosmetics.GetLongBoi().headSprite.color =
+                player.cosmetics.GetLongBoi().headSprite.color.SetAlpha(transparency);
+            player.cosmetics.GetLongBoi().neckSprite.color =
+                player.cosmetics.GetLongBoi().neckSprite.color.SetAlpha(transparency);
+            player.cosmetics.GetLongBoi().foregroundNeckSprite.color =
+                player.cosmetics.GetLongBoi().foregroundNeckSprite.color.SetAlpha(transparency);
         }
+
         if (player.cosmetics.currentPet != null)
         {
             foreach (var rend in player.cosmetics.currentPet.renderers)

@@ -10,9 +10,11 @@ public interface IWikiDiscoverable
 {
     [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities => [];
 
-    public string SecondTabName => "Abilities";
-    public bool IsHiddenFromList => false;
-    public uint FakeTypeId => ModifierManager.GetModifierTypeId(GetType()) ?? throw new InvalidOperationException("Modifier is not registered.");
+    public string SecondTabName => TouLocale.Get("WikiAbilitiesTab", "Abilities");
+    public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.Normal;
+
+    public uint FakeTypeId => ModifierManager.GetModifierTypeId(GetType()) ??
+                              throw new InvalidOperationException("Modifier is not registered.");
 
     public string GetAdvancedDescription()
     {

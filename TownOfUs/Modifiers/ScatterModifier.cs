@@ -16,7 +16,7 @@ public class ScatterModifier(float time) : TimedModifier
     private TextMeshProUGUI? scatterText;
     private GameObject? scatterUI;
     private float soundTimer = 1f;
-    public override string ModifierName => TouLocale.Get(TouNames.Scatter, "Scatter");
+    public override string ModifierName => TouLocale.Get("Scatter", "Scatter");
     public override float Duration => time;
     public override bool AutoStart => false;
     public override bool HideOnUi => true;
@@ -40,7 +40,7 @@ public class ScatterModifier(float time) : TimedModifier
     {
         base.OnActivate();
 
-        //Logger<TownOfUsPlugin>.Error($"ScatterModifier.OnActivate");
+        //Error($"ScatterModifier.OnActivate");
 
         if (!Player.AmOwner)
         {
@@ -74,7 +74,7 @@ public class ScatterModifier(float time) : TimedModifier
     {
         base.FixedUpdate();
 
-        //Logger<TownOfUsPlugin>.Error($"Scatter - !Player.AmOwner: {!Player.AmOwner} !TimerActive: {!TimerActive} Player.HasDied(): {Player.HasDied()} MeetingHud.Instance: {MeetingHud.Instance} ScatterEvents.Intro: {ScatterEvents.Intro}");
+        //Error($"Scatter - !Player.AmOwner: {!Player.AmOwner} !TimerActive: {!TimerActive} Player.HasDied(): {Player.HasDied()} MeetingHud.Instance: {MeetingHud.Instance} ScatterEvents.Intro: {ScatterEvents.Intro}");
 
         if (!Player.AmOwner || !TimerActive || Player.HasDied() || MeetingHud.Instance)
         {
@@ -169,7 +169,7 @@ public class ScatterModifier(float time) : TimedModifier
 
     public void OnRoundStart()
     {
-        //Logger<TownOfUsPlugin>.Error($"Scatter - OnRoundStart");
+        //Error($"Scatter - OnRoundStart");
 
         ResetTimer();
         ResumeTimer();

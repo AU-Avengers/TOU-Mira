@@ -2,6 +2,7 @@
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -13,10 +14,13 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<MirrorcasterRole>, IAftermathableButton
 {
-    public override string Name => "Magic Mirror";
-    public override string Keybind => Keybinds.SecondaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleMirrorcasterMagicMirror", "Magic Mirror");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mirrorcaster;
-    public override float Cooldown => OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorCooldown.Value + MapCooldown + 0.001f;
+
+    public override float Cooldown =>
+        Math.Clamp(OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorCooldown.Value + MapCooldown, 0.001f, 120f);
+
     public override float EffectDuration => OptionGroupSingleton<MirrorcasterOptions>.Instance.MirrorDuration.Value;
     public override int MaxUses => (int)OptionGroupSingleton<MirrorcasterOptions>.Instance.MaxMirrors;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MagicMirrorSprite;
@@ -26,8 +30,11 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
 
     public override bool CanUse()
     {
-        return base.CanUse() && Role is { Protected: null } && (OptionGroupSingleton<MirrorcasterOptions>.Instance.MultiUnleash || Role.UnleashesAvailable <= 0) && !EffectActive;
+        return base.CanUse() && Role is { Protected: null } &&
+               (OptionGroupSingleton<MirrorcasterOptions>.Instance.MultiUnleash || Role.UnleashesAvailable <= 0) &&
+               !EffectActive;
     }
+
     public override void ClickHandler()
     {
         if (!CanUse())
@@ -37,7 +44,22 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
 
         OnClick();
     }
-    
+
+    public void AftermathHandler()
+    {
+        var player = PlayerControl.AllPlayerControls.ToArray().Where(plr => !plr.HasDied()).Random();
+        if (player == null)
+        {
+            return;
+        }
+
+        MirrorcasterRole.RpcMagicMirror(PlayerControl.LocalPlayer, player);
+        EffectActive = true;
+        Timer = EffectDuration;
+        OverrideName(TouLocale.Get("TouRoleMirrorcasterMagicMirrorProtecting", "Protecting"));
+        TargetWasValid = true;
+    }
+
     protected override void OnClick()
     {
         /*if (!OptionGroupSingleton<GlitchOptions>.Instance.MoveWithMenu)
@@ -65,7 +87,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
 
                     EffectActive = true;
                     Timer = EffectDuration;
-                    OverrideName("Protecting");
+                    OverrideName(TouLocale.Get("TouRoleMirrorcasterMagicMirrorProtecting", "Protecting"));
                     TargetWasValid = !plr.HasDied();
                 }
                 else
@@ -86,29 +108,43 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
 
     public override void OnEffectEnd()
     {
+        var text = string.Empty;
         if (TargetWasValid)
         {
             DecreaseUses();
         }
         else
         {
-            var notif1 = Helpers.CreateAndShowNotification($"<b>The player you tried to protect was already dead!</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
+            text = TouLocale.GetParsed("TouRoleMirrorcasterAlreadyDiedNotif");
         }
 
-        if (Role.Protected != null && Role.Protected.HasDied())
+        // Incase the player changed roles
+        if (PlayerControl.LocalPlayer.Data.Role is MirrorcasterRole)
         {
-            var notif1 = Helpers.CreateAndShowNotification($"<b>{Role.Protected.Data.PlayerName} died to an indirect attack, which your mirrors couldn't protect from.</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
-        }
-        else if (Role.Protected != null && !Role.Protected.HasDied())
-        {
-            var notif1 = Helpers.CreateAndShowNotification($"<b>{Role.Protected.Data.PlayerName} was not attacked.</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
+            if (Role.Protected != null && Role.Protected.HasDied())
+            {
+                text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDiedNotif");
+            }
+            else if (Role.Protected != null && !Role.Protected.HasDied())
+            {
+                text = TouLocale.GetParsed("TouRoleMirrorcasterTargetDidNotDieNotif");
+            }
+
+            if (text.Contains("<player>") && Role.Protected != null)
+            {
+                text = text.Replace("<player>", Role.Protected.Data.PlayerName);
+            }
+
+            if (text != string.Empty && MeetingHud.Instance == null)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(text,
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Mirrorcaster.LoadAsset());
+                notif1.AdjustNotification();
+            }
+            MirrorcasterRole.RpcClearMagicMirror(PlayerControl.LocalPlayer);
         }
 
         TargetWasValid = false;
-        MirrorcasterRole.RpcClearMagicMirror(PlayerControl.LocalPlayer);
-        OverrideName("Magic Mirror");
+        OverrideName(TouLocale.Get("TouRoleMirrorcasterMagicMirror", "Magic Mirror"));
     }
 }

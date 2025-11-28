@@ -20,4 +20,14 @@ public sealed class SurvivorVestModifier : TimedModifier
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SurvivorVest, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
+
+    public override void OnMeetingStart()
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
+
+    public override void OnDeath(DeathReason reason)
+    {
+        ModifierComponent?.RemoveModifier(this);
+    }
 }

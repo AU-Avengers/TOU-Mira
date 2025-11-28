@@ -16,7 +16,7 @@ public static class RevealEvents
         }
 
         var player = @event.Player;
-        var mods = player.GetModifiers<RevealModifier>();
+        var mods = player.GetModifiers<RevealModifier>(x => x.ChangeRoleResult is not ChangeRoleResult.Nothing);
         foreach (var mod in mods)
         {
             switch (mod.ChangeRoleResult)

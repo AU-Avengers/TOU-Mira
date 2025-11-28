@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
+using TownOfUs.Options;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Roles;
@@ -13,28 +13,62 @@ public interface ITownOfUsRole : ICustomRole
 
     bool HasImpostorVision => false;
     public virtual bool MetWinCon => false;
+    public virtual string LocaleKey => "KEY_MISS";
+    public static Dictionary<string, string> LocaleList => [];
+
+    public CustomRoleConfiguration Configuration => new(this)
+    {
+        /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.Normal*/
+    };
+    Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
 
     public virtual string YouAreText
     {
         get
         {
-            var prefix = " a";
+            var prefix = "A";
             if (RoleName.StartsWithVowel())
             {
-                prefix = " an";
+                prefix = "An";
             }
 
             if (Configuration.MaxRoleCount is 0 or 1)
             {
-                prefix = " the";
+                prefix = "The";
             }
 
-            if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+            if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
+                LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
             {
                 prefix = "";
             }
 
-            return $"You are{prefix}";
+            return TouLocale.Get($"YouAre{prefix}");
+        }
+    }
+
+    public virtual string YouWereText
+    {
+        get
+        {
+            var prefix = "A";
+            if (RoleName.StartsWithVowel())
+            {
+                prefix = "An";
+            }
+
+            if (Configuration.MaxRoleCount is 0 or 1)
+            {
+                prefix = "The";
+            }
+
+            if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
+                LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+            {
+                prefix = "";
+            }
+
+            return TouLocale.Get($"YouWere{prefix}");
         }
     }
 
@@ -71,7 +105,7 @@ public interface ITownOfUsRole : ICustomRole
             {
                 return TouRoleGroups.ImpKiller;
             }
-            
+
             if (RoleAlignment == RoleAlignment.ImpostorPower)
             {
                 return TouRoleGroups.ImpPower;
@@ -81,7 +115,7 @@ public interface ITownOfUsRole : ICustomRole
             {
                 return TouRoleGroups.NeutralEvil;
             }
-            
+
             if (RoleAlignment == RoleAlignment.NeutralOutlier)
             {
                 return TouRoleGroups.NeutralOutlier;
@@ -90,6 +124,46 @@ public interface ITownOfUsRole : ICustomRole
             if (RoleAlignment == RoleAlignment.NeutralKilling)
             {
                 return TouRoleGroups.NeutralKiller;
+            }
+
+            if (RoleAlignment == RoleAlignment.CrewmateHider)
+            {
+                return TouRoleGroups.CrewHider;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorSeeker)
+            {
+                return TouRoleGroups.ImpSeeker;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorCultist)
+            {
+                return TouRoleGroups.ImpCultist;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorFollower)
+            {
+                return TouRoleGroups.ImpFollower;
+            }
+
+            if (RoleAlignment == RoleAlignment.CrewmateBeliever)
+            {
+                return TouRoleGroups.CrewBeliever;
+            }
+
+            if (RoleAlignment == RoleAlignment.CrewmateObstinate)
+            {
+                return TouRoleGroups.CrewObstinate;
+            }
+
+            if (RoleAlignment == RoleAlignment.NeutralObstinate)
+            {
+                return TouRoleGroups.NeutralObstinate;
+            }
+
+            if (RoleAlignment == RoleAlignment.GameOutlier)
+            {
+                return TouRoleGroups.Other;
             }
 
             return Team switch
@@ -113,98 +187,25 @@ public interface ITownOfUsRole : ICustomRole
     {
     }
 
+    /// <summary>
+    ///     OffsetButtons - Called when the role initializes and when the player offsets their buttons even without a vent button.
+    /// </summary>
+    void OffsetButtons()
+    {
+    }
+
     public static StringBuilder SetNewTabText(ICustomRole role)
     {
-        var alignment = role is ITownOfUsRole touRole
-            ? touRole.RoleAlignment.ToDisplayString()
-            : "Custom";
-
-        if (alignment.Contains("Crewmate"))
-        {
-            alignment = alignment.Replace("Crewmate", "<color=#68ACF4>Crewmate");
-        }
-        else if (alignment.Contains("Impostor"))
-        {
-            alignment = alignment.Replace("Impostor", "<color=#D63F42>Impostor");
-        }
-        else if (alignment.Contains("Neutral"))
-        {
-            alignment = alignment.Replace("Neutral", "<color=#8A8A8A>Neutral");
-        }
-
-        var prefix = " a";
-        if (role.RoleName.StartsWithVowel())
-        {
-            prefix = " an";
-        }
-
-        if (role.Configuration.MaxRoleCount is 0 or 1)
-        {
-            prefix = " the";
-        }
-
-        if (role.RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase))
-        {
-            prefix = "";
-        }
-
-        var stringB = new StringBuilder();
-        stringB.AppendLine(CultureInfo.InvariantCulture,
-            $"{role.RoleColor.ToTextColor()}You are{prefix}<b> {role.RoleName}.</b></color>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"<size=60%>Alignment: <b>{alignment}</color></b></size>");
-        stringB.Append("<size=70%>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"{role.RoleLongDescription}");
-
-        return stringB;
+        return TouRoleUtils.SetTabText(role);
     }
 
     public static StringBuilder SetDeadTabText(ICustomRole role)
     {
-        var alignment = role is ITownOfUsRole touRole
-            ? touRole.RoleAlignment.ToDisplayString()
-            : "Custom";
-
-        if (alignment.Contains("Crewmate"))
-        {
-            alignment = alignment.Replace("Crewmate", "<color=#68ACF4>Crewmate");
-        }
-        else if (alignment.Contains("Impostor"))
-        {
-            alignment = alignment.Replace("Impostor", "<color=#D63F42>Impostor");
-        }
-        else if (alignment.Contains("Neutral"))
-        {
-            alignment = alignment.Replace("Neutral", "<color=#8A8A8A>Neutral");
-        }
-
-        var prefix = " a";
-        if (role.RoleName.StartsWithVowel())
-        {
-            prefix = " an";
-        }
-
-        if (role.Configuration.MaxRoleCount is 0 or 1)
-        {
-            prefix = " the";
-        }
-
-        if (role.RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase))
-        {
-            prefix = "";
-        }
-
-        var stringB = new StringBuilder();
-        stringB.AppendLine(CultureInfo.InvariantCulture,
-            $"{role.RoleColor.ToTextColor()}You were{prefix}<b> {role.RoleName}.</b></color>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"<size=60%>Alignment: <b>{alignment}</color></b></size>");
-        stringB.Append("<size=70%>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"{role.RoleLongDescription}");
-
-        return stringB;
+        return TouRoleUtils.SetDeadTabText(role);
     }
 
     [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
+    StringBuilder SetTabText()
     {
         return SetNewTabText(this);
     }
@@ -212,6 +213,7 @@ public interface ITownOfUsRole : ICustomRole
 
 public enum RoleAlignment
 {
+    // Base Town of Us Alignments
     CrewmateInvestigative,
     CrewmateKilling,
     CrewmateProtective,
@@ -224,5 +226,15 @@ public enum RoleAlignment
     NeutralBenign,
     NeutralEvil,
     NeutralOutlier,
-    NeutralKilling
+    NeutralKilling,
+    GameOutlier, // I honestly have no idea what else to put here 
+    // Hide and Seek Alignments
+    CrewmateHider,
+    ImpostorSeeker,
+    // Cultist Alignments
+    ImpostorCultist,
+    ImpostorFollower,
+    CrewmateBeliever,
+    CrewmateObstinate,
+    NeutralObstinate,
 }

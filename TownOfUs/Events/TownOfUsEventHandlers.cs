@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Globalization;
 using HarmonyLib;
 using MiraAPI.Events;
 using System.Text;
+using InnerNet;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
@@ -16,6 +16,7 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using PowerTools;
+using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
@@ -25,21 +26,25 @@ using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
+using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -49,6 +54,17 @@ namespace TownOfUs.Events;
 
 public static class TownOfUsEventHandlers
 {
+    public enum LogLevel
+    {
+        Error,
+        Warning,
+        Info,
+        Debug,
+        Message
+    }
+
+    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
+
     internal static TextMeshPro ModifierText;
 
     public static void RunModChecks()
@@ -61,21 +77,14 @@ public static class TownOfUsEventHandlers
         {
             ModifierText.text = $"<size={modifier.IntroSize}>{modifier.IntroInfo}</size>";
 
-            ModifierText.color = MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty));
-            if (modifier is IColoredModifier colorMod)
-            {
-                ModifierText.color = colorMod.ModifierColor;
-            }
+            ModifierText.color = MiscUtils.GetModifierColour(modifier);
         }
         else if (uniModifier != null && option is ModReveal.Universal)
         {
-            ModifierText.text = $"<size=4><color=#FFFFFF>Modifier: </color>{uniModifier.ModifierName}</size>";
+            ModifierText.text =
+                $"<size=4><color=#FFFFFF>{TouLocale.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
 
-            ModifierText.color = MiscUtils.GetRoleColour(uniModifier.ModifierName.Replace(" ", string.Empty));
-            if (uniModifier is IColoredModifier colorMod)
-            {
-                ModifierText.color = colorMod.ModifierColor;
-            }
+            ModifierText.color = MiscUtils.GetModifierColour(uniModifier);
         }
         else
         {
@@ -87,35 +96,42 @@ public static class TownOfUsEventHandlers
     public static void IntroRoleRevealEventHandler(IntroRoleRevealEvent @event)
     {
         var instance = @event.IntroCutscene;
-        
+
         if (ModCompatibility.IsSubmerged())
         {
             Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
         }
-        
+
         if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
         {
             instance.RoleText.text = custom.RoleName;
-            instance.YouAreText.text = custom.YouAreText;
+            if (instance.YouAreText.transform.TryGetComponent<TextTranslatorTMP>(out var tmp))
+            {
+                tmp.defaultStr = custom.YouAreText;
+                tmp.TargetText = StringNames.None;
+                tmp.ResetText();
+            }
+
             instance.RoleBlurbText.text = custom.RoleDescription;
         }
 
         var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
         if (teamModifier != null && OptionGroupSingleton<GeneralOptions>.Instance.TeamModifierReveal)
         {
-            var color = MiscUtils.GetRoleColour(teamModifier.ModifierName.Replace(" ", string.Empty));
-            if (teamModifier is IColoredModifier colorMod)
-            {
-                color = colorMod.ModifierColor;
-            }
+            var color = MiscUtils.GetModifierColour(teamModifier);
 
             instance.RoleBlurbText.text =
                 $"<size={teamModifier.IntroSize}>\n</size>{instance.RoleBlurbText.text}\n<size={teamModifier.IntroSize}><color=#{color.ToHtmlStringRGBA()}>{teamModifier.IntroInfo}</color></size>";
         }
     }
+
     [RegisterEvent]
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
         var cutscene = @event.IntroCutscene;
         Coroutines.Start(CoChangeModifierText(cutscene));
     }
@@ -123,10 +139,10 @@ public static class TownOfUsEventHandlers
     public static IEnumerator CoChangeModifierText(IntroCutscene cutscene)
     {
         yield return new WaitForSeconds(0.01f);
-        
+
         ModifierText =
             Object.Instantiate(cutscene.RoleText, cutscene.RoleText.transform.parent, false);
-        
+
         if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
         {
             cutscene.RoleText.text = custom.RoleName;
@@ -137,11 +153,7 @@ public static class TownOfUsEventHandlers
         var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
         if (teamModifier != null && OptionGroupSingleton<GeneralOptions>.Instance.TeamModifierReveal)
         {
-            var color = MiscUtils.GetRoleColour(teamModifier.ModifierName.Replace(" ", string.Empty));
-            if (teamModifier is IColoredModifier colorMod)
-            {
-                ModifierText.color = colorMod.ModifierColor;
-            }
+            var color = MiscUtils.GetModifierColour(teamModifier);
 
             cutscene.RoleBlurbText.text =
                 $"<size={teamModifier.IntroSize}>\n</size>{cutscene.RoleBlurbText.text}\n<size={teamModifier.IntroSize}><color=#{color.ToHtmlStringRGBA()}>{teamModifier.IntroInfo}</color></size>";
@@ -154,26 +166,50 @@ public static class TownOfUsEventHandlers
         ModifierText.gameObject.SetActive(true);
         ModifierText.color.SetAlpha(0.8f);
     }
-    
+
     [RegisterEvent]
     public static void IntroEndEventHandler(IntroEndEvent @event)
     {
         HudManager.Instance.SetHudActive(false);
         HudManager.Instance.SetHudActive(true);
 
-        foreach (var button in CustomButtonManager.Buttons.Where(x => x.Enabled(PlayerControl.LocalPlayer.Data.Role)))
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+
+        if (genOpt.StartCooldownMode is not StartCooldownType.NoButtons)
         {
-            if (button is FakeVentButton)
+            var minCooldown = Math.Min(genOpt.StartCooldownMin, genOpt.StartCooldownMax);
+            var maxCooldown = Math.Max(genOpt.StartCooldownMin, genOpt.StartCooldownMax);
+            foreach (var button in
+                     CustomButtonManager.Buttons.Where(x => x.Enabled(PlayerControl.LocalPlayer.Data.Role)))
             {
-                continue;
+                if (button is FakeVentButton)
+                {
+                    continue;
+                }
+
+                switch (genOpt.StartCooldownMode)
+                {
+                    case StartCooldownType.AllButtons:
+                        button.SetTimer(genOpt.GameStartCd);
+                        break;
+                    default:
+                        if (button.Cooldown >= minCooldown && button.Cooldown <= maxCooldown)
+                        {
+                            button.SetTimer(genOpt.GameStartCd);
+                        }
+                        else
+                        {
+                            button.SetTimer(button.Cooldown);
+                        }
+
+                        break;
+                }
             }
 
-            button.SetTimer(OptionGroupSingleton<GeneralOptions>.Instance.GameStartCd);
-        }
-
-        if (PlayerControl.LocalPlayer.IsImpostor())
-        {
-            PlayerControl.LocalPlayer.SetKillTimer(OptionGroupSingleton<GeneralOptions>.Instance.GameStartCd);
+            if (PlayerControl.LocalPlayer.IsImpostor())
+            {
+                PlayerControl.LocalPlayer.SetKillTimer(genOpt.GameStartCd);
+            }
         }
 
         var modsTab = ModifierDisplayComponent.Instance;
@@ -215,6 +251,8 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
+        // Incase the kill animation is stuck somehow
+        // HudManager.Instance.KillOverlay.gameObject.SetActive(false);
         foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
         {
             mod.ModifierComponent?.RemoveModifier(mod);
@@ -227,11 +265,35 @@ public static class TownOfUsEventHandlers
         {
             PlayerControl.LocalPlayer.RpcRemoveModifier<IndirectAttackerModifier>();
         }
+
         exeButton.Show = false;
         jestButton.Show = false;
         phantomButton.Show = false;
     }
-    
+
+    [RegisterEvent(-100)]
+    public static void BetaBeforeMurderHandler(BeforeMurderEvent @event)
+    {
+        var killer = @event.Source;
+        var victim = @event.Target;
+        var text =
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+
+
+        MiscUtils.LogInfo(LogLevel.Error, text);
+    }
+
+    [RegisterEvent(-100)]
+    public static void BetaAfterMurderHandler(AfterMurderEvent @event)
+    {
+        var killer = @event.Source;
+        var victim = @event.Target;
+        var text =
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+
+        MiscUtils.LogInfo(LogLevel.Error, text);
+    }
+
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
@@ -243,26 +305,32 @@ public static class TownOfUsEventHandlers
         if (FirstDeadPatch.PlayerNames.Count > 0)
         {
             var stringB = new StringBuilder();
-            stringB.Append(CultureInfo.InvariantCulture, $"List Of Players That Died In Order: ");
+            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died In Order: ");
             foreach (var playername in FirstDeadPatch.PlayerNames)
             {
-                stringB.Append(CultureInfo.InvariantCulture, $"{playername}, ");
+                stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
             }
-            
+
             stringB = stringB.Remove(stringB.Length - 2, 2);
-            
-            Logger<TownOfUsPlugin>.Warning(stringB.ToString());
+
+            Warning(stringB.ToString());
         }
+
         FirstDeadPatch.PlayerNames = [];
 
-        HudManager.Instance.SetHudActive(false);
-        HudManager.Instance.SetHudActive(true);
+        if (HudManager.InstanceExists)
+        {
+            HudManager.Instance.SetHudActive(false);
+            HudManager.Instance.SetHudActive(true);
+        }
+        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable =
+            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
 
         CustomButtonSingleton<WatchButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance
             .MaxWatches);
         CustomButtonSingleton<TrackerTrackButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<TrackerTrackButton>.Instance.SetUses((int)OptionGroupSingleton<TrackerOptions>.Instance
+        CustomButtonSingleton<TrackerTrackButton>.Instance.SetUses((int)OptionGroupSingleton<SonarOptions>.Instance
             .MaxTracks);
         CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
@@ -277,25 +345,18 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<VeteranAlertButton>.Instance.SetUses((int)OptionGroupSingleton<VeteranOptions>.Instance
             .MaxNumAlerts);
 
+        CustomButtonSingleton<SpellslingerHexButton>.Instance.SetUses((int)OptionGroupSingleton<SpellslingerOptions>
+            .Instance
+            .MaxHexes);
+
         CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = false;
 
-        var engiVent = CustomButtonSingleton<EngineerVentButton>.Instance;
-        engiVent.ExtraUses = 0;
-        engiVent.SetUses((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents);
-        if ((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents == 0)
-        {
-            engiVent.Button?.usesRemainingText.gameObject.SetActive(false);
-            engiVent.Button?.usesRemainingSprite.gameObject.SetActive(false);
-        }
-        else
-        {
-            engiVent.Button?.usesRemainingText.gameObject.SetActive(true);
-            engiVent.Button?.usesRemainingSprite.gameObject.SetActive(true);
-        }
-        
         var medicShield = CustomButtonSingleton<MedicShieldButton>.Instance;
-        medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses : 0);
-        if ((int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses == 0 || !OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget)
+        medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
+            ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
+            : 0);
+        if (!medicShield.LimitedUses ||
+            !OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget)
         {
             medicShield.Button?.usesRemainingText.gameObject.SetActive(false);
             medicShield.Button?.usesRemainingSprite.gameObject.SetActive(false);
@@ -322,6 +383,16 @@ public static class TownOfUsEventHandlers
             OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
         CustomButtonSingleton<BomberPlantButton>.Instance.Usable =
             OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound || TutorialManager.InstanceExists;
+
+        // This sets the sabo cooldowns properly
+        if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
+        {
+            systemType.Cast<IDoorSystem>().SetInitialSabotageCooldown();
+        }
+        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
+        {
+            systemType2.Cast<IDoorSystem>().SetInitialSabotageCooldown();
+        }
     }
 
     [RegisterEvent]
@@ -350,6 +421,7 @@ public static class TownOfUsEventHandlers
                     touVentButton.Target.SetOutline(false, true, player.Data.Role.TeamColor);
                 }
             }
+
             HudManager.Instance.SetHudActive(false);
             HudManager.Instance.SetHudActive(true);
         }
@@ -425,6 +497,11 @@ public static class TownOfUsEventHandlers
 
         GameHistory.AddMurder(source, target);
 
+        if (SpellslingerRole.EveryoneHexed() && PlayerControl.LocalPlayer.Data.Role is SpellslingerRole)
+        {
+            CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, PlayerControl.LocalPlayer.Data.Role);
+        }
+
         if (target.AmOwner)
         {
             HudManager.Instance.SetHudActive(false);
@@ -432,6 +509,10 @@ public static class TownOfUsEventHandlers
             if (!MeetingHud.Instance)
             {
                 HudManager.Instance.SetHudActive(true);
+                if (OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.HideAndSeek)
+                {
+                    HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -489,12 +570,12 @@ public static class TownOfUsEventHandlers
         {
             var body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == target.PlayerId);
 
-            if (target.HasModifier<MiniModifier>() && body != null)
+            if ((target.HasModifier<MiniModifier>() || target.HasModifier<HnsMiniModifier>()) && body != null)
             {
                 body.transform.localScale *= 0.7f;
             }
 
-            if (target.HasModifier<GiantModifier>() && body != null)
+            if ((target.HasModifier<GiantModifier>() || target.HasModifier<HnsGiantModifier>()) && body != null)
             {
                 body.transform.localScale /= 0.7f;
             }
@@ -525,23 +606,91 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        // Prevent last 2 players from venting
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
+
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            @event.Cancel();
+        }
+
+        // Prevent last 2 players from venting (or however many are set up)
         if (@event.IsVent)
         {
-            var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+            if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
+            {
+                if (PlayerControl.LocalPlayer.inVent)
+                {
+                    PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
+                    PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+                    PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
+                }
 
-            if (PlayerControl.LocalPlayer.inVent && aliveCount <= 2 &&
+                @event.Cancel();
+            }
+            else if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+            {
+                @event.Cancel();
+            }
+
+            var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+
+            if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&
                 PlayerControl.LocalPlayer.Data.Role is not IGhostRole)
             {
                 PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                 PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
             }
 
-            if (aliveCount <= 2)
+            if (aliveCount <= minimum)
             {
                 @event.Cancel();
             }
         }
+    }
+
+    [RegisterEvent]
+    public static void PlayerJoinEventHandler(PlayerJoinEvent @event)
+    {
+        Coroutines.Start(CoSendSpecData(@event.ClientData));
+    }
+
+    internal static IEnumerator CoSendSpecData(ClientData clientData)
+    {
+        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
+        {
+            yield return null;
+        }
+
+        while (!PlayerControl.LocalPlayer)
+        {
+            yield return null;
+        }
+
+        while (PlayerControl.LocalPlayer.Data == null)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        if (!PlayerControl.LocalPlayer.IsHost())
+        {
+            yield break;
+        }
+
+        var fakeDictionary = new Dictionary<byte, string>();
+        byte specByte = 0;
+        foreach (var name in SpectatorRole.TrackedSpectators)
+        {
+            fakeDictionary.Add(specByte, name);
+            specByte++;
+        }
+
+        Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
     }
 
     [RegisterEvent]
@@ -578,10 +727,10 @@ public static class TownOfUsEventHandlers
     private static IEnumerator CoHideHud()
     {
         yield return new WaitForSeconds(0.01f);
-        HudManager.Instance.SetHudActive(false);
         HudManager.Instance.AbilityButton.SetDisabled();
         HudManager.Instance.SabotageButton.SetDisabled();
         HudManager.Instance.UseButton.SetDisabled();
+        HudManager.Instance.SetHudActive(false);
     }
 
     private static IEnumerator CoAnimateDeath(PlayerVoteArea voteArea)
@@ -631,16 +780,57 @@ public static class TownOfUsEventHandlers
         SoundManager.Instance.PlaySound(voteArea.GetPlayer()!.KillSfx, false);
 
         yield return new WaitForSeconds(bodyAnimLength - 0.25f);
-        voteArea.Overlay.gameObject.SetActive(true);
-        animation.gameObject.Destroy();
-        voteArea.XMark.gameObject.SetActive(true);
+        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
+        try
+        {
+            voteArea.Overlay.gameObject.SetActive(true);
+        }
+        catch
+        {
+            // ignored
+        }
+        animation.Destroy();
+        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
+        try
+        {
+            voteArea.XMark.gameObject.SetActive(true);
+        }
+        catch
+        {
+            // ignored
+        }
         SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
         Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
-        voteArea.Overlay.gameObject.SetActive(true);
     }
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
     {
+        if (MeetingHud.Instance.CurrentState == MeetingHud.VoteStates.Animating)
+        {
+            if (target.AmOwner)
+            {
+                MeetingMenu.Instances.Do(x => x.HideButtons());
+                Coroutines.Start(CoHideHud());
+            }
+            // hide meeting menu button for victim
+            else if (!source.AmOwner && !target.AmOwner)
+            {
+                MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
+            }
+
+            var targetVoteAreaEarly = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+
+            if (!targetVoteAreaEarly)
+            {
+                return;
+            }
+
+            targetVoteAreaEarly.AmDead = true;
+            targetVoteAreaEarly.Overlay.gameObject.SetActive(true);
+            targetVoteAreaEarly.XMark.gameObject.SetActive(true);
+            return;
+        }
+
         var timer = (int)OptionGroupSingleton<GeneralOptions>.Instance.AddedMeetingDeathTimer;
         if (timer > 0 && timer <= 15)
         {
@@ -650,6 +840,7 @@ public static class TownOfUsEventHandlers
         {
             instance.discussionTimer -= 15f;
         }
+
         // To handle murders during a meeting
         var targetVoteArea = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
 

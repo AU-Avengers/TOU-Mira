@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
+using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -13,10 +14,10 @@ namespace TownOfUs.Buttons.Modifiers;
 
 public sealed class SatelliteButton : TownOfUsButton
 {
-    public override string Name => "Broadcast";
-    public override string Keybind => Keybinds.ModifierAction;
+    public override string Name => TouLocale.GetParsed("TouModifierSatelliteBroadcast", "Broadcast");
+    public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Satellite;
-    public override float Cooldown => OptionGroupSingleton<SatelliteOptions>.Instance.Cooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SatelliteOptions>.Instance.Cooldown + MapCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.BroadcastSprite;
@@ -48,12 +49,18 @@ public sealed class SatelliteButton : TownOfUsButton
         var deadBodies = Object.FindObjectsOfType<DeadBody>().ToList();
 
         deadBodies.Do(x => PlayerControl.LocalPlayer.AddModifier<SatelliteArrowModifier>(x, Color.white));
-        if (deadBodies.Count == 0)
+        var text = TouLocale.Get("TouModifierSatelliteFailedNotif");
+        if (deadBodies.Count == 1)
         {
-            var notif1 = Helpers.CreateAndShowNotification("<b>No bodies were found on the map.</b>", Color.white,
-                new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Satellite.LoadAsset());
-            notif1.Text.SetOutlineThickness(0.35f);
+            text = TouLocale.Get("TouModifierSatelliteSingleNotif");
         }
+        else if (deadBodies.Count > 1)
+        {
+            text = TouLocale.GetParsed("TouModifierSatellitePluralNotif").Replace("<count>", deadBodies.Count.ToString(TownOfUsPlugin.Culture));
+        }
+        var notif1 = Helpers.CreateAndShowNotification($"<b>{text}</b>", Color.white,
+            new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Satellite.LoadAsset());
+        notif1.AdjustNotification();
 
         if (OptionGroupSingleton<SatelliteOptions>.Instance.OneUsePerRound)
         {

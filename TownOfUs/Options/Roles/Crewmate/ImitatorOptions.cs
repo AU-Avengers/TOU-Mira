@@ -1,16 +1,23 @@
 using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class ImitatorOptions : AbstractOptionGroup<ImitatorRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Imitator, "Imitator");
+    public override string GroupName => TouLocale.Get("TouRoleImitator", "Imitator");
 
-    [ModdedToggleOption("Imitate Specific Neutrals As Similar Crew Roles")]
-    public bool ImitateNeutrals { get; set; } = true;
+    public ModdedToggleOption ImitateNeutrals { get; set; } = new("TouOptionImitatorImitateNeutrals", true);
 
-    [ModdedToggleOption("Imitate Specific Impostors As Similar Crew Roles")]
-    public bool ImitateImpostors { get; set; } = true;
+    public ModdedToggleOption ImitateImpostors { get; set; } = new("TouOptionImitatorImitateImpostors", true);
+
+    public ModdedToggleOption ImitateBasicCrewmate { get; set; } = new("TouOptionImitatorImitateBasicCrewmate", true);
+
+    public ModdedEnumOption ImitatorGuess { get; set; } = new("TouOptionImitatorGuessAs",
+        (int)CacheRoleGuess.ActiveOrCachedRole, typeof(CacheRoleGuess),
+        [
+            "TouOptionImitatorGuessEnumCached", "TouOptionImitatorGuessEnumActive",
+            "TouOptionImitatorGuessEnumActiveOrCached"
+        ]);
 }

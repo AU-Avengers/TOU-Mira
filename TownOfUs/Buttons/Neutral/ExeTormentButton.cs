@@ -11,8 +11,8 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class ExeTormentButton : TownOfUsButton
 {
-    public override string Name => "Torment";
-    public override string Keybind => Keybinds.PrimaryAction;
+    public override string Name => TouLocale.GetParsed("TouRoleExecutionerTorment", "Torment");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Executioner;
     public override float Cooldown => 0.01f;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ExeTormentSprite;
@@ -32,13 +32,15 @@ public sealed class ExeTormentButton : TownOfUsButton
         {
             return;
         }
+
         var playerMenu = CustomPlayerMenu.Create();
         playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.Begin(
-            plr => !plr.HasDied() && plr.HasModifier<MisfortuneTargetModifier>() && !plr.HasModifier<InvulnerabilityModifier>() && plr != PlayerControl.LocalPlayer,
+            plr => !plr.HasDied() && plr.HasModifier<MisfortuneTargetModifier>() &&
+                   !plr.HasModifier<InvulnerabilityModifier>() && plr != PlayerControl.LocalPlayer,
             plr =>
             {
                 playerMenu.ForceClose();
@@ -58,6 +60,11 @@ public sealed class ExeTormentButton : TownOfUsButton
 
     public override bool CanUse()
     {
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
         return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
     }
 }

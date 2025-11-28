@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
 
@@ -24,5 +25,7 @@ public static class LobbyBehaviourPatches
         GameHistory.ClearAll();
         ScreenFlash.Clear();
         MeetingMenu.ClearAll();
+        EgotistModifier.CooldownReduction = 0f;
+        EgotistModifier.SpeedMultiplier = 1f;
     }
 }

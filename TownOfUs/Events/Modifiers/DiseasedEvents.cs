@@ -27,12 +27,14 @@ public static class DiseasedEvents
 
         var cdMultiplier = OptionGroupSingleton<DiseasedOptions>.Instance.CooldownMultiplier;
 
-        var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.Diseased.ToTextColor()}{@event.Target.Data.PlayerName} was Diseased, causing your kill cooldown to multiply by {Math.Round(cdMultiplier, 2)}.</color></b>",
-            Color.white, spr: TouModifierIcons.Diseased.LoadAsset());
+        var text = TouLocale.GetParsed("TouModifierDiseasedTriggeredNotif").Replace("<player>", target.Data.PlayerName);
+        text = text.Replace("<modifier>", $"{TownOfUsColors.Diseased.ToTextColor()}{TouLocale.Get("TouModifierDiseased")}</color>");
 
-            notif1.Text.SetOutlineThickness(0.35f);
-            notif1.transform.localPosition = new Vector3(0f, 1f, -20f);
+        var notif1 = Helpers.CreateAndShowNotification(
+            $"<b>{text.Replace("<cooldownMultiplier>", Math.Round(cdMultiplier, 2).ToString(TownOfUsPlugin.Culture))}</b>",
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Diseased.LoadAsset());
+
+        notif1.AdjustNotification();
 
         source.SetKillTimer(source.GetKillCooldown() * cdMultiplier);
         var buttons = CustomButtonManager.Buttons.Where(x => x.Enabled(source.Data.Role)).OfType<IDiseaseableButton>();

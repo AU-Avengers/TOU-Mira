@@ -41,7 +41,7 @@ public static class AssassinEvents
             }
             else
             {
-                stats.CorrectAssassinKills--;
+                stats.IncorrectAssassinKills++;
             }
         }
     }

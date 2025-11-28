@@ -2,7 +2,6 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -14,10 +13,10 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class OracleConfessButton : TownOfUsRoleButton<OracleRole, PlayerControl>
 {
-    public override string Name => "Confess";
+    public override string Name => TouLocale.GetParsed("TouRoleOracleConfess", "Confess");
     public override Color TextOutlineColor => TownOfUsColors.Oracle;
-    public override string Keybind => Keybinds.PrimaryAction;
-    public override float Cooldown => OptionGroupSingleton<OracleOptions>.Instance.ConfessCooldown;
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<OracleOptions>.Instance.ConfessCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.ConfessSprite;
 
     public override PlayerControl? GetTarget()
@@ -30,7 +29,7 @@ public sealed class OracleConfessButton : TownOfUsRoleButton<OracleRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error($"{Name}: Target is null");
+            Error($"{Name}: Target is null");
             return;
         }
 

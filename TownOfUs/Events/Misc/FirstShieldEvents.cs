@@ -25,7 +25,7 @@ public static class FirstShieldEvents
         var source = PlayerControl.LocalPlayer;
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var target = button?.Target;
-        if (target == null || button is not IKillButton)
+        if (target == null || button is not IKillButton || !button.CanClick())
         {
             return;
         }
@@ -56,6 +56,7 @@ public static class FirstShieldEvents
             return;
         }
 
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a first round shield, fending off {source.Data.PlayerName}!");
         @event.Cancel();
 
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;

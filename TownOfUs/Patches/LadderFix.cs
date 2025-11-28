@@ -1,8 +1,9 @@
 ﻿// https://github.com/eDonnes124/Town-Of-Us-R/blob/ee0935bfbd35199b5d4f6f4ad9cf98621acb6d21/source/Patches/LadderFix.cs
+
 using HarmonyLib;
 using MiraAPI.Modifiers;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modifiers.HnsGame.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Patches;
@@ -20,15 +21,15 @@ public static class LadderFix
 
         var player = __instance.__4__this.myPlayer;
 
-        if (!__instance.source.IsTop && player.HasModifier<GiantModifier>())
+        if (!__instance.source.IsTop && (player.HasModifier<GiantModifier>() || player.HasModifier<HnsGiantModifier>()))
         {
-            Logger<TownOfUsPlugin>.Error("Giant player on ladder detected, snapping position.");
+            Error("Giant player on ladder detected, snapping position.");
             player.NetTransform.SnapTo(player.transform.position + new Vector3(0, 0.25f));
         }
 
-        if (__instance.source.IsTop && player.HasModifier<MiniModifier>())
+        if (__instance.source.IsTop && (player.HasModifier<MiniModifier>() || player.HasModifier<HnsMiniModifier>()))
         {
-            Logger<TownOfUsPlugin>.Error("Mini player on ladder detected, snapping position.");
+            Error("Mini player on ladder detected, snapping position.");
             player.NetTransform.SnapTo(player.transform.position + new Vector3(0, -0.25f));
         }
     }

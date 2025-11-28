@@ -10,25 +10,26 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
 {
-    public override string ModifierName => TouLocale.Get(TouNames.Multitasker, "Multitasker");
-    public override string IntroInfo => "You can also see through tasks.";
-    public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Multitasker;
-    public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
-
-    public override ModifierFaction FactionType => ModifierFaction.CrewmateVisibility;
-
-    public string GetAdvancedDescription()
-    {
-        return
-            "All your menus are seethrough, allowing you to look behind menus!";
-    }
-
-    public List<CustomButtonWikiDescription> Abilities { get; } = [];
+    public override string LocaleKey => "Multitasker";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
 
     public override string GetDescription()
     {
-        return "Your tasks are transparent.";
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
     }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription");
+    }
+
+    public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Multitasker;
+    public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
+
+    public override ModifierFaction FactionType => ModifierFaction.CrewmatePassive;
+
+    public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override int GetAssignmentChance()
     {

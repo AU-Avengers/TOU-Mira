@@ -3,7 +3,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Crewmate;
 
-namespace TownOfUs.Events.Neutral;
+namespace TownOfUs.Events.Crewmate;
 
 public static class VigilanteEvents
 {
@@ -29,7 +29,7 @@ public static class VigilanteEvents
             }
             else
             {
-                stats.CorrectAssassinKills--;
+                stats.IncorrectAssassinKills++;
             }
         }
     }

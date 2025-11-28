@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -20,8 +19,7 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
-    [HideFromIl2Cpp]
-    public PlayerVoteArea? ProsecuteButton { get; private set; }
+    [HideFromIl2Cpp] public PlayerVoteArea? ProsecuteButton { get; private set; }
 
     public bool HasProsecuted { get; private set; }
 
@@ -46,7 +44,8 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             return;
         }
 
-        ProsecuteButton.gameObject.SetActive(!HideProsButton && meeting.state == MeetingHud.VoteStates.NotVoted && !SelectingProsecuteVictim);
+        ProsecuteButton.gameObject.SetActive(!HideProsButton && meeting.state == MeetingHud.VoteStates.NotVoted &&
+                                             !SelectingProsecuteVictim);
 
         if (!ProsecuteButton.gameObject.active)
         {
@@ -67,9 +66,32 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     }
 
     public DoomableType DoomHintType => DoomableType.Fearmonger;
-    public string RoleName => TouLocale.Get(TouNames.Prosecutor, "Prosecutor");
-    public string RoleDescription => "Exile Players Of Your Choosing";
-    public string RoleLongDescription => "Choose to exile anyone you want";
+    public string LocaleKey => "Prosecutor";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWiki", "Prosecute"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWikiDescription"),
+                    TouRoleIcons.Prosecutor)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Prosecutor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
@@ -92,29 +114,14 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         var text = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            text.AppendLine(CultureInfo.InvariantCulture, $"<b>You may prosecute crew.</b>");
+            text.AppendLine(TownOfUsPlugin.Culture, $"<b>You may prosecute crew.</b>");
         }
 
         var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions - ProsecutionsCompleted;
         var newText = prosecutes == 1 ? "1 Prosecution Remaining." : $"\n{prosecutes} Prosecutions Remaining.";
-        text.AppendLine(CultureInfo.InvariantCulture, $"{newText}");
+        text.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         return text;
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Power role that can Exile a player, applying 5 votes to a player of their choosing. They can also see who voted for who, even if they’re anonymous."
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Prosecute (Meeting)",
-            "Exile any player of your choosing, throwing 5 votes on them and ignoring all other votes.",
-            TouRoleIcons.Prosecutor)
-    ];
 
     public override void Initialize(PlayerControl player)
     {
@@ -144,7 +151,9 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         ProsecuteButton.transform.localPosition = skip.transform.localPosition + new Vector3(0f, -0.17f, 0f);
 
         ProsecuteButton.gameObject.GetComponentInChildren<TextTranslatorTMP>().Destroy();
-        ProsecuteButton.gameObject.GetComponentInChildren<TextMeshPro>().text = "PROSECUTE";
+        ProsecuteButton.gameObject.GetComponentInChildren<TextMeshPro>().text =
+            TouLocale.GetParsed($"TouRole{LocaleKey}Prosecute").ToUpperInvariant();
+        ProsecuteButton.gameObject.name = "button_prosecuteButton";
 
         foreach (var plr in meeting.playerStates.AddItem(skip))
         {
@@ -157,6 +166,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public void Cleanup()
     {
+        HideProsButton = false;
         ProsecuteButton = null;
         SelectingProsecuteVictim = false;
         ProsecuteVictim = byte.MaxValue;

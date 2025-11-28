@@ -8,32 +8,32 @@ namespace TownOfUs.Options.Roles.Neutral;
 
 public sealed class InquisitorOptions : AbstractOptionGroup<InquisitorRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Inquisitor, "Inquisitor");
+    public override string GroupName => TouLocale.Get("TouRoleInquisitor", "Inquisitor");
 
-    [ModdedNumberOption("Vanquish Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionInquisitorVanquishCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float VanquishCooldown { get; set; } = 25f;
 
-    [ModdedToggleOption("Inquisitor Continues Game In Final 3")]
+    [ModdedToggleOption("TouOptionInquisitorRoundOneVanquish")]
+    public bool FirstRoundUse { get; set; } = false;
+
+    [ModdedToggleOption("TouOptionInquisitorContinuesGame")]
     public bool StallGame { get; set; } = true;
 
-    [ModdedToggleOption("Inquisitor Can't Inquire")]
+    [ModdedToggleOption("TouOptionInquisitorCantInquire")]
     public bool CantInquire { get; set; } = false;
 
     public ModdedNumberOption InquireCooldown { get; set; } =
-        new("Inquire Cooldown", 25f, 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionInquisitorInquireCooldown", 25f, 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)
         {
             Visible = () => !OptionGroupSingleton<InquisitorOptions>.Instance.CantInquire
         };
 
     public ModdedNumberOption MaxUses { get; set; } =
-        new("Max Number Of Inquires", 5f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0")
+        new("TouOptionInquisitorMaxInquiries", 5f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0")
         {
             Visible = () => !OptionGroupSingleton<InquisitorOptions>.Instance.CantInquire
         };
 
     public ModdedNumberOption AmountOfHeretics { get; set; } =
-        new("Amount of Heretics Needed", 3f, 3f, 5f, 1f, MiraNumberSuffixes.None, "0")
-        {
-            Visible = () => !OptionGroupSingleton<InquisitorOptions>.Instance.CantInquire
-        };
+        new("TouOptionInquisitorHereticAmount", 3f, 3f, 5f, 1f, MiraNumberSuffixes.None, "0");
 }

@@ -89,7 +89,10 @@ public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
     {
         if (Player.AmOwner)
         {
-            TouAudio.PlaySound(TouAudio.UnhackedSound);
+            if (MeetingHud.Instance == null)
+            {
+                TouAudio.PlaySound(TouAudio.UnhackedSound);
+            }
 
             ReportButtonHackedSprite?.SetHackActive(false);
             KillButtonHackedSprite?.SetHackActive(false);

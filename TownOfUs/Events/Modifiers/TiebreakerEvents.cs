@@ -15,7 +15,7 @@ public static class TiebreakerEvents
     [RegisterEvent]
     public static void ProcessVotesEventHandler(ProcessVotesEvent @event)
     {
-        // Logger<TownOfUsPlugin>.Error($"TiebreakerEvents.ProcessVotesEventHandler");
+        // Error($"TiebreakerEvents.ProcessVotesEventHandler");
 
         TiebreakingVote = null;
         if (@event.ExiledPlayer != null)
@@ -48,7 +48,7 @@ public static class TiebreakerEvents
 
         votes.Add(extraVote);
 
-        // Logger<TownOfUsPlugin>.Message($"ProcessVotesEventHandler - exiled: {exiled?.PlayerName}");
+        // Message($"ProcessVotesEventHandler - exiled: {exiled?.PlayerName}");
         @event.ExiledPlayer = VotingUtils.GetExiled(votes, out _);
 
         TiebreakingVote = extraVote;

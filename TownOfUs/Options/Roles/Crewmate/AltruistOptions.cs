@@ -1,5 +1,5 @@
 using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Crewmate;
 
@@ -7,17 +7,52 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class AltruistOptions : AbstractOptionGroup<AltruistRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Altruist, "Altruist");
+    public override string GroupName => TouLocale.Get("TouRoleAltruist", "Altruist");
 
-    [ModdedNumberOption("Revive Duration", 1f, 15f, 1f, MiraNumberSuffixes.Seconds)]
-    public float ReviveDuration { get; set; } = 10f;
+    public ModdedEnumOption ReviveMode { get; } =
+        new("TouOptionAltruistReviveType", (int)ReviveType.GroupSacrifice, typeof(ReviveType),
+            ["TouOptionAltruistReviveEnumSacrifice", "TouOptionAltruistReviveEnumGroupSacrifice", "TouOptionAltruistReviveEnumGroupRevive"]);
 
-    [ModdedNumberOption("Revive Range", 0.05f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
-    public float ReviveRange { get; set; } = 0.25f;
+    public ModdedNumberOption ReviveRange { get; } =
+        new("TouOptionAltruistReviveRange", 0.25f, 0.05f, 1f, 0.05f,
+            MiraNumberSuffixes.Multiplier, "0.00")
+        {
+            Visible = () => OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode != (int)ReviveType.Sacrifice
+        };
 
-    [ModdedNumberOption("Revive Uses", 1f, 5f, 1f, MiraNumberSuffixes.None, "0")]
-    public float MaxRevives { get; set; } = 2;
+    public ModdedNumberOption ReviveDuration { get; } =
+        new("TouOptionAltruistReviveDuration", 5f, 1f, 15f, 1f,
+            MiraNumberSuffixes.Seconds);
 
-    [ModdedToggleOption("Hide Bodies at Beginning Of Revive")]
-    public bool HideAtBeginningOfRevive { get; set; } = false;
+    public ModdedNumberOption MaxRevives { get; } =
+        new("TouOptionAltruistMaxRevives", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None, "0");
+
+    public ModdedToggleOption FreezeDuringRevive { get; } =
+        new("TouOptionAltruistFreezeDuringRevive", true);
+
+    public ModdedToggleOption HideAtBeginningOfRevive { get; } =
+        new("TouOptionAltruistHideAtBeginningOfRevive", false);
+
+    public ModdedEnumOption KillersAlertedAtStart { get; } =
+        new("TouOptionAltruistKillersAlertedAtStart", (int)InformedKillers.Nobody, typeof(InformedKillers),
+            ["TouOptionAltruistKillerEnumNobody", "TouOptionAltruistKillerEnumNeutrals", "TouOptionAltruistKillerEnumImpostors", "TouOptionAltruistKillerEnumNeutralsAndImpostors"]);
+
+    public ModdedEnumOption KillersAlertedAtEnd { get; } =
+        new("TouOptionAltruistKillersAlertedAtEnd", (int)InformedKillers.NeutralsAndImpostors, typeof(InformedKillers),
+            ["TouOptionAltruistKillerEnumNobody", "TouOptionAltruistKillerEnumNeutrals", "TouOptionAltruistKillerEnumImpostors", "TouOptionAltruistKillerEnumNeutralsAndImpostors"]);
+}
+
+public enum InformedKillers
+{
+    Nobody,
+    Neutrals,
+    Impostors,
+    NeutralsAndImpostors,
+}
+
+public enum ReviveType
+{
+    Sacrifice,
+    GroupSacrifice,
+    GroupRevive,
 }

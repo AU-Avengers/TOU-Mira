@@ -16,13 +16,21 @@ public static class AmbassadorEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
-        if (@event.TriggeredByIntro) return;
-        
+        if (@event.TriggeredByIntro)
+        {
+            return;
+        }
+
         var ambassador = CustomRoleUtils.GetActiveRolesOfType<AmbassadorRole>().FirstOrDefault();
         if (ambassador != null)
         {
-            if (ambassador.RoundsCooldown > 0) --ambassador.RoundsCooldown;
-            if (ambassador.SelectedPlr == null || ambassador.SelectedRole == null || ambassador.Player.Data.IsDead || ambassador.SelectedPlr.IsDead)
+            if (ambassador.RoundsCooldown > 0)
+            {
+                --ambassador.RoundsCooldown;
+            }
+
+            if (ambassador.SelectedPlr == null || ambassador.SelectedRole == null || ambassador.Player.Data.IsDead ||
+                ambassador.SelectedPlr.IsDead)
             {
                 ambassador.Clear();
                 return;
@@ -38,7 +46,9 @@ public static class AmbassadorEvents
                     RoleManager.Instance.GetRole(role),
                     confirmation =>
                     {
-                        AmbassadorRole.RpcRetrainConfirm(ambassador.Player, player, (int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundCooldown, (ushort)role, confirmation);
+                        AmbassadorRole.RpcRetrainConfirm(ambassador.Player, player,
+                            (int)OptionGroupSingleton<AmbassadorOptions>.Instance.RoundCooldown, (ushort)role,
+                            confirmation);
                         confirmMenu.Close();
                     }
                 );

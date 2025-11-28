@@ -17,14 +17,35 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 {
     private MeetingMenu meetingMenu;
 
-    [HideFromIl2Cpp]
-    public PlayerVoteArea? Swap1 { get; set; }
-    [HideFromIl2Cpp]
-    public PlayerVoteArea? Swap2 { get; set; }
+    [HideFromIl2Cpp] public PlayerVoteArea? Swap1 { get; set; }
+    [HideFromIl2Cpp] public PlayerVoteArea? Swap2 { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string RoleName => TouLocale.Get(TouNames.Swapper, "Swapper");
-    public string RoleDescription => "Swap Votes To Save The Crew!";
-    public string RoleLongDescription => "Swap votes from one player to another during a meeting";
+    public string LocaleKey => "Swapper";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}SwapWiki", "Swap (Meeting)"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}SwapWikiDescription"),
+                    TouAssets.SwapActive)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Swapper;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
@@ -42,23 +63,6 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         return ITownOfUsRole.SetNewTabText(this);
     }
-
-    public string GetAdvancedDescription()
-    {
-        return
-            $"The {RoleName} is a Crewmate Power that can swap the votes of two players in a meeting. " +
-            "Their meeting vote areas will be swapped visually, and the votes will be swapped. " +
-            "If player 1 recieved the most votes, and you swap them with player 2, player 2 will now be ejected instead. "
-            + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Swap (Meeting)",
-            "Select two players to swap votes for, and at the end of the meeting, they will swap spots!",
-            TouAssets.SwapActive)
-    ];
 
     public override void Initialize(PlayerControl player)
     {

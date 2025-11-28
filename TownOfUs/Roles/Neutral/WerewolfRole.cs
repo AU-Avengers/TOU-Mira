@@ -2,9 +2,12 @@
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -18,9 +21,32 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     public bool Rampaging { get; set; }
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<HunterRole>());
     public DoomableType DoomHintType => DoomableType.Hunter;
-    public string RoleName => TouLocale.Get(TouNames.Werewolf, "Werewolf");
-    public string RoleDescription => "Rampage To Kill Everyone";
-    public string RoleLongDescription => "Rampage to kill everyone in your path";
+    public string LocaleKey => "Werewolf";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Rampage", "Rampage"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}RampageWikiDescription"),
+                    TouNeutAssets.RampageSprite)
+            };
+        }
+    }
+
     public Color RoleColor => TownOfUsColors.Werewolf;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;
@@ -30,7 +56,6 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent /* && (Rampaging || Player.inVent)*/,
         IntroSound = TouAudio.WerewolfRampageSound,
         Icon = TouRoleIcons.Werewolf,
-        MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -38,14 +63,14 @@ public sealed class WerewolfRole(IntPtr cppPtr)
 
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var wwCount = CustomRoleUtils.GetActiveRolesOfType<WerewolfRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > wwCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return wwCount >= Helpers.GetAlivePlayers().Count - wwCount;
     }
 
     [HideFromIl2Cpp]
@@ -54,26 +79,21 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         return ITownOfUsRole.SetNewTabText(this);
     }
 
-    public string GetAdvancedDescription()
+    public void OffsetButtons()
     {
-        return
-            $"The {RoleName} is a Neutral Killing role that wins by being the last killer alive. They can go on a rampage to gain the ability to kill." +
-            MiscUtils.AppendOptionsText(GetType());
+        var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
+        var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
     }
-
-    [HideFromIl2Cpp]
-    public List<CustomButtonWikiDescription> Abilities { get; } =
-    [
-        new("Rampage",
-            "Go on a Rampage, gaining the ability to kill and gain Impostor vision. During the Rampage your kill cooldown is significantly lower.",
-            TouNeutAssets.RampageSprite)
-    ];
 
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
+            OffsetButtons();
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.WerewolfVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Werewolf);
         }

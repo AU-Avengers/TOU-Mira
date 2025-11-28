@@ -4,6 +4,7 @@ using MiraAPI.Hud;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Modifiers.Neutral;
@@ -41,5 +42,10 @@ public sealed class GlitchMimicModifier(PlayerControl target) : ConcealedModifie
         Player.ResetAppearance();
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchUnmimic, Player, target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+
+        if (HudManagerPatches.CamouflageCommsEnabled)
+        {
+            Player.cosmetics.ToggleNameVisible(false);
+        }
     }
 }

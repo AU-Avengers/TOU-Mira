@@ -7,29 +7,32 @@ namespace TownOfUs.Options.Roles.Crewmate;
 
 public sealed class VigilanteOptions : AbstractOptionGroup<VigilanteRole>
 {
-    public override string GroupName => TouLocale.Get(TouNames.Vigilante, "Vigilante");
+    public override string GroupName => TouLocale.Get("TouRoleVigilante", "Vigilante");
 
-    [ModdedNumberOption("Number Of Guesses", 1f, 15f)]
+    [ModdedNumberOption("TouOptionVigilanteNumberOfGuesses", 1f, 15f)]
     public float VigilanteKills { get; set; } = 5f;
 
-    [ModdedToggleOption("Can Guess More Than Once Per Meeting")]
+    [ModdedToggleOption("TouOptionVigilanteCanGuessMoreThanOncePerMeeting")]
     public bool VigilanteMultiKill { get; set; } = true;
 
-    [ModdedToggleOption("Can Guess Neutral Benign Roles")]
+    [ModdedToggleOption("TouOptionVigilanteCanGuessNeutralBenignRoles")]
     public bool VigilanteGuessNeutralBenign { get; set; } = true;
 
-    [ModdedToggleOption("Can Guess Neutral Evil Roles")]
+    [ModdedToggleOption("TouOptionVigilanteCanGuessNeutralEvilRoles")]
     public bool VigilanteGuessNeutralEvil { get; set; } = true;
 
-    [ModdedToggleOption("Can Guess Neutral Killing Roles")]
+    [ModdedToggleOption("TouOptionVigilanteCanGuessNeutralKillingRoles")]
     public bool VigilanteGuessNeutralKilling { get; set; } = true;
 
-    [ModdedToggleOption("Can Guess Killer Modifiers")]
+    [ModdedToggleOption("TouOptionVigilanteCanGuessNeutralOutlierRoles")]
+    public bool VigilanteGuessNeutralOutlier { get; set; } = true;
+
+    [ModdedToggleOption("TouOptionVigilanteCanGuessKillerModifiers")]
     public bool VigilanteGuessKillerMods { get; set; } = true;
 
-    [ModdedToggleOption("Can Guess Alliances")]
+    [ModdedToggleOption("TouOptionVigilanteCanGuessAlliances")]
     public bool VigilanteGuessAlliances { get; set; } = true;
 
-    [ModdedNumberOption("Safe Shots Available", 0f, 3f, 1f, MiraNumberSuffixes.None, "0")]
+    [ModdedNumberOption("TouOptionVigilanteSafeShotsAvailable", 0f, 3f, 1f, MiraNumberSuffixes.None, "0")]
     public float MultiShots { get; set; } = 3;
 }

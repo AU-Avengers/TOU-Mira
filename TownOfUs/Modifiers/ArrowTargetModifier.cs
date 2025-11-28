@@ -1,4 +1,4 @@
-﻿using MiraAPI.Modifiers;
+﻿using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Utilities;
@@ -7,9 +7,11 @@ using UnityEngine;
 namespace TownOfUs.Modifiers;
 
 [MiraIgnore]
-public abstract class ArrowTargetModifier(PlayerControl owner, Color color, float updateInterval) : BaseModifier
+public abstract class ArrowTargetModifier(PlayerControl owner, Color color, float updateInterval) : TimedModifier
 {
     private readonly float _updateInterval = updateInterval;
+    public override float Duration => 1f;
+    public override bool AutoStart => false;
 
     private ArrowBehaviour? _arrow;
     private DateTime _time = DateTime.UnixEpoch;
@@ -37,6 +39,8 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
     public override void OnDeactivate()
     {
+        base.OnDeactivate();
+
         if (!_arrow.IsDestroyedOrNull())
         {
             _arrow?.gameObject.Destroy();
@@ -46,6 +50,13 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
     public override void FixedUpdate()
     {
+        base.FixedUpdate();
+        if (Player == null)
+        {
+            ModifierComponent!.RemoveModifier(this);
+            return;
+        }
+
         if (_updateInterval <= 0 || _time <= DateTime.UtcNow.AddSeconds(-_updateInterval))
         {
             if (_arrow != null)
@@ -55,12 +66,6 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
             }
 
             _time = DateTime.UtcNow;
-        }
-
-        if (Player == null)
-        {
-            ModifierComponent!.RemoveModifier(this);
-            return;       
         }
     }
 }

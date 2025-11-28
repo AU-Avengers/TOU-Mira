@@ -44,7 +44,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You were flashed by a Grenadier!</color></b>", Color.white,
                 spr: TouRoleIcons.Grenadier.LoadAsset());
 
-            notif1.Text.SetOutlineThickness(0.35f);
+            notif1.AdjustNotification();
             notif1.transform.localPosition = new Vector3(0f, 1f, -150f);
         }
     }
@@ -53,7 +53,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     {
         base.FixedUpdate();
 
-        if (!Player.IsImpostor() && PlayerControl.LocalPlayer.IsImpostor())
+        if (!Player.IsImpostorAligned() && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             if (TimeRemaining <= Duration - 0.5f && TimeRemaining >= 0.5f)
             {
@@ -142,10 +142,15 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
             flash?.Destroy();
         }
 
-        if (!Player.IsImpostor() && PlayerControl.LocalPlayer.IsImpostor())
+        if (!Player.IsImpostorAligned() && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
         }
+    }
+
+    public override void OnMeetingStart()
+    {
+        ModifierComponent?.RemoveModifier(this);
     }
 
     private void SetFlash(Color color)
@@ -164,11 +169,11 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
 
     private static bool ShouldPlayerBeDimmed(PlayerControl player)
     {
-        return (player.IsImpostor() || player.HasDied()) && !MeetingHud.Instance;
+        return (player.IsImpostorAligned() || player.HasDied()) && !MeetingHud.Instance;
     }
 
     private static bool ShouldPlayerBeBlinded(PlayerControl player)
     {
-        return !player.IsImpostor() && !player.HasDied() && !MeetingHud.Instance;
+        return !player.IsImpostorAligned() && !player.HasDied() && !MeetingHud.Instance;
     }
 }

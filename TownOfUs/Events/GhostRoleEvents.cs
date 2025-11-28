@@ -11,6 +11,7 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -74,10 +75,10 @@ public static class GhostRoleEvents
                 }
             }
 
-            var phantomData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<PhantomTouRole>());
+            var phantomData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
 
             if (phantomData != null &&
-                CustomRoleUtils.GetActiveRoles().OfType<PhantomTouRole>().Count() < phantomData.Count)
+                CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < phantomData.Count)
             {
                 var isSkipped = phantomData.Chance < 100 && HashRandom.Next(101) > phantomData.Chance;
 
@@ -86,7 +87,8 @@ public static class GhostRoleEvents
                     var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
                         x.Data.IsDead && x.IsNeutral() && !x.Data.Role.DidWin(GameOverReason.CrewmatesByVote) &&
                         !x.HasModifier<BasicGhostModifier>() &&
-                        !x.HasModifier<AllianceGameModifier>()).ToList();
+                        !x.HasModifier<AllianceGameModifier>() &&
+                        !SpectatorRole.TrackedPlayers.Contains(x)).ToList();
 
                     if (deadNeutral.Count > 0)
                     {
@@ -96,7 +98,7 @@ public static class GhostRoleEvents
 
                         if (player != null)
                         {
-                            player.RpcChangeRole(RoleId.Get<PhantomTouRole>());
+                            player.RpcChangeRole(RoleId.Get<SpectreRole>());
                         }
                     }
                 }

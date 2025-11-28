@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Immutable;
-using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
 using AmongUs.Data;
@@ -67,15 +66,17 @@ public static class ModNewsFetcher
 
     public static void CheckForNews()
     {
-        Logger<TownOfUsPlugin>.Error($"Running Mod News Fetcher...");
-        if (/*Environment.Is64BitProcess || */TownOfUsPlugin.IsDevBuild)
+        Error($"Running Mod News Fetcher...");
+        if ( /*Environment.Is64BitProcess || */TownOfUsPlugin.IsDevBuild)
         {
-            Logger<TownOfUsPlugin>.Error($"Loading News Locally, as this is a DEVELOPER BUILD");
+            Error($"Loading News Locally, as this is a DEVELOPER BUILD");
             LoadTouMiraModNewsFromResources();
             return;
         }
+
         Coroutines.Start(FetchNews());
     }
+
     public static IEnumerator FetchNews()
     {
         if (downloaded)
@@ -107,7 +108,7 @@ public static class ModNewsFetcher
         if (request.isNetworkError || request.isHttpError)
         {
             downloaded = false;
-            Logger<TownOfUsPlugin>.Error($"Couldn't fetch mod news from github: {request.error}");
+            Error($"Couldn't fetch mod news from github: {request.error}");
             LoadTouMiraModNewsFromResources();
             yield break;
         }
@@ -123,7 +124,7 @@ public static class ModNewsFetcher
                     ? newsElement.GetProperty("Date").GetString()!
                     : "Unknown Date";
                 var numberString = newsElement.GetProperty("Number").GetString();
-                var number = numberString != null ? int.Parse(numberString, CultureInfo.InvariantCulture) : 0;
+                var number = numberString != null ? int.Parse(numberString, TownOfUsPlugin.Culture) : 0;
                 var shortTitle = numberString != null && newsElement.GetProperty("ShortTitle").GetString() != null
                     ? newsElement.GetProperty("ShortTitle").GetString()!
                     : "No Short Title";
@@ -142,7 +143,7 @@ public static class ModNewsFetcher
         }
         catch (Exception ex)
         {
-            Logger<TownOfUsPlugin>.Error(
+            Error(
                 $"Couldn't fetch mod news from github, loading from resources instead: {ex.Message}");
             // Use local Mod news instead
             LoadTouMiraModNewsFromResources();
@@ -186,7 +187,7 @@ public static class ModNewsFetcher
                 ? newsElement.GetProperty("Date").GetString()!
                 : "Unknown Date";
             var numberString = newsElement.GetProperty("Number").GetString();
-            var number = numberString != null ? int.Parse(numberString, CultureInfo.InvariantCulture) : 0;
+            var number = numberString != null ? int.Parse(numberString, TownOfUsPlugin.Culture) : 0;
             var shortTitle = numberString != null && newsElement.GetProperty("ShortTitle").GetString() != null
                 ? newsElement.GetProperty("ShortTitle").GetString()!
                 : "No Short Title";
@@ -215,14 +216,14 @@ public static class ModNewsFetcher
         {
             if (AllModNews.Count == 0)
             {
-                Logger<TownOfUsPlugin>.Error($"No mod news were found.");
+                Error($"No mod news were found.");
                 return;
             }
 
             var finalAllNews = AllModNews.Select(n => n.ToAnnouncement()).ToList();
             finalAllNews.AddRange(aRange.Where(news => AllModNews.All(x => x.Number != news.Number)));
-            finalAllNews.Sort((a1, a2) => DateTime.Compare(DateTime.Parse(a2.Date, CultureInfo.InvariantCulture),
-                DateTime.Parse(a1.Date, CultureInfo.InvariantCulture)));
+            finalAllNews.Sort((a1, a2) => DateTime.Compare(DateTime.Parse(a2.Date, TownOfUsPlugin.Culture),
+                DateTime.Parse(a1.Date, TownOfUsPlugin.Culture)));
 
             aRange = new Il2CppReferenceArray<Announcement>(finalAllNews.Count);
 

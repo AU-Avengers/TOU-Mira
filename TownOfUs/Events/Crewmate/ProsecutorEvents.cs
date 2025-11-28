@@ -16,6 +16,49 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class ProsecutorEvents
 {
+    [RegisterEvent(1000)]
+    public static void BeforeLocalVoteEvent(BeforeVoteEvent @event)
+    {
+        // Players who are dead can no longer vote, and dead player can't be voted either
+        var voteArea = @event.VoteArea;
+        var votedPlayer = voteArea.GetPlayer();
+        if (PlayerControl.LocalPlayer.HasDied() || (votedPlayer != null && votedPlayer.HasDied()))
+        {
+            @event.Cancel();
+            return;
+        }
+
+        if (PlayerControl.LocalPlayer.Data.Role is not ProsecutorRole prosecutor)
+        {
+            return;
+        }
+
+        if (voteArea.Parent.state is MeetingHud.VoteStates.Proceeding or MeetingHud.VoteStates.Results)
+        {
+            @event.Cancel();
+            return;
+        }
+
+        if (voteArea == prosecutor.ProsecuteButton && !prosecutor.SelectingProsecuteVictim)
+        {
+            prosecutor.SelectingProsecuteVictim = true;
+            @event.Cancel();
+            return;
+        }
+
+        if (voteArea != prosecutor.ProsecuteButton && voteArea != MeetingHud.Instance.SkipVoteButton &&
+            prosecutor.SelectingProsecuteVictim)
+        {
+            ProsecutorRole.RpcProsecute(PlayerControl.LocalPlayer, voteArea.TargetPlayerId);
+        }
+
+        if (voteArea == MeetingHud.Instance.SkipVoteButton && prosecutor.SelectingProsecuteVictim)
+        {
+            prosecutor.SelectingProsecuteVictim = false;
+            prosecutor.ProsecuteVictim = byte.MaxValue;
+        }
+    }
+
     [RegisterEvent]
     public static void VoteEvent(CheckForEndVotingEvent @event)
     {
@@ -25,7 +68,7 @@ public static class ProsecutorEvents
         }
 
         var prosecutor = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>()
-                            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
+            .FirstOrDefault(x => !x.Player.HasDied() && x.HasProsecuted && x.ProsecuteVictim != byte.MaxValue);
 
         if (prosecutor == null)
         {
@@ -61,16 +104,18 @@ public static class ProsecutorEvents
         {
             var hasProsecuted = pros.HasProsecuted;
             pros.Cleanup();
-            
+
             if (player == null)
             {
                 continue;
             }
-            
+
             if (hasProsecuted)
             {
-                DeathHandlerModifier.UpdateDeathHandler(player, "Prosecuted", DeathEventHandlers.CurrentRound,
-                    DeathHandlerOverride.SetFalse, $"By {pros.Player.Data.PlayerName}",
+                DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToProsecutor"),
+                    DeathEventHandlers.CurrentRound,
+                    DeathHandlerOverride.SetFalse,
+                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", pros.Player.Data.PlayerName),
                     lockInfo: DeathHandlerOverride.SetTrue);
 
                 if (pros.Player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
@@ -83,18 +128,20 @@ public static class ProsecutorEvents
                     return;
                 }
 
-                if (player.IsCrewmate())
+                if (player.IsCrewmate() && player != pros.Player)
                 {
                     if (OptionGroupSingleton<ProsecutorOptions>.Instance.ExileOnCrewmate)
                     {
-                        pros.Player.Exiled();
-                        DeathHandlerModifier.UpdateDeathHandler(pros.Player, "Punished",
-                            DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                            lockInfo: DeathHandlerOverride.SetTrue);
-                        if (@pros.Player.TryGetModifier<CelebrityModifier>(out var celeb))
+                        if (pros.Player.TryGetModifier<CelebrityModifier>(out var celeb))
                         {
                             celeb.Announced = true;
                         }
+
+                        DeathHandlerModifier.UpdateDeathHandlerImmediate(pros.Player, TouLocale.Get("DiedToPunishment"),
+                            DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                            lockInfo: DeathHandlerOverride.SetTrue);
+
+                        pros.Player.Exiled();
                     }
                     else
                     {
