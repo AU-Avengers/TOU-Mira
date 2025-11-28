@@ -175,6 +175,14 @@
   <string name="NonImpVisibility">Non Imp Visibility</string>
   <string name="NonImpPostmortem">Non Imp Postmortem</string>
   <string name="NonImpPassive">Non Imp Passive</string>
+  <string name="HiderUtility">Hider Utility</string>
+  <string name="HiderVisibility">Hider Visibility</string>
+  <string name="HiderPostmortem">Hider Postmortem</string>
+  <string name="HiderPassive">Hider Passive</string>
+  <string name="SeekerUtility">Seeker Utility</string>
+  <string name="SeekerVisibility">Seeker Visibility</string>
+  <string name="SeekerPostmortem">Seeker Postmortem</string>
+  <string name="SeekerPassive">Seeker Passive</string>
   <string name="External">External</string>
   <string name="Other">Other</string>
   <!-- Role Tab and Intro Heads-Up -->
@@ -348,6 +356,10 @@
   <string name="HnsModifierOblivious">Oblivious</string>
   <string name="HnsModifierObliviousTabDescription">You lack seeker awareness.</string>
   <string name="HnsModifierObliviousWikiDescription">No indicator is present to show you when the seeker is close.</string>
+  <!-- Transporter Modifier Wiki / Description -->
+  <string name="HnsModifierTransporter">Transporter</string>
+  <string name="HnsModifierTransporterTabDescription">Transport the seeker upon death.</string>
+  <string name="HnsModifierTransporterWikiDescription">When killed, you will transport the seeker with a random hider.</string>
   <!-- Giant Modifier Wiki / Description -->
   <string name="HnsModifierGiant">Giant</string>
   <string name="HnsModifierGiantTabDescription">You are bigger than other hiders.</string>

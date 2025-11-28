@@ -73,6 +73,14 @@ public enum ModifierFaction
     NonImpVisibility,
     NonImpPostmortem,
     NonImpPassive,
+    HiderUtility,
+    HiderVisibility,
+    HiderPostmortem,
+    HiderPassive,
+    SeekerUtility,
+    SeekerVisibility,
+    SeekerPostmortem,
+    SeekerPassive,
     External,
     Other
 }

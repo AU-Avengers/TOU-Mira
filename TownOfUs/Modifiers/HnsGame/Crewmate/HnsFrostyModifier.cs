@@ -11,7 +11,7 @@ public sealed class HnsFrostyModifier : HnsGameModifier, IWikiDiscoverable
 {
     public override string LocaleKey => "Frosty";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Frosty;
-    public override ModifierFaction FactionType => ModifierFaction.CrewmatePostmortem;
+    public override ModifierFaction FactionType => ModifierFaction.HiderPostmortem;
 
     public override int GetAssignmentChance()
     {

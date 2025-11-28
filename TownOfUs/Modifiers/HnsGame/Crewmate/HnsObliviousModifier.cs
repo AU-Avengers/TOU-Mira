@@ -11,7 +11,7 @@ public sealed class HnsObliviousModifier : HnsGameModifier
 {
     public override string LocaleKey => "Oblivious";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Bait;
-    public override ModifierFaction FactionType => ModifierFaction.CrewmatePassive;
+    public override ModifierFaction FactionType => ModifierFaction.HiderPassive;
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
