@@ -16,6 +16,7 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
@@ -34,6 +35,11 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
     public void AssignTargets()
     {
+        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        {
+            return;
+        }
+
         var textlog = $"Selecting Fairy Targets.";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 

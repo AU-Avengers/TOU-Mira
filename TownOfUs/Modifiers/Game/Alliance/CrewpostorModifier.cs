@@ -49,6 +49,11 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
     public void AssignTargets()
     {
+        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        {
+            return;
+        }
+
         System.Random rnd = new();
         var chance = rnd.Next(1, 101);
 

@@ -11,6 +11,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
@@ -67,6 +68,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public void AssignTargets()
     {
+        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        {
+            return;
+        }
+
         foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>())
                      .ToList())
         {
