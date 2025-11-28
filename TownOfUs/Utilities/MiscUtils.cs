@@ -15,6 +15,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -25,6 +26,7 @@ using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Patches.Misc;
+using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities.Appearances;
@@ -900,17 +902,37 @@ public static class MiscUtils
         pooledBubble.AlignChildren();
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
-        chat.AlignAllBubbles();
-        if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
+        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive)
         {
-            chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
+            TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
+            pooledBubble.gameObject.SetActive(false);
+            if (chat.chatBubblePool.activeChildren.Contains(pooledBubble))
+            {
+                chat.chatBubblePool.activeChildren.Remove(pooledBubble);
+            }
+        }
+        chat.AlignAllBubbles();
+        if (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive)
+        {
+            Coroutines.Start(BouncePrivateChatDot());
+            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
         }
 
         if (showHeadsup && !chat.IsOpenOrOpening)
         {
-            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
             chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
         }
+    }
+    private static IEnumerator BouncePrivateChatDot()
+    {
+        if (TeamChatPatches.PrivateChatDot == null)
+        {
+            TeamChatPatches.CreateTeamChatBubble();
+        }
+        
+        var sprite = TeamChatPatches.PrivateChatDot!.GetComponent<SpriteRenderer>();
+        sprite.enabled = true;
+        yield return Effects.Bounce(sprite.transform, 0.3f, 0.125f);
     }
 
     public static bool StartsWithVowel(this string word)

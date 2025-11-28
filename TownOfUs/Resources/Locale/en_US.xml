@@ -581,7 +581,7 @@
   <string name="TouRoleJailorTabDescriptionEvil">Discuss with crewmates in meetings privately, and\%nl\%execute them if you so desire</string>
   <string name="TouRoleJailorWikiDescription">The Jailor is a Crewmate Power role that can jail other players. During a meeting, the Jailor can choose to execute their jailed player. (Unless the Jailor is an Imitator)</string>
   <string name="TouRoleJailorJail">Jail</string>
-  <string name="TouRoleJailorJailWikiDescription">Jail a player. During the meeting everyone will see who is jailed. You can privately talk with your detained player using the instructions that are in the private chatbox</string>
+  <string name="TouRoleJailorJailWikiDescription">Jail a player. During the meeting everyone will see who is jailed. You can privately talk with your detained player using the private chatbox toggle.</string>
   <string name="TouRoleJailorExecute">Execute</string>
   <string name="TouRoleJailorExecuteWiki">Execute (Meeting)</string>
   <string name="TouRoleJailorExecuteWikiDescription">Execute the detained player. If the player is a crewmate, the Jailor will lose the ability to Jail.</string>
@@ -592,7 +592,7 @@
   <string name="TouOptionJailorJaileePublicChat">Jailee Can Use Public Chat</string>
   <!-- Jailor Feedback -->
   <string name="TouRoleJailorMessageTitle">Jailor Feedback</string>
-  <string name="TouRoleJailorJailorFeedback">Communicate with your jailee in the \%b\%RED\%/b\% private chatbox next to the \%b\%REGULAR\%/b\% chatbox.</string>
+  <string name="TouRoleJailorJailorFeedback">Communicate with your jailee in the chatbox above the user report button.</string>
   <string name="TouRoleJailorCannotExecute">\%player\% cannot be executed! They must be Invulnerable or blessed!</string>
   <string name="TouRoleJailorExecutedCrew">\%player\% was a crewmate! You can no longer jail anyone!</string>
   <string name="TouRoleJailorExecutedEvil">\%player\% was successfully executed!</string>
