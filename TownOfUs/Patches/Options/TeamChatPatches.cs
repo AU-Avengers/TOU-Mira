@@ -33,6 +33,55 @@ public static class TeamChatPatches
     public static bool calledByChatUpdate;
     public static GameObject? PrivateChatDot;
 
+    public static class CustomChatData
+    {
+        public static List<ChatHolder> CustomChatHolders { get; set; } = [];
+
+        public static void Clear()
+        {
+            CustomChatHolders.Clear();
+        }
+
+        public static void AddChatHolder(string infoBlurb = "This is a custom chat!",
+            string titleFormat = "<player> (Chat)", Color? infoColor = null, Color? titleColor = null,
+            Color? msgBgColor = null, Color? bgColor = null, Sprite? spriteBubble = null, Sprite? btnIdle = null,
+            Sprite? btnHover = null, Sprite? btnOpen = null, Func<bool>? canSeeChat = null,
+            Func<bool>? canUseChat = null)
+        {
+            CustomChatHolders.Add(new ChatHolder
+            {
+                InformationBlurb = infoBlurb,
+                ChatTitleFormat = titleFormat,
+                InfoBlurbColor = infoColor ?? Color.white,
+                ChatMessageTitleColor = titleColor,
+                ChatMessageBgColor = msgBgColor,
+                ChatBgColor = bgColor,
+                ChatBubbleSprite = spriteBubble ?? TouChatAssets.NormalBubble.LoadAsset(),
+                ButtonIdleSprite = btnIdle ?? TouChatAssets.NormalChatIdle.LoadAsset(),
+                ButtonHoverSprite = btnHover ?? TouChatAssets.NormalChatHover.LoadAsset(),
+                ButtonOpenSprite = btnOpen ?? TouChatAssets.NormalChatOpen.LoadAsset(),
+                ChatVisible = () => (canSeeChat == null || canSeeChat()),
+                ChatUsable = () => (canSeeChat == null || canSeeChat()) && (canUseChat == null || canUseChat())
+            });
+        }
+
+        public sealed class ChatHolder
+        {
+            public string InformationBlurb { get; set; }
+            public string ChatTitleFormat { get; set; }
+            public Color InfoBlurbColor { get; set; }
+            public Color? ChatMessageTitleColor { get; set; }
+            public Color? ChatMessageBgColor { get; set; }
+            public Color? ChatBgColor { get; set; }
+            public Sprite ChatBubbleSprite { get; set; }
+            public Sprite ButtonIdleSprite { get; set; }
+            public Sprite ButtonHoverSprite { get; set; }
+            public Sprite ButtonOpenSprite { get; set; }
+            public Func<bool> ChatVisible { get; set; }
+            public Func<bool> ChatUsable { get; set; }
+        }
+    }
+
     public static void ToggleTeamChat() // Also used to hide the custom chat when dying
     {
         TeamChatActive = !TeamChatActive;
