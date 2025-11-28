@@ -136,9 +136,14 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.ImpSeeker;
             }
 
-            if (RoleAlignment == RoleAlignment.ImpostorCultist || RoleAlignment == RoleAlignment.ImpostorFollower)
+            if (RoleAlignment == RoleAlignment.ImpostorCultist)
             {
                 return TouRoleGroups.ImpCultist;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorFollower)
+            {
+                return TouRoleGroups.ImpFollower;
             }
 
             if (RoleAlignment == RoleAlignment.CrewmateBeliever)

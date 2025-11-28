@@ -498,10 +498,11 @@
   <string name="TouRoleEngineerFixWikiDescription">It doesn't matter where you are on the map, you can use your fix button to instantly fix the active sabotage. You can do this \%engiMaxFixes\% times per game.</string>
   <!-- Engineer Options -->
   <string name="TouOptionEngineerMaxVents">Vent Uses Per Game</string>
-  <string name="TouOptionEngineerTaskUses">Get More Vent Uses From Completing Tasks</string>
+  <string name="TouOptionEngineerVentPerTasks">Vent Use Per Tasks Completed</string>
   <string name="TouOptionEngineerVentCooldown">Vent Cooldown</string>
   <string name="TouOptionEngineerVentDuration">Vent Duration</string>
   <string name="TouOptionEngineerMaxFixes">Fix Uses Per Game</string>
+  <string name="TouOptionEngineerFixPerTasks">Fix Use Per Tasks Completed</string>
   <string name="TouOptionEngineerFixDelay">Fix Delay</string>
   <!-- Haunter - Crewmate Investigative -->
   <!-- Haunter Wiki / Description -->

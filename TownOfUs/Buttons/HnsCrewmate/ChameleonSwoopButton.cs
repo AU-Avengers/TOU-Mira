@@ -68,7 +68,7 @@ public sealed class ChameleonSwoopButton : TownOfUsRoleButton<HnsChameleonRole>
         {
             PlayerControl.LocalPlayer.RpcAddModifier<HnsChameleonSwoopModifier>();
             UsesLeft--;
-            if (MaxUses != 0)
+            if (LimitedUses)
             {
                 Button?.SetUsesRemaining(UsesLeft);
             }

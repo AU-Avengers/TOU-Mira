@@ -142,9 +142,13 @@ public static class MiscUtils
                     }
 
                     var title = TranslationController.Instance.GetString(numberOption.StringName);
-                    if (numberOption is { ZeroInfinity: true, Value: 0 })
+                    if (numberOption is { NegativeWordValue: not "#", Value: -1 })
                     {
-                        builder.AppendLine(title + ": ∞");
+                        builder.AppendLine(title + $": {numberOption.NegativeWordValue}");
+                    }
+                    else if (numberOption is { ZeroWordValue: not "#", Value: 0 })
+                    {
+                        builder.AppendLine(title + $": {numberOption.ZeroWordValue}");
                     }
                     else
                     {

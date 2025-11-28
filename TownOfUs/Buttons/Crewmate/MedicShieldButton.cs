@@ -18,6 +18,8 @@ public sealed class MedicShieldButton : TownOfUsRoleButton<MedicRole, PlayerCont
         ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
         : 0;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MedicSprite;
 

@@ -26,7 +26,7 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
         {
             PlayerControl.LocalPlayer.RpcAddModifier<SwoopModifier>();
             UsesLeft--;
-            if (MaxUses != 0)
+            if (LimitedUses)
             {
                 Button?.SetUsesRemaining(UsesLeft);
             }
@@ -85,7 +85,7 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
         {
             PlayerControl.LocalPlayer.RpcAddModifier<SwoopModifier>();
             UsesLeft--;
-            if (MaxUses != 0)
+            if (LimitedUses)
             {
                 Button?.SetUsesRemaining(UsesLeft);
             }

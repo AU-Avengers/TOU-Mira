@@ -351,25 +351,11 @@ public static class TownOfUsEventHandlers
 
         CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = false;
 
-        var engiVent = CustomButtonSingleton<EngineerVentButton>.Instance;
-        engiVent.ExtraUses = 0;
-        engiVent.SetUses((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents);
-        if ((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents == 0)
-        {
-            engiVent.Button?.usesRemainingText.gameObject.SetActive(false);
-            engiVent.Button?.usesRemainingSprite.gameObject.SetActive(false);
-        }
-        else
-        {
-            engiVent.Button?.usesRemainingText.gameObject.SetActive(true);
-            engiVent.Button?.usesRemainingSprite.gameObject.SetActive(true);
-        }
-
         var medicShield = CustomButtonSingleton<MedicShieldButton>.Instance;
         medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
             ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
             : 0);
-        if ((int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses == 0 ||
+        if (!medicShield.LimitedUses ||
             !OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget)
         {
             medicShield.Button?.usesRemainingText.gameObject.SetActive(false);

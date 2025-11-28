@@ -73,7 +73,7 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
             PlayerControl.LocalPlayer.RpcAddModifier<MorphlingMorphModifier>(Role.Sampled!);
             OverrideName(TouLocale.Get("TouRoleMorphlingUnmorph", "Unmorph"));
             UsesLeft--;
-            if (MaxUses != 0)
+            if (LimitedUses)
             {
                 Button?.SetUsesRemaining(UsesLeft);
             }
@@ -92,7 +92,7 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
             PlayerControl.LocalPlayer.RpcAddModifier<MorphlingMorphModifier>(Role.Sampled!);
             OverrideName(TouLocale.Get("TouRoleMorphlingUnmorph", "Unmorph"));
             UsesLeft--;
-            if (MaxUses != 0)
+            if (LimitedUses)
             {
                 Button?.SetUsesRemaining(UsesLeft);
             }
