@@ -17,6 +17,8 @@ public sealed class MorphlingSampleButton : TownOfUsRoleButton<MorphlingRole, Pl
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override int MaxUses => (int)OptionGroupSingleton<MorphlingOptions>.Instance.MaxSamples;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.SampleSprite;
 
     public void AftermathHandler()

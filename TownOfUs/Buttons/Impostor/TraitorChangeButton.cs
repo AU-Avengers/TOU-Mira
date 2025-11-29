@@ -23,6 +23,8 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.TraitorSelect;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public override void ClickHandler()
     {
         if (!CanClick() || Minigame.Instance != null || PlayerControl.LocalPlayer.HasDied())

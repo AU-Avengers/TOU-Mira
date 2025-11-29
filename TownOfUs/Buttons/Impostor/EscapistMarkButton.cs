@@ -15,6 +15,8 @@ public sealed class EscapistMarkButton : TownOfUsRoleButton<EscapistRole>, IAfte
     public override float InitialCooldown => 0.001f;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.MarkSprite;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public void AftermathHandler()
     {
         ClickHandler();

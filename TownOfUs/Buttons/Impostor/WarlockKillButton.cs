@@ -19,6 +19,8 @@ public sealed class WarlockKillButton : TownOfUsRoleButton<WarlockRole, PlayerCo
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
     public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public float Charge { get; set; }
     public bool BurstActive { get; set; }
     public int Kills { get; set; }

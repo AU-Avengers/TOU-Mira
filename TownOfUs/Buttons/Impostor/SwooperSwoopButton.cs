@@ -20,6 +20,8 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
     public override int MaxUses => (int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.SwoopSprite;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public void AftermathHandler()
     {
         if (!EffectActive)
@@ -75,7 +77,7 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
             return false;
         }
 
-        return ((Timer <= 0 && !EffectActive && (MaxUses == 0 || UsesLeft > 0)) ||
+        return ((Timer <= 0 && !EffectActive && (!LimitedUses || UsesLeft > 0)) ||
                 (EffectActive && Timer <= EffectDuration - 2f));
     }
 

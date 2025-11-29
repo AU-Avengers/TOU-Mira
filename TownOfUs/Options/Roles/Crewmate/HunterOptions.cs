@@ -20,7 +20,7 @@ public sealed class HunterOptions : AbstractOptionGroup<HunterRole>
     public float HunterStalkDuration { get; set; } = 25f;
     public ModdedNumberOption StalkUses { get; } = new("TouOptionHunterStalkUses", 5f, -1f, 30f, 1f, "0", "∞", MiraNumberSuffixes.None, "0");
 
-    public ModdedNumberOption StalkPerTasks { get; } = new("TouOptionHunterStalksPerTasks", 1f, 0f, 15f, 1f, "</b>Off<b>", "#", MiraNumberSuffixes.None, "0")
+    public ModdedNumberOption StalkPerTasks { get; } = new("TouOptionHunterStalksPerTasks", 1f, 0f, 15f, 1f, "Off", "#", MiraNumberSuffixes.None, "0")
     {
         Visible = () => OptionGroupSingleton<HunterOptions>.Instance.StalkUses != -1
     };

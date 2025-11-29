@@ -74,7 +74,7 @@ public sealed class DeathHandlerModifier : BaseModifier
     {
         if (!player.HasModifier<DeathHandlerModifier>())
         {
-            Error("UpdateDeathHandler - Player had no DeathHandlerModifier");
+            Error("UpdateDeathHandlerImmediate - Player had no DeathHandlerModifier");
             player.AddModifier<DeathHandlerModifier>();
         }
 
@@ -88,7 +88,7 @@ public sealed class DeathHandlerModifier : BaseModifier
         DeathHandlerOverride diedThisRound, string killedBy, DeathHandlerOverride lockInfo)
     {
         IsCoroutineRunning = true;
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.05f);
         if (!player.HasModifier<DeathHandlerModifier>())
         {
             Error("UpdateDeathHandler - Player had no DeathHandlerModifier");
@@ -99,7 +99,7 @@ public sealed class DeathHandlerModifier : BaseModifier
             IsCoroutineRunning = false;
             yield break;
         }
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForEndOfFrame();
         var deathHandler = player.GetModifier<DeathHandlerModifier>()!;
         if (causeOfDeath != "null")
         {

@@ -18,6 +18,8 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MorphlingOptions>.Instance.MorphlingCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<MorphlingOptions>.Instance.MorphlingDuration;
     public override int MaxUses => (int)OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.MorphSprite;
 
     public override void ClickHandler()

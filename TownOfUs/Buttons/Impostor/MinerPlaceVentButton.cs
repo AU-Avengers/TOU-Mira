@@ -20,6 +20,8 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
             ? OptionGroupSingleton<MinerOptions>.Instance.MineDelay.Value + 0.001f
             : 0.001f;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public override int MaxUses => (int)OptionGroupSingleton<MinerOptions>.Instance.MaxMines;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.MineSprite;
 

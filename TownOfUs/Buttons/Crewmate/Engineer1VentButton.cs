@@ -76,7 +76,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         }
 
         return ((Timer <= 0 && !PlayerControl.LocalPlayer.inVent && Target != null) ||
-                PlayerControl.LocalPlayer.inVent) && (MaxUses == 0 || UsesLeft >= 0);
+                PlayerControl.LocalPlayer.inVent) && (!LimitedUses || UsesLeft > 0);
     }
 
     public override void ClickHandler()

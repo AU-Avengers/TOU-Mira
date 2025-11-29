@@ -64,6 +64,6 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
 
         var options = OptionGroupSingleton<JuggernautOptions>.Instance;
 
-        return Math.Max(BaseCooldown - options.KillCooldownReduction * juggernaut.KillCount, 0);
+        return Math.Max(BaseCooldown - options.KillCooldownReduction.Value * juggernaut.KillCount, 0);
     }
 }

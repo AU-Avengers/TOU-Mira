@@ -1,14 +1,17 @@
+using System.Collections;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
+using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Networking;
 
@@ -129,7 +132,7 @@ public static class CustomTouMurderRpcs
         }
         if (attackerMod != null)
         {
-            source.RemoveModifier(attackerMod);
+            Coroutines.Start(CoRemoveIndirect(source));
         }
     }
     /// <summary>
@@ -207,7 +210,7 @@ public static class CustomTouMurderRpcs
             playKillSound);
         if (attackerMod != null)
         {
-            source.RemoveModifier(attackerMod);
+            Coroutines.Start(CoRemoveIndirect(source));
         }
     }
     /// <summary>
@@ -237,7 +240,7 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        var indirectMod = source.AddModifier<IndirectAttackerModifier>(true);
+        source.AddModifier<IndirectAttackerModifier>(true);
 
         var cod = "Killer";
         if (touRole.LocaleKey != "KEY_MISS")
@@ -255,6 +258,15 @@ public static class CustomTouMurderRpcs
             target,
             MurderResultFlags.Succeeded);
 
-        source.RemoveModifier(indirectMod!);
+        Coroutines.Start(CoRemoveIndirect(source));
+    }
+
+    public static IEnumerator CoRemoveIndirect(PlayerControl source)
+    {
+        yield return new WaitForEndOfFrame();
+        if (source.TryGetModifier<IndirectAttackerModifier>(out var indirectMod))
+        {
+            source.RemoveModifier(indirectMod);
+        }
     }
 }

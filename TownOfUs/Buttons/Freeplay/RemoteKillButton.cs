@@ -14,6 +14,8 @@ public sealed class RemoteKillButton : TownOfUsButton
     public override float InitialCooldown => 0.001f;
     public override float EffectDuration => 3;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
     public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
     public PlayerControl? Killer;
     public PlayerControl? Victim;

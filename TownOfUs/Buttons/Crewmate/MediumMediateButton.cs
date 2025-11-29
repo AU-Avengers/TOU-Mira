@@ -18,6 +18,8 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MediumOptions>.Instance.MediateCooldown + MapCooldown, 0.001f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MediateSprite;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     protected override void OnClick()
     {
         var deadPlayers = PlayerControl.AllPlayerControls.ToArray()

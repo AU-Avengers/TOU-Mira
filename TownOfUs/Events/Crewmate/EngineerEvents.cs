@@ -41,6 +41,17 @@ public static class EngineerEvents
 
         var engiFix = CustomButtonSingleton<EngineerFixButton>.Instance;
         engiFix.ExtraUses = 0;
+        engiFix.SetUses((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes);
+        if (!engiFix.LimitedUses)
+        {
+            engiFix.Button?.usesRemainingText.gameObject.SetActive(false);
+            engiFix.Button?.usesRemainingSprite.gameObject.SetActive(false);
+        }
+        else
+        {
+            engiFix.Button?.usesRemainingText.gameObject.SetActive(true);
+            engiFix.Button?.usesRemainingSprite.gameObject.SetActive(true);
+        }
     }
 
     [RegisterEvent]
