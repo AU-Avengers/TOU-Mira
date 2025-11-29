@@ -11,7 +11,7 @@ public sealed class EngineerOptions : AbstractOptionGroup<EngineerTouRole>
     public override string GroupName => TouLocale.Get("TouRoleEngineer", "Engineer");
     public ModdedNumberOption MaxVents { get; } = new("TouOptionEngineerMaxVents", -1f, -1f, 30f, 1f, "0", "∞", MiraNumberSuffixes.None, "0");
 
-    public ModdedNumberOption VentPerTasks { get; } = new("TouOptionEngineerVentPerTasks", 1f, 0f, 15f, 1f, "Off", "#", MiraNumberSuffixes.None, "0")
+    public ModdedNumberOption VentPerTasks { get; } = new("TouOptionEngineerVentPerTasks", 1f, 0f, 15f, 1f, "</b>Off<b>", "#", MiraNumberSuffixes.None, "0")
     {
         Visible = () => OptionGroupSingleton<EngineerOptions>.Instance.MaxVents != -1
     };
@@ -24,7 +24,7 @@ public sealed class EngineerOptions : AbstractOptionGroup<EngineerTouRole>
 
     public ModdedNumberOption MaxFixes { get; } = new("TouOptionEngineerMaxFixes", 2f, -1f, 15f, 1f, "0", "∞", MiraNumberSuffixes.None, "0");
 
-    public ModdedNumberOption FixPerTasks { get; } = new("TouOptionEngineerFixPerTasks", 3f, 0f, 15f, 1f, "Off", "#", MiraNumberSuffixes.None, "0")
+    public ModdedNumberOption FixPerTasks { get; } = new("TouOptionEngineerFixPerTasks", 3f, 0f, 15f, 1f, "</b>Off<b>", "#", MiraNumberSuffixes.None, "0")
     {
         Visible = () => OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes != -1
     };

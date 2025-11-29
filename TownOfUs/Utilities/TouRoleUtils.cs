@@ -1,8 +1,11 @@
 using System.Text;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers;
+using TownOfUs.Modules;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -11,6 +14,22 @@ namespace TownOfUs.Utilities;
 
 public static class TouRoleUtils
 {
+    public static bool AreTeammates(PlayerControl player, PlayerControl other)
+    {
+        var playerRole = player.GetRoleWhenAlive();
+        var otherRole = other.GetRoleWhenAlive();
+        var flag = (player.IsImpostorAligned() && other.IsImpostorAligned()) ||
+                   playerRole.Role == otherRole.Role ||
+                   (player.IsLover() && other.IsLover());
+        return flag;
+    }
+
+    public static bool CanKill(PlayerControl player)
+    {
+        var canBetray = PlayerControl.LocalPlayer.IsLover() && OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates;
+
+        return !(AreTeammates(PlayerControl.LocalPlayer, player) && canBetray && !player.IsLover());
+    }
     public static string GetRoleLocaleKey(this RoleBehaviour role)
     {
         var touRole = role as ITownOfUsRole;

@@ -538,7 +538,7 @@
   <string name="TouOptionHunterStalkCooldown">Hunter Stalk Cooldown</string>
   <string name="TouOptionHunterStalkDuration">Hunter Stalk Duration</string>
   <string name="TouOptionHunterStalkUses">Max Stalk Uses</string>
-  <string name="TouOptionHunterTaskUses">Get More Uses From Completing Tasks</string>
+  <string name="TouOptionHunterStalksPerTasks">Stalk Use Per Tasks Completed</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
   <!-- Imitator - Crewmate Support -->

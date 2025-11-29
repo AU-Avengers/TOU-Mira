@@ -89,12 +89,14 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             {
                 ++intuitButton.UsesLeft;
                 intuitButton.SetUses(intuitButton.UsesLeft);
+                IntuitTarget = null;
             }
 
             if (GazeTarget != null)
             {
                 ++gazeButton.UsesLeft;
                 gazeButton.SetUses(gazeButton.UsesLeft);
+                GazeTarget = null;
             }
         }
     }

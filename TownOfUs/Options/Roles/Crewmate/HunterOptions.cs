@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Crewmate;
 
@@ -17,9 +18,12 @@ public sealed class HunterOptions : AbstractOptionGroup<HunterRole>
 
     [ModdedNumberOption("TouOptionHunterStalkDuration", 5f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HunterStalkDuration { get; set; } = 25f;
+    public ModdedNumberOption StalkUses { get; } = new("TouOptionHunterStalkUses", 5f, -1f, 30f, 1f, "0", "∞", MiraNumberSuffixes.None, "0");
 
-    [ModdedNumberOption("TouOptionHunterStalkUses", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
-    public float StalkUses { get; set; } = 5;
+    public ModdedNumberOption StalkPerTasks { get; } = new("TouOptionHunterStalksPerTasks", 1f, 0f, 15f, 1f, "</b>Off<b>", "#", MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => OptionGroupSingleton<HunterOptions>.Instance.StalkUses != -1
+    };
 
     [ModdedToggleOption("TouOptionHunterTaskUses")]
     public bool TaskUses { get; set; } = true;

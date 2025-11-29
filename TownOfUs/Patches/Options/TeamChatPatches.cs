@@ -29,7 +29,6 @@ public static class TeamChatPatches
     public static Color OriginalActive;
     public static Color OriginalInactive;
     public static Color OriginalSelected;
-    public static Color chatColor = new Color32(218, 140, 152, 255);
     public static bool calledByChatUpdate;
     public static GameObject? PrivateChatDot;
 
@@ -128,12 +127,9 @@ public static class TeamChatPatches
             }
 
             Background.GetComponent<SpriteRenderer>().color = new Color(0.2f, 0.1f, 0.1f, 0.8f);
-            OriginalInactive = HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().color;
-            OriginalActive = HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().color;
-            OriginalSelected = HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().color;
-            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().color = chatColor;
-            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().color = chatColor;
-            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().color = chatColor;
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
 
             if ((PlayerControl.LocalPlayer.IsJailed() ||
                  PlayerControl.LocalPlayer.Data.Role is JailorRole) && _teamText != null)
@@ -189,9 +185,9 @@ public static class TeamChatPatches
             calledByChatUpdate = true;
             chat.AlignAllBubbles();
             Background.GetComponent<SpriteRenderer>().color = Color.white;
-            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().color = OriginalInactive;
-            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().color = OriginalActive;
-            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().color = OriginalSelected;
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatIdle.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatHover.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatOpen.LoadAsset();
             /* typeBg.GetComponent<SpriteRenderer>().color = Color.white;
             typeBg.GetComponent<ButtonRolloverHandler>().ChangeOutColor(Color.white);
             typeBg.GetComponent<ButtonRolloverHandler>().OverColor = new Color(0f, 1f, 0f, 1f);
