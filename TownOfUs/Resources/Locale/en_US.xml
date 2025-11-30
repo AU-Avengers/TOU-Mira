@@ -242,11 +242,13 @@
   <string name="SoloWin">\%role\% Wins</string>
   <string name="TeamWin">\%role\% Win</string>
   <string name="LoversWin">Lovers Win</string>
+  <string name="StatsTaskCount">Tasks: \%count\%</string>
   <string name="StatsKillCount">Kills: \%count\%</string>
   <string name="StatsBadKillCount">Mis-kills: \%count\%</string>
   <string name="StatsGoodGuessCount">Guesses: \%count\%</string>
   <string name="StatsBadGuessCount">Misguesses Guesses: \%count\%</string>
   <string name="RoundOfDeath">R\%count\%</string>
+  <string name="RoundOfDeathLong">Round \%count\%</string>
   <!-- Cause of Deaths -->
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>

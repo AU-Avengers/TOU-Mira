@@ -990,7 +990,7 @@ public static class MiscUtils
     public static List<ushort> GetMaxRolesToAssign(ModdedRoleTeams team, int max = 1,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(team);
+        var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetMaxRolesToAssign(roles, max, filter);
     }
@@ -998,7 +998,7 @@ public static class MiscUtils
     public static List<ushort> GetMaxRolesToAssign(RoleAlignment alignment, int max,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(alignment);
+        var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetMaxRolesToAssign(roles, max, filter);
     }
