@@ -761,7 +761,7 @@ public static class MiscUtils
     {
         var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
         var roleOptions = currentGameOptions.RoleOptions;
-        var assignmentData = AllRegisteredRoles.Select(role =>
+        var assignmentData = SpawnableRoles.Select(role =>
             new RoleManager.RoleAssignmentData(role, roleOptions.GetNumPerGame(role.Role),
                 roleOptions.GetChancePerGame(role.Role))).ToList();
 
@@ -955,7 +955,7 @@ public static class MiscUtils
     public static List<(ushort RoleType, int Chance)> GetRolesToAssign(ModdedRoleTeams team,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(team);
+        var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetRolesToAssign(roles, filter);
     }
@@ -963,7 +963,7 @@ public static class MiscUtils
     public static List<(ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(alignment);
+        var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetRolesToAssign(roles, filter);
     }
