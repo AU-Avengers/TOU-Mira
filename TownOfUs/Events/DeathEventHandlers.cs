@@ -91,6 +91,9 @@ public static class DeathEventHandlers
     [RegisterEvent(10000)]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
+        DeathHandlerModifier.IsCoroutineRunning = false;
+        DeathHandlerModifier.IsAltCoroutineRunning = false;
+        IsDeathRecent = false;
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
         if (exiled == null)
         {

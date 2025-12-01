@@ -1,12 +1,16 @@
 using System.Text;
 using AmongUs.GameOptions;
+using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -80,6 +84,24 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public bool IsGuessable => false;
     public RoleBehaviour AppearAs => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlaguebearerRole>());
+
+    [MethodRpc((uint)TownOfUsRpc.TriggerPestilence, LocalHandling = RpcLocalHandling.Before)]
+    public static void RpcTriggerPestilence(PlayerControl player)
+    {
+        if (player.HasDied() || (player.Data.Role is not PestilenceRole && player.Data.Role is not PlaguebearerRole))
+        {
+            return;
+        }
+        var players =
+            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>();
+
+        players.Do(x =>
+            x.RemoveModifier<PlaguebearerInfectedModifier>());
+        if (player.Data.Role is not PestilenceRole)
+        {
+            player.ChangeRole(RoleId.Get<PestilenceRole>());
+        }
+    }
 
     public override void Initialize(PlayerControl player)
     {

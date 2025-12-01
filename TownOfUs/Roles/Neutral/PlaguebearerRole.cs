@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Text;
 using AmongUs.GameOptions;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -38,14 +37,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         if (allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
             (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2))
         {
-            var players =
-                ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) =>
-                    x.PlagueBearerId == Player.PlayerId);
-
-            players.Do(x =>
-                x.RpcRemoveModifier<PlaguebearerInfectedModifier>());
-
-            Player.RpcChangeRole(RoleId.Get<PestilenceRole>());
+            PestilenceRole.RpcTriggerPestilence(PlayerControl.LocalPlayer);
 
             CustomButtonSingleton<PestilenceKillButton>.Instance.SetTimer(OptionGroupSingleton<PlaguebearerOptions>
                 .Instance.PestKillCooldown);
