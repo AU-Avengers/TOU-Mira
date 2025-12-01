@@ -84,10 +84,13 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        player.AddModifier<InvulnerabilityModifier>(true, true, false);
 
         if (Player.AmOwner)
         {
+            if (!Player.HasModifier<InvulnerabilityModifier>())
+            {
+                Player.RpcAddModifier<InvulnerabilityModifier>(true, true, false);
+            }
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.PestVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Pestilence);
         }
@@ -98,10 +101,13 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
-        targetPlayer.RemoveModifier<InvulnerabilityModifier>();
 
         if (Player.AmOwner)
         {
+            if (Player.HasModifier<InvulnerabilityModifier>())
+            {
+                Player.RpcRemoveModifier<InvulnerabilityModifier>();
+            }
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }
