@@ -86,7 +86,6 @@ public static class MirrorcasterEvents
 
         // Magic Mirrors can NOT protect from Arsonist, bombs, veterans, anything of that nature.
         if (!target.HasModifier<MagicMirrorModifier>() ||
-            source == null ||
             target.PlayerId == source.PlayerId ||
             source.HasModifier<IndirectAttackerModifier>() ||
             source.HasModifier<InvulnerabilityModifier>() ||

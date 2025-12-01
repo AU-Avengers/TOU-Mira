@@ -28,7 +28,7 @@ public static class GuardianAngelEvents
             return;
         }
 
-        CheckForGaProtection(@event, target);
+        CheckForGaProtection(@event, target, PlayerControl.LocalPlayer);
     }
 
     [RegisterEvent]
@@ -74,7 +74,7 @@ public static class GuardianAngelEvents
     }
 
     private static bool CheckForGaProtection(MiraCancelableEvent @event, PlayerControl target,
-        PlayerControl? source = null)
+        PlayerControl source)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -82,7 +82,6 @@ public static class GuardianAngelEvents
         }
 
         if (!target.HasModifier<GuardianAngelProtectModifier>() ||
-            source == null ||
             source.PlayerId == target.PlayerId ||
             (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
         {
