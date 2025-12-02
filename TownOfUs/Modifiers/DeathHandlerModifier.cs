@@ -151,7 +151,10 @@ public sealed class DeathHandlerModifier : BaseModifier
         DeathHandlerOverride diedThisRound, string killedBy, DeathHandlerOverride lockInfo)
     {
         IsAltCoroutineRunning = true;
-        yield return new WaitForEndOfFrame();
+        while (!player.HasModifier<DeathHandlerModifier>())
+        {
+            yield return null;
+        }
         var deathHandler = player.GetModifier<DeathHandlerModifier>()!;
         if (causeOfDeath != "null")
         {
