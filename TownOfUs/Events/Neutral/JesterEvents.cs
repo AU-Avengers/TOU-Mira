@@ -55,7 +55,7 @@ public static class JesterEvents
                 if (OptionGroupSingleton<JesterOptions>.Instance.JestWin is JestWinOptions.Haunts)
                 {
                     CustomButtonSingleton<JesterHauntButton>.Instance.SetActive(true, jester);
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
+                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", DeathEventHandlers.CurrentRound,
                         DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(TouLocale.GetParsed("TouNotifJesterHauntOwner"),
                         Color.white, new Vector3(0f, 0.85f, -20f));
@@ -63,7 +63,7 @@ public static class JesterEvents
                 }
                 else
                 {
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", -1,
+                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, "null", DeathEventHandlers.CurrentRound,
                         DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
