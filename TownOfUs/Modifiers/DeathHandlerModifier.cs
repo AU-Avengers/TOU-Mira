@@ -89,18 +89,19 @@ public sealed class DeathHandlerModifier : BaseModifier
     {
         IsCoroutineRunning = true;
         yield return new WaitForSeconds(0.05f);
+        DeathHandlerModifier deathHandler;
         if (!player.HasModifier<DeathHandlerModifier>())
         {
             Error("UpdateDeathHandler - Player had no DeathHandlerModifier");
-            player.AddModifier<DeathHandlerModifier>();
+            deathHandler = player.AddModifier<DeathHandlerModifier>();
         }
         else
         {
+            deathHandler = player.GetModifier<DeathHandlerModifier>()!;
             IsCoroutineRunning = false;
             yield break;
         }
         yield return new WaitForEndOfFrame();
-        var deathHandler = player.GetModifier<DeathHandlerModifier>()!;
         if (causeOfDeath != "null")
         {
             deathHandler.CauseOfDeath = causeOfDeath;
