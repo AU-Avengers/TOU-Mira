@@ -149,11 +149,6 @@ public static class LogicGameFlowPatches
             return false;
         }
 
-        if (DeathHandlerModifier.IsCoroutineRunning || DeathHandlerModifier.IsAltCoroutineRunning || DeathEventHandlers.IsDeathRecent)
-        {
-            return false;
-        }
-
         if (ShipStatus.Instance.Systems.ContainsKey(SystemTypes.LifeSupp))
         {
             var lifeSuppSystemType = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
@@ -192,6 +187,11 @@ public static class LogicGameFlowPatches
         }
 
         if (CheckEndGameViaTimeLimit(__instance))
+        {
+            return false;
+        }
+
+        if (DeathHandlerModifier.IsCoroutineRunning || DeathHandlerModifier.IsAltCoroutineRunning || DeathEventHandlers.IsDeathRecent)
         {
             return false;
         }
