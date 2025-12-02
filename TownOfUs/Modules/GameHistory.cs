@@ -213,14 +213,14 @@ public static class GameHistory
         //var role = RoleHistory.LastOrDefault(x => x.Key == player.PlayerId && !x.Value.IsDead);
         //return role.Value != null ? role.Value : null;
 
-        if (!player.Data.IsDead)
-        {
-            return player.Data.Role;
-        }
-
         if (RoleWhenAlive.TryGetValue(player.PlayerId, out var role))
         {
             return role;
+        }
+
+        if (!player.Data.IsDead)
+        {
+            return player.Data.Role;
         }
 
         var role2 = player.Data.RoleWhenAlive;
