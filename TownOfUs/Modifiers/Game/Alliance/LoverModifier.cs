@@ -168,6 +168,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         }
 
         HudManager.Instance.Chat.gameObject.SetActive(true);
+        var buttonArray = new []
+            { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
+        HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
+        HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
+        HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
         if (TutorialManager.InstanceExists && OtherLover == null && Player.AmOwner && Player.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
@@ -250,6 +255,27 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         }
     }
 
+    public override void OnMeetingStart()
+    {
+        base.OnMeetingStart();
+        if (!Player.AmOwner)
+        {
+            return;
+        }
+
+        var buttonArray = new Sprite[]
+        {
+            TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(),
+            TouChatAssets.NormalChatOpen.LoadAsset()
+        };
+        HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            buttonArray[0];
+        HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+            buttonArray[1];
+        HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite =
+            buttonArray[2];
+    }
+
     public override bool? DidWin(GameOverReason reason)
     {
         return reason == CustomGameOver.GameOverReason<LoverGameOver>() ? true : null;
@@ -270,6 +296,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         }
 
         HudManager.Instance.Chat.SetVisible(true);
+        var buttonArray = new []
+                { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
+        HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
+        HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
+        HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
     }
 
     public PlayerControl? GetOtherLover()

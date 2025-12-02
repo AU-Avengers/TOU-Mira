@@ -31,6 +31,9 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
             roleWhenAlive = crewType.CrewVariant;
         }
         SetNewInfo(true, null, null, roleWhenAlive);
+        RevealRole = true;
+        NameColor = roleWhenAlive.TeamColor;
+        ShownRole = roleWhenAlive;
         /*if (ShownRole == null)
         {
             return;

@@ -867,7 +867,7 @@ public static class MiscUtils
     }
 
     public static void AddTeamChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
-        bool showHeadsup = false, bool onLeft = true)
+        bool showHeadsup = false, bool onLeft = true, bool blackoutText = true, BubbleType bubbleType = BubbleType.None)
     {
         var chat = HudManager.Instance.Chat;
 
@@ -886,7 +886,6 @@ public static class MiscUtils
 
         pooledBubble.SetCosmetics(basePlayer);
         pooledBubble.NameText.text = nameText;
-        pooledBubble.NameText.color = Color.white;
         pooledBubble.NameText.ForceMeshUpdate(true, true);
         pooledBubble.votedMark.enabled = false;
         pooledBubble.Xmark.enabled = false;
@@ -896,13 +895,17 @@ public static class MiscUtils
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
 
-        pooledBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
-        pooledBubble.TextArea.color = Color.white;
+        if (blackoutText)
+        {
+            pooledBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
+            pooledBubble.NameText.color = Color.white;
+            pooledBubble.TextArea.color = Color.white;
+        }
 
         pooledBubble.AlignChildren();
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
-        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive)
+        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText)
         {
             TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
             pooledBubble.gameObject.SetActive(false);
@@ -914,7 +917,7 @@ public static class MiscUtils
         chat.AlignAllBubbles();
         if (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive)
         {
-            Coroutines.Start(BouncePrivateChatDot());
+            Coroutines.Start(BouncePrivateChatDot(bubbleType));
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
         }
 
@@ -923,7 +926,7 @@ public static class MiscUtils
             chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
         }
     }
-    private static IEnumerator BouncePrivateChatDot()
+    private static IEnumerator BouncePrivateChatDot(BubbleType bubbleType)
     {
         if (TeamChatPatches.PrivateChatDot == null)
         {
@@ -932,6 +935,19 @@ public static class MiscUtils
         
         var sprite = TeamChatPatches.PrivateChatDot!.GetComponent<SpriteRenderer>();
         sprite.enabled = true;
+        var actualSprite = bubbleType switch
+        {
+            BubbleType.None => TouChatAssets.NormalBubble.LoadAsset(),
+            BubbleType.Impostor => TouChatAssets.ImpBubble.LoadAsset(),
+            BubbleType.Vampire => TouChatAssets.VampBubble.LoadAsset(),
+            BubbleType.Lover => TouChatAssets.LoveBubble.LoadAsset(),
+            BubbleType.Jailor => TouChatAssets.JailBubble.LoadAsset(),
+            _ => null,
+        };
+        if (actualSprite != null)
+        {
+            sprite.sprite = actualSprite;
+        }
         yield return Effects.Bounce(sprite.transform, 0.3f, 0.125f);
     }
 
@@ -1949,4 +1965,14 @@ public enum ExpandedMapNames
     Fungle,
     Submerged,
     LevelImpostor
+}
+
+public enum BubbleType
+{
+    None,
+    Other,
+    Impostor,
+    Vampire,
+    Jailor,
+    Lover
 }

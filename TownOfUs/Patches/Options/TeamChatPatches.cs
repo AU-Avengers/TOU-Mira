@@ -16,6 +16,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using UnityEngine.UI;
 using AmongUs.Data;
+using TownOfUs.Modifiers;
 
 namespace TownOfUs.Patches.Options;
 
@@ -24,11 +25,9 @@ public static class TeamChatPatches
     public static GameObject TeamChatButton;
     private static TextMeshPro? _teamText;
     public static bool TeamChatActive;
+    public static bool ForceReset;
 #pragma warning disable S2386
     public static List<PoolableBehavior> storedBubbles = new List<PoolableBehavior>();
-    public static Color OriginalActive;
-    public static Color OriginalInactive;
-    public static Color OriginalSelected;
     public static bool calledByChatUpdate;
     public static GameObject? PrivateChatDot;
 
@@ -168,6 +167,12 @@ public static class TeamChatPatches
             }
             calledByChatUpdate = true;
             chat.AlignAllBubbles();
+
+            if (PrivateChatDot != null)
+            {
+                var sprite = PrivateChatDot.GetComponent<SpriteRenderer>();
+                sprite.enabled = false;
+            }
         }
         else
         {
@@ -237,6 +242,46 @@ public static class TeamChatPatches
                 return;
             }
 
+            if (PrivateChatDot != null &&
+                (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null || TeamChatActive))
+            {
+                var sprite = PrivateChatDot.GetComponent<SpriteRenderer>();
+                sprite.enabled = false;
+            }
+
+            if (ForceReset)
+            {
+                ForceReset = false;
+                var chat = HudManager.Instance.Chat;
+                var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
+                var Background = ChatScreenContainer.transform.FindChild("Background");
+                var bubbleItems = GameObject.Find("Items");
+                foreach (var bubble in bubbleItems.GetAllChildren())
+                {
+                    bubble.gameObject.SetActive(true);
+                    var bg = bubble.transform.Find("Background").gameObject;
+                    if (bg != null)
+                    {
+                        var sprite = bg.GetComponent<SpriteRenderer>();
+                        var color = sprite.color.SetAlpha(1f);
+                        if (color != Color.white && color != Color.black) bubble.gameObject.SetActive(false);
+                    }
+                }
+                calledByChatUpdate = true;
+                chat.AlignAllBubbles();
+                Background.GetComponent<SpriteRenderer>().color = Color.white;
+                var buttonArray = new Sprite[]
+                    { TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()};
+                if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
+                {
+                    buttonArray = new []
+                        { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
+                }
+                HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
+                HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
+                HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
+            }
+
             if (TeamChatButton)
             {
                 return;
@@ -254,11 +299,11 @@ public static class TeamChatPatches
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
             var isValid = MeetingHud.Instance &&
-                (PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
-                (PlayerControl.LocalPlayer.IsImpostor() && genOpt is
-                { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
-                (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat))
-                && calledByChatUpdate;
+                          ((PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
+                            (PlayerControl.LocalPlayer.IsImpostor() && genOpt is
+                                { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
+                            (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat))
+                           || !MeetingHud.Instance && PlayerControl.LocalPlayer.IsLover()) && calledByChatUpdate;
 
             if (!isValid)
             {
@@ -369,12 +414,12 @@ public static class TeamChatPatches
         if (PlayerControl.LocalPlayer.IsJailed())
         {
             MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailor</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailor</color>", text, bubbleType: BubbleType.Jailor);
         }
         else if (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Jailor)</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Jailor)</color>", text, bubbleType: BubbleType.Jailor);
         }
     }
 
@@ -386,7 +431,7 @@ public static class TeamChatPatches
                                                                       .TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
-                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Jailed)</color>", text);
+                $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Jailed)</color>", text, bubbleType: BubbleType.Jailor);
         }
     }
 
@@ -398,7 +443,7 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Vampire Chat)</color>",
-                text);
+                text, bubbleType: BubbleType.Vampire);
         }
     }
 
@@ -410,7 +455,18 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{player.Data.PlayerName} (Impostor Chat)</color>",
-                text);
+                text, bubbleType: BubbleType.Impostor);
+        }
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.SendLoveChat)]
+    public static void RpcSendLoveChat(PlayerControl player, string text)
+    {
+        if (PlayerControl.LocalPlayer.IsLover() ||
+            (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
+        {
+                MiscUtils.AddTeamChat(player.Data,
+                    $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{TouLocale.GetParsed("LoverChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text, blackoutText: false, bubbleType: BubbleType.Lover, onLeft: !player.AmOwner);
         }
     }
 
