@@ -102,6 +102,16 @@ public sealed class DeathHandlerModifier : BaseModifier
             yield break;
         }
         yield return new WaitForEndOfFrame();
+
+        // For future refence, do note that AddModifier only begins on the next unity physics update, as of MIRA CI 820, and so
+        //   WaitForEndOfFrame may not necessarily hit it. The solution to this is being a bit more 'c' like in code style, or ensuring you wait.
+        //   I have chosen the former here.
+        //   Consider also introducing a GetOrAddModifier method to trend developers away from similar misakes :)
+        if (deathHandler == null) {
+            Error("There has been a significant issue with MiraApi modifier application.\n  TownOfUs/Modifiers/DeathHandlerModifier.cs:line 106\n"
+                + "Consider the timings of this Coroutine and the physics update event in Mira.");
+        }
+
         if (causeOfDeath != "null")
         {
             deathHandler.CauseOfDeath = causeOfDeath;
