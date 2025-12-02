@@ -270,12 +270,11 @@ public static class TeamChatPatches
                 calledByChatUpdate = true;
                 chat.AlignAllBubbles();
                 Background.GetComponent<SpriteRenderer>().color = Color.white;
-                var buttonArray = new []
-                    { TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()};
+                Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
                 if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
                 {
-                    buttonArray = new []
-                        { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
+                    buttonArray = 
+                        [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
                 }
                 HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
                 HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
