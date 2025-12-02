@@ -270,7 +270,7 @@ public static class TeamChatPatches
                 calledByChatUpdate = true;
                 chat.AlignAllBubbles();
                 Background.GetComponent<SpriteRenderer>().color = Color.white;
-                var buttonArray = new Sprite[]
+                var buttonArray = new []
                     { TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()};
                 if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
                 {

@@ -89,18 +89,36 @@ public sealed class DeathHandlerModifier : BaseModifier
     {
         IsCoroutineRunning = true;
         yield return new WaitForSeconds(0.05f);
+        DeathHandlerModifier deathHandler;
         if (!player.HasModifier<DeathHandlerModifier>())
         {
             Error("UpdateDeathHandler - Player had no DeathHandlerModifier");
-            player.AddModifier<DeathHandlerModifier>();
+            deathHandler = player.AddModifier<DeathHandlerModifier>()!;
         }
         else
         {
+            #pragma warning disable S1854 // Unused assignments should be removed
+            deathHandler = player.GetModifier<DeathHandlerModifier>()!; // This is actually a used assignment. Surprise Surprise.
+            #pragma warning restore S1854 // Unused assignments should be removed
+
             IsCoroutineRunning = false;
             yield break;
         }
         yield return new WaitForEndOfFrame();
-        var deathHandler = player.GetModifier<DeathHandlerModifier>()!;
+
+        // For future refence, do note that AddModifier only begins on the next unity physics update, as of MIRA CI 820, and so
+        //   WaitForEndOfFrame may not necessarily hit it. The solution to this is being a bit more 'c' like in code style, or ensuring you wait.
+        //   I have chosen the former here.
+        // Consider also introducing a GetOrAddModifier method to trend developers away from similar misakes :)
+        // Yes there are nicer ways to fix this/write "cleaner" code. However, in the effort of making the issue clear for future, I have chosen the
+        //   explicit and slightly long winded way, which imo gets the point across more.
+        if (deathHandler == null) {
+            Error("There has been a significant issue with MiraApi modifier application.\n  TownOfUs/Modifiers/DeathHandlerModifier.cs:line 106\n"
+                + "Consider the timings of this Coroutine and the physics update event in Mira.");
+            IsCoroutineRunning = false;
+            yield break;
+        }
+
         if (causeOfDeath != "null")
         {
             deathHandler.CauseOfDeath = causeOfDeath;
@@ -133,7 +151,10 @@ public sealed class DeathHandlerModifier : BaseModifier
         DeathHandlerOverride diedThisRound, string killedBy, DeathHandlerOverride lockInfo)
     {
         IsAltCoroutineRunning = true;
-        yield return new WaitForEndOfFrame();
+        while (!player.HasModifier<DeathHandlerModifier>())
+        {
+            yield return null;
+        }
         var deathHandler = player.GetModifier<DeathHandlerModifier>()!;
         if (causeOfDeath != "null")
         {
