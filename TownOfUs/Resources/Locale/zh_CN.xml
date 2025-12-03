@@ -260,7 +260,6 @@
   <string name="TouRoleEngineerFixing">维修中</string>
   <string name="TouRoleEngineerFixWikiDescription">无论你在地图的哪个位置，都可以使用修复按钮立即修复当前的破坏。每局游戏可用\%engiMaxFixes\%次。</string>
   <string name="TouOptionEngineerMaxVents">每局游戏通风口可使用次数</string>
-  <string name="TouOptionEngineerTaskUses">完成任务可获得更多通风口使用次数</string>
   <string name="TouOptionEngineerVentCooldown">通风口使用冷却</string>
   <string name="TouOptionEngineerVentDuration">通风口持续时间</string>
   <string name="TouOptionEngineerMaxFixes">每局可用修理次数</string>
@@ -297,7 +296,6 @@
   <string name="TouOptionHunterStalkCooldown">巡猎者盯梢冷却时间</string>
   <string name="TouOptionHunterStalkDuration">巡猎者盯梢持续时间</string>
   <string name="TouOptionHunterStalkUses">最大盯梢次数</string>
-  <string name="TouOptionHunterTaskUses">通过完成任务获得更多使用次数</string>
   <string name="TouOptionHunterRetributionOnVote">巡猎者若被投出，则杀死最后一名投票者</string>
   <string name="TouOptionHunterHunterBodyReport">巡猎者可以报告他们杀了谁</string>
   <string name="TouRoleImitator">效颦者</string>
