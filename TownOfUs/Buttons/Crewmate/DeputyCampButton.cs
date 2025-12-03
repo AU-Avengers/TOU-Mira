@@ -50,7 +50,7 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>
         Target.RpcAddModifier<DeputyCampedModifier>(PlayerControl.LocalPlayer);
         Usable = false;
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TouLocale.GetParsed("TouRoleDeputyCampNotif").Replace("<player>", Target.Data.PlayerName)}</b>", Color.white,
+            $"<b>{TouLocale.GetParsed("TouRoleDeputyCampNotif").Replace("<player>", $"{TownOfUsColors.Deputy.ToTextColor()}{Target.Data.PlayerName}</color>")}</b>", Color.white,
             new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
         notif1.AdjustNotification();
     }

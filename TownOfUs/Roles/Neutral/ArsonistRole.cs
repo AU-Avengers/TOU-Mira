@@ -81,7 +81,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
 
         if (allDoused.Any())
         {
-            stringB.Append("\n<b>Players Doused:</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleArsonistTabDousedInfo")}</b>");
             foreach (var plr in allDoused)
             {
                 stringB.Append(TownOfUsPlugin.Culture,

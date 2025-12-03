@@ -1112,7 +1112,7 @@
   <string name="TouOptionTrapperMinimumNumberOfRoles">完成任务可获得更多陷阱次数</string>
   <string name="TouRoleTrapperNoPlayers">触发陷阱所需最少职业数</string>
   <string name="TouRoleTrapperNotEnoughPLayers">触发你陷阱的玩家数量不足</string>
-  <string name="TouRoleTrapperRolesCaught">被你陷阱捕获的身份：\%nl\%</string>
+  <string name="TouRoleTrapperRolesCaught">被你陷阱捕获的身份：</string>
   <string name="TouRolePoliticianIntroBlurb">竞选成为市长！</string>
   <string name="TouRolePoliticianTabDescription">宣传你的竞选活动，成为市长！\%nl\%至少一半的清白玩家必须被动员起来，以成功竞选</string>
   <string name="TouRolePoliticianWikiDescription">政治家是一名船员强力型职业，只要拉拢到至少一半船员支持，就能向全体公开身份并成为市长。</string>

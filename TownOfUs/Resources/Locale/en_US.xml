@@ -24,6 +24,8 @@
   <string name="ArrowColorGlow">Color Glow</string>
   <string name="ArrowLegacy">Legacy</string>
   <!-- Player Colors -->
+  <string name="PlayerColorDarker">Darker</string>
+  <string name="PlayerColorLighter">Lighter</string>
   <string name="Watermelon">Watermelon</string>
   <string name="Chocolate">Chocolate</string>
   <string name="SkyBlue">Sky Blue</string>
@@ -467,6 +469,7 @@
   <string name="TouRoleDeputyCampWikiDescription">Camp a player to be alerted once they die. After their death, you may attempt to shoot the killer. If your shot is successful, the killer dies, if not, nothing will happen.</string>
   <!-- Deputy Feedback -->
   <string name="TouRoleDeputyCampNotif">Wait for \%player\%'s death so you can blast their killer in the meeting.</string>
+  <string name="TouRoleDeputyCampedKillNotif">Your camped target, \%player\%, has died! Avenge them in the meeting.</string>
   <string name="TouRoleDeputyMessageTitle">Deputy Feedback</string>
   <string name="TouRoleDeputyMissedShot">You missed your shot! They are either not the killer or are invincible.</string>
   <!-- Forensic - Crewmate Investigative -->
@@ -486,7 +489,14 @@
   <string name="TouOptionForensicRoleDuration">Time Where Forensic Will Have Role</string>
   <string name="TouOptionForensicFactionDuration">Time Where Forensic Will Have Faction</string>
   <!-- Forensic Feedback -->
-  <string name="TouRoleForensicMessageTitle">Forensic Report</string>
+  <string name="TouRoleForensicMessageTitle">Forensic Body Report</string>
+  <string name="TouRoleForensicBodyError">The corpse could not give any information.\%nl\%Died \%time\%s ago.</string>
+  <string name="TouRoleForensicBodyOld">The corpse is too old to gain information from.\%nl\%Died \%time\%s ago.</string>
+  <string name="TouRoleForensicBodySuicide">The kill appears to have been a suicide!\%nl\%Died \%time\%s ago.</string>
+  <string name="TouRoleForensicBodyKillerRole">The killer appears to be the \%role\%!\%nl\%Killed \%time\%s ago.</string>
+  <string name="TouRoleForensicBodyKillerNeutral">The killer appears to be a Neutral!\%nl\%Killed \%time\%s ago.</string>
+  <string name="TouRoleForensicBodyKillerCrewmate">The killer appears to be a Crewmate!\%nl\%Killed \%time\%s ago.</string>
+  <string name="TouRoleForensicBodyKillerImpostor">The killer appears to be a Impostor!\%nl\%Killed \%time\%s ago.</string>
   <string name="TouRoleForensicAtScene">\%player\% was at the scene of \%deadPlayer\%'s death!\%nl\%They might be the killer or a witness.</string>
   <string name="TouRoleForensicNotAtScene">\%player\% was not at the scene of the crime.</string>
   <!-- Engineer - Crewmate Investigative -->
@@ -644,6 +654,14 @@
   <string name="TouOptionMedicShieldEnumShieldedAndMedic">Shielded + Medic</string>
   <string name="TouOptionMedicShieldEnumEveryone">Everyone</string>
   <string name="TouOptionMedicShieldEnumNobody">Nobody</string>
+  <!-- Medic Feedback -->
+  <string name="TouRoleMedicMessageTitle">Medic Body Report</string>
+  <string name="TouRoleMedicBodyError">The corpse could not give any information.\%nl\%Died \%time\%s ago.</string>
+  <string name="TouRoleMedicBodyOld">The corpse is too old to gain information from.\%nl\%Died \%time\%s ago.</string>
+  <string name="TouRoleMedicBodySuicide">The kill appears to have been a suicide!\%nl\%Died \%time\%s ago.</string>
+  <string name="TouRoleMedicBodyKillerName">The killer appears to be \%player\%!\%nl\%Killed \%time\%s ago.</string>
+  <string name="TouRoleMedicBodyKillerDarkColor">The killer appears to be a darker color!\%nl\%Killed \%time\%s ago.</string>
+  <string name="TouRoleMedicBodyKillerLightColor">The killer appears to be a lighter color!\%nl\%Killed \%time\%s ago.</string>
   <!-- Medium - Crewmate Support -->
   <!-- Medium Wiki / Abilities -->
   <string name="TouRoleMedium">Medium</string>
@@ -947,9 +965,10 @@
   <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
   <!-- Trapper Feedback -->
+  <string name="TouRoleTrapperMessageTitle">Trapper Report</string>
   <string name="TouRoleTrapperNoPlayers">No players entered any of your traps</string>
   <string name="TouRoleTrapperNotEnoughPLayers">Not enough players triggered your traps</string>
-  <string name="TouRoleTrapperRolesCaught">Roles caught in your trap:\%nl\%</string>
+  <string name="TouRoleTrapperRolesCaught">Roles caught in your trap:</string>
   <!-- Veteran - Crewmate Killing -->
   <!-- Veteran Wiki / Abilities -->
   <string name="TouRoleVeteran">Veteran</string>
@@ -1310,6 +1329,7 @@
   <string name="TouRoleArsonistIntroBlurb">Douse Players And Ignite The Light</string>
   <string name="TouRoleArsonistTabDescription">Douse players and ignite to kill all nearby doused targets.</string>
   <string name="TouRoleArsonistTabDescriptionLegacy">Douse players and ignite the closest one to kill all doused targets.</string>
+  <string name="TouRoleArsonistTabDousedInfo">Players Doused:</string>
   <string name="TouRoleArsonistWikiDescription">The Arsonist is a Neutral Killing role that wins by being the last killer alive.</string>
   <string name="TouRoleArsonistWikiAddition">They can douse players and ignite them when close.</string>
   <string name="TouRoleArsonistWikiAdditionLegacy">They can douse players and ignite one of them to ignite all doused players on the map.</string>

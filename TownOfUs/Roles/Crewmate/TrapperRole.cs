@@ -89,15 +89,15 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
 
         var minAmountOfPlayersInTrap = OptionGroupSingleton<TrapperOptions>.Instance.MinAmountOfPlayersInTrap;
-        var msg = "No players entered any of your traps";
+        var msg = TouLocale.GetParsed("TouRoleTrapperNoPlayers");
 
         if (TrappedPlayers.Count < minAmountOfPlayersInTrap)
         {
-            msg = "Not enough players triggered your traps";
+            msg = TouLocale.GetParsed("TouRoleTrapperNotEnoughPLayers");
         }
         else if (TrappedPlayers.Count != 0)
         {
-            var message = new StringBuilder("Roles caught in your trap:\n");
+            var message = new StringBuilder($"{TouLocale.GetParsed("TouRoleTrapperRolesCaught")}\n");
 
             TrappedPlayers.Shuffle();
 
@@ -118,7 +118,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             msg = finalMessage;
         }
 
-        var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{RoleName} Report</color>";
+        var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleTrapperMessageTitle")}</color>";
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
     }
 }

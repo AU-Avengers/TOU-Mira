@@ -241,7 +241,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             return;
         }
 
-        var title = $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{RoleName} Report</color>";
+        var title = $"<color=#{TownOfUsColors.Medic.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleMedicMessageTitle")}</color>";
         var reported = Player;
         if (br.Body != null)
         {

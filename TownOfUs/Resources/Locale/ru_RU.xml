@@ -562,7 +562,7 @@
   <string name="TouOptionTrapperMinimumNumberOfRoles">Мин. количество ролей необходимо для срабатывания ловушки</string>
   <string name="TouRoleTrapperNoPlayers">Никто не попал ни в одну из ваших ловушек</string>
   <string name="TouRoleTrapperNotEnoughPLayers">Недостаточно игроков попали в вашу ловушку</string>
-  <string name="TouRoleTrapperRolesCaught">Роли, попавшие в ловушку:\%nl\%</string>
+  <string name="TouRoleTrapperRolesCaught">Роли, попавшие в ловушку:</string>
   <string name="TouRoleVeteran">Ветеран</string>
   <string name="TouRoleVeteranIntroBlurb">Обороняйтесь, чтобы убить любого, кто с вами взаимодействует</string>
   <string name="TouRoleVeteranTabDescription">Обороняйтесь, чтобы убить любого взаимодействующего с вами.</string>
