@@ -30,6 +30,6 @@ public abstract class AllianceGameModifier : GameModifier
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return !role.Player.GetModifierComponent().HasModifier<AllianceGameModifier>(true) &&
-               !role.Player.HasModifier<ExecutionerTargetModifier>() && !role.TryCast<SpectatorRole>();
+               !role.Player.HasModifier<ExecutionerTargetModifier>() && role is not SpectatorRole;
     }
 }

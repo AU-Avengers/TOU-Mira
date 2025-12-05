@@ -2,6 +2,7 @@
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Other;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game;
@@ -74,6 +75,6 @@ public class DoubleShotModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return !role.TryCast<SpectatorRole>();
+        return role is not SpectatorRole && !role.Player.HasDied();
     }
 }

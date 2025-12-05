@@ -6,6 +6,8 @@ using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Utilities;
+using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
@@ -18,6 +20,21 @@ namespace TownOfUs.Events;
 
 public static class GhostRoleEvents
 {
+    [RegisterEvent]
+    public static void ChangeRoleHandler(ChangeRoleEvent @event)
+    {
+        if (!PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+
+        var player = @event.Player;
+        if (@event.NewRole is GuardianAngelRole)
+        {
+            player.AddModifier<BasicGhostModifier>();
+        }
+    }
+    
     [RegisterEvent]
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {

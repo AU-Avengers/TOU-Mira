@@ -34,7 +34,7 @@ public static class ImitatorEvents
             }
         }
 
-        var imitators = ModifierUtils.GetActiveModifiers<ImitatorCacheModifier>();
+        var imitators = ModifierUtils.GetActiveModifiers<ImitatorCacheModifier>(x => !x.Player.HasDied() && x.Player.IsCrewmate());
 
         if (!imitators.Any())
         {

@@ -170,6 +170,10 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        if (!Player.HasModifier<BasicGhostModifier>())
+        {
+            Player.AddModifier<BasicGhostModifier>();
+        }
         if (TutorialManager.InstanceExists)
         {
             Setup = true;
@@ -219,10 +223,6 @@ public sealed class SpectreRole(IntPtr cppPtr)
             Player.MyPhysics.ResetMoveState();
 
             Faded = false;
-        }
-        else if (!Player.HasModifier<BasicGhostModifier>())
-        {
-            Player.AddModifier<BasicGhostModifier>();
         }
     }
 
