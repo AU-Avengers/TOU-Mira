@@ -170,7 +170,7 @@ public static class TouAssets
         new LoadableBundleAsset<Sprite>("MinusActive", MainBundle);
 
     public static LoadableAsset<Sprite> TeamChatSwitch { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png");
+        new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png", 105f);
 
     public static LoadableAsset<Sprite> TeamChatInactive { get; } =
         new LoadableBundleAsset<Sprite>("TeamChatInactive", MainBundle);

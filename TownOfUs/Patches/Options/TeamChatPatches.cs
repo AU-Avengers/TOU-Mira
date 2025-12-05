@@ -221,7 +221,7 @@ public static class TeamChatPatches
         TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch.LoadAsset();
         TeamChatButton.name = "FactionChat";
         var pos = BanMenu.transform.localPosition;
-        TeamChatButton.transform.localPosition = new Vector3(pos.x, pos.y + 1f, pos.z);
+        TeamChatButton.transform.localPosition = new Vector3(pos.x, pos.y + 0.7f, pos.z);
     }
 
     public static void CreateTeamChatBubble()
