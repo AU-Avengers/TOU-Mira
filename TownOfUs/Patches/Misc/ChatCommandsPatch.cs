@@ -243,9 +243,6 @@ public static class ChatPatches
             if (PlayerControl.LocalPlayer.Data.Role is JailorRole)
             {
                 TeamChatPatches.RpcSendJailorChat(PlayerControl.LocalPlayer, textRegular);
-                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JailorChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    textRegular, onLeft: false);
 
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();
@@ -258,9 +255,6 @@ public static class ChatPatches
             if (PlayerControl.LocalPlayer.IsJailed())
             {
                 TeamChatPatches.RpcSendJaileeChat(PlayerControl.LocalPlayer, textRegular);
-                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JaileeChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    textRegular, onLeft: false);
 
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();
@@ -289,9 +283,6 @@ public static class ChatPatches
                 genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
             {
                 TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
-                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.GetParsed("ImpostorChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    textRegular, onLeft: false);
 
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();

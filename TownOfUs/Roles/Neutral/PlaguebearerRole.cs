@@ -174,12 +174,12 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             source.AddModifier<PlaguebearerInfectedModifier>(target.PlayerId);
         }
         else if (source.TryGetModifier<PlaguebearerInfectedModifier>(out var mod) &&
-                 !target.HasModifier<PlaguebearerInfectedModifier>())
+                 !target.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == mod.PlagueBearerId))
         {
             target.AddModifier<PlaguebearerInfectedModifier>(mod.PlagueBearerId);
         }
         else if (target.TryGetModifier<PlaguebearerInfectedModifier>(out var mod2) &&
-                 !source.HasModifier<PlaguebearerInfectedModifier>())
+                 !source.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == mod2.PlagueBearerId))
         {
             source.AddModifier<PlaguebearerInfectedModifier>(mod2.PlagueBearerId);
         }

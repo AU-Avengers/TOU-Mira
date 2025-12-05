@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using Reactor.Utilities.Extensions;
@@ -101,7 +102,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
         if (Effects.Contains(EffectType.Infect))
         {
-            Player.RemoveModifier<PlaguebearerInfectedModifier>();
+            Player.GetModifiers<PlaguebearerInfectedModifier>().Do(x => Player.RemoveModifier(x));
         }
 
         if (Effects.Contains(EffectType.Blackmail))
