@@ -8,12 +8,21 @@ using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Neutral;
+using TownOfUs.Roles.Other;
 using UnityEngine;
 
 namespace TownOfUs.Utilities;
 
 public static class TouRoleUtils
 {
+    public static bool CanGetGhostRole(this PlayerControl player)
+    {
+        return !player.HasModifier<BasicGhostModifier>()
+            && player.Data.Role is not SpectatorRole 
+            && player.Data.Role is not HaunterRole
+            && player.Data.Role is not SpectreRole;
+    }
     public static bool AreTeammates(PlayerControl player, PlayerControl other)
     {
         var playerRole = player.GetRoleWhenAlive();

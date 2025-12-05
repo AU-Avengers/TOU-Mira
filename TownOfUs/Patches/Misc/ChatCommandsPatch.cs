@@ -240,6 +240,20 @@ public static class ChatPatches
              PlayerControl.LocalPlayer.Data.Role is VampireRole || PlayerControl.LocalPlayer.IsImpostorAligned()))
         {
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+
+            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
+            {
+                TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
+
+                __instance.freeChatField.Clear();
+                __instance.quickChatMenu.Clear();
+                __instance.quickChatField.Clear();
+                __instance.UpdateChatMode();
+
+                return false;
+            }
+
             if (PlayerControl.LocalPlayer.Data.Role is JailorRole)
             {
                 TeamChatPatches.RpcSendJailorChat(PlayerControl.LocalPlayer, textRegular);
@@ -278,21 +292,6 @@ public static class ChatPatches
 
                 return false;
             }
-
-            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
-            {
-                TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-
-            return true;
         }
 
         return true;

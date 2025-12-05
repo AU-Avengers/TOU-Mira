@@ -6,12 +6,11 @@ using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Utilities;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modules;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -49,17 +48,16 @@ public static class GhostRoleEvents
         {
             var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
 
-            if (haunterData != null &&
-                CustomRoleUtils.GetActiveRoles().OfType<HaunterRole>().Count() < haunterData.Count)
+            if (CustomRoleUtils.GetActiveRoles().OfType<HaunterRole>().Count() < haunterData.Count)
             {
                 var isSkipped = haunterData.Chance < 100 && HashRandom.Next(101) > haunterData.Chance;
 
                 if (!isSkipped)
                 {
                     var deadCrew = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                        x.Data.IsDead && x.IsCrewmate() && !x.HasModifier<AllianceGameModifier>() &&
-                        !x.HasModifier<BasicGhostModifier>() &&
-                        x.Data.Role.Role is not RoleTypes.GuardianAngel).ToList();
+                        x.Data.IsDead && x.GetRoleWhenAlive().IsCrewmate() && !x.HasModifier<AllianceGameModifier>() &&
+                        !x.CanGetGhostRole() &&
+                        x.Data.Role).ToList();
 
                     if (deadCrew.Count > 0)
                     {
@@ -77,18 +75,16 @@ public static class GhostRoleEvents
 
             var phantomData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
 
-            if (phantomData != null &&
-                CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < phantomData.Count)
+            if (CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < phantomData.Count)
             {
                 var isSkipped = phantomData.Chance < 100 && HashRandom.Next(101) > phantomData.Chance;
 
                 if (!isSkipped)
                 {
                     var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                        x.Data.IsDead && x.IsNeutral() && !x.Data.Role.DidWin(GameOverReason.CrewmatesByVote) &&
-                        !x.HasModifier<BasicGhostModifier>() &&
-                        !x.HasModifier<AllianceGameModifier>() &&
-                        !SpectatorRole.TrackedPlayers.Contains(x)).ToList();
+                        x.Data.IsDead && x.GetRoleWhenAlive().IsNeutral() && !x.Data.Role.DidWin(GameOverReason.CrewmatesByVote) &&
+                        x.CanGetGhostRole() &&
+                        !x.HasModifier<AllianceGameModifier>()).ToList();
 
                     if (deadNeutral.Count > 0)
                     {

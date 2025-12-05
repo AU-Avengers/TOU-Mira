@@ -130,13 +130,19 @@ public static class TeamChatPatches
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
 
-            if ((PlayerControl.LocalPlayer.IsJailed() ||
-                 PlayerControl.LocalPlayer.Data.Role is JailorRole) && _teamText != null)
+            if (PlayerControl.LocalPlayer.Data.Role is JailorRole && PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                 genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } && _teamText != null)
             {
-                _teamText.text = "Jailor Chat is Open. Only the Jailor and Jailee can see this.";
+                _teamText.text = "Jail Chat is Open. Only the Jailor and Jailee can see this. Impostor Chat is visible.";
                 _teamText.color = TownOfUsColors.Jailor;
             }
-            else if (PlayerControl.LocalPlayer.IsImpostor() &&
+            else if ((PlayerControl.LocalPlayer.IsJailed() ||
+                 PlayerControl.LocalPlayer.Data.Role is JailorRole) && _teamText != null)
+            {
+                _teamText.text = "Jail Chat is Open. Only the Jailor and Jailee can see this.";
+                _teamText.color = TownOfUsColors.Jailor;
+            }
+            else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                      genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } &&
                      !PlayerControl.LocalPlayer.Data.IsDead && _teamText != null)
             {
@@ -299,7 +305,7 @@ public static class TeamChatPatches
 
             var isValid = MeetingHud.Instance &&
                           ((PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
-                            (PlayerControl.LocalPlayer.IsImpostor() && genOpt is
+                            (PlayerControl.LocalPlayer.IsImpostorAligned() && genOpt is
                                 { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
                             (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat))
                            || !MeetingHud.Instance && PlayerControl.LocalPlayer.IsLover()) && calledByChatUpdate;
@@ -452,7 +458,7 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendImpTeamChat)]
     public static void RpcSendImpTeamChat(PlayerControl player, string text)
     {
-        if ((PlayerControl.LocalPlayer.IsImpostor()) ||
+        if ((PlayerControl.LocalPlayer.IsImpostorAligned()) ||
             (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
@@ -483,8 +489,8 @@ public static class TeamChatPatches
                 .FirstOrDefault(x => x.Data.PlayerName == playerName);
             if (player == null) return;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostor() && !DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) &&
-                !player.AmOwner && player.IsImpostor() && MeetingHud.Instance)
+            if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() && !DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) &&
+                !player.AmOwner && player.IsImpostorAligned() && MeetingHud.Instance)
             {
                 __instance.NameText.color = Color.white;
             }
