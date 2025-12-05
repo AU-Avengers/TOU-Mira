@@ -60,10 +60,17 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
 
     internal static void ReceiveClientModInfo(PlayerControl client, Dictionary<byte, string> list)
     {
+        string[] blacklist = ["MalumMenu", "SickoMenu", "SigmaMenu"];
         Error(
             $"{client.Data.PlayerName} is joining with the following mods:");
         foreach (var mod in list)
         {
+            if (blacklist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
+            {
+                Error(
+                    $"{mod.Value} (Cheat Mod?)");
+                continue;
+            }
             Warning(
                 $"{mod.Value}");
         }
@@ -80,9 +87,15 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                 modByte++;
             }
             var newModDictionary = new List<string>();
+            var bepChecked = false;
             foreach (var mod in list)
             {
-                if (modDictionary.ContainsValue(mod.Value) || mod.Value.Contains("BepInEx"))
+                if (mod.Value.Contains("BepInEx") && !bepChecked)
+                {
+                    bepChecked = true;
+                    continue;
+                }
+                if (modDictionary.ContainsValue(mod.Value))
                 {
                     continue;
                 }
@@ -95,6 +108,11 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                 stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");
                 foreach (var mod in newModDictionary)
                 {
+                    if (blacklist.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        stringBuilder.Append(TownOfUsPlugin.Culture, $"\n<color=#FF0000>{mod}</color>");
+                        continue;
+                    }
                     stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
                 }
                 MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
