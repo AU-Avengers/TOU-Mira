@@ -20,6 +20,7 @@ public static class TouRoleUtils
     {
         return !player.HasModifier<BasicGhostModifier>()
             && player.Data.Role is not SpectatorRole 
+            && player.Data.Role is not GuardianAngelRole 
             && player.Data.Role is not HaunterRole
             && player.Data.Role is not SpectreRole;
     }
