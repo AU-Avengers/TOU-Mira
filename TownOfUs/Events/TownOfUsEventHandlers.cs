@@ -41,6 +41,7 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
+using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
@@ -679,8 +680,15 @@ public static class TownOfUsEventHandlers
 
         if (!PlayerControl.LocalPlayer.IsHost())
         {
+            ChatPatches.ClearSpectatorList();
             yield break;
         }
+
+        if (SpectatorRole.TrackedSpectators.Count == 0)
+        {
+            yield break;
+        }
+        yield return new WaitForSecondsRealtime(3f);
 
         var fakeDictionary = new Dictionary<byte, string>();
         byte specByte = 0;

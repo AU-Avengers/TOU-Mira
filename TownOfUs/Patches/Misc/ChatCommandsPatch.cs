@@ -325,6 +325,15 @@ public static class ChatPatches
         }
     }
 
+    public static void ClearSpectatorList()
+    {
+        var oldList = SpectatorRole.TrackedSpectators;
+        foreach (var name in oldList)
+        {
+            SpectatorRole.TrackedSpectators.Remove(name);
+        }
+    }
+
     [MethodRpc((uint)TownOfUsRpc.RemoveSpectator)]
     public static void RpcRemoveSpectator(PlayerControl player)
     {

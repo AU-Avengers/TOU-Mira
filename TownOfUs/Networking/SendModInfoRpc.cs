@@ -60,7 +60,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
 
     internal static void ReceiveClientModInfo(PlayerControl client, Dictionary<byte, string> list)
     {
-        string[] blacklist = ["MalumMenu", "SickoMenu", "SigmaMenu"];
+        string[] blacklist = ["MalumMenu", "SickoMenu", "SigmaMenu", "MoveModPublic: 1.0.0-dev+b18db3c689edef84d1f433480a91ce4ae0154060", "MoveModPublic: 1.0.0-dev+94ede73cbba272aae2cd118cbc7a69d9df779e6b"];
         Error(
             $"{client.Data.PlayerName} is joining with the following mods:");
         foreach (var mod in list)
