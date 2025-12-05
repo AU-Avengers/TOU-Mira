@@ -688,7 +688,6 @@ public static class TownOfUsEventHandlers
         {
             yield break;
         }
-        yield return new WaitForSecondsRealtime(3f);
 
         var fakeDictionary = new Dictionary<byte, string>();
         byte specByte = 0;
