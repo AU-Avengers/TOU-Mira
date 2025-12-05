@@ -260,7 +260,6 @@
   <string name="TouRoleEngineerFixing">Repareren</string>
   <string name="TouRoleEngineerFixWikiDescription">Het maakt niet uit waar je je op de kaart bevindt, je kunt je repareerknop gebruiken om de actieve sabotage onmiddellijk te verhelpen. Je kunt dit \%engiMaxFixes\% keer per spel doen.</string>
   <string name="TouOptionEngineerMaxVents">Ventilatieschacht-Gebruiken Per Spel</string>
-  <string name="TouOptionEngineerTaskUses">Ontvang Meer Ventilatieschacht-Gebruiken Voor Het Uitvoeren Van Opdrachten</string>
   <string name="TouOptionEngineerVentCooldown">Ventilatie afkoelperiode</string>
   <string name="TouOptionEngineerVentDuration">Ventilatie duur</string>
   <string name="TouOptionEngineerMaxFixes">Reparaties per spel</string>
@@ -284,7 +283,6 @@
   <string name="TouOptionHunterStalkCooldown">Jager stalk afkoelperiode</string>
   <string name="TouOptionHunterStalkDuration">Jager stalk duur</string>
   <string name="TouOptionHunterStalkUses">Maximale stalk toepassingen</string>
-  <string name="TouOptionHunterTaskUses">Krijg meer toepassingen door het voltooien van taken</string>
   <string name="TouOptionHunterRetributionOnVote">Jager doodt laatste stemmer als hij wordt weggestemd</string>
   <string name="TouRoleHunterIntroBlurb">Stalk de %color=#FF0000FF\%Bedriegers%/color\%</string>
   <string name="TouOptionHunterKillCooldown">Jager doden afkoelperiode</string>

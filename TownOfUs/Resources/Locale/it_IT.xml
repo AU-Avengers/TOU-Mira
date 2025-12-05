@@ -263,7 +263,6 @@
   <string name="TouRoleEngineerFixing">Sistemando</string>
   <string name="TouRoleEngineerFixWikiDescription">Non importa dove sei nella mappa, puoi usare il tasto "Sistema" per sistemare istantaneamente il sabotaggio attivo. Puoi farlo per \%engiMaxFixes\% volte per partita.</string>
   <string name="TouOptionEngineerMaxVents">Usi Botola Per Partita</string>
-  <string name="TouOptionEngineerTaskUses">Ottieni Più Usi Botola Completando Gli Incarichi</string>
   <string name="TouOptionEngineerVentCooldown">Ricarica Botola</string>
   <string name="TouOptionEngineerVentDuration">Durata Botola</string>
   <string name="TouOptionEngineerMaxFixes">Usi Sistema Per Partita</string>
@@ -385,7 +384,6 @@
   <string name="TouOptionHunterStalkCooldown">Ricarica Pedina Cacciatore</string>
   <string name="TouOptionHunterStalkDuration">Durata Pedina Cacciatore</string>
   <string name="TouOptionHunterStalkUses">Usi Massimi Pedina</string>
-  <string name="TouOptionHunterTaskUses">Ottieni Più Usi Completando Gli Incarichi</string>
   <string name="TouOptionHunterRetributionOnVote">Il Cacciatore Uccide l'Ultimo Votatore Se Viene Espulso</string>
   <string name="TouOptionHunterHunterBodyReport">Il Cacciatore Può Segnalare Chi Ha Ucciso</string>
   <string name="TouRoleImitator">Imitatore</string>

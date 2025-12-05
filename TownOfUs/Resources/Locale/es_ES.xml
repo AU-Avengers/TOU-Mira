@@ -292,7 +292,6 @@
   <string name="TouRoleDeputyCampNotif">Espera para la muerte de \%player\% para poder disparar a su asesino en la discusión.</string>
   <string name="TouRoleDeputyMessageTitle">Comentarios del Diputado</string>
   <string name="TouRoleForensicInspectNotif">Has inspeccionados la escena del crimen de \%player\%. El asesino, o cualquiera que haya pisado en la escena del crimen, parpadeará rojo cuando sea examinado.</string>
-  <string name="TouOptionEngineerTaskUses">Consigue Más Usos de las Ventilaciones al Completar Tareas</string>
   <string name="TouOptionEngineerVentCooldown">Tiempo de Espera de Ventilaciones</string>
   <string name="TouRoleHaunterImpAlertFeedback">Un Perseguidor está libre, ¡Atrápalo antes de que pueda revelarte!</string>
   <string name="TouRoleHunter">Cazador</string>

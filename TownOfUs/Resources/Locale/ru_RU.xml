@@ -256,7 +256,6 @@
   <string name="TouRoleEngineerFixing">Починка</string>
   <string name="TouRoleEngineerFixWikiDescription">Неважно где вы, вы можете использовать кнопку починки, чтобы мгновенно починить саботаж. Вы можете делать это %engiMaxFixes\% раз(-а) за игру</string>
   <string name="TouOptionEngineerMaxVents">Макс. использований люков</string>
-  <string name="TouOptionEngineerTaskUses">Получать больше использований люков за задания</string>
   <string name="TouOptionEngineerVentCooldown">Откат люка</string>
   <string name="TouOptionEngineerVentDuration">Макс. длительность нахождения в люке</string>
   <string name="TouOptionEngineerMaxFixes">Макс. мгновенных починок за игру</string>
@@ -290,7 +289,6 @@
   <string name="TouOptionHunterStalkCooldown">Откат Охоты</string>
   <string name="TouOptionHunterStalkDuration">Длительность Охоты</string>
   <string name="TouOptionHunterStalkUses">Макс. использования Охоты</string>
-  <string name="TouOptionHunterTaskUses">Получать больше использований при выполнении заданий</string>
   <string name="TouOptionHunterRetributionOnVote">Если Охотника кикнут, он убивает последнего проголосовавшего</string>
   <string name="TouOptionHunterHunterBodyReport">Охотник может репортить убитых им игроков</string>
   <string name="TouRoleJailorTabDescription">Лично допрашивайте игроков на собраниях\%nl\%и казните злых игроков.</string>
