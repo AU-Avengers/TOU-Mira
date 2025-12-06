@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -54,7 +53,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Sheriff,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Impostor)
+        IntroSound = TouAudio.ImpostorIntroSound
     };
 
     [HideFromIl2Cpp]

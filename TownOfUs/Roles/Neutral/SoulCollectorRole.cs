@@ -50,7 +50,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         CanUseVent = OptionGroupSingleton<SoulCollectorOptions>.Instance.CanVent,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom),
+        IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.SoulCollector,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

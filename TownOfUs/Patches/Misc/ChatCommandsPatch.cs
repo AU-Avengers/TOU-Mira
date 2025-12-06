@@ -281,9 +281,6 @@ public static class ChatPatches
             if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat)
             {
                 TeamChatPatches.RpcSendVampTeamChat(PlayerControl.LocalPlayer, textRegular);
-                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{TouLocale.GetParsed("VampireChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    textRegular, onLeft: false);
 
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();

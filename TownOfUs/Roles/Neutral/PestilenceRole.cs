@@ -51,7 +51,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         DefaultChance = 0,
         DefaultRoleCount = 0,
         MaxRoleCount = 0,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom),
+        IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Pestilence,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

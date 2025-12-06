@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
@@ -32,7 +31,7 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     {
         CanUseVent = OptionGroupSingleton<SwooperOptions>.Instance.CanVent,
         Icon = TouRoleIcons.Swooper,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom)
+        IntroSound = TouAudio.PhantomIntroSound
     };
 
     [HideFromIl2Cpp]

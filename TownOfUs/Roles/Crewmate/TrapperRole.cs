@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
@@ -53,7 +52,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Trapper,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Tracker)
+        IntroSound = TouAudio.TrackerIntroSound
     };
 
     public void LobbyStart()

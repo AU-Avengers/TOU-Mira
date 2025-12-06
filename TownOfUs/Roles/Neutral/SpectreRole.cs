@@ -138,7 +138,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
     public override CustomRoleConfiguration Configuration => new(this)
     {
-        Icon = TouRoleIcons.Phantom,
+        Icon = TouRoleIcons.Spectre,
         HideSettings = false,
         ShowInFreeplay = true
     };
@@ -266,7 +266,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Phantom.ToTextColor()}You are now clickable by players!</b></color>",
                     Color.white,
-                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Phantom.LoadAsset());
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
                 notif1.AdjustNotification();
             }
         }
@@ -276,7 +276,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
             TaskStage = GhostTaskStage.CompletedTasks;
         }
 
-        var textlog = $"Phantom Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
+        var textlog = $"Spectre Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
 
         if (OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is not SpectreWinOptions.Spooks ||

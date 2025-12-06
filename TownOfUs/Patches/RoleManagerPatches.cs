@@ -850,7 +850,7 @@ public static class TouRoleManagerPatches
     public static bool AssignRoleOnDeathPatch(RoleManager __instance, PlayerControl player, bool specialRolesAllowed)
     {
         // Note: I know this is a one-to-one recreation of the AssignRoleOnDeath function, but for some reason,
-        // the original won't spawn the Phantom and just spawns Neutral Ghost instead
+        // the original won't spawn the Spectre and just spawns Neutral Ghost instead
 
         var text = $"AssignRoleOnDeathPatch - Player: '{player.Data.PlayerName}', specialRolesAllowed: {specialRolesAllowed}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);

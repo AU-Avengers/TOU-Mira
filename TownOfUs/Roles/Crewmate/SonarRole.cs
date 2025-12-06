@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -46,8 +45,8 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        Icon = TouRoleIcons.Tracker,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Tracker)
+        Icon = TouRoleIcons.Sonar,
+        IntroSound = TouAudio.TrackerIntroSound
     };
 
     [HideFromIl2Cpp]

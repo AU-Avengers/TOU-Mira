@@ -118,7 +118,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        Icon = TouRoleIcons.GuardianAngel,
+        Icon = TouRoleIcons.Fairy,
         IntroSound = TouAudio.GuardianAngelSound,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
