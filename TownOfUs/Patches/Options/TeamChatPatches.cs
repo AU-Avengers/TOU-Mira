@@ -255,7 +255,7 @@ public static class TeamChatPatches
                 sprite.enabled = false;
             }
 
-            if (ForceReset)
+            if (!TeamChatActive || ForceReset)
             {
                 ForceReset = false;
                 var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
