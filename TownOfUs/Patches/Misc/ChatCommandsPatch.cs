@@ -5,6 +5,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Patches.Options;
+using TownOfUs.Patches.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
@@ -289,6 +290,20 @@ public static class ChatPatches
 
                 return false;
             }
+        }
+
+        // Chat History
+        if (textRegular.Length > 0)
+        {
+            if (ChatControllerPatches.ChatHistory.Count == 0 || ChatControllerPatches.ChatHistory[^1] != textRegular)
+            {
+                ChatControllerPatches.ChatHistory.Add(textRegular);
+                if (ChatControllerPatches.ChatHistory.Count > 20)
+                {
+                    ChatControllerPatches.ChatHistory.RemoveAt(0);
+                }
+            }
+            ChatControllerPatches.CurrentHistorySelection = ChatControllerPatches.ChatHistory.Count;
         }
 
         return true;
