@@ -129,6 +129,7 @@
   <string name="ImpPower">Imp Power</string>
   <string name="ImpSupport">Imp Support</string>
   <!-- Keywords for use in ui to mark certain text into a certain color -->
+  <string name="RolesHeader">\%type\% Roles</string>
   <string name="GameKeyword">Game</string>
   <string name="CrewmateKeyword">Crewmate</string>
   <string name="CrewKeyword">Crew</string>
@@ -136,6 +137,7 @@
   <string name="NeutKeyword">Neut</string>
   <string name="ImpostorKeyword">Impostor</string>
   <string name="ImpKeyword">Imp</string>
+  <string name="GhostKeyword">Ghost</string>
   <!-- All possible types of modifiers -->
   <string name="Alliance">Alliance</string>
   <string name="Universal">Universal</string>

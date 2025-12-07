@@ -204,43 +204,40 @@ public static class ChatPatches
         {
             var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
             var roleOptions = currentGameOptions.RoleOptions;
-            var allRoles = MiscUtils.AllRegisteredRoles.Where(role => !role.IsDead && roleOptions.GetNumPerGame(role.Role) > 0).ToList();
-            var ghostRoles = MiscUtils.GetRegisteredGhostRoles().Where(role => roleOptions.GetNumPerGame(role.Role) > 0).ToList();
+
+            var allRoles = MiscUtils.AllRegisteredRoles.Where(role => !role.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName()).ToList();
+            var ghostRoles = MiscUtils.GetRegisteredGhostRoles().Where(role => CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName()).ToList();
 
             var crewmateRoles = new List<RoleBehaviour>();
             var impostorRoles = new List<RoleBehaviour>();
             var neutralRoles = new List<RoleBehaviour>();
-            var neutralGhostRoles = new List<RoleBehaviour>();
+            var allGhostRoles = new List<RoleBehaviour>();
 
             foreach (var role in allRoles)
             {
                 var alignment = role.GetRoleAlignment();
-                if (alignment is RoleAlignment.CrewmateInvestigative or RoleAlignment.CrewmateKilling or
-                    RoleAlignment.CrewmateProtective or RoleAlignment.CrewmatePower or RoleAlignment.CrewmateSupport)
+                if (alignment.ToString().Contains("Crewmate"))
                 {
                     crewmateRoles.Add(role);
                 }
-                else if (alignment is RoleAlignment.ImpostorConcealing or RoleAlignment.ImpostorKilling or
-                         RoleAlignment.ImpostorPower or RoleAlignment.ImpostorSupport)
+                else if (alignment.ToString().Contains("Impostor"))
                 {
                     impostorRoles.Add(role);
                 }
-                else if (alignment is RoleAlignment.NeutralBenign or RoleAlignment.NeutralEvil or
-                         RoleAlignment.NeutralKilling or RoleAlignment.NeutralOutlier)
+                else
                 {
                     neutralRoles.Add(role);
                 }
             }
 
-            var neutralGhostRoleId = (RoleTypes)RoleId.Get<NeutralGhostRole>();
             foreach (var role in ghostRoles)
             {
-                if (role.Role == neutralGhostRoleId)
+                if (role is ICustomRole custom && custom.Configuration.HideSettings)
                 {
                     continue;
                 }
 
-                neutralGhostRoles.Add(role);
+                allGhostRoles.Add(role);
             }
 
             var roleNameToLink = new Func<RoleBehaviour, string>(role =>
@@ -252,24 +249,29 @@ public static class ChatPatches
             var msgParts = new List<string>();
 
             // Idk if I should be using localization for the titles here... :/
+            var rolesHeader = TouLocale.GetParsed("RolesHeader");
+            var crewWord = TouLocale.GetParsed("CrewmateKeyword");
+            var impWord = TouLocale.GetParsed("ImpostorKeyword");
+            var neutWord = TouLocale.GetParsed("NeutralKeyword");
+            var ghostWord = TouLocale.GetParsed("GhostKeyword");
             if (crewmateRoles.Count > 0)
             {
-                msgParts.Add($"Crewmate Roles ({crewmateRoles.Count}):\n{string.Join(", ", crewmateRoles.Select(roleNameToLink))}");
+                msgParts.Add($"{rolesHeader.Replace("<type>", crewWord)} ({crewmateRoles.Count}):\n{string.Join(", ", crewmateRoles.Select(roleNameToLink))}");
             }
 
             if (impostorRoles.Count > 0)
             {
-                msgParts.Add($"Imposter Roles ({impostorRoles.Count}):\n{string.Join(", ", impostorRoles.Select(roleNameToLink))}");
+                msgParts.Add($"{rolesHeader.Replace("<type>", impWord)} ({impostorRoles.Count}):\n{string.Join(", ", impostorRoles.Select(roleNameToLink))}");
             }
 
             if (neutralRoles.Count > 0)
             {
-                msgParts.Add($"Neutral Roles ({neutralRoles.Count}):\n{string.Join(", ", neutralRoles.Select(roleNameToLink))}");
+                msgParts.Add($"{rolesHeader.Replace("<type>", neutWord)} ({neutralRoles.Count}):\n{string.Join(", ", neutralRoles.Select(roleNameToLink))}");
             }
 
-            if (neutralGhostRoles.Count > 0)
+            if (allGhostRoles.Count > 0)
             {
-                msgParts.Add($"Ghost Roles ({neutralGhostRoles.Count}):\n{string.Join(", ", neutralGhostRoles.Select(roleNameToLink))}");
+                msgParts.Add($"{rolesHeader.Replace("<type>", ghostWord)} ({allGhostRoles.Count}):\n{string.Join(", ", allGhostRoles.Select(roleNameToLink))}");
             }
 
             var msg = string.Join("\n\n", msgParts);
