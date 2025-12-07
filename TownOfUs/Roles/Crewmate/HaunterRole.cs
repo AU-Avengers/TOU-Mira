@@ -191,6 +191,10 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        if (!Player.HasModifier<BasicGhostModifier>())
+        {
+            Player.AddModifier<BasicGhostModifier>();
+        }
         if (TutorialManager.InstanceExists)
         {
             Setup = true;
@@ -265,10 +269,6 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             Player.MyPhysics.ResetMoveState();
 
             Faded = false;
-        }
-        else if (!Player.HasModifier<BasicGhostModifier>())
-        {
-            Player.AddModifier<BasicGhostModifier>();
         }
         /* if (Player.AmOwner)
         {

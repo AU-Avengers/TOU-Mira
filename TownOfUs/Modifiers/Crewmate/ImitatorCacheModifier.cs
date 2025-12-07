@@ -180,7 +180,12 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return;
         }
 
-        if (_selectedPlr == null || Player.HasDied() || !_selectedPlr.IsDead || _selectedPlr.Disconnected || _selectedPlr.Object == null)
+        if (Player.HasDied())
+        {
+            return;
+        }
+
+        if (_selectedPlr == null || !_selectedPlr.IsDead || _selectedPlr.Disconnected || _selectedPlr.Object == null)
         {
             _selectedPlr = null;
             if (Player == null || Player.IsRole<ImitatorRole>())
@@ -189,10 +194,6 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             }
 
             Player.RpcChangeRole(RoleId.Get<ImitatorRole>(), false);
-            if (Player.HasDied())
-            {
-                Player.RpcChangeRole((ushort)RoleTypes.CrewmateGhost, false);
-            }
             return;
         }
 

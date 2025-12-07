@@ -74,7 +74,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     public CustomRoleConfiguration Configuration => new(this)
     {
         TasksCountForProgress = false,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Noisemaker),
+        IntroSound = TouAudio.NoisemakerIntroSound,
         GhostRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
         Icon = TouRoleIcons.Spectator,
         CanModifyChance = false,

@@ -820,6 +820,17 @@ public static class TouRoleManagerPatches
             player.Object.RpcSetRole(specId);
         }
 
+        if (OptionGroupSingleton<GeneralOptions>.Instance.RoundOneVictims)
+        {
+            var firstDead = GameData.Instance.AllPlayers.ToArray()
+                .Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x)).ToList();
+
+            foreach (var player in firstDead)
+            {
+                player.Object.RpcAddModifier<FirstRoundIndicator>();
+            }
+        }
+
         AssignTargets();
     }
 
@@ -850,7 +861,7 @@ public static class TouRoleManagerPatches
     public static bool AssignRoleOnDeathPatch(RoleManager __instance, PlayerControl player, bool specialRolesAllowed)
     {
         // Note: I know this is a one-to-one recreation of the AssignRoleOnDeath function, but for some reason,
-        // the original won't spawn the Phantom and just spawns Neutral Ghost instead
+        // the original won't spawn the Spectre and just spawns Neutral Ghost instead
 
         var text = $"AssignRoleOnDeathPatch - Player: '{player.Data.PlayerName}', specialRolesAllowed: {specialRolesAllowed}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);

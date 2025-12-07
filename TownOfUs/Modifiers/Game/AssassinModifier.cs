@@ -48,7 +48,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return !role.TryCast<SpectatorRole>();
+        return role is not SpectatorRole;
     }
 
     public override void OnActivate()

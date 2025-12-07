@@ -58,7 +58,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        Icon = TouRoleIcons.Detective,
+        Icon = TouRoleIcons.Forensic,
         IntroSound = TouAudio.QuestionSound
     };
 
@@ -120,7 +120,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             text = TouLocale.GetParsed("TouRoleForensicNotAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
         }
         var notif1 = Helpers.CreateAndShowNotification(text,
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Detective.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Forensic.LoadAsset());
         notif1.AdjustNotification();
     }
 

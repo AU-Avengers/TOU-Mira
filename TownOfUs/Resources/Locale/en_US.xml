@@ -129,6 +129,7 @@
   <string name="ImpPower">Imp Power</string>
   <string name="ImpSupport">Imp Support</string>
   <!-- Keywords for use in ui to mark certain text into a certain color -->
+  <string name="RolesHeader">\%type\% Roles</string>
   <string name="GameKeyword">Game</string>
   <string name="CrewmateKeyword">Crewmate</string>
   <string name="CrewKeyword">Crew</string>
@@ -136,6 +137,7 @@
   <string name="NeutKeyword">Neut</string>
   <string name="ImpostorKeyword">Impostor</string>
   <string name="ImpKeyword">Imp</string>
+  <string name="GhostKeyword">Ghost</string>
   <!-- All possible types of modifiers -->
   <string name="Alliance">Alliance</string>
   <string name="Universal">Universal</string>
@@ -212,6 +214,7 @@
   <string name="SpectatorToggleOff">You are no longer a spectator!</string>
   <string name="SpectatorHostError">The host has disabled /spec!</string>
   <string name="SummaryCommandList">summary:gamesummary:gamesum</string>
+  <string name="RolesCommandList">roles:role:r</string>
   <string name="SummaryMissingError">No game summary to show!</string>
   <string name="NerfMeCommandList">nerf:nerfme:vision</string>
   <string name="NerfMeLobbyError">You cannot Nerf yourself outside the lobby!</string>
@@ -230,6 +233,7 @@
   <string name="SetNameCommandDescription">/setname - Change your name to whatever text follows the command (like /setname \%randomName\%) for the next match.</string>
   <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
   <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>
+  <string name="RolesCommandDescription">/roles - Shows a list of all enabled roles in the game.</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->
@@ -251,6 +255,7 @@
   <string name="StatsBadGuessCount">Misguesses Guesses: \%count\%</string>
   <string name="RoundOfDeath">R\%count\%</string>
   <string name="RoundOfDeathLong">Round \%count\%</string>
+  <string name="FirstDeadText">(Died R1)</string>
   <!-- Cause of Deaths -->
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
@@ -564,7 +569,7 @@
   <string name="TouRoleImitatorNeutralCounterparts">Neutral Counterparts</string>
   <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch\%nl\%Glitch ⇨ Sheriff | Fairy ⇨ Cleric | Inquis ⇨ Oracle\%nl\%Jester ⇨ Plumber | Merc ⇨ Warden\%nl\%Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
   <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Forensic\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Tracker\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Forensic\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Sonar\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
   <!-- Imitator Options -->
   <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
   <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>

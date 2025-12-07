@@ -87,6 +87,20 @@ public static class TeamChatPatches
         UpdateChat();
     }
 
+    public static void ForceNormalChat()
+    {
+        ForceReset = true;
+        Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
+        if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
+        {
+            buttonArray = 
+                [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
+        }
+        HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
+        HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
+        HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
+    }
+
     public static void UpdateChat()
     {
         var chat = HudManager.Instance.Chat;
@@ -101,7 +115,7 @@ public static class TeamChatPatches
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         _teamText.text = string.Empty;
-        if (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow &&
+        if (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow &&
             (genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } || genOpt.VampireChat ||
              Helpers.GetAlivePlayers().Any(x => x.Data.Role is JailorRole)))
         {
@@ -130,13 +144,19 @@ public static class TeamChatPatches
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
 
-            if ((PlayerControl.LocalPlayer.IsJailed() ||
-                 PlayerControl.LocalPlayer.Data.Role is JailorRole) && _teamText != null)
+            if (PlayerControl.LocalPlayer.Data.Role is JailorRole && PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                 genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } && _teamText != null)
             {
-                _teamText.text = "Jailor Chat is Open. Only the Jailor and Jailee can see this.";
+                _teamText.text = "Jail Chat is Open. Only the Jailor and Jailee can see this. Impostor Chat is visible.";
                 _teamText.color = TownOfUsColors.Jailor;
             }
-            else if (PlayerControl.LocalPlayer.IsImpostor() &&
+            else if ((PlayerControl.LocalPlayer.IsJailed() ||
+                 PlayerControl.LocalPlayer.Data.Role is JailorRole) && _teamText != null)
+            {
+                _teamText.text = "Jail Chat is Open. Only the Jailor and Jailee can see this.";
+                _teamText.color = TownOfUsColors.Jailor;
+            }
+            else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
                      genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } &&
                      !PlayerControl.LocalPlayer.Data.IsDead && _teamText != null)
             {
@@ -221,7 +241,7 @@ public static class TeamChatPatches
         TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch.LoadAsset();
         TeamChatButton.name = "FactionChat";
         var pos = BanMenu.transform.localPosition;
-        TeamChatButton.transform.localPosition = new Vector3(pos.x, pos.y + 1f, pos.z);
+        TeamChatButton.transform.localPosition = new Vector3(pos.x, pos.y + 0.7f, pos.z);
     }
 
     public static void CreateTeamChatBubble()
@@ -249,10 +269,9 @@ public static class TeamChatPatches
                 sprite.enabled = false;
             }
 
-            if (ForceReset)
+            if (!TeamChatActive || ForceReset)
             {
                 ForceReset = false;
-                var chat = HudManager.Instance.Chat;
                 var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
                 var Background = ChatScreenContainer.transform.FindChild("Background");
                 var bubbleItems = GameObject.Find("Items");
@@ -267,18 +286,10 @@ public static class TeamChatPatches
                         if (color != Color.white && color != Color.black) bubble.gameObject.SetActive(false);
                     }
                 }
+                var chat = HudManager.Instance.Chat;
                 calledByChatUpdate = true;
                 chat.AlignAllBubbles();
                 Background.GetComponent<SpriteRenderer>().color = Color.white;
-                Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
-                if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
-                {
-                    buttonArray = 
-                        [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
-                }
-                HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
-                HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
-                HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
             }
 
             if (TeamChatButton)
@@ -299,7 +310,7 @@ public static class TeamChatPatches
 
             var isValid = MeetingHud.Instance &&
                           ((PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
-                            (PlayerControl.LocalPlayer.IsImpostor() && genOpt is
+                            (PlayerControl.LocalPlayer.IsImpostorAligned() && genOpt is
                                 { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
                             (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat))
                            || !MeetingHud.Instance && PlayerControl.LocalPlayer.IsLover()) && calledByChatUpdate;
@@ -416,7 +427,7 @@ public static class TeamChatPatches
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRoleJailor")}</color>",
                 text, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
         }
-        else if (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
+        else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
@@ -427,7 +438,7 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendJaileeChat)]
     public static void RpcSendJaileeChat(PlayerControl player, string text)
     {
-        if (PlayerControl.LocalPlayer.Data.Role is JailorRole || (PlayerControl.LocalPlayer.HasDied() &&
+        if (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() || (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) &&
                                                                   OptionGroupSingleton<GeneralOptions>.Instance
                                                                       .TheDeadKnow))
         {
@@ -440,8 +451,8 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendVampTeamChat)]
     public static void RpcSendVampTeamChat(PlayerControl player, string text)
     {
-        if ((PlayerControl.LocalPlayer.Data.Role is VampireRole && player != PlayerControl.LocalPlayer) ||
-            (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+        if ((PlayerControl.LocalPlayer.Data.Role is VampireRole) ||
+            (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{TouLocale.GetParsed("VampireChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
@@ -452,8 +463,8 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendImpTeamChat)]
     public static void RpcSendImpTeamChat(PlayerControl player, string text)
     {
-        if ((PlayerControl.LocalPlayer.IsImpostor() && player != PlayerControl.LocalPlayer) ||
-            (PlayerControl.LocalPlayer.HasDied() && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+        if ((PlayerControl.LocalPlayer.IsImpostorAligned()) ||
+            (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.GetParsed("ImpostorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
@@ -483,14 +494,14 @@ public static class TeamChatPatches
                 .FirstOrDefault(x => x.Data.PlayerName == playerName);
             if (player == null) return;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostor() && !PlayerControl.LocalPlayer.HasDied() &&
-                !player.AmOwner && player.IsImpostor() && MeetingHud.Instance)
+            if (genOpt.FFAImpostorMode && PlayerControl.LocalPlayer.IsImpostorAligned() && !DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) &&
+                !player.AmOwner && player.IsImpostorAligned() && MeetingHud.Instance)
             {
                 __instance.NameText.color = Color.white;
             }
             else if (color == Color.white &&
                      (player.AmOwner || player.Data.Role is MayorRole mayor && mayor.Revealed ||
-                      PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow) && PlayerControl.AllPlayerControls
+                      DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow) && PlayerControl.AllPlayerControls
                          .ToArray()
                          .FirstOrDefault(x => x.Data.PlayerName == playerName) && MeetingHud.Instance)
             {

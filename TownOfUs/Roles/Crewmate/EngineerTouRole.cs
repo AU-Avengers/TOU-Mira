@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
@@ -56,7 +55,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         // CanUseVent = true,
         Icon = TouRoleIcons.Engineer,
         OptionsScreenshot = TouCrewAssets.EngineerRoleBanner,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Engineer)
+        IntroSound = TouAudio.EngineerIntroSound
     };
 
     [HideFromIl2Cpp]

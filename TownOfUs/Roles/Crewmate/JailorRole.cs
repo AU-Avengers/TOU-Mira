@@ -1,5 +1,4 @@
 using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -71,7 +70,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Jailor,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Impostor)
+        IntroSound = TouAudio.ImpostorIntroSound
     };
 
     public void LobbyStart()

@@ -34,6 +34,7 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Modifiers.Universal;
@@ -41,6 +42,7 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
+using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
@@ -305,7 +307,7 @@ public static class TownOfUsEventHandlers
         if (FirstDeadPatch.PlayerNames.Count > 0)
         {
             var stringB = new StringBuilder();
-            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died In Order: ");
+            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died First In Order: ");
             foreach (var playername in FirstDeadPatch.PlayerNames)
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
@@ -316,7 +318,22 @@ public static class TownOfUsEventHandlers
             Warning(stringB.ToString());
         }
 
+        if (FirstDeadPatch.FirstRoundPlayerNames.Count > 0)
+        {
+            var stringB = new StringBuilder();
+            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died Round One In Order: ");
+            foreach (var playername in FirstDeadPatch.FirstRoundPlayerNames)
+            {
+                stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
+            }
+
+            stringB = stringB.Remove(stringB.Length - 2, 2);
+
+            Warning(stringB.ToString());
+        }
+
         FirstDeadPatch.PlayerNames = [];
+        FirstDeadPatch.FirstRoundPlayerNames = [];
 
         if (HudManager.InstanceExists)
         {
@@ -679,6 +696,12 @@ public static class TownOfUsEventHandlers
 
         if (!PlayerControl.LocalPlayer.IsHost())
         {
+            ChatPatches.ClearSpectatorList();
+            yield break;
+        }
+
+        if (SpectatorRole.TrackedSpectators.Count == 0)
+        {
             yield break;
         }
 
@@ -749,6 +772,13 @@ public static class TownOfUsEventHandlers
 
         var animationRend = animation.GetComponent<SpriteRenderer>();
         animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
+        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>();
+        if (r == null)
+        {
+            r = animationRend.gameObject.AddComponent<RainbowBehaviour>();
+        }
+
+        r.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
 
         voteArea.Overlay.gameObject.SetActive(false);
         animation.gameObject.SetActive(false);

@@ -598,7 +598,7 @@ public static class MiscUtils
     {
         var baseGhostRoles = AllRegisteredRoles
             .Where(x => x.IsDead && AllRoles.All(y => y.Role != x.Role));
-        var ghostRoles = AllRoles.Where(x => x.IsDead && !x.TryCast<SpectatorRole>()).Union(baseGhostRoles);
+        var ghostRoles = AllRoles.Where(x => x.IsDead && x is not SpectatorRole).Union(baseGhostRoles);
 
         return ghostRoles;
     }

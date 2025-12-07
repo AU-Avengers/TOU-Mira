@@ -1,10 +1,15 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.GameOptions;
+using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Patches.Options;
+using TownOfUs.Patches.Roles;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
@@ -21,7 +26,14 @@ public static class ChatPatches
         var text = __instance.freeChatField.Text.ToLower(TownOfUsPlugin.Culture);
         var textRegular = __instance.freeChatField.Text.WithoutRichText();
 
-        if (textRegular.Length < 1 || textRegular.Length > 100)
+        // Remove chat delay if host
+        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        {
+            __instance.timeSinceLastMessage = 999f;
+        }
+
+        // Remove chat limit
+        if (textRegular.Length < 1)
         {
             return true;
         }
@@ -29,6 +41,7 @@ public static class ChatPatches
         var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
         var specCommandList = TouLocale.GetParsed("SpectatorCommandList").Split(":");
         var summaryCommandList = TouLocale.GetParsed("SummaryCommandList").Split(":");
+        var rolesCommandList = TouLocale.GetParsed("RolesCommandList").Split(":");
         var nerfCommandList = TouLocale.GetParsed("NerfMeCommandList").Split(":");
         var nameCommandList = TouLocale.GetParsed("SetNameCommandList").Split(":");
         var helpCommandList = TouLocale.GetParsed("HelpCommandList").Split(":");
@@ -38,6 +51,7 @@ public static class ChatPatches
         {
             specCommandList = specCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SpectatorCommandList").Split(":"));
             summaryCommandList = summaryCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SummaryCommandList").Split(":"));
+            rolesCommandList = rolesCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "RolesCommandList").Split(":"));
             nerfCommandList = nerfCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "NerfMeCommandList").Split(":"));
             nameCommandList = nameCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SetNameCommandList").Split(":"));
             helpCommandList = helpCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "HelpCommandList").Split(":"));
@@ -186,6 +200,105 @@ public static class ChatPatches
             return false;
         }
 
+        if (rolesCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
+        {
+            var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
+            var roleOptions = currentGameOptions.RoleOptions;
+
+            var allRoles = MiscUtils.AllRegisteredRoles.Where(role => !role.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName()).ToList();
+            var ghostRoles = MiscUtils.GetRegisteredGhostRoles().Where(role => CustomRoleUtils.CanSpawnOnCurrentMode(role) && roleOptions.GetNumPerGame(role.Role) > 0).OrderBy(x => x.GetRoleName()).ToList();
+
+            var crewmateRoles = new List<RoleBehaviour>();
+            var impostorRoles = new List<RoleBehaviour>();
+            var neutralRoles = new List<RoleBehaviour>();
+            var allGhostRoles = new List<RoleBehaviour>();
+
+            foreach (var role in allRoles)
+            {
+                var alignment = role.GetRoleAlignment();
+                if (alignment.ToString().Contains("Crewmate"))
+                {
+                    crewmateRoles.Add(role);
+                }
+                else if (alignment.ToString().Contains("Impostor"))
+                {
+                    impostorRoles.Add(role);
+                }
+                else
+                {
+                    neutralRoles.Add(role);
+                }
+            }
+
+            foreach (var role in ghostRoles)
+            {
+                if (role is ICustomRole custom && custom.Configuration.HideSettings)
+                {
+                    continue;
+                }
+
+                allGhostRoles.Add(role);
+            }
+
+            var roleNameToLink = new Func<RoleBehaviour, string>(role =>
+            {
+                var roleName = role.GetRoleName();
+                return $"#{roleName.Replace(" ", "-")}";
+            });
+
+            var msgParts = new List<string>();
+
+            // Idk if I should be using localization for the titles here... :/
+            var rolesHeader = TouLocale.GetParsed("RolesHeader");
+            var crewWord = TouLocale.GetParsed("CrewmateKeyword");
+            var impWord = TouLocale.GetParsed("ImpostorKeyword");
+            var neutWord = TouLocale.GetParsed("NeutralKeyword");
+            var ghostWord = TouLocale.GetParsed("GhostKeyword");
+            if (crewmateRoles.Count > 0)
+            {
+                msgParts.Add($"{rolesHeader.Replace("<type>", crewWord)} ({crewmateRoles.Count}):\n{string.Join(", ", crewmateRoles.Select(roleNameToLink))}");
+            }
+
+            if (impostorRoles.Count > 0)
+            {
+                msgParts.Add($"{rolesHeader.Replace("<type>", impWord)} ({impostorRoles.Count}):\n{string.Join(", ", impostorRoles.Select(roleNameToLink))}");
+            }
+
+            if (neutralRoles.Count > 0)
+            {
+                msgParts.Add($"{rolesHeader.Replace("<type>", neutWord)} ({neutralRoles.Count}):\n{string.Join(", ", neutralRoles.Select(roleNameToLink))}");
+            }
+
+            if (allGhostRoles.Count > 0)
+            {
+                msgParts.Add($"{rolesHeader.Replace("<type>", ghostWord)} ({allGhostRoles.Count}):\n{string.Join(", ", allGhostRoles.Select(roleNameToLink))}");
+            }
+
+            var msg = string.Join("\n\n", msgParts);
+
+            // Send as regular chat message so everyone can see it
+            // Use vanilla RPC to send to all players
+            //var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable, -1);
+            //writer.Write(msg);
+            //AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+            //// Should probably use FakeChat in production but uhhh yeah hacky haky
+
+            //// Also add locally
+            //if (HudManager.InstanceExists)
+            //{
+            //    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, msg);
+            //}
+
+            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg);
+
+            __instance.freeChatField.Clear();
+            __instance.quickChatMenu.Clear();
+            __instance.quickChatField.Clear();
+            __instance.UpdateChatMode();
+            return false;
+        }
+
         if (helpCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
             List<string> randomNames =
@@ -201,6 +314,7 @@ public static class ChatPatches
                       $"{TouLocale.GetParsed("NerfMeCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("SetNameCommandDescription").Replace("<randomName>", randomNames.Random())}\n" +
                       $"{TouLocale.GetParsed("SpectateCommandDescription")}\n" +
+                      $"{TouLocale.GetParsed("RolesCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("SummaryCommandDescription")}\n</size>";
 
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg);
@@ -240,12 +354,23 @@ public static class ChatPatches
              PlayerControl.LocalPlayer.Data.Role is VampireRole || PlayerControl.LocalPlayer.IsImpostorAligned()))
         {
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+
+            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
+            {
+                TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
+
+                __instance.freeChatField.Clear();
+                __instance.quickChatMenu.Clear();
+                __instance.quickChatField.Clear();
+                __instance.UpdateChatMode();
+
+                return false;
+            }
+
             if (PlayerControl.LocalPlayer.Data.Role is JailorRole)
             {
                 TeamChatPatches.RpcSendJailorChat(PlayerControl.LocalPlayer, textRegular);
-                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JailorChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    textRegular, onLeft: false);
 
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();
@@ -258,9 +383,6 @@ public static class ChatPatches
             if (PlayerControl.LocalPlayer.IsJailed())
             {
                 TeamChatPatches.RpcSendJaileeChat(PlayerControl.LocalPlayer, textRegular);
-                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JaileeChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    textRegular, onLeft: false);
 
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();
@@ -273,9 +395,6 @@ public static class ChatPatches
             if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat)
             {
                 TeamChatPatches.RpcSendVampTeamChat(PlayerControl.LocalPlayer, textRegular);
-                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.Vampire.ToHtmlStringRGBA()}>{TouLocale.GetParsed("VampireChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    textRegular, onLeft: false);
 
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();
@@ -284,24 +403,20 @@ public static class ChatPatches
 
                 return false;
             }
+        }
 
-            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
+        // Chat History
+        if (textRegular.Length > 0)
+        {
+            if (ChatControllerPatches.ChatHistory.Count == 0 || ChatControllerPatches.ChatHistory[^1] != textRegular)
             {
-                TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
-                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
-                    $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.GetParsed("ImpostorChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
-                    textRegular, onLeft: false);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
+                ChatControllerPatches.ChatHistory.Add(textRegular);
+                if (ChatControllerPatches.ChatHistory.Count > 20)
+                {
+                    ChatControllerPatches.ChatHistory.RemoveAt(0);
+                }
             }
-
-            return true;
+            ChatControllerPatches.CurrentHistorySelection = ChatControllerPatches.ChatHistory.Count;
         }
 
         return true;
@@ -332,6 +447,15 @@ public static class ChatPatches
         foreach (var name in list.Select(x => x.Value))
         {
             SpectatorRole.TrackedSpectators.Add(name);
+        }
+    }
+
+    public static void ClearSpectatorList()
+    {
+        var oldList = SpectatorRole.TrackedSpectators;
+        foreach (var name in oldList)
+        {
+            SpectatorRole.TrackedSpectators.Remove(name);
         }
     }
 

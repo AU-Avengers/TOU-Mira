@@ -30,8 +30,8 @@ public static class PhantomEvents
             if (phantom.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>You have successfully won as the {TownOfUsColors.Phantom.ToTextColor()}Phantom</color>, as you finished your tasks postmortem!</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Phantom.LoadAsset());
+                    $"<b>You have successfully won as the {TownOfUsColors.Phantom.ToTextColor()}Spectre</color>, as you finished your tasks postmortem!</b>",
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
 
                 notif1.AdjustNotification();
                 HudManagerPatches.ZoomButton.SetActive(true);
@@ -48,8 +48,8 @@ public static class PhantomEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>The {TownOfUsColors.Phantom.ToTextColor()}Phantom</color>, {phantom.Player.Data.PlayerName}, has successfully won, as they completed their tasks postmortem!</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Phantom.LoadAsset());
+                    $"<b>The {TownOfUsColors.Phantom.ToTextColor()}Spectre</color>, {phantom.Player.Data.PlayerName}, has successfully won, as they completed their tasks postmortem!</b>",
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
 
                 notif1.AdjustNotification();
             }
