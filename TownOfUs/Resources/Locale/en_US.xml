@@ -212,6 +212,7 @@
   <string name="SpectatorToggleOff">You are no longer a spectator!</string>
   <string name="SpectatorHostError">The host has disabled /spec!</string>
   <string name="SummaryCommandList">summary:gamesummary:gamesum</string>
+  <string name="RolesCommandList">roles:role:r</string>
   <string name="SummaryMissingError">No game summary to show!</string>
   <string name="NerfMeCommandList">nerf:nerfme:vision</string>
   <string name="NerfMeLobbyError">You cannot Nerf yourself outside the lobby!</string>
@@ -230,6 +231,7 @@
   <string name="SetNameCommandDescription">/setname - Change your name to whatever text follows the command (like /setname \%randomName\%) for the next match.</string>
   <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
   <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>
+  <string name="RolesCommandDescription">/roles - Shows a list of all enabled roles in the game.</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->

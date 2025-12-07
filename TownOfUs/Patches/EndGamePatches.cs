@@ -38,6 +38,7 @@ public static class EndGamePatches
         var summaryCod = new StringBuilder();
 
         // Theres a better way of doing this e.g. switch statement or dictionary. But this works for now.
+        // Oh god lmao
         foreach (var playerControl in PlayerControl.AllPlayerControls)
         {
             playerRoleString.Clear();
