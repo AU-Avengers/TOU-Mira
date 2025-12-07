@@ -44,6 +44,11 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
             Debug("Removed all spectators.");
         },
     };
+
+    public ModdedToggleOption NoGameEnd { get; set; } = new("No Game End", false, false)
+    {
+        Visible = () => TownOfUsPlugin.IsDevBuild
+    };
 }
 
 public enum LoggingLevel

@@ -24,6 +24,11 @@ public static class LogicGameFlowPatches
 {
     public static bool CheckEndGameViaTasks(LogicGameFlowNormal instance)
     {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+        {
+            return false;
+        }
+
         GameData.Instance.RecomputeTaskCounts();
 
         if (GameData.Instance.TotalTasks > 0 && GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
@@ -38,6 +43,11 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaTimeLimit(LogicGameFlowNormal instance)
     {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+        {
+            return false;
+        }
+
         if (OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled && GameTimerPatch.TriggerEndGame)
         {
             var timeType = (GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value;
@@ -65,6 +75,11 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaHexBomb(LogicGameFlowNormal instance)
     {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+        {
+            return false;
+        }
+
         if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
         {
             instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
@@ -128,6 +143,11 @@ public static class LogicGameFlowPatches
     [HarmonyPrefix]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+        {
+            return false;
+        }
+
         if (TutorialManager.InstanceExists)
         {
             return true;
