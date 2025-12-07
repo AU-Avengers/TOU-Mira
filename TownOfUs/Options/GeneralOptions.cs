@@ -73,6 +73,9 @@ public sealed class GeneralOptions : AbstractOptionGroup
     [ModdedToggleOption("First Death Shield Next Game")]
     public bool FirstDeathShield { get; set; } = true;
 
+    [ModdedToggleOption("Indicate Round One Victims")]
+    public bool RoundOneVictims { get; set; } = true;
+
     [ModdedToggleOption("Powerful Crew Continue The Game")]
     public bool CrewKillersContinue { get; set; } = true;
 }

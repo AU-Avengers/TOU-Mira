@@ -1,3 +1,4 @@
+using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
@@ -36,9 +37,11 @@ public static class FirstShieldEvents
     [RegisterEvent]
     public static void RemoveShieldEventHandler(RoundStartEvent @event)
     {
-        if (!@event.TriggeredByIntro && PlayerControl.LocalPlayer.HasModifier<FirstDeadShield>())
+        if (!@event.TriggeredByIntro)
         {
-            PlayerControl.LocalPlayer.RpcRemoveModifier<FirstDeadShield>();
+            var players = PlayerControl.AllPlayerControls.ToArray();
+            players.Where(x => x.HasModifier<FirstDeadShield>()).Do(x => x.RemoveModifier<FirstDeadShield>());
+            players.Where(x => x.HasModifier<FirstRoundIndicator>()).Do(x => x.RemoveModifier<FirstRoundIndicator>());
         }
     }
 

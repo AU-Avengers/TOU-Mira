@@ -9,7 +9,7 @@ namespace TownOfUs.Modifiers;
 // This is intended to be used for roles such as Snitch or Mayor
 // for getting the role, use this: RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>())
 [MiraIgnore]
-public abstract class RevealModifier(int roleChangeResult, bool revealRole, RoleBehaviour role) : TimedModifier
+public abstract class RevealModifier(int roleChangeResult, bool revealRole, RoleBehaviour? role) : TimedModifier
 {
     public override string ModifierName => "Revealed";
     public override float Duration => 1f;

@@ -307,7 +307,7 @@ public static class TownOfUsEventHandlers
         if (FirstDeadPatch.PlayerNames.Count > 0)
         {
             var stringB = new StringBuilder();
-            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died In Order: ");
+            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died First In Order: ");
             foreach (var playername in FirstDeadPatch.PlayerNames)
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
@@ -318,7 +318,22 @@ public static class TownOfUsEventHandlers
             Warning(stringB.ToString());
         }
 
+        if (FirstDeadPatch.FirstRoundPlayerNames.Count > 0)
+        {
+            var stringB = new StringBuilder();
+            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died Round One In Order: ");
+            foreach (var playername in FirstDeadPatch.FirstRoundPlayerNames)
+            {
+                stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
+            }
+
+            stringB = stringB.Remove(stringB.Length - 2, 2);
+
+            Warning(stringB.ToString());
+        }
+
         FirstDeadPatch.PlayerNames = [];
+        FirstDeadPatch.FirstRoundPlayerNames = [];
 
         if (HudManager.InstanceExists)
         {
