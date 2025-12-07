@@ -38,6 +38,12 @@ public static class Bindings
 
         var isHost = PlayerControl.LocalPlayer.IsHost();
 
+        //  Full List of binds:
+        //      Suicide Keybind (ENTER + T + Left Shift)
+        //      End Game Keybind (ENTER + L + Left Shift)
+        //      Start Meeting (ENTER + K + Left Shift)
+        //      End Meeting Keybind (F6)
+        //      CTRL to pass through objects in lobby ONLY
         if (isHost) // Disable all keybinds except CTRL in lobby if not host (NOTE: Might want a toggle in settings for these binds?)
         {
             if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined)
