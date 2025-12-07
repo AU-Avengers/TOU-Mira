@@ -18,6 +18,7 @@ public static class Bindings
 {
     private static int? _originalPlayerLayer;
     private static bool _wasCtrlHeld;
+
     public static void Postfix(HudManager __instance)
     {
         if (PlayerControl.LocalPlayer == null)
@@ -30,23 +31,25 @@ public static class Bindings
             return;
         }
 
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
+
         var isHost = PlayerControl.LocalPlayer.IsHost();
 
         if (isHost) // Disable all keybinds except CTRL in lobby if not host (NOTE: Might want a toggle in settings for these binds?)
         {
-            // Suicide Keybind (ENTER + T + Left Shift)
-            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined)
+            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined)
             {
-                if (!PlayerControl.LocalPlayer.Data.IsDead)
+                // Suicide Keybind (ENTER + T + Left Shift)
+                if (!PlayerControl.LocalPlayer.HasDied() && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))
                 {
                     PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
                 }
-            }
 
-            // End Game Keybind (ENTER + L + Left Shift)
-            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined)
-            {
-                if (AmongUsClient.Instance.AmHost && GameManager.Instance != null)
+                // End Game Keybind (ENTER + L + Left Shift)
+                if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift))
                 {
                     var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                     if (gameFlow != null)
@@ -54,12 +57,11 @@ public static class Bindings
                         gameFlow.Manager.RpcEndGame(GameOverReason.ImpostorsByKill, false);
                     }
                 }
-            }
 
-            // Start Meeting (ENTER + K + Left Shift)
-            if (!MeetingHud.Instance && AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined && !ExileController.Instance && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.K) && Input.GetKey(KeyCode.LeftShift))
-            {
-                if (AmongUsClient.Instance.AmHost)
+                // Start Meeting (ENTER + K + Left Shift)
+                if (!MeetingHud.Instance &&
+                    !ExileController.Instance && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.K) &&
+                    Input.GetKey(KeyCode.LeftShift))
                 {
                     MeetingRoomManager.Instance.AssignSelf(PlayerControl.LocalPlayer, null);
                     if (!GameManager.Instance.CheckTaskCompletion())
@@ -71,7 +73,7 @@ public static class Bindings
             }
 
             // End Meeting Keybind (F6)
-            if (Input.GetKeyDown(KeyCode.F6) && MeetingHud.Instance && AmongUsClient.Instance.AmHost)
+            if (Input.GetKeyDown(KeyCode.F6) && MeetingHud.Instance)
             {
                 var hud = MeetingHud.Instance;
 
@@ -144,6 +146,7 @@ public static class Bindings
                 player.gameObject.layer = _originalPlayerLayer.Value;
                 _originalPlayerLayer = null;
             }
+
             _wasCtrlHeld = false;
         }
 

@@ -15,7 +15,7 @@ namespace TownOfUs.Patches.Roles;
 public static class ChatControllerPatches
 {
     private static TextMeshPro? _noticeText;
-    public static List<string> ChatHistory = new();
+    public static List<string> ChatHistory { get; set; } = [];
     public static int CurrentHistorySelection = -1;
 
     [HarmonyPostfix]
