@@ -294,7 +294,7 @@ public static class ChatPatches
                                     var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
-                                        TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", "#" + matchingRole.GetRoleName()));
+                                        TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
                                 }
                             }
                             else
@@ -304,7 +304,7 @@ public static class ChatPatches
                                 var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
-                                    TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", "#" + matchingRole.GetRoleName()));
+                                    TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
                             }
                         }
                     }
