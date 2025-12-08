@@ -233,47 +233,92 @@ public static class TouRoleManagerPatches
 
         var crewRoles = MiscUtils.GetMaxRolesToAssign(ModdedRoleTeams.Crewmate, crewCount);
 
+        HandleUpRequestsForCrewAndNeutralWithPools(nbRoles, neRoles, nkRoles, noRoles, crewRoles, crewmates, impostors, nbCount, neCount, nkCount, noCount);
+
         var crewAndNeutRoles = new List<ushort>();
         crewAndNeutRoles.AddRange(nbRoles);
         crewAndNeutRoles.AddRange(neRoles);
         crewAndNeutRoles.AddRange(nkRoles);
         crewAndNeutRoles.AddRange(noRoles);
         crewAndNeutRoles.AddRange(crewRoles);
+
         crewAndNeutRoles.Shuffle();
 
-        foreach (var role in crewAndNeutRoles)
+        foreach (var role in crewAndNeutRoles.ToList())
         {
+            if (crewmates.Count == 0)
+            {
+                break;
+            }
+
             var num = HashRandom.FastNext(crewmates.Count);
             var player = crewmates[num];
 
-            player.RpcSetRole((RoleTypes)role);
+            if (player.Data != null && UpCommandRequests.TryGetRequest(player.Data, out _))
+            {
+                continue;
+            }
 
+            var roleBehaviour = RoleManager.Instance.GetRole((RoleTypes)role);
+            if (roleBehaviour == null)
+            {
+                continue;
+            }
+
+            player.RpcSetRole((RoleTypes)role);
             crewmates.RemoveAt(num);
 
-            var roleText = $"SelectRoles - player: '{player.Data.PlayerName}', role: '{RoleManager.Instance.GetRole((RoleTypes)role).GetRoleName()}'";
+            var roleText = $"SelectRoles - player: '{player?.Data?.PlayerName}', role: '{roleBehaviour.GetRoleName()}'";
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
         }
 
+        HandleUpRequestsForImpostors(impRoles, impostors, crewmates);
+
         foreach (var role in impRoles)
         {
+            if (impostors.Count == 0)
+            {
+                break;
+            }
+
             var num = HashRandom.FastNext(impostors.Count);
             var player = impostors[num];
 
-            player.RpcSetRole((RoleTypes)role);
+            if (player.Data != null && UpCommandRequests.TryGetRequest(player.Data, out _))
+            {
+                continue;
+            }
 
+            var roleBehaviour = RoleManager.Instance.GetRole((RoleTypes)role);
+            if (roleBehaviour == null)
+            {
+                continue;
+            }
+
+            player.RpcSetRole((RoleTypes)role);
             impostors.RemoveAt(num);
 
-            var roleText = $"SelectRoles - player: '{player.Data.PlayerName}', role: '{RoleManager.Instance.GetRole((RoleTypes)role).GetRoleName()}'";
+            var roleText = $"SelectRoles - player: '{player?.Data?.PlayerName}', role: '{roleBehaviour.GetRoleName()}'";
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
         }
 
         foreach (var player in crewmates)
         {
+            // Skip players who already have a role assigned via /up
+            if (player.Data != null && UpCommandRequests.TryGetRequest(player.Data, out _))
+            {
+                continue;
+            }
             player.RpcSetRole(RoleTypes.Crewmate);
         }
 
         foreach (var player in impostors)
         {
+            // Skip players who already have a role assigned via /up
+            if (player.Data != null && UpCommandRequests.TryGetRequest(player.Data, out _))
+            {
+                continue;
+            }
             player.RpcSetRole(RoleTypes.Impostor);
         }
 
@@ -282,6 +327,251 @@ public static class TouRoleManagerPatches
             return faction > minFaction;
         }
     }
+
+    private static void HandleUpRequestsForCrewAndNeutralWithPools(
+        List<ushort> nbRoles, List<ushort> neRoles, List<ushort> nkRoles, List<ushort> noRoles, List<ushort> crewRoles,
+        List<PlayerControl> crewmates, List<PlayerControl> impostors,
+        int nbCount, int neCount, int nkCount, int noCount)
+    {
+        var allPlayers = new List<PlayerControl>();
+        allPlayers.AddRange(crewmates);
+        allPlayers.AddRange(impostors);
+
+        foreach (var player in allPlayers.ToList())
+        {
+            if (player.Data == null || !UpCommandRequests.TryGetRequest(player.Data, out var requestedRole))
+            {
+                continue;
+            }
+
+            var requestedRoleType = (ushort)requestedRole;
+            var roleBehaviour = RoleManager.Instance.GetRole(requestedRole);
+            
+            if (roleBehaviour == null)
+            {
+                continue;
+            }
+
+            if (roleBehaviour.IsImpostor())
+            {
+                continue;
+            }
+
+            var alignment = roleBehaviour.GetRoleAlignment();
+            List<ushort>? targetPool = null;
+            int currentCount = 0;
+            int maxCount = 0;
+
+            switch (alignment)
+            {
+                case RoleAlignment.NeutralBenign:
+                    targetPool = nbRoles;
+                    currentCount = nbRoles.Count;
+                    maxCount = nbCount;
+                    break;
+                case RoleAlignment.NeutralEvil:
+                    targetPool = neRoles;
+                    currentCount = neRoles.Count;
+                    maxCount = neCount;
+                    break;
+                case RoleAlignment.NeutralKilling:
+                    targetPool = nkRoles;
+                    currentCount = nkRoles.Count;
+                    maxCount = nkCount;
+                    break;
+                case RoleAlignment.NeutralOutlier:
+                    targetPool = noRoles;
+                    currentCount = noRoles.Count;
+                    maxCount = noCount;
+                    break;
+                default:
+                    targetPool = crewRoles;
+                    break;
+            }
+
+            if (targetPool == null)
+            {
+                continue;
+            }
+
+            bool roleInPool = targetPool.Contains(requestedRoleType);
+
+            if (!roleInPool)
+            {
+                if (alignment is RoleAlignment.NeutralBenign or RoleAlignment.NeutralEvil or RoleAlignment.NeutralKilling or RoleAlignment.NeutralOutlier && currentCount >= maxCount && maxCount > 0 && targetPool.Count > 0)
+                {
+                    targetPool.RemoveAt(0);
+                }
+
+                targetPool.Add(requestedRoleType);
+            }
+
+            targetPool.Remove(requestedRoleType);
+
+            if (!crewmates.Remove(player) && impostors.Remove(player) && roleBehaviour.IsNeutral())
+            {
+                crewmates.Add(player);
+            }
+
+            player.RpcSetRole(requestedRole);
+            UpCommandRequests.RemoveRequest(player.Data.PlayerName);
+
+            var roleText = $"SelectRoles (/up) - player: '{player.Data.PlayerName}', role: '{roleBehaviour.GetRoleName()}' (alignment: {alignment}, wasInPool: {roleInPool})";
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
+        }
+    }
+
+
+        private static void HandleUpRequestsForImpostors(List<ushort> impRolePool, List<PlayerControl> impostors, List<PlayerControl> crewmates)
+    {
+        var allPlayers = new List<PlayerControl>();
+        allPlayers.AddRange(impostors);
+        allPlayers.AddRange(crewmates);
+
+        foreach (var player in allPlayers.ToList())
+        {
+            if (player.Data == null || !UpCommandRequests.TryGetRequest(player.Data, out var requestedRole))
+            {
+                continue;
+            }
+
+            var requestedRoleType = (ushort)requestedRole;
+            var roleBehaviour = RoleManager.Instance.GetRole(requestedRole);
+            
+            if (roleBehaviour == null || !roleBehaviour.IsImpostor())
+            {
+                continue;
+            }
+
+            bool roleInPool = impRolePool.Contains(requestedRoleType);
+
+            if (!roleInPool)
+            {
+                impRolePool.Add(requestedRoleType);
+            }
+
+            impRolePool.Remove(requestedRoleType);
+
+            if (crewmates.Remove(player))
+            {
+                if (!impostors.Contains(player))
+                {
+                    impostors.Add(player);
+                }
+            }
+            else if (!impostors.Contains(player))
+            {
+                impostors.Add(player);
+            }
+
+            player.RpcSetRole(requestedRole);
+            UpCommandRequests.RemoveRequest(player.Data.PlayerName);
+
+            var roleText = $"SelectRoles (/up) - player: '{player.Data.PlayerName}', role: '{roleBehaviour.GetRoleName()}' (wasInPool: {roleInPool})";
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
+        }
+    }
+
+    private static void HandleUpRequestsForCrewAndNeutralRoleList(List<ushort> rolePool, List<PlayerControl> crewmates, List<PlayerControl> impostors)
+    {
+        var allPlayers = new List<PlayerControl>();
+        allPlayers.AddRange(crewmates);
+        allPlayers.AddRange(impostors);
+
+        foreach (var player in allPlayers.ToList())
+        {
+            if (player.Data == null || !UpCommandRequests.TryGetRequest(player.Data, out var requestedRole))
+            {
+                continue;
+            }
+
+            var requestedRoleType = (ushort)requestedRole;
+            var roleBehaviour = RoleManager.Instance.GetRole(requestedRole);
+            
+            if (roleBehaviour == null || roleBehaviour.IsImpostor())
+            {
+                continue;
+            }
+
+            if (rolePool.Remove(requestedRoleType))
+            {
+                crewmates.Remove(player);
+                if (impostors.Remove(player) && roleBehaviour.IsNeutral())
+                {
+                    crewmates.Add(player);
+                }
+
+                player.RpcSetRole(requestedRole);
+                UpCommandRequests.RemoveRequest(player.Data.PlayerName);
+
+                var roleText = $"SelectRoles (/up) - player: '{player.Data.PlayerName}', role: '{roleBehaviour.GetRoleName()}'";
+                MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
+            }
+        }
+    }
+
+        private static int HandleUpRequestsForImpostorsRoleList(List<ushort> impRolePool, List<PlayerControl> impostors, List<PlayerControl> crewmates, int impCount)
+    {
+        var allPlayers = new List<PlayerControl>();
+        allPlayers.AddRange(impostors);
+        allPlayers.AddRange(crewmates);
+
+        var assignedCount = 0;
+
+        foreach (var player in allPlayers.ToList())
+        {
+            if (player.Data == null || !UpCommandRequests.TryGetRequest(player.Data, out var requestedRole))
+            {
+                continue;
+            }
+
+            var requestedRoleType = (ushort)requestedRole;
+            var roleBehaviour = RoleManager.Instance.GetRole(requestedRole);
+            
+            if (roleBehaviour == null || !roleBehaviour.IsImpostor())
+            {
+                continue;
+            }
+
+            bool roleInPool = impRolePool.Contains(requestedRoleType);
+
+            if (!roleInPool)
+            {
+                impRolePool.Add(requestedRoleType);
+            }
+
+            if (assignedCount >= impCount && impCount > 0)
+            {
+                continue;
+            }
+
+            impRolePool.Remove(requestedRoleType);
+
+            if (crewmates.Remove(player))
+            {
+                if (!impostors.Contains(player))
+                {
+                    impostors.Add(player);
+                }
+            }
+            else if (!impostors.Contains(player))
+            {
+                impostors.Add(player);
+            }
+
+            // Assign the role immediately
+            player.RpcSetRole(requestedRole);
+            assignedCount++;
+
+            // Remove the request after assignment
+            UpCommandRequests.RemoveRequest(player.Data.PlayerName);
+
+            var roleText = $"SelectRoles (/up) - player: '{player.Data.PlayerName}', role: '{roleBehaviour.GetRoleName()}' (wasInPool: {roleInPool})";
+            MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, roleText);
+        }
+
+        return assignedCount;
+        }
 
     private static void AssignRolesFromRoleList(List<NetworkedPlayerInfo> infected)
     {
@@ -639,12 +929,14 @@ public static class TouRoleManagerPatches
 
         crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomNonImpRoles, RoleListOption.NonImp));
 
-        // Shuffle roles before handing them out.
-        // This should ensure a statistically equal chance of all permutations of roles.
+        HandleUpRequestsForCrewAndNeutralRoleList(crewRoles, crewmates, impostors);
+
         crewRoles.Shuffle();
         impRoles.Shuffle();
 
-        var chosenImpRoles = impRoles.Take(impCount).ToList();
+        var upAssignedImpCount = HandleUpRequestsForImpostorsRoleList(impRoles, impostors, crewmates, impCount);
+        var remainingImpCount = Math.Max(0, impCount - upAssignedImpCount);
+        var chosenImpRoles = impRoles.Take(remainingImpCount).ToList();
         chosenImpRoles = chosenImpRoles.Pad(impCount, (ushort)RoleTypes.Impostor);
 
         var uniqueRole = MiscUtils.SpawnableRoles.FirstOrDefault(x => x is ISpawnChange { NoSpawn: false });
@@ -692,11 +984,21 @@ public static class TouRoleManagerPatches
         // Assign vanilla roles to anyone who did not receive a role.
         foreach (var player in crewmates)
         {
+            // Skip players who already have a role assigned via /up
+            if (player.Data != null && UpCommandRequests.TryGetRequest(player.Data, out _))
+            {
+                continue;
+            }
             player.RpcSetRole(RoleTypes.Crewmate);
         }
 
         foreach (var player in impostors)
         {
+            // Skip players who already have a role assigned via /up
+            if (player.Data != null && UpCommandRequests.TryGetRequest(player.Data, out _))
+            {
+                continue;
+            }
             player.RpcSetRole(RoleTypes.Impostor);
         }
     }

@@ -2,6 +2,7 @@
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
 
@@ -27,5 +28,6 @@ public static class LobbyBehaviourPatches
         MeetingMenu.ClearAll();
         EgotistModifier.CooldownReduction = 0f;
         EgotistModifier.SpeedMultiplier = 1f;
+        UpCommandRequests.Clear();
     }
 }
