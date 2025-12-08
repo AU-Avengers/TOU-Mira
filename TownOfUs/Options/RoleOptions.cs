@@ -106,7 +106,7 @@ public sealed class RoleOptions : AbstractOptionGroup
 
                 Debug($"New gamemode is {newGm.ToString().ToLowerInvariant()}!");
             }*/
-            Visible = () => false
+            Visible = () => true
         };
     public ModdedEnumOption RoleAssignmentType { get; } =
         new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List"])

@@ -20,6 +20,8 @@ public interface ITownOfUsRole : ICustomRole
     {
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.Normal*/
     };
+
+    [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
 
     public virtual string YouAreText
