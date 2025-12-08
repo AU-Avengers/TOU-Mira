@@ -8,6 +8,7 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Patches.Options;
 using TownOfUs.Patches.Roles;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
@@ -253,7 +254,7 @@ public static class ChatPatches
                             targetPlayerName = string.Join(" ", parts.Skip(1));
                         }
 
-                        var allRoles = MiscUtils.AllRegisteredRoles.ToList();
+                        var allRoles = MiscUtils.SpawnableRoles.ToList();
                         var matchingRole = allRoles.FirstOrDefault(role =>
                             role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                             role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
