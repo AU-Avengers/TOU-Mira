@@ -1,4 +1,3 @@
-using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
@@ -20,6 +19,8 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
 public static class ChatPatches
 {
+    private static readonly char[] separator = [' '];
+
     // ReSharper disable once InconsistentNaming
     public static bool Prefix(ChatController __instance)
     {
@@ -45,6 +46,7 @@ public static class ChatPatches
         var nerfCommandList = TouLocale.GetParsed("NerfMeCommandList").Split(":");
         var nameCommandList = TouLocale.GetParsed("SetNameCommandList").Split(":");
         var helpCommandList = TouLocale.GetParsed("HelpCommandList").Split(":");
+        var upCommandList = TouLocale.GetParsed("UpCommandList").Split(":");
 
         if (TranslationController.InstanceExists &&
             TranslationController.Instance.currentLanguage.languageID is not SupportedLangs.English)
@@ -55,6 +57,7 @@ public static class ChatPatches
             nerfCommandList = nerfCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "NerfMeCommandList").Split(":"));
             nameCommandList = nameCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SetNameCommandList").Split(":"));
             helpCommandList = helpCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "HelpCommandList").Split(":"));
+            upCommandList = upCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "UpCommandList").Split(":"));
         }
 
         var spaceLess = text.Replace(" ", string.Empty);
@@ -200,6 +203,121 @@ public static class ChatPatches
             return false;
         }
 
+        if (upCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
+        {
+            if (AmongUsClient.Instance != null && !AmongUsClient.Instance.AmHost)
+            {
+                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    TouLocale.GetParsed("UpCommandHostError"));
+            }
+            else if (!TownOfUsPlugin.IsDevBuild)
+            {
+                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    TouLocale.GetParsed("UpCommandDevBuildError"));
+            }
+            else if (!LobbyBehaviour.Instance)
+            {
+                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    TouLocale.GetParsed("UpCommandLobbyError"));
+            }
+            else
+            {
+                // Parse command: /up [Role] or /up [Role] [PlayerName]
+                var commandMatch = upCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase));
+                if (commandMatch == null)
+                {
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                        TouLocale.GetParsed("UpCommandInvalidError"));
+                }
+                else
+                {
+                    var commandPrefix = $"/{commandMatch}";
+                    var remainingText = textRegular;
+                    if (remainingText.StartsWith(commandPrefix, StringComparison.OrdinalIgnoreCase))
+                    {
+                        remainingText = remainingText[commandPrefix.Length..].TrimStart();
+                    }
+
+                    if (string.IsNullOrWhiteSpace(remainingText))
+                    {
+                        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                            TouLocale.GetParsed("UpCommandNoRoleError"));
+                    }
+                    else
+                    {
+                        var parts = remainingText.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                        var roleNameInput = parts[0];
+                        string? targetPlayerName = null;
+
+                        if (parts.Length > 1)
+                        {
+                            targetPlayerName = string.Join(" ", parts.Skip(1));
+                        }
+
+                        var allRoles = MiscUtils.AllRegisteredRoles.ToList();
+                        var matchingRole = allRoles.FirstOrDefault(role =>
+                            role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                            role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
+                            (role is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)));
+
+                        if (matchingRole == null)
+                        {
+                            matchingRole = allRoles.FirstOrDefault(role =>
+                                role.GetRoleName().Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                                roleNameInput.Contains(role.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
+                                (role is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                                                                    roleNameInput.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
+                        }
+
+                        if (matchingRole == null)
+                        {
+                            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                                TouLocale.GetParsed("UpCommandRoleNotFoundError").Replace("<role>", roleNameInput));
+                        }
+                        else
+                        {
+                            string targetName;
+                            if (targetPlayerName != null)
+                            {
+                                var targetPlayer = PlayerControl.AllPlayerControls.ToArray()
+                                    .FirstOrDefault(p => p.Data.PlayerName.Equals(targetPlayerName, StringComparison.OrdinalIgnoreCase) ||
+                                                         p.Data.PlayerName.Contains(targetPlayerName, StringComparison.OrdinalIgnoreCase));
+
+                                if (targetPlayer == null)
+                                {
+                                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                                        TouLocale.GetParsed("UpCommandPlayerNotFoundError").Replace("<player>", targetPlayerName));
+                                }
+                                else
+                                {
+                                    targetName = targetPlayer.Data.PlayerName;
+                                    var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
+                                    UpCommandRequests.SetRequest(targetName, roleIdentifier);
+                                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                                        TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", "#" + matchingRole.GetRoleName()));
+                                }
+                            }
+                            else
+                            {
+                                // Request for self
+                                targetName = PlayerControl.LocalPlayer.Data.PlayerName;
+                                var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
+                                UpCommandRequests.SetRequest(targetName, roleIdentifier);
+                                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                                    TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", "#" + matchingRole.GetRoleName()));
+                            }
+                        }
+                    }
+                }
+            }
+
+            __instance.freeChatField.Clear();
+            __instance.quickChatMenu.Clear();
+            __instance.quickChatField.Clear();
+            __instance.UpdateChatMode();
+            return false;
+        }
+
         if (rolesCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
             var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
@@ -315,7 +433,15 @@ public static class ChatPatches
                       $"{TouLocale.GetParsed("SetNameCommandDescription").Replace("<randomName>", randomNames.Random())}\n" +
                       $"{TouLocale.GetParsed("SpectateCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("RolesCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("SummaryCommandDescription")}\n</size>";
+                      $"{TouLocale.GetParsed("SummaryCommandDescription")}\n";
+
+            // Only show /up command in help if host + dev build
+            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild)
+            {
+                msg += $"{TouLocale.GetParsed("UpCommandDescription")}\n";
+            }
+
+            msg += "</size>";
 
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg);
 

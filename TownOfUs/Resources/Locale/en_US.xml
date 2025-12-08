@@ -235,6 +235,17 @@
   <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
   <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>
   <string name="RolesCommandDescription">/roles - Shows a list of all enabled roles in the game.</string>
+  <string name="UpCommandList">up</string>
+  <string name="UpCommandDescription">/up [Role] - Ensures you get the requested role next game. Use /up [Role] [PlayerName] to assign a role to another player. (Host + Dev Build only)</string>
+  <string name="UpCommandHostError">You must be the host to use /up command.</string>
+  <string name="UpCommandDevBuildError">/up command is only available in dev builds.</string>
+  <string name="UpCommandLobbyError">You can only use /up command in the lobby!</string>
+  <string name="UpCommandInvalidError">Invalid /up command usage. Use /up [Role] or /up [Role] [PlayerName].</string>
+  <string name="UpCommandNoRoleError">Please specify a role name. Usage: /up [Role] or /up [Role] [PlayerName].</string>
+  <string name="UpCommandRoleNotFoundError">Role '\%role\%' not found. Make sure the role name is spelled correctly.</string>
+  <string name="UpCommandPlayerNotFoundError">Player '\%player\%' not found. Make sure the player name is spelled correctly.</string>
+  <string name="UpCommandSuccess">Successfully requested role: \%role\% for next game.</string>
+  <string name="UpCommandSuccessOther">Successfully requested role: \%role\% for player '\%player\%' next game.</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->
