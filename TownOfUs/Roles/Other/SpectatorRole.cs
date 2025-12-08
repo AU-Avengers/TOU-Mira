@@ -5,6 +5,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -75,7 +76,6 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     {
         TasksCountForProgress = false,
         IntroSound = TouAudio.NoisemakerIntroSound,
-        GhostRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
         Icon = TouRoleIcons.Spectator,
         CanModifyChance = false,
         MaxRoleCount = 0,
