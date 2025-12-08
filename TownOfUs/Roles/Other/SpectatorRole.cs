@@ -67,7 +67,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     public Color RoleColor => TownOfUsColors.Spectator;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.GameOutlier;
-    public bool IsHiddenFromList => true;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
 
     public override bool IsDead => true;
 
@@ -75,7 +75,6 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     {
         TasksCountForProgress = false,
         IntroSound = TouAudio.NoisemakerIntroSound,
-        GhostRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
         Icon = TouRoleIcons.Spectator,
         CanModifyChance = false,
         MaxRoleCount = 0,
