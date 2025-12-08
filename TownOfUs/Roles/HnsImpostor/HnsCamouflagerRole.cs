@@ -57,9 +57,11 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
         taskStringBuilder.AppendLine($"\n{RoleHintText}\n{RoleLongDescription}");
     }
 
-    public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
 
     public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
+
+    [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
 
     public override void Initialize(PlayerControl player)
@@ -67,6 +69,8 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
         RoleBehaviourStubs.Initialize(this, player);
         Coroutines.Start(CoSetUpBodyType());
     }
+
+    [HideFromIl2Cpp]
     public IEnumerator CoSetUpBodyType()
     {
         yield return new WaitForSeconds(7f);
