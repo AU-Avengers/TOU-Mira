@@ -32,7 +32,7 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
             Debug("Toggle April Fools mode.");
         }
     };
-    public ModdedToggleOption EnableSpectators { get; set; } = new("Allow More Spectators", true, false)
+    public ModdedToggleOption EnableSpectators { get; set; } = new("Allow Spectators", true, false)
     {
         ChangedEvent = x =>
         {
