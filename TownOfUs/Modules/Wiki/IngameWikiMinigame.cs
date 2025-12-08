@@ -450,7 +450,20 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
         else
         {
-            List<ushort> roleList = [(ushort)PlayerControl.LocalPlayer.Data.Role.Role];
+            List<ushort> roleList = [];
+
+            var curRole = PlayerControl.LocalPlayer.Data.Role.Role;
+
+            var cachedMod =
+                PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
+                    x is ICachedRole cached && cached.CachedRole.Role != curRole) as ICachedRole;
+            if (cachedMod != null)
+            {
+                roleList.Add((ushort)cachedMod.CachedRole.Role);
+            }
+
+            roleList.Add((ushort)curRole);
+
             if (PlayerControl.LocalPlayer.Data.IsDead &&
                 !roleList.Contains((ushort)PlayerControl.LocalPlayer.GetRoleWhenAlive().Role))
             {
@@ -464,17 +477,15 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
 
             var comparer = new RoleComparer(roleList);
-            var allRoles = MiscUtils.AllRegisteredRoles.ToList();
+            var allRoles = MiscUtils.AllRegisteredRoles.Excluding(role =>
+                !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
+                role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
 
+            Warning($"Roles: {allRoles.Count}");
             var roles = allRoles.OrderBy(x => x, comparer);
 
             foreach (var role in roles)
             {
-                if (!SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable || role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList)
-                {
-                    continue;
-                }
-
                 var customRole = role as ICustomRole;
 
                 var teamName = MiscUtils.GetParsedRoleAlignment(role);
