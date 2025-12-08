@@ -13,8 +13,19 @@ public sealed class JuggernautOptions : AbstractOptionGroup<JuggernautRole>
     [ModdedNumberOption("TouOptionJuggernautInitialCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;
 
-    public ModdedNumberOption KillCooldownReduction { get; } = new("TouOptionJuggernautCooldownReduction", 5f, 2.5f,
-        15f, 1f, "#", "#", MiraNumberSuffixes.Seconds, halfIncrements: true);
+    public ModdedNumberOption KillCooldownReduction { get; } = new(
+        "TouOptionJuggernautCooldownReduction", 
+        5f, 
+        2.5f,
+        15f, 
+        1f, 
+        MiraNumberSuffixes.Seconds, 
+        formatString: null, 
+        zeroInfinity: false, 
+        includeInPreset: true)
+    {
+        // Note: halfIncrements functionality not available in runtime version
+    };
 
     [ModdedToggleOption("TouOptionJuggernautCanVent")]
     public bool CanVent { get; set; } = true;
