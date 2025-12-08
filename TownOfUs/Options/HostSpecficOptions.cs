@@ -13,6 +13,8 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
 
     public ModdedToggleOption AntiCheatWarnings { get; set; } = new("Enable Anti Cheat Warnings", true, false);
 
+    public ModdedToggleOption KickCheatMods { get; set; } = new("Kick Players Using Cheat Mods", true, false);
+
     public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryonePostGame, typeof(LoggingLevel),
         ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"], false)
     {

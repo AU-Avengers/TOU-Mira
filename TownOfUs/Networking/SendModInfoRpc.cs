@@ -60,7 +60,8 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
 
     internal static void ReceiveClientModInfo(PlayerControl client, Dictionary<byte, string> list)
     {
-        string[] blacklist = ["MalumMenu", "SickoMenu", "SigmaMenu", "MoveModPublic: 1.0.0-dev+b18db3c689edef84d1f433480a91ce4ae0154060", "MoveModPublic: 1.0.0-dev+94ede73cbba272aae2cd118cbc7a69d9df779e6b"];
+        // Added the original Move Mod to blacklist due to it having (unintended) cheat functionalities (player can still move themselves and zoom out in the game)
+        string[] blacklist = ["MalumMenu", "SickoMenu", "SigmaMenu", "MoveModPublic: 1.0.0-dev+b18db3c689edef84d1f433480a91ce4ae0154060", "MoveModPublic: 1.0.0-dev+94ede73cbba272aae2cd118cbc7a69d9df779e6b", "MoveMod", "Move Mod"];
         Error(
             $"{client.Data.PlayerName} is joining with the following mods:");
         foreach (var mod in list)
@@ -102,7 +103,25 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                 newModDictionary.Add(mod.Value);
             }
 
-            if (newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings)
+            var cheatMods = newModDictionary.Where(mod => blacklist.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase))).ToList();
+            
+            if (cheatMods.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.KickCheatMods)
+            {
+                var chatMessageBuilder = new StringBuilder();
+                chatMessageBuilder.Append(TouLocale.GetParsed("AnticheatKickChatMessage").Replace("<player>", client.Data.PlayerName));
+                foreach (var mod in cheatMods)
+                {
+                    chatMessageBuilder.Append(TownOfUsPlugin.Culture, $"\n<color=#FF0000>{mod}</color>");
+                }
+                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", chatMessageBuilder.ToString(), true, altColors:true);
+                
+                var playerInfo = GameData.Instance.GetPlayerById(client.PlayerId);
+                if (playerInfo != null)
+                {
+                    AmongUsClient.Instance.KickPlayer(playerInfo.ClientId, false);
+                }
+            }
+            else if (newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings)
             {
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");
