@@ -905,15 +905,6 @@ public static class MiscUtils
         pooledBubble.AlignChildren();
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
-        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText)
-        {
-            TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
-            pooledBubble.gameObject.SetActive(false);
-            if (chat.chatBubblePool.activeChildren.Contains(pooledBubble))
-            {
-                chat.chatBubblePool.activeChildren.Remove(pooledBubble);
-            }
-        }
         chat.AlignAllBubbles();
         if (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive)
         {
