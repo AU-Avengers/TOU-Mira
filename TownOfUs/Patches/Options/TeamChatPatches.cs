@@ -144,13 +144,7 @@ public static class TeamChatPatches
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
 
-            if (PlayerControl.LocalPlayer.Data.Role is JailorRole && PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                 genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } && _teamText != null)
-            {
-                _teamText.text = "Jail Chat is Open. Only the Jailor and Jailee can see this. Impostor Chat is visible.";
-                _teamText.color = TownOfUsColors.Jailor;
-            }
-            else if ((PlayerControl.LocalPlayer.IsJailed() ||
+            if ((PlayerControl.LocalPlayer.IsJailed() ||
                  PlayerControl.LocalPlayer.Data.Role is JailorRole) && _teamText != null)
             {
                 _teamText.text = "Jail Chat is Open. Only the Jailor and Jailee can see this.";

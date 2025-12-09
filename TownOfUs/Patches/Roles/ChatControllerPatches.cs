@@ -90,7 +90,7 @@ public static class ChatControllerPatches
         {
             // If it's a control character (ASCII < 32), let vanilla logic decide.
             // This includes backspace, delete, tab, enter, etc.
-            if (i < 32 || i == '\b' || i == (char)127)
+            if (i < 32 || i == '\b' || i == (char)127 || i == '<' || i == '>' || i == '[' || i == ']' || i == '{' || i == '}' || i == '*')
             {
                 return true;
             }
@@ -110,7 +110,7 @@ public static class ChatControllerPatches
         if (field == null) return;
 
         // Bigger character limit
-        field.characterLimit = AmongUsClient.Instance.AmHost ? 1000 : 300;
+        field.characterLimit = 300;
 
         __instance?.freeChatField?.UpdateCharCount();
 

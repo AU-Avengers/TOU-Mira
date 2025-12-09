@@ -27,12 +27,6 @@ public static class ChatPatches
         var text = __instance.freeChatField.Text.ToLower(TownOfUsPlugin.Culture);
         var textRegular = __instance.freeChatField.Text.WithoutRichText();
 
-        // Remove chat delay if host
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
-        {
-            __instance.timeSinceLastMessage = 999f;
-        }
-
         // Remove chat limit
         if (textRegular.Length < 1)
         {
@@ -481,19 +475,6 @@ public static class ChatPatches
         {
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
-            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
-            {
-                TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-
             if (PlayerControl.LocalPlayer.Data.Role is JailorRole)
             {
                 TeamChatPatches.RpcSendJailorChat(PlayerControl.LocalPlayer, textRegular);
@@ -509,6 +490,19 @@ public static class ChatPatches
             if (PlayerControl.LocalPlayer.IsJailed())
             {
                 TeamChatPatches.RpcSendJaileeChat(PlayerControl.LocalPlayer, textRegular);
+
+                __instance.freeChatField.Clear();
+                __instance.quickChatMenu.Clear();
+                __instance.quickChatField.Clear();
+                __instance.UpdateChatMode();
+
+                return false;
+            }
+
+            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
+            {
+                TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
 
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();
