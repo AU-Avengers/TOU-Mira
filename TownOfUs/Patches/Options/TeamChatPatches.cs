@@ -135,6 +135,14 @@ public static class TeamChatPatches
             {
                 if (__instance.IsOpenOrOpening)
                 {
+                    if (PrivateChatDot != null &&
+                        (PlayerControl.LocalPlayer.IsLover() && PrivateChatDot.GetComponent<SpriteRenderer>().sprite ==
+                            TouChatAssets.LoveBubble.LoadAsset() || TeamChatActive))
+                    {
+                        var sprite = PrivateChatDot.GetComponent<SpriteRenderer>();
+                        sprite.enabled = false;
+                    }
+
                     if (_teamText == null)
                     {
                         _teamText = Object.Instantiate(__instance.sendRateMessageText,
