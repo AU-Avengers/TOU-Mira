@@ -29,18 +29,21 @@ namespace TownOfUs.Patches.Misc
 
             __instance.charCountText.text = $"{length}/{limit}";
 
-            int yellowThreshold = AmongUsClient.Instance.AmHost ? 750 : 225;
-            int redThreshold = AmongUsClient.Instance.AmHost ? 950 : 250;
-
-            if (length < yellowThreshold)
+            if (length < 175)
             {
                 __instance.charCountText.color = Color.black;
                 return;
             }
 
-            if (length < redThreshold)
+            if (length < 222)
             {
                 __instance.charCountText.color = new Color(1f, 1f, 0f, 1f); // yellow
+                return;
+            }
+
+            if (length < 250)
+            {
+                __instance.charCountText.color = new Color(1f, 0.5f, 0f, 1f); // orange
                 return;
             }
 

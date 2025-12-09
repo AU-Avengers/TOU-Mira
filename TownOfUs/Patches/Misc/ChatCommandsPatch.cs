@@ -27,12 +27,6 @@ public static class ChatPatches
         var text = __instance.freeChatField.Text.ToLower(TownOfUsPlugin.Culture);
         var textRegular = __instance.freeChatField.Text.WithoutRichText();
 
-        // Remove chat delay if host
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
-        {
-            __instance.timeSinceLastMessage = 999f;
-        }
-
         // Remove chat limit
         if (textRegular.Length < 1)
         {
