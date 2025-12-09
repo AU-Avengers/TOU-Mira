@@ -43,7 +43,7 @@ public static class UpCommandRequests
     public static bool TryGetRequest(string playerName, out RoleTypes roleType)
     {
         roleType = RoleTypes.Crewmate;
-        
+
         if (!Requests.TryGetValue(playerName, out var roleName))
         {
             return false;
@@ -61,6 +61,36 @@ public static class UpCommandRequests
         }
 
         roleType = role.Role;
+        return true;
+    }
+
+    /// <summary>
+    /// Gets the requested role object for a player, if any.
+    /// </summary>
+    /// <param name="playerName">The name of the player.</param>
+    /// <param name="role">The requested role object, if found.</param>
+    /// <returns>True if the player has a /up request, false otherwise.</returns>
+    public static bool TryGetRequestRole(string playerName, out RoleBehaviour role)
+    {
+        role = null!;
+
+        if (!Requests.TryGetValue(playerName, out var roleName))
+        {
+            return false;
+        }
+
+        // Find the role by name or locale key
+        var foundRole = MiscUtils.AllRegisteredRoles.FirstOrDefault(r =>
+            !r.IsDead &&
+            (r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
+             (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase))));
+
+        if (foundRole == null)
+        {
+            return false;
+        }
+
+        role = foundRole;
         return true;
     }
 
