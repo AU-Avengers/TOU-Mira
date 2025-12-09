@@ -84,6 +84,94 @@ public static class TeamChatPatches
         {
             HudManagerPatches.TeamChatButton.transform.Find("Inactive").gameObject.SetActive(true);
         }
+    }
+
+    public static void UpdateChat()
+    {
+        var chat = HudManager.Instance.Chat;
+        if (_teamText == null)
+        {
+            _teamText = Object.Instantiate(chat.sendRateMessageText,
+                chat.sendRateMessageText.transform.parent);
+            _teamText.text = string.Empty;
+            _teamText.color = TownOfUsColors.ImpSoft;
+            _teamText.gameObject.SetActive(true);
+        }
+
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        _teamText.text = string.Empty;
+        if (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow &&
+            (genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } || genOpt.VampireChat ||
+             Helpers.GetAlivePlayers().Any(x => x.Data.Role is JailorRole)))
+        {
+            _teamText.text = "Jailor, Impostor, and Vampire Chat can be seen here.";
+            _teamText.color = Color.white;
+        }
+
+        var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
+        // var FreeChat = GameObject.Find("FreeChatInputField");
+        var Background = ChatScreenContainer.transform.FindChild("Background");
+        var bubbleItems = GameObject.Find("Items");
+        // var typeBg = FreeChat.transform.FindChild("Background");
+        // var typeText = FreeChat.transform.FindChild("Text");
+
+        if (TeamChatActive)
+        {
+            if (PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && !jailMod.HasOpenedQuickChat)
+            {
+                if (!chat.quickChatMenu.IsOpen) chat.OpenQuickChat();
+                chat.quickChatMenu.Close();
+                jailMod.HasOpenedQuickChat = true;
+            }
+
+            Background.GetComponent<SpriteRenderer>().color = new Color(0.2f, 0.1f, 0.1f, 0.8f);
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
+
+            if ((PlayerControl.LocalPlayer.IsJailed() ||
+                 PlayerControl.LocalPlayer.Data.Role is JailorRole) && _teamText != null)
+            {
+                _teamText.text = "Jail Chat is Open. Only the Jailor and Jailee can see this.";
+                _teamText.color = TownOfUsColors.Jailor;
+            }
+            else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                     genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true } &&
+                     !PlayerControl.LocalPlayer.Data.IsDead && _teamText != null)
+            {
+                _teamText.text = "Impostor Chat is Open. Only Impostors can see this.";
+                _teamText.color = TownOfUsColors.ImpSoft;
+            }
+            else if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat &&
+                     !PlayerControl.LocalPlayer.Data.IsDead && _teamText != null)
+            {
+                _teamText.text = "Vampire Chat is Open. Only Vampires can see this.";
+                _teamText.color = TownOfUsColors.Vampire;
+            }
+            else if (_teamText != null)
+            {
+                _teamText.text = "Jailor, Impostor, and Vampire Chat can be seen here.";
+                _teamText.color = Color.white;
+            }
+            foreach (var bubble in bubbleItems.GetAllChildren())
+            {
+                bubble.gameObject.SetActive(true);
+                var bg = bubble.transform.Find("Background").gameObject;
+                if (bg != null)
+                {
+                    var sprite = bg.GetComponent<SpriteRenderer>();
+                    var color = sprite.color.SetAlpha(1f);
+                    if (color == Color.white || color == Color.black) bubble.gameObject.SetActive(false);
+                }
+            }
+            chat.AlignAllBubbles();
+
+            if (PrivateChatDot != null)
+            {
+                var sprite = PrivateChatDot.GetComponent<SpriteRenderer>();
+                sprite.enabled = false;
+            }
+        }
         else
         {
             HudManager.Instance.Chat.Toggle();
