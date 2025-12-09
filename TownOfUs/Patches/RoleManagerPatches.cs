@@ -130,7 +130,10 @@ public static class TouRoleManagerPatches
                 break;
             }
 
-            // Create list of faction indices for random selection
+            // This is one of the things I did change. The old code was actually biased and partially deterministic.
+            // Over many games, it would silently favor removing certain neutral factions more often than others (for example, neutral benign was usually protected more than outlier).
+            // Now, every faction has equal probability per subtraction. Statistically the most fair way to do it.
+            // (I know this is nitpicky but I think it's better than just a list regardless)
             var factionIndices = new List<int> { 0, 1, 2, 3 };
             factionIndices.Shuffle();
 
