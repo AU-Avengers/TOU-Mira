@@ -768,7 +768,7 @@
   <!-- Plumber - Crewmate Support -->
   <!-- Plumber Wiki / Abilities -->
   <string name="TouRolePlumber">Plumber</string>
-  <string name="TouRolePlumberIntroBlurb">Get the rats out of the sewers</string>
+  <string name="TouRolePlumberIntroBlurb">Kick out the pesky venters onboard</string>
   <string name="TouRolePlumberTabDescription">Flush the vent system to kick venters out, and\%nl\%barricade vents to block them the next round</string>
   <string name="TouRolePlumberExtraTabText">Note: Barricades Stay For \%roundCount\% Round(s)</string>
   <string name="TouRolePlumberVentListTabText">Vents List</string>
@@ -858,7 +858,7 @@
   <!-- Sheriff - Crewmate Killing -->
   <!-- Sheriff Wiki / Abilities -->
   <string name="TouRoleSheriff">Sheriff</string>
-  <string name="TouRoleSheriffIntroBlurb">Shoot the \%color=#FF0000FF\%Impostors\%/color\%</string>
+  <string name="TouRoleSheriffIntroBlurb">Shoot the \%color=#FF0000FF\%Evildoers\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">Kill off the impostors but don't kill crewmates</string>
   <string name="TouRoleSheriffTabDescriptionEgo">Kill off whoever you wish in hopes of crew losing</string>
   <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
@@ -1005,7 +1005,7 @@
   <!-- Vigilante - Crewmate Killing -->
   <!-- Vigilante Wiki / Description -->
   <string name="TouRoleVigilante">Vigilante</string>
-  <string name="TouRoleVigilanteIntroBlurb">Kill \%color=#FF0000FF\%Impostors\%/color\% by guessing them!</string>
+  <string name="TouRoleVigilanteIntroBlurb">Kill \%color=#FF0000FF\%Evildoers\%/color\% by guessing them!</string>
   <string name="TouRoleVigilanteTabDescription">Guess the roles of impostors mid-meeting to kill them!</string>
   <string name="TouRoleVigilanteWikiDescription">The Vigilante is a Crewmate Killing role that can guess roles of players in meetings. If they guess correctly, the other player will die. If not, they will die. </string>
   <!-- Vigilante Options -->
@@ -1538,7 +1538,7 @@
   <!-- Mercenary -->
   <!-- Mercenary Wiki / Abilities -->
   <string name="TouRoleMercenary">Mercenary</string>
-  <string name="TouRoleMercenaryIntroBlurb">Bribe the Crewmates</string>
+  <string name="TouRoleMercenaryIntroBlurb">Commit bribery to win with others</string>
   <string name="TouRoleMercenaryTabDescription">Guard players to get gold upon interaction,\%nl\%then bribe the winners!</string>
   <string name="TouRoleMercenaryTabGoldCounter">Gold: \%count\%</string>
   <string name="TouRoleMercenaryTabBribedInfo">Bribed:</string>
