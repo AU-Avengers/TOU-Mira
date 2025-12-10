@@ -1414,7 +1414,7 @@
   <!-- Glitch -->
   <!-- Glitch Wiki / Abilities -->
   <string name="TouRoleGlitch">Glitch</string>
-  <string name="TouRoleGlitchIntroBlurb">Murder, Mimic, Hack... Data Lost... 404</string>
+  <string name="TouRoleGlitchIntroBlurb">Murder, Mimic, Hack... Data Lost</string>
   <string name="TouRoleGlitchTabDescription">Hack players to stop their abilities momentarily,\%nl\%mimic into others to frame them.</string>
   <string name="TouRoleGlitchWikiDescription">The Glitch is a Neutral Killing role that wins by being the last killer alive. They can Mimic into another player, or they can hack a player.</string>
   <string name="TouRoleGlitchMimic">Mimic</string>
