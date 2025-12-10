@@ -65,6 +65,24 @@ public static class UpCommandRequests
     }
 
     /// <summary>
+    /// Gets the requested role type for a player by their NetworkedPlayerInfo.
+    /// </summary>
+    /// <param name="playerInfo">The player info.</param>
+    /// <param name="roleType">The requested role type, if found.</param>
+    /// <returns>True if the player has a /up request, false otherwise.</returns>
+    public static bool TryGetRequest(NetworkedPlayerInfo playerInfo, out RoleTypes roleType)
+    {
+        // Exclude spectators from /up requests
+        if (SpectatorRole.TrackedSpectators.Contains(playerInfo.PlayerName))
+        {
+            roleType = RoleTypes.Crewmate;
+            return false;
+        }
+
+        return TryGetRequest(playerInfo.PlayerName, out roleType);
+    }
+
+    /// <summary>
     /// Gets the requested role object for a player, if any.
     /// </summary>
     /// <param name="playerName">The name of the player.</param>
@@ -92,24 +110,6 @@ public static class UpCommandRequests
 
         role = foundRole;
         return true;
-    }
-
-    /// <summary>
-    /// Gets the requested role type for a player by their NetworkedPlayerInfo.
-    /// </summary>
-    /// <param name="playerInfo">The player info.</param>
-    /// <param name="roleType">The requested role type, if found.</param>
-    /// <returns>True if the player has a /up request, false otherwise.</returns>
-    public static bool TryGetRequest(NetworkedPlayerInfo playerInfo, out RoleTypes roleType)
-    {
-        // Exclude spectators from /up requests
-        if (SpectatorRole.TrackedSpectators.Contains(playerInfo.PlayerName))
-        {
-            roleType = RoleTypes.Crewmate;
-            return false;
-        }
-
-        return TryGetRequest(playerInfo.PlayerName, out roleType);
     }
 
     /// <summary>
