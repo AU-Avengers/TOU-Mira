@@ -203,6 +203,11 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             roleWhenAlive = crewType.CrewVariant;
         }
 
+        if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
+        {
+            roleWhenAlive = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
+        }
+
         // Only the imitator will see this!
         if (!_selectedPlr.Object.HasModifier<ImitatedRevealedModifier>())
         {
