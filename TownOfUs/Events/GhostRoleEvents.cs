@@ -73,7 +73,7 @@ public static class GhostRoleEvents
                 {
                     var deadCrew = PlayerControl.AllPlayerControls.ToArray().Where(x =>
                         x.Data.IsDead && x.GetRoleWhenAlive().IsCrewmate() && !x.HasModifier<AllianceGameModifier>() &&
-                        !x.CanGetGhostRole() &&
+                        x.CanGetGhostRole() &&
                         x.Data.Role).ToList();
 
                     if (deadCrew.Count > 0)

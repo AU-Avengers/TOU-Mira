@@ -1868,7 +1868,7 @@
   <!-- Telepath Wiki / Description -->
   <string name="TouModifierTelepath">Telepath</string>
   <string name="TouModifierTelepathIntroBlurbNoDeath">You're informed about teammates' kills and deaths.</string>
-  <string name="TouModifierTelepathIntroBlurb">You're informed information about teammates' kills.</string>
+  <string name="TouModifierTelepathIntroBlurb">You're informed about teammates' kills.</string>
   <string name="TouModifierTelepathDescriptionBasic">Know when your teammate kills</string>
   <string name="TouModifierTelepathDescriptionIfKnowWhen">Know when \%and\% where your teammate kills</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeath">, know when they die</string>

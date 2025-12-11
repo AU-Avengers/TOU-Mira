@@ -15,7 +15,7 @@ public static class TouAssets
     public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 150);
+        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 600);
 
     public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
     {
