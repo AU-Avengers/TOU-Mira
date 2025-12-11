@@ -311,7 +311,7 @@
   <string name="TouOptionImitatorImitateNeutrals">效仿特定中立职业作为相似船员职业</string>
   <string name="TouOptionImitatorImitateImpostors">效仿特定伪装者职业作为相似船员职业</string>
   <string name="TouRoleInvestigator">调查员</string>
-  <string name="TouRoleInvestigatorIntroBlurb">通过检查足迹找到所有伪装者。</string>
+  <string name="TouRoleInvestigatorIntroBlurb">通过检查足迹找到所有坏人</string>
   <string name="TouRoleInvestigatorTabDescription">你可以看到每个人的足迹。</string>
   <string name="TouRoleInvestigatorWikiDescription">调查员是船员调查型职业,可以在整个游戏中看到玩家的足迹。隐身玩家的足迹不会被调查员看到。</string>
   <string name="TouOptionInvestigatorFootprintSize">足迹尺寸</string>
@@ -320,7 +320,7 @@
   <string name="TouOptionInvestigatorShowAnonymousFootprints">匿名足迹</string>
   <string name="TouOptionInvestigatorShowFootprintVent">足迹通风口可见度</string>
   <string name="TouRoleJailor">典狱长</string>
-  <string name="TouRoleJailorIntroBlurb">关押并处决\%color=#FF0000FF\%伪装者\%/color\%</string>
+  <string name="TouRoleJailorIntroBlurb">关押并处决\%color=#FF0000FF\%坏人\%/color\%</string>
   <string name="TouRoleJailorTabDescription">在会议上与船员私下讨论，以及\%nl\%如果他们是邪恶的，就处决他们</string>
   <string name="TouRoleJailorWikiDescription">典狱长是一个船员强力型职业，可以关押其他玩家，在会议期间，典狱长可以选择处决他们监禁的玩家。（除非典狱长是效颦者）</string>
   <string name="TouRoleJailorJail">关押</string>
@@ -667,7 +667,7 @@
   <string name="TouModifierUnderdogTabDescription">当你独自一人时，击杀冷却会缩短。</string>
   <string name="TouModifierUnderdogWikiDescription">当你单独行动或队友死亡时，击杀冷却会降低。</string>
   <string name="TouOptionUnderdogBonus">击杀冷却加成</string>
-  <string name="TouModifierDoubleShotIntroBlurb">猜测时你还有第二次机会。</string>
+  <string name="TouModifierDoubleShotIntroBlurb">在猜测时你会获得第二次机会。</string>
   <string name="TouModifierDoubleShotWikiDescription">在会议中猜测玩家失败时，你会获得第二次机会。</string>
   <string name="TouModifierDoubleShotTabDescription">你在刺杀时有一次额外机会。</string>
   <string name="TouModifierAftermathIntroBlurb">你的击杀者会被强制使用技能。</string>
@@ -691,12 +691,12 @@
   <string name="TouOptionFrostyChillDuration">冰冻持续时间</string>
   <string name="TouOptionFrostyChillStartSpeed">冰冻初始速度</string>
   <string name="TouModifierInvestigatorIntroBlurb">你可以看到所有人的脚印。</string>
-  <string name="TouModifierInvestigatorTabDescription">你可以看到所有人的脚印。</string>
+  <string name="TouModifierInvestigatorTabDescription">看到所有人的脚印。</string>
   <string name="TouModifierInvestigatorWikiDescription">调查员可以在游戏中看到所有玩家的脚印，被隐身的玩家脚印对调查员不可见。</string>
-  <string name="TouModifierMultitaskerIntroBlurb">你的任务界面是透明的。</string>
+  <string name="TouModifierMultitaskerIntroBlurb">任务界面是透明的。</string>
   <string name="TouModifierMultitaskerTabDescription">你的任务界面是透明的。</string>
   <string name="TouModifierMultitaskerWikiDescription">你所有的菜单都是半透明的，可以看到菜单背后的内容！</string>
-  <string name="TouModifierNoisemakerIntroBlurb">你死亡时，会在地图上向所有玩家发出持续警报。</string>
+  <string name="TouModifierNoisemakerIntroBlurb">死亡时上向所有玩家发出持续警报。</string>
   <string name="TouModifierNoisemakerTabDescription">你死亡时，会在地图上向所有玩家发出持续\%noiseTime\%秒的警报。</string>
   <string name="TouModifierNoisemakerWikiDescription">你死后，所有玩家的地图上会显示一个红色尸体指示器。</string>
   <string name="TouOptionNoisemakerImpAlert">伪装者收到大嗓门警报</string>
@@ -704,7 +704,7 @@
   <string name="TouOptionNoisemakerCommsPreventsAlert">通讯破坏阻止大嗓门警报</string>
   <string name="TouOptionNoisemakerOnlyWithBody">大嗓门仅在有尸体时触发</string>
   <string name="TouOptionNoisemakerAlertDuration">大嗓门警报持续时间</string>
-  <string name="TouModifierOperativeIntroBlurb">你可以在任意位置使用摄像头。</string>
+  <string name="TouModifierOperativeIntroBlurb">在任意位置使用摄像头。</string>
   <string name="TouModifierOperativeTabDescription">可以在任意位置使用摄像头。</string>
   <string name="TouModifierOperativeWikiDescription">可随时使用摄像头，但有电量限制。</string>
   <string name="TouOptionOperativeMiraDoorlog">使用Mira门禁时可移动</string>
@@ -717,7 +717,7 @@
   <string name="TouModifierRottingTabDescription">你的尸体将在\%rotDelay\%秒后腐烂消失。</string>
   <string name="TouModifierRottingWikiDescription">\%rotDelay\%秒后，你的尸体会腐烂，无法被报告</string>
   <string name="TouOptionRottingDelay">尸体腐烂前的时间</string>
-  <string name="TouModifierScientistIntroBlurb">你可随时随地查看生命体征。</string>
+  <string name="TouModifierScientistIntroBlurb">随时随地查看生命体征。</string>
   <string name="TouModifierScientistTabDescription">可随时随地查看生命体征，只要有电量。</string>
   <string name="TouModifierScientistWikiDescription">可随时查看生命体征，但有电量限制。</string>
   <string name="TouOptionScientistMoveVitals">使用生命体征时可移动</string>
@@ -726,16 +726,16 @@
   <string name="TouOptionScientistChargedPerTask">每任务充电量</string>
   <string name="TouOptionScientistDisplayCooldown">生命体征显示冷却</string>
   <string name="TouOptionScientistMaxDisplayDuration">最大生命体征显示时长</string>
-  <string name="TouModifierScoutIntroBlurb">你能比普通船员看得更远，但灯灭时视野会大幅下降。</string>
+  <string name="TouModifierScoutIntroBlurb">在光亮中看得更远，在黑暗中则更加视线受限。</string>
   <string name="TouModifierScoutTabDescription">你能比普通船员看得更远，但灯灭时视野会大幅下降。</string>
   <string name="TouModifierScoutWikiDescription">灯亮时视野更大，灯灭时视野极低。</string>
-  <string name="TouModifierSpyIntroBlurb">你在管理台获得额外信息</string>
+  <string name="TouModifierSpyIntroBlurb">在管理台获得额外信息</string>
   <string name="TouModifierSpyTabDescription">在管理台获得额外信息。</string>
   <string name="TouModifierSpyWikiDescription">特工在管理台可以获得额外信息，不仅能看到每个房间的人数，还能看到每个房间里都有谁。</string>
-  <string name="TouModifierTaskmasterIntroBlurb">你每次会议后会自动完成一个随机任务。</string>
+  <string name="TouModifierTaskmasterIntroBlurb">每次会议后会自动完成一个随机任务。</string>
   <string name="TouModifierTaskmasterTabDescription">每次会议后会自动完成一个随机任务。</string>
   <string name="TouModifierTaskmasterWikiDescription">每回合开始时，你会自动完成一个任务。</string>
-  <string name="TouModifierTorchIntroBlurb">当灯被破坏时，你的视野不会减少。</string>
+  <string name="TouModifierTorchIntroBlurb">当灯被破坏时，视野不会减少。</string>
   <string name="TouModifierTorchTabDescription">当灯被破坏时，\%nl\%你的视野不会减少。</string>
   <string name="TouModifierTorchWikiDescription">灯被破坏时不会影响你的视野。</string>
   <string name="TouRoleHypnotistIntroBlurb">催眠船员</string>
@@ -751,7 +751,7 @@
   <string name="TouOptionMedicMaxAmountOfShieldUses">最大护盾使用次数</string>
   <string name="TouOptionMedicShowReportsInChat">显示法医报告</string>
   <string name="TouOptionMediumRevealAppearanceOfMediateTarget">显示招魂对象外观</string>
-  <string name="TouRoleVenererIntroBlurb">每次击杀能力更强</string>
+  <string name="TouRoleVenererIntroBlurb">每次击杀都会强化你的能力</string>
   <string name="TouRoleVenererTabDescription">击杀玩家以解锁能力加成。\%nl\%你的技能允许你隐形，然后变得快速，最后还能减慢你路径上其他人的速度。</string>
   <string name="TouRoleVenererWikiDescription">狩猎者是一名伪装者隐蔽型职业，可以通过击杀玩家获得新能力，防止被抓住！但每次获得新能力时会立即使用，并且能力会叠加。</string>
   <string name="TouRoleVenererCamouflage">伪装</string>
@@ -790,7 +790,7 @@
   <string name="TouRolePestilenceIntroBlurb">天启四骑士之一！</string>
   <string name="TouRolePestilenceTabDescription">击杀所有与自己互动的玩家！</string>
   <string name="TouRolePestilenceWikiDescription">万疫之神是一名中立击杀型职业，可以击杀并且除被放逐或猜错外无敌。通过成为场上最后一名杀手获胜。</string>
-  <string name="TouRoleSpectreIntroBlurb"> </string>
+  <string name="TouRoleSpectreIntroBlurb">利用你的第二次机会赢得胜利</string>
   <string name="TouRolePlaguebearerIntroBlurb">感染所有人以成为\%color=#4D4D4DFF\%万疫之神\%/color\%</string>
   <string name="TouRolePlaguebearerTabDescription">感染所有人以成为\%color=#4D4D4DFF\%万疫之神\%/color\%</string>
   <string name="TouRolePlaguebearerWikiDescription">瘟疫之源是一名中立击杀型职业，需要感染所有其他玩家后变为万疫之神。</string>
@@ -801,13 +801,13 @@
   <string name="TouOptionPlaguebearerAnnounceTransformation">告知瘟疫之源成神</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">万疫之神击杀冷却</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">万疫之神可进通风口</string>
-  <string name="TouRoleJuggernautIntroBlurb">每次击杀都将增强你的力量</string>
+  <string name="TouRoleJuggernautIntroBlurb">每次击杀都会降低你的冷却时间。</string>
   <string name="TouRoleJuggernautTabDescription">每击杀一人，你的击杀冷却都会减少。</string>
   <string name="TouRoleJuggernautWikiDescription">天启是一名中立击杀型职业，通过成为场上最后一名杀手获胜。每击杀一人，击杀冷却都会减少。</string>
   <string name="TouOptionJuggernautInitialCooldown">初始击杀冷却</string>
   <string name="TouOptionJuggernautCooldownReduction">击杀冷却缩减</string>
   <string name="TouOptionJuggernautCanVent">天启可进通风口</string>
-  <string name="TouRoleBomberIntroBlurb">布置炸弹，一次性击杀多名船员</string>
+  <string name="TouRoleBomberIntroBlurb">布置炸弹，一次性击杀多名船员。</string>
   <string name="TouRoleBomberTabDescription">布置炸弹，一次性击杀多名船员</string>
   <string name="TouRoleBomberWikiDescription">爆破手是一名伪装者击杀型职业，可以在地图上布置炸弹，\%detonateDelay\%秒后爆炸。</string>
   <string name="TouRoleBomberPlace">布置</string>
@@ -869,7 +869,7 @@
   <string name="TouOptionFairyTargetKnowsFairyExists">目标知晓守护天使存在</string>
   <string name="TouOptionFairyFairyKnowsRole">守护天使知晓目标职业</string>
   <string name="TouOptionFairyEvilOdds">目标为邪恶阵营概率</string>
-  <string name="TouRoleJesterIntroBlurb">被投票放逐获胜！</string>
+  <string name="TouRoleJesterIntroBlurb">让自己被投票出局！</string>
   <string name="TouRoleJesterTabDescription">尽量表现得可疑，让自己被投票放逐！</string>
   <string name="TouRoleJesterWikiDescription">小丑是一名中立邪恶型职业，通过让自己被放逐来获胜。</string>
   <string name="TouNotifJesterWinOwner">你成功以小丑身份获胜，是通过被投票淘汰而获胜的！</string>
@@ -885,7 +885,7 @@
   <string name="TouRoleSpectreWikiDescription">幻影是一名中立幽灵型职业，只要在被存活玩家点击之前完成所有任务即可获胜。</string>
   <string name="TouOptionSpectreTasksLeftClickable">可点击前剩余任务数</string>
   <string name="TouOptionSpectreWin">幻影胜利效果</string>
-  <string name="TouRoleSurvivorIntroBlurb">不择手段活下去</string>
+  <string name="TouRoleSurvivorIntroBlurb">不择手段活下去。</string>
   <string name="TouRoleSurvivorTabDescription">活到最后即可与任意阵营一同获胜</string>
   <string name="TouRoleSurvivorWikiDescription">幸存者是一名中立善良型职业，只需要活到游戏结束即可获胜。</string>
   <string name="TouRoleSurvivorSafeguard">防弹衣</string>
@@ -1007,7 +1007,7 @@
   <string name="TouOptionTraitorMinimumPeopleAlive">背叛者可生成时最少存活人数</string>
   <string name="TouOptionTraitorTraitorWontSpawnIfNKIsAlive">有中立杀手存活时不生成背叛者</string>
   <string name="TouOptionTraitorDisableExistingImpostorRoles">禁用本场游戏伪装者职业</string>
-  <string name="TouRoleVeteranIntroBlurb">警戒并反杀所有与你互动的人</string>
+  <string name="TouRoleVeteranIntroBlurb">警戒以在发生互动时触发攻击</string>
   <string name="TouRoleVeteranTabDescription">警戒状态下，杀死所有与你互动的玩家。</string>
   <string name="TouRoleVeteranWikiDescription">老兵是一名船员击杀型职业，可以进入警戒状态，杀死所有与其互动的玩家。</string>
   <string name="TouRoleVeteranAlert">警戒</string>
@@ -1018,7 +1018,7 @@
   <string name="TouOptionVeteranCanBeKilledOnAlert">警戒时可被击杀</string>
   <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">完成任务可获得更多警戒次数</string>or G
 
-  <string name="TouRoleVigilanteIntroBlurb">猜中身份即可击杀 \%color=#FF0000FF\%伪装者\%/color\%</string>
+  <string name="TouRoleVigilanteIntroBlurb">猜中身份即可击杀 \%color=#FF0000FF\%伪装者\%/color\%！</string>
   <string name="TouRoleVigilanteTabDescription">在会议中猜测伪装者的身份并击杀他们！</string>
   <string name="TouRoleVigilanteWikiDescription">侠客是一名船员击杀型职业，可以在会议中猜测玩家身份。 </string>
   <string name="TouOptionVigilanteNumberOfGuesses">侠客可猜测次数</string>
@@ -1097,7 +1097,7 @@
   <string name="TouOptionTransporterCanUseVitals">传送师可用生命体征</string>
   <string name="TouOptionTransporterGetUsesFromTasks">完成任务可获得更多可用次数</string>
   <string name="TouRoleTransporterYouWereTransported">你被传送了！</string>
-  <string name="TouRoleTrapperIntroBlurb">当场抓住杀手</string>
+  <string name="TouRoleTrapperIntroBlurb">识别当前游戏中有哪些角色</string>
   <string name="TouRoleTrapperTabDescription">在地图上放置陷阱，揭示其中玩家的身份</string>
   <string name="TouRoleTrapperWikiDescription">陷阱师是一名船员调查型职业，可以在地图上放置陷阱。如果有足够多的玩家进入并停留足够时间，下一次会议时你会获得这些玩家的身份列表（顺序随机）。</string>
   <string name="TouRoleTrapperTrap">放置陷阱</string>
@@ -1134,7 +1134,7 @@
   <string name="TouOptionProsecutorDiesWhenCrewmateExiled">检察官放逐船员时死亡</string>
   <string name="TouOptionProsecutorMaxProsecutions">最大检举次数</string>
   <string name="TouRoleSeerIntroBlurb">揭示其他玩家的阵营</string>
-  <string name="TouRoleSeerTabDescription">揭示其他玩家的阵营以找出伪装者</string>
+  <string name="TouRoleSeerTabDescription">揭示其他玩家的阵营以找出坏人。</string>
   <string name="TouRoleSeerWikiDescription">预言家是一名船员调查型职业，可以揭示其他玩家的阵营。</string>
   <string name="TouRoleSeerReveal">揭示</string>
   <string name="TouRoleSeerRevealWikiDescription">揭示一名玩家的阵营</string>
@@ -1287,7 +1287,7 @@
   <string name="SpectatorToggleOn">将自己设置为观众！</string>
   <string name="SpectatorToggleOff">你已不再是观众！</string>
   <string name="SpectatorHostError">“房主已禁用 /spec 命令！</string>
-  <string name="SummaryCommandList">结算:游戏总结：游戏汇总</string>
+  <string name="SummaryCommandList">结算:游戏总结:游戏汇总</string>
   <string name="SummaryMissingError">没有可显示的游戏总结！</string>
   <string name="NerfMeCommandList">削弱:削弱我:视野</string>
   <string name="NerfMeLobbyError">你不能在大厅外削弱自己！</string>
@@ -1327,8 +1327,8 @@
   <string name="DiedToSuicideSheriff">走火</string>
   <string name="TouRoleAltruistTabDescriptionGroupSacrifice">为已死亡的船员集体牺牲自己，\%nl\%以自身性命为代价。</string>
   <string name="TouRoleAltruistTabDescriptionSacrifice">为一名已死亡的船员牺牲自己。</string>
-  <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">复活你附近的一群尸体。若复活完成，你也会死亡，且不会留下尸体。</string>
-  <string name="TouRoleAltruistReviveSacrificeWikiDescription">复活离你最近的一具尸体。若复活完成，你也会死亡，且不会留下尸体。</string>
+  <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">复活你附近的一群尸体。若复活完成，你会死亡，且不会留下尸体。</string>
+  <string name="TouRoleAltruistReviveSacrificeWikiDescription">复活离你最近的一具尸体。若复活完成，你会死亡，且不会留下尸体。</string>
   <string name="TouOptionAltruistFreezeDuringRevive">复活期间冻结殉道者</string>
   <string name="TouModifierEgotistVictoryMessage">\%modifier\%, \%player\%,已成功获胜，因为没有船员幸存！</string>
   <string name="TouModifierEgotistVictoryMessageSelf">你已以 \%modifier\%的身份成功获胜，因为没有船员幸存！</string>
@@ -1596,4 +1596,21 @@
   <string name="SeekerVisibility">追捕者可见型</string>
   <string name="SeekerPostmortem">追捕者后期型</string>
   <string name="SeekerPassive">追捕者被动型</string>
+  <string name="RolesHeader">\%type\%职业</string>
+  <string name="GhostKeyword">幽灵</string>
+  <string name="AnticheatKickChatMessage">\%player\% 因使用作弊模组被踢出：</string>
+  <string name="RolesCommandList">职业:角色:主职业</string>
+  <string name="RolesCommandDescription">/roles - 显示游戏中所有已启用的职业列表。</string>
+  <string name="UpCommandList">指定</string>
+  <string name="UpCommandDescription">/up [角色] - 确保你在下一局获得指定角色。使用 /up [角色] [玩家名] 可为另一名玩家指定角色。（仅限房主与开发版）</string>
+  <string name="UpCommandHostError">你必须是房主才能使用 /up 指令。</string>
+  <string name="UpCommandDevBuildError">/up 指令仅在开发版中可用。</string>
+  <string name="UpCommandLobbyError">你只能在大厅中使用 /up 指令！</string>
+  <string name="UpCommandInvalidError">无效的 /up 指令用法。请使用 /up [角色] 或 /up [角色] [玩家名]。</string>
+  <string name="UpCommandNoRoleError">请指定角色名。用法：/up [角色] 或 /up [角色] [玩家名]。</string>
+  <string name="UpCommandRoleNotFoundError">未找到角色 '\%role\%'。请确认角色名称拼写正确。</string>
+  <string name="UpCommandPlayerNotFoundError">未找到玩家 '\%player\%' 。请确认玩家名称拼写正确。</string>
+  <string name="UpCommandSuccess">已成功请求下一局的职业： \%role\%。</string>
+  <string name="UpCommandSuccessOther">已成功为玩家 '\%player\%' 请求下一局的角色： \%role\%。</string>
+  <string name="FirstDeadText">（在第 1 轮死亡）</string>
 </resources>
