@@ -5,7 +5,7 @@ using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TownOfUs.Patches.CustomPolus;
+namespace TownOfUs.Patches.BetterMaps;
 
 [HarmonyPatch(typeof(ShipStatus))]
 public static class BetterPolusPatches
@@ -18,7 +18,9 @@ public static class BetterPolusPatches
     public static readonly Vector3 NavNewPos = new(11.07f, -15.298f, -0.015f);
 
     public static readonly Vector3 TempColdNewPos = new(25.4f, -6.4f, 1f);
-    public static readonly Vector3 TempColdNewPosDV = new(7.772f, -17.103f, -0.017f);
+    public static readonly Vector3 TempColdNewPosDv = new(7.772f, -17.103f, -0.017f);
+
+    public static readonly Vector3 ToiletVentNewPos = new(34.063f, -10.226f, 2f);
 
     public static bool IsAdjustmentsDone;
     public static bool IsObjectsFetched;
@@ -37,6 +39,7 @@ public static class BetterPolusPatches
     public static Vent ScienceBuildingVent;
     public static Vent StorageVent;
     public static Vent LightCageVent;
+    public static Vent BathroomVent;
 
     public static GameObject Comms;
     public static GameObject DropShip;
@@ -83,6 +86,11 @@ public static class BetterPolusPatches
             {
                 SwitchNavWifi();
             }
+
+            if (options.MoveToiletVent)
+            {
+                MoveToiletVent();
+            }
         }
 
         if (options.BPVentNetwork)
@@ -117,13 +125,18 @@ public static class BetterPolusPatches
             StorageVent = ventsList.Find(vent => vent.gameObject.name == "StorageVent")!;
         }
 
+        if (BathroomVent == null)
+        {
+            BathroomVent = ventsList.Find(vent => vent.gameObject.name == "BathroomVent")!;
+        }
+
         if (LightCageVent == null)
         {
             LightCageVent = ventsList.Find(vent => vent.gameObject.name == "ElecFenceVent")!;
         }
 
         IsVentsFetched = ElectricBuildingVent != null && ElectricalVent != null && ScienceBuildingVent != null &&
-                         StorageVent != null && LightCageVent != null;
+                         StorageVent != null && BathroomVent != null && LightCageVent != null;
     }
 
     public static void FindRooms()
@@ -222,11 +235,11 @@ public static class BetterPolusPatches
 
     public static void MoveTempColdDV()
     {
-        if (TempCold.transform.position != TempColdNewPosDV)
+        if (TempCold.transform.position != TempColdNewPosDv)
         {
             var tempColdTransform = TempCold.transform;
             tempColdTransform.parent = Outside.transform;
-            tempColdTransform.position = TempColdNewPosDV;
+            tempColdTransform.position = TempColdNewPosDv;
 
             var collider = TempCold.GetComponent<BoxCollider2D>();
             collider.isTrigger = false;
@@ -250,6 +263,15 @@ public static class BetterPolusPatches
             navTransform.position = NavNewPos;
 
             NavConsole.checkWalls = true;
+        }
+    }
+
+    public static void MoveToiletVent()
+    {
+        if (IsVentsFetched && BathroomVent.transform.position != ToiletVentNewPos)
+        {
+            var vitalsTransform = BathroomVent.gameObject.transform;
+            vitalsTransform.position = ToiletVentNewPos;
         }
     }
 

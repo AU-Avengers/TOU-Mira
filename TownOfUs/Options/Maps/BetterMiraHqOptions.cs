@@ -31,6 +31,9 @@ public sealed class BetterMiraHqOptions : AbstractOptionGroup
     [ModdedNumberOption("TouOptionBetterMapsOffsetLongTasks", -3f, 3f)]
     public float OffsetLongTasks { get; set; } = 0f;
 
+    [ModdedToggleOption("TouOptionBetterMiraHqVentNetwork")]
+    public bool BetterVentNetwork { get; set; } = false;
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 

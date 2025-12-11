@@ -50,6 +50,9 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
     [ModdedToggleOption("TouOptionBetterPolusSwapWikiAndChart")]
     public bool BPSwapWifiAndChart { get; set; } = false;
 
+    [ModdedToggleOption("TouOptionBetterPolusMoveToiletVent")]
+    public bool MoveToiletVent { get; set; } = false;
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
