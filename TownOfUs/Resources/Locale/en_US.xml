@@ -323,6 +323,78 @@
   <string name="FreeplaySetRoleButton">Set Role</string>
   <string name="FreeplayRestartButton">Reset Game</string>
   <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
+  <!-- Advanced Sabotage Options -->
+  <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
+  <string name="TouOptionAdvancedSaboKillDuringCamoComms">Kill Anyone During Camouflage</string>
+  <string name="TouOptionAdvancedSaboCamoKillScreens">Camouflage Kill Screens During Comms</string>
+  <string name="TouOptionAdvancedSaboHidePlayerSizeInCamo">Camouflage Hides Player Size</string>
+  <string name="TouOptionAdvancedSaboHidePlayerSpeedInCamo">Camouflage Hides Player Speed</string>
+  <!-- Random Map Options -->
+  <string name="TouOptionRandomMapsToggle">Enable Randomized Maps</string>
+  <string name="TouOptionRandomMapsSkeldChance">Skeld Chance</string>
+  <string name="TouOptionRandomMapsBackwardsSkeldChance">dlekS ecnahC</string>
+  <string name="TouOptionRandomMapsMiraChance">Mira Chance</string>
+  <string name="TouOptionRandomMapsPolusChance">Polus Chance</string>
+  <string name="TouOptionRandomMapsAirshipChance">Airship Chance</string>
+  <string name="TouOptionRandomMapsFungleChance">Fungle Chance</string>
+  <string name="TouOptionRandomMapsSubmergedChance">Submerged Chance</string>
+  <string name="TouOptionRandomMapsLevelImpostorChance">Level Impostor Chance</string>
+  <!-- Better Door Options -->
+  <string name="TouOptionBetterDoorsEnumSkeld">Skeld</string>
+  <string name="TouOptionBetterDoorsEnumPolus">Polus</string>
+  <string name="TouOptionBetterDoorsEnumAirship">Airship</string>
+  <string name="TouOptionBetterDoorsEnumFungle">Fungle</string>
+  <string name="TouOptionBetterDoorsEnumSubmerged">Submerged</string>
+  <string name="TouOptionBetterDoorsEnumNoDoors">No Doors</string>
+  <string name="TouOptionBetterDoorsEnumRandom">Random</string>
+  <string name="TouOptionBetterDoorsNoneChance">No Doors Chance</string>
+  <string name="TouOptionBetterDoorsSkeldChance">Skeld Door Chance</string>
+  <string name="TouOptionBetterDoorsPolusChance">Polus Door Chance</string>
+  <string name="TouOptionBetterDoorsAirshipChance">Airship Door Chance</string>
+  <string name="TouOptionBetterDoorsFungleChance">Fungle Door Chance</string>
+  <string name="TouOptionBetterDoorsSubmergedChance">Submerged Door Chance</string>
+  <!-- Better Maps Options -->
+  <string name="TouOptionBetterMapsSpeedMultiplier">Speed Multiplier</string>
+  <string name="TouOptionBetterMapsCrewVisionMultiplier">Crew Vision Multiplier</string>
+  <string name="TouOptionBetterMapsImpVisionMultiplier">Impostor Vision Multiplier</string>
+  <string name="TouOptionBetterMapsCooldownOffset">Cooldown Offset</string>
+  <string name="TouOptionBetterMapsOffsetShortTasks">Short Tasks Offset</string>
+  <string name="TouOptionBetterMapsOffsetLongTasks">Long Tasks Offset</string>
+  <string name="TouOptionBetterMapsChangeSaboTimers">Change Sabotage Timers</string>
+  <string name="TouOptionBetterMapsSaboCountdownOxygen">Oxygen Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownReactor">Reactor Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownSeismicStabilizer">Seismic Stabilizer Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownCrashCourse">Crash Course Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
+  <!-- Better Skeld Options -->
+  <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
+  <!-- Better Polus Options -->
+  <string name="TouOptionBetterPolusDoorType">Door Type on Polus</string>
+  <string name="TouOptionBetterPolusVentNetwork">Better Polus Vent Network</string>
+  <string name="TouOptionBetterPolusVitalsInLab">Vitals Moved To Lab</string>
+  <string name="TouOptionBetterPolusTempInDeathValley">Cold Temp Moved To Death Valley</string>
+  <string name="TouOptionBetterPolusSwapWikiAndChart">Reboot Wifi And Chart Course Swapped</string>
+  <!-- Better Airship Options -->
+  <string name="TouOptionBetterAirshipDoorType">Door Type on Airship</string>
+  <string name="TouOptionBetterAirshipSpawnMode">Spawn Mode</string>
+  <string name="TouOptionBetterAirshipSpawnEnumNormal">Normal</string>
+  <string name="TouOptionBetterAirshipSpawnEnumSameSpawns">Everyone Has Same Spawns</string>
+  <string name="TouOptionBetterAirshipSpawnEnumHostChoosesOne">Forced Spawn Location</string>
+  <string name="TouOptionBetterAirshipSingleLocation">Spawn At</string>
+  <string name="TouOptionBetterAirshipSpawnLocationEnumMainHall">Main Hall</string>
+  <string name="TouOptionBetterAirshipSpawnLocationEnumKitchen">Kitchen</string>
+  <string name="TouOptionBetterAirshipSpawnLocationEnumCargoBay">Cargo Bay</string>
+  <string name="TouOptionBetterAirshipSpawnLocationEnumEngineRoom">Engine Room</string>
+  <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
+  <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
+  <!-- Better Fungle Options -->
+  <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
+  <!-- Better Submerged Options -->
+  <string name="TouOptionBetterSubmergedDoorType">Door Type on Submerged</string>
+  <string name="TouOptionBetterSubmergedSpawnMode">Spawn Location</string>
+  <string name="TouOptionBetterSubmergedSpawnEnumSelectable">Selectable</string>
+  <string name="TouOptionBetterSubmergedSpawnEnumUpperDeck">Upper Deck</string>
+  <string name="TouOptionBetterSubmergedSpawnEnumLowerDeck">Lower Deck</string>
   <!-- Spectator - Game Outlier -->
   <string name="TouRoleSpectator">Spectator</string>
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>
