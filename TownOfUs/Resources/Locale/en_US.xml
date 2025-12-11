@@ -369,10 +369,10 @@
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
   <!-- Better Mira HQ Options -->
-  <string name="TouOptionBetterMiraHqVentNetwork">Better Mira HQ Vent Network</string>
+  <string name="TouOptionBetterMiraHqVentNetwork">Adjusted Mira HQ Vent Network</string>
   <!-- Better Polus Options -->
   <string name="TouOptionBetterPolusDoorType">Door Type on Polus</string>
-  <string name="TouOptionBetterPolusVentNetwork">Better Polus Vent Network</string>
+  <string name="TouOptionBetterPolusVentNetwork">Adjusted Polus Vent Network</string>
   <string name="TouOptionBetterPolusVitalsInLab">Vitals Moved To Lab</string>
   <string name="TouOptionBetterPolusTempInDeathValley">Cold Temp Moved To Death Valley</string>
   <string name="TouOptionBetterPolusSwapWikiAndChart">Reboot Wifi And Chart Course Swapped</string>
