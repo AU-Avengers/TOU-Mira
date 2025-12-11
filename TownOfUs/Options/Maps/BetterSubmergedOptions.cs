@@ -15,25 +15,30 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
     public override Func<bool> GroupVisible => () => ModCompatibility.SubLoaded;
     public override Color GroupColor => new Color32(10, 150, 255, 255);
 
-    [ModdedNumberOption("Speed Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionBetterMapsSpeedMultiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float SpeedMultiplier { get; set; } = 1f;
 
-    [ModdedNumberOption("Crew Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionBetterMapsCrewVisionMultiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float CrewVisionMultiplier { get; set; } = 1f;
     
-    [ModdedNumberOption("Impostor Vision Multiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionBetterMapsImpVisionMultiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float ImpVisionMultiplier { get; set; } = 1f;
 
-    [ModdedNumberOption("Cooldown Offset", -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionBetterMapsCooldownOffset", -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CooldownOffset { get; set; } = 0f;
 
-    [ModdedNumberOption("Offset Short Tasks", -5f, 5f)]
+    [ModdedNumberOption("TouOptionBetterMapsOffsetShortTasks", -5f, 5f)]
     public float OffsetShortTasks { get; set; } = 0f;
 
-    [ModdedNumberOption("Offset Long Tasks", -3f, 3f)]
+    [ModdedNumberOption("TouOptionBetterMapsOffsetLongTasks", -3f, 3f)]
     public float OffsetLongTasks { get; set; } = 0f;
 
-    public ModdedEnumOption SubmergedDoorType { get; set; } = new("Door Type on Submerged", (int)MapDoorType.Submerged, typeof(MapDoorType));
+    public ModdedEnumOption SubmergedDoorType { get; set; } = new("TouOptionBetterSubmergedDoorType", (int)MapDoorType.Submerged, typeof(MapDoorType),
+    [
+        "TouOptionBetterDoorsEnumSkeld", "TouOptionBetterDoorsEnumPolus", "TouOptionBetterDoorsEnumAirship",
+        "TouOptionBetterDoorsEnumFungle", "TouOptionBetterDoorsEnumSubmerged", "TouOptionBetterDoorsEnumNoDoors",
+        "TouOptionBetterDoorsEnumRandom"
+    ]);
 
     /*
     [ModdedEnumOption("Spawn Mode", typeof(SubSpawnLocation), ["Selectable", "Upper Deck", "Lower Deck"])]

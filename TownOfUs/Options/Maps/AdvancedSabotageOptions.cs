@@ -12,25 +12,25 @@ public sealed class AdvancedSabotageOptions : AbstractOptionGroup
     public override uint GroupPriority => 2;
     public override Color GroupColor => new Color32(173, 180, 179, 255);
     
-    [ModdedToggleOption("Camouflage Comms")]
+    [ModdedToggleOption("TouOptionAdvancedSaboCamouflageComms")]
     public bool CamouflageComms { get; set; } = true;
 
-    public ModdedToggleOption KillDuringCamoComms { get; set; } = new("Kill Anyone During Camouflage", true)
+    public ModdedToggleOption KillDuringCamoComms { get; set; } = new("TouOptionAdvancedSaboKillDuringCamoComms", true)
     {
         Visible = () => OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms
     };
 
-    public ModdedToggleOption CamoKillScreens { get; set; } = new("Camouflage Kill Screens During Comms", false)
+    public ModdedToggleOption CamoKillScreens { get; set; } = new("TouOptionAdvancedSaboCamoKillScreens", false)
     {
         Visible = () => OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms
     };
 
-    public ModdedToggleOption HidePlayerSizeInCamo { get; set; } = new("Camouflage Hides Player Size", false)
+    public ModdedToggleOption HidePlayerSizeInCamo { get; set; } = new("TouOptionAdvancedSaboHidePlayerSizeInCamo", false)
     {
         Visible = () => OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms
     };
 
-    public ModdedToggleOption HidePlayerSpeedInCamo { get; set; } = new("Camouflage Hides Player Speed", false)
+    public ModdedToggleOption HidePlayerSpeedInCamo { get; set; } = new("TouOptionAdvancedSaboHidePlayerSpeedInCamo", false)
     {
         Visible = () => OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms
     };

@@ -79,6 +79,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AbilityCounterBodySprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Body.png");
 
+    public static LoadableAsset<Sprite> AbilityCounterClickSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.MouseClick.png", 120f);
+
     public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Basic.png");
 
