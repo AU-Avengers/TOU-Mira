@@ -84,39 +84,51 @@ public static class Bindings
                 var hud = MeetingHud.Instance;
 
                 var areas = hud.playerStates;
-                var voterStates = new Il2CppStructArray<MeetingHud.VoterState>(areas.Length);
-
-                var votes = new List<CustomVote>();
-                for (int i = 0; i < areas.Length; i++)
+                foreach (var area in areas)
                 {
-                    var area = areas[i];
-                    byte voterId = area.TargetPlayerId;
-                    byte votedFor = area.VotedFor;
-
-                    voterStates[i] = new MeetingHud.VoterState
+                    if (area.VotedFor != byte.MaxValue && area.VotedFor != area.TargetPlayerId)
                     {
-                        VoterId = voterId,
-                        VotedForId = votedFor
-                    };
-
-                    if (votedFor != byte.MaxValue && votedFor != voterId)
-                    {
-                        votes.Add(new CustomVote(voterId, votedFor));
+                        var voter = MiscUtils.PlayerById(area.TargetPlayerId);
+                        if (voter != null && !voter.HasDied())
+                        {
+                            var voteData = voter.GetVoteData();
+                            if (!voteData.Votes.Any(v => v.Voter == area.TargetPlayerId && v.Suspect == area.VotedFor))
+                            {
+                                voteData.VoteForPlayer(area.VotedFor);
+                            }
+                        }
                     }
                 }
 
-                var processEvent = new ProcessVotesEvent(votes);
-                MiraEventManager.InvokeEvent(processEvent);
-
-                var exiled = processEvent.ExiledPlayer;
-                bool tie = false;
-
-                if (exiled == null)
+                var votes = new List<CustomVote>();
+                foreach (var player in PlayerControl.AllPlayerControls.ToArray())
                 {
-                    exiled = VotingUtils.GetExiled(processEvent.Votes, out tie);
+                    if (player.HasDied())
+                    {
+                        continue;
+                    }
+
+                    var voteData = player.GetVoteData();
+                    foreach (var vote in voteData.Votes)
+                    {
+                        votes.Add(vote);
+                    }
                 }
 
-                hud.RpcVotingComplete(voterStates, exiled, tie);
+                foreach (var area in areas)
+                {
+                    var voter = MiscUtils.PlayerById(area.TargetPlayerId);
+                    if (voter != null && !voter.HasDied())
+                    {
+                        var voteData = voter.GetVoteData();
+                        if (voteData.Votes.Count > 0)
+                        {
+                            area.VotedFor = voteData.Votes[0].Suspect;
+                        }
+                    }
+                }
+
+                hud.CheckForEndVoting();
             }
         }
 
