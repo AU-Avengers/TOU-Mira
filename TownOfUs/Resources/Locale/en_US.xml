@@ -246,6 +246,7 @@
   <string name="UpCommandPlayerNotFoundError">Player '\%player\%' not found. Make sure the player name is spelled correctly.</string>
   <string name="UpCommandSuccess">Successfully requested role: \%role\% for next game.</string>
   <string name="UpCommandSuccessOther">Successfully requested role: \%role\% for player '\%player\%' next game.</string>
+  <string name="UpCommandSuccessGlobal">Host requested role for player '\%player\%' next game.</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->

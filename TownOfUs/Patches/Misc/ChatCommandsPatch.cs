@@ -20,6 +20,18 @@ namespace TownOfUs.Patches.Misc;
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
+        
+    [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
+    public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
+    {
+        if (host.AmOwner)
+        {
+            return;
+        }
+        var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
+        MiscUtils.AddFakeChat(host.Data, systemName,
+            TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
+    }
 
     // ReSharper disable once InconsistentNaming
     public static bool Prefix(ChatController __instance)
@@ -286,6 +298,7 @@ public static class ChatPatches
                                 {
                                     targetName = targetPlayer.Data.PlayerName;
                                     var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
+                                    RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                                         TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
@@ -296,6 +309,7 @@ public static class ChatPatches
                                 // Request for self
                                 targetName = PlayerControl.LocalPlayer.Data.PlayerName;
                                 var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
+                                RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                                     TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
