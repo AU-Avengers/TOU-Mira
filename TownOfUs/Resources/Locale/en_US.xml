@@ -23,6 +23,11 @@
   <string name="ArrowDarkGlow">Dark Glow</string>
   <string name="ArrowColorGlow">Color Glow</string>
   <string name="ArrowLegacy">Legacy</string>
+  <string name="GrenadierFlashColor">Grenadier Flash Color</string>
+  <string name="FlashWhite">White</string>
+  <string name="FlashLightGray">Light Gray</string>
+  <string name="FlashGray">Gray</string>
+  <string name="FlashDarkGray">Dark Gray</string>
   <!-- Player Colors -->
   <string name="PlayerColorDarker">Darker</string>
   <string name="PlayerColorLighter">Lighter</string>

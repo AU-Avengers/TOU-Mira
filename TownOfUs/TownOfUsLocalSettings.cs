@@ -118,6 +118,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
         config.Bind("Miscellaneous", "ShowSummaryMessage", true);
+
+    [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
+    public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
+        config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
 }
 
 public enum ArrowStyleType
@@ -126,4 +130,12 @@ public enum ArrowStyleType
     DarkGlow,
     ColorGlow,
     Legacy
+}
+
+public enum GrenadeFlashColor
+{
+    White,
+    LightGray,
+    Gray,
+    DarkGray
 }
