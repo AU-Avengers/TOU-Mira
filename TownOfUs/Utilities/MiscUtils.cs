@@ -1351,7 +1351,7 @@ public static class MiscUtils
     }
 
     public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<(ushort RoleType, int Chance)> roles,
-        RoleListOption roleType, RoleListOption replaceType)
+        RoleListOption roleType, RoleListOption replaceType, RoleListOption biggerType = (RoleListOption)(-1))
     {
         var result = new List<ushort>();
 
@@ -1361,6 +1361,7 @@ public static class MiscUtils
             {
                 var count = buckets.RemoveAll(x => x == roleType);
                 buckets.AddRange(Enumerable.Repeat(replaceType, count));
+                if ((int)biggerType != -1) buckets.AddRange(Enumerable.Repeat(biggerType, count));
 
                 break;
             }

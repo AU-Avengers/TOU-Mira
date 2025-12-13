@@ -24,3 +24,10 @@ public sealed class PlaguebearerOptions : AbstractOptionGroup<PlaguebearerRole>
     [ModdedToggleOption("TouOptionPlaguebearerPestilenceCanVent")]
     public bool CanVent { get; set; } = false;
 }
+
+public enum PestRevealMode
+{
+    NoReveal,
+    RevealAfterMeeting,
+    RevealInMeeting
+}

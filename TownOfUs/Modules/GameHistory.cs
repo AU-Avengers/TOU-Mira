@@ -125,6 +125,8 @@ public static class GameHistory
     public static readonly List<(byte, DeathReason)> DeathHistory = [];
     public static readonly Dictionary<byte, PlayerStats> PlayerStats = [];
     public static string EndGameSummary = string.Empty;
+    public static string EndGameSummarySimple = string.Empty;
+    public static string EndGameSummaryAdvanced = string.Empty;
     public static string WinningFaction = string.Empty;
     public static IEnumerable<RoleBehaviour> AllRoles => [.. RoleDictionary.Values];
 
