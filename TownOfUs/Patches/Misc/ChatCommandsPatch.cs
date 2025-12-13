@@ -469,9 +469,7 @@ public static class ChatPatches
             return false;
         }
 
-        if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied() &&
-            (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() ||
-             PlayerControl.LocalPlayer.Data.Role is VampireRole || PlayerControl.LocalPlayer.IsImpostorAligned()))
+        if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied())
         {
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
@@ -486,8 +484,7 @@ public static class ChatPatches
 
                 return false;
             }
-
-            if (PlayerControl.LocalPlayer.IsJailed())
+            else if (PlayerControl.LocalPlayer.IsJailed())
             {
                 TeamChatPatches.RpcSendJaileeChat(PlayerControl.LocalPlayer, textRegular);
 
@@ -498,9 +495,8 @@ public static class ChatPatches
 
                 return false;
             }
-
-            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
+            else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                     genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
             {
                 TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
 
@@ -511,8 +507,7 @@ public static class ChatPatches
 
                 return false;
             }
-
-            if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat)
+            else if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat)
             {
                 TeamChatPatches.RpcSendVampTeamChat(PlayerControl.LocalPlayer, textRegular);
 
