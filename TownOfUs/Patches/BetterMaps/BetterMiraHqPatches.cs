@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using TownOfUs.Options.Maps;
 using Object = UnityEngine.Object;
 
-// Vent layout taken from Town of Us: Reworked by Az
 namespace TownOfUs.Patches.BetterMaps;
 
 [HarmonyPatch(typeof(ShipStatus))]
@@ -44,9 +43,10 @@ public static class BetterMiraHq
     public static void AdjustMiraHq()
     {
         var options = OptionGroupSingleton<BetterMiraHqOptions>.Instance;
-        if (options.BetterVentNetwork)
+        var ventMode = (MiraVentMode)options.BetterVentNetwork.Value;
+        if (ventMode is not MiraVentMode.Normal)
         {
-            AdjustVents();
+            AdjustVents(ventMode);
         }
 
         IsAdjustmentsDone = true;
@@ -142,47 +142,88 @@ public static class BetterMiraHq
         IsRoomsFetched = Comms != null && DropShip != null && Outside != null && Science != null;
     }*/
 
-    public static void AdjustVents()
+    public static void AdjustVents(MiraVentMode ventMode = MiraVentMode.Normal)
     {
         if (IsVentsFetched)
         {
-            O2Vent.Right = BalcVent;
-            O2Vent.Left = MedicVent;
-            O2Vent.Center = null;
-            MedicVent.Center = O2Vent;
-            MedicVent.Right = BalcVent;
-            MedicVent.Left = null;
-            BalcVent.Left = MedicVent;
-            BalcVent.Center = O2Vent;
-            BalcVent.Right = null;
+            switch (ventMode)
+            {
+                case MiraVentMode.ThreeGroups:
+                    LabVent.Left = null;
+                    LabVent.Center = null;
+                    LabVent.Right = LightsVent;
+                    LightsVent.Left = LabVent;
+                    LightsVent.Center = null;
+                    LightsVent.Right = O2Vent;
+                    O2Vent.Left = LightsVent;
+                    O2Vent.Center = null;
+                    O2Vent.Right = null;
 
-            AdminVent.Center = YRightVent;
-            AdminVent.Left = null;
-            AdminVent.Right = null;
-            YRightVent.Center = AdminVent;
-            YRightVent.Left = null;
-            YRightVent.Right = null;
+                    MedicVent.Left = AdminVent;
+                    MedicVent.Center = null;
+                    MedicVent.Right = BalcVent;
+                    BalcVent.Left = MedicVent;
+                    BalcVent.Center = null;
+                    BalcVent.Right = YRightVent;
+                    YRightVent.Left = BalcVent;
+                    YRightVent.Center = null;
+                    YRightVent.Right = AdminVent;
+                    AdminVent.Left = YRightVent;
+                    AdminVent.Center = null;
+                    AdminVent.Right = MedicVent;
 
-            LabVent.Right = LightsVent;
-            LabVent.Left = null;
-            LabVent.Center = null;
-            LightsVent.Left = LabVent;
-            LightsVent.Right = null;
-            LightsVent.Center = null;
+                    SpawnVent.Left = ReactorVent;
+                    SpawnVent.Center = null;
+                    SpawnVent.Right = LockerVent;
+                    LockerVent.Left = SpawnVent;
+                    LockerVent.Center = null;
+                    LockerVent.Right = DeconVent;
+                    DeconVent.Left = LockerVent;
+                    DeconVent.Center = null;
+                    DeconVent.Right = ReactorVent;
+                    ReactorVent.Left = DeconVent;
+                    ReactorVent.Center = null;
+                    ReactorVent.Right = SpawnVent;
+                    break;
+                case MiraVentMode.FourGroups:
+                    O2Vent.Left = null;
+                    O2Vent.Center = null;
+                    O2Vent.Right = AdminVent;
+                    AdminVent.Left = O2Vent;
+                    AdminVent.Center = null;
+                    AdminVent.Right = YRightVent;
+                    YRightVent.Left = AdminVent;
+                    YRightVent.Center = null;
+                    YRightVent.Right = null;
 
-            SpawnVent.Center = ReactorVent;
-            SpawnVent.Right = null;
-            SpawnVent.Left = null;
-            ReactorVent.Left = SpawnVent;
-            ReactorVent.Right = null;
-            ReactorVent.Center = null;
+                    DeconVent.Left = null;
+                    DeconVent.Center = null;
+                    DeconVent.Right = LabVent;
+                    LabVent.Left = DeconVent;
+                    LabVent.Center = null;
+                    LabVent.Right = LightsVent;
+                    LightsVent.Left = LabVent;
+                    LightsVent.Center = null;
+                    LightsVent.Right = null;
 
-            LockerVent.Right = null;
-            LockerVent.Center = DeconVent;
-            LockerVent.Left = null;
-            DeconVent.Left = LockerVent;
-            DeconVent.Right = null;
-            DeconVent.Center = null;
+                    SpawnVent.Left = null;
+                    SpawnVent.Center = ReactorVent;
+                    SpawnVent.Right = null;
+                    ReactorVent.Left = SpawnVent;
+                    ReactorVent.Center = null;
+                    ReactorVent.Right = null;
+
+                    LockerVent.Left = null;
+                    LockerVent.Center = null;
+                    LockerVent.Right = MedicVent;
+                    MedicVent.Left = LockerVent;
+                    MedicVent.Center = null;
+                    MedicVent.Right = BalcVent;
+                    BalcVent.Left = MedicVent;
+                    BalcVent.Center = null;
+                    BalcVent.Right = null;
+                    break;
+            }
         }
     }
 

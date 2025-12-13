@@ -369,7 +369,10 @@
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
   <!-- Better Mira HQ Options -->
-  <string name="TouOptionBetterMiraHqVentNetwork">Adjusted Mira HQ Vent Network</string>
+  <string name="TouOptionBetterMiraHqVentNetwork">Mira HQ Vent Network</string>
+  <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconnected</string>
+  <string name="TouOptionBetterMiraHqVentModeEnumThreeGroups">Tri-Group</string>
+  <string name="TouOptionBetterMiraHqVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Polus Options -->
   <string name="TouOptionBetterPolusDoorType">Door Type on Polus</string>
   <string name="TouOptionBetterPolusVentNetwork">Adjusted Polus Vent Network</string>
