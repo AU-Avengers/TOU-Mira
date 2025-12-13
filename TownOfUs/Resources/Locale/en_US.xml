@@ -23,6 +23,10 @@
   <string name="ArrowDarkGlow">Dark Glow</string>
   <string name="ArrowColorGlow">Color Glow</string>
   <string name="ArrowLegacy">Legacy</string>
+  <string name="SummaryMsgBreakdown">Summary Message Breakdown</string>
+  <string name="SummarySimple">Simplified</string>
+  <string name="SummaryNormal">Normal</string>
+  <string name="SummaryAdvanced">Advanced</string>
   <string name="GrenadierFlashColor">Grenadier Flash Color</string>
   <string name="FlashWhite">White</string>
   <string name="FlashLightGray">Light Gray</string>

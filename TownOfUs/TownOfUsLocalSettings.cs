@@ -119,6 +119,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
         config.Bind("Miscellaneous", "ShowSummaryMessage", true);
 
+    [LocalizedLocalEnumSetting(names: ["SummarySimple", "SummaryNormal", "SummaryAdvanced"])]
+    public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
+        config.Bind("Miscellaneous", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
+
     [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
     public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
         config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
@@ -138,4 +142,11 @@ public enum GrenadeFlashColor
     LightGray,
     Gray,
     DarkGray
+}
+
+public enum GameSummaryAppearance
+{
+    Simplified,
+    Normal,
+    Advanced
 }

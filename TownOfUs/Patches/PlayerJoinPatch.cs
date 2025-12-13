@@ -107,7 +107,17 @@ public static class PlayerJoinPatch
         var systemName = $"<color=#8BFDFD>{TouLocale.Get("SystemChatTitle")}</color>";
 
         var time = 0f;
-        if (GameHistory.EndGameSummary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+        var summary = GameHistory.EndGameSummary;
+        switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SummaryMessageAppearance.Value)
+        {
+            case GameSummaryAppearance.Advanced:
+                summary = GameHistory.EndGameSummaryAdvanced;
+                break;
+            case GameSummaryAppearance.Simplified:
+                summary = GameHistory.EndGameSummarySimple;
+                break;
+        }
+        if (summary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
                 .ShowSummaryMessageToggle.Value)
         {
             systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
@@ -119,7 +129,7 @@ public static class PlayerJoinPatch
             }
 
             var title =
-                $"{systemName}\n<size=62%>{factionText}{GameHistory.EndGameSummary}</size>";
+                $"{systemName}\n<size=62%>{factionText}{summary}</size>";
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
         }
 

@@ -114,7 +114,17 @@ public static class ChatPatches
             systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
             var title = systemName;
             var msg = TouLocale.GetParsed("SummaryMissingError");
-            if (GameHistory.EndGameSummary != string.Empty)
+            var summary = GameHistory.EndGameSummary;
+            switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SummaryMessageAppearance.Value)
+            {
+                case GameSummaryAppearance.Advanced:
+                    summary = GameHistory.EndGameSummaryAdvanced;
+                    break;
+                case GameSummaryAppearance.Simplified:
+                    summary = GameHistory.EndGameSummarySimple;
+                    break;
+            }
+            if (summary != string.Empty)
             {
                 var factionText = string.Empty;
                 if (GameHistory.WinningFaction != string.Empty)
@@ -123,7 +133,7 @@ public static class ChatPatches
                         $"<size=80%>{TouLocale.GetParsed("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
                 }
 
-                title = $"{systemName}\n<size=62%>{factionText}{GameHistory.EndGameSummary}</size>";
+                title = $"{systemName}\n<size=62%>{factionText}{summary}</size>";
                 msg = string.Empty;
             }
 

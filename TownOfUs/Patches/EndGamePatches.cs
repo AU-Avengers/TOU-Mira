@@ -351,6 +351,8 @@ public static class EndGamePatches
         var roleSummaryText2 = new StringBuilder();
         var roleSummaryTextFull = new StringBuilder();
         var segmentedSummary = new StringBuilder();
+        var basicSummary = new StringBuilder();
+        var normalSummary = new StringBuilder();
         var summaryTxt = TouLocale.Get("EndGameSummary") + ":";
         roleSummaryText1.AppendLine(summaryTxt);
         roleSummaryTextFull.AppendLine(summaryTxt);
@@ -370,6 +372,8 @@ public static class EndGamePatches
 
             count++;
             roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
+            normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role}");
+            basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role2}");
             
             segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=70%>{data.ChatSummaryTitle}</size>");
             segmentedSummary.Append(TownOfUsPlugin.Culture, $"<size=62%>");
@@ -424,7 +428,9 @@ public static class EndGamePatches
         roleSummaryTextMeshRectTransformLeft.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
         roleSummaryTextMeshLeft.text = roleSummaryTextFull.ToString();
 
-        GameHistory.EndGameSummary = segmentedSummary.ToString();
+        GameHistory.EndGameSummarySimple = basicSummary.ToString();
+        GameHistory.EndGameSummary = normalSummary.ToString();
+        GameHistory.EndGameSummaryAdvanced = segmentedSummary.ToString();
 
         var GameSummaryButton = Object.Instantiate(exitBtn);
         GameSummaryButton.gameObject.SetActive(true);
