@@ -31,6 +31,12 @@ public sealed class BetterMiraHqOptions : AbstractOptionGroup
     [ModdedNumberOption("TouOptionBetterMapsOffsetLongTasks", -3f, 3f)]
     public float OffsetLongTasks { get; set; } = 0f;
 
+    public ModdedEnumOption BetterVentNetwork { get; set; } = new("TouOptionBetterMiraHqVentNetwork",
+        (int)MiraVentMode.Normal, typeof(MiraVentMode),
+        [
+            "TouOptionBetterMiraHqVentModeEnumNormal", "TouOptionBetterMiraHqVentModeEnumThreeGroups", "TouOptionBetterMiraHqVentModeEnumFourGroups"
+        ]);
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
@@ -47,4 +53,11 @@ public sealed class BetterMiraHqOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<BetterMiraHqOptions>.Instance.ChangeSaboTimers
     };
+}
+
+public enum MiraVentMode
+{
+    Normal,
+    ThreeGroups,
+    FourGroups
 }

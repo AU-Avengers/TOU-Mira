@@ -86,6 +86,7 @@ public enum TownOfUsRpc : uint
     SetRandomDoors,
     TransportSeeker,
     TriggerPestilence,
+    ForcePlayerRole,
 }
 
 internal enum TownOfUsInternalRpc : uint

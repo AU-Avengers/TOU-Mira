@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
 
 namespace TownOfUs.Patches;
 
@@ -14,8 +15,21 @@ public static class ButtonClickPatches
     [HarmonyPrefix]
     public static bool VanillaButtonChecks(ActionButton __instance)
     {
-        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        if (HudManager.Instance.Chat.IsOpenOrOpening)
         {
+            return false;
+        }
+
+        if (MeetingHud.Instance)
+        {
+            if (__instance is AbilityButton &&
+                PlayerControl.LocalPlayer != null &&
+                PlayerControl.LocalPlayer.Data?.Role != null &&
+                PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Detective)
+            {
+                return true;
+            }
+
             return false;
         }
 

@@ -8,6 +8,7 @@ using MiraAPI.Utilities;
 using MiraAPI.Voting;
 using Rewired;
 using TownOfUs.Buttons;
+using TownOfUs.Events.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -84,33 +85,96 @@ public static class Bindings
                 var hud = MeetingHud.Instance;
 
                 var areas = hud.playerStates;
-                var voterStates = new Il2CppStructArray<MeetingHud.VoterState>(areas.Length);
-
-                var votes = new List<CustomVote>();
-                for (int i = 0; i < areas.Length; i++)
+                foreach (var area in areas)
                 {
-                    var area = areas[i];
-                    byte voterId = area.TargetPlayerId;
-                    byte votedFor = area.VotedFor;
-
-                    voterStates[i] = new MeetingHud.VoterState
+                    if (area.VotedFor != byte.MaxValue && area.VotedFor != area.TargetPlayerId)
                     {
-                        VoterId = voterId,
-                        VotedForId = votedFor
-                    };
-
-                    if (votedFor != byte.MaxValue && votedFor != voterId)
-                    {
-                        votes.Add(new CustomVote(voterId, votedFor));
+                        var voter = MiscUtils.PlayerById(area.TargetPlayerId);
+                        if (voter != null && !voter.HasDied())
+                        {
+                            var voteData = voter.GetVoteData();
+                            if (!voteData.Votes.Any(v => v.Voter == area.TargetPlayerId && v.Suspect == area.VotedFor))
+                            {
+                                voteData.VoteForPlayer(area.VotedFor);
+                            }
+                        }
                     }
                 }
 
-                var processEvent = new ProcessVotesEvent(votes);
+                MiraEventManager.InvokeEvent(new CheckForEndVotingEvent(true));
+
+                var finalVoteList = new List<CustomVote>();
+                foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+                {
+                    if (player == null || player.HasDied())
+                    {
+                        continue;
+                    }
+
+                    var voteData = player.GetVoteData();
+                    foreach (var vote in voteData.Votes)
+                    {
+                        finalVoteList.Add(vote);
+                    }
+                }
+
+                var seededExiled = VotingUtils.GetExiled(finalVoteList, out var seededTie);
+                if (seededTie)
+                {
+                    seededExiled = null;
+                }
+
+                var processEvent = new ProcessVotesEvent(finalVoteList)
+                {
+                    ExiledPlayer = seededExiled
+                };
                 MiraEventManager.InvokeEvent(processEvent);
 
-                var exiled = processEvent.ExiledPlayer;
-                bool tie = false;
+                var votesForStates = processEvent.Votes.ToList();
+                if (TiebreakerEvents.TiebreakingVote.HasValue)
+                {
+                    votesForStates.Add(TiebreakerEvents.TiebreakingVote.Value);
+                }
 
+                var playerIdsWithAnyVote = new HashSet<byte>();
+                var voterStatesList = new List<MeetingHud.VoterState>();
+                foreach (var vote in votesForStates)
+                {
+                    playerIdsWithAnyVote.Add(vote.Voter);
+                    voterStatesList.Add(new MeetingHud.VoterState
+                    {
+                        VoterId = vote.Voter,
+                        VotedForId = vote.Suspect
+                    });
+                }
+
+                foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+                {
+                    if (player == null || player.HasDied())
+                    {
+                        continue;
+                    }
+
+                    if (playerIdsWithAnyVote.Contains(player.PlayerId))
+                    {
+                        continue;
+                    }
+
+                    voterStatesList.Add(new MeetingHud.VoterState
+                    {
+                        VoterId = player.PlayerId,
+                        VotedForId = byte.MaxValue
+                    });
+                }
+
+                var voterStates = new Il2CppStructArray<MeetingHud.VoterState>(voterStatesList.Count);
+                for (int i = 0; i < voterStatesList.Count; i++)
+                {
+                    voterStates[i] = voterStatesList[i];
+                }
+
+                var exiled = processEvent.ExiledPlayer;
+                bool tie = exiled == null && seededTie;
                 if (exiled == null)
                 {
                     exiled = VotingUtils.GetExiled(processEvent.Votes, out tie);

@@ -20,6 +20,18 @@ namespace TownOfUs.Patches.Misc;
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
+        
+    [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
+    public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
+    {
+        if (host.AmOwner)
+        {
+            return;
+        }
+        var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
+        MiscUtils.AddFakeChat(host.Data, systemName,
+            TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
+    }
 
     // ReSharper disable once InconsistentNaming
     public static bool Prefix(ChatController __instance)
@@ -102,7 +114,17 @@ public static class ChatPatches
             systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
             var title = systemName;
             var msg = TouLocale.GetParsed("SummaryMissingError");
-            if (GameHistory.EndGameSummary != string.Empty)
+            var summary = GameHistory.EndGameSummary;
+            switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SummaryMessageAppearance.Value)
+            {
+                case GameSummaryAppearance.Advanced:
+                    summary = GameHistory.EndGameSummaryAdvanced;
+                    break;
+                case GameSummaryAppearance.Simplified:
+                    summary = GameHistory.EndGameSummarySimple;
+                    break;
+            }
+            if (summary != string.Empty)
             {
                 var factionText = string.Empty;
                 if (GameHistory.WinningFaction != string.Empty)
@@ -111,7 +133,7 @@ public static class ChatPatches
                         $"<size=80%>{TouLocale.GetParsed("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
                 }
 
-                title = $"{systemName}\n<size=62%>{factionText}{GameHistory.EndGameSummary}</size>";
+                title = $"{systemName}\n<size=62%>{factionText}{summary}</size>";
                 msg = string.Empty;
             }
 
@@ -286,6 +308,7 @@ public static class ChatPatches
                                 {
                                     targetName = targetPlayer.Data.PlayerName;
                                     var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
+                                    RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                                         TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
@@ -296,6 +319,7 @@ public static class ChatPatches
                                 // Request for self
                                 targetName = PlayerControl.LocalPlayer.Data.PlayerName;
                                 var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
+                                RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                                     TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
@@ -469,9 +493,7 @@ public static class ChatPatches
             return false;
         }
 
-        if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied() &&
-            (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() ||
-             PlayerControl.LocalPlayer.Data.Role is VampireRole || PlayerControl.LocalPlayer.IsImpostorAligned()))
+        if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied())
         {
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
@@ -486,8 +508,7 @@ public static class ChatPatches
 
                 return false;
             }
-
-            if (PlayerControl.LocalPlayer.IsJailed())
+            else if (PlayerControl.LocalPlayer.IsJailed())
             {
                 TeamChatPatches.RpcSendJaileeChat(PlayerControl.LocalPlayer, textRegular);
 
@@ -498,9 +519,8 @@ public static class ChatPatches
 
                 return false;
             }
-
-            if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
+            else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                     genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
             {
                 TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
 
@@ -511,8 +531,7 @@ public static class ChatPatches
 
                 return false;
             }
-
-            if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat)
+            else if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat)
             {
                 TeamChatPatches.RpcSendVampTeamChat(PlayerControl.LocalPlayer, textRegular);
 

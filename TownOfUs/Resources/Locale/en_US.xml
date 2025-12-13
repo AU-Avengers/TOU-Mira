@@ -23,6 +23,15 @@
   <string name="ArrowDarkGlow">Dark Glow</string>
   <string name="ArrowColorGlow">Color Glow</string>
   <string name="ArrowLegacy">Legacy</string>
+  <string name="SummaryMsgBreakdown">Summary Message Breakdown</string>
+  <string name="SummarySimple">Simplified</string>
+  <string name="SummaryNormal">Normal</string>
+  <string name="SummaryAdvanced">Advanced</string>
+  <string name="GrenadierFlashColor">Grenadier Flash Color</string>
+  <string name="FlashWhite">White</string>
+  <string name="FlashLightGray">Light Gray</string>
+  <string name="FlashGray">Gray</string>
+  <string name="FlashDarkGray">Dark Gray</string>
   <!-- Player Colors -->
   <string name="PlayerColorDarker">Darker</string>
   <string name="PlayerColorLighter">Lighter</string>
@@ -246,6 +255,7 @@
   <string name="UpCommandPlayerNotFoundError">Player '\%player\%' not found. Make sure the player name is spelled correctly.</string>
   <string name="UpCommandSuccess">Successfully requested role: \%role\% for next game.</string>
   <string name="UpCommandSuccessOther">Successfully requested role: \%role\% for player '\%player\%' next game.</string>
+  <string name="UpCommandSuccessGlobal">Host requested role for player '\%player\%' next game.</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->
@@ -368,12 +378,18 @@
   <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
+  <!-- Better Mira HQ Options -->
+  <string name="TouOptionBetterMiraHqVentNetwork">Mira HQ Vent Network</string>
+  <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconnected</string>
+  <string name="TouOptionBetterMiraHqVentModeEnumThreeGroups">Tri-Group</string>
+  <string name="TouOptionBetterMiraHqVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Polus Options -->
   <string name="TouOptionBetterPolusDoorType">Door Type on Polus</string>
-  <string name="TouOptionBetterPolusVentNetwork">Better Polus Vent Network</string>
+  <string name="TouOptionBetterPolusVentNetwork">Adjusted Polus Vent Network</string>
   <string name="TouOptionBetterPolusVitalsInLab">Vitals Moved To Lab</string>
   <string name="TouOptionBetterPolusTempInDeathValley">Cold Temp Moved To Death Valley</string>
   <string name="TouOptionBetterPolusSwapWikiAndChart">Reboot Wifi And Chart Course Swapped</string>
+  <string name="TouOptionBetterPolusMoveToiletVent">Move Bathroom Vent Outside the Stalls</string>
   <!-- Better Airship Options -->
   <string name="TouOptionBetterAirshipDoorType">Door Type on Airship</string>
   <string name="TouOptionBetterAirshipSpawnMode">Spawn Mode</string>
@@ -1868,7 +1884,7 @@
   <!-- Telepath Wiki / Description -->
   <string name="TouModifierTelepath">Telepath</string>
   <string name="TouModifierTelepathIntroBlurbNoDeath">You're informed about teammates' kills and deaths.</string>
-  <string name="TouModifierTelepathIntroBlurb">You're informed information about teammates' kills.</string>
+  <string name="TouModifierTelepathIntroBlurb">You're informed about teammates' kills.</string>
   <string name="TouModifierTelepathDescriptionBasic">Know when your teammate kills</string>
   <string name="TouModifierTelepathDescriptionIfKnowWhen">Know when \%and\% where your teammate kills</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeath">, know when they die</string>
