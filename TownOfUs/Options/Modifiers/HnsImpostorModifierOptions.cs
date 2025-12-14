@@ -8,7 +8,8 @@ namespace TownOfUs.Options.Modifiers;
 public sealed class HnsImpostorModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => "Seeker Modifiers";
-    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.HideAndSeek;
+    // public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.HideAndSeek;
+    public override Func<bool> GroupVisible => () => false;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
     public override bool ShowInModifiersMenu => true;
     public override uint GroupPriority => 1;

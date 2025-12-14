@@ -167,4 +167,4 @@ public static class MixUpPatch
         return false;
     }
 }
-// TODO: Add Better Submerged settings once a build of sub is available for testing.
+// TODO: Add Better Submerged settings asap!
