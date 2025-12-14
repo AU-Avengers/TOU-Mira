@@ -135,6 +135,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
             PlayerControl.LocalPlayer.MyPhysics.StopAllCoroutines();
             PlayerControl.LocalPlayer.SetPetPosition(PlayerControl.LocalPlayer.MyPhysics.transform.position);
             PlayerControl.LocalPlayer.MyPhysics.ResetAnimState();
+            PlayerControl.LocalPlayer.Collider.enabled = true;
         }
 
         if (ModCompatibility.IsSubmerged())
