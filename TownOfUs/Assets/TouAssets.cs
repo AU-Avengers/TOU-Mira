@@ -15,7 +15,7 @@ public static class TouAssets
     public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 150);
+        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 600);
 
     public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
     {
@@ -78,6 +78,9 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> AbilityCounterBodySprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Body.png");
+
+    public static LoadableAsset<Sprite> AbilityCounterClickSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.MouseClick.png", 120f);
 
     public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Basic.png");
@@ -168,6 +171,9 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> ZoomMinusActive { get; } =
         new LoadableBundleAsset<Sprite>("MinusActive", MainBundle);
+
+    public static LoadableAsset<Sprite> TeamChatSwitch { get; } =
+        new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png", 105f);
 
     public static LoadableAsset<Sprite> TeamChatInactive { get; } =
         new LoadableBundleAsset<Sprite>("TeamChatInactive", MainBundle);

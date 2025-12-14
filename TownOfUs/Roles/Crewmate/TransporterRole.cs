@@ -169,7 +169,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         LookoutEvents.CheckForLookoutWatched(transporter, play2);
 
         var mercenary = PlayerControl.LocalPlayer.Data.Role as MercenaryRole;
-        if (play1.HasModifier<MercenaryGuardModifier>() || (play2.HasModifier<MercenaryGuardModifier>() && mercenary))
+        if ((play1.HasModifier<MercenaryGuardModifier>() || play2.HasModifier<MercenaryGuardModifier>()) && mercenary)
         {
             mercenary!.AddPayment();
         }

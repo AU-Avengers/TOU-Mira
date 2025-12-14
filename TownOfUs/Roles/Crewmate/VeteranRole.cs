@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
@@ -50,7 +49,7 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Veteran,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Impostor)
+        IntroSound = TouAudio.ImpostorIntroSound
     };
 
     [HideFromIl2Cpp]

@@ -32,15 +32,29 @@ public static class EndGamePatches
         var playerRoleString = new StringBuilder();
         var playerRoleStringShort = new StringBuilder();
 
+        var summaryTitle = new StringBuilder();
+        var summaryRoleInfo = new StringBuilder();
+        var summaryStats = new StringBuilder();
+        var summaryCod = new StringBuilder();
+
         // Theres a better way of doing this e.g. switch statement or dictionary. But this works for now.
+        // Oh god lmao
         foreach (var playerControl in PlayerControl.AllPlayerControls)
         {
             playerRoleString.Clear();
             playerRoleStringShort.Clear();
+            summaryTitle.Clear();
+            summaryRoleInfo.Clear();
+            summaryStats.Clear();
+            summaryCod.Clear();
             if (playerControl.Data.Role is SpectatorRole)
             {
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
+                    ChatSummaryTitle = $"{playerControl.Data.PlayerName} - {TouLocale.Get("TouRoleSpectator")}",
+                    ChatSummaryRoleInfo = string.Empty,
+                    ChatSummaryStats = string.Empty,
+                    ChatSummaryCod = string.Empty,
                     PlayerName = playerControl.Data.PlayerName,
                     RoleString = TouLocale.Get("TouRoleSpectator"),
                     RoleStringShort = TouLocale.Get("TouRoleSpectator"),
@@ -51,6 +65,9 @@ public static class EndGamePatches
                 });
                 continue;
             }
+
+            var latestRole = string.Empty;
+            var changedAgain = false;
 
             foreach (var role in GameHistory.RoleHistory.Where(x => x.Key == playerControl.PlayerId)
                          .Select(x => x.Value))
@@ -75,12 +92,21 @@ public static class EndGamePatches
                         : StringNames.Crewmate);
                 }
 
+                if (latestRole != string.Empty)
+                {
+                    changedAgain = true;
+                }
+                latestRole = $"{color.ToTextColor()}{roleName}</color>";
+
                 playerRoleString.Append(TownOfUsPlugin.Culture, $"{color.ToTextColor()}{roleName}</color> > ");
             }
-
             if (playerRoleString.Length > 3)
             {
                 playerRoleString = playerRoleString.Remove(playerRoleString.Length - 3, 3);
+            }
+            if (changedAgain)
+            {
+                summaryRoleInfo.Append(playerRoleString);
             }
 
             var lastRole = GameHistory.AllRoles.FirstOrDefault(x => x.Player.PlayerId == playerControl.PlayerId);
@@ -125,11 +151,43 @@ public static class EndGamePatches
                         $"{modColor.ToTextColor()}{modifierName}</color>, ");
                 }
             }
+            var modifierHolder = new StringBuilder();
+            var modifiersAlt = playerControl.GetModifiers<GameModifier>()
+                .Where(x => x is TouGameModifier || x is UniversalGameModifier || x is AllianceGameModifier);
+            var modifierCountAlt = modifiersAlt.Count();
+            var modifierNamesAlt = modifiersAlt.Select(modifier => modifier.ModifierName);
+            if (modifierCountAlt != 0)
+            {
+                modifierHolder.Append(TownOfUsPlugin.Culture, $" (");
+            }
+
+            foreach (var modifierName in modifierNamesAlt)
+            {
+                var modColor = MiscUtils.GetRoleColour(modifierName.Replace(" ", string.Empty));
+                if (modColor == TownOfUsColors.Impostor)
+                {
+                    modColor = MiscUtils.GetModifierColour(
+                        modifiersAlt.FirstOrDefault(x => x.ModifierName == modifierName)!);
+                }
+
+                modifierCountAlt--;
+                if (modifierCountAlt == 0)
+                {
+                    modifierHolder.Append(TownOfUsPlugin.Culture,$"{modColor.ToTextColor()}{modifierName}</color>)");
+                }
+                else
+                {
+                    modifierHolder.Append(TownOfUsPlugin.Culture,
+                        $"{modColor.ToTextColor()}{modifierName}</color>, ");
+                }
+            }
 
             if (playerControl.IsRole<SpectreRole>() || playerTeam == ModdedRoleTeams.Crewmate)
             {
+                var taskInfo = playerControl.TaskInfo();
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" {playerControl.TaskInfo()}");
+                    $" {taskInfo}");
+                summaryStats.Append(TownOfUsPlugin.Culture, $" | {TouLocale.GetParsed("StatsTaskCount").Replace("<count>", taskInfo.Replace("(", "").Replace(")", ""))}");
             }
 
             var killedPlayers = GameHistory.KilledPlayers.Count(x =>
@@ -140,23 +198,31 @@ public static class EndGamePatches
                 var basicKillCount = killedPlayers - stats.CorrectAssassinKills - stats.IncorrectKills - stats.IncorrectAssassinKills - stats.CorrectKills;
                 if (stats.CorrectKills > 0)
                 {
+                    summaryStats.Append(TownOfUsPlugin.Culture,
+                        $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{stats.CorrectKills}")}</color>");
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{stats.CorrectKills}")}</color>");
                 }
                 else if (basicKillCount > 0 && !playerControl.IsCrewmate())
                 {
+                    summaryStats.Append(TownOfUsPlugin.Culture,
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{basicKillCount}")}</color>");
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{basicKillCount}")}</color>");
                 }
 
                 if (stats.IncorrectKills > 0)
                 {
+                    summaryStats.Append(TownOfUsPlugin.Culture,
+                        $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsBadKillCount").Replace("<count>", $"{stats.IncorrectKills}")}</color>");
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsBadKillCount").Replace("<count>", $"{stats.IncorrectKills}")}</color>");
                 }
 
                 if (stats.CorrectAssassinKills > 0)
                 {
+                    summaryStats.Append(TownOfUsPlugin.Culture,
+                        $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsGoodGuessCount").Replace("<count>", $"{stats.CorrectAssassinKills}")}</color>");
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" | {Color.green.ToTextColor()}{TouLocale.GetParsed("StatsGoodGuessCount").Replace("<count>", $"{stats.CorrectAssassinKills}")}</color>");
                 }
@@ -169,8 +235,10 @@ public static class EndGamePatches
             }
             else if (killedPlayers > 0 && !playerControl.IsCrewmate() && !playerControl.Is(RoleAlignment.NeutralEvil))
             {
+                summaryStats.Append(TownOfUsPlugin.Culture,
+                    $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" |{TownOfUsColors.Impostor.ToTextColor()} {TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
+                    $" | {TownOfUsColors.Impostor.ToTextColor()}{TouLocale.GetParsed("StatsKillCount").Replace("<count>", $"{killedPlayers}")}</color>");
             }
 
             playerRoleStringShort.Append(playerRoleString);
@@ -181,9 +249,13 @@ public static class EndGamePatches
                     $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
                 playerRoleStringShort.Append(TownOfUsPlugin.Culture,
                     $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
+                summaryCod.Append(TownOfUsPlugin.Culture,
+                    $"{Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
                 if (deathHandler.KilledBy != string.Empty)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
+                        $" {deathHandler.KilledBy}");
+                    summaryCod.Append(TownOfUsPlugin.Culture,
                         $" {deathHandler.KilledBy}");
                 }
 
@@ -192,6 +264,9 @@ public static class EndGamePatches
 
                 playerRoleStringShort.Append(TownOfUsPlugin.Culture,
                     $" ({TouLocale.GetParsed("RoundOfDeath").Replace("<count>", $"{deathHandler.RoundOfDeath}")})");
+
+                summaryCod.Append(TownOfUsPlugin.Culture,
+                    $" ({TouLocale.GetParsed("RoundOfDeathLong").Replace("<count>", $"{deathHandler.RoundOfDeath}")})");
             }
             else
             {
@@ -199,6 +274,8 @@ public static class EndGamePatches
                     $" | {Color.yellow.ToTextColor()}{TouLocale.Get("Alive")}</color>");
                 playerRoleStringShort.Append(TownOfUsPlugin.Culture,
                     $" | {Color.yellow.ToTextColor()}{TouLocale.Get("Alive")}</color>");
+                summaryCod.Append(TownOfUsPlugin.Culture,
+                    $"{Color.yellow.ToTextColor()}{TouLocale.Get("Alive")}</color>");
             }
 
             var playerName = new StringBuilder();
@@ -213,6 +290,7 @@ public static class EndGamePatches
             {
                 playerName.Append(playerControl.Data.PlayerName);
             }
+            summaryTitle.Append(TownOfUsPlugin.Culture, $"{playerName.ToString()} - {latestRole}{modifierHolder.ToString()}");
 
             var alliance = playerControl.GetModifiers<AllianceGameModifier>().FirstOrDefault();
             if (alliance != null)
@@ -223,8 +301,17 @@ public static class EndGamePatches
                     $" <b>{modColor.ToTextColor()}<size=60%>{alliance.Symbol}</size></color></b>");
             }
 
+            if (summaryStats.Length > 3)
+            {
+                summaryStats = summaryStats.Remove(0, 3);
+            }
+
             EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
             {
+                ChatSummaryTitle = summaryTitle.ToString(),
+                ChatSummaryRoleInfo = summaryRoleInfo.ToString(),
+                ChatSummaryStats = summaryStats.ToString(),
+                ChatSummaryCod = summaryCod.ToString(),
                 PlayerName = playerName.ToString(),
                 RoleString = playerRoleString.ToString(),
                 RoleStringShort = playerRoleStringShort.ToString(),
@@ -234,6 +321,7 @@ public static class EndGamePatches
                 PlayerId = playerControl.PlayerId
             });
         }
+        EndGameData.PlayerRecords = EndGameData.PlayerRecords.OrderByDescending(x => x.Winner).ThenBy(x => x.LastRole).ToList();
     }
 
     public static void BuildEndGameSummary(EndGameManager instance)
@@ -262,7 +350,9 @@ public static class EndGamePatches
         var roleSummaryText1 = new StringBuilder();
         var roleSummaryText2 = new StringBuilder();
         var roleSummaryTextFull = new StringBuilder();
-        var roleSummaryBackup = new StringBuilder();
+        var segmentedSummary = new StringBuilder();
+        var basicSummary = new StringBuilder();
+        var normalSummary = new StringBuilder();
         var summaryTxt = TouLocale.Get("EndGameSummary") + ":";
         roleSummaryText1.AppendLine(summaryTxt);
         roleSummaryTextFull.AppendLine(summaryTxt);
@@ -281,8 +371,22 @@ public static class EndGamePatches
             }
 
             count++;
-            roleSummaryBackup.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
             roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
+            normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role}");
+            basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role2}");
+            
+            segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=70%>{data.ChatSummaryTitle}</size>");
+            segmentedSummary.Append(TownOfUsPlugin.Culture, $"<size=62%>");
+            if (!data.ChatSummaryRoleInfo.IsNullOrWhiteSpace())
+            {
+                segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"•{data.ChatSummaryRoleInfo}");
+            }
+            if (!data.ChatSummaryStats.IsNullOrWhiteSpace())
+            {
+                segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"•{data.ChatSummaryStats}");
+            }
+            segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"•{data.ChatSummaryCod}");
+            segmentedSummary.Append(TownOfUsPlugin.Culture, $"</size>");
         }
 
         var roleSummaryTextMesh = roleSummary.GetComponent<TMP_Text>();
@@ -324,7 +428,9 @@ public static class EndGamePatches
         roleSummaryTextMeshRectTransformLeft.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
         roleSummaryTextMeshLeft.text = roleSummaryTextFull.ToString();
 
-        GameHistory.EndGameSummary = roleSummaryBackup.ToString();
+        GameHistory.EndGameSummarySimple = basicSummary.ToString();
+        GameHistory.EndGameSummary = normalSummary.ToString();
+        GameHistory.EndGameSummaryAdvanced = segmentedSummary.ToString();
 
         var GameSummaryButton = Object.Instantiate(exitBtn);
         GameSummaryButton.gameObject.SetActive(true);
@@ -537,6 +643,10 @@ public static class EndGamePatches
 
         public sealed class PlayerRecord
         {
+            public string? ChatSummaryTitle { get; set; }
+            public string? ChatSummaryRoleInfo { get; set; }
+            public string? ChatSummaryStats { get; set; }
+            public string? ChatSummaryCod { get; set; }
             public string? PlayerName { get; set; }
             public string? RoleString { get; set; }
             public string? RoleStringShort { get; set; }

@@ -94,7 +94,7 @@ public static class DeputyEvents
         if (mod.Deputy.AmOwner)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Deputy.ToTextColor()}Your camped target, {target.Data.PlayerName}, has died! Avenge them in the meeting.</color></b>",
+                $"<b>{TouLocale.GetParsed("TouRoleDeputyCampedKillNotif").Replace("<player>", $"{TownOfUsColors.Deputy.ToTextColor()}{target.Data.PlayerName}</color>")}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
 
             notif1.AdjustNotification();

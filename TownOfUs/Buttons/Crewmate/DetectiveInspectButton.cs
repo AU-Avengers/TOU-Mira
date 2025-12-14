@@ -37,7 +37,7 @@ public sealed class DetectiveInspectButton : TownOfUsRoleButton<ForensicRole, Cr
         Role.InvestigatedPlayers.AddRange(Target.GetScenePlayers());
         var notif1 = Helpers.CreateAndShowNotification(
             $"{TouLocale.GetParsed("TouRoleForensicInspectNotif").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{Target.DeadPlayer!.Data.PlayerName}</color>")}",
-            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Detective.LoadAsset());
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Forensic.LoadAsset());
         notif1.AdjustNotification();
     }
 }

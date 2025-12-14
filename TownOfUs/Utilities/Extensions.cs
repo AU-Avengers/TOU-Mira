@@ -113,7 +113,7 @@ public static class Extensions
 
     public static bool Is(this PlayerControl player, RoleTypes roleType)
     {
-        return player != null && player.Data != null && player.Data.Role.Role == roleType;
+        return player != null && player.Data != null && player.Data.Role != null && player.Data.Role.Role == roleType;
     }
 
     public static bool Is(this PlayerControl player, RoleAlignment roleAlignment)

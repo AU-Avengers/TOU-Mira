@@ -267,7 +267,7 @@ public static class ModCompatibility
 
     public static void OxygenDeathPostfix(PlayerControl player)
     {
-        DeathHandlerModifier.UpdateDeathHandler(player, TouLocale.Get("DiedToSubmergedOxygen"),
+        DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToSubmergedOxygen"),
         DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
         lockInfo: DeathHandlerOverride.SetTrue);
     }

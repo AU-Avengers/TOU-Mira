@@ -64,7 +64,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     public CustomRoleConfiguration Configuration => new(this)
     {
         CanUseVent = OptionGroupSingleton<VampireOptions>.Instance.CanVent,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom),
+        IntroSound = TouAudio.VampIntroSound,
         Icon = TouRoleIcons.Vampire,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         MaxRoleCount = 1

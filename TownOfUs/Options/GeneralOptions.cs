@@ -65,13 +65,16 @@ public sealed class GeneralOptions : AbstractOptionGroup
     };
 
     [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
-    public float TempSaveCdReset { get; set; } = 2.5f;
+    public float TempSaveCdReset { get; set; } = 5f;
 
     [ModdedNumberOption("Voting Time Added After Meeting Death", 0f, 15f, 1f, MiraNumberSuffixes.Seconds, "0.#")]
     public float AddedMeetingDeathTimer { get; set; } = 5f;
 
     [ModdedToggleOption("First Death Shield Next Game")]
     public bool FirstDeathShield { get; set; } = true;
+
+    [ModdedToggleOption("Indicate Round One Victims")]
+    public bool RoundOneVictims { get; set; } = true;
 
     [ModdedToggleOption("Powerful Crew Continue The Game")]
     public bool CrewKillersContinue { get; set; } = true;

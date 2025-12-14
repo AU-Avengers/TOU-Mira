@@ -1,4 +1,5 @@
-﻿using MiraAPI.Modifiers;
+﻿using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Roles.Other;
@@ -26,12 +27,12 @@ public abstract class HnsGameModifier : TouGameModifier, IWikiDiscoverable
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
     public override ModifierFaction FactionType => ModifierFaction.Crewmate;
 
-    public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
     public override bool CanSpawnOnCurrentMode() => GameManager.Instance.IsHideAndSeek();
     public override Color FreeplayFileColor => new Color32(0, 0, 0, 255);
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true) && !role.TryCast<SpectatorRole>();
+        return !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true) && role is not SpectatorRole;
     }
 }

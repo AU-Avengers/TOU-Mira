@@ -13,6 +13,8 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
 
     public ModdedToggleOption AntiCheatWarnings { get; set; } = new("Enable Anti Cheat Warnings", true, false);
 
+    public ModdedToggleOption KickCheatMods { get; set; } = new("Kick Players Using Cheat Mods", true, false);
+
     public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryonePostGame, typeof(LoggingLevel),
         ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"], false)
     {
@@ -32,7 +34,7 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
             Debug("Toggle April Fools mode.");
         }
     };
-    public ModdedToggleOption EnableSpectators { get; set; } = new("Allow More Spectators", true, false)
+    public ModdedToggleOption EnableSpectators { get; set; } = new("Allow Spectators", true, false)
     {
         ChangedEvent = x =>
         {
@@ -43,6 +45,11 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
             }
             Debug("Removed all spectators.");
         },
+    };
+
+    public ModdedToggleOption NoGameEnd { get; set; } = new("No Game End", false, false)
+    {
+        Visible = () => TownOfUsPlugin.IsDevBuild
     };
 }
 

@@ -1,5 +1,4 @@
 using System.Text;
-using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -10,6 +9,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.HnsGame;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
@@ -47,7 +47,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Vigilante,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Impostor)
+        IntroSound = TouAudio.ImpostorIntroSound
     };
 
     [HideFromIl2Cpp]
@@ -304,7 +304,8 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         var isValid =
             !((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
               (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
-              (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)));
+              (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)
+               || modifier is HnsGameModifier));
 
         if (!isValid)
         {

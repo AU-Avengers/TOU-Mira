@@ -512,7 +512,6 @@
   <string name="TouRoleEngineerWikiDescription">Der Engineer ist eine Besatzungs Unterstützungs Rolle, welche die Schächte benutzen kann und Sabotagen auch über Distanz reparieren kann.</string>
   <string name="TouRoleEngineerFixWikiDescription">Egal wo du dich gerade befindest, du kannst den "Reparieren" Knopf drücken um sofort jegliche Sabotage zu reparieren. Du kannst dies \%engiMaxFixes\% mal in jeden Spiel benutzen.</string>
   <string name="TouOptionEngineerMaxVents">Schacht Nutzungen Pro Spiel</string>
-  <string name="TouOptionEngineerTaskUses">Bekomme mehr Schacht Nutzung durch das Erfüllen von Aufgaben</string>
   <string name="TouOptionEngineerVentCooldown">Schacht Abklingzeit</string>
   <string name="TouOptionEngineerVentDuration">Schacht Dauer</string>
   <string name="TouOptionEngineerMaxFixes">Reparier Anzahl pro Spiel</string>
@@ -534,7 +533,6 @@
   <string name="TouOptionHunterStalkCooldown">Jäger Verfolgung Abklingzeit</string>
   <string name="TouOptionHunterStalkDuration">Jäger Verfolgung Dauer</string>
   <string name="TouOptionHunterStalkUses">Jäger Verfolgung Max Anzahl</string>
-  <string name="TouOptionHunterTaskUses">Bekomme mehr Nutzungen durch das erfüllen von Aufgaben</string>
   <string name="TouOptionHunterRetributionOnVote">Jäger töten die letzte Stimme falls rausgeworfen</string>
   <string name="TouOptionHunterHunterBodyReport">Jäger kann seine eigenen Morde melden</string>
   <string name="TouRoleImitatorTabDescription">Nutze Tote Spieler um der Besatzung zu helfen, in dem du diese während Versammlungen imitierst</string>

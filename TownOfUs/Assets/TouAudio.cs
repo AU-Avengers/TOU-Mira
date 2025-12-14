@@ -1,3 +1,5 @@
+using AmongUs.GameOptions;
+using MiraAPI.Roles;
 using MiraAPI.Utilities.Assets;
 using UnityEngine;
 
@@ -6,6 +8,26 @@ namespace TownOfUs.Assets;
 public static class TouAudio
 {
     // THIS FILE SHOULD ONLY HOLD AUDIO
+    public static LoadableAsset<AudioClip> ImpostorIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Impostor)!;
+    public static LoadableAsset<AudioClip> CrewmateIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Crewmate)!;
+    public static LoadableAsset<AudioClip> ScientistIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Scientist)!;
+    public static LoadableAsset<AudioClip> EngineerIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Engineer)!;
+    public static LoadableAsset<AudioClip> ShapeshifterIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Shapeshifter)!;
+    public static LoadableAsset<AudioClip> NoisemakerIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Noisemaker)!;
+    public static LoadableAsset<AudioClip> PhantomIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Phantom)!;
+    public static LoadableAsset<AudioClip> TrackerIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Tracker)!;
+    public static LoadableAsset<AudioClip> DetectiveIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Detective)!;
+    public static LoadableAsset<AudioClip> ViperIntroSound =>
+        CustomRoleUtils.GetIntroSound(RoleTypes.Viper)!;
     public static LoadableAsset<AudioClip> HexBombDetonateSound { get; } =
         new LoadableBundleAsset<AudioClip>("HexBomb", TouAssets.MainBundle);
     public static LoadableAsset<AudioClip> HexBombAlarmSound { get; } =
@@ -27,6 +49,12 @@ public static class TouAudio
 
     public static LoadableAsset<AudioClip> ToppatIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("ToppatIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> DeputyIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("DeputyIntro", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> VampIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("VampireIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> ProsIntroSound { get; } =
         new LoadableBundleAsset<AudioClip>("ProsIntro", TouAssets.MainBundle);

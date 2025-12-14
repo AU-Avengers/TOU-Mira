@@ -24,7 +24,7 @@ public abstract class TouGameModifier : GameModifier
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true) && !role.TryCast<SpectatorRole>();
+        return !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true) && role is not SpectatorRole;
     }
 }
 
@@ -73,6 +73,14 @@ public enum ModifierFaction
     NonImpVisibility,
     NonImpPostmortem,
     NonImpPassive,
+    HiderUtility,
+    HiderVisibility,
+    HiderPostmortem,
+    HiderPassive,
+    SeekerUtility,
+    SeekerVisibility,
+    SeekerPostmortem,
+    SeekerPassive,
     External,
     Other
 }

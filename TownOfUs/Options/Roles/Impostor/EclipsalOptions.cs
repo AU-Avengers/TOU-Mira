@@ -15,6 +15,6 @@ public sealed class EclipsalOptions : AbstractOptionGroup<EclipsalRole>
     [ModdedNumberOption("TouOptionEclipsalBlindDuration", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BlindDuration { get; set; } = 15f;
 
-    [ModdedNumberOption("Blind TouOptionEclipsalBlindRadius", 0.25f, 5f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]
+    [ModdedNumberOption("TouOptionEclipsalBlindRadius", 0.25f, 5f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float BlindRadius { get; set; } = 1f;
 }

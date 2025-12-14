@@ -19,6 +19,8 @@ public sealed class EclipsalBlindButton : TownOfUsRoleButton<EclipsalRole>, IAft
     public override float EffectDuration => OptionGroupSingleton<EclipsalOptions>.Instance.BlindDuration;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.BlindSprite;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public void AftermathHandler()
     {
         ClickHandler();

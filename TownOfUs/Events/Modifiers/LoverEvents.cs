@@ -33,15 +33,16 @@ public static class LoverEvents
         switch (@event.DeathReason)
         {
             case DeathReason.Exile:
-                DeathHandlerModifier.UpdateDeathHandler(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
+                DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
                     DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                     lockInfo: DeathHandlerOverride.SetTrue);
                 loveMod.OtherLover.Exiled();
                 break;
             case DeathReason.Kill:
+                var showAnim = MeetingHud.Instance == null && ExileController.Instance == null;
                 var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
 
-                DeathHandlerModifier.UpdateDeathHandler(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
+                DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
                     DeathEventHandlers.CurrentRound,
                     (!MeetingHud.Instance && !ExileController.Instance)
                         ? DeathHandlerOverride.SetTrue
@@ -50,7 +51,9 @@ public static class LoverEvents
                     loveMod.OtherLover,
                     murderResultFlags2,
                     false,
-                    true,
+                    showAnim,
+                    false,
+                    showAnim,
                     false);
                 break;
         }

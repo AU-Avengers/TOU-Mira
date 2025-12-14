@@ -11,16 +11,16 @@ public sealed class RandomDoorMapOptions : AbstractOptionGroup
     public override string GroupName => "Randomized Door Mode";
     public override uint GroupPriority => 1;
 
-    public ModdedNumberOption DisabledDoorChance { get; } = new("Disabled Door Chance", 5f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
-    public ModdedNumberOption SkeldDoorChance { get; } = new("Skeld Door Chance", 20f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
+    public ModdedNumberOption DisabledDoorChance { get; } = new("TouOptionBetterDoorsNoneChance", 5f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
+    public ModdedNumberOption SkeldDoorChance { get; } = new("TouOptionBetterDoorsSkeldChance", 20f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
 
-    public ModdedNumberOption PolusDoorChance { get; } = new("Polus Door Chance", 40f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
+    public ModdedNumberOption PolusDoorChance { get; } = new("TouOptionBetterDoorsPolusChance", 40f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
 
-    public ModdedNumberOption AirshipDoorChance { get; } = new("Airship Door Chance", 15f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
+    public ModdedNumberOption AirshipDoorChance { get; } = new("TouOptionBetterDoorsAirshipChance", 15f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
 
-    public ModdedNumberOption FungleDoorChance { get; } = new("Fungle Door Chance", 20f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
+    public ModdedNumberOption FungleDoorChance { get; } = new("TouOptionBetterDoorsFungleChance", 20f, 0, 100f, 10f, MiraNumberSuffixes.Percent);
 
-    public ModdedNumberOption SubmergedDoorChance { get; } = new("Submerged Door Chance", 25f, 0f, 100f, 10f, MiraNumberSuffixes.Percent)
+    public ModdedNumberOption SubmergedDoorChance { get; } = new("TouOptionBetterDoorsSubmergedChance", 25f, 0f, 100f, 10f, MiraNumberSuffixes.Percent)
     {
         Visible = () => ModCompatibility.SubLoaded
     };

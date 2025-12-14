@@ -58,7 +58,7 @@ public sealed class HnsCrewmateModifierOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.ObliviousAmount > 0
         };
 
-    /*public ModdedNumberOption TransporterAmount { get; } =
+    public ModdedNumberOption TransporterAmount { get; } =
         new("Transporter Amount", 1f, 0f, 15f, 1f, MiraNumberSuffixes.None);
 
     public ModdedNumberOption TransporterChance { get; } =
@@ -67,7 +67,7 @@ public sealed class HnsCrewmateModifierOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<HnsCrewmateModifierOptions>.Instance.TransporterAmount > 0
         };
 
-    public ModdedNumberOption WaryAmount { get; } =
+    /*public ModdedNumberOption WaryAmount { get; } =
         new("Wary Amount", 1f, 0f, 15f, 1f, MiraNumberSuffixes.None);
 
     public ModdedNumberOption WaryChance { get; } =

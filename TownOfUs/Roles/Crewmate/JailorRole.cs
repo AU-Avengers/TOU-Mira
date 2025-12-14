@@ -1,10 +1,8 @@
 using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -14,6 +12,7 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -71,7 +70,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Jailor,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Impostor)
+        IntroSound = TouAudio.ImpostorIntroSound
     };
 
     public void LobbyStart()
@@ -245,7 +244,10 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                     text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
                 }
 
-                Player.RpcCustomMurder(Jailed, createDeadBody: false, teleportMurderer: false);
+                Player.RpcSpecialMurder(Jailed, true, true, createDeadBody: false, teleportMurderer: false,
+                    showKillAnim: false,
+                    playKillSound: false,
+                    causeOfDeath: "Jailor");
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

@@ -76,7 +76,7 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
-            DeathHandlerModifier.UpdateDeathHandler(chef.Player, TouLocale.Get("DiedToWinning"),
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(chef.Player, TouLocale.Get("DiedToWinning"),
                 DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                 lockInfo: DeathHandlerOverride.SetTrue);
 
@@ -116,7 +116,7 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
-            DeathHandlerModifier.UpdateDeathHandler(chef.Player, TouLocale.Get("DiedToWinning"),
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(chef.Player, TouLocale.Get("DiedToWinning"),
                 DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                 lockInfo: DeathHandlerOverride.SetTrue);
 

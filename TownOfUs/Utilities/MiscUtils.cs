@@ -15,6 +15,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -25,6 +26,7 @@ using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Patches.Misc;
+using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities.Appearances;
@@ -142,9 +144,13 @@ public static class MiscUtils
                     }
 
                     var title = TranslationController.Instance.GetString(numberOption.StringName);
-                    if (numberOption is { ZeroInfinity: true, Value: 0 })
+                    if (numberOption is { NegativeWordValue: not "#", Value: -1 })
                     {
-                        builder.AppendLine(title + ": ∞");
+                        builder.AppendLine(title + $": {numberOption.NegativeWordValue}");
+                    }
+                    else if (numberOption is { ZeroWordValue: not "#", Value: 0 })
+                    {
+                        builder.AppendLine(title + $": {numberOption.ZeroWordValue}");
                     }
                     else
                     {
@@ -592,7 +598,7 @@ public static class MiscUtils
     {
         var baseGhostRoles = AllRegisteredRoles
             .Where(x => x.IsDead && AllRoles.All(y => y.Role != x.Role));
-        var ghostRoles = AllRoles.Where(x => x.IsDead && !x.TryCast<SpectatorRole>()).Union(baseGhostRoles);
+        var ghostRoles = AllRoles.Where(x => x.IsDead && x is not SpectatorRole).Union(baseGhostRoles);
 
         return ghostRoles;
     }
@@ -755,7 +761,7 @@ public static class MiscUtils
     {
         var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
         var roleOptions = currentGameOptions.RoleOptions;
-        var assignmentData = AllRegisteredRoles.Select(role =>
+        var assignmentData = SpawnableRoles.Select(role =>
             new RoleManager.RoleAssignmentData(role, roleOptions.GetNumPerGame(role.Role),
                 roleOptions.GetChancePerGame(role.Role))).ToList();
 
@@ -861,7 +867,7 @@ public static class MiscUtils
     }
 
     public static void AddTeamChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
-        bool showHeadsup = false, bool onLeft = true)
+        bool showHeadsup = false, bool onLeft = true, bool blackoutText = true, BubbleType bubbleType = BubbleType.None)
     {
         var chat = HudManager.Instance.Chat;
 
@@ -880,7 +886,6 @@ public static class MiscUtils
 
         pooledBubble.SetCosmetics(basePlayer);
         pooledBubble.NameText.text = nameText;
-        pooledBubble.NameText.color = Color.white;
         pooledBubble.NameText.ForceMeshUpdate(true, true);
         pooledBubble.votedMark.enabled = false;
         pooledBubble.Xmark.enabled = false;
@@ -890,23 +895,51 @@ public static class MiscUtils
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
 
-        pooledBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
-        pooledBubble.TextArea.color = Color.white;
+        if (blackoutText)
+        {
+            pooledBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
+            pooledBubble.NameText.color = Color.white;
+            pooledBubble.TextArea.color = Color.white;
+        }
 
         pooledBubble.AlignChildren();
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
         chat.AlignAllBubbles();
-        if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
+        if (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive)
         {
-            chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
+            Coroutines.Start(BouncePrivateChatDot(bubbleType));
+            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
         }
 
         if (showHeadsup && !chat.IsOpenOrOpening)
         {
-            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
             chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
         }
+    }
+    private static IEnumerator BouncePrivateChatDot(BubbleType bubbleType)
+    {
+        if (TeamChatPatches.PrivateChatDot == null)
+        {
+            TeamChatPatches.CreateTeamChatBubble();
+        }
+        
+        var sprite = TeamChatPatches.PrivateChatDot!.GetComponent<SpriteRenderer>();
+        sprite.enabled = true;
+        var actualSprite = bubbleType switch
+        {
+            BubbleType.None => TouChatAssets.NormalBubble.LoadAsset(),
+            BubbleType.Impostor => TouChatAssets.ImpBubble.LoadAsset(),
+            BubbleType.Vampire => TouChatAssets.VampBubble.LoadAsset(),
+            BubbleType.Lover => TouChatAssets.LoveBubble.LoadAsset(),
+            BubbleType.Jailor => TouChatAssets.JailBubble.LoadAsset(),
+            _ => null,
+        };
+        if (actualSprite != null)
+        {
+            sprite.sprite = actualSprite;
+        }
+        yield return Effects.Bounce(sprite.transform, 0.3f, 0.125f);
     }
 
     public static bool StartsWithVowel(this string word)
@@ -929,7 +962,7 @@ public static class MiscUtils
     public static List<(ushort RoleType, int Chance)> GetRolesToAssign(ModdedRoleTeams team,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(team);
+        var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetRolesToAssign(roles, filter);
     }
@@ -937,7 +970,7 @@ public static class MiscUtils
     public static List<(ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(alignment);
+        var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetRolesToAssign(roles, filter);
     }
@@ -964,7 +997,7 @@ public static class MiscUtils
     public static List<ushort> GetMaxRolesToAssign(ModdedRoleTeams team, int max = 1,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(team);
+        var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetMaxRolesToAssign(roles, max, filter);
     }
@@ -972,7 +1005,7 @@ public static class MiscUtils
     public static List<ushort> GetMaxRolesToAssign(RoleAlignment alignment, int max,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(alignment);
+        var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetMaxRolesToAssign(roles, max, filter);
     }
@@ -1318,7 +1351,7 @@ public static class MiscUtils
     }
 
     public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<(ushort RoleType, int Chance)> roles,
-        RoleListOption roleType, RoleListOption replaceType)
+        RoleListOption roleType, RoleListOption replaceType, RoleListOption biggerType = (RoleListOption)(-1))
     {
         var result = new List<ushort>();
 
@@ -1328,6 +1361,7 @@ public static class MiscUtils
             {
                 var count = buckets.RemoveAll(x => x == roleType);
                 buckets.AddRange(Enumerable.Repeat(replaceType, count));
+                if ((int)biggerType != -1) buckets.AddRange(Enumerable.Repeat(biggerType, count));
 
                 break;
             }
@@ -1923,4 +1957,14 @@ public enum ExpandedMapNames
     Fungle,
     Submerged,
     LevelImpostor
+}
+
+public enum BubbleType
+{
+    None,
+    Other,
+    Impostor,
+    Vampire,
+    Jailor,
+    Lover
 }

@@ -12,7 +12,7 @@ public sealed class HnsGiantModifier : HnsGameModifier, IVisualAppearance
 {
     public override string LocaleKey => "Giant";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Giant;
-    public override ModifierFaction FactionType => ModifierFaction.CrewmateVisibility;
+    public override ModifierFaction FactionType => ModifierFaction.HiderVisibility;
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {

@@ -164,7 +164,6 @@ public static class MedicEvents
         }
 
         if (!target.HasModifier<MedicShieldModifier>() ||
-            source == null ||
             target.PlayerId == source.PlayerId ||
             (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
         {

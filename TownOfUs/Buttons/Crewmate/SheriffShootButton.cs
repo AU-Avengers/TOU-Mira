@@ -25,6 +25,8 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SheriffOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SheriffShootSprite;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public bool Usable { get; set; } =
         OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
 

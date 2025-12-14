@@ -18,6 +18,8 @@ public sealed class ResetFreeplayButton : TownOfUsButton
     public override float InitialCooldown => 0.001f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.BroadcastSprite;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
     public override bool UsableInDeath => true;
 
     public override bool Enabled(RoleBehaviour? role)

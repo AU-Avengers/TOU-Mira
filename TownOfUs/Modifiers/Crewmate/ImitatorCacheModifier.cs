@@ -180,7 +180,12 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return;
         }
 
-        if (_selectedPlr == null || Player.HasDied() || !_selectedPlr.IsDead || _selectedPlr.Disconnected || _selectedPlr.Object == null)
+        if (Player.HasDied())
+        {
+            return;
+        }
+
+        if (_selectedPlr == null || !_selectedPlr.IsDead || _selectedPlr.Disconnected || _selectedPlr.Object == null)
         {
             _selectedPlr = null;
             if (Player == null || Player.IsRole<ImitatorRole>())
@@ -189,10 +194,6 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             }
 
             Player.RpcChangeRole(RoleId.Get<ImitatorRole>(), false);
-            if (Player.HasDied())
-            {
-                Player.RpcChangeRole((ushort)RoleTypes.CrewmateGhost, false);
-            }
             return;
         }
 
@@ -200,6 +201,11 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         if (roleWhenAlive is ICrewVariant crewType)
         {
             roleWhenAlive = crewType.CrewVariant;
+        }
+
+        if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
+        {
+            roleWhenAlive = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
         }
 
         // Only the imitator will see this!

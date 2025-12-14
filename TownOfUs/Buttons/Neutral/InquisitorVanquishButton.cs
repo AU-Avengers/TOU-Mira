@@ -20,6 +20,8 @@ public sealed class InquisitorVanquishButton : TownOfUsRoleButton<InquisitorRole
     public bool Usable { get; set; } =
         OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public void SetDiseasedTimer(float multiplier)
     {
         SetTimer(Cooldown * multiplier);

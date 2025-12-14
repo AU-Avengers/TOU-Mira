@@ -13,7 +13,7 @@ public sealed class HnsMultitaskerModifier : HnsGameModifier
 {
     public override string LocaleKey => "Multitasker";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Multitasker;
-    public override ModifierFaction FactionType => ModifierFaction.CrewmateVisibility;
+    public override ModifierFaction FactionType => ModifierFaction.HiderPassive;
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {

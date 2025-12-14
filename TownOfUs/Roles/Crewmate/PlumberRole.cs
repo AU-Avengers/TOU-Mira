@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
@@ -69,7 +68,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Engineer),
+        IntroSound = TouAudio.EngineerIntroSound,
         Icon = TouRoleIcons.Plumber
     };
 

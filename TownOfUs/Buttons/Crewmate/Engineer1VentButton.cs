@@ -76,7 +76,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         }
 
         return ((Timer <= 0 && !PlayerControl.LocalPlayer.inVent && Target != null) ||
-                PlayerControl.LocalPlayer.inVent) && (MaxUses == 0 || UsesLeft > 0);
+                PlayerControl.LocalPlayer.inVent) && (!LimitedUses || UsesLeft > 0);
     }
 
     public override void ClickHandler()
@@ -140,7 +140,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
             Vent.currentVent.SetButtons(false);
             PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
             UsesLeft--;
-            if (MaxUses != 0)
+            if (LimitedUses)
             {
                 Button?.SetUsesRemaining(UsesLeft);
             }

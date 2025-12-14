@@ -67,15 +67,14 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
     public Color RoleColor => TownOfUsColors.Spectator;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.GameOutlier;
-    public bool IsHiddenFromList => true;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
 
     public override bool IsDead => true;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
         TasksCountForProgress = false,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Noisemaker),
-        GhostRole = (RoleTypes)RoleId.Get<SpectatorRole>(),
+        IntroSound = TouAudio.NoisemakerIntroSound,
         Icon = TouRoleIcons.Spectator,
         CanModifyChance = false,
         MaxRoleCount = 0,
@@ -90,7 +89,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
             Player.AddModifier<BasicGhostModifier>();
         }
 
-        DeathHandlerModifier.UpdateDeathHandler(Player, "Spectating", 0, DeathHandlerOverride.SetFalse);
+        DeathHandlerModifier.UpdateDeathHandlerImmediate(Player, "Spectating", 0, DeathHandlerOverride.SetFalse);
 
         if (!Player.AmOwner)
         {

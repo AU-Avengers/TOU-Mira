@@ -20,6 +20,8 @@ public interface ITownOfUsRole : ICustomRole
     {
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.Normal*/
     };
+
+    [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
 
     public virtual string YouAreText
@@ -136,9 +138,14 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.ImpSeeker;
             }
 
-            if (RoleAlignment == RoleAlignment.ImpostorCultist || RoleAlignment == RoleAlignment.ImpostorFollower)
+            if (RoleAlignment == RoleAlignment.ImpostorCultist)
             {
                 return TouRoleGroups.ImpCultist;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorFollower)
+            {
+                return TouRoleGroups.ImpFollower;
             }
 
             if (RoleAlignment == RoleAlignment.CrewmateBeliever)

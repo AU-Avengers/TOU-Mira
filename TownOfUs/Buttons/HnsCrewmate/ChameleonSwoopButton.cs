@@ -58,7 +58,7 @@ public sealed class ChameleonSwoopButton : TownOfUsRoleButton<HnsChameleonRole>
             return false;
         }
 
-        return ((Timer <= 0 && !EffectActive && (MaxUses == 0 || UsesLeft > 0)) ||
+        return ((Timer <= 0 && !EffectActive && (!LimitedUses || UsesLeft > 0)) ||
                 (EffectActive && Timer <= EffectDuration - 2f));
     }
 
@@ -68,7 +68,7 @@ public sealed class ChameleonSwoopButton : TownOfUsRoleButton<HnsChameleonRole>
         {
             PlayerControl.LocalPlayer.RpcAddModifier<HnsChameleonSwoopModifier>();
             UsesLeft--;
-            if (MaxUses != 0)
+            if (LimitedUses)
             {
                 Button?.SetUsesRemaining(UsesLeft);
             }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Text;
 using AmongUs.GameOptions;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -38,14 +37,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         if (allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
             (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2))
         {
-            var players =
-                ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) =>
-                    x.PlagueBearerId == Player.PlayerId);
-
-            players.Do(x =>
-                x.RpcRemoveModifier<PlaguebearerInfectedModifier>());
-
-            Player.RpcChangeRole(RoleId.Get<PestilenceRole>());
+            PestilenceRole.RpcTriggerPestilence(PlayerControl.LocalPlayer);
 
             CustomButtonSingleton<PestilenceKillButton>.Instance.SetTimer(OptionGroupSingleton<PlaguebearerOptions>
                 .Instance.PestKillCooldown);
@@ -86,7 +78,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom),
+        IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Plaguebearer,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
@@ -182,12 +174,12 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             source.AddModifier<PlaguebearerInfectedModifier>(target.PlayerId);
         }
         else if (source.TryGetModifier<PlaguebearerInfectedModifier>(out var mod) &&
-                 !target.HasModifier<PlaguebearerInfectedModifier>())
+                 !target.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == mod.PlagueBearerId))
         {
             target.AddModifier<PlaguebearerInfectedModifier>(mod.PlagueBearerId);
         }
         else if (target.TryGetModifier<PlaguebearerInfectedModifier>(out var mod2) &&
-                 !source.HasModifier<PlaguebearerInfectedModifier>())
+                 !source.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == mod2.PlagueBearerId))
         {
             source.AddModifier<PlaguebearerInfectedModifier>(mod2.PlagueBearerId);
         }

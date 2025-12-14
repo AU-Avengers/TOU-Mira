@@ -5,6 +5,7 @@ using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -17,8 +18,45 @@ public static class PlayerJoinPatch
     public static bool SentOnce { get; private set; }
     public static HudManager HUD => HudManager.Instance;
 
+    public static void Zoom(bool zoomOut)
+    {
+        if (((PlayerControl.LocalPlayer.DiedOtherRound() &&
+              (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
+               PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) || TutorialManager.InstanceExists)
+            && !MeetingHud.Instance && Minigame.Instance == null &&
+            !HudManager.Instance.Chat.IsOpenOrOpening)
+        {
+            HudManagerPatches.ScrollZoom(zoomOut);
+        }
+    }
+
     internal static void Postfix()
     {
+        TouKeybinds.ZoomIn.OnActivate(() =>
+        {
+            Zoom(false);
+        });
+        TouKeybinds.ZoomInKeypad.OnActivate(() =>
+        {
+            Zoom(false);
+        });
+        TouKeybinds.ZoomOut.OnActivate(() =>
+        {
+            Zoom(true);
+        });
+        TouKeybinds.ZoomOutKeypad.OnActivate(() =>
+        {
+            Zoom(true);
+        });
+        TouKeybinds.Wiki.OnActivate(() =>
+        {
+            if (Minigame.Instance)
+            {
+                return;
+            }
+
+            IngameWikiMinigame.Create().Begin(null);
+        });
         Coroutines.Start(CoSendJoinMsg());
     }
 
@@ -69,7 +107,17 @@ public static class PlayerJoinPatch
         var systemName = $"<color=#8BFDFD>{TouLocale.Get("SystemChatTitle")}</color>";
 
         var time = 0f;
-        if (GameHistory.EndGameSummary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+        var summary = GameHistory.EndGameSummary;
+        switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SummaryMessageAppearance.Value)
+        {
+            case GameSummaryAppearance.Advanced:
+                summary = GameHistory.EndGameSummaryAdvanced;
+                break;
+            case GameSummaryAppearance.Simplified:
+                summary = GameHistory.EndGameSummarySimple;
+                break;
+        }
+        if (summary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
                 .ShowSummaryMessageToggle.Value)
         {
             systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
@@ -81,7 +129,7 @@ public static class PlayerJoinPatch
             }
 
             var title =
-                $"{systemName}\n<size=62%>{factionText}{GameHistory.EndGameSummary}</size>";
+                $"{systemName}\n<size=62%>{factionText}{summary}</size>";
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
         }
 

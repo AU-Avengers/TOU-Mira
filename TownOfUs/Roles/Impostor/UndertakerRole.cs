@@ -88,6 +88,10 @@ public sealed class UndertakerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.DragBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcStartDragging(PlayerControl playerControl, byte bodyId)
     {
+        if (ModifierUtils.GetActiveModifiers<DragModifier>().Any(x => x.BodyId == bodyId))
+        {
+            return;
+        }
         playerControl.GetModifierComponent()?.AddModifier(new DragModifier(bodyId));
 
         var touAbilityEvent =

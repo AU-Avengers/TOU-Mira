@@ -18,6 +18,7 @@ using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
@@ -41,6 +42,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public void AssignTargets()
     {
+        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        {
+            return;
+        }
+
         var inquis = PlayerControl.AllPlayerControls.ToArray()
             .FirstOrDefault(x =>
                 x.IsRole<InquisitorRole>() && !x.HasDied() &&

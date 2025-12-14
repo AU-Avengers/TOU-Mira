@@ -35,78 +35,81 @@ public sealed class BodyReport
     {
         var reportColorDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportColorDuration;
         var reportNameDuration = OptionGroupSingleton<MedicOptions>.Instance.MedicReportNameDuration;
-
-        if (br.KillAge > reportColorDuration * 1000 && reportColorDuration > 0)
+        var text = TouLocale.GetParsed("TouRoleMedicBodyError");
+        if (br.Killer != null)
         {
-            return
-                $"Body Report: The corpse is too old to gain information from. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+            if (br.KillAge > reportColorDuration * 1000 && reportColorDuration > 0)
+            {
+                text = TouLocale.GetParsed("TouRoleMedicBodyOld");
+            }
+            else if (br.Killer.PlayerId == br.Body?.PlayerId)
+            {
+                text = TouLocale.GetParsed("TouRoleMedicBodySuicide");
+            }
+            else if (br.KillAge < reportNameDuration * 1000)
+            {
+                text = TouLocale.GetParsed("TouRoleMedicBodyKillerName").Replace("<player>", br.Killer.Data.PlayerName);
+            }
+            else
+            {
+                var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer);
+                text = TouLocale.GetParsed((typeOfColor == "lighter") ? "TouRoleMedicBodyKillerLightColor" : "TouRoleMedicBodyKillerDarkColor");
+            }
         }
 
-        if (br.Killer?.PlayerId == br.Body?.PlayerId)
-        {
-            return
-                $"Body Report: The kill appears to have been a suicide! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
-        }
+        text = text.Replace("<time>", Math.Round(br.KillAge / 1000).ToString(TownOfUsPlugin.Culture));
 
-        if (br.KillAge < reportNameDuration * 1000)
-        {
-            return
-                $"Body Report: The killer appears to be {br.Killer?.Data.PlayerName}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
-        }
-
-        var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer!);
-
-        return
-            $"Body Report: The killer appears to be a {typeOfColor} color. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+        return text;
     }
 
     public static string ParseForensicReport(BodyReport br)
     {
-        if (br.KillAge > OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration * 1000 &&
-            OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration > 0)
+        var text = TouLocale.GetParsed("TouRoleForensicBodyError");
+        if (br.Killer != null)
         {
-            return
-                $"Body Report: The corpse is too old to gain information from. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+            if (br.KillAge > OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration * 1000 &&
+                OptionGroupSingleton<ForensicOptions>.Instance.ForensicFactionDuration > 0)
+            {
+                text = TouLocale.GetParsed("TouRoleForensicBodyOld");
+            }
+            else if (br.Killer!.PlayerId == br.Body!.PlayerId)
+            {
+                text = TouLocale.GetParsed("TouRoleForensicBodySuicide");
+            }
+            else if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
+            {
+                // if the killer died, they would still appear correctly here
+                var role = br.Killer.GetRoleWhenAlive();
+                var cacheMod =
+                    br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
+                if (cacheMod != null)
+                {
+                    role = cacheMod.CachedRole;
+                }
+
+                text = TouLocale.GetParsed("TouRoleForensicBodyKillerRole").Replace("<role>",
+                    $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
+            }
+
+            else if (br.Killer.IsNeutral())
+            {
+                text = TouLocale.GetParsed("TouRoleForensicBodyKillerNeutral");
+            }
+
+            else if (br.Killer.IsCrewmate())
+            {
+                text = TouLocale.GetParsed("TouRoleForensicBodyKillerCrewmate");
+            }
+            else
+            {
+                text = TouLocale.GetParsed("TouRoleForensicBodyKillerImpostor");
+            }
+
         }
 
-        if (br.Killer!.PlayerId == br.Body!.PlayerId)
-        {
-            return
-                $"Body Report: The kill appears to have been a suicide! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
-        }
+        text = text.Replace("<time>", Math.Round(br.KillAge / 1000).ToString(TownOfUsPlugin.Culture));
 
-        // if the killer died, they would still appear correctly here
-        var role = br.Killer.GetRoleWhenAlive();
-        var cacheMod = br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-        if (cacheMod != null)
-        {
-            role = cacheMod.CachedRole;
-        }
-
-        var prefix = "a";
-        if (role.GetRoleName().StartsWithVowel())
-        {
-            prefix = "an";
-        }
-
-        if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
-        {
-            return
-                $"Body Report: The killer appears to be {prefix} {role.GetRoleName()}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
-        }
-
-        if (br.Killer.IsNeutral())
-        {
-            return
-                $"Body Report: The killer appears to be a Neutral Role! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
-        }
-
-        if (br.Killer.IsCrewmate())
-        {
-            return $"Body Report: The killer appears to be a Crewmate! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
-        }
-
-        return $"Body Report: The killer appears to be an Impostor! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+        return text;
     }
 }
 
@@ -122,6 +125,8 @@ public static class GameHistory
     public static readonly List<(byte, DeathReason)> DeathHistory = [];
     public static readonly Dictionary<byte, PlayerStats> PlayerStats = [];
     public static string EndGameSummary = string.Empty;
+    public static string EndGameSummarySimple = string.Empty;
+    public static string EndGameSummaryAdvanced = string.Empty;
     public static string WinningFaction = string.Empty;
     public static IEnumerable<RoleBehaviour> AllRoles => [.. RoleDictionary.Values];
 

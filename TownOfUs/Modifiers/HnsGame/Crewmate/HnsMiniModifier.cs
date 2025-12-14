@@ -12,7 +12,7 @@ public sealed class HnsMiniModifier : HnsGameModifier, IVisualAppearance
 {
     public override string LocaleKey => "Mini";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Mini;
-    public override ModifierFaction FactionType => ModifierFaction.CrewmateVisibility;
+    public override ModifierFaction FactionType => ModifierFaction.HiderVisibility;
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {

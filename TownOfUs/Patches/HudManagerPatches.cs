@@ -42,8 +42,8 @@ public static class HudManagerPatches
     public static GameObject ZoomButton;
     public static GameObject WikiButton;
     public static GameObject RoleList;
-    public static GameObject TeamChatButton;
     public static GameObject SubmergedFloorButton;
+    public static GameObject TeamChatButton;
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
@@ -230,10 +230,28 @@ public static class HudManagerPatches
         {
             return;
         }
-
         TeamChatButton.transform.Find("Inactive").gameObject.SetActive(false);
         TeamChatButton.transform.Find("Active").gameObject.SetActive(false);
         TeamChatButton.transform.Find("Selected").gameObject.SetActive(true);
+    }
+    public static void CreateTeamChatButton(HudManager instance)
+    {
+        if (TeamChatButton)
+        {
+            return;
+        }
+
+        TeamChatButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
+        TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+        TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(TeamChatPatches.ToggleTeamChat));
+        TeamChatButton.name = "FactionChat";
+        TeamChatButton.transform.Find("Background").localPosition = Vector3.zero;
+        TeamChatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            TouAssets.TeamChatInactive.LoadAsset();
+        TeamChatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+            TouAssets.TeamChatActive.LoadAsset();
+        TeamChatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite =
+            TouAssets.TeamChatSelected.LoadAsset();
     }
 
     public static bool CommsSaboActive()
@@ -932,26 +950,6 @@ public static class HudManagerPatches
         }
     }
 
-    public static void CreateTeamChatButton(HudManager instance)
-    {
-        if (TeamChatButton)
-        {
-            return;
-        }
-
-        TeamChatButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
-        TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-        TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(TeamChatPatches.ToggleTeamChat));
-        TeamChatButton.name = "FactionChat";
-        TeamChatButton.transform.Find("Background").localPosition = Vector3.zero;
-        TeamChatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
-            TouAssets.TeamChatInactive.LoadAsset();
-        TeamChatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
-            TouAssets.TeamChatActive.LoadAsset();
-        TeamChatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite =
-            TouAssets.TeamChatSelected.LoadAsset();
-    }
-
     public static void CreateWikiButton(HudManager instance)
     {
         var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
@@ -991,12 +989,12 @@ public static class HudManagerPatches
                 distanceFromEdge.x += 0.84f;
             }
 
+            distanceFromEdge.y = 0.485f;
             if (TeamChatButton.active)
             {
                 distanceFromEdge.x += 0.84f;
             }
 
-            distanceFromEdge.y = 0.485f;
             WikiButton.SetActive(true);
             aspectPosition.DistanceFromEdge = distanceFromEdge;
             aspectPosition.AdjustPosition();
@@ -1034,8 +1032,8 @@ public static class HudManagerPatches
         {
             CheckForScrollZoom();
         }
-
         UpdateTeamChat();
+        
         UpdateCamouflageComms();
         UpdateRoleNameText();
         UpdateSubmergedButtons(__instance);

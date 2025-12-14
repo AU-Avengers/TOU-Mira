@@ -1,5 +1,11 @@
 ﻿// using MiraAPI.Roles;
+
+using AmongUs.GameOptions;
+using MiraAPI.Roles;
 using TownOfUs.Modules;
+using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Neutral;
+
 // using TownOfUs.Utilities;
 // using UnityEngine;
 // using Object = UnityEngine.Object;
@@ -19,6 +25,11 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
         {
             roleWhenAlive = crewType.CrewVariant;
         }
+
+        if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
+        {
+            roleWhenAlive = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
+        }
         SetNewInfo(true, null, null, roleWhenAlive);
     }
 
@@ -30,7 +41,15 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
         {
             roleWhenAlive = crewType.CrewVariant;
         }
+
+        if (roleWhenAlive is ImitatorRole || roleWhenAlive is SurvivorRole || roleWhenAlive.IsSimpleRole)
+        {
+            roleWhenAlive = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
+        }
         SetNewInfo(true, null, null, roleWhenAlive);
+        RevealRole = true;
+        NameColor = roleWhenAlive.TeamColor;
+        ShownRole = roleWhenAlive;
         /*if (ShownRole == null)
         {
             return;

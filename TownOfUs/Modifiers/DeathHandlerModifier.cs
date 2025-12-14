@@ -65,23 +65,60 @@ public sealed class DeathHandlerModifier : BaseModifier
         DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
         DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
     {
-        if (!player.HasModifier<DeathHandlerModifier>())
-        {
-            Error("UpdateDeathHandler - Player had no DeathHandlerModifier");
-            player.AddModifier<DeathHandlerModifier>();
-        }
-
         Coroutines.Start(CoWriteDeathHandler(player, causeOfDeath, roundOfDeath, diedThisRound, killedBy, lockInfo));
     }
 
+    public static void UpdateDeathHandlerImmediate(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,
+        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
+        DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
+    {
+        if (!player.HasModifier<DeathHandlerModifier>())
+        {
+            Error("UpdateDeathHandlerImmediate - Player had no DeathHandlerModifier");
+            player.AddModifier<DeathHandlerModifier>();
+        }
+
+        Coroutines.Start(CoWriteDeathHandlerImmediate(player, causeOfDeath, roundOfDeath, diedThisRound, killedBy, lockInfo));
+    }
+
     public static bool IsCoroutineRunning { get; set; }
+    public static bool IsAltCoroutineRunning { get; set; }
 
     public static IEnumerator CoWriteDeathHandler(PlayerControl player, string causeOfDeath, int roundOfDeath,
         DeathHandlerOverride diedThisRound, string killedBy, DeathHandlerOverride lockInfo)
     {
         IsCoroutineRunning = true;
         yield return new WaitForSeconds(0.05f);
-        var deathHandler = player.GetModifier<DeathHandlerModifier>()!;
+        DeathHandlerModifier deathHandler;
+        if (!player.HasModifier<DeathHandlerModifier>())
+        {
+            Error("UpdateDeathHandler - Player had no DeathHandlerModifier");
+            deathHandler = player.AddModifier<DeathHandlerModifier>()!;
+        }
+        else
+        {
+            #pragma warning disable S1854 // Unused assignments should be removed
+            deathHandler = player.GetModifier<DeathHandlerModifier>()!; // This is actually a used assignment. Surprise Surprise.
+            #pragma warning restore S1854 // Unused assignments should be removed
+
+            IsCoroutineRunning = false;
+            yield break;
+        }
+        yield return new WaitForEndOfFrame();
+
+        // For future refence, do note that AddModifier only begins on the next unity physics update, as of MIRA CI 820, and so
+        //   WaitForEndOfFrame may not necessarily hit it. The solution to this is being a bit more 'c' like in code style, or ensuring you wait.
+        //   I have chosen the former here.
+        // Consider also introducing a GetOrAddModifier method to trend developers away from similar misakes :)
+        // Yes there are nicer ways to fix this/write "cleaner" code. However, in the effort of making the issue clear for future, I have chosen the
+        //   explicit and slightly long winded way, which imo gets the point across more.
+        if (deathHandler == null) {
+            Error("There has been a significant issue with MiraApi modifier application.\n  TownOfUs/Modifiers/DeathHandlerModifier.cs:line 106\n"
+                + "Consider the timings of this Coroutine and the physics update event in Mira.");
+            IsCoroutineRunning = false;
+            yield break;
+        }
+
         if (causeOfDeath != "null")
         {
             deathHandler.CauseOfDeath = causeOfDeath;
@@ -108,6 +145,43 @@ public sealed class DeathHandlerModifier : BaseModifier
         }
 
         IsCoroutineRunning = false;
+    }
+
+    public static IEnumerator CoWriteDeathHandlerImmediate(PlayerControl player, string causeOfDeath, int roundOfDeath,
+        DeathHandlerOverride diedThisRound, string killedBy, DeathHandlerOverride lockInfo)
+    {
+        IsAltCoroutineRunning = true;
+        while (!player.HasModifier<DeathHandlerModifier>())
+        {
+            yield return null;
+        }
+        var deathHandler = player.GetModifier<DeathHandlerModifier>()!;
+        if (causeOfDeath != "null")
+        {
+            deathHandler.CauseOfDeath = causeOfDeath;
+        }
+
+        if (roundOfDeath != -1)
+        {
+            deathHandler.RoundOfDeath = roundOfDeath;
+        }
+
+        if (diedThisRound != DeathHandlerOverride.Ignore)
+        {
+            deathHandler.DiedThisRound = diedThisRound is DeathHandlerOverride.SetTrue;
+        }
+
+        if (killedBy != "null")
+        {
+            deathHandler.KilledBy = killedBy;
+        }
+
+        if (lockInfo != DeathHandlerOverride.Ignore)
+        {
+            deathHandler.LockInfo = lockInfo is DeathHandlerOverride.SetTrue;
+        }
+
+        IsAltCoroutineRunning = false;
     }
 }
 

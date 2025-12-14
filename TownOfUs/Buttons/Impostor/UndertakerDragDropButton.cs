@@ -17,6 +17,8 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<UndertakerOptions>.Instance.DragCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.DragSprite;
 
+    public override bool ZeroIsInfinite { get; set; } = true;
+
     public override void ClickHandler()
     {
         if (!CanClick())

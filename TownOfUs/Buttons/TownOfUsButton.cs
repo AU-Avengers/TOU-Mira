@@ -22,6 +22,8 @@ public abstract class TownOfUsButton : CustomActionButton
     public static float MapCooldown =>
         TownOfUsMapOptions.GetMapBasedCooldownDifference();
 
+    public override bool ZeroIsInfinite { get; set; }
+
     public override float InitialCooldown => 10;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 
