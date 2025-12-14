@@ -182,25 +182,6 @@ public static class TeamChatPatches
         }
     }
 
-    public static void CreateTeamChatButton()
-    {
-        if (TeamChatButton)
-        {
-            return;
-        }
-
-        var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
-        var BanMenu = ChatScreenContainer.transform.FindChild("BanMenuButton");
-
-        TeamChatButton = Object.Instantiate(BanMenu.gameObject, BanMenu.transform.parent);
-        TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-        TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ToggleTeamChat));
-        TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch.LoadAsset();
-        TeamChatButton.name = "FactionChat";
-        var pos = BanMenu.transform.localPosition;
-        TeamChatButton.transform.localPosition = new Vector3(pos.x, pos.y + 0.7f, pos.z);
-    }
-
     public static void CreateTeamChatBubble()
     {
         var obj = HudManager.Instance.Chat.chatNotifyDot.gameObject;
@@ -460,6 +441,17 @@ public static class TeamChatPatches
                          .FirstOrDefault(x => x.Data.PlayerName == playerName) && MeetingHud.Instance)
             {
                 __instance.NameText.color = (player.GetRoleWhenAlive() is ICustomRole custom) ? custom.RoleColor : player.GetRoleWhenAlive().TeamColor;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
+    public static class ClosePatch
+    {
+        public static void Postfix(ChatController __instance)
+        {
+            if (TeamChatActive)
+            {
+                ToggleTeamChat();
             }
         }
     }
