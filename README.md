@@ -150,6 +150,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us   | Mod Version | Download Link                                                           |
 |------------|-------------|-------------------------------------------------------------------------|
+| 2025.10.28 | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
 | 2025.10.28 | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
 | 2025.10.14 | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
 | 2025.9.9   | 1.3.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
@@ -162,13 +163,22 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 | 2025.5.20  | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
 | 2025.5.20  | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
 
-<details>
-<summary>Older Versions</summary>
+-----------------------
 
-| Among Us   | Mod Version  | Download Link                                                                                                         |
-|------------|--------------|-----------------------------------------------------------------------------------------------------------------------|
+# Mod Compatibility
 
-</details>
+**Disclaimer: This mod compatibility list can and will change over time.**
+
+If a mod is missing here and is a role/modifiers mod, it likely won't work unless it is built with [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)!
+
+|                                    Mod                                    | Support | Notes                                                                                                                                             |
+|:-------------------------------------------------------------------------:|:-------:|:--------------------------------------------------------------------------------------------------------------------------------------------------|
+|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         | ✅ | Limited "Better Map" customization.                                                                                                               |
+|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        | ✅ | Limited "Better Map" customization.                                                                                                               |
+|             [NewMod](https://github.com/CallOfCreator/NewMod)             | ✅ | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                                                                  |
+| [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) | ✅ | Launchpad tags overlap with Tou player names.<br/>Wiki is not fully implemented.                                                                  |
+|     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      | ⚠️ | Ability buttons are very seperated from one another.<br/>Roles are partially broken on latest Among Us update.<br/>Wiki is not fully implemented. |
+|          [ChaosTokens](https://github.com/xChipseq/ChaosTokens)           | ✅ |                                                                                                                                                   |
 
 -----------------------
 

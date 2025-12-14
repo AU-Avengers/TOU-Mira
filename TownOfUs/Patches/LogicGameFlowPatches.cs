@@ -24,7 +24,7 @@ public static class LogicGameFlowPatches
 {
     public static bool CheckEndGameViaTasks(LogicGameFlowNormal instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
         {
             return false;
         }
@@ -43,7 +43,7 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaTimeLimit(LogicGameFlowNormal instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
         {
             return false;
         }
@@ -75,7 +75,7 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaHexBomb(LogicGameFlowNormal instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
         {
             return false;
         }
@@ -143,7 +143,7 @@ public static class LogicGameFlowPatches
     [HarmonyPrefix]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
         {
             return false;
         }

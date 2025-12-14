@@ -61,7 +61,7 @@ internal static class CancelCountdownStart
     {
         if (AmongUsClient.Instance.AmHost)
         {
-            if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd)
+            if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
             {
                 var warningText = "<color=#FF0000><b>Warning: No Game End is enabled. The game will not end automatically.</b></color>";
                 var notif = Helpers.CreateAndShowNotification(warningText, Color.red, new Vector3(0f, 1f, -20f)); // I'm not good enough with vectors to place this properly
