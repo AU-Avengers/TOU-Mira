@@ -84,6 +84,10 @@ public static class TeamChatPatches
         {
             HudManagerPatches.TeamChatButton.transform.Find("Inactive").gameObject.SetActive(true);
         }
+        else
+        {
+            HudManager.Instance.Chat.Toggle();
+        }
     }
 
     public static void UpdateChat()
