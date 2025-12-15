@@ -1,9 +1,6 @@
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using TownOfUs.Modules.Anims;
-using TownOfUs.Patches;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;

@@ -1,12 +1,6 @@
-﻿using System.Collections;
-using AmongUs.GameOptions;
-using MiraAPI.Hud;
-using MiraAPI.Roles;
+﻿using MiraAPI.Hud;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Freeplay;

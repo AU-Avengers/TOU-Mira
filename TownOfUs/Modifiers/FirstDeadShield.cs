@@ -6,7 +6,6 @@ using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using UnityEngine;
