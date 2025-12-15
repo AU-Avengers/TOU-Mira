@@ -77,8 +77,10 @@ public sealed class JesterRole(IntPtr cppPtr)
             return false;
         }
 
-        return Voted ||
-               GameHistory.DeathHistory.Exists(x => x.Item1 == Player.PlayerId && x.Item2 == DeathReason.Exile);
+        // Only the Jester being *voted out* should trigger a Jester win.
+        // Some mechanics (e.g. Lovers chain deaths) can cause a player to die during an exile,
+        // which may be recorded as Exile in history even though they were not the voted-out player.
+        return Voted;
     }
 
     public override void Initialize(PlayerControl player)
@@ -138,7 +140,6 @@ public sealed class JesterRole(IntPtr cppPtr)
     {
         //Message($"JesterRole.DidWin - Voted: '{Voted}', Exists: '{GameHistory.DeathHistory.Exists(x => x.Item1 == Player.PlayerId && x.Item2 == DeathReason.Exile)}'");
 
-        return Voted ||
-               GameHistory.DeathHistory.Exists(x => x.Item1 == Player.PlayerId && x.Item2 == DeathReason.Exile);
+        return Voted;
     }
 }
