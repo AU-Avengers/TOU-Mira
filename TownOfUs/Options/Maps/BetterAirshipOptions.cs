@@ -58,6 +58,9 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
             OptionGroupSingleton<BetterAirshipOptions>.Instance.ChangeSaboTimers
     };
 
+    [ModdedToggleOption("TouOptionBetterAirshipNoLadderCooldown")]
+    public bool NoLadderCooldown { get; set; } = true;
+
     public enum SpawnModes
     {
         Normal,

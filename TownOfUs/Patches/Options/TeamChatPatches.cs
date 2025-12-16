@@ -85,6 +85,12 @@ public static class TeamChatPatches
         TeamChatActive = !TeamChatActive;
         SoundManager.Instance.PlaySound(HudManager.Instance.Chat.quickChatButton.ClickSound, false, 1f, null);
         UpdateChat();
+
+        if (!HudManager.Instance.Chat.IsOpenOrOpening)
+        {
+            HudManager.Instance.Chat.Toggle();
+            UpdateChat();
+        }
     }
 
     public static void ForceNormalChat()
@@ -254,6 +260,12 @@ public static class TeamChatPatches
             if (!__instance.IsOpenOrOpening)
             {
                 return;
+            }
+
+            // Ensure that opening chat reflects the currently-selected custom chat mode.
+            if (TeamChatActive && !ForceReset)
+            {
+                UpdateChat();
             }
 
             if (PrivateChatDot != null &&
