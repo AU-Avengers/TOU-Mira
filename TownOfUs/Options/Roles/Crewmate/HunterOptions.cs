@@ -25,9 +25,6 @@ public sealed class HunterOptions : AbstractOptionGroup<HunterRole>
         Visible = () => OptionGroupSingleton<HunterOptions>.Instance.StalkUses != -1
     };
 
-    [ModdedToggleOption("TouOptionHunterTaskUses")]
-    public bool TaskUses { get; set; } = true;
-
     [ModdedToggleOption("TouOptionHunterRetributionOnVote")]
     public bool RetributionOnVote { get; set; } = true;
 
