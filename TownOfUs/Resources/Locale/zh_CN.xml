@@ -648,10 +648,10 @@
   <string name="TouModifierSatelliteWikiDescription">你可以在地图上检测尸体，每局可用\%maxUses\%次。</string>
   <string name="TouModifierSatelliteBroadcast">广播搜索</string>
   <string name="TouModifierSatelliteBroadcastWikiDescription">你可以在地图上检测尸体，每局可用\%maxUses\%次。</string>
-  <string name="TouOptionRadarCooldown">按钮冷却</string>
-  <string name="TouOptionRadarMaxUses">最大可用次数</string>
-  <string name="TouOptionRadarOnePerRound">每回合限用一次</string>
-  <string name="TouOptionRadarAllowFirst">首回合可用</string>
+  <string name="TouOptionSatelliteCooldown">按钮冷却</string>
+  <string name="TouOptionSatelliteMaxUses">最大可用次数</string>
+  <string name="TouOptionSatelliteOnePerRound">每回合限用一次</string>
+  <string name="TouOptionSatelliteAllowFirst">首回合可用</string>
   <string name="TouModifierShyTabDescription">你静止一段时间后\%nl\%会变得半透明。</string>
   <string name="TouModifierShyWikiDescription">你会与环境融为一体，静止时变得半透明。</string>
   <string name="TouOptionShyDelay">变透明延迟</string>

@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using AmongUs.GameOptions;
-using MiraAPI.Hud;
-using MiraAPI.Roles;
+﻿using MiraAPI.Hud;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
-using TownOfUs.Utilities;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Freeplay;
@@ -46,35 +41,8 @@ public sealed class ResetFreeplayButton : TownOfUsButton
         {
             GameManager.Instance.ReviveEveryoneFreeplay();
         }
-        Coroutines.Start(SetDummyData());
-    }
 
-    private static IEnumerator SetDummyData()
-    {
-        yield return new WaitForSeconds(0.01f);
-
-        var roleList = MiscUtils.AllRegisteredRoles
-            .Where(role => !role.IsDead)
-            .Where(role => !role.IsImpostor())
-            .ToList();
-
-        foreach (var dummy in PlayerControl.AllPlayerControls.ToArray().Where(x => !x.AmOwner))
-        {
-            var random = roleList.Random();
-            if (random != null)
-            {
-                try
-                {
-                    var roleType = RoleId.Get(random.GetType());
-                    dummy.RpcChangeRole(roleType);
-                    roleList.Remove(random);
-                }
-                catch
-                {
-                    dummy.RpcChangeRole((ushort)RoleTypes.Crewmate);
-                }
-            }
-            yield return new WaitForSeconds(0.01f);
-        }
+        // Restore Freeplay state (roles/modifiers/etc.) back to the original baseline.
+        FreeplayDebugState.RestoreBaseline();
     }
 }

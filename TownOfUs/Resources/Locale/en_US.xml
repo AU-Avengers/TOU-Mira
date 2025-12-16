@@ -331,8 +331,10 @@
   <!-- Freeplay Terms -->
   <string name="FreeplayKillButton">Remote Kill</string>
   <string name="FreeplaySetRoleButton">Set Role</string>
+  <string name="FreeplaySetModifiersButton">Set Modifiers</string>
   <string name="FreeplayRestartButton">Reset Game</string>
   <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
+  <string name="TouFirstRoundDeathIndicator">First Round Death Indicator</string>
   <!-- Advanced Sabotage Options -->
   <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboKillDuringCamoComms">Kill Anyone During Camouflage</string>
@@ -403,6 +405,7 @@
   <string name="TouOptionBetterAirshipSpawnLocationEnumEngineRoom">Engine Room</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
+  <string name="TouOptionBetterAirshipNoLadderCooldown">No Ladder Cooldown</string>
   <!-- Better Fungle Options -->
   <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
   <!-- Better Submerged Options -->
@@ -654,7 +657,7 @@
   <string name="TouOptionHunterKillCooldown">Hunter Kill Cooldown</string>
   <string name="TouOptionHunterStalkCooldown">Hunter Stalk Cooldown</string>
   <string name="TouOptionHunterStalkDuration">Hunter Stalk Duration</string>
-  <string name="TouOptionHunterStalkUses">Max Stalk Uses</string>
+  <string name="TouOptionHunterStalkUses">Initial Stalk Uses</string>
   <string name="TouOptionHunterStalksPerTasks">Stalk Use Per Tasks Completed</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
@@ -724,7 +727,7 @@
   <string name="TouRoleLookoutWatchNotif">You will know what roles interact with \%player\% next meeting.</string>
   <!-- Lookout Options -->
   <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
-  <string name="TouOptionLookoutMaxWatches">Max Players That Can be Watched</string>
+  <string name="TouOptionLookoutMaxWatches">Initial Players That Can be Watched</string>
   <string name="TouOptionLookoutLoResetOnNewRound">Lookout Watches Reset After Each Round</string>
   <string name="TouOptionLookoutTaskUses">Get More Uses From Completing Tasks</string>
   <!-- Mayor - Crewmate Power -->
@@ -873,7 +876,7 @@
   <!-- Plumber Options -->
   <string name="TouOptionPlumberFlushCooldown">Flush Cooldown</string>
   <string name="TouOptionPlumberBlockCooldown">Block Cooldown</string>
-  <string name="TouOptionPlumberMaxNumberOfBarricades">Max Number Of Barricades</string>
+  <string name="TouOptionPlumberMaxNumberOfBarricades">Initial Number Of Barricades</string>
   <string name="TouOptionPlumberAmountOfRoundsBarricadesLast">Amount Of Rounds Barricades Last</string>
   <string name="TouOptionPlumberGetMoreFromTasks">Get More Barricades From Completing Tasks</string>
   <!-- Politician - Crewmate Power -->
@@ -1031,7 +1034,7 @@
   <string name="TouRoleSonarTrackWikiDescription">Track a player to see where they go. You will have an arrow pointing to their location that will update periodically. It will disappear if they die, or depending on settings, the trackers will be reset after a meeting.</string>
   <!-- Sonar Options -->
   <string name="TouOptionSonarTrackCooldown">Track Cooldown</string>
-  <string name="TouOptionSonarMaxNumberOfTracks">Max Number Of Tracks</string>
+  <string name="TouOptionSonarMaxNumberOfTracks">Initial Number Of Tracks</string>
   <string name="TouOptionSonarArrowUpdateInterval">Arrow Update Interval</string>
   <string name="TouOptionSonarArrowsMakeSoundOnDeath">Trackers Make Sound On Death</string>
   <string name="TouOptionSonarArrowsResetAfterEachRound">Trackers Reset After Each Round</string>
@@ -1047,7 +1050,7 @@
   <string name="TouRoleTransporterTransportNotif">You have been transported!</string>
   <!-- Transporter Options -->
   <string name="TouOptionTransporterTransportCooldown">Transport Cooldown</string>
-  <string name="TouOptionTransporterMaxUses">Max Uses</string>
+  <string name="TouOptionTransporterMaxUses">Initial Uses</string>
   <string name="TouOptionTransporterMoveWithMenu">Move While Using Transport Menu (KB ONLY)</string>
   <string name="TouOptionTransporterCanUseVitals">Can Use Vitals</string>
   <string name="TouOptionTransporterGetUsesFromTasks">Get More Uses From Completing Tasks</string>
@@ -1064,7 +1067,7 @@
   <!-- Trapper Options -->
   <string name="TouOptionTrapperTrapCooldown">Trap Cooldown</string>
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
-  <string name="TouOptionTrapperMaxNumberOfTraps">Max Number Of Traps</string>
+  <string name="TouOptionTrapperMaxNumberOfTraps">Initial Number Of Traps</string>
   <string name="TouOptionTrapperTrapSize">Trap Size</string>
   <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
   <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
@@ -1086,9 +1089,9 @@
   <!-- Veteran Options -->
   <string name="TouOptionVeteranAlertCooldown">Alert Cooldown</string>
   <string name="TouOptionVeteranAlertDuration">Alert Duration</string>
-  <string name="TouOptionVeteranMaxNumberofAlerts">Max Number of Alerts</string>
+  <string name="TouOptionVeteranMaxNumberofAlerts">Initial Number of Alerts</string>
   <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
-  <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>or G
+  <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
 
   <!-- Vigilante - Crewmate Killing -->
   <!-- Vigilante Wiki / Description -->
@@ -1199,7 +1202,7 @@
   <string name="TouOptionBomberBombUsesPerGame">Bomb Uses Per Game</string>
   <string name="TouOptionBomberDetonateDelay">Detonate Delay</string>
   <string name="TouOptionBomberDetonateRadius">Detonate Radius</string>
-  <string name="TouOptionBomberMAxKillsInDetonation">MAx Kills In Detonation</string>
+  <string name="TouOptionBomberMAxKillsInDetonation">Max Kills In Detonation</string>
   <string name="TouOptionBomberAllImpostorsSeeBomb">All Impostors See Bomb</string>
   <string name="TouOptionBomberAllowBombinginFirstRound">Allow Bombing in First Round</string>
   <string name="TouOptionBomberCanVent">Bomber Can Vent</string>
@@ -1835,10 +1838,10 @@
   <string name="TouModifierSatelliteSingleNotif">One body was found on the map.</string>
   <string name="TouModifierSatellitePluralNotif">\%count\% bodies were found on the map.</string>
   <!-- Satellite Options -->
-  <string name="TouOptionRadarCooldown">Button Cooldown</string>
-  <string name="TouOptionRadarMaxUses">Max Uses</string>
-  <string name="TouOptionRadarOnePerRound">One Usage Per Round</string>
-  <string name="TouOptionRadarAllowFirst">Allow Usage in First Round</string>
+  <string name="TouOptionSatelliteCooldown">Button Cooldown</string>
+  <string name="TouOptionSatelliteMaxUses">Max Uses</string>
+  <string name="TouOptionSatelliteOnePerRound">One Usage Per Round</string>
+  <string name="TouOptionSatelliteAllowFirst">Allow Usage in First Round</string>
   <!-- Shy -->
   <!-- Shy Wiki / Description -->
   <string name="TouModifierShy">Shy</string>

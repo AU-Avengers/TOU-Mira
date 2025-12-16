@@ -906,7 +906,10 @@ public static class MiscUtils
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
         chat.AlignAllBubbles();
-        if (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive)
+        // Only show the for incoming messages
+        // Otherwise you get a notification when you message yourself (e.g. Lovers chat).
+        // (I think this is the right way to do that...)
+        if (onLeft && (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive))
         {
             Coroutines.Start(BouncePrivateChatDot(bubbleType));
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
