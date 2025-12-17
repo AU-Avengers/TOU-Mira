@@ -15,7 +15,6 @@ using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using UnityEngine.UI;
-using AmongUs.Data;
 using TownOfUs.Modifiers;
 
 namespace TownOfUs.Patches.Options;
@@ -36,7 +35,7 @@ public static class TeamChatPatches
 
     private static bool IsPrivateBubble(GameObject bubbleGo)
     {
-        return bubbleGo != null && bubbleGo.name != null && bubbleGo.name.StartsWith(PrivateBubblePrefix);
+        return bubbleGo != null && bubbleGo.name.StartsWith(PrivateBubblePrefix, StringComparison.OrdinalIgnoreCase);
     }
 
     private static void PruneStoredBubbles()
@@ -187,17 +186,17 @@ public static class TeamChatPatches
         if (HudManager.InstanceExists && HudManager.Instance.Chat != null)
         {
             RestoreStoredBubbles(HudManager.Instance.Chat);
-        }
 
-        Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
-        if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
-        {
-            buttonArray = 
-                [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
+            Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
+            if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
+            {
+                buttonArray = 
+                    [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
+            }
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
         }
-        HudManager.Instance?.Chat?.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
-        HudManager.Instance?.Chat?.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
-        HudManager.Instance?.Chat?.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
     }
 
     public static void UpdateChat()

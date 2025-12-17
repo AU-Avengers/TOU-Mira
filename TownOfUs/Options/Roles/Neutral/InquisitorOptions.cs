@@ -10,7 +10,7 @@ public sealed class InquisitorOptions : AbstractOptionGroup<InquisitorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleInquisitor", "Inquisitor");
 
-    [ModdedNumberOption("TouOptionInquisitorVanquishCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionInquisitorVanquishCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float VanquishCooldown { get; set; } = 25f;
 
     [ModdedToggleOption("TouOptionInquisitorRoundOneVanquish")]
@@ -23,7 +23,7 @@ public sealed class InquisitorOptions : AbstractOptionGroup<InquisitorRole>
     public bool CantInquire { get; set; } = false;
 
     public ModdedNumberOption InquireCooldown { get; set; } =
-        new("TouOptionInquisitorInquireCooldown", 25f, 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionInquisitorInquireCooldown", 25f, 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)
         {
             Visible = () => !OptionGroupSingleton<InquisitorOptions>.Instance.CantInquire
         };

@@ -5,6 +5,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
@@ -27,6 +28,13 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
         if (deadPlayer == null)
         {
             return;
+        }
+
+        if (OptionGroupSingleton<MysticOptions>.Instance.MysticHnsPopUp.Value)
+        {
+            var popup = GameManagerCreator.Instance.HideAndSeekManagerPrefab.DeathPopupPrefab;
+            var item = Object.Instantiate(popup, HudManager.Instance.transform.parent);
+            item.Show(Player, 0);
         }
 
         _arrow = MiscUtils.CreateArrow(Mystic.transform, Color.white);
