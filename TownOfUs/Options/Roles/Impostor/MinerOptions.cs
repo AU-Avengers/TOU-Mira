@@ -13,7 +13,7 @@ public sealed class MinerOptions : AbstractOptionGroup<MinerRole>
     [ModdedNumberOption("Number Of Miner Vents Per Game", 0f, 30f, 5f, MiraNumberSuffixes.None, "0", true)]
     public float MaxMines { get; set; } = 0f;
 
-    [ModdedNumberOption("Mine Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Mine Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float MineCooldown { get; set; } = 25f;
 
     [ModdedEnumOption("Mine Visiblity", typeof(MineVisiblityOptions), ["Immediate", "After Use"])]

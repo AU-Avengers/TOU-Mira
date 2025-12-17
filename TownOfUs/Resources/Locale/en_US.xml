@@ -618,11 +618,11 @@
   <string name="TouRoleEngineerFixWikiDescription">It doesn't matter where you are on the map, you can use your fix button to instantly fix the active sabotage. You can do this \%engiMaxFixes\% times per game.</string>
   <!-- Engineer Options -->
   <string name="TouOptionEngineerMaxVents">Vent Uses Per Game</string>
-  <string name="TouOptionEngineerVentPerTasks">Vent Use Per Tasks Completed</string>
+  <string name="TouOptionEngineerVentPerTasks">Tasks Required For Additional Vent Use</string>
   <string name="TouOptionEngineerVentCooldown">Vent Cooldown</string>
   <string name="TouOptionEngineerVentDuration">Vent Duration</string>
   <string name="TouOptionEngineerMaxFixes">Fix Uses Per Game</string>
-  <string name="TouOptionEngineerFixPerTasks">Fix Use Per Tasks Completed</string>
+  <string name="TouOptionEngineerFixPerTasks">Tasks Required For Additional Fix Use</string>
   <string name="TouOptionEngineerFixDelay">Fix Delay</string>
   <!-- Haunter - Crewmate Investigative -->
   <!-- Haunter Wiki / Description -->
@@ -658,7 +658,7 @@
   <string name="TouOptionHunterStalkCooldown">Hunter Stalk Cooldown</string>
   <string name="TouOptionHunterStalkDuration">Hunter Stalk Duration</string>
   <string name="TouOptionHunterStalkUses">Initial Stalk Uses</string>
-  <string name="TouOptionHunterStalksPerTasks">Stalk Use Per Tasks Completed</string>
+  <string name="TouOptionHunterStalksPerTasks">Tasks Required For Additional Stalk Use</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
   <!-- Imitator - Crewmate Support -->

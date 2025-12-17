@@ -9,10 +9,10 @@ public sealed class EclipsalOptions : AbstractOptionGroup<EclipsalRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleEclipsal", "Eclipsal");
 
-    [ModdedNumberOption("TouOptionEclipsalBlindCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionEclipsalBlindCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BlindCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("TouOptionEclipsalBlindDuration", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionEclipsalBlindDuration", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BlindDuration { get; set; } = 15f;
 
     [ModdedNumberOption("TouOptionEclipsalBlindRadius", 0.25f, 5f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]

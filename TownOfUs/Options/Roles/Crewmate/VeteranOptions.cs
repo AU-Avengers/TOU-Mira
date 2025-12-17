@@ -9,7 +9,7 @@ public sealed class VeteranOptions : AbstractOptionGroup<VeteranRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleVeteran", "Veteran");
 
-    [ModdedNumberOption("TouOptionVeteranAlertCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionVeteranAlertCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float AlertCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("TouOptionVeteranAlertDuration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]

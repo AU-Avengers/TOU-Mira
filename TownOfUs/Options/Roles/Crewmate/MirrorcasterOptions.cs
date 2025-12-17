@@ -18,7 +18,7 @@ public sealed class MirrorcasterOptions : AbstractOptionGroup<MirrorcasterRole>
         new($"TouOptionMirrorcasterMagicMirrorCooldown", 0f, 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds);
 
     public ModdedNumberOption MirrorDuration { get; } =
-        new($"TouOptionMirrorcasterMagicMirrorDuration", 30f, 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds);
+        new($"TouOptionMirrorcasterMagicMirrorDuration", 30f, 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds);
 
     public ModdedNumberOption UnleashCooldown { get; } =
         new($"TouOptionMirrorcasterUnleashCooldown", 15f, 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds);
