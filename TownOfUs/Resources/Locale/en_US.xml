@@ -831,6 +831,7 @@
   <string name="TouRoleMysticWikiDescription">The Mystic is a Crewmate Investigative role that gets an alert when someone dies.</string>
   <!-- Mystic Options -->
   <string name="TouOptionMysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
+  <string name="TouOptionMysticHnsPopUp">Show Death Pop-Up</string>
   <!-- Oracle - Crewmate Protective -->
   <!-- Oracle Wiki / Abilities -->
   <string name="TouRoleOracle">Oracle</string>
