@@ -9,7 +9,7 @@ public sealed class SheriffOptions : AbstractOptionGroup<SheriffRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSheriff", "Sheriff");
 
-    [ModdedNumberOption("TouOptionSheriffKillCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionSheriffKillCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;
 
     [ModdedToggleOption("TouOptionSheriffCanSelfReport")]

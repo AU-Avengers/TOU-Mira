@@ -12,7 +12,7 @@ public sealed class OracleOptions : AbstractOptionGroup<OracleRole>
     [ModdedNumberOption("TouOptionOracleConfessCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float ConfessCooldown { get; set; } = 20f;
 
-    [ModdedNumberOption("TouOptionOracleBlessCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionOracleBlessCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BlessCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("TouOptionOracleRevealAccuracy", 0f, 100f, suffixType: MiraNumberSuffixes.Percent)]

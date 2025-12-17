@@ -10,7 +10,7 @@ public sealed class ArsonistOptions : AbstractOptionGroup<ArsonistRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleArsonist", "Arsonist");
 
-    [ModdedNumberOption("TouOptionArsonistDouseCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionArsonistDouseCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float DouseCooldown { get; set; } = 25f;
 
     [ModdedToggleOption("TouOptionArsonistDouseInteractions")]

@@ -9,10 +9,10 @@ public sealed class WerewolfOptions : AbstractOptionGroup<WerewolfRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleWerewolf", "Werewolf");
 
-    [ModdedNumberOption("TouOptionWerewolfRampageCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionWerewolfRampageCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float RampageCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("TouOptionWerewolfRampageDuration", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionWerewolfRampageDuration", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float RampageDuration { get; set; } = 10f;
 
     [ModdedNumberOption("TouOptionWerewolfKillCooldown", 0.5f, 15f, 0.5f, MiraNumberSuffixes.Seconds)]
