@@ -902,10 +902,20 @@ public static class MiscUtils
             pooledBubble.TextArea.color = Color.white;
         }
 
+        // Tag *team/private* chat bubbles so the UI can reliably show/hide them.
+        // Color-based filtering breaks when system/feedback messages use non-white/non-black backgrounds.
+        // Note: Lovers chat intentionally uses `blackoutText: false` and should behave like regular chat.
+        if (blackoutText && bubbleType != BubbleType.None)
+        {
+            pooledBubble.gameObject.name = $"TOU_TeamChatBubble_{bubbleType}";
+        }
+
         pooledBubble.AlignChildren();
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
-        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText)
+        // Only hide/store *team/private* bubbles when the user is currently viewing public chat.
+        // (System/feedback messages should remain in public chat even if they are "black tinted".)
+        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText && bubbleType != BubbleType.None)
         {
             TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
             pooledBubble.gameObject.SetActive(false);
