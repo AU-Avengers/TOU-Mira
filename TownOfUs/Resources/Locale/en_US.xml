@@ -1453,6 +1453,7 @@
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
   <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>
   <string name="TouOptionArsonistCanVent">Arsonist Can Vent</string>
+  <string name="TouOptionArsonistImpVision">Has Impostor Vision</string>
   <!-- Doomsayer -->
   <!-- Doomsayer Wiki / Abilities -->
   <string name="TouRoleDoomsayer">Doomsayer</string>

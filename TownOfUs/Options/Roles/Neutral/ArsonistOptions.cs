@@ -27,4 +27,7 @@ public sealed class ArsonistOptions : AbstractOptionGroup<ArsonistRole>
 
     [ModdedToggleOption("TouOptionArsonistCanVent")]
     public bool CanVent { get; set; }
+
+    [ModdedToggleOption("TouOptionArsonistImpVision")]
+    public bool ImpostorVision { get; set; } = true;
 }
