@@ -59,10 +59,6 @@ internal static class CancelCountdownStart
     [HarmonyPostfix]
     public static void PostfixBeginGame(GameStartManager __instance)
     {
-        HudManagerPatches.LobbyZoomLocked = true;
-        if (HudManagerPatches.ZoomButton) HudManagerPatches.ZoomButton.SetActive(false);
-        HudManagerPatches.ResetZoom();
-
         if (AmongUsClient.Instance.AmHost)
         {
             if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
@@ -120,9 +116,6 @@ internal static class CancelCountdownStart
                 GameManager.Instance.LogicOptions.SyncOptions();
             }
         }
-
-        HudManagerPatches.LobbyZoomLocked = false;
-        if (HudManagerPatches.ZoomButton) HudManagerPatches.ZoomButton.SetActive(true);
     }
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.SetStartCounter))]

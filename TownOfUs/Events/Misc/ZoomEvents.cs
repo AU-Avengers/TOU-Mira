@@ -14,10 +14,6 @@ public static class ZoomEvents
     {
         if (@event.TriggeredByIntro)
         {
-            // Ensure lobby zoom never carries into the game.
-            HudManagerPatches.ResetZoom();
-            HudManagerPatches.ZoomButton.SetActive(false);
-
             if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
             {
                 HudManagerPatches.ZoomButton.SetActive(true);

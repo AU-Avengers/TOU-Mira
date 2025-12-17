@@ -29,13 +29,5 @@ public static class LobbyBehaviourPatches
         EgotistModifier.CooldownReduction = 0f;
         EgotistModifier.SpeedMultiplier = 1f;
         UpCommandRequests.Clear();
-
-        HudManagerPatches.LobbyZoomLocked = false;
-
-        if (HudManager.InstanceExists && HudManagerPatches.ZoomButton)
-        {
-            HudManagerPatches.ResetZoom();
-            HudManagerPatches.ZoomButton.SetActive(true);
-        }
     }
 }

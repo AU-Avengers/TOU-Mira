@@ -1,7 +1,6 @@
 using System.Collections;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using InnerNet;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Modules;
@@ -21,20 +20,9 @@ public static class PlayerJoinPatch
 
     public static void Zoom(bool zoomOut)
     {
-        if (HudManagerPatches.LobbyZoomLocked && LobbyBehaviour.Instance != null)
-        {
-            return;
-        }
-
-        var lobbyZoom =
-            LobbyBehaviour.Instance != null &&
-            AmongUsClient.Instance != null &&
-            AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
-            !TutorialManager.InstanceExists;
-
         if (((PlayerControl.LocalPlayer.DiedOtherRound() &&
               (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
-               PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) || TutorialManager.InstanceExists || lobbyZoom)
+               PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) || TutorialManager.InstanceExists)
             && !MeetingHud.Instance && Minigame.Instance == null &&
             !HudManager.Instance.Chat.IsOpenOrOpening)
         {
