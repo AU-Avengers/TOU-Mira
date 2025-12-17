@@ -46,6 +46,7 @@ public static class HudManagerPatches
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
+    public static bool LobbyZoomLocked;
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
@@ -157,6 +158,11 @@ public static class HudManagerPatches
 
     public static void ButtonClickZoom()
     {
+        if (LobbyZoomLocked && LobbyBehaviour.Instance != null)
+        {
+            if (ZoomButton) ZoomButton.SetActive(false);
+            return;
+        }
         if (MeetingHud.Instance || ExileController.Instance)
         {
             ZoomButton.SetActive(false);
@@ -168,6 +174,11 @@ public static class HudManagerPatches
 
     public static void ScrollZoom(bool zoomOut = false)
     {
+        if (LobbyZoomLocked && LobbyBehaviour.Instance != null)
+        {
+            if (ZoomButton) ZoomButton.SetActive(false);
+            return;
+        }
         if (MeetingHud.Instance || ExileController.Instance)
         {
             ZoomButton.SetActive(false);
@@ -1053,6 +1064,29 @@ public static class HudManagerPatches
 
         UpdateRoleList(__instance);
         UpdateTeamChat();
+
+        // Lobby-only zoom (people keep getting lost in the abyss...)
+        var inLobby = LobbyBehaviour.Instance != null &&
+                      AmongUsClient.Instance != null &&
+                      AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
+                      !TutorialManager.InstanceExists;
+        if (inLobby)
+        {
+            if (ZoomButton)
+            {
+                ZoomButton.SetActive(!LobbyZoomLocked);
+            }
+
+            if (!LobbyZoomLocked && Input.GetAxis("Mouse ScrollWheel") != 0 &&
+                !MeetingHud.Instance && ExileController.Instance == null &&
+                Minigame.Instance == null && !HudManager.Instance.Chat.IsOpenOrOpening)
+            {
+                CheckForScrollZoom();
+            }
+
+            // Don't run in-game-only updates while in the lobby.
+            return;
+        }
 
         if (PlayerControl.LocalPlayer.Data.Role == null ||
             !ShipStatus.Instance ||
