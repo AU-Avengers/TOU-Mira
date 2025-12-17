@@ -19,6 +19,8 @@ public abstract class AllianceGameModifier : GameModifier
     public virtual bool GetsPunished => true;
     public virtual bool CrewContinuesGame => true;
     public virtual ModifierFaction FactionType => ModifierFaction.Alliance;
+    // Set to Crewmate, Impostor or Neutral
+    public virtual ModifierFaction TrueFactionType => ModifierFaction.Other;
 
     public override bool HideOnUi => false;
 
