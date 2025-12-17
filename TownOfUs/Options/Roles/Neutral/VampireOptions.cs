@@ -10,7 +10,7 @@ public sealed class VampireOptions : AbstractOptionGroup<VampireRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleVampire", "Vampire");
 
-    [ModdedNumberOption("TouOptionVampireBiteCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionVampireBiteCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BiteCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("TouOptionVampireMaxVamps", 2, 5, 1, MiraNumberSuffixes.None, "0")]

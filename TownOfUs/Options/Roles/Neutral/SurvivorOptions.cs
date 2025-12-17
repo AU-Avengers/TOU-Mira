@@ -9,7 +9,7 @@ public sealed class SurvivorOptions : AbstractOptionGroup<SurvivorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSurvivor", "Survivor");
 
-    [ModdedNumberOption("TouOptionSurvivorVestCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionSurvivorVestCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float VestCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("TouOptionSurvivorVestDuration", 5f, 15f, 1f, MiraNumberSuffixes.Seconds)]
@@ -21,6 +21,6 @@ public sealed class SurvivorOptions : AbstractOptionGroup<SurvivorRole>
     [ModdedToggleOption("TouOptionSurvivorScatterEnabled")]
     public bool ScatterOn { get; set; } = false;
 
-    [ModdedNumberOption("TouOptionSurvivorScatterTimer", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
+    [ModdedNumberOption("TouOptionSurvivorScatterTimer", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float ScatterTimer { get; set; } = 25f;
 }

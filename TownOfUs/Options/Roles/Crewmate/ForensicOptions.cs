@@ -10,7 +10,7 @@ public sealed class ForensicOptions : AbstractOptionGroup<ForensicRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleForensic", "Forensic");
 
-    [ModdedNumberOption("TouOptionForensicExamineCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionForensicExamineCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ExamineCooldown { get; set; } = 25f;
 
     [ModdedToggleOption("TouOptionForensicReportOn")]

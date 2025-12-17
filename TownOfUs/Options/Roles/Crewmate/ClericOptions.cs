@@ -9,13 +9,13 @@ public sealed class ClericOptions : AbstractOptionGroup<ClericRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleCleric", "Cleric");
 
-    [ModdedNumberOption("TouOptionClericBarrierCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
+    [ModdedNumberOption("TouOptionClericBarrierCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float BarrierCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("TouOptionClericBarrierDuration", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
+    [ModdedNumberOption("TouOptionClericBarrierDuration", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float BarrierDuration { get; set; } = 25f;
 
-    [ModdedNumberOption("TouOptionClericCleanseCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
+    [ModdedNumberOption("TouOptionClericCleanseCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float CleanseCooldown { get; set; } = 25f;
 
     [ModdedToggleOption("TouOptionClericProtectedSeesBarrier")]

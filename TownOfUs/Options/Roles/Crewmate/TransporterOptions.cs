@@ -9,7 +9,7 @@ public sealed class TransporterOptions : AbstractOptionGroup<TransporterRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleTransporter", "Transporter");
 
-    [ModdedNumberOption("TouOptionTransporterTransportCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionTransporterTransportCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float TransporterCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("TouOptionTransporterMaxUses", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]

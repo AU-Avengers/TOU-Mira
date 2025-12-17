@@ -10,7 +10,7 @@ public sealed class JuggernautOptions : AbstractOptionGroup<JuggernautRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleJuggernaut", "Juggernaut");
 
-    [ModdedNumberOption("TouOptionJuggernautInitialCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionJuggernautInitialCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;
 
     public ModdedNumberOption KillCooldownReduction { get; } = new("TouOptionJuggernautCooldownReduction", 5f, 2.5f,

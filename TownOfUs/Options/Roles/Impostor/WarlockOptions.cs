@@ -9,7 +9,7 @@ public sealed class WarlockOptions : AbstractOptionGroup<WarlockRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleWarlock", "Warlock");
 
-    [ModdedNumberOption("Time It Takes To Fully Charge", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Time It Takes To Fully Charge", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ChargeTimeDuration { get; set; } = 25f;
 
     [ModdedNumberOption("Time Multiplier Added Per Kill For Next Charge", 0f, 0.5f, 0.05f,

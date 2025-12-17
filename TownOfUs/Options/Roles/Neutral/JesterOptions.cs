@@ -20,7 +20,7 @@ public sealed class JesterOptions : AbstractOptionGroup<JesterRole>
     [ModdedToggleOption("TouOptionJesterScatterEnabled")]
     public bool ScatterOn { get; set; } = true;
 
-    [ModdedNumberOption("TouOptionJesterScatterTimer", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
+    [ModdedNumberOption("TouOptionJesterScatterTimer", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float ScatterTimer { get; set; } = 25f;
 
     [ModdedEnumOption("TouOptionJesterAfterWin", typeof(JestWinOptions), ["TouOptionJesterWinEnumEndsGame", "TouOptionJesterWinEnumHaunts", "TouOptionJesterWinEnumNothing"])]

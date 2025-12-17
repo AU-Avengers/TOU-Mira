@@ -12,13 +12,13 @@ public sealed class PlaguebearerOptions : AbstractOptionGroup<PlaguebearerRole>
     [ModdedNumberOption("TouOptionPlaguebearerInstantPesti", 0, 100f, 10f, MiraNumberSuffixes.Percent)]
     public float PestChance { get; set; } = 0f;
 
-    [ModdedNumberOption("TouOptionPlaguebearerInfectCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionPlaguebearerInfectCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float InfectCooldown { get; set; } = 25f;
 
     [ModdedToggleOption("TouOptionPlaguebearerAnnounceTransformation")]
     public bool AnnouncePest { get; set; } = true;
 
-    [ModdedNumberOption("TouOptionPlaguebearerPestilenceKillCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionPlaguebearerPestilenceKillCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float PestKillCooldown { get; set; } = 25f;
 
     [ModdedToggleOption("TouOptionPlaguebearerPestilenceCanVent")]

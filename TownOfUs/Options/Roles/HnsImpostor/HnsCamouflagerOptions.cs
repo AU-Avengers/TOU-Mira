@@ -13,7 +13,7 @@ public sealed class HnsCamouflagerOptions : AbstractOptionGroup<HnsCamouflagerRo
     [ModdedNumberOption("HnsOptionCamouflagerCamoUses", 1f, 10f, 1f, MiraNumberSuffixes.None, "0", true)]
     public float MaxCamoUses { get; set; } = 3f;
 
-    [ModdedNumberOption("HnsOptionCamouflagerCamoCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("HnsOptionCamouflagerCamoCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CamoCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("HnsOptionCamouflagerCamoDuration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
