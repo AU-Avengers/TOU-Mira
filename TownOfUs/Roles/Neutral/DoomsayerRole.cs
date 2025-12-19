@@ -60,11 +60,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public bool MetWinCon => AllGuessesCorrect;
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public bool WinConditionMet()
     {

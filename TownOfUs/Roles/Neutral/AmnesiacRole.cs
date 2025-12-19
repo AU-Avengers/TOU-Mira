@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -76,11 +75,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         Icon = TouRoleIcons.Amnesiac
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void Deinitialize(PlayerControl targetPlayer)
     {

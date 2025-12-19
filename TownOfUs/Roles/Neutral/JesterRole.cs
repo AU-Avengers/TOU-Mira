@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -63,11 +62,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     public bool HasImpostorVision => OptionGroupSingleton<JesterOptions>.Instance.ImpostorVision;
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public bool WinConditionMet()
     {

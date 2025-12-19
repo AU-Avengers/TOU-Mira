@@ -40,8 +40,11 @@ namespace TownOfUs.Patches;
 public static class HudManagerPatches
 {
     public static GameObject ZoomButton;
+    public static AspectPosition ZoomAspectPos;
     public static GameObject WikiButton;
+    public static AspectPosition WikiAspectPos;
     public static GameObject RoleList;
+    public static TextMeshPro RoleListTextComp;
     public static GameObject SubmergedFloorButton;
 
     public static bool Zooming;
@@ -874,21 +877,23 @@ public static class HudManagerPatches
             var pingTracker = Object.FindObjectOfType<PingTracker>(true);
             RoleList = Object.Instantiate(pingTracker.gameObject, instance.transform);
             RoleList.name = "RoleListText";
-            //RoleList.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(-4.9f, 5.9f);
-            RoleList.SetActive(false);
             var pos = RoleList.gameObject.GetComponent<AspectPosition>();
             pos.Alignment = AspectPosition.EdgeAlignments.LeftTop;
             pos.DistanceFromEdge = new Vector3(0.43f, 0.1f, 1f);
+
+            RoleListTextComp = RoleList.GetComponent<TextMeshPro>();
+            RoleListTextComp.alignment = TextAlignmentOptions.TopLeft;
+            RoleListTextComp.verticalAlignment = VerticalAlignmentOptions.Top;
+            RoleListTextComp.fontSize = RoleListTextComp.fontSizeMin = RoleListTextComp.fontSizeMax = 3f;
+            RoleList.SetActive(false);
         }
         else
         {
             RoleList.SetActive(false);
-            if (roleAssignmentType is RoleDistribution.Cultist || roleAssignmentType is RoleDistribution.Vanilla || roleAssignmentType is RoleDistribution.HideAndSeek)
+            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList)
             {
                 return;
             }
-
-            var objText = RoleList.GetComponent<TextMeshPro>();
             var rolelistBuilder = new StringBuilder();
 
             var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
@@ -921,7 +926,7 @@ public static class HudManagerPatches
                         };
 
                         rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
-                        objText.text = $"<color=#FFD700>{StoredRoleList}:</color>\n{rolelistBuilder}";
+                        RoleListTextComp.text = $"<color=#FFD700>{StoredRoleList}:</color>\n{rolelistBuilder}";
                     }
 
                     break;
@@ -934,13 +939,9 @@ public static class HudManagerPatches
                         $"{NeutralKillers}: {list.MinNeutralKiller.Value} {StoredMinimum}, {list.MaxNeutralKiller.Value} {StoredMaximum}");
                     rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
                         $"{NeutralOutliers}: {list.MinNeutralOutlier.Value} {StoredMinimum}, {list.MaxNeutralOutlier.Value} {StoredMaximum}");
-                    objText.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
+                    RoleListTextComp.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
                     break;
             }
-
-            objText.alignment = TextAlignmentOptions.TopLeft;
-            objText.verticalAlignment = VerticalAlignmentOptions.Top;
-            objText.fontSize = objText.fontSizeMin = objText.fontSizeMax = 3f;
 
             RoleList.SetActive(true);
         }
@@ -961,16 +962,16 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinus.LoadAsset();
             ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinusActive.LoadAsset();
+            ZoomAspectPos = ZoomButton.GetComponentInChildren<AspectPosition>();
         }
 
         if (ZoomButton)
         {
-            var aspectPosition = ZoomButton.GetComponentInChildren<AspectPosition>();
-            var distanceFromEdge = aspectPosition.DistanceFromEdge;
+            var distanceFromEdge = ZoomAspectPos.DistanceFromEdge;
             distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
             distanceFromEdge.y = 0.485f;
-            aspectPosition.DistanceFromEdge = distanceFromEdge;
-            aspectPosition.AdjustPosition();
+            ZoomAspectPos.DistanceFromEdge = distanceFromEdge;
+            ZoomAspectPos.AdjustPosition();
         }
     }
 
@@ -1017,12 +1018,12 @@ public static class HudManagerPatches
                 TouAssets.WikiButton.LoadAsset();
             WikiButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButtonActive.LoadAsset();
+            WikiAspectPos = WikiButton.GetComponentInChildren<AspectPosition>();
         }
 
         if (WikiButton)
         {
-            var aspectPosition = WikiButton.GetComponentInChildren<AspectPosition>();
-            var distanceFromEdge = aspectPosition.DistanceFromEdge;
+            var distanceFromEdge = WikiAspectPos.DistanceFromEdge;
             distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
 
             if ((ModCompatibility.IsWikiButtonOffset || ZoomButton.active) &&
@@ -1034,8 +1035,8 @@ public static class HudManagerPatches
 
             distanceFromEdge.y = 0.485f;
             WikiButton.SetActive(true);
-            aspectPosition.DistanceFromEdge = distanceFromEdge;
-            aspectPosition.AdjustPosition();
+            WikiAspectPos.DistanceFromEdge = distanceFromEdge;
+            WikiAspectPos.AdjustPosition();
         }
     }
 

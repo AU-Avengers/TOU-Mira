@@ -140,6 +140,32 @@ public static class LogicGameFlowPatches
         return false;
     }
 
+    [HarmonyPatch(typeof(GameManager), nameof(GameManager.StartGame))]
+    [HarmonyPostfix]
+    public static void StartGamePostfix()
+    {
+        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
+        {
+            ShipStatus.Instance.BreakEmergencyButton();
+        }
+    }
+
+    [HarmonyPatch(typeof(NormalGameManager), nameof(NormalGameManager.GetMapOptions))]
+    [HarmonyPriority(Priority.VeryHigh)] // make sure it occurs before other patches
+    [HarmonyPrefix]
+    public static bool GetMapOptions(ref MapOptions __result)
+    {
+        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.AllKillers)
+        {
+            return true;
+        }
+        __result = new MapOptions
+        {
+            Mode = MapOptions.Modes.Normal
+        };
+        return false;
+    }
+
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     [HarmonyPrefix]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)

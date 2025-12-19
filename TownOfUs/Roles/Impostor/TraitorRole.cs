@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Hud;
 using MiraAPI.Patches.Stubs;
@@ -51,11 +50,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
         Icon = TouRoleIcons.Traitor
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

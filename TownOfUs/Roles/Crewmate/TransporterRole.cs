@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -65,11 +64,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         IntroSound = TouAudio.TimeLordIntroSound
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [MethodRpc((uint)TownOfUsRpc.Transport)]
     public static void RpcTransport(PlayerControl transporter, byte player1, byte player2)
