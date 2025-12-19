@@ -542,7 +542,7 @@
   <string name="TouOptionVampireNewVampsAssassinate">新吸血魔可猜测</string>
   <string name="TouOptionVampireNewVampiresConvert">新吸血魔可转化</string>
   <string name="TouOptionVampireCanVent">吸血魔可进通风口</string>
-  <string name="TouRoleMercenaryIntroBlurb">贿赂船员</string>
+  <string name="TouRoleMercenaryIntroBlurb">通过行贿与他人共同获胜</string>
   <string name="TouRoleMercenaryTabDescription">守护船员，获取金币，\%nl\%然后贿赂获胜者！</string>
   <string name="TouRoleMercenaryWikiDescription">雇佣兵是一名中立善良型职业，只能通过贿赂玩家来获胜，可以获得多个胜利条件。</string>
   <string name="TouRoleMercenaryGuard">守护</string>
@@ -594,7 +594,7 @@
   <string name="TouOptionLoverKillFactionTeammates">恋人可以杀死同阵营队友</string>
   <string name="TouOptionLoverKillOneAnother">恋人可以杀死对方</string>
   <string name="TouModifierTelepathIntroBlurbNoDeath">知晓队友击杀的信息，知晓队友死亡的信息。</string>
-  <string name="TouModifierTelepathIntroBlurb">你也知晓队友击杀的信息。</string>
+  <string name="TouModifierTelepathIntroBlurb">你会收到队友击杀情况的通知。</string>
   <string name="TouModifierTelepathDescriptionBasic">知晓队友击杀的信息</string>
   <string name="TouModifierTelepathDescriptionIfKnowWhen">知晓队友击杀的时间\%and\%和位置</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeath">，知晓队友死亡的时间</string>
@@ -831,7 +831,7 @@
   <string name="TouRoleMysticTabDescription">知道尸体死亡的时间和地点</string>
   <string name="TouRoleMysticWikiDescription">灵媒是一个船员调查型职业，当有人死亡时会收到警报。</string>
   <string name="TouOptionMysticDeadBodyArrowDuration">指向尸体箭头的持续时间</string>
-  <string name="TouRolePlumberIntroBlurb">把老鼠从下水道里赶出来</string>
+  <string name="TouRolePlumberIntroBlurb">把船上那些烦人的钻管道者踢出去</string>
   <string name="TouRoleAmnesiacIntroBlurb">回忆死者的身份</string>
   <string name="TouRoleAmnesiacTabDescription">找到一具尸体并回忆其身份，成为该职业。</string>
   <string name="TouRoleAmnesiacWikiDescription">失忆者是一名中立善良型职业，可以通过回忆一具尸体的身份获得新身份。利用你回忆的身份赢得游戏。</string>
@@ -1018,7 +1018,7 @@
   <string name="TouOptionVeteranCanBeKilledOnAlert">警戒时可被击杀</string>
   <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">完成任务可获得更多警戒次数</string>or G
 
-  <string name="TouRoleVigilanteIntroBlurb">猜中身份即可击杀 \%color=#FF0000FF\%伪装者\%/color\%！</string>
+  <string name="TouRoleVigilanteIntroBlurb">猜中身份即可击杀 \%color=#FF0000FF\%坏人\%/color\%！</string>
   <string name="TouRoleVigilanteTabDescription">在会议中猜测伪装者的身份并击杀他们！</string>
   <string name="TouRoleVigilanteWikiDescription">侠客是一名船员击杀型职业，可以在会议中猜测玩家身份。 </string>
   <string name="TouOptionVigilanteNumberOfGuesses">侠客可猜测次数</string>
@@ -1029,7 +1029,7 @@
   <string name="TouOptionVigilanteCanGuessKillerModifiers">侠客可猜杀手附加特性</string>
   <string name="TouOptionVigilanteCanGuessAlliances">侠客可猜同盟关系</string>
   <string name="TouOptionVigilanteSafeShotsAvailable">侠客可安全猜测次数</string>
-  <string name="TouRoleSheriffIntroBlurb">射杀\%color=#FF0000FF\%伪装者\%/color\%</string>
+  <string name="TouRoleSheriffIntroBlurb">射杀\%color=#FF0000FF\%坏人\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">击杀伪装者，但不要误杀船员</string>
   <string name="TouRoleSheriffTabDescriptionEgo">杀死你想要的任何人同时，希望船员会失去胜利</string>
   <string name="TouRoleSheriffWikiDescription">警长是一名船员击杀型职业，可以射击玩家且尝试击杀他们。如果警长因误伤而未死亡，将失去开枪能力。</string>
@@ -1613,4 +1613,14 @@
   <string name="UpCommandSuccess">已成功请求下一局的职业： \%role\%。</string>
   <string name="UpCommandSuccessOther">已成功为玩家 '\%player\%' 请求下一局的角色： \%role\%。</string>
   <string name="FirstDeadText">（在第 1 轮死亡）</string>
+  <string name="SummaryMsgBreakdown">结算信息显示方式</string>
+  <string name="SummarySimple">简化</string>
+  <string name="SummaryNormal">普通</string>
+  <string name="SummaryAdvanced">高级</string>
+  <string name="GrenadierFlashColor">掷弹兵闪光颜色</string>
+  <string name="FlashWhite">白色</string>
+  <string name="FlashLightGray">浅灰色</string>
+  <string name="FlashGray">灰色</string>
+  <string name="FlashDarkGray">深灰色</string>
+  <string name="UpCommandSuccessGlobal">房主已为玩家'\%player\%' 请求了下一局的角色。</string>
 </resources>
