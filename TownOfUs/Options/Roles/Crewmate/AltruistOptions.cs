@@ -24,11 +24,20 @@ public sealed class AltruistOptions : AbstractOptionGroup<AltruistRole>
         new("TouOptionAltruistReviveDuration", 5f, 1f, 15f, 1f,
             MiraNumberSuffixes.Seconds);
 
+    public ModdedToggleOption KillOnStartRevive { get; } =
+        new("TouOptionAltruistKillOnStartRevive", false);
+
     public ModdedNumberOption MaxRevives { get; } =
-        new("TouOptionAltruistMaxRevives", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None, "0");
+        new("TouOptionAltruistMaxRevives", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None, "0")
+        {
+            Visible = () => !OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value
+        };
 
     public ModdedToggleOption FreezeDuringRevive { get; } =
-        new("TouOptionAltruistFreezeDuringRevive", true);
+        new("TouOptionAltruistFreezeDuringRevive", true)
+        {
+            Visible = () => !OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value
+        };
 
     public ModdedToggleOption HideAtBeginningOfRevive { get; } =
         new("TouOptionAltruistHideAtBeginningOfRevive", false);

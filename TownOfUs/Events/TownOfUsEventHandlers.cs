@@ -364,6 +364,9 @@ public static class TownOfUsEventHandlers
 
         CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = false;
 
+        CustomButtonSingleton<AltruistReviveButton>.Instance.RevivedInRound = false;
+        CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
+
         var medicShield = CustomButtonSingleton<MedicShieldButton>.Instance;
         medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
             ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
