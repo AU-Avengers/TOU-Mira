@@ -14,7 +14,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -240,12 +239,6 @@ public static class LogicGameFlowPatches
         }
 
         if (DeathHandlerModifier.IsCoroutineRunning || DeathHandlerModifier.IsAltCoroutineRunning || DeathEventHandlers.IsDeathRecent)
-        {
-            return false;
-        }
-
-        // Prevent game end if an Altruist revive is in progress
-        if (AltruistRole.IsReviveInProgress)
         {
             return false;
         }
