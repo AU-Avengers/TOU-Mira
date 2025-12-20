@@ -517,6 +517,8 @@
   <string name="TouRoleAltruistWikiDescription">The Altruist is a Crewmate Protective role that can revive dead crewmates, but prevents meetings being called by themselves or the crewmates they revive.</string>
   <string name="TouRoleAltruistRevive">Revive</string>
   <string name="TouRoleAltruistReviving">Reviving</string>
+  <string name="TouRoleAltruistRevivedNotif">You have been revived by an Altruist!</string>
+  <string name="TouRoleAltruistReviveSuccessNotif">You have successfully revived \%player\%!</string>
   <string name="TouRoleAltruistReviveWikiDescription">Revive a group of dead bodies near you.</string>
   <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">Revive a group of dead bodies near you. If the revival finishes, you die without leaving a body behind.</string>
   <string name="TouRoleAltruistReviveSacrificeWikiDescription">Revive the closest dead body. If the revival finishes, you die without leaving a body behind.</string>
@@ -530,6 +532,7 @@
   <string name="TouOptionAltruistMaxRevives">Revive Uses</string>
   <string name="TouOptionAltruistFreezeDuringRevive">Freeze Altruist During Revive</string>
   <string name="TouOptionAltruistHideAtBeginningOfRevive">Hide Bodies at Beginning Of Revive</string>
+  <string name="TouOptionAltruistKillOnStartRevive">Kill Altruist When Starting Revive</string>
   <string name="TouOptionAltruistKillersAlertedAtStart">Killers Alerted Before Revive</string>
   <string name="TouOptionAltruistKillersAlertedAtEnd">Killers Alerted After Revive</string>
   <string name="TouOptionAltruistKillerEnumNobody">Nobody</string>
