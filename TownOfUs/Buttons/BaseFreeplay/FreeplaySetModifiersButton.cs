@@ -7,12 +7,12 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Utilities;
 using UnityEngine;
 
-namespace TownOfUs.Buttons.Freeplay;
+namespace TownOfUs.Buttons.BaseFreeplay;
 
 /// <summary>
 /// Freeplay-only debug button to apply/toggle specific modifiers.
 /// </summary>
-public sealed class SetModifiersButton : TownOfUsButton
+public sealed class FreeplaySetModifiersButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("FreeplaySetModifiersButton", "Set Modifiers");
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
@@ -20,7 +20,7 @@ public sealed class SetModifiersButton : TownOfUsButton
     public override float InitialCooldown => 0.001f;
     public override float EffectDuration => 0.001f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.CameraSprite;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.FreeplayModifierSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
     public override bool UsableInDeath => true;

@@ -187,6 +187,15 @@ public static class TouAssets
     public static LoadableAsset<Sprite> BarryButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarryButton", MainBundle);
 
+    public static LoadableAsset<Sprite> FreeplayRoleSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayRoleButton", MainBundle);
+
+    public static LoadableAsset<Sprite> FreeplayResetSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayResetButton", MainBundle);
+
+    public static LoadableAsset<Sprite> FreeplayModifierSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayModifierButton", MainBundle);
+
     public static LoadableAsset<Sprite> BroadcastSprite { get; } =
         new LoadableBundleAsset<Sprite>("BroadcastButton", MainBundle);
 

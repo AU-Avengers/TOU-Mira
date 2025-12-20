@@ -107,6 +107,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> UseCrewmateTeamColorToggle { get; private set; } =
         config.Bind("UI/Visuals", "UseCrewmateTeamColor", false);
 
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> UseMultiChatSetup { get; private set; } =
+        config.Bind("UI/Visuals", "UseMultiChatSetup", true);
+
     [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
     public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =
         config.Bind("UI/Visuals", "ArrowStyle", ArrowStyleType.Default);

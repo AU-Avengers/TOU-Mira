@@ -35,7 +35,7 @@ public static class TeamChatPatches
 
     private static bool IsPrivateBubble(GameObject bubbleGo)
     {
-        return bubbleGo != null && bubbleGo.name.StartsWith(PrivateBubblePrefix, StringComparison.OrdinalIgnoreCase);
+        return bubbleGo != null && !DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && bubbleGo.name.StartsWith(PrivateBubblePrefix, StringComparison.OrdinalIgnoreCase);
     }
 
     private static void PruneStoredBubbles()

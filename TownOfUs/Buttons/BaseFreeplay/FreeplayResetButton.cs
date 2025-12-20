@@ -3,16 +3,16 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules;
 using UnityEngine;
 
-namespace TownOfUs.Buttons.Freeplay;
+namespace TownOfUs.Buttons.BaseFreeplay;
 
-public sealed class ResetFreeplayButton : TownOfUsButton
+public sealed class FreeplayResetButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("FreeplayRestartButton", "Reset Game");
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.BroadcastSprite;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.FreeplayResetSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
     public override bool UsableInDeath => true;
