@@ -69,8 +69,8 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole, Dead
         
         if (OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value)
         {
-            Button.usesRemainingText.gameObject.SetActive(false);
-            Button.usesRemainingSprite.gameObject.SetActive(false);
+            Button?.usesRemainingText.gameObject.SetActive(false);
+            Button?.usesRemainingSprite.gameObject.SetActive(false);
         }
     }
 

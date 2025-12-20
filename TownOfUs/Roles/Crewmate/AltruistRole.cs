@@ -15,7 +15,6 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Assets;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Crewmate;
