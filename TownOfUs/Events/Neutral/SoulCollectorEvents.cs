@@ -14,7 +14,7 @@ public static class SoulCollectorEvents
         var source = @event.Source;
         var target = @event.Target;
 
-        if (source.IsRole<SoulCollectorRole>() && !MeetingHud.Instance)
+        if (SoulCollectorRole.AutoPlaceFakePlayers && source.IsRole<SoulCollectorRole>() && !MeetingHud.Instance)
             // leave behind standing body
             // Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
         {

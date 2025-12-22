@@ -102,9 +102,13 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
 
     public override bool CanUse()
     {
+        if (PlayerControl.LocalPlayer == null)
+        {
+            return false;
+        }
         // When sacrificed at the start, the button should remain visible for the animation,
         // but should NOT be clickable while dead.
-        if (PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.HasDied())
+        if (PlayerControl.LocalPlayer.HasDied())
         {
             return false;
         }

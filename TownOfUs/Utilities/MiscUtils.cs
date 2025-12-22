@@ -1968,7 +1968,7 @@ public enum TouGamemode
     Normal,
     HideAndSeek,
     Cultist,
-    AllKillers,
+    // AllKillers,
     // Legacy
 }
 public enum ExpandedMapNames
