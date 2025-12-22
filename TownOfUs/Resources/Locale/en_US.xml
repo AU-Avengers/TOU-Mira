@@ -1326,6 +1326,24 @@
   <string name="TouOptionScavengerScavengeDurationIncreasePerKill">Scavenge Duration Increase Per Kill</string>
   <string name="TouOptionScavengerScavengeKillCooldownOnCorrectKill">Scavenge Kill Cooldown On Correct Kill</string>
   <string name="TouOptionScavengerKillCooldownMultiplierOnIncorrectKill">Kill Cooldown Multiplier On Incorrect Kill</string>
+  <!-- Puppeteer Wiki / Abilities -->
+  <string name="TouRolePuppeteer">Puppeteer</string>
+  <string name="TouRolePuppeteerIntroBlurb">Control the hands of others</string>
+  <string name="TouRolePuppeteerTabDescription">Control crewmates to do your bidding!</string>
+  <string name="TouRolePuppeteerWikiDescription">The Puppeteer is an Impostor Power role that controls other players to kill for them. When a player is controlled, they cannot move, but must instead watch as they are forcced to kill their fellow crewmates.</string>
+  <string name="TouRolePuppeteerControl">Control</string>
+  <string name="TouRolePuppeteerControlWikiDescription">Use your menu to control whoever you wish. In this state, the controlled player will kill as if they were an impostor, and not as whatever role they actually are.</string>
+  <string name="TouRolePuppeteerControlNotifBasic">You are under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif1">You've lost sensation of yourself. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif2">You feel a mystical power overtaking you. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif3">You seem to feel your skin crawl. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlFinishNotif">You're free from the \%role\%'s control!</string>
+  <!-- Puppeteer Options -->
+  <string name="TouOptionPuppeteerControlUses">Control Uses</string>
+  <string name="TouOptionPuppeteerControlCooldown">Control Cooldown</string>
+  <string name="TouOptionPuppeteerControlDuration">Control Duration</string>
+  <string name="TouOptionPuppeteerCanMoveIndependently">Puppeteer Can Move Independently</string>
+  <string name="TouOptionPuppeteerCanVent">Puppeteer Can Vent</string>
   <!-- Spellslinger Wiki / Abilities -->
   <string name="TouRoleSpellslinger">Spellslinger</string>
   <string name="TouRoleSpellslingerIntroBlurb">Hex the crew to trigger a Hex Bomb</string>

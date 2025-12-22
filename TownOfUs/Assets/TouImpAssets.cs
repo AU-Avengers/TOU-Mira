@@ -63,6 +63,9 @@ public static class TouImpAssets
     public static LoadableAsset<Sprite> PoisonedSprite { get; } =
         new LoadableBundleAsset<Sprite>("PoisonButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> ControlSprite { get; } =
+        new LoadableBundleAsset<Sprite>("ControlButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> HexSprite { get; } =
         new LoadableBundleAsset<Sprite>("HexButton", TouAssets.MainBundle);
 
