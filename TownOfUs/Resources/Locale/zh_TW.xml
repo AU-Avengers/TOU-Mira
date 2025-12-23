@@ -1,4 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="FoolsMode">愚人節模式</string>
+  <string name="TertiaryAbility">第三技能(黑入技能)</string>
+  <string name="ModifierAbility">附加屬性技能</string>
+  <string name="ClientTabGameplay">游戲玩法</string>
+  <string name="ClientOptionsButton">我們的小鎮Mira客户端設置</string>
+  <string name="ShowVanillaWikiEntries">展示原版維基條目</string>
+  <string name="DeadSeeGhosts">死後顯示其他鬼魂</string>
+  <string name="ShowVents">在地圖上顯示通風口</string>
+  <string name="ShowWelcomeMessage">顯示歡迎信息</string>
+  <string name="ShowSummaryMessage">顯示遊戲結算信息</string>
+  <string name="ColorPlayerName">彩色玩家名稱</string>
+  <string name="UseCrewmateTeamColor">使用基礎船員顏色</string>
+  <string name="ShowShieldHud">在HUD上顯示護盾</string>
+  <string name="ButtonUIFactor">按鈕縮放比例</string>
+  <string name="OffsetButtons">無法使用通風口時偏移按鈕</string>
+  <string name="SortGuessingByAlignment">猜測清單按陣營排序</string>
+  <string name="PreciseCooldowns">按鈕冷卻時間少於10秒時精確到小數點後一位</string>
+  <string name="ArrowStyle">箭頭顯示樣式</string>
+  <string name="ArrowDefault">默認</string>
+  <string name="ArrowDarkGlow">暗光</string>
+  <string name="ArrowColorGlow">亮光</string>
+  <string name="ArrowLegacy">經典</string>
+  <string name="SummaryMsgBreakdown">結算信息顯示方式</string>
+  <string name="SummarySimple">簡化</string>
+  <string name="SummaryNormal">普通</string>
+  <string name="SummaryAdvanced">高級</string>
+  <string name="GrenadierFlashColor">擲彈兵閃光顏色</string>
+  <string name="FlashWhite">白色</string>
+  <string name="FlashLightGray">淺灰色</string>
+  <string name="FlashGray">灰色</string>
+  <string name="FlashDarkGray">深灰色</string>
+  <string name="PlayerColorDarker">深色</string>
 </resources>
