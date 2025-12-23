@@ -1,5 +1,4 @@
-﻿using AmongUs.GameOptions;
-using MiraAPI.Modifiers;
+﻿using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using TownOfUs.Modifiers.Neutral;
@@ -22,8 +21,6 @@ public abstract class AllianceGameModifier : GameModifier
     public virtual ModifierFaction FactionType => ModifierFaction.Alliance;
     // Set to Crewmate, Impostor or Neutral
     public virtual AlliedFaction TrueFactionType => AlliedFaction.Other;
-    // Only used when the TrueFactionType is set to RoleSpecific
-    public virtual RoleBehaviour UnderlyingRole => RoleManager.Instance.GetRole(RoleTypes.Crewmate);
 
     public override bool HideOnUi => false;
 
