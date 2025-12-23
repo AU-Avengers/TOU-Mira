@@ -19,9 +19,8 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Alliance;
 
-public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable, IContinuesGame, IAssignableTargets
+public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets
 {
-    public bool ContinuesGame => !Player.HasDied() && Player.IsCrewmate() && !Helpers.GetAlivePlayers().Any(x => x.IsImpostor());
     public override string LocaleKey => "Crewpostor";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
@@ -42,7 +41,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public override bool GetsPunished => false;
     public override bool CrewContinuesGame => false;
     public override ModifierFaction FactionType => ModifierFaction.CrewmateAlliance;
-    public override ModifierFaction TrueFactionType => ModifierFaction.Impostor;
+    public override AlliedFaction TrueFactionType => AlliedFaction.Impostor;
     public override Color FreeplayFileColor => new Color32(220, 220, 220, 255);
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Telepath;
 
@@ -193,6 +192,8 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
     public override bool? DidWin(GameOverReason reason)
     {
-        return reason is GameOverReason.ImpostorsByKill || reason is GameOverReason.ImpostorsBySabotage || reason is GameOverReason.ImpostorsByVote;
+        return reason is GameOverReason.ImpostorsByKill || reason is GameOverReason.ImpostorsBySabotage ||
+               reason is GameOverReason.ImpostorsByVote || reason is GameOverReason.CrewmateDisconnect ||
+               reason is GameOverReason.HideAndSeek_ImpostorsByKills;
     }
 }

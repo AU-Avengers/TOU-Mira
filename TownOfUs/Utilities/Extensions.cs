@@ -65,7 +65,7 @@ public static class Extensions
 
     public static bool IsImpostorAligned(this PlayerControl player)
     {
-        return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true || player?.GetModifiers<AllianceGameModifier>().Any(x => x.TrueFactionType is ModifierFaction.Impostor) == true);
+        return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true || player?.GetModifiers<AllianceGameModifier>().Any(x => x.TrueFactionType is AlliedFaction.Impostor) == true);
     }
 
     public static bool IsImpostor(this PlayerControl player)

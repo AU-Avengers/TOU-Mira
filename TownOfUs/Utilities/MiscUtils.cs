@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -16,6 +10,12 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -60,7 +60,7 @@ public static class MiscUtils
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
          OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
 
-    public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor());
+    public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
 
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
@@ -945,7 +945,7 @@ public static class MiscUtils
         {
             TeamChatPatches.CreateTeamChatBubble();
         }
-        
+
         var sprite = TeamChatPatches.PrivateChatDot!.GetComponent<SpriteRenderer>();
         sprite.enabled = true;
         var actualSprite = bubbleType switch
@@ -1217,7 +1217,7 @@ public static class MiscUtils
         {
             yield break;
         }
-        
+
         var tmp = rend.color;
         tmp.a = 0;
         rend.color = tmp;

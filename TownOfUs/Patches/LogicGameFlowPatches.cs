@@ -252,11 +252,11 @@ public static class LogicGameFlowPatches
         {
             Message($"Game Over");
 
-            // Lovers + Jester combo fix maybe
-            if (winner is JesterRole && winner.Player != null && winner.Player.HasModifier<LoverModifier>())
+            // Lovers + Jest/Exe/Doom combo fix maybe
+            if ((winner is JesterRole || winner is ExecutionerRole || winner is DoomsayerRole) && winner.Player != null && winner.Player.HasModifier<LoverModifier>())
             {
                 var loverWinners = ModifierUtils.GetActiveModifiers<LoverModifier>()
-                    .Where(x => x != null && x.Player != null && x.Player.Data != null && x.Player.HasModifier<LoverModifier>())
+                    .Where(x => x.Player != null && x.Player.Data != null && x.Player.HasModifier<LoverModifier>())
                     .Select(x => x.Player!.Data)
                     .Distinct()
                     .ToArray();
