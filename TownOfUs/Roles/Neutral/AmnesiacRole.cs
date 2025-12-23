@@ -145,25 +145,25 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             mayor.Revealed = false;
         }
-        else if (player.Data.Role is FairyRole ga)
+        else if (player.Data.Role is FairyRole fairy)
         {
-            var gaTarget = ModifierUtils.GetPlayersWithModifier<GuardianAngelTargetModifier>()
-                .FirstOrDefault(x => x.PlayerId == target.PlayerId);
+            var fairyMod = ModifierUtils.GetActiveModifiers<GuardianAngelTargetModifier>()
+                .FirstOrDefault(x => x.OwnerId == target.PlayerId);
 
-            if (gaTarget != null && gaTarget.TryGetModifier<GuardianAngelTargetModifier>(out var gaMod))
+            if (fairyMod != null)
             {
-                ga.Target = gaTarget;
-                gaMod.OwnerId = player.PlayerId;
+                fairy.Target = fairyMod.Player;
+                fairyMod.OwnerId = player.PlayerId;
             }
         }
         else if (player.Data.Role is ExecutionerRole exe)
         {
-            var exeTarget = ModifierUtils.GetPlayersWithModifier<ExecutionerTargetModifier>()
-                .FirstOrDefault(x => x.PlayerId == target.PlayerId);
+            var exeMod = ModifierUtils.GetActiveModifiers<ExecutionerTargetModifier>()
+                .FirstOrDefault(x => x.OwnerId == target.PlayerId);
 
-            if (exeTarget != null && exeTarget.TryGetModifier<ExecutionerTargetModifier>(out var exeMod))
+            if (exeMod != null)
             {
-                exe.Target = exeTarget;
+                exe.Target = exeMod.Player;
                 exeMod.OwnerId = player.PlayerId;
             }
         }
