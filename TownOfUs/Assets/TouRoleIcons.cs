@@ -165,6 +165,8 @@ public static class TouRoleIcons
         new LoadableBundleAsset<Sprite>("Bomber", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Infestor { get; } =
         new LoadableBundleAsset<Sprite>("Infestor", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> Parasite { get; } =
+        new LoadableBundleAsset<Sprite>("Parasite", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Poisoner { get; } =
         new LoadableBundleAsset<Sprite>("Poisoner", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Scavenger { get; } =
