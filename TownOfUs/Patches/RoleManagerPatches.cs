@@ -111,6 +111,183 @@ public static class TouRoleManagerPatches
     }
 
     /// <summary>
+    /// Adjusts neutral role counts to ensure requested neutral roles via /up are included.
+    /// </summary>
+    private static void AdjustNeutralCountsForUpRequests(ref int nbCount, ref int neCount, ref int nkCount, ref int noCount, int crewmateCount)
+    {
+        // Track which neutral categories are requested via /up (must be at least 1)
+        var upRequestedBenign = false;
+        var upRequestedEvil = false;
+        var upRequestedKilling = false;
+        var upRequestedOutlier = false;
+
+        var upRequests = UpCommandRequests.GetAllRequests();
+        foreach (var (playerName, _) in upRequests)
+        {
+            if (!UpCommandRequests.TryGetRequestRole(playerName, out var requestedRole))
+            {
+                continue;
+            }
+
+            // Check if the requested role is neutral
+            if (requestedRole.IsNeutral())
+            {
+                var alignment = requestedRole.GetRoleAlignment();
+                
+                // Mark which categories are requested and ensure they have at least 1
+                switch (alignment)
+                {
+                    case RoleAlignment.NeutralBenign:
+                        upRequestedBenign = true;
+                        if (nbCount == 0)
+                        {
+                            nbCount = 1;
+                        }
+                        break;
+                    case RoleAlignment.NeutralEvil:
+                        upRequestedEvil = true;
+                        if (neCount == 0)
+                        {
+                            neCount = 1;
+                        }
+                        break;
+                    case RoleAlignment.NeutralKilling:
+                        upRequestedKilling = true;
+                        if (nkCount == 0)
+                        {
+                            nkCount = 1;
+                        }
+                        break;
+                    case RoleAlignment.NeutralOutlier:
+                        upRequestedOutlier = true;
+                        if (noCount == 0)
+                        {
+                            noCount = 1;
+                        }
+                        break;
+                }
+            }
+        }
+
+        // Re-adjust to ensure crewmates still outnumber neutrals after /up adjustments
+        // But protect /up requested categories from being reduced below 1
+        AdjustNeutralCountsWithProtection(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmateCount,
+            upRequestedBenign, upRequestedEvil, upRequestedKilling, upRequestedOutlier);
+    }
+
+    /// <summary>
+    /// Adjusts neutral role counts to ensure crewmates always outnumber neutrals,
+    /// while protecting /up requested categories from being reduced below 1.
+    /// </summary>
+    private static void AdjustNeutralCountsWithProtection(ref int nbCount, ref int neCount, ref int nkCount, ref int noCount, int crewmateCount,
+        bool protectBenign, bool protectEvil, bool protectKilling, bool protectOutlier)
+    {
+        var roleOptions = OptionGroupSingleton<RoleOptions>.Instance;
+        var minBenign = (int)roleOptions.MinNeutralBenign.Value;
+        var minEvil = (int)roleOptions.MinNeutralEvil.Value;
+        var minKilling = (int)roleOptions.MinNeutralKiller.Value;
+        var minOutlier = (int)roleOptions.MinNeutralOutlier.Value;
+
+        // Adjust minimums to protect /up requested categories
+        if (protectBenign && minBenign < 1)
+        {
+            minBenign = 1;
+        }
+        if (protectEvil && minEvil < 1)
+        {
+            minEvil = 1;
+        }
+        if (protectKilling && minKilling < 1)
+        {
+            minKilling = 1;
+        }
+        if (protectOutlier && minOutlier < 1)
+        {
+            minOutlier = 1;
+        }
+
+        // Crew must always start out outnumbering neutrals, so subtract roles until that can be guaranteed.
+        while (Math.Ceiling((double)crewmateCount / 2) <= nbCount + neCount + nkCount + noCount)
+        {
+            var totalNeutrals = nbCount + neCount + nkCount + noCount;
+            if (totalNeutrals == 0)
+            {
+                break;
+            }
+
+            // This is one of the things I did change. The old code was actually biased and partially deterministic.
+            // Over many games, it would silently favor removing certain neutral factions more often than others (for example, neutral benign was usually protected more than outlier).
+            // Now, every faction has equal probability per subtraction. Statistically the most fair way to do it.
+            // (I know this is nitpicky but I think it's better than just a list regardless)
+            var factionIndices = new List<int> { 0, 1, 2, 3 };
+            factionIndices.Shuffle();
+
+            // Determine which factions can be subtracted (respecting protected minimums)
+            var canSubtractBenign = nbCount > minBenign;
+            var canSubtractEvil = neCount > minEvil;
+            var canSubtractKilling = nkCount > minKilling;
+            var canSubtractOutlier = noCount > minOutlier;
+            var canSubtractAny = canSubtractBenign || canSubtractEvil || canSubtractKilling || canSubtractOutlier;
+
+            // Try to subtract from a random faction that can be subtracted
+            bool subtracted = false;
+            foreach (var index in factionIndices)
+            {
+                switch (index)
+                {
+                    case 0 when nbCount > 0 && (canSubtractBenign || !canSubtractAny):
+                        nbCount -= 1;
+                        subtracted = true;
+                        break;
+                    case 1 when neCount > 0 && (canSubtractEvil || !canSubtractAny):
+                        neCount -= 1;
+                        subtracted = true;
+                        break;
+                    case 2 when nkCount > 0 && (canSubtractKilling || !canSubtractAny):
+                        nkCount -= 1;
+                        subtracted = true;
+                        break;
+                    case 3 when noCount > 0 && (canSubtractOutlier || !canSubtractAny):
+                        noCount -= 1;
+                        subtracted = true;
+                        break;
+                }
+
+                if (subtracted)
+                {
+                    break;
+                }
+            }
+
+            // Fallback: subtract from first available faction
+            if (!subtracted)
+            {
+                if (nbCount > minBenign)
+                {
+                    nbCount -= 1;
+                }
+                else if (neCount > minEvil)
+                {
+                    neCount -= 1;
+                }
+                else if (nkCount > minKilling)
+                {
+                    nkCount -= 1;
+                }
+                else if (noCount > minOutlier)
+                {
+                    noCount -= 1;
+                }
+                else
+                {
+                    // Can't subtract any more without violating minimums
+                    break;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Adjusts neutral role counts to ensure crewmates always outnumber neutrals.
     /// </summary>
     private static void AdjustNeutralCounts(ref int nbCount, ref int neCount, ref int nkCount, ref int noCount, int crewmateCount)
@@ -333,8 +510,8 @@ public static class TouRoleManagerPatches
         var noCount = Random.RandomRange((int)roleOptions.MinNeutralOutlier.Value,
             (int)roleOptions.MaxNeutralOutlier.Value + 1);
 
-        // Adjust neutral counts to ensure crewmates outnumber neutrals
-        AdjustNeutralCounts(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);
+        // Adjust neutral counts for /up requests and ensure crewmates outnumber neutrals
+        AdjustNeutralCountsForUpRequests(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);
 
         var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role);
 
