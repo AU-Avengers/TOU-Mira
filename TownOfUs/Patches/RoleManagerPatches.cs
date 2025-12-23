@@ -858,8 +858,8 @@ public static class TouRoleManagerPatches
 
         // Handle /up requests before role assignment
         // This ensures players are in the correct list (infected/crewmates) based on their requested role
-        var upRequests = UpCommandRequests.GetAllRequests().Select(x => x.Key);
-        foreach (var playerName in upRequests)
+        var upRequests = UpCommandRequests.GetAllRequests();
+        foreach (var (playerName, roleName) in upRequests)
         {
             var playerInfo = players.FirstOrDefault(p => p.PlayerName == playerName);
             if (playerInfo == null)
@@ -871,10 +871,10 @@ public static class TouRoleManagerPatches
             {
                 continue;
             }
-            Warning($"Setting {playerName}'s role to {requestedRole.GetRoleName()}");
 
             // Check if the role is Impostor-aligned using IsImpostor() method
             var isImpostorAligned = requestedRole.IsImpostor();
+            var isNeutral = requestedRole.IsNeutral();
 
             if (isImpostorAligned)
             {
@@ -893,15 +893,19 @@ public static class TouRoleManagerPatches
             }
             else
             {
-                infected.Remove(playerInfo);
-                // If we removed someone, we need to add someone else to maintain imp count
-                if (infected.Count < impCount)
+                // Force player out of infected (non-impostor roles)
+                if (infected.Contains(playerInfo))
                 {
-                    var availablePlayers = players.Where(p => !infected.Contains(p) && p != playerInfo).ToList();
-                    if (availablePlayers.Count > 0)
+                    infected.Remove(playerInfo);
+                    // If we removed someone, we need to add someone else to maintain imp count
+                    if (infected.Count < impCount)
                     {
-                        availablePlayers.Shuffle();
-                        infected.Add(availablePlayers[0]);
+                        var availablePlayers = players.Where(p => !infected.Contains(p) && p != playerInfo).ToList();
+                        if (availablePlayers.Count > 0)
+                        {
+                            availablePlayers.Shuffle();
+                            infected.Add(availablePlayers[0]);
+                        }
                     }
                 }
             }
