@@ -94,5 +94,6 @@ public enum AlliedFaction
     Impostor,
     Lover,
     Recruit,
+    RoleSpecific,
     Other,
 }
