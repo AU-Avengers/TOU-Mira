@@ -200,7 +200,7 @@
   <string name="Grass">草</string>
   <string name="Mandarin">橘</string>
   <string name="Glass">玻璃</string>
-  <string name="Ash">灰</string>
+  <string name="Ash">灰烬</string>
   <string name="Midnight">午夜</string>
   <string name="Steel">钢铁</string>
   <string name="Silver">银</string>
@@ -1020,7 +1020,7 @@
 
   <string name="TouRoleVigilanteIntroBlurb">猜中身份即可击杀 \%color=#FF0000FF\%坏人\%/color\%！</string>
   <string name="TouRoleVigilanteTabDescription">在会议中猜测伪装者的身份并击杀他们！</string>
-  <string name="TouRoleVigilanteWikiDescription">侠客是一名船员击杀型职业，可以在会议中猜测玩家身份。 </string>
+  <string name="TouRoleVigilanteWikiDescription">侠客是一名船员击杀型职业，可以在会议中猜测玩家身份。被猜测的玩家会在猜测正确时死亡，否则侠客会死亡。 </string>
   <string name="TouOptionVigilanteNumberOfGuesses">侠客可猜测次数</string>
   <string name="TouOptionVigilanteCanGuessMoreThanOncePerMeeting">侠客每次会议可多次击杀</string>
   <string name="TouOptionVigilanteCanGuessNeutralBenignRoles">侠客可猜中立善良职业</string>
@@ -1281,7 +1281,7 @@
   <string name="JaileeChatTitle">\%player\% (被囚禁者)</string>
   <string name="SystemChatTitle">系统</string>
   <string name="AnticheatChatTitle">反作弊系统</string>
-  <string name="AnticheatMessage">\%player\%正在使用以下不同的模组加入游戏：</string>
+  <string name="AnticheatMessage">\%player\%正在使用以下模组加入游戏：</string>
   <string name="SpectatorCommandList">观众:观战</string>
   <string name="SpectatorLobbyError">你不能在大厅之外切换观战模式！</string>
   <string name="SpectatorToggleOn">将自己设置为观众！</string>
@@ -1517,7 +1517,7 @@
   <string name="HnsRoleSnitch">告密者</string>
   <string name="HnsRoleSnitchTabHint">告密者提示</string>
   <string name="HnsRoleSnitchTabDescription">你的任务会更快减少倒计时长，\%nl\%但会暴露你的位置。</string>
-  <string name="HnsRoleSnitchWikiDescription">告密者是船员阵营角色，可以通过完成任务比其他玩家更快地减少剩余时间，但代价是自己的位置会暴露给追捕者。</string>
+  <string name="HnsRoleSnitchWikiDescription">告密者是船员阵营角色,比起其他玩家,通过完成任务可以更快地减少剩余时间，但代价是自己的位置会暴露给追捕者。</string>
   <string name="HnsOptionSnitchCommonTaskMultiplier">普通任务速度倍率</string>
   <string name="HnsOptionSnitchShortTaskMultiplier">短任务速度倍率</string>
   <string name="HnsOptionSnitchLongTaskMultiplier">长任务速度倍率</string>
