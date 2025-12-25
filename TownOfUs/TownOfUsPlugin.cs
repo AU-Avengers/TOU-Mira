@@ -27,6 +27,7 @@ namespace TownOfUs;
 [ReactorModFlags(ModFlags.RequireOnAllClients)]
 public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 {
+    public static bool IsMobile => Constants.GetPlatformType() is Platforms.Android or Platforms.IPhone;
     /// <summary>
     ///     Gets the specified Culture for string manipulations.
     /// </summary>
@@ -48,7 +49,9 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     public string OptionsTitleText => "TOU Mira";
 
     /// <inheritdoc />
-    public string CustomOptionMenuNameOne => "Better Maps/Sabotages";
+    public string CustomOptionMenuNameOne => TouLocale.Get("TouTabOptionBetterMaps");
+    public string CustomOptionMenuOneDescription => TouLocale.Get("TouTabOptionBetterMapsDesc");
+    public string ModifierMenuDescription => TouLocale.Get("TouTabOptionModifiersDesc");
 
     /// <inheritdoc />
     public ConfigFile GetConfigFile()
