@@ -77,14 +77,11 @@ public static class TimeLordEvents
             return;
         }
 
-        if (@event.Task != null)
+        if (@event.Task != null && @event.Task.Id != LastRewindUseTaskId)
         {
             // Prevent farming uses by repeatedly completing the same task over and over via rewind.
-            if (@event.Task.Id != LastRewindUseTaskId)
-            {
-                ++ActiveRewindTaskCount;
-                LastRewindUseTaskId = @event.Task.Id;
-            }
+            ++ActiveRewindTaskCount;
+            LastRewindUseTaskId = @event.Task.Id;
         }
 
         var opt = OptionGroupSingleton<TimeLordOptions>.Instance;

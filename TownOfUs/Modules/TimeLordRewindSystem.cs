@@ -616,8 +616,6 @@ public static class TimeLordRewindSystem
         {
             LogBodyRestore($"SeedCleanedBodiesFromHiddenBodies: seeded={seeded} (hiddenBodiesFound={seeded}, cleanedBodiesTotalNow={CleanedBodies.Count})");
         }
-
-        return;
     }
 
     public static void Reset()
@@ -1146,6 +1144,7 @@ public static class TimeLordRewindSystem
                 }
                 catch
                 {
+                    // ignored
                 }
                 PlayerControl.LocalPlayer.onLadder = false;
             }

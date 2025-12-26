@@ -55,7 +55,8 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var initial = (int)options.InitialCameras.Value;
-        if (initial == 0) return false; return SentryRole.Cameras.Count >= initial;
+        if (initial == 0) return false;
+        return SentryRole.Cameras.Count >= initial;
     }
 
     protected abstract bool ShouldBeVisible(SentryRole role);
