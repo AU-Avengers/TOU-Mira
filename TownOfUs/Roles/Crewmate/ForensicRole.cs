@@ -69,8 +69,6 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         CrimeSceneComponent.Clear();
     }
 
-
-
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);

@@ -1,4 +1,5 @@
 using Rewired;
+using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Utilities;
@@ -11,11 +12,6 @@ public static class TimeLordParasiteMovementUtilities
 {
     private static void EnsureKeybindHasKey(MiraKeybind keybind)
     {
-        if (keybind == null)
-        {
-            return;
-        }
-
         if (keybind.DefaultKey == KeyboardKeyCode.None)
         {
             return;
@@ -47,11 +43,6 @@ public static class TimeLordParasiteMovementUtilities
 
     private static bool IsKeybindHeld(BaseKeybind keybind)
     {
-        if (keybind == null)
-        {
-            return false;
-        }
-
         try
         {
             if (keybind is MiraKeybind miraKeybind)
@@ -122,9 +113,9 @@ public static class TimeLordParasiteMovementUtilities
     {
         var hudManager = HudManager.Instance;
 
-        if (HudManager.InstanceExists && hudManager.joystickR != null)
+        if (HudManager.InstanceExists && hudManager.joystick != null && PlayerControl.LocalPlayer.Data.Role is ParasiteRole parasite && parasite.MobileJoystickR != null)
         {
-            var vJoy = hudManager.joystickR.DeltaL;
+            var vJoy = parasite.MobileJoystickR.DeltaL;
             return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
         }
 
