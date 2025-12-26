@@ -68,7 +68,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
             return;
         }
 
-        const float scaleMultiplier = 1.15f;
+        const float scaleMultiplier = 1.42f;
         _overlayRoot.transform.localScale = new Vector3(
             (worldWidth * scaleMultiplier) / spriteSize.x,
             (worldHeight * scaleMultiplier) / spriteSize.y,
@@ -131,7 +131,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
                 _controlOverlay = borderObj.AddComponent<SpriteRenderer>();
                 _controlOverlay.sprite = TouAssets.ParasiteCameraBorderSprite.LoadAsset();
-                _controlOverlay.color = new Color(1f, 1f, 1f, 0.6f);
+                _controlOverlay.color = new Color(1f, 1f, 1f, 0.95f);
                 _controlOverlay.sortingOrder = 1000;
 
                 UpdateOverlayLayout();

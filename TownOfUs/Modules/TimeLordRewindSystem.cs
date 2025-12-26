@@ -204,8 +204,6 @@ public static class TimeLordRewindSystem
         private int _start;
         private int _count;
 
-        public int Count => _count;
-
         public BodyPosBuffer(int capacity)
         {
             _items = new Vector2[Math.Max(1, capacity)];
@@ -226,12 +224,6 @@ public static class TimeLordRewindSystem
 
             _items = next;
             _start = 0;
-        }
-
-        public void Clear()
-        {
-            _start = 0;
-            _count = 0;
         }
 
         public void Add(Vector2 pos)
@@ -648,7 +640,6 @@ public static class TimeLordRewindSystem
         _trackedTaskIds = Array.Empty<uint>();
         _trackedTaskCount = 0;
         _lastRewindAnim = SpecialAnim.None;
-        _finalSnapTime = 0f;
 
         if (TutorialManager.InstanceExists)
         {
@@ -752,9 +743,15 @@ public static class TimeLordRewindSystem
         {
             try
             {
-                var v = f.DeclaringType == typeof(PlayerPhysics)
-                    ? (physics != null ? f.GetValue(physics) as Vent : null)
-                    : f.GetValue(lp) as Vent;
+                Vent? v;
+                if (f.DeclaringType == typeof(PlayerPhysics))
+                {
+                    v = physics != null ? f.GetValue(physics) as Vent : null;
+                }
+                else
+                {
+                    v = f.GetValue(lp) as Vent;
+                }
 
                 if (v != null)
                 {
@@ -974,8 +971,15 @@ public static class TimeLordRewindSystem
             flags |= SnapshotFlags.InMinigame;
         }
 
-        var pos = (lp.inMovingPlat || lp.walkingToVent) ? (Vector2)lp.transform.position :
-(physics?.body != null ? physics.body.position : (Vector2)lp.transform.position);
+        Vector2 pos;
+        if (lp.inMovingPlat || lp.walkingToVent)
+        {
+            pos = (Vector2)lp.transform.position;
+        }
+        else
+        {
+            pos = physics?.body != null ? physics.body.position : (Vector2)lp.transform.position;
+        }
 
         if (inMinigame && _hasLastRecordedPos)
         {
@@ -1311,14 +1315,14 @@ public static class TimeLordRewindSystem
         {
             if (snap.VentId < 0)
             {
-                wantInVent = false;
+                // Vent ID is invalid, cannot enter vent
             }
             else
             {
                 var v = GetVentById(snap.VentId);
                 if (v == null)
                 {
-                    wantInVent = false;
+                    // Vent not found, cannot enter vent
                 }
                 else
                 {
@@ -1618,7 +1622,6 @@ public static class TimeLordRewindSystem
             _hasFinalSnapPos = true;
             _finalSnapFlags = snap.Flags;
             _finalSnapVentId = snap.VentId;
-            _finalSnapTime = snap.Time;
 
             lp.transform.position = vpos;
             if (physics.body != null)
@@ -1638,7 +1641,6 @@ public static class TimeLordRewindSystem
         _hasFinalSnapPos = true;
         _finalSnapFlags = snap.Flags;
         _finalSnapVentId = snap.VentId;
-        _finalSnapTime = snap.Time;
 
         if (OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind && _trackedTaskCount > 0 && taskSnap.Steps != null)
         {
@@ -2380,7 +2382,6 @@ return true;*/
     private static SnapshotFlags _finalSnapFlags;
     private static SpecialAnim _lastRewindAnim = SpecialAnim.None;
     private static int _finalSnapVentId = -1;
-    private static float _finalSnapTime;
 
     private static void AdvanceFinalSnapToSafeIfNeeded(PlayerControl lp)
     {
@@ -2403,7 +2404,6 @@ return true;*/
             _finalSnapFlags = snap.Flags;
             _finalSnapVentId = snap.VentId;
             _hasFinalSnapPos = true;
-            _finalSnapTime = snap.Time;
             break;
         }
     }

@@ -206,7 +206,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         var spriteSize = parasiteBorderRenderer.sprite.bounds.size;
         if (spriteSize.x > 0f && spriteSize.y > 0f)
         {
-            var scaleMultiplier = 1.15f;
+            var scaleMultiplier = 1.42f;
             parasiteBorderObj.transform.localScale = new Vector3(
                 (worldWidth * scaleMultiplier) / spriteSize.x,
                 (worldHeight * scaleMultiplier) / spriteSize.y,
@@ -214,7 +214,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             );
         }
 
-        parasiteBorderRenderer.color = new Color(1f, 1f, 1f, 0.6f);
+        parasiteBorderRenderer.color = new Color(1f, 1f, 1f, 0.95f);
     }
 
     private void KillControlledFromTimer()
@@ -265,7 +265,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             parasiteBorderRenderer = parasiteBorderObj.AddComponent<SpriteRenderer>();
             parasiteBorderRenderer.sprite = TouAssets.ParasiteCameraBorderSprite.LoadAsset();
             parasiteBorderRenderer.sortingOrder = 1000;
-            parasiteBorderRenderer.color = new Color(1f, 1f, 1f, 0.6f);
+            parasiteBorderRenderer.color = new Color(1f, 1f, 1f, 0.95f);
 
             UpdateCameraBorderLayout();
         }

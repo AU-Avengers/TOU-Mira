@@ -213,7 +213,6 @@ public sealed class ParasiteOvertakeButton : TownOfUsRoleButton<ParasiteRole, Pl
             Button.usesRemainingSprite.sprite = TouAssets.TimerImpSprite.LoadAsset();
             Button.usesRemainingSprite.gameObject.SetActive(true);
 
-            var t = Mathf.Clamp01(1f - (remainingSeconds / durationSeconds));
             var endUrgency = Mathf.Clamp01((5f - remainingSeconds) / 5f);
             var pulseAmp = Mathf.Lerp(0.003f, 0.012f, endUrgency);
             var pulseSpeed = Mathf.Lerp(1.5f, 3.0f, endUrgency);

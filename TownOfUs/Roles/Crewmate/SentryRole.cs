@@ -108,7 +108,12 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (Cameras.Count > 0 || FutureCameras.Count > 0)
         {
-            var camerasHeader = TouLocale.GetParsed("TouRoleSentryCamerasHeader", "Cameras");
+            var options = OptionGroupSingleton<SentryOptions>.Instance;
+            var maxCameras = (int)options.MaxCamerasPlaced;
+            var currentCount = Cameras.Count;
+            var camerasHeader = maxCameras > 0
+                ? TouLocale.GetParsed("TouRoleSentryCamerasHeader", "Cameras") + $" ({currentCount}/{maxCameras})"
+                : TouLocale.GetParsed("TouRoleSentryCamerasHeader", "Cameras");
             stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{camerasHeader}</b>");
 
             if (Cameras.Count > 0)

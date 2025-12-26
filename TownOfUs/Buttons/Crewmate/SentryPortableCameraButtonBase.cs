@@ -18,7 +18,6 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
     private static float _availableCharge;
     private static bool _batteryInitialized;
     private static Minigame? _securityMinigame;
-    private static bool _canMoveWithMinigame;
     private static bool _reportedInUse;
     private static int _lastUpdateFrame = -1;
 
@@ -106,7 +105,6 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             if (_securityMinigame != closing) return;
 
             _securityMinigame = null;
-            _canMoveWithMinigame = false;
 
             if (_reportedInUse && PlayerControl.LocalPlayer != null)
             {
@@ -166,14 +164,12 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
                 }
 
                 _securityMinigame = null;
-                _canMoveWithMinigame = false;
             }
         }
 
         if (_securityMinigame != null && playerControl.AreCommsAffected())
         {
             _securityMinigame.Close();
-            _canMoveWithMinigame = false;
             _securityMinigame = null;
             if (_reportedInUse && PlayerControl.LocalPlayer != null)
             {
@@ -190,7 +186,6 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             {
                 _availableCharge = 0f;
                 _securityMinigame.Close();
-                _canMoveWithMinigame = false;
                 _securityMinigame = null;
                 if (_reportedInUse && PlayerControl.LocalPlayer != null)
                 {
@@ -253,7 +248,6 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         EnsureBatteryInitialized();
 
-        _canMoveWithMinigame = false;
         PlayerControl.LocalPlayer.NetTransform.Halt();
 
         SystemConsole? basicCams = null;
@@ -301,7 +295,6 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
     public override void OnEffectEnd()
     {
         base.OnEffectEnd();
-        _canMoveWithMinigame = false;
 
         if (_securityMinigame != null)
         {

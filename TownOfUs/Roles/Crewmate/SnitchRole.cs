@@ -226,22 +226,19 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     notif1.AdjustNotification();
                 }
             }
-            else if (IsTargetOfSnitch(PlayerControl.LocalPlayer))
+            else if (IsTargetOfSnitch(PlayerControl.LocalPlayer) && !silent)
             {
-                if (!silent)
+                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+                var text = "The Snitch knows what you are now!";
+                if (Player.HasModifier<EgotistModifier>())
                 {
-                    Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = "The Snitch knows what you are now!";
-                    if (Player.HasModifier<EgotistModifier>())
-                    {
-                        text = "The Snitch can now help you as the Egotist!";
-                    }
-
-                    var notif1 = Helpers.CreateAndShowNotification(
-                        $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
-                        new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch.LoadAsset());
-                    notif1.AdjustNotification();
+                    text = "The Snitch can now help you as the Egotist!";
                 }
+
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
+                    new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch.LoadAsset());
+                notif1.AdjustNotification();
             }
         }
     }

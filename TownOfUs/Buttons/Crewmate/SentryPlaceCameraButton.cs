@@ -1,11 +1,13 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Collections;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
@@ -57,10 +59,51 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     private const float MaxPlacementDistance = 0.5f; private IEnumerator? placementCoroutine;
     private bool _pendingPlacement;
     private bool _refundApplied;
+    private static float _lastMaxPlacedNotifyTime;
+
+    private static bool IsAtMaxPlaced(SentryOptions options)
+    {
+        return options.MaxCamerasPlaced > 0 && SentryRole.Cameras.Count >= (int)options.MaxCamerasPlaced;
+    }
 
     public void AftermathHandler()
     {
         ClickHandler();
+    }
+
+    public override void ClickHandler()
+    {
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
+        if (!CanClick())
+        {
+            return;
+        }
+        if (IsAtMaxPlaced(options))
+        {
+            if (Time.time - _lastMaxPlacedNotifyTime > 2f)
+            {
+                _lastMaxPlacedNotifyTime = Time.time;
+
+                var max = (int)options.MaxCamerasPlaced;
+                var count = SentryRole.Cameras.Count;
+                var text = TouLocale
+                    .GetParsed("TouRoleSentryMaxCamerasReached", "Max cameras placed (%count%/%max%).")
+                    .Replace("<count>", $"{count}")
+                    .Replace("<max>", $"{max}");
+
+                var notif = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.Sentry.ToTextColor()}{text}</color></b>",
+                    Color.white,
+                    new Vector3(0f, 1f, -20f),
+                    spr: TouRoleIcons.Sentry.LoadAsset());
+                notif.AdjustNotification();
+                TouAudio.PlaySound(TouAudio.DenySound, 0.3f);
+            }
+
+            return;
+        }
+
+        base.ClickHandler();
     }
 
     public override bool CanUse()
@@ -76,10 +119,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
             return false;
         }
 
-        if (options.MaxCamerasPlaced > 0 && SentryRole.Cameras.Count >= (int)options.MaxCamerasPlaced)
-        {
-            return false;
-        }
+        if (IsAtMaxPlaced(options)) return true;
 
         var hits = Physics2D.OverlapBoxAll(PlayerControl.LocalPlayer.transform.position, Vector2.one * 0.5f, 0);
         hits = hits.Where(c =>
@@ -104,16 +144,28 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
         }
 
         var roomId = GetRoomId(position);
-        if (count >= 1 && (SystemTypes)options.Blindspot1Room.Value == roomId) return true;
-        if (count >= 2 && (SystemTypes)options.Blindspot2Room.Value == roomId) return true;
-        if (count >= 3 && (SystemTypes)options.Blindspot3Room.Value == roomId) return true;
-        if (count >= 4 && (SystemTypes)options.Blindspot4Room.Value == roomId) return true;
-        if (count >= 5 && (SystemTypes)options.Blindspot5Room.Value == roomId) return true;
-        if (count >= 6 && (SystemTypes)options.Blindspot6Room.Value == roomId) return true;
-        if (count >= 7 && (SystemTypes)options.Blindspot7Room.Value == roomId) return true;
-        if (count >= 8 && (SystemTypes)options.Blindspot8Room.Value == roomId) return true;
-        if (count >= 9 && (SystemTypes)options.Blindspot9Room.Value == roomId) return true;
-        if (count >= 10 && (SystemTypes)options.Blindspot10Room.Value == roomId) return true;
+        var selectedRooms = new[]
+        {
+            (SystemTypes)options.Blindspot1Room.Value,
+            (SystemTypes)options.Blindspot2Room.Value,
+            (SystemTypes)options.Blindspot3Room.Value,
+            (SystemTypes)options.Blindspot4Room.Value,
+            (SystemTypes)options.Blindspot5Room.Value,
+            (SystemTypes)options.Blindspot6Room.Value,
+            (SystemTypes)options.Blindspot7Room.Value,
+            (SystemTypes)options.Blindspot8Room.Value,
+            (SystemTypes)options.Blindspot9Room.Value,
+            (SystemTypes)options.Blindspot10Room.Value,
+        };
+
+        var limit = Math.Clamp(count, 0, selectedRooms.Length);
+        for (var i = 0; i < limit; i++)
+        {
+            if (selectedRooms[i] == roomId)
+            {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -260,7 +312,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
         }
         catch
         {
-            // ignored
+            // Ignored: Button refresh may fail if role is null or buttons don't exist
         }
     }
 }
