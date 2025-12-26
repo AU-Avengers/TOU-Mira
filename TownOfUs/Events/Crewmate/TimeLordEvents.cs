@@ -25,7 +25,6 @@ public static class TimeLordEvents
             return;
         }
 
-        // Reset all local rewind/task history on every client at the start of every game.
         TimeLordRewindSystem.Reset();
 
         ActiveRewindTaskCount = 0;
@@ -56,30 +55,33 @@ public static class TimeLordEvents
     [RegisterEvent]
     public static void CompleteTaskEvent(CompleteTaskEvent @event)
     {
-        // Host-side task history for optional "undo tasks during rewind".
+        if (@event.Task != null && @event.Player != null)
+        {
+            TimeLordEventHandlers.RecordTaskComplete(@event.Player, @event.Task);
+        }
+
         if (AmongUsClient.Instance != null &&
             AmongUsClient.Instance.AmHost &&
             @event.Task != null &&
+            @event.Player != null &&
             OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind &&
             TimeLordRewindSystem.MatchHasTimeLord())
         {
             TimeLordRewindSystem.RecordHostTaskCompletion(@event.Player, @event.Task);
         }
 
-        // Local: gain additional rewind uses based on tasks completed (Engineer-style).
-        if (!@event.Player.AmOwner)
+        if (@event.Player == null || !@event.Player.AmOwner)
         {
             return;
         }
 
-        if (@event.Player.Data.Role is not TimeLordRole)
+        if (@event.Player.Data?.Role is not TimeLordRole)
         {
             return;
         }
 
         if (@event.Task != null && @event.Task.Id != LastRewindUseTaskId)
         {
-            // Prevent farming uses by repeatedly completing the same task over and over via rewind.
             ++ActiveRewindTaskCount;
             LastRewindUseTaskId = @event.Task.Id;
         }
@@ -125,10 +127,6 @@ public static class TimeLordEvents
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
-        // Cancel rewind without snapping positions: the base game caches "return positions" at meeting start.
-        // If we snap here, players can return to the wrong place when the meeting ends.
         TimeLordRewindSystem.CancelRewindForMeeting();
     }
 }
-
-

@@ -59,8 +59,16 @@ public static class TimeLordPatches
     [HarmonyPrefix]
     public static bool PlayerPhysicsFixedUpdatePrefix(PlayerPhysics __instance)
     {
-        if (PlayerControl.LocalPlayer != null && __instance != null && __instance.myPlayer == PlayerControl.LocalPlayer &&
-    TimeLordRewindSystem.IsRewinding)
+        if (__instance == null || __instance.myPlayer == null)
+        {
+            return true;
+        }
+
+        var player = __instance.myPlayer;
+        
+        // Handle rewind for local player (including infected players - they're already recorded in normal snapshots)
+        if (PlayerControl.LocalPlayer != null && player == PlayerControl.LocalPlayer &&
+            TimeLordRewindSystem.IsRewinding)
         {
             return !TimeLordRewindSystem.TryHandleRewindPhysics(__instance);
         }

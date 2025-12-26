@@ -8,8 +8,8 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -68,8 +68,13 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
 
         if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
         {
-            TimeLordRewindSystem.RecordBodyCleaned(body, TimeLordRewindSystem.CleanedBodySource.Janitor);
-            Coroutines.Start(TimeLordRewindSystem.CoHideBodyForTimeLord(body));
+            var bodyPlayer = MiscUtils.PlayerById(body.ParentId);
+            if (bodyPlayer != null)
+            {
+                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(PlayerControl.LocalPlayer, body, body.transform.position, 
+                    TimeLordBodyManager.CleanedBodySource.Janitor);
+            }
+            Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
         }
         else
         {

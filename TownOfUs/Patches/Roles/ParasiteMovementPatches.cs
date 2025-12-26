@@ -7,6 +7,7 @@ using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Roles;
@@ -16,63 +17,9 @@ public static class ParasiteMovementPatches
 {
 
     // I really don't know how to make Among Us Input system work properly here.. if someone knows how I'd love to know
-    private static Vector2 GetWasdDirection()
-    {
-        var x = 0f;
-        var y = 0f;
+    private static Vector2 GetWasdDirection() => TimeLordParasiteMovementUtilities.GetWasdDirection();
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            x += 1f;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            x -= 1f;
-        }
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            y += 1f;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            y -= 1f;
-        }
-
-        var v = new Vector2(x, y);
-        return v == Vector2.zero ? Vector2.zero : v.normalized;
-    }
-
-    private static Vector2 GetArrowDirection()
-    {
-        var x = 0f;
-        var y = 0f;
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            x += 1f;
-        }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            x -= 1f;
-        }
-
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            y += 1f;
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            y -= 1f;
-        }
-
-        var v = new Vector2(x, y);
-        return v == Vector2.zero ? Vector2.zero : v.normalized;
-    }
+    private static Vector2 GetArrowDirection() => TimeLordParasiteMovementUtilities.GetArrowDirection();
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
     [HarmonyPrefix]
@@ -84,10 +31,16 @@ public static class ParasiteMovementPatches
             return true;
         }
 
-        // If Time Lord rewind is active for the local player, do not let Parasite patches fight the rewind movement.
-        if (player == PlayerControl.LocalPlayer && TimeLordRewindSystem.IsRewinding)
+        if (TimeLordRewindSystem.IsRewinding)
         {
-            return true;
+            if (player.HasModifier<ParasiteInfectedModifier>() && player.AmOwner)
+            {
+                return true;
+            }
+            if (player == PlayerControl.LocalPlayer)
+            {
+                return true;
+            }
         }
 
         if (player == PlayerControl.LocalPlayer &&
@@ -95,20 +48,15 @@ public static class ParasiteMovementPatches
             PlayerControl.LocalPlayer.Data?.Role is ParasiteRole parasite &&
             parasite.Controlled != null)
         {
+            if (TimeLordRewindSystem.IsRewinding)
+            {
+                return true;
+            }
+
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
-
-            if (canMoveIndependently)
-            {
-                var parasiteDir = GetWasdDirection();
-                __instance.HandleAnimation(player.Data.IsDead);
-                __instance.SetNormalizedVelocity(parasiteDir);
-            }
-            else
-            {
-                __instance.HandleAnimation(player.Data.IsDead);
-                __instance.SetNormalizedVelocity(Vector2.zero);
-            }
-
+            var parasiteDir = canMoveIndependently ? GetWasdDirection() : Vector2.zero;
+            
+            TimeLordParasiteMovementUtilities.ApplyParasiteMovement(__instance, parasiteDir, stopIfZero: true);
             return false;
         }
 
@@ -118,16 +66,15 @@ public static class ParasiteMovementPatches
             player == pr.Controlled &&
             !player.AmOwner)
         {
+            if (TimeLordRewindSystem.IsRewinding)
+            {
+                return true;
+            }
+
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
             var dir = canMoveIndependently ? GetArrowDirection() : GetWasdDirection();
 
-            __instance.HandleAnimation(player.Data.IsDead);
-            __instance.SetNormalizedVelocity(dir);
-
-            if (dir == Vector2.zero && __instance.body != null)
-            {
-                __instance.body.velocity = Vector2.zero;
-            }
+            TimeLordParasiteMovementUtilities.ApplyParasiteMovement(__instance, dir);
 
             var vel = dir * __instance.TrueSpeed;
             var pos = __instance.body != null ? __instance.body.position : (Vector2)player.transform.position;
@@ -139,9 +86,13 @@ public static class ParasiteMovementPatches
 
         if (player.HasModifier<ParasiteInfectedModifier>() && player.GetComponent<DummyBehaviour>() != null)
         {
+            if (TimeLordRewindSystem.IsRewinding)
+            {
+                return true;
+            }
+
             var victimDir = ParasiteControlState.GetDirection(player.PlayerId);
-            __instance.HandleAnimation(player.Data.IsDead);
-            __instance.SetNormalizedVelocity(victimDir);
+            TimeLordParasiteMovementUtilities.ApplyParasiteMovement(__instance, victimDir);
             return false;
         }
 
@@ -158,8 +109,7 @@ public static class ParasiteMovementPatches
             return true;
         }
 
-        // Allow Time Lord rewind to drive animations/movement even if the player is currently controlled.
-        if (player == PlayerControl.LocalPlayer && TimeLordRewindSystem.IsRewinding)
+        if (TimeLordRewindSystem.IsRewinding)
         {
             return true;
         }
@@ -213,6 +163,11 @@ public static class ParasiteMovementPatches
 
         var player = __instance.myPlayer;
         if (!ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        {
+            return true;
+        }
+
+        if (TimeLordRewindSystem.IsRewinding)
         {
             return true;
         }

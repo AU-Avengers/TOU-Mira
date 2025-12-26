@@ -2,8 +2,8 @@
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Collections;
-using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
@@ -64,8 +64,14 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
 
         if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
         {
-            TimeLordRewindSystem.RecordBodyCleaned(rotting, TimeLordRewindSystem.CleanedBodySource.Rotting);
-            Coroutines.Start(TimeLordRewindSystem.CoHideBodyForTimeLord(rotting));
+            // Fire event for Time Lord system (this will also call RecordBodyCleaned internally)
+            var bodyPlayer = MiscUtils.PlayerById(player.PlayerId);
+            if (bodyPlayer != null)
+            {
+                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(player, rotting, rotting.transform.position, 
+                    TimeLordBodyManager.CleanedBodySource.Rotting);
+            }
+            Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(rotting));
         }
         else
         {

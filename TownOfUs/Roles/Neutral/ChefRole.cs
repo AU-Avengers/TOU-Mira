@@ -16,7 +16,7 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules;
+using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -180,13 +180,22 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
         if (body != null)
         {
-            /*var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, player, body);
-            MiraEventManager.InvokeEvent(touAbilityEvent);*/
+            // Record Chef cook event for Time Lord rewind system
+            var player = MiscUtils.PlayerById(body.ParentId);
+            if (player != null)
+            {
+                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
+            }
 
             if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
             {
-                TimeLordRewindSystem.RecordBodyCleaned(body);
-                Coroutines.Start(TimeLordRewindSystem.CoHideBodyForTimeLord(body));
+                var bodyPlayer = MiscUtils.PlayerById(body.ParentId);
+                if (bodyPlayer != null)
+                {
+                    TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
+                        TimeLordBodyManager.CleanedBodySource.Janitor);
+                }
+                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
             }
             else
             {
@@ -218,6 +227,8 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         }
 
         target.AddModifier<ChefServedModifier>(chef, (int)platter.Value, platter.Key);
+
+        TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefServe(chef, target, (byte)platter.Key, platter.Value);
 
         role.StoredBodies.RemoveAt(0);
     }

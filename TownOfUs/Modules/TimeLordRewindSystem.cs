@@ -1,13 +1,15 @@
-using BepInEx.Logging;
 using HarmonyLib;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using System.Reflection;
+using TownOfUs.Buttons.Impostor;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Options;
+using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -20,13 +22,6 @@ namespace TownOfUs.Modules;
 
 public static class TimeLordRewindSystem
 {
-    public enum CleanedBodySource : byte
-    {
-        Unknown = 0,
-        Rotting = 1,
-        Janitor = 2,
-    }
-
     private enum SpecialAnim : byte
     {
         None = 0,
@@ -35,14 +30,6 @@ public static class TimeLordRewindSystem
         Platform = 3,
         Vent = 4,
     }
-
-    // Reflection is required to access internal Unity/Among Us methods for Time Lord rewind functionality
-    // This is safe as we're only reading state, not modifying it
-    private static readonly MethodInfo? NetTransformInvisibleAnimMethod =
-#pragma warning disable S3011 // Reflection used to access internal Unity API - safe for read-only operations
-        typeof(CustomNetworkTransform).GetMethod("IsInMiddleOfAnimationThatMakesPlayerInvisible",
-            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-#pragma warning restore S3011
 
     [Flags]
     private enum SnapshotState : byte
@@ -55,315 +42,12 @@ public static class TimeLordRewindSystem
         InMinigame = 1 << 4,
     }
 
-    private readonly struct Snapshot
-    {
-        public readonly float Time;
-        public readonly Vector2 Pos;
-        public readonly SpecialAnim Anim;
-        public readonly SnapshotState Flags;
-        public readonly int VentId;
-
-        public Snapshot(float time, Vector2 pos, SpecialAnim anim, SnapshotState flags, int ventId)
-        {
-            Time = time;
-            Pos = pos;
-            Anim = anim;
-            Flags = flags;
-            VentId = ventId;
-        }
-    }
-
-    private readonly struct TaskStepSnapshot
-    {
-        public readonly byte[] Steps;
-
-        public TaskStepSnapshot(byte[] steps)
-        {
-            Steps = steps;
-        }
-    }
-
-    private sealed class CircularBuffer
-    {
-        private Snapshot[] _items;
-        private int _start;
-        private int _count;
-
-        public int Count => _count;
-
-        public CircularBuffer(int capacity)
-        {
-            _items = new Snapshot[Math.Max(1, capacity)];
-        }
-
-        public void EnsureCapacity(int capacity)
-        {
-            if (capacity <= _items.Length)
-            {
-                return;
-            }
-
-            var newArr = new Snapshot[capacity];
-            for (var i = 0; i < _count; i++)
-            {
-                newArr[i] = _items[(_start + i) % _items.Length];
-            }
-
-            _items = newArr;
-            _start = 0;
-        }
-
-        public void Clear()
-        {
-            _start = 0;
-            _count = 0;
-        }
-
-        public void Add(Snapshot item)
-        {
-            if (_count < _items.Length)
-            {
-                _items[(_start + _count) % _items.Length] = item;
-                _count++;
-                return;
-            }
-
-            _items[_start] = item;
-            _start = (_start + 1) % _items.Length;
-        }
-
-        public bool TryPopLast(out Snapshot snapshot)
-        {
-            if (_count <= 0)
-            {
-                snapshot = default;
-                return false;
-            }
-
-            var idx = (_start + _count - 1) % _items.Length;
-            snapshot = _items[idx];
-            _count--;
-            return true;
-        }
-
-        public bool TryPeekLast(out Snapshot snapshot)
-        {
-            if (_count <= 0)
-            {
-                snapshot = default;
-                return false;
-            }
-
-            var idx = (_start + _count - 1) % _items.Length;
-            snapshot = _items[idx];
-            return true;
-        }
-
-        public int CountNewerThan(float cutoffTime)
-        {
-            if (_count <= 0)
-            {
-                return 0;
-            }
-
-            var c = 0;
-            for (var i = 0; i < _count; i++)
-            {
-                var idx = (_start + i) % _items.Length;
-                if (_items[idx].Time >= cutoffTime)
-                {
-                    c++;
-                }
-            }
-
-            return c;
-        }
-
-        public void RemoveOlderThan(float cutoffTime)
-        {
-            if (_count <= 0)
-            {
-                return;
-            }
-
-            var removed = 0;
-            while (_count > 0)
-            {
-                var idx = _start % _items.Length;
-                if (_items[idx].Time >= cutoffTime)
-                {
-                    break;
-                }
-
-                _start = (_start + 1) % _items.Length;
-                _count--;
-                removed++;
-            }
-        }
-    }
-
-    private sealed class BodyPosBuffer
-    {
-        private Vector2[] _items;
-        private int _start;
-        private int _count;
-
-        public BodyPosBuffer(int capacity)
-        {
-            _items = new Vector2[Math.Max(1, capacity)];
-        }
-
-        public void EnsureCapacity(int capacity)
-        {
-            if (capacity <= _items.Length)
-            {
-                return;
-            }
-
-            var next = new Vector2[capacity];
-            for (var i = 0; i < _count; i++)
-            {
-                next[i] = _items[(_start + i) % _items.Length];
-            }
-
-            _items = next;
-            _start = 0;
-        }
-
-        public void Add(Vector2 pos)
-        {
-            if (_count < _items.Length)
-            {
-                _items[(_start + _count) % _items.Length] = pos;
-                _count++;
-                return;
-            }
-
-            _items[_start] = pos;
-            _start = (_start + 1) % _items.Length;
-        }
-
-        public bool TryGetOldest(out Vector2 pos)
-        {
-            if (_count <= 0)
-            {
-                pos = default;
-                return false;
-            }
-
-            pos = _items[_start];
-            return true;
-        }
-    }
-
-    private sealed class TaskStepBuffer
-    {
-        private byte[][] _steps; private int _start;
-        private int _count;
-
-        public TaskStepBuffer(int capacity, int maxTasks)
-        {
-            capacity = Math.Max(1, capacity);
-            _steps = new byte[capacity][];
-            for (var i = 0; i < capacity; i++)
-            {
-                _steps[i] = new byte[Math.Max(1, maxTasks)];
-            }
-        }
-
-        public void EnsureCapacity(int capacity, int maxTasks)
-        {
-            capacity = Math.Max(1, capacity);
-            maxTasks = Math.Max(1, maxTasks);
-
-            if (capacity <= _steps.Length && maxTasks <= _steps[0].Length)
-            {
-                return;
-            }
-
-            var newSteps = new byte[Math.Max(capacity, _steps.Length)][];
-            for (var i = 0; i < newSteps.Length; i++)
-            {
-                newSteps[i] = new byte[maxTasks];
-            }
-
-            for (var i = 0; i < _count; i++)
-            {
-                var oldIdx = (_start + i) % _steps.Length;
-                Array.Copy(_steps[oldIdx], 0, newSteps[i], 0, Math.Min(_steps[oldIdx].Length, newSteps[i].Length));
-            }
-
-            _steps = newSteps;
-            _start = 0;
-        }
-
-        public void Clear()
-        {
-            _start = 0;
-            _count = 0;
-        }
-
-        public void Add(byte[] steps, int taskCount)
-        {
-            if (_steps.Length == 0)
-            {
-                return;
-            }
-
-            var writeIdx = (_start + _count) % _steps.Length;
-            if (_count >= _steps.Length)
-            {
-                writeIdx = _start;
-                _start = (_start + 1) % _steps.Length;
-            }
-            else
-            {
-                _count++;
-            }
-
-            Array.Clear(_steps[writeIdx], 0, _steps[writeIdx].Length);
-            Array.Copy(steps, 0, _steps[writeIdx], 0, Math.Min(taskCount, _steps[writeIdx].Length));
-        }
-
-        public void TryPopLast(out TaskStepSnapshot snapshot)
-        {
-            if (_count <= 0)
-            {
-                snapshot = default;
-                return;
-            }
-
-            var idx = (_start + _count - 1) % _steps.Length;
-            snapshot = new TaskStepSnapshot(_steps[idx]);
-            _count--;
-        }
-
-        public void RemoveCount(int countToRemove)
-        {
-            if (countToRemove <= 0 || _count <= 0)
-            {
-                return;
-            }
-
-            var removed = Math.Min(countToRemove, _count);
-            _start = (_start + removed) % _steps.Length;
-            _count -= removed;
-        }
-    }
-
-    private static readonly CircularBuffer Buffer = new(1024);
-    private static readonly TaskStepBuffer TaskBuffer = new(1024, 24);
+    // Snapshot, CircularBuffer, TaskStepBuffer, and BodyPosBuffer moved to TimeLordSnapshotBuffer helper
+    private static readonly TimeLord.CircularBuffer Buffer = new(1024);
+    private static readonly TimeLord.TaskStepBuffer TaskBuffer = new(1024, 24);
     private static uint[] _trackedTaskIds = Array.Empty<uint>();
     private static int _trackedTaskCount;
-
-    private sealed class SpecialClipSet
-    {
-        public AnimationClip? LadderAny { get; set; }
-        public AnimationClip? LadderUp { get; set; }
-        public AnimationClip? LadderDown { get; set; }
-    }
-
-    private static readonly Dictionary<int, SpecialClipSet> SpecialClipsByGroupHash = new();
+    
 
     private static bool _colliderWasEnabled;
     private static Vector2 _finalSnapPos;
@@ -409,6 +93,7 @@ public static class TimeLordRewindSystem
     private static float _popsPerTick;
     private static float _popAccumulator;
     private static int _popsRemaining;
+    private static List<(TimeLordEvent Event, float UndoAt)>? _scheduledEventUndos;
 
     private sealed class ScheduledBodyPos
     {
@@ -426,7 +111,7 @@ public static class TimeLordRewindSystem
         }
     }
 
-    private static readonly Dictionary<byte, BodyPosBuffer> HostBodyPosHistory = new();
+    private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = new();
     private static List<ScheduledBodyPos>? _hostBodyPlacements;
 
     private readonly struct HostTaskCompletion
@@ -462,35 +147,7 @@ public static class TimeLordRewindSystem
     private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
     private static List<ScheduledTaskUndo>? _hostTaskUndos;
 
-    private sealed class CleanedBodyRecord
-    {
-        public byte BodyId { get; }
-        public Vector3 Position { get; set; }
-        public DateTime TimeUtc { get; set; }
-        public float TimeSeconds { get; set; }
-        public DeadBody? Body { get; set; }
-        public CleanedBodySource Source { get; set; }
-        public bool Restored { get; set; }
-        public bool RestoredThisRewind { get; set; }
-        public string? OriginalPetId { get; set; }
-        public bool PetWasRemoved { get; set; }
-
-        public CleanedBodyRecord(byte bodyId, Vector3 pos, DateTime timeUtc, float timeSeconds, DeadBody? body)
-        {
-            BodyId = bodyId;
-            Position = pos;
-            TimeUtc = timeUtc;
-            TimeSeconds = timeSeconds;
-            Body = body;
-            Restored = false;
-            RestoredThisRewind = false;
-            Source = CleanedBodySource.Unknown;
-            OriginalPetId = null;
-            PetWasRemoved = false;
-        }
-    }
-
-    private static readonly Dictionary<byte, CleanedBodyRecord> CleanedBodies = new();
+    // CleanedBodies moved to TimeLordBodyManager helper
 
     private static bool _cachedHasTimeLord;
     private static float _nextHasTimeLordCheckTime;
@@ -500,15 +157,12 @@ public static class TimeLordRewindSystem
     public static float RewindEndTime { get; private set; }
     public static float RewindDuration { get; private set; }
 
-    internal static readonly ManualLogSource BodyLogger =
-        BepInEx.Logging.Logger.CreateLogSource("TOU.TimeLordBodies");
-
     private static void LogBodyRestore(string msg)
     {
         var full = $"[TimeLordBodies] {msg}";
         try
         {
-            BodyLogger.LogError(full);
+            TimeLordBodyManager.BodyLogger.LogError(full);
         }
         catch
         {
@@ -525,94 +179,11 @@ public static class TimeLordRewindSystem
         }
     }
 
-    private static List<DeadBody> FindAllDeadBodiesIncludingInactive()
-    {
-        var results = new List<DeadBody>(16);
-        try
-        {
-            for (var sceneIdx = 0; sceneIdx < UnityEngine.SceneManagement.SceneManager.sceneCount; sceneIdx++)
-            {
-                var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(sceneIdx);
-                if (!scene.isLoaded)
-                {
-                    continue;
-                }
-
-                var rootObjects = scene.GetRootGameObjects();
-                foreach (var root in rootObjects)
-                {
-                    if (root == null)
-                    {
-                        continue;
-                    }
-
-                    var bodies = root.GetComponentsInChildren<DeadBody>(true);
-                    foreach (var body in bodies)
-                    {
-                        if (body != null && body.gameObject != null)
-                        {
-                            results.Add(body);
-                        }
-                    }
-                }
-            }
-        }
-        catch
-        {
-            // ignored
-        }
-
-        return results;
-    }
-
     private static void SeedCleanedBodiesFromHiddenBodies()
     {
-        var seeded = 0;
-        var bodies = FindAllDeadBodiesIncludingInactive();
-        if (bodies.Count == 0)
-        {
-            return;
-        }
-
-        foreach (var body in bodies)
-        {
-            if (body == null || body.gameObject == null)
-            {
-                continue;
-            }
-
-            if (body.gameObject.activeSelf)
-            {
-                continue;
-            }
-
-            var id = body.ParentId;
-            if (CleanedBodies.ContainsKey(id))
-            {
-                continue;
-            }
-
-            CleanedBodies[id] = new CleanedBodyRecord(
-                id,
-                body.transform.position,
-                DateTime.UtcNow,
-                Time.time,
-                body)
-            {
-                Restored = false,
-                RestoredThisRewind = false,
-                Source = CleanedBodySource.Unknown
-            };
-
-            seeded++;
-            LogBodyRestore($"SeedCleanedBodiesFromHiddenBodies: seeded body={id} pos={body.transform.position} timeSeconds={Time.time:0.000}");
-        }
-
-        if (seeded > 0)
-        {
-            LogBodyRestore($"SeedCleanedBodiesFromHiddenBodies: seeded={seeded} (hiddenBodiesFound={seeded}, cleanedBodiesTotalNow={CleanedBodies.Count})");
-        }
+        TimeLordBodyManager.SeedCleanedBodiesFromHiddenBodies();
     }
+
 
     public static void Reset()
     {
@@ -647,11 +218,11 @@ public static class TimeLordRewindSystem
 
         if (TutorialManager.InstanceExists)
         {
-            PruneCleanedBodies(maxAgeSeconds: 120f);
+            TimeLordBodyManager.PruneCleanedBodies(maxAgeSeconds: 120f);
         }
         else
         {
-            CleanedBodies.Clear();
+            TimeLordBodyManager.Clear();
         }
     }
 
@@ -970,7 +541,7 @@ public static class TimeLordRewindSystem
         {
             flags |= SnapshotState.InMovingPlat;
         }
-        if (!lp.inVent && IsInInvisibleAnimation(lp))
+        if (!lp.inVent && TimeLordAnimationUtilities.IsInInvisibleAnimation(lp))
         {
             flags |= SnapshotState.InvisibleAnim;
         }
@@ -1001,7 +572,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        Buffer.Add(new Snapshot(Time.time, pos, anim, flags, ventId));
+        Buffer.Add(new TimeLord.Snapshot(Time.time, pos, (TimeLord.SpecialAnim)anim, (TimeLord.SnapshotState)flags, ventId));
         _lastRecordedPos = pos;
         _hasLastRecordedPos = true;
 
@@ -1083,13 +654,7 @@ public static class TimeLordRewindSystem
         _popAccumulator = 0f;
         _localBodyRestores = null;
 
-        foreach (var rec in CleanedBodies.Values)
-        {
-            if (rec != null)
-            {
-                rec.RestoredThisRewind = false;
-            }
-        }
+        TimeLordBodyManager.ResetRestoredThisRewind();
 
         if (!PlayerControl.LocalPlayer)
         {
@@ -1173,6 +738,11 @@ public static class TimeLordRewindSystem
         Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.TimeLord, duration, 0.25f));
 
         ConfigureLocalBodyRestores(duration, history);
+        
+        // Schedule event-based undos
+        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
+        _scheduledEventUndos = eventQueue.GetUndoSchedule(Time.time, duration, historySeconds);
 
         if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
         {
@@ -1216,7 +786,7 @@ public static class TimeLordRewindSystem
 
             if (!HostBodyPosHistory.TryGetValue(id, out var buf))
             {
-                buf = new BodyPosBuffer(cap);
+                buf = new TimeLord.BodyPosBuffer(cap);
                 HostBodyPosHistory[id] = buf;
             }
 
@@ -1233,6 +803,7 @@ public static class TimeLordRewindSystem
             }
         }
     }
+
 
     private static void ConfigureHostBodyPlacements(float durationSeconds)
     {
@@ -1263,16 +834,16 @@ public static class TimeLordRewindSystem
         {
             _localBodyRestores = null;
             LogBodyRestore(
-                $"ConfigureLocalBodyRestores: skipped (option={OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind}, cleanedBodies={CleanedBodies.Count})");
+                $"ConfigureLocalBodyRestores: skipped (option={OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind}, cleanedBodies={TimeLordBodyManager.GetCleanedBodyCount()})");
             return;
         }
 
-        if (CleanedBodies.Count == 0)
+        if (!TimeLordBodyManager.HasCleanedBodies())
         {
             SeedCleanedBodiesFromHiddenBodies();
         }
 
-        if (CleanedBodies.Count == 0)
+        if (!TimeLordBodyManager.HasCleanedBodies())
         {
             _localBodyRestores = null;
             LogBodyRestore("ConfigureLocalBodyRestores: no cleaned bodies to schedule after seeding attempt");
@@ -1282,8 +853,7 @@ public static class TimeLordRewindSystem
         var nowTime = Time.time;
         var cutoffTime = nowTime - historySeconds;
 
-        var schedule = CleanedBodies.Values
-                                    .Where(x => x.TimeSeconds >= cutoffTime)
+        var schedule = TimeLordBodyManager.GetCleanedBodiesForScheduling(cutoffTime)
             .Select(x =>
             {
                 var age = Math.Max(0f, nowTime - x.TimeSeconds);
@@ -1297,7 +867,7 @@ public static class TimeLordRewindSystem
         _localBodyRestores = schedule.Count > 0 ? schedule : null;
 
         LogBodyRestore(
-            $"ConfigureLocalBodyRestores: scheduled={schedule.Count} (cleanedBodiesTotal={CleanedBodies.Count}, cutoffTime={cutoffTime:0.000}, nowTime={nowTime:0.000})");
+            $"ConfigureLocalBodyRestores: scheduled={schedule.Count} (cleanedBodiesTotal={TimeLordBodyManager.GetCleanedBodyCount()}, cutoffTime={cutoffTime:0.000}, nowTime={nowTime:0.000})");
     }
 
     private static Vent? GetVentById(int id)
@@ -1317,9 +887,9 @@ public static class TimeLordRewindSystem
         }
     }
 
-    private static void ApplyVentSnapshotState(PlayerControl lp, Snapshot snap)
+    private static void ApplyVentSnapshotState(PlayerControl lp, TimeLord.Snapshot snap)
     {
-        var wantInVent = (snap.Flags & SnapshotState.InVent) != 0;
+        var wantInVent = (snap.Flags & (TimeLord.SnapshotState)SnapshotState.InVent) != 0;
 
         if (wantInVent)
         {
@@ -1371,7 +941,7 @@ public static class TimeLordRewindSystem
 
         lp.inVent = false;
         Vent.currentVent = null;
-        lp.walkingToVent = (snap.Flags & SnapshotState.WalkingToVent) != 0;
+        lp.walkingToVent = (snap.Flags & (TimeLord.SnapshotState)SnapshotState.WalkingToVent) != 0;
     }
 
     public static bool TryHandleRewindPhysics(PlayerPhysics physics)
@@ -1406,7 +976,7 @@ public static class TimeLordRewindSystem
             return false;
         }
 
-        var unsafeNow = lp.walkingToVent || lp.inMovingPlat || (!lp.inVent && IsInInvisibleAnimation(lp));
+        var unsafeNow = lp.walkingToVent || lp.inMovingPlat || (!lp.inVent && TimeLordAnimationUtilities.IsInInvisibleAnimation(lp));
         if (unsafeNow)
         {
             if (Time.time >= RewindEndTime)
@@ -1497,7 +1067,7 @@ public static class TimeLordRewindSystem
                 if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
                 {
                     entry.Done = true;
-                    RestoreCleanedBody(entry.BodyId);
+                    TimeLordBodyManager.RestoreCleanedBody(entry.BodyId);
                 }
             }
         }
@@ -1542,6 +1112,23 @@ public static class TimeLordRewindSystem
             }
         }
 
+        // Process event-based undo events
+        if (_scheduledEventUndos != null && _scheduledEventUndos.Count > 0)
+        {
+            var elapsed = Time.time - _rewindStartTime;
+            for (var i = _scheduledEventUndos.Count - 1; i >= 0; i--)
+            {
+                var (evt, undoAt) = _scheduledEventUndos[i];
+                if (elapsed + 0.0001f >= undoAt)
+                {
+                    // Fire the undo event through MiraEventManager
+                    var undoEvent = CreateUndoEvent(evt);
+                    MiraAPI.Events.MiraEventManager.InvokeEvent(undoEvent);
+                    _scheduledEventUndos.RemoveAt(i);
+                }
+            }
+        }
+
         _popAccumulator += _popsPerTick;
         var popsThisTick = Mathf.FloorToInt(_popAccumulator);
         if (popsThisTick <= 0)
@@ -1550,7 +1137,7 @@ public static class TimeLordRewindSystem
         }
         _popAccumulator -= popsThisTick;
 
-        if (Buffer.TryPeekLast(out var peek) && (peek.Flags & SnapshotState.InMinigame) != 0)
+        if (Buffer.TryPeekLast(out var peek) && (peek.Flags & (TimeLord.SnapshotState)SnapshotState.InMinigame) != 0)
         {
             const int maxPopsPerTick = 64;
             const int minigameFastForwardMultiplier = 4;
@@ -1566,8 +1153,8 @@ public static class TimeLordRewindSystem
             return true;
         }
 
-        Snapshot snap = default;
-        TaskStepSnapshot taskSnap = default;
+        TimeLord.Snapshot snap = default;
+        TimeLord.TaskStepSnapshot taskSnap = default;
         var hitHistoryCutoff = false;
         for (var i = 0; i < popsThisTick; i++)
         {
@@ -1608,12 +1195,12 @@ public static class TimeLordRewindSystem
 
         if (!lp.Data.IsDead)
         {
-            lp.onLadder = snap.Anim == SpecialAnim.Ladder;
+            lp.onLadder = snap.Anim == (TimeLord.SpecialAnim)SpecialAnim.Ladder;
         }
 
         ApplyVentSnapshotState(lp, snap);
 
-        if (_lastRewindAnim == SpecialAnim.Ladder && snap.Anim != SpecialAnim.Ladder)
+        if (_lastRewindAnim == SpecialAnim.Ladder && snap.Anim != (TimeLord.SpecialAnim)SpecialAnim.Ladder)
         {
             try
             {
@@ -1625,14 +1212,14 @@ public static class TimeLordRewindSystem
             }
         }
 
-        _lastRewindAnim = snap.Anim;
+        _lastRewindAnim = (SpecialAnim)snap.Anim;
 
         if (lp.inVent && Vent.currentVent != null)
         {
             var vpos = (Vector2)Vent.currentVent.transform.position;
             _finalSnapPos = vpos;
             _hasFinalSnapPos = true;
-            _finalSnapFlags = snap.Flags;
+            _finalSnapFlags = (SnapshotState)snap.Flags;
             _finalSnapVentId = snap.VentId;
 
             lp.transform.position = vpos;
@@ -1651,7 +1238,7 @@ public static class TimeLordRewindSystem
 
         _finalSnapPos = snap.Pos;
         _hasFinalSnapPos = true;
-        _finalSnapFlags = snap.Flags;
+        _finalSnapFlags = (SnapshotState)snap.Flags;
         _finalSnapVentId = snap.VentId;
 
         if (OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind && _trackedTaskCount > 0 && taskSnap.Steps != null)
@@ -1659,51 +1246,13 @@ public static class TimeLordRewindSystem
             ApplyLocalTaskSteps(PlayerControl.LocalPlayer, taskSnap);
         }
 
-        const float idleEpsilon = 0.0005f;
-        if (delta.sqrMagnitude <= idleEpsilon * idleEpsilon)
+        var isLadder = snap.Anim == (TimeLord.SpecialAnim)SpecialAnim.Ladder;
+        if (isLadder)
         {
-            if (snap.Anim is SpecialAnim.Ladder)
-            {
-                ApplySpecialAnimation(physics, snap.Anim, delta);
-            }
-            else
-            {
-                physics.HandleAnimation(lp.Data.IsDead);
-            }
-            physics.SetNormalizedVelocity(Vector2.zero);
-            if (physics.body != null)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
+            var helperAnim = snap.Anim;
+            TimeLordAnimationUtilities.ApplySpecialAnimation(physics, helperAnim, delta);
         }
-        else
-        {
-            var dt = Mathf.Max(Time.fixedDeltaTime, 0.001f);
-            var desiredVel = delta / dt;
-            var dir = desiredVel.normalized;
-
-            if (snap.Anim is SpecialAnim.Ladder)
-            {
-                ApplySpecialAnimation(physics, snap.Anim, delta);
-            }
-            else
-            {
-                physics.HandleAnimation(lp.Data.IsDead);
-            }
-            if (snap.Anim is SpecialAnim.Ladder)
-            {
-                physics.SetNormalizedVelocity(Vector2.zero);
-            }
-            else
-            {
-                physics.SetNormalizedVelocity(-dir);
-            }
-
-            if (physics.body != null)
-            {
-                physics.body.velocity = desiredVel;
-            }
-        }
+        TimeLordParasiteMovementUtilities.ApplyRewindMovement(physics, snap.Pos, curPos, isLadder);
 
         if (ModCompatibility.IsSubmerged())
         {
@@ -1769,6 +1318,7 @@ return true;*/
         _popAccumulator = 0f;
         _popsRemaining = 0;
         _hostTaskUndos = null;
+        _scheduledEventUndos = null;
         TaskBuffer.Clear();
 
         if (!PlayerControl.LocalPlayer)
@@ -1792,7 +1342,7 @@ return true;*/
 
         PopOutOfVentIfNeeded(lp);
 
-        var endedInVent = (_finalSnapFlags & SnapshotState.InVent) != 0;
+        var endedInVent = ((TimeLord.SnapshotState)_finalSnapFlags & (TimeLord.SnapshotState)SnapshotState.InVent) != 0;
         if (endedInVent)
         {
             try
@@ -1862,16 +1412,16 @@ return true;*/
             return;
         }
 
-        if (CleanedBodies.Count == 0)
+        if (!TimeLordBodyManager.HasCleanedBodies())
         {
             return;
         }
 
-        foreach (var rec in CleanedBodies.Values.ToList())
+        foreach (var rec in TimeLordBodyManager.GetCleanedBodiesRestoredThisRewind().ToList())
         {
             if (rec == null ||
                 !rec.RestoredThisRewind ||
-                rec.Source != CleanedBodySource.Rotting ||
+                rec.Source != TimeLordBodyManager.CleanedBodySource.Rotting ||
                 rec.Body == null ||
                 rec.Body.gameObject == null ||
                 !rec.Body.gameObject.activeSelf)
@@ -1908,7 +1458,7 @@ return true;*/
         _popsRemaining = 0;
         _hasFinalSnapPos = false;
         _finalSnapPos = default;
-        _finalSnapFlags = SnapshotState.None;
+        _finalSnapFlags = (SnapshotState)TimeLord.SnapshotState.None;
         _finalSnapVentId = -1;
         _lastRewindAnim = SpecialAnim.None;
         TaskBuffer.Clear();
@@ -1948,7 +1498,7 @@ return true;*/
         lp.moveable = true;
     }
 
-    private static void ApplyLocalTaskSteps(PlayerControl lp, TaskStepSnapshot snap)
+    private static void ApplyLocalTaskSteps(PlayerControl lp, TimeLord.TaskStepSnapshot snap)
     {
         if (lp.AmOwner && Minigame.Instance != null)
         {
@@ -1984,162 +1534,7 @@ return true;*/
         }
     }
 
-    private static void ApplySpecialAnimation(PlayerPhysics physics, SpecialAnim anim, Vector2 delta)
-    {
-        if (physics?.Animations?.Animator == null)
-        {
-            return;
-        }
-
-        var animator = physics.Animations.Animator;
-        var group = physics.Animations.group;
-        if (group == null)
-        {
-            return;
-        }
-
-        var hash = group.GetHashCode();
-        if (!SpecialClipsByGroupHash.TryGetValue(hash, out var set))
-        {
-            set = BuildSpecialClipSet(group);
-            SpecialClipsByGroupHash[hash] = set;
-        }
-
-        AnimationClip? desired = null;
-        var goingUp = delta.y > 0.001f;
-        var goingDown = delta.y < -0.001f;
-
-        if (anim == SpecialAnim.Ladder)
-        {
-            if (goingUp)
-            {
-                desired = set.LadderDown ?? set.LadderAny;
-            }
-            else if (goingDown)
-            {
-                desired = set.LadderUp ?? set.LadderAny;
-            }
-        }
-        else
-        {
-            return;
-        }
-
-        if (desired == null)
-        {
-            return;
-        }
-
-        try
-        {
-            var cur = animator.GetCurrentAnimation();
-            if (cur != desired)
-            {
-                animator.Play(desired);
-            }
-        }
-        catch
-        {
-            try
-            {
-                animator.Play(desired);
-            }
-            catch
-            {
-               // ignored
-            }
-        }
-    }
-
-    private static SpecialClipSet BuildSpecialClipSet(object group)
-    {
-        var set = new SpecialClipSet();
-        var groupType = group.GetType();
-
-#pragma warning disable S3011
-        foreach (var field in groupType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-        {
-            if (field.FieldType != typeof(AnimationClip))
-            {
-                continue;
-            }
-
-            var clip = field.GetValue(group) as AnimationClip;
-            if (clip == null)
-            {
-                continue;
-            }
-
-            ClassifyClip(set, field.Name, clip);
-        }
-
-        foreach (var prop in groupType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-#pragma warning restore S3011
-        {
-            if (!prop.CanRead || prop.GetIndexParameters().Length != 0 || prop.PropertyType != typeof(AnimationClip))
-            {
-                continue;
-            }
-
-            AnimationClip? clip = null;
-            try
-            {
-                clip = prop.GetValue(group, null) as AnimationClip;
-            }
-            catch
-            {
-               // ignored
-            }
-
-            if (clip == null)
-            {
-                continue;
-            }
-
-            ClassifyClip(set, prop.Name, clip);
-        }
-
-        return set;
-    }
-
-    private static void ClassifyClip(SpecialClipSet set, string memberName, AnimationClip clip)
-    {
-        var memberLower = (memberName ?? string.Empty).ToLowerInvariant();
-        var clipLower = (clip.name ?? string.Empty).ToLowerInvariant();
-
-        bool AnyContains(string s) => memberLower.Contains(s) || clipLower.Contains(s);
-
-        if (AnyContains("ladder") || AnyContains("climb"))
-        {
-            set.LadderAny ??= clip;
-            if (AnyContains("up") || AnyContains("top"))
-            {
-                set.LadderUp ??= clip;
-            }
-            if (AnyContains("down") || AnyContains("bottom"))
-            {
-                set.LadderDown ??= clip;
-            }
-        }
-
-    }
-
-    private static bool IsInInvisibleAnimation(PlayerControl lp)
-    {
-        try
-        {
-            if (NetTransformInvisibleAnimMethod != null && lp.NetTransform != null)
-            {
-                return (bool)NetTransformInvisibleAnimMethod.Invoke(lp.NetTransform, null)!;
-            }
-        }
-        catch
-        {
-            // ignored
-        }
-
-        return false;
-    }
+    // Animation methods moved to TimeLordAnimationUtilities helper
 
     private static bool IsValidSnapshotPos(PlayerControl lp, Vector2 pos)
     {
@@ -2162,222 +1557,6 @@ return true;*/
         return true;
     }
 
-    public static void RecordBodyCleaned(DeadBody body)
-    {
-        RecordBodyCleaned(body, CleanedBodySource.Unknown);
-    }
-
-    public static void RecordBodyCleaned(DeadBody body, CleanedBodySource source)
-    {
-        if (body == null)
-        {
-            return;
-        }
-
-        LogBodyRestore(
-            $"RecordBodyCleaned: body={body.ParentId} active={body.gameObject != null && body.gameObject.activeSelf} pos={body.transform.position} timeSeconds={Time.time:0.000} timeUtc={DateTime.UtcNow:O} source={source}");
-
-        CleanedBodies[body.ParentId] = new CleanedBodyRecord(
-            body.ParentId,
-            body.transform.position,
-            DateTime.UtcNow,
-            Time.time,
-            body)
-        {
-            Restored = false,
-            RestoredThisRewind = false,
-            Source = source
-        };
-    }
-
-    public static System.Collections.IEnumerator CoHideBodyForTimeLord(DeadBody body)
-    {
-        if (body == null)
-        {
-            yield break;
-        }
-
-        var renderer = body.bodyRenderers[^1];
-        yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
-
-        if (CleanedBodies.TryGetValue(body.ParentId, out var rec) && rec != null)
-        {
-            var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
-            if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
-            {
-                var player = MiscUtils.PlayerById(body.ParentId);
-                if (player != null && !player.AmOwner && player.CurrentOutfit.PetId != "")
-                {
-                    rec.OriginalPetId = player.CurrentOutfit.PetId;
-                    rec.PetWasRemoved = true;
-                    MiscUtils.RemovePet(player);
-                    BodyLogger?.LogError($"[CoHideBodyForTimeLord] Removed pet '{rec.OriginalPetId}' from player {body.ParentId}");
-                }
-            }
-        }
-
-        if (CleanedBodies.TryGetValue(body.ParentId, out var rec2) && rec2 != null && rec2.Restored)
-        {
-            foreach (var r in body.bodyRenderers)
-            {
-                if (r != null)
-                {
-                    r.color = r.color.SetAlpha(1f);
-                }
-            }
-            rec2.Restored = false;
-            yield break;
-        }
-
-        body.gameObject.SetActive(false);
-    }
-
-    public static DeadBody? FindDeadBodyIncludingInactive(byte bodyId)
-    {
-        try
-        {
-            for (var sceneIdx = 0; sceneIdx < UnityEngine.SceneManagement.SceneManager.sceneCount; sceneIdx++)
-            {
-                var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(sceneIdx);
-                if (!scene.isLoaded)
-                {
-                    continue;
-                }
-
-                var rootObjects = scene.GetRootGameObjects();
-                foreach (var root in rootObjects)
-                {
-                    var bodies = root.GetComponentsInChildren<DeadBody>(true);
-                    foreach (var body in bodies)
-                    {
-                        if (body != null && body.ParentId == bodyId)
-                        {
-                            return body;
-                        }
-                    }
-                }
-            }
-        }
-        catch
-        {
-            // ignored
-        }
-
-        return null;
-    }
-
-    private static void PruneCleanedBodies(float maxAgeSeconds)
-    {
-        if (CleanedBodies.Count == 0)
-        {
-            return;
-        }
-
-        var now = DateTime.UtcNow;
-        var cutoff = now - TimeSpan.FromSeconds(Math.Max(0.1f, maxAgeSeconds));
-        var keys = CleanedBodies.Keys.ToList();
-        foreach (var k in keys)
-        {
-            if (!CleanedBodies.TryGetValue(k, out var rec) || rec == null)
-            {
-                CleanedBodies.Remove(k);
-                continue;
-            }
-
-            if (rec.TimeUtc < cutoff)
-            {
-                CleanedBodies.Remove(k);
-                continue;
-            }
-
-            if (rec.Body == null || rec.Body.gameObject == null)
-            {
-                CleanedBodies.Remove(k);
-            }
-        }
-    }
-
-    private static void RestoreCleanedBody(byte bodyId)
-    {
-        if (!CleanedBodies.TryGetValue(bodyId, out var rec))
-        {
-            LogBodyRestore($"RestoreCleanedBody: body={bodyId} no record (cleanedBodiesTotal={CleanedBodies.Count})");
-            return;
-        }
-
-        LogBodyRestore(
-            $"RestoreCleanedBody: body={bodyId} record(pos={rec.Position}, timeSeconds={rec.TimeSeconds:0.000}, timeUtc={rec.TimeUtc:O}, restored={rec.Restored}, restoredThisRewind={rec.RestoredThisRewind}, source={rec.Source})");
-
-        var body = FindDeadBodyIncludingInactive(bodyId);
-
-        if (body == null || body.gameObject == null)
-        {
-            body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
-        }
-
-        if (body == null || body.gameObject == null)
-        {
-            LogBodyRestore(
-                $"RestoreCleanedBody: body={bodyId} FAILED to find DeadBody object (recordPos={rec.Position}, cleanedBodiesTotal={CleanedBodies.Count})");
-            return;
-        }
-
-        rec.Body = body;
-        rec.Restored = true;
-        if (IsRewinding)
-        {
-            rec.RestoredThisRewind = true;
-        }
-
-        if (body.gameObject.activeSelf)
-        {
-            LogBodyRestore($"RestoreCleanedBody: body={bodyId} already active; forcing alpha=1");
-            foreach (var r in body.bodyRenderers)
-            {
-                if (r != null)
-                {
-                    r.color = r.color.SetAlpha(1f);
-                }
-            }
-
-            if (rec.PetWasRemoved && !string.IsNullOrEmpty(rec.OriginalPetId))
-            {
-                var player = MiscUtils.PlayerById(bodyId);
-                if (player != null && !player.AmOwner)
-                {
-                    player.SetPet(rec.OriginalPetId);
-                    Coroutines.Start(CoRefreshPetState(player));
-                    BodyLogger?.LogError($"[RestoreCleanedBody] Restored pet '{rec.OriginalPetId}' to player {bodyId} (body already active)");
-                }
-            }
-            return;
-        }
-
-        body.transform.position = rec.Position;
-        LogBodyRestore($"RestoreCleanedBody: body={bodyId} activating at pos={rec.Position}");
-
-        body.gameObject.SetActive(true);
-
-        foreach (var r in body.bodyRenderers)
-        {
-            if (r != null)
-            {
-                r.color = r.color.SetAlpha(1f);
-            }
-        }
-
-
-        if (rec.PetWasRemoved && !string.IsNullOrEmpty(rec.OriginalPetId))
-        {
-            var player = MiscUtils.PlayerById(bodyId);
-            if (player != null && !player.AmOwner)
-            {
-                player.SetPet(rec.OriginalPetId);
-                Coroutines.Start(CoRefreshPetState(player));
-                BodyLogger?.LogError($"[RestoreCleanedBody] Restored pet '{rec.OriginalPetId}' to player {bodyId}");
-            }
-        }
-    }
 
     private static System.Collections.IEnumerator CoRefreshPetState(PlayerControl player)
     {
@@ -2397,10 +1576,25 @@ return true;*/
     private static SpecialAnim _lastRewindAnim = SpecialAnim.None;
     private static int _finalSnapVentId = -1;
 
+    private static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
+    {
+        return evt switch
+        {
+            TimeLordVentEnterEvent e => new TimeLordVentEnterUndoEvent(e),
+            TimeLordVentExitEvent e => new TimeLordVentExitUndoEvent(e),
+            TimeLordTaskCompleteEvent e => new TimeLordTaskCompleteUndoEvent(e),
+            TimeLordBodyCleanedEvent e => new TimeLordBodyCleanedUndoEvent(e),
+            TimeLordKillEvent e => new TimeLordKillUndoEvent(e),
+            TimeLordChefCookEvent e => new TimeLordChefCookUndoEvent(e),
+            TimeLordChefServeEvent e => new TimeLordChefServeUndoEvent(e),
+            _ => throw new ArgumentException($"Unknown event type: {evt.GetType()}")
+        };
+    }
+
     private static void AdvanceFinalSnapToSafeIfNeeded(PlayerControl lp)
     {
-        var unsafeNow = lp.walkingToVent || lp.inMovingPlat || (!lp.inVent && IsInInvisibleAnimation(lp));
-        var unsafeLanding = (_finalSnapFlags & (SnapshotState.WalkingToVent | SnapshotState.InMovingPlat | SnapshotState.InvisibleAnim)) != 0;
+        var unsafeNow = lp.walkingToVent || lp.inMovingPlat || (!lp.inVent && TimeLordAnimationUtilities.IsInInvisibleAnimation(lp));
+        var unsafeLanding = (((TimeLord.SnapshotState)_finalSnapFlags & ((TimeLord.SnapshotState)SnapshotState.WalkingToVent | (TimeLord.SnapshotState)SnapshotState.InMovingPlat | (TimeLord.SnapshotState)SnapshotState.InvisibleAnim)) != 0);
         if (!unsafeNow && !unsafeLanding)
         {
             return;
@@ -2408,14 +1602,14 @@ return true;*/
 
         while (Buffer.TryPopLast(out var snap))
         {
-            var snapUnsafe = (snap.Flags & (SnapshotState.WalkingToVent | SnapshotState.InMovingPlat | SnapshotState.InvisibleAnim)) != 0;
+            var snapUnsafe = (snap.Flags & ((TimeLord.SnapshotState)SnapshotState.WalkingToVent | (TimeLord.SnapshotState)SnapshotState.InMovingPlat | (TimeLord.SnapshotState)SnapshotState.InvisibleAnim)) != 0;
             if (snapUnsafe)
             {
                 continue;
             }
 
             _finalSnapPos = snap.Pos;
-            _finalSnapFlags = snap.Flags;
+            _finalSnapFlags = (SnapshotState)snap.Flags;
             _finalSnapVentId = snap.VentId;
             _hasFinalSnapPos = true;
             break;
@@ -2429,12 +1623,12 @@ return true;*/
             return;
         }
 
-        if ((_finalSnapFlags & SnapshotState.InVent) != 0)
+        if (((TimeLord.SnapshotState)_finalSnapFlags & (TimeLord.SnapshotState)SnapshotState.InVent) != 0)
         {
             return;
         }
 
-        var shouldPop = lp.inVent || lp.walkingToVent || (_finalSnapFlags & SnapshotState.WalkingToVent) != 0;
+        var shouldPop = lp.inVent || lp.walkingToVent || (((TimeLord.SnapshotState)_finalSnapFlags & (TimeLord.SnapshotState)SnapshotState.WalkingToVent) != 0);
         if (!shouldPop)
         {
             return;
@@ -2585,7 +1779,7 @@ return true;*/
                 drag.Player.GetModifierComponent()?.RemoveModifier(drag);
                 if (drag.Player.AmOwner && drag.Player.Data.Role is UndertakerRole)
                 {
-                    // TODO: Add Undertaker code here.
+                    CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
                 }
             }
         }

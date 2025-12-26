@@ -52,6 +52,12 @@ internal sealed class ParasiteMoveUnreliableRpc(TownOfUsPlugin plugin, uint id)
             return;
         }
 
+        // Ignore movement packets during Time Lord rewind - rewind handles movement
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return;
+        }
+
         // If control ended (meeting called / parasite stopped controlling), ignore any late unreliable packets.
         // These can otherwise snap the victim back to the "end of parasite" position after a meeting.
         if (sender == null ||
