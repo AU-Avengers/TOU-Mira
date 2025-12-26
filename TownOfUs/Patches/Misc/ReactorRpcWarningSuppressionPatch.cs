@@ -14,8 +14,13 @@ public static class ReactorRpcWarningSuppressionPatch
     [HarmonyPrefix]
     public static bool LogWarningPrefix(ManualLogSource __instance, object data)
     {
+        if (data == null)
+        {
+            return true;
+        }
+
         if (__instance.SourceName == "Reactor" &&
-            data.ToString().Contains("Non-immediate RPCs were removed"))
+            data.ToString()!.Contains("Non-immediate RPCs were removed"))
         {
             return false;
         }
@@ -27,9 +32,14 @@ public static class ReactorRpcWarningSuppressionPatch
     [HarmonyPrefix]
     public static bool LogPrefix(ManualLogSource __instance, LogLevel level, object data)
     {
+        if (data == null)
+        {
+            return true;
+        }
+
         if (level == LogLevel.Warning &&
             __instance.SourceName == "Reactor" &&
-            data.ToString().Contains("Non-immediate RPCs were removed"))
+            data.ToString()!.Contains("Non-immediate RPCs were removed"))
         {
             return false;
         }
@@ -37,4 +47,3 @@ public static class ReactorRpcWarningSuppressionPatch
         return true;
     }
 }
-
