@@ -1,4 +1,5 @@
 using Il2CppInterop.Runtime;
+using TownOfUs.Assets;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.PrefabChanging;
 using TownOfUs.Roles.Crewmate;
@@ -110,13 +111,35 @@ public static class SentryCameraUtilities
             vent.transform.position.z
         );
 
-        camera.transform.localRotation = new Quaternion(0, 0, 1, 1);
+        camera.transform.localRotation = Quaternion.identity;
+
+        camera.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
 
         camera.Offset = new Vector3(0f, 0f, camera.Offset.z);
 
         camera.NewName = StringNames.None;
         var detectedRoomName = MiscUtils.GetRoomName(new Vector3(position.x, position.y, zAxis));
         camera.CamName = detectedRoomName;
+
+        try
+        {
+            var offAnim = TouAssets.SentryCamOffAnim.LoadAsset();
+            var onAnim = TouAssets.SentryCamOnAnim.LoadAsset();
+            if (offAnim != null)
+            {
+                camera.OffAnim = offAnim;
+            }
+            if (onAnim != null)
+            {
+                camera.OnAnim = onAnim;
+            }
+            
+            camera.SetAnimation(false);
+        }
+        catch (System.Exception ex)
+        {
+            Logger.LogWarning($"Failed to set sentry camera animations: {ex.Message}");
+        }
 
         var spriteRenderer = camera.gameObject.GetComponent<SpriteRenderer>();
         var legacy = OptionGroupSingleton<SentryOptions>.Instance.LegacyMode;
