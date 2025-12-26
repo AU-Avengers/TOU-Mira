@@ -16,10 +16,9 @@ namespace TownOfUs.Patches.Roles;
 public static class ParasiteMovementPatches
 {
 
-    // I really don't know how to make Among Us Input system work properly here.. if someone knows how I'd love to know
-    private static Vector2 GetWasdDirection() => TimeLordParasiteMovementUtilities.GetWasdDirection();
+    private static Vector2 GetParasitePrimaryDirection() => TimeLordParasiteMovementUtilities.GetParasitePrimaryDirection();
 
-    private static Vector2 GetArrowDirection() => TimeLordParasiteMovementUtilities.GetArrowDirection();
+    private static Vector2 GetParasiteSecondaryDirection() => TimeLordParasiteMovementUtilities.GetParasiteSecondaryDirection();
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
     [HarmonyPrefix]
@@ -54,7 +53,7 @@ public static class ParasiteMovementPatches
             }
 
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
-            var parasiteDir = canMoveIndependently ? GetWasdDirection() : Vector2.zero;
+            var parasiteDir = canMoveIndependently ? GetParasitePrimaryDirection() : Vector2.zero;
             
             TimeLordParasiteMovementUtilities.ApplyParasiteMovement(__instance, parasiteDir, stopIfZero: true);
             return false;
@@ -72,7 +71,7 @@ public static class ParasiteMovementPatches
             }
 
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
-            var dir = canMoveIndependently ? GetArrowDirection() : GetWasdDirection();
+            var dir = canMoveIndependently ? GetParasiteSecondaryDirection() : GetParasitePrimaryDirection();
 
             TimeLordParasiteMovementUtilities.ApplyParasiteMovement(__instance, dir);
 

@@ -68,22 +68,26 @@ public static class TimeLordParasiteMovementUtilities
     }
 
     /// <summary>
-    /// Gets Parasite primary direction input. (Historically "WASD".)
+    /// Gets Parasite primary direction input for the controller's own movement.
+    /// Uses TouKeybinds on keyboard, joystick/touch input on mobile, and controller axes on gamepad.
     /// </summary>
-    public static Vector2 GetWasdDirection()
+    public static Vector2 GetParasitePrimaryDirection()
     {
         var hudManager = HudManager.Instance;
 
-        if (HudManager.InstanceExists && hudManager.joystick != null)
+        var x = 0f;
+        var y = 0f;
+
+        var controlType = ActiveInputManager.currentControlType;
+
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null)
         {
             var vJoy = hudManager.joystick.DeltaL;
             return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
         }
 
-        var x = 0f;
-        var y = 0f;
-
-        if (ActiveInputManager.currentControlType is ActiveInputManager.InputType.Joystick)
+        if (controlType is ActiveInputManager.InputType.Joystick)
         {
             x = ConsoleJoystick.player.GetAxis(2);
             y = ConsoleJoystick.player.GetAxis(3);
@@ -116,21 +120,26 @@ public static class TimeLordParasiteMovementUtilities
     }
 
     /// <summary>
-    /// Gets Parasite secondary direction input. (Historically "arrow keys".)
+    /// Gets Parasite secondary direction input for the controlled target's movement.
+    /// Uses TouKeybinds on keyboard, joystick/touch input on mobile, and controller axes on gamepad.
     /// </summary>
-    public static Vector2 GetArrowDirection()
+    public static Vector2 GetParasiteSecondaryDirection()
     {
         var hudManager = HudManager.Instance;
 
-        if (HudManager.InstanceExists && hudManager.joystickR != null)
+        var x = 0f;
+        var y = 0f;
+
+        var controlType = ActiveInputManager.currentControlType;
+
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystickR != null)
         {
             var vJoy = hudManager.joystickR.DeltaL;
             return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
         }
 
-        var x = 0f;
-        var y = 0f;
-        if (ActiveInputManager.currentControlType is ActiveInputManager.InputType.Joystick)
+        if (controlType is ActiveInputManager.InputType.Joystick)
         {
             x = ConsoleJoystick.player.GetAxis(54);
             y = ConsoleJoystick.player.GetAxis(55);
