@@ -72,27 +72,43 @@ public static class TimeLordParasiteMovementUtilities
     /// </summary>
     public static Vector2 GetWasdDirection()
     {
+        var hudManager = HudManager.Instance;
+
+        if (HudManager.InstanceExists && hudManager.joystick != null)
+        {
+            var vJoy = hudManager.joystick.DeltaL;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
+        }
+
         var x = 0f;
         var y = 0f;
 
-        if (IsKeybindHeld(TouKeybinds.ParasitePrimaryRight))
+        if (ActiveInputManager.currentControlType is ActiveInputManager.InputType.Joystick)
         {
-            x += 1f;
+            x = ConsoleJoystick.player.GetAxis(2);
+            y = ConsoleJoystick.player.GetAxis(3);
         }
-
-        if (IsKeybindHeld(TouKeybinds.ParasitePrimaryLeft))
+        else
         {
-            x -= 1f;
-        }
+            if (IsKeybindHeld(TouKeybinds.ParasitePrimaryRight))
+            {
+                x += 1f;
+            }
 
-        if (IsKeybindHeld(TouKeybinds.ParasitePrimaryUp))
-        {
-            y += 1f;
-        }
+            if (IsKeybindHeld(TouKeybinds.ParasitePrimaryLeft))
+            {
+                x -= 1f;
+            }
 
-        if (IsKeybindHeld(TouKeybinds.ParasitePrimaryDown))
-        {
-            y -= 1f;
+            if (IsKeybindHeld(TouKeybinds.ParasitePrimaryUp))
+            {
+                y += 1f;
+            }
+
+            if (IsKeybindHeld(TouKeybinds.ParasitePrimaryDown))
+            {
+                y -= 1f;
+            }
         }
 
         var v = new Vector2(x, y);
@@ -104,27 +120,42 @@ public static class TimeLordParasiteMovementUtilities
     /// </summary>
     public static Vector2 GetArrowDirection()
     {
+        var hudManager = HudManager.Instance;
+
+        if (HudManager.InstanceExists && hudManager.joystickR != null)
+        {
+            var vJoy = hudManager.joystickR.DeltaL;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
+        }
+
         var x = 0f;
         var y = 0f;
-
-        if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryRight))
+        if (ActiveInputManager.currentControlType is ActiveInputManager.InputType.Joystick)
         {
-            x += 1f;
+            x = ConsoleJoystick.player.GetAxis(54);
+            y = ConsoleJoystick.player.GetAxis(55);
         }
-
-        if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryLeft))
+        else
         {
-            x -= 1f;
-        }
+            if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryRight))
+            {
+                x += 1f;
+            }
 
-        if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryUp))
-        {
-            y += 1f;
-        }
+            if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryLeft))
+            {
+                x -= 1f;
+            }
 
-        if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryDown))
-        {
-            y -= 1f;
+            if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryUp))
+            {
+                y += 1f;
+            }
+
+            if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryDown))
+            {
+                y -= 1f;
+            }
         }
 
         var v = new Vector2(x, y);
