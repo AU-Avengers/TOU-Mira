@@ -10,7 +10,7 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <VersionPrefix>1.4.1</VersionPrefix>
+        <VersionPrefix>9.9.9</VersionPrefix>
         <VersionSuffix>beta.2</VersionSuffix>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, Nix, whichtwix, xerminator, XtraCube, Zeo</Authors>

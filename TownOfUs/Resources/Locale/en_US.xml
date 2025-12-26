@@ -317,6 +317,7 @@
   <string name="DiedToBomberBomb">Bombed</string>
   <string name="DiedToSpellslingerHexBomb">Disintegrated</string>
   <string name="DiedToViper">Dissolved</string>
+  <string name="DiedToParasite">Overtaken</string>
   <!-- Status Effects -->
   <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>

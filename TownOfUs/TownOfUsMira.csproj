@@ -4,12 +4,13 @@
         <Description>Town Of Us Mira</Description>
         <RootNamespace>TownOfUs</RootNamespace>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <Version>$(VersionPrefix)-$(VersionSuffix)</Version>
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\**\*.*"/>
+        <EmbeddedResource Include="Resources\**\*.*" />
     </ItemGroup>
 
-    <Import Project="../AmongUs.props"/>
+    <Import Project="../AmongUs.props" />
 
 </Project>

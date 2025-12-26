@@ -22,6 +22,7 @@ public static class SentryCameraReflectionUtilities
     private static (Func<object, Camera?>? camGetter, Func<object, object?>? texGetter, Action<object, object?>? texSetter)
         BuildAccessors(Type t)
     {
+#pragma warning disable S3011
         var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
         Func<object, Camera?>? camGetter = null;
@@ -65,6 +66,7 @@ public static class SentryCameraReflectionUtilities
                 break;
             }
         }
+#pragma warning restore S3011
 
         return (camGetter, texGetter, texSetter);
     }

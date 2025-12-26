@@ -36,12 +36,16 @@ public static class TimeLordRewindSystem
         Vent = 4,
     }
 
+    // Reflection is required to access internal Unity/Among Us methods for Time Lord rewind functionality
+    // This is safe as we're only reading state, not modifying it
     private static readonly MethodInfo? NetTransformInvisibleAnimMethod =
+#pragma warning disable S3011 // Reflection used to access internal Unity API - safe for read-only operations
         typeof(CustomNetworkTransform).GetMethod("IsInMiddleOfAnimationThatMakesPlayerInvisible",
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+#pragma warning restore S3011
 
     [Flags]
-    private enum SnapshotFlags : byte
+    private enum SnapshotState : byte
     {
         None = 0,
         InVent = 1 << 0,
@@ -56,10 +60,10 @@ public static class TimeLordRewindSystem
         public readonly float Time;
         public readonly Vector2 Pos;
         public readonly SpecialAnim Anim;
-        public readonly SnapshotFlags Flags;
+        public readonly SnapshotState Flags;
         public readonly int VentId;
 
-        public Snapshot(float time, Vector2 pos, SpecialAnim anim, SnapshotFlags flags, int ventId)
+        public Snapshot(float time, Vector2 pos, SpecialAnim anim, SnapshotState flags, int ventId)
         {
             Time = time;
             Pos = pos;
@@ -911,6 +915,12 @@ public static class TimeLordRewindSystem
         }
 
         var lp = PlayerControl.LocalPlayer;
+        
+        // Only record snapshots when player is alive (not dead/ghost)
+        if (lp.Data.IsDead)
+        {
+            return;
+        }
 
         var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 60f);
         var dt = Mathf.Max(Time.fixedDeltaTime, 0.001f);
@@ -934,17 +944,17 @@ public static class TimeLordRewindSystem
             anim = SpecialAnim.Ladder;
         }
 
-        var flags = SnapshotFlags.None;
+        var flags = SnapshotState.None;
         var ventId = -1;
         if (lp.inVent)
         {
-            flags |= SnapshotFlags.InVent;
+            flags |= SnapshotState.InVent;
         }
         if (lp.walkingToVent)
         {
-            flags |= SnapshotFlags.WalkingToVent;
+            flags |= SnapshotState.WalkingToVent;
         }
-        if ((flags & (SnapshotFlags.InVent | SnapshotFlags.WalkingToVent)) != 0)
+        if ((flags & (SnapshotState.InVent | SnapshotState.WalkingToVent)) != 0)
         {
             ventId = TryGetVentIdFromPlayerState(lp, physics);
             if (ventId < 0)
@@ -958,17 +968,17 @@ public static class TimeLordRewindSystem
         }
         if (lp.inMovingPlat)
         {
-            flags |= SnapshotFlags.InMovingPlat;
+            flags |= SnapshotState.InMovingPlat;
         }
         if (!lp.inVent && IsInInvisibleAnimation(lp))
         {
-            flags |= SnapshotFlags.InvisibleAnim;
+            flags |= SnapshotState.InvisibleAnim;
         }
 
         var inMinigame = Minigame.Instance != null || SpawnInMinigame.Instance != null;
         if (inMinigame)
         {
-            flags |= SnapshotFlags.InMinigame;
+            flags |= SnapshotState.InMinigame;
         }
 
         Vector2 pos;
@@ -1309,7 +1319,7 @@ public static class TimeLordRewindSystem
 
     private static void ApplyVentSnapshotState(PlayerControl lp, Snapshot snap)
     {
-        var wantInVent = (snap.Flags & SnapshotFlags.InVent) != 0;
+        var wantInVent = (snap.Flags & SnapshotState.InVent) != 0;
 
         if (wantInVent)
         {
@@ -1361,7 +1371,7 @@ public static class TimeLordRewindSystem
 
         lp.inVent = false;
         Vent.currentVent = null;
-        lp.walkingToVent = (snap.Flags & SnapshotFlags.WalkingToVent) != 0;
+        lp.walkingToVent = (snap.Flags & SnapshotState.WalkingToVent) != 0;
     }
 
     public static bool TryHandleRewindPhysics(PlayerPhysics physics)
@@ -1462,6 +1472,8 @@ public static class TimeLordRewindSystem
                         entry.Done = true;
 
                         var victim = MiscUtils.PlayerById(entry.VictimId);
+                        // Check if victim exists, is connected, and is still dead before reviving
+                        // Double-check the victim is still dead right before reviving (race condition protection)
                         if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
                         {
                             TimeLordRole.RpcRewindRevive(victim);
@@ -1538,7 +1550,7 @@ public static class TimeLordRewindSystem
         }
         _popAccumulator -= popsThisTick;
 
-        if (Buffer.TryPeekLast(out var peek) && (peek.Flags & SnapshotFlags.InMinigame) != 0)
+        if (Buffer.TryPeekLast(out var peek) && (peek.Flags & SnapshotState.InMinigame) != 0)
         {
             const int maxPopsPerTick = 64;
             const int minigameFastForwardMultiplier = 4;
@@ -1780,7 +1792,7 @@ return true;*/
 
         PopOutOfVentIfNeeded(lp);
 
-        var endedInVent = (_finalSnapFlags & SnapshotFlags.InVent) != 0;
+        var endedInVent = (_finalSnapFlags & SnapshotState.InVent) != 0;
         if (endedInVent)
         {
             try
@@ -1896,7 +1908,7 @@ return true;*/
         _popsRemaining = 0;
         _hasFinalSnapPos = false;
         _finalSnapPos = default;
-        _finalSnapFlags = SnapshotFlags.None;
+        _finalSnapFlags = SnapshotState.None;
         _finalSnapVentId = -1;
         _lastRewindAnim = SpecialAnim.None;
         TaskBuffer.Clear();
@@ -2044,6 +2056,7 @@ return true;*/
         var set = new SpecialClipSet();
         var groupType = group.GetType();
 
+#pragma warning disable S3011
         foreach (var field in groupType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
             if (field.FieldType != typeof(AnimationClip))
@@ -2061,6 +2074,7 @@ return true;*/
         }
 
         foreach (var prop in groupType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+#pragma warning restore S3011
         {
             if (!prop.CanRead || prop.GetIndexParameters().Length != 0 || prop.PropertyType != typeof(AnimationClip))
             {
@@ -2379,14 +2393,14 @@ return true;*/
         }
     }
 
-    private static SnapshotFlags _finalSnapFlags;
+    private static SnapshotState _finalSnapFlags;
     private static SpecialAnim _lastRewindAnim = SpecialAnim.None;
     private static int _finalSnapVentId = -1;
 
     private static void AdvanceFinalSnapToSafeIfNeeded(PlayerControl lp)
     {
         var unsafeNow = lp.walkingToVent || lp.inMovingPlat || (!lp.inVent && IsInInvisibleAnimation(lp));
-        var unsafeLanding = (_finalSnapFlags & (SnapshotFlags.WalkingToVent | SnapshotFlags.InMovingPlat | SnapshotFlags.InvisibleAnim)) != 0;
+        var unsafeLanding = (_finalSnapFlags & (SnapshotState.WalkingToVent | SnapshotState.InMovingPlat | SnapshotState.InvisibleAnim)) != 0;
         if (!unsafeNow && !unsafeLanding)
         {
             return;
@@ -2394,7 +2408,7 @@ return true;*/
 
         while (Buffer.TryPopLast(out var snap))
         {
-            var snapUnsafe = (snap.Flags & (SnapshotFlags.WalkingToVent | SnapshotFlags.InMovingPlat | SnapshotFlags.InvisibleAnim)) != 0;
+            var snapUnsafe = (snap.Flags & (SnapshotState.WalkingToVent | SnapshotState.InMovingPlat | SnapshotState.InvisibleAnim)) != 0;
             if (snapUnsafe)
             {
                 continue;
@@ -2415,12 +2429,12 @@ return true;*/
             return;
         }
 
-        if ((_finalSnapFlags & SnapshotFlags.InVent) != 0)
+        if ((_finalSnapFlags & SnapshotState.InVent) != 0)
         {
             return;
         }
 
-        var shouldPop = lp.inVent || lp.walkingToVent || (_finalSnapFlags & SnapshotFlags.WalkingToVent) != 0;
+        var shouldPop = lp.inVent || lp.walkingToVent || (_finalSnapFlags & SnapshotState.WalkingToVent) != 0;
         if (!shouldPop)
         {
             return;
@@ -2503,7 +2517,7 @@ return true;*/
         {
             if (p?.Data?.Role is SnitchRole snitch)
             {
-                snitch.RecalculateTaskStage();
+                snitch.RecalculateTaskStage(silent: IsRewinding);
             }
         }
     }

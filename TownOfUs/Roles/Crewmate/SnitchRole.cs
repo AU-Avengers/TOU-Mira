@@ -100,6 +100,11 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         UpdateTaskStage(silent: false, forceRecalculate: true);
     }
 
+    public void RecalculateTaskStage(bool silent)
+    {
+        UpdateTaskStage(silent: silent, forceRecalculate: true);
+    }
+
     private void UpdateTaskStage(bool silent, bool forceRecalculate)
     {
         if (Player == null)

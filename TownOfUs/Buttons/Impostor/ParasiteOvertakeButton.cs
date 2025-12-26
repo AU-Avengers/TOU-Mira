@@ -173,7 +173,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsRoleButton<ParasiteRole, Pl
                 OverrideName(_killName);
 
                 var remaining = Mathf.Max(0f, pr.ControlTimer);
-                UpdateAutoDecayCountdownVisual(remaining, duration);
+                UpdateAutoDecayCountdownVisual(remaining);
 
             }
             else
@@ -201,7 +201,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsRoleButton<ParasiteRole, Pl
         base.FixedUpdate(playerControl);
     }
 
-    private void UpdateAutoDecayCountdownVisual(float remainingSeconds, float durationSeconds)
+    private void UpdateAutoDecayCountdownVisual(float remainingSeconds)
     {
         if (Button == null)
         {
