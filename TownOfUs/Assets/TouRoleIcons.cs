@@ -91,7 +91,7 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Plumber { get; } =
         new LoadableBundleAsset<Sprite>("Plumber", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Sentry { get; } =
-        new LoadableResourceAsset("TownOfUs.Resources.SentryRole.png");
+        new LoadableBundleAsset<Sprite>("Sentry", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> TimeLord { get; } =
         new LoadableBundleAsset<Sprite>("TimeLord", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Transporter { get; } =

@@ -1437,13 +1437,13 @@
   <string name="TouOptionMorphlingCanVent">Morphling Can Vent</string>
   <!-- Parasite Wiki / Abilities -->
   <string name="TouRoleParasite">Parasite</string>
-  <string name="TouRoleParasiteIntroBlurb">Infect and control players</string>
-  <string name="TouRoleParasiteTabDescription">Infect a victim to control their movement.\%nl\%Press the same button again to kill them, or wait for the timer.</string>
-  <string name="TouRoleParasiteWikiDescription">The Parasite can Infect nearby non-impostors to take control of their movement. By default, while infected, the victim looks like the Parasite and cannot use abilities. You can watch them with a PiP camera and kill them at any time, or wait for the control timer to kill them.</string>
-  <string name="TouRoleParasiteInfect">Infect</string>
-  <string name="TouRoleParasiteInfectWikiDescription">Infect a nearby non-impostor to take control of their movement. By default, you move with WASD and control them with Arrow Keys. If "Parasite Can Move Independently" is disabled, you cannot move and control them with WASD instead.</string>
+  <string name="TouRoleParasiteIntroBlurb">Overtake and control players</string>
+  <string name="TouRoleParasiteTabDescription">Overtake a victim to control their movement.\%nl\%Press the same button again to kill them, or wait for the timer.</string>
+  <string name="TouRoleParasiteWikiDescription">The Parasite can Overtake nearby non-impostors to take control of their movement. By default, while overtaken, the victim looks like the Parasite and cannot use abilities. You can watch them with a PiP camera and kill them at any time, or wait for the control timer to kill them.</string>
+  <string name="TouRoleParasiteOvertake">Overtake</string>
+  <string name="TouRoleParasiteOvertakeWikiDescription">Overtake a nearby non-impostor to take control of their movement. By default, you move with WASD and control them with Arrow Keys. If "Parasite Can Move Independently" is disabled, you cannot move and control them with WASD instead.</string>
   <string name="TouRoleParasiteDecay">Kill</string>
-  <string name="TouRoleParasiteDecayWikiDescription">Kill your currently infected victim immediately.</string>
+  <string name="TouRoleParasiteDecayWikiDescription">Kill your currently overtaken victim immediately.</string>
   <!-- Parasite Options -->
   <string name="TouOptionParasiteInfectCooldown">Infect Cooldown</string>
   <string name="TouOptionParasiteControlDuration">Control Duration</string>

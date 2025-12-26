@@ -34,7 +34,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             {
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}PlaceCamera", "Deploy"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}PlaceCameraWikiDescription"),
-                    TouAssets.PlaceCameraButtonSprite),
+                    TouCrewAssets.DeployCamSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}PortableCamera", "View"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}PortableCameraWikiDescription"),
                     TouAssets.CameraSprite)

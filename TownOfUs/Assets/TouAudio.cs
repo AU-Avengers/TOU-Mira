@@ -152,13 +152,11 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> JanitorCleanSound { get; } =
         new LoadableBundleAsset<AudioClip>("JanitorClean", TouAssets.MainBundle);
 
-    private const string AudioPath = "TownOfUs.Resources.Audio";
-
     public static LoadableAsset<AudioClip> SentryPlaceSound { get; } =
-        new LoadableAudioResourceAsset($"{AudioPath}.SentryPlace.wav");
+        new LoadableBundleAsset<AudioClip>("SentryPlace", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> DenySound { get; } =
-    new LoadableAudioResourceAsset($"{AudioPath}.Deny.wav");
+        new LoadableBundleAsset<AudioClip>("Deny", TouAssets.MainBundle);
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {

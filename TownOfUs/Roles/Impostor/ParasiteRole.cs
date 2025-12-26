@@ -53,9 +53,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
-        new(TouLocale.GetParsed($"TouRole{LocaleKey}Infect", "Infect"),
-            TouLocale.GetParsed($"TouRole{LocaleKey}InfectWikiDescription"),
-            TouImpAssets.ParasiteInfectSprite),
+        new(TouLocale.GetParsed($"TouRole{LocaleKey}Overtake", "Overtake"),
+            TouLocale.GetParsed($"TouRole{LocaleKey}OvertakeWikiDescription"),
+            TouImpAssets.OvertakeSprite),
         new(TouLocale.GetParsed($"TouRole{LocaleKey}Decay", "Kill"),
             TouLocale.GetParsed($"TouRole{LocaleKey}DecayWikiDescription"),
             TouAssets.KillSprite)
@@ -352,7 +352,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (parasite.AmOwner)
         {
             role.EnsureCamera();
-            CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteInfectButton>.Instance.SetActive(true, role);
+            CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance.SetActive(true, role);
             role.CreateNotification();
         }
     }
@@ -378,7 +378,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (parasite.AmOwner)
         {
-            var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteInfectButton>.Instance;
+            var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
             btn.SetActive(true, role);
             btn.SetTimer(Mathf.Max(btn.Timer, btn.Cooldown));
         }

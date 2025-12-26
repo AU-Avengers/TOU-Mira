@@ -208,9 +208,6 @@ public static class TouAssets
     public static LoadableAsset<Sprite> CameraSprite { get; } =
         new LoadableBundleAsset<Sprite>("CamButton", MainBundle);
 
-    public static LoadableAsset<Sprite> PlaceCameraButtonSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.PlaceCameraButton.png");
-
     public static LoadableAsset<Sprite> AdminSprite { get; } =
         new LoadableBundleAsset<Sprite>("AdminButton", MainBundle);
 
@@ -218,7 +215,7 @@ public static class TouAssets
     public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableBundleAsset<Sprite>("VentButton", MainBundle);
 
     public static LoadableAsset<Sprite> ParasiteCameraBorderSprite { get; } =
-    new LoadableResourceAsset($"{ShortPath}.ParasiteBorder.png", 144f);
+        new LoadableBundleAsset<Sprite>("ParasiteOverlay", MainBundle);
 
     public static LoadableAsset<Sprite> HysteriaSprite { get; } =
         new LoadableBundleAsset<Sprite>("Hysteria.png", MainBundle);

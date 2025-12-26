@@ -18,7 +18,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SentryOptions>.Instance.PlacementCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => 3.001f;
     public override int MaxUses => (int)OptionGroupSingleton<SentryOptions>.Instance.InitialCameras.Value;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.PlaceCameraButtonSprite;
+    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.DeployCamSprite;
     public override bool ZeroIsInfinite { get; set; } = true;
     public int ExtraUses { get; set; }
 

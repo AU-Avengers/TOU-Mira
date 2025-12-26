@@ -16,9 +16,9 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class ParasiteInfectButton : TownOfUsRoleButton<ParasiteRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class ParasiteOvertakeButton : TownOfUsRoleButton<ParasiteRole, PlayerControl>, IDiseaseableButton, IKillButton
 {
-    private string _infectName = "Infect";
+    private string _infectName = "Overtake";
     private string _killName = "Kill";
     private bool _isProcessingClick;
     private Sprite? _defaultCounterSprite;
@@ -34,7 +34,7 @@ public sealed class ParasiteInfectButton : TownOfUsRoleButton<ParasiteRole, Play
     public override float InitialCooldown =>
         PlayerControl.LocalPlayer != null ? PlayerControl.LocalPlayer.GetKillCooldown() : 10f;
     public override bool ZeroIsInfinite { get; set; } = true;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.ParasiteInfectSprite;
+    public override LoadableAsset<Sprite> Sprite => TouImpAssets.OvertakeSprite;
 
     public void SetDiseasedTimer(float multiplier)
     {
@@ -59,7 +59,7 @@ public sealed class ParasiteInfectButton : TownOfUsRoleButton<ParasiteRole, Play
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        _infectName = TouLocale.GetParsed("TouRoleParasiteInfect", "Infect");
+        _infectName = TouLocale.GetParsed("TouRoleParasiteOvertake", "Overtake");
         _killName = TouLocale.GetParsed("TouRoleParasiteDecay", "Kill");
         OverrideName(_infectName);
 
@@ -194,7 +194,7 @@ public sealed class ParasiteInfectButton : TownOfUsRoleButton<ParasiteRole, Play
 
             if (Button.graphic != null)
             {
-                Button.graphic.sprite = TouImpAssets.ParasiteInfectSprite.LoadAsset();
+                Button.graphic.sprite = TouImpAssets.OvertakeSprite.LoadAsset();
             }
         }
 

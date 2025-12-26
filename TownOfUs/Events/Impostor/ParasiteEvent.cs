@@ -15,7 +15,7 @@ public static class ParasiteEvents
             return;
         }
 
-        var button = CustomButtonSingleton<ParasiteInfectButton>.Instance;
+        var button = CustomButtonSingleton<ParasiteOvertakeButton>.Instance;
         button.ResetCooldownAndOrEffect();
     }
 }
