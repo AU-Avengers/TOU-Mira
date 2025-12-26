@@ -4,6 +4,8 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
+using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;
@@ -27,6 +29,15 @@ public static class MinigameCanMovePatch
         if (MeetingHud.Instance)
         {
             return true;
+        }
+
+        if (__instance == PlayerControl.LocalPlayer &&
+    __instance.HasModifier<ParasiteInfectedModifier>() &&
+    ParasiteControlState.IsControlled(__instance.PlayerId, out _) &&
+    Minigame.Instance == null)
+        {
+            __result = true;
+            return false;
         }
 
         // Only allows Scientist Vitals to allow you to move, not just vitals on the map

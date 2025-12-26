@@ -956,6 +956,103 @@
   <string name="TouOptionSeerNeutralKillingRolesAreRed">Neutral Killing Roles Are Red</string>
   <string name="TouOptionSeerNeutralOutlierRolesAreRed">Neutral Outlier Roles Are Red</string>
   <string name="TouOptionSeerTraitorSwapsColors">Traitor Swaps Colors</string>
+  <!-- Sentry - Crewmate Support -->
+  <!-- Sentry Wiki / Abilities -->
+  <string name="TouRoleSentry">Sentry</string>
+  <string name="TouRoleSentryIntroBlurb">Deploy cameras to monitor the map</string>
+  <string name="TouRoleSentryTabDescription">Place cameras that appear in Security.\%nl\%Complete all tasks to unlock portable cameras.</string>
+  <string name="TouRoleSentryWikiDescription">The Sentry is a Crewmate Support role that can place cameras around the map that function like Security cameras. Complete all tasks to unlock portable camera access.</string>
+  <string name="TouRoleSentryPlaceCamera">Deploy</string>
+  <string name="TouRoleSentryPlaceCameraWikiDescription">Deploy a camera at your current location. The camera will appear after 3 seconds. (Legacy Mode changes this behavior)</string>
+  <string name="TouRoleSentryPortableCamera">View</string>
+  <string name="TouRoleSentryPortableCameraWikiDescription">Access Security cameras from anywhere with a limited battery. Battery drains while viewing and does not recharge. Disabled by Comms sabotage.</string>
+  <string name="TouRoleSentryPortableCameraUnlocked">Portable Cameras Unlocked!</string>
+  <string name="TouRoleSentryMapNoCameras">%map% has no cameras. Deploy cameras and complete your tasks to use portable cameras.</string>
+  <string name="TouRoleSentryCamerasHeader">Cameras</string>
+  <string name="TouRoleSentrySentryOnly">(Sentry-only)</string>
+  <string name="TouRoleSentryPlacing">(Placing...)</string>
+  <string name="TouRoleSentryMaxCamerasReached">Max cameras placed (%count%/%max%).</string>
+  <!-- Sentry Options -->
+  <string name="TouOptionSentryPlacementCooldown">Placement Cooldown</string>
+  <string name="TouOptionSentryInitialCameras">Initial Cameras</string>
+  <string name="TouOptionSentryCameraRoundsLast">Amount Of Rounds Cameras Last</string>
+  <string name="TouOptionSentryTasksPerCamera">Tasks Required Per Camera</string>
+  <string name="TouOptionSentryMaxCamerasPlaced">Max Cameras Placed At Once</string>
+  <string name="TouOptionSentryPortableCamsBattery">Portable Cameras Battery</string>
+  <string name="TouOptionSentryPortableCamsBatteryPerTask">Portable Cameras Battery Per Task</string>
+  <string name="TouOptionSentryLegacyMode">Legacy Mode (Old Camera Behavior)</string>
+  <string name="TouOptionSentryBlindspots">Blind Spots</string>
+  <string name="TouOptionSentryBlindspot1Room">Blindspot 1 Room</string>
+  <string name="TouOptionSentryBlindspot2Room">Blindspot 2 Room</string>
+  <string name="TouOptionSentryBlindspot3Room">Blindspot 3 Room</string>
+  <string name="TouOptionSentryBlindspot4Room">Blindspot 4 Room</string>
+  <string name="TouOptionSentryBlindspot5Room">Blindspot 5 Room</string>
+  <string name="TouOptionSentryBlindspot6Room">Blindspot 6 Room</string>
+  <string name="TouOptionSentryBlindspot7Room">Blindspot 7 Room</string>
+  <string name="TouOptionSentryBlindspot8Room">Blindspot 8 Room</string>
+  <string name="TouOptionSentryBlindspot9Room">Blindspot 9 Room</string>
+  <string name="TouOptionSentryBlindspot10Room">Blindspot 10 Room</string>
+  <!-- SystemTypes (for Sentry blindspot room picker) -->
+  <string name="TouSystemType_Hallway">Hallway</string>
+  <string name="TouSystemType_Storage">Storage</string>
+  <string name="TouSystemType_Cafeteria">Cafeteria</string>
+  <string name="TouSystemType_Reactor">Reactor</string>
+  <string name="TouSystemType_UpperEngine">Upper Engine</string>
+  <string name="TouSystemType_Nav">Navigation</string>
+  <string name="TouSystemType_Admin">Admin</string>
+  <string name="TouSystemType_Electrical">Electrical</string>
+  <string name="TouSystemType_LifeSupp">O2</string>
+  <string name="TouSystemType_Shields">Shields</string>
+  <string name="TouSystemType_MedBay">MedBay</string>
+  <string name="TouSystemType_Security">Security</string>
+  <string name="TouSystemType_Weapons">Weapons</string>
+  <string name="TouSystemType_LowerEngine">Lower Engine</string>
+  <string name="TouSystemType_Comms">Communications</string>
+  <string name="TouSystemType_ShipTasks">Ship Tasks</string>
+  <string name="TouSystemType_Doors">Doors</string>
+  <string name="TouSystemType_Sabotage">Sabotage</string>
+  <string name="TouSystemType_Decontamination">Decontamination</string>
+  <string name="TouSystemType_Launchpad">Launchpad</string>
+  <string name="TouSystemType_LockerRoom">Locker Room</string>
+  <string name="TouSystemType_Laboratory">Laboratory</string>
+  <string name="TouSystemType_Balcony">Balcony</string>
+  <string name="TouSystemType_Office">Office</string>
+  <string name="TouSystemType_Greenhouse">Greenhouse</string>
+  <string name="TouSystemType_Dropship">Dropship</string>
+  <string name="TouSystemType_Decontamination2">Decontamination</string>
+  <string name="TouSystemType_Outside">Outside</string>
+  <string name="TouSystemType_Specimens">Specimen Room</string>
+  <string name="TouSystemType_BoilerRoom">Boiler Room</string>
+  <string name="TouSystemType_VaultRoom">Vault</string>
+  <string name="TouSystemType_Cockpit">Cockpit</string>
+  <string name="TouSystemType_Armory">Armory</string>
+  <string name="TouSystemType_Kitchen">Kitchen</string>
+  <string name="TouSystemType_ViewingDeck">Viewing Deck</string>
+  <string name="TouSystemType_HallOfPortraits">Hall of Portraits</string>
+  <string name="TouSystemType_CargoBay">Cargo Bay</string>
+  <string name="TouSystemType_Ventilation">Ventilation</string>
+  <string name="TouSystemType_Showers">Showers</string>
+  <string name="TouSystemType_Engine">Engine Room</string>
+  <string name="TouSystemType_Brig">Brig</string>
+  <string name="TouSystemType_MeetingRoom">Meeting Room</string>
+  <string name="TouSystemType_Records">Records</string>
+  <string name="TouSystemType_Lounge">Lounge</string>
+  <string name="TouSystemType_GapRoom">Gap Room</string>
+  <string name="TouSystemType_MainHall">Main Hall</string>
+  <string name="TouSystemType_Medical">Medical</string>
+  <string name="TouSystemType_Decontamination3">Decontamination</string>
+  <string name="TouSystemType_Zipline">Zipline</string>
+  <string name="TouSystemType_MiningPit">Mining Pit</string>
+  <string name="TouSystemType_FishingDock">Fishing Dock</string>
+  <string name="TouSystemType_RecRoom">Rec Room</string>
+  <string name="TouSystemType_Lookout">Lookout</string>
+  <string name="TouSystemType_Beach">Beach</string>
+  <string name="TouSystemType_Highlands">Highlands</string>
+  <string name="TouSystemType_Jungle">Jungle</string>
+  <string name="TouSystemType_SleepingQuarters">Sleeping Quarters</string>
+  <string name="TouSystemType_MushroomMixupSabotage">Mushroom Mixup</string>
+  <string name="TouSystemType_HeliSabotage">Heli Sabotage</string>
+
   <!-- Sheriff - Crewmate Killing -->
   <!-- Sheriff Wiki / Abilities -->
   <string name="TouRoleSheriff">Sheriff</string>
@@ -1034,6 +1131,26 @@
   <string name="TouRoleSwapperSwapWikiDescription">Select two players to swap votes for, and at the end of the meeting, they will swap spots!</string>
   <!-- Swapper Options -->
   <string name="TouOptionSwapperCanCallButton">Can Call Button</string>
+  <!-- Time Lord - Crewmate Power -->
+  <!-- Time Lord Wiki / Abilities -->
+  <string name="TouRoleTimeLord">Time Lord</string>
+  <string name="TouRoleTimeLordIntroBlurb">Rewind time</string>
+  <string name="TouRoleTimeLordTabDescription">Use Rewind to pull everyone back a few seconds.</string>
+  <string name="TouRoleTimeLordWikiDescription">The Time Lord is a Crewmate Power role that can rewind time, forcing every player to retrace their steps for a short duration.</string>
+  <string name="TouRoleTimeLordRewind">Rewind</string>
+  <string name="TouRoleTimeLordRewinding">Rewinding</string>
+  <string name="TouRoleTimeLordRewindWikiDescription">Rewind time for everyone. Players are forced back along their recent path for the duration. Any deaths that happened within that window are reversed.</string>
+  <string name="TouRoleTimeLordRewindNotif">Time is being rewound!</string>
+  <string name="TouRoleTimeLordRevivedNotif">You were revived thanks to the Time Lord!</string>
+  <!-- Time Lord Options -->
+  <string name="TouOptionTimeLordRewindCooldown">Rewind Cooldown</string>
+  <string name="TouOptionTimeLordRewindHistory">Rewind History</string>
+  <string name="TouOptionTimeLordMaxUses">Initial Uses</string>
+  <string name="TouOptionTimeLordUsesPerTasks">Tasks Required For Additional Rewind Use</string>
+  <string name="TouOptionTimeLordCanUseVitals">Can Use Vitals</string>
+  <string name="TouOptionTimeLordReviveOnRewind">Revive On Rewind</string>
+  <string name="TouOptionTimeLordUndoTasksOnRewind">Undo Tasks On Rewind</string>
+  <string name="TouOptionTimeLordUncleanBodiesOnRewind">Unclean Bodies On Rewind</string>
   <!-- Sonar - Crewmate Investigative -->
   <!-- Sonar Wiki / Abilities -->
   <string name="TouRoleSonar">Sonar</string>
@@ -1318,6 +1435,23 @@
   <string name="TouOptionMorphlingMorphCooldown">Morph Cooldown</string>
   <string name="TouOptionMorphlingMorphDuration">Morph Duration</string>
   <string name="TouOptionMorphlingCanVent">Morphling Can Vent</string>
+  <!-- Parasite Wiki / Abilities -->
+  <string name="TouRoleParasite">Parasite</string>
+  <string name="TouRoleParasiteIntroBlurb">Infect and control players</string>
+  <string name="TouRoleParasiteTabDescription">Infect a victim to control their movement.\%nl\%Press the same button again to kill them, or wait for the timer.</string>
+  <string name="TouRoleParasiteWikiDescription">The Parasite can Infect nearby non-impostors to take control of their movement. By default, while infected, the victim looks like the Parasite and cannot use abilities. You can watch them with a PiP camera and kill them at any time, or wait for the control timer to kill them.</string>
+  <string name="TouRoleParasiteInfect">Infect</string>
+  <string name="TouRoleParasiteInfectWikiDescription">Infect a nearby non-impostor to take control of their movement. By default, you move with WASD and control them with Arrow Keys. If "Parasite Can Move Independently" is disabled, you cannot move and control them with WASD instead.</string>
+  <string name="TouRoleParasiteDecay">Kill</string>
+  <string name="TouRoleParasiteDecayWikiDescription">Kill your currently infected victim immediately.</string>
+  <!-- Parasite Options -->
+  <string name="TouOptionParasiteInfectCooldown">Infect Cooldown</string>
+  <string name="TouOptionParasiteControlDuration">Control Duration</string>
+  <string name="TouOptionParasiteSaveVictimIfParasiteDies">Save Victim If Parasite Dies</string>
+  <string name="TouOptionParasiteSaveVictimIfMeetingCalled">Save Victim If Meeting Called</string>
+  <string name="TouOptionParasiteCanVent">Parasite Can Vent</string>
+  <string name="TouOptionParasiteCanMoveIndependently">Parasite Can Move Independently</string>
+  <string name="TouOptionParasiteInfectedLooksLikeParasite">Infected Looks Like Parasite</string>
   <!-- Scavenger Wiki / Description -->
   <string name="TouRoleScavenger">Scavenger</string>
   <string name="TouRoleScavengerIntroBlurb">Hunt down your prey</string>

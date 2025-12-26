@@ -90,6 +90,8 @@ public static class TouRoleIcons
         new LoadableBundleAsset<Sprite>("Medium", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Plumber { get; } =
         new LoadableBundleAsset<Sprite>("Plumber", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> Sentry { get; } =
+        new LoadableResourceAsset("TownOfUs.Resources.SentryRole.png");
     public static LoadableAsset<Sprite> TimeLord { get; } =
         new LoadableBundleAsset<Sprite>("TimeLord", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Transporter { get; } =
@@ -137,7 +139,7 @@ public static class TouRoleIcons
         new LoadableBundleAsset<Sprite>("Vampire", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Werewolf { get; } =
         new LoadableBundleAsset<Sprite>("Werewolf", TouAssets.MainBundle);
-    
+
     // Neutral Outlier
     public static LoadableAsset<Sprite> Chef { get; } =
         new LoadableBundleAsset<Sprite>("Chef", TouAssets.MainBundle);

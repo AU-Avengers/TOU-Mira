@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
@@ -29,5 +31,14 @@ public static class LobbyBehaviourPatches
         EgotistModifier.CooldownReduction = 0f;
         EgotistModifier.SpeedMultiplier = 1f;
         UpCommandRequests.Clear();
+        ParasiteControlState.ClearAll();
+
+        foreach (var player in PlayerControl.AllPlayerControls)
+        {
+            if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
+            {
+                player.RemoveModifier(mod);
+            }
+        }
     }
 }

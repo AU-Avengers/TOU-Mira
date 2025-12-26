@@ -20,7 +20,8 @@ public sealed class FreeplayResetButton : TownOfUsButton
     public override bool Enabled(RoleBehaviour? role)
     {
         return PlayerControl.LocalPlayer != null &&
-               TutorialManager.InstanceExists;
+               TutorialManager.InstanceExists &&
+               !FreeplayButtonsVisibility.Hidden;
     }
 
     public override void ClickHandler()

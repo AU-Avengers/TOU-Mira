@@ -17,6 +17,9 @@ public static class EndGameEvents
     [RegisterEvent(-100)]
     public static void OnGameEnd(GameEndEvent @event)
     {
+        // Ensure no per-round history persists across games.
+        TimeLordRewindSystem.Reset();
+
         winType = 0;
         var reason = EndGameResult.CachedGameOverReason;
         var neutralWinner = CustomRoleUtils.GetActiveRolesOfTeam(ModdedRoleTeams.Custom)

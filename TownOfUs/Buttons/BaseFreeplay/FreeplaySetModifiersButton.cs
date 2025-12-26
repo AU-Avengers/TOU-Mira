@@ -27,7 +27,9 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null && TutorialManager.InstanceExists;
+        return PlayerControl.LocalPlayer != null &&
+               TutorialManager.InstanceExists &&
+               !FreeplayButtonsVisibility.Hidden;
     }
 
     public override void ClickHandler()

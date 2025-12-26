@@ -9,6 +9,7 @@ using MiraAPI.Voting;
 using Rewired;
 using TownOfUs.Buttons;
 using TownOfUs.Events.Modifiers;
+using TownOfUs.Modules;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -37,6 +38,11 @@ public static class Bindings
             return;
         }
 
+        if (TutorialManager.InstanceExists && Input.GetKeyDown(KeyCode.F9))
+        {
+            FreeplayButtonsVisibility.Toggle();
+        }
+
         var isHost = PlayerControl.LocalPlayer.IsHost();
 
         //  Full List of binds:
@@ -44,6 +50,8 @@ public static class Bindings
         //      End Game Keybind (ENTER + L + Left Shift)
         //      Start Meeting (ENTER + K + Left Shift)
         //      End Meeting Keybind (F6)
+        //      Random Impostor Role (F3)
+        //      Random Neutral Killer Role (F4)
         //      CTRL to pass through objects in lobby ONLY
         if (isHost) // Disable all keybinds except CTRL in lobby if not host (NOTE: Might want a toggle in settings for these binds?)
         {
@@ -182,6 +190,42 @@ public static class Bindings
 
                 hud.RpcVotingComplete(voterStates, exiled, tie);
             }
+
+            //// Random Impostor Role Keybind (F3)
+            //if (Input.GetKeyDown(KeyCode.F3) && TownOfUsPlugin.IsDevBuild && LobbyBehaviour.Instance)
+            //{
+            //    var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
+            //    var roleOptions = currentGameOptions.RoleOptions;
+            //    var impostorRoles = MiscUtils.SpawnableRoles
+            //        .Where(role => role.IsImpostor() && roleOptions.GetNumPerGame(role.Role) > 0)
+            //        .ToList();
+
+            //    if (impostorRoles.Count > 0)
+            //    {
+            //        var randomRole = impostorRoles[Random.Range(0, impostorRoles.Count)];
+            //        var roleIdentifier = randomRole is ITownOfUsRole touRole ? touRole.LocaleKey : randomRole.GetRoleName();
+            //        var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
+            //        UpCommandRequests.SetRequest(playerName, roleIdentifier);
+            //    }
+            //}
+
+            //// Random Neutral Killer Role Keybind (F4)
+            //if (Input.GetKeyDown(KeyCode.F4) && TownOfUsPlugin.IsDevBuild && LobbyBehaviour.Instance)
+            //{
+            //    var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
+            //    var roleOptions = currentGameOptions.RoleOptions;
+            //    var neutralKillerRoles = MiscUtils.SpawnableRoles
+            //        .Where(role => role.GetRoleAlignment() == RoleAlignment.NeutralKilling && roleOptions.GetNumPerGame(role.Role) > 0)
+            //        .ToList();
+
+            //    if (neutralKillerRoles.Count > 0)
+            //    {
+            //        var randomRole = neutralKillerRoles[Random.Range(0, neutralKillerRoles.Count)];
+            //        var roleIdentifier = randomRole is ITownOfUsRole touRole ? touRole.LocaleKey : randomRole.GetRoleName();
+            //        var playerName = PlayerControl.LocalPlayer.Data.PlayerName;
+            //        UpCommandRequests.SetRequest(playerName, roleIdentifier);
+            //    }
+            //}
         }
 
         // CTRL to pass through objects in lobby

@@ -91,12 +91,50 @@ public static class MiscUtils
             return string.Empty;
         }
 
+        IWikiOptionsSummaryProvider? summaryProvider = null;
+        IReadOnlySet<StringNames>? hiddenKeys = null;
+        try
+        {
+            var optionGroups =
+                AccessTools.Field(typeof(ModdedOptionsManager), "Groups").GetValue(null) as List<AbstractOptionGroup>;
+            summaryProvider = optionGroups?.FirstOrDefault(x => x.OptionableType == classType) as IWikiOptionsSummaryProvider;
+            hiddenKeys = summaryProvider?.WikiHiddenOptionKeys;
+        }
+        catch
+        {
+            summaryProvider = null;
+            hiddenKeys = null;
+        }
+
         var builder = new StringBuilder();
         builder.AppendLine(TownOfUsPlugin.Culture,
             $"\n<size=50%> \n</size><b>{TownOfUsColors.Vigilante.ToTextColor()}{TouLocale.Get("Options")}</color></b>");
 
+        var insertedSummary = false;
         foreach (var option in options)
         {
+            if (!insertedSummary && summaryProvider != null && hiddenKeys != null)
+            {
+                StringNames? key = option switch
+                {
+                    ModdedToggleOption t => t.StringName,
+                    ModdedEnumOption e => e.StringName,
+                    ModdedNumberOption n => n.StringName,
+                    _ => null
+                };
+                if (key.HasValue && hiddenKeys.Contains(key.Value))
+                {
+                    foreach (var line in summaryProvider.GetWikiOptionSummaryLines())
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            builder.AppendLine(line);
+                        }
+                    }
+                    insertedSummary = true;
+                }
+            }
+
             switch (option)
             {
                 case ModdedToggleOption toggleOption:
@@ -105,6 +143,10 @@ public static class MiscUtils
                         continue;
                     }
 
+                    if (hiddenKeys != null && hiddenKeys.Contains(toggleOption.StringName))
+                    {
+                        continue;
+                    }
                     builder.AppendLine(TranslationController.Instance.GetString(toggleOption.StringName) + ": " + toggleOption.Value);
                     break;
                 /*case ModdedMultiSelectOption<Enum> enumOption:
@@ -121,6 +163,10 @@ public static class MiscUtils
                         continue;
                     }
 
+                    if (hiddenKeys != null && hiddenKeys.Contains(enumOption.StringName))
+                    {
+                        continue;
+                    }
                     builder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " + TouLocale.GetParsed(enumOption.Values[enumOption.Value], enumOption.Values[enumOption.Value]));
                     break;
                 case ModdedNumberOption numberOption:
@@ -129,6 +175,10 @@ public static class MiscUtils
                         continue;
                     }
 
+                    if (hiddenKeys != null && hiddenKeys.Contains(numberOption.StringName))
+                    {
+                        continue;
+                    }
                     var optionStr = numberOption.Data.GetValueString(numberOption.Value);
                     if (optionStr.Contains(".000"))
                     {

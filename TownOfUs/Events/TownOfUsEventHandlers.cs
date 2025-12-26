@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using HarmonyLib;
-using MiraAPI.Events;
-using System.Text;
+﻿using HarmonyLib;
 using InnerNet;
+using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
@@ -19,6 +17,8 @@ using PowerTools;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Collections;
+using System.Text;
 using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
@@ -30,6 +30,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
@@ -420,7 +421,31 @@ public static class TownOfUsEventHandlers
         }
 
         var player = @event.Player;
-        if (!MeetingHud.Instance && player.AmOwner)
+
+        if (player?.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        {
+            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
+        }
+
+        if (player != null && ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        {
+            var controller = MiscUtils.PlayerById(controllerId);
+            if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
+            {
+                ParasiteRole.RpcParasiteEndControl(controller, player);
+            }
+            else
+            {
+                ParasiteControlState.ClearControl(player.PlayerId);
+            }
+        }
+
+        if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
+        {
+            player.RemoveModifier(mod);
+        }
+
+        if (!MeetingHud.Instance && player != null && player.AmOwner)
         {
             foreach (var button in CustomButtonManager.Buttons)
             {
@@ -461,6 +486,21 @@ public static class TownOfUsEventHandlers
         }
 
         FakePlayer.ClearAll();
+
+        ParasiteControlState.ClearAll();
+
+        foreach (var player in PlayerControl.AllPlayerControls)
+        {
+            if (player?.Data?.Role is ParasiteRole parasiteRole)
+            {
+                parasiteRole.ClearControlLocal();
+            }
+
+            if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
+            {
+                player.RemoveModifier(mod);
+            }
+        }
     }
 
     [RegisterEvent]

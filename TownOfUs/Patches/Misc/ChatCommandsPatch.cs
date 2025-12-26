@@ -20,7 +20,7 @@ namespace TownOfUs.Patches.Misc;
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
-        
+
     [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
     public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
     {
@@ -28,6 +28,7 @@ public static class ChatPatches
         {
             return;
         }
+
         var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
         MiscUtils.AddFakeChat(host.Data, systemName,
             TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
@@ -270,7 +271,11 @@ public static class ChatPatches
                             targetPlayerName = string.Join(" ", parts.Skip(1));
                         }
 
-                        var allRoles = MiscUtils.SpawnableRoles.ToList();
+                        // Avoid ambiguous role names across modes (e.g. "Snitch" exists in Classic and HnS).
+                        // Filter to roles that can spawn on the current mode so /up doesn't pick the wrong one.
+                        var allRoles = MiscUtils.SpawnableRoles
+                            .Where(CustomRoleUtils.CanSpawnOnCurrentMode)
+                            .ToList();
                         var matchingRole = allRoles.FirstOrDefault(role =>
                             role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                             role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||

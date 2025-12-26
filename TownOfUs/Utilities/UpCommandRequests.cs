@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
@@ -49,9 +50,10 @@ public static class UpCommandRequests
             return false;
         }
 
-        // Find the role by name or locale key
+        // Find the role by name or locale key (filtered to current mode to avoid collisions like Classic vs HnS "Snitch").
         var role = MiscUtils.AllRegisteredRoles.FirstOrDefault(r =>
             !r.IsDead &&
+            CustomRoleUtils.CanSpawnOnCurrentMode(r) &&
             (r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
              (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase))));
 
@@ -97,9 +99,10 @@ public static class UpCommandRequests
             return false;
         }
 
-        // Find the role by name or locale key
+        // Find the role by name or locale key (filtered to current mode to avoid collisions like Classic vs HnS "Snitch").
         var foundRole = MiscUtils.AllRegisteredRoles.FirstOrDefault(r =>
             !r.IsDead &&
+            CustomRoleUtils.CanSpawnOnCurrentMode(r) &&
             (r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
              (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase))));
 

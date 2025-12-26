@@ -1,12 +1,13 @@
-﻿using System.Globalization;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Globalization;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
@@ -150,6 +151,11 @@ public abstract class TownOfUsButton : CustomActionButton
     public override bool CanUse()
     {
         if (PlayerControl.LocalPlayer == null)
+        {
+            return false;
+        }
+
+        if (TimeLordRewindSystem.IsRewinding)
         {
             return false;
         }
@@ -319,6 +325,11 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
     public override bool CanUse()
     {
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasDied() && !UsableInDeath)
         {
             return false;

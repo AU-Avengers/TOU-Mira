@@ -6,6 +6,7 @@ namespace TownOfUs.Assets;
 public static class TouImpAssets
 {
     // THIS FILE SHOULD ONLY HOLD BUTTONS AND ROLE BANNERS, EVERYTHING ELSE BELONGS IN TouAssets.cs
+    private const string ResourcePath = "TownOfUs.Resources";
     public static LoadableAsset<Sprite> MarkSprite { get; } =
         new LoadableBundleAsset<Sprite>("MarkButton", TouAssets.MainBundle);
 
@@ -59,10 +60,10 @@ public static class TouImpAssets
 
     public static LoadableAsset<Sprite> PlantSprite { get; } =
         new LoadableBundleAsset<Sprite>("PlantButton", TouAssets.MainBundle);
-    
+
     public static LoadableAsset<Sprite> PoisonSprite { get; } =
         new LoadableBundleAsset<Sprite>("PoisonButton", TouAssets.MainBundle);
-    
+
     public static LoadableAsset<Sprite> PoisonedSprite { get; } =
         new LoadableBundleAsset<Sprite>("PoisonButton", TouAssets.MainBundle);
 
@@ -83,6 +84,9 @@ public static class TouImpAssets
 
     public static LoadableAsset<Sprite> HypnotiseButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("HypnotiseButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> ParasiteInfectSprite { get; } =
+        new LoadableResourceAsset($"{ResourcePath}.ParasiteControl.png", 115f);
 
     public static LoadableAsset<Sprite> CleanButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("CleanButton", TouAssets.MainBundle);

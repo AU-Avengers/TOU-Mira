@@ -1,10 +1,12 @@
-﻿using System.Collections;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
+using System.Collections;
+using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -60,7 +62,15 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
             yield break;
         }
 
-        Coroutines.Start(rotting.CoClean());
+        if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
+        {
+            TimeLordRewindSystem.RecordBodyCleaned(rotting, TimeLordRewindSystem.CleanedBodySource.Rotting);
+            Coroutines.Start(TimeLordRewindSystem.CoHideBodyForTimeLord(rotting));
+        }
+        else
+        {
+            Coroutines.Start(rotting.CoClean());
+        }
         Coroutines.Start(CrimeSceneComponent.CoClean(rotting));
     }
 }

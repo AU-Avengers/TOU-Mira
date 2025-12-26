@@ -1,4 +1,3 @@
-using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -10,12 +9,15 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Text;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.Neutral;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -181,7 +183,15 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             /*var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, player, body);
             MiraEventManager.InvokeEvent(touAbilityEvent);*/
 
-            Coroutines.Start(body.CoClean());
+            if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
+            {
+                TimeLordRewindSystem.RecordBodyCleaned(body);
+                Coroutines.Start(TimeLordRewindSystem.CoHideBodyForTimeLord(body));
+            }
+            else
+            {
+                Coroutines.Start(body.CoClean());
+            }
             //Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }
     }
@@ -208,7 +218,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         }
 
         target.AddModifier<ChefServedModifier>(chef, (int)platter.Value, platter.Key);
-        
+
         role.StoredBodies.RemoveAt(0);
     }
 }

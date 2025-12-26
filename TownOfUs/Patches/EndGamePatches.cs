@@ -1,4 +1,3 @@
-using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
@@ -6,12 +5,15 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Text;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
@@ -173,7 +175,7 @@ public static class EndGamePatches
                 modifierCountAlt--;
                 if (modifierCountAlt == 0)
                 {
-                    modifierHolder.Append(TownOfUsPlugin.Culture,$"{modColor.ToTextColor()}{modifierName}</color>)");
+                    modifierHolder.Append(TownOfUsPlugin.Culture, $"{modColor.ToTextColor()}{modifierName}</color>)");
                 }
                 else
                 {
@@ -374,7 +376,7 @@ public static class EndGamePatches
             roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
             normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role}");
             basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role2}");
-            
+
             segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=70%>{data.ChatSummaryTitle}</size>");
             segmentedSummary.Append(TownOfUsPlugin.Culture, $"<size=62%>");
             if (!data.ChatSummaryRoleInfo.IsNullOrWhiteSpace())
@@ -620,6 +622,21 @@ public static class EndGamePatches
                 }
             }
             TownOfUsEventHandlers.LogBuffer.Clear();
+        }
+
+        ParasiteControlState.ClearAll();
+
+        foreach (var player in PlayerControl.AllPlayerControls)
+        {
+            if (player?.Data?.Role is ParasiteRole parasiteRole)
+            {
+                parasiteRole.ClearControlLocal();
+            }
+
+            if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
+            {
+                player.RemoveModifier(mod);
+            }
         }
 
         BuildEndGameData();

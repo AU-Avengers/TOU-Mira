@@ -51,8 +51,9 @@ public static class TownOfUsColors
     public static Color Imitator => UseBasic ? Palette.CrewmateBlue : new Color32(179, 217, 77, 255);
     public static Color Medium => UseBasic ? Palette.CrewmateBlue : new Color32(166, 128, 255, 255);
     public static Color Plumber => UseBasic ? Palette.CrewmateBlue : new Color32(204, 102, 0, 255);
-    public static Color Transporter => UseBasic ? Palette.CrewmateBlue : new Color32(0, 237, 255, 255);
+    public static Color Sentry => UseBasic ? Palette.CrewmateBlue : new Color32(100, 150, 200, 255);
     public static Color TimeLord => UseBasic ? Palette.CrewmateBlue : new Color32(135, 137, 211, 255);
+    public static Color Transporter => UseBasic ? Palette.CrewmateBlue : new Color32(0, 237, 255, 255);
 
     // Neutral Colors
     public static Color Amnesiac => new Color32(128, 179, 255, 255);

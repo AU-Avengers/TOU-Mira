@@ -1,9 +1,7 @@
 ﻿using HarmonyLib;
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Options;
 
 namespace TownOfUs.Patches.Roles;
 

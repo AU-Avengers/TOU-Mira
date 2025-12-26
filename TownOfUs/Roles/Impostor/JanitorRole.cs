@@ -4,16 +4,18 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -79,21 +81,51 @@ public sealed class JanitorRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.CleanBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcCleanBody(PlayerControl player, byte bodyId)
     {
+        TimeLordRewindSystem.BodyLogger?.LogError($"[JanitorRPC] RpcCleanBody called: player={player.Data.PlayerName}, bodyId={bodyId}, isLocal={player.AmOwner}");
+
         if (player.Data.Role is not JanitorRole)
         {
+            TimeLordRewindSystem.BodyLogger?.LogError($"[JanitorRPC] RpcCleanBody - Invalid Janitor role check failed");
             Error("RpcCleanBody - Invalid Janitor");
             return;
         }
 
-        var body = Helpers.GetBodyById(bodyId);
+        var body = TimeLordRewindSystem.FindDeadBodyIncludingInactive(bodyId);
+        if (body == null)
+        {
+            body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
+        }
+
+        TimeLordRewindSystem.BodyLogger?.LogError($"[JanitorRPC] Body found: body={body != null}, active={body?.gameObject?.activeSelf ?? false}, position={body?.transform?.position}");
 
         if (body != null)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, player, body);
             MiraEventManager.InvokeEvent(touAbilityEvent);
 
-            Coroutines.Start(body.CoClean());
+            var isHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
+            var optionEnabled = OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind;
+
+            var shouldRecord = isHost ? optionEnabled : (optionEnabled || TimeLordRewindSystem.MatchHasTimeLord());
+
+            TimeLordRewindSystem.BodyLogger?.LogError($"[JanitorRPC] Option check: isHost={isHost}, UncleanBodiesOnRewind={optionEnabled}, MatchHasTimeLord={TimeLordRewindSystem.MatchHasTimeLord()}, shouldRecord={shouldRecord}");
+
+            if (shouldRecord)
+            {
+                TimeLordRewindSystem.BodyLogger?.LogError($"[JanitorRPC] Calling RecordBodyCleaned and CoHideBodyForTimeLord");
+                TimeLordRewindSystem.RecordBodyCleaned(body, TimeLordRewindSystem.CleanedBodySource.Janitor);
+                Coroutines.Start(TimeLordRewindSystem.CoHideBodyForTimeLord(body));
+            }
+            else
+            {
+                TimeLordRewindSystem.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean (body will be destroyed)");
+                Coroutines.Start(body.CoClean());
+            }
             Coroutines.Start(CrimeSceneComponent.CoClean(body));
+        }
+        else
+        {
+            TimeLordRewindSystem.BodyLogger?.LogError($"[JanitorRPC] Body is null, cannot clean");
         }
     }
 }

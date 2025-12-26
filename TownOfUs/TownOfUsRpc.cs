@@ -87,9 +87,20 @@ public enum TownOfUsRpc : uint
     TransportSeeker,
     TriggerPestilence,
     ForcePlayerRole,
+    ParasiteControl,
+    ParasiteEndControl,
+    ParasiteMoveControlled,
+    TimeLordRewind,
+    TimeLordRewindRevive,
+    TimeLordUndoTask,
+    TimeLordSetDeadBodyPos,
+    SentryPlaceCamera,
+    SentryRevealCamera,
+    SentryPortableCamsInUse,
 }
 
 internal enum TownOfUsInternalRpc : uint
 {
-    SendClientModInfo
+    SendClientModInfo,
+    ParasiteMoveUnreliable,
 }
