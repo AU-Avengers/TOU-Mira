@@ -141,7 +141,7 @@
   <string name="DiedToEjection">被驱逐</string>
   <string name="DiedToKiller">被击杀</string>
   <string name="DiedToPunishment">被惩罚</string>
-  <string name="DiedToWinning">胜利</string>
+  <string name="DiedToWinning">已胜利</string>
   <string name="DiedToSuicide">自杀</string>
   <string name="DiedToMisguess">误猜测</string>
   <string name="DiedToGuess">被猜测</string>
@@ -1286,7 +1286,7 @@
   <string name="SpectatorLobbyError">你不能在大厅之外切换观战模式！</string>
   <string name="SpectatorToggleOn">将自己设置为观众！</string>
   <string name="SpectatorToggleOff">你已不再是观众！</string>
-  <string name="SpectatorHostError">“房主已禁用 /spec 命令！</string>
+  <string name="SpectatorHostError">房主已禁用 /spec 命令！</string>
   <string name="SummaryCommandList">结算:游戏总结:游戏汇总</string>
   <string name="SummaryMissingError">没有可显示的游戏总结！</string>
   <string name="NerfMeCommandList">削弱:削弱我:视野</string>
@@ -1307,7 +1307,7 @@
   <string name="SpectateCommandDescription">/spec - 允许你在剩余的游戏时间内自动观战。（前提是房主已启用）</string>
   <string name="SummaryCommandDescription">/summary - 显示上一局游戏的结算总结</string>
   <string name="JailCommandError">该模组不再使用 /jail 聊天。请改用游戏内的红色聊天按钮。</string>
-  <string name="NoCommandFoundError">无效指令。如果你需要查看聊天指令的信息，请输入 /help。如果你想了解某个职业或修饰词的作用，请点击屏幕右上角的地球图标查看游戏内维基百科。</string>
+  <string name="NoCommandFoundError">无效指令。如果你需要查看聊天指令的信息，请输入 /help。如果你想了解某个职业或附加属性的作用，请点击屏幕右上角的地球图标查看游戏内维基百科。</string>
   <string name="GameSummaryModeButton">游戏结算:总结</string>
   <string name="TouRoleForensicMessageTitle">侧写报告</string>
   <string name="TouRoleJailorTabDescriptionEvil">在会议上与船员私下讨论，以及\%nl\%如果你愿意，就处决他们</string>
@@ -1630,7 +1630,7 @@
   <string name="TouOptionAdvancedSaboHidePlayerSpeedInCamo">隐蔽不显示玩家速度快慢</string>
   <string name="TouOptionRandomMapsToggle">启用随机地图</string>
   <string name="TouOptionRandomMapsSkeldChance">Skeld 概率</string>
-  <string name="TouOptionRandomMapsBackwardsSkeldChance">dlekS 概率</string>
+  <string name="TouOptionRandomMapsBackwardsSkeldChance">dlekS 率概</string>
   <string name="TouOptionRandomMapsMiraChance">Mira 概率</string>
   <string name="TouOptionRandomMapsPolusChance">Polus 概率</string>
   <string name="TouOptionRandomMapsAirshipChance">Airship 概率</string>
@@ -1645,7 +1645,7 @@
   <string name="TouOptionBetterDoorsEnumNoDoors">无门</string>
   <string name="TouOptionBetterDoorsEnumRandom">随机</string>
   <string name="TouOptionBetterDoorsNoneChance">无门概率</string>
-  <string name="TouOptionBetterDoorsSkeldChance">Skeld样式门概率</string>
+  <string name="TouOptionBetterDoorsSkeldChance">Skeld门样式概率</string>
   <string name="TouOptionBetterDoorsPolusChance">Polus门样式概率</string>
   <string name="TouOptionBetterDoorsAirshipChance">Airship门样式概率</string>
   <string name="TouOptionBetterDoorsFungleChance">Fungle门样式概率</string>
