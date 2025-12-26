@@ -1980,7 +1980,7 @@ return true;*/
 
         if (lp.Data?.Role is SnitchRole snitch)
         {
-            snitch.RecalculateTaskStage();
+            snitch.RecalculateTaskStage(silent: IsRewinding);
         }
     }
 
