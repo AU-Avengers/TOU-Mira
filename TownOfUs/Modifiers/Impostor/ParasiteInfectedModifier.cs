@@ -123,16 +123,14 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
                 {
                     aspect.enabled = false;
                 }
-
-                var borderObj = new GameObject("ParasiteInfectedBorder");
+                
+                var borderObj = UnityEngine.Object.Instantiate(TouAssets.ParasiteOverlay.LoadAsset(), _overlayRoot.transform);
                 borderObj.layer = _overlayRoot.layer;
-                borderObj.transform.SetParent(_overlayRoot.transform, false);
                 borderObj.transform.localPosition = new Vector3(0f, 0f, 0f);
 
-                _controlOverlay = borderObj.AddComponent<SpriteRenderer>();
-                _controlOverlay.sprite = TouAssets.ParasiteCameraBorderSprite.LoadAsset();
-                _controlOverlay.color = new Color(1f, 1f, 1f, 0.95f);
+                _controlOverlay = borderObj.GetComponent<SpriteRenderer>();
                 _controlOverlay.sortingOrder = 1000;
+                _controlOverlay.color = new Color(1f, 1f, 1f, 0.95f);
 
                 UpdateOverlayLayout();
                 _overlayRoot.SetActive(true);

@@ -106,6 +106,9 @@ public static class TouAssets
     public static LoadableAsset<GameObject> MedicShield { get; } =
         new LoadableBundleAsset<GameObject>("MedicShield", MainBundle);
 
+    public static LoadableAsset<GameObject> ParasiteOverlay { get; } =
+        new LoadableBundleAsset<GameObject>("ParasiteOverlayObj", MainBundle);
+
     public static LoadableAsset<GameObject> WardenFort { get; } =
         new LoadableBundleAsset<GameObject>("WardenFort", MainBundle);
 
@@ -129,6 +132,12 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> MayorPostRevealPrefab { get; set; } =
         new LoadableBundleAsset<GameObject>("MayorPostReveal", MainBundle);
+
+    public static LoadableAsset<AnimationClip> SentryCamOffAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("SentryCamOffAnimation", MainBundle);
+
+    public static LoadableAsset<AnimationClip> SentryCamOnAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("SentryCamOnAnimation", MainBundle);
 
     public static LoadableAsset<AnimationClip> MeetingDeathAnim1 { get; } =
         new LoadableBundleAsset<AnimationClip>("DeathMeetingShotFront", MainBundle);
@@ -213,9 +222,6 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> KillSprite { get; } = new LoadableBundleAsset<Sprite>("KillButton", MainBundle);
     public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableBundleAsset<Sprite>("VentButton", MainBundle);
-
-    public static LoadableAsset<Sprite> ParasiteCameraBorderSprite { get; } =
-        new LoadableBundleAsset<Sprite>("ParasiteOverlay", MainBundle);
 
     public static LoadableAsset<Sprite> HysteriaSprite { get; } =
         new LoadableBundleAsset<Sprite>("Hysteria.png", MainBundle);

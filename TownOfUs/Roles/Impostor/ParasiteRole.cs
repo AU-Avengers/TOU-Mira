@@ -258,12 +258,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (HudManager.InstanceExists && HudManager.Instance.FullScreen != null)
         {
-            parasiteBorderObj = new GameObject("ParasiteBorder");
+            parasiteBorderObj = Instantiate(TouAssets.ParasiteOverlay.LoadAsset(), HudManager.Instance.FullScreen.transform.parent);
             parasiteBorderObj.layer = HudManager.Instance.FullScreen.gameObject.layer;
-            parasiteBorderObj.transform.SetParent(HudManager.Instance.FullScreen.transform.parent, false);
 
-            parasiteBorderRenderer = parasiteBorderObj.AddComponent<SpriteRenderer>();
-            parasiteBorderRenderer.sprite = TouAssets.ParasiteCameraBorderSprite.LoadAsset();
+            parasiteBorderRenderer = parasiteBorderObj.GetComponent<SpriteRenderer>();
             parasiteBorderRenderer.sortingOrder = 1000;
             parasiteBorderRenderer.color = new Color(1f, 1f, 1f, 0.95f);
 
