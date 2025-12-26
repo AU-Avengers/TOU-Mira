@@ -1,3 +1,4 @@
+using Rewired;
 using UnityEngine;
 
 namespace TownOfUs.Utilities;
@@ -8,30 +9,88 @@ namespace TownOfUs.Utilities;
 /// </summary>
 public static class TimeLordParasiteMovementUtilities
 {
+    private static void EnsureKeybindHasKey(MiraKeybind keybind)
+    {
+        if (keybind == null)
+        {
+            return;
+        }
+
+        if (keybind.DefaultKey == KeyboardKeyCode.None)
+        {
+            return;
+        }
+
+        if (keybind.RewiredInputAction == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var map = KeybindUtils.GetActionElementMap(keybind.RewiredInputAction.id);
+            if (map == null)
+            {
+                return;
+            }
+
+            if (map._keyboardKeyCode == KeyboardKeyCode.None)
+            {
+                map._keyboardKeyCode = keybind.DefaultKey;
+            }
+        }
+        catch
+        {
+            // Ignore
+        }
+    }
+
+    private static bool IsKeybindHeld(BaseKeybind keybind)
+    {
+        if (keybind == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            if (keybind is MiraKeybind miraKeybind)
+            {
+                EnsureKeybindHasKey(miraKeybind);
+            }
+
+            return ReInput.players.GetPlayer(0).GetButton(keybind.Id);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     /// <summary>
-    /// Gets the WASD direction input. Used by Parasite when controlling a player.
+    /// Gets Parasite primary direction input. (Historically "WASD".)
     /// </summary>
     public static Vector2 GetWasdDirection()
     {
         var x = 0f;
         var y = 0f;
 
-        if (Input.GetKey(KeyCode.D))
+        if (IsKeybindHeld(TouKeybinds.ParasitePrimaryRight))
         {
             x += 1f;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (IsKeybindHeld(TouKeybinds.ParasitePrimaryLeft))
         {
             x -= 1f;
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (IsKeybindHeld(TouKeybinds.ParasitePrimaryUp))
         {
             y += 1f;
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (IsKeybindHeld(TouKeybinds.ParasitePrimaryDown))
         {
             y -= 1f;
         }
@@ -41,29 +100,29 @@ public static class TimeLordParasiteMovementUtilities
     }
 
     /// <summary>
-    /// Gets the arrow key direction input. Used by Parasite when moving independently.
+    /// Gets Parasite secondary direction input. (Historically "arrow keys".)
     /// </summary>
     public static Vector2 GetArrowDirection()
     {
         var x = 0f;
         var y = 0f;
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryRight))
         {
             x += 1f;
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryLeft))
         {
             x -= 1f;
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryUp))
         {
             y += 1f;
         }
 
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryDown))
         {
             y -= 1f;
         }
