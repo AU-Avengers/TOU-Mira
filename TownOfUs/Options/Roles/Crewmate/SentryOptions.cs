@@ -35,7 +35,7 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
     public float PortableCamsBattery { get; set; } = 90f;
 
     private static readonly string[] SystemTypeLocaleKeys =
-        Enum.GetNames(typeof(SystemTypes)).Select(n => $"TouSystemType_{n}").ToArray();
+        Enum.GetNames<SystemTypes>().Select(n => $"TouSystemType_{n}").ToArray();
 
     public ModdedNumberOption BlindspotsCount { get; } =
         new("TouOptionSentryBlindspots", 0f, 0f, 10f, 1f, "Off", "#", MiraNumberSuffixes.None, "0");
@@ -125,7 +125,9 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
 
         if (count <= 0)
         {
-            return new[] { $"{title}: {BlindspotsCount.ZeroWordValue}" };
+            var newArray = new []
+                { $"{title}: {BlindspotsCount.ZeroWordValue}" };
+            return newArray;
         }
 
         var selected = new List<SystemTypes>(count);
@@ -145,7 +147,9 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
             .Distinct()
             .ToList();
 
-        return new[] { $"{title}: {count} ({string.Join(", ", names)})" };
+        var newArray2 = new []
+            { $"{title}: {count} ({string.Join(", ", names)})" };
+        return newArray2;
     }
 }
 

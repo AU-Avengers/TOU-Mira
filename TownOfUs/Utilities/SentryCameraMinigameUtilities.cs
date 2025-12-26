@@ -85,7 +85,7 @@ public static class SentryCameraMinigameUtilities
 
         if (minigame.textures.Length < ship.AllCameras.Length)
         {
-            minigame.textures = minigame.textures.ToList().Concat(new RenderTexture[ship.AllCameras.Length - 4]).ToArray();
+            minigame.textures = minigame.textures.Concat(new RenderTexture[ship.AllCameras.Length - 4]).ToArray();
         }
 
         for (int i = 4; i < ship.AllCameras.Length; i++)

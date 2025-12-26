@@ -125,6 +125,7 @@ public static class SentryCameraSurveillancePatch
                         }
                         catch
                         {
+                            // ignored
                         }
 
                         update = true;
@@ -238,15 +239,15 @@ public static class SentryCameraSurveillancePatch
     }
 
     [HarmonyPatch(typeof(Minigame))]
-    private static class MinigameCloseForceCloseSuppressPatch
+    public static class MinigameCloseForceCloseSuppressPatch
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        public static IEnumerable<MethodBase> TargetMethods()
         {
             return AccessTools.GetDeclaredMethods(typeof(Minigame))
                 .Where(m => m.Name is nameof(Minigame.Close) or nameof(Minigame.ForceClose));
         }
 
-        private static bool Prefix(Minigame __instance)
+        public static bool Prefix(Minigame __instance)
         {
             if (__instance is SurveillanceMinigame && Time.frameCount == SentryCameraUiUtilities.SuppressCloseFrame)
             {
@@ -257,7 +258,7 @@ public static class SentryCameraSurveillancePatch
             return true;
         }
 
-        private static void Postfix(Minigame __instance)
+        public static void Postfix(Minigame __instance)
         {
             SentryCameraMinigameUtilities.RestoreAllCameras(__instance);
 
@@ -275,9 +276,9 @@ public static class SentryCameraSurveillancePatch
     }
 
     [HarmonyPatch(typeof(PassiveButton), nameof(PassiveButton.ReceiveClickDown))]
-    private static class PassiveButtonClickPatch
+    public static class PassiveButtonClickPatch
     {
-        private static void Postfix(PassiveButton __instance)
+        public static void Postfix(PassiveButton __instance)
         {
             if (__instance == null) return;
             var name = __instance.gameObject?.name ?? "NULL";

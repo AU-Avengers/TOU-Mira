@@ -47,6 +47,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.TimeLord,
+        MaxRoleCount = 1,
         IntroSound = TouAudio.TimeLordIntroSound
     };
 

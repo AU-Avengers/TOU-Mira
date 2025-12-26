@@ -329,18 +329,17 @@ public static class TimeLordRewindSystem
             Array.Copy(steps, 0, _steps[writeIdx], 0, Math.Min(taskCount, _steps[writeIdx].Length));
         }
 
-        public bool TryPopLast(out TaskStepSnapshot snapshot)
+        public void TryPopLast(out TaskStepSnapshot snapshot)
         {
             if (_count <= 0)
             {
                 snapshot = default;
-                return false;
+                return;
             }
 
             var idx = (_start + _count - 1) % _steps.Length;
             snapshot = new TaskStepSnapshot(_steps[idx]);
             _count--;
-            return true;
         }
 
         public void RemoveCount(int countToRemove)
@@ -570,13 +569,13 @@ public static class TimeLordRewindSystem
         return results;
     }
 
-    private static int SeedCleanedBodiesFromHiddenBodies()
+    private static void SeedCleanedBodiesFromHiddenBodies()
     {
         var seeded = 0;
         var bodies = FindAllDeadBodiesIncludingInactive();
         if (bodies.Count == 0)
         {
-            return 0;
+            return;
         }
 
         foreach (var body in bodies)
@@ -618,7 +617,7 @@ public static class TimeLordRewindSystem
             LogBodyRestore($"SeedCleanedBodiesFromHiddenBodies: seeded={seeded} (hiddenBodiesFound={seeded}, cleanedBodiesTotalNow={CleanedBodies.Count})");
         }
 
-        return seeded;
+        return;
     }
 
     public static void Reset()
@@ -1821,7 +1820,7 @@ return true;*/
 
         if (lp.Collider != null)
         {
-            lp.Collider.enabled = endedInVent ? true : _colliderWasEnabled;
+            lp.Collider.enabled = endedInVent || _colliderWasEnabled;
             _colliderWasEnabled = false;
 
             if (!endedInVent)
@@ -1999,7 +1998,14 @@ return true;*/
 
         if (anim == SpecialAnim.Ladder)
         {
-            desired = goingUp ? (set.LadderDown ?? set.LadderAny) : goingDown ? (set.LadderUp ?? set.LadderAny) : set.LadderAny;
+            if (goingUp)
+            {
+                desired = set.LadderDown ?? set.LadderAny;
+            }
+            else if (goingDown)
+            {
+                desired = set.LadderUp ?? set.LadderAny;
+            }
         }
         else
         {
@@ -2109,7 +2115,7 @@ return true;*/
         {
             if (NetTransformInvisibleAnimMethod != null && lp.NetTransform != null)
             {
-                return (bool)NetTransformInvisibleAnimMethod.Invoke(lp.NetTransform, null);
+                return (bool)NetTransformInvisibleAnimMethod.Invoke(lp.NetTransform, null)!;
             }
         }
         catch

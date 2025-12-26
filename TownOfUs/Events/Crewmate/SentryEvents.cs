@@ -85,14 +85,10 @@ public static class SentryEvents
         {
             var options = OptionGroupSingleton<SentryOptions>.Instance;
 
-            if (@event.Task != null)
+            if (@event.Task != null && @event.Task.Id != LastCameraUseTaskId)
             {
-                // Prevent farming uses by repeatedly completing the same task over and over.
-                if (@event.Task.Id != LastCameraUseTaskId)
-                {
-                    ++ActiveCameraTaskCount;
-                    LastCameraUseTaskId = @event.Task.Id;
-                }
+                ++ActiveCameraTaskCount;
+                LastCameraUseTaskId = @event.Task.Id;
             }
 
             var button = CustomButtonSingleton<SentryPlaceCameraButton>.Instance;

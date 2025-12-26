@@ -324,26 +324,24 @@ public sealed class SpectreRole(IntPtr cppPtr)
                 notif1.AdjustNotification();
             }
         }
-        else if (stage is GhostTaskStage.CompletedTasks)
+        else if (stage is GhostTaskStage.CompletedTasks &&
+                 OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
         {
-            if (OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
+            var allVictims = PlayerControl.AllPlayerControls.ToArray()
+                .Where(x => !x.AmOwner);
+
+            if (allVictims.Any())
             {
-                var allVictims = PlayerControl.AllPlayerControls.ToArray()
-                    .Where(x => !x.AmOwner);
-
-                if (allVictims.Any())
+                foreach (var player in allVictims)
                 {
-                    foreach (var player in allVictims)
-                    {
-                        player.AddModifier<MisfortuneTargetModifier>();
-                    }
+                    player.AddModifier<MisfortuneTargetModifier>();
+                }
 
-                    if (Player.AmOwner)
-                    {
-                        var spookButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
-                        spookButton.Show = true;
-                        spookButton.SetActive(true, this);
-                    }
+                if (Player.AmOwner)
+                {
+                    var spookButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
+                    spookButton.Show = true;
+                    spookButton.SetActive(true, this);
                 }
             }
         }
