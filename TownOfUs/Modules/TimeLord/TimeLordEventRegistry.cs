@@ -97,4 +97,20 @@ public sealed class TimeLordEventRegistry
             handler(undoEvent.OriginalEvent);
         }
     }
+
+    /// <summary>
+    /// Gets all events of a specific type within a time range.
+    /// </summary>
+    public List<T> GetEvents<T>(float startTime, float endTime) where T : TimeLordEvent
+    {
+        var result = new List<T>();
+        foreach (var queued in _events)
+        {
+            if (queued.Event is T typedEvent && queued.Time >= startTime && queued.Time <= endTime)
+            {
+                result.Add(typedEvent);
+            }
+        }
+        return result;
+    }
 }

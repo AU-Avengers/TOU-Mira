@@ -95,9 +95,23 @@ public static class CustomTouMurderRpcs
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
+        var firstTarget = true;
         foreach (var target in targets)
         {
-            var newPlayer = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
+            PlayerControl? newPlayer = null;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc == null || pc.Data == null)
+                {
+                    continue;
+                }
+
+                if (pc.PlayerId == target.Key || pc.Data.PlayerName == target.Value)
+                {
+                    newPlayer = pc;
+                    break;
+                }
+            }
             if (newPlayer == null)
             {
                 continue;
@@ -117,8 +131,15 @@ public static class CustomTouMurderRpcs
             {
                 DeathHandlerModifier.UpdateDeathHandlerImmediate(newPlayer, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
                     (MeetingHud.Instance == null && ExileController.Instance == null) ? DeathHandlerOverride.SetTrue : DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data?.PlayerName),
                     lockInfo: DeathHandlerOverride.SetTrue);
+            }
+
+            // Track kill cooldown before CustomMurder for Time Lord rewind (only for first target to avoid duplicates)
+            float? killCooldownBefore = null;
+            if (firstTarget && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+            {
+                killCooldownBefore = source.killTimer;
             }
 
             source.CustomMurder(
@@ -129,6 +150,14 @@ public static class CustomTouMurderRpcs
                 teleportMurderer,
                 showKillAnim,
                 playKillSound);
+
+            // Record kill cooldown change after CustomMurder if it was reset (only for first target)
+            if (killCooldownBefore.HasValue && firstTarget && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+            {
+                Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+            }
+
+            firstTarget = false;
         }
         if (attackerMod != null)
         {
@@ -200,6 +229,13 @@ public static class CustomTouMurderRpcs
                 lockInfo: DeathHandlerOverride.SetTrue);
         }
 
+        // Track kill cooldown before CustomMurder for Time Lord rewind
+        float? killCooldownBefore = null;
+        if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            killCooldownBefore = source.killTimer;
+        }
+
         source.CustomMurder(
             target,
             murderResultFlags2,
@@ -208,9 +244,29 @@ public static class CustomTouMurderRpcs
             teleportMurderer,
             showKillAnim,
             playKillSound);
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+        }
+
         if (attackerMod != null)
         {
             Coroutines.Start(CoRemoveIndirect(source));
+        }
+    }
+
+    private static IEnumerator CoRecordKillCooldownAfterCustomMurder(PlayerControl player, float cooldownBefore)
+    {
+        // Wait for CustomMurder to process and SetKillTimer to be called
+        yield return null;
+        yield return null;
+        
+        var cooldownAfter = player.killTimer;
+        if (Mathf.Abs(cooldownBefore - cooldownAfter) > 0.01f)
+        {
+            TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(player, cooldownBefore, cooldownAfter);
         }
     }
     /// <summary>

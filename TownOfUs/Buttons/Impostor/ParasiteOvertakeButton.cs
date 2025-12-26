@@ -16,7 +16,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class ParasiteOvertakeButton : TownOfUsRoleButton<ParasiteRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole, PlayerControl>, IDiseaseableButton, IKillButton
 {
     private string _infectName = "Overtake";
     private string _killName = "Kill";

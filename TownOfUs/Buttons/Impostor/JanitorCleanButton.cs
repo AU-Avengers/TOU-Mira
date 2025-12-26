@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class JanitorCleanButton : TownOfUsRoleButton<JanitorRole, DeadBody>, IAftermathableBodyButton,
+public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, DeadBody>, IAftermathableBodyButton,
     IDiseaseableButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleJanitorClean", "Clean");

@@ -5,6 +5,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using System.Reflection;
+using TownOfUs.Buttons;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Crewmate;
@@ -17,6 +18,7 @@ using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Runtime.CompilerServices;
 
 namespace TownOfUs.Modules;
 
@@ -94,6 +96,43 @@ public static class TimeLordRewindSystem
     private static float _popAccumulator;
     private static int _popsRemaining;
     private static List<(TimeLordEvent Event, float UndoAt)>? _scheduledEventUndos;
+    private static float _lastKillCooldownSampleTime;
+    private static float _lastKillCooldownValue = -1f;
+    private static float _lastKillButtonCooldownSampleTime;
+
+    private readonly struct ButtonCooldownSample
+    {
+        public float Time { get; }
+        public float Timer { get; }
+        public bool EffectActive { get; }
+
+        public ButtonCooldownSample(float time, float timer, bool effectActive)
+        {
+            Time = time;
+            Timer = timer;
+            EffectActive = effectActive;
+        }
+    }
+
+    private sealed class ReferenceEqualityComparer<T> : IEqualityComparer<T> where T : class
+    {
+        public static readonly ReferenceEqualityComparer<T> Instance = new();
+        public bool Equals(T? x, T? y) => ReferenceEquals(x, y);
+        public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
+    }
+
+    private sealed class ButtonCooldownSeries
+    {
+        public readonly List<ButtonCooldownSample> Samples = new(256);
+        public int StartIndex;
+    }
+
+    private static readonly List<CustomActionButton> CachedKillLikeButtons = new(16);
+    private static Type? _cachedKillLikeRoleType;
+    private static float _lastKillLikeButtonsRefreshTime;
+
+    private static readonly Dictionary<CustomActionButton, ButtonCooldownSeries> KillButtonCooldownHistory =
+        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
     private sealed class ScheduledBodyPos
     {
@@ -215,6 +254,15 @@ public static class TimeLordRewindSystem
         _trackedTaskIds = Array.Empty<uint>();
         _trackedTaskCount = 0;
         _lastRewindAnim = SpecialAnim.None;
+        _lastKillCooldownSampleTime = 0f;
+        _lastKillCooldownValue = -1f;
+        _lastKillCooldownSampleTime = 0f;
+        _lastKillCooldownValue = -1f;
+        _lastKillButtonCooldownSampleTime = 0f;
+        _cachedKillLikeRoleType = null;
+        _lastKillLikeButtonsRefreshTime = 0f;
+        CachedKillLikeButtons.Clear();
+        KillButtonCooldownHistory.Clear();
 
         if (TutorialManager.InstanceExists)
         {
@@ -580,6 +628,245 @@ public static class TimeLordRewindSystem
         {
             RecordLocalTaskSteps(lp, samplesNeeded);
         }
+
+        // Periodically sample kill cooldowns to capture natural decreases
+        SampleKillCooldown(lp);
+
+        // Periodically sample custom kill-button timers (Warlock/Glitch/etc).
+        SampleKillButtonCooldowns(lp.Data.Role);
+    }
+
+    private static void RefreshKillLikeButtons(RoleBehaviour role, float now)
+    {
+        // Refresh at most once per second, or when role changes.
+        if (_cachedKillLikeRoleType == role.GetType() && now - _lastKillLikeButtonsRefreshTime < 1.0f && CachedKillLikeButtons.Count > 0)
+        {
+            return;
+        }
+
+        _cachedKillLikeRoleType = role.GetType();
+        _lastKillLikeButtonsRefreshTime = now;
+        CachedKillLikeButtons.Clear();
+
+        foreach (var button in CustomButtonManager.Buttons)
+        {
+            if (button == null)
+            {
+                continue;
+            }
+
+            if (button is not IKillButton && button is not IDiseaseableButton)
+            {
+                continue;
+            }
+
+            if (!button.Enabled(role))
+            {
+                continue;
+            }
+
+            CachedKillLikeButtons.Add(button);
+            // Ensure we have a series allocated for this button instance.
+            if (!KillButtonCooldownHistory.ContainsKey(button))
+            {
+                KillButtonCooldownHistory[button] = new ButtonCooldownSeries();
+            }
+        }
+    }
+
+    private static void SampleKillButtonCooldowns(RoleBehaviour role)
+    {
+        if (IsRewinding)
+        {
+            return;
+        }
+
+        if (role == null)
+        {
+            return;
+        }
+
+        const float sampleInterval = 0.10f;
+        var now = Time.time;
+        if (now - _lastKillButtonCooldownSampleTime < sampleInterval)
+        {
+            return;
+        }
+
+        _lastKillButtonCooldownSampleTime = now;
+        RefreshKillLikeButtons(role, now);
+
+        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 60f);
+        const float retentionBuffer = 7.5f;
+        var cutoff = now - (history + retentionBuffer);
+        var maxSamples = (int)Math.Ceiling((history + retentionBuffer) / sampleInterval) + 4;
+
+        for (var i = 0; i < CachedKillLikeButtons.Count; i++)
+        {
+            var button = CachedKillLikeButtons[i];
+            if (button == null)
+            {
+                continue;
+            }
+
+            if (!KillButtonCooldownHistory.TryGetValue(button, out var series))
+            {
+                series = new ButtonCooldownSeries();
+                KillButtonCooldownHistory[button] = series;
+            }
+
+            var samples = series.Samples;
+            var start = series.StartIndex;
+
+            while (start < samples.Count && samples[start].Time < cutoff)
+            {
+                start++;
+            }
+            series.StartIndex = start;
+
+            if (samples.Count > start)
+            {
+                var last = samples[^1];
+                if (Mathf.Abs(last.Timer - button.Timer) <= 0.01f && last.EffectActive == button.EffectActive)
+                {
+                    continue;
+                }
+            }
+
+            samples.Add(new ButtonCooldownSample(now, button.Timer, button.EffectActive));
+
+            var liveCount = samples.Count - series.StartIndex;
+            if (liveCount > maxSamples)
+            {
+                series.StartIndex = samples.Count - maxSamples;
+            }
+
+            if (series.StartIndex > 256 && series.StartIndex > samples.Count / 2)
+            {
+                samples.RemoveRange(0, series.StartIndex);
+                series.StartIndex = 0;
+            }
+        }
+    }
+
+    private static int FindLastSampleIndexAtOrBefore(List<ButtonCooldownSample> samples, int startIndex, float time)
+    {
+        var lo = startIndex;
+        var hi = samples.Count - 1;
+        var ans = -1;
+        while (lo <= hi)
+        {
+            var mid = lo + ((hi - lo) / 2);
+            if (samples[mid].Time <= time)
+            {
+                ans = mid;
+                lo = mid + 1;
+            }
+            else
+            {
+                hi = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+    private static void RestoreKillButtonCooldownsForSnapshotTime(RoleBehaviour role, float snapshotTime)
+    {
+        if (role == null)
+        {
+            return;
+        }
+
+        RefreshKillLikeButtons(role, Time.time);
+
+        for (var i = 0; i < CachedKillLikeButtons.Count; i++)
+        {
+            var button = CachedKillLikeButtons[i];
+            if (button == null)
+            {
+                continue;
+            }
+
+            if (!KillButtonCooldownHistory.TryGetValue(button, out var series))
+            {
+                continue;
+            }
+
+            var samples = series.Samples;
+            var start = series.StartIndex;
+            if (samples.Count <= start)
+            {
+                continue;
+            }
+
+            var idx = FindLastSampleIndexAtOrBefore(samples, start, snapshotTime);
+            if (idx < 0)
+            {
+                continue;
+            }
+
+            var sample = samples[idx];
+            var restoredTimer = sample.Timer;
+            
+            // Prevent insta-killing after rewind
+            var wasOnCooldown = false;
+            if (restoredTimer <= 0f || restoredTimer < 0.1f)
+            {
+                for (var j = idx - 1; j >= start; j--)
+                {
+                    if (samples[j].Timer > 0.1f)
+                    {
+                        wasOnCooldown = true;
+                        break;
+                    }
+                }
+                
+                if (wasOnCooldown)
+                {
+                    restoredTimer = button.Cooldown;
+                }
+            }
+            
+            if (Mathf.Abs(button.Timer - restoredTimer) > 0.01f || button.EffectActive != sample.EffectActive)
+            {
+                button.Timer = restoredTimer;
+                button.EffectActive = sample.EffectActive;
+            }
+        }
+    }
+
+    private static void SampleKillCooldown(PlayerControl player)
+    {
+        // Don't sample during rewind
+        if (IsRewinding)
+        {
+            return;
+        }
+
+        if (player == null || !player.Data.Role.CanUseKillButton)
+        {
+            return;
+        }
+
+        const float sampleInterval = 0.5f; // Sample every 0.5 seconds
+        var now = Time.time;
+        
+        if (now - _lastKillCooldownSampleTime < sampleInterval)
+        {
+            return;
+        }
+
+        var currentCooldown = player.killTimer;
+        
+        // Only record if the cooldown has changed significantly (more than 0.1 seconds)
+        if (_lastKillCooldownValue >= 0f && Mathf.Abs(currentCooldown - _lastKillCooldownValue) > 0.1f)
+        {
+            TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(
+                player, _lastKillCooldownValue, currentCooldown);
+        }
+
+        _lastKillCooldownValue = currentCooldown;
+        _lastKillCooldownSampleTime = now;
     }
 
     private static void RecordLocalTaskSteps(PlayerControl lp, int samplesNeeded)
@@ -1007,7 +1294,7 @@ public static class TimeLordRewindSystem
             }
             physics.SetNormalizedVelocity(Vector2.zero);
 
-            if (_hasFinalSnapPos)
+            if (_hasFinalSnapPos && IsValidSnapshotPos(lp, _finalSnapPos))
             {
                 lp.transform.position = _finalSnapPos;
                 if (physics.body != null)
@@ -1015,6 +1302,12 @@ public static class TimeLordRewindSystem
                     physics.body.position = _finalSnapPos;
                 }
                 lp.NetTransform?.SnapTo(_finalSnapPos);
+            }
+            else if (_hasFinalSnapPos)
+            {
+                // Invalid position, clear it
+                _hasFinalSnapPos = false;
+                _finalSnapPos = default;
             }
 
             return true;
@@ -1254,6 +1547,12 @@ public static class TimeLordRewindSystem
         }
         TimeLordParasiteMovementUtilities.ApplyRewindMovement(physics, snap.Pos, curPos, isLadder);
 
+        // Restore kill cooldown based on snapshot time
+        RestoreKillCooldownForSnapshot(lp, snap.Time);
+
+        // Restore custom kill-button timers (Warlock/Glitch/etc) based on snapshot time
+        RestoreKillButtonCooldownsForSnapshotTime(lp.Data.Role, snap.Time);
+
         if (ModCompatibility.IsSubmerged())
         {
             ModCompatibility.ChangeFloor(lp.GetTruePosition().y > -7);
@@ -1282,6 +1581,7 @@ if (delta.sqrMagnitude <= idleEpsilon * idleEpsilon)
     {
         physics.body.velocity = Vector2.zero;
     }
+
 }
 else
 {
@@ -1371,7 +1671,12 @@ return true;*/
         lp.walkingToVent = false;
         try { lp.MyPhysics?.ResetAnimState(); } catch { /* ignored */ }
 
-        if (_hasFinalSnapPos && !endedInVent)
+        // Only apply final snap position if we're still in a valid game state and the position is valid
+        if (_hasFinalSnapPos && !endedInVent && 
+            AmongUsClient.Instance != null && 
+            (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started || 
+             AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) &&
+            IsValidSnapshotPos(lp, _finalSnapPos))
         {
             lp.transform.position = _finalSnapPos;
             if (lp.MyPhysics?.body != null)
@@ -1379,6 +1684,12 @@ return true;*/
                 lp.MyPhysics.body.position = _finalSnapPos;
             }
             lp.NetTransform?.SnapTo(_finalSnapPos);
+        }
+        else if (_hasFinalSnapPos)
+        {
+            // Invalid position or game state, clear it
+            _hasFinalSnapPos = false;
+            _finalSnapPos = default;
         }
 
         if (lp.Collider != null)
@@ -1576,6 +1887,61 @@ return true;*/
     private static SpecialAnim _lastRewindAnim = SpecialAnim.None;
     private static int _finalSnapVentId = -1;
 
+    private static void RestoreKillCooldownForSnapshot(PlayerControl player, float snapshotTime)
+    {
+        if (player == null || !player.AmOwner || !player.Data.Role.CanUseKillButton)
+        {
+            return;
+        }
+
+        if (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown <= 0f)
+        {
+            return;
+        }
+
+        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
+        var startTime = snapshotTime - historySeconds;
+        var endTime = snapshotTime;
+        
+        var killCooldownEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent>(startTime, endTime);
+        
+        TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent? mostRecentEvent = null;
+        foreach (var kcEvent in killCooldownEvents)
+        {
+            if (kcEvent.Player == player && kcEvent.Time <= snapshotTime && 
+                (mostRecentEvent == null || kcEvent.Time > mostRecentEvent.Time))
+            {
+                mostRecentEvent = kcEvent;
+            }
+        }
+        
+        if (mostRecentEvent != null)
+        {
+            var timeSinceEvent = snapshotTime - mostRecentEvent.Time;
+            var expectedCooldown = Mathf.Max(0f, mostRecentEvent.CooldownAfter - timeSinceEvent);
+            
+            var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
+            
+            // Prevent insta-killing after rewind
+            if ((expectedCooldown <= 0f || expectedCooldown < 0.1f) && 
+                mostRecentEvent.CooldownAfter > 0.1f)
+            {
+                expectedCooldown = maxKillCooldown;
+            }
+            
+            var maxvalue = expectedCooldown > maxKillCooldown
+                ? expectedCooldown + 1f
+                : maxKillCooldown;
+            
+            player.killTimer = Mathf.Clamp(expectedCooldown, 0, maxvalue);
+            if (HudManager.Instance != null && HudManager.Instance.KillButton != null)
+            {
+                HudManager.Instance.KillButton.SetCoolDown(player.killTimer, maxvalue);
+            }
+        }
+    }
+
     private static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
     {
         return evt switch
@@ -1587,6 +1953,7 @@ return true;*/
             TimeLordKillEvent e => new TimeLordKillUndoEvent(e),
             TimeLordChefCookEvent e => new TimeLordChefCookUndoEvent(e),
             TimeLordChefServeEvent e => new TimeLordChefServeUndoEvent(e),
+            TimeLordKillCooldownEvent e => new TimeLordKillCooldownUndoEvent(e),
             _ => throw new ArgumentException($"Unknown event type: {evt.GetType()}")
         };
     }

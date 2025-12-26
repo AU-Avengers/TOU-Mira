@@ -458,6 +458,11 @@ public abstract class TownOfUsRoleButton<TRole> : TownOfUsButton where TRole : R
     {
         return role is TRole;
     }
+
+    protected virtual bool ShouldTrackKillCooldown()
+    {
+        return false;
+    }
 }
 
 [MiraIgnore]
@@ -469,6 +474,11 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
     public override bool Enabled(RoleBehaviour? role)
     {
         return role is TRole;
+    }
+
+    protected virtual bool ShouldTrackKillCooldown()
+    {
+        return false;
     }
 
     public override void SetOutline(bool active)
@@ -525,4 +535,31 @@ public interface IDiseaseableButton
 
 public interface IKillButton
 {
+}
+
+/// <summary>
+/// Base class for role buttons that need kill cooldown tracking.
+/// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
+/// </summary>
+[MiraIgnore]
+public abstract class TownOfUsKillRoleButton<TRole> : TownOfUsRoleButton<TRole> where TRole : RoleBehaviour
+{
+    protected override bool ShouldTrackKillCooldown()
+    {
+        return true;
+    }
+}
+
+/// <summary>
+/// Base class for role buttons with targets that need kill cooldown tracking.
+/// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
+/// </summary>
+[MiraIgnore]
+public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButton<TRole, TTarget>
+    where TTarget : MonoBehaviour where TRole : RoleBehaviour
+{
+    protected override bool ShouldTrackKillCooldown()
+    {
+        return true;
+    }
 }

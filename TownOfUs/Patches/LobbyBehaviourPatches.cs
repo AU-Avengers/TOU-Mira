@@ -33,6 +33,9 @@ public static class LobbyBehaviourPatches
         UpCommandRequests.Clear();
         ParasiteControlState.ClearAll();
 
+        // Clear Time Lord snapshot data to prevent stale positions from previous games
+        TimeLordRewindSystem.Reset();
+
         foreach (var player in PlayerControl.AllPlayerControls)
         {
             if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))

@@ -1,6 +1,8 @@
 using MiraAPI.Events;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.TimeLord;
 using UnityEngine;
@@ -57,6 +59,12 @@ public static class TimeLordEventHandlers
         EventQueue.RegisterUndoHandler<TimeLordChefServeEvent>(evt =>
         {
             var undoEvent = new TimeLordChefServeUndoEvent(evt);
+            MiraEventManager.InvokeEvent(undoEvent);
+        });
+
+        EventQueue.RegisterUndoHandler<TimeLordKillCooldownEvent>(evt =>
+        {
+            var undoEvent = new TimeLordKillCooldownUndoEvent(evt);
             MiraEventManager.InvokeEvent(undoEvent);
         });
     }
@@ -170,6 +178,21 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordChefServeEvent(chef, target, bodyId, platterType, UnityEngine.Time.time);
+        MiraEventManager.InvokeEvent(evt);
+        EventQueue.RecordEvent(evt);
+    }
+
+    /// <summary>
+    /// Records a kill cooldown change and fires the appropriate event.
+    /// </summary>
+    public static void RecordKillCooldown(PlayerControl player, float cooldownBefore, float cooldownAfter)
+    {
+        if (player == null || !TimeLordRewindSystem.MatchHasTimeLord())
+        {
+            return;
+        }
+
+        var evt = new TimeLordKillCooldownEvent(player, cooldownBefore, cooldownAfter, UnityEngine.Time.time);
         MiraEventManager.InvokeEvent(evt);
         EventQueue.RecordEvent(evt);
     }
@@ -320,14 +343,25 @@ public static class TimeLordEventHandlers
 
         TimeLordBodyManager.RestoreCleanedBody(bodyId);
 
-        // Remove from Chef's stored bodies if it exists
         var chef = originalEvent.Player;
         if (chef != null && chef.Data?.Role is TownOfUs.Roles.Neutral.ChefRole chefRole)
         {
-            var storedBody = chefRole.StoredBodies.FirstOrDefault(x => x.Key == bodyId);
-            if (storedBody.Key != 0) // KeyValuePair default check
+            var idx = chefRole.StoredBodies.FindIndex(x => x.Key == bodyId);
+            if (idx >= 0)
             {
-                chefRole.StoredBodies.Remove(storedBody);
+                chefRole.StoredBodies.RemoveAt(idx);
+            }
+
+            if (chef.AmOwner)
+            {
+                var cookBtn = CustomButtonSingleton<ChefCookButton>.Instance;
+                if (cookBtn.LimitedUses)
+                {
+                    cookBtn.UsesLeft = Math.Min(cookBtn.UsesLeft + 1, cookBtn.MaxUses);
+                    cookBtn.SetUses(cookBtn.UsesLeft);
+                }
+
+                CustomButtonSingleton<ChefServeButton>.Instance.UpdateServingType();
             }
         }
     }
@@ -363,6 +397,47 @@ public static class TimeLordEventHandlers
             chefRole.StoredBodies.Insert(0, new KeyValuePair<int, TownOfUs.Roles.Neutral.PlatterType>(
                 originalEvent.BodyId, originalEvent.PlatterType));
             chefRole.BodiesServed = Math.Max(0, chefRole.BodiesServed - 1);
+        }
+    }
+
+    /// <summary>
+    /// Handles kill cooldown undo events during rewind (restores the previous cooldown).
+    /// </summary>
+    [RegisterEvent]
+    public static void HandleKillCooldownUndo(TimeLordKillCooldownUndoEvent @event)
+    {
+        if (@event.OriginalEvent is not TimeLordKillCooldownEvent originalEvent)
+        {
+            return;
+        }
+
+        var player = originalEvent.Player;
+        if (player == null || !player.AmOwner)
+        {
+            return;
+        }
+
+        var cooldownBefore = originalEvent.CooldownBefore;
+        
+        if (player.Data.Role.CanUseKillButton && GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown > 0f)
+        {
+            var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
+            
+            // Prevent insta-killing after rewind
+            if ((cooldownBefore <= 0f || cooldownBefore < 0.1f) && 
+                originalEvent.CooldownAfter > 0.1f)
+            {
+                cooldownBefore = maxKillCooldown;
+            }
+            
+            var maxvalue = cooldownBefore > maxKillCooldown
+                ? cooldownBefore + 1f
+                : maxKillCooldown;
+            player.killTimer = Mathf.Clamp(cooldownBefore, 0, maxvalue);
+            if (HudManager.Instance != null && HudManager.Instance.KillButton != null)
+            {
+                HudManager.Instance.KillButton.SetCoolDown(player.killTimer, maxvalue);
+            }
         }
     }
 }

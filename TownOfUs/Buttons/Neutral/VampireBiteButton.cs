@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, PlayerControl>, IDiseaseableButton, IKillButton
 {
     private string _biteName = "Bite";
     private string _killName = "Kill";

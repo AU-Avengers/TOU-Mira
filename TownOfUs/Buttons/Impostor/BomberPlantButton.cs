@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class BomberPlantButton : TownOfUsRoleButton<BomberRole>, IAftermathableButton, IDiseaseableButton
+public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAftermathableButton, IDiseaseableButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleBomberPlace", "Place");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;

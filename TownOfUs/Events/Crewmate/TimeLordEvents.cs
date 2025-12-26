@@ -25,6 +25,7 @@ public static class TimeLordEvents
             return;
         }
 
+        // Always reset to clear any stale position data from previous games/disconnects
         TimeLordRewindSystem.Reset();
 
         ActiveRewindTaskCount = 0;
