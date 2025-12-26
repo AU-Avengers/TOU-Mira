@@ -3,6 +3,7 @@
 public enum TownOfUsRpc : uint
 {
     OffsetForAnticheat,
+    OffsetForParasite,
     GhostRoleMurder,
     SpecialMurder,
     SpecialMultiMurder,

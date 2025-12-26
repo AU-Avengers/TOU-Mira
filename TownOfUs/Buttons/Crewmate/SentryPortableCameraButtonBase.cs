@@ -1,6 +1,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.PluginLoading;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -11,7 +12,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Crewmate;
-
+[MiraIgnore]
 public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<SentryRole>
 {
     private static float _availableCharge;
