@@ -2172,14 +2172,10 @@ return true;*/
             pos = new Vector2(body.TruePosition.x, body.TruePosition.y + 0.3636f);
         }
 
+        // Set position before Revive() so the PlayerReviveEvent handler can sync physics correctly
+        revived.transform.position = pos;
         revived.Revive();
 
-        revived.transform.position = pos;
-        if (revived.MyPhysics?.body != null)
-        {
-            revived.MyPhysics.body.position = pos;
-        }
-        Physics2D.SyncTransforms();
         revived.NetTransform.SnapTo(pos);
         if (revived.AmOwner)
         {
