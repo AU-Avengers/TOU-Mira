@@ -20,7 +20,7 @@ public static class ParasiteMovementPatches
 
     private static Vector2 GetSecondaryDirection() => AdvancedMovementUtilities.GetControllerSecondaryDirection();
 
-    private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetControllerSecondaryDirection();
+    private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
     [HarmonyPrefix]
