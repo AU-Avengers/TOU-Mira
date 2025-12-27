@@ -52,6 +52,7 @@ public static class TimeLordRewindSystem
     
 
     private static bool _colliderWasEnabled;
+    private static bool _rewindDisabledLocalCollider;
     private static Vector2 _finalSnapPos;
     private static bool _hasFinalSnapPos;
 
@@ -232,6 +233,7 @@ public static class TimeLordRewindSystem
         RewindDuration = 0f;
 
         _colliderWasEnabled = false;
+        _rewindDisabledLocalCollider = false;
         _finalSnapPos = default;
         _hasFinalSnapPos = false;
         _rewindStartTime = 0f;
@@ -940,6 +942,7 @@ public static class TimeLordRewindSystem
         _hasFinalSnapPos = false;
         _popAccumulator = 0f;
         _localBodyRestores = null;
+        _rewindDisabledLocalCollider = false;
 
         TimeLordBodyManager.ResetRestoredThisRewind();
 
@@ -1019,6 +1022,7 @@ public static class TimeLordRewindSystem
             {
                 _colliderWasEnabled = PlayerControl.LocalPlayer.Collider.enabled;
                 PlayerControl.LocalPlayer.Collider.enabled = false;
+                _rewindDisabledLocalCollider = true;
             }
         }
 
@@ -1694,8 +1698,26 @@ return true;*/
 
         if (lp.Collider != null)
         {
-            lp.Collider.enabled = endedInVent || _colliderWasEnabled;
+            // Only restore collider state if rewind actually disabled it.
+            // If the local player was a ghost when rewind started and got revived mid-rewind,
+            // forcing collider.enabled from a stale cached value can leave them in a "ghost collision" state.
+            if (_rewindDisabledLocalCollider)
+            {
+                lp.Collider.enabled = endedInVent || _colliderWasEnabled;
+            }
+            else if (lp.Data != null && !lp.Data.IsDead)
+            {
+                lp.Collider.enabled = true;
+            }
+
+            // Ensure living players are not left as triggers (ghost-like collision)
+            if (lp.Data != null && !lp.Data.IsDead)
+            {
+                lp.Collider.isTrigger = false;
+            }
+
             _colliderWasEnabled = false;
+            _rewindDisabledLocalCollider = false;
 
             if (!endedInVent)
             {
@@ -1782,8 +1804,21 @@ return true;*/
 
         if (lp.Collider != null)
         {
-            lp.Collider.enabled = _colliderWasEnabled;
+            if (_rewindDisabledLocalCollider)
+            {
+                lp.Collider.enabled = _colliderWasEnabled;
+            }
+            else if (lp.Data != null && !lp.Data.IsDead)
+            {
+                lp.Collider.enabled = true;
+            }
+
+            if (lp.Data != null && !lp.Data.IsDead)
+            {
+                lp.Collider.isTrigger = false;
+            }
             _colliderWasEnabled = false;
+            _rewindDisabledLocalCollider = false;
         }
 
         if (lp.MyPhysics?.body != null)
@@ -2156,6 +2191,8 @@ return true;*/
             return;
         }
 
+        var roleWhenAlive = revived.GetRoleWhenAlive();
+
         GameHistory.ClearMurder(revived);
 
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == revived.PlayerId);
@@ -2175,6 +2212,25 @@ return true;*/
         // Set position before Revive() so the PlayerReviveEvent handler can sync physics correctly
         revived.transform.position = pos;
         revived.Revive();
+
+        // Swap off any ghost-role state ASAP; ghost-role patches can disable colliders during ResetMoveState.
+        if (roleWhenAlive != null)
+        {
+            revived.ChangeRole((ushort)roleWhenAlive.Role, false);
+        }
+
+        // Force collision/physics back into a living state (Time Lord revive can happen mid-rewind,
+        // where collider state caching/restoration differs from normal revives).
+        if (revived.Collider != null)
+        {
+            revived.Collider.enabled = true;
+            revived.Collider.isTrigger = false;
+        }
+        if (revived.MyPhysics?.body != null)
+        {
+            revived.MyPhysics.body.position = pos;
+        }
+        Physics2D.SyncTransforms();
 
         revived.NetTransform.SnapTo(pos);
         if (revived.AmOwner)
@@ -2197,8 +2253,18 @@ return true;*/
             }
         }
 
-        var roleWhenAlive = revived.GetRoleWhenAlive();
-        revived.ChangeRole((ushort)roleWhenAlive.Role, false);
+        // If roleWhenAlive was null above, preserve existing behavior (no role change).
+        // Re-assert collision state after snaps, to protect against other patches toggling collider.
+        if (revived.Collider != null && revived.Data != null && !revived.Data.IsDead)
+        {
+            revived.Collider.enabled = true;
+            revived.Collider.isTrigger = false;
+        }
+
+        if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+        {
+            TryUnstuckLocalPlayer(revived);
+        }
 
         if (!revived.AmOwner && !string.IsNullOrEmpty(revived.CurrentOutfit.PetId))
         {
@@ -2210,7 +2276,7 @@ return true;*/
             Object.Destroy(body.gameObject);
         }
 
-        if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.PlayerId == revived.PlayerId)
+        if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.PlayerId == revived.PlayerId)
         {
             ModCompatibility.ChangeFloor(revived.transform.position.y > -7);
         }
