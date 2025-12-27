@@ -230,7 +230,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     /// Called every frame while controlling someone to:
     /// - Apply local PiP settings (location/size)
     /// - Handle drag + smooth snap (camera + border together)
-    /// - Keep the border perfectly aligned to <see cref="parasiteCam.rect"/>
+    /// - Keep the border perfectly aligned to "parasiteCam.rect"
     /// </summary>
     public void TickPiP()
     {
@@ -256,8 +256,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     }
 
     /// <summary>
-    /// Keeps the border perfectly aligned and scaled around <see cref="parasiteCam.rect"/>.
-    /// This mirrors the original working behavior (\"Normal\" size in Bottom Left).
+    /// Keeps the border perfectly aligned and scaled around "parasiteCam.rect"
+    /// This mirrors the original working behavior ("Normal" size in Bottom Left).
     /// </summary>
     public void UpdateCameraBorderLayout()
     {
@@ -372,7 +372,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         parasiteCam.rect = ClampRectToViewport(GetAnchorRect(location, sizeMultiplier));
     }
 
-    private Rect GetAnchorRect(ParasitePiPLocation location, float sizeMultiplier)
+    private static Rect GetAnchorRect(ParasitePiPLocation location, float sizeMultiplier)
     {
         var aspect = (float)Screen.height / Screen.width;
         var width = aspect * PipBaseWidthAspectFactor * sizeMultiplier;
@@ -512,7 +512,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         var down = false;
         var held = false;
         var up = false;
-        Vector2 screenPos = default;
+        Vector2 screenPos;
 
         if (Input.touchCount > 0)
         {

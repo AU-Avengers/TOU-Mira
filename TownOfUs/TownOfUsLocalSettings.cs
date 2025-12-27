@@ -1,12 +1,10 @@
 using BepInEx.Configuration;
 using InnerNet;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 
@@ -67,14 +65,13 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
             touRole.OffsetButtons();
         }
-        else if (configEntry == ParasitePiPLocation || configEntry == ParasitePiPSize)
+        else if ((configEntry == ParasitePiPLocation || configEntry == ParasitePiPSize) &&
+                 PlayerControl.LocalPlayer != null &&
+                 PlayerControl.LocalPlayer.Data?.Role is Roles.Impostor.ParasiteRole parasiteRole)
         {
             // Apply PiP changes to the Parasite (controller) side.
-            if (PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data?.Role is Roles.Impostor.ParasiteRole parasiteRole)
-            {
-                parasiteRole.MarkPiPSettingsDirty(resetManualThisSession: true);
-                parasiteRole.TickPiP();
-            }
+            parasiteRole.MarkPiPSettingsDirty(resetManualThisSession: true);
+            parasiteRole.TickPiP();
         }
     }
 

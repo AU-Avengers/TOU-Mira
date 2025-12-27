@@ -163,6 +163,21 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.NeutralObstinate;
             }
 
+            if (RoleAlignment == RoleAlignment.CrewmateGhost)
+            {
+                return TouRoleGroups.CrewGhost;
+            }
+
+            if (RoleAlignment == RoleAlignment.NeutralGhost)
+            {
+                return TouRoleGroups.NeutralGhost;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorGhost)
+            {
+                return TouRoleGroups.ImpGhost;
+            }
+
             if (RoleAlignment == RoleAlignment.GameOutlier)
             {
                 return TouRoleGroups.Other;
@@ -221,14 +236,17 @@ public enum RoleAlignment
     CrewmateProtective,
     CrewmatePower,
     CrewmateSupport,
+    CrewmateGhost,
     ImpostorConcealing,
     ImpostorKilling,
     ImpostorPower,
     ImpostorSupport,
+    ImpostorGhost,
     NeutralBenign,
     NeutralEvil,
     NeutralOutlier,
     NeutralKilling,
+    NeutralGhost,
     GameOutlier, // I honestly have no idea what else to put here 
     // Hide and Seek Alignments
     CrewmateHider,

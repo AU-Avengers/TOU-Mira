@@ -1,12 +1,5 @@
 using MiraAPI.Hud;
-using MiraAPI.Modifiers;
-using TownOfUs.Buttons.Modifiers;
-using TownOfUs.LocalSettings;
-using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Modifiers.Game.Impostor;
-using TownOfUs.Modifiers.Game.Universal;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Utilities;
 
