@@ -57,9 +57,10 @@ public static class SentryEvents
             ActiveCameraTaskCount = 0;
             LastCameraUseTaskId = uint.MaxValue;
             SentryPortableCameraButtonBase.ResetBatteryState();
+            SentryCameraUtilities.ResetSubmergedConsoleSwap();
         }
 
-        if (PlayerControl.LocalPlayer?.Data?.Role is not SentryRole)
+        if (PlayerControl.LocalPlayer?.Data?.Role is not SentryRole sentryRole)
         {
             return;
         }
@@ -75,6 +76,33 @@ public static class SentryEvents
         {
             btn.Button?.usesRemainingText.gameObject.SetActive(true);
             btn.Button?.usesRemainingSprite.gameObject.SetActive(true);
+        }
+
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
+        if (options.PortableCamsImmediateOnNoCamMaps)
+        {
+            var mapId = MiscUtils.GetCurrentMap;
+            var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
+            
+            if (mapWithoutCameras && !sentryRole.PortableCamsUnlockedNotified)
+            {
+                sentryRole.PortableCamsUnlockedNotified = true;
+
+                SentryPortableCameraButtonBase.ResetBatteryToMax();
+
+                CustomButtonSingleton<SentryPortableCameraButton>.Instance.SetActive(true, sentryRole);
+                CustomButtonSingleton<SentryPortableCameraSecondaryButton>.Instance.SetActive(true, sentryRole);
+
+                var notifText = TouLocale.GetParsed("TouRoleSentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
+                var notif = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
+                    Color.white,
+                    new Vector3(0f, 1f, -150f),
+                    spr: TouRoleIcons.Sentry.LoadAsset());
+                notif.AdjustNotification();
+
+                Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
+            }
         }
     }
 
@@ -103,10 +131,8 @@ public static class SentryEvents
             {
                 sentryRole.PortableCamsUnlockedNotified = true;
 
-                // Ensure battery is initialized when portable cameras unlock (shared across both keybind variants).
                 SentryPortableCameraButtonBase.ResetBatteryToMax();
 
-                // Activate both variants; only the correct one will be visible based on camera placement.
                 CustomButtonSingleton<SentryPortableCameraButton>.Instance.SetActive(true, sentryRole);
                 CustomButtonSingleton<SentryPortableCameraSecondaryButton>.Instance.SetActive(true, sentryRole);
 
@@ -126,7 +152,6 @@ public static class SentryEvents
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
-        // Legacy behavior: cameras are sentry-only until after a meeting.
         if (OptionGroupSingleton<SentryOptions>.Instance.LegacyMode)
         {
             foreach (var cameraPair in SentryRole.Cameras)

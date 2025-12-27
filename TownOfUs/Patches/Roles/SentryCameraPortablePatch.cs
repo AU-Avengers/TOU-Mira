@@ -53,7 +53,7 @@ public static class SentryCameraPortablePatch
         try
         {
             var mapId = MiscUtils.GetCurrentMap;
-            return mapId is ExpandedMapNames.MiraHq or ExpandedMapNames.Fungle or ExpandedMapNames.Submerged or ExpandedMapNames.LevelImpostor;
+            return SentryCameraUtilities.IsMapWithoutCameras(mapId);
         }
         catch
         {

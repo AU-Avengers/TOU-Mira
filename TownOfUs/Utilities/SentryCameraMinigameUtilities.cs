@@ -26,7 +26,27 @@ public static class SentryCameraMinigameUtilities
             return;
         }
 
-        if (ship.AllCameras.Length <= 4)
+        var sentryCameraIds = new HashSet<int>();
+        foreach (var cameraPair in SentryRole.Cameras)
+        {
+            if (cameraPair.Key != null)
+            {
+                sentryCameraIds.Add(cameraPair.Key.GetInstanceID());
+            }
+        }
+
+        int sentryStartIndex = -1;
+        for (int i = 0; i < ship.AllCameras.Length; i++)
+        {
+            var cam = ship.AllCameras[i];
+            if (cam != null && sentryCameraIds.Contains(cam.GetInstanceID()))
+            {
+                sentryStartIndex = i;
+                break;
+            }
+        }
+
+        if (sentryStartIndex < 0)
         {
             return;
         }
@@ -38,7 +58,7 @@ public static class SentryCameraMinigameUtilities
             texturesSetter?.Invoke(minigame, texturesObj);
         }
 
-        for (int i = 4; i < ship.AllCameras.Length; i++)
+        for (int i = sentryStartIndex; i < ship.AllCameras.Length; i++)
         {
             var survCamera = ship.AllCameras[i];
             if (survCamera == null)
@@ -73,7 +93,7 @@ public static class SentryCameraMinigameUtilities
 
     public static void AddSentryCamerasToSkeld(SurveillanceMinigame minigame, ShipStatus ship)
     {
-        if (ship.AllCameras.Length <= 4 || minigame.FilteredRooms.Length == 0)
+        if (minigame.FilteredRooms.Length == 0)
         {
             return;
         }
@@ -83,12 +103,37 @@ public static class SentryCameraMinigameUtilities
             return;
         }
 
-        if (minigame.textures.Length < ship.AllCameras.Length)
+        var sentryCameraIds = new HashSet<int>();
+        foreach (var cameraPair in SentryRole.Cameras)
         {
-            minigame.textures = minigame.textures.Concat(new RenderTexture[ship.AllCameras.Length - 4]).ToArray();
+            if (cameraPair.Key != null)
+            {
+                sentryCameraIds.Add(cameraPair.Key.GetInstanceID());
+            }
         }
 
-        for (int i = 4; i < ship.AllCameras.Length; i++)
+        int sentryStartIndex = -1;
+        for (int i = 0; i < ship.AllCameras.Length; i++)
+        {
+            var cam = ship.AllCameras[i];
+            if (cam != null && sentryCameraIds.Contains(cam.GetInstanceID()))
+            {
+                sentryStartIndex = i;
+                break;
+            }
+        }
+
+        if (sentryStartIndex < 0)
+        {
+            return;
+        }
+
+        if (minigame.textures.Length < ship.AllCameras.Length)
+        {
+            minigame.textures = minigame.textures.Concat(new RenderTexture[ship.AllCameras.Length - minigame.textures.Length]).ToArray();
+        }
+
+        for (int i = sentryStartIndex; i < ship.AllCameras.Length; i++)
         {
             var survCamera = ship.AllCameras[i];
             if (survCamera == null)

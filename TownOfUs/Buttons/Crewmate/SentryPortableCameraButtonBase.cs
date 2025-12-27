@@ -8,6 +8,7 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.PrefabChanging;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -67,7 +68,15 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             return false;
         }
 
-        if (!sentryRole.CompletedAllTasks) return false;
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
+        var mapId = MiscUtils.GetCurrentMap;
+        var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
+        var immediateOnNoCamMaps = options.PortableCamsImmediateOnNoCamMaps;
+
+        if (!sentryRole.CompletedAllTasks && !(immediateOnNoCamMaps && mapWithoutCameras))
+        {
+            return false;
+        }
 
         return ShouldBeVisible(sentryRole);
     }
@@ -219,7 +228,17 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             return false;
         }
 
-        if (PlayerControl.LocalPlayer?.Data?.Role is not SentryRole sentryRole || !sentryRole.CompletedAllTasks)
+        if (PlayerControl.LocalPlayer?.Data?.Role is not SentryRole sentryRole)
+        {
+            return false;
+        }
+
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
+        var mapId = MiscUtils.GetCurrentMap;
+        var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
+        var immediateOnNoCamMaps = options.PortableCamsImmediateOnNoCamMaps;
+
+        if (!sentryRole.CompletedAllTasks && !(immediateOnNoCamMaps && mapWithoutCameras))
         {
             return false;
         }
@@ -250,19 +269,50 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         PlayerControl.LocalPlayer.NetTransform.Halt();
 
+        var mapId = MiscUtils.GetCurrentMap;
+        
+        var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
         SystemConsole? basicCams = null;
-        try
+        
+        if (!mapWithoutCameras)
         {
-            var polus = PrefabLoader.Polus;
-            if (polus != null)
+            var allConsoles = Object.FindObjectsOfType<SystemConsole>();
+            
+            if (mapId is ExpandedMapNames.Airship)
             {
-                basicCams = polus.GetComponentsInChildren<SystemConsole>(true)
-                    .FirstOrDefault(x => x != null && x.gameObject.name.Contains("Surv_Panel"));
+                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("task_cams"));
+            }
+            else if (mapId is ExpandedMapNames.Skeld or ExpandedMapNames.Dleks)
+            {
+                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("SurvConsole"));
+            }
+            else if (mapId is ExpandedMapNames.Submerged)
+            {
+                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("SecurityConsole"));
+            }
+            else
+            {
+                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null &&
+                    (x.gameObject.name.Contains("Surv_Panel") || x.gameObject.name.Contains("Cam") ||
+                     x.gameObject.name.Contains("BinocularsSecurityConsole")));
             }
         }
-        catch
+
+        if (basicCams == null)
         {
-            basicCams = null;
+            try
+            {
+                var polus = PrefabLoader.Polus;
+                if (polus != null)
+                {
+                    basicCams = polus.GetComponentsInChildren<SystemConsole>(true)
+                        .FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("Surv_Panel"));
+                }
+            }
+            catch
+            {
+                basicCams = null;
+            }
         }
 
         if (basicCams == null)
@@ -278,6 +328,10 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         try
         {
             _securityMinigame.Begin(null);
+
+            SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(_securityMinigame);
+            SentryCameraMinigameUtilities.AddSentryCameras(_securityMinigame);
+            
             if (!_reportedInUse && PlayerControl.LocalPlayer != null)
             {
                 _reportedInUse = true;

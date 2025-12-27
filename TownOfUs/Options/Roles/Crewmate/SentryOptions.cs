@@ -17,6 +17,9 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
     [ModdedNumberOption("TouOptionSentryPlacementCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float PlacementCooldown { get; set; } = 30f;
 
+    [ModdedToggleOption("TouOptionSentryPortableCamsImmediateOnNoCamMaps")]
+    public bool PortableCamsImmediateOnNoCamMaps { get; set; } = false;
+
     public ModdedNumberOption InitialCameras { get; } = new("TouOptionSentryInitialCameras", 2f, 0f, 15f, 1f, "∞", "#", MiraNumberSuffixes.None, "0", false);
 
     [ModdedNumberOption("TouOptionSentryCameraRoundsLast", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
@@ -33,6 +36,7 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
 
     [ModdedNumberOption("TouOptionSentryPortableCamsBattery", 0f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float PortableCamsBattery { get; set; } = 90f;
+
 
     private static readonly string[] SystemTypeLocaleKeys =
         Enum.GetNames<SystemTypes>().Select(n => $"TouSystemType_{n}").ToArray();

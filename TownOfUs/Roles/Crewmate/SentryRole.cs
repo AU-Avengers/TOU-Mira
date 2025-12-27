@@ -83,12 +83,6 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        var legacy = OptionGroupSingleton<SentryOptions>.Instance.LegacyMode;
-        if (legacy)
-        {
-            stringB.AppendLine($"<b><color=#FFAA00>(Legacy Mode)</color></b>");
-        }
-        var duration = (int)OptionGroupSingleton<SentryOptions>.Instance.CameraRoundsLast;
         var mapId = MiscUtils.GetCurrentMap;
         var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
 
@@ -99,13 +93,22 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 ExpandedMapNames.MiraHq => "Mira HQ",
                 ExpandedMapNames.Fungle => "Fungle",
                 ExpandedMapNames.Submerged => "Submerged",
+                ExpandedMapNames.LevelImpostor => "LevelImpostor",
                 _ => TouLocale.Get("Map", "this map")
             };
             var parseList = new Dictionary<string, string> { { "<map>", mapName } };
-            var noCamText = TouLocale.GetParsed("TouRoleSentryMapNoCameras", "%map% has no cameras. Place cameras and complete your tasks to use portable cameras.", parseList);
+            var options = OptionGroupSingleton<SentryOptions>.Instance;
+            var noCamText = options.PortableCamsImmediateOnNoCamMaps
+                ? TouLocale.GetParsed("TouRoleSentryMapNoCamerasImmediate", "%map% has no Security. Portable cameras are available immediately.", parseList)
+                : TouLocale.GetParsed("TouRoleSentryMapNoCameras", "%map% has no Security. Complete tasks to unlock portable cameras.", parseList);
             stringB.AppendLine(TownOfUsPlugin.Culture, $"<b><color=#FFAA00>{noCamText}</color></b>");
         }
-
+        var legacy = OptionGroupSingleton<SentryOptions>.Instance.LegacyMode;
+        if (legacy)
+        {
+            stringB.AppendLine($"<b><color=#FFAA00>Stand still to deploy sentry-only cameras</color></b>");
+            stringB.AppendLine($"<size=60%><color=#BFBFBF>Sentry-only cameras are fully deployed the next round.</color></size>");
+        }
         if (Cameras.Count > 0 || FutureCameras.Count > 0)
         {
             var options = OptionGroupSingleton<SentryOptions>.Instance;
@@ -119,6 +122,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             if (Cameras.Count > 0)
             {
                 var idx = 1;
+                var duration = (int)OptionGroupSingleton<SentryOptions>.Instance.CameraRoundsLast;
                 foreach (var cameraPair in Cameras)
                 {
                     var cam = cameraPair.Key;
@@ -130,7 +134,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                     var sr = cam.gameObject != null ? cam.gameObject.GetComponent<SpriteRenderer>() : null;
                     var isPending = (sr != null && sr.color.a < 0.99f);
 
-                    var remainingText = duration == 0 ? " (∞)" : $" ({cameraPair.Value} rounds)";
+                    var remainingText = duration == 0 ? string.Empty : $" ({duration} rounds)";
                     var cameraPos = cam.transform != null ? cam.transform.position : Vector3.zero;
                     var roomName = cam.NewName != StringNames.None
                         ? TranslationController.Instance.GetString(cam.NewName)
@@ -275,6 +279,8 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         var rounds = (int)OptionGroupSingleton<SentryOptions>.Instance.CameraRoundsLast;
         Cameras.Add(new(camera, rounds));
+
+        SentryCameraUtilities.EnsureSubmergedUsesPolusSurveillanceIfSentryCamsExist();
 
         SentryCameraPortablePatch.ApplyPortableBlinkState();
     }

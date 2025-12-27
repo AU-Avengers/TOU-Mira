@@ -64,6 +64,8 @@ public static class ModCompatibility
     public static Dictionary<string, Type> SubInjectedTypes { get; private set; }
 
     public static Type SubmarineStatusType;
+    public static Type SubmarineSurvillanceMinigameType;
+    public static Type SubmarineSecuritySabotageSystemType;
 
     public static TaskTypes RetrieveOxygenMask { get; private set; }
 
@@ -148,6 +150,9 @@ public static class ModCompatibility
 
         var submarineElevatorSystem = SubTypes.First(t => t.Name == "SubmarineElevatorSystem");
         upperDeckIsTargetFloor = AccessTools.Field(submarineElevatorSystem, "upperDeckIsTargetFloor");
+
+        SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame");
+        SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem");
 
         var compatType = typeof(ModCompatibility);
         var harmony = new Harmony("tou.submerged.patch");
