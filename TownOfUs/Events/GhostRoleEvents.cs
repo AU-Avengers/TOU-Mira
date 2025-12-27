@@ -99,7 +99,7 @@ public static class GhostRoleEvents
                 if (!isSkipped)
                 {
                     var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                        x.Data.IsDead && x.GetRoleWhenAlive().IsNeutral() && !x.Data.Role.DidWin(GameOverReason.CrewmatesByVote) &&
+                        x.Data.IsDead && x.GetRoleWhenAlive().IsNeutral() && !x.GetRoleWhenAlive().DidWin(GameOverReason.CrewmatesByVote) &&
                         x.CanGetGhostRole() &&
                         !x.HasModifier<AllianceGameModifier>()).ToList();
 
