@@ -872,6 +872,12 @@
   <string name="TouOptionOracleNeutralEvilShowEvil">Neutral Evils Show Up As Evil</string>
   <string name="TouOptionOracleNeutralKillingShowEvil">Neutral Killers Show Up As Evil</string>
   <string name="TouOptionOracleNeutralOutlierShowEvil">Neutral Outliers Show Up As Evil</string>
+  <string name="TouOptionOracleNeutralsThatShowEvil">Neutrals That Appear Evil</string>
+  <string name="TouOptionOracleNeutBadBenign">Benign</string>
+  <string name="TouOptionOracleNeutBadEvil">Evils</string>
+  <string name="TouOptionOracleNeutBadKilling">Killing</string>
+  <string name="TouOptionOracleNeutBadOutlier">Outliers</string>
+  <string name="TouOptionOracleNeutBadNone">None</string>
   <!-- Oracle Feedback -->
   <string name="TouRoleOracleConfessorDied">Your confessor failed to survive so you received no confession</string>
   <string name="TouRoleOracleTooFew">Too few people alive to receive a confessional</string>
@@ -1091,6 +1097,12 @@
   <string name="TouOptionSheriffCanShootNeutralEvilRoles">Can Shoot Neutral Evil Roles</string>
   <string name="TouOptionSheriffCanShootNeutralKillingRoles">Can Shoot Neutral Killing Roles</string>
   <string name="TouOptionSheriffCanShootNeutralOutlierRoles">Can Shoot Neutral Outlier Roles</string>
+  <string name="TouOptionSheriffValidNeutralShots">Valid Neutral Shots</string>
+  <string name="TouOptionSheriffNeutShootBenign">Benign</string>
+  <string name="TouOptionSheriffNeutShootEvil">Evils</string>
+  <string name="TouOptionSheriffNeutShootKilling">Killing</string>
+  <string name="TouOptionSheriffNeutShootOutlier">Outliers</string>
+  <string name="TouOptionSheriffNeutShootNone">None</string>
   <string name="TouOptionSheriffMisfireKills">Misfire Kills</string>
   <string name="TouOptionSheriffKillEnumSheriff">Self</string>
   <string name="TouOptionSheriffKillEnumTarget">Target</string>
@@ -1246,8 +1258,14 @@
   <string name="TouOptionVigilanteCanGuessNeutralEvilRoles">Can Guess Neutral Evil Roles</string>
   <string name="TouOptionVigilanteCanGuessNeutralKillingRoles">Can Guess Neutral Killing Roles</string>
   <string name="TouOptionVigilanteCanGuessNeutralOutlierRoles">Can Guess Neutral Outlier Roles</string>
+  <string name="TouOptionVigilanteGuessableNeutrals">Guessable Neutrals</string>
+  <string name="TouOptionVigilanteGuessableBenign">Benign</string>
+  <string name="TouOptionVigilanteGuessableEvil">Evils</string>
+  <string name="TouOptionVigilanteGuessableKilling">Killing</string>
+  <string name="TouOptionVigilanteGuessableOutlier">Outliers</string>
+  <string name="TouOptionVigilanteGuessableNone">None</string>
   <string name="TouOptionVigilanteCanGuessKillerModifiers">Can Guess Killer Modifiers</string>
-  <string name="TouOptionVigilanteCanGuessAlliances">Can Guess Alliances</string>
+  <string name="TouOptionVigilanteCanGuessAlliances">Can Guess Alliance Modifiers</string>
   <string name="TouOptionVigilanteSafeShotsAvailable">Safe Shots Available</string>
   <!-- Warden - Crewmate Protective -->
   <!-- Warden Wiki / Abilities -->
@@ -1901,14 +1919,13 @@
   <string name="TouOptionVampireImpostorVision">Vampires Have Impostor Vision</string>
   <string name="TouOptionVampireNewVampsAssassinate">New Vampires Can Assassinate</string>
   <string name="TouOptionVampireValidNeutralConversions">Valid Neutral Conversions</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyCrew">Only Crew</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyBenign">Benign</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyEvil">Evils</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyOutlier">Outliers</string>
-  <string name="TouOptionVampireNeutConvertEnumBenignEvil">Benign \%and\% Evils</string>
-  <string name="TouOptionVampireNeutConvertEnumBenignOutlier">Benign \%and\% Outliers</string>
-  <string name="TouOptionVampireNeutConvertEnumEvilOutlier">Evils \%and\% Outliers</string>
-  <string name="TouOptionVampireNeutConvertEnumMostNeuts">Non-Killer Neutrals</string>
+  <string name="TouOptionVampireNeutConvertBenign">Benign</string>
+  <string name="TouOptionVampireNeutConvertEvil">Evils</string>
+  <string name="TouOptionVampireNeutConvertOutlier">Outliers</string>
+  <string name="TouOptionVampireNeutConvertNone">None</string>
+  <string name="TouOptionVampireConvertNeutralBenign">Can Convert Neutral Benign Roles</string>
+  <string name="TouOptionVampireConvertNeutralEvil">Can Convert Neutral Evil Roles</string>
+  <string name="TouOptionVampireConvertNeutralOutlier">Can Convert Neutral Outlier Roles</string>
   <string name="TouOptionVampireConvertLovers">Can Convert Lovers</string>
   <string name="TouOptionVampireNewVampiresConvert">New Vampires Can Convert</string>
   <string name="TouOptionVampireCanVent">Vampires Can Vent</string>
