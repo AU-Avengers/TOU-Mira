@@ -4,21 +4,23 @@ using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 
-namespace TownOfUs.Patches.Roles;
+namespace TownOfUs.Patches.ControlSystem;
 
 [HarmonyPatch]
 public static class ParasiteMovementPatches
 {
+    private static Vector2 GetPrimaryDirection() => AdvancedMovementUtilities.GetControllerPrimaryDirection();
 
-    private static Vector2 GetParasitePrimaryDirection() => TimeLordParasiteMovementUtilities.GetParasitePrimaryDirection();
+    private static Vector2 GetSecondaryDirection() => AdvancedMovementUtilities.GetControllerSecondaryDirection();
 
-    private static Vector2 GetParasiteSecondaryDirection() => TimeLordParasiteMovementUtilities.GetParasiteSecondaryDirection();
+    private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetControllerSecondaryDirection();
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
     [HarmonyPrefix]
@@ -53,9 +55,9 @@ public static class ParasiteMovementPatches
             }
 
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
-            var parasiteDir = canMoveIndependently ? GetParasitePrimaryDirection() : Vector2.zero;
+            var parasiteDir = canMoveIndependently ? GetPrimaryDirection() : Vector2.zero;
             
-            TimeLordParasiteMovementUtilities.ApplyParasiteMovement(__instance, parasiteDir, stopIfZero: true);
+            AdvancedMovementUtilities.ApplyControlledMovement(__instance, parasiteDir, stopIfZero: true);
             return false;
         }
 
@@ -71,9 +73,9 @@ public static class ParasiteMovementPatches
             }
 
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
-            var dir = canMoveIndependently ? GetParasiteSecondaryDirection() : GetParasitePrimaryDirection();
+            var dir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
 
-            TimeLordParasiteMovementUtilities.ApplyParasiteMovement(__instance, dir);
+            AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir);
 
             var vel = dir * __instance.TrueSpeed;
             var pos = __instance.body != null ? __instance.body.position : (Vector2)player.transform.position;
@@ -91,7 +93,7 @@ public static class ParasiteMovementPatches
             }
 
             var victimDir = ParasiteControlState.GetDirection(player.PlayerId);
-            TimeLordParasiteMovementUtilities.ApplyParasiteMovement(__instance, victimDir);
+            AdvancedMovementUtilities.ApplyControlledMovement(__instance, victimDir);
             return false;
         }
 

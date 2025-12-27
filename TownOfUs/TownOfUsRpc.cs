@@ -4,9 +4,11 @@ public enum TownOfUsRpc : uint
 {
     OffsetForAnticheat,
     OffsetForParasite,
+    OffsetForPuppeteer,
     GhostRoleMurder,
     SpecialMurder,
     SpecialMultiMurder,
+    FramedMurder,
     RemoveSpawns,
     RerouteSystemByte,
     RerouteSystemMsg,
@@ -91,6 +93,9 @@ public enum TownOfUsRpc : uint
     ParasiteControl,
     ParasiteEndControl,
     ParasiteMoveControlled,
+    PuppeteerControl,
+    PuppeteerEndControl,
+    PuppeteerMoveControlled,
     TimeLordRewind,
     TimeLordRewindRevive,
     TimeLordUndoTask,
@@ -104,4 +109,5 @@ internal enum TownOfUsInternalRpc : uint
 {
     SendClientModInfo,
     ParasiteMoveUnreliable,
+    PuppeteerMoveUnreliable,
 }

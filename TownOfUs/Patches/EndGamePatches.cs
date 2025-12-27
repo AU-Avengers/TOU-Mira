@@ -6,14 +6,14 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
+using MiraAPI.Events;
 using TMPro;
 using TownOfUs.Events;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
@@ -624,20 +624,8 @@ public static class EndGamePatches
             TownOfUsEventHandlers.LogBuffer.Clear();
         }
 
-        ParasiteControlState.ClearAll();
-
-        foreach (var player in PlayerControl.AllPlayerControls)
-        {
-            if (player?.Data?.Role is ParasiteRole parasiteRole)
-            {
-                parasiteRole.ClearControlLocal();
-            }
-
-            if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-            {
-                player.RemoveModifier(mod);
-            }
-        }
+        var changeRoleEvent = new ClientGameEndEvent();
+        MiraEventManager.InvokeEvent(changeRoleEvent);
 
         BuildEndGameData();
     }

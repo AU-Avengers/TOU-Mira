@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace TownOfUs.Modules;
+namespace TownOfUs.Modules.ControlSystem;
 
 /// <summary>
 /// Per-client state for Parasite control. This is intentionally client-local:
-/// - The Parasite sends desired direction for a controlled player via RPC.
+/// - The Parasite sends the desired direction for a controlled player via RPC.
 /// - The controlled player's owner applies that direction inside a movement patch.
 /// </summary>
 public static class ParasiteControlState
@@ -60,7 +60,6 @@ public static class ParasiteControlState
     {
         return ControlledVelocity.TryGetValue(controlledId, out var vel) ? vel : Vector2.zero;
     }
-
 
     public static void ClearAll()
     {

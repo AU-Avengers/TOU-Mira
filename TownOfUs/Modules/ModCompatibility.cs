@@ -151,8 +151,8 @@ public static class ModCompatibility
         var submarineElevatorSystem = SubTypes.First(t => t.Name == "SubmarineElevatorSystem");
         upperDeckIsTargetFloor = AccessTools.Field(submarineElevatorSystem, "upperDeckIsTargetFloor");
 
-        SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame");
-        SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem");
+        SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame")!;
+        SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem")!;
 
         var compatType = typeof(ModCompatibility);
         var harmony = new Harmony("tou.submerged.patch");

@@ -1,0 +1,96 @@
+﻿using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
+using Reactor.Utilities;
+using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Utilities;
+using UnityEngine;
+
+namespace TownOfUs.Modifiers.Impostor;
+
+/// <summary>
+/// Applied to the victim while they are controlled by a Puppeteer.
+/// - Disables their buttons/actions (via DisabledModifier base checks).
+/// - Forces their appearance to match the Puppeteer (visible to others).
+/// Movement/input suppression is handled by Harmony patches while this modifier is present.
+/// </summary>
+public sealed class PuppeteerControlModifier(PlayerControl controller) : DisabledModifier
+{
+    public override string ModifierName => "Puppeteer Controlled";
+    public override bool HideOnUi => true;
+    public override bool AutoStart => true;
+
+    public override bool CanUseAbilities => false;
+    public override bool CanReport => false;
+
+    public override float Duration => OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
+    public PlayerControl Controller { get; } = controller;
+
+    private LobbyNotificationMessage? _controlledNotification;
+
+    public override void OnActivate()
+    {
+        if (Player.AmOwner)
+        {
+            TouAudio.PlaySound(TouAudio.HackedSound);
+            CreateNotification();
+            Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed, Duration));
+
+            if (Minigame.Instance)
+                Minigame.Instance.Close();
+
+            if (MapBehaviour.Instance)
+                MapBehaviour.Instance.Close();
+        }
+        else if (Controller.AmOwner)
+        {
+            Controller.NetTransform.Halt();
+            HudManager.Instance.PlayerCam.SetTarget(Player);
+            Controller.lightSource.transform.SetParent(Player.transform);
+            Controller.lightSource.Initialize(Player.Collider.offset / 2f);
+        }
+    }
+
+    public override void OnDeath(DeathReason reason)
+    {
+        ModifierComponent!.RemoveModifier(this);
+    }
+
+    public override void OnDeactivate()
+    {
+        ClearNotification();
+        if (Controller.AmOwner)
+        {
+            Controller.moveable = true;
+            Controller.NetTransform.Halt();
+            HudManager.Instance.PlayerCam.SetTarget(Controller);
+            Controller.lightSource.transform.SetParent(Controller.transform);
+            Controller.lightSource.Initialize(Controller.Collider.offset / 2f);
+        }
+    }
+
+    private void CreateNotification()
+    {
+        if (Player == null || !Player.AmOwner || PlayerControl.LocalPlayer == null)
+        {
+            return;
+        }
+
+        if (_controlledNotification == null)
+        {
+            var controlledText = TouLocale.GetParsed("TouRoleParasiteControlledNotif", "You are being controlled by a Parasite!");
+            _controlledNotification = Helpers.CreateAndShowNotification(
+                $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controlledText}</color></b>",
+                Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Parasite.LoadAsset());
+            _controlledNotification?.AdjustNotification();
+        }
+    }
+
+    private void ClearNotification()
+    {
+        if (_controlledNotification != null && _controlledNotification.gameObject != null)
+        {
+            GameObject.Destroy(_controlledNotification);
+            _controlledNotification = null;
+        }
+    }
+}

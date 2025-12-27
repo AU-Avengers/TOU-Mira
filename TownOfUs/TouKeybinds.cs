@@ -31,42 +31,42 @@ public static class TouKeybinds
     public static MiraKeybind ZoomOutKeypad { get; } = new("Zoom Out (Alt)", KeyboardKeyCode.KeypadMinus);
 
     /// <summary>
-    /// Gets the keybind for moving up as Parasite.
+    /// Gets the keybind for moving up as ControlRole.
     /// </summary>
-    public static MiraKeybind ParasitePrimaryUp { get; } = new("Parasite Move Up", KeyboardKeyCode.W, exclusive: false);
+    public static MiraKeybind ControlRolePrimaryUp { get; } = new("Control Role Move Up", KeyboardKeyCode.W, exclusive: false);
 
     /// <summary>
-    /// Gets the keybind for moving left as Parasite.
+    /// Gets the keybind for moving left as ControlRole.
     /// </summary>
-    public static MiraKeybind ParasitePrimaryLeft { get; } = new("Parasite Move Left", KeyboardKeyCode.A, exclusive: false);
+    public static MiraKeybind ControlRolePrimaryLeft { get; } = new("Control Role Move Left", KeyboardKeyCode.A, exclusive: false);
 
     /// <summary>
-    /// Gets the keybind for moving down as Parasite.
+    /// Gets the keybind for moving down as ControlRole.
     /// </summary>
-    public static MiraKeybind ParasitePrimaryDown { get; } = new("Parasite Move Down", KeyboardKeyCode.S, exclusive: false);
+    public static MiraKeybind ControlRolePrimaryDown { get; } = new("Control Role Move Down", KeyboardKeyCode.S, exclusive: false);
 
     /// <summary>
-    /// Gets the keybind for moving right as Parasite.
+    /// Gets the keybind for moving right as ControlRole.
     /// </summary>
-    public static MiraKeybind ParasitePrimaryRight { get; } = new("Parasite Move Right", KeyboardKeyCode.D, exclusive: false);
+    public static MiraKeybind ControlRolePrimaryRight { get; } = new("Control Role Move Right", KeyboardKeyCode.D, exclusive: false);
 
     /// <summary>
-    /// Gets the keybind for moving up as the Parasite's Victim.
+    /// Gets the keybind for moving up as the ControlRole's Victim.
     /// </summary>
-    public static MiraKeybind ParasiteSecondaryUp { get; } = new("Parasite Target Move Up", KeyboardKeyCode.UpArrow, exclusive: false);
+    public static MiraKeybind ControlRoleSecondaryUp { get; } = new("Control Role Target Move Up", KeyboardKeyCode.UpArrow, exclusive: false);
 
     /// <summary>
-    /// Gets the keybind for moving left as the Parasite's Victim.
+    /// Gets the keybind for moving left as the ControlRole's Victim.
     /// </summary>
-    public static MiraKeybind ParasiteSecondaryLeft { get; } = new("Parasite Target Move Left", KeyboardKeyCode.LeftArrow, exclusive: false);
+    public static MiraKeybind ControlRoleSecondaryLeft { get; } = new("Control Role Target Move Left", KeyboardKeyCode.LeftArrow, exclusive: false);
 
     /// <summary>
-    /// Gets the keybind for moving down as the Parasite's Victim.
+    /// Gets the keybind for moving down as the ControlRole's Victim.
     /// </summary>
-    public static MiraKeybind ParasiteSecondaryDown { get; } = new("Parasite Target Move Down", KeyboardKeyCode.DownArrow, exclusive: false);
+    public static MiraKeybind ControlRoleSecondaryDown { get; } = new("Control Role Target Move Down", KeyboardKeyCode.DownArrow, exclusive: false);
 
     /// <summary>
-    /// Gets the keybind for moving right as the Parasite's Victim.
+    /// Gets the keybind for moving right as the ControlRole's Victim.
     /// </summary>
-    public static MiraKeybind ParasiteSecondaryRight { get; } = new("Parasite Target Move Right", KeyboardKeyCode.RightArrow, exclusive: false);
+    public static MiraKeybind ControlRoleSecondaryRight { get; } = new("Control Role Target Move Right", KeyboardKeyCode.RightArrow, exclusive: false);
 }

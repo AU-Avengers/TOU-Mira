@@ -3,7 +3,7 @@ using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Roles.Impostor;
 
-namespace TownOfUs.Patches.Roles;
+namespace TownOfUs.Patches.ControlSystem;
 
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
 public static class ParasiteOverlayPatch

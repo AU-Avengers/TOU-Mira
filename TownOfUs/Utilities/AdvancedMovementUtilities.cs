@@ -1,15 +1,42 @@
+using AmongUs.Data;
 using Rewired;
-using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Utilities;
 
 /// <summary>
-/// Shared movement utilities for Time Lord and Parasite roles.
+/// Shared movement utilities for Time Lord, Parasite, Puppeteer, and any other controlling roles.
 /// These handle directional input and movement calculations.
 /// </summary>
-public static class TimeLordParasiteMovementUtilities
+public static class AdvancedMovementUtilities
 {
+    // Check Parasite's implementation of this to see how the joystick should be added in.
+    public static VirtualJoystick MobileJoystickR { get; set; }
+
+    public static void CreateMobileJoystick()
+    {
+        if (MobileJoystickR != null) return;
+        if (!HudManager.InstanceExists) return;
+        var hudManager = HudManager.Instance;
+        MonoBehaviour monoBehaviour2 = UnityEngine.Object.Instantiate(hudManager.RightVJoystick);
+        if (monoBehaviour2 != null)
+        {
+            monoBehaviour2.transform.SetParent(hudManager.transform, false);
+            MobileJoystickR = monoBehaviour2.GetComponent<VirtualJoystick>();
+            MobileJoystickR.ToggleVisuals(false);
+        }
+    }
+
+    public static void ResizeMobileJoystick()
+    {
+        if (MobileJoystickR == null) return;
+        if (!HudManager.InstanceExists) return;
+        MobileJoystickR.ToggleVisuals(true);
+        var size = DataManager.Settings.Input.TouchJoystickSize;
+        var num = Mathf.Lerp(0.65f, 1.1f, FloatRange.ReverseLerp(size, 0.5f, 1.5f));
+        HudManager.Instance.SetVirtualJoystickSize(MobileJoystickR, size, new Vector2(num + 0.4f, num - 0.6f));
+        MobileJoystickR.ToggleVisuals(false);
+    }
     private static void EnsureKeybindHasKey(MiraKeybind keybind)
     {
         if (keybind.DefaultKey == KeyboardKeyCode.None)
@@ -59,10 +86,10 @@ public static class TimeLordParasiteMovementUtilities
     }
 
     /// <summary>
-    /// Gets Parasite primary direction input for the controller's own movement.
+    /// Gets the regular direction input for the controller's own movement.
     /// Uses TouKeybinds on keyboard, joystick/touch input on mobile, and controller axes on gamepad.
     /// </summary>
-    public static Vector2 GetParasitePrimaryDirection()
+    public static Vector2 GetRegularDirection()
     {
         var hudManager = HudManager.Instance;
 
@@ -85,22 +112,74 @@ public static class TimeLordParasiteMovementUtilities
         }
         else
         {
-            if (IsKeybindHeld(TouKeybinds.ParasitePrimaryRight))
+            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryRight) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryRight))
             {
                 x += 1f;
             }
 
-            if (IsKeybindHeld(TouKeybinds.ParasitePrimaryLeft))
+            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryLeft) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryLeft))
             {
                 x -= 1f;
             }
 
-            if (IsKeybindHeld(TouKeybinds.ParasitePrimaryUp))
+            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryUp) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryUp))
             {
                 y += 1f;
             }
 
-            if (IsKeybindHeld(TouKeybinds.ParasitePrimaryDown))
+            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryDown) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryDown))
+            {
+                y -= 1f;
+            }
+        }
+
+        var v = new Vector2(x, y);
+        return v == Vector2.zero ? Vector2.zero : v.normalized;
+    }
+
+    /// <summary>
+    /// Gets Parasite primary direction input for the controller's own movement.
+    /// Uses TouKeybinds on keyboard, joystick/touch input on mobile, and controller axes on gamepad.
+    /// </summary>
+    public static Vector2 GetControllerPrimaryDirection()
+    {
+        var hudManager = HudManager.Instance;
+
+        var x = 0f;
+        var y = 0f;
+
+        var controlType = ActiveInputManager.currentControlType;
+
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null)
+        {
+            var vJoy = hudManager.joystick.DeltaL;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
+        }
+
+        if (controlType is ActiveInputManager.InputType.Joystick)
+        {
+            x = ConsoleJoystick.player.GetAxis(2);
+            y = ConsoleJoystick.player.GetAxis(3);
+        }
+        else
+        {
+            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryRight))
+            {
+                x += 1f;
+            }
+
+            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryLeft))
+            {
+                x -= 1f;
+            }
+
+            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryUp))
+            {
+                y += 1f;
+            }
+
+            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryDown))
             {
                 y -= 1f;
             }
@@ -114,7 +193,7 @@ public static class TimeLordParasiteMovementUtilities
     /// Gets Parasite secondary direction input for the controlled target's movement.
     /// Uses TouKeybinds on keyboard, joystick/touch input on mobile, and controller axes on gamepad.
     /// </summary>
-    public static Vector2 GetParasiteSecondaryDirection()
+    public static Vector2 GetControllerSecondaryDirection()
     {
         var hudManager = HudManager.Instance;
 
@@ -125,9 +204,9 @@ public static class TimeLordParasiteMovementUtilities
 
         if (controlType != ActiveInputManager.InputType.Keyboard &&
             HudManager.InstanceExists && hudManager.joystick != null &&
-            PlayerControl.LocalPlayer.Data.Role is ParasiteRole parasite && parasite.MobileJoystickR != null)
+            MobileJoystickR != null)
         {
-            var vJoy = parasite.MobileJoystickR.DeltaR;
+            var vJoy = MobileJoystickR.DeltaR;
             return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
         }
 
@@ -138,22 +217,22 @@ public static class TimeLordParasiteMovementUtilities
         }
         else
         {
-            if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryRight))
+            if (IsKeybindHeld(TouKeybinds.ControlRoleSecondaryRight))
             {
                 x += 1f;
             }
 
-            if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryLeft))
+            if (IsKeybindHeld(TouKeybinds.ControlRoleSecondaryLeft))
             {
                 x -= 1f;
             }
 
-            if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryUp))
+            if (IsKeybindHeld(TouKeybinds.ControlRoleSecondaryUp))
             {
                 y += 1f;
             }
 
-            if (IsKeybindHeld(TouKeybinds.ParasiteSecondaryDown))
+            if (IsKeybindHeld(TouKeybinds.ControlRoleSecondaryDown))
             {
                 y -= 1f;
             }
@@ -164,7 +243,7 @@ public static class TimeLordParasiteMovementUtilities
     }
 
     /// <summary>
-    /// Applies movement with flipped direction for Time Lord rewind.
+    /// Applies movement with flipped directions for Time Lord rewind.
     /// The direction is negated to simulate backwards movement.
     /// </summary>
     public static void ApplyRewindMovement(PlayerPhysics physics, Vector2 targetPosition, Vector2 currentPosition, bool isLadder)
@@ -206,10 +285,10 @@ public static class TimeLordParasiteMovementUtilities
     }
 
     /// <summary>
-    /// Applies normal movement for Parasite control.
+    /// Applies normal movement for Parasite/Puppeteer control.
     /// Handles animation and velocity setting.
     /// </summary>
-    public static void ApplyParasiteMovement(PlayerPhysics physics, Vector2 direction, bool stopIfZero = false)
+    public static void ApplyControlledMovement(PlayerPhysics physics, Vector2 direction, bool stopIfZero = false)
     {
         if (physics == null || physics.myPlayer == null)
         {

@@ -236,18 +236,18 @@ public enum RoleAlignment
     CrewmateProtective,
     CrewmatePower,
     CrewmateSupport,
-    CrewmateGhost,
     ImpostorConcealing,
     ImpostorKilling,
     ImpostorPower,
     ImpostorSupport,
-    ImpostorGhost,
     NeutralBenign,
     NeutralEvil,
     NeutralOutlier,
     NeutralKilling,
+    GameOutlier, // I honestly have no idea what else to put here
+    CrewmateGhost,
+    ImpostorGhost,
     NeutralGhost,
-    GameOutlier, // I honestly have no idea what else to put here 
     // Hide and Seek Alignments
     CrewmateHider,
     ImpostorSeeker,

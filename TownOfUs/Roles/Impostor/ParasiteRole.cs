@@ -1,5 +1,4 @@
-﻿using AmongUs.Data;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -9,7 +8,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
@@ -39,7 +38,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private const float PipBaseMarginXAspectFactor = 0.04f;
     private const float PipBaseWidthAspectFactor = 0.3f;
     private const float PipSnapDurationSeconds = 0.12f;
-    public VirtualJoystick MobileJoystickR { get; set; }
     
     private LobbyNotificationMessage? controllerNotification;
 
@@ -82,42 +80,17 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         ClearControlLocal();
         if (Player.AmOwner)
         {
-            CreateMobileJoystick();
+            AdvancedMovementUtilities.CreateMobileJoystick();
         }
-    }
-
-    public void CreateMobileJoystick()
-    {
-        if (MobileJoystickR != null) return;
-        if (!HudManager.InstanceExists) return;
-        var hudManager = HudManager.Instance;
-        MonoBehaviour monoBehaviour2 = Instantiate<MonoBehaviour>(hudManager.RightVJoystick);
-        if (monoBehaviour2 != null)
-        {
-            monoBehaviour2.transform.SetParent(hudManager.transform, false);
-            MobileJoystickR = monoBehaviour2.GetComponent<VirtualJoystick>();
-            MobileJoystickR.ToggleVisuals(false);
-        }
-    }
-
-    public void ResizeMobileJoystick()
-    {
-        if (MobileJoystickR == null) return;
-        if (!HudManager.InstanceExists) return;
-        MobileJoystickR.ToggleVisuals(true);
-        var size = DataManager.Settings.Input.TouchJoystickSize;
-        var num = Mathf.Lerp(0.65f, 1.1f, FloatRange.ReverseLerp(size, 0.5f, 1.5f));
-        HudManager.Instance.SetVirtualJoystickSize(MobileJoystickR, size, new Vector2(num + 0.4f, num - 0.6f));
-        MobileJoystickR.ToggleVisuals(false);
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         ClearControlLocal();
-        if (MobileJoystickR.gameObject != null)
+        if (AdvancedMovementUtilities.MobileJoystickR.gameObject != null)
         {
-            MobileJoystickR.gameObject.Destroy();
+            AdvancedMovementUtilities.MobileJoystickR.gameObject.Destroy();
         }
     }
 
@@ -171,9 +144,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (Controlled == null)
         {
-            if (MobileJoystickR != null)
+            if (AdvancedMovementUtilities.MobileJoystickR != null)
             {
-                MobileJoystickR.ToggleVisuals(false);
+                AdvancedMovementUtilities.MobileJoystickR.ToggleVisuals(false);
             }
             return;
         }
@@ -200,10 +173,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
             ControlTimer -= Time.fixedDeltaTime;
             if (HudManager.Instance.joystick != null &&
-                HudManager.Instance.joystick.TryCast<VirtualJoystick>() != null && MobileJoystickR != null &&
+                HudManager.Instance.joystick.TryCast<VirtualJoystick>() != null && AdvancedMovementUtilities.MobileJoystickR != null &&
                 OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently)
             {
-                MobileJoystickR.ToggleVisuals(true);
+                AdvancedMovementUtilities.MobileJoystickR.ToggleVisuals(true);
             }
 
             if (ControlTimer <= 0f)
@@ -700,7 +673,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             role.EnsureCamera();
             CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance.SetActive(true, role);
             role.CreateNotification();
-            role.ResizeMobileJoystick();
+            AdvancedMovementUtilities.ResizeMobileJoystick();
         }
     }
 
@@ -737,5 +710,15 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     public static void RpcParasiteMoveControlled(PlayerControl sender, byte controlledId, float x, float y)
     {
         ParasiteControlState.SetDirection(controlledId, new Vector2(x, y));
+    }
+
+    public void LobbyStart()
+    {
+        ParasiteControlState.ClearAll();
+
+        foreach (var parasiteMod in ModifierUtils.GetActiveModifiers<ParasiteInfectedModifier>())
+        {
+            parasiteMod.Player.RemoveModifier(parasiteMod);
+        }
     }
 }

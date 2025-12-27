@@ -1549,7 +1549,7 @@ public static class TimeLordRewindSystem
             var helperAnim = snap.Anim;
             TimeLordAnimationUtilities.ApplySpecialAnimation(physics, helperAnim, delta);
         }
-        TimeLordParasiteMovementUtilities.ApplyRewindMovement(physics, snap.Pos, curPos, isLadder);
+        AdvancedMovementUtilities.ApplyRewindMovement(physics, snap.Pos, curPos, isLadder);
 
         // Restore kill cooldown based on snapshot time
         RestoreKillCooldownForSnapshot(lp, snap.Time);

@@ -169,6 +169,97 @@ public static class CustomTouMurderRpcs
     /// </summary>
     /// <param name="source">The killer.</param>
     /// <param name="target">The player to murder.</param>
+    /// <param name="framed">The player to frame.</param>
+    /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
+    /// <param name="didSucceed">Whether the murder was successful or not.</param>
+    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
+    /// <param name="createDeadBody">Should a dead body be created.</param>
+    /// <param name="showKillAnim">Should the kill animation be shown.</param>
+    /// <param name="playKillSound">Should the kill sound be played.</param>
+    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    [MethodRpc((uint)TownOfUsRpc.FramedMurder, LocalHandling = RpcLocalHandling.Before)]
+    public static void RpcFramedMurder(
+        this PlayerControl source,
+        PlayerControl target,
+        PlayerControl framed,
+        bool ignoreShield = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        var role = source.GetRoleWhenAlive();
+        var attackerMod = source.AddModifier<IndirectAttackerModifier>(ignoreShield);
+
+        var cod = "Killer";
+        if (causeOfDeath != "null")
+        {
+            cod = causeOfDeath;
+        }
+        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        {
+            cod = touRole.LocaleKey;
+        }
+        var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
+
+        var beforeMurderEvent = new BeforeMurderEvent(source, target);
+        MiraEventManager.InvokeEvent(beforeMurderEvent);
+
+        if (beforeMurderEvent.IsCancelled)
+        {
+            murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
+
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
+            murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
+        {
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
+                (MeetingHud.Instance == null && ExileController.Instance == null) ? DeathHandlerOverride.SetTrue : DeathHandlerOverride.SetFalse,
+                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                lockInfo: DeathHandlerOverride.SetTrue);
+        }
+
+        // Track kill cooldown before CustomMurder for Time Lord rewind
+        float? killCooldownBefore = null;
+        if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            killCooldownBefore = source.killTimer;
+        }
+
+        var targetPos = target.GetTruePosition();
+        source.CustomMurder(
+            target,
+            murderResultFlags2,
+            resetKillTimer,
+            createDeadBody,
+            false,
+            showKillAnim,
+            playKillSound);
+        if (target.HasDied())
+        {
+            MiscUtils.LungeToPos(framed, targetPos);
+        }
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+        }
+
+        if (attackerMod != null)
+        {
+            Coroutines.Start(CoRemoveIndirect(source));
+        }
+    }
+    /// <summary>
+    /// Networked Custom Murder method.
+    /// </summary>
+    /// <param name="source">The killer.</param>
+    /// <param name="target">The player to murder.</param>
     /// <param name="isIndirect">Determines if the attack is indirect.</param>
     /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
     /// <param name="didSucceed">Whether the murder was successful or not.</param>

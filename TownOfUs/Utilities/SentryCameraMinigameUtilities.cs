@@ -41,15 +41,13 @@ public static class SentryCameraMinigameUtilities
         for (int i = 0; i < ship.AllCameras.Length; i++)
         {
             var cam = ship.AllCameras[i];
-            if (cam != null && sentryCameraIds.Contains(cam.GetInstanceID()))
+            // Only add pending Sentry cameras if local player is Sentry
+            // Fully placed Sentry cameras should be added for everyone
+            if (cam != null && sentryCameraIds.Contains(cam.GetInstanceID()) &&
+                (!IsPendingCamera(cam) || isLocalSentry))
             {
-                // Only add pending Sentry cameras if local player is Sentry
-                // Fully placed Sentry cameras should be added for everyone
-                if (!IsPendingCamera(cam) || isLocalSentry)
-                {
-                    sentryStartIndex = i;
-                    break;
-                }
+                sentryStartIndex = i;
+                break;
             }
         }
 
@@ -131,15 +129,13 @@ public static class SentryCameraMinigameUtilities
         for (int i = 0; i < ship.AllCameras.Length; i++)
         {
             var cam = ship.AllCameras[i];
-            if (cam != null && sentryCameraIds.Contains(cam.GetInstanceID()))
+            // Only add pending Sentry cameras if local player is Sentry
+            // Fully placed Sentry cameras should be added for everyone
+            if (cam != null && sentryCameraIds.Contains(cam.GetInstanceID()) &&
+                (!IsPendingCamera(cam) || isLocalSentry))
             {
-                // Only add pending Sentry cameras if local player is Sentry
-                // Fully placed Sentry cameras should be added for everyone
-                if (!IsPendingCamera(cam) || isLocalSentry)
-                {
-                    sentryStartIndex = i;
-                    break;
-                }
+                sentryStartIndex = i;
+                break;
             }
         }
 

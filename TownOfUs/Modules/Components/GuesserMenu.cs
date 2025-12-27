@@ -119,6 +119,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
             : text.Trim().ToLowerInvariant();
     }
 
+    [HideFromIl2Cpp]
     private List<MenuEntry> GetFilteredEntries()
     {
         var query = NormalizeForSearch(searchText);

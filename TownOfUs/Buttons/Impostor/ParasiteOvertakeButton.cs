@@ -5,7 +5,7 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Globalization;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modules;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;

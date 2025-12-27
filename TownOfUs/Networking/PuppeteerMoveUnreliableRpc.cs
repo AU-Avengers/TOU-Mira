@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace TownOfUs.Networking;
 
-internal readonly struct ParasiteMovePacket
+internal readonly struct PuppeteerMovePacket
 {
-    public ParasiteMovePacket(byte controlledId, Vector2 position, Vector2 velocity)
+    public PuppeteerMovePacket(byte controlledId, Vector2 position, Vector2 velocity)
     {
         ControlledId = controlledId;
         Position = position;
@@ -22,29 +22,29 @@ internal readonly struct ParasiteMovePacket
     public Vector2 Velocity { get; }
 }
 
-[RegisterCustomRpc((uint)TownOfUsInternalRpc.ParasiteMoveUnreliable)]
-internal sealed class ParasiteMoveUnreliableRpc(TownOfUsPlugin plugin, uint id)
-    : PlayerCustomRpc<TownOfUsPlugin, ParasiteMovePacket>(plugin, id)
+[RegisterCustomRpc((uint)TownOfUsInternalRpc.PuppeteerMoveUnreliable)]
+internal sealed class PuppeteerMoveUnreliableRpc(TownOfUsPlugin plugin, uint id)
+    : PlayerCustomRpc<TownOfUsPlugin, PuppeteerMovePacket>(plugin, id)
 {
     public override RpcLocalHandling LocalHandling => RpcLocalHandling.Before;
     public override SendOption SendOption => (SendOption)1;
 
-    public override void Write(MessageWriter writer, ParasiteMovePacket data)
+    public override void Write(MessageWriter writer, PuppeteerMovePacket data)
     {
         writer.Write(data.ControlledId);
         writer.Write(data.Position);
         writer.Write(data.Velocity);
     }
 
-    public override ParasiteMovePacket Read(MessageReader reader)
+    public override PuppeteerMovePacket Read(MessageReader reader)
     {
         var controlledId = reader.ReadByte();
         var pos = reader.ReadVector2();
         var vel = reader.ReadVector2();
-        return new ParasiteMovePacket(controlledId, pos, vel);
+        return new PuppeteerMovePacket(controlledId, pos, vel);
     }
 
-    public override void Handle(PlayerControl sender, ParasiteMovePacket data)
+    public override void Handle(PlayerControl sender, PuppeteerMovePacket data)
     {
         var controlledPlayerInfo = GameData.Instance?.GetPlayerById(data.ControlledId);
         var controlled = controlledPlayerInfo?.Object;
@@ -62,7 +62,7 @@ internal sealed class ParasiteMoveUnreliableRpc(TownOfUsPlugin plugin, uint id)
         // If control ended (meeting called / parasite stopped controlling), ignore any late unreliable packets.
         // These can otherwise snap the victim back to the "end of parasite" position after a meeting.
         if (sender == null ||
-            !ParasiteControlState.IsControlled(data.ControlledId, out var controllerId) ||
+            !PuppeteerControlState.IsControlled(data.ControlledId, out var controllerId) ||
             controllerId != sender.PlayerId)
         {
             return;
@@ -92,7 +92,7 @@ internal sealed class ParasiteMoveUnreliableRpc(TownOfUsPlugin plugin, uint id)
         var smoothedPos = Vector2.Lerp(currentPos, targetPos, posAlpha);
         var smoothedVel = Vector2.Lerp(currentVel, targetVel, velAlpha);
 
-        ParasiteControlState.SetMovementState(data.ControlledId, smoothedPos, smoothedVel);
+        PuppeteerControlState.SetMovementState(data.ControlledId, smoothedPos, smoothedVel);
 
         controlled.transform.position = smoothedPos;
         if (body != null)

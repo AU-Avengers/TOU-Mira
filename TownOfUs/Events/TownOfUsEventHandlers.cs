@@ -35,6 +35,7 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Networking;
 using TownOfUs.Options;
@@ -486,21 +487,6 @@ public static class TownOfUsEventHandlers
         }
 
         FakePlayer.ClearAll();
-
-        ParasiteControlState.ClearAll();
-
-        foreach (var player in PlayerControl.AllPlayerControls)
-        {
-            if (player?.Data?.Role is ParasiteRole parasiteRole)
-            {
-                parasiteRole.ClearControlLocal();
-            }
-
-            if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
-            {
-                player.RemoveModifier(mod);
-            }
-        }
     }
 
     [RegisterEvent]

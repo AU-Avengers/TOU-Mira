@@ -230,7 +230,6 @@ public static class ParasitePiPUtilities
     }
 
     private static bool _isCurrentlyDragging;
-    private static Vector2? _dragStartPosition;
 
     /// <summary>
     /// Handles dragging the PiP overlay. Returns true if dragging occurred.
@@ -317,7 +316,6 @@ public static class ParasitePiPUtilities
             if (inputDown && isOverOverlay)
             {
                 _isCurrentlyDragging = true;
-                _dragStartPosition = currentInputPos;
                 _manualPosition = currentInputPos;
                 _hasBeenManuallyMoved = true;
                 overlayRoot.transform.position = new Vector3(worldPos.x, worldPos.y, z);
@@ -335,7 +333,6 @@ public static class ParasitePiPUtilities
         if (inputUp && _isCurrentlyDragging)
         {
             _isCurrentlyDragging = false;
-            _dragStartPosition = null;
             return false;
         }
 

@@ -100,25 +100,23 @@ public static class SentryCameraUtilities
     {
         // Special handling for Submerged: it has cameras but they need to be turned on
         // Check for SecurityConsole to determine if cameras exist
-        if (mapId == ExpandedMapNames.Submerged)
+        if (ModCompatibility.IsSubmerged() && ShipStatus.Instance != null)
         {
-            if (ModCompatibility.IsSubmerged() && ShipStatus.Instance != null)
+            // Submerged has cameras - check if SecurityConsole exists
+            try
             {
-                // Submerged has cameras - check if SecurityConsole exists
-                try
+                var securityConsole = Object.FindObjectsOfType<SystemConsole>()
+                    .FirstOrDefault(x =>
+                        x != null && x.gameObject != null && x.gameObject.name.Contains("SecurityConsole"));
+                if (securityConsole != null)
                 {
-                    var securityConsole = Object.FindObjectsOfType<SystemConsole>()
-                        .FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("SecurityConsole"));
-                    if (securityConsole != null)
-                    {
-                        // SecurityConsole exists, so Submerged has cameras
-                        return false;
-                    }
+                    // SecurityConsole exists, so Submerged has cameras
+                    return false;
                 }
-                catch
-                {
-                    // If we can't find SecurityConsole, fall through to enumeration check
-                }
+            }
+            catch
+            {
+                // If we can't find SecurityConsole, fall through to enumeration check
             }
         }
 
