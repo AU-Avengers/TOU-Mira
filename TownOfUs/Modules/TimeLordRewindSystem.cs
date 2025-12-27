@@ -2175,6 +2175,11 @@ return true;*/
         revived.Revive();
 
         revived.transform.position = pos;
+        if (revived.MyPhysics?.body != null)
+        {
+            revived.MyPhysics.body.position = pos;
+        }
+        Physics2D.SyncTransforms();
         revived.NetTransform.SnapTo(pos);
         if (revived.AmOwner)
         {
