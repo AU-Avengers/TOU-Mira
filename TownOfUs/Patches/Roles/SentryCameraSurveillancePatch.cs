@@ -12,6 +12,15 @@ public static class SentryCameraSurveillancePatch
 {
     private static readonly ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("SentryCameraSurveillancePatch");
 
+    // IMPORTANT: This must run BEFORE vanilla Begin() builds the camera feeds, otherwise non-sentry can
+    // still get textures created for pending (legacy) Sentry cameras.
+    [HarmonyPatch(typeof(SurveillanceMinigame), nameof(SurveillanceMinigame.Begin))]
+    [HarmonyPrefix]
+    public static void SurveillanceMinigameBeginPrefix(SurveillanceMinigame __instance)
+    {
+        SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(__instance);
+    }
+
     [HarmonyPatch(typeof(SurveillanceMinigame), nameof(SurveillanceMinigame.Begin))]
     [HarmonyPostfix]
     public static void SurveillanceMinigameBeginPostfix(SurveillanceMinigame __instance)
@@ -53,7 +62,6 @@ public static class SentryCameraSurveillancePatch
 
         SentryCameraUiUtilities.ResetPageState();
         SentryCameraUiUtilities.TryCachePolusPagingUi();
-        SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(__instance);
         SentryCameraMinigameUtilities.AddSentryCameras(__instance);
         SentryCameraUiUtilities.EnsureSkeldPagingButtons(__instance);
         SentryCameraPortablePatch.ApplyPortableBlinkState();

@@ -11,12 +11,27 @@ public static class SentryCameraMinigamePatch
 {
     private static readonly ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("SentryCameraMinigamePatch");
 
+    // Must run before vanilla Begin() so non-sentry never initializes feeds for pending (legacy) Sentry cameras.
+    [HarmonyPatch(typeof(FungleSurveillanceMinigame), nameof(FungleSurveillanceMinigame.Begin))]
+    [HarmonyPrefix]
+    public static void FungleSurveillanceMinigameBeginPrefix(FungleSurveillanceMinigame __instance)
+    {
+        SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(__instance);
+    }
+
     [HarmonyPatch(typeof(FungleSurveillanceMinigame), nameof(FungleSurveillanceMinigame.Begin))]
     [HarmonyPostfix]
     public static void FungleSurveillanceMinigameBeginPostfix(FungleSurveillanceMinigame __instance)
     {
-        SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(__instance);
         SentryCameraMinigameUtilities.AddSentryCameras(__instance);
+    }
+
+    // Must run before vanilla Begin() so non-sentry never initializes feeds for pending (legacy) Sentry cameras.
+    [HarmonyPatch(typeof(PlanetSurveillanceMinigame), nameof(PlanetSurveillanceMinigame.Begin))]
+    [HarmonyPrefix]
+    public static void PlanetSurveillanceMinigameBeginPrefix(PlanetSurveillanceMinigame __instance)
+    {
+        SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(__instance);
     }
 
     [HarmonyPatch(typeof(PlanetSurveillanceMinigame), nameof(PlanetSurveillanceMinigame.Begin))]
@@ -68,7 +83,6 @@ public static class SentryCameraMinigamePatch
         {
             SentryCameraUiUtilities.CachePolusPagingUi(__instance);
             LogPolusSecurityUi(__instance);
-            SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(__instance);
             SentryCameraMinigameUtilities.AddSentryCameras(__instance);
             SentryCameraPortablePatch.ApplyPortableBlinkState();
         }
