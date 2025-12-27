@@ -8,11 +8,6 @@ public static class SentryCameraMinigameUtilities
 {
     public static void AddSentryCameras(Minigame minigame)
     {
-        if (!IsLocalSentry())
-        {
-            return;
-        }
-
         var ship = ShipStatus.Instance;
         if (ship == null || ship.AllCameras == null)
         {
@@ -40,14 +35,21 @@ public static class SentryCameraMinigameUtilities
             }
         }
 
+        var isLocalSentry = IsLocalSentry();
+
         int sentryStartIndex = -1;
         for (int i = 0; i < ship.AllCameras.Length; i++)
         {
             var cam = ship.AllCameras[i];
             if (cam != null && sentryCameraIds.Contains(cam.GetInstanceID()))
             {
-                sentryStartIndex = i;
-                break;
+                // Only add pending Sentry cameras if local player is Sentry
+                // Fully placed Sentry cameras should be added for everyone
+                if (!IsPendingCamera(cam) || isLocalSentry)
+                {
+                    sentryStartIndex = i;
+                    break;
+                }
             }
         }
 
@@ -67,6 +69,12 @@ public static class SentryCameraMinigameUtilities
         {
             var survCamera = ship.AllCameras[i];
             if (survCamera == null)
+            {
+                continue;
+            }
+
+            // For Sentry cameras, only add if fully placed or if local player is Sentry (for pending cameras)
+            if (sentryCameraIds.Contains(survCamera.GetInstanceID()) && IsPendingCamera(survCamera) && !isLocalSentry)
             {
                 continue;
             }
@@ -98,11 +106,6 @@ public static class SentryCameraMinigameUtilities
 
     public static void AddSentryCamerasToSkeld(SurveillanceMinigame minigame, ShipStatus ship)
     {
-        if (!IsLocalSentry())
-        {
-            return;
-        }
-
         if (minigame.FilteredRooms.Length == 0)
         {
             return;
@@ -122,14 +125,21 @@ public static class SentryCameraMinigameUtilities
             }
         }
 
+        var isLocalSentry = IsLocalSentry();
+
         int sentryStartIndex = -1;
         for (int i = 0; i < ship.AllCameras.Length; i++)
         {
             var cam = ship.AllCameras[i];
             if (cam != null && sentryCameraIds.Contains(cam.GetInstanceID()))
             {
-                sentryStartIndex = i;
-                break;
+                // Only add pending Sentry cameras if local player is Sentry
+                // Fully placed Sentry cameras should be added for everyone
+                if (!IsPendingCamera(cam) || isLocalSentry)
+                {
+                    sentryStartIndex = i;
+                    break;
+                }
             }
         }
 
@@ -147,6 +157,12 @@ public static class SentryCameraMinigameUtilities
         {
             var survCamera = ship.AllCameras[i];
             if (survCamera == null)
+            {
+                continue;
+            }
+
+            // For Sentry cameras, only add if fully placed or if local player is Sentry (for pending cameras)
+            if (sentryCameraIds.Contains(survCamera.GetInstanceID()) && IsPendingCamera(survCamera) && !isLocalSentry)
             {
                 continue;
             }
@@ -202,17 +218,9 @@ public static class SentryCameraMinigameUtilities
         var id = minigame.GetInstanceID();
         if (OriginalAllCamerasByMinigameId.ContainsKey(id)) return;
 
-        var sentryCameraIds = new HashSet<int>();
-        foreach (var cameraPair in SentryRole.Cameras)
-        {
-            if (cameraPair.Key != null)
-            {
-                sentryCameraIds.Add(cameraPair.Key.GetInstanceID());
-            }
-        }
-
         var original = ShipStatus.Instance.AllCameras;
-        var filtered = original.Where(c => c != null && !IsPendingCamera(c) && !sentryCameraIds.Contains(c.GetInstanceID())).ToArray();
+        // Filter out pending cameras (including pending Sentry cameras), but keep fully placed cameras (including fully placed Sentry cameras)
+        var filtered = original.Where(c => c != null && !IsPendingCamera(c)).ToArray();
         OriginalAllCamerasByMinigameId[id] = original;
         ShipStatus.Instance.AllCameras = filtered;
     }
