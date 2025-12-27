@@ -8,6 +8,11 @@ public static class SentryCameraMinigameUtilities
 {
     public static void AddSentryCameras(Minigame minigame)
     {
+        if (!IsLocalSentry())
+        {
+            return;
+        }
+
         var ship = ShipStatus.Instance;
         if (ship == null || ship.AllCameras == null)
         {
@@ -93,6 +98,11 @@ public static class SentryCameraMinigameUtilities
 
     public static void AddSentryCamerasToSkeld(SurveillanceMinigame minigame, ShipStatus ship)
     {
+        if (!IsLocalSentry())
+        {
+            return;
+        }
+
         if (minigame.FilteredRooms.Length == 0)
         {
             return;
@@ -192,8 +202,17 @@ public static class SentryCameraMinigameUtilities
         var id = minigame.GetInstanceID();
         if (OriginalAllCamerasByMinigameId.ContainsKey(id)) return;
 
+        var sentryCameraIds = new HashSet<int>();
+        foreach (var cameraPair in SentryRole.Cameras)
+        {
+            if (cameraPair.Key != null)
+            {
+                sentryCameraIds.Add(cameraPair.Key.GetInstanceID());
+            }
+        }
+
         var original = ShipStatus.Instance.AllCameras;
-        var filtered = original.Where(c => c != null && !IsPendingCamera(c)).ToArray();
+        var filtered = original.Where(c => c != null && !IsPendingCamera(c) && !sentryCameraIds.Contains(c.GetInstanceID())).ToArray();
         OriginalAllCamerasByMinigameId[id] = original;
         ShipStatus.Instance.AllCameras = filtered;
     }
