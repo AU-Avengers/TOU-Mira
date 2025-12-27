@@ -106,14 +106,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         ClearArrows();
         
         // Reset RevivedInRound when role is deinitialized to fix edge case
-        if (CustomButtonSingleton<AltruistReviveButton>.Instance != null)
-        {
-            CustomButtonSingleton<AltruistReviveButton>.Instance.RevivedInRound = false;
-        }
-        if (CustomButtonSingleton<AltruistSacrificeButton>.Instance != null)
-        {
-            CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
-        }
+        CustomButtonSingleton<AltruistReviveButton>.Instance.RevivedInRound = false;
+        CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
     }
 
     [HideFromIl2Cpp]

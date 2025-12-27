@@ -212,8 +212,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         if (puppeteer.AmOwner)
         {
             var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance;
-            btn.SetActive(true, role);
-            btn.SetTimer(Mathf.Max(btn.Timer, btn.Cooldown));
+            btn.ResetCooldownAndOrEffect();
         }
 
         role.ClearNotifications();
