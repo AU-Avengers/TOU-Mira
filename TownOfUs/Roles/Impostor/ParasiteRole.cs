@@ -25,6 +25,20 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private Camera? parasiteCam;
     private GameObject? parasiteBorderObj;
     private SpriteRenderer? parasiteBorderRenderer;
+    private bool _pipDragging;
+    private bool _pipManualMovedThisSession;
+    private Vector2 _pipDragOffsetViewport;
+    private bool _pipSnapping;
+    private Rect _pipSnapFrom;
+    private Rect _pipSnapTo;
+    private float _pipSnapStartTime;
+    private bool _pipSettingsDirty = true;
+
+    private const float PipBaseMarginY = 0.04f;
+    private const float PipBaseHeight = 0.3f;
+    private const float PipBaseMarginXAspectFactor = 0.04f;
+    private const float PipBaseWidthAspectFactor = 0.3f;
+    private const float PipSnapDurationSeconds = 0.12f;
     public VirtualJoystick MobileJoystickR { get; set; }
     
     private LobbyNotificationMessage? controllerNotification;
@@ -209,10 +223,43 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         var pos = Controlled.transform.position;
         parasiteCam.transform.position = new Vector3(pos.x, pos.y, parasiteCam.transform.position.z);
 
+        // Border follows the camera rect; TickPiP() also calls UpdateCameraBorderLayout() every frame.
+    }
+
+    /// <summary>
+    /// Called every frame while controlling someone to:
+    /// - Apply local PiP settings (location/size)
+    /// - Handle drag + smooth snap (camera + border together)
+    /// - Keep the border perfectly aligned to <see cref="parasiteCam.rect"/>
+    /// </summary>
+    public void TickPiP()
+    {
+        if (Player == null || !Player.AmOwner || Controlled == null ||
+            parasiteCam == null || parasiteBorderObj == null || parasiteBorderRenderer == null || Camera.main == null)
+        {
+            return;
+        }
+
+        EnsureBorderCollider();
+
+        if (_pipSettingsDirty)
+        {
+            ApplyPiPRectFromSettings(force: true);
+            _pipSettingsDirty = false;
+        }
+
+        UpdateSnapAnimation();
+        HandleDragInput();
+
+        // Border is ALWAYS driven off of parasiteCam.rect for perfect fit.
         UpdateCameraBorderLayout();
     }
 
-    private void UpdateCameraBorderLayout()
+    /// <summary>
+    /// Keeps the border perfectly aligned and scaled around <see cref="parasiteCam.rect"/>.
+    /// This mirrors the original working behavior (\"Normal\" size in Bottom Left).
+    /// </summary>
+    public void UpdateCameraBorderLayout()
     {
         if (parasiteCam == null || parasiteBorderObj == null || parasiteBorderRenderer == null || Camera.main == null)
         {
@@ -236,7 +283,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         var hudCam = Camera.main;
         var worldBottomLeft = hudCam.ScreenToWorldPoint(new Vector3(viewportX, viewportY, hudCam.nearClipPlane));
-        var worldTopRight = hudCam.ScreenToWorldPoint(new Vector3(viewportX + viewportWidth, viewportY + viewportHeight, hudCam.nearClipPlane));
+        var worldTopRight =
+            hudCam.ScreenToWorldPoint(new Vector3(viewportX + viewportWidth, viewportY + viewportHeight, hudCam.nearClipPlane));
 
         var worldCenter = new Vector3(
             (worldBottomLeft.x + worldTopRight.x) * 0.5f,
@@ -251,7 +299,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         var spriteSize = parasiteBorderRenderer.sprite.bounds.size;
         if (spriteSize.x > 0f && spriteSize.y > 0f)
         {
-            var scaleMultiplier = 1.42f;
+            const float scaleMultiplier = 1.42f;
             parasiteBorderObj.transform.localScale = new Vector3(
                 (worldWidth * scaleMultiplier) / spriteSize.x,
                 (worldHeight * scaleMultiplier) / spriteSize.y,
@@ -262,6 +310,258 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         parasiteBorderRenderer.color = new Color(1f, 1f, 1f, 0.95f);
     }
 
+    public void MarkPiPSettingsDirty(bool resetManualThisSession = true)
+    {
+        _pipSettingsDirty = true;
+        _pipSnapping = false;
+        _pipDragging = false;
+        if (resetManualThisSession)
+        {
+            _pipManualMovedThisSession = false;
+        }
+    }
+
+    private void EnsureBorderCollider()
+    {
+        if (parasiteBorderObj == null || parasiteBorderRenderer == null)
+        {
+            return;
+        }
+
+        var col = parasiteBorderObj.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            return;
+        }
+
+        col = parasiteBorderObj.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;
+        if (parasiteBorderRenderer.sprite != null)
+        {
+            col.size = parasiteBorderRenderer.sprite.bounds.size;
+        }
+    }
+
+    private void ApplyPiPRectFromSettings(bool force)
+    {
+        if (parasiteCam == null)
+        {
+            return;
+        }
+
+        var locSetting = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ParasitePiPLocation.Value;
+        var sizeMultiplier = ParasitePiPUtilities.GetScaleMultiplier();
+
+        ParasitePiPLocation location;
+        if (locSetting == ParasitePiPLocation.Dynamic)
+        {
+            if (!_pipManualMovedThisSession || force)
+            {
+                location = ParasitePiPUtilities.GetDynamicLocation();
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            location = locSetting;
+        }
+
+        parasiteCam.rect = ClampRectToViewport(GetAnchorRect(location, sizeMultiplier));
+    }
+
+    private Rect GetAnchorRect(ParasitePiPLocation location, float sizeMultiplier)
+    {
+        var aspect = (float)Screen.height / Screen.width;
+        var width = aspect * PipBaseWidthAspectFactor * sizeMultiplier;
+        var height = PipBaseHeight * sizeMultiplier;
+        var marginX = aspect * PipBaseMarginXAspectFactor;
+        var marginY = PipBaseMarginY;
+
+        var x = marginX;
+        var y = marginY;
+
+        switch (location)
+        {
+            case ParasitePiPLocation.TopLeft:
+                x = marginX;
+                y = 1f - height - marginY;
+                break;
+            case ParasitePiPLocation.MiddleLeft:
+                x = marginX;
+                y = (1f - height) * 0.5f;
+                break;
+            case ParasitePiPLocation.Dynamic:
+            case ParasitePiPLocation.BottomLeft:
+                x = marginX;
+                y = marginY;
+                break;
+            case ParasitePiPLocation.TopRight:
+                x = 1f - width - marginX;
+                y = 1f - height - marginY;
+                break;
+            case ParasitePiPLocation.MiddleRight:
+                x = 1f - width - marginX;
+                y = (1f - height) * 0.5f;
+                break;
+            case ParasitePiPLocation.BottomRight:
+                x = 1f - width - marginX;
+                y = marginY;
+                break;
+        }
+
+        return new Rect(x, y, width, height);
+    }
+
+    private static Rect ClampRectToViewport(Rect r)
+    {
+        var w = Mathf.Clamp01(r.width);
+        var h = Mathf.Clamp01(r.height);
+        var x = Mathf.Clamp(r.x, 0f, 1f - w);
+        var y = Mathf.Clamp(r.y, 0f, 1f - h);
+        return new Rect(x, y, w, h);
+    }
+
+    private void StartSnapToNearestAnchor()
+    {
+        if (parasiteCam == null)
+        {
+            return;
+        }
+
+        var sizeMultiplier = ParasitePiPUtilities.GetScaleMultiplier();
+        var current = parasiteCam.rect;
+        var currentCenter = new Vector2(current.x + current.width * 0.5f, current.y + current.height * 0.5f);
+
+        var anchors = new[]
+        {
+            ParasitePiPLocation.TopLeft,
+            ParasitePiPLocation.MiddleLeft,
+            ParasitePiPLocation.BottomLeft,
+            ParasitePiPLocation.TopRight,
+            ParasitePiPLocation.MiddleRight,
+            ParasitePiPLocation.BottomRight
+        };
+
+        var best = GetAnchorRect(anchors[0], sizeMultiplier);
+        var bestCenter = new Vector2(best.x + best.width * 0.5f, best.y + best.height * 0.5f);
+        var bestDist = Vector2.Distance(currentCenter, bestCenter);
+
+        for (var i = 1; i < anchors.Length; i++)
+        {
+            var r = GetAnchorRect(anchors[i], sizeMultiplier);
+            var c = new Vector2(r.x + r.width * 0.5f, r.y + r.height * 0.5f);
+            var d = Vector2.Distance(currentCenter, c);
+            if (d < bestDist)
+            {
+                bestDist = d;
+                best = r;
+            }
+        }
+
+        _pipSnapping = true;
+        _pipSnapFrom = current;
+        _pipSnapTo = ClampRectToViewport(best);
+        _pipSnapStartTime = Time.time;
+    }
+
+    private void UpdateSnapAnimation()
+    {
+        if (!_pipSnapping || parasiteCam == null)
+        {
+            return;
+        }
+
+        var t = Mathf.Clamp01((Time.time - _pipSnapStartTime) / PipSnapDurationSeconds);
+        t = 1f - Mathf.Pow(1f - t, 3f);
+
+        parasiteCam.rect = LerpRect(_pipSnapFrom, _pipSnapTo, t);
+
+        if (t >= 1f)
+        {
+            _pipSnapping = false;
+            parasiteCam.rect = _pipSnapTo;
+        }
+    }
+
+    private static Rect LerpRect(Rect a, Rect b, float t)
+    {
+        return new Rect(
+            Mathf.Lerp(a.x, b.x, t),
+            Mathf.Lerp(a.y, b.y, t),
+            Mathf.Lerp(a.width, b.width, t),
+            Mathf.Lerp(a.height, b.height, t)
+        );
+    }
+
+    private void HandleDragInput()
+    {
+        if (parasiteCam == null || parasiteBorderObj == null || Camera.main == null)
+        {
+            return;
+        }
+
+        var col = parasiteBorderObj.GetComponent<BoxCollider2D>();
+        if (col == null)
+        {
+            return;
+        }
+
+        var down = false;
+        var held = false;
+        var up = false;
+        Vector2 screenPos = default;
+
+        if (Input.touchCount > 0)
+        {
+            var touch = Input.GetTouch(0);
+            screenPos = touch.position;
+            down = touch.phase == TouchPhase.Began;
+            held = touch.phase is TouchPhase.Moved or TouchPhase.Stationary;
+            up = touch.phase is TouchPhase.Ended or TouchPhase.Canceled;
+        }
+        else
+        {
+            down = Input.GetMouseButtonDown(0);
+            held = Input.GetMouseButton(0);
+            up = Input.GetMouseButtonUp(0);
+            screenPos = Input.mousePosition;
+        }
+
+        var world = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, Camera.main.nearClipPlane));
+        var hit = col.OverlapPoint(new Vector2(world.x, world.y));
+
+        if (down && hit)
+        {
+            _pipDragging = true;
+            _pipSnapping = false;
+            _pipManualMovedThisSession = true;
+
+            var rect = parasiteCam.rect;
+            var rectCenter = new Vector2(rect.x + rect.width * 0.5f, rect.y + rect.height * 0.5f);
+            var pointerViewport = new Vector2(screenPos.x / Screen.width, screenPos.y / Screen.height);
+            _pipDragOffsetViewport = rectCenter - pointerViewport;
+        }
+
+        if (_pipDragging && held)
+        {
+            var rect = parasiteCam.rect;
+            var pointerViewport = new Vector2(screenPos.x / Screen.width, screenPos.y / Screen.height);
+            var desiredCenter = pointerViewport + _pipDragOffsetViewport;
+
+            var x = desiredCenter.x - rect.width * 0.5f;
+            var y = desiredCenter.y - rect.height * 0.5f;
+            parasiteCam.rect = ClampRectToViewport(new Rect(x, y, rect.width, rect.height));
+        }
+
+        if (_pipDragging && up)
+        {
+            _pipDragging = false;
+            StartSnapToNearestAnchor();
+        }
+    }
     private void KillControlledFromTimer()
     {
         if (Controlled == null)
@@ -288,13 +588,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
+        MarkPiPSettingsDirty(resetManualThisSession: true);
+
         parasiteCam = UnityEngine.Object.Instantiate(Camera.main);
         parasiteCam.name = "TOU-ParasiteCam";
         parasiteCam.orthographicSize = 1.5f;
-        var aspect = (float)Screen.height / Screen.width;
-        var width = aspect * 0.3f;
-        var posw = aspect * 0.04f;
-        parasiteCam.rect = new Rect(posw, 0.04f, width, 0.3f);
         parasiteCam.transform.DestroyChildren();
         parasiteCam.GetComponent<FollowerCamera>()?.Destroy();
         parasiteCam.nearClipPlane = -1;
@@ -310,7 +608,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             parasiteBorderRenderer.sortingOrder = 1000;
             parasiteBorderRenderer.color = new Color(1f, 1f, 1f, 0.95f);
 
-            UpdateCameraBorderLayout();
+            EnsureBorderCollider();
+            TickPiP();
         }
     }
 
@@ -334,6 +633,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         Controlled = null;
         ControlTimer = 0f;
+        _pipDragging = false;
+        _pipSnapping = false;
+        _pipManualMovedThisSession = false;
+        _pipSettingsDirty = true;
         DestroyCamera();
         ClearNotifications();
     }

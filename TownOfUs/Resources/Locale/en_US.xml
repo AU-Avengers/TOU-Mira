@@ -34,6 +34,18 @@
   <string name="FlashLightGray">Light Gray</string>
   <string name="FlashGray">Gray</string>
   <string name="FlashDarkGray">Dark Gray</string>
+  <string name="ParasitePiPLocation">Parasite Picture-in-Picture Location</string>
+  <string name="PiPLocationTopLeft">Top Left</string>
+  <string name="PiPLocationMiddleLeft">Middle Left</string>
+  <string name="PiPLocationBottomLeft">Bottom Left</string>
+  <string name="PiPLocationTopRight">Top Right</string>
+  <string name="PiPLocationMiddleRight">Middle Right</string>
+  <string name="PiPLocationBottomRight">Bottom Right</string>
+  <string name="PiPLocationDynamic">Dynamic</string>
+  <string name="ParasitePiPSize">Parasite Picture-in-Picture Size</string>
+  <string name="PiPSizeNormal">Normal</string>
+  <string name="PiPSizeSmall">Small</string>
+  <string name="PiPSizeLarge">Large</string>
   <!-- Player Colors -->
   <string name="PlayerColorDarker">Darker</string>
   <string name="PlayerColorLighter">Lighter</string>

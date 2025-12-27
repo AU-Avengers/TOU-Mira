@@ -1,10 +1,12 @@
 using BepInEx.Configuration;
 using InnerNet;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 
@@ -64,6 +66,15 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             }
 
             touRole.OffsetButtons();
+        }
+        else if (configEntry == ParasitePiPLocation || configEntry == ParasitePiPSize)
+        {
+            // Apply PiP changes to the Parasite (controller) side.
+            if (PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data?.Role is Roles.Impostor.ParasiteRole parasiteRole)
+            {
+                parasiteRole.MarkPiPSettingsDirty(resetManualThisSession: true);
+                parasiteRole.TickPiP();
+            }
         }
     }
 
@@ -130,6 +141,14 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
     public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
         config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
+
+    [LocalizedLocalEnumSetting(names: ["PiPLocationTopLeft", "PiPLocationMiddleLeft", "PiPLocationBottomLeft", "PiPLocationTopRight", "PiPLocationMiddleRight", "PiPLocationBottomRight", "PiPLocationDynamic"])]
+    public ConfigEntry<ParasitePiPLocation> ParasitePiPLocation { get; private set; } =
+        config.Bind("UI/Visuals", "ParasitePiPLocation", TownOfUs.ParasitePiPLocation.Dynamic);
+
+    [LocalizedLocalEnumSetting(names: ["PiPSizeNormal", "PiPSizeSmall", "PiPSizeLarge"])]
+    public ConfigEntry<ParasitePiPSize> ParasitePiPSize { get; private set; } =
+        config.Bind("UI/Visuals", "ParasitePiPSize", TownOfUs.ParasitePiPSize.Normal);
 }
 
 public enum ArrowStyleType
@@ -153,4 +172,22 @@ public enum GameSummaryAppearance
     Simplified,
     Normal,
     Advanced
+}
+
+public enum ParasitePiPLocation
+{
+    TopLeft,
+    MiddleLeft,
+    BottomLeft,
+    TopRight,
+    MiddleRight,
+    BottomRight,
+    Dynamic
+}
+
+public enum ParasitePiPSize
+{
+    Normal,
+    Small,
+    Large
 }

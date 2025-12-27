@@ -41,6 +41,8 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
             return;
         }
 
+        // NOTE: This overlay is for the *infected* client (feedback that they're being controlled),
+        // not the Parasite's PiP camera. Keep it full-screen and non-interactive.
         var screenWidth = Screen.width;
         var screenHeight = Screen.height;
 
