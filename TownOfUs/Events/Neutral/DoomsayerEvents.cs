@@ -19,21 +19,28 @@ public static class DoomsayerEvents
     {
         var source = @event.Source;
 
-        if (source.Data.Role is not DoomsayerRole doom)
+        if (source.Data.Role is DoomsayerRole doom)
         {
-            return;
-        }
+            if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
+            {
+                stats.CorrectAssassinKills++;
+            }
 
-        if (GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
-        {
-            stats.CorrectAssassinKills++;
+            if (source.AmOwner && (int)OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessesToWin ==
+                doom.NumberOfGuesses)
+            {
+                DoomsayerRole.RpcDoomsayerWin(source);
+                DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, "DiedToWinning",
+                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    lockInfo: DeathHandlerOverride.SetTrue);
+            }
         }
-        
-        if (source.AmOwner && (int)OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessesToWin == doom.NumberOfGuesses)
+        else if (source.GetRoleWhenAlive() is DoomsayerRole &&
+                 (MeetingHud.Instance != null || ExileController.Instance != null) &&
+                 GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
-            DoomsayerRole.RpcDoomsayerWin(source);
-            DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer, "DiedToWinning",
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
+            // This should fix doomsayer's guesses appearing as regular postmortem kills
+            stats.CorrectAssassinKills++;
         }
     }
 
