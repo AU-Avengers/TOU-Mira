@@ -51,9 +51,10 @@ public static class SheriffEvents
             if (target.IsImpostor() ||
                 (target.IsCrewmate() && target.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
                  !allyMod.GetsPunished) ||
-                (target.Is(RoleAlignment.NeutralEvil) && options.ShootNeutralEvil) ||
-                (target.Is(RoleAlignment.NeutralKilling) && options.ShootNeutralKiller) ||
-                (target.Is(RoleAlignment.NeutralBenign) && options.ShootNeutralBenign))
+                (target.Is(RoleAlignment.NeutralOutlier) && options.ShootNeutralOutlier.Value) ||
+                (target.Is(RoleAlignment.NeutralEvil) && options.ShootNeutralEvil.Value) ||
+                (target.Is(RoleAlignment.NeutralKilling) && options.ShootNeutralKiller.Value) ||
+                (target.Is(RoleAlignment.NeutralBenign) && options.ShootNeutralBenign.Value))
             {
                 stats.CorrectKills += 1;
             }

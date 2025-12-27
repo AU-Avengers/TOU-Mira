@@ -277,22 +277,22 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (alignment == RoleAlignment.NeutralBenign)
         {
-            return options.VigilanteGuessNeutralBenign;
+            return options.VigilanteGuessNeutralBenign.Value;
         }
 
         if (alignment == RoleAlignment.NeutralEvil)
         {
-            return options.VigilanteGuessNeutralEvil;
+            return options.VigilanteGuessNeutralEvil.Value;
         }
 
         if (alignment == RoleAlignment.NeutralKilling)
         {
-            return options.VigilanteGuessNeutralKilling;
+            return options.VigilanteGuessNeutralKilling.Value;
         }
 
         if (alignment == RoleAlignment.NeutralOutlier)
         {
-            return options.VigilanteGuessNeutralOutlier;
+            return options.VigilanteGuessNeutralOutlier.Value;
         }
 
         return false;

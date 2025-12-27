@@ -2,11 +2,12 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Interfaces;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class VampireOptions : AbstractOptionGroup<VampireRole>
+public sealed class VampireOptions : AbstractOptionGroup<VampireRole>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => TouLocale.Get("TouRoleVampire", "Vampire");
 
@@ -21,16 +22,9 @@ public sealed class VampireOptions : AbstractOptionGroup<VampireRole>
 
     [ModdedToggleOption("TouOptionVampireNewVampsAssassinate")]
     public bool CanGuessAsNewVamp { get; set; } = true;
-
-    public ModdedEnumOption<ValidBites> ValidConversions { get; } = new("TouOptionVampireValidNeutralConversions",
-        ValidBites.BenignAndEvil,
-        [
-            "TouOptionVampireNeutConvertEnumOnlyCrew", "TouOptionVampireNeutConvertEnumOnlyBenign",
-            "TouOptionVampireNeutConvertEnumOnlyEvil", "TouOptionVampireNeutConvertEnumOnlyOutlier",
-            "TouOptionVampireNeutConvertEnumBenignEvil", "TouOptionVampireNeutConvertEnumBenignOutlier",
-            "TouOptionVampireNeutConvertEnumEvilOutlier", "TouOptionVampireNeutConvertEnumMostNeuts"
-        ]);
-
+    public ModdedToggleOption ConvertNeutralBenign { get; set; } = new("TouOptionVampireConvertNeutralBenign", true);
+    public ModdedToggleOption ConvertNeutralEvil { get; set; } = new("TouOptionVampireConvertNeutralEvil", true);
+    public ModdedToggleOption ConvertNeutralOutlier { get; set; } = new("TouOptionVampireConvertNeutralOutlier", false);
     public ModdedToggleOption ConvertLovers { get; set; } = new("TouOptionVampireConvertLovers", false);
 
     [ModdedToggleOption("TouOptionVampireNewVampiresConvert")]
@@ -38,27 +32,40 @@ public sealed class VampireOptions : AbstractOptionGroup<VampireRole>
 
     [ModdedToggleOption("TouOptionVampireCanVent")]
     public bool CanVent { get; set; } = true;
-}
-// TODO: Implement multi-select options in MiraAPI by using flags rather than enums.
-/*[Flags]
-public enum ValidBites : uint
-{
-    None = 0,
-    NeutralBenign = 1,
-    NeutralEvil = 2,
-    NeutralOutlier = 3,
-    Lovers = 8,
-    All = 10,
-}*/
 
-public enum ValidBites
-{
-    OnlyCrew,
-    NeutralBenign,
-    NeutralEvil,
-    NeutralOutlier,
-    BenignAndEvil,
-    BenignAndOutlier,
-    EvilAndOutlier,
-    NonKillerNeutrals,
+    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+        new HashSet<StringNames>
+        {
+            ConvertNeutralBenign.StringName,
+            ConvertNeutralEvil.StringName,
+            ConvertNeutralOutlier.StringName,
+        };
+
+    public IEnumerable<string> GetWikiOptionSummaryLines()
+    {
+        var title = TouLocale.GetParsed("TouOptionVampireValidNeutralConversions");
+        var nbValid = ConvertNeutralBenign.Value;
+        var neValid = ConvertNeutralEvil.Value;
+        var noValid = ConvertNeutralOutlier.Value;
+
+        if (!nbValid && !neValid && !noValid)
+        {
+            var newArray = new []
+                { $"{title}: {TouLocale.GetParsed("TouOptionVampireNeutConvertNone")}" };
+            return newArray;
+        }
+
+        var selected = new List<string>();
+        if (nbValid) selected.Add(TouLocale.GetParsed("TouOptionVampireNeutConvertBenign"));
+        if (neValid) selected.Add(TouLocale.GetParsed("TouOptionVampireNeutConvertEvil"));
+        if (noValid) selected.Add(TouLocale.GetParsed("TouOptionVampireNeutConvertOutlier"));
+
+        var names = selected
+            .Distinct()
+            .ToList();
+
+        var newArray2 = new []
+            { $"{title}: {string.Join(", ", names)}" };
+        return newArray2;
+    }
 }
