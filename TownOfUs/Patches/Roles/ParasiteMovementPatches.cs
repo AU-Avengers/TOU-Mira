@@ -1,6 +1,4 @@
-﻿using AmongUs.Data;
-using AmongUs.GameOptions;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
@@ -11,7 +9,6 @@ using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches.Roles;
 

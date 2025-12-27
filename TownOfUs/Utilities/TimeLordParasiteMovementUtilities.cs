@@ -123,10 +123,11 @@ public static class TimeLordParasiteMovementUtilities
 
         var controlType = ActiveInputManager.currentControlType;
 
-        if (HudManager.InstanceExists && hudManager.joystick != null &&
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null &&
             PlayerControl.LocalPlayer.Data.Role is ParasiteRole parasite && parasite.MobileJoystickR != null)
         {
-            var vJoy = parasite.MobileJoystickR.DeltaL;
+            var vJoy = parasite.MobileJoystickR.DeltaR;
             return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
         }
 

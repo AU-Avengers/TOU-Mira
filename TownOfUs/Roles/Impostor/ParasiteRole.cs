@@ -82,7 +82,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         {
             monoBehaviour2.transform.SetParent(hudManager.transform, false);
             MobileJoystickR = monoBehaviour2.GetComponent<VirtualJoystick>();
-            MobileJoystickR.ToggleVisuals(LobbyBehaviour.Instance == null);
+            MobileJoystickR.ToggleVisuals(false);
         }
     }
 
@@ -185,10 +185,13 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             }
 
             ControlTimer -= Time.fixedDeltaTime;
-            if (HudManager.Instance.joystick != null && MobileJoystickR != null)
+            if (HudManager.Instance.joystick != null &&
+                HudManager.Instance.joystick.TryCast<VirtualJoystick>() != null && MobileJoystickR != null &&
+                OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently)
             {
                 MobileJoystickR.ToggleVisuals(true);
             }
+
             if (ControlTimer <= 0f)
             {
                 PlayerControl.LocalPlayer.GetRole<ParasiteRole>()?.KillControlledFromTimer();
