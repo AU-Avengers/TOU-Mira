@@ -15,7 +15,7 @@ namespace TownOfUs.Buttons.BaseFreeplay;
 public sealed class FreeplaySetModifiersButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("FreeplaySetModifiersButton", "Set Modifiers");
-    public override Color TextOutlineColor => TownOfUsColors.Impostor;
+    public override Color TextOutlineColor => new Color32(89, 223, 231, 255);
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override float EffectDuration => 0.001f;

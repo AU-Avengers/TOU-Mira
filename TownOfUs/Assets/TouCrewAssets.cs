@@ -29,6 +29,22 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> SeerSprite { get; } =
         new LoadableBundleAsset<Sprite>("SeerButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> GazeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("GazeButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> IntuitSprite { get; } =
+        new LoadableBundleAsset<Sprite>("IntuitButton", TouAssets.MainBundle);
+
+    public static List<LoadableAsset<Sprite>> SeerButtonSprites { get; set; } = new()
+    {
+        SeerSprite,
+        GazeSprite,
+        IntuitSprite,
+    };
+
+    public static LoadableAsset<Sprite> KnightSprite { get; } =
+        new LoadableBundleAsset<Sprite>("KnightButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> TrackSprite { get; } =
         new LoadableBundleAsset<Sprite>("TrackButton", TouAssets.MainBundle);
 

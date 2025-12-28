@@ -101,6 +101,8 @@ public enum TownOfUsRpc : uint
     SentryPlaceCamera,
     SentryRevealCamera,
     SentryPortableCamsInUse,
+    Knight,
+    SetDeadlyQuota,
 }
 
 internal enum TownOfUsInternalRpc : uint

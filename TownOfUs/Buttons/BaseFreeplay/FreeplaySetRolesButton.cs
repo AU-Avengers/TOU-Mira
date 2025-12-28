@@ -12,7 +12,7 @@ namespace TownOfUs.Buttons.BaseFreeplay;
 public sealed class FreeplaySetRolesButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("FreeplaySetRoleButton", "Set Roles");
-    public override Color TextOutlineColor => TownOfUsColors.Impostor;
+    public override Color TextOutlineColor => new Color32(231, 89, 105, 255);
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override float EffectDuration => 3;

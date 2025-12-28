@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.BaseFreeplay;
 public sealed class FreeplayResetButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("FreeplayRestartButton", "Reset Game");
-    public override Color TextOutlineColor => TownOfUsColors.Impostor;
+    public override Color TextOutlineColor => new Color32(165, 231, 89, 255);
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;

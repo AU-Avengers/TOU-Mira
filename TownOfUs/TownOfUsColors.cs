@@ -36,6 +36,7 @@ public static class TownOfUsColors
 
     public static Color Jailor => UseBasic ? Palette.CrewmateBlue : new Color32(166, 166, 166, 255);
     public static Color Mayor => UseBasic ? Palette.CrewmateBlue : new Color32(112, 79, 168, 255);
+    public static Color Monarch => UseBasic ? Palette.CrewmateBlue : new Color32(116, 76, 196, 255);
     public static Color Politician => UseBasic ? Palette.CrewmateBlue : new Color32(102, 0, 153, 255);
     public static Color Prosecutor => UseBasic ? Palette.CrewmateBlue : new Color32(179, 128, 0, 255);
     public static Color Swapper => UseBasic ? Palette.CrewmateBlue : new Color32(102, 230, 102, 255);

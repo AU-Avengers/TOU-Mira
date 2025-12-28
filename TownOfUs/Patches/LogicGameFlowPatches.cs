@@ -290,7 +290,7 @@ public static class LogicGameFlowPatches
         {
             var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
                 !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x.GetModifiers<GameModifier>()
-                    .Any(x => x.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
+                    .Any(y => y.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
             CustomGameOver.Trigger<DrawGameOver>([
                 randomPlayer != null ? randomPlayer.Data : PlayerControl.LocalPlayer.Data
             ]);

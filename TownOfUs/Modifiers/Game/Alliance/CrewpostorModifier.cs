@@ -42,7 +42,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public override ModifierFaction FactionType => ModifierFaction.CrewmateAlliance;
     public override AlliedFaction TrueFactionType => AlliedFaction.Impostor;
     public override Color FreeplayFileColor => new Color32(220, 220, 220, 255);
-    public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Telepath;
+    public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Crewpostor;
 
     public int Priority { get; set; } = 1;
     public List<CustomButtonWikiDescription> Abilities { get; } = [];

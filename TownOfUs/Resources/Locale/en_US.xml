@@ -848,6 +848,19 @@
   <!-- Mirrorcaster Feedback -->
   <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\% was attacked by the \%attackerRole\%! You can now unleash the attack onto another player!</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\% was attacked! You can now unleash the attack onto another player!</string>
+  <!-- Monarch - Crewmate Power -->
+  <!-- Monarch Wiki / Description -->
+  <string name="TouRoleMonarch">Monarch</string>
+  <string name="TouRoleMonarchIntroBlurb">Knight Crewmates to give extra votes</string>
+  <string name="TouRoleMonarchTabDescription">Knight crewmates to aid in meetings, but\%nl\%avoid knighting Evildoers.</string>
+  <string name="TouRoleMonarchTabDescriptionEgo">Knight evildoers to aid them in meetings.</string>
+  <string name="TouRoleMonarchTabVoteInfo">Knighted players each gain \%amount\% vote(s).</string>
+  <string name="TouRoleMonarchTabDefenseInfoEgo">Living knights give you protection.</string>
+  <string name="TouRoleMonarchTabDefenseInfo">Living crewmate knights give you protection.</string>
+  <string name="TouRoleMonarchTabDeathInfo">You are notified when a knighted player dies.</string>
+  <string name="TouRoleMonarchWikiDescription">The Monarch is a Crewmate Power role that can hand out additional votes to other players.</string>
+  <string name="TouRoleMonarchKnight">Knight</string>
+  <string name="TouRoleMonarchKnightDescription">Knight a player, giving them \%amount\% vote(s)</string>
   <!-- Mystic - Crewmate Investigative -->
   <!-- Mystic Wiki / Description -->
   <string name="TouRoleMystic">Mystic</string>
@@ -2150,6 +2163,20 @@
   <string name="TouRoleCelebrityMessageTitle">Celebrity Report</string>
   <string name="TouModifierCelebrityDetailsSelf">The \%modifier\%, \%player\%, has died!\%nl\%Location: \%room\%\%nl\%Death: By Suicide\%nl\%Time: \%timeAgo\% seconds ago.</string>
   <string name="TouModifierCelebrityDetailsKilled">The \%modifier\%, \%player\%, was \%killed\%!\%nl\%Location: \%room\%\%nl\%Death: By The \%role\%\%nl\%Time: \%timeAgo\% seconds ago.</string>
+  <!-- Circumvent -->
+  <!-- Circumvent Wiki / Description -->
+  <string name="TouModifierCircumvent">Circumvent</string>
+  <string name="TouModifierCircumventIntroBlurb">You lack the ability to vent.</string>
+  <string name="TouModifierCircumventTabDescription">You cannot vent.</string>
+  <string name="TouModifierCircumventWikiDescription">You lose the ability to vent around the map.</string>
+  <!-- DeadlyQuota -->
+  <!-- DeadlyQuota Wiki / Description -->
+  <string name="TouModifierDeadlyQuota">Deadly Quota</string>
+  <string name="TouModifierDeadlyQuotaIntroBlurb">You must kill at least one person.</string>
+  <string name="TouModifierDeadlyQuotaIntroBlurbPlural">You must kill at least \%amount\% people.</string>
+  <string name="TouModifierDeadlyQuotaTabDescription">Meet your quota or lose!\%nl\%Kills: \%amount\% / \%total\%</string>
+  <string name="TouModifierDeadlyQuotaWikiDescription">You lose if you do not complete your quota. To complete your quota, you need to kill a set number of people chosen at the start of the game.</string>
+  <string name="TouModifierDeadlyQuotaWarningNotif">You haven't started working on your quota. You WILL lose if Impostors win, and you do not meet your quota of \%amount\% by the end of the game.</string>
   <!-- Diseased -->
   <!-- Diseased Wiki / Description -->
   <string name="TouModifierDiseased">Diseased</string>
