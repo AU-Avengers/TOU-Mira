@@ -27,7 +27,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
         get
         {
             var showProtect = OptionGroupSingleton<FairyOptions>.Instance.ShowProtect;
-            return !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value ||
+            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
                    !OptionGroupSingleton<FairyOptions>.Instance.FairyTargetKnows ||
                    showProtect is ProtectOptions.Fairy;
         }

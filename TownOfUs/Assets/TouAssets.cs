@@ -299,7 +299,7 @@ public static class TouAssets
         get
         {
             var sprite = ArrowBasicSprite;
-            switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ArrowStyleEnum.Value)
+            switch (LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ArrowStyleEnum.Value)
             {
                 case ArrowStyleType.DarkGlow:
                     sprite = ArrowDarkOutSprite;

@@ -1,4 +1,5 @@
-﻿using MiraAPI.Hud;
+﻿using BepInEx.Configuration;
+using MiraAPI.Hud;
 
 namespace TownOfUs.Modules;
 
@@ -8,11 +9,13 @@ namespace TownOfUs.Modules;
 /// </summary>
 public static class FreeplayButtonsVisibility
 {
-    public static bool Hidden { get; private set; }
+    public static ConfigEntry<bool> PracticeModeToggle =>
+        LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowPracticeButtons;
+    public static bool Hidden => !PracticeModeToggle.Value;
 
     public static void Toggle()
     {
-        Hidden = !Hidden;
+        PracticeModeToggle.Value = !PracticeModeToggle.Value;
         Apply();
     }
 
@@ -38,7 +41,7 @@ public static class FreeplayButtonsVisibility
 
             try
             {
-                button.SetActive(!Hidden, role);
+                button.SetActive(PracticeModeToggle.Value, role);
             }
             catch
             {

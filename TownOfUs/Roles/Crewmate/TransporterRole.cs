@@ -261,7 +261,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 

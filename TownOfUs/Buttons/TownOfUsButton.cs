@@ -129,7 +129,7 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
 
         PassiveComp = Button.GetComponent<PassiveButton>();
     }
@@ -145,7 +145,7 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     public override bool CanUse()
@@ -212,7 +212,7 @@ public abstract class TownOfUsButton : CustomActionButton
                 }
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
@@ -382,7 +382,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
 
         PassiveComp = Button.GetComponent<PassiveButton>();
     }
@@ -398,7 +398,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     public override void ClickHandler()
@@ -420,7 +420,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
                     }
                 }
 
-                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
                     .UseCrewmateTeamColorToggle.Value;
             }
 

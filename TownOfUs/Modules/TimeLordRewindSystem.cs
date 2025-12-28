@@ -2,7 +2,6 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities;
 using Reactor.Utilities;
 using System.Reflection;
 using TownOfUs.Buttons;
@@ -2242,7 +2241,7 @@ return true;*/
             : string.Empty;
 
         ReviveUtilities.RevivePlayer(
-            reviver: timeLord,
+            reviver: timeLord!,
             revived: revived,
             position: pos,
             roleWhenAlive: roleWhenAlive,

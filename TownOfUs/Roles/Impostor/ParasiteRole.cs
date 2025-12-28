@@ -160,7 +160,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (Player.HasDied() && OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies)
         {
             RpcParasiteEndControl(PlayerControl.LocalPlayer, Controlled);
-            return;
         }
     }
 
@@ -300,7 +299,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        var locSetting = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ParasitePiPLocation.Value;
+        var locSetting = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ParasitePiPLocation.Value;
         var sizeMultiplier = ParasitePiPUtilities.GetScaleMultiplier();
 
         ParasitePiPLocation location;

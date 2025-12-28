@@ -18,7 +18,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.FirstRoundShield;
 
     public override bool HideOnUi =>
-        !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value;
+        !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value;
 
     public override Color FreeplayFileColor => new Color32(100, 220, 100, 255);
 

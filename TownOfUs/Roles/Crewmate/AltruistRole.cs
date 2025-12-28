@@ -4,7 +4,6 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -172,7 +171,6 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         if (!MeetingHud.Instance && (!Player.HasDied() || killOnStart))
         {
-            var reviveFlashColor = new Color(0f, 0.5f, 0f, 1f);
             var revivedText = TouLocale.GetParsed("TouRoleAltruistRevivedNotif");
             var successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif")
                 .Replace("<player>", dead.Data.PlayerName);
