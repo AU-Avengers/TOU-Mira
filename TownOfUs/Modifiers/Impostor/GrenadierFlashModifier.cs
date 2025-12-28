@@ -32,7 +32,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
 
     public static void SetColor()
     {
-        var colorType = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.GrenadierFlashColor.Value;
+        var colorType = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.GrenadierFlashColor.Value;
         switch (colorType)
         {
             case GrenadeFlashColor.DarkGray:

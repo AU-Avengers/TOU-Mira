@@ -12,10 +12,11 @@
   <string name="ShowVents">Show Vents On Map</string>
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
   <string name="ShowSummaryMessage">Show Summary Msg</string>
+  <string name="ShowPracticeButtons">Show Practice Buttons</string>
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
-  <string name="UseMultiChatSetup">Use Multi-Chat Setup</string>
+  <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
   <string name="SortGuessingByAlignment">Sort Guessing By Alignment</string>

@@ -6,7 +6,7 @@ namespace TownOfUs;
 public static class TownOfUsColors
 {
     public static bool UseBasic { get; set; } =
-        LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+        LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
 
     public static Color Crewmate => Palette.CrewmateRoleBlue;
     public static Color Impostor => Palette.ImpostorRed;

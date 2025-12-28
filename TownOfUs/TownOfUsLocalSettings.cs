@@ -65,14 +65,6 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
             touRole.OffsetButtons();
         }
-        else if ((configEntry == ParasitePiPLocation || configEntry == ParasitePiPSize) &&
-                 PlayerControl.LocalPlayer != null &&
-                 PlayerControl.LocalPlayer.Data?.Role is Roles.Impostor.ParasiteRole parasiteRole)
-        {
-            // Apply PiP changes to the Parasite (controller) side.
-            parasiteRole.MarkPiPSettingsDirty(resetManualThisSession: true);
-            parasiteRole.TickPiP();
-        }
     }
 
     public override LocalSettingTabAppearance TabAppearance => new()
@@ -87,16 +79,8 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Gameplay", "ShowVents", true);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> SortGuessingByAlignmentToggle { get; private set; } =
-        config.Bind("Gameplay", "SortGuessingByAlignment", false);
-
-    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
-        config.Bind("Gameplay", "PreciseCooldowns", false);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } =
-        config.Bind("UI/Visuals", "ShowShieldHud", true);
+        config.Bind("UI/Visuals", "PreciseCooldowns", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
@@ -112,16 +96,8 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         config.Bind("UI/Visuals", "ColorPlayerName", false);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> UseCrewmateTeamColorToggle { get; private set; } =
-        config.Bind("UI/Visuals", "UseCrewmateTeamColor", false);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> UseMultiChatSetup { get; private set; } =
-        config.Bind("UI/Visuals", "UseMultiChatSetup", true);
-
-    [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
-    public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =
-        config.Bind("UI/Visuals", "ArrowStyle", ArrowStyleType.Default);
+    public ConfigEntry<bool> UseSeparateRedChat { get; private set; } =
+        config.Bind("UI/Visuals", "UseSeparateRedChat", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowWelcomeMessageToggle { get; private set; } =
@@ -135,33 +111,9 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
         config.Bind("Miscellaneous", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
 
-    [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
-    public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
-        config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
-
-    [LocalizedLocalEnumSetting(names: ["PiPLocationTopLeft", "PiPLocationMiddleLeft", "PiPLocationBottomLeft", "PiPLocationTopRight", "PiPLocationMiddleRight", "PiPLocationBottomRight", "PiPLocationDynamic"])]
-    public ConfigEntry<ParasitePiPLocation> ParasitePiPLocation { get; private set; } =
-        config.Bind("UI/Visuals", "ParasitePiPLocation", TownOfUs.ParasitePiPLocation.Dynamic);
-
-    [LocalizedLocalEnumSetting(names: ["PiPSizeNormal", "PiPSizeSmall", "PiPSizeLarge"])]
-    public ConfigEntry<ParasitePiPSize> ParasitePiPSize { get; private set; } =
-        config.Bind("UI/Visuals", "ParasitePiPSize", TownOfUs.ParasitePiPSize.Normal);
-}
-
-public enum ArrowStyleType
-{
-    Default,
-    DarkGlow,
-    ColorGlow,
-    Legacy
-}
-
-public enum GrenadeFlashColor
-{
-    White,
-    LightGray,
-    Gray,
-    DarkGray
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
+        config.Bind("Miscellaneous", "ShowPracticeButtons", true);
 }
 
 public enum GameSummaryAppearance
@@ -169,22 +121,4 @@ public enum GameSummaryAppearance
     Simplified,
     Normal,
     Advanced
-}
-
-public enum ParasitePiPLocation
-{
-    TopLeft,
-    MiddleLeft,
-    BottomLeft,
-    TopRight,
-    MiddleRight,
-    BottomRight,
-    Dynamic
-}
-
-public enum ParasitePiPSize
-{
-    Normal,
-    Small,
-    Large
 }

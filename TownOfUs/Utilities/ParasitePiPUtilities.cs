@@ -75,7 +75,7 @@ public static class ParasitePiPUtilities
     /// </summary>
     public static ParasitePiPLocation GetEffectiveLocation()
     {
-        var setting = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ParasitePiPLocation.Value;
+        var setting = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ParasitePiPLocation.Value;
         return setting == ParasitePiPLocation.Dynamic ? GetDynamicLocation() : setting;
     }
 
@@ -142,7 +142,7 @@ public static class ParasitePiPUtilities
     /// </summary>
     public static float GetScaleMultiplier()
     {
-        var size = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ParasitePiPSize.Value;
+        var size = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ParasitePiPSize.Value;
         return size switch
         {
             ParasitePiPSize.Small => 0.85f,
