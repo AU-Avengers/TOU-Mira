@@ -189,6 +189,10 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance.SetActive(true, role);
             role.CreateNotification();
         }
+        else if (target.AmOwner && OptionGroupSingleton<PuppeteerOptions>.Instance.VictimSeesControlDirection.Value > 0)
+        {
+            puppeteer.AddModifier<PuppeteerHintArrowModifier>(PlayerControl.LocalPlayer);
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.PuppeteerEndControl)]
@@ -217,12 +221,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
 
         role.ClearNotifications();
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.PuppeteerMoveControlled, LocalHandling = Reactor.Networking.Rpc.RpcLocalHandling.Before)]
-    public static void RpcPuppeteerMoveControlled(PlayerControl sender, byte controlledId, float x, float y)
-    {
-        PuppeteerControlState.SetDirection(controlledId, new Vector2(x, y));
     }
 
     public void LobbyStart()

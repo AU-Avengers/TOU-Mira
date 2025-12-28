@@ -700,12 +700,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         role.ClearNotifications();
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ParasiteMoveControlled, LocalHandling = Reactor.Networking.Rpc.RpcLocalHandling.Before)]
-    public static void RpcParasiteMoveControlled(PlayerControl sender, byte controlledId, float x, float y)
-    {
-        ParasiteControlState.SetDirection(controlledId, new Vector2(x, y));
-    }
-
     public void LobbyStart()
     {
         ParasiteControlState.ClearAll();

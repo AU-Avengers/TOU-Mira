@@ -1518,7 +1518,7 @@
   <!-- Puppeteer Options -->
   <string name="TouOptionPuppeteerControlUses">Initial Control Uses</string>
   <string name="TouOptionPuppeteerControlPerKill">Kills Required For Additional Control Use</string>
-  <string name="TouOptionPuppeteerVictimSeesControlDirection">Victim Sees Puppeteer's Location</string>
+  <string name="TouOptionPuppeteerVictimSeesControlDirection">Puppeteer Location Hint Duration (For Victim)</string>
   <string name="TouOptionPuppeteerControlCooldown">Control Cooldown</string>
   <string name="TouOptionPuppeteerControlDuration">Control Duration</string>
   <string name="TouOptionPuppeteerCanVent">Puppeteer Can Vent</string>
