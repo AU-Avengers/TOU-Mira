@@ -1669,10 +1669,10 @@
   <string name="TouOptionBetterMiraHqVentModeEnumFourGroups">四组管道互通</string>
   <string name="TouOptionBetterPolusDoorType">Polus 的门类型</string>
   <string name="TouOptionBetterPolusVentNetwork">优化Polus通风网络</string>
-  <string name="TouOptionBetterPolusVitalsInLab">Polus：生命体征移至实验室</string>
-  <string name="TouOptionBetterPolusTempInDeathValley">Polus：低温移至死亡谷</string>
-  <string name="TouOptionBetterPolusSwapWikiAndChart">Polus：重启WiFi与航线任务互换</string>
-  <string name="TouOptionBetterPolusMoveToiletVent">Polus：将卫生间通风口移出隔间</string>
+  <string name="TouOptionBetterPolusVitalsInLab">Polus: 生命体征移至实验室</string>
+  <string name="TouOptionBetterPolusTempInDeathValley">Polus: 记录温度任务移至死亡谷</string>
+  <string name="TouOptionBetterPolusSwapWikiAndChart">Polus: 重启WiFi与标出航线任务互换</string>
+  <string name="TouOptionBetterPolusMoveToiletVent">Polus: 卫生间通风口移出隔间</string>
   <string name="TouOptionBetterAirshipDoorType">Airship 的门类型</string>
   <string name="TouOptionBetterAirshipSpawnMode">出生点模式</string>
   <string name="TouOptionBetterAirshipSpawnEnumNormal">正常</string>
