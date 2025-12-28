@@ -343,7 +343,7 @@ public static class TownOfUsEventHandlers
             HudManager.Instance.SetHudActive(true);
         }
         CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable =
-            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
+            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
 
         CustomButtonSingleton<WatchButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance
@@ -355,7 +355,9 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
             .MaxTraps);
         CustomButtonSingleton<SheriffShootButton>.Instance.Usable =
-            OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse;
+            OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
+        CustomButtonSingleton<MonarchKnightButton>.Instance.Usable =
+            OptionGroupSingleton<MonarchOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
         CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<VeteranAlertButton>.Instance.SetUses((int)OptionGroupSingleton<VeteranOptions>.Instance
             .MaxNumAlerts);

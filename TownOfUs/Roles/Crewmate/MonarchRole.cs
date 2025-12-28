@@ -1,6 +1,7 @@
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -10,6 +11,7 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 using MiraAPI.Patches.Stubs;
+using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -129,6 +131,11 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             var notif = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: icon);
             notif.Text.SetOutlineThickness(0.35f);
         }
+    }
+
+    public static void OnRoundStart()
+    {
+        CustomButtonSingleton<MonarchKnightButton>.Instance.Usable = true;
     }
 
 }

@@ -17,10 +17,13 @@ public sealed class MonarchOptions : AbstractOptionGroup<MonarchRole>
     [ModdedNumberOption("Votes Per Knight", 1f, 5f, 1f, MiraNumberSuffixes.None, "0")]
     public float VotesPerKnight { get; set; } = 1f;
 
-    [ModdedToggleOption("Allow Knighted Self Votes")]
+    [ModdedToggleOption("Extra Votes Apply On Self")]
     public bool AllowSelfVotes { get; set; } = false;
     [ModdedNumberOption("Knight Delay", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
     public float KnightDelay { get; set; } = 3f;
+
+    [ModdedToggleOption("Allow Round One Knighting")]
+    public bool FirstRoundUse { get; set; } = false;
     [ModdedToggleOption("Inform Monarch If a Knight Dies")]
     public bool InformWhenKnightDies { get; set; } = true;
 

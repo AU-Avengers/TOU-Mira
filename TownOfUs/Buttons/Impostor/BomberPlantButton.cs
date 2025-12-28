@@ -15,6 +15,7 @@ public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAft
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
     public override float EffectDuration => OptionGroupSingleton<BomberOptions>.Instance.DetonateDelay;
     public override int MaxUses => (int)OptionGroupSingleton<BomberOptions>.Instance.MaxBombs;
+    public override bool ZeroIsInfinite => true;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.PlaceSprite;
 
     public bool Usable { get; set; } = OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound ||

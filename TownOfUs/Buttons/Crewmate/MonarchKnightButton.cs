@@ -19,6 +19,14 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.KnightSprite;
     public PlayerControl? _knightedTarget;
 
+    public bool Usable { get; set; } =
+        OptionGroupSingleton<MonarchOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
+
+    public override bool CanUse()
+    {
+        return base.CanUse() && Usable;
+    }
+
     public override PlayerControl? GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
