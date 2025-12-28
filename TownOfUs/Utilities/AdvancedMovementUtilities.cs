@@ -10,6 +10,9 @@ namespace TownOfUs.Utilities;
 /// </summary>
 public static class AdvancedMovementUtilities
 {
+    private static int _controlledMovementDepth;
+    public static bool IsApplyingControlledMovement => _controlledMovementDepth > 0;
+
     // Check Parasite's implementation of this to see how the joystick should be added in.
     public static VirtualJoystick MobileJoystickR { get; set; }
 
@@ -295,23 +298,31 @@ public static class AdvancedMovementUtilities
             return;
         }
 
-        physics.HandleAnimation(physics.myPlayer.Data.IsDead);
-
-        if (stopIfZero && direction == Vector2.zero)
+        _controlledMovementDepth++;
+        try
         {
-            physics.SetNormalizedVelocity(Vector2.zero);
-            if (physics.body != null)
+            physics.HandleAnimation(physics.myPlayer.Data.IsDead);
+
+            if (stopIfZero && direction == Vector2.zero)
+            {
+                physics.SetNormalizedVelocity(Vector2.zero);
+                if (physics.body != null)
+                {
+                    physics.body.velocity = Vector2.zero;
+                }
+                return;
+            }
+
+            physics.SetNormalizedVelocity(direction);
+
+            if (direction == Vector2.zero && physics.body != null)
             {
                 physics.body.velocity = Vector2.zero;
             }
-            return;
         }
-
-        physics.SetNormalizedVelocity(direction);
-
-        if (direction == Vector2.zero && physics.body != null)
+        finally
         {
-            physics.body.velocity = Vector2.zero;
+            _controlledMovementDepth = Mathf.Max(0, _controlledMovementDepth - 1);
         }
     }
 }

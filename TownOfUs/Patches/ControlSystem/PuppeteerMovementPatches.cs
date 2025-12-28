@@ -16,6 +16,42 @@ public static class PuppeteerMovementPatches
 {
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
+    private const float DirectionChangeEpsilonSqr = 0.0004f * 0.0004f;
+    private const float DirectionKeepAliveSeconds = 0.25f;
+    private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
+    private static readonly Dictionary<byte, float> _lastSentAt = new();
+
+    private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir)
+    {
+        if (PlayerControl.LocalPlayer == null)
+        {
+            return;
+        }
+
+        var now = Time.time;
+        var shouldSend = true;
+
+        if (_lastSentDir.TryGetValue(controlledId, out var lastDir) &&
+            _lastSentAt.TryGetValue(controlledId, out var lastAt))
+        {
+            var changed = (dir - lastDir).sqrMagnitude > DirectionChangeEpsilonSqr;
+            var keepAliveDue = (now - lastAt) >= DirectionKeepAliveSeconds;
+            shouldSend = changed || keepAliveDue;
+        }
+
+        if (!shouldSend)
+        {
+            return;
+        }
+
+        _lastSentDir[controlledId] = dir;
+        _lastSentAt[controlledId] = now;
+
+        Rpc<PuppeteerInputUnreliableRpc>.Instance.Send(
+            PlayerControl.LocalPlayer,
+            new PuppeteerInputPacket(controlledId, dir));
+    }
+
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
     [HarmonyPrefix]
     public static bool PlayerPhysicsFixedUpdatePrefix(PlayerPhysics __instance)
@@ -37,6 +73,7 @@ public static class PuppeteerMovementPatches
                 return true;
             }
         }
+
 
         if (player == PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer != null &&
@@ -68,11 +105,7 @@ public static class PuppeteerMovementPatches
             var dir = GetNormalDirection();
 
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir);
-
-            var vel = dir * __instance.TrueSpeed;
-            var pos = __instance.body != null ? __instance.body.position : (Vector2)player.transform.position;
-            Rpc<PuppeteerMoveUnreliableRpc>.Instance.Send(PlayerControl.LocalPlayer,
-                new PuppeteerMovePacket(player.PlayerId, pos, vel));
+            SendControlledInputIfNeeded(player.PlayerId, dir);
 
             return false;
         }
@@ -109,7 +142,7 @@ public static class PuppeteerMovementPatches
 
         if (player.AmOwner && PuppeteerControlState.IsControlled(player.PlayerId, out _))
         {
-            return false;
+            direction = PuppeteerControlState.GetDirection(player.PlayerId);
         }
 
         return true;

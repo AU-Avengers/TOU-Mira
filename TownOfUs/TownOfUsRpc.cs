@@ -108,6 +108,6 @@ public enum TownOfUsRpc : uint
 internal enum TownOfUsInternalRpc : uint
 {
     SendClientModInfo,
-    ParasiteMoveUnreliable,
-    PuppeteerMoveUnreliable,
+    ParasiteInputUnreliable,
+    PuppeteerInputUnreliable,
 }
