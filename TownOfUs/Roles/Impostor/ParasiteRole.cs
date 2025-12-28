@@ -159,7 +159,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (Player.HasDied() && OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies)
         {
             RpcParasiteEndControl(PlayerControl.LocalPlayer, Controlled);
-            return;
         }
     }
 

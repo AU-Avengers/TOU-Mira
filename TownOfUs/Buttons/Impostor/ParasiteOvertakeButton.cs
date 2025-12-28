@@ -96,7 +96,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
         if (pr.Controlled != null)
         {
-            if (!CanUseWhileControlling(pr))
+            if (!CanUseWhileControlling())
             {
                 return false;
             }
@@ -125,7 +125,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         return base.CanClick();
     }
 
-    private static bool CanUseWhileControlling(ParasiteRole pr)
+    private static bool CanUseWhileControlling()
     {
         if (PlayerControl.LocalPlayer == null)
         {
@@ -382,7 +382,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
         try
         {
-            if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole pr)
+            if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole)
             {
                 return;
             }
