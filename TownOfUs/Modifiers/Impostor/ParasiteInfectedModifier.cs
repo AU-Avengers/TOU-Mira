@@ -3,6 +3,7 @@ using MiraAPI.Utilities;
 using TMPro;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
+using TownOfUs.Utilities.ControlSystem;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -169,20 +170,17 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
         if (_controlledNotification == null)
         {
-            var controlledText = TouLocale.GetParsed("TouRoleParasiteControlledNotif", "You are being controlled by a Parasite!");
-            _controlledNotification = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Impostor.ToTextColor()}{controlledText}</color></b>",
-                Color.white, new Vector3(0f, 2f, -20f), spr: TouRoleIcons.Parasite.LoadAsset());
+            var controllerName = Controller?.Data?.Role is Roles.ITownOfUsRole touRole ? touRole.RoleName : "Parasite";
+            _controlledNotification = ControlledFeedbackUtilities.ShowControlledByNotification(
+                controllerName,
+                TownOfUsColors.Impostor,
+                TouRoleIcons.Parasite.LoadAsset());
             _controlledNotification?.AdjustNotification();
         }
     }
 
     private void ClearNotification()
     {
-        if (_controlledNotification != null && _controlledNotification.gameObject != null)
-        {
-            UnityEngine.GameObject.Destroy(_controlledNotification);
-            _controlledNotification = null;
-        }
+        ControlledFeedbackUtilities.ClearNotification(ref _controlledNotification);
     }
 }

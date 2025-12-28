@@ -44,6 +44,7 @@
   <string name="PiPLocationBottomRight">Bottom Right</string>
   <string name="PiPLocationDynamic">Dynamic</string>
   <string name="ParasitePiPSize">Parasite Picture-in-Picture Size</string>
+  <string name="TouControlControlledNotif">You are being controlled by a &lt;controller&gt;!</string>
   <string name="PiPSizeNormal">Normal</string>
   <string name="PiPSizeSmall">Small</string>
   <string name="PiPSizeLarge">Large</string>
