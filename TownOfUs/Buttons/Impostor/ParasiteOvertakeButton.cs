@@ -4,7 +4,10 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Globalization;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options;
@@ -29,6 +32,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
     public override string Name => _infectName;
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
+    public override float EffectDuration => OptionGroupSingleton<ParasiteOptions>.Instance.ControlDuration;
     public override float Cooldown =>
         Math.Clamp(OptionGroupSingleton<ParasiteOptions>.Instance.InfectCooldown + MapCooldown + GetKillCooldownDelta(), 5f, 120f);
     public override float InitialCooldown =>
@@ -92,6 +96,11 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
         if (pr.Controlled != null)
         {
+            if (!CanUseWhileControlling(pr))
+            {
+                return false;
+            }
+
             if (pr.Controlled.Data == null ||
                 pr.Controlled.HasDied() ||
                 pr.Controlled.Data.Disconnected ||
@@ -100,10 +109,52 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, pr.Controlled);
                 return false;
             }
-            return base.CanUse();
+            return true;
         }
 
         return base.CanUse() && Target != null && Timer <= 0;
+    }
+
+    public override bool CanClick()
+    {
+        if (PlayerControl.LocalPlayer?.Data?.Role is ParasiteRole pr && pr.Controlled != null)
+        {
+            return CanUse();
+        }
+
+        return base.CanClick();
+    }
+
+    private static bool CanUseWhileControlling(ParasiteRole pr)
+    {
+        if (PlayerControl.LocalPlayer == null)
+        {
+            return false;
+        }
+
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return false;
+        }
+
+        if (MeetingHud.Instance || HudManager.Instance.Chat.IsOpenOrOpening)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasDied())
+        {
+            return false;
+        }
+
+        // Respect ability blocks (Glitch hack / disabled modifiers).
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
+            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public override PlayerControl? GetTarget()
@@ -172,7 +223,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             {
                 OverrideName(_killName);
 
-                var remaining = Mathf.Max(0f, pr.ControlTimer);
+                var remaining = Mathf.Max(0f, EffectActive ? Timer : duration);
                 UpdateAutoDecayCountdownVisual(remaining);
 
             }
@@ -199,6 +250,42 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         }
 
         base.FixedUpdate(playerControl);
+    }
+
+    public void StartControlEffectIfEnabled()
+    {
+        var duration = OptionGroupSingleton<ParasiteOptions>.Instance.ControlDuration;
+        if (duration <= 0f)
+        {
+            EffectActive = false;
+            return;
+        }
+
+        EffectActive = true;
+        Timer = duration;
+    }
+
+    public void StopControlEffectAndApplyCooldown()
+    {
+        var wasEffectActive = EffectActive;
+        EffectActive = false;
+
+        if (wasEffectActive)
+        {
+            SetTimer(Cooldown);
+        }
+        else
+        {
+            SetTimer(Mathf.Max(Timer, Cooldown));
+        }
+    }
+
+    public override void OnEffectEnd()
+    {
+        if (PlayerControl.LocalPlayer?.Data?.Role is ParasiteRole pr && pr.Controlled != null)
+        {
+            pr.KillControlledFromTimer();
+        }
     }
 
     private void UpdateAutoDecayCountdownVisual(float remainingSeconds)
@@ -307,11 +394,6 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
             OnClick();
             Button?.SetDisabled();
-
-            if (pr.Controlled == null)
-            {
-                Timer = Mathf.Max(Timer, Cooldown);
-            }
         }
         finally
         {

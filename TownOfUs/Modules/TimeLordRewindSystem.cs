@@ -135,6 +135,9 @@ public static class TimeLordRewindSystem
     private static readonly Dictionary<CustomActionButton, ButtonCooldownSeries> KillButtonCooldownHistory =
         new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
+    private static readonly HashSet<CustomActionButton> KillButtonCooldownMaxClampedThisRewind =
+        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
+
     private sealed class ScheduledBodyPos
     {
         public byte BodyId { get; }
@@ -197,6 +200,11 @@ public static class TimeLordRewindSystem
     public static float RewindEndTime { get; private set; }
     public static float RewindDuration { get; private set; }
 
+    // If a rewind ever crosses a point where kill would become usable (timer <= ~0),
+    // clamp kill cooldown to max for the remainder of that rewind. This prevents
+    // "killing during rewind" exploits where the timeline passes through ready state.
+    internal static bool LocalKillCooldownMaxClampedThisRewind { get; set; }
+
     private static void LogBodyRestore(string msg)
     {
         var full = $"[TimeLordBodies] {msg}";
@@ -231,6 +239,7 @@ public static class TimeLordRewindSystem
         SourceTimeLordId = byte.MaxValue;
         RewindEndTime = 0f;
         RewindDuration = 0f;
+        LocalKillCooldownMaxClampedThisRewind = false;
 
         _colliderWasEnabled = false;
         _rewindDisabledLocalCollider = false;
@@ -265,6 +274,7 @@ public static class TimeLordRewindSystem
         _lastKillLikeButtonsRefreshTime = 0f;
         CachedKillLikeButtons.Clear();
         KillButtonCooldownHistory.Clear();
+        KillButtonCooldownMaxClampedThisRewind.Clear();
 
         if (TutorialManager.InstanceExists)
         {
@@ -810,22 +820,32 @@ public static class TimeLordRewindSystem
             var sample = samples[idx];
             var restoredTimer = sample.Timer;
             
-            // Prevent insta-killing after rewind
-            var wasOnCooldown = false;
-            if (restoredTimer <= 0f || restoredTimer < 0.1f)
+            // Prevent insta-killing after rewind (persistent clamp, cooldown-mode only).
+            // Only clamp when the button is NOT in its effect state, because effect timers are not "cooldowns".
+            if (!sample.EffectActive)
             {
-                for (var j = idx - 1; j >= start; j--)
-                {
-                    if (samples[j].Timer > 0.1f)
-                    {
-                        wasOnCooldown = true;
-                        break;
-                    }
-                }
-                
-                if (wasOnCooldown)
+                if (KillButtonCooldownMaxClampedThisRewind.Contains(button))
                 {
                     restoredTimer = button.Cooldown;
+                }
+                else if (restoredTimer <= 0f || restoredTimer < 0.1f)
+                {
+                    var wasOnCooldown = false;
+                    for (var j = idx - 1; j >= start; j--)
+                    {
+                        // Only consider cooldown-mode samples for "was on cooldown".
+                        if (!samples[j].EffectActive && samples[j].Timer > 0.1f)
+                        {
+                            wasOnCooldown = true;
+                            break;
+                        }
+                    }
+
+                    if (wasOnCooldown)
+                    {
+                        KillButtonCooldownMaxClampedThisRewind.Add(button);
+                        restoredTimer = button.Cooldown;
+                    }
                 }
             }
             
@@ -938,6 +958,8 @@ public static class TimeLordRewindSystem
         RewindDuration = duration;
         RewindEndTime = Time.time + duration;
         IsRewinding = true;
+        LocalKillCooldownMaxClampedThisRewind = false;
+        KillButtonCooldownMaxClampedThisRewind.Clear();
         _rewindStartTime = Time.time;
         _hasFinalSnapPos = false;
         _popAccumulator = 0f;
@@ -1551,10 +1573,8 @@ public static class TimeLordRewindSystem
         }
         AdvancedMovementUtilities.ApplyRewindMovement(physics, snap.Pos, curPos, isLadder);
 
-        // Restore kill cooldown based on snapshot time
         RestoreKillCooldownForSnapshot(lp, snap.Time);
 
-        // Restore custom kill-button timers (Warlock/Glitch/etc) based on snapshot time
         RestoreKillButtonCooldownsForSnapshotTime(lp.Data.Role, snap.Time);
 
         if (ModCompatibility.IsSubmerged())
@@ -1617,6 +1637,8 @@ return true;*/
         SourceTimeLordId = byte.MaxValue;
         RewindEndTime = 0f;
         RewindDuration = 0f;
+        LocalKillCooldownMaxClampedThisRewind = false;
+        KillButtonCooldownMaxClampedThisRewind.Clear();
         _hostRevives = null;
         _popsPerTick = 0f;
         _popAccumulator = 0f;
@@ -1795,6 +1817,7 @@ return true;*/
         _finalSnapVentId = -1;
         _lastRewindAnim = SpecialAnim.None;
         TaskBuffer.Clear();
+        KillButtonCooldownMaxClampedThisRewind.Clear();
 
         var lp = PlayerControl.LocalPlayer;
         if (!lp)
@@ -1958,9 +1981,14 @@ return true;*/
             
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
             
-            // Prevent insta-killing after rewind
-            if ((expectedCooldown <= 0f || expectedCooldown < 0.1f) && 
+            if (!LocalKillCooldownMaxClampedThisRewind &&
+                (expectedCooldown <= 0f || expectedCooldown < 0.1f) &&
                 mostRecentEvent.CooldownAfter > 0.1f)
+            {
+                LocalKillCooldownMaxClampedThisRewind = true;
+            }
+
+            if (LocalKillCooldownMaxClampedThisRewind)
             {
                 expectedCooldown = maxKillCooldown;
             }
@@ -2193,8 +2221,6 @@ return true;*/
 
         var roleWhenAlive = revived.GetRoleWhenAlive();
 
-        GameHistory.ClearMurder(revived);
-
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == revived.PlayerId);
         if (fakePlayer != null)
         {
@@ -2208,59 +2234,24 @@ return true;*/
         {
             pos = new Vector2(body.TruePosition.x, body.TruePosition.y + 0.3636f);
         }
+        
+        var timeLord = SourceTimeLordId != byte.MaxValue ? MiscUtils.PlayerById(SourceTimeLordId) : null;
+        var revivedText = TouLocale.GetParsed("TouRoleTimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
+        var successText = timeLord != null && revived.Data != null
+            ? TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif").Replace("<player>", revived.Data.PlayerName)
+            : string.Empty;
 
-        // Set position before Revive() so the PlayerReviveEvent handler can sync physics correctly
-        revived.transform.position = pos;
-        revived.Revive();
+        ReviveUtilities.RevivePlayer(
+            reviver: timeLord,
+            revived: revived,
+            position: pos,
+            roleWhenAlive: roleWhenAlive,
+            flashColor: TownOfUsColors.TimeLord,
+            revivedOwnerNotificationText: revivedText,
+            reviverOwnerNotificationText: successText,
+            notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
 
-        // Swap off any ghost-role state ASAP; ghost-role patches can disable colliders during ResetMoveState.
-        if (roleWhenAlive != null)
-        {
-            revived.ChangeRole((ushort)roleWhenAlive.Role, false);
-        }
-
-        // Force collision/physics back into a living state (Time Lord revive can happen mid-rewind,
-        // where collider state caching/restoration differs from normal revives).
-        if (revived.Collider != null)
-        {
-            revived.Collider.enabled = true;
-            revived.Collider.isTrigger = false;
-        }
-        if (revived.MyPhysics?.body != null)
-        {
-            revived.MyPhysics.body.position = pos;
-        }
-        Physics2D.SyncTransforms();
-
-        revived.NetTransform.SnapTo(pos);
-        if (revived.AmOwner)
-        {
-            revived.NetTransform.RpcSnapTo(pos);
-            var reviveFlashColor = new Color(0f, 0.5f, 0f, 1f);
-
-            try
-            {
-                TouAudio.PlaySound(TouAudio.AltruistReviveSound);
-                Coroutines.Start(MiscUtils.CoFlash(reviveFlashColor));
-                var notif = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.TimeLord.ToTextColor()}{TouLocale.GetParsed("TouRoleTimeLordRevivedNotif", "You were revived thanks to the Time Lord!")}</color></b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.TimeLord.LoadAsset());
-                notif.AdjustNotification();
-            }
-            catch
-            {
-               // ignored
-            }
-        }
-
-        // If roleWhenAlive was null above, preserve existing behavior (no role change).
-        // Re-assert collision state after snaps, to protect against other patches toggling collider.
-        if (revived.Collider != null && revived.Data != null && !revived.Data.IsDead)
-        {
-            revived.Collider.enabled = true;
-            revived.Collider.isTrigger = false;
-        }
-
+        // Extra Time Lord-specific cleanup/comfort: ensure we don't leave the revived player stuck.
         if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.PlayerId == PlayerControl.LocalPlayer.PlayerId)
         {
             TryUnstuckLocalPlayer(revived);
@@ -2269,16 +2260,6 @@ return true;*/
         if (!revived.AmOwner && !string.IsNullOrEmpty(revived.CurrentOutfit.PetId))
         {
             Coroutines.Start(CoRefreshPetState(revived));
-        }
-
-        if (body != null)
-        {
-            Object.Destroy(body.gameObject);
-        }
-
-        if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.PlayerId == revived.PlayerId)
-        {
-            ModCompatibility.ChangeFloor(revived.transform.position.y > -7);
         }
     }
 }

@@ -19,7 +19,6 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
-    public float ControlTimer { get; set; }
 
     private Camera? parasiteCam;
     private GameObject? parasiteBorderObj;
@@ -161,28 +160,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         {
             RpcParasiteEndControl(PlayerControl.LocalPlayer, Controlled);
             return;
-        }
-
-        var duration = OptionGroupSingleton<ParasiteOptions>.Instance.ControlDuration;
-        if (duration > 0f)
-        {
-            if (ControlTimer > duration)
-            {
-                ControlTimer = duration;
-            }
-
-            ControlTimer -= Time.fixedDeltaTime;
-            if (HudManager.Instance.joystick != null &&
-                HudManager.Instance.joystick.TryCast<VirtualJoystick>() != null && AdvancedMovementUtilities.MobileJoystickR != null &&
-                OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently)
-            {
-                AdvancedMovementUtilities.MobileJoystickR.ToggleVisuals(true);
-            }
-
-            if (ControlTimer <= 0f)
-            {
-                PlayerControl.LocalPlayer.GetRole<ParasiteRole>()?.KillControlledFromTimer();
-            }
         }
     }
 
@@ -535,7 +512,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             StartSnapToNearestAnchor();
         }
     }
-    private void KillControlledFromTimer()
+    public void KillControlledFromTimer()
     {
         if (Controlled == null)
         {
@@ -605,7 +582,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     public void ClearControlLocal()
     {
         Controlled = null;
-        ControlTimer = 0f;
         _pipDragging = false;
         _pipSnapping = false;
         _pipManualMovedThisSession = false;
@@ -655,7 +631,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
 
         role.Controlled = target;
-        role.ControlTimer = OptionGroupSingleton<ParasiteOptions>.Instance.ControlDuration;
 
         ParasiteControlState.SetControl(target.PlayerId, parasite.PlayerId);
         if (!target.HasModifier<ParasiteInfectedModifier>())
@@ -671,7 +646,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         if (parasite.AmOwner)
         {
             role.EnsureCamera();
-            CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance.SetActive(true, role);
+            var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+            btn.SetActive(true, role);
+            btn.StartControlEffectIfEnabled();
             role.CreateNotification();
             AdvancedMovementUtilities.ResizeMobileJoystick();
         }
@@ -694,13 +671,18 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             }
         }
 
+        if (parasite != null && parasite.AmOwner && target != null && !target.AmOwner)
+        {
+            NetTransformBacklogUtils.FlushAndSnap(target);
+        }
+
         role.ClearControlLocal();
 
-        if (parasite.AmOwner)
+        if (parasite != null && parasite.AmOwner)
         {
             var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
             btn.SetActive(true, role);
-            btn.SetTimer(Mathf.Max(btn.Timer, btn.Cooldown));
+            btn.StopControlEffectAndApplyCooldown();
         }
 
         role.ClearNotifications();
