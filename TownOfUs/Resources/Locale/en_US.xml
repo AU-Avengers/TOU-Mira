@@ -1481,14 +1481,14 @@
   <string name="TouRoleParasiteDecay">Kill</string>
   <string name="TouRoleParasiteDecayWikiDescription">Kill your currently overtaken victim immediately.</string>
   <!-- Parasite Options -->
-  <string name="TouOptionParasiteInfectCooldown">Infect Cooldown</string>
+  <string name="TouOptionParasiteOvertakeCooldown">Overtake Cooldown</string>
   <string name="TouOptionParasiteOvertakeKillCooldown">Kill Cooldown</string>
   <string name="TouOptionParasiteControlDuration">Control Duration</string>
   <string name="TouOptionParasiteSaveVictimIfParasiteDies">Save Victim If Parasite Dies</string>
   <string name="TouOptionParasiteSaveVictimIfMeetingCalled">Save Victim If Meeting Called</string>
   <string name="TouOptionParasiteCanVent">Parasite Can Vent</string>
   <string name="TouOptionParasiteCanMoveIndependently">Parasite Can Move Independently</string>
-  <string name="TouOptionParasiteInfectedLooksLikeParasite">Infected Looks Like Parasite</string>
+  <string name="TouOptionParasiteOvertakenLooksLikeParasite">Overtaken Looks Like Parasite</string>
   <!-- Scavenger Wiki / Description -->
   <string name="TouRoleScavenger">Scavenger</string>
   <string name="TouRoleScavengerIntroBlurb">Hunt down your prey</string>

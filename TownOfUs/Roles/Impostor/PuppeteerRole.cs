@@ -39,6 +39,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        UseVanillaKillButton = false,
         Icon = TouRoleIcons.Puppeteer,
         MaxRoleCount = 1,
         CanUseVent = OptionGroupSingleton<PuppeteerOptions>.Instance.CanVent

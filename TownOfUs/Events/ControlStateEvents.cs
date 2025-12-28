@@ -53,6 +53,11 @@ public static class ControlStateEvents
                 return;
             }
 
+            if (!controlButton.EffectActive)
+            {
+                controlButton.ResetCooldownAndOrEffect();
+            }
+
             if (controlButton.LimitedUses &&
                 opt.ControlPerKills != 0 && opt.ControlPerKills <= ActiveControlKillCount)
             {
