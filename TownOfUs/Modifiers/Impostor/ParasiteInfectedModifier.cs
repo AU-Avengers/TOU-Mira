@@ -1,6 +1,6 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
 using TMPro;
+using TownOfUs.Interfaces;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using TownOfUs.Utilities.ControlSystem;
@@ -16,7 +16,7 @@ namespace TownOfUs.Modifiers.Impostor;
 /// - Forces their appearance to match the Parasite (visible to others).
 /// Movement/input suppression is handled by Harmony patches while this modifier is present.
 /// </summary>
-public sealed class ParasiteInfectedModifier(PlayerControl controller) : DisabledModifier, IVisualAppearance
+public sealed class ParasiteInfectedModifier(PlayerControl controller) : DisabledModifier, IVisualAppearance, IUncontrollable
 {
     public override string ModifierName => "Parasite Infected";
     public override bool HideOnUi => true;
@@ -81,7 +81,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
     public VisualAppearance? GetVisualAppearance()
     {
-        if (!OptionGroupSingleton<ParasiteOptions>.Instance.InfectedLooksLikeParasite)
+        if (!OptionGroupSingleton<ParasiteOptions>.Instance.OvertakenLooksLikeParasite)
         {
             return null;
         }
@@ -90,7 +90,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
     public override void OnActivate()
     {
-        if (OptionGroupSingleton<ParasiteOptions>.Instance.InfectedLooksLikeParasite)
+        if (OptionGroupSingleton<ParasiteOptions>.Instance.OvertakenLooksLikeParasite)
         {
             Player.RawSetAppearance(this);
         }

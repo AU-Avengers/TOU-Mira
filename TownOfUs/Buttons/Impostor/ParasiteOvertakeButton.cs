@@ -4,6 +4,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Globalization;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Neutral;
@@ -34,7 +35,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float EffectDuration => OptionGroupSingleton<ParasiteOptions>.Instance.ControlDuration;
     public override float Cooldown =>
-        Math.Clamp(OptionGroupSingleton<ParasiteOptions>.Instance.InfectCooldown + MapCooldown + GetKillCooldownDelta(), 5f, 120f);
+        Math.Clamp(OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeCooldown + MapCooldown + GetKillCooldownDelta(), 5f, 120f);
     public override float InitialCooldown =>
         PlayerControl.LocalPlayer != null ? PlayerControl.LocalPlayer.GetKillCooldown() : 10f;
     public override bool ZeroIsInfinite { get; set; } = true;
@@ -183,6 +184,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 plr != PlayerControl.LocalPlayer &&
                 !plr.HasDied() &&
                 !plr.IsImpostorAligned() &&
+                !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
                 !plr.HasModifier<TownOfUs.Modifiers.Impostor.ParasiteInfectedModifier>());
     }
 

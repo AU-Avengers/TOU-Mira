@@ -11,8 +11,8 @@ public sealed class ParasiteOptions : AbstractOptionGroup<ParasiteRole>
     public override string GroupName => TouLocale.Get("TouRoleParasite", "Parasite");
     public override Color GroupColor => Palette.ImpostorRoleRed;
 
-    [ModdedNumberOption("TouOptionParasiteInfectCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float InfectCooldown { get; set; } = 37.5f;
+    [ModdedNumberOption("TouOptionParasiteOvertakeCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
+    public float OvertakeCooldown { get; set; } = 37.5f;
 
     [ModdedNumberOption("TouOptionParasiteOvertakeKillCooldown", 0f, 5f, 0.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float OvertakeKillCooldown { get; set; } = 3f;
@@ -32,6 +32,6 @@ public sealed class ParasiteOptions : AbstractOptionGroup<ParasiteRole>
     [ModdedToggleOption("TouOptionParasiteCanMoveIndependently")]
     public bool CanMoveIndependently { get; set; } = true;
 
-    [ModdedToggleOption("TouOptionParasiteInfectedLooksLikeParasite")]
-    public bool InfectedLooksLikeParasite { get; set; } = true;
+    [ModdedToggleOption("TouOptionParasiteOvertakenLooksLikeParasite")]
+    public bool OvertakenLooksLikeParasite { get; set; } = true;
 }
