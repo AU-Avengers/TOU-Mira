@@ -1,6 +1,10 @@
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -24,16 +28,76 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
 
     public override bool CanUse()
     {
-        return base.CanUse() && Usable;
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasDied() && !Usable)
+        {
+            return false;
+        }
+
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (!PlayerControl.LocalPlayer.CanMove ||
+            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        var newTarget = GetTarget();
+        if (newTarget != Target)
+        {
+            SetOutline(false);
+        }
+
+        Target = IsTargetValid(newTarget) ? newTarget : null;
+        SetOutline(true);
+
+        return PlayerControl.LocalPlayer.moveable &&
+               (EffectActive || (!EffectActive && Target != null && (!LimitedUses || UsesLeft > 0)));
+    }
+
+    public override bool CanClick()
+    {
+        return CanUse();
+    }
+
+    public override void ClickHandler()
+    {
+        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
+            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return;
+        }
+
+        OnClick();
     }
 
     public override PlayerControl? GetTarget()
     {
-        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
+        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance, predicate: x => !x.HasModifier<KnightedModifier>());
     }
 
     protected override void OnClick()
     {
+        if (EffectActive)
+        {
+            var notif2 = Helpers.CreateAndShowNotification(
+                $"<b>Knighting has been cancelled.</b>",
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch.LoadAsset());
+            notif2.Text.SetOutlineThickness(0.35f);
+            _knightedTarget = null;
+            ResetCooldownAndOrEffect();
+            EffectActive = false;
+            Timer = 0.001f;
+            return;
+        }
+
         if (Target == null)
         {
             return;
@@ -42,21 +106,45 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
         OverrideName("Knighting");
 
         _knightedTarget = Target;
+        var notif = Helpers.CreateAndShowNotification(
+            $"<b>You chose to knight {_knightedTarget.CachedPlayerData.PlayerName}. They will be knighted in {OptionGroupSingleton<MonarchOptions>.Instance.KnightDelay} second(s)!</b>",
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch.LoadAsset());
+        notif.Text.SetOutlineThickness(0.35f);
 
-        if (PlayerControl.LocalPlayer.AmOwner)
+        if (HasEffect)
         {
-            var notif = Helpers.CreateAndShowNotification(
-                $"<b>You chose to knight {_knightedTarget.CachedPlayerData.PlayerName}. They will be knighted in {OptionGroupSingleton<MonarchOptions>.Instance.KnightDelay} second(s)!</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Monarch.LoadAsset());
-            notif.Text.SetOutlineThickness(0.35f);
+            EffectActive = true;
+            Timer = EffectDuration;
+        }
+        else
+        {
+            Timer = Cooldown;
         }
     }
 
-public override void OnEffectEnd()
+    public override void OnEffectEnd()
 {
     OverrideName("Knight");
 
     if (_knightedTarget == null) return;
+
+    if (LimitedUses)
+    {
+        UsesLeft--;
+        Button?.SetUsesRemaining(UsesLeft);
+        TownOfUsColors.UseBasic = false;
+        if (TextOutlineColor != Color.clear)
+        {
+            SetTextOutline(TextOutlineColor);
+            if (Button != null)
+            {
+                Button.usesRemainingSprite.color = TextOutlineColor;
+            }
+        }
+
+        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+            .UseCrewmateTeamColorToggle.Value;
+    }
 
     MonarchRole.RpcKnight(PlayerControl.LocalPlayer, _knightedTarget);
     _knightedTarget = null;
