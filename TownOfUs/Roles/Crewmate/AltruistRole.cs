@@ -174,81 +174,22 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
         if (!MeetingHud.Instance && (!Player.HasDied() || killOnStart))
         {
-            GameHistory.ClearMurder(dead);
-
-            dead.Revive();
-
-            dead.transform.position = new Vector2(position.x, position.y);
-            if (dead.AmOwner)
-            {
-                PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(position.x, position.y));
-            }
-
-            if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer.PlayerId == dead.PlayerId)
-            {
-                ModCompatibility.ChangeFloor(dead.transform.position.y > -7);
-            }
-
-            if (dead.AmOwner && !dead.HasModifier<LoverModifier>())
-            {
-                HudManager.Instance.Chat.gameObject.SetActive(false);
-            }
-
-            dead.ChangeRole((ushort)roleWhenAlive!.Role, false);
-
-            if (dead.Data.Role is IAnimated animated)
-            {
-                animated.IsVisible = true;
-                animated.SetVisible();
-            }
-
-            foreach (var button in CustomButtonManager.Buttons.Where(x => x.Enabled(dead.Data.Role))
-                         .OfType<IAnimated>())
-            {
-                button.IsVisible = true;
-                button.SetVisible();
-            }
-
-            foreach (var modifier in dead.GetModifiers<GameModifier>().Where(x => x is IAnimated))
-            {
-                var animatedMod = modifier as IAnimated;
-                if (animatedMod != null)
-                {
-                    animatedMod.IsVisible = true;
-                    animatedMod.SetVisible();
-                }
-            }
-
-            dead.RemainingEmergencies = 0;
-
-            Player.RemainingEmergencies = 0;
-
             var reviveFlashColor = new Color(0f, 0.5f, 0f, 1f);
-            if (dead.AmOwner)
-            {
-                TouAudio.PlaySound(TouAudio.AltruistReviveSound);
-                Coroutines.Start(MiscUtils.CoFlash(reviveFlashColor));
-                var revivedText = TouLocale.GetParsed("TouRoleAltruistRevivedNotif");
-                var notif = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Altruist.ToTextColor()}{revivedText}</color></b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Altruist.LoadAsset());
-                notif.AdjustNotification();
-            }
+            var revivedText = TouLocale.GetParsed("TouRoleAltruistRevivedNotif");
+            var successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif")
+                .Replace("<player>", dead.Data.PlayerName);
 
-            if (Player.AmOwner && Player != dead)
-            {
-                TouAudio.PlaySound(TouAudio.AltruistReviveSound);
-                Coroutines.Start(MiscUtils.CoFlash(reviveFlashColor));
-                var successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif")
-                    .Replace("<player>", dead.Data.PlayerName);
-                var notif = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Altruist.ToTextColor()}{successText}</color></b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Altruist.LoadAsset());
-                notif.AdjustNotification();
-            }
+            ReviveUtilities.RevivePlayer(
+                reviver: Player,
+                revived: dead,
+                position: new Vector2(position.x, position.y),
+                roleWhenAlive: roleWhenAlive!,
+                flashColor: TownOfUsColors.Altruist,
+                revivedOwnerNotificationText: revivedText,
+                reviverOwnerNotificationText: successText,
+                notificationIcon: TouRoleIcons.Altruist.LoadAsset());
 
-            body = FindObjectsOfType<DeadBody>()
-                .FirstOrDefault(b => b.ParentId == dead.PlayerId);
+            body = FindObjectsOfType<DeadBody>().FirstOrDefault(b => b.ParentId == dead.PlayerId);
             if (!OptionGroupSingleton<AltruistOptions>.Instance.HideAtBeginningOfRevive && body != null)
             {
                 Destroy(body.gameObject);

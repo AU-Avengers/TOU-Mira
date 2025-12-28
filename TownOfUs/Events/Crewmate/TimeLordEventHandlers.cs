@@ -423,9 +423,15 @@ public static class TimeLordEventHandlers
         {
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
             
-            // Prevent insta-killing after rewind
-            if ((cooldownBefore <= 0f || cooldownBefore < 0.1f) && 
+            if (TimeLordRewindSystem.IsRewinding &&
+                !TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind &&
+                (cooldownBefore <= 0f || cooldownBefore < 0.1f) &&
                 originalEvent.CooldownAfter > 0.1f)
+            {
+                TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind = true;
+            }
+
+            if (TimeLordRewindSystem.IsRewinding && TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind)
             {
                 cooldownBefore = maxKillCooldown;
             }

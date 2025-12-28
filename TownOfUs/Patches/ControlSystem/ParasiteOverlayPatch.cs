@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.ControlSystem;
 
@@ -24,6 +26,38 @@ public static class ParasiteOverlayPatch
 
         if (local.TryGetModifier<ParasiteInfectedModifier>(out var mod))
         {
+            // Safety cleanup: if control ended due to meeting, controller death, or missed RPC,
+            // ensure the infected UI + notification is removed promptly.
+            var shouldClear =
+                MeetingHud.Instance != null ||
+                ExileController.Instance != null ||
+                local.Data == null ||
+                local.Data.Disconnected ||
+                local.Data.IsDead;
+
+            if (!shouldClear)
+            {
+                if (!ParasiteControlState.IsControlled(local.PlayerId, out var controllerId))
+                {
+                    shouldClear = true;
+                }
+                else
+                {
+                    var controller = MiscUtils.PlayerById(controllerId);
+                    if (controller == null || controller.Data == null || controller.Data.Disconnected || controller.HasDied())
+                    {
+                        shouldClear = true;
+                    }
+                }
+            }
+
+            if (shouldClear)
+            {
+                ParasiteControlState.ClearControl(local.PlayerId);
+                local.RemoveModifier(mod);
+                return;
+            }
+
             mod.UpdateOverlayLayout();
         }
     }
