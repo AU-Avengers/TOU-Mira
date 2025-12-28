@@ -19,6 +19,7 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
+    private float _overtakeKillLockoutUntil;
 
     private Camera? parasiteCam;
     private GameObject? parasiteBorderObj;
@@ -582,12 +583,23 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     public void ClearControlLocal()
     {
         Controlled = null;
+        _overtakeKillLockoutUntil = 0f;
         _pipDragging = false;
         _pipSnapping = false;
         _pipManualMovedThisSession = false;
         _pipSettingsDirty = true;
         DestroyCamera();
         ClearNotifications();
+    }
+
+    public float GetOvertakeKillLockoutRemainingSeconds()
+    {
+        if (Controlled == null)
+        {
+            return 0f;
+        }
+
+        return Mathf.Max(0f, _overtakeKillLockoutUntil - Time.time);
     }
 
     private void CreateNotification()
@@ -631,6 +643,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
 
         role.Controlled = target;
+        role._overtakeKillLockoutUntil = Time.time + OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeKillCooldown;
 
         ParasiteControlState.SetControl(target.PlayerId, parasite.PlayerId);
         if (!target.HasModifier<ParasiteInfectedModifier>())

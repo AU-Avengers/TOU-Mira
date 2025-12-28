@@ -1480,6 +1480,7 @@
   <string name="TouRoleParasiteDecayWikiDescription">Kill your currently overtaken victim immediately.</string>
   <!-- Parasite Options -->
   <string name="TouOptionParasiteInfectCooldown">Infect Cooldown</string>
+  <string name="TouOptionParasiteOvertakeKillCooldown">Kill Cooldown</string>
   <string name="TouOptionParasiteControlDuration">Control Duration</string>
   <string name="TouOptionParasiteSaveVictimIfParasiteDies">Save Victim If Parasite Dies</string>
   <string name="TouOptionParasiteSaveVictimIfMeetingCalled">Save Victim If Meeting Called</string>

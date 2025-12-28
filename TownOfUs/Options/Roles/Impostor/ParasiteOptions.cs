@@ -14,6 +14,9 @@ public sealed class ParasiteOptions : AbstractOptionGroup<ParasiteRole>
     [ModdedNumberOption("TouOptionParasiteInfectCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float InfectCooldown { get; set; } = 37.5f;
 
+    [ModdedNumberOption("TouOptionParasiteOvertakeKillCooldown", 0f, 5f, 0.5f, MiraNumberSuffixes.Seconds, "0.0")]
+    public float OvertakeKillCooldown { get; set; } = 3f;
+
     [ModdedNumberOption("TouOptionParasiteControlDuration", 0f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0", true)]
     public float ControlDuration { get; set; } = 30f;
 

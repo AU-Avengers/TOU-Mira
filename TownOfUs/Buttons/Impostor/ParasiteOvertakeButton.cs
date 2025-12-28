@@ -96,7 +96,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
         if (pr.Controlled != null)
         {
-            if (!CanUseWhileControlling(pr))
+            if (!CanUseWhileControlling())
             {
                 return false;
             }
@@ -107,6 +107,12 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 !ParasiteControlState.IsControlled(pr.Controlled.PlayerId, out _))
             {
                 ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, pr.Controlled);
+                return false;
+            }
+
+            // Optional lockout after selecting an Overtake target (prevents instant kills).
+            if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
+            {
                 return false;
             }
             return true;
@@ -125,7 +131,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         return base.CanClick();
     }
 
-    private static bool CanUseWhileControlling(ParasiteRole pr)
+    private static bool CanUseWhileControlling()
     {
         if (PlayerControl.LocalPlayer == null)
         {
@@ -187,11 +193,33 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         var local = PlayerControl.LocalPlayer;
         if (local?.Data?.Role is ParasiteRole pr && pr.Controlled != null && Button != null && Button.gameObject != null)
         {
+            var lockoutRemaining = pr.GetOvertakeKillLockoutRemainingSeconds();
+
             if (Button.cooldownTimerText != null && Button.cooldownTimerText.gameObject != null)
             {
-                Button.cooldownTimerText.gameObject.SetActive(false);
+                if (lockoutRemaining > 0f)
+                {
+                    Button.cooldownTimerText.text =
+                        lockoutRemaining.ToString(CooldownTimerFormatString, NumberFormatInfo.InvariantInfo);
+                    Button.cooldownTimerText.gameObject.SetActive(true);
+                }
+                else
+                {
+                    // Keep hiding the normal timer text while controlling unless we're showing the lockout.
+                    Button.cooldownTimerText.gameObject.SetActive(false);
+                }
             }
-            Button.SetEnabled();
+
+            if (lockoutRemaining > 0f)
+            {
+                Button.SetDisabled();
+                // Important: don't override disabled visuals (color/desat) while lockout is active.
+                return;
+            }
+            else
+            {
+                Button.SetEnabled();
+            }
             if (Button.graphic != null)
             {
                 Button.graphic.color = Palette.EnabledColor;
@@ -382,7 +410,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
         try
         {
-            if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole pr)
+            if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole)
             {
                 return;
             }
@@ -420,6 +448,12 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             !pr.Controlled.Data.Disconnected &&
             ParasiteControlState.IsControlled(pr.Controlled.PlayerId, out _))
         {
+            // Safety net: even if something bypasses CanUse(), enforce the lockout here too.
+            if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
+            {
+                return;
+            }
+
             var target = pr.Controlled;
             if (!target.HasDied())
             {
