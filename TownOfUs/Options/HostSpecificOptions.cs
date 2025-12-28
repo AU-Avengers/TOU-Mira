@@ -21,6 +21,8 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
         Visible = () => TownOfUsPlugin.IsDevBuild
     };
 
+    public ModdedToggleOption LobbyFunMode { get; set; } = new("Allow Lobby-Only No-Clip", true, false);
+
     public ModdedToggleOption AllowAprilFools { get; set; } = new("Allow April Fools Visuals", true, false)
     {
         ChangedEvent = x =>

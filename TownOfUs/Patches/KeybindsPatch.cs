@@ -2,6 +2,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
@@ -10,6 +11,7 @@ using Rewired;
 using TownOfUs.Buttons;
 using TownOfUs.Events.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -229,7 +231,8 @@ public static class Bindings
         }
 
         // CTRL to pass through objects in lobby
-        if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
+        if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined &&
+            (TutorialManager.InstanceExists || OptionGroupSingleton<HostSpecificOptions>.Instance.LobbyFunMode.Value))
         {
             var player = PlayerControl.LocalPlayer;
             if (player != null && player.gameObject != null)

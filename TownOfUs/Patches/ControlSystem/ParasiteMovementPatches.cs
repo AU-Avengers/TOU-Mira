@@ -20,8 +20,6 @@ public static class ParasiteMovementPatches
 
     private static Vector2 GetSecondaryDirection() => AdvancedMovementUtilities.GetControllerSecondaryDirection();
 
-    // When Parasite cannot move independently, the victim should respond to BOTH primary + secondary keybind sets.
-    // (This matches Puppeteer and also allows "arrow keys" + "parasite move keybinds" to both work.)
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
