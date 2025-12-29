@@ -861,6 +861,8 @@
   <string name="TouRoleMonarchWikiDescription">The Monarch is a Crewmate Power role that can hand out additional votes to other players.</string>
   <string name="TouRoleMonarchKnight">Knight</string>
   <string name="TouRoleMonarchKnightDescription">Knight a player, giving them \%amount\% vote(s)</string>
+  <string name="TouRoleMonarchChangeFlash">Change Flash</string>
+  <string name="TouRoleMonarchChangeFlashDescription">If configurable, the Monarch can change how their defense appears to other attackers. The color can flash like a Cleric, Medic, Mercenary, Warden, or not flash at all!</string>
   <!-- Mystic - Crewmate Investigative -->
   <!-- Mystic Wiki / Description -->
   <string name="TouRoleMystic">Mystic</string>
@@ -1519,7 +1521,7 @@
   <string name="TouRolePuppeteer">Puppeteer</string>
   <string name="TouRolePuppeteerIntroBlurb">Control the hands of others</string>
   <string name="TouRolePuppeteerTabDescription">Control crewmates to do your bidding!</string>
-  <string name="TouRolePuppeteerWikiDescription">The Puppeteer is an Impostor Power role that controls other players to kill for them. When a player is controlled, they cannot move, but must instead watch as they are forcced to kill their fellow crewmates.</string>
+  <string name="TouRolePuppeteerWikiDescription">The Puppeteer is an Impostor Power role that controls other players to kill for them. When a player is controlled, they must watch as they are forced to kill their fellow crewmates.</string>
   <string name="TouRolePuppeteerControl">Control</string>
   <string name="TouRolePuppeteerKill">Control Kill</string>
   <string name="TouRolePuppeteerControlWikiDescription">Use your menu to control whoever you wish. In this state, the controlled player will kill as if they were an impostor, and not as whatever role they actually are.</string>

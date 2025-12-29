@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Crewmate;
 
@@ -30,4 +31,19 @@ public sealed class MonarchOptions : AbstractOptionGroup<MonarchRole>
     [ModdedToggleOption("Crew Knights Grant Kill Immunity")]
     public bool CrewKnightsGrantKillImmunity { get; set; } = true;
 
+    public ModdedEnumOption ProtectionFlashColor { get; } =
+        new("Protection Flash That Killers See", (int)ProtectionFlash.Configurable, typeof(ProtectionFlash), ["Configurable", "No Flash", "Cleric", "Medic", "Mercenary", "Warden"])
+        {
+            Visible = () => OptionGroupSingleton<MonarchOptions>.Instance.CrewKnightsGrantKillImmunity
+        };
+}
+
+public enum ProtectionFlash
+{
+    Configurable,
+    NoFlash,
+    Cleric,
+    Medic,
+    Mercenary,
+    Warden
 }

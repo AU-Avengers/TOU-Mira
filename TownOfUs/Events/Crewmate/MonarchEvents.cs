@@ -85,9 +85,14 @@ public static class MonarchEvents
         {
             ResetButtonTimer(source);
 
-            if (target.Data?.Role is MonarchRole && source.AmOwner)
+            if (target.Data?.Role is MonarchRole monarch && source.AmOwner)
             {
-                Coroutines.Start(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
+                var flash = monarch.GetFlashColor();
+                if (flash == null)
+                {
+                    return;
+                }
+                Coroutines.Start(MiscUtils.CoFlash((Color)flash));
             }
         }
     }
