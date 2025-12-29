@@ -1337,7 +1337,7 @@
   <string name="TouModifierEgotistCooldownSpeedChangeMessage">\%modifier\%的肾上腺素正在增强。技能冷却时间现已缩短 \%newOffset\% 秒，玩家移动速度提升至 \%newSpeed\% 倍！</string>
   <string name="TouModifierEgotistDeadMessage">\%modifier\% 已死亡，他们的肾上腺素也随之消退！</string>
   <string name="DiedToSubmergedOxygen">窒息</string>
-  <string name="TouRoleClericTabProtecting">屏障开启： \%player\%</string>
+  <string name="TouRoleClericTabProtecting">屏障开启在： \%player\%</string>
   <string name="TouRoleMedicTabProtecting">被上盾: \%player\%</string>
   <string name="TouRoleMirrorcasterTabProtecting">保护中: \%player\%</string>
   <string name="TouRoleWardenTabProtecting">正在强化: \%player\%</string>
