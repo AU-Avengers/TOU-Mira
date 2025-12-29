@@ -220,17 +220,21 @@ public static class ModNewsFetcher
                 return;
             }
 
+            var aArray = aRange.ToArray();
+
             var finalAllNews = AllModNews.Select(n => n.ToAnnouncement()).ToList();
-            finalAllNews.AddRange(aRange.Where(news => AllModNews.All(x => x.Number != news.Number)));
+            finalAllNews.AddRange(aArray.Where(news => AllModNews.All(x => x.Number != news.Number)));
             finalAllNews.Sort((a1, a2) => DateTime.Compare(DateTime.Parse(a2.Date, TownOfUsPlugin.Culture),
                 DateTime.Parse(a1.Date, TownOfUsPlugin.Culture)));
 
-            aRange = new Il2CppReferenceArray<Announcement>(finalAllNews.Count);
+            var newArray = new Announcement[finalAllNews.Count];
 
             for (var i = 0; i < finalAllNews.Count; i++)
             {
-                aRange[i] = finalAllNews[i];
+                newArray[i] = finalAllNews[i];
             }
+
+            aRange = newArray;
         }
 
         [HarmonyPatch(typeof(AnnouncementPanel), nameof(AnnouncementPanel.SetUp))]

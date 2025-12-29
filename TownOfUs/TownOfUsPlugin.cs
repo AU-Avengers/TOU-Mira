@@ -77,6 +77,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         IL2CPPChainloader.Instance.Finished +=
             ModCompatibility
                 .Initialize; // Initialise AFTER the mods are loaded to ensure maximum parity (no need for the soft dependency either then)
+
         IL2CPPChainloader.Instance.Finished +=
             ModNewsFetcher
                 .CheckForNews; // Checks for mod announcements after everything is loaded to avoid Epic Games crashing
