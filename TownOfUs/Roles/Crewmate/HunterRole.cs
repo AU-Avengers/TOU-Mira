@@ -8,6 +8,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -116,7 +117,13 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         if (hunter.Data.Role is not HunterRole)
         {
-            Error("RpcCatchPlayer - Invalid hunter");
+            Error("Retribution - Invalid hunter");
+            return;
+        }
+
+        if (target.HasModifier<InvulnerabilityModifier>())
+        {
+            Error("Retribution - Target cannot be killed!");
             return;
         }
 
