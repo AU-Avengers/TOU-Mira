@@ -2,6 +2,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -22,6 +23,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
     public override int MaxUses => (int)OptionGroupSingleton<MonarchOptions>.Instance.MaxKnights;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.KnightSprite;
     public PlayerControl? _knightedTarget;
+    private bool _isProcessingClick;
 
     public bool Usable { get; set; } =
         OptionGroupSingleton<MonarchOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
@@ -69,18 +71,40 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
 
     public override void ClickHandler()
     {
-        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (_isProcessingClick)
         {
             return;
         }
 
-        OnClick();
+        _isProcessingClick = true;
+
+
+        try
+        {
+            if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
+                PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            {
+                return;
+            }
+
+            OnClick();
+        }
+        finally
+        {
+            Coroutines.Start(ResetProcessingFlag());
+        }
+    }
+
+    private System.Collections.IEnumerator ResetProcessingFlag()
+    {
+        yield return new WaitForSeconds(0.2f);
+        _isProcessingClick = false;
     }
 
     public override PlayerControl? GetTarget()
     {
-        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance, predicate: x => !x.HasModifier<KnightedModifier>());
+        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
+            predicate: x => !x.HasModifier<KnightedModifier>());
     }
 
     protected override void OnClick()
@@ -123,31 +147,31 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
     }
 
     public override void OnEffectEnd()
-{
-    OverrideName("Knight");
-
-    if (_knightedTarget == null) return;
-
-    if (LimitedUses)
     {
-        UsesLeft--;
-        Button?.SetUsesRemaining(UsesLeft);
-        TownOfUsColors.UseBasic = false;
-        if (TextOutlineColor != Color.clear)
+        OverrideName("Knight");
+
+        if (_knightedTarget == null) return;
+
+        if (LimitedUses)
         {
-            SetTextOutline(TextOutlineColor);
-            if (Button != null)
+            UsesLeft--;
+            Button?.SetUsesRemaining(UsesLeft);
+            TownOfUsColors.UseBasic = false;
+            if (TextOutlineColor != Color.clear)
             {
-                Button.usesRemainingSprite.color = TextOutlineColor;
+                SetTextOutline(TextOutlineColor);
+                if (Button != null)
+                {
+                    Button.usesRemainingSprite.color = TextOutlineColor;
+                }
             }
+
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+                .UseCrewmateTeamColorToggle.Value;
         }
 
-        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
-            .UseCrewmateTeamColorToggle.Value;
+        MonarchRole.RpcKnight(PlayerControl.LocalPlayer, _knightedTarget);
+        _knightedTarget = null;
     }
-
-    MonarchRole.RpcKnight(PlayerControl.LocalPlayer, _knightedTarget);
-    _knightedTarget = null;
-}
 
 }

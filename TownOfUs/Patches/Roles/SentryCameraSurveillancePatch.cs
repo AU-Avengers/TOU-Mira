@@ -255,17 +255,6 @@ public static class SentryCameraSurveillancePatch
             yield return AccessTools.Method(typeof(Minigame), nameof(Minigame.ForceClose));
         }
 
-        public static bool Prefix(Minigame __instance)
-        {
-            if (__instance is SurveillanceMinigame && Time.frameCount == SentryCameraUiUtilities.SuppressCloseFrame)
-            {
-                Logger.LogInfo($"[CLOSE SUPPRESS] Suppressing close at frame {Time.frameCount} (suppress frame was {SentryCameraUiUtilities.SuppressCloseFrame})");
-                return false;
-            }
-
-            return true;
-        }
-
         public static void Postfix(Minigame __instance)
         {
             SentryCameraMinigameUtilities.RestoreAllCameras(__instance);
