@@ -81,17 +81,17 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         }
 
         return PlayerControl.LocalPlayer.moveable &&
-               (!EffectActive && (!LimitedUses || UsesLeft > 0));
+               (!EffectActive && (!LimitedUses || UsesLeft > 0) || EffectActive);
     }
 
     public override bool CanClick()
     {
-        return CanUse() && Role.Controlled == null;
+        return CanUse() && !EffectActive && Role.Controlled == null && Timer <= 0;
     }
 
     public override void ClickHandler()
     {
-        if (!CanUse())
+        if (!CanClick())
         {
             return;
         }
