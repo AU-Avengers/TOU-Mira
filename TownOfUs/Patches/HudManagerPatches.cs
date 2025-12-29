@@ -2,6 +2,7 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
+using MiraAPI;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
@@ -30,6 +31,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Color = UnityEngine.Color;
+using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches;
@@ -1097,5 +1099,8 @@ public static class HudManagerPatches
 
             _registeredSoftModifiers = true;
         }
+
+        MiraApiSettings.OldButtonScaleFactor =
+            LocalSettingsTabSingleton<MiraApiSettings>.Instance.ButtonUIFactorSlider.Value;
     }
 }
