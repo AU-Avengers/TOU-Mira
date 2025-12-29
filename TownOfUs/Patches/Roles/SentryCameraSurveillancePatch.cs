@@ -246,13 +246,13 @@ public static class SentryCameraSurveillancePatch
         return false;
     }
 
-    [HarmonyPatch(typeof(Minigame))]
+    [HarmonyPatch]
     public static class MinigameCloseForceCloseSuppressPatch
     {
         public static IEnumerable<MethodBase> TargetMethods()
         {
-            return AccessTools.GetDeclaredMethods(typeof(Minigame))
-                .Where(m => m.Name is nameof(Minigame.Close) or nameof(Minigame.ForceClose));
+            yield return AccessTools.Method(typeof(Minigame), nameof(Minigame.Close));
+            yield return AccessTools.Method(typeof(Minigame), nameof(Minigame.ForceClose));
         }
 
         public static bool Prefix(Minigame __instance)
