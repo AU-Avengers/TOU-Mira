@@ -2,6 +2,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -44,7 +45,9 @@ public sealed class CircumventModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role.IsImpostor() && (role is not ICustomRole custom || custom.Configuration.CanUseVent);
+        return base.IsModifierValidOn(role) && role.IsImpostor() &&
+               (role is not ICustomRole custom || custom.Configuration.CanUseVent) &&
+               role is not MinerRole;
     }
 
     public override bool? CanVent()
