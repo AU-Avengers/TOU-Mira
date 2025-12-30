@@ -104,6 +104,8 @@ public enum TownOfUsRpc : uint
     Knight,
     UpdateMonShield,
     SetDeadlyQuota,
+    SnarerPlaceSnare,
+    SnarerTriggerSnare,
 }
 
 internal enum TownOfUsInternalRpc : uint
