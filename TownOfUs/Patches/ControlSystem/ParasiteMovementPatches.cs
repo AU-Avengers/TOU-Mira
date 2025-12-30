@@ -91,8 +91,9 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
+            var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
-            var parasiteDir = canMoveIndependently ? GetPrimaryDirection() : Vector2.zero;
+            var parasiteDir = shouldMove && canMoveIndependently ? GetPrimaryDirection() : Vector2.zero;
             
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, parasiteDir, stopIfZero: true);
             return false;
