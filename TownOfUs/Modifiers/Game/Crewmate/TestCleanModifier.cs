@@ -1,3 +1,4 @@
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Interfaces;
 using TownOfUs.Utilities;
@@ -7,6 +8,7 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class TestCleanModifier : TouGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
     public override string LocaleKey => "TestClean";
     public override string ModifierName => "Test Clean";
     public override string IntroInfo => "Test modifier for janitor clean button";

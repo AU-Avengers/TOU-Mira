@@ -1,3 +1,4 @@
+using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Interfaces;
 using TownOfUs.Utilities;
@@ -12,6 +13,7 @@ public sealed class TestTimeLordModifier : TouGameModifier, IWikiDiscoverable, I
     public override string IntroInfo => "Test modifier for Time Lord rewind ability";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.TimeLord; // Use Time Lord role icon
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
+    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
 
     public override ModifierFaction FactionType => ModifierFaction.CrewmateUtility;
 
