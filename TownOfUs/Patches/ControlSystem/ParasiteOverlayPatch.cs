@@ -26,8 +26,6 @@ public static class ParasiteOverlayPatch
 
         if (local.TryGetModifier<ParasiteInfectedModifier>(out var mod))
         {
-            // Safety cleanup: if control ended due to meeting, controller death, or missed RPC,
-            // ensure the infected UI + notification is removed promptly.
             var shouldClear =
                 MeetingHud.Instance != null ||
                 ExileController.Instance != null ||
@@ -53,6 +51,7 @@ public static class ParasiteOverlayPatch
 
             if (shouldClear)
             {
+                mod.ClearNotification();
                 ParasiteControlState.ClearControl(local.PlayerId);
                 local.RemoveModifier(mod);
                 return;

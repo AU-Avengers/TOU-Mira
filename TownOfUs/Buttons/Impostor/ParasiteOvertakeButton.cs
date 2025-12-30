@@ -102,16 +102,20 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 return false;
             }
 
-            if (pr.Controlled.Data == null ||
-                pr.Controlled.HasDied() ||
-                pr.Controlled.Data.Disconnected ||
-                !ParasiteControlState.IsControlled(pr.Controlled.PlayerId, out _))
+            var controlled = pr.Controlled;
+            if (controlled == null ||
+                controlled.Data == null ||
+                controlled.HasDied() ||
+                controlled.Data.Disconnected ||
+                !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
             {
-                ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, pr.Controlled);
+                if (controlled != null)
+                {
+                    ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, controlled);
+                }
                 return false;
             }
 
-            // Optional lockout after selecting an Overtake target (prevents instant kills).
             if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
             {
                 return false;
@@ -164,6 +168,47 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         return true;
     }
 
+    private static bool IsProtectedFromOvertake(PlayerControl target)
+    {
+        var local = PlayerControl.LocalPlayer;
+        if (local == null || target == null)
+        {
+            return false;
+        }
+
+        if (target.HasModifier<MedicShieldModifier>() && target.PlayerId != local.PlayerId)
+        {
+            var medic = target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
+            if (medic != null && (TutorialManager.InstanceExists || local.AmOwner))
+            {
+                MedicRole.RpcMedicShieldAttacked(medic.Player, local, target);
+            }
+            return true;
+        }
+
+        if (target.TryGetModifier<ClericBarrierModifier>(out var barrier) && target.PlayerId != local.PlayerId)
+        {
+            var cleric = barrier?.Cleric?.GetRole<ClericRole>();
+            if (cleric != null && (TutorialManager.InstanceExists || local.AmOwner))
+            {
+                ClericRole.RpcClericBarrierAttacked(cleric.Player, local, target);
+            }
+            return true;
+        }
+
+        if (target.TryGetModifier<MagicMirrorModifier>(out var mirror) && target.PlayerId != local.PlayerId)
+        {
+            var mirrorcaster = mirror?.Mirrorcaster?.GetRole<MirrorcasterRole>();
+            if (mirrorcaster != null && (TutorialManager.InstanceExists || local.AmOwner))
+            {
+                MirrorcasterRole.RpcMagicMirrorAttacked(mirrorcaster.Player, local, target);
+            }
+            return true;
+        }
+
+        return target.GetModifiers<BaseShieldModifier>().Any();
+    }
+
     public override PlayerControl? GetTarget()
     {
         if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole pr)
@@ -207,7 +252,6 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 }
                 else
                 {
-                    // Keep hiding the normal timer text while controlling unless we're showing the lockout.
                     Button.cooldownTimerText.gameObject.SetActive(false);
                 }
             }
@@ -215,7 +259,6 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             if (lockoutRemaining > 0f)
             {
                 Button.SetDisabled();
-                // Important: don't override disabled visuals (color/desat) while lockout is active.
                 return;
             }
             else
@@ -450,7 +493,6 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             !pr.Controlled.Data.Disconnected &&
             ParasiteControlState.IsControlled(pr.Controlled.PlayerId, out _))
         {
-            // Safety net: even if something bypasses CanUse(), enforce the lockout here too.
             if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
             {
                 return;
@@ -466,6 +508,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                     causeOfDeath: "Parasite");
             }
 
+            ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
             return;
         }
 
@@ -480,15 +523,8 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return;
         }
 
-        if (Target.HasModifier<MedicShieldModifier>() &&
-            Target.PlayerId != PlayerControl.LocalPlayer.PlayerId)
+        if (IsProtectedFromOvertake(Target))
         {
-            var medic = Target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
-            if (medic != null && (TutorialManager.InstanceExists || PlayerControl.LocalPlayer.AmOwner))
-            {
-                MedicRole.RpcMedicShieldAttacked(medic.Player, PlayerControl.LocalPlayer, Target);
-            }
-
             SetTimer(OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset);
             return;
         }

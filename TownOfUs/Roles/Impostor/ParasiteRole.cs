@@ -98,18 +98,19 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        if (Player.AmOwner && Controlled != null)
+        var target = Controlled;
+        if (Player.AmOwner && target != null)
         {
-            if (!OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfMeetingCalled && !Controlled.HasDied())
+            if (!OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfMeetingCalled && !target.HasDied())
             {
                 PlayerControl.LocalPlayer.RpcSpecialMurder(
-                    Controlled,
+                    target,
                     teleportMurderer: false,
                     showKillAnim: false,
                     causeOfDeath: "Parasite");
             }
 
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, Controlled);
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
         }
     }
 
@@ -117,22 +118,23 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         RoleBehaviourStubs.OnDeath(this, reason);
 
-        if (!Player.AmOwner || Controlled == null)
+        var target = Controlled;
+        if (!Player.AmOwner || target == null)
         {
             ClearControlLocal();
             return;
         }
 
-        if (!OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies && !Controlled.HasDied())
+        if (!OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies && !target.HasDied())
         {
             PlayerControl.LocalPlayer.RpcSpecialMurder(
-                Controlled,
+                target,
                 teleportMurderer: false,
                 showKillAnim: false,
                 causeOfDeath: "Parasite");
         }
 
-        RpcParasiteEndControl(PlayerControl.LocalPlayer, Controlled);
+        RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
     }
 
     public void FixedUpdate()
@@ -142,7 +144,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (Controlled == null)
+        var target = Controlled;
+        if (target == null)
         {
             if (AdvancedMovementUtilities.MobileJoystickR != null)
             {
@@ -151,15 +154,15 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (Controlled.Data == null || Controlled.HasDied() || Controlled.Data.Disconnected)
+        if (target.Data == null || target.HasDied() || target.Data.Disconnected)
         {
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, Controlled);
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
             return;
         }
 
         if (Player.HasDied() && OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies)
         {
-            RpcParasiteEndControl(PlayerControl.LocalPlayer, Controlled);
+            RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
         }
     }
 
@@ -514,21 +517,23 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     }
     public void KillControlledFromTimer()
     {
-        if (Controlled == null)
+        var local = PlayerControl.LocalPlayer;
+        var target = Controlled;
+        if (local == null || target == null)
         {
             return;
         }
 
-        if (!Controlled.HasDied())
+        if (!target.HasDied())
         {
-            PlayerControl.LocalPlayer.RpcSpecialMurder(
-                Controlled,
+            local.RpcSpecialMurder(
+                target,
                 teleportMurderer: false,
                 showKillAnim: false,
                 causeOfDeath: "Parasite");
         }
 
-        RpcParasiteEndControl(PlayerControl.LocalPlayer, Controlled);
+        RpcParasiteEndControl(local, target);
     }
 
     private void EnsureCamera()
@@ -692,6 +697,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (parasite != null && parasite.AmOwner)
         {
+            parasite.walkingToVent = false;
+
             var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
             btn.SetActive(true, role);
             btn.StopControlEffectAndApplyCooldown();

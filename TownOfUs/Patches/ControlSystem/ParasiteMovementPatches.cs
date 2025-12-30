@@ -23,9 +23,10 @@ public static class ParasiteMovementPatches
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
     private const float DirectionChangeEpsilonSqr = 0.0004f * 0.0004f;
-    private const float DirectionKeepAliveSeconds = 0.25f;
+    private const float DirectionKeepAliveSeconds = 0.6f;
     private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
     private static readonly Dictionary<byte, float> _lastSentAt = new();
+    private static readonly Dictionary<byte, Vector2> _localDesiredDir = new();
 
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir)
     {
@@ -41,7 +42,7 @@ public static class ParasiteMovementPatches
             _lastSentAt.TryGetValue(controlledId, out var lastAt))
         {
             var changed = (dir - lastDir).sqrMagnitude > DirectionChangeEpsilonSqr;
-            var keepAliveDue = (now - lastAt) >= DirectionKeepAliveSeconds;
+            var keepAliveDue = dir != Vector2.zero && (now - lastAt) >= DirectionKeepAliveSeconds;
             shouldSend = changed || keepAliveDue;
         }
 
@@ -93,8 +94,23 @@ public static class ParasiteMovementPatches
 
             var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
-            var parasiteDir = shouldMove && canMoveIndependently ? GetPrimaryDirection() : Vector2.zero;
-            
+
+            var targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
+            _localDesiredDir[parasite.Controlled.PlayerId] = targetDir;
+            SendControlledInputIfNeeded(parasite.Controlled.PlayerId, targetDir);
+
+            if (!shouldMove)
+            {
+                return true;
+            }
+
+            if (!canMoveIndependently)
+            {
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
+                return false;
+            }
+
+            var parasiteDir = GetPrimaryDirection();
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, parasiteDir, stopIfZero: true);
             return false;
         }
@@ -110,11 +126,8 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
-            var dir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
-
+            var dir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir);
-            SendControlledInputIfNeeded(player.PlayerId, dir);
 
             return false;
         }
@@ -157,43 +170,13 @@ public static class ParasiteMovementPatches
         return true;
     }
 
-    private static System.Reflection.FieldInfo? _sendQueueField;
-    private static bool _sendQueueFieldSearched;
-
-    private static System.Reflection.FieldInfo? GetSendQueueField()
-    {
-        if (!_sendQueueFieldSearched)
-        {
-            _sendQueueFieldSearched = true;
-            var type = typeof(CustomNetworkTransform);
-
-            _sendQueueField = AccessTools.DeclaredField(type, "sendQueue");
-
-            if (_sendQueueField == null)
-            {
-                var allFields = AccessTools.GetDeclaredFields(type);
-                _sendQueueField = allFields.FirstOrDefault(f =>
-                    f.FieldType == typeof(System.Collections.Generic.Queue<Vector2>) &&
-                    (f.Name == "sendQueue" ||
-                     (f.Name.ToLowerInvariant().Contains("send", StringComparison.InvariantCultureIgnoreCase) &&
-                      f.Name.ToLowerInvariant().Contains("queue", StringComparison.InvariantCultureIgnoreCase))));
-            }
-
-            if (_sendQueueField == null)
-            {
-                _sendQueueField = AccessTools.Field(type, "sendQueue");
-            }
-        }
-        return _sendQueueField;
-    }
-
     [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.FixedUpdate))]
     [HarmonyPrefix]
     public static bool CustomNetworkTransformFixedUpdatePrefix(CustomNetworkTransform __instance)
     {
         if (__instance.isPaused || !__instance.myPlayer)
         {
-            return false;
+            return true;
         }
 
         var player = __instance.myPlayer;
@@ -214,23 +197,6 @@ public static class ParasiteMovementPatches
             PlayerControl.LocalPlayer.PlayerId == controllerId)
         {
             return false;
-        }
-
-        if (player.AmOwner)
-        {
-            var queueField = GetSendQueueField();
-            if (queueField != null)
-            {
-                var queue = (System.Collections.Generic.Queue<Vector2>?)queueField.GetValue(__instance);
-                if (queue != null)
-                {
-                    queue.Enqueue(player.GetTruePosition());
-                    __instance.SetDirtyBit(2U);
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         return true;

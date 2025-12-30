@@ -86,7 +86,7 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
         }
     }
 
-    private void ClearNotification()
+    public void ClearNotification()
     {
         ControlledFeedbackUtilities.ClearNotification(ref _controlledNotification);
     }

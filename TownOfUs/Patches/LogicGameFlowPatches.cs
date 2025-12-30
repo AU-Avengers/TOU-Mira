@@ -101,7 +101,18 @@ public static class LogicGameFlowPatches
 
         if (__instance == null || GameOptionsManager.Instance == null || GameManager.Instance == null)
         {
-            return false;
+            return true;
+        }
+
+        var ghostsDoTasks = false;
+        try
+        {
+            ghostsDoTasks = GameOptionsManager.Instance.currentNormalGameOptions != null &&
+                            GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks;
+        }
+        catch
+        {
+            // ignored
         }
 
         __instance.TotalTasks = 0;
@@ -109,22 +120,51 @@ public static class LogicGameFlowPatches
         for (var i = 0; i < __instance.AllPlayers.Count; i++)
         {
             var playerInfo = __instance.AllPlayers.ToArray()[i];
-            if (playerInfo == null || playerInfo.Disconnected || !playerInfo.Object || playerInfo.Tasks == null || playerInfo.Object == null || !playerInfo.Object.TryGetComponent<ModifierComponent>(out _))
+            if (playerInfo == null || playerInfo.Disconnected || playerInfo.Tasks == null)
             {
                 continue;
             }
 
-            if ((!playerInfo.IsDead || GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks) &&
-                !playerInfo._object.IsImpostor() &&
-                !(
-                    (playerInfo._object.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks)
-                    || !playerInfo._object.Data.Role.TasksCountTowardProgress
-                ))
+            var player = playerInfo.Object;
+            if (player == null || !player || player.Data == null)
+            {
+                continue;
+            }
+
+            if (!player.TryGetComponent<ModifierComponent>(out _))
+            {
+                continue;
+            }
+
+            var tasksCountTowardProgress = true;
+            try
+            {
+                tasksCountTowardProgress = player.Data.Role != null && player.Data.Role.TasksCountTowardProgress;
+            }
+            catch
+            {
+                tasksCountTowardProgress = true;
+            }
+
+            var excludedByAlliance = false;
+            try
+            {
+                excludedByAlliance = player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks;
+            }
+            catch
+            {
+                excludedByAlliance = false;
+            }
+
+            if ((!playerInfo.IsDead || ghostsDoTasks) &&
+                !player.IsImpostor() &&
+                !(excludedByAlliance || !tasksCountTowardProgress))
             {
                 for (var j = 0; j < playerInfo.Tasks.Count; j++)
                 {
                     __instance.TotalTasks++;
-                    if (playerInfo.Tasks.ToArray()[j].Complete)
+                    var task = playerInfo.Tasks.ToArray()[j];
+                    if (task != null && task.Complete)
                     {
                         __instance.CompletedTasks++;
                     }

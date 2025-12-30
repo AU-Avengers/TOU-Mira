@@ -31,14 +31,29 @@ public static class ControlledFeedbackUtilities
 
     public static void ClearNotification(ref LobbyNotificationMessage? notification)
     {
-        if (notification != null && notification.gameObject != null)
+        if (notification == null)
         {
-            UnityEngine.Object.Destroy(notification);
+            return;
+        }
+
+        try
+        {
+            if (notification.gameObject != null)
+            {
+                UnityEngine.Object.Destroy(notification.gameObject);
+            }
+            else
+            {
+                UnityEngine.Object.Destroy(notification);
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+        finally
+        {
             notification = null;
         }
     }
 }
-
-
-
-

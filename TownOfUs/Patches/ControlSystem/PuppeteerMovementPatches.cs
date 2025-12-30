@@ -17,9 +17,10 @@ public static class PuppeteerMovementPatches
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
     private const float DirectionChangeEpsilonSqr = 0.0004f * 0.0004f;
-    private const float DirectionKeepAliveSeconds = 0.25f;
+    private const float DirectionKeepAliveSeconds = 0.6f;
     private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
     private static readonly Dictionary<byte, float> _lastSentAt = new();
+    private static readonly Dictionary<byte, Vector2> _localDesiredDir = new();
 
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir)
     {
@@ -35,7 +36,7 @@ public static class PuppeteerMovementPatches
             _lastSentAt.TryGetValue(controlledId, out var lastAt))
         {
             var changed = (dir - lastDir).sqrMagnitude > DirectionChangeEpsilonSqr;
-            var keepAliveDue = (now - lastAt) >= DirectionKeepAliveSeconds;
+            var keepAliveDue = dir != Vector2.zero && (now - lastAt) >= DirectionKeepAliveSeconds;
             shouldSend = changed || keepAliveDue;
         }
 
@@ -85,6 +86,10 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
+            var dir = GetNormalDirection();
+            _localDesiredDir[puppeteer.Controlled.PlayerId] = dir;
+            SendControlledInputIfNeeded(puppeteer.Controlled.PlayerId, dir);
+
             var puppeteerDir = Vector2.zero;
             
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, puppeteerDir, stopIfZero: true);
@@ -102,10 +107,8 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
-            var dir = GetNormalDirection();
-
+            var dir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir);
-            SendControlledInputIfNeeded(player.PlayerId, dir);
 
             return false;
         }
@@ -148,43 +151,13 @@ public static class PuppeteerMovementPatches
         return true;
     }
 
-    private static System.Reflection.FieldInfo? _sendQueueField;
-    private static bool _sendQueueFieldSearched;
-
-    private static System.Reflection.FieldInfo? GetSendQueueField()
-    {
-        if (!_sendQueueFieldSearched)
-        {
-            _sendQueueFieldSearched = true;
-            var type = typeof(CustomNetworkTransform);
-
-            _sendQueueField = AccessTools.DeclaredField(type, "sendQueue");
-
-            if (_sendQueueField == null)
-            {
-                var allFields = AccessTools.GetDeclaredFields(type);
-                _sendQueueField = allFields.FirstOrDefault(f =>
-                    f.FieldType == typeof(System.Collections.Generic.Queue<Vector2>) &&
-                    (f.Name == "sendQueue" ||
-                     (f.Name.ToLowerInvariant().Contains("send", StringComparison.InvariantCultureIgnoreCase) &&
-                      f.Name.ToLowerInvariant().Contains("queue", StringComparison.InvariantCultureIgnoreCase))));
-            }
-
-            if (_sendQueueField == null)
-            {
-                _sendQueueField = AccessTools.Field(type, "sendQueue");
-            }
-        }
-        return _sendQueueField;
-    }
-
     [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.FixedUpdate))]
     [HarmonyPrefix]
     public static bool CustomNetworkTransformFixedUpdatePrefix(CustomNetworkTransform __instance)
     {
         if (__instance.isPaused || !__instance.myPlayer)
         {
-            return false;
+            return true;
         }
 
         var player = __instance.myPlayer;
@@ -205,23 +178,6 @@ public static class PuppeteerMovementPatches
             PlayerControl.LocalPlayer.PlayerId == controllerId)
         {
             return false;
-        }
-
-        if (player.AmOwner)
-        {
-            var queueField = GetSendQueueField();
-            if (queueField != null)
-            {
-                var queue = (System.Collections.Generic.Queue<Vector2>?)queueField.GetValue(__instance);
-                if (queue != null)
-                {
-                    queue.Enqueue(player.GetTruePosition());
-                    __instance.SetDirtyBit(2U);
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         return true;
