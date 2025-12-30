@@ -46,7 +46,6 @@ public static class SentryCameraUtilities
                 return;
             }
 
-            // Only do this if there are actually Sentry cameras in the game.
             if (SentryRole.Cameras.Count <= 0)
             {
                 return;
@@ -98,11 +97,8 @@ public static class SentryCameraUtilities
     
     public static bool IsMapWithoutCameras(ExpandedMapNames mapId)
     {
-        // Special handling for Submerged: it has cameras but they need to be turned on
-        // Check for SecurityConsole to determine if cameras exist
         if (ModCompatibility.IsSubmerged() && ShipStatus.Instance != null)
         {
-            // Submerged has cameras - check if SecurityConsole exists
             try
             {
                 var securityConsole = Object.FindObjectsOfType<SystemConsole>()
@@ -110,7 +106,6 @@ public static class SentryCameraUtilities
                         x != null && x.gameObject != null && x.gameObject.name.Contains("SecurityConsole"));
                 if (securityConsole != null)
                 {
-                    // SecurityConsole exists, so Submerged has cameras
                     return false;
                 }
             }
@@ -120,31 +115,21 @@ public static class SentryCameraUtilities
             }
         }
 
-        // Check if cameras exist by enumerating ShipStatus.Instance.AllCameras
-        // This works for custom maps like LevelImpostor (which may or may not have cameras)
         if (ShipStatus.Instance == null)
         {
-            // Fallback to hardcoded list if ShipStatus is not available yet
-            // Submerged is excluded because it has cameras (they just need to be turned on)
             return mapId is ExpandedMapNames.MiraHq or ExpandedMapNames.Fungle;
         }
 
         var allCameras = ShipStatus.Instance.AllCameras;
         if (allCameras == null || allCameras.Length == 0)
         {
-            // If AllCameras is empty, check if it's Submerged (which has cameras that need activation)
             if (mapId == ExpandedMapNames.Submerged && ModCompatibility.IsSubmerged())
             {
-                // Submerged has cameras even if AllCameras is empty initially
-                // They're activated via SecurityConsole
                 return false;
             }
             return true;
         }
 
-        // Check if there are any original cameras (cameras that existed before sentry placed any)
-        // Sentry cameras are added to AllCameras, so we need to filter them out
-        // We'll check if there are any cameras that aren't from SentryRole.Cameras
         var sentryCameraIds = new HashSet<int>();
         foreach (var cameraPair in SentryRole.Cameras)
         {
@@ -154,21 +139,17 @@ public static class SentryCameraUtilities
             }
         }
         
-        // Check if any camera in AllCameras is not a sentry camera
         foreach (var cam in allCameras)
         {
             if (cam != null && !sentryCameraIds.Contains(cam.GetInstanceID()))
             {
-                // Found an original camera, so the map has cameras
                 return false;
             }
         }
         
-        // No original cameras found in AllCameras
-        // For Submerged, cameras exist but may not be in AllCameras until activated
         if (mapId == ExpandedMapNames.Submerged && ModCompatibility.IsSubmerged())
         {
-            return false; // Submerged has cameras
+            return false;
         }
         
         return true;
@@ -299,15 +280,18 @@ public static class SentryCameraUtilities
 
         var spriteRenderer = camera.gameObject.GetComponent<SpriteRenderer>();
         var legacy = OptionGroupSingleton<SentryOptions>.Instance.LegacyMode;
+        var isLocalDead = PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null && PlayerControl.LocalPlayer.Data.IsDead;
         if (legacy)
         {
             var isPlacerClient = PlayerControl.LocalPlayer != null && placer != null &&
                                  PlayerControl.LocalPlayer.PlayerId == placer.PlayerId;
-            if (spriteRenderer != null && isPlacerClient)
+            // Ghosts can see sentry cameras even in legacy mode
+            var shouldBeVisible = isPlacerClient || isLocalDead;
+            if (spriteRenderer != null && shouldBeVisible)
             {
-                spriteRenderer.color = new Color(1f, 1f, 1f, 0.5f);
+                spriteRenderer.color = new Color(1f, 1f, 1f, isPlacerClient ? 0.5f : 1f);
             }
-            camera.gameObject.SetActive(isPlacerClient);
+            camera.gameObject.SetActive(shouldBeVisible);
         }
         else
         {

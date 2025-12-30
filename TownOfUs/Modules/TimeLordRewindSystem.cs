@@ -781,6 +781,96 @@ public static class TimeLordRewindSystem
         return ans;
     }
 
+    private static int FindFirstSampleIndexAtOrAfter(List<ButtonCooldownSample> samples, int startIndex, float time)
+    {
+        var lo = startIndex;
+        var hi = samples.Count - 1;
+        var ans = -1;
+        while (lo <= hi)
+        {
+            var mid = lo + ((hi - lo) / 2);
+            if (samples[mid].Time >= time)
+            {
+                ans = mid;
+                hi = mid - 1;
+            }
+            else
+            {
+                lo = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    private static bool CooldownResetOccurredInWindowAfterSnapshot(
+        List<ButtonCooldownSample> samples,
+        int startIndex,
+        float windowStart,
+        float windowEnd,
+        float snapshotTime,
+        float cooldown)
+    {
+        if (samples == null || samples.Count == 0 || samples.Count <= startIndex)
+        {
+            return false;
+        }
+
+        if (cooldown <= 0.01f)
+        {
+            return false;
+        }
+
+        var last = FindLastSampleIndexAtOrBefore(samples, startIndex, windowEnd);
+        if (last < startIndex + 1)
+        {
+            return false;
+        }
+
+        var first = FindFirstSampleIndexAtOrAfter(samples, startIndex, windowStart);
+        if (first < 0)
+        {
+            return false;
+        }
+
+        var begin = Mathf.Max(first + 1, startIndex + 1);
+
+        var minJump = Mathf.Max(1.0f, cooldown * 0.50f);
+        var nearCooldown = Mathf.Max(0.25f, cooldown * 0.15f);
+
+        for (var i = begin; i <= last; i++)
+        {
+            var cur = samples[i];
+            if (cur.Time <= snapshotTime + 0.0001f)
+            {
+                continue;
+            }
+
+            var prev = samples[i - 1];
+
+            if (prev.EffectActive || cur.EffectActive)
+            {
+                continue;
+            }
+
+            var delta = cur.Timer - prev.Timer;
+            if (delta <= 0.05f)
+            {
+                continue;
+            }
+
+            var looksLikeReset =
+                delta >= minJump ||
+                (cur.Timer >= (cooldown - nearCooldown) && prev.Timer <= (cooldown * 0.60f));
+
+            if (looksLikeReset)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static void RestoreKillButtonCooldownsForSnapshotTime(RoleBehaviour role, float snapshotTime)
     {
         if (role == null)
@@ -819,46 +909,24 @@ public static class TimeLordRewindSystem
             var sample = samples[idx];
             var restoredTimer = sample.Timer;
             
-            // Prevent insta-killing after rewind (persistent clamp, cooldown-mode only).
-            // Only clamp when the button is NOT in its effect state, because effect timers are not "cooldowns".
             if (!sample.EffectActive)
             {
                 if (KillButtonCooldownMaxClampedThisRewind.Contains(button))
                 {
                     restoredTimer = button.Cooldown;
                 }
-                else if (restoredTimer <= 0f || restoredTimer < 0.1f)
+                else
                 {
-                    var wasOnCooldown = false;
-                    for (var j = idx - 1; j >= start; j--)
-                    {
-                        if (!samples[j].EffectActive && samples[j].Timer > 0.1f)
-                        {
-                            wasOnCooldown = true;
-                            break;
-                        }
-                    }
+                    var rewindWindowStart = _rewindHistoryCutoffTime;
+                    var rewindWindowEnd = _rewindStartTime;
 
-                    var hadKillInRewindWindow = false;
-                    if (wasOnCooldown && role.Player != null)
-                    {
-                        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
-                        var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
-                        var startTime = snapshotTime - historySeconds;
-                        var endTime = snapshotTime;
-                        
-                        var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(startTime, endTime);
-                        foreach (var killEvent in killEvents)
-                        {
-                            if (killEvent.Player == role.Player && killEvent.Time <= snapshotTime)
-                            {
-                                hadKillInRewindWindow = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (wasOnCooldown && hadKillInRewindWindow)
+                    if (CooldownResetOccurredInWindowAfterSnapshot(
+                            samples,
+                            start,
+                            rewindWindowStart,
+                            rewindWindowEnd,
+                            snapshotTime,
+                            button.Cooldown))
                     {
                         KillButtonCooldownMaxClampedThisRewind.Add(button);
                         restoredTimer = button.Cooldown;
@@ -887,7 +955,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        const float sampleInterval = 0.5f; // Sample every 0.5 seconds
+        const float sampleInterval = 0.5f;
         var now = Time.time;
         
         if (now - _lastKillCooldownSampleTime < sampleInterval)
@@ -897,7 +965,6 @@ public static class TimeLordRewindSystem
 
         var currentCooldown = player.killTimer;
         
-        // Only record if the cooldown has changed significantly (more than 0.1 seconds)
         if (_lastKillCooldownValue >= 0f && Mathf.Abs(currentCooldown - _lastKillCooldownValue) > 0.1f)
         {
             TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(
@@ -1975,11 +2042,10 @@ return true;*/
         }
 
         var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
-        var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
-        var startTime = snapshotTime - historySeconds;
-        var endTime = snapshotTime;
+        var rewindWindowStart = _rewindHistoryCutoffTime;
+        var rewindWindowEnd = _rewindStartTime; // Time when rewind started
         
-        var killCooldownEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent>(startTime, endTime);
+        var killCooldownEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent>(rewindWindowStart, rewindWindowEnd);
         
         TownOfUs.Events.TouEvents.TimeLordKillCooldownEvent? mostRecentEvent = null;
         foreach (var kcEvent in killCooldownEvents)
@@ -1998,23 +2064,25 @@ return true;*/
             
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
             
-            var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(startTime, endTime);
-            var hadKillInRewindWindow = false;
-            foreach (var killEvent in killEvents)
+            // If we rewound to BEFORE a kill that happened inside the rewind window,
+            // we crossed a moment where the kill button must have been usable (it was pressed).
+            // Clamp so we can't "rewind away" the post-kill cooldown.
+            if (!LocalKillCooldownMaxClampedThisRewind)
             {
-                if (killEvent.Player == player && killEvent.Time <= snapshotTime)
+                var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(rewindWindowStart, rewindWindowEnd);
+                foreach (var killEvent in killEvents)
                 {
-                    hadKillInRewindWindow = true;
-                    break;
+                    if (killEvent.Player != player)
+                    {
+                        continue;
+                    }
+
+                    if (killEvent.Time > snapshotTime && killEvent.Time <= rewindWindowEnd)
+                    {
+                        LocalKillCooldownMaxClampedThisRewind = true;
+                        break;
+                    }
                 }
-            }
-            
-            if (!LocalKillCooldownMaxClampedThisRewind &&
-                hadKillInRewindWindow &&
-                (expectedCooldown <= 0f || expectedCooldown < 0.1f) &&
-                mostRecentEvent.CooldownAfter > 0.1f)
-            {
-                LocalKillCooldownMaxClampedThisRewind = true;
             }
 
             if (LocalKillCooldownMaxClampedThisRewind)
@@ -2266,9 +2334,11 @@ return true;*/
         
         var timeLord = SourceTimeLordId != byte.MaxValue ? MiscUtils.PlayerById(SourceTimeLordId) : null;
         var revivedText = TouLocale.GetParsed("TouRoleTimeLordRevivedNotif", "You were revived thanks to the Time Lord!");
-        var successText = timeLord != null && revived.Data != null
-            ? TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif").Replace("<player>", revived.Data.PlayerName)
-            : string.Empty;
+        var successText = string.Empty;
+        if (timeLord != null && revived.Data != null && OptionGroupSingleton<TimeLordOptions>.Instance.NotifyOnRevive)
+        {
+            successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif").Replace("<player>", revived.Data.PlayerName);
+        }
 
         ReviveUtilities.RevivePlayer(
             reviver: timeLord!,

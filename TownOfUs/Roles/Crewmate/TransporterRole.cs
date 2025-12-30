@@ -461,16 +461,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
         if (player != null && player.AmOwner)
         {
-            // If the transported player is a Puppeteer/Parasite controlling someone, snap camera to the victim instead
+            // If the transported player is a Puppeteer controlling someone, snap camera to the victim instead
             PlayerControl? cameraTarget = null;
             
             if (player.Data?.Role is PuppeteerRole puppeteer && puppeteer.Controlled != null)
             {
                 cameraTarget = puppeteer.Controlled;
-            }
-            else if (player.Data?.Role is ParasiteRole parasite && parasite.Controlled != null)
-            {
-                cameraTarget = parasite.Controlled;
             }
             
             MiscUtils.SnapPlayerCamera(cameraTarget ?? PlayerControl.LocalPlayer);

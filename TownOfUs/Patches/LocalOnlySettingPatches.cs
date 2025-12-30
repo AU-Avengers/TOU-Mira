@@ -2,8 +2,10 @@ using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
 using TownOfUs.Options;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;
@@ -72,6 +74,24 @@ public static class LocalSettings
 
             player.cosmetics.gameObject.SetActive(show);
             player.gameObject.transform.GetChild(3).gameObject.SetActive(show);
+        }
+
+        if (OptionGroupSingleton<SentryOptions>.Instance.LegacyMode)
+        {
+            foreach (var cameraPair in SentryRole.Cameras)
+            {
+                if (cameraPair.Key == null || cameraPair.Key.gameObject == null)
+                {
+                    continue;
+                }
+
+                cameraPair.Key.gameObject.SetActive(true);
+                var spriteRenderer = cameraPair.Key.gameObject.GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.color = Color.white;
+                }
+            }
         }
     }
 

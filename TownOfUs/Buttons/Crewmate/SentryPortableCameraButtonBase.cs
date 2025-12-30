@@ -140,6 +140,8 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             SharedUpdate(playerControl);
         }
 
+        RefreshAbilityButton();
+
         Button?.usesRemainingText.gameObject.SetActive(true);
         Button?.usesRemainingSprite.gameObject.SetActive(true);
         var maxBattery = OptionGroupSingleton<SentryOptions>.Instance.PortableCamsBattery;
@@ -150,6 +152,17 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         {
             ResetCooldownAndOrEffect();
         }
+    }
+
+    private void RefreshAbilityButton()
+    {
+        if (_availableCharge > 0f && PlayerControl.LocalPlayer != null && !PlayerControl.LocalPlayer.AreCommsAffected())
+        {
+            Button?.SetEnabled();
+            return;
+        }
+
+        Button?.SetDisabled();
     }
 
     private static void SharedUpdate(PlayerControl playerControl)

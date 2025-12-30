@@ -1196,6 +1196,7 @@
   <string name="TouOptionTimeLordReviveOnRewind">Revive On Rewind</string>
   <string name="TouOptionTimeLordUndoTasksOnRewind">Undo Tasks On Rewind</string>
   <string name="TouOptionTimeLordUncleanBodiesOnRewind">Unclean Bodies On Rewind</string>
+  <string name="TouOptionTimeLordNotifyOnRevive">Notify Time Lord On Revive</string>
   <!-- Sonar - Crewmate Investigative -->
   <!-- Sonar Wiki / Abilities -->
   <string name="TouRoleSonar">Sonar</string>

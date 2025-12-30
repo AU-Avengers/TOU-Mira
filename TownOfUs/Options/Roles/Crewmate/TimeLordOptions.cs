@@ -35,4 +35,7 @@ public sealed class TimeLordOptions : AbstractOptionGroup<TimeLordRole>
 
     [ModdedToggleOption("TouOptionTimeLordUncleanBodiesOnRewind")]
     public bool UncleanBodiesOnRewind { get; set; } = true;
+
+    [ModdedToggleOption("TouOptionTimeLordNotifyOnRevive")]
+    public bool NotifyOnRevive { get; set; } = false;
 }
