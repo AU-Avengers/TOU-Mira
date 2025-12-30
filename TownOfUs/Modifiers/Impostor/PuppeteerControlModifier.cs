@@ -40,6 +40,11 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
 
             if (MapBehaviour.Instance)
                 MapBehaviour.Instance.Close();
+            if (Player.inVent)
+            {
+                Player.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+                Player.MyPhysics.ExitAllVents();
+            }
         }
         else if (Controller.AmOwner)
         {
@@ -70,11 +75,6 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
 
     private void CreateNotification()
     {
-        if (Player == null || !Player.AmOwner || PlayerControl.LocalPlayer == null)
-        {
-            return;
-        }
-
         if (_controlledNotification == null)
         {
             var controllerName = Controller?.Data?.Role is Roles.ITownOfUsRole touRole ? touRole.RoleName : "Puppeteer";

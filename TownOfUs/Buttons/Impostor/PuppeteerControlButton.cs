@@ -2,6 +2,7 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using MiraAPI.Hud;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
@@ -125,12 +126,21 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
                         !plr.HasModifier<DisabledModifier>()),
                 plr =>
                 {
+                    playerMenu.ForceClose();
                     if (plr == null)
                     {
                         return;
                     }
 
-                    playerMenu.ForceClose();
+                    if (plr.onLadder || plr.inMovingPlat)
+                    {
+                        var notif = Helpers.CreateAndShowNotification(
+                            $"<b>{plr.CachedPlayerData.PlayerName} is currently on a ladder or platform, please wait.</b>",
+                            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
+                        notif.Text.SetOutlineThickness(0.35f);
+                        return;
+                    }
+
                     PuppeteerRole.RpcPuppeteerControl(PlayerControl.LocalPlayer, plr);
                     EffectActive = true;
                     Timer = EffectDuration;
