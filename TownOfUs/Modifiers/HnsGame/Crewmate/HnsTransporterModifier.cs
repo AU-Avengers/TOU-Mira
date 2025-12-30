@@ -7,6 +7,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -124,7 +125,19 @@ public sealed class HnsTransporterModifier : HnsGameModifier
 
         if (player.AmOwner)
         {
-            MiscUtils.SnapPlayerCamera(PlayerControl.LocalPlayer);
+            // If the transported player is a Puppeteer/Parasite controlling someone, snap camera to the victim instead
+            PlayerControl? cameraTarget = null;
+            
+            if (player.Data?.Role is PuppeteerRole puppeteer && puppeteer.Controlled != null)
+            {
+                cameraTarget = puppeteer.Controlled;
+            }
+            else if (player.Data?.Role is ParasiteRole parasite && parasite.Controlled != null)
+            {
+                cameraTarget = parasite.Controlled;
+            }
+            
+            MiscUtils.SnapPlayerCamera(cameraTarget ?? PlayerControl.LocalPlayer);
         }
     }
 }
