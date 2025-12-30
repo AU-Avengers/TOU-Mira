@@ -1,0 +1,26 @@
+{
+  "Name": "Town of Us: Mira",
+  "Description": "Town of Us, but with a visual and internal overhaul, running under MiraAPI.",
+  "Tags": [
+    "mods"
+  ],
+  "Icon": "TownOfUs.Resources.TouMiraIcon.png",
+  "License": "GLPv3",
+  "Authors": [
+    "Atony",
+    "AlchlcSystm",
+    "angxlwtf",
+    "MyDragonBreath",
+    "Nix",
+    "Satire",
+    "xerminator",
+    "XtraCube",
+    "whichtwix",
+    "Zeo"
+  ],
+  "Links": {
+    "Source": "https://github.com/AU-Avengers/TOU-Mira",
+    "Wiki": "https://au-avengers.github.io/docs.toum.gg/",
+    "Discord": "https://discord.gg/ugyc4EVUYZ"
+    }
+}

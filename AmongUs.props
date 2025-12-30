@@ -15,5 +15,6 @@
 
     <ItemGroup>
         <EmbeddedResource Include="TownOfUs\Resources\*.bundle" Exclude="Resources\*.png"/>
+        <EmbeddedResource Include="modinfo.json"/>
     </ItemGroup>
 </Project>
