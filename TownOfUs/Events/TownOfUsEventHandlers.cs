@@ -541,6 +541,10 @@ public static class TownOfUsEventHandlers
 
         GameHistory.AddMurder(source, target);
 
+        TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKill(source, target);
+
+        TimeLordRewindSystem.NotifyHostMurderDuringRewind(source, target);
+
         if (SpellslingerRole.EveryoneHexed() && PlayerControl.LocalPlayer.Data.Role is SpellslingerRole)
         {
             CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, PlayerControl.LocalPlayer.Data.Role);

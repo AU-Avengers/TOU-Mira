@@ -99,6 +99,9 @@ public static class TimeLordRewindSystem
     private static float _lastKillCooldownSampleTime;
     private static float _lastKillCooldownValue = -1f;
     private static float _lastKillButtonCooldownSampleTime;
+    private static readonly HashSet<byte> _hostPendingRewindRevives = new();
+    private static readonly HashSet<byte> _pendingDeferredRevives = new();
+    private static readonly HashSet<byte> _deferredReviveInProgress = new();
 
     private readonly struct ButtonCooldownSample
     {
@@ -189,8 +192,6 @@ public static class TimeLordRewindSystem
     private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
     private static List<ScheduledTaskUndo>? _hostTaskUndos;
 
-    // CleanedBodies moved to TimeLordBodyManager helper
-
     private static bool _cachedHasTimeLord;
     private static float _nextHasTimeLordCheckTime;
 
@@ -199,9 +200,6 @@ public static class TimeLordRewindSystem
     public static float RewindEndTime { get; private set; }
     public static float RewindDuration { get; private set; }
 
-    // If a rewind ever crosses a point where kill would become usable (timer <= ~0),
-    // clamp kill cooldown to max for the remainder of that rewind. This prevents
-    // "killing during rewind" exploits where the timeline passes through ready state.
     internal static bool LocalKillCooldownMaxClampedThisRewind { get; set; }
 
     private static void LogBodyRestore(string msg)
@@ -1042,6 +1040,7 @@ public static class TimeLordRewindSystem
         RewindDuration = duration;
         RewindEndTime = Time.time + duration;
         IsRewinding = true;
+        _hostPendingRewindRevives.Clear();
         LocalKillCooldownMaxClampedThisRewind = false;
         KillButtonCooldownMaxClampedThisRewind.Clear();
         _rewindStartTime = Time.time;
@@ -1145,6 +1144,37 @@ public static class TimeLordRewindSystem
         {
             ConfigureHostBodyPlacements(duration);
         }
+    }
+
+    /// <summary>
+    /// Called from global murder handlers. Only the host acts on this.
+    /// If a murder occurs while rewind is active (or is delivered late during rewind),
+    /// we must still revive the victim to avoid edge-window misses and neutral-kill inconsistencies.
+    /// </summary>
+    public static void NotifyHostMurderDuringRewind(PlayerControl killer, PlayerControl victim)
+    {
+        if (victim == null || victim.Data == null)
+        {
+            return;
+        }
+
+        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        {
+            return;
+        }
+
+        if (!IsRewinding || !OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        {
+            return;
+        }
+
+        if (!_hostPendingRewindRevives.Add(victim.PlayerId))
+        {
+            return;
+        }
+
+        // Fire immediately; clients that haven't processed the death yet will defer and apply later.
+        TimeLordRole.RpcRewindRevive(victim);
     }
 
     public static void RecordHostBodyPositions()
@@ -1717,6 +1747,11 @@ return true;*/
 
     public static void StopRewind()
     {
+        var wasHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
+        var pendingHostRevives = wasHost && _hostPendingRewindRevives.Count > 0
+            ? _hostPendingRewindRevives.ToArray()
+            : Array.Empty<byte>();
+
         IsRewinding = false;
         SourceTimeLordId = byte.MaxValue;
         RewindEndTime = 0f;
@@ -1724,6 +1759,7 @@ return true;*/
         LocalKillCooldownMaxClampedThisRewind = false;
         KillButtonCooldownMaxClampedThisRewind.Clear();
         _hostRevives = null;
+        _hostPendingRewindRevives.Clear();
         _popsPerTick = 0f;
         _popAccumulator = 0f;
         _popsRemaining = 0;
@@ -1797,16 +1833,12 @@ return true;*/
         }
         else if (_hasFinalSnapPos)
         {
-            // Invalid position or game state, clear it
             _hasFinalSnapPos = false;
             _finalSnapPos = default;
         }
 
         if (lp.Collider != null)
         {
-            // Only restore collider state if rewind actually disabled it.
-            // If the local player was a ghost when rewind started and got revived mid-rewind,
-            // forcing collider.enabled from a stale cached value can leave them in a "ghost collision" state.
             if (_rewindDisabledLocalCollider)
             {
                 lp.Collider.enabled = endedInVent || _colliderWasEnabled;
@@ -1816,7 +1848,6 @@ return true;*/
                 lp.Collider.enabled = true;
             }
 
-            // Ensure living players are not left as triggers (ghost-like collision)
             if (lp.Data != null && !lp.Data.IsDead)
             {
                 lp.Collider.isTrigger = false;
@@ -1839,6 +1870,18 @@ return true;*/
         if (ModCompatibility.IsSubmerged())
         {
             ModCompatibility.CheckOutOfBoundsElevator(lp);
+        }
+
+        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        {
+            foreach (var victimId in pendingHostRevives)
+            {
+                var victim = MiscUtils.PlayerById(victimId);
+                if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
+                {
+                    TimeLordRole.RpcRewindRevive(victim);
+                }
+            }
         }
 
         ScheduleRottingRecleanAfterRewind();
@@ -1889,6 +1932,7 @@ return true;*/
         RewindDuration = 0f;
         _rewindStartTime = 0f;
         _hostRevives = null;
+        _hostPendingRewindRevives.Clear();
         _localBodyRestores = null;
         _hostBodyPlacements = null;
         _hostTaskUndos = null;
@@ -2064,9 +2108,6 @@ return true;*/
             
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
             
-            // If we rewound to BEFORE a kill that happened inside the rewind window,
-            // we crossed a moment where the kill button must have been usable (it was pressed).
-            // Clamp so we can't "rewind away" the post-kill cooldown.
             if (!LocalKillCooldownMaxClampedThisRewind)
             {
                 var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(rewindWindowStart, rewindWindowEnd);
@@ -2299,6 +2340,17 @@ return true;*/
 
     public static void ReviveFromRewind(PlayerControl revived)
     {
+        if (revived == null || revived.Data == null)
+        {
+            return;
+        }
+
+        if (!revived.Data.IsDead)
+        {
+            QueueDeferredRevive(revived.PlayerId);
+            return;
+        }
+
         foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>().ToList())
         {
             if (drag.BodyId == revived.PlayerId)
@@ -2359,6 +2411,50 @@ return true;*/
         if (!revived.AmOwner && !string.IsNullOrEmpty(revived.CurrentOutfit.PetId))
         {
             Coroutines.Start(CoRefreshPetState(revived));
+        }
+    }
+
+    private static void QueueDeferredRevive(byte revivedId)
+    {
+        if (!_pendingDeferredRevives.Add(revivedId))
+        {
+            return;
+        }
+
+        Coroutines.Start(CoDeferredRevive(revivedId));
+    }
+
+    private static System.Collections.IEnumerator CoDeferredRevive(byte revivedId)
+    {
+        if (!_deferredReviveInProgress.Add(revivedId))
+        {
+            yield break;
+        }
+
+        try
+        {
+            const float timeout = 2.0f;
+            const float step = 0.05f;
+            var waited = 0f;
+
+            while (waited < timeout)
+            {
+                var p = MiscUtils.PlayerById(revivedId);
+                if (p != null && p.Data != null && !p.Data.Disconnected && p.Data.IsDead)
+                {
+                    _pendingDeferredRevives.Remove(revivedId);
+                    ReviveFromRewind(p);
+                    yield break;
+                }
+
+                waited += step;
+                yield return new WaitForSeconds(step);
+            }
+        }
+        finally
+        {
+            _pendingDeferredRevives.Remove(revivedId);
+            _deferredReviveInProgress.Remove(revivedId);
         }
     }
 }
