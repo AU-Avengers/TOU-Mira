@@ -832,7 +832,6 @@ public static class TimeLordRewindSystem
                     var wasOnCooldown = false;
                     for (var j = idx - 1; j >= start; j--)
                     {
-                        // Only consider cooldown-mode samples for "was on cooldown".
                         if (!samples[j].EffectActive && samples[j].Timer > 0.1f)
                         {
                             wasOnCooldown = true;
@@ -840,7 +839,26 @@ public static class TimeLordRewindSystem
                         }
                     }
 
-                    if (wasOnCooldown)
+                    var hadKillInRewindWindow = false;
+                    if (wasOnCooldown && role.Player != null)
+                    {
+                        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+                        var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
+                        var startTime = snapshotTime - historySeconds;
+                        var endTime = snapshotTime;
+                        
+                        var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(startTime, endTime);
+                        foreach (var killEvent in killEvents)
+                        {
+                            if (killEvent.Player == role.Player && killEvent.Time <= snapshotTime)
+                            {
+                                hadKillInRewindWindow = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (wasOnCooldown && hadKillInRewindWindow)
                     {
                         KillButtonCooldownMaxClampedThisRewind.Add(button);
                         restoredTimer = button.Cooldown;
@@ -1980,7 +1998,19 @@ return true;*/
             
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
             
+            var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(startTime, endTime);
+            var hadKillInRewindWindow = false;
+            foreach (var killEvent in killEvents)
+            {
+                if (killEvent.Player == player && killEvent.Time <= snapshotTime)
+                {
+                    hadKillInRewindWindow = true;
+                    break;
+                }
+            }
+            
             if (!LocalKillCooldownMaxClampedThisRewind &&
+                hadKillInRewindWindow &&
                 (expectedCooldown <= 0f || expectedCooldown < 0.1f) &&
                 mostRecentEvent.CooldownAfter > 0.1f)
             {

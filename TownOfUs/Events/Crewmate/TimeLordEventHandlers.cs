@@ -5,7 +5,9 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.TimeLord;
+using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
+using MiraAPI.GameOptions;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -423,8 +425,30 @@ public static class TimeLordEventHandlers
         {
             var maxKillCooldown = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
             
+            // Only clamp if there was an actual kill in the rewind window, not just a cooldown change
+            var hadKillInRewindWindow = false;
+            if (TimeLordRewindSystem.IsRewinding)
+            {
+                var eventQueue = GetEventQueue();
+                var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
+                var snapshotTime = UnityEngine.Time.time;
+                var startTime = snapshotTime - historySeconds;
+                var endTime = snapshotTime;
+                
+                var killEvents = eventQueue.GetEvents<TownOfUs.Events.TouEvents.TimeLordKillEvent>(startTime, endTime);
+                foreach (var killEvent in killEvents)
+                {
+                    if (killEvent.Player == player && killEvent.Time <= snapshotTime)
+                    {
+                        hadKillInRewindWindow = true;
+                        break;
+                    }
+                }
+            }
+            
             if (TimeLordRewindSystem.IsRewinding &&
                 !TimeLordRewindSystem.LocalKillCooldownMaxClampedThisRewind &&
+                hadKillInRewindWindow &&
                 (cooldownBefore <= 0f || cooldownBefore < 0.1f) &&
                 originalEvent.CooldownAfter > 0.1f)
             {
