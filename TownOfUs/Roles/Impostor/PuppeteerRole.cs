@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
@@ -15,8 +16,12 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ITransportTrigger
 {
+    public MonoBehaviour? OnTransport()
+    {
+        return Controlled;
+    }
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
     public float ControlTimer { get; set; }
 

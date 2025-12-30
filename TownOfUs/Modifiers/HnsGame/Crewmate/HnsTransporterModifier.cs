@@ -4,6 +4,7 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
@@ -126,15 +127,11 @@ public sealed class HnsTransporterModifier : HnsGameModifier
         if (player.AmOwner)
         {
             // If the transported player is a Puppeteer/Parasite controlling someone, snap camera to the victim instead
-            PlayerControl? cameraTarget = null;
+            MonoBehaviour? cameraTarget = null;
             
-            if (player.Data?.Role is PuppeteerRole puppeteer && puppeteer.Controlled != null)
+            if (player.Data?.Role is ITransportTrigger triggerRole)
             {
-                cameraTarget = puppeteer.Controlled;
-            }
-            else if (player.Data?.Role is ParasiteRole parasite && parasite.Controlled != null)
-            {
-                cameraTarget = parasite.Controlled;
+                cameraTarget = triggerRole.OnTransport();
             }
             
             MiscUtils.SnapPlayerCamera(cameraTarget ?? PlayerControl.LocalPlayer);
