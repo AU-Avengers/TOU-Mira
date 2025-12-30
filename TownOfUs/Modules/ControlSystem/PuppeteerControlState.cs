@@ -13,6 +13,7 @@ public static class PuppeteerControlState
     private static readonly Dictionary<byte, Vector2> ControlledDirection = new();
     private static readonly Dictionary<byte, Vector2> ControlledPosition = new();
     private static readonly Dictionary<byte, Vector2> ControlledVelocity = new();
+    private static readonly Dictionary<byte, float> ControlledSince = new();
 
     public static void SetControl(byte controlledId, byte controllerId)
     {
@@ -20,6 +21,7 @@ public static class PuppeteerControlState
         ControlledDirection[controlledId] = Vector2.zero;
         ControlledPosition[controlledId] = Vector2.zero;
         ControlledVelocity[controlledId] = Vector2.zero;
+        ControlledSince[controlledId] = Time.time;
     }
 
     public static void ClearControl(byte controlledId)
@@ -28,6 +30,7 @@ public static class PuppeteerControlState
         ControlledDirection.Remove(controlledId);
         ControlledPosition.Remove(controlledId);
         ControlledVelocity.Remove(controlledId);
+        ControlledSince.Remove(controlledId);
     }
 
     public static bool IsControlled(byte controlledId, out byte controllerId)
@@ -61,11 +64,17 @@ public static class PuppeteerControlState
         return ControlledVelocity.TryGetValue(controlledId, out var vel) ? vel : Vector2.zero;
     }
 
+    public static float GetControlElapsedSeconds(byte controlledId)
+    {
+        return ControlledSince.TryGetValue(controlledId, out var since) ? Mathf.Max(0f, Time.time - since) : float.PositiveInfinity;
+    }
+
     public static void ClearAll()
     {
         ControlledBy.Clear();
         ControlledDirection.Clear();
         ControlledPosition.Clear();
         ControlledVelocity.Clear();
+        ControlledSince.Clear();
     }
 }
