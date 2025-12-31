@@ -34,6 +34,22 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         SetTimer(Cooldown * multiplier);
     }
 
+    public override void FixedUpdateHandler(PlayerControl playerControl)
+    {
+        // Freeze effect/cooldown timers during the initial control sync grace window.
+        // This prevents "burning" duration/cooldown while the victim is intentionally immobilized.
+        TimerPaused = false;
+        if (PlayerControl.LocalPlayer?.Data?.Role is PuppeteerRole pr &&
+            pr.Controlled != null &&
+            PuppeteerControlState.IsControlled(pr.Controlled.PlayerId, out _) &&
+            PuppeteerControlState.IsInInitialGrace(pr.Controlled.PlayerId))
+        {
+            TimerPaused = true;
+        }
+
+        base.FixedUpdateHandler(playerControl);
+    }
+
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);

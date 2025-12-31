@@ -9,6 +9,10 @@ namespace TownOfUs.Modules.ControlSystem;
 /// </summary>
 public static class ParasiteControlState
 {
+    // After initial control begins, different clients may briefly disagree on transform state.
+    // During this grace window we avoid applying any victim movement input to prevent desync.
+    public const float InitialControlSyncGraceSeconds = 1.0f;
+
     private static readonly Dictionary<byte, byte> ControlledBy = new();
     private static readonly Dictionary<byte, Vector2> ControlledDirection = new();
     private static readonly Dictionary<byte, Vector2> ControlledPosition = new();
@@ -67,6 +71,11 @@ public static class ParasiteControlState
     public static float GetControlElapsedSeconds(byte controlledId)
     {
         return ControlledSince.TryGetValue(controlledId, out var since) ? Mathf.Max(0f, Time.time - since) : float.PositiveInfinity;
+    }
+
+    public static bool IsInInitialGrace(byte controlledId)
+    {
+        return GetControlElapsedSeconds(controlledId) < InitialControlSyncGraceSeconds;
     }
 
     public static void ClearAll()
