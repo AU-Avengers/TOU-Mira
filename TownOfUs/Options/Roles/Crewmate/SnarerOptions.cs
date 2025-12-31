@@ -22,8 +22,11 @@ public sealed class TrapperOptions : AbstractOptionGroup<TrapperRole>
     [ModdedNumberOption("TouOptionTrapperMaxTraps", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxTraps { get; set; } = 4f;
 
-    [ModdedToggleOption("TouOptionTrapperTrapsRemovedAfterRound")]
-    public bool TrapsRemoveOnNewRound { get; set; } = false;
+    [ModdedNumberOption("TouOptionTrapperTrapRoundsLast", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", true)]
+    public float TrapRoundsLast { get; set; } = 0f;
+
+    [ModdedToggleOption("TouOptionTrapperGetMoreFromTasks")]
+    public bool GetMoreFromTasks { get; set; } = true;
 
     [ModdedNumberOption("TouOptionTrapperTasksUntilMoreTraps", 1f, 10f, 1f, MiraNumberSuffixes.None, "0")]
     public float TasksUntilMoreTraps { get; set; } = 2f;

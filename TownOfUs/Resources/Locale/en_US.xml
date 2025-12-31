@@ -1242,7 +1242,8 @@
   <string name="TouOptionTrapperTrappeduration">Trap Immobilize Duration</string>
   <string name="TouOptionTrapperArrowDuration">Trap Arrow Duration</string>
   <string name="TouOptionTrapperMaxTraps">Initial Number Of Traps</string>
-  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+  <string name="TouOptionTrapperTrapRoundsLast">Traps Last (Rounds)</string>
+  <string name="TouOptionTrapperGetMoreFromTasks">Get More Traps From Tasks</string>
   <string name="TouOptionTrapperTasksUntilMoreTraps">Tasks Until More Traps</string>
   <string name="TouOptionTrapperTrapTargets">Who Gets Trapped</string>
   <string name="TouOptionTrapperTrapTargetsEnumImpostors">Impostors</string>

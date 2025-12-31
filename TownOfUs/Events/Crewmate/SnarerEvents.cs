@@ -1,5 +1,6 @@
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -23,22 +24,6 @@ public static class TrapperEvents
             VentTrapSystem.ClearAll();
             ActiveTrapTaskCount = 0;
             LastTrapUseTaskId = uint.MaxValue;
-            return;
-        }
-
-        if (!OptionGroupSingleton<TrapperOptions>.Instance.TrapsRemoveOnNewRound)
-        {
-            return;
-        }
-
-        VentTrapSystem.ClearAll();
-        ActiveTrapTaskCount = 0;
-        LastTrapUseTaskId = uint.MaxValue;
-
-        if (PlayerControl.LocalPlayer?.Data?.Role is TrapperRole)
-        {
-            var uses = OptionGroupSingleton<TrapperOptions>.Instance.MaxTraps;
-            CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)uses);
         }
     }
 
@@ -56,7 +41,7 @@ public static class TrapperEvents
         }
 
         var options = OptionGroupSingleton<TrapperOptions>.Instance;
-        if (options.TrapsRemoveOnNewRound || options.TasksUntilMoreTraps == 0)
+        if (!options.GetMoreFromTasks || options.TasksUntilMoreTraps <= 0)
         {
             return;
         }
@@ -74,5 +59,12 @@ public static class TrapperEvents
             button.SetUses(button.UsesLeft);
             ActiveTrapTaskCount = 0;
         }
+    }
+
+    [RegisterEvent]
+    public static void EjectionEventHandler(EjectionEvent @event)
+    {
+        // “Rounds” advance on meeting resolution; match Plumber’s pattern.
+        VentTrapSystem.DecrementRoundsAndRemoveExpired();
     }
 }
