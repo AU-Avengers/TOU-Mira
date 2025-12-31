@@ -4,13 +4,13 @@ using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
 
-namespace TownOfUs.Modifiers.Game.Crewmate;
+namespace TownOfUs.Modifiers.Game.Universal;
 
 /// <summary>
 /// Clueless: removes all task guidance (task list, task arrows/markers, and map task locations).
 /// Tasks still function normally and contribute to the task bar.
 /// </summary>
-public sealed class CluelessModifier : TouGameModifier, IWikiDiscoverable
+public sealed class CluelessModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override string LocaleKey => "Clueless";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
@@ -29,26 +29,26 @@ public sealed class CluelessModifier : TouGameModifier, IWikiDiscoverable
 
     // Intentionally left null to avoid requiring a new bundle sprite for compilation/runtime safety.
     public override LoadableAsset<Sprite>? ModifierIcon => null;
-    public override Color FreeplayFileColor => new Color32(140, 200, 255, 255);
+    public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
 
-    public override ModifierFaction FactionType => ModifierFaction.CrewmatePassive;
+    public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.CluelessChance;
+        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.CluelessChance;
     }
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.CluelessAmount;
+        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.CluelessAmount;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        // Crewmates only (no neutral/impostor), and keep Spectator excluded via base.
-        return base.IsModifierValidOn(role) && role.IsCrewmate();
+        // Any role can be Clueless (keeps Spectator excluded via base).
+        return base.IsModifierValidOn(role);
     }
 
     public override void OnActivate()

@@ -1,7 +1,7 @@
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Modifiers.Game.Crewmate;
+using TownOfUs.Modifiers.Game.Universal;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;

@@ -729,7 +729,7 @@ public static class HudManagerPatches
         {
             var tabText = HudManager.Instance.TaskPanel.tab.transform.FindChild("TabText_TMP")
                 .GetComponent<TextMeshPro>();
-            if (PlayerControl.LocalPlayer.HasModifier<TownOfUs.Modifiers.Game.Crewmate.CluelessModifier>())
+            if (PlayerControl.LocalPlayer.HasModifier<TownOfUs.Modifiers.Game.Universal.CluelessModifier>())
             {
                 tabText.SetText($"{StoredTasksText}");
             }
