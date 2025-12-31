@@ -12,16 +12,16 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
 
-public static class TrapperEvents
+public static class RevealerEvents
 {
     [RegisterEvent]
     public static void CompleteTaskEvent(CompleteTaskEvent @event)
     {
-        if (@event.Player.AmOwner && @event.Player.Data.Role is TrapperRole &&
-            OptionGroupSingleton<TrapperOptions>.Instance.TaskUses &&
-            !OptionGroupSingleton<TrapperOptions>.Instance.TrapsRemoveOnNewRound)
+        if (@event.Player.AmOwner && @event.Player.Data.Role is RevealerRole &&
+            OptionGroupSingleton<RevealerOptions>.Instance.TaskUses &&
+            !OptionGroupSingleton<RevealerOptions>.Instance.TrapsRemoveOnNewRound)
         {
-            var button = CustomButtonSingleton<TrapperTrapButton>.Instance;
+            var button = CustomButtonSingleton<RevealerTrapButton>.Instance;
             ++button.UsesLeft;
             ++button.ExtraUses;
             button.SetUses(button.UsesLeft);
@@ -31,20 +31,20 @@ public static class TrapperEvents
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
-        CustomRoleUtils.GetActiveRolesOfType<TrapperRole>().Do(x => x.Report());
+        CustomRoleUtils.GetActiveRolesOfType<RevealerRole>().Do(x => x.Report());
     }
 
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
-        if (OptionGroupSingleton<TrapperOptions>.Instance.TrapsRemoveOnNewRound)
+        if (OptionGroupSingleton<RevealerOptions>.Instance.TrapsRemoveOnNewRound)
         {
-            CustomRoleUtils.GetActiveRolesOfType<TrapperRole>().Do(x => x.Clear());
+            CustomRoleUtils.GetActiveRolesOfType<RevealerRole>().Do(x => x.Clear());
 
-            if (PlayerControl.LocalPlayer.Data.Role is TrapperRole)
+            if (PlayerControl.LocalPlayer.Data.Role is RevealerRole)
             {
-                var uses = OptionGroupSingleton<TrapperOptions>.Instance.MaxTraps;
-                CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)uses);
+                var uses = OptionGroupSingleton<RevealerOptions>.Instance.MaxTraps;
+                CustomButtonSingleton<RevealerTrapButton>.Instance.SetUses((int)uses);
             }
         }
     }

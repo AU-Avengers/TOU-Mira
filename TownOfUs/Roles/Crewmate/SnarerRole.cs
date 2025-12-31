@@ -15,12 +15,12 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class SnarerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
 
     public DoomableType DoomHintType => DoomableType.Trickster;
-    public string LocaleKey => "Snarer";
+    public string LocaleKey => "Trapper";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
@@ -38,14 +38,14 @@ public sealed class SnarerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return
             [
                 new(
-                    TouLocale.GetParsed($"TouRole{LocaleKey}Snare", "Snare"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}SnareWikiDescription"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}Trap", "Trap"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}TrapWikiDescription"),
                     TouCrewAssets.TrapSprite)
             ];
         }
     }
 
-    public Color RoleColor => TownOfUsColors.Snarer;
+    public Color RoleColor => TownOfUsColors.Trapper;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
 
@@ -57,31 +57,31 @@ public sealed class SnarerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public void LobbyStart()
     {
-        VentSnareSystem.ClearAll();
+        VentTrapSystem.ClearAll();
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
-        VentSnareSystem.ClearOwnedBy(targetPlayer.PlayerId);
+        VentTrapSystem.ClearOwnedBy(targetPlayer.PlayerId);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SnarerPlaceSnare)]
-    public static void RpcSnarerPlaceSnare(PlayerControl snarer, int ventId)
+    [MethodRpc((uint)TownOfUsRpc.TrapperPlaceTrap)]
+    public static void RpcTrapperPlaceTrap(PlayerControl trapper, int ventId)
     {
-        if (snarer == null || snarer.Data?.Role is not SnarerRole)
+        if (trapper == null || trapper.Data?.Role is not TrapperRole)
         {
             return;
         }
 
-        VentSnareSystem.Place(ventId, snarer.PlayerId);
+        VentTrapSystem.Place(ventId, trapper.PlayerId);
 
-        if (snarer.AmOwner)
+        if (trapper.AmOwner)
         {
             var vent = Helpers.GetVentById(ventId);
             var room = vent != null ? MiscUtils.GetRoomName(vent.transform.position) : TouLocale.Get("Unknown", "Unknown");
-            var msg = TouLocale.GetParsed("TouRoleSnarerPlaced", "Snared a vent in <room>!", new()
+            var msg = TouLocale.GetParsed("TouRoleTrapperPlaced", "Trapped a vent in <room>!", new()
             {
                 ["<room>"] = room
             });
@@ -95,15 +95,15 @@ public sealed class SnarerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
-    [MethodRpc((uint)TownOfUsRpc.SnarerTriggerSnare)]
-    public static IEnumerator RpcSnarerTriggerSnare(PlayerControl snarer, int ventId, byte victimId)
+    [MethodRpc((uint)TownOfUsRpc.TrapperTriggerTrap)]
+    public static IEnumerator RpcTrapperTriggerTrap(PlayerControl trapper, int ventId, byte victimId)
     {
-        if (snarer == null)
+        if (trapper == null)
         {
             yield break;
         }
 
-        VentSnareSystem.Remove(ventId);
+        VentTrapSystem.Remove(ventId);
 
         var victim = MiscUtils.PlayerById(victimId);
         if (victim == null)
@@ -111,29 +111,29 @@ public sealed class SnarerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             yield break;
         }
 
-        if (!VentSnareSystem.IsEligibleToBeSnared(victim))
+        if (!VentTrapSystem.IsEligibleToBeTrapped(victim))
         {
             yield break;
         }
 
         var vent = Helpers.GetVentById(ventId);
-        var ventTopPos = vent != null ? VentSnareSystem.GetVentTopPosition(vent) : (Vector2)victim.transform.position;
+        var ventTopPos = vent != null ? VentTrapSystem.GetVentTopPosition(vent) : (Vector2)victim.transform.position;
 
         yield return new WaitForSeconds(0.3f);
 
         if (victim.AmOwner)
         {
-            CoApplySnareToVictimAfterVentAnim(victim, ventId, ventTopPos, vent);
+            CoApplyTrapToVictimAfterVentAnim(victim, ventId, ventTopPos, vent);
         }
-        else if (snarer.AmOwner)
+        else if (trapper.AmOwner)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snarer));
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Trapper));
 
-            var arrowDur = OptionGroupSingleton<SnarerOptions>.Instance.ArrowDuration;
-            snarer.GetModifierComponent()?.AddModifier(new VentArrowModifier(ventTopPos, TownOfUsColors.Snarer, arrowDur));
+            var arrowDur = OptionGroupSingleton<TrapperOptions>.Instance.ArrowDuration;
+            trapper.GetModifierComponent()?.AddModifier(new VentArrowModifier(ventTopPos, TownOfUsColors.Trapper, arrowDur));
 
             var room = vent != null ? MiscUtils.GetRoomName(vent.transform.position) : TouLocale.Get("Unknown", "Unknown");
-            var msg = TouLocale.GetParsed("TouRoleSnarerTriggered", "Your snare was triggered in <room>!", new()
+            var msg = TouLocale.GetParsed("TouRoleTrapperTriggered", "Your trap was triggered in <room>!", new()
             {
                 ["<room>"] = room
             });
@@ -147,21 +147,21 @@ public sealed class SnarerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
     }
 
-    private static void CoApplySnareToVictimAfterVentAnim(PlayerControl victim, int ventId, Vector2 ventTopPos, Vent? vent)
+    private static void CoApplyTrapToVictimAfterVentAnim(PlayerControl victim, int ventId, Vector2 ventTopPos, Vent? vent)
     {
         if (victim == null || victim.HasDied() || !victim.AmOwner)
         {
             return;
         }
 
-        var dur = OptionGroupSingleton<SnarerOptions>.Instance.SnareDuration;
-        victim.GetModifierComponent()?.AddModifier(new SnaredOnVentModifier(ventTopPos, dur, ventId));
+        var dur = OptionGroupSingleton<TrapperOptions>.Instance.Trappeduration;
+        victim.GetModifierComponent()?.AddModifier(new TrappedOnVentModifier(ventTopPos, dur, ventId));
 
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snarer));
+        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Trapper));
         TouAudio.PlaySound(TouAudio.DiscoveredSound);
 
         var room = vent != null ? MiscUtils.GetRoomName(vent.transform.position) : TouLocale.Get("Unknown", "Unknown");
-        var msg = TouLocale.GetParsed("TouRoleSnarerCaught", "You were caught in a snare in <room>!", new()
+        var msg = TouLocale.GetParsed("TouRoleTrapperCaught", "You were caught in a trap in <room>!", new()
         {
             ["<room>"] = room
         });

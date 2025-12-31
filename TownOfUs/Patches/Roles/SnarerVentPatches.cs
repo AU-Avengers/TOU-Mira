@@ -6,7 +6,7 @@ using TownOfUs.Utilities;
 namespace TownOfUs.Patches.Roles;
 
 [HarmonyPatch]
-public static class SnarerVentPatches
+public static class TrapperVentPatches
 {
     [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
     [HarmonyPostfix]
@@ -40,23 +40,23 @@ public static class SnarerVentPatches
             return;
         }
 
-        if (!VentSnareSystem.TryGetSnarerId(ventId, out var snarerId))
+        if (!VentTrapSystem.TryGetTraprId(ventId, out var trapperId))
         {
             return;
         }
 
-        if (!VentSnareSystem.IsEligibleToBeSnared(ventingPlayer))
+        if (!VentTrapSystem.IsEligibleToBeTrapped(ventingPlayer))
         {
             return;
         }
 
-        var snarer = MiscUtils.PlayerById(snarerId);
-        if (snarer == null || snarer.Data?.Role is not SnarerRole)
+        var trapper = MiscUtils.PlayerById(trapperId);
+        if (trapper == null || trapper.Data?.Role is not TrapperRole)
         {
-            VentSnareSystem.Remove(ventId);
+            VentTrapSystem.Remove(ventId);
             return;
         }
 
-        SnarerRole.RpcSnarerTriggerSnare(snarer, ventId, ventingPlayer.PlayerId);
+        TrapperRole.RpcTrapperTriggerTrap(trapper, ventId, ventingPlayer.PlayerId);
     }
 }

@@ -697,7 +697,7 @@
   <string name="TouRoleImitatorNeutralCounterparts">Neutral Counterparts</string>
   <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnesiac ⇨ Medic | Doom ⇨ Vigi | Exe ⇨ Snitch\%nl\%Glitch ⇨ Sheriff | Fairy ⇨ Cleric | Inquis ⇨ Oracle\%nl\%Jester ⇨ Plumber | Merc ⇨ Warden\%nl\%Pb/Pest ⇨ Aurial | SC ⇨ Medium | WW ⇨ Hunter</string>
   <string name="TouRoleImitatorImpostorCounterparts">Impostor Counterparts</string>
-  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Trapper | Hypnotist ⇨ Lookout | Janitor ⇨ Forensic\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Sonar\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
+  <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Revealer | Hypnotist ⇨ Lookout | Janitor ⇨ Forensic\%nl\%Miner ⇨ Engineer | Scavenger ⇨ Sonar\%nl\%Undertaker ⇨ Altruist | Warlock ⇨ Veteran</string>
   <!-- Imitator Options -->
   <string name="TouOptionImitatorImitateNeutrals">Imitate Neutral Counterparts</string>
   <string name="TouOptionImitatorImitateImpostors">Imitate Impostor Counterparts</string>
@@ -1232,43 +1232,47 @@
   <!-- Trapper - Crewmate Investigative -->
   <!-- Trapper Wiki / Abilities -->
   <string name="TouRoleTrapper">Trapper</string>
-  <string name="TouRoleTrapperIntroBlurb">Identify what roles are in play</string>
-  <string name="TouRoleTrapperTabDescription">Place traps around the map, revealing roles within them</string>
-  <string name="TouRoleTrapperWikiDescription">The Trapper is a Crewmate Investigative role that can place traps around the map. If someone stays in it for enough time and enough players go through, they will get a list of their roles in the next meeting in random order.</string>
+  <string name="TouRoleTrapperIntroBlurb">Trap vents to catch venters</string>
+  <string name="TouRoleTrapperTabDescription">Trap vents to force venters out and immobilize them briefly.</string>
+  <string name="TouRoleTrapperWikiDescription">The Trapper is a Crewmate Investigative role that can trap vents around the map. Depending on settings, when a trapped vent is entered or exited by an eligible player, they are immediately forced out and become stuck on top of the vent for a configurable amount of time. When a trap is triggered, the Trapper is notified and briefly receives an arrow pointing toward the trapped vent.</string>
   <string name="TouRoleTrapperTrap">Trap</string>
-  <string name="TouRoleTrapperTrapWikiDescription">Places a trap. Depending on settings they may stay the entire game or reset after meetings.</string>
+  <string name="TouRoleTrapperTrapWikiDescription">Arms the nearest vent. The next eligible player that enters or exits this vent will be forced out and stuck briefly.</string>
   <!-- Trapper Options -->
   <string name="TouOptionTrapperTrapCooldown">Trap Cooldown</string>
-  <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
-  <string name="TouOptionTrapperMaxNumberOfTraps">Initial Number Of Traps</string>
-  <string name="TouOptionTrapperTrapSize">Trap Size</string>
+  <string name="TouOptionTrapperTrappeduration">Trap Immobilize Duration</string>
+  <string name="TouOptionTrapperArrowDuration">Trap Arrow Duration</string>
+  <string name="TouOptionTrapperMaxTraps">Initial Number Of Traps</string>
   <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
-  <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
-  <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
+  <string name="TouOptionTrapperTasksUntilMoreTraps">Tasks Until More Traps</string>
+  <string name="TouOptionTrapperTrapTargets">Who Gets Trapped</string>
+  <string name="TouOptionTrapperTrapTargetsEnumImpostors">Impostors</string>
+  <string name="TouOptionTrapperTrapTargetsEnumImpostorsAndNeutrals">Impostors + Neutrals</string>
+  <string name="TouOptionTrapperTrapTargetsEnumAll">All</string>
   <!-- Trapper Feedback -->
-  <string name="TouRoleTrapperMessageTitle">Trapper Report</string>
-  <string name="TouRoleTrapperNoPlayers">No players entered any of your traps</string>
-  <string name="TouRoleTrapperNotEnoughPLayers">Not enough players triggered your traps</string>
-  <string name="TouRoleTrapperRolesCaught">Roles caught in your trap:</string>
-  <!-- Snarer - Crewmate Support -->
-  <!-- Snarer Wiki / Abilities -->
-  <string name="TouRoleSnarer">Snarer</string>
-  <string name="TouRoleSnarerIntroBlurb">Trap vents to catch venters</string>
-  <string name="TouRoleSnarerTabDescription">Snare vents to force Impostors and Neutrals out and immobilize them briefly.</string>
-  <string name="TouRoleSnarerWikiDescription">The Snarer is a Crewmate Investigative role that can trap vents around the map. If an Impostor or Neutral role enters or exits a trapped vent, they are immediately forced out and become stuck on top of the vent for a configurable amount of time. When a snare is triggered, the Snarer is notified and briefly receives an arrow pointing toward the trapped vent.</string>
-  <string name="TouRoleSnarerSnare">Snare</string>
-  <string name="TouRoleSnarerSnareWikiDescription">Arms the nearest vent. The next Impostor or Neutral that enters or exits this vent will be forced out and stuck briefly.</string>
-  <!-- Snarer Options -->
-  <string name="TouOptionSnarerSnareCooldown">Snare Cooldown</string>
-  <string name="TouOptionSnarerSnareDuration">Snare Immobilize Duration</string>
-  <string name="TouOptionSnarerArrowDuration">Snare Arrow Duration</string>
-  <string name="TouOptionSnarerMaxSnares">Initial Number Of Snares</string>
-  <string name="TouOptionSnarerSnaresRemovedAfterRound">Snares Removed After Each Round</string>
-  <string name="TouOptionSnarerTasksUntilMoreSnares">Tasks Until More Snares</string>
-  <!-- Snarer Feedback -->
-  <string name="TouRoleSnarerPlaced">Snared a vent in &lt;room&gt;!</string>
-  <string name="TouRoleSnarerTriggered">Your snare was triggered in &lt;room&gt;!</string>
-  <string name="TouRoleSnarerCaught">You were caught in a snare in &lt;room&gt;!</string>
+  <string name="TouRoleTrapperPlaced">Trapped a vent in &lt;room&gt;!</string>
+  <string name="TouRoleTrapperTriggered">Your trap was triggered in &lt;room&gt;!</string>
+  <string name="TouRoleTrapperCaught">You were caught in a trap in &lt;room&gt;!</string>
+  <!-- Revealer - Crewmate Investigative -->
+  <!-- Revealer Wiki / Abilities -->
+  <string name="TouRoleRevealer">Revealer</string>
+  <string name="TouRoleRevealerIntroBlurb">Identify what roles are in play</string>
+  <string name="TouRoleRevealerTabDescription">Place traps around the map, revealing roles within them</string>
+  <string name="TouRoleRevealerWikiDescription">The Revealer is a Crewmate Investigative role that can place traps around the map. If someone stays in it for enough time and enough players go through, they will get a list of their roles in the next meeting in random order.</string>
+  <string name="TouRoleRevealerTrap">Trap</string>
+  <string name="TouRoleRevealerTrapWikiDescription">Places a trap. Depending on settings they may stay the entire game or reset after meetings.</string>
+  <!-- Revealer Options -->
+  <string name="TouOptionRevealerTrapCooldown">Trap Cooldown</string>
+  <string name="TouOptionRevealerMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
+  <string name="TouOptionRevealerMaxNumberOfTraps">Initial Number Of Traps</string>
+  <string name="TouOptionRevealerTrapSize">Trap Size</string>
+  <string name="TouOptionRevealerTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+  <string name="TouOptionRevealerGetUsesFromTasks">Get More Uses From Completing Tasks</string>
+  <string name="TouOptionRevealerMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
+  <!-- Revealer Feedback -->
+  <string name="TouRoleRevealerMessageTitle">Revealer Report</string>
+  <string name="TouRoleRevealerNoPlayers">No players entered any of your traps</string>
+  <string name="TouRoleRevealerNotEnoughPLayers">Not enough players triggered your traps</string>
+  <string name="TouRoleRevealerRolesCaught">Roles caught in your trap:</string>
   <!-- Veteran - Crewmate Killing -->
   <!-- Veteran Wiki / Abilities -->
   <string name="TouRoleVeteran">Veteran</string>

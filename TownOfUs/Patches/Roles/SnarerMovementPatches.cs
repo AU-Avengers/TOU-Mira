@@ -8,7 +8,7 @@ using UnityEngine;
 namespace TownOfUs.Patches.Roles;
 
 [HarmonyPatch]
-public static class SnarerMovementPatches
+public static class TrapperMovementPatches
 {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CanMove), MethodType.Getter)]
     [HarmonyPostfix]
@@ -24,7 +24,7 @@ public static class SnarerMovementPatches
             return;
         }
 
-        if (__instance.HasModifier<SnaredOnVentModifier>() && !MeetingHud.Instance && !TimeLordRewindSystem.IsRewinding)
+        if (__instance.HasModifier<TrappedOnVentModifier>() && !MeetingHud.Instance && !TimeLordRewindSystem.IsRewinding)
         {
             __result = false;
         }
@@ -50,14 +50,14 @@ public static class SnarerMovementPatches
             return true;
         }
 
-        if (!player.TryGetModifier<SnaredOnVentModifier>(out var snared) || !snared.TimerActive)
+        if (!player.TryGetModifier<TrappedOnVentModifier>(out var trapped) || !trapped.TimerActive)
         {
             return true;
         }
 
         AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-        player.transform.position = snared.VentTopPos;
-        player.NetTransform.SnapTo(snared.VentTopPos);
+        player.transform.position = trapped.VentTopPos;
+        player.NetTransform.SnapTo(trapped.VentTopPos);
 
         return false;
     }

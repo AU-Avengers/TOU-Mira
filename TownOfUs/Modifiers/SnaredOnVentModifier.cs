@@ -9,9 +9,9 @@ namespace TownOfUs.Modifiers;
 /// <summary>
 /// Temporary immobilize-on-vent effect. Only enforces movement/position for the owning client.
 /// </summary>
-public sealed class SnaredOnVentModifier(Vector2 ventTopPos, float durationSeconds, int ventId) : TimedModifier
+public sealed class TrappedOnVentModifier(Vector2 ventTopPos, float durationSeconds, int ventId) : TimedModifier
 {
-    public override string ModifierName => "Snared";
+    public override string ModifierName => "Trapped";
     public override bool HideOnUi => true;
     public override bool AutoStart => true;
     public override bool RemoveOnComplete => true;

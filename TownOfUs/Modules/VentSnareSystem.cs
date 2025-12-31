@@ -1,51 +1,65 @@
+using MiraAPI.GameOptions;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modules;
 
-public static class VentSnareSystem
+public static class VentTrapSystem
 {
-    // ventId -> snarerPlayerId
-    private static readonly Dictionary<int, byte> _snares = new();
+    // ventId -> traprPlayerId
+    private static readonly Dictionary<int, byte> _traps = new();
 
-    public static bool TryGetSnarerId(int ventId, out byte snarerId) => _snares.TryGetValue(ventId, out snarerId);
+    public static bool TryGetTraprId(int ventId, out byte traprId) => _traps.TryGetValue(ventId, out traprId);
 
-    public static bool IsSnared(int ventId) => _snares.ContainsKey(ventId);
+    public static bool IsTrapped(int ventId) => _traps.ContainsKey(ventId);
 
-    public static void Place(int ventId, byte snarerId)
+    public static void Place(int ventId, byte traprId)
     {
-        // Only allow one active snared vent per Snarer: placing a new snare replaces the old one.
-        ClearOwnedBy(snarerId);
-        _snares[ventId] = snarerId;
+        // Only allow one active trapped vent per Trapper: placing a new trap replaces the old one.
+        ClearOwnedBy(traprId);
+        _traps[ventId] = traprId;
     }
 
     public static void Remove(int ventId)
     {
-        _snares.Remove(ventId);
+        _traps.Remove(ventId);
     }
 
     public static void ClearAll()
     {
-        _snares.Clear();
+        _traps.Clear();
     }
 
-    public static void ClearOwnedBy(byte snarerId)
+    public static void ClearOwnedBy(byte traprId)
     {
-        if (_snares.Count == 0)
+        if (_traps.Count == 0)
         {
             return;
         }
 
-        var toRemove = _snares.Where(kvp => kvp.Value == snarerId).Select(kvp => kvp.Key).ToList();
+        var toRemove = _traps.Where(kvp => kvp.Value == traprId).Select(kvp => kvp.Key).ToList();
         foreach (var ventId in toRemove)
         {
-            _snares.Remove(ventId);
+            _traps.Remove(ventId);
         }
     }
 
-    public static bool IsEligibleToBeSnared(PlayerControl pc)
+    public static bool IsEligibleToBeTrapped(PlayerControl pc)
     {
-        return pc != null && !pc.HasDied() && (pc.IsImpostor() || pc.IsNeutral());
+        if (pc == null || pc.HasDied())
+        {
+            return false;
+        }
+
+        var targets = OptionGroupSingleton<TrapperOptions>.Instance.TrapTargets;
+        return targets switch
+        {
+            VentTrapTargets.Impostors => pc.IsImpostor(),
+            VentTrapTargets.ImpostorsAndNeutrals => pc.IsImpostor() || pc.IsNeutral(),
+            VentTrapTargets.All => true,
+            _ => pc.IsImpostor() || pc.IsNeutral()
+        };
     }
 
     public static Vector2 GetVentTopPosition(Vent vent)

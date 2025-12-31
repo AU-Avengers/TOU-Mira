@@ -9,20 +9,20 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SnarerSnareButton : TownOfUsRoleButton<SnarerRole, Vent>
+public sealed class TrapperTrapButton : TownOfUsRoleButton<TrapperRole, Vent>
 {
     private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
 
-    public override string Name => TouLocale.GetParsed("TouRoleSnarerSnare", "Snare");
-    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
-    public override Color TextOutlineColor => TownOfUsColors.Snarer;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SnarerOptions>.Instance.SnareCooldown + MapCooldown, 5f, 120f);
-    public override int MaxUses => (int)OptionGroupSingleton<SnarerOptions>.Instance.MaxSnares;
+    public override string Name => TouLocale.GetParsed("TouRoleTrapperTrap", "Trap");
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
+    public override Color TextOutlineColor => TownOfUsColors.Trapper;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<TrapperOptions>.Instance.TrapCooldown + MapCooldown, 5f, 120f);
+    public override int MaxUses => (int)OptionGroupSingleton<TrapperOptions>.Instance.MaxTraps;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrapSprite;
 
     public override bool IsTargetValid(Vent? target)
     {
-        return base.IsTargetValid(target) && target != null && !VentSnareSystem.IsSnared(target.Id);
+        return base.IsTargetValid(target) && target != null && !VentTrapSystem.IsTrapped(target.Id);
     }
 
     public override Vent? GetTarget()
@@ -61,6 +61,6 @@ public sealed class SnarerSnareButton : TownOfUsRoleButton<SnarerRole, Vent>
             return;
         }
 
-        SnarerRole.RpcSnarerPlaceSnare(PlayerControl.LocalPlayer, Target.Id);
+        TrapperRole.RpcTrapperPlaceTrap(PlayerControl.LocalPlayer, Target.Id);
     }
 }

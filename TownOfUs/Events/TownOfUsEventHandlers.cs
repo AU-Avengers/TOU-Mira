@@ -351,8 +351,8 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<TrackerTrackButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<TrackerTrackButton>.Instance.SetUses((int)OptionGroupSingleton<SonarOptions>.Instance
             .MaxTracks);
-        CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
+        CustomButtonSingleton<RevealerTrapButton>.Instance.ExtraUses = 0;
+        CustomButtonSingleton<RevealerTrapButton>.Instance.SetUses((int)OptionGroupSingleton<RevealerOptions>.Instance
             .MaxTraps);
         CustomButtonSingleton<SheriffShootButton>.Instance.Usable =
             OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;

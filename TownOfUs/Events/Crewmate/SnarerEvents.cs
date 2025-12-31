@@ -10,35 +10,35 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
 
-public static class SnarerEvents
+public static class TrapperEvents
 {
-    private static int ActiveSnareTaskCount;
-    private static uint LastSnareUseTaskId = uint.MaxValue;
+    private static int ActiveTrapTaskCount;
+    private static uint LastTrapUseTaskId = uint.MaxValue;
 
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
         if (@event.TriggeredByIntro)
         {
-            VentSnareSystem.ClearAll();
-            ActiveSnareTaskCount = 0;
-            LastSnareUseTaskId = uint.MaxValue;
+            VentTrapSystem.ClearAll();
+            ActiveTrapTaskCount = 0;
+            LastTrapUseTaskId = uint.MaxValue;
             return;
         }
 
-        if (!OptionGroupSingleton<SnarerOptions>.Instance.SnaresRemoveOnNewRound)
+        if (!OptionGroupSingleton<TrapperOptions>.Instance.TrapsRemoveOnNewRound)
         {
             return;
         }
 
-        VentSnareSystem.ClearAll();
-        ActiveSnareTaskCount = 0;
-        LastSnareUseTaskId = uint.MaxValue;
+        VentTrapSystem.ClearAll();
+        ActiveTrapTaskCount = 0;
+        LastTrapUseTaskId = uint.MaxValue;
 
-        if (PlayerControl.LocalPlayer?.Data?.Role is SnarerRole)
+        if (PlayerControl.LocalPlayer?.Data?.Role is TrapperRole)
         {
-            var uses = OptionGroupSingleton<SnarerOptions>.Instance.MaxSnares;
-            CustomButtonSingleton<SnarerSnareButton>.Instance.SetUses((int)uses);
+            var uses = OptionGroupSingleton<TrapperOptions>.Instance.MaxTraps;
+            CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)uses);
         }
     }
 
@@ -50,29 +50,29 @@ public static class SnarerEvents
             return;
         }
 
-        if (@event.Player.Data?.Role is not SnarerRole)
+        if (@event.Player.Data?.Role is not TrapperRole)
         {
             return;
         }
 
-        var options = OptionGroupSingleton<SnarerOptions>.Instance;
-        if (options.SnaresRemoveOnNewRound || options.TasksUntilMoreSnares == 0)
+        var options = OptionGroupSingleton<TrapperOptions>.Instance;
+        if (options.TrapsRemoveOnNewRound || options.TasksUntilMoreTraps == 0)
         {
             return;
         }
 
-        if (@event.Task != null && @event.Task.Id != LastSnareUseTaskId)
+        if (@event.Task != null && @event.Task.Id != LastTrapUseTaskId)
         {
-            ++ActiveSnareTaskCount;
-            LastSnareUseTaskId = @event.Task.Id;
+            ++ActiveTrapTaskCount;
+            LastTrapUseTaskId = @event.Task.Id;
         }
 
-        var button = CustomButtonSingleton<SnarerSnareButton>.Instance;
-        if (button.LimitedUses && options.TasksUntilMoreSnares <= ActiveSnareTaskCount)
+        var button = CustomButtonSingleton<TrapperTrapButton>.Instance;
+        if (button.LimitedUses && options.TasksUntilMoreTraps <= ActiveTrapTaskCount)
         {
             ++button.UsesLeft;
             button.SetUses(button.UsesLeft);
-            ActiveSnareTaskCount = 0;
+            ActiveTrapTaskCount = 0;
         }
     }
 }
