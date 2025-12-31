@@ -235,12 +235,22 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
     public override void FixedUpdateHandler(PlayerControl playerControl)
     {
+        // Freeze effect/cooldown timers during the initial control sync grace window.
+        // This prevents "burning" duration/cooldown while the victim is intentionally immobilized.
+        TimerPaused = false;
+        var localRole = PlayerControl.LocalPlayer?.Data?.Role as ParasiteRole;
+        if (localRole?.Controlled != null &&
+            ParasiteControlState.IsControlled(localRole.Controlled.PlayerId, out _) &&
+            ParasiteControlState.IsInInitialGrace(localRole.Controlled.PlayerId))
+        {
+            TimerPaused = true;
+        }
+
         base.FixedUpdateHandler(playerControl);
 
-        var local = PlayerControl.LocalPlayer;
-        if (local?.Data?.Role is ParasiteRole pr && pr.Controlled != null && Button != null && Button.gameObject != null)
+        if (localRole != null && localRole.Controlled != null && Button != null && Button.gameObject != null)
         {
-            var lockoutRemaining = pr.GetOvertakeKillLockoutRemainingSeconds();
+            var lockoutRemaining = localRole.GetOvertakeKillLockoutRemainingSeconds();
 
             if (Button.cooldownTimerText != null && Button.cooldownTimerText.gameObject != null)
             {

@@ -22,8 +22,6 @@ public static class ParasiteMovementPatches
 
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
-    private const float InitialControlSyncGraceSeconds = 1.0f;
-
     private const float DirectionChangeEpsilonSqr = 0.0004f * 0.0004f;
     private const float DirectionKeepAliveSeconds = 0.6f;
     private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
@@ -96,7 +94,16 @@ public static class ParasiteMovementPatches
             var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
 
-            var targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
+            // During initial sync grace, do not move the victim at all (prevents desync).
+            Vector2 targetDir;
+            if (ParasiteControlState.IsInInitialGrace(parasite.Controlled.PlayerId))
+            {
+                targetDir = Vector2.zero;
+            }
+            else
+            {
+                targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
+            }
             _localDesiredDir[parasite.Controlled.PlayerId] = targetDir;
             SendControlledInputIfNeeded(parasite.Controlled.PlayerId, targetDir);
 
@@ -127,7 +134,7 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            if (ParasiteControlState.GetControlElapsedSeconds(player.PlayerId) < InitialControlSyncGraceSeconds)
+            if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
             {
                 return true;
             }
@@ -143,6 +150,13 @@ public static class ParasiteMovementPatches
             if (TimeLordRewindSystem.IsRewinding)
             {
                 return true;
+            }
+
+            // During initial sync grace, keep the victim still.
+            if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
+            {
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
+                return false;
             }
 
             var victimDir = ParasiteControlState.GetDirection(player.PlayerId);
@@ -170,7 +184,10 @@ public static class ParasiteMovementPatches
 
         if (player.AmOwner && ParasiteControlState.IsControlled(player.PlayerId, out _))
         {
-            direction = ParasiteControlState.GetDirection(player.PlayerId);
+            // Ensure the controlled player's owner doesn't start moving during initial grace.
+            direction = ParasiteControlState.IsInInitialGrace(player.PlayerId)
+                ? Vector2.zero
+                : ParasiteControlState.GetDirection(player.PlayerId);
         }
 
         return true;
@@ -202,7 +219,7 @@ public static class ParasiteMovementPatches
             player == pr.Controlled &&
             PlayerControl.LocalPlayer.PlayerId == controllerId)
         {
-            if (ParasiteControlState.GetControlElapsedSeconds(player.PlayerId) < InitialControlSyncGraceSeconds)
+            if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
             {
                 return true;
             }
