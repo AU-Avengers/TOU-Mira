@@ -30,8 +30,8 @@ public static class TeamChatPatches
     public static bool calledByChatUpdate;
     public static GameObject? PrivateChatDot;
 
-    private const string PrivateBubblePrefix = "TOU_TeamChatBubble_";
-    private const string PublicBubblePrefix = "TOU_PublicChatBubble_";
+    internal const string PrivateBubblePrefix = "TOU_TeamChatBubble_";
+    internal const string PublicBubblePrefix = "TOU_PublicChatBubble_";
 
     private static bool IsPrivateBubble(GameObject bubbleGo)
     {

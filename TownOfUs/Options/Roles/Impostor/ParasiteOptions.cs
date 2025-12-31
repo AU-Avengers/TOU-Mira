@@ -24,7 +24,7 @@ public sealed class ParasiteOptions : AbstractOptionGroup<ParasiteRole>
     public bool SaveVictimIfParasiteDies { get; set; } = true;
 
     [ModdedToggleOption("TouOptionParasiteSaveVictimIfMeetingCalled")]
-    public bool SaveVictimIfMeetingCalled { get; set; } = true;
+    public bool SaveVictimIfMeetingCalled { get; set; } = false;
 
     [ModdedToggleOption("TouOptionParasiteCanVent")]
     public bool CanVent { get; set; } = true;
@@ -33,5 +33,5 @@ public sealed class ParasiteOptions : AbstractOptionGroup<ParasiteRole>
     public bool CanMoveIndependently { get; set; } = true;
 
     [ModdedToggleOption("TouOptionParasiteOvertakenLooksLikeParasite")]
-    public bool OvertakenLooksLikeParasite { get; set; } = true;
+    public bool OvertakenLooksLikeParasite { get; set; } = false;
 }

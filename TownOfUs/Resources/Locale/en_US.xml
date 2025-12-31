@@ -2192,9 +2192,11 @@
   <!-- Circumvent -->
   <!-- Circumvent Wiki / Description -->
   <string name="TouModifierCircumvent">Circumvent</string>
-  <string name="TouModifierCircumventIntroBlurb">You lack the ability to vent.</string>
-  <string name="TouModifierCircumventTabDescription">You cannot vent.</string>
-  <string name="TouModifierCircumventWikiDescription">You lose the ability to vent around the map.</string>
+  <string name="TouModifierCircumventIntroBlurb">Your ability to vent is limited.</string>
+  <string name="TouModifierCircumventIntroBlurbNone">You lack the ability to vent.</string>
+  <string name="TouModifierCircumventTabDescriptionNone">You cannot vent.</string>
+  <string name="TouModifierCircumventTabDescription">Vents remaining: \%amount\%</string>
+  <string name="TouModifierCircumventWikiDescription">Your ability to vent around the map is severely weakened, or may be unavailable in general.</string>
   <!-- DeadlyQuota -->
   <!-- DeadlyQuota Wiki / Description -->
   <string name="TouModifierDeadlyQuota">Deadly Quota</string>
