@@ -1371,12 +1371,94 @@ public static class TimeLordRewindSystem
         lp.walkingToVent = (snap.Flags & (TimeLord.SnapshotState)SnapshotState.WalkingToVent) != 0;
     }
 
+    /// <summary>
+    /// Host-only scheduled rewind actions (revives, task undos, body placements).
+    /// Must run even if the host is dead/ghost; otherwise online revives never happen when host dies.
+    /// </summary>
+    private static void ProcessHostScheduledRewindActions()
+    {
+        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        {
+            return;
+        }
+
+        var elapsed = Time.time - _rewindStartTime;
+
+        if (_hostRevives != null && _hostRevives.Count > 0)
+        {
+            if (!OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+            {
+                _hostRevives = null;
+            }
+            else
+            {
+                for (var i = 0; i < _hostRevives.Count; i++)
+                {
+                    var entry = _hostRevives[i];
+                    if (entry.Done)
+                    {
+                        continue;
+                    }
+
+                    if (elapsed + 0.0001f >= entry.KillAgeSeconds)
+                    {
+                        entry.Done = true;
+                        var victim = MiscUtils.PlayerById(entry.VictimId);
+                        if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
+                        {
+                            TimeLordRole.RpcRewindRevive(victim);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (_hostBodyPlacements != null && _hostBodyPlacements.Count > 0 && PlayerControl.LocalPlayer != null)
+        {
+            for (var i = 0; i < _hostBodyPlacements.Count; i++)
+            {
+                var entry = _hostBodyPlacements[i];
+                if (entry.Done)
+                {
+                    continue;
+                }
+
+                if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
+                {
+                    entry.Done = true;
+                    TownOfUs.Roles.Crewmate.TimeLordRole.RpcSetDeadBodyPos(PlayerControl.LocalPlayer, entry.BodyId, entry.Position);
+                }
+            }
+        }
+
+        if (_hostTaskUndos != null && _hostTaskUndos.Count > 0 && PlayerControl.LocalPlayer != null)
+        {
+            for (var i = 0; i < _hostTaskUndos.Count; i++)
+            {
+                var entry = _hostTaskUndos[i];
+                if (entry.Done)
+                {
+                    continue;
+                }
+
+                if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
+                {
+                    entry.Done = true;
+                    TownOfUs.Roles.Crewmate.TimeLordRole.RpcUndoTask(PlayerControl.LocalPlayer, entry.PlayerId, entry.TaskId);
+                }
+            }
+        }
+    }
+
     public static bool TryHandleRewindPhysics(PlayerPhysics physics)
     {
         if (!IsRewinding || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
         {
             return false;
         }
+
+        // Run host scheduler even if local player is dead/ghost.
+        ProcessHostScheduledRewindActions();
 
         // Exempt ghosts and ghost roles from Time Lord effects - they can move freely
         var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
@@ -1453,39 +1535,6 @@ public static class TimeLordRewindSystem
             return true;
         }
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && _hostRevives != null && _hostRevives.Count > 0)
-        {
-            if (!OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
-            {
-                _hostRevives = null;
-            }
-            else
-            {
-                var elapsed = Time.time - _rewindStartTime;
-                for (var i = 0; i < _hostRevives.Count; i++)
-                {
-                    var entry = _hostRevives[i];
-                    if (entry.Done)
-                    {
-                        continue;
-                    }
-
-                    if (elapsed + 0.0001f >= entry.KillAgeSeconds)
-                    {
-                        entry.Done = true;
-
-                        var victim = MiscUtils.PlayerById(entry.VictimId);
-                        // Check if victim exists, is connected, and is still dead before reviving
-                        // Double-check the victim is still dead right before reviving (race condition protection)
-                        if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
-                        {
-                            TimeLordRole.RpcRewindRevive(victim);
-                        }
-                    }
-                }
-            }
-        }
-
         if (_localBodyRestores != null && _localBodyRestores.Count > 0)
         {
             var elapsed = Time.time - _rewindStartTime;
@@ -1501,46 +1550,6 @@ public static class TimeLordRewindSystem
                 {
                     entry.Done = true;
                     TimeLordBodyManager.RestoreCleanedBody(entry.BodyId);
-                }
-            }
-        }
-
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && _hostBodyPlacements != null &&
-    _hostBodyPlacements.Count > 0)
-        {
-            var elapsed = Time.time - _rewindStartTime;
-            for (var i = 0; i < _hostBodyPlacements.Count; i++)
-            {
-                var entry = _hostBodyPlacements[i];
-                if (entry.Done)
-                {
-                    continue;
-                }
-
-                if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
-                {
-                    entry.Done = true;
-                    TownOfUs.Roles.Crewmate.TimeLordRole.RpcSetDeadBodyPos(PlayerControl.LocalPlayer, entry.BodyId,
-                        entry.Position);
-                }
-            }
-        }
-
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && _hostTaskUndos != null && _hostTaskUndos.Count > 0)
-        {
-            var elapsed = Time.time - _rewindStartTime;
-            for (var i = 0; i < _hostTaskUndos.Count; i++)
-            {
-                var entry = _hostTaskUndos[i];
-                if (entry.Done)
-                {
-                    continue;
-                }
-
-                if (elapsed + 0.0001f >= entry.TriggerAtSeconds)
-                {
-                    entry.Done = true;
-                    TownOfUs.Roles.Crewmate.TimeLordRole.RpcUndoTask(PlayerControl.LocalPlayer, entry.PlayerId, entry.TaskId);
                 }
             }
         }
