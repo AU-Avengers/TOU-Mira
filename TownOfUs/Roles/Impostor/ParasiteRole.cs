@@ -632,6 +632,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
     }
 
+
     [MethodRpc((uint)TownOfUsRpc.ParasiteControl)]
     public static void RpcParasiteControl(PlayerControl parasite, PlayerControl target)
     {

@@ -21,6 +21,9 @@ public sealed class GrenadierOptions : AbstractOptionGroup<GrenadierRole>
     [ModdedNumberOption("Flash Radius", 0.25f, 5f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float FlashRadius { get; set; } = 1f;
 
+    [ModdedToggleOption("Allow Flashing During Sabotage")]
+    public bool SabotageFlashing { get; set; } = false;
+
     [ModdedToggleOption("Grenadier Can Vent")]
     public bool CanVent { get; set; } = true;
 }

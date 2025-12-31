@@ -22,12 +22,13 @@ public static class ParasiteMovementPatches
 
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
+    private const float InitialControlSyncGraceSeconds = 1.0f;
+
     private const float DirectionChangeEpsilonSqr = 0.0004f * 0.0004f;
     private const float DirectionKeepAliveSeconds = 0.6f;
     private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
     private static readonly Dictionary<byte, float> _lastSentAt = new();
     private static readonly Dictionary<byte, Vector2> _localDesiredDir = new();
-
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir)
     {
         if (PlayerControl.LocalPlayer == null)
@@ -126,6 +127,11 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
+            if (ParasiteControlState.GetControlElapsedSeconds(player.PlayerId) < InitialControlSyncGraceSeconds)
+            {
+                return true;
+            }
+
             var dir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir);
 
@@ -196,6 +202,11 @@ public static class ParasiteMovementPatches
             player == pr.Controlled &&
             PlayerControl.LocalPlayer.PlayerId == controllerId)
         {
+            if (ParasiteControlState.GetControlElapsedSeconds(player.PlayerId) < InitialControlSyncGraceSeconds)
+            {
+                return true;
+            }
+
             return false;
         }
 

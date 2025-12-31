@@ -16,6 +16,8 @@ public static class PuppeteerMovementPatches
 {
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
+    private const float InitialControlSyncGraceSeconds = 1.0f;
+
     private const float DirectionChangeEpsilonSqr = 0.0004f * 0.0004f;
     private const float DirectionKeepAliveSeconds = 0.6f;
     private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
@@ -107,6 +109,11 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
+            if (PuppeteerControlState.GetControlElapsedSeconds(player.PlayerId) < InitialControlSyncGraceSeconds)
+            {
+                return true;
+            }
+
             var dir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir);
 
@@ -177,6 +184,11 @@ public static class PuppeteerMovementPatches
             player == pr.Controlled &&
             PlayerControl.LocalPlayer.PlayerId == controllerId)
         {
+            if (PuppeteerControlState.GetControlElapsedSeconds(player.PlayerId) < InitialControlSyncGraceSeconds)
+            {
+                return true;
+            }
+
             return false;
         }
 
