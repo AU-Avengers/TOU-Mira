@@ -2288,6 +2288,12 @@
   <string name="TouModifierScoutIntroBlurb">See farther in light, be blinder in the dark.</string>
   <string name="TouModifierScoutTabDescription">Your vision is higher when lights are on, but very low when lights are off.</string>
   <string name="TouModifierScoutWikiDescription">While you can see twice as far as a regular crewmate, your vision falters when lights are off.</string>
+  <!-- Clueless -->
+  <!-- Clueless Wiki / Description -->
+  <string name="TouModifierClueless">Clueless</string>
+  <string name="TouModifierCluelessIntroBlurb">No task guidance.</string>
+  <string name="TouModifierCluelessTabDescription">You cannot see your task list, task markers, or task locations on the map.</string>
+  <string name="TouModifierCluelessWikiDescription">You cannot see your task list, task markers, or task locations on the map. Tasks still spawn normally and count toward the task bar.</string>
   <!-- Spy -->
   <!-- Spy Wiki / Description -->
   <string name="TouModifierSpyIntroBlurb">Gain extra information on the Admin Table</string>
