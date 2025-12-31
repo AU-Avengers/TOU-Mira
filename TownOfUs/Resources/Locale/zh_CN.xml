@@ -241,7 +241,7 @@
   <string name="TouRoleForensic">侧写师</string>
   <string name="TouRoleForensicIntroBlurb">调查案发现场，找出凶手</string>
   <string name="TouRoleForensicTabDescription">调查犯罪现场，\%nl\%然后检查玩家是否在现场。</string>
-  <string name="TouRoleForensicWikiDescription">侧写师可以调查案发现场，并检查玩家是否在现场。如果玩家在现场会闪红光。</string>
+  <string name="TouRoleForensicWikiDescription">侧写师是一名船员调查型职业, 可以调查案发现场并检查玩家是否在现场。如果玩家在现场会闪红光。</string>
   <string name="TouRoleForensicInspect">调查</string>
   <string name="TouRoleForensicInspectWikiDescription">所有尸体都会生成案发现场。调查案发现场后检查玩家以发现线索。下次会议你会收到凶手身份的报告。</string>
   <string name="TouRoleForensicExamine">检查</string>
