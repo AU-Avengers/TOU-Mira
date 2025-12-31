@@ -970,7 +970,7 @@ public static class MiscUtils
         // Note: Lovers chat intentionally uses `blackoutText: false` and should behave like regular chat.
         if (blackoutText && bubbleType != BubbleType.None)
         {
-            pooledBubble.gameObject.name = $"TOU_TeamChatBubble_{bubbleType}";
+            pooledBubble.gameObject.name = $"{TeamChatPatches.PrivateBubblePrefix}{bubbleType}";
         }
 
         pooledBubble.AlignChildren();
