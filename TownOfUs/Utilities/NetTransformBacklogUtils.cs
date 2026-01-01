@@ -85,7 +85,9 @@ internal static class NetTransformBacklogUtils
         try
         {
             // Most collection types expose Clear().
+#pragma warning disable S3011
             var clear = obj.GetType().GetMethod("Clear", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
+#pragma warning restore S3011
             if (clear != null)
             {
                 clear.Invoke(obj, null);

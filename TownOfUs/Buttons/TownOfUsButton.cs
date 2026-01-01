@@ -33,6 +33,7 @@ public abstract class TownOfUsButton : CustomActionButton
             ? "0.0"
             : "0";
 
+    public virtual bool Disabled => false;
     public virtual bool UsableInDeath => false;
     public virtual bool ShouldPauseInVent => true;
 
@@ -107,7 +108,7 @@ public abstract class TownOfUsButton : CustomActionButton
 
     public override void SetActive(bool visible, RoleBehaviour role)
     {
-        Button?.ToggleVisible(visible && Enabled(role) && !role.Player.HasDied());
+        Button?.ToggleVisible(!Disabled && visible && Enabled(role) && !role.Player.HasDied());
     }
 
     public override void CreateButton(Transform parent)
@@ -246,6 +247,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             ? "0.0"
             : "0";
 
+    public virtual bool Disabled => false;
     public virtual bool ShouldPauseInVent => true;
     public virtual bool UsableInDeath => false;
 
@@ -320,7 +322,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
     public override void SetActive(bool visible, RoleBehaviour role)
     {
-        Button?.ToggleVisible(visible && Enabled(role) && !role.Player.HasDied());
+        Button?.ToggleVisible(!Disabled && visible && Enabled(role) && !role.Player.HasDied());
     }
 
     public override bool CanUse()
