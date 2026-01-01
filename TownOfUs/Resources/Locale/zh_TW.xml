@@ -531,4 +531,15 @@
   <string name="TouOptionForensicRoleDuration">最大死亡時間 -- 側寫報告包含職業</string>
   <string name="TouOptionForensicFactionDuration">最大死亡時間 -- 側寫報告包含陣營</string>
   <string name="TouRoleForensicMessageTitle">側寫報告</string>
+  <string name="TouRoleForensicBodyError">無法從屍體中獲取任何信息。\%nl\% (死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyOld">屍體太久遠,無法獲得信息。\%nl\% (死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodySuicide">看來這個死亡是自殺造成的! \%nl\% (死亡時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyKillerRole">兇手似乎是\%role\%! \%nl\% (擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyKillerNeutral">兇手似乎是中立職業! \%nl\% (擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyKillerCrewmate">兇手似乎是船員! \%nl\% (擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicBodyKillerImpostor">兇手似乎是偽裝者! \%nl\% (擊殺時間: \%time\%秒前)。</string>
+  <string name="TouRoleForensicAtScene">\%player\%在\%deadPlayer\%的案發現場! \%nl\%他們可能是兇手或證人。</string>
+  <string name="TouRoleForensicNotAtScene">\%player\%不在案發現場。</string>
+  <string name="TouRoleEngineer">工程師</string>
+  <string name="TouRoleEngineerIntroBlurb">維護飛船重要系統</string>
 </resources>
