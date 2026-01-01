@@ -136,7 +136,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
                         ? assignmentDataUnique.Random()!.Role
                         : assignmentData.Random()!.Role;
 
-                    discardedImp.RpcSetRole(chosenRole.Role);
+                    discardedImp.RpcSetRole(chosenRole.Role, true);
                     var newtext = $"Forcing {randomTarget.Data.PlayerName} into {chosenRole.GetRoleName()}.";
                     MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, newtext);
                 }
