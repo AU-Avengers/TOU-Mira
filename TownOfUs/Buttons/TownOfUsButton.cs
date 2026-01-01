@@ -33,7 +33,7 @@ public abstract class TownOfUsButton : CustomActionButton
             ? "0.0"
             : "0";
 
-    public virtual bool Disabled => false;
+    public virtual bool Disabled { get; set; }
     public virtual bool UsableInDeath => false;
     public virtual bool ShouldPauseInVent => true;
 
@@ -247,7 +247,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             ? "0.0"
             : "0";
 
-    public virtual bool Disabled => false;
+    public virtual bool Disabled { get; set; }
     public virtual bool ShouldPauseInVent => true;
     public virtual bool UsableInDeath => false;
 
