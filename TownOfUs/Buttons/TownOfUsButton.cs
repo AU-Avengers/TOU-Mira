@@ -108,7 +108,7 @@ public abstract class TownOfUsButton : CustomActionButton
 
     public override void SetActive(bool visible, RoleBehaviour role)
     {
-        Button?.ToggleVisible(!Disabled && visible && Enabled(role) && !role.Player.HasDied());
+        Button?.ToggleVisible(visible && Enabled(role) && !role.Player.HasDied());
     }
 
     public override void CreateButton(Transform parent)
@@ -322,7 +322,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
     public override void SetActive(bool visible, RoleBehaviour role)
     {
-        Button?.ToggleVisible(!Disabled && visible && Enabled(role) && !role.Player.HasDied());
+        Button?.ToggleVisible(visible && Enabled(role) && !role.Player.HasDied());
     }
 
     public override bool CanUse()
@@ -458,7 +458,7 @@ public abstract class TownOfUsRoleButton<TRole> : TownOfUsButton where TRole : R
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is TRole;
+        return !Disabled && role is TRole;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
@@ -475,7 +475,7 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is TRole;
+        return !Disabled && role is TRole;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
