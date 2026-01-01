@@ -27,6 +27,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
     public RealFlash currentFlashType = RealFlash.Medic;
 
+    [HideFromIl2Cpp]
     public Color? GetFlashColor()
     {
         switch (currentFlashType)

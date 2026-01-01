@@ -10,8 +10,8 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <VersionPrefix>1.4.2</VersionPrefix>
-        <VersionSuffix>beta.2</VersionSuffix>
+        <VersionPrefix>1.5.0</VersionPrefix>
+        <VersionSuffix>beta.1</VersionSuffix>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, Nix, Satire, xerminator, XtraCube, whichtwix, Zeo</Authors>
         <Company>Among Us Avengers</Company>
