@@ -40,15 +40,6 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityAmount > 0
         };
 
-    [ModdedNumberOption("Clueless Amount", 0, 5)]
-    public float CluelessAmount { get; set; } = 0;
-
-    public ModdedNumberOption CluelessChance { get; } =
-        new("Clueless Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.CluelessAmount > 0
-        };
-
     [ModdedNumberOption("Diseased Amount", 0, 5)]
     public float DiseasedAmount { get; set; } = 0;
 

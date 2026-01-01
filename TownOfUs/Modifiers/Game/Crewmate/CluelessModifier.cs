@@ -1,6 +1,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -47,15 +48,13 @@ public sealed class CluelessModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        // Any role can be Clueless (keeps Spectator excluded via base).
-        return base.IsModifierValidOn(role);
+        return base.IsModifierValidOn(role) && role is not SnitchRole;
     }
 
     public override void OnActivate()
     {
         base.OnActivate();
 
-        // Ensure guidance is removed immediately if this modifier is applied mid-round (e.g. via Freeplay).
         if (!Player.AmOwner)
         {
             return;
@@ -63,14 +62,12 @@ public sealed class CluelessModifier : UniversalGameModifier, IWikiDiscoverable
 
         try
         {
-            // Clear task list text immediately.
             if (HudManager.Instance != null && HudManager.Instance.TaskPanel != null &&
                 HudManager.Instance.TaskPanel.taskText != null)
             {
                 HudManager.Instance.TaskPanel.taskText.text = string.Empty;
             }
 
-            // If the map is currently open, hide task overlay.
             if (MapBehaviour.Instance != null)
             {
                 MapBehaviour.Instance.taskOverlay?.Hide();
