@@ -17,7 +17,7 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
 
     public ModdedToggleOption ParallelMedbay { get; set; } = new("Parallel Medbay Scans", true);
 
-    public ModdedToggleOption MedscanWalk { get; set; } = new("Walk to Medscan", false);
+    public ModdedToggleOption MedscanWalk { get; set; } = new("Walk to Medscan", true);
 
     public ModdedEnumOption SkipButtonDisable { get; set; } = new("Disable Meeting Skip Button", (int)SkipState.No,
         typeof(SkipState), ["Never", "Emergency", "Always"]);
