@@ -165,7 +165,10 @@ public static class GameHistory
 
     public static void ClearMurder(PlayerControl player)
     {
-        var instance = KilledPlayers.FirstOrDefault(x => x.VictimId == player.PlayerId);
+        var instance = KilledPlayers
+            .Where(x => x.VictimId == player.PlayerId)
+            .OrderByDescending(x => x.KillTime)
+            .FirstOrDefault();
 
         if (instance == null)
         {
