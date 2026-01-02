@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using System.Reflection;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -1051,11 +1053,6 @@ public static class TouRoleManagerPatches
     public static bool RpcSetRolePatch(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType,
         [HarmonyArgument(1)] bool canOverrideRole = false)
     {
-        Info($"{__instance.Data.PlayerName} will now become {RoleManager.Instance.GetRole(roleType).GetRoleName()} | overrideRole = {canOverrideRole}");
-        if (canOverrideRole)
-        {
-            __instance.roleAssigned = false;
-        }
         if (AmongUsClient.Instance.AmClient)
         {
             __instance.StartCoroutine(__instance.CoSetRole(roleType, canOverrideRole));
@@ -1071,6 +1068,17 @@ public static class TouRoleManagerPatches
         MiraEventManager.InvokeEvent(changeRoleEvent);
 
         return false;
+    }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CoSetRole))]
+    [HarmonyPrefix]
+    public static void SetRolePatch(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType,
+        [HarmonyArgument(1)] bool canOverrideRole)
+    {
+        if (canOverrideRole)
+        {
+            __instance.roleAssigned = false;
+        }
     }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRoleOnDeath))]
