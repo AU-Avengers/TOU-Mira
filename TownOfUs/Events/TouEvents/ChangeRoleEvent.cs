@@ -13,6 +13,7 @@ public class ChangeRoleEvent : MiraEvent
     /// <param name="player">The player.</param>
     /// <param name="oldRole">The player's previous role.</param>
     /// <param name="newRole">The player's new role.</param>
+    /// <param name="forceChange">Whether the role was selected and can override the previous role.</param>
     public ChangeRoleEvent(PlayerControl player, RoleBehaviour? oldRole, RoleBehaviour newRole, bool forceChange = false)
     {
         Player = player;
