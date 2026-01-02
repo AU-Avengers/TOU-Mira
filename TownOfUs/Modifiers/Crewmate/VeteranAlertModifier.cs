@@ -21,7 +21,13 @@ public sealed class VeteranAlertModifier : TimedModifier
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.VeteranAlert, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+    }
 
+    public override void OnDeactivate()
+    {
+        base.OnActivate();
+
+        // This gets applied after alerting isn't possible, incase vet is left with one use in a 1v1 scenario
         if (Player.Data.Role is VeteranRole vet)
         {
             vet.Alerts--;

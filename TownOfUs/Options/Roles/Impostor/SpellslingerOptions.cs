@@ -9,7 +9,7 @@ public sealed class SpellslingerOptions : AbstractOptionGroup<SpellslingerRole>
 {
     public override string GroupName => TouLocale.Get($"TouRoleSpellslinger");
 
-    [ModdedNumberOption("Hex Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Hex Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HexCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("Max Hexes", 3f, 15f, 1f, MiraNumberSuffixes.None, "0")]

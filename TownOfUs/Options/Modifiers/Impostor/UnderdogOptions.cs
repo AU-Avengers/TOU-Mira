@@ -11,7 +11,7 @@ public sealed class UnderdogOptions : AbstractOptionGroup<UnderdogModifier>
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierUnderdog", "Underdog");
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
-    public override uint GroupPriority => 42;
+    public override uint GroupPriority => 43;
 
     [ModdedNumberOption("Kill Cooldown Bonus", 2.5f, 10f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldownIncrease { get; set; } = 5f;

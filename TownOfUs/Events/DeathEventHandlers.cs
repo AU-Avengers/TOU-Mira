@@ -111,6 +111,16 @@ public static class DeathEventHandlers
         {
             deathMod.ModifierComponent?.RemoveModifier(deathMod);
         }
+
+        // Sync physics body position to match transform position after revive
+        // This prevents wall-walking bugs that can occur when players are revived
+        var player = reviveEvent.Player;
+        if (player != null && player.MyPhysics?.body != null)
+        {
+            var pos = (Vector2)player.transform.position;
+            player.MyPhysics.body.position = pos;
+            Physics2D.SyncTransforms();
+        }
     }
 
     [RegisterEvent(500)]

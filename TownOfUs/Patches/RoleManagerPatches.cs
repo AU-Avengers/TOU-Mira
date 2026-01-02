@@ -111,15 +111,100 @@ public static class TouRoleManagerPatches
     }
 
     /// <summary>
-    /// Adjusts neutral role counts to ensure crewmates always outnumber neutrals.
+    /// Adjusts neutral role counts to ensure requested neutral roles via /up are included.
     /// </summary>
-    private static void AdjustNeutralCounts(ref int nbCount, ref int neCount, ref int nkCount, ref int noCount, int crewmateCount)
+    private static void AdjustNeutralCountsForUpRequests(ref int nbCount, ref int neCount, ref int nkCount, ref int noCount, int crewmateCount)
+    {
+        // Track which neutral categories are requested via /up (must be at least 1)
+        var upRequestedBenign = false;
+        var upRequestedEvil = false;
+        var upRequestedKilling = false;
+        var upRequestedOutlier = false;
+
+        var upRequests = UpCommandRequests.GetAllRequests();
+        foreach (var (playerName, _) in upRequests)
+        {
+            if (!UpCommandRequests.TryGetRequestRole(playerName, out var requestedRole))
+            {
+                continue;
+            }
+
+            // Check if the requested role is neutral
+            if (requestedRole.IsNeutral())
+            {
+                var alignment = requestedRole.GetRoleAlignment();
+
+                // Mark which categories are requested and ensure they have at least 1
+                switch (alignment)
+                {
+                    case RoleAlignment.NeutralBenign:
+                        upRequestedBenign = true;
+                        if (nbCount == 0)
+                        {
+                            nbCount = 1;
+                        }
+                        break;
+                    case RoleAlignment.NeutralEvil:
+                        upRequestedEvil = true;
+                        if (neCount == 0)
+                        {
+                            neCount = 1;
+                        }
+                        break;
+                    case RoleAlignment.NeutralKilling:
+                        upRequestedKilling = true;
+                        if (nkCount == 0)
+                        {
+                            nkCount = 1;
+                        }
+                        break;
+                    case RoleAlignment.NeutralOutlier:
+                        upRequestedOutlier = true;
+                        if (noCount == 0)
+                        {
+                            noCount = 1;
+                        }
+                        break;
+                }
+            }
+        }
+
+        // Re-adjust to ensure crewmates still outnumber neutrals after /up adjustments
+        // But protect /up requested categories from being reduced below 1
+        AdjustNeutralCountsWithProtection(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmateCount,
+            upRequestedBenign, upRequestedEvil, upRequestedKilling, upRequestedOutlier);
+    }
+
+    /// <summary>
+    /// Adjusts neutral role counts to ensure crewmates always outnumber neutrals,
+    /// while protecting /up requested categories from being reduced below 1.
+    /// </summary>
+    private static void AdjustNeutralCountsWithProtection(ref int nbCount, ref int neCount, ref int nkCount, ref int noCount, int crewmateCount,
+        bool protectBenign, bool protectEvil, bool protectKilling, bool protectOutlier)
     {
         var roleOptions = OptionGroupSingleton<RoleOptions>.Instance;
         var minBenign = (int)roleOptions.MinNeutralBenign.Value;
         var minEvil = (int)roleOptions.MinNeutralEvil.Value;
         var minKilling = (int)roleOptions.MinNeutralKiller.Value;
         var minOutlier = (int)roleOptions.MinNeutralOutlier.Value;
+
+        // Adjust minimums to protect /up requested categories
+        if (protectBenign && minBenign < 1)
+        {
+            minBenign = 1;
+        }
+        if (protectEvil && minEvil < 1)
+        {
+            minEvil = 1;
+        }
+        if (protectKilling && minKilling < 1)
+        {
+            minKilling = 1;
+        }
+        if (protectOutlier && minOutlier < 1)
+        {
+            minOutlier = 1;
+        }
 
         // Crew must always start out outnumbering neutrals, so subtract roles until that can be guaranteed.
         while (Math.Ceiling((double)crewmateCount / 2) <= nbCount + neCount + nkCount + noCount)
@@ -137,7 +222,7 @@ public static class TouRoleManagerPatches
             var factionIndices = new List<int> { 0, 1, 2, 3 };
             factionIndices.Shuffle();
 
-            // Determine which factions can be subtracted
+            // Determine which factions can be subtracted (respecting protected minimums)
             var canSubtractBenign = nbCount > minBenign;
             var canSubtractEvil = neCount > minEvil;
             var canSubtractKilling = nkCount > minKilling;
@@ -177,21 +262,26 @@ public static class TouRoleManagerPatches
             // Fallback: subtract from first available faction
             if (!subtracted)
             {
-                if (nbCount > 0)
+                if (nbCount > minBenign)
                 {
                     nbCount -= 1;
                 }
-                else if (neCount > 0)
+                else if (neCount > minEvil)
                 {
                     neCount -= 1;
                 }
-                else if (nkCount > 0)
+                else if (nkCount > minKilling)
                 {
                     nkCount -= 1;
                 }
-                else if (noCount > 0)
+                else if (noCount > minOutlier)
                 {
                     noCount -= 1;
+                }
+                else
+                {
+                    // Can't subtract any more without violating minimums
+                    break;
                 }
             }
         }
@@ -333,8 +423,8 @@ public static class TouRoleManagerPatches
         var noCount = Random.RandomRange((int)roleOptions.MinNeutralOutlier.Value,
             (int)roleOptions.MaxNeutralOutlier.Value + 1);
 
-        // Adjust neutral counts to ensure crewmates outnumber neutrals
-        AdjustNeutralCounts(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);
+        // Adjust neutral counts for /up requests and ensure crewmates outnumber neutrals
+        AdjustNeutralCountsForUpRequests(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);
 
         var excluded = MiscUtils.SpawnableRoles.Where(x => x is ISpawnChange { NoSpawn: true }).Select(x => x.Role);
 
@@ -800,9 +890,10 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     [HarmonyPrefix]
-    [HarmonyPriority(Priority.Last)]
+    [HarmonyPriority(Priority.First)]
     public static bool SelectRolesPatch(RoleManager __instance)
     {
+        ModifierManager.MiraAssignsModifiers = false;
         var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
@@ -921,8 +1012,8 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     [HarmonyPostfix]
-    [HarmonyPriority(Priority.First)]
-    public static void AssignCustomModifiersPatch(RoleManager __instance)
+    [HarmonyPriority(Priority.Low)]
+    public static void SetSpectatorsAndModifiers(RoleManager __instance)
     {
         var spectators = GameData.Instance.AllPlayers.ToArray()
             .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
@@ -930,7 +1021,7 @@ public static class TouRoleManagerPatches
 
         foreach (var player in spectators)
         {
-            player.Object.RpcSetRole(RoleTypes.Crewmate);
+            player.Object.RpcSetRole(RoleTypes.Crewmate, true);
         }
 
         foreach (var player in spectators)
@@ -949,6 +1040,9 @@ public static class TouRoleManagerPatches
             }
         }
 
+        ModifierManager.AssignModifiers(
+            PlayerControl.AllPlayerControls.ToArray().Where(plr => !plr.Data.IsDead && !plr.Data.Disconnected)
+                .ToList());
         AssignTargets();
     }
 
@@ -968,10 +1062,21 @@ public static class TouRoleManagerPatches
         messageWriter.Write(canOverrideRole);
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
 
-        var changeRoleEvent = new ChangeRoleEvent(__instance, null, RoleManager.Instance.GetRole(roleType));
+        var changeRoleEvent = new ChangeRoleEvent(__instance, null, RoleManager.Instance.GetRole(roleType), canOverrideRole);
         MiraEventManager.InvokeEvent(changeRoleEvent);
 
         return false;
+    }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CoSetRole))]
+    [HarmonyPrefix]
+    public static void SetRolePatch(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType,
+        [HarmonyArgument(1)] bool canOverrideRole)
+    {
+        if (canOverrideRole)
+        {
+            __instance.roleAssigned = false;
+        }
     }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRoleOnDeath))]

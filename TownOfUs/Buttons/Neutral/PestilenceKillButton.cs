@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class PestilenceKillButton : TownOfUsRoleButton<PestilenceRole, PlayerControl>, IDiseaseableButton,
+public sealed class PestilenceKillButton : TownOfUsKillRoleButton<PestilenceRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");

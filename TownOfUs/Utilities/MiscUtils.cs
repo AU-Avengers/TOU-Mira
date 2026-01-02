@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -16,6 +10,13 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -42,6 +43,7 @@ public static class MiscUtils
     public static int GameHaltersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is IContinuesGame gameHalt && gameHalt.ContinuesGame || x.GetModifiers<BaseModifier>()
             .Any(y => y is IContinuesGame gameHaltMod && gameHaltMod.ContinuesGame));
+
     public static int KillersAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor() ||
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
@@ -60,7 +62,11 @@ public static class MiscUtils
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
          OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
 
-    public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor());
+    public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x =>
+        x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
+
+    public static int ImpostorHeadCount => Helpers.GetAlivePlayers().Count(x =>
+        x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor && y.CountTowardsTrueFaction));
 
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
@@ -71,9 +77,11 @@ public static class MiscUtils
 
     public static IEnumerable<RoleBehaviour> AllRoles => CustomRoleManager.CustomRoleBehaviours;
 
-    public static IEnumerable<RoleBehaviour> AllRegisteredRoles => RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
+    public static IEnumerable<RoleBehaviour> AllRegisteredRoles =>
+        RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
 
-    public static IEnumerable<RoleBehaviour> SpawnableRoles => AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+    public static IEnumerable<RoleBehaviour> SpawnableRoles =>
+        AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
@@ -91,12 +99,52 @@ public static class MiscUtils
             return string.Empty;
         }
 
+        IWikiOptionsSummaryProvider? summaryProvider = null;
+        IReadOnlySet<StringNames>? hiddenKeys = null;
+        try
+        {
+            var optionGroups =
+                AccessTools.Field(typeof(ModdedOptionsManager), "Groups").GetValue(null) as List<AbstractOptionGroup>;
+            summaryProvider =
+                optionGroups?.FirstOrDefault(x => x.OptionableType == classType) as IWikiOptionsSummaryProvider;
+            hiddenKeys = summaryProvider?.WikiHiddenOptionKeys;
+        }
+        catch
+        {
+            summaryProvider = null;
+            hiddenKeys = null;
+        }
+
         var builder = new StringBuilder();
         builder.AppendLine(TownOfUsPlugin.Culture,
             $"\n<size=50%> \n</size><b>{TownOfUsColors.Vigilante.ToTextColor()}{TouLocale.Get("Options")}</color></b>");
 
+        var insertedSummary = false;
         foreach (var option in options)
         {
+            if (!insertedSummary && summaryProvider != null && hiddenKeys != null)
+            {
+                StringNames? key = option switch
+                {
+                    ModdedToggleOption t => t.StringName,
+                    ModdedEnumOption e => e.StringName,
+                    ModdedNumberOption n => n.StringName,
+                    _ => null
+                };
+                if (key.HasValue && hiddenKeys.Contains(key.Value))
+                {
+                    foreach (var line in summaryProvider.GetWikiOptionSummaryLines())
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            builder.AppendLine(line);
+                        }
+                    }
+
+                    insertedSummary = true;
+                }
+            }
+
             switch (option)
             {
                 case ModdedToggleOption toggleOption:
@@ -105,7 +153,13 @@ public static class MiscUtils
                         continue;
                     }
 
-                    builder.AppendLine(TranslationController.Instance.GetString(toggleOption.StringName) + ": " + toggleOption.Value);
+                    if (hiddenKeys != null && hiddenKeys.Contains(toggleOption.StringName))
+                    {
+                        continue;
+                    }
+
+                    builder.AppendLine(TranslationController.Instance.GetString(toggleOption.StringName) + ": " +
+                                       toggleOption.Value);
                     break;
                 /*case ModdedMultiSelectOption<Enum> enumOption:
                     if (!enumOption.Visible())
@@ -121,10 +175,22 @@ public static class MiscUtils
                         continue;
                     }
 
-                    builder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " + TouLocale.GetParsed(enumOption.Values[enumOption.Value], enumOption.Values[enumOption.Value]));
+                    if (hiddenKeys != null && hiddenKeys.Contains(enumOption.StringName))
+                    {
+                        continue;
+                    }
+
+                    builder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " +
+                                       TouLocale.GetParsed(enumOption.Values[enumOption.Value],
+                                           enumOption.Values[enumOption.Value]));
                     break;
                 case ModdedNumberOption numberOption:
                     if (!numberOption.Visible())
+                    {
+                        continue;
+                    }
+
+                    if (hiddenKeys != null && hiddenKeys.Contains(numberOption.StringName))
                     {
                         continue;
                     }
@@ -902,10 +968,21 @@ public static class MiscUtils
             pooledBubble.TextArea.color = Color.white;
         }
 
+        // Tag *team/private* chat bubbles so the UI can reliably show/hide them.
+        // Color-based filtering breaks when system/feedback messages use non-white/non-black backgrounds.
+        // Note: Lovers chat intentionally uses `blackoutText: false` and should behave like regular chat.
+        if (blackoutText && bubbleType != BubbleType.None)
+        {
+            pooledBubble.gameObject.name = $"{TeamChatPatches.PrivateBubblePrefix}{bubbleType}";
+        }
+
         pooledBubble.AlignChildren();
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
-        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText)
+        // Only hide/store *team/private* bubbles when the user is currently viewing public chat.
+        // (System/feedback messages should remain in public chat even if they are "black tinted".)
+        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText &&
+            bubbleType != BubbleType.None)
         {
             TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
             pooledBubble.gameObject.SetActive(false);
@@ -914,8 +991,12 @@ public static class MiscUtils
                 chat.chatBubblePool.activeChildren.Remove(pooledBubble);
             }
         }
+
         chat.AlignAllBubbles();
-        if (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive)
+        // Only show the for incoming messages
+        // Otherwise you get a notification when you message yourself (e.g. Lovers chat).
+        // (I think this is the right way to do that...)
+        if (onLeft && (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive))
         {
             Coroutines.Start(BouncePrivateChatDot(bubbleType));
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
@@ -926,13 +1007,14 @@ public static class MiscUtils
             chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
         }
     }
+
     private static IEnumerator BouncePrivateChatDot(BubbleType bubbleType)
     {
         if (TeamChatPatches.PrivateChatDot == null)
         {
             TeamChatPatches.CreateTeamChatBubble();
         }
-        
+
         var sprite = TeamChatPatches.PrivateChatDot!.GetComponent<SpriteRenderer>();
         sprite.enabled = true;
         var actualSprite = bubbleType switch
@@ -948,6 +1030,7 @@ public static class MiscUtils
         {
             sprite.sprite = actualSprite;
         }
+
         yield return Effects.Bounce(sprite.transform, 0.3f, 0.125f);
     }
 
@@ -1198,13 +1281,14 @@ public static class MiscUtils
         }
     }
 
-    public static IEnumerator FadeInDualRenderers(SpriteRenderer? rend, SpriteRenderer? rend2, float delay = 0.01f, float increase = 0.01f, float rend2Mult = 1f)
+    public static IEnumerator FadeInDualRenderers(SpriteRenderer? rend, SpriteRenderer? rend2, float delay = 0.01f,
+        float increase = 0.01f, float rend2Mult = 1f)
     {
         if (rend == null || rend2 == null)
         {
             yield break;
         }
-        
+
         var tmp = rend.color;
         tmp.a = 0;
         rend.color = tmp;
@@ -1864,14 +1948,17 @@ public static class MiscUtils
             return TouGamemode.HideAndSeek;
         return TouGamemode.Normal;
     }
+
     public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
     {
         if (!CanSeeAdvancedLogs)
         {
             if (CanSeePostGameLogs)
             {
-                TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+                TownOfUsEventHandlers.LogBuffer.Add(
+                    new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
             }
+
             return;
         }
 
@@ -1893,6 +1980,7 @@ public static class MiscUtils
                 Message(text);
                 break;
         }
+
         TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
     }
 
@@ -1909,6 +1997,7 @@ public static class MiscUtils
         {
             yield break;
         }
+
         var bottomLeft = MiraAPI.Patches.HudManagerPatches.BottomLeft!;
         var bottomRight = MiraAPI.Patches.HudManagerPatches.BottomRight;
         var location = button.Location switch
@@ -1923,11 +2012,14 @@ public static class MiscUtils
         var index = HudManager.Instance.ImpostorVentButton.transform.GetSiblingIndex();
         button.Button.transform.SetSiblingIndex(index + (beforeVent ? -1 : 1));
     }
+
     //Submerged utils
     public static object? TryOtherCast(this Il2CppObjectBase self, Type type)
     {
-        return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type).Invoke(self, Array.Empty<object>());
+        return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type)
+            .Invoke(self, Array.Empty<object>());
     }
+
     public static IList CreateList(Type myType)
     {
         Type genericListType = typeof(List<>).MakeGenericType(myType);
@@ -1949,12 +2041,52 @@ public static class MiscUtils
         pc.SetPet("");
     }
 
+    public static void LungeToPos(PlayerControl player, Vector2 pos)
+    {
+        var anim = player.KillAnimations.Random();
+
+        Coroutines.Start(CoPerformAttack(player, anim!, pos));
+    }
+
+    public static IEnumerator CoPerformAttack(PlayerControl attacker, KillAnimation anim, Vector2 pos)
+    {
+        KillAnimation.SetMovement(attacker, false);
+
+        var cam = Camera.main?.GetComponent<FollowerCamera>();
+
+        if (attacker.AmOwner)
+        {
+            if (cam != null)
+            {
+                cam.Locked = true;
+            }
+
+            attacker.isKilling = true;
+        }
+
+        yield return attacker.MyPhysics.Animations.CoPlayCustomAnimation(anim.BlurAnim);
+        attacker.MyPhysics.Animations.PlayIdleAnimation();
+        attacker.NetTransform.SnapTo(pos);
+
+        KillAnimation.SetMovement(attacker, true);
+
+        if (cam != null)
+        {
+            cam.Locked = false;
+        }
+
+        attacker.isKilling = false;
+    }
+
 }
+
 public enum TouGamemode
 {
     Normal,
     HideAndSeek,
-    Cultist
+    Cultist,
+    // AllKillers,
+    // Legacy
 }
 public enum ExpandedMapNames
 {

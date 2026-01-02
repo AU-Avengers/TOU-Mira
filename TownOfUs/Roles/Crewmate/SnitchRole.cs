@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -9,6 +8,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Text;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -92,75 +92,146 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public void CheckTaskRequirements()
     {
-        var realTasks = Player.myTasks.ToArray()
-            .Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>()).ToList();
-        if (realTasks.Count <= 1)
+        UpdateTaskStage(silent: false, forceRecalculate: false);
+    }
+
+    public void RecalculateTaskStage()
+    {
+        UpdateTaskStage(silent: false, forceRecalculate: true);
+    }
+
+    public void RecalculateTaskStage(bool silent)
+    {
+        UpdateTaskStage(silent: silent, forceRecalculate: true);
+    }
+
+    private void UpdateTaskStage(bool silent, bool forceRecalculate)
+    {
+        if (Player == null)
         {
             return;
         }
 
-        var completedTasks = realTasks.Count(t => t.IsComplete);
-        var tasksRemaining = realTasks.Count - completedTasks;
-
-        if (TaskStage is TaskStage.Unrevealed && tasksRemaining <=
-            (int)OptionGroupSingleton<SnitchOptions>.Instance.TaskRemainingWhenRevealed)
+        GetTaskCounts(Player, out var completedTasks, out var totalTasks);
+        if (totalTasks <= 1)
         {
-            TaskStage = TaskStage.Revealed;
-            if (Player.AmOwner)
+            if (forceRecalculate)
             {
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                var text = "The impostors know of your whereabouts!";
-                if (Player.HasModifier<EgotistModifier>())
-                {
-                    text = "The impostors know of your whereabouts, and know you're the Egotist!";
-                }
-
-                var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
-                    new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Snitch.LoadAsset());
-
-                notif1.AdjustNotification();
+                ClearArrows();
+                TaskStage = TaskStage.Unrevealed;
             }
-            else if (IsTargetOfSnitch(PlayerControl.LocalPlayer))
-            {
-                CreateRevealingArrow();
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                var text = "The Snitch is getting closer to reveal you!";
-                if (Player.HasModifier<EgotistModifier>())
-                {
-                    text = "The Snitch is an Egotist, who will help you overthrow the crewmates!";
-                }
-
-                var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
-                    new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Snitch.LoadAsset());
-
-                notif1.AdjustNotification();
-            }
+            return;
         }
 
-        if (completedTasks == realTasks.Count)
+        var tasksRemaining = totalTasks - completedTasks;
+        var threshold = (int)OptionGroupSingleton<SnitchOptions>.Instance.TaskRemainingWhenRevealed;
+
+        TaskStage newStage;
+        if (completedTasks == totalTasks)
         {
-            TaskStage = TaskStage.CompletedTasks;
+            newStage = TaskStage.CompletedTasks;
+        }
+        else if (tasksRemaining <= threshold)
+        {
+            newStage = TaskStage.Revealed;
+        }
+        else
+        {
+            newStage = TaskStage.Unrevealed;
+        }
+
+        if (!forceRecalculate)
+        {
+            if (TaskStage is TaskStage.Unrevealed && newStage is TaskStage.Revealed || completedTasks == totalTasks && TaskStage is not TaskStage.CompletedTasks)
+            {
+                TaskStage = newStage;
+                HandleStageChange(newStage, silent);
+            }
+            else
+            {
+                var textlog = $"Snitch Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {totalTasks})";
+                MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
+                return;
+            }
+        }
+        else
+        {
+            if (TaskStage != newStage)
+            {
+                ClearArrows();
+            }
+
+            TaskStage = newStage;
+            HandleStageChange(newStage, silent);
+        }
+    }
+
+    private void HandleStageChange(TaskStage stage, bool silent)
+    {
+        var textlog = $"Snitch Stage for '{Player.Data.PlayerName}': {stage.ToDisplayString()}";
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
+
+        if (stage is TaskStage.Revealed)
+        {
             if (Player.AmOwner)
             {
-                CreateSnitchArrows();
-                var text = "You have revealed the impostors!";
-                if (Player.HasModifier<EgotistModifier>())
+                if (!silent)
                 {
-                    text = "You have revealed the impostors, who can help your win condition!";
+                    Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+                    var text = "The impostors know of your whereabouts!";
+                    if (Player.HasModifier<EgotistModifier>())
+                    {
+                        text = "The impostors know of your whereabouts, and know you're the Egotist!";
+                    }
+
+                    var notif1 = Helpers.CreateAndShowNotification(
+                        $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
+                        new Vector3(0f, 1f, -20f),
+                        spr: TouRoleIcons.Snitch.LoadAsset());
+                    notif1.AdjustNotification();
                 }
-
-                var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
-                    new Vector3(0f, 1f, -20f),
-                    spr: TouRoleIcons.Snitch.LoadAsset());
-
-                notif1.AdjustNotification();
             }
             else if (IsTargetOfSnitch(PlayerControl.LocalPlayer))
+            {
+                CreateRevealingArrow(silent);
+                if (!silent)
+                {
+                    Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+                    var text = "The Snitch is getting closer to reveal you!";
+                    if (Player.HasModifier<EgotistModifier>())
+                    {
+                        text = "The Snitch is an Egotist, who will help you overthrow the crewmates!";
+                    }
+
+                    var notif1 = Helpers.CreateAndShowNotification(
+                        $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
+                        new Vector3(0f, 1f, -20f),
+                        spr: TouRoleIcons.Snitch.LoadAsset());
+                    notif1.AdjustNotification();
+                }
+            }
+        }
+        else if (stage is TaskStage.CompletedTasks)
+        {
+            if (Player.AmOwner)
+            {
+                CreateSnitchArrows(silent);
+                if (!silent)
+                {
+                    var text = "You have revealed the impostors!";
+                    if (Player.HasModifier<EgotistModifier>())
+                    {
+                        text = "You have revealed the impostors, who can help your win condition!";
+                    }
+
+                    var notif1 = Helpers.CreateAndShowNotification(
+                        $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
+                        new Vector3(0f, 1f, -20f),
+                        spr: TouRoleIcons.Snitch.LoadAsset());
+                    notif1.AdjustNotification();
+                }
+            }
+            else if (IsTargetOfSnitch(PlayerControl.LocalPlayer) && !silent)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
                 var text = "The Snitch knows what you are now!";
@@ -172,13 +243,46 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Snitch.LoadAsset());
-
                 notif1.AdjustNotification();
             }
         }
+    }
 
-        var textlog = $"Snitch Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
-        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
+    private static void GetTaskCounts(PlayerControl player, out int completed, out int total)
+    {
+        completed = 0;
+        total = 0;
+
+        if (player == null || player.Data == null)
+        {
+            return;
+        }
+
+        if (player.myTasks != null && player.myTasks.Count > 0)
+        {
+            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            foreach (var t in tasks)
+            {
+                total++;
+                var taskInfo = player.Data.FindTaskById(t.Id);
+                var isComplete = taskInfo != null ? taskInfo.Complete : t.IsComplete;
+                if (isComplete)
+                {
+                    completed++;
+                }
+            }
+
+            return;
+        }
+
+        foreach (var info in player.Data.Tasks)
+        {
+            total++;
+            if (info.Complete)
+            {
+                completed++;
+            }
+        }
     }
 
     public static bool IsTargetOfSnitch(PlayerControl player)
@@ -226,18 +330,38 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             _snitchArrows.ToList().ForEach(arrow => arrow.Value.gameObject.Destroy());
             _snitchArrows.Clear();
         }
+        // Set to null so CreateSnitchArrowsSilent() can recreate arrows when needed
+        _snitchArrows = null;
 
         if (SnitchRevealArrow != null)
         {
             SnitchRevealArrow.gameObject.Destroy();
+            SnitchRevealArrow = null;
         }
 
-        ModifierUtils.GetActiveModifiers<SnitchImpostorRevealModifier>()
-            .Do(x => x.ModifierComponent?.RemoveModifier(x));
-        ModifierUtils.GetActiveModifiers<SnitchPlayerRevealModifier>().Do(x => x.ModifierComponent?.RemoveModifier(x));
+        // Remove modifiers from all players explicitly to ensure they're cleared on all clients
+        foreach (var player in PlayerControl.AllPlayerControls)
+        {
+            if (player == null)
+            {
+                continue;
+            }
+
+            var modifiers = player.GetModifiers<SnitchImpostorRevealModifier>().ToList();
+            foreach (var mod in modifiers)
+            {
+                player.GetModifierComponent()?.RemoveModifier(mod);
+            }
+
+            var playerMods = player.GetModifiers<SnitchPlayerRevealModifier>().ToList();
+            foreach (var mod in playerMods)
+            {
+                player.GetModifierComponent()?.RemoveModifier(mod);
+            }
+        }
     }
 
-    private void CreateRevealingArrow()
+    private void CreateRevealingArrow(bool silent = false)
     {
         if (SnitchRevealArrow != null)
         {
@@ -247,18 +371,24 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         Player.AddModifier<SnitchPlayerRevealModifier>(
             RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SnitchRole>()));
         PlayerNameColor.Set(Player);
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+        if (!silent)
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+        }
         SnitchRevealArrow = MiscUtils.CreateArrow(Player.transform, TownOfUsColors.Snitch);
     }
 
-    private void CreateSnitchArrows()
+    private void CreateSnitchArrows(bool silent = false)
     {
         if (_snitchArrows != null)
         {
             return;
         }
 
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+        if (!silent)
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+        }
         _snitchArrows = new Dictionary<byte, ArrowBehaviour>();
         var imps = Helpers.GetAlivePlayers().Where(plr => plr.Data.Role.IsImpostor && !plr.IsTraitor());
         var traitor = Helpers.GetAlivePlayers().FirstOrDefault(plr => plr.IsTraitor());

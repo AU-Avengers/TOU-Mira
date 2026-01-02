@@ -10,10 +10,10 @@ public sealed class ChefOptions : AbstractOptionGroup<ChefRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleChef", "Chef");
 
-    [ModdedNumberOption("TouOptionChefCookCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionChefCookCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float CookCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("TouOptionChefServeCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionChefServeCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ServeCooldown { get; set; } = 25f;
 
     [ModdedToggleOption("TouOptionChefLinkedCooldowns")]

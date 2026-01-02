@@ -7,6 +7,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Events;
 using TownOfUs.Options.Roles.Crewmate;
@@ -38,16 +39,18 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     {
         get
         {
+            var sprite = TouCrewAssets.SeerSprite;
             var abilityName = TouLocale.GetParsed($"TouRole{LocaleKey}Reveal", "Reveal");
             var abilityDesc = TouLocale.GetParsed($"TouRole{LocaleKey}RevealWikiDescription");
             if (OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value)
             {
                 abilityName = TouLocale.GetParsed($"TouRole{LocaleKey}Compare", "Compare");
                 abilityDesc = TouLocale.GetParsed($"TouRole{LocaleKey}CompareWikiDescription");
+                sprite = TouCrewAssets.SeerButtonSprites.AsEnumerable().Random()!;
             }
             return new List<CustomButtonWikiDescription>
             {
-                new(abilityName, abilityDesc, TouCrewAssets.SeerSprite)
+                new(abilityName, abilityDesc, sprite)
             };
         }
     }

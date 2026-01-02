@@ -1,4 +1,5 @@
 ﻿using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.GameOptions;
@@ -92,6 +93,21 @@ public static class ProsecutorEvents
         for (var i = 0; i < 5; i++)
         {
             prosdata.VoteForPlayer(prosecutor.ProsecuteVictim);
+        }
+    }
+
+    [RegisterEvent]
+    public static void AfterMurderEvent(AfterMurderEvent @event)
+    {
+        var target = @event.Target;
+        foreach (var pros in CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>())
+        {
+            // if someone dies after the Prosecutor selected them, it will not be a valid prosecute
+            if (pros.ProsecuteVictim == target.PlayerId)
+            {
+                pros.SelectingProsecuteVictim = false;
+                pros.ProsecuteVictim = byte.MaxValue;
+            }
         }
     }
 

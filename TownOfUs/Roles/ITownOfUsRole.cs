@@ -16,13 +16,12 @@ public interface ITownOfUsRole : ICustomRole
     public virtual string LocaleKey => "KEY_MISS";
     public static Dictionary<string, string> LocaleList => [];
 
-    public CustomRoleConfiguration Configuration => new(this)
-    {
-        /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.Normal*/
-    };
-
     [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
+    {
+        return TouLocale.GetParsed("ExileTextConfirm").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
+    }
 
     public virtual string YouAreText
     {
@@ -163,6 +162,21 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.NeutralObstinate;
             }
 
+            if (RoleAlignment == RoleAlignment.CrewmateGhost)
+            {
+                return TouRoleGroups.CrewGhost;
+            }
+
+            if (RoleAlignment == RoleAlignment.NeutralGhost)
+            {
+                return TouRoleGroups.NeutralGhost;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorGhost)
+            {
+                return TouRoleGroups.ImpGhost;
+            }
+
             if (RoleAlignment == RoleAlignment.GameOutlier)
             {
                 return TouRoleGroups.Other;
@@ -207,7 +221,7 @@ public interface ITownOfUsRole : ICustomRole
     }
 
     [HideFromIl2Cpp]
-    StringBuilder SetTabText()
+    StringBuilder ICustomRole.SetTabText()
     {
         return SetNewTabText(this);
     }
@@ -229,7 +243,10 @@ public enum RoleAlignment
     NeutralEvil,
     NeutralOutlier,
     NeutralKilling,
-    GameOutlier, // I honestly have no idea what else to put here 
+    GameOutlier, // I honestly have no idea what else to put here
+    CrewmateGhost,
+    ImpostorGhost,
+    NeutralGhost,
     // Hide and Seek Alignments
     CrewmateHider,
     ImpostorSeeker,

@@ -82,6 +82,12 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public static void DispersePlayersToCoordinates(Dictionary<byte, Vector2> coordinates)
     {
+        var airshipStatus = ShipStatus.Instance.TryCast<AirshipStatus>();
+        if (airshipStatus != null)
+        {
+            Warning($"Resetting Gap Room platform on Airship.");
+            airshipStatus.GapPlatform.MeetingCalled();
+        }
         if (coordinates.ContainsKey(PlayerControl.LocalPlayer.PlayerId))
         {
             if (Minigame.Instance)
@@ -107,8 +113,13 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
         {
             var player = MiscUtils.PlayerById(key)!;
             player.transform.position = value;
+            
+            if (player.Data?.Role is ITransportTrigger triggerRole)
+            {
+                triggerRole.OnTransport();
+            }
 
-            if (PlayerControl.LocalPlayer == player)
+            if (player.AmOwner)
             {
                 PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(value);
             }
@@ -120,6 +131,16 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
             Vent.currentVent = null;
             PlayerControl.LocalPlayer.moveable = true;
             PlayerControl.LocalPlayer.MyPhysics.StopAllCoroutines();
+        }
+
+        if (PlayerControl.LocalPlayer.onLadder)
+        {
+            PlayerControl.LocalPlayer.onLadder = false;
+            PlayerControl.LocalPlayer.moveable = true;
+            PlayerControl.LocalPlayer.MyPhysics.StopAllCoroutines();
+            PlayerControl.LocalPlayer.SetPetPosition(PlayerControl.LocalPlayer.MyPhysics.transform.position);
+            PlayerControl.LocalPlayer.MyPhysics.ResetAnimState();
+            PlayerControl.LocalPlayer.Collider.enabled = true;
         }
 
         if (ModCompatibility.IsSubmerged())

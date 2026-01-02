@@ -1,5 +1,3 @@
-using System.Text;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -62,11 +60,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         IntroSound = TouAudio.GuardianAngelSound
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void OnDeath(DeathReason reason)
     {
@@ -115,16 +109,16 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() &&
                                                                                (x.IsImpostor() ||
                                                                                    (x.Is(RoleAlignment.NeutralOutlier) &&
-                                                                                       options.ShowNeutralOutlierAsEvil) ||
+                                                                                       options.ShowNeutralOutlierAsEvil.Value) ||
                                                                                    (x.Is(RoleAlignment
                                                                                            .NeutralKilling) &&
                                                                                        options
-                                                                                           .ShowNeutralKillingAsEvil) ||
+                                                                                           .ShowNeutralKillingAsEvil.Value) ||
                                                                                    (x.Is(RoleAlignment.NeutralEvil) &&
-                                                                                       options.ShowNeutralEvilAsEvil) ||
+                                                                                       options.ShowNeutralEvilAsEvil.Value) ||
                                                                                    (x.Is(RoleAlignment.NeutralBenign) &&
                                                                                        options
-                                                                                           .ShowNeutralBenignAsEvil)))
+                                                                                           .ShowNeutralBenignAsEvil.Value)))
             .ToList();
 
         if (evilPlayers.Count == 0)

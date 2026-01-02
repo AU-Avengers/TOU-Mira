@@ -62,6 +62,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
     {
         // Added the original Move Mod to blacklist due to it having (unintended) cheat functionalities (player can still move themselves and zoom out in the game)
         string[] blacklist = ["MalumMenu", "SickoMenu", "SigmaMenu", "MoveModPublic: 1.0.0-dev+b18db3c689edef84d1f433480a91ce4ae0154060", "MoveModPublic: 1.0.0-dev+94ede73cbba272aae2cd118cbc7a69d9df779e6b", "MoveMod", "Move Mod"];
+        string[] whitelist = ["AuthFix", "GraphicsPlus", "Submerged", "LevelImposter", "VanillaEnhancements", "StringUtils", "ModExplorer"];
         Error(
             $"{client.Data.PlayerName} is joining with the following mods:");
         foreach (var mod in list)
@@ -70,6 +71,12 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             {
                 Error(
                     $"{mod.Value} (Cheat Mod?)");
+                continue;
+            }
+            else if (whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
+            {
+                Info(
+                    $"{mod.Value} (Known Mod)");
                 continue;
             }
             Warning(
@@ -96,7 +103,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                     bepChecked = true;
                     continue;
                 }
-                if (modDictionary.ContainsValue(mod.Value))
+                if (modDictionary.ContainsValue(mod.Value) || whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
                 {
                     continue;
                 }

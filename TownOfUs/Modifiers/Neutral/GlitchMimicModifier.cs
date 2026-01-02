@@ -1,6 +1,7 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Neutral;
@@ -18,15 +19,25 @@ public sealed class GlitchMimicModifier(PlayerControl target) : ConcealedModifie
     public override bool VisibleToOthers => true;
     public bool VisualPriority => true;
 
+    public PlayerControl Target { get; } = target;
+
     public VisualAppearance GetVisualAppearance()
     {
-        return new VisualAppearance(target.GetDefaultModifiedAppearance(), TownOfUsAppearances.Mimic);
+        return new VisualAppearance(Target.GetDefaultModifiedAppearance(), TownOfUsAppearances.Mimic);
     }
 
     public override void OnActivate()
     {
         Player.RawSetAppearance(this);
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchMimic, Player, target);
+
+        // Visual-only: match First Death Shield appearance to the mimicked target without granting the actual modifier.
+        if (!Player.HasModifier<FirstDeadShield>() && Target.HasModifier<FirstDeadShield>() &&
+            !Player.HasModifier<FirstDeadShieldDisguiseVisual>())
+        {
+            Player.AddModifier<FirstDeadShieldDisguiseVisual>(Target);
+        }
+
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchMimic, Player, Target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
 
@@ -39,8 +50,14 @@ public sealed class GlitchMimicModifier(PlayerControl target) : ConcealedModifie
     {
         CustomButtonSingleton<GlitchMimicButton>.Instance.SetTimer(OptionGroupSingleton<GlitchOptions>.Instance
             .MimicCooldown);
+
+        if (Player.HasModifier<FirstDeadShieldDisguiseVisual>())
+        {
+            Player.RemoveModifier<FirstDeadShieldDisguiseVisual>();
+        }
+
         Player.ResetAppearance();
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchUnmimic, Player, target);
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchUnmimic, Player, Target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
         if (HudManagerPatches.CamouflageCommsEnabled)

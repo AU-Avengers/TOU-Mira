@@ -10,11 +10,23 @@ public static class TouModifierIcons
 
     public static LoadableAsset<Sprite> Bait { get; } = new LoadableBundleAsset<Sprite>("Bait", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Bloody { get; } =
+        new LoadableBundleAsset<Sprite>("Bloody", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> ButtonBarry { get; } =
         new LoadableBundleAsset<Sprite>("ButtonBarry", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Celebrity { get; } =
         new LoadableBundleAsset<Sprite>("Celebrity", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> Circumvent { get; } =
+        new LoadableBundleAsset<Sprite>("Circumvent", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> Crewpostor { get; } =
+        new LoadableBundleAsset<Sprite>("Crewpostor", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> DeadlyQuota { get; } =
+        new LoadableBundleAsset<Sprite>("DeadlyQuota", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Diseased { get; } =
         new LoadableBundleAsset<Sprite>("Diseased", TouAssets.MainBundle);

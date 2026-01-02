@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRole, PlayerControl>, IDiseaseableButton,
+public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollectorRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleSoulCollectorReap", "Reap");

@@ -18,9 +18,10 @@ public static class LogoPatch
             CustomStringName.CreateAndRegister("Impostor Ghost");
 
         var roles = MiscUtils.AllRoles.Where(x =>
-            x is not IWikiDiscoverable || x is ICustomRole custom && !custom.Configuration.HideSettings);
+            x is not IWikiDiscoverable or ICustomRole { Configuration.HideSettings: false })
+            .ToArray();
 
-        if (roles.Any())
+        if (roles.Length != 0)
         {
             foreach (var role in roles)
             {
@@ -28,9 +29,8 @@ public static class LogoPatch
             }
         }
 
-        List<RoleBehaviour> vanillaRoles = new()
-        {
-            // RoleManager.Instance.GetRole(RoleTypes.Crewmate),
+        List<RoleBehaviour> vanillaRoles =
+        [
             RoleManager.Instance.GetRole(RoleTypes.Scientist),
             RoleManager.Instance.GetRole(RoleTypes.Noisemaker),
             // RoleManager.Instance.GetRole(RoleTypes.Engineer),
@@ -40,8 +40,8 @@ public static class LogoPatch
             // RoleManager.Instance.GetRole(RoleTypes.Impostor),
             RoleManager.Instance.GetRole(RoleTypes.Shapeshifter),
             RoleManager.Instance.GetRole(RoleTypes.Phantom),
-            RoleManager.Instance.GetRole(RoleTypes.Viper),
-        };
+            RoleManager.Instance.GetRole(RoleTypes.Viper)
+        ];
         foreach (var role in vanillaRoles)
         {
             SoftWikiEntries.RegisterVanillaRoleEntry(role);
