@@ -23,6 +23,10 @@ public interface ITownOfUsRole : ICustomRole
 
     [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
+    {
+        return TouLocale.GetParsed("ExileTextConfirm").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
+    }
 
     public virtual string YouAreText
     {

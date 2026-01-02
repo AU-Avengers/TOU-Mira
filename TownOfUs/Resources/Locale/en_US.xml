@@ -295,6 +295,7 @@
   <string name="RoundOfDeathLong">Round \%count\%</string>
   <string name="FirstDeadText">(Died R1)</string>
   <!-- Cause of Deaths -->
+  <string name="ExileTextConfirm">\%player\% was The \%role\%.</string>
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
   <string name="Alive">Alive</string>
