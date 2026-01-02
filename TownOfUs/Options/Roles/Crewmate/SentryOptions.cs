@@ -11,14 +11,30 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
 {
     public override string GroupName => TouLocale.Get("TouRoleSentry", "Sentry");
 
-    [ModdedToggleOption("TouOptionSentryLegacyMode")]
-    public bool LegacyMode { get; set; } = false;
-
     [ModdedNumberOption("TouOptionSentryPlacementCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float PlacementCooldown { get; set; } = 30f;
 
-    [ModdedToggleOption("TouOptionSentryPortableCamsImmediateOnNoCamMaps")]
-    public bool PortableCamsImmediateOnNoCamMaps { get; set; } = false;
+    [ModdedEnumOption("TouOptionSentryDeployedCamerasVisibility", typeof(SentryDeployedCamerasVisibility),
+        ["Immediately", "After Meeting"])]
+    public SentryDeployedCamerasVisibility DeployedCamerasVisibility { get; set; } = SentryDeployedCamerasVisibility.Immediately;
+
+    public ModdedNumberOption CamerasVisibleAfter { get; } =
+        new("TouOptionSentryCamerasVisibleAfter", 3f, 0f, 10f, 0.5f, MiraNumberSuffixes.Seconds, "0.0")
+        {
+            Visible = () =>
+                OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.Immediately
+        };
+
+    public ModdedToggleOption CanMoveWhilePlacingCameras { get; } =
+        new("TouOptionSentryCanMoveWhilePlacingCameras", false)
+        {
+            Visible = () =>
+                OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting
+        };
+
+    [ModdedEnumOption("TouOptionSentryPortableCamerasMode", typeof(SentryPortableCamerasMode),
+        ["Immediately", "After Tasks", "On Maps Without Cameras"])]
+    public SentryPortableCamerasMode PortableCamerasMode { get; set; } = SentryPortableCamerasMode.AfterTasks;
 
     public ModdedNumberOption InitialCameras { get; } = new("TouOptionSentryInitialCameras", 2f, 0f, 15f, 1f, "∞", "#", MiraNumberSuffixes.None, "0", false);
 
@@ -157,3 +173,15 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
     }
 }
 
+public enum SentryDeployedCamerasVisibility
+{
+    Immediately,
+    AfterMeeting
+}
+
+public enum SentryPortableCamerasMode
+{
+    Immediately,
+    AfterTasks,
+    OnMapsWithoutCameras
+}

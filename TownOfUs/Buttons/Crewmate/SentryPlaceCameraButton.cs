@@ -18,7 +18,16 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sentry;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SentryOptions>.Instance.PlacementCooldown + MapCooldown, 5f, 120f);
-    public override float EffectDuration => 3.001f;
+    public override float EffectDuration
+    {
+        get
+        {
+            var options = OptionGroupSingleton<SentryOptions>.Instance;
+            return options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.Immediately
+                ? Math.Clamp(options.CamerasVisibleAfter.Value, 0f, 10f) + 0.001f
+                : 3.001f;
+        }
+    }
     public override int MaxUses => (int)OptionGroupSingleton<SentryOptions>.Instance.InitialCameras.Value;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.DeployCamSprite;
     public override bool ZeroIsInfinite { get; set; } = true;
@@ -194,8 +203,11 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
     protected override void OnClick()
     {
-        var legacy = OptionGroupSingleton<SentryOptions>.Instance.LegacyMode;
-        if (!legacy)
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
+        var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
+        var canMove = options.CanMoveWhilePlacingCameras.Value;
+
+        if (!afterMeeting || canMove)
         {
             SavedPos = PlayerControl.LocalPlayer.transform.position;
             return;
@@ -249,7 +261,9 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     {
         base.FixedUpdate(playerControl);
 
-        if (!OptionGroupSingleton<SentryOptions>.Instance.LegacyMode)
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
+        var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
+        if (!afterMeeting || options.CanMoveWhilePlacingCameras.Value)
         {
             return;
         }
@@ -281,7 +295,9 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     {
         base.OnEffectEnd();
 
-        if (OptionGroupSingleton<SentryOptions>.Instance.LegacyMode)
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
+        var afterMeeting = options.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
+        if (afterMeeting && !options.CanMoveWhilePlacingCameras.Value)
         {
             return;
         }
