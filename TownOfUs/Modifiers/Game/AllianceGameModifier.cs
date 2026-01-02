@@ -22,6 +22,7 @@ public abstract class AllianceGameModifier : GameModifier
     public virtual ModifierFaction FactionType => ModifierFaction.Alliance;
     // Set to Crewmate, Impostor or Neutral
     public virtual AlliedFaction TrueFactionType => AlliedFaction.Other;
+    public virtual bool CountTowardsTrueFaction => false;
     // Only used when the TrueFactionType is set to RoleSpecific
     public virtual RoleBehaviour UnderlyingRole => RoleManager.Instance.GetRole(RoleTypes.Crewmate);
 

@@ -13,12 +13,18 @@ public class ChangeRoleEvent : MiraEvent
     /// <param name="player">The player.</param>
     /// <param name="oldRole">The player's previous role.</param>
     /// <param name="newRole">The player's new role.</param>
-    public ChangeRoleEvent(PlayerControl player, RoleBehaviour? oldRole, RoleBehaviour newRole)
+    public ChangeRoleEvent(PlayerControl player, RoleBehaviour? oldRole, RoleBehaviour newRole, bool forceChange = false)
     {
         Player = player;
         OldRole = oldRole;
         NewRole = newRole;
+        ForceChange = forceChange;
     }
+
+    /// <summary>
+    ///     Gets whether or not the role was overwritten by another system.
+    /// </summary>
+    public bool ForceChange { get; }
 
     /// <summary>
     ///     Gets the player that changed roles.

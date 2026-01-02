@@ -33,6 +33,7 @@ public abstract class TownOfUsButton : CustomActionButton
             ? "0.0"
             : "0";
 
+    public virtual bool Disabled { get; set; }
     public virtual bool UsableInDeath => false;
     public virtual bool ShouldPauseInVent => true;
 
@@ -246,6 +247,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             ? "0.0"
             : "0";
 
+    public virtual bool Disabled { get; set; }
     public virtual bool ShouldPauseInVent => true;
     public virtual bool UsableInDeath => false;
 
@@ -456,7 +458,7 @@ public abstract class TownOfUsRoleButton<TRole> : TownOfUsButton where TRole : R
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is TRole;
+        return !Disabled && role is TRole;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
@@ -473,7 +475,7 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is TRole;
+        return !Disabled && role is TRole;
     }
 
     protected virtual bool ShouldTrackKillCooldown()

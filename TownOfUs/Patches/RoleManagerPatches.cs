@@ -890,9 +890,10 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     [HarmonyPrefix]
-    [HarmonyPriority(Priority.Last)]
+    [HarmonyPriority(Priority.First)]
     public static bool SelectRolesPatch(RoleManager __instance)
     {
+        ModifierManager.MiraAssignsModifiers = false;
         var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
@@ -1011,8 +1012,8 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     [HarmonyPostfix]
-    [HarmonyPriority(Priority.First)]
-    public static void AssignCustomModifiersPatch(RoleManager __instance)
+    [HarmonyPriority(Priority.Low)]
+    public static void SetSpectatorsAndModifiers(RoleManager __instance)
     {
         var spectators = GameData.Instance.AllPlayers.ToArray()
             .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
@@ -1020,7 +1021,7 @@ public static class TouRoleManagerPatches
 
         foreach (var player in spectators)
         {
-            player.Object.RpcSetRole(RoleTypes.Crewmate);
+            player.Object.RpcSetRole(RoleTypes.Crewmate, true);
         }
 
         foreach (var player in spectators)
@@ -1039,6 +1040,9 @@ public static class TouRoleManagerPatches
             }
         }
 
+        ModifierManager.AssignModifiers(
+            PlayerControl.AllPlayerControls.ToArray().Where(plr => !plr.Data.IsDead && !plr.Data.Disconnected)
+                .ToList());
         AssignTargets();
     }
 
@@ -1058,10 +1062,21 @@ public static class TouRoleManagerPatches
         messageWriter.Write(canOverrideRole);
         AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
 
-        var changeRoleEvent = new ChangeRoleEvent(__instance, null, RoleManager.Instance.GetRole(roleType));
+        var changeRoleEvent = new ChangeRoleEvent(__instance, null, RoleManager.Instance.GetRole(roleType), canOverrideRole);
         MiraEventManager.InvokeEvent(changeRoleEvent);
 
         return false;
+    }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CoSetRole))]
+    [HarmonyPrefix]
+    public static void SetRolePatch(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType,
+        [HarmonyArgument(1)] bool canOverrideRole)
+    {
+        if (canOverrideRole)
+        {
+            __instance.roleAssigned = false;
+        }
     }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRoleOnDeath))]

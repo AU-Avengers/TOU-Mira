@@ -61,7 +61,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
         SetOutline(true);
 
         return PlayerControl.LocalPlayer.moveable &&
-               (EffectActive || (!EffectActive && Target != null && (!LimitedUses || UsesLeft > 0)));
+               (EffectActive || (!EffectActive && Target != null && (!LimitedUses || UsesLeft > 0) && Timer <= 0));
     }
 
     public override bool CanClick()

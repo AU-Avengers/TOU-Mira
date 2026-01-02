@@ -82,9 +82,13 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             ModNewsFetcher
                 .CheckForNews; // Checks for mod announcements after everything is loaded to avoid Epic Games crashing
 
-        var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "touhats.catalog");
-        AddressablesLoader.RegisterCatalog(path);
-        AddressablesLoader.RegisterHats("touhats");
+        if (!IsMobile)
+        {
+            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+                "touhats.catalog");
+            AddressablesLoader.RegisterCatalog(path);
+            AddressablesLoader.RegisterHats("touhats");
+        }
 
         GameSummaryMode = Config.Bind("LocalSettings", "GameSummaryMode", 1,
             "How the Game Summary appears in the Win Screen. 0 is to the left, 1 is split, and 2 is hidden.");
