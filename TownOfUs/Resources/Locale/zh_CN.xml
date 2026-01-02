@@ -1470,14 +1470,6 @@
   <string name="TouOptionSpectreWinEnumSpooks">胜利离场并带走一人</string>
   <string name="TouOptionSpectreWinEnumNothing">继续游戏</string>
   <string name="TouOptionVampireValidNeutralConversions">有效转化对象</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyCrew">仅船员</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyBenign">中立善良</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyEvil">中立邪恶</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyOutlier">中立外来者</string>
-  <string name="TouOptionVampireNeutConvertEnumBenignEvil">中立善良 \%and\% 中立邪恶</string>
-  <string name="TouOptionVampireNeutConvertEnumBenignOutlier">中立善良 \%and\% 中立外来者</string>
-  <string name="TouOptionVampireNeutConvertEnumEvilOutlier">中立邪恶 \%and\% 中立外来者</string>
-  <string name="TouOptionVampireNeutConvertEnumMostNeuts">非杀手中立类</string>
   <string name="TouOptionVampireConvertLovers">可以转化恋人</string>
   <string name="TouOptionSheriffCanShootNeutralBenignRoles">警长可射击中立善良职业</string>
   <string name="TouRoleSeerIntuit">觉察</string>
