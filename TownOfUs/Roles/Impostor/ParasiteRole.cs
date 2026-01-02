@@ -647,6 +647,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
+        if (target.IsInTargetingAnimState())
+        {
+            return;
+        }
+
         role.Controlled = target;
         role._overtakeKillLockoutUntil = Time.time + OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeKillCooldown;
 

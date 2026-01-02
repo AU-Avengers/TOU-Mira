@@ -57,9 +57,13 @@ public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, 
                     plr != null &&
                     plr != PlayerControl.LocalPlayer &&
                     !plr.HasDied() &&
+                    !plr.IsInTargetingAnimState() &&
                     !plr.IsImpostorAligned());
         }
-        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(false, Distance);
+        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(
+            false,
+            Distance,
+            predicate: plr => plr != null && !plr.HasDied() && !plr.IsInTargetingAnimState());
     }
 
     protected override void OnClick()

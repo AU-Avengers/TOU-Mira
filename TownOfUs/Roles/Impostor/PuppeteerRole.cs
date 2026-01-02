@@ -176,6 +176,11 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
+        if (target.IsInTargetingAnimState())
+        {
+            return;
+        }
+
         role.Controlled = target;
         role.ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
 
