@@ -296,7 +296,7 @@
   <string name="TouOptionHunterStalkCooldown">巡猎者盯梢冷却</string>
   <string name="TouOptionHunterStalkDuration">巡猎者盯梢持续时间</string>
   <string name="TouOptionHunterStalkUses">最大盯梢次数</string>
-  <string name="TouOptionHunterRetributionOnVote">被投票出局时猎手击杀最后投票者</string>
+  <string name="TouOptionHunterRetributionOnVote">被投票出局时巡猎者击杀最后投票者</string>
   <string name="TouOptionHunterHunterBodyReport">巡猎者可报告其击杀对象</string>
   <string name="TouRoleImitator">效颦者</string>
   <string name="TouRoleImitatorIntroBlurb">利用死亡角色帮助船员</string>
