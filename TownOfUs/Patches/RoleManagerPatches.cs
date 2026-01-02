@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Reflection;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
-using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;

@@ -41,6 +41,9 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public override bool CrewContinuesGame => false;
     public override ModifierFaction FactionType => ModifierFaction.CrewmateAlliance;
     public override AlliedFaction TrueFactionType => AlliedFaction.Impostor;
+
+    public override bool CountTowardsTrueFaction =>
+        OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value;
     public override Color FreeplayFileColor => new Color32(220, 220, 220, 255);
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Crewpostor;
 
