@@ -1,4 +1,6 @@
 using HarmonyLib;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace TownOfUs.Patches.AprilFools;
 
@@ -37,6 +39,47 @@ public static class DleksMapOptionPickerPatches
                 NameImage = TouAssets.DleksText.LoadAsset(),
             });
         }
+    }
+
+    // This method is patched to fix issues on Epic Games
+    [HarmonyPatch(typeof(FreeplayPopover), nameof(FreeplayPopover.OnMapButtonPressed))]
+    [HarmonyPrefix]
+    public static bool ButtonPressPatch(FreeplayPopover __instance, FreeplayPopoverButton button)
+    {
+        __instance.background.GetComponent<PassiveButton>().OnClick
+            .RemoveListener((UnityAction)(() => __instance.Close()));
+        FreeplayPopoverButton[] array = __instance.buttons;
+        for (int i = 0; i < array.Length; i++)
+        {
+            array[i].Button.enabled = false;
+        }
+
+        AmongUsClient.Instance.TutorialMapId = (int)button.Map;
+        __instance.hostGameButton.OnClick();
+        return false;
+    }
+
+    private static FreeplayPopover _lastInstance;
+
+    [HarmonyPatch(typeof(FreeplayPopover), nameof(FreeplayPopover.Show))]
+    [HarmonyPriority(Priority.First)]
+    [HarmonyPrefix]
+    public static void AdjustFreeplayMenuPatch(FreeplayPopover __instance)
+    {
+        if (_lastInstance == __instance) return;
+        _lastInstance = __instance;
+
+        FreeplayPopoverButton fungleButton = __instance.buttons[4];
+        FreeplayPopoverButton dleksButton = UnityEngine.Object.Instantiate(fungleButton, fungleButton.transform.parent);
+
+        dleksButton.name = "DleksButton";
+        dleksButton.map = MapNames.Dleks;
+        dleksButton.GetComponent<SpriteRenderer>().sprite = TouAssets.DleksTextAlt.LoadAsset();
+        dleksButton.OnPressEvent = fungleButton.OnPressEvent;
+
+        dleksButton.transform.position = new Vector3(fungleButton.transform.position.x, __instance.buttons[0].transform.position.y + 0.7f, fungleButton.transform.position.z);
+
+        __instance.buttons = new List<FreeplayPopoverButton>(__instance.buttons) { dleksButton }.ToArray();
     }
 
     /*[HarmonyPatch(typeof(CreateGameMapPicker), nameof(CreateGameMapPicker.SetupMapButtons))]
