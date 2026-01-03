@@ -89,8 +89,8 @@ public static class ChatControllerPatches
         public static bool Prefix(char i, ref bool __result)
         {
             // Error($"checking if character {i.ToString()} (id {(int)i}) is allowed in chat");
-            if (i is '\b' or '\n' or '\r' or '>')
-            {   
+            if (i is '\b' or '\n' or '>')
+            {
                 return true;
             }
 
