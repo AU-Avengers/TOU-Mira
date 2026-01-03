@@ -122,11 +122,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 ControlTimer = duration;
             }
 
-            // Don't tick cooldown during grace period
-            if (!PuppeteerControlState.IsInInitialGrace(Controlled.PlayerId))
-            {
-                ControlTimer -= Time.fixedDeltaTime;
-            }
+            ControlTimer -= Time.fixedDeltaTime;
 
             if (ControlTimer <= 0f && Controlled != null)
             {
@@ -199,6 +195,15 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         if (target.inVent)
         {
             target.MyPhysics.ExitAllVents();
+        }
+
+        if (puppeteer.AmOwner)
+        {
+            NetTransformBacklogUtils.FlushAndSnap(target);
+        }
+        else
+        {
+            NetTransformBacklogUtils.FlushBacklog(target);
         }
 
         if (puppeteer.AmOwner)

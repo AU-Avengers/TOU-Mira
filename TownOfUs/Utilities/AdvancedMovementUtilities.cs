@@ -343,10 +343,9 @@ public static class AdvancedMovementUtilities
 
             var currentPos = physics.body != null ? physics.body.position : (Vector2)physics.myPlayer.transform.position;
             var delta = targetPosition - currentPos;
-            const float positionSnapThreshold = 2.0f;
-            const float positionLerpSpeed = 15.0f;
+            const float positionSnapThreshold = 0.5f;
 
-            if (delta.sqrMagnitude <= 0.0001f * 0.0001f)
+            if (delta.sqrMagnitude <= 0.0001f * 0.0001f || delta.magnitude > positionSnapThreshold)
             {
                 if (physics.body != null)
                 {
@@ -354,15 +353,9 @@ public static class AdvancedMovementUtilities
                 }
                 physics.myPlayer.transform.position = targetPosition;
             }
-
-            else if (delta.magnitude > positionSnapThreshold && physics.body != null)
-            {
-                physics.body.position = targetPosition;
-                physics.myPlayer.transform.position = targetPosition;
-            }
-
             else
             {
+                const float positionLerpSpeed = 60.0f;
                 var lerpFactor = Mathf.Clamp01(Time.fixedDeltaTime * positionLerpSpeed);
                 var smoothedPos = Vector2.Lerp(currentPos, targetPosition, lerpFactor);
                 if (physics.body != null)
@@ -375,12 +368,9 @@ public static class AdvancedMovementUtilities
 
             physics.SetNormalizedVelocity(direction);
 
-
-            if (physics.body != null)
+            if (physics.body != null && direction == Vector2.zero)
             {
-                var currentVel = physics.body.velocity;
-                var velLerpFactor = Mathf.Clamp01(Time.fixedDeltaTime * 20.0f);
-                physics.body.velocity = Vector2.Lerp(currentVel, targetVelocity, velLerpFactor);
+                physics.body.velocity = Vector2.zero;
             }
         }
         finally

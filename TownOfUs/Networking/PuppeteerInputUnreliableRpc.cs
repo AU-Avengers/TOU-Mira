@@ -52,7 +52,7 @@ internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id
     {
         var controlledPlayerInfo = GameData.Instance?.GetPlayerById(data.ControlledId);
         var controlled = controlledPlayerInfo?.Object;
-        if (controlled == null || !controlled.AmOwner)
+        if (controlled == null)
         {
             return;
         }
