@@ -31,6 +31,12 @@ public static class ZoomEvents
         }
     }
 
+    [RegisterEvent(1000)]
+    public static void IntroBeginEventHandler(IntroBeginEvent @event)
+    {
+        HudManagerPatches.ResetZoom();
+    }
+
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
