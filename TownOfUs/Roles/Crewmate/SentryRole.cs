@@ -83,31 +83,25 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
+        var opts = OptionGroupSingleton<SentryOptions>.Instance;
         var mapId = MiscUtils.GetCurrentMap;
         var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
+        var portableImmediate = opts.PortableCamerasMode is SentryPortableCamerasMode.Immediately ||
+                                (opts.PortableCamerasMode is SentryPortableCamerasMode.OnMapsWithoutCameras && mapWithoutCameras);
+        var portableLine = portableImmediate
+            ? TouLocale.GetParsed("TouRoleSentryPortableAvailableImmediately", "Portable Cameras are available immediately.")
+            : TouLocale.GetParsed("TouRoleSentryPortableAvailableAfterTasks", "Portable Cameras are available after tasks.");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"<size=60%><color=#BFBFBF>{portableLine}</color></size>");
 
-        if (mapWithoutCameras)
+        var deployedVis = OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility;
+        if (deployedVis is SentryDeployedCamerasVisibility.AfterMeeting)
         {
-            var mapName = mapId switch
+            var canMove = OptionGroupSingleton<SentryOptions>.Instance.CanMoveWhilePlacingCameras.Value;
+            if (!canMove)
             {
-                ExpandedMapNames.MiraHq => "Mira HQ",
-                ExpandedMapNames.Fungle => "Fungle",
-                ExpandedMapNames.Submerged => "Submerged",
-                ExpandedMapNames.LevelImpostor => "LevelImpostor",
-                _ => TouLocale.Get("Map", "this map")
-            };
-            var parseList = new Dictionary<string, string> { { "<map>", mapName } };
-            var options = OptionGroupSingleton<SentryOptions>.Instance;
-            var noCamText = options.PortableCamsImmediateOnNoCamMaps
-                ? TouLocale.GetParsed("TouRoleSentryMapNoCamerasImmediate", "%map% has no Security. Portable cameras are available immediately.", parseList)
-                : TouLocale.GetParsed("TouRoleSentryMapNoCameras", "%map% has no Security. Complete tasks to unlock portable cameras.", parseList);
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b><color=#FFAA00>{noCamText}</color></b>");
-        }
-        var legacy = OptionGroupSingleton<SentryOptions>.Instance.LegacyMode;
-        if (legacy)
-        {
-            stringB.AppendLine($"<b><color=#FFAA00>Stand still to deploy sentry-only cameras</color></b>");
-            stringB.AppendLine($"<size=60%><color=#BFBFBF>Sentry-only cameras are fully deployed the next round.</color></size>");
+                stringB.AppendLine($"<b><color=#FFAA00>Stand still to deploy sentry-only cameras</color></b>");
+            }
+            stringB.AppendLine($"<size=60%><color=#BFBFBF>Cameras become public after the next meeting.</color></size>");
         }
         if (Cameras.Count > 0 || FutureCameras.Count > 0)
         {

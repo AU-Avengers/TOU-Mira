@@ -3,6 +3,7 @@ using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Patches;
 
@@ -46,6 +47,19 @@ public static class ButtonClickPatches
 
         if (PlayerControl.LocalPlayer != null)
         {
+            if (__instance is UseButton)
+            {
+                var localRole = PlayerControl.LocalPlayer.Data?.Role;
+                if (localRole is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+                {
+                    return true;
+                }
+                if (localRole is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+                {
+                    return true;
+                }
+            }
+
             if (__instance is ReportButton)
             {
                 if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanReport))

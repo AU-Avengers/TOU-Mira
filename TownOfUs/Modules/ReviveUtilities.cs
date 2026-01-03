@@ -5,6 +5,7 @@ using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Anims;
+using TownOfUs.Modules.TimeLord;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -17,6 +18,25 @@ namespace TownOfUs.Modules;
 /// </summary>
 public static class ReviveUtilities
 {
+    private static System.Collections.IEnumerator CoEnsureNoLingeringBody(byte revivedId, float timeoutSeconds)
+    {
+        const float step = 0.05f;
+        var waited = 0f;
+
+        while (waited < timeoutSeconds)
+        {
+            var body = TimeLordBodyManager.FindDeadBodyIncludingInactive(revivedId) ??
+                       UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(b => b.ParentId == revivedId);
+            if (body != null && body.gameObject != null)
+            {
+                try { UnityEngine.Object.Destroy(body.gameObject); } catch { /* ignored */ }
+            }
+
+            waited += step;
+            yield return new WaitForSeconds(step);
+        }
+    }
+
     public static void RevivePlayer(
         PlayerControl reviver,
         PlayerControl revived,
@@ -32,25 +52,25 @@ public static class ReviveUtilities
             return;
         }
 
-        if (MeetingHud.Instance || ExileController.Instance)
-        {
-            return;
-        }
+        var inMeetingOrExile = MeetingHud.Instance || ExileController.Instance;
 
         GameHistory.ClearMurder(revived);
 
         revived.Revive();
 
-        revived.transform.position = position;
-        if (revived.AmOwner)
+        if (!inMeetingOrExile)
         {
-            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(position);
-        }
+            revived.transform.position = position;
+            if (revived.AmOwner)
+            {
+                PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(position);
+            }
 
-        if (revived.MyPhysics?.body != null)
-        {
-            revived.MyPhysics.body.position = position;
-            Physics2D.SyncTransforms();
+            if (revived.MyPhysics?.body != null)
+            {
+                revived.MyPhysics.body.position = position;
+                Physics2D.SyncTransforms();
+            }
         }
 
         if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer != null &&
@@ -59,7 +79,7 @@ public static class ReviveUtilities
             ModCompatibility.ChangeFloor(revived.transform.position.y > -7);
         }
 
-        if (revived.AmOwner && !revived.HasModifier<LoverModifier>())
+        if (!inMeetingOrExile && revived.AmOwner && !revived.HasModifier<LoverModifier>())
         {
             try
             {
@@ -100,8 +120,7 @@ public static class ReviveUtilities
             reviver.RemainingEmergencies = 0;
         }
 
-        // Kill / revive feedback (modeled after Altruist).
-        if (revived.AmOwner && !string.IsNullOrWhiteSpace(revivedOwnerNotificationText))
+        if (!inMeetingOrExile && revived.AmOwner && !string.IsNullOrWhiteSpace(revivedOwnerNotificationText))
         {
             try
             {
@@ -120,7 +139,7 @@ public static class ReviveUtilities
             }
         }
 
-        if (reviver != null && reviver.AmOwner && reviver != revived && !string.IsNullOrWhiteSpace(reviverOwnerNotificationText))
+        if (!inMeetingOrExile && reviver != null && reviver.AmOwner && reviver != revived && !string.IsNullOrWhiteSpace(reviverOwnerNotificationText))
         {
             try
             {
@@ -152,5 +171,7 @@ public static class ReviveUtilities
         {
             // ignored
         }
+
+        Coroutines.Start(CoEnsureNoLingeringBody(revived.PlayerId, 1.0f));
     }
 }

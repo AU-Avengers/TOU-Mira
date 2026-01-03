@@ -94,11 +94,12 @@ OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
                 .Where(x => x.KillTime >= cutoff)
                 .Select(x =>
                 {
-                    var killAge = (float)(now - x.KillTime).TotalSeconds; var triggerAt = duration * (killAge / history);
+                    var killAge = (float)(now - x.KillTime).TotalSeconds;
+                    var triggerAt = Mathf.Clamp(duration * (killAge / history), 0f, duration);
                     return (x.VictimId, KillAgeSeconds: triggerAt);
                 })
                 .GroupBy(x => x.VictimId)
-                .Select(g => g.OrderByDescending(v => v.KillAgeSeconds).First())
+                .Select(g => g.OrderBy(v => v.KillAgeSeconds).First())
                 .ToList();
 
             TimeLordRewindSystem.ConfigureHostRevives(schedule);

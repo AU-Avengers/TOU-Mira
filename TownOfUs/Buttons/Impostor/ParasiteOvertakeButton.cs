@@ -158,7 +158,6 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return false;
         }
 
-        // Respect ability blocks (Glitch hack / disabled modifiers).
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
             PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
@@ -229,14 +228,13 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 plr != PlayerControl.LocalPlayer &&
                 !plr.HasDied() &&
                 !plr.IsImpostorAligned() &&
+                !plr.IsInTargetingAnimState() &&
                 !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
                 !plr.HasModifier<TownOfUs.Modifiers.Impostor.ParasiteInfectedModifier>());
     }
 
     public override void FixedUpdateHandler(PlayerControl playerControl)
     {
-        // Freeze effect/cooldown timers during the initial control sync grace window.
-        // This prevents "burning" duration/cooldown while the victim is intentionally immobilized.
         TimerPaused = false;
         var localRole = PlayerControl.LocalPlayer?.Data?.Role as ParasiteRole;
         if (localRole?.Controlled != null &&
@@ -504,6 +502,15 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             ParasiteControlState.IsControlled(pr.Controlled.PlayerId, out _))
         {
             if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
+            {
+                return;
+            }
+
+            if (pr.Controlled.IsInTargetingAnimState() || 
+                pr.Controlled.inVent || 
+                pr.Controlled.inMovingPlat || 
+                pr.Controlled.onLadder || 
+                pr.Controlled.walkingToVent)
             {
                 return;
             }

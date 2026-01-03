@@ -71,9 +71,16 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var mapId = MiscUtils.GetCurrentMap;
         var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
-        var immediateOnNoCamMaps = options.PortableCamsImmediateOnNoCamMaps;
 
-        if (!sentryRole.CompletedAllTasks && !(immediateOnNoCamMaps && mapWithoutCameras))
+        var unlocked = options.PortableCamerasMode switch
+        {
+            SentryPortableCamerasMode.Immediately => true,
+            SentryPortableCamerasMode.AfterTasks => sentryRole.CompletedAllTasks,
+            SentryPortableCamerasMode.OnMapsWithoutCameras => mapWithoutCameras || sentryRole.CompletedAllTasks,
+            _ => sentryRole.CompletedAllTasks
+        };
+
+        if (!unlocked)
         {
             return false;
         }
@@ -249,9 +256,16 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         var options = OptionGroupSingleton<SentryOptions>.Instance;
         var mapId = MiscUtils.GetCurrentMap;
         var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
-        var immediateOnNoCamMaps = options.PortableCamsImmediateOnNoCamMaps;
 
-        if (!sentryRole.CompletedAllTasks && !(immediateOnNoCamMaps && mapWithoutCameras))
+        var unlocked = options.PortableCamerasMode switch
+        {
+            SentryPortableCamerasMode.Immediately => true,
+            SentryPortableCamerasMode.AfterTasks => sentryRole.CompletedAllTasks,
+            SentryPortableCamerasMode.OnMapsWithoutCameras => mapWithoutCameras || sentryRole.CompletedAllTasks,
+            _ => sentryRole.CompletedAllTasks
+        };
+
+        if (!unlocked)
         {
             return false;
         }

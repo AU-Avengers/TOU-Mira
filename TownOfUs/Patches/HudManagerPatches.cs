@@ -102,6 +102,10 @@ public static class HudManagerPatches
         var size = Camera.main!.orthographicSize;
         size = zoomOut ? size * 1.25f : size / 1.25f;
         size = Mathf.Clamp(size, 3, 15);
+        if (Camera.main!.orthographicSize == size)
+        {
+            return;
+        }
 
         AdjustCameraSize(size);
     }
@@ -117,6 +121,37 @@ public static class HudManagerPatches
     {
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         var axisRaw = ConsoleJoystick.player.GetAxisRaw(55);
+
+        if (scrollWheel == 0 && Input.touchCount < 2 && axisRaw == 0)
+        {
+            return;
+        }
+        if (Input.touchCount == 2)
+        {
+            Touch touch0 = Input.GetTouch(0);
+            Touch touch1 = Input.GetTouch(1);
+
+            Vector2 touch0PrevPos = touch0.position - touch0.deltaPosition;
+            Vector2 touch1PrevPos = touch1.position - touch1.deltaPosition;
+
+            float prevTouchDeltaMag = (touch0PrevPos - touch1PrevPos).magnitude;
+            float currentTouchDeltaMag = (touch0.position - touch1.position).magnitude;
+            float deltaMagnitudeDiff = currentTouchDeltaMag - prevTouchDeltaMag;
+
+            switch (deltaMagnitudeDiff)
+            {
+                case > 0:
+                {
+                    ScrollZoom();
+                    break;
+                }
+                case < 0:
+                {
+                    ScrollZoom(true);
+                    break;
+                }
+            }
+        }
 
         if (scrollWheel > 0 || axisRaw > 0)
         {
@@ -968,6 +1003,11 @@ public static class HudManagerPatches
         UpdateRoleList(__instance);
         UpdateTeamChat();
 
+        if (CanZoom)
+        {
+            CheckForScrollZoom();
+        }
+
         if (PlayerControl.LocalPlayer.Data.Role == null ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
@@ -975,20 +1015,26 @@ public static class HudManagerPatches
         {
             return;
         }
-
-        if (((PlayerControl.LocalPlayer.DiedOtherRound() &&
-              (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
-               PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) || TutorialManager.InstanceExists)
-            && Input.GetAxis("Mouse ScrollWheel") != 0 && !MeetingHud.Instance && Minigame.Instance == null &&
-            !HudManager.Instance.Chat.IsOpenOrOpening)
-        {
-            CheckForScrollZoom();
-        }
         
         UpdateCamouflageComms();
         UpdateRoleNameText();
         UpdateSubmergedButtons(__instance);
     }
+
+    public static bool CanZoom => !(HudManager.Instance.GameMenu.IsOpen || HudManager.Instance.Chat.IsOpenOrOpening ||
+                                    MeetingHud.Instance || Minigame.Instance ||
+                                    PlayerCustomizationMenu.Instance ||
+                                    FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
+                                    GameStartManager.InstanceExists &&
+                                    (GameStartManager.Instance.RulesViewPanel &&
+                                     GameStartManager.Instance.RulesViewPanel.active ||
+                                     GameStartManager.Instance.RulesEditPanel &&
+                                     GameStartManager.Instance.RulesEditPanel.active)) &&
+                                  ((PlayerControl.LocalPlayer.DiedOtherRound() &&
+                                    (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
+                                     PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
+                                   TutorialManager.InstanceExists ||
+                                   GameStartManager.InstanceExists);
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";

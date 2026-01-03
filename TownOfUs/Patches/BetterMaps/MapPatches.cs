@@ -32,13 +32,13 @@ public static class MapPatches
         RpcSetMap(PlayerControl.LocalPlayer, map);
     }
 
-    [HarmonyPatch(typeof(Vent), nameof(Vent.ToggleNeighborVentBeingCleaned))]
+    /*[HarmonyPatch(typeof(Vent), nameof(Vent.ToggleNeighborVentBeingCleaned))]
     [HarmonyPatch(typeof(Vent), nameof(Vent.UpdateArrows))]
     [HarmonyPrefix]
     public static bool DisableVentCleaning()
     {
         return GameOptionsManager.Instance.CurrentGameOptions.MapId != 3;
-    }
+    }*/
 
     private static byte GetSelectedMap()
     {

@@ -23,6 +23,8 @@ namespace TownOfUs.Modules;
 
 public static class TimeLordRewindSystem
 {
+    private const float MaxRewindHistorySeconds = 120f;
+    private const int MaxSnapshotSamples = 8192;
     private enum SpecialAnim : byte
     {
         None = 0,
@@ -550,10 +552,10 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 60f);
+        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, MaxRewindHistorySeconds);
         var dt = Mathf.Max(Time.fixedDeltaTime, 0.001f);
         var samplesNeeded = (int)Math.Ceiling(history / dt) + 5;
-        Buffer.EnsureCapacity(Math.Clamp(samplesNeeded, 256, 4096));
+        Buffer.EnsureCapacity(Math.Clamp(samplesNeeded, 256, MaxSnapshotSamples));
 
         const float retentionBuffer = 7.5f;
         var retentionCutoff = Time.time - (history + retentionBuffer);
@@ -705,7 +707,7 @@ public static class TimeLordRewindSystem
         _lastKillButtonCooldownSampleTime = now;
         RefreshKillLikeButtons(role, now);
 
-        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 60f);
+        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, MaxRewindHistorySeconds);
         const float retentionBuffer = 7.5f;
         var cutoff = now - (history + retentionBuffer);
         var maxSamples = (int)Math.Ceiling((history + retentionBuffer) / sampleInterval) + 4;
@@ -1056,7 +1058,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 60f);
+        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, MaxRewindHistorySeconds);
         var dt = Mathf.Max(Time.fixedDeltaTime, 0.001f);
         var totalTicks = Math.Max(1, (int)Math.Round(duration / dt));
         _rewindHistoryCutoffTime = Time.time - history;
@@ -1195,10 +1197,10 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 60f);
+        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, MaxRewindHistorySeconds);
         var dt = Mathf.Max(Time.fixedDeltaTime, 0.001f);
         var samplesNeeded = (int)Math.Ceiling(history / dt) + 5;
-        var cap = Math.Clamp(samplesNeeded, 64, 4096);
+        var cap = Math.Clamp(samplesNeeded, 64, MaxSnapshotSamples);
 
         var seen = new HashSet<byte>();
         foreach (var body in Object.FindObjectsOfType<DeadBody>())
@@ -1403,6 +1405,7 @@ public static class TimeLordRewindSystem
                     if (elapsed + 0.0001f >= entry.KillAgeSeconds)
                     {
                         entry.Done = true;
+                        _hostPendingRewindRevives.Add(entry.VictimId);
                         var victim = MiscUtils.PlayerById(entry.VictimId);
                         if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
                         {
@@ -1485,7 +1488,7 @@ public static class TimeLordRewindSystem
             return false;
         }
 
-        var unsafeNow = lp.walkingToVent || lp.inMovingPlat || (!lp.inVent && TimeLordAnimationUtilities.IsInInvisibleAnimation(lp));
+        var unsafeNow = lp.onLadder || lp.walkingToVent || lp.inMovingPlat || (!lp.inVent && TimeLordAnimationUtilities.IsInInvisibleAnimation(lp));
         if (unsafeNow)
         {
             if (Time.time >= RewindEndTime)
@@ -1494,6 +1497,7 @@ public static class TimeLordRewindSystem
                 return true;
             }
 
+            lp.onLadder = false;
             lp.inMovingPlat = false;
             lp.walkingToVent = false;
             try { physics.ResetAnimState(); } catch { /* ignored */ }
@@ -1571,13 +1575,25 @@ public static class TimeLordRewindSystem
             }
         }
 
+        // Distribute pops over the rewind duration. If we have fewer snapshots than ticks (e.g. first rewind
+        // shortly after game start), we must allow some ticks to pop 0 snapshots; otherwise we exhaust the
+        // buffer early and "run in place" for the remainder.
         _popAccumulator += _popsPerTick;
         var popsThisTick = Mathf.FloorToInt(_popAccumulator);
-        if (popsThisTick <= 0)
+        if (popsThisTick > 0)
         {
-            popsThisTick = 1;
+            _popAccumulator -= popsThisTick;
         }
-        _popAccumulator -= popsThisTick;
+        else
+        {
+            // No snapshot pop this tick; freeze motion for this tick to avoid drifting.
+            if (physics.body != null)
+            {
+                physics.body.velocity = Vector2.zero;
+            }
+            physics.SetNormalizedVelocity(Vector2.zero);
+            return true;
+        }
 
         if (Buffer.TryPeekLast(out var peek) && (peek.Flags & (TimeLord.SnapshotState)SnapshotState.InMinigame) != 0)
         {
@@ -1757,9 +1773,23 @@ return true;*/
     public static void StopRewind()
     {
         var wasHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
-        var pendingHostRevives = wasHost && _hostPendingRewindRevives.Count > 0
-            ? _hostPendingRewindRevives.ToArray()
-            : Array.Empty<byte>();
+        byte[] pendingHostRevives = Array.Empty<byte>();
+        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        {
+            var ids = new HashSet<byte>(_hostPendingRewindRevives);
+            if (_hostRevives != null)
+            {
+                for (var i = 0; i < _hostRevives.Count; i++)
+                {
+                    var entry = _hostRevives[i];
+                    if (!entry.Done)
+                    {
+                        ids.Add(entry.VictimId);
+                    }
+                }
+            }
+            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : Array.Empty<byte>();
+        }
 
         IsRewinding = false;
         SourceTimeLordId = byte.MaxValue;
@@ -1784,11 +1814,9 @@ return true;*/
         var lp = PlayerControl.LocalPlayer;
 
         AdvanceFinalSnapToSafeIfNeeded(lp);
-
-        if (!lp.onLadder && !lp.inMovingPlat && !lp.inVent)
-        {
-            lp.moveable = true;
-        }
+        // Note: we intentionally restore moveability later after we clear ladder/vent/platform flags.
+        // If we gate this on lp.onLadder here, snapshots can leave onLadder=true and the player gets stuck
+        // even though we clear onLadder later in StopRewind.
 
         if (lp.MyPhysics?.body != null)
         {
@@ -1876,6 +1904,12 @@ return true;*/
             lp.NetTransform.RpcSnapTo(_hasFinalSnapPos ? _finalSnapPos : (Vector2)lp.transform.position);
         }
 
+        // Final safety: ensure local player isn't left immobile due to ladder/platform snapshot edge cases.
+        if (lp.Data != null && !lp.Data.IsDead && !MeetingHud.Instance && !ExileController.Instance)
+        {
+            lp.moveable = true;
+        }
+
         if (ModCompatibility.IsSubmerged())
         {
             ModCompatibility.CheckOutOfBoundsElevator(lp);
@@ -1933,6 +1967,25 @@ return true;*/
         if (!IsRewinding)
         {
             return;
+        }
+
+        var wasHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
+        byte[] pendingHostRevives = Array.Empty<byte>();
+        if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        {
+            var ids = new HashSet<byte>(_hostPendingRewindRevives);
+            if (_hostRevives != null)
+            {
+                for (var i = 0; i < _hostRevives.Count; i++)
+                {
+                    var entry = _hostRevives[i];
+                    if (!entry.Done)
+                    {
+                        ids.Add(entry.VictimId);
+                    }
+                }
+            }
+            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : Array.Empty<byte>();
         }
 
         IsRewinding = false;
@@ -2002,6 +2055,18 @@ return true;*/
         }
 
         lp.moveable = true;
+
+        if (wasHost && pendingHostRevives.Length > 0 && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        {
+            foreach (var victimId in pendingHostRevives)
+            {
+                var victim = MiscUtils.PlayerById(victimId);
+                if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
+                {
+                    TimeLordRole.RpcRewindRevive(victim);
+                }
+            }
+        }
     }
 
     private static void ApplyLocalTaskSteps(PlayerControl lp, TimeLord.TaskStepSnapshot snap)
@@ -2411,7 +2476,6 @@ return true;*/
             reviverOwnerNotificationText: successText,
             notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
 
-        // Extra Time Lord-specific cleanup/comfort: ensure we don't leave the revived player stuck.
         if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.PlayerId == PlayerControl.LocalPlayer.PlayerId)
         {
             TryUnstuckLocalPlayer(revived);

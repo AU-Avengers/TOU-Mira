@@ -21,6 +21,20 @@ public static class SentryEvents
     private static int ActiveCameraTaskCount;
     private static uint LastCameraUseTaskId = uint.MaxValue;
 
+    private static bool ShouldUnlockPortableCameras(SentryRole role)
+    {
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
+        var mapId = MiscUtils.GetCurrentMap;
+        var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
+        return options.PortableCamerasMode switch
+        {
+            SentryPortableCamerasMode.Immediately => true,
+            SentryPortableCamerasMode.AfterTasks => role.CompletedAllTasks,
+            SentryPortableCamerasMode.OnMapsWithoutCameras => mapWithoutCameras || role.CompletedAllTasks,
+            _ => role.CompletedAllTasks
+        };
+    }
+
     private static IEnumerator FlashActionButton(ActionButton? button, float durationSeconds = 1.5f)
     {
         if (button == null)
@@ -65,8 +79,12 @@ public static class SentryEvents
             return;
         }
 
+        var options = OptionGroupSingleton<SentryOptions>.Instance;
         var btn = CustomButtonSingleton<SentryPlaceCameraButton>.Instance;
-        btn.SetUses((int)OptionGroupSingleton<SentryOptions>.Instance.InitialCameras.Value);
+        if (@event.TriggeredByIntro)
+        {
+            btn.SetUses((int)options.InitialCameras.Value);
+        }
         if (!btn.LimitedUses)
         {
             btn.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -78,31 +96,24 @@ public static class SentryEvents
             btn.Button?.usesRemainingSprite.gameObject.SetActive(true);
         }
 
-        var options = OptionGroupSingleton<SentryOptions>.Instance;
-        if (options.PortableCamsImmediateOnNoCamMaps)
+        if (ShouldUnlockPortableCameras(sentryRole) && !sentryRole.PortableCamsUnlockedNotified)
         {
-            var mapId = MiscUtils.GetCurrentMap;
-            var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
-            
-            if (mapWithoutCameras && !sentryRole.PortableCamsUnlockedNotified)
-            {
-                sentryRole.PortableCamsUnlockedNotified = true;
+            sentryRole.PortableCamsUnlockedNotified = true;
 
-                SentryPortableCameraButtonBase.ResetBatteryToMax();
+            SentryPortableCameraButtonBase.ResetBatteryToMax();
 
-                CustomButtonSingleton<SentryPortableCameraButton>.Instance.SetActive(true, sentryRole);
-                CustomButtonSingleton<SentryPortableCameraSecondaryButton>.Instance.SetActive(true, sentryRole);
+            CustomButtonSingleton<SentryPortableCameraButton>.Instance.SetActive(true, sentryRole);
+            CustomButtonSingleton<SentryPortableCameraSecondaryButton>.Instance.SetActive(true, sentryRole);
 
-                var notifText = TouLocale.GetParsed("TouRoleSentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
-                var notif = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
-                    Color.white,
-                    new Vector3(0f, 1f, -150f),
-                    spr: TouRoleIcons.Sentry.LoadAsset());
-                notif.AdjustNotification();
+            var notifText = TouLocale.GetParsed("TouRoleSentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
+            var notif = Helpers.CreateAndShowNotification(
+                $"<b>{TownOfUsColors.Sentry.ToTextColor()}{notifText}</color></b>",
+                Color.white,
+                new Vector3(0f, 1f, -150f),
+                spr: TouRoleIcons.Sentry.LoadAsset());
+            notif.AdjustNotification();
 
-                Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
-            }
+            Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
         }
     }
 
@@ -129,6 +140,11 @@ public static class SentryEvents
 
             if (sentryRole.CompletedAllTasks && !sentryRole.PortableCamsUnlockedNotified)
             {
+                if (!ShouldUnlockPortableCameras(sentryRole))
+                {
+                    return;
+                }
+
                 sentryRole.PortableCamsUnlockedNotified = true;
 
                 SentryPortableCameraButtonBase.ResetBatteryToMax();
@@ -152,7 +168,7 @@ public static class SentryEvents
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
-        if (OptionGroupSingleton<SentryOptions>.Instance.LegacyMode)
+        if (OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting)
         {
             foreach (var cameraPair in SentryRole.Cameras)
             {

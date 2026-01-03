@@ -75,7 +75,7 @@ public static class LocalSettings
             player.gameObject.transform.GetChild(3).gameObject.SetActive(show);
         }
 
-        if (OptionGroupSingleton<SentryOptions>.Instance.LegacyMode)
+        if (OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting)
         {
             foreach (var cameraPair in SentryRole.Cameras)
             {

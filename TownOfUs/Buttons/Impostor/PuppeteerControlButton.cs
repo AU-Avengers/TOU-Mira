@@ -36,8 +36,6 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
 
     public override void FixedUpdateHandler(PlayerControl playerControl)
     {
-        // Freeze effect/cooldown timers during the initial control sync grace window.
-        // This prevents "burning" duration/cooldown while the victim is intentionally immobilized.
         TimerPaused = false;
         if (PlayerControl.LocalPlayer?.Data?.Role is PuppeteerRole pr &&
             pr.Controlled != null &&
@@ -136,6 +134,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
 
             playerMenu.Begin(
                 plr => !plr.HasDied() && plr.PlayerId != PlayerControl.LocalPlayer.PlayerId &&
+                       !plr.IsInTargetingAnimState() &&
                        !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
                        ((plr.TryGetModifier<DisabledModifier>(out var mod) && mod.CanBeInteractedWith &&
                          mod.IsConsideredAlive) ||
@@ -148,10 +147,10 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
                         return;
                     }
 
-                    if (plr.onLadder || plr.inMovingPlat)
+                    if (plr.IsInTargetingAnimState())
                     {
                         var notif = Helpers.CreateAndShowNotification(
-                            $"<b>{plr.CachedPlayerData.PlayerName} is currently on a ladder or platform, please wait.</b>",
+                            $"<b>{plr.CachedPlayerData.PlayerName} is currently in an animation (ladder/zipline/platform/vent), please wait.</b>",
                             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Puppeteer.LoadAsset());
                         notif.Text.SetOutlineThickness(0.35f);
                         return;

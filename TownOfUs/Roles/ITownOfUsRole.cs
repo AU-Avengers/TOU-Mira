@@ -16,13 +16,12 @@ public interface ITownOfUsRole : ICustomRole
     public virtual string LocaleKey => "KEY_MISS";
     public static Dictionary<string, string> LocaleList => [];
 
-    public CustomRoleConfiguration Configuration => new(this)
-    {
-        /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.Normal*/
-    };
-
     [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
+    string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
+    {
+        return TouLocale.GetParsed("ExileTextConfirm").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
+    }
 
     public virtual string YouAreText
     {

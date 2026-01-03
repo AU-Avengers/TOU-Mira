@@ -123,6 +123,22 @@ public static class TimeLordBodyManager
         LogBodyRestore(
             $"RestoreCleanedBody: body={bodyId} record(pos={rec.Position}, timeSeconds={rec.TimeSeconds:0.000}, timeUtc={rec.TimeUtc:O}, restored={rec.Restored}, restoredThisRewind={rec.RestoredThisRewind}, source={rec.Source})");
 
+        // If the player is alive (e.g. Time Lord revive happened), do not restore/activate a corpse.
+        // This prevents a race where a cleaned body is restored slightly after the revive on one client,
+        // causing that client (often the revived player) to see/report a "phantom" body nobody else has.
+        var alivePlayer = MiscUtils.PlayerById(bodyId);
+        if (alivePlayer != null && alivePlayer.Data != null && !alivePlayer.Data.IsDead)
+        {
+            var existing = FindDeadBodyIncludingInactive(bodyId) ??
+                           Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
+            if (existing != null && existing.gameObject != null)
+            {
+                LogBodyRestore($"RestoreCleanedBody: body={bodyId} player is alive; destroying lingering DeadBody object");
+                try { Object.Destroy(existing.gameObject); } catch { /* ignored */ }
+            }
+            return;
+        }
+
         var body = FindDeadBodyIncludingInactive(bodyId);
 
         if (body == null || body.gameObject == null)
