@@ -227,7 +227,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.AltruistRevive)]
     public static void RpcRevive(PlayerControl alt, PlayerControl target)
     {
-        if (alt.Data.Role is not AltruistRole role)
+        if (alt.GetRoleWhenAlive() is not AltruistRole role)
         {
             Error("RpcRevive - Invalid altruist");
             return;
