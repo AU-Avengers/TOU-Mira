@@ -301,7 +301,7 @@
   <string name="TouRoleImitator">效颦者</string>
   <string name="TouRoleImitatorIntroBlurb">利用死亡角色帮助船员</string>
   <string name="TouRoleImitatorTabDescription">在会议中借助忠诚船员的亡魂以再次帮助船员</string>
-  <string name="TouRoleImitatorWikiDescription">效颦者是一名船员辅助型职业，可以选择一名死亡船员模仿其角色。直到你更换目标。如果有多名效颦者存活，部分角色将无法被模仿。</string>
+  <string name="TouRoleImitatorWikiDescription">效颦者是一名船员辅助型职业，可以选择一名死亡船员模仿其角色，直到你更换目标。如果有多名效颦者存活，部分角色将无法被模仿。</string>
   <string name="TouRoleImitatorCrewmateImitation">船员效仿</string>
   <string name="TouRoleImitatorCrewmateImitationWikiDescription">除了政治家、市长之外，所有船员职业都可用。典狱长和检察官无法使用他们的会议技能，侠客无法获得安全猜测。</string>
   <string name="TouRoleImitatorNeutralCounterparts">中立对应表</string>
@@ -1703,7 +1703,7 @@
   <string name="DiedToPuppetControl">被操控</string>
   <string name="TouTabOptionBetterMaps">地图 / 破坏优化</string>
   <string name="TouTabOptionBetterMapsDesc">为每张地图配置任务、冷却时间、门、通风口、破坏等内容！</string>
-  <string name="TouTabOptionModifiersDesc">每名玩家都可以获得阵营、全局和 / 或派系专属附加属性。</string>
+  <string name="TouTabOptionModifiersDesc">每名玩家都可以获得阵营、通用和 / 或派系专属附加属性。</string>
   <string name="FreeplaySetModifiersButton">设置附加属性</string>
   <string name="TouFirstRoundDeathIndicator">首回合死亡指示</string>
   <string name="TouOptionBetterAirshipNoLadderCooldown">无梯子冷却</string>
