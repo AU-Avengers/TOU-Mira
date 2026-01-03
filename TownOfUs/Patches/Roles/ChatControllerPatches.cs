@@ -88,40 +88,10 @@ public static class ChatControllerPatches
     {
         public static bool Prefix(char i, ref bool __result)
         {
+            // Error($"checking if character {i.ToString()} (id {(int)i}) is allowed in chat");
             if (i is '\b' or '\n' or '\r' or '>')
-            {
-                __result = false;
-                return false;
-            }
-            if (i is >= 'À' and <= 'ÿ')
-            {
-                __result = true;
-                return false;
-            }
-            if (i is >= 'Ѐ' and <= 'џ')
-            {
-                __result = true;
-                return false;
-            }
-            if (i is >= '\u3040' and <= '㆟')
-            {
-                __result = true;
-                return false;
-            }
-            if (i is >= 'ⱡ' and <= '힣')
-            {
-                __result = true;
-                return false;
-            }
-            if (TextBoxTMP.SymbolChars.Contains(i))
-            {
-                __result = true;
-                return false;
-            }
-            if (TextBoxTMP.EmailChars.Contains(i))
-            {
-                __result = true;
-                return false;
+            {   
+                return true;
             }
 
             // Allow all printable Unicode
@@ -129,6 +99,16 @@ public static class ChatControllerPatches
             return false;
         }
     }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.Start))]
+    public static void TextBoxPostfix(TextBoxTMP __instance)
+    {
+        __instance.allowAllCharacters = true;
+        __instance.AllowEmail = true;
+        __instance.AllowSymbols = true;
+    }
+
 
     //  Char limit and clipboard shortcuts
     [HarmonyPostfix]

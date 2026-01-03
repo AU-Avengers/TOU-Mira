@@ -202,6 +202,7 @@ public static class TeamChatPatches
     public static void UpdateChat()
     {
         var chat = HudManager.Instance.Chat;
+        chat.UpdateChatMode();
         if (chat == null)
         {
             return;
