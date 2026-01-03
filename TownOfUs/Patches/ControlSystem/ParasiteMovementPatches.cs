@@ -94,8 +94,14 @@ public static class ParasiteMovementPatches
             var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
 
+            var victimInAnim = parasite.Controlled.IsInTargetingAnimState() ||
+                               parasite.Controlled.inVent ||
+                               parasite.Controlled.inMovingPlat ||
+                               parasite.Controlled.onLadder ||
+                               parasite.Controlled.walkingToVent;
+
             Vector2 targetDir;
-            if (ParasiteControlState.IsInInitialGrace(parasite.Controlled.PlayerId))
+            if (victimInAnim || ParasiteControlState.IsInInitialGrace(parasite.Controlled.PlayerId))
             {
                 targetDir = Vector2.zero;
             }
