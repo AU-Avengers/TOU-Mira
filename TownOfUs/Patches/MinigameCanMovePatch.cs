@@ -31,15 +31,6 @@ public static class MinigameCanMovePatch
             return true;
         }
 
-        if (__instance == PlayerControl.LocalPlayer &&
-    __instance.HasModifier<ParasiteInfectedModifier>() &&
-    ParasiteControlState.IsControlled(__instance.PlayerId, out _) &&
-    Minigame.Instance == null)
-        {
-            __result = true;
-            return false;
-        }
-
         // Only allows Scientist Vitals to allow you to move, not just vitals on the map
         if (PlayerControl.LocalPlayer.HasModifier<ScientistModifier>() &&
             CustomButtonSingleton<ScientistButton>.Instance.EffectActive &&
