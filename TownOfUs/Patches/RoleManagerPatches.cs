@@ -909,7 +909,6 @@ public static class TouRoleManagerPatches
             .Excluding(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
         players.Shuffle();
 
-        // TODO: PATCH THE GETTER FOR THIS!!!
         var impCount = GameOptionsManager.Instance.CurrentGameOptions.GetAdjustedNumImpostors(players.Count);
         List<NetworkedPlayerInfo> infected = [];
 
