@@ -506,6 +506,15 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 return;
             }
 
+            if (pr.Controlled.IsInTargetingAnimState() || 
+                pr.Controlled.inVent || 
+                pr.Controlled.inMovingPlat || 
+                pr.Controlled.onLadder || 
+                pr.Controlled.walkingToVent)
+            {
+                return;
+            }
+
             var target = pr.Controlled;
             if (!target.HasDied())
             {

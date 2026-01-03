@@ -48,10 +48,20 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
         }
         else if (Controller.AmOwner)
         {
-            Controller.NetTransform.Halt();
-            HudManager.Instance.PlayerCam.SetTarget(Player);
-            Controller.lightSource.transform.SetParent(Player.transform);
-            Controller.lightSource.Initialize(Player.Collider.offset / 2f);
+            try { Controller.NetTransform.Halt(); } catch { /* ignored */ }
+            if (HudManager.InstanceExists && HudManager.Instance != null)
+            {
+                HudManager.Instance.PlayerCam.SetTarget(Player);
+            }
+            try
+            {
+                if (Controller.lightSource != null && Player != null)
+                {
+                    Controller.lightSource.transform.SetParent(Player.transform);
+                    Controller.lightSource.Initialize(Player.Collider.offset / 2f);
+                }
+            }
+            catch { /* ignored */ }
         }
     }
 
@@ -66,10 +76,20 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
         if (Controller.AmOwner)
         {
             Controller.moveable = true;
-            Controller.NetTransform.Halt();
-            HudManager.Instance.PlayerCam.SetTarget(Controller);
-            Controller.lightSource.transform.SetParent(Controller.transform);
-            Controller.lightSource.Initialize(Controller.Collider.offset / 2f);
+            try { Controller.NetTransform.Halt(); } catch { /* ignored */ }
+            if (HudManager.InstanceExists && HudManager.Instance != null)
+            {
+                HudManager.Instance.PlayerCam.SetTarget(Controller);
+            }
+            try
+            {
+                if (Controller.lightSource != null)
+                {
+                    Controller.lightSource.transform.SetParent(Controller.transform);
+                    Controller.lightSource.Initialize(Controller.Collider.offset / 2f);
+                }
+            }
+            catch { /* ignored */ }
         }
     }
 

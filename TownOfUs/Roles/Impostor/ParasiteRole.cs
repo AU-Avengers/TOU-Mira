@@ -11,8 +11,10 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Patches.ControlSystem;
 using TownOfUs.Utilities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -711,6 +713,202 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
 
         role.ClearNotifications();
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.ParasiteTriggerInteraction)]
+    public static void RpcParasiteTriggerInteraction(PlayerControl parasite, PlayerControl controlled, Vector2 interactablePosition)
+    {
+        if (parasite.Data.Role is not ParasiteRole role)
+        {
+            Error("RpcParasiteTriggerInteraction - Invalid parasite");
+            return;
+        }
+
+        if (controlled == null || controlled.Data == null || controlled.HasDied())
+        {
+            return;
+        }
+
+        if (role.Controlled != controlled || !ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+        {
+            return;
+        }
+
+        // Find the interactable at the position
+        var interactable = FindInteractableAtPosition(interactablePosition, controlled);
+        if (interactable == null)
+        {
+            return;
+        }
+
+        // Trigger the interaction as the controlled player
+        TriggerInteractionAsPlayer(controlled, interactable);
+    }
+
+    private static IUsable? FindInteractableAtPosition(Vector2 position, PlayerControl player)
+    {
+        if (player == null)
+        {
+            return null;
+        }
+
+        var closestDistance = float.MaxValue;
+        IUsable? closestInteractable = null;
+
+        // Use cached interactables from ControlledPlayerInteractionPatches if available, otherwise scan
+        var cached = ControlledPlayerInteractionPatches.GetCachedInteractables();
+        var interactablesToCheck = cached != null && cached.Count > 0 
+            ? cached 
+            : GetInteractablesList();
+
+        const float maxCheckDistance = 5f; // Most interactables have UsableDistance <= 3f
+
+        foreach (var usable in interactablesToCheck)
+        {
+            if (usable == null)
+            {
+                continue;
+            }
+
+            // Get the MonoBehaviour to access transform
+            var obj = usable.TryCast<MonoBehaviour>();
+            if (obj == null)
+            {
+                continue;
+            }
+
+            // Quick distance check before expensive CanUse check
+            var objPos = (Vector2)obj.transform.position;
+            var distance = Vector2.Distance(position, objPos);
+            if (distance > maxCheckDistance || distance > usable.UsableDistance)
+            {
+                continue;
+            }
+
+            // Check if player can use this
+            bool canUse;
+            usable.CanUse(player.Data, out canUse, out _);
+            if (!canUse)
+            {
+                continue;
+            }
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestInteractable = usable;
+            }
+        }
+
+        return closestInteractable;
+    }
+
+    private static List<IUsable> GetInteractablesList()
+    {
+        var result = new List<IUsable>();
+        var allUsables = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>();
+        foreach (var obj in allUsables)
+        {
+            if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
+            {
+                result.Add(usable);
+            }
+        }
+        return result;
+    }
+
+    private static void TriggerInteractionAsPlayer(PlayerControl player, IUsable interactable)
+    {
+        if (player == null || interactable == null)
+        {
+            return;
+        }
+
+        // Handle different types of interactables
+        if (interactable.TryCast<Ladder>() is { } ladder)
+        {
+            // Ladder climb MUST be initiated by the controlled player's owner, otherwise anticheat can kick.
+            if (!player.AmOwner)
+            {
+                return;
+            }
+            player.MyPhysics.RpcClimbLadder(ladder);
+            ladder.CoolDown = ladder.MaxCoolDown;
+        }
+        else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
+        {
+            // Zipline use is host-authoritative in this codebase (see GhostRoleUsePatches.CheckUseZipline).
+            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            if (ziplineConsole.zipline != null)
+            {
+                player.CheckUseZipline(player, ziplineConsole.zipline, ziplineConsole.atTop);
+            }
+        }
+        else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
+        {
+            // Door state is host-authoritative.
+            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            openDoorConsole.myDoor.SetDoorway(true);
+        }
+        else if (interactable.TryCast<DoorConsole>() is { } doorConsole)
+        {
+            // Door minigame - this needs to be handled on the controlled player's client
+            if (player.AmOwner)
+            {
+                player.NetTransform.Halt();
+                var minigame = Object.Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
+                minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
+
+                try
+                {
+                    minigame.Cast<IDoorMinigame>().SetDoor(doorConsole.MyDoor);
+                }
+                catch (InvalidCastException)
+                {
+                    /* ignored */
+                }
+
+                minigame.Begin(null);
+            }
+        }
+        else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
+        {
+            // Moving platform is host-authoritative (to avoid desync/cheat flags).
+            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            var platform = platformConsole.Platform;
+            if (platform != null)
+            {
+                var vector = platform.transform.position - player.transform.position;
+                if (!platform.Target && vector.magnitude <= 3f)
+                {
+                    platform.IsDirty = true;
+                    platform.StartCoroutine(platform.UsePlatform(player));
+                }
+            }
+        }
+        else if (interactable.TryCast<DeconControl>() is { } deconControl)
+        {
+            // Decon door trigger should be host-authoritative.
+            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            deconControl.cooldown = 6f;
+            if (Constants.ShouldPlaySfx())
+            {
+                SoundManager.Instance.PlaySound(deconControl.UseSound, false);
+            }
+            deconControl.OnUse.Invoke();
+        }
     }
 
     public void LobbyStart()

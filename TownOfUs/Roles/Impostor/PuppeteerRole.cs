@@ -11,8 +11,10 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Patches.ControlSystem;
 using TownOfUs.Utilities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -232,6 +234,189 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
 
         role.ClearNotifications();
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.PuppeteerTriggerInteraction)]
+    public static void RpcPuppeteerTriggerInteraction(PlayerControl puppeteer, PlayerControl controlled, Vector2 interactablePosition)
+    {
+        if (puppeteer.Data.Role is not PuppeteerRole role)
+        {
+            Error("RpcPuppeteerTriggerInteraction - Invalid puppeteer");
+            return;
+        }
+
+        if (controlled == null || controlled.Data == null || controlled.HasDied())
+        {
+            return;
+        }
+
+        if (role.Controlled != controlled || !PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+        {
+            return;
+        }
+
+        var interactable = FindInteractableAtPosition(interactablePosition, controlled);
+        if (interactable == null)
+        {
+            return;
+        }
+
+        TriggerInteractionAsPlayer(controlled, interactable);
+    }
+
+    private static IUsable? FindInteractableAtPosition(Vector2 position, PlayerControl player)
+    {
+        if (player == null)
+        {
+            return null;
+        }
+
+        var closestDistance = float.MaxValue;
+        IUsable? closestInteractable = null;
+
+        var cached = ControlledPlayerInteractionPatches.GetCachedInteractables();
+        var interactablesToCheck = cached != null && cached.Count > 0 
+            ? cached 
+            : GetInteractablesList();
+
+        const float maxCheckDistance = 5f;
+
+        foreach (var usable in interactablesToCheck)
+        {
+            if (usable == null)
+            {
+                continue;
+            }
+
+            var obj = usable.TryCast<MonoBehaviour>();
+            if (obj == null)
+            {
+                continue;
+            }
+
+            var objPos = (Vector2)obj.transform.position;
+            var distance = Vector2.Distance(position, objPos);
+            if (distance > maxCheckDistance || distance > usable.UsableDistance)
+            {
+                continue;
+            }
+
+            bool canUse;
+            usable.CanUse(player.Data, out canUse, out _);
+            if (!canUse)
+            {
+                continue;
+            }
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestInteractable = usable;
+            }
+        }
+
+        return closestInteractable;
+    }
+
+    private static List<IUsable> GetInteractablesList()
+    {
+        var result = new List<IUsable>();
+        var allUsables = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>();
+        foreach (var obj in allUsables)
+        {
+            if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
+            {
+                result.Add(usable);
+            }
+        }
+        return result;
+    }
+
+    private static void TriggerInteractionAsPlayer(PlayerControl player, IUsable interactable)
+    {
+        if (player == null || interactable == null)
+        {
+            return;
+        }
+
+        if (interactable.TryCast<Ladder>() is { } ladder)
+        {
+            if (!player.AmOwner)
+            {
+                return;
+            }
+            player.MyPhysics.RpcClimbLadder(ladder);
+            ladder.CoolDown = ladder.MaxCoolDown;
+        }
+        else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
+        {
+            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            if (ziplineConsole.zipline != null)
+            {
+                player.CheckUseZipline(player, ziplineConsole.zipline, ziplineConsole.atTop);
+            }
+        }
+        else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
+        {
+            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            openDoorConsole.myDoor.SetDoorway(true);
+        }
+        else if (interactable.TryCast<DoorConsole>() is { } doorConsole)
+        {
+            if (player.AmOwner)
+            {
+                player.NetTransform.Halt();
+                var minigame = Object.Instantiate(doorConsole.MinigamePrefab, Camera.main.transform);
+                minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
+
+                try
+                {
+                    minigame.Cast<IDoorMinigame>().SetDoor(doorConsole.MyDoor);
+                }
+                catch (InvalidCastException)
+                {
+                    /* ignored */
+                }
+
+                minigame.Begin(null);
+            }
+        }
+        else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
+        {
+            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            var platform = platformConsole.Platform;
+            if (platform != null)
+            {
+                var vector = platform.transform.position - player.transform.position;
+                if (!platform.Target && vector.magnitude <= 3f)
+                {
+                    platform.IsDirty = true;
+                    platform.StartCoroutine(platform.UsePlatform(player));
+                }
+            }
+        }
+        else if (interactable.TryCast<DeconControl>() is { } deconControl)
+        {
+            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            {
+                return;
+            }
+            deconControl.cooldown = 6f;
+            if (Constants.ShouldPlaySfx())
+            {
+                SoundManager.Instance.PlaySound(deconControl.UseSound, false);
+            }
+            deconControl.OnUse.Invoke();
+        }
     }
 
     public void LobbyStart()
