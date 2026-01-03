@@ -16,8 +16,8 @@ public static class PuppeteerMovementPatches
 {
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
-    private const float MovementChangeEpsilonSqr = 0.0004f * 0.0004f;
-    private const float MovementKeepAliveSeconds = 0.05f; // Send more frequently for smooth movement
+    private const float MovementChangeEpsilonSqr = 0.0001f * 0.0001f;
+    private const float MovementKeepAliveSeconds = 0.03f;
     private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
     private static readonly Dictionary<byte, Vector2> _lastSentPos = new();
     private static readonly Dictionary<byte, Vector2> _lastSentVel = new();
@@ -102,13 +102,9 @@ public static class PuppeteerMovementPatches
                                victim.onLadder ||
                                victim.walkingToVent;
 
-            // Don't allow movement during grace period
-            var dir = (victimInAnim || PuppeteerControlState.IsInInitialGrace(victimId)) 
-                ? Vector2.zero 
-                : GetNormalDirection();
+            var dir = victimInAnim ? Vector2.zero : GetNormalDirection();
             _localDesiredDir[victimId] = dir;
 
-            // Capture position and velocity from the controlled player
             var victimPos = victim.MyPhysics.body != null 
                 ? victim.MyPhysics.body.position 
                 : (Vector2)victim.transform.position;
@@ -124,42 +120,38 @@ public static class PuppeteerMovementPatches
             return false;
         }
 
-        if (PlayerControl.LocalPlayer != null &&
-            PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole pr &&
-            pr.Controlled != null &&
-            player == pr.Controlled &&
-            !player.AmOwner)
+        if (PuppeteerControlState.IsControlled(player.PlayerId, out _))
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
                 return true;
             }
 
-            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            if (player.onLadder || player.inMovingPlat)
+            {
+                PuppeteerControlState.ClearMovementState(player.PlayerId);
+                return true;
+            }
+
+            if (player.IsInTargetingAnimState() || player.inVent || player.walkingToVent)
             {
                 return true;
             }
 
-            // Don't apply movement during grace period
-            if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-                return false;
-            }
-
-            // Apply injected movement with position, velocity, and direction
             var dir = PuppeteerControlState.GetDirection(player.PlayerId);
             var pos = PuppeteerControlState.GetPosition(player.PlayerId);
             var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
             
-            // Only apply if we have valid data
-            if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
+            if (dir == Vector2.zero)
+            {
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
+            }
+            else if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
             {
                 AdvancedMovementUtilities.ApplyInjectedMovement(__instance, pos, vel, dir);
             }
             else
             {
-                // Fallback to direction-only if position/velocity not available yet
                 var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
             }
@@ -174,31 +166,27 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
-            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            if (player.onLadder || player.inMovingPlat)
+            {
+                PuppeteerControlState.ClearMovementState(player.PlayerId);
+                return true;
+            }
+
+            if (player.IsInTargetingAnimState() || player.inVent || player.walkingToVent)
             {
                 return true;
             }
 
-            // Don't apply movement during grace period
-            if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-                return false;
-            }
-
-            // Apply injected movement with position, velocity, and direction
             var dir = PuppeteerControlState.GetDirection(player.PlayerId);
             var pos = PuppeteerControlState.GetPosition(player.PlayerId);
             var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
             
-            // Only apply if we have valid data
             if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
             {
                 AdvancedMovementUtilities.ApplyInjectedMovement(__instance, pos, vel, dir);
             }
             else
             {
-                // Fallback to stop if no data available
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
             }
             return false;
@@ -240,7 +228,7 @@ public static class PuppeteerMovementPatches
         }
 
         var player = __instance.myPlayer;
-        if (!PuppeteerControlState.IsControlled(player.PlayerId, out var controllerId))
+        if (!PuppeteerControlState.IsControlled(player.PlayerId, out _))
         {
             return true;
         }
@@ -250,27 +238,11 @@ public static class PuppeteerMovementPatches
             return true;
         }
 
-        if (PlayerControl.LocalPlayer != null &&
-            PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole pr &&
-            pr.Controlled != null &&
-            player == pr.Controlled &&
-            PlayerControl.LocalPlayer.PlayerId == controllerId)
+        if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
         {
-            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
-            {
-                return true;
-            }
-
-            // Grace period: allow CNT updates for 0.7 seconds after control starts
-            if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
-            {
-                return true;
-            }
-
-            // Suppress CustomNetworkTransform updates - we're injecting movement directly
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

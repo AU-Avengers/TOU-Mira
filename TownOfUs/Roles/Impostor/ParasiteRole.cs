@@ -711,6 +711,15 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         if (parasite.AmOwner)
         {
+            NetTransformBacklogUtils.FlushAndSnap(target);
+        }
+        else
+        {
+            NetTransformBacklogUtils.FlushBacklog(target);
+        }
+
+        if (parasite.AmOwner)
+        {
             role.EnsureCamera();
             var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
             btn.SetActive(true, role);

@@ -22,8 +22,8 @@ public static class ParasiteMovementPatches
 
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
-    private const float MovementChangeEpsilonSqr = 0.0004f * 0.0004f;
-    private const float MovementKeepAliveSeconds = 0.05f;
+    private const float MovementChangeEpsilonSqr = 0.0001f * 0.0001f;
+    private const float MovementKeepAliveSeconds = 0.03f;
     private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
     private static readonly Dictionary<byte, Vector2> _lastSentPos = new();
     private static readonly Dictionary<byte, Vector2> _lastSentVel = new();
@@ -113,7 +113,7 @@ public static class ParasiteMovementPatches
 
             Vector2 targetDir;
 
-            if (victimInAnim || ParasiteControlState.IsInInitialGrace(victimId))
+            if (victimInAnim)
             {
                 targetDir = Vector2.zero;
             }
@@ -148,33 +148,33 @@ public static class ParasiteMovementPatches
             return false;
         }
 
-        if (PlayerControl.LocalPlayer != null &&
-            PlayerControl.LocalPlayer.Data?.Role is ParasiteRole pr &&
-            pr.Controlled != null &&
-            player == pr.Controlled &&
-            !player.AmOwner)
+        if (ParasiteControlState.IsControlled(player.PlayerId, out _))
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
                 return true;
             }
 
-            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            if (player.onLadder || player.inMovingPlat)
             {
+                ParasiteControlState.ClearMovementState(player.PlayerId);
                 return true;
             }
 
-            if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
+            if (player.IsInTargetingAnimState() || player.inVent || player.walkingToVent)
             {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-                return false;
+                return true;
             }
 
             var dir = ParasiteControlState.GetDirection(player.PlayerId);
             var pos = ParasiteControlState.GetPosition(player.PlayerId);
             var vel = ParasiteControlState.GetVelocity(player.PlayerId);
 
-            if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
+            if (dir == Vector2.zero)
+            {
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
+            }
+            else if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
             {
                 AdvancedMovementUtilities.ApplyInjectedMovement(__instance, pos, vel, dir);
             }
@@ -194,31 +194,27 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            if (player.onLadder || player.inMovingPlat)
+            {
+                ParasiteControlState.ClearMovementState(player.PlayerId);
+                return true;
+            }
+
+            if (player.IsInTargetingAnimState() || player.inVent || player.walkingToVent)
             {
                 return true;
             }
 
-            // Don't apply movement during grace period
-            if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-                return false;
-            }
-
-            // Apply injected movement with position, velocity, and direction
             var dir = ParasiteControlState.GetDirection(player.PlayerId);
             var pos = ParasiteControlState.GetPosition(player.PlayerId);
             var vel = ParasiteControlState.GetVelocity(player.PlayerId);
             
-            // Only apply if we have valid data
             if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
             {
                 AdvancedMovementUtilities.ApplyInjectedMovement(__instance, pos, vel, dir);
             }
             else
             {
-                // Fallback to stop if no data available
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
             }
             return false;
@@ -260,7 +256,7 @@ public static class ParasiteMovementPatches
         }
 
         var player = __instance.myPlayer;
-        if (!ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        if (!ParasiteControlState.IsControlled(player.PlayerId, out _))
         {
             return true;
         }
@@ -270,25 +266,11 @@ public static class ParasiteMovementPatches
             return true;
         }
 
-        if (PlayerControl.LocalPlayer != null &&
-            PlayerControl.LocalPlayer.Data?.Role is ParasiteRole pr &&
-            pr.Controlled != null &&
-            player == pr.Controlled &&
-            PlayerControl.LocalPlayer.PlayerId == controllerId)
+        if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
         {
-            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
-            {
-                return true;
-            }
-
-            if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
-            {
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
