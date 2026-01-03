@@ -88,11 +88,40 @@ public static class ChatControllerPatches
     {
         public static bool Prefix(char i, ref bool __result)
         {
-            // If it's a control character (ASCII < 32), let vanilla logic decide.
-            // This includes backspace, delete, tab, enter, etc.
-            if (i < 32 || i == '\b' || i == (char)127 || i == '<' || i == '>' || i == '[' || i == ']' || i == '{' || i == '}' || i == '*')
+            if (i is '\b' or '\n' or '\r' or '>')
             {
-                return true;
+                __result = false;
+                return false;
+            }
+            if (i is >= 'À' and <= 'ÿ')
+            {
+                __result = true;
+                return false;
+            }
+            if (i is >= 'Ѐ' and <= 'џ')
+            {
+                __result = true;
+                return false;
+            }
+            if (i is >= '\u3040' and <= '㆟')
+            {
+                __result = true;
+                return false;
+            }
+            if (i is >= 'ⱡ' and <= '힣')
+            {
+                __result = true;
+                return false;
+            }
+            if (TextBoxTMP.SymbolChars.Contains(i))
+            {
+                __result = true;
+                return false;
+            }
+            if (TextBoxTMP.EmailChars.Contains(i))
+            {
+                __result = true;
+                return false;
             }
 
             // Allow all printable Unicode
