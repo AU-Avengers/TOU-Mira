@@ -64,8 +64,8 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         Icon = TouRoleIcons.Seer,
         IntroSound = TouAudio.QuestionSound
     };
-    public PlayerControl? GazeTarget { get; set; }
-    public PlayerControl? IntuitTarget { get; set; }
+    [HideFromIl2Cpp] public PlayerControl? GazeTarget { get; set; }
+    [HideFromIl2Cpp] public PlayerControl? IntuitTarget { get; set; }
 
     public static string TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
     public override void Initialize(PlayerControl player)

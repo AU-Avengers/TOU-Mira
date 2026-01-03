@@ -53,8 +53,8 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorPower;
-    public NetworkedPlayerInfo? SelectedPlr { get; private set; }
-    public RoleBehaviour? SelectedRole { get; private set; }
+    [HideFromIl2Cpp] public NetworkedPlayerInfo? SelectedPlr { get; private set; }
+    [HideFromIl2Cpp] public RoleBehaviour? SelectedRole { get; private set; }
     public int RetrainsAvailable { get; set; }
     public int RoundsCooldown { get; set; }
     private MeetingMenu meetingMenu;
