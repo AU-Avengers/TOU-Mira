@@ -94,7 +94,6 @@ public static class ParasiteMovementPatches
             var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
 
-            // During initial sync grace, do not move the victim at all (prevents desync).
             Vector2 targetDir;
             if (ParasiteControlState.IsInInitialGrace(parasite.Controlled.PlayerId))
             {
@@ -134,6 +133,11 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
+            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            {
+                return true;
+            }
+
             if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
             {
                 return true;
@@ -152,7 +156,11 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            // During initial sync grace, keep the victim still.
+            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            {
+                return true;
+            }
+
             if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
@@ -184,7 +192,6 @@ public static class ParasiteMovementPatches
 
         if (player.AmOwner && ParasiteControlState.IsControlled(player.PlayerId, out _))
         {
-            // Ensure the controlled player's owner doesn't start moving during initial grace.
             direction = ParasiteControlState.IsInInitialGrace(player.PlayerId)
                 ? Vector2.zero
                 : ParasiteControlState.GetDirection(player.PlayerId);
@@ -219,6 +226,11 @@ public static class ParasiteMovementPatches
             player == pr.Controlled &&
             PlayerControl.LocalPlayer.PlayerId == controllerId)
         {
+            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            {
+                return true;
+            }
+
             if (ParasiteControlState.IsInInitialGrace(player.PlayerId))
             {
                 return true;

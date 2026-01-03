@@ -86,8 +86,14 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
-            // During initial sync grace, do not move the victim at all (prevents desync).
-            var dir = PuppeteerControlState.IsInInitialGrace(puppeteer.Controlled.PlayerId)
+
+            var victimInAnim = puppeteer.Controlled.IsInTargetingAnimState() ||
+                               puppeteer.Controlled.inVent ||
+                               puppeteer.Controlled.inMovingPlat ||
+                               puppeteer.Controlled.onLadder ||
+                               puppeteer.Controlled.walkingToVent;
+
+            var dir = (victimInAnim || PuppeteerControlState.IsInInitialGrace(puppeteer.Controlled.PlayerId))
                 ? Vector2.zero
                 : GetNormalDirection();
             _localDesiredDir[puppeteer.Controlled.PlayerId] = dir;
@@ -110,6 +116,11 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
+            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            {
+                return true;
+            }
+
             if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
             {
                 return true;
@@ -128,7 +139,11 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
-            // During initial sync grace, keep the victim still.
+            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            {
+                return true;
+            }
+
             if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
@@ -160,7 +175,6 @@ public static class PuppeteerMovementPatches
 
         if (player.AmOwner && PuppeteerControlState.IsControlled(player.PlayerId, out _))
         {
-            // Ensure the controlled player's owner doesn't start moving during initial grace.
             direction = PuppeteerControlState.IsInInitialGrace(player.PlayerId)
                 ? Vector2.zero
                 : PuppeteerControlState.GetDirection(player.PlayerId);
@@ -195,6 +209,11 @@ public static class PuppeteerMovementPatches
             player == pr.Controlled &&
             PlayerControl.LocalPlayer.PlayerId == controllerId)
         {
+            if (player.IsInTargetingAnimState() || player.inVent || player.inMovingPlat || player.onLadder || player.walkingToVent)
+            {
+                return true;
+            }
+
             if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
             {
                 return true;

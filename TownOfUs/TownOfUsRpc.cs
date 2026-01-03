@@ -94,6 +94,8 @@ public enum TownOfUsRpc : uint
     ParasiteEndControl,
     PuppeteerControl,
     PuppeteerEndControl,
+    PuppeteerTriggerInteraction,
+    ParasiteTriggerInteraction,
     TimeLordRewind,
     TimeLordRewindRevive,
     TimeLordUndoTask,

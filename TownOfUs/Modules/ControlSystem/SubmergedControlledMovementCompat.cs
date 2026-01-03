@@ -38,7 +38,6 @@ public static class SubmergedControlledMovementCompat
             return;
         }
 
-        // Submerged uses upper deck vs lower deck. In this codebase we use y > -7 as the split.
         var isUpperDeck = player.transform.position.y > -7f;
         var inElevator = ModCompatibility.GetPlayerElevator(player).Item1;
 
@@ -48,8 +47,6 @@ public static class SubmergedControlledMovementCompat
         _lastUpperDeck = isUpperDeck;
         _lastInElevator = inElevator;
 
-        // Only request floor change when it actually changes, or when elevator state flips.
-        // The elevator transition is where Submerged is most sensitive to being out-of-sync.
         if (floorChanged || elevatorChanged)
         {
             ModCompatibility.ChangeFloor(isUpperDeck);
@@ -57,11 +54,11 @@ public static class SubmergedControlledMovementCompat
 
         if (inElevator)
         {
-            // Extra safety: ensure the floor matches the elevator's intended floor.
             ModCompatibility.CheckOutOfBoundsElevator(player);
         }
     }
 }
+
 
 
 
