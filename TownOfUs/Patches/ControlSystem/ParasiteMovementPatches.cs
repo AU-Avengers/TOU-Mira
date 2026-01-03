@@ -94,6 +94,7 @@ public static class ParasiteMovementPatches
             var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
 
+            var victimId = parasite.Controlled.PlayerId;
             var victimInAnim = parasite.Controlled.IsInTargetingAnimState() ||
                                parasite.Controlled.inVent ||
                                parasite.Controlled.inMovingPlat ||
@@ -101,7 +102,7 @@ public static class ParasiteMovementPatches
                                parasite.Controlled.walkingToVent;
 
             Vector2 targetDir;
-            if (victimInAnim || ParasiteControlState.IsInInitialGrace(parasite.Controlled.PlayerId))
+            if (victimInAnim || ParasiteControlState.IsInInitialGrace(victimId))
             {
                 targetDir = Vector2.zero;
             }
@@ -109,8 +110,8 @@ public static class ParasiteMovementPatches
             {
                 targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
             }
-            _localDesiredDir[parasite.Controlled.PlayerId] = targetDir;
-            SendControlledInputIfNeeded(parasite.Controlled.PlayerId, targetDir);
+            _localDesiredDir[victimId] = targetDir;
+            SendControlledInputIfNeeded(victimId, targetDir);
 
             if (!shouldMove)
             {
