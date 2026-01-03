@@ -4,8 +4,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;

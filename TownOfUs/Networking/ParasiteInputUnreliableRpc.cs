@@ -10,14 +10,18 @@ namespace TownOfUs.Networking;
 
 internal readonly struct ParasiteInputPacket
 {
-    public ParasiteInputPacket(byte controlledId, Vector2 direction)
+    public ParasiteInputPacket(byte controlledId, Vector2 direction, Vector2 position, Vector2 velocity)
     {
         ControlledId = controlledId;
         Direction = direction;
+        Position = position;
+        Velocity = velocity;
     }
 
     public byte ControlledId { get; }
     public Vector2 Direction { get; }
+    public Vector2 Position { get; }
+    public Vector2 Velocity { get; }
 }
 
 [RegisterCustomRpc((uint)TownOfUsInternalRpc.ParasiteInputUnreliable)]
@@ -31,13 +35,17 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
     {
         writer.Write(data.ControlledId);
         writer.Write(data.Direction);
+        writer.Write(data.Position);
+        writer.Write(data.Velocity);
     }
 
     public override ParasiteInputPacket Read(MessageReader reader)
     {
         var controlledId = reader.ReadByte();
         var dir = reader.ReadVector2();
-        return new ParasiteInputPacket(controlledId, dir);
+        var pos = reader.ReadVector2();
+        var vel = reader.ReadVector2();
+        return new ParasiteInputPacket(controlledId, dir, pos, vel);
     }
 
     public override void Handle(PlayerControl sender, ParasiteInputPacket data)
@@ -49,13 +57,11 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
             return;
         }
 
-        // Ignore input packets during Time Lord rewind - rewind handles movement
         if (TimeLordRewindSystem.IsRewinding)
         {
             return;
         }
 
-        // If control ended (meeting called / parasite stopped controlling), ignore any late unreliable packets.
         if (sender == null ||
             !ParasiteControlState.IsControlled(data.ControlledId, out var controllerId) ||
             controllerId != sender.PlayerId)
@@ -64,7 +70,6 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
         }
 
         ParasiteControlState.SetDirection(data.ControlledId, data.Direction);
+        ParasiteControlState.SetMovementState(data.ControlledId, data.Position, data.Velocity);
     }
 }
-
-

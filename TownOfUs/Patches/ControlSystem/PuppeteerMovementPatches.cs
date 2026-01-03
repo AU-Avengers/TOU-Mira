@@ -16,13 +16,15 @@ public static class PuppeteerMovementPatches
 {
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
 
-    private const float DirectionChangeEpsilonSqr = 0.0004f * 0.0004f;
-    private const float DirectionKeepAliveSeconds = 0.6f;
+    private const float MovementChangeEpsilonSqr = 0.0004f * 0.0004f;
+    private const float MovementKeepAliveSeconds = 0.05f; // Send more frequently for smooth movement
     private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
+    private static readonly Dictionary<byte, Vector2> _lastSentPos = new();
+    private static readonly Dictionary<byte, Vector2> _lastSentVel = new();
     private static readonly Dictionary<byte, float> _lastSentAt = new();
     private static readonly Dictionary<byte, Vector2> _localDesiredDir = new();
 
-    private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir)
+    private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
         if (PlayerControl.LocalPlayer == null)
         {
@@ -33,11 +35,15 @@ public static class PuppeteerMovementPatches
         var shouldSend = true;
 
         if (_lastSentDir.TryGetValue(controlledId, out var lastDir) &&
+            _lastSentPos.TryGetValue(controlledId, out var lastPos) &&
+            _lastSentVel.TryGetValue(controlledId, out var lastVel) &&
             _lastSentAt.TryGetValue(controlledId, out var lastAt))
         {
-            var changed = (dir - lastDir).sqrMagnitude > DirectionChangeEpsilonSqr;
-            var keepAliveDue = dir != Vector2.zero && (now - lastAt) >= DirectionKeepAliveSeconds;
-            shouldSend = changed || keepAliveDue;
+            var dirChanged = (dir - lastDir).sqrMagnitude > MovementChangeEpsilonSqr;
+            var posChanged = (position - lastPos).sqrMagnitude > MovementChangeEpsilonSqr;
+            var velChanged = (velocity - lastVel).sqrMagnitude > MovementChangeEpsilonSqr;
+            var keepAliveDue = (now - lastAt) >= MovementKeepAliveSeconds;
+            shouldSend = dirChanged || posChanged || velChanged || keepAliveDue;
         }
 
         if (!shouldSend)
@@ -46,11 +52,13 @@ public static class PuppeteerMovementPatches
         }
 
         _lastSentDir[controlledId] = dir;
+        _lastSentPos[controlledId] = position;
+        _lastSentVel[controlledId] = velocity;
         _lastSentAt[controlledId] = now;
 
         Rpc<PuppeteerInputUnreliableRpc>.Instance.Send(
             PlayerControl.LocalPlayer,
-            new PuppeteerInputPacket(controlledId, dir));
+            new PuppeteerInputPacket(controlledId, dir, position, velocity));
     }
 
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
@@ -86,18 +94,29 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
+            var victim = puppeteer.Controlled;
+            var victimId = victim.PlayerId;
+            var victimInAnim = victim.IsInTargetingAnimState() ||
+                               victim.inVent ||
+                               victim.inMovingPlat ||
+                               victim.onLadder ||
+                               victim.walkingToVent;
 
-            var victimInAnim = puppeteer.Controlled.IsInTargetingAnimState() ||
-                               puppeteer.Controlled.inVent ||
-                               puppeteer.Controlled.inMovingPlat ||
-                               puppeteer.Controlled.onLadder ||
-                               puppeteer.Controlled.walkingToVent;
-
-            var dir = (victimInAnim || PuppeteerControlState.IsInInitialGrace(puppeteer.Controlled.PlayerId))
-                ? Vector2.zero
+            // Don't allow movement during grace period
+            var dir = (victimInAnim || PuppeteerControlState.IsInInitialGrace(victimId)) 
+                ? Vector2.zero 
                 : GetNormalDirection();
-            _localDesiredDir[puppeteer.Controlled.PlayerId] = dir;
-            SendControlledInputIfNeeded(puppeteer.Controlled.PlayerId, dir);
+            _localDesiredDir[victimId] = dir;
+
+            // Capture position and velocity from the controlled player
+            var victimPos = victim.MyPhysics.body != null 
+                ? victim.MyPhysics.body.position 
+                : (Vector2)victim.transform.position;
+            var victimVel = victim.MyPhysics.body != null 
+                ? victim.MyPhysics.body.velocity 
+                : Vector2.zero;
+
+            SendControlledInputIfNeeded(victimId, dir, victimPos, victimVel);
 
             var puppeteerDir = Vector2.zero;
             
@@ -121,13 +140,29 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
+            // Don't apply movement during grace period
             if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
             {
-                return true;
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
+                return false;
             }
 
-            var dir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
-            AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir);
+            // Apply injected movement with position, velocity, and direction
+            var dir = PuppeteerControlState.GetDirection(player.PlayerId);
+            var pos = PuppeteerControlState.GetPosition(player.PlayerId);
+            var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
+            
+            // Only apply if we have valid data
+            if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
+            {
+                AdvancedMovementUtilities.ApplyInjectedMovement(__instance, pos, vel, dir);
+            }
+            else
+            {
+                // Fallback to direction-only if position/velocity not available yet
+                var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
+            }
 
             return false;
         }
@@ -144,14 +179,28 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
+            // Don't apply movement during grace period
             if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
                 return false;
             }
 
-            var victimDir = PuppeteerControlState.GetDirection(player.PlayerId);
-            AdvancedMovementUtilities.ApplyControlledMovement(__instance, victimDir);
+            // Apply injected movement with position, velocity, and direction
+            var dir = PuppeteerControlState.GetDirection(player.PlayerId);
+            var pos = PuppeteerControlState.GetPosition(player.PlayerId);
+            var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
+            
+            // Only apply if we have valid data
+            if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
+            {
+                AdvancedMovementUtilities.ApplyInjectedMovement(__instance, pos, vel, dir);
+            }
+            else
+            {
+                // Fallback to stop if no data available
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
+            }
             return false;
         }
 
@@ -175,9 +224,7 @@ public static class PuppeteerMovementPatches
 
         if (player.AmOwner && PuppeteerControlState.IsControlled(player.PlayerId, out _))
         {
-            direction = PuppeteerControlState.IsInInitialGrace(player.PlayerId)
-                ? Vector2.zero
-                : PuppeteerControlState.GetDirection(player.PlayerId);
+            direction = PuppeteerControlState.GetDirection(player.PlayerId);
         }
 
         return true;
@@ -214,11 +261,13 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
+            // Grace period: allow CNT updates for 0.7 seconds after control starts
             if (PuppeteerControlState.IsInInitialGrace(player.PlayerId))
             {
                 return true;
             }
 
+            // Suppress CustomNetworkTransform updates - we're injecting movement directly
             return false;
         }
 
