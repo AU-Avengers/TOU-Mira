@@ -22,6 +22,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 {
     [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
     private float _overtakeKillLockoutUntil;
+    private bool _killPendingFromTimer;
 
     private Camera? parasiteCam;
     private GameObject? parasiteBorderObj;
@@ -153,18 +154,46 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             {
                 AdvancedMovementUtilities.MobileJoystickR.ToggleVisuals(false);
             }
+            _killPendingFromTimer = false;
             return;
         }
 
         if (target.Data == null || target.HasDied() || target.Data.Disconnected)
         {
             RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
+            _killPendingFromTimer = false;
             return;
         }
 
         if (Player.HasDied() && OptionGroupSingleton<ParasiteOptions>.Instance.SaveVictimIfParasiteDies)
         {
             RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
+            _killPendingFromTimer = false;
+            return;
+        }
+
+        if (_killPendingFromTimer && !target.HasDied())
+        {
+            if (!target.IsInTargetingAnimState() && 
+                !target.inVent && 
+                !target.inMovingPlat && 
+                !target.onLadder && 
+                !target.walkingToVent)
+            {
+                _killPendingFromTimer = false;
+                if (PlayerControl.LocalPlayer != null)
+                {
+                    PlayerControl.LocalPlayer.RpcSpecialMurder(
+                        target,
+                        teleportMurderer: false,
+                        showKillAnim: false,
+                        causeOfDeath: "Parasite");
+                }
+                if (PlayerControl.LocalPlayer != null)
+                {
+                    RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
+                }
+            }
         }
     }
 
@@ -206,7 +235,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         UpdateSnapAnimation();
         HandleDragInput();
 
-        // Border is ALWAYS driven off of parasiteCam.rect for perfect fit.
         UpdateCameraBorderLayout();
     }
 
@@ -526,14 +554,27 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (!target.HasDied())
+        if (target.HasDied())
         {
-            local.RpcSpecialMurder(
-                target,
-                teleportMurderer: false,
-                showKillAnim: false,
-                causeOfDeath: "Parasite");
+            RpcParasiteEndControl(local, target);
+            return;
         }
+
+        if (target.IsInTargetingAnimState() || 
+            target.inVent || 
+            target.inMovingPlat || 
+            target.onLadder || 
+            target.walkingToVent)
+        {
+            _killPendingFromTimer = true;
+            return;
+        }
+
+        local.RpcSpecialMurder(
+            target,
+            teleportMurderer: false,
+            showKillAnim: false,
+            causeOfDeath: "Parasite");
 
         RpcParasiteEndControl(local, target);
     }
@@ -590,6 +631,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         Controlled = null;
         _overtakeKillLockoutUntil = 0f;
+        _killPendingFromTimer = false;
         _pipDragging = false;
         _pipSnapping = false;
         _pipManualMovedThisSession = false;

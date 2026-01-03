@@ -122,7 +122,11 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 ControlTimer = duration;
             }
 
-            ControlTimer -= Time.fixedDeltaTime;
+            // Don't tick cooldown during grace period
+            if (!PuppeteerControlState.IsInInitialGrace(Controlled.PlayerId))
+            {
+                ControlTimer -= Time.fixedDeltaTime;
+            }
 
             if (ControlTimer <= 0f && Controlled != null)
             {

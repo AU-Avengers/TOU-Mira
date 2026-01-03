@@ -325,4 +325,67 @@ public static class AdvancedMovementUtilities
             _controlledMovementDepth = Mathf.Max(0, _controlledMovementDepth - 1);
         }
     }
+
+    /// <summary>
+    /// Applies injected movement with position, velocity, and direction for Parasite/Puppeteer control.
+    /// </summary>
+    public static void ApplyInjectedMovement(PlayerPhysics physics, Vector2 targetPosition, Vector2 targetVelocity, Vector2 direction)
+    {
+        if (physics == null || physics.myPlayer == null)
+        {
+            return;
+        }
+
+        _controlledMovementDepth++;
+        try
+        {
+            physics.HandleAnimation(physics.myPlayer.Data.IsDead);
+
+            var currentPos = physics.body != null ? physics.body.position : (Vector2)physics.myPlayer.transform.position;
+            var delta = targetPosition - currentPos;
+            const float positionSnapThreshold = 2.0f;
+            const float positionLerpSpeed = 15.0f;
+
+            if (delta.sqrMagnitude <= 0.0001f * 0.0001f)
+            {
+                if (physics.body != null)
+                {
+                    physics.body.position = targetPosition;
+                }
+                physics.myPlayer.transform.position = targetPosition;
+            }
+
+            else if (delta.magnitude > positionSnapThreshold && physics.body != null)
+            {
+                physics.body.position = targetPosition;
+                physics.myPlayer.transform.position = targetPosition;
+            }
+
+            else
+            {
+                var lerpFactor = Mathf.Clamp01(Time.fixedDeltaTime * positionLerpSpeed);
+                var smoothedPos = Vector2.Lerp(currentPos, targetPosition, lerpFactor);
+                if (physics.body != null)
+                {
+                    physics.body.position = smoothedPos;
+                }
+                physics.myPlayer.transform.position = smoothedPos;
+            }
+
+
+            physics.SetNormalizedVelocity(direction);
+
+
+            if (physics.body != null)
+            {
+                var currentVel = physics.body.velocity;
+                var velLerpFactor = Mathf.Clamp01(Time.fixedDeltaTime * 20.0f);
+                physics.body.velocity = Vector2.Lerp(currentVel, targetVelocity, velLerpFactor);
+            }
+        }
+        finally
+        {
+            _controlledMovementDepth = Mathf.Max(0, _controlledMovementDepth - 1);
+        }
+    }
 }
