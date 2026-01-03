@@ -172,27 +172,26 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        if (_killPendingFromTimer && !target.HasDied())
+        if ((_killPendingFromTimer && !target.HasDied()) &&
+            !target.IsInTargetingAnimState() &&
+            !target.inVent &&
+            !target.inMovingPlat &&
+            !target.onLadder &&
+            !target.walkingToVent)
         {
-            if (!target.IsInTargetingAnimState() && 
-                !target.inVent && 
-                !target.inMovingPlat && 
-                !target.onLadder && 
-                !target.walkingToVent)
+            _killPendingFromTimer = false;
+            if (PlayerControl.LocalPlayer != null)
             {
-                _killPendingFromTimer = false;
-                if (PlayerControl.LocalPlayer != null)
-                {
-                    PlayerControl.LocalPlayer.RpcSpecialMurder(
-                        target,
-                        teleportMurderer: false,
-                        showKillAnim: false,
-                        causeOfDeath: "Parasite");
-                }
-                if (PlayerControl.LocalPlayer != null)
-                {
-                    RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
-                }
+                PlayerControl.LocalPlayer.RpcSpecialMurder(
+                    target,
+                    teleportMurderer: false,
+                    showKillAnim: false,
+                    causeOfDeath: "Parasite");
+            }
+
+            if (PlayerControl.LocalPlayer != null)
+            {
+                RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
             }
         }
     }
