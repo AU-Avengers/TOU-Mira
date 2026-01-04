@@ -21,6 +21,8 @@ namespace TownOfUs.Patches.Options;
 
 public static class TeamChatPatches
 {
+    public static bool SplitChats =>
+        LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SeparateChatBubbles.Value;
     public static GameObject TeamChatButton;
     private static TextMeshPro? _teamText;
     public static bool TeamChatActive;
@@ -277,7 +279,7 @@ public static class TeamChatPatches
             foreach (var bubble in bubbleItems.GetAllChildren())
             {
                 bubble.gameObject.SetActive(true);
-                if (!IsPrivateBubble(bubble.gameObject))
+                if (SplitChats && !IsPrivateBubble(bubble.gameObject))
                 {
                     bubble.gameObject.SetActive(false);
                 }
@@ -296,7 +298,7 @@ public static class TeamChatPatches
             foreach (var bubble in bubbleItems.GetAllChildren())
             {
                 bubble.gameObject.SetActive(true);
-                if (IsPrivateBubble(bubble.gameObject))
+                if (SplitChats && IsPrivateBubble(bubble.gameObject))
                 {
                     bubble.gameObject.SetActive(false);
                 }
@@ -378,7 +380,7 @@ public static class TeamChatPatches
                 foreach (var bubble in bubbleItems.GetAllChildren())
                 {
                     bubble.gameObject.SetActive(true);
-                    if (IsPrivateBubble(bubble.gameObject))
+                    if (SplitChats && IsPrivateBubble(bubble.gameObject))
                     {
                         bubble.gameObject.SetActive(false);
                     }
@@ -428,7 +430,7 @@ public static class TeamChatPatches
                 foreach (var bubble in bubbleItems.GetAllChildren())
                 {
                     bubble.gameObject.SetActive(true);
-                    if (!IsPrivateBubble(bubble.gameObject))
+                    if (SplitChats && !IsPrivateBubble(bubble.gameObject))
                     {
                         bubble.gameObject.SetActive(false);
                     }
@@ -439,7 +441,7 @@ public static class TeamChatPatches
                     var chatBubbleObj = children[i].Cast<ChatBubble>();
                     if (chatBubbleObj == null) continue;
                     ChatBubble chatBubble = chatBubbleObj!;
-                    if (!IsPrivateBubble(chatBubble.gameObject))
+                    if (SplitChats && !IsPrivateBubble(chatBubble.gameObject))
                     {
                         storedBubbles.Add(chatBubble);
                         chat.chatBubblePool.activeChildren.Remove(chatBubble);
@@ -453,7 +455,7 @@ public static class TeamChatPatches
                 foreach (var bubble in bubbleItems.GetAllChildren())
                 {
                     bubble.gameObject.SetActive(true);
-                    if (IsPrivateBubble(bubble.gameObject))
+                    if (SplitChats && IsPrivateBubble(bubble.gameObject))
                     {
                         bubble.gameObject.SetActive(false);
                     }
@@ -464,7 +466,7 @@ public static class TeamChatPatches
                     var chatBubbleObj = children[i].Cast<ChatBubble>();
                     if (chatBubbleObj == null) continue;
                     ChatBubble chatBubble = chatBubbleObj!;
-                    if (IsPrivateBubble(chatBubble.gameObject))
+                    if (SplitChats && IsPrivateBubble(chatBubble.gameObject))
                     {
                         storedBubbles.Add(chatBubble);
                         chat.chatBubblePool.activeChildren.Remove(chatBubble);
