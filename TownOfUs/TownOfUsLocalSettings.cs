@@ -130,6 +130,9 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
     public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
         config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
+
+    public ConfigEntry<string> LobbyRulesText { get; private set; } =
+        config.Bind("Miscellaneous", "LobbyRulesText", string.Empty);
 }
 
 public enum ArrowStyleType

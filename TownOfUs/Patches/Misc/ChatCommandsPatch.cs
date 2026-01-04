@@ -1,3 +1,5 @@
+using System.IO;
+using System.Reflection;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
@@ -20,6 +22,21 @@ namespace TownOfUs.Patches.Misc;
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
+    private static string GetLobbyRulesText()
+    {
+        var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        if (string.IsNullOrEmpty(dir)) return string.Empty;
+        var path = Path.Combine(dir, "LobbyRules.txt");
+        if (!File.Exists(path)) return string.Empty;
+        try
+        {
+            return File.ReadAllText(path);
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
         
     [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
     public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
@@ -53,6 +70,7 @@ public static class ChatPatches
         var nameCommandList = TouLocale.GetParsed("SetNameCommandList").Split(":");
         var helpCommandList = TouLocale.GetParsed("HelpCommandList").Split(":");
         var upCommandList = TouLocale.GetParsed("UpCommandList").Split(":");
+        var rulesCommandList = TouLocale.GetParsed("RulesCommandList").Split(":");
 
         if (TranslationController.InstanceExists &&
             TranslationController.Instance.currentLanguage.languageID is not SupportedLangs.English)
@@ -64,6 +82,7 @@ public static class ChatPatches
             nameCommandList = nameCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "SetNameCommandList").Split(":"));
             helpCommandList = helpCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "HelpCommandList").Split(":"));
             upCommandList = upCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "UpCommandList").Split(":"));
+            rulesCommandList = rulesCommandList.AddRangeToArray(TouLocale.GetParsed(SupportedLangs.English, "RulesCommandList").Split(":"));
         }
 
         var spaceLess = text.Replace(" ", string.Empty);
@@ -139,6 +158,26 @@ public static class ChatPatches
 
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
 
+            __instance.freeChatField.Clear();
+            __instance.quickChatMenu.Clear();
+            __instance.quickChatField.Clear();
+            __instance.UpdateChatMode();
+            return false;
+        }
+
+        if (rulesCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
+        {
+            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+            {
+                var rulesText = GetLobbyRulesText();
+                var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
+                var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+            }
+            else
+            {
+                RpcRequestLobbyRules(PlayerControl.LocalPlayer);
+            }
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
             __instance.quickChatField.Clear();
@@ -451,7 +490,8 @@ public static class ChatPatches
                       $"{TouLocale.GetParsed("SetNameCommandDescription").Replace("<randomName>", randomNames.Random())}\n" +
                       $"{TouLocale.GetParsed("SpectateCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("RolesCommandDescription")}\n" +
-                      $"{TouLocale.GetParsed("SummaryCommandDescription")}\n";
+                      $"{TouLocale.GetParsed("SummaryCommandDescription")}\n" +
+                      $"{TouLocale.GetParsed("RulesCommandDescription")}\n";
 
             // Only show /up command in help if host + dev build
             if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild)
@@ -559,6 +599,29 @@ public static class ChatPatches
         }
 
         return true;
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.RequestLobbyRules)]
+    public static void RpcRequestLobbyRules(PlayerControl requester)
+    {
+        if (!AmongUsClient.Instance.AmHost)
+        {
+            return;
+        }
+        var rulesText = GetLobbyRulesText();
+        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.SendLobbyRules)]
+    public static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText)
+    {
+        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId)
+        {
+            return;
+        }
+        var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
     }
 
     [MethodRpc((uint)TownOfUsRpc.SelectSpectator)]
