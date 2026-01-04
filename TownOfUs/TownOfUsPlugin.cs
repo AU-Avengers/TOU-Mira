@@ -43,7 +43,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// <summary>
     ///     Determines if the current build is a dev build or not. This will change certain visuals as well as always grab news locally to be up to date.
     /// </summary>
-    public static bool IsDevBuild => false;
+    public static bool IsDevBuild => true;
 
     /// <summary>
     ///     Determines if the current build is a beta build. Beta builds are dev builds but should have restricted features like /up command.
