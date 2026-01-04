@@ -36,16 +36,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public override void OnOptionChanged(ConfigEntryBase configEntry)
     {
         base.OnOptionChanged(configEntry);
-        if (configEntry == ButtonUIFactorSlider)
-        {
-            var slider = TouLocale.LocalizedSliders.FirstOrDefault(x => x.Key.ConfigEntry == ButtonUIFactorSlider).Key;
-            if (HudManager.InstanceExists)
-            {
-                HudManagerPatches.ResizeUI(1f / slider.OldValue);
-                HudManagerPatches.ResizeUI(slider.GetValue());
-            }
-        }
-        else if (configEntry == OffsetButtonsToggle)
+        if (configEntry == OffsetButtonsToggle)
         {
             if ((AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
                  !TutorialManager.InstanceExists) || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
@@ -93,11 +84,6 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
         config.Bind("UI/Visuals", "OffsetButtons", false);
-
-    [LocalizedLocalSliderSetting(min: 0.5f, max: 1.5f, suffixType: MiraNumberSuffixes.Multiplier, formatString: "0.00",
-        displayValue: true)]
-    public ConfigEntry<float> ButtonUIFactorSlider { get; private set; } =
-        config.Bind("UI/Visuals", "ButtonUIFactor", 0.75f);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ColorPlayerNameToggle { get; private set; } =

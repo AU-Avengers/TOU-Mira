@@ -53,84 +53,6 @@ public static class HudManagerPatches
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
-    public static IEnumerator CoResizeUI()
-    {
-        while (!HudManager.Instance)
-        {
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(0.01f);
-        ResizeUI(LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value);
-    }
-
-    public static void ResizeUI(float scaleFactor)
-    {
-        var baseButtons = HudManager.Instance.transform.FindChild("Buttons");
-        if (baseButtons != null)
-        {
-            foreach (var aspect in baseButtons.GetComponentsInChildren<AspectPosition>(true))
-            {
-                if (aspect.gameObject == null)
-                {
-                    continue;
-                }
-
-                if (aspect.gameObject.transform.parent.name == "TopRight")
-                {
-                    continue;
-                }
-
-                if (aspect.gameObject.transform.parent.transform.parent.name == "TopRight")
-                {
-                    continue;
-                }
-
-                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
-                aspect.DistanceFromEdge *= new Vector2(scaleFactor, scaleFactor);
-                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
-            }
-        }
-
-        foreach (var button in HudManager.Instance.GetComponentsInChildren<ActionButton>(true))
-        {
-            if (button.gameObject == null)
-            {
-                continue;
-            }
-
-            button.gameObject.SetActive(!button.isActiveAndEnabled);
-            button.gameObject.transform.localScale *= scaleFactor;
-            button.gameObject.SetActive(!button.isActiveAndEnabled);
-        }
-
-        if (baseButtons != null)
-        {
-            foreach (var arrange in baseButtons.GetComponentsInChildren<GridArrange>(true))
-            {
-                if (!arrange.gameObject || !arrange.transform)
-                {
-                    continue;
-                }
-
-                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
-                arrange.CellSize = new Vector2(scaleFactor, scaleFactor);
-                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
-                if (arrange.isActiveAndEnabled && arrange.gameObject.transform.childCount != 0)
-                {
-                    try
-                    {
-                        arrange.ArrangeChilds();
-                    }
-                    catch
-                    {
-                        // Error($"Error arranging child objects in GridArrange: {e}");
-                    }
-                }
-            }
-        }
-    }
-
     public static void AdjustCameraSize(float size)
     {
         Camera.main!.orthographicSize = size;
@@ -1200,7 +1122,6 @@ public static class HudManagerPatches
         }
 
         RoleOptions.OptionStrings = localizedRoleList.ToArray();
-        Coroutines.Start(CoResizeUI());
         if (!_registeredSoftModifiers)
         {
             var modifiers = MiscUtils.AllModifiers.Where(x =>
