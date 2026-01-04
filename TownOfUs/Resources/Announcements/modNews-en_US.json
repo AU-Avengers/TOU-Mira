@@ -588,14 +588,15 @@
         "\n- Doomsayer guesses now appear properly instead of appearing as kills.",
         "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
         "\n- Traitor can be guessed properly again.",
+        "\n- Undertaker's Drag/Drop button no longer locks up after consecutive games.",
         "\n\n\r<size=105%>Modifier Bugfixes:</size>",
         "\n- Crewpostor is treated as a regular impostor and no longer loses when only crewmates remain.",
         "\n- Disperse no longer breaks on Ladders or Platforms.",
         "\n\n\r<size=105%>Other Bugfixes:</size>",
         "\n- First round death indicator no longer exposes morphed players.",
         "\n- Vanilla roles are now properly clickable in chats to open their wiki entries.",
+        "\n- Epic Games can use Practice mode again.",
         "\n\n\r<size=105%>Changes:</size>",
-        "\n- Grenadier Flash is no longer possible during a sabotage, just like in TOUR.",
         "\n- The private chatboxes are no longer toggled via separate buttons, but rather within the chat itself.",
         "\n- Local Settings have been split up into two tabs, and the button slider has moved under MiraAPI Settings.",
         "\n\n\r<size=105%>Improvements:</size>",
@@ -603,16 +604,19 @@
         "\n- Guesser Menu now allows you to search for role and modifiers for ease of use.",
         "\n- Most cooldowns can now go from 5 seconds all the way to 2 minutes.",
         "\n- Options for Sheriff, Vampire, Oracle, and Vigilante are compressed within the wiki.",
-        "\n- Missing buttons and icon for Seer and Crewpostor are added.",
+        "\n- New artwork has been added and some old artwork has been cleaned up.",
         "\n\n\r<size=105%>Additions:</size>",
         "\n- Better Airship Option: No Ladder Cooldown.",
         "\n- Mystic Option: Show Death Pop-Up.",
         "\n- Arsonist Option: Impostor Vision. (Parity Change from TOUR)",
         "\n- Altruist Option: Kill on Revive Start.",
+        "\n- Grenadier Option: Flash During Sabotage. (Parity Change from TOUR)",
         "\n- Host-Only Option: Toggle Lobby No-Clip.",
         "\n- New Impostor Roles: Parasite and Puppeteer.",
         "\n- New Crewmate Roles: Monarch, Sentry, and Time Lord.",
-        "\n- New Impostor Modifiers: Circumvent and Deadly Quota."
+        "\n- New Impostor Modifiers: Circumvent and Deadly Quota.",
+        "\n- Hosts can now add a \"LobbyRules.txt\" file next to the mod to show their rules in-game (PR #108) (Neil)",
+        "\n- New Client Options: Merged/Split Chats, Set Framerate"
       ]
     }
   ]
