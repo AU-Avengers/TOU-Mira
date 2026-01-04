@@ -14,14 +14,14 @@ public sealed class MonarchOptions : AbstractOptionGroup<MonarchRole>
     public float KnightCooldown { get; set; } = 20f;
 
     [ModdedNumberOption("Maximum Knights", 0f, 15f, 1f, MiraNumberSuffixes.None, "0", zeroInfinity: true)]
-    public float MaxKnights { get; set; } = 2f;
+    public float MaxKnights { get; set; } = 3f;
     [ModdedNumberOption("Votes Per Knight", 1f, 5f, 1f, MiraNumberSuffixes.None, "0")]
     public float VotesPerKnight { get; set; } = 1f;
-
-    [ModdedToggleOption("Extra Votes Apply On Self")]
-    public bool AllowSelfVotes { get; set; } = false;
-    [ModdedNumberOption("Knight Delay", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Knight Delay (Cancellable)", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
     public float KnightDelay { get; set; } = 3f;
+
+    [ModdedToggleOption("Show Knighted Votes")]
+    public bool ShowKnightedVotes { get; set; } = true;
 
     [ModdedToggleOption("Allow Round One Knighting")]
     public bool FirstRoundUse { get; set; } = false;

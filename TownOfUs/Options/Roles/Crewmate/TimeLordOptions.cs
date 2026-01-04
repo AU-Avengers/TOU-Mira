@@ -14,11 +14,11 @@ public sealed class TimeLordOptions : AbstractOptionGroup<TimeLordRole>
     public float RewindCooldown { get; set; } = 30f;
 
     [ModdedNumberOption("TouOptionTimeLordRewindHistory", 1f, 15f, 0.5f, MiraNumberSuffixes.Seconds)]
-    public float RewindHistorySeconds { get; set; } = 5f;
+    public float RewindHistorySeconds { get; set; } = 7.5f;
 
-    public ModdedNumberOption MaxUses { get; } = new("TouOptionTimeLordMaxUses", 2f, 0f, 15f, 1f, "∞", "#", MiraNumberSuffixes.None, "0", false);
+    public ModdedNumberOption MaxUses { get; } = new("TouOptionTimeLordMaxUses", 3f, 0f, 15f, 1f, "∞", "#", MiraNumberSuffixes.None, "0");
 
-    public ModdedNumberOption UsesPerTasks { get; } = new("TouOptionTimeLordUsesPerTasks", 0f, 0f, 15f, 1f, "Off", "#",
+    public ModdedNumberOption UsesPerTasks { get; } = new("TouOptionTimeLordUsesPerTasks", 3f, 0f, 15f, 1f, "Off", "#",
         MiraNumberSuffixes.None, "0")
     {
         Visible = () => OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses.Value != 0f
