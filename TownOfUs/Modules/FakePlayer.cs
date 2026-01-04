@@ -185,8 +185,7 @@ public sealed class FakePlayer : IDisposable
             BodySprite = playerImage,
             Type = basePayerBodySprite.Type,
             flippedCosmeticOffset = basePayerBodySprite.flippedCosmeticOffset,
-            LongModeParts =
-                new Il2CppReferenceArray<SpriteRenderer>(info.Cosmetics.currentBodySprite.LongModeParts.Length)
+            LongModeParts = new Il2CppReferenceArray<SpriteRenderer>(info.Cosmetics.currentBodySprite.LongModeParts.Length)
         };
 
         for (var i = 0; i < info.Cosmetics.currentBodySprite.LongModeParts.Length; ++i)

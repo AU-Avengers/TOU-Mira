@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
@@ -28,6 +27,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Altruist";
+    public static bool IsReviveInProgress { get; private set; }
     public static string ReviveString()
     {
         switch ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value)
@@ -74,11 +74,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         Icon = TouRoleIcons.Altruist
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void OnMeetingStart()
     {
@@ -108,6 +104,16 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
         ClearArrows();
+        
+        // Reset RevivedInRound when role is deinitialized to fix edge case
+        if (CustomButtonSingleton<AltruistReviveButton>.Instance != null)
+        {
+            CustomButtonSingleton<AltruistReviveButton>.Instance.RevivedInRound = false;
+        }
+        if (CustomButtonSingleton<AltruistSacrificeButton>.Instance != null)
+        {
+            CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
+        }
     }
 
     [HideFromIl2Cpp]
@@ -129,8 +135,10 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [HideFromIl2Cpp]
     public IEnumerator CoRevivePlayer(PlayerControl dead)
     {
+        IsReviveInProgress = true;
         var roleWhenAlive = dead.GetRoleWhenAlive();
         var freezeAltruist = OptionGroupSingleton<AltruistOptions>.Instance.FreezeDuringRevive.Value;
+        var killOnStart = OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value;
 
         //if (roleWhenAlive == null)
         //{
@@ -157,9 +165,20 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
         }
 
+        if (killOnStart && OptionGroupSingleton<AltruistOptions>.Instance.HideAtBeginningOfRevive)
+        {
+            yield return new WaitForSeconds(0.02f);
+            var altruistBody = FindObjectsOfType<DeadBody>()
+                .FirstOrDefault(b => b.ParentId == Player.PlayerId);
+            if (altruistBody != null)
+            {
+                Destroy(altruistBody.gameObject);
+            }
+        }
+
         yield return new WaitForSeconds(OptionGroupSingleton<AltruistOptions>.Instance.ReviveDuration.Value);
 
-        if (!MeetingHud.Instance && !Player.HasDied())
+        if (!MeetingHud.Instance && (!Player.HasDied() || killOnStart))
         {
             GameHistory.ClearMurder(dead);
 
@@ -181,7 +200,6 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 HudManager.Instance.Chat.gameObject.SetActive(false);
             }
 
-            // return player from ghost role back to what they were when alive
             dead.ChangeRole((ushort)roleWhenAlive!.Role, false);
 
             if (dead.Data.Role is IAnimated animated)
@@ -211,11 +229,45 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
             Player.RemainingEmergencies = 0;
 
+            var reviveFlashColor = new Color(0f, 0.5f, 0f, 1f);
+            if (dead.AmOwner)
+            {
+                TouAudio.PlaySound(TouAudio.AltruistReviveSound);
+                Coroutines.Start(MiscUtils.CoFlash(reviveFlashColor));
+                var revivedText = TouLocale.GetParsed("TouRoleAltruistRevivedNotif");
+                var notif = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.Altruist.ToTextColor()}{revivedText}</color></b>",
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Altruist.LoadAsset());
+                notif.AdjustNotification();
+            }
+
+            if (Player.AmOwner && Player != dead)
+            {
+                TouAudio.PlaySound(TouAudio.AltruistReviveSound);
+                Coroutines.Start(MiscUtils.CoFlash(reviveFlashColor));
+                var successText = TouLocale.GetParsed("TouRoleAltruistReviveSuccessNotif")
+                    .Replace("<player>", dead.Data.PlayerName);
+                var notif = Helpers.CreateAndShowNotification(
+                    $"<b>{TownOfUsColors.Altruist.ToTextColor()}{successText}</color></b>",
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Altruist.LoadAsset());
+                notif.AdjustNotification();
+            }
+
             body = FindObjectsOfType<DeadBody>()
                 .FirstOrDefault(b => b.ParentId == dead.PlayerId);
             if (!OptionGroupSingleton<AltruistOptions>.Instance.HideAtBeginningOfRevive && body != null)
             {
                 Destroy(body.gameObject);
+            }
+
+            if (killOnStart)
+            {
+                var altruistBody = FindObjectsOfType<DeadBody>()
+                    .FirstOrDefault(b => b.ParentId == Player.PlayerId);
+                if (altruistBody != null)
+                {
+                    Destroy(altruistBody.gameObject);
+                }
             }
 
             var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtEnd.Value;
@@ -237,6 +289,8 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         {
             Player.moveable = true;
         }
+
+        IsReviveInProgress = false;
     }
 
     [MethodRpc((uint)TownOfUsRpc.AltruistRevive)]

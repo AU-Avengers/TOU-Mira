@@ -10,6 +10,9 @@ public static class TouModifierIcons
 
     public static LoadableAsset<Sprite> Bait { get; } = new LoadableBundleAsset<Sprite>("Bait", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Bloody { get; } =
+        new LoadableBundleAsset<Sprite>("Bloody", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> ButtonBarry { get; } =
         new LoadableBundleAsset<Sprite>("ButtonBarry", TouAssets.MainBundle);
 

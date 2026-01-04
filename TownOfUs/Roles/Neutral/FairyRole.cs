@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
@@ -123,11 +122,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public bool SetupIntroTeam(IntroCutscene instance,
         ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)

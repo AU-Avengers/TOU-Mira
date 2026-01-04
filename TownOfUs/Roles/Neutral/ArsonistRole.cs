@@ -62,6 +62,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;
 
+    public bool HasImpostorVision => OptionGroupSingleton<ArsonistOptions>.Instance.ImpostorVision;
+
     public CustomRoleConfiguration Configuration => new(this)
     {
         CanUseVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent,

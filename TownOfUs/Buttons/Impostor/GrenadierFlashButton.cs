@@ -24,6 +24,13 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
+    public override bool CanUse()
+    {
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+
+        return base.CanUse() && system is { AnyActive: false };
+    }
+
     public void AftermathHandler()
     {
         ClickHandler();

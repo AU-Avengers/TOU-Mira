@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Options.Roles.Impostor;
@@ -33,11 +32,7 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         CanUseVent = OptionGroupSingleton<GrenadierOptions>.Instance.CanVent
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -58,11 +57,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         IntroSound = TouAudio.EngineerIntroSound
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void Initialize(PlayerControl player)
     {

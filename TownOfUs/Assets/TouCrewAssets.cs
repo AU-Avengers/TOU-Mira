@@ -9,12 +9,11 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> CrewSwoopSprite { get; } =
         new LoadableBundleAsset<Sprite>("CrewSwoopButton", TouAssets.MainBundle);
-
     public static LoadableAsset<Sprite> CrewUnswoopSprite { get; } =
         new LoadableBundleAsset<Sprite>("CrewUnswoopButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> InspectSprite { get; } =
         new LoadableBundleAsset<Sprite>("InspectButton", TouAssets.MainBundle);
-
     public static LoadableAsset<Sprite> ExamineSprite { get; } =
         new LoadableBundleAsset<Sprite>("ExamineButton", TouAssets.MainBundle);
 
@@ -92,6 +91,12 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> BlockSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeButton", TouAssets.MainBundle);
+    
+    public static LoadableAsset<Sprite> RewindSprite { get; } =
+        new LoadableBundleAsset<Sprite>("RewindButton", TouAssets.MainBundle);
+    
+    public static LoadableAsset<Sprite> RewindingSprite { get; } =
+        new LoadableBundleAsset<Sprite>("RewindingButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Transport { get; } =
         new LoadableBundleAsset<Sprite>("TransportButton", TouAssets.MainBundle);

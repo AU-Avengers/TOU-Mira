@@ -14,7 +14,9 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
@@ -139,6 +141,16 @@ public static class LogicGameFlowPatches
         return false;
     }
 
+    /*[HarmonyPatch(typeof(GameManager), nameof(GameManager.StartGame))]
+    [HarmonyPostfix]
+    public static void StartGamePostfix()
+    {
+        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
+        {
+            ShipStatus.Instance.BreakEmergencyButton();
+        }
+    }*/
+
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     [HarmonyPrefix]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
@@ -216,11 +228,19 @@ public static class LogicGameFlowPatches
             return false;
         }
 
+        if (AltruistRole.IsReviveInProgress)
+        {
+            return false;
+        }
+
         // End game if there are 3 players alive and 2 are lovers.
         var activeLovers = ModifierUtils.GetActiveModifiers<LoverModifier>().ToArray();
         if (!ExileController.Instance && LoverModifier.WinConditionMet(activeLovers))
         {
-            CustomGameOver.Trigger<LoverGameOver>(activeLovers.Select(x => x.Player.Data).ToArray());
+            CustomGameOver.Trigger<LoverGameOver>(activeLovers
+                .Where(x => x != null && x.Player != null && x.Player.Data != null)
+                .Select(x => x.Player!.Data)
+                .ToArray());
             return false;
         }
 
@@ -231,7 +251,28 @@ public static class LogicGameFlowPatches
                 .FirstOrDefault(x => x is ITownOfUsRole role && role.WinConditionMet()) is { } winner)
         {
             Message($"Game Over");
-            CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
+
+            // Lovers + Jest/Exe/Doom combo fix maybe
+            if ((winner is JesterRole || winner is ExecutionerRole || winner is DoomsayerRole) && winner.Player != null && winner.Player.HasModifier<LoverModifier>())
+            {
+                var loverWinners = ModifierUtils.GetActiveModifiers<LoverModifier>()
+                    .Where(x => x.Player != null && x.Player.Data != null && x.Player.HasModifier<LoverModifier>())
+                    .Select(x => x.Player!.Data)
+                    .Distinct()
+                    .ToArray();
+
+                if (loverWinners.Length >= 2)
+                {
+                    CustomGameOver.Trigger<LoverGameOver>(loverWinners);
+                    return false;
+                }
+            }
+
+            if (winner.Player != null)
+            {
+                CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
+                return false;
+            }
 
             return false;
         }

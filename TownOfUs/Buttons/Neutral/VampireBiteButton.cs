@@ -24,7 +24,7 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
     public override string Name => _biteName;
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Vampire;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<VampireOptions>.Instance.BiteCooldown + MapCooldown + MapCooldown, 5f, 120f);
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<VampireOptions>.Instance.BiteCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.BiteSprite;
 
     public void SetDiseasedTimer(float multiplier)

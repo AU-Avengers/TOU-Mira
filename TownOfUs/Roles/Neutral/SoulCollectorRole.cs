@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
@@ -15,6 +14,7 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class SoulCollectorRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public static bool AutoPlaceFakePlayers => true;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MediumRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "SoulCollector";
@@ -69,11 +69,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
         return scCount >= Helpers.GetAlivePlayers().Count - scCount;
     }
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void Initialize(PlayerControl player)
     {

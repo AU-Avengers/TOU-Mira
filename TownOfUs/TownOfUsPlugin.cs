@@ -27,6 +27,7 @@ namespace TownOfUs;
 [ReactorModFlags(ModFlags.RequireOnAllClients)]
 public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 {
+    public static bool IsMobile => Constants.GetPlatformType() is Platforms.Android or Platforms.IPhone;
     /// <summary>
     ///     Gets the specified Culture for string manipulations.
     /// </summary>
@@ -42,13 +43,15 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// <summary>
     ///     Determines if the current build is a dev build or not. This will change certain visuals as well as always grab news locally to be up to date.
     /// </summary>
-    public static bool IsDevBuild => false;
+    public static bool IsDevBuild => true;
 
     /// <inheritdoc />
     public string OptionsTitleText => "TOU Mira";
 
     /// <inheritdoc />
-    public string CustomOptionMenuNameOne => "Better Maps/Sabotages";
+    public string CustomOptionMenuNameOne => TouLocale.Get("TouTabOptionBetterMaps");
+    public string CustomOptionMenuOneDescription => TouLocale.Get("TouTabOptionBetterMapsDesc");
+    public string ModifierMenuDescription => TouLocale.Get("TouTabOptionModifiersDesc");
 
     /// <inheritdoc />
     public ConfigFile GetConfigFile()
@@ -74,13 +77,18 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         IL2CPPChainloader.Instance.Finished +=
             ModCompatibility
                 .Initialize; // Initialise AFTER the mods are loaded to ensure maximum parity (no need for the soft dependency either then)
+
         IL2CPPChainloader.Instance.Finished +=
             ModNewsFetcher
                 .CheckForNews; // Checks for mod announcements after everything is loaded to avoid Epic Games crashing
 
-        var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "touhats.catalog");
-        AddressablesLoader.RegisterCatalog(path);
-        AddressablesLoader.RegisterHats("touhats");
+        if (!IsMobile)
+        {
+            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+                "touhats.catalog");
+            AddressablesLoader.RegisterCatalog(path);
+            AddressablesLoader.RegisterHats("touhats");
+        }
 
         GameSummaryMode = Config.Bind("LocalSettings", "GameSummaryMode", 1,
             "How the Game Summary appears in the Win Screen. 0 is to the left, 1 is split, and 2 is hidden.");

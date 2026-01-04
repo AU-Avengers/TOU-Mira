@@ -1,4 +1,3 @@
-using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
@@ -128,18 +127,14 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
         HudManager.Instance.SetHudActive(ShowHud);
     }
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public void Update()
     {
         if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
             PlayerControl.LocalPlayer.Data.Role is not SpectatorRole || LobbyBehaviour.Instance ||
-            MeetingHud.Instance ||
-            !HudManager.Instance)
+            MeetingHud.Instance || ExileController.Instance ||
+            !HudManager.Instance || HudManager.Instance.Chat.IsOpenOrOpening)
         {
             return;
         }

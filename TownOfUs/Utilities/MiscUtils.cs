@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -16,6 +10,12 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -60,7 +60,7 @@ public static class MiscUtils
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
          OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
 
-    public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor());
+    public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x => x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
 
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
@@ -902,11 +902,33 @@ public static class MiscUtils
             pooledBubble.TextArea.color = Color.white;
         }
 
+        // Tag *team/private* chat bubbles so the UI can reliably show/hide them.
+        // Color-based filtering breaks when system/feedback messages use non-white/non-black backgrounds.
+        // Note: Lovers chat intentionally uses `blackoutText: false` and should behave like regular chat.
+        if (blackoutText && bubbleType != BubbleType.None)
+        {
+            pooledBubble.gameObject.name = $"TOU_TeamChatBubble_{bubbleType}";
+        }
+
         pooledBubble.AlignChildren();
         var pos = pooledBubble.NameText.transform.localPosition;
         pooledBubble.NameText.transform.localPosition = pos;
+        // Only hide/store *team/private* bubbles when the user is currently viewing public chat.
+        // (System/feedback messages should remain in public chat even if they are "black tinted".)
+        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText && bubbleType != BubbleType.None)
+        {
+            TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
+            pooledBubble.gameObject.SetActive(false);
+            if (chat.chatBubblePool.activeChildren.Contains(pooledBubble))
+            {
+                chat.chatBubblePool.activeChildren.Remove(pooledBubble);
+            }
+        }
         chat.AlignAllBubbles();
-        if (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive)
+        // Only show the for incoming messages
+        // Otherwise you get a notification when you message yourself (e.g. Lovers chat).
+        // (I think this is the right way to do that...)
+        if (onLeft && (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive))
         {
             Coroutines.Start(BouncePrivateChatDot(bubbleType));
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
@@ -923,7 +945,7 @@ public static class MiscUtils
         {
             TeamChatPatches.CreateTeamChatBubble();
         }
-        
+
         var sprite = TeamChatPatches.PrivateChatDot!.GetComponent<SpriteRenderer>();
         sprite.enabled = true;
         var actualSprite = bubbleType switch
@@ -1195,7 +1217,7 @@ public static class MiscUtils
         {
             yield break;
         }
-        
+
         var tmp = rend.color;
         tmp.a = 0;
         rend.color = tmp;
@@ -1945,7 +1967,9 @@ public enum TouGamemode
 {
     Normal,
     HideAndSeek,
-    Cultist
+    Cultist,
+    // AllKillers,
+    // Legacy
 }
 public enum ExpandedMapNames
 {

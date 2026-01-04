@@ -40,13 +40,18 @@ namespace TownOfUs.Patches;
 public static class HudManagerPatches
 {
     public static GameObject ZoomButton;
+    public static AspectPosition ZoomAspectPos;
     public static GameObject WikiButton;
+    public static AspectPosition WikiAspectPos;
     public static GameObject RoleList;
+    public static TextMeshPro RoleListTextComp;
     public static GameObject SubmergedFloorButton;
     public static GameObject TeamChatButton;
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
+
+    private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
     public static IEnumerator CoResizeUI()
     {
@@ -375,6 +380,29 @@ public static class HudManagerPatches
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var taskOpt = OptionGroupSingleton<TaskTrackingOptions>.Instance;
 
+        static PlayerControl GetDisguiseTargetOrSelf(PlayerControl player)
+        {
+            if (player.TryGetModifier<MorphlingMorphModifier>(out var morph) && morph.Target != null)
+            {
+                return morph.Target;
+            }
+
+            if (player.TryGetModifier<GlitchMimicModifier>(out var mimic) && mimic.Target != null)
+            {
+                return mimic.Target;
+            }
+
+            return player;
+        }
+
+        static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
+        {
+            var displayPlayer = GetDisguiseTargetOrSelf(player);
+            var mod = displayPlayer.GetModifiers<RevealModifier>()
+                .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
+            return mod?.ExtraNameText ?? string.Empty;
+        }
+
         if (MeetingHud.Instance)
         {
             foreach (var playerVA in MeetingHud.Instance.playerStates)
@@ -538,10 +566,17 @@ public static class HudManagerPatches
                     playerName += revealText;
                 }
 
-                var addedPlayerNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraNameText != string.Empty);
+                var addedPlayerNameText = revealMods.FirstOrDefault(x =>
+                    x.Visible && x.ExtraNameText != string.Empty && x is not FirstRoundIndicator);
                 if (addedPlayerNameText != null)
                 {
                     playerName += addedPlayerNameText.ExtraNameText;
+                }
+
+                var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player);
+                if (!string.IsNullOrEmpty(diedR1Text))
+                {
+                    playerName += diedR1Text;
                 }
 
                 if (player.Data?.Disconnected == true)
@@ -728,10 +763,17 @@ public static class HudManagerPatches
                     roleName += $" - {scatter.GetDescription()}";
                 }
 
-                var addedPlayerNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraNameText != string.Empty);
+                var addedPlayerNameText = revealMods.FirstOrDefault(x =>
+                    x.Visible && x.ExtraNameText != string.Empty && x is not FirstRoundIndicator);
                 if (addedPlayerNameText != null)
                 {
                     playerName += addedPlayerNameText.ExtraNameText;
+                }
+
+                var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player);
+                if (!string.IsNullOrEmpty(diedR1Text))
+                {
+                    playerName += diedR1Text;
                 }
 
                 if (canSeeDeathReason)
@@ -753,7 +795,40 @@ public static class HudManagerPatches
 
                 player.cosmetics.nameText.text = playerName;
                 player.cosmetics.nameText.color = playerColor;
+
+                // Keep the name position consistent with vanilla/Tou defaults.
                 player.cosmetics.nameText.transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
+
+                // Avoid overlap between the "(Died R1)" line and the color-blind label (e.g. "Orange"),
+                // especially when a player is morphing/mimicking a First-Round-Death player.
+                // Avoid overlap between "(Died R1)" and the color-blind label (e.g. "Pink"/"Orange") WITHOUT drift:
+                // we keep a stable baseline position per-player and apply an idempotent offset from it.
+                var cbId = player.PlayerId;
+                var cbCurrent = player.cosmetics.colorBlindText.transform.localPosition;
+                var cbOffset = Vector3.down * 0.12f;
+
+                if (!_colorBlindBasePos.TryGetValue(cbId, out var cbBase))
+                {
+                    // If we first see the player while DiedR1 is visible, infer baseline by reversing our offset.
+                    cbBase = string.IsNullOrEmpty(diedR1Text) ? cbCurrent : cbCurrent - cbOffset;
+                    _colorBlindBasePos[cbId] = cbBase;
+                }
+                else if (string.IsNullOrEmpty(diedR1Text))
+                {
+                    // If something else moved the colorblind label while DiedR1 is NOT visible, accept that as the new baseline.
+                    // (But ignore our own previously-applied offset positions.)
+                    var cbExpectedNoR1 = cbBase;
+                    var cbExpectedR1 = cbBase + cbOffset;
+                    if ((cbCurrent - cbExpectedNoR1).sqrMagnitude > 0.0001f &&
+                        (cbCurrent - cbExpectedR1).sqrMagnitude > 0.0001f)
+                    {
+                        cbBase = cbCurrent;
+                        _colorBlindBasePos[cbId] = cbBase;
+                    }
+                }
+
+                player.cosmetics.colorBlindText.transform.localPosition =
+                    string.IsNullOrEmpty(diedR1Text) ? cbBase : cbBase + cbOffset;
             }
         }
 
@@ -831,21 +906,23 @@ public static class HudManagerPatches
             var pingTracker = Object.FindObjectOfType<PingTracker>(true);
             RoleList = Object.Instantiate(pingTracker.gameObject, instance.transform);
             RoleList.name = "RoleListText";
-            //RoleList.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(-4.9f, 5.9f);
-            RoleList.SetActive(false);
             var pos = RoleList.gameObject.GetComponent<AspectPosition>();
             pos.Alignment = AspectPosition.EdgeAlignments.LeftTop;
             pos.DistanceFromEdge = new Vector3(0.43f, 0.1f, 1f);
+
+            RoleListTextComp = RoleList.GetComponent<TextMeshPro>();
+            RoleListTextComp.alignment = TextAlignmentOptions.TopLeft;
+            RoleListTextComp.verticalAlignment = VerticalAlignmentOptions.Top;
+            RoleListTextComp.fontSize = RoleListTextComp.fontSizeMin = RoleListTextComp.fontSizeMax = 3f;
+            RoleList.SetActive(false);
         }
         else
         {
             RoleList.SetActive(false);
-            if (roleAssignmentType is RoleDistribution.Cultist || roleAssignmentType is RoleDistribution.Vanilla || roleAssignmentType is RoleDistribution.HideAndSeek)
+            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList)
             {
                 return;
             }
-
-            var objText = RoleList.GetComponent<TextMeshPro>();
             var rolelistBuilder = new StringBuilder();
 
             var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
@@ -878,7 +955,7 @@ public static class HudManagerPatches
                         };
 
                         rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
-                        objText.text = $"<color=#FFD700>{StoredRoleList}:</color>\n{rolelistBuilder}";
+                        RoleListTextComp.text = $"<color=#FFD700>{StoredRoleList}:</color>\n{rolelistBuilder}";
                     }
 
                     break;
@@ -891,13 +968,9 @@ public static class HudManagerPatches
                         $"{NeutralKillers}: {list.MinNeutralKiller.Value} {StoredMinimum}, {list.MaxNeutralKiller.Value} {StoredMaximum}");
                     rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
                         $"{NeutralOutliers}: {list.MinNeutralOutlier.Value} {StoredMinimum}, {list.MaxNeutralOutlier.Value} {StoredMaximum}");
-                    objText.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
+                    RoleListTextComp.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
                     break;
             }
-
-            objText.alignment = TextAlignmentOptions.TopLeft;
-            objText.verticalAlignment = VerticalAlignmentOptions.Top;
-            objText.fontSize = objText.fontSizeMin = objText.fontSizeMax = 3f;
 
             RoleList.SetActive(true);
         }
@@ -918,16 +991,16 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinus.LoadAsset();
             ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinusActive.LoadAsset();
+            ZoomAspectPos = ZoomButton.GetComponentInChildren<AspectPosition>();
         }
 
         if (ZoomButton)
         {
-            var aspectPosition = ZoomButton.GetComponentInChildren<AspectPosition>();
-            var distanceFromEdge = aspectPosition.DistanceFromEdge;
+            var distanceFromEdge = ZoomAspectPos.DistanceFromEdge;
             distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
             distanceFromEdge.y = 0.485f;
-            aspectPosition.DistanceFromEdge = distanceFromEdge;
-            aspectPosition.AdjustPosition();
+            ZoomAspectPos.DistanceFromEdge = distanceFromEdge;
+            ZoomAspectPos.AdjustPosition();
         }
     }
 
@@ -974,12 +1047,12 @@ public static class HudManagerPatches
                 TouAssets.WikiButton.LoadAsset();
             WikiButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButtonActive.LoadAsset();
+            WikiAspectPos = WikiButton.GetComponentInChildren<AspectPosition>();
         }
 
         if (WikiButton)
         {
-            var aspectPosition = WikiButton.GetComponentInChildren<AspectPosition>();
-            var distanceFromEdge = aspectPosition.DistanceFromEdge;
+            var distanceFromEdge = WikiAspectPos.DistanceFromEdge;
             distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
 
             if ((ModCompatibility.IsWikiButtonOffset || ZoomButton.active) &&
@@ -996,8 +1069,8 @@ public static class HudManagerPatches
             }
 
             WikiButton.SetActive(true);
-            aspectPosition.DistanceFromEdge = distanceFromEdge;
-            aspectPosition.AdjustPosition();
+            WikiAspectPos.DistanceFromEdge = distanceFromEdge;
+            WikiAspectPos.AdjustPosition();
         }
     }
 

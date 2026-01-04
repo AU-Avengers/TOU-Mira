@@ -52,12 +52,14 @@ public static class TownOfUsColors
     public static Color Medium => UseBasic ? Palette.CrewmateBlue : new Color32(166, 128, 255, 255);
     public static Color Plumber => UseBasic ? Palette.CrewmateBlue : new Color32(204, 102, 0, 255);
     public static Color Transporter => UseBasic ? Palette.CrewmateBlue : new Color32(0, 237, 255, 255);
+    public static Color TimeLord => UseBasic ? Palette.CrewmateBlue : new Color32(135, 137, 211, 255);
 
     // Neutral Colors
     public static Color Amnesiac => new Color32(128, 179, 255, 255);
     public static Color GuardianAngel => new Color32(179, 255, 255, 255);
     public static Color Mercenary => new Color32(140, 102, 153, 255);
     public static Color Survivor => new Color32(255, 230, 77, 255);
+    public static Color Shifter => new Color32(153, 153, 153, 255);
 
     public static Color Chef => new Color32(218, 162, 103, 255);
     public static Color Doomsayer => new Color32(0, 255, 128, 255);
@@ -98,6 +100,7 @@ public static class TownOfUsColors
     // Crewmate Modifiers
     public static Color Aftermath => new Color32(166, 255, 166, 255);
     public static Color Bait => new Color32(51, 179, 179, 255);
+    public static Color Bloody => new Color32(127, 51, 51, 255);
     public static Color Celebrity => new Color32(255, 153, 153, 255);
     public static Color Diseased => Color.grey;
     public static Color Frosty => new Color32(153, 255, 255, 255);

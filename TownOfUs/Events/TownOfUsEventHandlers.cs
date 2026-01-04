@@ -352,10 +352,6 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
             .MaxTraps);
-
-        CustomButtonSingleton<HunterStalkButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<HunterStalkButton>.Instance.SetUses((int)OptionGroupSingleton<HunterOptions>.Instance
-            .StalkUses);
         CustomButtonSingleton<SheriffShootButton>.Instance.Usable =
             OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse;
         CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
@@ -367,6 +363,9 @@ public static class TownOfUsEventHandlers
             .MaxHexes);
 
         CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = false;
+
+        CustomButtonSingleton<AltruistReviveButton>.Instance.RevivedInRound = false;
+        CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
 
         var medicShield = CustomButtonSingleton<MedicShieldButton>.Instance;
         medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget

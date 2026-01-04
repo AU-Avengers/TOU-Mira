@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -151,11 +149,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
                CompletedAllTasks;
     }
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void UseAbility()
     {

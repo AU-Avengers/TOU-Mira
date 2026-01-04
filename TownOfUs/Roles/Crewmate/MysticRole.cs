@@ -1,6 +1,4 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Roles;
+﻿using MiraAPI.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -31,9 +29,5 @@ public sealed class MysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         IntroSound = TouAudio.MediumIntroSound
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 }

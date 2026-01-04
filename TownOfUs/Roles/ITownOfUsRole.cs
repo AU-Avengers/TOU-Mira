@@ -207,7 +207,7 @@ public interface ITownOfUsRole : ICustomRole
     }
 
     [HideFromIl2Cpp]
-    StringBuilder SetTabText()
+    StringBuilder ICustomRole.SetTabText()
     {
         return SetNewTabText(this);
     }

@@ -17,7 +17,7 @@ public sealed class SatelliteButton : TownOfUsButton
     public override string Name => TouLocale.GetParsed("TouModifierSatelliteBroadcast", "Broadcast");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Satellite;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SatelliteOptions>.Instance.Cooldown + MapCooldown + MapCooldown, 5f, 120f);
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SatelliteOptions>.Instance.Cooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.BroadcastSprite;

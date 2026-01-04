@@ -3,6 +3,7 @@
   <string name="FoolsMode">Fools Mode</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
+  <string name="ModifierAbility">Modifier Ability</string>
   <!-- Client Options -->
   <string name="ClientTabGameplay">Gameplay</string>
   <string name="ClientOptionsButton">Tou Client Options</string>
@@ -14,6 +15,7 @@
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
+  <string name="UseMultiChatSetup">Use Multi-Chat Setup</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
   <string name="SortGuessingByAlignment">Sort Guessing By Alignment</string>
@@ -332,11 +334,17 @@
   <string name="TouScatter">Scatter</string>
   <!-- Common Terms -->
   <string name="TargetingNobody">Nobody</string>
+  <!-- Option Tabs -->
+  <string name="TouTabOptionBetterMaps">Better Maps/Sabotages</string>
+  <string name="TouTabOptionBetterMapsDesc">Configure tasks, cooldowns, doors, vents, sabotages, and more for each map!</string>
+  <string name="TouTabOptionModifiersDesc">Every player can get an Alliance, Universal, and/or Faction modifier.</string>
   <!-- Freeplay Terms -->
   <string name="FreeplayKillButton">Remote Kill</string>
-  <string name="FreeplaySetRoleButton">Set Role</string>
+  <string name="FreeplaySetRoleButton">Set Roles</string>
+  <string name="FreeplaySetModifiersButton">Set Modifiers</string>
   <string name="FreeplayRestartButton">Reset Game</string>
   <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
+  <string name="TouFirstRoundDeathIndicator">First Round Death Indicator</string>
   <!-- Advanced Sabotage Options -->
   <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboKillDuringCamoComms">Kill Anyone During Camouflage</string>
@@ -407,6 +415,7 @@
   <string name="TouOptionBetterAirshipSpawnLocationEnumEngineRoom">Engine Room</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
+  <string name="TouOptionBetterAirshipNoLadderCooldown">No Ladder Cooldown</string>
   <!-- Better Fungle Options -->
   <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
   <!-- Better Submerged Options -->
@@ -518,6 +527,8 @@
   <string name="TouRoleAltruistWikiDescription">The Altruist is a Crewmate Protective role that can revive dead crewmates, but prevents meetings being called by themselves or the crewmates they revive.</string>
   <string name="TouRoleAltruistRevive">Revive</string>
   <string name="TouRoleAltruistReviving">Reviving</string>
+  <string name="TouRoleAltruistRevivedNotif">You have been revived by an Altruist!</string>
+  <string name="TouRoleAltruistReviveSuccessNotif">You have successfully revived \%player\%!</string>
   <string name="TouRoleAltruistReviveWikiDescription">Revive a group of dead bodies near you.</string>
   <string name="TouRoleAltruistReviveGroupSacrificeWikiDescription">Revive a group of dead bodies near you. If the revival finishes, you die without leaving a body behind.</string>
   <string name="TouRoleAltruistReviveSacrificeWikiDescription">Revive the closest dead body. If the revival finishes, you die without leaving a body behind.</string>
@@ -529,6 +540,7 @@
   <string name="TouOptionAltruistReviveDuration">Revive Duration</string>
   <string name="TouOptionAltruistReviveRange">Revive Range</string>
   <string name="TouOptionAltruistMaxRevives">Revive Uses</string>
+  <string name="TouOptionAltruistKillOnStartRevive">Kill Altruist When Starting Revive</string>
   <string name="TouOptionAltruistFreezeDuringRevive">Freeze Altruist During Revive</string>
   <string name="TouOptionAltruistHideAtBeginningOfRevive">Hide Bodies at Beginning Of Revive</string>
   <string name="TouOptionAltruistKillersAlertedAtStart">Killers Alerted Before Revive</string>
@@ -619,11 +631,11 @@
   <string name="TouRoleEngineerFixWikiDescription">It doesn't matter where you are on the map, you can use your fix button to instantly fix the active sabotage. You can do this \%engiMaxFixes\% times per game.</string>
   <!-- Engineer Options -->
   <string name="TouOptionEngineerMaxVents">Vent Uses Per Game</string>
-  <string name="TouOptionEngineerVentPerTasks">Vent Use Per Tasks Completed</string>
+  <string name="TouOptionEngineerVentPerTasks">Tasks Required For Additional Vent Use</string>
   <string name="TouOptionEngineerVentCooldown">Vent Cooldown</string>
   <string name="TouOptionEngineerVentDuration">Vent Duration</string>
   <string name="TouOptionEngineerMaxFixes">Fix Uses Per Game</string>
-  <string name="TouOptionEngineerFixPerTasks">Fix Use Per Tasks Completed</string>
+  <string name="TouOptionEngineerFixPerTasks">Tasks Required For Additional Fix Use</string>
   <string name="TouOptionEngineerFixDelay">Fix Delay</string>
   <!-- Haunter - Crewmate Investigative -->
   <!-- Haunter Wiki / Description -->
@@ -658,8 +670,8 @@
   <string name="TouOptionHunterKillCooldown">Hunter Kill Cooldown</string>
   <string name="TouOptionHunterStalkCooldown">Hunter Stalk Cooldown</string>
   <string name="TouOptionHunterStalkDuration">Hunter Stalk Duration</string>
-  <string name="TouOptionHunterStalkUses">Max Stalk Uses</string>
-  <string name="TouOptionHunterStalksPerTasks">Stalk Use Per Tasks Completed</string>
+  <string name="TouOptionHunterStalkUses">Initial Stalk Uses</string>
+  <string name="TouOptionHunterStalksPerTasks">Tasks Required For Additional Stalk Use</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
   <!-- Imitator - Crewmate Support -->
@@ -698,8 +710,8 @@
   <!-- Jailor Wiki / Abilities -->
   <string name="TouRoleJailor">Jailor</string>
   <string name="TouRoleJailorIntroBlurb">Jail and execute \%color=#FF0000FF\%evildoers\%/color\%</string>
-  <string name="TouRoleJailorTabDescription">Discuss with crewmates in meetings privately, and\%nl\%execute them if they are an evildoer</string>
-  <string name="TouRoleJailorTabDescriptionEvil">Discuss with crewmates in meetings privately, and\%nl\%execute them if you so desire</string>
+  <string name="TouRoleJailorTabDescription">Jail crewmates to private talk to them, and\%nl\%execute them if they are an evildoer</string>
+  <string name="TouRoleJailorTabDescriptionEvil">Jail crewmates to private talk to them, and\%nl\%execute them if you so desire</string>
   <string name="TouRoleJailorWikiDescription">The Jailor is a Crewmate Power role that can jail other players. During a meeting, the Jailor can choose to execute their jailed player. (Unless the Jailor is an Imitator)</string>
   <string name="TouRoleJailorJail">Jail</string>
   <string name="TouRoleJailorJailWikiDescription">Jail a player. During the meeting everyone will see who is jailed. You can privately talk with your detained player using the private chatbox toggle.</string>
@@ -728,7 +740,7 @@
   <string name="TouRoleLookoutWatchNotif">You will know what roles interact with \%player\% next meeting.</string>
   <!-- Lookout Options -->
   <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
-  <string name="TouOptionLookoutMaxWatches">Max Players That Can be Watched</string>
+  <string name="TouOptionLookoutMaxWatches">Initial Players That Can be Watched</string>
   <string name="TouOptionLookoutLoResetOnNewRound">Lookout Watches Reset After Each Round</string>
   <string name="TouOptionLookoutTaskUses">Get More Uses From Completing Tasks</string>
   <!-- Mayor - Crewmate Power -->
@@ -832,6 +844,7 @@
   <string name="TouRoleMysticWikiDescription">The Mystic is a Crewmate Investigative role that gets an alert when someone dies.</string>
   <!-- Mystic Options -->
   <string name="TouOptionMysticDeadBodyArrowDuration">Dead Body Arrow Duration</string>
+  <string name="TouOptionMysticHnsPopUp">Show Death Pop-Up</string>
   <!-- Oracle - Crewmate Protective -->
   <!-- Oracle Wiki / Abilities -->
   <string name="TouRoleOracle">Oracle</string>
@@ -877,7 +890,7 @@
   <!-- Plumber Options -->
   <string name="TouOptionPlumberFlushCooldown">Flush Cooldown</string>
   <string name="TouOptionPlumberBlockCooldown">Block Cooldown</string>
-  <string name="TouOptionPlumberMaxNumberOfBarricades">Max Number Of Barricades</string>
+  <string name="TouOptionPlumberMaxNumberOfBarricades">Initial Number Of Barricades</string>
   <string name="TouOptionPlumberAmountOfRoundsBarricadesLast">Amount Of Rounds Barricades Last</string>
   <string name="TouOptionPlumberGetMoreFromTasks">Get More Barricades From Completing Tasks</string>
   <!-- Politician - Crewmate Power -->
@@ -1035,7 +1048,7 @@
   <string name="TouRoleSonarTrackWikiDescription">Track a player to see where they go. You will have an arrow pointing to their location that will update periodically. It will disappear if they die, or depending on settings, the trackers will be reset after a meeting.</string>
   <!-- Sonar Options -->
   <string name="TouOptionSonarTrackCooldown">Track Cooldown</string>
-  <string name="TouOptionSonarMaxNumberOfTracks">Max Number Of Tracks</string>
+  <string name="TouOptionSonarMaxNumberOfTracks">Initial Number Of Tracks</string>
   <string name="TouOptionSonarArrowUpdateInterval">Arrow Update Interval</string>
   <string name="TouOptionSonarArrowsMakeSoundOnDeath">Trackers Make Sound On Death</string>
   <string name="TouOptionSonarArrowsResetAfterEachRound">Trackers Reset After Each Round</string>
@@ -1051,7 +1064,7 @@
   <string name="TouRoleTransporterTransportNotif">You have been transported!</string>
   <!-- Transporter Options -->
   <string name="TouOptionTransporterTransportCooldown">Transport Cooldown</string>
-  <string name="TouOptionTransporterMaxUses">Max Uses</string>
+  <string name="TouOptionTransporterMaxUses">Initial Uses</string>
   <string name="TouOptionTransporterMoveWithMenu">Move While Using Transport Menu (KB ONLY)</string>
   <string name="TouOptionTransporterCanUseVitals">Can Use Vitals</string>
   <string name="TouOptionTransporterGetUsesFromTasks">Get More Uses From Completing Tasks</string>
@@ -1068,7 +1081,7 @@
   <!-- Trapper Options -->
   <string name="TouOptionTrapperTrapCooldown">Trap Cooldown</string>
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
-  <string name="TouOptionTrapperMaxNumberOfTraps">Max Number Of Traps</string>
+  <string name="TouOptionTrapperMaxNumberOfTraps">Initial Number Of Traps</string>
   <string name="TouOptionTrapperTrapSize">Trap Size</string>
   <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
   <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
@@ -1090,9 +1103,9 @@
   <!-- Veteran Options -->
   <string name="TouOptionVeteranAlertCooldown">Alert Cooldown</string>
   <string name="TouOptionVeteranAlertDuration">Alert Duration</string>
-  <string name="TouOptionVeteranMaxNumberofAlerts">Max Number of Alerts</string>
+  <string name="TouOptionVeteranMaxNumberofAlerts">Initial Number of Alerts</string>
   <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
-  <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>or G
+  <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
 
   <!-- Vigilante - Crewmate Killing -->
   <!-- Vigilante Wiki / Description -->
@@ -1203,7 +1216,7 @@
   <string name="TouOptionBomberBombUsesPerGame">Bomb Uses Per Game</string>
   <string name="TouOptionBomberDetonateDelay">Detonate Delay</string>
   <string name="TouOptionBomberDetonateRadius">Detonate Radius</string>
-  <string name="TouOptionBomberMAxKillsInDetonation">MAx Kills In Detonation</string>
+  <string name="TouOptionBomberMAxKillsInDetonation">Max Kills In Detonation</string>
   <string name="TouOptionBomberAllImpostorsSeeBomb">All Impostors See Bomb</string>
   <string name="TouOptionBomberAllowBombinginFirstRound">Allow Bombing in First Round</string>
   <string name="TouOptionBomberCanVent">Bomber Can Vent</string>
@@ -1322,6 +1335,24 @@
   <string name="TouOptionScavengerScavengeDurationIncreasePerKill">Scavenge Duration Increase Per Kill</string>
   <string name="TouOptionScavengerScavengeKillCooldownOnCorrectKill">Scavenge Kill Cooldown On Correct Kill</string>
   <string name="TouOptionScavengerKillCooldownMultiplierOnIncorrectKill">Kill Cooldown Multiplier On Incorrect Kill</string>
+  <!-- Puppeteer Wiki / Abilities -->
+  <string name="TouRolePuppeteer">Puppeteer</string>
+  <string name="TouRolePuppeteerIntroBlurb">Control the hands of others</string>
+  <string name="TouRolePuppeteerTabDescription">Control crewmates to do your bidding!</string>
+  <string name="TouRolePuppeteerWikiDescription">The Puppeteer is an Impostor Power role that controls other players to kill for them. When a player is controlled, they cannot move, but must instead watch as they are forcced to kill their fellow crewmates.</string>
+  <string name="TouRolePuppeteerControl">Control</string>
+  <string name="TouRolePuppeteerControlWikiDescription">Use your menu to control whoever you wish. In this state, the controlled player will kill as if they were an impostor, and not as whatever role they actually are.</string>
+  <string name="TouRolePuppeteerControlNotifBasic">You are under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif1">You've lost sensation of yourself. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif2">You feel a mystical power overtaking you. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif3">You seem to feel your skin crawl. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlFinishNotif">You're free from the \%role\%'s control!</string>
+  <!-- Puppeteer Options -->
+  <string name="TouOptionPuppeteerControlUses">Control Uses</string>
+  <string name="TouOptionPuppeteerControlCooldown">Control Cooldown</string>
+  <string name="TouOptionPuppeteerControlDuration">Control Duration</string>
+  <string name="TouOptionPuppeteerCanMoveIndependently">Puppeteer Can Move Independently</string>
+  <string name="TouOptionPuppeteerCanVent">Puppeteer Can Vent</string>
   <!-- Spellslinger Wiki / Abilities -->
   <string name="TouRoleSpellslinger">Spellslinger</string>
   <string name="TouRoleSpellslingerIntroBlurb">Hex the crew to trigger a Hex Bomb</string>
@@ -1453,6 +1484,7 @@
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
   <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>
   <string name="TouOptionArsonistCanVent">Arsonist Can Vent</string>
+  <string name="TouOptionArsonistImpVision">Has Impostor Vision</string>
   <!-- Doomsayer -->
   <!-- Doomsayer Wiki / Abilities -->
   <string name="TouRoleDoomsayer">Doomsayer</string>
@@ -1839,10 +1871,10 @@
   <string name="TouModifierSatelliteSingleNotif">One body was found on the map.</string>
   <string name="TouModifierSatellitePluralNotif">\%count\% bodies were found on the map.</string>
   <!-- Satellite Options -->
-  <string name="TouOptionRadarCooldown">Button Cooldown</string>
-  <string name="TouOptionRadarMaxUses">Max Uses</string>
-  <string name="TouOptionRadarOnePerRound">One Usage Per Round</string>
-  <string name="TouOptionRadarAllowFirst">Allow Usage in First Round</string>
+  <string name="TouOptionSatelliteCooldown">Button Cooldown</string>
+  <string name="TouOptionSatelliteMaxUses">Max Uses</string>
+  <string name="TouOptionSatelliteOnePerRound">One Usage Per Round</string>
+  <string name="TouOptionSatelliteAllowFirst">Allow Usage in First Round</string>
   <!-- Shy -->
   <!-- Shy Wiki / Description -->
   <string name="TouModifierShy">Shy</string>
