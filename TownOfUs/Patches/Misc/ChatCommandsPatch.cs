@@ -227,7 +227,7 @@ public static class ChatPatches
                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandHostError"));
             }
-            else if (!TownOfUsPlugin.IsDevBuild)
+            else if (!TownOfUsPlugin.IsDevBuild || TownOfUsPlugin.IsBetaBuild)
             {
                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandDevBuildError"));
@@ -458,8 +458,8 @@ public static class ChatPatches
                       $"{TouLocale.GetParsed("RolesCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("SummaryCommandDescription")}\n";
 
-            // Only show /up command in help if host + dev build
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild)
+            // Only show /up command in help if host + dev build (not beta)
+            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild)
             {
                 msg += $"{TouLocale.GetParsed("UpCommandDescription")}\n";
             }

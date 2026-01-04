@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
@@ -44,6 +45,11 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     ///     Determines if the current build is a dev build or not. This will change certain visuals as well as always grab news locally to be up to date.
     /// </summary>
     public static bool IsDevBuild => true;
+
+    /// <summary>
+    ///     Determines if the current build is a beta build. Beta builds are dev builds but should have restricted features like /up command.
+    /// </summary>
+    public static bool IsBetaBuild => IsDevBuild && Version.Contains("beta", StringComparison.OrdinalIgnoreCase);
 
     /// <inheritdoc />
     public string OptionsTitleText => "TOU Mira";
