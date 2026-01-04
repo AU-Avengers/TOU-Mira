@@ -570,15 +570,15 @@
       ]
     },
     {
-      "Date": "2025-12-28T12:51:00Z",
-      "Number": "100032",
-      "ShortTitle": "TOU: Mira Prerelease",
-      "SubTitle": "Prerelease prior to the new year!",
-      "Title": "Do you want to play my game?",
+      "Date": "2026-01-04T12:51:00Z",
+      "Number": "100033",
+      "ShortTitle": "TOU: Mira v1.5.0",
+      "SubTitle": "Crewmates and Impostor Powers Collide!",
+      "Title": "Finally, an equal playing field",
       "Text": [
-        "<b>This release is intended as a way for players to try out the upcoming v1.5.0 release. Expect bugs and possible changes prior to the full release.</b>",
+        "<b>This release includes 5 new roles in total, alongside two negative impostor modifiers.</b>",
         "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
-        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1-prerelease>TOU Mira Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0>TOU Mira v1.5.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
         "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
         "\n- Prosecutor's use is no longer wasted when their selection dies mid-meeting.",
         "\n- Jailor uses are no longer removed 2 times in a row.",
