@@ -1717,7 +1717,7 @@
   <string name="TouRoleMonarchTabVoteInfo">被册封为骑士的玩家各自获得 \%amount\% 票。</string>
   <string name="TouRoleMonarchTabDefenseInfoEgo">存活的骑士会为你提供防护。</string>
   <string name="TouRoleMonarchTabDefenseInfo">存活的船员骑士会为你提供防护。</string>
-  <string name="TouRoleMonarchTabDeathInfo">存活的船员骑士会为你提供防护。</string>
+  <string name="TouRoleMonarchTabDeathInfo">如果有被册封的玩家死亡,你会收到通知。</string>
   <string name="TouRoleMonarchWikiDescription">君主是一名船员强力型职业，可以赋予其他玩家额外的投票数。</string>
   <string name="TouRoleMonarchKnight">册封骑士</string>
   <string name="TouRoleMonarchKnightDescription">册封一名玩家，使其获得 \%amount\% 票</string>
