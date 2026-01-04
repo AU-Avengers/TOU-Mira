@@ -245,25 +245,31 @@ public static class AppearanceExtensions
                 SkinId = string.Empty
             };
         }
-        if (playerControl.HasModifier<MiniModifier>())
+
+        if (!playerControl.TryGetComponent<ModifierComponent>(out _))
         {
-            appearance = playerControl.GetModifier<MiniModifier>()!.GetVisualAppearance()!;
+            return appearance;
         }
-        else if (playerControl.HasModifier<GiantModifier>())
+
+        if (playerControl.TryGetModifier<MiniModifier>(out var mini))
         {
-            appearance = playerControl.GetModifier<GiantModifier>()!.GetVisualAppearance()!;
+            appearance = mini.GetVisualAppearance()!;
         }
-        else if (playerControl.HasModifier<HnsMiniModifier>())
+        else if (playerControl.TryGetModifier<GiantModifier>(out var giant))
         {
-            appearance = playerControl.GetModifier<HnsMiniModifier>()!.GetVisualAppearance()!;
+            appearance = giant.GetVisualAppearance()!;
         }
-        else if (playerControl.HasModifier<HnsGiantModifier>())
+        else if (playerControl.TryGetModifier<HnsMiniModifier>(out var miniHns))
         {
-            appearance = playerControl.GetModifier<HnsGiantModifier>()!.GetVisualAppearance()!;
+            appearance = miniHns.GetVisualAppearance()!;
         }
-        else if (playerControl.HasModifier<FlashModifier>())
+        else if (playerControl.TryGetModifier<HnsGiantModifier>(out var giantHns))
         {
-            appearance = playerControl.GetModifier<FlashModifier>()!.GetVisualAppearance();
+            appearance = giantHns.GetVisualAppearance()!;
+        }
+        else if (playerControl.TryGetModifier<FlashModifier>(out var flash))
+        {
+            appearance = flash.GetVisualAppearance()!;
         }
 
         return appearance;

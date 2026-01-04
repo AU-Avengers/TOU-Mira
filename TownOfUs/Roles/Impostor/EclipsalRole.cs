@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -30,11 +29,7 @@ public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         Icon = TouRoleIcons.Eclipsal
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

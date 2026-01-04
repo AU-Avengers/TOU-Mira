@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
@@ -136,11 +135,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public bool MetWinCon => TargetVoted || TargetVotedAsEvil;
 

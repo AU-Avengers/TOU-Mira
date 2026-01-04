@@ -10,7 +10,7 @@ public sealed class UndertakerOptions : AbstractOptionGroup<UndertakerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleUndertaker", "Undertaker");
 
-    [ModdedNumberOption("Drag Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Drag Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float DragCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("Drag Speed", 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]

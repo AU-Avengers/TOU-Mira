@@ -15,7 +15,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.Admin, "Admin");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Spy;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SpyOptions>.Instance.DisplayCooldown.Value + MapCooldown + MapCooldown, 0.001f, 120f);
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SpyOptions>.Instance.DisplayCooldown.Value + MapCooldown, 0.001f, 120f);
     public float AvailableCharge { get; set; } = OptionGroupSingleton<SpyOptions>.Instance.StartingCharge.Value;
     public bool usingPortable { get; set; }
 

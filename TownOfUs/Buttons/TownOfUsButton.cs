@@ -1,12 +1,13 @@
-﻿using System.Globalization;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Globalization;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
@@ -32,6 +33,7 @@ public abstract class TownOfUsButton : CustomActionButton
             ? "0.0"
             : "0";
 
+    public virtual bool Disabled { get; set; }
     public virtual bool UsableInDeath => false;
     public virtual bool ShouldPauseInVent => true;
 
@@ -128,7 +130,7 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
 
         PassiveComp = Button.GetComponent<PassiveButton>();
     }
@@ -144,12 +146,17 @@ public abstract class TownOfUsButton : CustomActionButton
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     public override bool CanUse()
     {
         if (PlayerControl.LocalPlayer == null)
+        {
+            return false;
+        }
+
+        if (TimeLordRewindSystem.IsRewinding)
         {
             return false;
         }
@@ -206,7 +213,7 @@ public abstract class TownOfUsButton : CustomActionButton
                 }
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
@@ -240,6 +247,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             ? "0.0"
             : "0";
 
+    public virtual bool Disabled { get; set; }
     public virtual bool ShouldPauseInVent => true;
     public virtual bool UsableInDeath => false;
 
@@ -319,6 +327,11 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
     public override bool CanUse()
     {
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasDied() && !UsableInDeath)
         {
             return false;
@@ -371,7 +384,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
 
         PassiveComp = Button.GetComponent<PassiveButton>();
     }
@@ -387,7 +400,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         TownOfUsColors.UseBasic =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
     public override void ClickHandler()
@@ -409,7 +422,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
                     }
                 }
 
-                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+                TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
                     .UseCrewmateTeamColorToggle.Value;
             }
 
@@ -445,7 +458,12 @@ public abstract class TownOfUsRoleButton<TRole> : TownOfUsButton where TRole : R
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is TRole;
+        return !Disabled && role is TRole;
+    }
+
+    protected virtual bool ShouldTrackKillCooldown()
+    {
+        return false;
     }
 }
 
@@ -457,7 +475,12 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return role is TRole;
+        return !Disabled && role is TRole;
+    }
+
+    protected virtual bool ShouldTrackKillCooldown()
+    {
+        return false;
     }
 
     public override void SetOutline(bool active)
@@ -514,4 +537,31 @@ public interface IDiseaseableButton
 
 public interface IKillButton
 {
+}
+
+/// <summary>
+/// Base class for role buttons that need kill cooldown tracking.
+/// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
+/// </summary>
+[MiraIgnore]
+public abstract class TownOfUsKillRoleButton<TRole> : TownOfUsRoleButton<TRole> where TRole : RoleBehaviour
+{
+    protected override bool ShouldTrackKillCooldown()
+    {
+        return true;
+    }
+}
+
+/// <summary>
+/// Base class for role buttons with targets that need kill cooldown tracking.
+/// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
+/// </summary>
+[MiraIgnore]
+public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButton<TRole, TTarget>
+    where TTarget : MonoBehaviour where TRole : RoleBehaviour
+{
+    protected override bool ShouldTrackKillCooldown()
+    {
+        return true;
+    }
 }

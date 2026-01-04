@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class AmbusherAmbushButton : TownOfUsRoleButton<AmbusherRole, PlayerControl>, IKillButton,
+public sealed class AmbusherAmbushButton : TownOfUsKillRoleButton<AmbusherRole, PlayerControl>, IKillButton,
     IDiseaseableButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleAmbusherAmbush", "Ambush");

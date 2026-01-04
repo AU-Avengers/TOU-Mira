@@ -1,14 +1,15 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modules;
 using TownOfUs.Utilities;
 using UnityEngine;
 
-namespace TownOfUs.Buttons.Freeplay;
+namespace TownOfUs.Buttons.BaseFreeplay;
 
 public sealed class RemoteKillButton : TownOfUsButton
 {
-    public override string Name => TouLocale.GetParsed("FreeplayKillButton", "Reset Game");
+    public override string Name => TouLocale.GetParsed("FreeplayKillButton", "Remote Kill");
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
@@ -34,7 +35,8 @@ public sealed class RemoteKillButton : TownOfUsButton
     public override bool Enabled(RoleBehaviour? role)
     {
         return PlayerControl.LocalPlayer != null &&
-               TutorialManager.InstanceExists;
+               TutorialManager.InstanceExists &&
+               !FreeplayButtonsVisibility.Hidden;
     }
 
     protected override void OnClick()

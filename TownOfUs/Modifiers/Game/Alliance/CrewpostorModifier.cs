@@ -5,7 +5,6 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
-using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
@@ -19,9 +18,8 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Alliance;
 
-public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable, IContinuesGame, IAssignableTargets
+public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets
 {
-    public bool ContinuesGame => !Player.HasDied() && Player.IsCrewmate() && !Helpers.GetAlivePlayers().Any(x => x.IsImpostor());
     public override string LocaleKey => "Crewpostor";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
@@ -42,8 +40,12 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public override bool GetsPunished => false;
     public override bool CrewContinuesGame => false;
     public override ModifierFaction FactionType => ModifierFaction.CrewmateAlliance;
+    public override AlliedFaction TrueFactionType => AlliedFaction.Impostor;
+
+    public override bool CountTowardsTrueFaction =>
+        OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value;
     public override Color FreeplayFileColor => new Color32(220, 220, 220, 255);
-    public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Telepath;
+    public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Crewpostor;
 
     public int Priority { get; set; } = 1;
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
@@ -137,7 +139,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
                         ? assignmentDataUnique.Random()!.Role
                         : assignmentData.Random()!.Role;
 
-                    discardedImp.RpcSetRole(chosenRole.Role);
+                    discardedImp.RpcSetRole(chosenRole.Role, true);
                     var newtext = $"Forcing {randomTarget.Data.PlayerName} into {chosenRole.GetRoleName()}.";
                     MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, newtext);
                 }
@@ -192,6 +194,8 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
     public override bool? DidWin(GameOverReason reason)
     {
-        return reason is GameOverReason.ImpostorsByKill || reason is GameOverReason.ImpostorsBySabotage || reason is GameOverReason.ImpostorsByVote;
+        return reason is GameOverReason.ImpostorsByKill || reason is GameOverReason.ImpostorsBySabotage ||
+               reason is GameOverReason.ImpostorsByVote || reason is GameOverReason.CrewmateDisconnect ||
+               reason is GameOverReason.HideAndSeek_ImpostorsByKills;
     }
 }

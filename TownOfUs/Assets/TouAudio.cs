@@ -152,6 +152,12 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> JanitorCleanSound { get; } =
         new LoadableBundleAsset<AudioClip>("JanitorClean", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> SentryPlaceSound { get; } =
+        new LoadableBundleAsset<AudioClip>("SentryPlace", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> DenySound { get; } =
+        new LoadableBundleAsset<AudioClip>("Deny", TouAssets.MainBundle);
+
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {
         if (Constants.ShouldPlaySfx())

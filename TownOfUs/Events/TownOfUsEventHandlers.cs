@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using HarmonyLib;
-using MiraAPI.Events;
-using System.Text;
+﻿using HarmonyLib;
 using InnerNet;
+using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
@@ -19,6 +17,8 @@ using PowerTools;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Collections;
+using System.Text;
 using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
@@ -30,10 +30,12 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Networking;
 using TownOfUs.Options;
@@ -341,7 +343,7 @@ public static class TownOfUsEventHandlers
             HudManager.Instance.SetHudActive(true);
         }
         CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable =
-            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
+            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
 
         CustomButtonSingleton<WatchButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance
@@ -352,12 +354,10 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
             .MaxTraps);
-
-        CustomButtonSingleton<HunterStalkButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<HunterStalkButton>.Instance.SetUses((int)OptionGroupSingleton<HunterOptions>.Instance
-            .StalkUses);
         CustomButtonSingleton<SheriffShootButton>.Instance.Usable =
-            OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse;
+            OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
+        CustomButtonSingleton<MonarchKnightButton>.Instance.Usable =
+            OptionGroupSingleton<MonarchOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
         CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<VeteranAlertButton>.Instance.SetUses((int)OptionGroupSingleton<VeteranOptions>.Instance
             .MaxNumAlerts);
@@ -367,6 +367,9 @@ public static class TownOfUsEventHandlers
             .MaxHexes);
 
         CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = false;
+
+        CustomButtonSingleton<AltruistReviveButton>.Instance.RevivedInRound = false;
+        CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
 
         var medicShield = CustomButtonSingleton<MedicShieldButton>.Instance;
         medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
@@ -421,7 +424,31 @@ public static class TownOfUsEventHandlers
         }
 
         var player = @event.Player;
-        if (!MeetingHud.Instance && player.AmOwner)
+
+        if (player?.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        {
+            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
+        }
+
+        if (player != null && ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        {
+            var controller = MiscUtils.PlayerById(controllerId);
+            if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
+            {
+                ParasiteRole.RpcParasiteEndControl(controller, player);
+            }
+            else
+            {
+                ParasiteControlState.ClearControl(player.PlayerId);
+            }
+        }
+
+        if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
+        {
+            player.RemoveModifier(mod);
+        }
+
+        if (!MeetingHud.Instance && player != null && player.AmOwner)
         {
             foreach (var button in CustomButtonManager.Buttons)
             {
@@ -513,6 +540,10 @@ public static class TownOfUsEventHandlers
         var target = murderEvent.Target;
 
         GameHistory.AddMurder(source, target);
+
+        TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKill(source, target);
+
+        TimeLordRewindSystem.NotifyHostMurderDuringRewind(source, target);
 
         if (SpellslingerRole.EveryoneHexed() && PlayerControl.LocalPlayer.Data.Role is SpellslingerRole)
         {

@@ -1,6 +1,5 @@
 using HarmonyLib;
 using Hazel;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.GameOptions;
 using PowerTools;
 using Reactor.Networking.Attributes;
@@ -294,7 +293,7 @@ public static class MapDoorPatches
             case MapDoorType.None:
                 doors.Do(x => x.Destroy());
 
-                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.AllDoors = Array.Empty<OpenableDoor>();
                 __instance.Systems.Remove(SystemTypes.Doors);
                 return;
             case MapDoorType.Airship:
@@ -385,7 +384,7 @@ public static class MapDoorPatches
             case MapDoorType.None:
                 doors.Do(x => x.Destroy());
 
-                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.AllDoors = Array.Empty<OpenableDoor>();
                 __instance.Systems.Remove(SystemTypes.Doors);
                 return;
             case MapDoorType.Skeld:
@@ -473,7 +472,7 @@ public static class MapDoorPatches
             case MapDoorType.None:
                 doors.Do(x => x.Destroy());
 
-                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.AllDoors = Array.Empty<OpenableDoor>();
                 __instance.Systems.Remove(SystemTypes.Doors);
                 return;
             case MapDoorType.Skeld:
@@ -561,7 +560,7 @@ public static class MapDoorPatches
             case MapDoorType.None:
                 doors.Do(x => x.Destroy());
 
-                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(0);
+                __instance.AllDoors = Array.Empty<OpenableDoor>();
                 __instance.Systems.Remove(SystemTypes.Doors);
                 return;
             case MapDoorType.Skeld:
@@ -654,7 +653,7 @@ public static class MapDoorPatches
             case MapDoorType.None:
                 /*doors.DoIf(x => !x.gameObject.name.Contains("Inner") && !x.gameObject.name.Contains("Outer"), x => x.gameObject.Destroy());
 
-                __instance.AllDoors = new Il2CppReferenceArray<OpenableDoor>(doors.Length);
+                __instance.AllDoors = Array.Empty<OpenableDoor>();
                 __instance.Systems.Remove(SystemTypes.Doors);*/
                 return;
             case MapDoorType.Skeld:

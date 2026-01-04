@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
@@ -46,11 +45,7 @@ public sealed class BomberRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<BomberOptions>.Instance.CanVent
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

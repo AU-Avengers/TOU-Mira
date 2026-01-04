@@ -2,6 +2,7 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -14,26 +15,51 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
     public override string Name => TouLocale.GetParsed("TouRoleUndertakerDrag", "Drag");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<UndertakerOptions>.Instance.DragCooldown + MapCooldown, 5f, 120f);
+
+    public override float Cooldown =>
+        Math.Clamp(OptionGroupSingleton<UndertakerOptions>.Instance.DragCooldown + MapCooldown, 5f, 120f);
+
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.DragSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
+    private bool _isProcessingClick;
 
     public override void ClickHandler()
     {
-        if (!CanClick())
+        if (_isProcessingClick)
         {
             return;
         }
 
-        if (LimitedUses)
-        {
-            UsesLeft--;
-            Button?.SetUsesRemaining(UsesLeft);
-        }
+        _isProcessingClick = true;
 
-        OnClick();
-        Button?.SetDisabled();
+
+        try
+        {
+            if (!CanClick())
+            {
+                return;
+            }
+
+            if (LimitedUses)
+            {
+                UsesLeft--;
+                Button?.SetUsesRemaining(UsesLeft);
+            }
+
+            OnClick();
+            Button?.SetDisabled();
+        }
+        finally
+        {
+            Coroutines.Start(ResetProcessingFlag());
+        }
+    }
+
+    private System.Collections.IEnumerator ResetProcessingFlag()
+    {
+        yield return new WaitForSeconds(0.2f);
+        _isProcessingClick = false;
     }
 
     public override DeadBody? GetTarget()
@@ -51,7 +77,8 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
         }
 
         var body = Helpers
-            .GetNearestDeadBodies(PlayerControl.LocalPlayer.GetTruePosition(), Distance, Helpers.CreateFilter(Constants.NotShipMask))
+            .GetNearestDeadBodies(PlayerControl.LocalPlayer.GetTruePosition(), Distance,
+                Helpers.CreateFilter(Constants.NotShipMask))
             .Find(component => component && !component.Reported && component != deadBody);
         if (body == null)
         {

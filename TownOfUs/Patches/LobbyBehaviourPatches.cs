@@ -29,5 +29,8 @@ public static class LobbyBehaviourPatches
         EgotistModifier.CooldownReduction = 0f;
         EgotistModifier.SpeedMultiplier = 1f;
         UpCommandRequests.Clear();
+
+        // Clear Time Lord snapshot data to prevent stale positions from previous games
+        TimeLordRewindSystem.Reset();
     }
 }

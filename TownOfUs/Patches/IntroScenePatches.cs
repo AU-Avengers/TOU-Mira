@@ -153,7 +153,7 @@ public static class IntroScenePatches
 
     public static void SetHiddenImpostors(IntroCutscene __instance)
     {
-        var amount = Helpers.GetAlivePlayers().Count(x => x.IsImpostor());
+        var amount = MiscUtils.ImpostorHeadCount;
         __instance.ImpostorText.text =
             DestroyableSingleton<TranslationController>.Instance.GetString(
                 amount == 1 ? StringNames.NumImpostorsS : StringNames.NumImpostorsP, amount);

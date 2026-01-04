@@ -9,12 +9,11 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> CrewSwoopSprite { get; } =
         new LoadableBundleAsset<Sprite>("CrewSwoopButton", TouAssets.MainBundle);
-
     public static LoadableAsset<Sprite> CrewUnswoopSprite { get; } =
         new LoadableBundleAsset<Sprite>("CrewUnswoopButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> InspectSprite { get; } =
         new LoadableBundleAsset<Sprite>("InspectButton", TouAssets.MainBundle);
-
     public static LoadableAsset<Sprite> ExamineSprite { get; } =
         new LoadableBundleAsset<Sprite>("ExamineButton", TouAssets.MainBundle);
 
@@ -29,6 +28,22 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> SeerSprite { get; } =
         new LoadableBundleAsset<Sprite>("SeerButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> GazeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("GazeButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> IntuitSprite { get; } =
+        new LoadableBundleAsset<Sprite>("IntuitButton", TouAssets.MainBundle);
+
+    public static List<LoadableAsset<Sprite>> SeerButtonSprites { get; set; } = new()
+    {
+        SeerSprite,
+        GazeSprite,
+        IntuitSprite,
+    };
+
+    public static LoadableAsset<Sprite> KnightSprite { get; } =
+        new LoadableBundleAsset<Sprite>("KnightButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> TrackSprite { get; } =
         new LoadableBundleAsset<Sprite>("TrackButton", TouAssets.MainBundle);
@@ -92,9 +107,18 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> BlockSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeButton", TouAssets.MainBundle);
+    
+    public static LoadableAsset<Sprite> RewindSprite { get; } =
+        new LoadableBundleAsset<Sprite>("RewindButton", TouAssets.MainBundle);
+    
+    public static LoadableAsset<Sprite> RewindingSprite { get; } =
+        new LoadableBundleAsset<Sprite>("RewindingButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Transport { get; } =
         new LoadableBundleAsset<Sprite>("TransportButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> DeployCamSprite { get; } =
+        new LoadableBundleAsset<Sprite>("DeployButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> EngineerRoleBanner { get; } =
         new LoadableBundleAsset<Sprite>("EngineerBanner", TouAssets.MainBundle);

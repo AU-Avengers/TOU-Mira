@@ -106,6 +106,9 @@ public static class TouAssets
     public static LoadableAsset<GameObject> MedicShield { get; } =
         new LoadableBundleAsset<GameObject>("MedicShield", MainBundle);
 
+    public static LoadableAsset<GameObject> ParasiteOverlay { get; } =
+        new LoadableBundleAsset<GameObject>("ParasiteOverlayObj", MainBundle);
+
     public static LoadableAsset<GameObject> WardenFort { get; } =
         new LoadableBundleAsset<GameObject>("WardenFort", MainBundle);
 
@@ -129,6 +132,12 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> MayorPostRevealPrefab { get; set; } =
         new LoadableBundleAsset<GameObject>("MayorPostReveal", MainBundle);
+
+    public static LoadableAsset<AnimationClip> SentryCamOffAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("SentryCamOffAnimation", MainBundle);
+
+    public static LoadableAsset<AnimationClip> SentryCamOnAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("SentryCamOnAnimation", MainBundle);
 
     public static LoadableAsset<AnimationClip> MeetingDeathAnim1 { get; } =
         new LoadableBundleAsset<AnimationClip>("DeathMeetingShotFront", MainBundle);
@@ -186,6 +195,15 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> BarryButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarryButton", MainBundle);
+
+    public static LoadableAsset<Sprite> FreeplayRoleSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayRoleButton", MainBundle);
+
+    public static LoadableAsset<Sprite> FreeplayResetSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayResetButton", MainBundle);
+
+    public static LoadableAsset<Sprite> FreeplayModifierSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayModifierButton", MainBundle);
 
     public static LoadableAsset<Sprite> BroadcastSprite { get; } =
         new LoadableBundleAsset<Sprite>("BroadcastButton", MainBundle);
@@ -281,7 +299,7 @@ public static class TouAssets
         get
         {
             var sprite = ArrowBasicSprite;
-            switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ArrowStyleEnum.Value)
+            switch (LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ArrowStyleEnum.Value)
             {
                 case ArrowStyleType.DarkGlow:
                     sprite = ArrowDarkOutSprite;

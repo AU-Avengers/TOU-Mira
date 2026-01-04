@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -65,11 +64,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         IntroSound = TouAudio.TimeLordIntroSound
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [MethodRpc((uint)TownOfUsRpc.Transport)]
     public static void RpcTransport(PlayerControl transporter, byte player1, byte player2)
@@ -266,7 +261,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
@@ -466,7 +461,15 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
         if (player != null && player.AmOwner)
         {
-            MiscUtils.SnapPlayerCamera(PlayerControl.LocalPlayer);
+            // If the transported player is a Puppeteer/Parasite controlling someone, snap camera to the victim instead
+            MonoBehaviour? cameraTarget = null;
+            
+            if (player.Data?.Role is ITransportTrigger triggerRole)
+            {
+                cameraTarget = triggerRole.OnTransport();
+            }
+            
+            MiscUtils.SnapPlayerCamera(cameraTarget ?? PlayerControl.LocalPlayer);
         }
     }
 }

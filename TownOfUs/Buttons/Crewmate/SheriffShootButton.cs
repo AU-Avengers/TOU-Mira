@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerControl>, IKillButton
+public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, PlayerControl>, IKillButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleSheriffShoot", "Shoot");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
@@ -118,7 +118,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
                     break;
 
                 case RoleAlignment.NeutralOutlier:
-                    if (!options.ShootNeutralOutlier)
+                    if (!options.ShootNeutralOutlier.Value)
                     {
                         Misfire();
                     }
@@ -130,7 +130,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
                     break;
 
                 case RoleAlignment.NeutralKilling:
-                    if (!options.ShootNeutralKiller)
+                    if (!options.ShootNeutralKiller.Value)
                     {
                         Misfire();
                     }
@@ -142,7 +142,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
                     break;
 
                 case RoleAlignment.NeutralEvil:
-                    if (!options.ShootNeutralEvil)
+                    if (!options.ShootNeutralEvil.Value)
                     {
                         Misfire();
                     }
@@ -154,7 +154,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
                     break;
 
                 case RoleAlignment.NeutralBenign:
-                    if (!options.ShootNeutralBenign)
+                    if (!options.ShootNeutralBenign.Value)
                     {
                         Misfire();
                     }

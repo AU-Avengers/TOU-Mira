@@ -7,17 +7,17 @@ using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
 
-namespace TownOfUs.Buttons.Freeplay;
+namespace TownOfUs.Buttons.BaseFreeplay;
 
-public sealed class GhangeAnyRole : TownOfUsButton
+public sealed class FreeplaySetRolesButton : TownOfUsButton
 {
-    public override string Name => TouLocale.GetParsed("FreeplaySetRoleButton", "Set Role");
-    public override Color TextOutlineColor => TownOfUsColors.Impostor;
+    public override string Name => TouLocale.GetParsed("FreeplaySetRoleButton", "Set Roles");
+    public override Color TextOutlineColor => new Color32(231, 89, 105, 255);
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override float EffectDuration => 3;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.CameraSprite;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.FreeplayRoleSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
     public override bool UsableInDeath => true;
@@ -25,7 +25,8 @@ public sealed class GhangeAnyRole : TownOfUsButton
     public override bool Enabled(RoleBehaviour? role)
     {
         return PlayerControl.LocalPlayer != null &&
-               TutorialManager.InstanceExists;
+               TutorialManager.InstanceExists &&
+               !FreeplayButtonsVisibility.Hidden;
     }
 
     public override void ClickHandler()

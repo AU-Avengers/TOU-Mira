@@ -22,7 +22,7 @@ public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerContro
                OptionGroupSingleton<SeerOptions>.Instance.SalemSeer;
     }
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SeerSprite;
+    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.IntuitSprite;
 
     public void SetDiseasedTimer(float multiplier)
     {

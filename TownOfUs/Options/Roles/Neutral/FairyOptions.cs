@@ -9,7 +9,7 @@ public sealed class FairyOptions : AbstractOptionGroup<FairyRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleFairy", "Fairy");
 
-    [ModdedNumberOption("TouOptionFairyCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionFairyCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ProtectCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("TouOptionFairyDuration", 5f, 15f, 1f, MiraNumberSuffixes.Seconds)]

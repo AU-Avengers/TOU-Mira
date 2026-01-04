@@ -218,6 +218,8 @@ public static class PlayerRoleTextExtensions
         {
             name += $" {TownOfUsColors.Impostor.ToTextColor()}乂</color>";
         }
+        if (player.HasModifier<KnightedModifier>() && (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden || PlayerControl.LocalPlayer.IsRole<MonarchRole>()))
+            name += $" {TownOfUsColors.Monarch.ToTextColor()}♠</color>";
 
         return name;
     }

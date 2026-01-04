@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Text;
-using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using System.Collections;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
@@ -151,11 +149,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
                CompletedAllTasks;
     }
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void UseAbility()
     {
@@ -246,22 +240,82 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
     public void CheckTaskRequirements()
     {
-        if (Caught)
+        UpdateTaskStage(silent: false, forceRecalculate: false);
+    }
+
+    private void UpdateTaskStage(bool silent, bool forceRecalculate)
+    {
+        if (Caught || Player == null)
         {
             return;
         }
 
-        var realTasks = Player.myTasks.ToArray()
-            .Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>()).ToList();
+        GetTaskCounts(Player, out var completedTasks, out var totalTasks);
+        var tasksRemaining = totalTasks - completedTasks;
 
-        var completedTasks = realTasks.Count(t => t.IsComplete);
-        var tasksRemaining = realTasks.Count - completedTasks;
-
-        if (TaskStage is GhostTaskStage.Unclickable && tasksRemaining <=
-            (int)OptionGroupSingleton<SpectreOptions>.Instance.NumTasksLeftBeforeClickable)
+        var clickableAt = (int)OptionGroupSingleton<SpectreOptions>.Instance.NumTasksLeftBeforeClickable;
+        GhostTaskStage newStage;
+        if (totalTasks > 0 && completedTasks == totalTasks)
         {
-            TaskStage = GhostTaskStage.Clickable;
-            if (Player.AmOwner)
+            newStage = GhostTaskStage.CompletedTasks;
+        }
+        else if (tasksRemaining <= clickableAt)
+        {
+            newStage = GhostTaskStage.Clickable;
+        }
+        else
+        {
+            newStage = GhostTaskStage.Unclickable;
+        }
+
+        if (!forceRecalculate)
+        {
+            if (TaskStage is GhostTaskStage.Unclickable && newStage is GhostTaskStage.Clickable || totalTasks > 0 && completedTasks == totalTasks && TaskStage is not GhostTaskStage.CompletedTasks)
+            {
+                TaskStage = newStage;
+                HandleStageChange(newStage, silent);
+            }
+            else
+            {
+                var textlog = $"Spectre Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {totalTasks})";
+                MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
+            }
+        }
+        else
+        {
+            if (newStage is not GhostTaskStage.CompletedTasks)
+            {
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p == null)
+                    {
+                        continue;
+                    }
+
+                    var modifiers = p.GetModifiers<MisfortuneTargetModifier>().ToList();
+                    foreach (var mod in modifiers)
+                    {
+                        p.GetModifierComponent()?.RemoveModifier(mod);
+                    }
+                }
+
+                var spookButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
+                spookButton.Show = false;
+            }
+
+            TaskStage = newStage;
+            HandleStageChange(newStage, silent);
+        }
+    }
+
+    private void HandleStageChange(GhostTaskStage stage, bool silent)
+    {
+        var textlog = $"Spectre Stage for '{Player.Data.PlayerName}': {stage.ToDisplayString()}";
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
+
+        if (stage is GhostTaskStage.Clickable)
+        {
+            if (Player.AmOwner && !silent)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Phantom.ToTextColor()}You are now clickable by players!</b></color>",
@@ -270,42 +324,64 @@ public sealed class SpectreRole(IntPtr cppPtr)
                 notif1.AdjustNotification();
             }
         }
-
-        if (completedTasks == realTasks.Count)
+        else if (stage is GhostTaskStage.CompletedTasks &&
+                 OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
         {
-            TaskStage = GhostTaskStage.CompletedTasks;
+            var allVictims = PlayerControl.AllPlayerControls.ToArray()
+                .Where(x => !x.AmOwner);
+
+            if (allVictims.Any())
+            {
+                foreach (var player in allVictims)
+                {
+                    player.AddModifier<MisfortuneTargetModifier>();
+                }
+
+                if (Player.AmOwner)
+                {
+                    var spookButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
+                    spookButton.Show = true;
+                    spookButton.SetActive(true, this);
+                }
+            }
         }
+    }
 
-        var textlog = $"Spectre Stage for '{Player.Data.PlayerName}': {TaskStage.ToDisplayString()} - ({completedTasks} / {realTasks.Count})";
-        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlog);
+    private static void GetTaskCounts(PlayerControl player, out int completed, out int total)
+    {
+        completed = 0;
+        total = 0;
 
-        if (OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is not SpectreWinOptions.Spooks ||
-            !CompletedAllTasks)
+        if (player == null || player.Data == null)
         {
             return;
         }
 
-        if (!Player.AmOwner)
+        if (player.myTasks != null && player.myTasks.Count > 0)
         {
+            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            foreach (var t in tasks)
+            {
+                total++;
+                var taskInfo = player.Data.FindTaskById(t.Id);
+                var isComplete = taskInfo != null ? taskInfo.Complete : t.IsComplete;
+                if (isComplete)
+                {
+                    completed++;
+                }
+            }
+
             return;
         }
 
-        var allVictims = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.AmOwner);
-
-        if (!allVictims.Any())
+        foreach (var info in player.Data.Tasks)
         {
-            return;
+            total++;
+            if (info.Complete)
+            {
+                completed++;
+            }
         }
-
-        foreach (var player in allVictims)
-        {
-            player.AddModifier<MisfortuneTargetModifier>();
-        }
-
-        var spookButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
-        spookButton.Show = true;
-        spookButton.SetActive(true, this);
     }
 }
 

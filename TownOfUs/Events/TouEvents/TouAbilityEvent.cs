@@ -74,6 +74,8 @@ public enum AbilityType
     // TrackerTrack,
     TransporterTransport,
 
+    TimeLordRewind,
+
     // TrapperTrap,
     VeteranAlert,
     WardenFortify,

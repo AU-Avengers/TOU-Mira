@@ -53,8 +53,14 @@ public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public static void OpenHyperlink(TMP_LinkInfo linkInfo)
     {
         string id = linkInfo.GetLinkID().Split(':')[0]; // The id is {RoleClassFullName}:{linkIdx}
+        Warning($"Looking for wiki entry: {id}");
+        if (id.StartsWith("AmongUs.Roles.", StringComparison.InvariantCulture))
+        {
+            id = id.Substring("AmongUs.Roles.".Length);
+        }
 
         var role = MiscUtils.AllRoles.FirstOrDefault(x => x.GetType().FullName == id) ??
+                   MiscUtils.AllRegisteredRoles.FirstOrDefault(x => x.Role.ToString() == id) ??
                    RoleManager.Instance.GetRole(RoleTypes.Crewmate); // i hate il2cpp
         var modifier = MiscUtils.AllModifiers.FirstOrDefault(x => x.GetType().FullName == id);
 

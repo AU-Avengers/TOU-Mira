@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -64,11 +63,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void Initialize(PlayerControl player)
     {
