@@ -106,6 +106,8 @@ public enum TownOfUsRpc : uint
     Knight,
     UpdateMonShield,
     SetDeadlyQuota,
+    RequestLobbyRules,
+    SendLobbyRules,
 }
 
 internal enum TownOfUsInternalRpc : uint

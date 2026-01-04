@@ -20,7 +20,7 @@ namespace TownOfUs.Patches.Misc;
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
-
+        
     [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
     public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
     {
@@ -28,7 +28,6 @@ public static class ChatPatches
         {
             return;
         }
-
         var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
         MiscUtils.AddFakeChat(host.Data, systemName,
             TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
@@ -227,7 +226,7 @@ public static class ChatPatches
                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandHostError"));
             }
-            else if (!TownOfUsPlugin.IsDevBuild || TownOfUsPlugin.IsBetaBuild)
+            else if (!TownOfUsPlugin.IsDevBuild)
             {
                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandDevBuildError"));
@@ -271,11 +270,7 @@ public static class ChatPatches
                             targetPlayerName = string.Join(" ", parts.Skip(1));
                         }
 
-                        // Avoid ambiguous role names across modes (e.g. "Snitch" exists in Classic and HnS).
-                        // Filter to roles that can spawn on the current mode so /up doesn't pick the wrong one.
-                        var allRoles = MiscUtils.SpawnableRoles
-                            .Where(CustomRoleUtils.CanSpawnOnCurrentMode)
-                            .ToList();
+                        var allRoles = MiscUtils.SpawnableRoles.ToList();
                         var matchingRole = allRoles.FirstOrDefault(role =>
                             role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                             role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
@@ -458,8 +453,8 @@ public static class ChatPatches
                       $"{TouLocale.GetParsed("RolesCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("SummaryCommandDescription")}\n";
 
-            // Only show /up command in help if host + dev build (not beta)
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild)
+            // Only show /up command in help if host + dev build
+            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild)
             {
                 msg += $"{TouLocale.GetParsed("UpCommandDescription")}\n";
             }
