@@ -46,7 +46,6 @@ public static class HudManagerPatches
     public static GameObject RoleList;
     public static TextMeshPro RoleListTextComp;
     public static GameObject SubmergedFloorButton;
-    public static GameObject TeamChatButton;
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
@@ -217,46 +216,18 @@ public static class HudManagerPatches
                            { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
                        (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat));
 
-        if (!TeamChatButton)
+        if (!TeamChatPatches.TeamChatButton)
         {
             return;
         }
 
-        TeamChatButton.SetActive(isValid);
-        var aspectPosition = TeamChatButton.GetComponentInChildren<AspectPosition>();
-        var distanceFromEdge = aspectPosition.DistanceFromEdge;
-        distanceFromEdge.x = HudManager.Instance.Chat.isActiveAndEnabled ? 2.73f : 2.15f;
-        distanceFromEdge.y = 0.485f;
-        aspectPosition.DistanceFromEdge = distanceFromEdge;
-        aspectPosition.AdjustPosition();
-        TeamChatButton.transform.Find("Selected").gameObject.SetActive(false);
-
-        if (!TeamChatPatches.TeamChatActive)
+        if (TeamChatPatches.TeamChatActive && !isValid && HudManager.Instance.Chat.IsOpenOrOpening)
         {
-            return;
-        }
-        TeamChatButton.transform.Find("Inactive").gameObject.SetActive(false);
-        TeamChatButton.transform.Find("Active").gameObject.SetActive(false);
-        TeamChatButton.transform.Find("Selected").gameObject.SetActive(true);
-    }
-    public static void CreateTeamChatButton(HudManager instance)
-    {
-        if (TeamChatButton)
-        {
-            return;
+            TeamChatPatches.TeamChatActive = false;
+            TeamChatPatches.UpdateChat();
         }
 
-        TeamChatButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
-        TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-        TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(TeamChatPatches.ToggleTeamChat));
-        TeamChatButton.name = "FactionChat";
-        TeamChatButton.transform.Find("Background").localPosition = Vector3.zero;
-        TeamChatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
-            TouAssets.TeamChatInactive.LoadAsset();
-        TeamChatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
-            TouAssets.TeamChatActive.LoadAsset();
-        TeamChatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite =
-            TouAssets.TeamChatSelected.LoadAsset();
+        TeamChatPatches.TeamChatButton.SetActive(isValid);
     }
 
     public static bool CommsSaboActive()
@@ -1063,11 +1034,6 @@ public static class HudManagerPatches
             }
 
             distanceFromEdge.y = 0.485f;
-            if (TeamChatButton.active)
-            {
-                distanceFromEdge.x += 0.84f;
-            }
-
             WikiButton.SetActive(true);
             WikiAspectPos.DistanceFromEdge = distanceFromEdge;
             WikiAspectPos.AdjustPosition();
@@ -1084,10 +1050,10 @@ public static class HudManagerPatches
         }
 
         CreateZoomButton(__instance);
-        CreateTeamChatButton(__instance);
         CreateWikiButton(__instance);
 
         UpdateRoleList(__instance);
+        UpdateTeamChat();
 
         if (PlayerControl.LocalPlayer.Data.Role == null ||
             !ShipStatus.Instance ||
@@ -1105,7 +1071,6 @@ public static class HudManagerPatches
         {
             CheckForScrollZoom();
         }
-        UpdateTeamChat();
         
         UpdateCamouflageComms();
         UpdateRoleNameText();
