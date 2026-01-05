@@ -12,14 +12,14 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class RevealerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
 
     [HideFromIl2Cpp] public List<RoleBehaviour> TrappedPlayers { get; set; } = new();
 
     public DoomableType DoomHintType => DoomableType.Insight;
-    public string LocaleKey => "Revealer";
+    public string LocaleKey => "Trapper";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
@@ -45,14 +45,13 @@ public sealed class RevealerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         }
     }
 
-    public Color RoleColor => TownOfUsColors.Revealer;
+    public Color RoleColor => TownOfUsColors.Trapper;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        Icon = TouRoleIcons.Revealer,
-        HideSettings = true,
+        Icon = TouRoleIcons.Trapper,
         IntroSound = TouAudio.TrackerIntroSound
     };
 
@@ -78,22 +77,22 @@ public sealed class RevealerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public void Report()
     {
-        // Error($"RevealerRole.Report");
+        // Error($"TrapperRole.Report");
         if (!Player.AmOwner)
         {
             return;
         }
 
-        var minAmountOfPlayersInTrap = OptionGroupSingleton<RevealerOptions>.Instance.MinAmountOfPlayersInTrap;
-        var msg = TouLocale.GetParsed("TouRoleRevealerNoPlayers");
+        var minAmountOfPlayersInTrap = OptionGroupSingleton<TrapperOptions>.Instance.MinAmountOfPlayersInTrap;
+        var msg = TouLocale.GetParsed("TouRoleTrapperNoPlayers");
 
         if (TrappedPlayers.Count < minAmountOfPlayersInTrap)
         {
-            msg = TouLocale.GetParsed("TouRoleRevealerNotEnoughPLayers");
+            msg = TouLocale.GetParsed("TouRoleTrapperNotEnoughPLayers");
         }
         else if (TrappedPlayers.Count != 0)
         {
-            var message = new StringBuilder($"{TouLocale.GetParsed("TouRoleRevealerRolesCaught")}\n");
+            var message = new StringBuilder($"{TouLocale.GetParsed("TouRoleTrapperRolesCaught")}\n");
 
             TrappedPlayers.Shuffle();
 
@@ -114,7 +113,7 @@ public sealed class RevealerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             msg = finalMessage;
         }
 
-        var title = $"<color=#{TownOfUsColors.Revealer.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleRevealerMessageTitle")}</color>";
+        var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleTrapperMessageTitle")}</color>";
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
         TrappedPlayers.Clear();
     }
