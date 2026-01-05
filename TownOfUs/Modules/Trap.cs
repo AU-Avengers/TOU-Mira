@@ -18,10 +18,10 @@ public sealed class Trap : IDisposable
     public static readonly List<Trap> _traps = [];
 
     public readonly Dictionary<byte, float> _players = [];
-    public TrapperRole? _owner;
+    public RevealerRole? _owner;
     public Transform? _transform;
-    private static float TrapSize => OptionGroupSingleton<TrapperOptions>.Instance.TrapSize;
-    private static float MinAmountOfTimeInTrap => OptionGroupSingleton<TrapperOptions>.Instance.MinAmountOfTimeInTrap;
+    private static float TrapSize => OptionGroupSingleton<RevealerOptions>.Instance.TrapSize;
+    private static float MinAmountOfTimeInTrap => OptionGroupSingleton<RevealerOptions>.Instance.MinAmountOfTimeInTrap;
 
     public void Dispose()
     {
@@ -87,9 +87,9 @@ public sealed class Trap : IDisposable
         }
     }
 
-    public static void CreateTrap(TrapperRole player, Vector3 location)
+    public static void CreateTrap(RevealerRole player, Vector3 location)
     {
-        var trapSize = OptionGroupSingleton<TrapperOptions>.Instance.TrapSize * ShipStatus.Instance.MaxLightRadius * 2f;
+        var trapSize = OptionGroupSingleton<RevealerOptions>.Instance.TrapSize * ShipStatus.Instance.MaxLightRadius * 2f;
 
         var trapPref = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         trapPref.name = "Trap";

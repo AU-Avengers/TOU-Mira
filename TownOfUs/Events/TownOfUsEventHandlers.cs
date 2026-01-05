@@ -85,8 +85,7 @@ public static class TownOfUsEventHandlers
         }
         else if (uniModifier != null && option is ModReveal.Universal)
         {
-            ModifierText.text =
-                $"<size=4><color=#FFFFFF>{TouLocale.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
+            ModifierText.text = $"<size={uniModifier.IntroSize}>{uniModifier.IntroInfo}</size>";
 
             ModifierText.color = MiscUtils.GetModifierColour(uniModifier);
         }
@@ -351,8 +350,8 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<TrackerTrackButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<TrackerTrackButton>.Instance.SetUses((int)OptionGroupSingleton<SonarOptions>.Instance
             .MaxTracks);
-        CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
+        CustomButtonSingleton<RevealerTrapButton>.Instance.ExtraUses = 0;
+        CustomButtonSingleton<RevealerTrapButton>.Instance.SetUses((int)OptionGroupSingleton<RevealerOptions>.Instance
             .MaxTraps);
         CustomButtonSingleton<SheriffShootButton>.Instance.Usable =
             OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;

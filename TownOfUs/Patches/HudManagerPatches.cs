@@ -723,28 +723,19 @@ public static class HudManagerPatches
 
                 player.cosmetics.nameText.text = playerName;
                 player.cosmetics.nameText.color = playerColor;
-
-                // Keep the name position consistent with vanilla/Tou defaults.
                 player.cosmetics.nameText.transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
 
-                // Avoid overlap between the "(Died R1)" line and the color-blind label (e.g. "Orange"),
-                // especially when a player is morphing/mimicking a First-Round-Death player.
-                // Avoid overlap between "(Died R1)" and the color-blind label (e.g. "Pink"/"Orange") WITHOUT drift:
-                // we keep a stable baseline position per-player and apply an idempotent offset from it.
                 var cbId = player.PlayerId;
                 var cbCurrent = player.cosmetics.colorBlindText.transform.localPosition;
                 var cbOffset = Vector3.down * 0.12f;
 
                 if (!_colorBlindBasePos.TryGetValue(cbId, out var cbBase))
                 {
-                    // If we first see the player while DiedR1 is visible, infer baseline by reversing our offset.
                     cbBase = string.IsNullOrEmpty(diedR1Text) ? cbCurrent : cbCurrent - cbOffset;
                     _colorBlindBasePos[cbId] = cbBase;
                 }
                 else if (string.IsNullOrEmpty(diedR1Text))
                 {
-                    // If something else moved the colorblind label while DiedR1 is NOT visible, accept that as the new baseline.
-                    // (But ignore our own previously-applied offset positions.)
                     var cbExpectedNoR1 = cbBase;
                     var cbExpectedR1 = cbBase + cbOffset;
                     if ((cbCurrent - cbExpectedNoR1).sqrMagnitude > 0.0001f &&

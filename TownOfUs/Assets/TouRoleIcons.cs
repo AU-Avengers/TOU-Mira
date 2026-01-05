@@ -30,6 +30,7 @@ public static class TouRoleIcons
         new LoadableBundleAsset<Sprite>("Sonar", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Trapper { get; } =
         new LoadableBundleAsset<Sprite>("Trapper", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> Revealer => Trapper;
 
     // Crewmate Killing
     public static LoadableAsset<Sprite> Deputy { get; } =
