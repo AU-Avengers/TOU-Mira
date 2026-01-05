@@ -1020,7 +1020,7 @@
   <string name="TouOptionSentryDeployedCamerasVisibility">Deployed Cameras Visibility</string>
   <string name="TouOptionSentryCamerasVisibleAfter">Cameras Visible After</string>
   <string name="TouOptionSentryCanMoveWhilePlacingCameras">Can Move While Placing Cameras</string>
-  <string name="TouOptionSentryPortableCamerasMode">Portable Cameras</string>
+  <string name="TouOptionSentryPortableCamerasMode">Instant Portable Cameras (or After Tasks)</string>
   <string name="TouOptionSentryInitialCameras">Initial Cameras</string>
   <string name="TouOptionSentryCameraRoundsLast">Amount Of Rounds Cameras Last</string>
   <string name="TouOptionSentryTasksPerCamera">Tasks Required Per Camera</string>

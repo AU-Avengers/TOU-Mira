@@ -33,8 +33,8 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
         };
 
     [ModdedEnumOption("TouOptionSentryPortableCamerasMode", typeof(SentryPortableCamerasMode),
-        ["Immediately", "After Tasks", "On Maps Without Cameras"])]
-    public SentryPortableCamerasMode PortableCamerasMode { get; set; } = SentryPortableCamerasMode.AfterTasks;
+        ["Always", "After Tasks", "Only On Cam-less Maps"])]
+    public SentryPortableCamerasMode PortableCamerasMode { get; set; } = SentryPortableCamerasMode.OnMapsWithoutCameras;
 
     public ModdedNumberOption InitialCameras { get; } = new("TouOptionSentryInitialCameras", 2f, 0f, 15f, 1f, "∞", "#", MiraNumberSuffixes.None, "0", false);
 
