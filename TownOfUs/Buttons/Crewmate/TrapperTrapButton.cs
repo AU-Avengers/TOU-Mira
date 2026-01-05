@@ -8,19 +8,19 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class RevealerTrapButton : TownOfUsRoleButton<RevealerRole>
+public sealed class TrapperTrapButton : TownOfUsRoleButton<TrapperRole>
 {
-    public override string Name => TouLocale.GetParsed("TouRoleRevealerTrap", "Trap");
+    public override string Name => TouLocale.GetParsed("TouRoleTrapperTrap", "Trap");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
-    public override Color TextOutlineColor => TownOfUsColors.Revealer;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<RevealerOptions>.Instance.TrapCooldown + MapCooldown, 5f, 120f);
-    public override int MaxUses => (int)OptionGroupSingleton<RevealerOptions>.Instance.MaxTraps;
+    public override Color TextOutlineColor => TownOfUsColors.Trapper;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<TrapperOptions>.Instance.TrapCooldown + MapCooldown, 5f, 120f);
+    public override int MaxUses => (int)OptionGroupSingleton<TrapperOptions>.Instance.MaxTraps;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrapSprite;
     public int ExtraUses { get; set; }
 
     protected override void OnClick()
     {
-        var role = PlayerControl.LocalPlayer.GetRole<RevealerRole>();
+        var role = PlayerControl.LocalPlayer.GetRole<TrapperRole>();
 
         if (role == null)
         {

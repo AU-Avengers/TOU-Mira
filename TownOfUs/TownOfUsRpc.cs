@@ -106,8 +106,6 @@ public enum TownOfUsRpc : uint
     Knight,
     UpdateMonShield,
     SetDeadlyQuota,
-    TrapperPlaceTrap,
-    TrapperTriggerTrap,
     RequestLobbyRules,
     SendLobbyRules,
 }

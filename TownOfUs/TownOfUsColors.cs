@@ -27,7 +27,6 @@ public static class TownOfUsColors
     public static Color Spy => UseBasic ? Palette.CrewmateBlue : new Color32(204, 163, 204, 255);
     public static Color Tracker => UseBasic ? Palette.CrewmateBlue : new Color32(0, 153, 0, 255);
     public static Color Trapper => UseBasic ? Palette.CrewmateBlue : new Color32(166, 209, 179, 255);
-    public static Color Revealer => UseBasic ? Palette.CrewmateBlue : new Color32(120, 200, 220, 255);
 
     public static Color Deputy => UseBasic ? Palette.CrewmateBlue : new Color32(255, 204, 0, 255);
     public static Color Hunter => UseBasic ? Palette.CrewmateBlue : new Color32(41, 171, 135, 255);

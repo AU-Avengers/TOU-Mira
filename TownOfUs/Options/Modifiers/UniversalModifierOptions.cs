@@ -21,15 +21,6 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryAmount > 0
         };
 
-    [ModdedNumberOption("Clueless Amount", 0, 15)]
-    public float CluelessAmount { get; set; } = 0;
-
-    public ModdedNumberOption CluelessChance { get; } =
-        new("Clueless Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<UniversalModifierOptions>.Instance.CluelessAmount > 0
-        };
-
     [ModdedNumberOption("Flash Amount", 0, 5)]
     public float FlashAmount { get; set; } = 0;
 
