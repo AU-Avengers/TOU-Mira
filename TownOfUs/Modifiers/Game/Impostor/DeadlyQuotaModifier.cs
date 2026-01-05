@@ -67,7 +67,7 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
 
     private IEnumerator SetUpQuota(int newQuota)
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.1f);
         RpcSetDeadlyQuota(Player, newQuota);
     }
     public override bool? DidWin(GameOverReason reason)

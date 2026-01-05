@@ -11,15 +11,20 @@ namespace TownOfUs.Events.Misc;
 public static class KnightedEvents
 {
     public static List<CustomVote> ExtraKnightVotes { get; } = [];
+    public static bool ShowVotes => OptionGroupSingleton<MonarchOptions>.Instance.ShowKnightedVotes;
+    public static int TotalVotes => (int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight + 1;
 
     [RegisterEvent]
     public static void ProcessVotesEventHandler(ProcessVotesEvent @event)
     {
         ExtraKnightVotes.Clear();
+        if (ShowVotes)
+        {
+            return;
+        }
 
         var votes = @event.Votes.ToList();
         var baseExtraVotes = (int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight;
-        var allowSelfVotes = OptionGroupSingleton<MonarchOptions>.Instance.AllowSelfVotes;
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -29,9 +34,6 @@ public static class KnightedEvents
 
             var vote = votes.FirstOrDefault(v => v.Voter == player.PlayerId);
             if (vote == default)
-                continue;
-
-            if (vote.Voter == vote.Suspect && !allowSelfVotes)
                 continue;
 
             var totalBonusVotes = knightModifiers.Count * baseExtraVotes;
@@ -46,4 +48,23 @@ public static class KnightedEvents
 
         @event.ExiledPlayer = VotingUtils.GetExiled(votes, out _);
     }
+
+    [RegisterEvent]
+    public static void HandleVoteEvent(HandleVoteEvent @event)
+    {
+        if (!ShowVotes || !@event.VoteData.Owner.HasModifier<KnightedModifier>())
+        {
+            return;
+        }
+
+        @event.VoteData.SetRemainingVotes(0);
+
+        for (var i = 0; i < TotalVotes; i++)
+        {
+            @event.VoteData.VoteForPlayer(@event.TargetId);
+        }
+
+        @event.Cancel();
+    }
+
 }

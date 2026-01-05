@@ -108,6 +108,8 @@ public enum TownOfUsRpc : uint
     SetDeadlyQuota,
     TrapperPlaceTrap,
     TrapperTriggerTrap,
+    RequestLobbyRules,
+    SendLobbyRules,
 }
 
 internal enum TownOfUsInternalRpc : uint

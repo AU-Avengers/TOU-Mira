@@ -79,6 +79,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> ColorPlayerNameToggle { get; private set; } =
         config.Bind("UI/Visuals", "ColorPlayerName", false);
 
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
+        config.Bind("Miscellaneous", "SeparateChatBubbles", false);
+
     /*[LocalizedLocalToggleSetting]
     public ConfigEntry<bool> UseSeparateRedChat { get; private set; } =
         config.Bind("UI/Visuals", "UseSeparateRedChat", true);*/
