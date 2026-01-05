@@ -2078,6 +2078,32 @@ public static class MiscUtils
         attacker.isKilling = false;
     }
 
+    public static string GetHyperlinkText(RoleBehaviour role)
+    {
+        var name = role.GetRoleName();
+        return $"#{name.Replace(" ", "-").RemoveAll(WikiHyperLinkPatches.RemovedCharacters)}";
+    }
+
+    public static string? GetHyperlinkText(BaseModifier modifier)
+    {
+        if (modifier is not IWikiDiscoverable || !SoftWikiEntries.ModifierEntries.ContainsKey(modifier))
+        {
+            return null;
+        }
+        var name = modifier.ModifierName;
+        return $"&{name.Replace(" ", "-").RemoveAll(WikiHyperLinkPatches.RemovedCharacters)}";
+    }
+
+    public static string? GetHyperlinkText(GameModifier modifier)
+    {
+        if (modifier is not IWikiDiscoverable || !SoftWikiEntries.ModifierEntries.ContainsKey(modifier))
+        {
+            return null;
+        }
+        var name = modifier.ModifierName;
+        return $"&{name.Replace(" ", "-").RemoveAll(WikiHyperLinkPatches.RemovedCharacters)}";
+    }
+
 }
 
 public enum TouGamemode

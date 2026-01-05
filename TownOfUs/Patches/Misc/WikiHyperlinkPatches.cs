@@ -17,6 +17,8 @@ public static class WikiHyperLinkPatches
     private static string fontTag =
         "<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - BlackOutlineMasked\">";
 
+    public static readonly char[] RemovedCharacters = [ '\'', '\"' ];
+
     public static string
         CheckForTags(string text, TextMeshPro tmp) // In theory, this method can be used for any TMP object
     {
@@ -45,13 +47,13 @@ public static class WikiHyperLinkPatches
                 sb.Append(text, lastIndex, count);
             }
 
-            string key = match.Value.Substring(1).Replace('-', ' ');
+            string key = match.Value.Substring(1);
             string replacement = match.Value;
             bool shouldHyperlink = true;
             if (match.Value[0] == '#') // Role tag
             {
                 var role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
-                    x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
+                    x.GetRoleName().Replace(' ', '-').RemoveAll(RemovedCharacters).Equals(key, StringComparison.OrdinalIgnoreCase));
                 if (role is ICustomRole customRole)
                 {
                     replacement =
