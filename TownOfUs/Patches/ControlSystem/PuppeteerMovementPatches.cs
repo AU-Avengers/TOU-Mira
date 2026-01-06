@@ -95,6 +95,12 @@ public static class PuppeteerMovementPatches
             }
 
             var victim = puppeteer.Controlled;
+            
+            if (victim == null || victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
+            {
+                return true;
+            }
+
             var victimId = victim.PlayerId;
             var victimInAnim = victim.IsInTargetingAnimState() ||
                                victim.inVent ||
@@ -139,6 +145,13 @@ public static class PuppeteerMovementPatches
             }
 
             var dir = PuppeteerControlState.GetDirection(player.PlayerId);
+            
+            if (player.AmOwner)
+            {
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
+                return false;
+            }
+            
             var pos = PuppeteerControlState.GetPosition(player.PlayerId);
             var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
             

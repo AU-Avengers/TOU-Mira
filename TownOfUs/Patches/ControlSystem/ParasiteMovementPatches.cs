@@ -100,10 +100,16 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
+            var victim = parasite.Controlled;
+            
+            if (victim == null || victim.Data == null || victim.HasDied() || victim.Data.Disconnected)
+            {
+                return true;
+            }
+
             var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
 
-            var victim = parasite.Controlled;
             var victimId = victim.PlayerId;
             var victimInAnim = victim.IsInTargetingAnimState() ||
                                victim.inVent ||
@@ -167,6 +173,16 @@ public static class ParasiteMovementPatches
             }
 
             var dir = ParasiteControlState.GetDirection(player.PlayerId);
+            
+            // When the victim is the owner, only use direction - don't use position/velocity
+            // from the controller as it may be stale and cause snapping
+            if (player.AmOwner)
+            {
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
+                return false;
+            }
+            
+            // For non-owner clients, use position/velocity for visual synchronization
             var pos = ParasiteControlState.GetPosition(player.PlayerId);
             var vel = ParasiteControlState.GetVelocity(player.PlayerId);
 
