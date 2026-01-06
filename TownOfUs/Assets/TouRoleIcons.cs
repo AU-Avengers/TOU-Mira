@@ -102,6 +102,8 @@ public static class TouRoleIcons
         new LoadableBundleAsset<Sprite>("Amnesiac", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Fairy { get; } =
         new LoadableBundleAsset<Sprite>("Fairy", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> Lawyer { get; } =
+        new LoadableBundleAsset<Sprite>("Lawyer", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Mercenary { get; } =
         new LoadableBundleAsset<Sprite>("Mercenary", TouAssets.MainBundle);
 
