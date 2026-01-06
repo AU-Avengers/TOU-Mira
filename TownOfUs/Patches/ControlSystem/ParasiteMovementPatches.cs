@@ -129,10 +129,30 @@ public static class ParasiteMovementPatches
             }
             _localDesiredDir[victimId] = targetDir;
 
-            var victimPos = victim.MyPhysics.body != null 
+            if (victim.MyPhysics != null)
+            {
+                if (targetDir == Vector2.zero)
+                {
+                    var cachedDir = _localDesiredDir.TryGetValue(victimId, out var cached) ? cached : Vector2.zero;
+                    if (cachedDir != Vector2.zero)
+                    {
+                        AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, cachedDir);
+                    }
+                    else
+                    {
+                        AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, Vector2.zero, stopIfZero: true);
+                    }
+                }
+                else
+                {
+                    AdvancedMovementUtilities.ApplyControlledMovement(victim.MyPhysics, targetDir, stopIfZero: true);
+                }
+            }
+            
+            var victimPos = victim.MyPhysics?.body != null 
                 ? victim.MyPhysics.body.position 
                 : (Vector2)victim.transform.position;
-            var victimVel = victim.MyPhysics.body != null 
+            var victimVel = victim.MyPhysics?.body != null 
                 ? victim.MyPhysics.body.velocity 
                 : Vector2.zero;
 
@@ -176,41 +196,47 @@ public static class ParasiteMovementPatches
             var pos = ParasiteControlState.GetPosition(player.PlayerId);
             var vel = ParasiteControlState.GetVelocity(player.PlayerId);
 
-            if (player.AmOwner)
+            // AUTHORITATIVE CONTROL: Apply movement the SAME way on ALL clients
+            // Use direction directly (controller is authoritative), position/velocity only for correction
+            if (dir == Vector2.zero)
             {
-                if (dir == Vector2.zero)
+                var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
+                if (cachedDir != Vector2.zero)
                 {
-                    var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
-                    if (cachedDir != Vector2.zero)
-                    {
-                        AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
-                    }
-                    else
-                    {
-                        AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-                    }
+                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
                 }
                 else
                 {
-                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
+                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
                 }
-                return false;
-            }
-
-            if (dir == Vector2.zero)
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
-            }
-            else if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
-            {
-                AdvancedMovementUtilities.ApplyInjectedMovement(__instance, pos, vel, dir);
             }
             else
             {
-                var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
+                // Apply direction directly - same as victim owner client
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
             }
-
+            
+            // Only correct position if there's a large desync (missed RPCs/lag)
+            if (pos != Vector2.zero)
+            {
+                var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
+                var delta = pos - currentPos;
+                if (delta.magnitude > 0.5f) // Only correct if significantly off
+                {
+                    if (__instance.body != null)
+                    {
+                        __instance.body.position = pos;
+                    }
+                    __instance.myPlayer.transform.position = pos;
+                }
+            }
+            
+            // Apply velocity directly if provided
+            if (__instance.body != null && vel != Vector2.zero)
+            {
+                __instance.body.velocity = vel;
+            }
+            
             return false;
         }
 
@@ -236,14 +262,34 @@ public static class ParasiteMovementPatches
             var pos = ParasiteControlState.GetPosition(player.PlayerId);
             var vel = ParasiteControlState.GetVelocity(player.PlayerId);
             
-            if (pos != Vector2.zero || vel != Vector2.zero || dir != Vector2.zero)
-            {
-                AdvancedMovementUtilities.ApplyInjectedMovement(__instance, pos, vel, dir);
-            }
-            else
+            if (dir == Vector2.zero)
             {
                 AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
             }
+            else
+            {
+                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
+            }
+            
+            if (pos != Vector2.zero)
+            {
+                var currentPos = __instance.body != null ? __instance.body.position : (Vector2)__instance.myPlayer.transform.position;
+                var delta = pos - currentPos;
+                if (delta.magnitude > 0.5f)
+                {
+                    if (__instance.body != null)
+                    {
+                        __instance.body.position = pos;
+                    }
+                    __instance.myPlayer.transform.position = pos;
+                }
+            }
+            
+            if (__instance.body != null && vel != Vector2.zero)
+            {
+                __instance.body.velocity = vel;
+            }
+            
             return false;
         }
 

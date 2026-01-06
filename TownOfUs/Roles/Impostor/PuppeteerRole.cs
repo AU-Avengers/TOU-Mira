@@ -131,6 +131,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
     }
 
+
     public void ClearControlLocal()
     {
         Controlled = null;
@@ -257,31 +258,39 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
             }
 
-            if (target.AmOwner)
+            // SNAP CNT AND FLUSH: At control end, sync CNT to current position
+            var finalPos = (Vector2)target.transform.position;
+            if (target.NetTransform != null)
             {
-                var pos = (Vector2)target.transform.position;
-                if (target.NetTransform != null)
+                try
                 {
-                    try
+                    // Flush CNT backlog first
+                    NetTransformBacklogUtils.FlushBacklog(target);
+                    
+                    // Then snap to current authoritative position
+                    if (target.AmOwner)
                     {
-                        target.NetTransform.SnapTo(pos);
+                        target.NetTransform.SnapTo(finalPos);
                     }
-                    catch
+                    else if (puppeteer != null && puppeteer.AmOwner)
                     {
-                        // ignored
+                        // Controller can snap on behalf of victim
+                        NetTransformBacklogUtils.FlushAndSnap(target);
+                    }
+                    else
+                    {
+                        // Other clients just flush
+                        NetTransformBacklogUtils.FlushBacklog(target);
                     }
                 }
-            }
-            else if (puppeteer != null && puppeteer.AmOwner)
-            {
-                NetTransformBacklogUtils.FlushAndSnap(target);
-            }
-            else
-            {
-                NetTransformBacklogUtils.FlushBacklog(target);
+                catch
+                {
+                    // ignored
+                }
             }
         }
 
+        // ClearControlLocal handles proxy destruction and camera reattachment
         role.ClearControlLocal();
 
         if (puppeteer != null)

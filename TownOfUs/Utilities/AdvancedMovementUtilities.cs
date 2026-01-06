@@ -277,7 +277,6 @@ public static class AdvancedMovementUtilities
         }
         else
         {
-            // Flip direction for rewind (backwards movement)
             physics.SetNormalizedVelocity(-dir);
         }
 
@@ -328,6 +327,7 @@ public static class AdvancedMovementUtilities
 
     /// <summary>
     /// Applies injected movement with position, velocity, and direction for Parasite/Puppeteer control.
+    /// Handles lag and missed RPCs with smoothing/lerp.
     /// </summary>
     public static void ApplyInjectedMovement(PlayerPhysics physics, Vector2 targetPosition, Vector2 targetVelocity, Vector2 direction)
     {
@@ -343,7 +343,7 @@ public static class AdvancedMovementUtilities
 
             var currentPos = physics.body != null ? physics.body.position : (Vector2)physics.myPlayer.transform.position;
             var delta = targetPosition - currentPos;
-            const float positionSnapThreshold = 0.5f;
+            const float positionSnapThreshold = 1.0f;
 
             Vector2 finalPos;
             if (delta.sqrMagnitude <= 0.0001f * 0.0001f || delta.magnitude > positionSnapThreshold)
@@ -367,29 +367,19 @@ public static class AdvancedMovementUtilities
                 physics.myPlayer.transform.position = finalPos;
             }
 
-            if (physics.myPlayer.NetTransform != null)
+            if (physics.body != null)
             {
-                try
+                if (direction == Vector2.zero)
                 {
-                    var cnt = physics.myPlayer.NetTransform.TryCast<CustomNetworkTransform>();
-                    if (cnt != null)
-                    {
-                        cnt.SnapTo(finalPos, cnt.lastSequenceId);
-                    }
+                    physics.body.velocity = Vector2.zero;
                 }
-                catch
+                else
                 {
-                    // ignored
+                    physics.body.velocity = targetVelocity;
                 }
             }
-
 
             physics.SetNormalizedVelocity(direction);
-
-            if (physics.body != null && direction == Vector2.zero)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
         }
         finally
         {
