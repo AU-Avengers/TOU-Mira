@@ -1,6 +1,6 @@
 <Project>
     <ItemGroup>
-        <PackageReference Include="AllOfUs.MiraAPI" Version="0.3.4-ci.831"/>
+        <PackageReference Include="AllOfUs.MiraAPI" Version="0.3.6"/>
         <PackageReference Include="Reactor" Version="2.5.0-ci.371"/>
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.735" Private="false" ExcludeAssets="runtime;native"/>
         <PackageReference Include="AmongUs.GameLibs.Steam" Version="2025.10.14" PrivateAssets="all"/>
@@ -15,5 +15,6 @@
 
     <ItemGroup>
         <EmbeddedResource Include="TownOfUs\Resources\*.bundle" Exclude="Resources\*.png"/>
+        <EmbeddedResource Include="modinfo.json"/>
     </ItemGroup>
 </Project>
