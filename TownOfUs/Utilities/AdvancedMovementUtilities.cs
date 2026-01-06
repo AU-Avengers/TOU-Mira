@@ -345,24 +345,42 @@ public static class AdvancedMovementUtilities
             var delta = targetPosition - currentPos;
             const float positionSnapThreshold = 0.5f;
 
+            Vector2 finalPos;
             if (delta.sqrMagnitude <= 0.0001f * 0.0001f || delta.magnitude > positionSnapThreshold)
             {
+                finalPos = targetPosition;
                 if (physics.body != null)
                 {
-                    physics.body.position = targetPosition;
+                    physics.body.position = finalPos;
                 }
-                physics.myPlayer.transform.position = targetPosition;
+                physics.myPlayer.transform.position = finalPos;
             }
             else
             {
                 const float positionLerpSpeed = 60.0f;
                 var lerpFactor = Mathf.Clamp01(Time.fixedDeltaTime * positionLerpSpeed);
-                var smoothedPos = Vector2.Lerp(currentPos, targetPosition, lerpFactor);
+                finalPos = Vector2.Lerp(currentPos, targetPosition, lerpFactor);
                 if (physics.body != null)
                 {
-                    physics.body.position = smoothedPos;
+                    physics.body.position = finalPos;
                 }
-                physics.myPlayer.transform.position = smoothedPos;
+                physics.myPlayer.transform.position = finalPos;
+            }
+
+            if (physics.myPlayer.NetTransform != null)
+            {
+                try
+                {
+                    var cnt = physics.myPlayer.NetTransform.TryCast<CustomNetworkTransform>();
+                    if (cnt != null)
+                    {
+                        cnt.SnapTo(finalPos, cnt.lastSequenceId);
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
             }
 
 

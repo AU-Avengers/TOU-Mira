@@ -173,18 +173,29 @@ public static class ParasiteMovementPatches
             }
 
             var dir = ParasiteControlState.GetDirection(player.PlayerId);
-            
-            // When the victim is the owner, only use direction - don't use position/velocity
-            // from the controller as it may be stale and cause snapping
-            if (player.AmOwner)
-            {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
-                return false;
-            }
-            
-            // For non-owner clients, use position/velocity for visual synchronization
             var pos = ParasiteControlState.GetPosition(player.PlayerId);
             var vel = ParasiteControlState.GetVelocity(player.PlayerId);
+
+            if (player.AmOwner)
+            {
+                if (dir == Vector2.zero)
+                {
+                    var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
+                    if (cachedDir != Vector2.zero)
+                    {
+                        AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
+                    }
+                    else
+                    {
+                        AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
+                    }
+                }
+                else
+                {
+                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
+                }
+                return false;
+            }
 
             if (dir == Vector2.zero)
             {

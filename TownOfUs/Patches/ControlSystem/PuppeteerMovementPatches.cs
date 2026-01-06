@@ -145,15 +145,29 @@ public static class PuppeteerMovementPatches
             }
 
             var dir = PuppeteerControlState.GetDirection(player.PlayerId);
+            var pos = PuppeteerControlState.GetPosition(player.PlayerId);
+            var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
             
             if (player.AmOwner)
             {
-                AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
+                if (dir == Vector2.zero)
+                {
+                    var cachedDir = _localDesiredDir.TryGetValue(player.PlayerId, out var cached) ? cached : Vector2.zero;
+                    if (cachedDir != Vector2.zero)
+                    {
+                        AdvancedMovementUtilities.ApplyControlledMovement(__instance, cachedDir);
+                    }
+                    else
+                    {
+                        AdvancedMovementUtilities.ApplyControlledMovement(__instance, Vector2.zero, stopIfZero: true);
+                    }
+                }
+                else
+                {
+                    AdvancedMovementUtilities.ApplyControlledMovement(__instance, dir, stopIfZero: true);
+                }
                 return false;
             }
-            
-            var pos = PuppeteerControlState.GetPosition(player.PlayerId);
-            var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
             
             if (dir == Vector2.zero)
             {
