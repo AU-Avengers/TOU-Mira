@@ -21,7 +21,7 @@ namespace TownOfUs.Patches.Misc;
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
-    private static string GetLobbyRulesText()
+    public static string GetLobbyRulesText()
     {
         var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         if (string.IsNullOrEmpty(dir)) return string.Empty;
