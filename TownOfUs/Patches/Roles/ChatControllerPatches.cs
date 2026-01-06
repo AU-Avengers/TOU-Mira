@@ -82,24 +82,6 @@ public static class ChatControllerPatches
         }
     }
 
-    //  Allow all symbols
-    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.IsCharAllowed))]
-    public static class IsCharAllowedPatch
-    {
-        public static bool Prefix(char i, ref bool __result)
-        {
-            // Error($"checking if character {i.ToString()} (id {(int)i}) is allowed in chat");
-            if (i is '\b' or '\n' or '>')
-            {
-                return true;
-            }
-
-            // Allow all printable Unicode
-            __result = true;
-            return false;
-        }
-    }
-
     [HarmonyPostfix]
     [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.Start))]
     public static void TextBoxPostfix(TextBoxTMP __instance)
