@@ -380,7 +380,7 @@ public static class CustomTouMurderRpcs
         }
     }
 
-    private static IEnumerator CoRecordKillCooldownAfterCustomMurder(PlayerControl player, float cooldownBefore)
+    public static IEnumerator CoRecordKillCooldownAfterCustomMurder(PlayerControl player, float cooldownBefore)
     {
         // Wait for CustomMurder to process and SetKillTimer to be called
         yield return null;
