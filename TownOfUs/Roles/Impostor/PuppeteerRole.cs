@@ -258,28 +258,23 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
             }
 
-            // SNAP CNT AND FLUSH: At control end, sync CNT to current position
             var finalPos = (Vector2)target.transform.position;
             if (target.NetTransform != null)
             {
                 try
                 {
-                    // Flush CNT backlog first
                     NetTransformBacklogUtils.FlushBacklog(target);
                     
-                    // Then snap to current authoritative position
                     if (target.AmOwner)
                     {
                         target.NetTransform.SnapTo(finalPos);
                     }
                     else if (puppeteer != null && puppeteer.AmOwner)
                     {
-                        // Controller can snap on behalf of victim
                         NetTransformBacklogUtils.FlushAndSnap(target);
                     }
                     else
                     {
-                        // Other clients just flush
                         NetTransformBacklogUtils.FlushBacklog(target);
                     }
                 }
@@ -290,7 +285,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             }
         }
 
-        // ClearControlLocal handles proxy destruction and camera reattachment
         role.ClearControlLocal();
 
         if (puppeteer != null)
