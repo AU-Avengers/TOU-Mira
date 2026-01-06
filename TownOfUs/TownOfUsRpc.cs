@@ -89,6 +89,8 @@ public enum TownOfUsRpc : uint
     ForcePlayerRole,
     RequestLobbyRules,
     SendLobbyRules,
+    SyncDeathState,
+    RequestDeathStateValidation,
 }
 
 internal enum TownOfUsInternalRpc : uint
