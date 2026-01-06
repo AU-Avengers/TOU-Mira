@@ -101,13 +101,6 @@ public static class AdvancedMovementUtilities
 
         var controlType = ActiveInputManager.currentControlType;
 
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null)
-        {
-            var vJoy = hudManager.joystick.DeltaL;
-            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
-        }
-
         if (controlType is ActiveInputManager.InputType.Joystick)
         {
             x = ConsoleJoystick.player.GetAxis(2);
@@ -136,6 +129,13 @@ public static class AdvancedMovementUtilities
             }
         }
 
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null)
+        {
+            var vJoy = hudManager.joystick.DeltaL;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
+        }
+
         var v = new Vector2(x, y);
         return v == Vector2.zero ? Vector2.zero : v.normalized;
     }
@@ -152,13 +152,6 @@ public static class AdvancedMovementUtilities
         var y = 0f;
 
         var controlType = ActiveInputManager.currentControlType;
-
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null)
-        {
-            var vJoy = hudManager.joystick.DeltaL;
-            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
-        }
 
         if (controlType is ActiveInputManager.InputType.Joystick)
         {
@@ -188,6 +181,13 @@ public static class AdvancedMovementUtilities
             }
         }
 
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null)
+        {
+            var vJoy = hudManager.joystick.DeltaL;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
+        }
+
         var v = new Vector2(x, y);
         return v == Vector2.zero ? Vector2.zero : v.normalized;
     }
@@ -204,14 +204,6 @@ public static class AdvancedMovementUtilities
         var y = 0f;
 
         var controlType = ActiveInputManager.currentControlType;
-
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null &&
-            MobileJoystickR != null)
-        {
-            var vJoy = MobileJoystickR.DeltaR;
-            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
-        }
 
         if (controlType is ActiveInputManager.InputType.Joystick)
         {
@@ -239,6 +231,14 @@ public static class AdvancedMovementUtilities
             {
                 y -= 1f;
             }
+        }
+
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null &&
+            MobileJoystickR != null)
+        {
+            var vJoy = MobileJoystickR.DeltaR;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
         }
 
         var v = new Vector2(x, y);
