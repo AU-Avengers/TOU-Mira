@@ -124,8 +124,11 @@ public static class MiraApiPatches
 
     [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
     [HarmonyPrefix]
+#pragma warning disable S3400
     public static bool MiraClosePatch()
+#pragma warning restore S3400
     {
+        // Patching this for now
         return false;
     }
 
