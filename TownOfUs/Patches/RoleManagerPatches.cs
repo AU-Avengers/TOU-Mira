@@ -886,6 +886,10 @@ public static class TouRoleManagerPatches
         }
 
         GhostRoleSetup();
+
+        ModifierManager.AssignModifiers(
+            PlayerControl.AllPlayerControls.ToArray().Where(plr => !plr.Data.IsDead && !plr.Data.Disconnected)
+                .ToList());
     }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -1038,10 +1042,6 @@ public static class TouRoleManagerPatches
                 player.Object.RpcAddModifier<FirstRoundIndicator>();
             }
         }
-
-        ModifierManager.AssignModifiers(
-            PlayerControl.AllPlayerControls.ToArray().Where(plr => !plr.Data.IsDead && !plr.Data.Disconnected)
-                .ToList());
         AssignTargets();
     }
 
