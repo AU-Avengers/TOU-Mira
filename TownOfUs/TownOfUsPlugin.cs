@@ -48,7 +48,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// <summary>
     ///     Determines if the current build is a beta build. Beta builds are dev builds but should have restricted features like /up command.
     /// </summary>
-    public static bool IsBetaBuild => IsDevBuild && Version.Contains("beta", StringComparison.OrdinalIgnoreCase) || Version.Contains("prerelease", StringComparison.OrdinalIgnoreCase);
+    public static bool IsBetaBuild => IsDevBuild && Version.Contains("beta", StringComparison.OrdinalIgnoreCase) || Version.Contains("prerelease", StringComparison.OrdinalIgnoreCase) || Version.Contains("ci", StringComparison.OrdinalIgnoreCase); // Just covering all bases lol
 
     /// <inheritdoc />
     public string OptionsTitleText => "TOU Mira";
