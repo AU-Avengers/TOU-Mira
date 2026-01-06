@@ -121,4 +121,25 @@ public static class MiraApiPatches
         }
         return false;
     }
+
+    [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
+    [HarmonyPrefix]
+    public static bool MiraClosePatch()
+    {
+        return false;
+    }
+
+    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
+    [HarmonyPostfix]
+    public static void OpenPatch()
+    {
+        HudManager.Instance.PlayerCam.OverrideScreenShakeEnabled = false;
+    }
+
+    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Close))]
+    [HarmonyPostfix]
+    public static void ClosePatch()
+    {
+        HudManager.Instance.PlayerCam.OverrideScreenShakeEnabled = true;
+    }
 }
