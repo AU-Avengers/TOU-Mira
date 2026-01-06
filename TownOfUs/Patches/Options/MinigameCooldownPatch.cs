@@ -15,11 +15,7 @@ public static class MinigameCooldownPatch
         if (!__instance.AmOwner)
             return;
 
-        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        if (genOpt == null || genOpt.TickCooldownsInMinigame)
-            return;
-
-        if (Minigame.Instance == null)
+        if (!OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown)
             return;
 
         if (__instance.Data?.Role?.CanUseKillButton != true)

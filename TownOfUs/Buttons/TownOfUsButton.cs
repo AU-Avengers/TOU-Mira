@@ -68,12 +68,9 @@ public abstract class TownOfUsButton : CustomActionButton
     {
         if (Timer >= 0)
         {
-            var inMinigame = Minigame.Instance != null;
-            var shouldPauseInMinigame = inMinigame && 
-                                       !OptionGroupSingleton<GeneralOptions>.Instance.TickCooldownsInMinigame;
             var shouldPauseInVent = ShouldPauseInVent && PlayerControl.LocalPlayer.inVent && !EffectActive;
             
-            if (!TimerPaused && !shouldPauseInMinigame && (!shouldPauseInVent || EffectActive))
+            if (!TimerPaused && !OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown && (!shouldPauseInVent || EffectActive))
             {
                 Timer -= Time.deltaTime;
             }
@@ -287,12 +284,9 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     {
         if (Timer >= 0)
         {
-            var inMinigame = Minigame.Instance != null;
-            var shouldPauseInMinigame = inMinigame && 
-                                       !OptionGroupSingleton<GeneralOptions>.Instance.TickCooldownsInMinigame;
             var shouldPauseInVent = ShouldPauseInVent && PlayerControl.LocalPlayer.inVent && !EffectActive;
             
-            if (!TimerPaused && !shouldPauseInMinigame && (!shouldPauseInVent || EffectActive))
+            if (!TimerPaused && !OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown && (!shouldPauseInVent || EffectActive))
             {
                 Timer -= Time.deltaTime;
             }
