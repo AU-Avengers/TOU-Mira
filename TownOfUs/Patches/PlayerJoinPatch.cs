@@ -144,6 +144,11 @@ public static class PlayerJoinPatch
             time = 2.48f;
         }
 
+        if (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowRulesOnLobbyJoinToggle.Value)
+        {
+            TownOfUs.Patches.Misc.ChatPatches.RpcRequestLobbyRules(PlayerControl.LocalPlayer);
+        }
+
         if (time == 0)
         {
             yield break;
