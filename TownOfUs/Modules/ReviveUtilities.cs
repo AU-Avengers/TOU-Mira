@@ -6,6 +6,7 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.TimeLord;
+using TownOfUs.Networking;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -54,9 +55,48 @@ public static class ReviveUtilities
 
         var inMeetingOrExile = MeetingHud.Instance || ExileController.Instance;
 
+        // Ensure death state is properly synced before revive to prevent desyncs
+        // Wait a small amount to ensure any pending death syncs complete
+        Coroutines.Start(CoEnsureDeathStateSyncedBeforeRevive(revived, inMeetingOrExile, position, roleWhenAlive, flashColor, 
+            revivedOwnerNotificationText, reviverOwnerNotificationText, notificationIcon, reviver));
+    }
+
+    /// <summary>
+    /// Ensures death state is synced before proceeding with revive to prevent race conditions.
+    /// </summary>
+    private static System.Collections.IEnumerator CoEnsureDeathStateSyncedBeforeRevive(
+        PlayerControl revived,
+        bool inMeetingOrExile,
+        Vector2 position,
+        RoleBehaviour roleWhenAlive,
+        Color flashColor,
+        string? revivedOwnerNotificationText,
+        string? reviverOwnerNotificationText,
+        Sprite? notificationIcon,
+        PlayerControl? reviver)
+    {
+        yield return new WaitForSeconds(0.15f);
+
+        if (revived == null || revived.Data == null || revived.Data.Disconnected)
+        {
+            yield break;
+        }
+
+        if (!revived.HasDied())
+        {
+            yield break;
+        }
+
+        DeathStateSync.CancelPendingDeathSync(revived.PlayerId);
+
         GameHistory.ClearMurder(revived);
 
         revived.Revive();
+
+        if (!inMeetingOrExile)
+        {
+            DeathStateSync.ScheduleDeathStateSync(revived, false);
+        }
 
         if (!inMeetingOrExile)
         {

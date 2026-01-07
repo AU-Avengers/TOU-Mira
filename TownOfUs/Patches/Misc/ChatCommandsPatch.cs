@@ -21,7 +21,7 @@ namespace TownOfUs.Patches.Misc;
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
-    private static string GetLobbyRulesText()
+    public static string GetLobbyRulesText()
     {
         var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         if (string.IsNullOrEmpty(dir)) return string.Empty;
@@ -408,7 +408,7 @@ public static class ChatPatches
                                     RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
-                                        TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
+                                        TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                                 }
                             }
                             else
@@ -419,7 +419,7 @@ public static class ChatPatches
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
-                                    TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
+                                    TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                             }
                         }
                     }
@@ -475,8 +475,7 @@ public static class ChatPatches
 
             var roleNameToLink = new Func<RoleBehaviour, string>(role =>
             {
-                var roleName = role.GetRoleName();
-                return $"#{roleName.Replace(" ", "-")}";
+                return MiscUtils.GetHyperlinkText(role);
             });
 
             var msgParts = new List<string>();
@@ -537,7 +536,7 @@ public static class ChatPatches
             List<string> randomNames =
             [
                 "Atony", "Alchlc", "angxlwtf", "Digi", "Donners", "K3ndo", "DragonBreath", "Pietro", "Nix", "Daemon",
-                "6pak", "Chipseq",
+                "6pak", "Chipseq", "satire", "Sarha", "vanpla", "neil",
                 "twix", "xerm", "XtraCube", "Zeo", "Slushie", "chloe", "moon", "decii", "Northie", "GD", "Chilled",
                 "Himi", "Riki", "Leafly", "miniduikboot"
             ];

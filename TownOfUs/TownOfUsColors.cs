@@ -59,6 +59,7 @@ public static class TownOfUsColors
     // Neutral Colors
     public static Color Amnesiac => new Color32(128, 179, 255, 255);
     public static Color GuardianAngel => new Color32(179, 255, 255, 255);
+    public static Color Lawyer => new Color32(237, 179, 140, 255);
     public static Color Mercenary => new Color32(140, 102, 153, 255);
     public static Color Survivor => new Color32(255, 230, 77, 255);
     public static Color Shifter => new Color32(153, 153, 153, 255);

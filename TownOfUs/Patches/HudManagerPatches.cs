@@ -1037,8 +1037,7 @@ public static class HudManagerPatches
                                     GameStartManager.InstanceExists &&
                                     (GameStartManager.Instance.RulesViewPanel &&
                                      GameStartManager.Instance.RulesViewPanel.active ||
-                                     GameStartManager.Instance.RulesEditPanel &&
-                                     GameStartManager.Instance.RulesEditPanel.active)) &&
+                                     GameSettingMenu.Instance)) &&
                                   ((PlayerControl.LocalPlayer.DiedOtherRound() &&
                                     (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
                                      PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||

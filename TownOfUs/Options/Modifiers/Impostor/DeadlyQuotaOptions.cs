@@ -17,6 +17,9 @@ public sealed class DeadlyQuotaOptions : AbstractOptionGroup<DeadlyQuotaModifier
     [ModdedNumberOption("Maximum Kill Quota", 1f, 5f, 1f)]
     public float KillQuotaMax { get; set; } = 4f;
 
+    [ModdedToggleOption("Meeting Kills Count Towards Quota")]
+    public bool MeetingKillsCountTowardsQuota { get; set; } = true;
+
     [ModdedToggleOption("Temporary Shield Until Quota Is Met")]
     public bool QuotaShield { get; set; } = false;
 

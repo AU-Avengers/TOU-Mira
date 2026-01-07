@@ -151,6 +151,17 @@ public static class CustomTouMurderRpcs
                 showKillAnim,
                 playKillSound);
 
+            // Force-sync death state after successful murder to prevent desyncs
+            if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && newPlayer.HasDied())
+            {
+                DeathStateSync.ScheduleDeathStateSync(newPlayer, true);
+                // Request validation after kill to ensure all clients are in sync
+                if (source.AmOwner)
+                {
+                    DeathStateSync.RequestValidationAfterKill(source);
+                }
+            }
+
             // Record kill cooldown change after CustomMurder if it was reset (only for first target)
             if (killCooldownBefore.HasValue && firstTarget && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
             {
@@ -242,6 +253,16 @@ public static class CustomTouMurderRpcs
         if (target.HasDied())
         {
             MiscUtils.LungeToPos(framed, targetPos);
+            // Force-sync death state after successful murder to prevent desyncs
+            if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
+            {
+                DeathStateSync.ScheduleDeathStateSync(target, true);
+                // Request validation after kill to ensure all clients are in sync
+                if (source.AmOwner)
+                {
+                    DeathStateSync.RequestValidationAfterKill(source);
+                }
+            }
         }
 
         // Record kill cooldown change after CustomMurder if it was reset
@@ -336,6 +357,17 @@ public static class CustomTouMurderRpcs
             showKillAnim,
             playKillSound);
 
+        // Force-sync death state after successful murder to prevent desyncs
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && target.HasDied())
+        {
+            DeathStateSync.ScheduleDeathStateSync(target, true);
+            // Request validation after kill to ensure all clients are in sync
+            if (source.AmOwner)
+            {
+                DeathStateSync.RequestValidationAfterKill(source);
+            }
+        }
+
         // Record kill cooldown change after CustomMurder if it was reset
         if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
         {
@@ -348,7 +380,7 @@ public static class CustomTouMurderRpcs
         }
     }
 
-    private static IEnumerator CoRecordKillCooldownAfterCustomMurder(PlayerControl player, float cooldownBefore)
+    public static IEnumerator CoRecordKillCooldownAfterCustomMurder(PlayerControl player, float cooldownBefore)
     {
         // Wait for CustomMurder to process and SetKillTimer to be called
         yield return null;
@@ -404,6 +436,17 @@ public static class CustomTouMurderRpcs
         source.CustomMurder(
             target,
             MurderResultFlags.Succeeded);
+
+        // Force-sync death state after ghost role murder to prevent desyncs
+        if (target.HasDied())
+        {
+            DeathStateSync.ScheduleDeathStateSync(target, true);
+            // Request validation after kill to ensure all clients are in sync
+            if (source.AmOwner)
+            {
+                DeathStateSync.RequestValidationAfterKill(source);
+            }
+        }
 
         Coroutines.Start(CoRemoveIndirect(source));
     }

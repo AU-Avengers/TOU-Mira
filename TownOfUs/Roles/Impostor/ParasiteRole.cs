@@ -203,6 +203,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
+        // Camera follows controlled player position
         var pos = Controlled.transform.position;
         parasiteCam.transform.position = new Vector3(pos.x, pos.y, parasiteCam.transform.position.z);
 
@@ -635,6 +636,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         _pipSnapping = false;
         _pipManualMovedThisSession = false;
         _pipSettingsDirty = true;
+        
         DestroyCamera();
         ClearNotifications();
     }
@@ -709,7 +711,22 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             target.MyPhysics.ExitAllVents();
         }
 
-        if (parasite.AmOwner)
+        if (target.AmOwner)
+        {
+            var pos = (Vector2)target.transform.position;
+            if (target.NetTransform != null)
+            {
+                try
+                {
+                    target.NetTransform.SnapTo(pos);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+        }
+        else if (parasite.AmOwner)
         {
             NetTransformBacklogUtils.FlushAndSnap(target);
         }
@@ -744,22 +761,80 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             {
                 target.RemoveModifier(mod);
             }
-        }
 
-        if (parasite != null && parasite.AmOwner && target != null && !target.AmOwner)
-        {
-            NetTransformBacklogUtils.FlushAndSnap(target);
+            if (target.MyPhysics != null)
+            {
+                if (target.MyPhysics.body != null)
+                {
+                    target.MyPhysics.body.velocity = Vector2.zero;
+                }
+                target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
+            }
+
+            // SNAP CNT AND FLUSH: At control end, sync CNT to current position
+            var finalPos = (Vector2)target.transform.position;
+            if (target.NetTransform != null)
+            {
+                try
+                {
+                    // Flush CNT backlog first
+                    NetTransformBacklogUtils.FlushBacklog(target);
+                    
+                    // Then snap to current authoritative position
+                    if (target.AmOwner)
+                    {
+                        target.NetTransform.SnapTo(finalPos);
+                    }
+                    else if (parasite != null && parasite.AmOwner)
+                    {
+                        // Controller can snap on behalf of victim
+                        NetTransformBacklogUtils.FlushAndSnap(target);
+                    }
+                    else
+                    {
+                        // Other clients just flush
+                        NetTransformBacklogUtils.FlushBacklog(target);
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
         }
 
         role.ClearControlLocal();
 
-        if (parasite != null && parasite.AmOwner)
+        if (parasite != null)
         {
-            parasite.walkingToVent = false;
+            if (parasite.AmOwner)
+            {
+                var pos = (Vector2)parasite.transform.position;
+                if (parasite.NetTransform != null)
+                {
+                    try
+                    {
+                        parasite.NetTransform.SnapTo(pos);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+            else
+            {
+                NetTransformBacklogUtils.FlushBacklog(parasite);
+            }
 
-            var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
-            btn.SetActive(true, role);
-            btn.StopControlEffectAndApplyCooldown();
+            if (parasite.AmOwner)
+            {
+                parasite.walkingToVent = false;
+
+                var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.ParasiteOvertakeButton>.Instance;
+                btn.SetActive(true, role);
+                btn.StopControlEffectAndApplyCooldown();
+            }
         }
 
         role.ClearNotifications();
@@ -874,10 +949,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        // Handle different types of interactables
         if (interactable.TryCast<Ladder>() is { } ladder)
         {
-            // Ladder climb MUST be initiated by the controlled player's owner, otherwise anticheat can kick.
             if (!player.AmOwner)
             {
                 return;
@@ -887,7 +960,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
         {
-            // Zipline use is host-authoritative in this codebase (see GhostRoleUsePatches.CheckUseZipline).
             if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
             {
                 return;
@@ -899,7 +971,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
         {
-            // Door state is host-authoritative.
             if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
             {
                 return;
@@ -908,7 +979,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<DoorConsole>() is { } doorConsole)
         {
-            // Door minigame - this needs to be handled on the controlled player's client
             if (player.AmOwner)
             {
                 player.NetTransform.Halt();
@@ -929,7 +999,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
         {
-            // Moving platform is host-authoritative (to avoid desync/cheat flags).
             if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
             {
                 return;
@@ -947,7 +1016,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<DeconControl>() is { } deconControl)
         {
-            // Decon door trigger should be host-authoritative.
             if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
             {
                 return;

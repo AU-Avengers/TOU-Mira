@@ -20,57 +20,54 @@ public static class DeadlyQuotaEvents
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
         var source = @event.Source;
-        if (!source.AmOwner || !source.HasModifier<DeadlyQuotaModifier>() || MeetingHud.Instance)
+        if (!source.TryGetModifier<DeadlyQuotaModifier>(out var deadlyQuota) || (MeetingHud.Instance && OptionGroupSingleton<DeadlyQuotaOptions>.Instance.MeetingKillsCountTowardsQuota))
             return;
-
-        var deadlyQuota = source.GetModifier<DeadlyQuotaModifier>();
-
-        if (deadlyQuota is null) return;
 
         deadlyQuota.KillCount++;
 
-        if (deadlyQuota.KillQuota > deadlyQuota.KillCount)
+        if (source.AmOwner)
         {
-            var remaining = deadlyQuota.KillQuota - deadlyQuota.KillCount;
-
-            var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>You need {remaining} more {(remaining == 1 ? "kill" : "kills")} to complete your quota!</b>",
-                Color.white,
-                new Vector3(0f, 1f, -20f),
-                spr: TouModifierIcons.DeadlyQuota.LoadAsset());
-
-
-            notif1.Text.SetOutlineThickness(0.4f);
-        }
-
-        if (deadlyQuota.KillQuota == deadlyQuota.KillCount)
-        {
-            if (!OptionGroupSingleton<DeadlyQuotaOptions>.Instance.QuotaShield)
+            if (deadlyQuota.KillQuota > deadlyQuota.KillCount)
             {
-                var notif2 = Helpers.CreateAndShowNotification(
-                $"<b>You have completed your quota!</b>",
-                Color.white,
-                new Vector3(0f, 1f, -20f),
-                spr: TouModifierIcons.DeadlyQuota.LoadAsset());
+                var remaining = deadlyQuota.KillQuota - deadlyQuota.KillCount;
 
-                notif2.Text.SetOutlineThickness(0.4f);
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>You need {remaining} more {(remaining == 1 ? "kill" : "kills")} to complete your quota!</b>",
+                    Color.white,
+                    new Vector3(0f, 1f, -20f),
+                    spr: TouModifierIcons.DeadlyQuota.LoadAsset());
+
+
+                notif1.Text.SetOutlineThickness(0.4f);
             }
-            else
+
+            if (deadlyQuota.KillQuota == deadlyQuota.KillCount)
             {
-                var notif3 = Helpers.CreateAndShowNotification(
-                $"<b>You have completed your quota! You have lost your temporarily shield.</b>",
-                Color.white,
-                new Vector3(0f, 1f, -20f),
-                spr: TouModifierIcons.DeadlyQuota.LoadAsset());
+                if (!OptionGroupSingleton<DeadlyQuotaOptions>.Instance.QuotaShield)
+                {
+                    var notif2 = Helpers.CreateAndShowNotification(
+                        $"<b>You have completed your quota!</b>",
+                        Color.white,
+                        new Vector3(0f, 1f, -20f),
+                        spr: TouModifierIcons.DeadlyQuota.LoadAsset());
 
-                notif3.Text.SetOutlineThickness(0.4f);
+                    notif2.Text.SetOutlineThickness(0.4f);
+                }
+                else
+                {
+                    var notif3 = Helpers.CreateAndShowNotification(
+                        $"<b>You have completed your quota! You have lost your temporarily shield.</b>",
+                        Color.white,
+                        new Vector3(0f, 1f, -20f),
+                        spr: TouModifierIcons.DeadlyQuota.LoadAsset());
 
+                    notif3.Text.SetOutlineThickness(0.4f);
+
+                }
             }
         }
 
         if (deadlyQuota.KillCount >= deadlyQuota.KillQuota) deadlyQuota.KillCount = deadlyQuota.KillQuota;
-
-
     }
 
     [RegisterEvent]
