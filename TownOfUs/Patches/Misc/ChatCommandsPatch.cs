@@ -168,14 +168,73 @@ public static class ChatPatches
         {
             if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
             {
-                var rulesText = GetLobbyRulesText();
-                var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
-                var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+                var stringToCheck =
+                    rulesCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
+                var remainingText = textRegular;
+                if (remainingText.StartsWith($"/{stringToCheck} ", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/{stringToCheck} ".Length..];
+                }
+                else if (remainingText.StartsWith($"/{stringToCheck}", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/{stringToCheck}".Length..];
+                }
+                else if (remainingText.StartsWith($"/ {stringToCheck} ", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/ {stringToCheck} ".Length..];
+                }
+                else if (remainingText.StartsWith($"/ {stringToCheck}", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/ {stringToCheck}".Length..];
+                }
+
+                if (remainingText.Trim().Equals("show", StringComparison.OrdinalIgnoreCase))
+                {
+                    var rulesText = GetLobbyRulesText();
+                    foreach (var p in PlayerControl.AllPlayerControls)
+                    {
+                        RpcSendLobbyRules(PlayerControl.LocalPlayer, p, rulesText);
+                    }
+                }
+                else
+                {
+                    var rulesText = GetLobbyRulesText();
+                    var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
+                    var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+                }
             }
             else
             {
-                RpcRequestLobbyRules(PlayerControl.LocalPlayer);
+                var stringToCheck =
+                    rulesCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
+                var remainingText = textRegular;
+                if (remainingText.StartsWith($"/{stringToCheck} ", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/{stringToCheck} ".Length..];
+                }
+                else if (remainingText.StartsWith($"/{stringToCheck}", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/{stringToCheck}".Length..];
+                }
+                else if (remainingText.StartsWith($"/ {stringToCheck} ", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/ {stringToCheck} ".Length..];
+                }
+                else if (remainingText.StartsWith($"/ {stringToCheck}", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/ {stringToCheck}".Length..];
+                }
+
+                if (remainingText.Trim().Equals("show", StringComparison.OrdinalIgnoreCase))
+                {
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                        TouLocale.GetParsed("RulesShowHostError"));
+                }
+                else
+                {
+                    RpcRequestLobbyRules(PlayerControl.LocalPlayer);
+                }
             }
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();

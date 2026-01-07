@@ -92,6 +92,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         config.Bind("Miscellaneous", "ShowWelcomeMessage", true);
 
     [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle { get; private set; } =
+        config.Bind("Miscellaneous", "ShowRulesOnLobbyJoin", true);
+
+    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
         config.Bind("Miscellaneous", "ShowSummaryMessage", true);
 

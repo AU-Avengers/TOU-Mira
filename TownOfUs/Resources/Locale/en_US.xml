@@ -276,6 +276,8 @@
   <string name="RulesCommandList">rules</string>
   <string name="RulesMessageTitle">System</string>
   <string name="RulesMissingError">Host has no rules saved.</string>
+  <string name="RulesShowHostError">You must be the host to use /rules show.</string>
+  <string name="ShowRulesOnLobbyJoin">Show Rules On Lobby Join</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->
