@@ -21,7 +21,7 @@ public sealed class ScientistButton : TownOfUsButton
 
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.Scientist;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ScientistOptions>.Instance.DisplayCooldown + MapCooldown + MapCooldown, 0.001f, 120f);
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ScientistOptions>.Instance.DisplayCooldown + MapCooldown, 0.001f, 120f);
     public float AvailableCharge { get; set; } = OptionGroupSingleton<ScientistOptions>.Instance.StartingCharge;
 
     public override float EffectDuration

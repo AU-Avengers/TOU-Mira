@@ -1,18 +1,27 @@
-﻿using System.Text;
+﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
 public sealed class TraitorRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ISpawnChange
+    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ISpawnChange, IGuessable
 {
+
+    // This is so the role can be guessed without requiring it to be enabled normally
+    public bool CanBeGuessed =>
+        RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>()) is ICustomRole customRole &&
+        (int)customRole.GetCount()! > 0 && (int)customRole.GetChance()! > 0 &&
+        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance > 0;
     public bool CanSpawnOnCurrentMode() => false;
     [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
     [HideFromIl2Cpp] public RoleBehaviour? RandomRole { get; set; }
@@ -50,12 +59,6 @@ public sealed class TraitorRole(IntPtr cppPtr)
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Traitor
     };
-
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

@@ -4,7 +4,7 @@ using MiraAPI.GameOptions;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 
-namespace TouSidemen.Events.Impostor;
+namespace TownOfUs.Events.Impostor;
 
 public static class MinerEvents
 {

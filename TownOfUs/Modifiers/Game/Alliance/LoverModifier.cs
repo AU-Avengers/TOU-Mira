@@ -278,7 +278,33 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public override bool? DidWin(GameOverReason reason)
     {
-        return reason == CustomGameOver.GameOverReason<LoverGameOver>() ? true : null;
+        if (reason == CustomGameOver.GameOverReason<LoverGameOver>())
+        {
+            return true;
+        }
+
+        // Co-win: if the Jester is a Lover and gets voted out (NeutralGameOver winner),
+        // both Lovers should be marked as winners.
+        if (reason == CustomGameOver.GameOverReason<NeutralGameOver>())
+        {
+            var winners = EndGameResult.CachedWinners;
+            if (winners != null && winners.Count == 1)
+            {
+                var winner = winners[0];
+                var winnerRole = RoleManager.Instance.GetRole(winner.RoleWhenAlive);
+                if (winnerRole is JesterRole)
+                {
+                    var winnerName = winner.PlayerName;
+                    if (winnerName == Player.Data.PlayerName ||
+                        (OtherLover != null && winnerName == OtherLover.Data.PlayerName))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     public static bool WinConditionMet(LoverModifier[] lovers)
@@ -306,6 +332,29 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     public PlayerControl? GetOtherLover()
     {
         return OtherLover;
+    }
+
+    /// <summary>
+    /// Debug helper (Freeplay/Tutorial) to force-assign a pair of players as Lovers.
+    /// </summary>
+    public static void DebugSetLovers(PlayerControl loverA, PlayerControl loverB, bool clearExisting = true)
+    {
+        if (loverA == null || loverB == null || loverA == loverB)
+        {
+            return;
+        }
+
+        if (clearExisting)
+        {
+            foreach (var player in PlayerControl.AllPlayerControls.ToArray()
+                         .Where(x => x != null && x.HasModifier<LoverModifier>()).ToList())
+            {
+                player.RpcRemoveModifier<LoverModifier>();
+            }
+        }
+
+        // Uses the existing RPC path to ensure both sides are wired correctly.
+        RpcSetOtherLover(loverA, loverB);
     }
 
     [MethodRpc((uint)TownOfUsRpc.SetOtherLover)]

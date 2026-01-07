@@ -9,7 +9,7 @@ public sealed class ScavengerOptions : AbstractOptionGroup<ScavengerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleScavenger", "Scavenger");
 
-    [ModdedNumberOption("Scavenge Duration", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Scavenge Duration", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ScavengeDuration { get; set; } = 25f;
 
     [ModdedNumberOption("Scavenge Duration Increase Per Kill", 5f, 15f, 0.5f, MiraNumberSuffixes.Seconds)]

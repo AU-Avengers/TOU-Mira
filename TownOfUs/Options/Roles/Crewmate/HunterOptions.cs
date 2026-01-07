@@ -10,7 +10,7 @@ public sealed class HunterOptions : AbstractOptionGroup<HunterRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleHunter", "Hunter");
 
-    [ModdedNumberOption("TouOptionHunterKillCooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionHunterKillCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HunterKillCooldown { get; set; } = 25f;
 
     [ModdedNumberOption("TouOptionHunterStalkCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
@@ -24,9 +24,6 @@ public sealed class HunterOptions : AbstractOptionGroup<HunterRole>
     {
         Visible = () => OptionGroupSingleton<HunterOptions>.Instance.StalkUses != -1
     };
-
-    [ModdedToggleOption("TouOptionHunterTaskUses")]
-    public bool TaskUses { get; set; } = true;
 
     [ModdedToggleOption("TouOptionHunterRetributionOnVote")]
     public bool RetributionOnVote { get; set; } = true;

@@ -13,7 +13,7 @@ public abstract class BaseShieldModifier : TimedModifier, IAnimated
     public override bool AutoStart => false;
 
     public override bool HideOnUi =>
-        !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowShieldHudToggle.Value;
+        !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value;
 
     public virtual bool VisibleSymbol => false;
     public bool IsVisible { get; set; } = true;

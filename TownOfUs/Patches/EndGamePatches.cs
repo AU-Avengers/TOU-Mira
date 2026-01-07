@@ -1,4 +1,3 @@
-using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers;
@@ -6,8 +5,11 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Text;
+using MiraAPI.Events;
 using TMPro;
 using TownOfUs.Events;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
@@ -173,7 +175,7 @@ public static class EndGamePatches
                 modifierCountAlt--;
                 if (modifierCountAlt == 0)
                 {
-                    modifierHolder.Append(TownOfUsPlugin.Culture,$"{modColor.ToTextColor()}{modifierName}</color>)");
+                    modifierHolder.Append(TownOfUsPlugin.Culture, $"{modColor.ToTextColor()}{modifierName}</color>)");
                 }
                 else
                 {
@@ -374,7 +376,7 @@ public static class EndGamePatches
             roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
             normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role}");
             basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role2}");
-            
+
             segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=70%>{data.ChatSummaryTitle}</size>");
             segmentedSummary.Append(TownOfUsPlugin.Culture, $"<size=62%>");
             if (!data.ChatSummaryRoleInfo.IsNullOrWhiteSpace())
@@ -621,6 +623,9 @@ public static class EndGamePatches
             }
             TownOfUsEventHandlers.LogBuffer.Clear();
         }
+
+        var changeRoleEvent = new ClientGameEndEvent();
+        MiraEventManager.InvokeEvent(changeRoleEvent);
 
         BuildEndGameData();
     }

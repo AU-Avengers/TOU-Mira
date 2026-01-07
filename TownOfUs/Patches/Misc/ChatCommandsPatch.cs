@@ -1,4 +1,3 @@
-using System.IO;
 using System.Reflection;
 using HarmonyLib;
 using MiraAPI.GameOptions;
@@ -324,7 +323,7 @@ public static class ChatPatches
                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandHostError"));
             }
-            else if (!TownOfUsPlugin.IsDevBuild)
+            else if (!TownOfUsPlugin.IsDevBuild || TownOfUsPlugin.IsBetaBuild)
             {
                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandDevBuildError"));
@@ -552,8 +551,8 @@ public static class ChatPatches
                       $"{TouLocale.GetParsed("SummaryCommandDescription")}\n" +
                       $"{TouLocale.GetParsed("RulesCommandDescription")}\n";
 
-            // Only show /up command in help if host + dev build
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild)
+            // Only show /up command in help if host + dev build (not beta)
+            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild)
             {
                 msg += $"{TouLocale.GetParsed("UpCommandDescription")}\n";
             }

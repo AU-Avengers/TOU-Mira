@@ -60,11 +60,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public bool MetWinCon => AllGuessesCorrect;
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public bool WinConditionMet()
     {
@@ -126,15 +122,15 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
+        if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessAllAtOnce)
+        {
+            NumberOfGuesses = 0;
+        }
+
         if (Player.AmOwner)
         {
             meetingMenu.GenButtons(MeetingHud.Instance,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
-
-            if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomsayerGuessAllAtOnce)
-            {
-                NumberOfGuesses = 0;
-            }
 
             IncorrectGuesses = 0;
             AllVictims.Clear();

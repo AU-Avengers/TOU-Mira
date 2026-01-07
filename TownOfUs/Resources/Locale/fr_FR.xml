@@ -116,8 +116,8 @@
   <string name="TouModifierDisperserDisperseWikiDescription">Vous pouvez disperser les joueurs de la carte dans des conduits aléatoire, une fois par partie.</string>
   <string name="TouModifierSixthSense">Sixième Sens</string>
   <string name="TouModifierSixthSenseTabDescription">Vous savez quand quelqu'un interagit avec vous.</string>
-  <string name="TouOptionRadarOnePerRound">Une Utilisation Par Tour</string>
-  <string name="TouOptionRadarAllowFirst">Autoriser l'Utilisation au Premier Tour</string>
+  <string name="TouOptionSatelliteOnePerRound">Une Utilisation Par Tour</string>
+  <string name="TouOptionSatelliteAllowFirst">Autoriser l'Utilisation au Premier Tour</string>
   <string name="TouModifierShy">Timide</string>
   <string name="TouModifierShyTabDescription">Vous devenez transparent après \%nl\% être resté immobile pendant une courte durée.</string>
   <string name="TouModifierShyWikiDescription">Vous vous fondez dans l'environnement, devenant transparent quand vous êtes immobile.</string>

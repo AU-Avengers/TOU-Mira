@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
@@ -49,11 +50,27 @@ public static class UpCommandRequests
             return false;
         }
 
-        // Find the role by name or locale key
-        var role = MiscUtils.AllRegisteredRoles.FirstOrDefault(r =>
-            !r.IsDead &&
-            (r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
-             (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase))));
+        // Find the role by name or locale key (filtered to current mode to avoid collisions like Classic vs HnS "Snitch").
+        // Use the same matching logic as in ChatCommandsPatch to ensure consistency between lobby and in-game.
+        var allRoles = MiscUtils.AllRegisteredRoles
+            .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r))
+            .ToList();
+        
+        // First try exact match (with and without spaces)
+        var role = allRoles.FirstOrDefault(r =>
+            r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
+            r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
+            (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase)));
+
+        // If exact match fails, try fuzzy matching (contains)
+        if (role == null)
+        {
+            role = allRoles.FirstOrDefault(r =>
+                r.GetRoleName().Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
+                roleName.Contains(r.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
+                (r is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
+                                                 roleName.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
+        }
 
         if (role == null)
         {
@@ -97,11 +114,27 @@ public static class UpCommandRequests
             return false;
         }
 
-        // Find the role by name or locale key
-        var foundRole = MiscUtils.AllRegisteredRoles.FirstOrDefault(r =>
-            !r.IsDead &&
-            (r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
-             (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase))));
+        // Find the role by name or locale key (filtered to current mode to avoid collisions like Classic vs HnS "Snitch").
+        // Use the same matching logic as in ChatCommandsPatch to ensure consistency between lobby and in-game.
+        var allRoles = MiscUtils.AllRegisteredRoles
+            .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r))
+            .ToList();
+        
+        // First try exact match (with and without spaces)
+        var foundRole = allRoles.FirstOrDefault(r =>
+            r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
+            r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
+            (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase)));
+
+        // If exact match fails, try fuzzy matching (contains)
+        if (foundRole == null)
+        {
+            foundRole = allRoles.FirstOrDefault(r =>
+                r.GetRoleName().Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
+                roleName.Contains(r.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
+                (r is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
+                                                 roleName.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
+        }
 
         if (foundRole == null)
         {
@@ -130,4 +163,3 @@ public static class UpCommandRequests
         return new Dictionary<string, string>(Requests);
     }
 }
-

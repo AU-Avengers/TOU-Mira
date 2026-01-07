@@ -10,6 +10,7 @@ namespace TownOfUs.Patches.Modifiers;
 public static class CrewpostorSabotagePatch
 {
     [HarmonyPatch(typeof(NormalGameManager), nameof(NormalGameManager.GetMapOptions))]
+    [HarmonyPriority(Priority.Low)] // make sure it occurs after other patches
     [HarmonyPrefix]
     public static bool GetMapOptions(ref MapOptions __result)
     {

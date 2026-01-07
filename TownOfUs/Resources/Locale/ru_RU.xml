@@ -1094,10 +1094,10 @@
   <string name="TouModifierSatelliteWikiDescription">Вы можете узнать местонахождение мёртвых тел на карте \%maxUses\% раз(а).</string>
   <string name="TouModifierSatelliteBroadcast">Сигнал</string>
   <string name="TouModifierSatelliteBroadcastWikiDescription">Вы можете узнать местонахождение мёртвых тел на карте \%maxUses\% раз(а).</string>
-  <string name="TouOptionRadarCooldown">Откат Кнопки</string>
-  <string name="TouOptionRadarMaxUses">Макс. использований</string>
-  <string name="TouOptionRadarOnePerRound">Одно использование за раунд</string>
-  <string name="TouOptionRadarAllowFirst">Использование в первом раунде</string>
+  <string name="TouOptionSatelliteCooldown">Откат Кнопки</string>
+  <string name="TouOptionSatelliteMaxUses">Макс. использований</string>
+  <string name="TouOptionSatelliteOnePerRound">Одно использование за раунд</string>
+  <string name="TouOptionSatelliteAllowFirst">Использование в первом раунде</string>
   <string name="TouModifierShy">Стесняющийся</string>
   <string name="TouModifierShyTabDescription">Вы становитесь прозрачным, недолго стоя на месте.</string>
   <string name="TouModifierShyWikiDescription">Стоя неподвижно, вы сливаетесь с окружением.</string>

@@ -21,9 +21,9 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 # Key Differences with TOU Mira
 
 - Revamped visuals
-- New roles (Ambassador, Ambusher, Inquisitor, Mirrorcaster)
-- New modifiers (Scout, Telepath, Operative)
-- Localization to numerous languages (coming after v1.1.1)
+- New roles such as Ambassador, Ambusher, Inquisitor, Mirrorcaster
+- New modifiers such as Circumvent, Scout, Telepath, Operative
+- Localization to numerous languages (being worked on still)
 - Vanilla role support (allowing players to use vanilla roles alongside modded roles)
 - Balance changes into the mix for players to use
 - Compatibility with a handful of other role mods that run on MiraAPI.
@@ -150,6 +150,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us   | Mod Version | Download Link                                                           |
 |------------|-------------|-------------------------------------------------------------------------|
+| 2025.10.28 | 1.5.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
 | 2025.10.28 | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
 | 2025.10.28 | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
 | 2025.10.14 | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
@@ -162,6 +163,14 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 | 2025.5.20  | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
 | 2025.5.20  | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
 | 2025.5.20  | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
+
+-----------------------
+
+# Contributions & Credits
+
+> [!NOTE]
+> If you wish to make an Extension Mod that builds on top of TOU Mira, you may look at [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)'s Example Mod or the official [Example Mod](https://github.com/AU-Avengers/TouExtensionExample).
+
 
 -----------------------
 

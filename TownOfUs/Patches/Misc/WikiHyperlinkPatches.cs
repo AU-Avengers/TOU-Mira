@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
@@ -61,6 +62,11 @@ public static class WikiHyperLinkPatches
                 {
                     replacement =
                         $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={role.GetType().FullName}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                    if (Enum.IsDefined(role.Role))
+                    {
+                        replacement =
+                        $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                    }
                     shouldHyperlink = true;
                 }
                 else
@@ -70,9 +76,18 @@ public static class WikiHyperLinkPatches
                         x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
                     if (role != null)
                     {
-                        replacement =
-                            $"{fontTag}<b>{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color></b></font>";
-                        shouldHyperlink = false;
+                        if (role.Role is RoleTypes.Crewmate || role.Role is RoleTypes.Impostor)
+                        {
+                            replacement =
+                                $"{fontTag}<b>{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color></b></font>";
+                            shouldHyperlink = false;
+                        }
+                        else
+                        {
+                            replacement =
+                                $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                            shouldHyperlink = true;
+                        }
                     }
                 }
             }

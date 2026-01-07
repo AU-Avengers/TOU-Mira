@@ -51,11 +51,11 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
         {
             var title = $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>Jailee Feedback</color>";
             var text =
-                "You are jailed, convince the Jailor that you are Crew to avoid being executed in the <b>RED</b> private chatbox next to the <b>REGULAR</b> chatbox.";
+                "You are jailed, convince the Jailor that you are Crew to avoid being executed in the chatbox above the user report button.";
             if (PlayerControl.LocalPlayer.Is(ModdedRoleTeams.Crewmate))
             {
                 text =
-                    "You are jailed, provide relevant information to the Jailor to prove you are Crew in the <b>RED</b> private chatbox next to the <b>REGULAR</b> chatbox.";
+                    "You are jailed, provide relevant information to the Jailor to prove you are Crew in the chatbox above the user report button.";
             }
 
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, text, false, true);
