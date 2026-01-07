@@ -787,7 +787,7 @@ public static class TownOfUsEventHandlers
             yield break;
         }
 
-        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText);
+        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText, true);
     }
 
     [RegisterEvent]

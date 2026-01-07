@@ -191,10 +191,7 @@ public static class ChatPatches
                 if (remainingText.Trim().Equals("show", StringComparison.OrdinalIgnoreCase))
                 {
                     var rulesText = GetLobbyRulesText();
-                    foreach (var p in PlayerControl.AllPlayerControls)
-                    {
-                        RpcSendLobbyRules(PlayerControl.LocalPlayer, p, rulesText);
-                    }
+                    RpcSendLobbyRulesGlobal(PlayerControl.LocalPlayer, rulesText);
                 }
                 else
                 {
@@ -666,16 +663,24 @@ public static class ChatPatches
             return;
         }
         var rulesText = GetLobbyRulesText();
-        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText);
+        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText, false);
     }
 
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRules)]
-    public static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText)
+    public static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText, bool optional)
     {
-        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId)
+        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowRulesOnLobbyJoinToggle.Value)
         {
             return;
         }
+        var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.SendLobbyRulesGlobal)]
+    public static void RpcSendLobbyRulesGlobal(PlayerControl host, string rulesText)
+    {
         var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
         var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
         MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
