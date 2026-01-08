@@ -35,6 +35,98 @@ public static class TeamChatPatches
     internal const string PrivateBubblePrefix = "TOU_TeamChatBubble_";
     internal const string PublicBubblePrefix = "TOU_PublicChatBubble_";
 
+    /// <summary>
+    /// Registration system for extension team chats. Extensions can register their own team chat handlers.
+    /// </summary>
+    public static class ExtensionTeamChatRegistry
+    {
+        public static List<ExtensionTeamChatHandler> RegisteredHandlers { get; } = [];
+
+        /// <summary>
+        /// Register a team chat handler for extensions.
+        /// </summary>
+        public static void RegisterHandler(ExtensionTeamChatHandler handler)
+        {
+            if (handler != null && !RegisteredHandlers.Contains(handler))
+            {
+                RegisteredHandlers.Add(handler);
+            }
+        }
+
+        /// <summary>
+        /// Unregister a team chat handler.
+        /// </summary>
+        public static void UnregisterHandler(ExtensionTeamChatHandler handler)
+        {
+            RegisteredHandlers.Remove(handler);
+        }
+
+        /// <summary>
+        /// Check if any registered extension team chat is available for the local player.
+        /// </summary>
+        public static bool IsAnyExtensionChatAvailable()
+        {
+            return RegisteredHandlers.Any(h => h.IsChatAvailable != null && h.IsChatAvailable());
+        }
+
+        /// <summary>
+        /// Get the first available extension team chat handler.
+        /// </summary>
+        public static ExtensionTeamChatHandler? GetAvailableHandler()
+        {
+            return RegisteredHandlers.FirstOrDefault(h => h.IsChatAvailable != null && h.IsChatAvailable());
+        }
+
+        /// <summary>
+        /// Try to send a message through an extension team chat handler.
+        /// </summary>
+        public static bool TrySendExtensionChat(string message)
+        {
+            var handler = GetAvailableHandler();
+            if (handler?.SendMessage != null)
+            {
+                handler.SendMessage(PlayerControl.LocalPlayer, message);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Handler for extension team chats. Extensions should create instances of this to register their team chat.
+    /// </summary>
+    public sealed class ExtensionTeamChatHandler
+    {
+        /// <summary>
+        /// Function to check if this team chat is available for the local player.
+        /// Should return true if the player can use this team chat.
+        /// </summary>
+        public Func<bool>? IsChatAvailable { get; set; }
+
+        /// <summary>
+        /// Function to send a message through this team chat.
+        /// Parameters: (sender, message)
+        /// </summary>
+        public Action<PlayerControl, string>? SendMessage { get; set; }
+
+        /// <summary>
+        /// Optional: Function to get the display text when this chat is active.
+        /// Should return the text to display, or null to use default.
+        /// </summary>
+        public Func<string>? GetDisplayText { get; set; }
+
+        /// <summary>
+        /// Optional: Color for the display text.
+        /// </summary>
+        public Color? DisplayTextColor { get; set; }
+
+        /// <summary>
+        /// Optional: Function to check if dead players can see this chat (when "The Dead Know" is enabled).
+        /// Parameters: (deadPlayer)
+        /// </summary>
+        public Func<PlayerControl, bool>? CanDeadPlayerSee { get; set; }
+    }
+
     private static bool IsPrivateBubble(GameObject bubbleGo)
     {
         return bubbleGo != null && !DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && bubbleGo.name.StartsWith(PrivateBubblePrefix, StringComparison.OrdinalIgnoreCase);
@@ -189,11 +281,11 @@ public static class TeamChatPatches
         {
             RestoreStoredBubbles(HudManager.Instance.Chat);
 
-            Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
+            Sprite[] buttonArray = [TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
             if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
             {
-                buttonArray = 
-                    [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
+                buttonArray =
+                    [TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
             }
             HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
@@ -271,10 +363,20 @@ public static class TeamChatPatches
                 _teamText.text = "Vampire Chat is Open. Only Vampires can see this.";
                 _teamText.color = TownOfUsColors.Vampire;
             }
-            else if (_teamText != null)
+            else
             {
-                _teamText.text = "Jailor, Impostor, and Vampire Chat can be seen here.";
-                _teamText.color = Color.white;
+                // Check for extension team chats
+                var extensionHandler = ExtensionTeamChatRegistry.GetAvailableHandler();
+                if (extensionHandler != null && extensionHandler.GetDisplayText != null && _teamText != null)
+                {
+                    _teamText.text = extensionHandler.GetDisplayText();
+                    _teamText.color = extensionHandler.DisplayTextColor ?? TownOfUsColors.ImpSoft;
+                }
+                else if (_teamText != null)
+                {
+                    _teamText.text = "Jailor, Impostor, and Vampire Chat can be seen here.";
+                    _teamText.color = Color.white;
+                }
             }
             foreach (var bubble in bubbleItems.GetAllChildren())
             {
@@ -410,9 +512,15 @@ public static class TeamChatPatches
             var isValid = MeetingHud.Instance &&
                           ((PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
                             (PlayerControl.LocalPlayer.IsImpostorAligned() && genOpt is
-                                { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
+                            { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
                             (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat))
                            || !MeetingHud.Instance && PlayerControl.LocalPlayer.IsLover()) && calledByChatUpdate;
+
+            // Check extension team chats
+            if (!isValid && MeetingHud.Instance && calledByChatUpdate)
+            {
+                isValid = ExtensionTeamChatRegistry.IsAnyExtensionChatAvailable();
+            }
 
             if (!isValid)
             {

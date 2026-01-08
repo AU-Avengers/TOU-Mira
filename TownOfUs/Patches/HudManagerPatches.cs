@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 using MiraAPI;
@@ -9,9 +8,11 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using System.Text;
 using TMPro;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Venerer;
@@ -30,6 +31,7 @@ using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static TownOfUs.Interfaces.BaseGame.BaseGame;
 using Color = UnityEngine.Color;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 using Object = UnityEngine.Object;
@@ -141,15 +143,15 @@ public static class HudManagerPatches
             switch (deltaMagnitudeDiff)
             {
                 case > 0:
-                {
-                    ScrollZoom();
-                    break;
-                }
+                    {
+                        ScrollZoom();
+                        break;
+                    }
                 case < 0:
-                {
-                    ScrollZoom(true);
-                    break;
-                }
+                    {
+                        ScrollZoom(true);
+                        break;
+                    }
             }
         }
 
@@ -170,8 +172,14 @@ public static class HudManagerPatches
         var isValid = MeetingHud.Instance &&
                       (PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
                        (PlayerControl.LocalPlayer.IsImpostorAligned() && genOpt is
-                           { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
+                       { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
                        (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat));
+
+        // Check extension team chats
+        if (!isValid && MeetingHud.Instance)
+        {
+            isValid = TeamChatPatches.ExtensionTeamChatRegistry.IsAnyExtensionChatAvailable();
+        }
 
         if (!TeamChatPatches.TeamChatButton)
         {
@@ -380,7 +388,7 @@ public static class HudManagerPatches
 
                 if (player.AmOwner ||
                     (PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() && genOpt is
-                        { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
+                    { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
                     (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                     (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow) ||
                     FairyRole.FairySeesRoleVisibilityFlag(player) ||
@@ -510,7 +518,7 @@ public static class HudManagerPatches
                 if (player.Data?.Disconnected == true)
                 {
                     if (!((PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() && genOpt is
-                              { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
+                        { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
                           (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                           (!TutorialManager.InstanceExists &&
                            ((PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow) ||
@@ -589,7 +597,7 @@ public static class HudManagerPatches
                 var canSeeDeathReason = false;
                 if (player.AmOwner ||
                     (PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() && genOpt is
-                        { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
+                    { ImpsKnowRoles.Value: true, FFAImpostorMode: false }) ||
                     (PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole && role is VampireRole) ||
                     (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && isVisible) ||
                     FairyRole.FairySeesRoleVisibilityFlag(player) ||
@@ -1024,7 +1032,7 @@ public static class HudManagerPatches
         {
             return;
         }
-        
+
         UpdateCamouflageComms();
         UpdateRoleNameText();
         UpdateSubmergedButtons(__instance);

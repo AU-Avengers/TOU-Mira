@@ -36,7 +36,7 @@ public static class ChatPatches
             return string.Empty;
         }
     }
-        
+
     [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
     public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
     {
@@ -629,6 +629,15 @@ public static class ChatPatches
             {
                 TeamChatPatches.RpcSendVampTeamChat(PlayerControl.LocalPlayer, textRegular);
 
+                __instance.freeChatField.Clear();
+                __instance.quickChatMenu.Clear();
+                __instance.quickChatField.Clear();
+                __instance.UpdateChatMode();
+
+                return false;
+            }
+            else if (TeamChatPatches.ExtensionTeamChatRegistry.TrySendExtensionChat(textRegular))
+            {
                 __instance.freeChatField.Clear();
                 __instance.quickChatMenu.Clear();
                 __instance.quickChatField.Clear();
