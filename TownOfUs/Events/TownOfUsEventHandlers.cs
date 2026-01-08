@@ -255,6 +255,11 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
+        // Reset team chat state when a new meeting starts
+        TownOfUs.Patches.Options.TeamChatPatches.TeamChatActive = false;
+        TownOfUs.Patches.Options.TeamChatPatches.CurrentChatIndex = -1;
+        TownOfUs.Patches.Options.TeamChatPatches.TeamChatManager.ClearAllUnread();
+
         // Incase the kill animation is stuck somehow
         // HudManager.Instance.KillOverlay.gameObject.SetActive(false);
         foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
