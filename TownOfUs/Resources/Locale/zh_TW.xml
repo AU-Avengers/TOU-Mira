@@ -864,4 +864,16 @@
   <string name="TouOptionSeerNeutralEvilFriendly">中立邪惡型顯示為友方</string>
   <string name="TouOptionSeerNeutralOutlierFriendly">中立外來者型顯示為友方</string>
   <string name="TouOptionSeerCrewmateKillingRolesAreRed">船員擊殺職業顯示為紅色</string>
+  <string name="TouOptionSeerNeutralBenignRolesAreRed">中立善良職業顯示為紅色</string>
+  <string name="TouOptionSeerNeutralEvilRolesAreRed">中立邪惡職業顯示為紅色</string>
+  <string name="TouOptionSeerNeutralKillingRolesAreRed">中立殺手職業顯示為紅色</string>
+  <string name="TouOptionSeerNeutralOutlierRolesAreRed">中立外來者職業顯示為紅色</string>
+  <string name="TouOptionSeerTraitorSwapsColors">背叛者轉換顏色</string>
+  <string name="TouRoleSentry">哨兵</string>
+  <string name="TouRoleSentryIntroBlurb">部署攝像頭以監控地圖</string>
+  <string name="TouRoleSentryWikiDescription">哨兵是一名船員輔助型職業,可以在地圖上放置攝像頭,功能類似於安全攝像頭。完成所有任務以解鎖便攜式攝像頭。</string>
+  <string name="TouRoleSentryPlaceCamera">部署</string>
+  <string name="TouRoleSentryPlaceCameraWikiDescription">在當前位置放置一個攝像頭。該攝像頭將於3秒後顯示。(傳統模式會改變這一行為)</string>
+  <string name="TouRoleSentryPortableCamera">查看</string>
+  <string name="TouRoleSentryPortableCameraWikiDescription">通過有限的電池隨時存取安全攝像頭。電池在觀看時會消耗,並且無法充電。通信破壞時將禁用該功能。</string>
 </resources>

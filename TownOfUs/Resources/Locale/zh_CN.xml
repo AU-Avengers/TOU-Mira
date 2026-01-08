@@ -1733,7 +1733,7 @@
   <string name="TouRoleSentry">哨兵</string>
   <string name="TouRoleSentryIntroBlurb">部署摄像头以监控地图</string>
   <string name="TouRoleSentryTabDescription">在安全区放置摄像头。\%nl\%完成所有任务以解锁便携式摄像头。</string>
-  <string name="TouRoleSentryWikiDescription">哨兵是一名船员支援型职业，可以在地图上放置摄像头，功能类似于安全摄像头。完成所有任务以解锁便携式摄像头。</string>
+  <string name="TouRoleSentryWikiDescription">哨兵是一名船员辅助型职业，可以在地图上放置摄像头，功能类似于安全摄像头。完成所有任务以解锁便携式摄像头。</string>
   <string name="TouRoleSentryPlaceCamera">部署</string>
   <string name="TouRoleSentryPlaceCameraWikiDescription">在当前位置部署一个摄像头。该摄像头将在3秒后显示。（传统模式会改变这一行为）</string>
   <string name="TouRoleSentryPortableCamera">查看</string>
