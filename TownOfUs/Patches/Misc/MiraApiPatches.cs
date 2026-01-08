@@ -4,10 +4,8 @@ using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Networking;
-using MiraAPI.Patches.Options;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Networking;
 using TownOfUs.Utilities;
 
@@ -87,13 +85,6 @@ public static class MiraApiPatches
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
 
-        // Track kill cooldown before CustomMurder for Time Lord rewind
-        float? killCooldownBefore = null;
-        if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
-        {
-            killCooldownBefore = source.killTimer;
-        }
-
         source.CustomMurder(
             target,
             murderResultFlags2,
@@ -112,12 +103,6 @@ public static class MiraApiPatches
             {
                 DeathStateSync.RequestValidationAfterKill(source);
             }
-        }
-
-        // Record kill cooldown change after CustomMurder if it was reset
-        if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
-        {
-            Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
         }
         return false;
     }

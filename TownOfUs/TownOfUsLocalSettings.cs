@@ -1,11 +1,9 @@
 using BepInEx.Configuration;
 using InnerNet;
 using MiraAPI.Hud;
-using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
-using TownOfUs.Patches;
 using TownOfUs.Roles;
 
 namespace TownOfUs;

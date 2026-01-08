@@ -15,7 +15,7 @@ public static class ReactorRpcWarningSuppressionPatch
     public static bool LogWarningPrefix(ManualLogSource __instance, object data)
     {
         if (__instance.SourceName == "Reactor" &&
-            data.ToString().Contains("Non-immediate RPCs were removed"))
+            data.ToString()!.Contains("Non-immediate RPCs were removed"))
         {
             return false;
         }
@@ -29,7 +29,7 @@ public static class ReactorRpcWarningSuppressionPatch
     {
         if (level == LogLevel.Warning &&
             __instance.SourceName == "Reactor" &&
-            data.ToString().Contains("Non-immediate RPCs were removed"))
+            data.ToString()!.Contains("Non-immediate RPCs were removed"))
         {
             return false;
         }
