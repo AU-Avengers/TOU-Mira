@@ -10,8 +10,6 @@ using TownOfUs.Options;
 using TownOfUs.Patches.Options;
 using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 
@@ -36,7 +34,7 @@ public static class ChatPatches
             return string.Empty;
         }
     }
-
+        
     [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
     public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
     {
@@ -587,64 +585,14 @@ public static class ChatPatches
             return false;
         }
 
-        if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied())
+        if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied() && TeamChatPatches.TeamChatManager.SendMessage(textRegular))
         {
-            var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+            __instance.freeChatField.Clear();
+            __instance.quickChatMenu.Clear();
+            __instance.quickChatField.Clear();
+            __instance.UpdateChatMode();
 
-            if (PlayerControl.LocalPlayer.Data.Role is JailorRole)
-            {
-                TeamChatPatches.RpcSendJailorChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-            else if (PlayerControl.LocalPlayer.IsJailed())
-            {
-                TeamChatPatches.RpcSendJaileeChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-            else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                     genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
-            {
-                TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-            else if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat)
-            {
-                TeamChatPatches.RpcSendVampTeamChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-            else if (TeamChatPatches.ExtensionTeamChatRegistry.TrySendExtensionChat(textRegular))
-            {
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
+            return false;
         }
 
         // Chat History
