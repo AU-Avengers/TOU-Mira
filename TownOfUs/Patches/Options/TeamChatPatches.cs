@@ -323,25 +323,29 @@ public static class TeamChatPatches
         }
 
         /// <summary>
-        /// Cycle to the next available chat.
+        /// Cycle to the next available chat. Returns true if cycled to a chat, false if cycled back to normal chat.
         /// </summary>
-        public static void CycleToNextChat()
+        public static bool CycleToNextChat()
         {
             var chats = GetAllAvailableChats();
             if (chats.Count == 0)
             {
                 CurrentChatIndex = -1;
                 TeamChatActive = false;
-                return;
+                return false;
             }
 
             // If there's a forced chat, we can't cycle away from it
             var forcedChat = chats.FirstOrDefault(c => c.IsForced);
             if (forcedChat != null)
             {
-                CurrentChatIndex = chats.IndexOf(forcedChat);
-                TeamChatActive = true;
-                return;
+                var forcedIndex = chats.FindIndex(c => c.Priority == forcedChat.Priority && c.DisplayName == forcedChat.DisplayName);
+                if (forcedIndex >= 0)
+                {
+                    CurrentChatIndex = forcedIndex;
+                    TeamChatActive = true;
+                    return true;
+                }
             }
 
             // Cycle through non-forced chats
@@ -350,7 +354,7 @@ public static class TeamChatPatches
             {
                 CurrentChatIndex = -1;
                 TeamChatActive = false;
-                return;
+                return false;
             }
 
             // Find current chat in non-forced list
@@ -364,14 +368,23 @@ public static class TeamChatPatches
                 currentIndexInNonForced = nonForcedChats.FindIndex(c => c.Priority == currentChat.Priority && c.DisplayName == currentChat.DisplayName);
             }
 
-            // Cycle to next
-            if (currentIndexInNonForced >= 0 && currentIndexInNonForced < nonForcedChats.Count - 1)
+            // If we're on the last chat, cycle back to normal chat
+            if (currentIndexInNonForced >= 0 && currentIndexInNonForced >= nonForcedChats.Count - 1)
+            {
+                // Cycle back to normal chat
+                CurrentChatIndex = -1;
+                TeamChatActive = false;
+                return false;
+            }
+
+            // Cycle to next chat
+            if (currentIndexInNonForced >= 0)
             {
                 currentIndexInNonForced++;
             }
             else
             {
-                // Wrap around or start at 0
+                // Start at first chat
                 currentIndexInNonForced = 0;
             }
 
@@ -379,6 +392,7 @@ public static class TeamChatPatches
             var nextChat = nonForcedChats[currentIndexInNonForced];
             CurrentChatIndex = chats.FindIndex(c => c.Priority == nextChat.Priority && c.DisplayName == nextChat.DisplayName);
             TeamChatActive = true;
+            return true;
         }
 
         /// <summary>
@@ -590,7 +604,7 @@ public static class TeamChatPatches
         }
         else if (!TeamChatActive)
         {
-            // First time activating - select the first available chat (or forced chat)
+            // First time activating - select the first available chat (or forced chat, or unread chat)
             var currentChat = TeamChatManager.GetCurrentChat();
             if (currentChat != null)
             {
@@ -599,7 +613,7 @@ public static class TeamChatPatches
         }
         else
         {
-            // Already active - cycle to next chat
+            // Already active - cycle to next chat (may cycle back to normal chat)
             TeamChatManager.CycleToNextChat();
         }
 
