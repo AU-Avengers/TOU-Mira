@@ -115,6 +115,11 @@ public static class TeamChatPatches
         public string DisplayName { get; set; } = string.Empty;
         public Color DisplayColor { get; set; } = Color.white;
         /// <summary>
+        /// Optional: Background color for the chat screen when this chat is active.
+        /// If null, uses the default team chat background color.
+        /// </summary>
+        public Color? BackgroundColor { get; set; }
+        /// <summary>
         /// If true, this chat cannot be cycled away from and is always active when available.
         /// </summary>
         public bool IsForced { get; set; }
@@ -227,6 +232,7 @@ public static class TeamChatPatches
                         SendAction = handler.SendMessage,
                         DisplayName = handler.GetDisplayText?.Invoke() ?? "Extension Chat",
                         DisplayColor = handler.DisplayTextColor ?? TownOfUsColors.ImpSoft,
+                        BackgroundColor = handler.BackgroundColor,
                         IsForced = handler.IsForced
                     });
                 }
@@ -457,6 +463,12 @@ public static class TeamChatPatches
         /// Optional: Color for the display text.
         /// </summary>
         public Color? DisplayTextColor { get; set; }
+
+        /// <summary>
+        /// Optional: Background color for the chat screen when this chat is active.
+        /// If null, uses the default team chat background color.
+        /// </summary>
+        public Color? BackgroundColor { get; set; }
 
         /// <summary>
         /// Optional: Function to check if dead players can see this chat (when "The Dead Know" is enabled).
@@ -720,17 +732,20 @@ public static class TeamChatPatches
                 jailMod.HasOpenedQuickChat = true;
             }
 
-            Background.GetComponent<SpriteRenderer>().color = new Color(0.2f, 0.1f, 0.1f, 0.8f);
-            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
-            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
-
             // Ensure built-in chats are registered
             TeamChatManager.RegisterBuiltInChats();
 
             // Get currently selected chat
             var currentChat = TeamChatManager.GetCurrentChat();
             var availableChats = TeamChatManager.GetAllAvailableChats();
+
+            // Set background color based on current chat's custom color, or use default
+            var backgroundColor = currentChat?.BackgroundColor ?? new Color(0.2f, 0.1f, 0.1f, 0.8f);
+            Background.GetComponent<SpriteRenderer>().color = backgroundColor;
+
+            HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
+            HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatOpen.LoadAsset();
 
             if (currentChat != null && _teamText != null)
             {
