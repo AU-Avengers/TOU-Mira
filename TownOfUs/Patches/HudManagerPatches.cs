@@ -171,11 +171,8 @@ public static class HudManagerPatches
         var availableChats = TeamChatPatches.TeamChatManager.GetAllAvailableChats();
         var isValid = MeetingHud.Instance != null && availableChats.Count > 0;
 
-        // Also check for lover chat outside meetings
-        if (!isValid && MeetingHud.Instance == null && PlayerControl.LocalPlayer.IsLover())
-        {
-            isValid = true;
-        }
+        // Don't show team chat button for lover chat (it's handled separately outside meetings)
+        // Lover chat is always active when available and doesn't need the team chat button
 
         if (!TeamChatPatches.TeamChatButton)
         {
