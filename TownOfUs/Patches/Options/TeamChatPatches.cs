@@ -28,6 +28,7 @@ public static class TeamChatPatches
     public static bool TeamChatActive; // True if any team chat is active
     public static int CurrentChatIndex = -1; // Index of currently selected chat (-1 = normal chat)
     public static bool ForceReset;
+    private static bool _lastChatOpenState; // Track previous chat open state to detect when chat opens
 #pragma warning disable S2386
     public static List<PoolableBehavior> storedBubbles = new List<PoolableBehavior>();
     public static bool calledByChatUpdate;
@@ -127,6 +128,11 @@ public static class TeamChatPatches
     {
         private static bool _builtInChatsRegistered;
         private static readonly HashSet<int> UnreadChatPriorities = new HashSet<int>();
+
+        /// <summary>
+        /// Get the set of unread chat priorities. Used for checking unread status.
+        /// </summary>
+        public static HashSet<int> GetUnreadChatPriorities() => UnreadChatPriorities;
 
         /// <summary>
         /// Register all built-in team chats with the extension system.
@@ -324,6 +330,7 @@ public static class TeamChatPatches
 
         /// <summary>
         /// Cycle to the next available chat. Returns true if cycled to a chat, false if cycled back to normal chat.
+        /// Forced chats can cycle back to normal chat, but not to other team chats.
         /// </summary>
         public static bool CycleToNextChat()
         {
@@ -335,17 +342,19 @@ public static class TeamChatPatches
                 return false;
             }
 
-            // If there's a forced chat, we can't cycle away from it
-            var forcedChat = chats.FirstOrDefault(c => c.IsForced);
-            if (forcedChat != null)
+            // Check if we're currently on a forced chat
+            var currentChat = CurrentChatIndex >= 0 && CurrentChatIndex < chats.Count 
+                ? chats[CurrentChatIndex] 
+                : null;
+            
+            var isOnForcedChat = currentChat != null && currentChat.IsForced;
+
+            // If we're on a forced chat, we can only cycle back to normal chat (not to other team chats)
+            if (isOnForcedChat)
             {
-                var forcedIndex = chats.FindIndex(c => c.Priority == forcedChat.Priority && c.DisplayName == forcedChat.DisplayName);
-                if (forcedIndex >= 0)
-                {
-                    CurrentChatIndex = forcedIndex;
-                    TeamChatActive = true;
-                    return true;
-                }
+                CurrentChatIndex = -1;
+                TeamChatActive = false;
+                return false;
             }
 
             // Cycle through non-forced chats
@@ -358,17 +367,13 @@ public static class TeamChatPatches
             }
 
             // Find current chat in non-forced list
-            var currentChat = CurrentChatIndex >= 0 && CurrentChatIndex < chats.Count 
-                ? chats[CurrentChatIndex] 
-                : null;
-            
             var currentIndexInNonForced = -1;
             if (currentChat != null && !currentChat.IsForced)
             {
                 currentIndexInNonForced = nonForcedChats.FindIndex(c => c.Priority == currentChat.Priority && c.DisplayName == currentChat.DisplayName);
             }
 
-            // If we're on the last chat, cycle back to normal chat
+            // If we're on the last non-forced chat, cycle back to normal chat
             if (currentIndexInNonForced >= 0 && currentIndexInNonForced >= nonForcedChats.Count - 1)
             {
                 // Cycle back to normal chat
@@ -377,14 +382,14 @@ public static class TeamChatPatches
                 return false;
             }
 
-            // Cycle to next chat
+            // Cycle to next non-forced chat
             if (currentIndexInNonForced >= 0)
             {
                 currentIndexInNonForced++;
             }
             else
             {
-                // Start at first chat
+                // Start at first non-forced chat
                 currentIndexInNonForced = 0;
             }
 
@@ -661,6 +666,35 @@ public static class TeamChatPatches
             return;
         }
 
+        // Auto-select unread chat when chat UI opens (if not already in team chat mode)
+        var chatJustOpened = chat.IsOpenOrOpening && !_lastChatOpenState;
+        _lastChatOpenState = chat.IsOpenOrOpening;
+        
+        if (chatJustOpened && !TeamChatActive && MeetingHud.Instance != null)
+        {
+            var availableChats = TeamChatManager.GetAllAvailableChats();
+            var hasForcedChat = availableChats.Any(c => c.IsForced);
+            var unreadPriorities = TeamChatManager.GetUnreadChatPriorities();
+            
+            // Only auto-select if there's an unread chat and no forced chat is active
+            if (!hasForcedChat && unreadPriorities.Count > 0)
+            {
+                // Find the highest priority unread chat
+                var unreadChat = availableChats.FirstOrDefault(c => unreadPriorities.Contains(c.Priority));
+                if (unreadChat != null)
+                {
+                    var unreadIndex = availableChats.FindIndex(c => c.Priority == unreadChat.Priority && c.DisplayName == unreadChat.DisplayName);
+                    if (unreadIndex >= 0)
+                    {
+                        CurrentChatIndex = unreadIndex;
+                        TeamChatActive = true;
+                        // Clear unread when auto-selected
+                        TeamChatManager.MarkChatAsRead(unreadChat.Priority);
+                    }
+                }
+            }
+        }
+
         // Keep pool/stored list clean before manipulating bubble visibility.
         RestoreStoredBubbles(chat);
         if (_teamText == null)
@@ -714,14 +748,23 @@ public static class TeamChatPatches
             {
                 // Show currently selected chat
                 var forcedIndicator = currentChat.IsForced ? " (Forced)" : string.Empty;
-                if (availableChats.Count > 1)
+                
+                // Forced chats can't cycle to other team chats, so don't show cycle indicator
+                if (currentChat.IsForced)
                 {
-                    var chatNumber = CurrentChatIndex + 1;
-                    _teamText.text = $"{currentChat.DisplayName}{forcedIndicator} is Active ({chatNumber}/{availableChats.Count}). Press button to cycle.";
+                    _teamText.text = $"{currentChat.DisplayName}{forcedIndicator} is Active. Messages will be sent to this chat.";
+                }
+                else if (availableChats.Count > 1)
+                {
+                    // Count only non-forced chats for the cycle indicator
+                    var nonForcedChats = availableChats.Where(c => !c.IsForced).ToList();
+                    var currentIndexInNonForced = nonForcedChats.FindIndex(c => c.Priority == currentChat.Priority && c.DisplayName == currentChat.DisplayName);
+                    var chatNumber = currentIndexInNonForced >= 0 ? currentIndexInNonForced + 1 : 1;
+                    _teamText.text = $"{currentChat.DisplayName} is Active ({chatNumber}/{nonForcedChats.Count}). Press button to cycle.";
                 }
                 else
                 {
-                    _teamText.text = $"{currentChat.DisplayName}{forcedIndicator} is Active. Messages will be sent to this chat.";
+                    _teamText.text = $"{currentChat.DisplayName} is Active. Messages will be sent to this chat.";
                 }
                 _teamText.color = currentChat.DisplayColor;
             }
