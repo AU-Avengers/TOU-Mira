@@ -2323,7 +2323,7 @@ return true;*/
         }
     }
 
-    private static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
+    public static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
     {
         return evt switch
         {

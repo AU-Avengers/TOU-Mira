@@ -21,11 +21,6 @@ public static class TimeLordEventHandlers
 
     static TimeLordEventHandlers()
     {
-        InitEvents();
-    }
-
-    public static void InitEvents()
-    {
         // Register undo handlers for each event type
         EventQueue.RegisterUndoHandler<TimeLordVentEnterEvent>(evt =>
         {
