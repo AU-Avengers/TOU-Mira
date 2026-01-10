@@ -12,7 +12,9 @@ using Reactor.Localization;
 using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
+using TownOfUs.Patches.WinConditions;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
 namespace TownOfUs;
@@ -98,5 +100,16 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         GameSummaryMode = Config.Bind("LocalSettings", "GameSummaryMode", 1,
             "How the Game Summary appears in the Win Screen. 0 is to the left, 1 is split, and 2 is hidden.");
         Harmony.PatchAll();
+        RegisterWinConditions();
+    }
+
+    /// <summary>
+    ///     Registers all built-in win conditions.
+    ///     Extension mods can register their own win conditions by calling WinConditionRegistry.Register().
+    /// </summary>
+    public static void RegisterWinConditions()
+    {
+        WinConditionRegistry.Register(new NeutralRoleWinCondition());
+        WinConditionRegistry.Register(new LoversWinCondition());
     }
 }

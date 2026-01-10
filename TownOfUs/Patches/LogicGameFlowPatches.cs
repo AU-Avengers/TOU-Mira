@@ -10,53 +10,17 @@ using TownOfUs.Events;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
-using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
 
-/// <summary>
-/// Delegate for custom win condition checkers.
-/// Return true if the game should end (game over triggered), false to continue checking other conditions.
-/// </summary>
-public delegate bool WinConditionChecker(LogicGameFlowNormal instance);
-
 [HarmonyPatch]
 public static class LogicGameFlowPatches
 {
-    /// <summary>
-    /// List of registered custom win condition checkers.
-    /// These are checked after standard win conditions but before default game end logic.
-    /// </summary>
-    private static readonly List<WinConditionChecker> CustomWinConditionCheckers = [];
-
-    /// <summary>
-    /// Register a custom win condition checker.
-    /// The checker will be called during CheckEndCriteria to determine if the game should end.
-    /// </summary>
-    /// <param name="checker">The win condition checker delegate</param>
-    public static void RegisterWinConditionChecker(WinConditionChecker checker)
-    {
-        if (checker != null && !CustomWinConditionCheckers.Contains(checker))
-        {
-            CustomWinConditionCheckers.Add(checker);
-        }
-    }
-
-    /// <summary>
-    /// Unregister a custom win condition checker.
-    /// </summary>
-    /// <param name="checker">The win condition checker delegate to remove</param>
-    public static void UnregisterWinConditionChecker(WinConditionChecker checker)
-    {
-        CustomWinConditionCheckers.Remove(checker);
-    }
     public static bool CheckEndGameViaTasks(LogicGameFlowNormal instance)
     {
         GameData.Instance.RecomputeTaskCounts();
@@ -291,65 +255,10 @@ public static class LogicGameFlowPatches
             return false;
         }
 
-        // End game if there are 3 players alive and 2 are lovers.
-        var activeLovers = ModifierUtils.GetActiveModifiers<LoverModifier>().ToArray();
-        if (!ExileController.Instance && LoverModifier.WinConditionMet(activeLovers))
+        // Check all registered win conditions (neutral roles, lovers, etc.)
+        // This allows extension mods to add their own win conditions
+        if (!ExileController.Instance && WinConditionRegistry.TryEvaluate(__instance))
         {
-            CustomGameOver.Trigger<LoverGameOver>(activeLovers
-                .Where(x => x != null && x.Player != null && x.Player.Data != null)
-                .Select(x => x.Player!.Data)
-                .ToArray());
-            return false;
-        }
-
-        // Check custom win condition checkers (registered by extensions)
-        foreach (var checker in CustomWinConditionCheckers)
-        {
-            try
-            {
-                if (checker(__instance))
-                {
-                    // Checker returned true, meaning game should end
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log error but continue checking other conditions
-                Message($"Error in custom win condition checker: {ex.Message}");
-            }
-        }
-
-        // If any neutral win condition is met -> game over
-        // Using RoleAlignment as a quick and basic way to prioritise NeutralEvil wins over NeutralKiller wins
-        if (CustomRoleUtils.GetActiveRolesOfTeam(ModdedRoleTeams.Custom)
-                .OrderBy(x => x.GetRoleAlignment())
-                .FirstOrDefault(x => x is ITownOfUsRole role && role.WinConditionMet()) is { } winner)
-        {
-            Message($"Game Over");
-
-            // Lovers + Jest/Exe/Doom combo fix maybe
-            if ((winner is JesterRole || winner is ExecutionerRole || winner is DoomsayerRole) && winner.Player != null && winner.Player.HasModifier<LoverModifier>())
-            {
-                var loverWinners = ModifierUtils.GetActiveModifiers<LoverModifier>()
-                    .Where(x => x.Player != null && x.Player.Data != null && x.Player.HasModifier<LoverModifier>())
-                    .Select(x => x.Player!.Data)
-                    .Distinct()
-                    .ToArray();
-
-                if (loverWinners.Length >= 2)
-                {
-                    CustomGameOver.Trigger<LoverGameOver>(loverWinners);
-                    return false;
-                }
-            }
-
-            if (winner.Player != null)
-            {
-                CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
-                return false;
-            }
-
             return false;
         }
 
