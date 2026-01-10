@@ -106,6 +106,14 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
         config.Bind("Miscellaneous", "ShowPracticeButtons", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
+        config.Bind("Miscellaneous", "ZoomingInLobby", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
+        config.Bind("Miscellaneous", "ZoomingInPractice", true);
 }
 
 public enum GameSummaryAppearance

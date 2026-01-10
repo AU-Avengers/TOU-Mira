@@ -12,6 +12,8 @@
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
   <string name="ShowSummaryMessage">Show Summary Msg</string>
   <string name="ShowPracticeButtons">Show Practice Buttons</string>
+  <string name="ZoomingInLobby">Zoom In Lobby</string>
+  <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>

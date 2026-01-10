@@ -1032,19 +1032,20 @@ public static class HudManagerPatches
         UpdateSubmergedButtons(__instance);
     }
 
-    public static bool CanZoom => !(HudManager.Instance.GameMenu.IsOpen || HudManager.Instance.Chat.IsOpenOrOpening ||
-                                    MeetingHud.Instance || Minigame.Instance ||
-                                    PlayerCustomizationMenu.Instance ||
-                                    FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
-                                    GameStartManager.InstanceExists &&
-                                    (GameStartManager.Instance.RulesViewPanel &&
-                                     GameStartManager.Instance.RulesViewPanel.active ||
-                                     GameSettingMenu.Instance)) &&
-                                  ((PlayerControl.LocalPlayer.DiedOtherRound() &&
-                                    (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
-                                     PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
-                                   TutorialManager.InstanceExists ||
-                                   GameStartManager.InstanceExists);
+    public static bool CanZoom =>
+        ((PlayerControl.LocalPlayer.DiedOtherRound() &&
+          (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
+           PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
+         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
+                                                 HudManager.Instance.Chat.IsOpenOrOpening ||
+                                                 MeetingHud.Instance || Minigame.Instance ||
+                                                 PlayerCustomizationMenu.Instance ||
+                                                 FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
+                                                 GameStartManager.InstanceExists &&
+                                                 (GameStartManager.Instance.RulesViewPanel &&
+                                                  GameStartManager.Instance.RulesViewPanel.active ||
+                                                  GameSettingMenu.Instance));
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";
