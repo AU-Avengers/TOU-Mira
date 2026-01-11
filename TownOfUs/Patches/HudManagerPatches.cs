@@ -165,13 +165,14 @@ public static class HudManagerPatches
 
     public static void UpdateTeamChat()
     {
-        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        // Ensure built-in chats are registered
+        TeamChatPatches.TeamChatManager.RegisterBuiltInChats();
 
-        var isValid = MeetingHud.Instance &&
-                      (PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
-                       (PlayerControl.LocalPlayer.IsImpostorAligned() && genOpt is
-                           { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
-                       (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat));
+        var availableChats = TeamChatPatches.TeamChatManager.GetAllAvailableChats();
+        var isValid = MeetingHud.Instance != null && availableChats.Count > 0;
+
+        // Don't show team chat button for lover chat (it's handled separately outside meetings)
+        // Lover chat is always active when available and doesn't need the team chat button
 
         if (!TeamChatPatches.TeamChatButton)
         {
@@ -181,6 +182,7 @@ public static class HudManagerPatches
         if (TeamChatPatches.TeamChatActive && !isValid && HudManager.Instance.Chat.IsOpenOrOpening)
         {
             TeamChatPatches.TeamChatActive = false;
+            TeamChatPatches.CurrentChatIndex = -1;
             TeamChatPatches.UpdateChat();
         }
 
@@ -1030,20 +1032,20 @@ public static class HudManagerPatches
         UpdateSubmergedButtons(__instance);
     }
 
-    public static bool CanZoom => !(HudManager.Instance.GameMenu.IsOpen || HudManager.Instance.Chat.IsOpenOrOpening ||
-                                    MeetingHud.Instance || Minigame.Instance ||
-                                    PlayerCustomizationMenu.Instance ||
-                                    FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
-                                    GameStartManager.InstanceExists &&
-                                    (GameStartManager.Instance.RulesViewPanel &&
-                                     GameStartManager.Instance.RulesViewPanel.active ||
-                                     GameStartManager.Instance.RulesEditPanel &&
-                                     GameStartManager.Instance.RulesEditPanel.active)) &&
-                                  ((PlayerControl.LocalPlayer.DiedOtherRound() &&
-                                    (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
-                                     PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
-                                   TutorialManager.InstanceExists ||
-                                   GameStartManager.InstanceExists);
+    public static bool CanZoom =>
+        ((PlayerControl.LocalPlayer.DiedOtherRound() &&
+          (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
+           PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
+         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
+                                                 HudManager.Instance.Chat.IsOpenOrOpening ||
+                                                 MeetingHud.Instance || Minigame.Instance ||
+                                                 PlayerCustomizationMenu.Instance ||
+                                                 FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
+                                                 GameStartManager.InstanceExists &&
+                                                 (GameStartManager.Instance.RulesViewPanel &&
+                                                  GameStartManager.Instance.RulesViewPanel.active ||
+                                                  GameSettingMenu.Instance));
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";

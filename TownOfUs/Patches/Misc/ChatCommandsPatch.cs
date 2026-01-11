@@ -10,8 +10,6 @@ using TownOfUs.Options;
 using TownOfUs.Patches.Options;
 using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 
@@ -21,7 +19,7 @@ namespace TownOfUs.Patches.Misc;
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
-    private static string GetLobbyRulesText()
+    public static string GetLobbyRulesText()
     {
         var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         if (string.IsNullOrEmpty(dir)) return string.Empty;
@@ -168,14 +166,70 @@ public static class ChatPatches
         {
             if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
             {
-                var rulesText = GetLobbyRulesText();
-                var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
-                var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+                var stringToCheck =
+                    rulesCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
+                var remainingText = textRegular;
+                if (remainingText.StartsWith($"/{stringToCheck} ", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/{stringToCheck} ".Length..];
+                }
+                else if (remainingText.StartsWith($"/{stringToCheck}", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/{stringToCheck}".Length..];
+                }
+                else if (remainingText.StartsWith($"/ {stringToCheck} ", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/ {stringToCheck} ".Length..];
+                }
+                else if (remainingText.StartsWith($"/ {stringToCheck}", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/ {stringToCheck}".Length..];
+                }
+
+                if (remainingText.Trim().Equals("show", StringComparison.OrdinalIgnoreCase))
+                {
+                    var rulesText = GetLobbyRulesText();
+                    RpcSendLobbyRulesGlobal(PlayerControl.LocalPlayer, rulesText);
+                }
+                else
+                {
+                    var rulesText = GetLobbyRulesText();
+                    var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
+                    var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+                }
             }
             else
             {
-                RpcRequestLobbyRules(PlayerControl.LocalPlayer);
+                var stringToCheck =
+                    rulesCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
+                var remainingText = textRegular;
+                if (remainingText.StartsWith($"/{stringToCheck} ", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/{stringToCheck} ".Length..];
+                }
+                else if (remainingText.StartsWith($"/{stringToCheck}", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/{stringToCheck}".Length..];
+                }
+                else if (remainingText.StartsWith($"/ {stringToCheck} ", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/ {stringToCheck} ".Length..];
+                }
+                else if (remainingText.StartsWith($"/ {stringToCheck}", StringComparison.OrdinalIgnoreCase))
+                {
+                    remainingText = remainingText[$"/ {stringToCheck}".Length..];
+                }
+
+                if (remainingText.Trim().Equals("show", StringComparison.OrdinalIgnoreCase))
+                {
+                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                        TouLocale.GetParsed("RulesShowHostError"));
+                }
+                else
+                {
+                    RpcRequestLobbyRules(PlayerControl.LocalPlayer);
+                }
             }
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -349,7 +403,7 @@ public static class ChatPatches
                                     RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                     MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
-                                        TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
+                                        TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                                 }
                             }
                             else
@@ -360,7 +414,7 @@ public static class ChatPatches
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
                                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
-                                    TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", $"#{matchingRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")}"));
+                                    TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                             }
                         }
                     }
@@ -416,8 +470,7 @@ public static class ChatPatches
 
             var roleNameToLink = new Func<RoleBehaviour, string>(role =>
             {
-                var roleName = role.GetRoleName();
-                return $"#{roleName.Replace(" ", "-")}";
+                return MiscUtils.GetHyperlinkText(role);
             });
 
             var msgParts = new List<string>();
@@ -478,7 +531,7 @@ public static class ChatPatches
             List<string> randomNames =
             [
                 "Atony", "Alchlc", "angxlwtf", "Digi", "Donners", "K3ndo", "DragonBreath", "Pietro", "Nix", "Daemon",
-                "6pak", "Chipseq",
+                "6pak", "Chipseq", "satire", "Sarha", "vanpla", "neil",
                 "twix", "xerm", "XtraCube", "Zeo", "Slushie", "chloe", "moon", "decii", "Northie", "GD", "Chilled",
                 "Himi", "Riki", "Leafly", "miniduikboot"
             ];
@@ -532,55 +585,14 @@ public static class ChatPatches
             return false;
         }
 
-        if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied())
+        if (TeamChatPatches.TeamChatActive && !PlayerControl.LocalPlayer.HasDied() && TeamChatPatches.TeamChatManager.SendMessage(textRegular))
         {
-            var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+            __instance.freeChatField.Clear();
+            __instance.quickChatMenu.Clear();
+            __instance.quickChatField.Clear();
+            __instance.UpdateChatMode();
 
-            if (PlayerControl.LocalPlayer.Data.Role is JailorRole)
-            {
-                TeamChatPatches.RpcSendJailorChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-            else if (PlayerControl.LocalPlayer.IsJailed())
-            {
-                TeamChatPatches.RpcSendJaileeChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-            else if (PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                     genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true })
-            {
-                TeamChatPatches.RpcSendImpTeamChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
-            else if (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat)
-            {
-                TeamChatPatches.RpcSendVampTeamChat(PlayerControl.LocalPlayer, textRegular);
-
-                __instance.freeChatField.Clear();
-                __instance.quickChatMenu.Clear();
-                __instance.quickChatField.Clear();
-                __instance.UpdateChatMode();
-
-                return false;
-            }
+            return false;
         }
 
         // Chat History
@@ -608,16 +620,24 @@ public static class ChatPatches
             return;
         }
         var rulesText = GetLobbyRulesText();
-        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText);
+        RpcSendLobbyRules(PlayerControl.LocalPlayer, requester, rulesText, false);
     }
 
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRules)]
-    public static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText)
+    public static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText, bool optional)
     {
-        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId)
+        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowRulesOnLobbyJoinToggle.Value)
         {
             return;
         }
+        var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
+        var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
+        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.SendLobbyRulesGlobal)]
+    public static void RpcSendLobbyRulesGlobal(PlayerControl host, string rulesText)
+    {
         var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
         var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
         MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);

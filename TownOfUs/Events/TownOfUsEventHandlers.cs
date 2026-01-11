@@ -255,6 +255,11 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
+        // Reset team chat state when a new meeting starts
+        TownOfUs.Patches.Options.TeamChatPatches.TeamChatActive = false;
+        TownOfUs.Patches.Options.TeamChatPatches.CurrentChatIndex = -1;
+        TownOfUs.Patches.Options.TeamChatPatches.TeamChatManager.ClearAllUnread();
+
         // Incase the kill animation is stuck somehow
         // HudManager.Instance.KillOverlay.gameObject.SetActive(false);
         foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
@@ -704,6 +709,7 @@ public static class TownOfUsEventHandlers
     public static void PlayerJoinEventHandler(PlayerJoinEvent @event)
     {
         Coroutines.Start(CoSendSpecData(@event.ClientData));
+        Coroutines.Start(CoSendRulesToPlayer(@event.ClientData));
     }
 
     internal static IEnumerator CoSendSpecData(ClientData clientData)
@@ -745,6 +751,48 @@ public static class TownOfUsEventHandlers
         }
 
         Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
+    }
+
+    internal static IEnumerator CoSendRulesToPlayer(ClientData clientData)
+    {
+        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
+        {
+            yield return null;
+        }
+
+        while (!PlayerControl.LocalPlayer)
+        {
+            yield return null;
+        }
+
+        while (PlayerControl.LocalPlayer.Data == null)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        if (!PlayerControl.LocalPlayer.IsHost())
+        {
+            yield break;
+        }
+
+        var joiningPlayer = clientData.Character;
+        if (joiningPlayer == null)
+        {
+            yield break;
+        }
+
+        // Wait a bit more to ensure the player is fully initialized
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        var rulesText = ChatPatches.GetLobbyRulesText();
+        if (string.IsNullOrWhiteSpace(rulesText))
+        {
+            yield break;
+        }
+
+        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText, true);
     }
 
     [RegisterEvent]

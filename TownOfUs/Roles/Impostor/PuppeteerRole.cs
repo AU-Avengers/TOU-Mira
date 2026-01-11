@@ -131,6 +131,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
     }
 
+
     public void ClearControlLocal()
     {
         Controlled = null;
@@ -197,7 +198,22 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             target.MyPhysics.ExitAllVents();
         }
 
-        if (puppeteer.AmOwner)
+        if (target.AmOwner)
+        {
+            var pos = (Vector2)target.transform.position;
+            if (target.NetTransform != null)
+            {
+                try
+                {
+                    target.NetTransform.SnapTo(pos);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+        }
+        else if (puppeteer.AmOwner)
         {
             NetTransformBacklogUtils.FlushAndSnap(target);
         }
@@ -232,14 +248,72 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             {
                 target.RemoveModifier(mod);
             }
+
+            if (target.MyPhysics != null)
+            {
+                if (target.MyPhysics.body != null)
+                {
+                    target.MyPhysics.body.velocity = Vector2.zero;
+                }
+                target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
+            }
+
+            var finalPos = (Vector2)target.transform.position;
+            if (target.NetTransform != null)
+            {
+                try
+                {
+                    NetTransformBacklogUtils.FlushBacklog(target);
+                    
+                    if (target.AmOwner)
+                    {
+                        target.NetTransform.SnapTo(finalPos);
+                    }
+                    else if (puppeteer != null && puppeteer.AmOwner)
+                    {
+                        NetTransformBacklogUtils.FlushAndSnap(target);
+                    }
+                    else
+                    {
+                        NetTransformBacklogUtils.FlushBacklog(target);
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
         }
 
         role.ClearControlLocal();
 
-        if (puppeteer.AmOwner)
+        if (puppeteer != null)
         {
-            var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance;
-            btn.ResetCooldownAndOrEffect();
+            if (puppeteer.AmOwner)
+            {
+                var pos = (Vector2)puppeteer.transform.position;
+                if (puppeteer.NetTransform != null)
+                {
+                    try
+                    {
+                        puppeteer.NetTransform.SnapTo(pos);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+            else
+            {
+                NetTransformBacklogUtils.FlushBacklog(puppeteer);
+            }
+
+            if (puppeteer.AmOwner)
+            {
+                var btn = CustomButtonSingleton<TownOfUs.Buttons.Impostor.PuppeteerControlButton>.Instance;
+                btn.ResetCooldownAndOrEffect();
+            }
         }
 
         role.ClearNotifications();

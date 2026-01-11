@@ -46,7 +46,7 @@ public abstract class ArrowDeadBodyModifier(DeadBody deadBody, Color color, floa
 
     public override void FixedUpdate()
     {
-        if (DeadBody == null)
+        if (DeadBody == null || DeadBody.gameObject == null || !DeadBody.gameObject.activeSelf)
         {
             ModifierComponent!.RemoveModifier(this);
             return;

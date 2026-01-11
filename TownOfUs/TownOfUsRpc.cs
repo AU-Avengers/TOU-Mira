@@ -108,6 +108,9 @@ public enum TownOfUsRpc : uint
     SetDeadlyQuota,
     RequestLobbyRules,
     SendLobbyRules,
+    SendLobbyRulesGlobal,
+    SyncDeathState,
+    RequestDeathStateValidation,
 }
 
 internal enum TownOfUsInternalRpc : uint

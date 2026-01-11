@@ -21,8 +21,6 @@ public sealed class TimeLordRewindButton : TownOfUsRoleButton<TimeLordRole>
 
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.RewindSprite;
 
-    public override bool ZeroIsInfinite { get; set; } = true;
-
     protected override void OnClick()
     {
         TimeLordRole.RpcStartRewind(PlayerControl.LocalPlayer);

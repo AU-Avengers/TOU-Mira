@@ -618,6 +618,38 @@
         "\n- Hosts can now add a \"LobbyRules.txt\" file next to the mod to show their rules in-game (PR #108) (Neil)",
         "\n- New Client Options: Merged/Split Chats, Set Framerate"
       ]
+    },
+    {
+      "Date": "2026-01-11T12:51:00Z",
+      "Number": "100034",
+      "ShortTitle": "TOU: Mira v1.5.1",
+      "SubTitle": "Oh, and a Time Lord too.",
+      "Title": "Less bugs, more Impostors!",
+      "Text": [
+        "<b>This release includes bugfixes primarily for Time Lord, Parasite/Puppeteer, and chat issues.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1>TOU Mira v1.5.1 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Time Lord now accounts for more multi-step tasks.",
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Amnesiac arrows no longer linger when a body is cleaned",
+        "\n- Pestilence should no longer be able to die due to desync.",
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Deadly Quota properly checks win conditions.",
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Options should no longer desync.",
+        "\n- Team Chat should no longer hide messages due to bugs.",
+        "\n- Enter, Backspace, and certain Chinese characters can be used in chat properly again.",
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- The mod will no longer run on BepInEx versions earlier than 738 due to critical bugs with IL2CPP.",
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Lobby rules are automatically sent to players by default upon joining.",
+        "\n- More role icons have been improved and redrawn.",
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Deadly Quota Option: Meeting Kills Count Towards Quota.",
+        "\n- Vanilla Tweaks Option: Cooldown Pause in Tasks and Panels.",
+        "\n- Local Settings: Zoom in Lobby/Practice."
+      ]
     }
   ]
 }

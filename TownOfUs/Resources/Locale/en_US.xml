@@ -12,6 +12,8 @@
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
   <string name="ShowSummaryMessage">Show Summary Msg</string>
   <string name="ShowPracticeButtons">Show Practice Buttons</string>
+  <string name="ZoomingInLobby">Zoom In Lobby</string>
+  <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
@@ -276,6 +278,8 @@
   <string name="RulesCommandList">rules</string>
   <string name="RulesMessageTitle">System</string>
   <string name="RulesMissingError">Host has no rules saved.</string>
+  <string name="RulesShowHostError">You must be the host to use /rules show.</string>
+  <string name="ShowRulesOnLobbyJoin">Show Rules On Lobby Join</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->
@@ -286,6 +290,7 @@
   <string name="ImpostorsWin">Impostors Win</string>
   <string name="CrewmateWin">Crewmate Win</string>
   <string name="ImpostorWin">Impostor Win</string>
+  <string name="HostWin">Host Aborted Game</string>
   <string name="NobodyWins">Game Draw</string>
   <string name="SoloWin">\%role\% Wins</string>
   <string name="TeamWin">\%role\% Win</string>
@@ -1020,7 +1025,7 @@
   <string name="TouOptionSentryDeployedCamerasVisibility">Deployed Cameras Visibility</string>
   <string name="TouOptionSentryCamerasVisibleAfter">Cameras Visible After</string>
   <string name="TouOptionSentryCanMoveWhilePlacingCameras">Can Move While Placing Cameras</string>
-  <string name="TouOptionSentryPortableCamerasMode">Portable Cameras</string>
+  <string name="TouOptionSentryPortableCamerasMode">Instant Portable Cameras (or After Tasks)</string>
   <string name="TouOptionSentryInitialCameras">Initial Cameras</string>
   <string name="TouOptionSentryCameraRoundsLast">Amount Of Rounds Cameras Last</string>
   <string name="TouOptionSentryTasksPerCamera">Tasks Required Per Camera</string>

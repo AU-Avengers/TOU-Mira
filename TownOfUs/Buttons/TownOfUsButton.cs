@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
@@ -8,6 +9,7 @@ using System.Globalization;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
@@ -66,7 +68,9 @@ public abstract class TownOfUsButton : CustomActionButton
     {
         if (Timer >= 0)
         {
-            if (!TimerPaused && (!(ShouldPauseInVent && PlayerControl.LocalPlayer.inVent) || EffectActive))
+            var shouldPauseInVent = ShouldPauseInVent && PlayerControl.LocalPlayer.inVent && !EffectActive;
+            
+            if (!TimerPaused && !OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown && (!shouldPauseInVent || EffectActive))
             {
                 Timer -= Time.deltaTime;
             }
@@ -280,7 +284,9 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     {
         if (Timer >= 0)
         {
-            if (!TimerPaused && (!(ShouldPauseInVent && PlayerControl.LocalPlayer.inVent) || EffectActive))
+            var shouldPauseInVent = ShouldPauseInVent && PlayerControl.LocalPlayer.inVent && !EffectActive;
+            
+            if (!TimerPaused && !OptionGroupSingleton<VanillaTweakOptions>.Instance.CanPauseCooldown && (!shouldPauseInVent || EffectActive))
             {
                 Timer -= Time.deltaTime;
             }

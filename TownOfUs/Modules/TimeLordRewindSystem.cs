@@ -166,12 +166,14 @@ public static class TimeLordRewindSystem
         public readonly byte PlayerId;
         public readonly uint TaskId;
         public readonly DateTime TimeUtc;
+        public readonly int TaskStep;
 
-        public HostTaskCompletion(byte playerId, uint taskId, DateTime timeUtc)
+        public HostTaskCompletion(byte playerId, uint taskId, DateTime timeUtc, int taskStep)
         {
             PlayerId = playerId;
             TaskId = taskId;
             TimeUtc = timeUtc;
+            TaskStep = taskStep;
         }
     }
 
@@ -193,6 +195,7 @@ public static class TimeLordRewindSystem
 
     private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
     private static List<ScheduledTaskUndo>? _hostTaskUndos;
+    private static Dictionary<(byte PlayerId, uint TaskId), int>? _hostTaskStepMap;
 
     private static bool _cachedHasTimeLord;
     private static float _nextHasTimeLordCheckTime;
@@ -255,6 +258,7 @@ public static class TimeLordRewindSystem
         _popAccumulator = 0f;
         _popsRemaining = 0;
         _hostTaskUndos = null;
+        _hostTaskStepMap = null;
         _cachedHasTimeLord = false;
         _nextHasTimeLordCheckTime = 0f;
         Buffer.Clear();
@@ -457,8 +461,60 @@ public static class TimeLordRewindSystem
             return;
         }
 
+        var taskStep = 0;
+        var normalTask = task.TryCast<NormalPlayerTask>();
+        if (normalTask != null)
+        {
+            var npt = normalTask.Cast<NormalPlayerTask>();
+            taskStep = npt.taskStep;
+            
+            if (taskStep == 0)
+            {
+                var taskType = npt.TaskType;
+                if (taskType is TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.WaterPlants or TaskTypes.PickUpTowels)
+                {
+                    taskStep = 2;
+                }
+                else if (taskType is TaskTypes.OpenWaterways)
+                {
+                    taskStep = 3;
+                }
+                else if (taskType is TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel)
+                {
+                    taskStep = 2;
+                }
+                else if (taskType is TaskTypes.UploadData)
+                {
+                    taskStep = 2;
+                }
+                else if (taskType is TaskTypes.ChartCourse)
+                {
+                    taskStep = 2;
+                }
+                else if (taskType is TaskTypes.InspectSample or TaskTypes.DevelopPhotos)
+                {
+                    taskStep = 2;
+                }
+                else if (taskType is TaskTypes.SortRecords)
+                {
+                    taskStep = 2;
+                }
+                else if (taskType is TaskTypes.RebootWifi)
+                {
+                    taskStep = 2;
+                }
+            }
+        }
+
         var now = DateTime.UtcNow;
-        HostTaskCompletions.Add(new HostTaskCompletion(player.PlayerId, task.Id, now));
+        HostTaskCompletions.Add(new HostTaskCompletion(player.PlayerId, task.Id, now, taskStep));
+        
+        // Also store in the step map for immediate use
+        if (_hostTaskStepMap == null)
+        {
+            _hostTaskStepMap = new Dictionary<(byte PlayerId, uint TaskId), int>();
+        }
+        _hostTaskStepMap[(player.PlayerId, task.Id)] = taskStep;
 
         var cutoff = now - TimeSpan.FromSeconds(120);
         for (var i = HostTaskCompletions.Count - 1; i >= 0; i--)
@@ -468,6 +524,18 @@ public static class TimeLordRewindSystem
                 HostTaskCompletions.RemoveAt(i);
             }
         }
+        
+        // Clean up old entries from step map
+        if (_hostTaskStepMap.Count > 128)
+        {
+            var keysToRemove = _hostTaskStepMap.Keys
+                .Where(k => !HostTaskCompletions.Any(h => h.PlayerId == k.PlayerId && h.TaskId == k.TaskId))
+                .ToList();
+            foreach (var key in keysToRemove)
+            {
+                _hostTaskStepMap.Remove(key);
+            }
+        }
     }
 
     public static void ConfigureHostTaskUndos(List<(byte PlayerId, uint TaskId, float TriggerAtSeconds)>? schedule)
@@ -475,6 +543,7 @@ public static class TimeLordRewindSystem
         if (schedule == null || schedule.Count == 0)
         {
             _hostTaskUndos = null;
+            _hostTaskStepMap = null;
             return;
         }
 
@@ -500,15 +569,50 @@ public static class TimeLordRewindSystem
     .Where(x => x.TimeUtc >= cutoff)
     .GroupBy(x => (x.PlayerId, x.TaskId))
     .Select(g => g.OrderByDescending(v => v.TimeUtc).First())
+    .Where(x =>
+    {
+        var player = MiscUtils.PlayerById(x.PlayerId);
+        if (player == null) return false;
+        
+        foreach (var t in player.myTasks.ToArray())
+        {
+            if (t == null || t.Id != x.TaskId) continue;
+            var normal = t.TryCast<NormalPlayerTask>();
+            if (normal != null)
+            {
+                var n = normal.Cast<NormalPlayerTask>();
+                var taskType = n.TaskType;
+                // Don't schedule undo for tasks that consume objects
+                if (taskType is TaskTypes.PickUpTowels or TaskTypes.SortRecords or TaskTypes.PutAwayPistols or TaskTypes.PutAwayRifles)
+                {
+                    return false;
+                }
+            }
+            break;
+        }
+        return true;
+    })
     .Select(x =>
     {
         var age = (float)(now - x.TimeUtc).TotalSeconds;
         var triggerAt = durationSeconds * (age / historySeconds);
-        return (x.PlayerId, x.TaskId, TriggerAtSeconds: triggerAt);
+        return (x.PlayerId, x.TaskId, TriggerAtSeconds: triggerAt, TaskStep: x.TaskStep);
     })
     .ToList();
 
-        ConfigureHostTaskUndos(schedule);
+        // Convert to the format expected by ConfigureHostTaskUndos
+        var simpleSchedule = schedule.Select(x => (x.PlayerId, x.TaskId, x.TriggerAtSeconds)).ToList();
+        ConfigureHostTaskUndos(simpleSchedule);
+        
+        // Store task steps for later use in UndoTask
+        if (_hostTaskStepMap == null)
+        {
+            _hostTaskStepMap = new Dictionary<(byte PlayerId, uint TaskId), int>();
+        }
+        foreach (var item in schedule)
+        {
+            _hostTaskStepMap[(item.PlayerId, item.TaskId)] = item.TaskStep;
+        }
     }
 
     public static void RecordLocalSnapshot(PlayerPhysics? physics)
@@ -1803,6 +1907,7 @@ return true;*/
         _popAccumulator = 0f;
         _popsRemaining = 0;
         _hostTaskUndos = null;
+        _hostTaskStepMap = null;
         _scheduledEventUndos = null;
         TaskBuffer.Clear();
 
@@ -1998,6 +2103,7 @@ return true;*/
         _localBodyRestores = null;
         _hostBodyPlacements = null;
         _hostTaskUndos = null;
+        _hostTaskStepMap = null;
         _popsPerTick = 0f;
         _popAccumulator = 0f;
         _popsRemaining = 0;
@@ -2217,7 +2323,7 @@ return true;*/
         }
     }
 
-    private static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
+    public static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
     {
         return evt switch
         {
@@ -2324,6 +2430,32 @@ return true;*/
             }
         }
 
+        // Check if this is a task that consumes objects (towels, records, etc.)
+        // These tasks cannot be undone because the objects are removed when completed
+        foreach (var t in player.myTasks.ToArray())
+        {
+            if (t == null || t.Id != taskId)
+            {
+                continue;
+            }
+
+            var normal = t.TryCast<NormalPlayerTask>();
+            if (normal != null)
+            {
+                var n = normal.Cast<NormalPlayerTask>();
+                var taskType = n.TaskType;
+                
+                // Exception: Don't undo tasks that consume objects (objects are removed on completion)
+                // These tasks would softlock if undone because the objects can't be restored
+                if (taskType is TaskTypes.PickUpTowels or TaskTypes.SortRecords)
+                {
+                    // Skip undoing these tasks - keep them completed
+                    return;
+                }
+            }
+            break;
+        }
+
         var taskInfo = player.Data.FindTaskById(taskId);
         if (taskInfo != null)
         {
@@ -2341,7 +2473,87 @@ return true;*/
             if (normal != null)
             {
                 var n = normal.Cast<NormalPlayerTask>();
-                n.taskStep = n.TaskType == TaskTypes.UploadData ? 1 : 0;
+                
+                // Try to restore to the step before completion
+                int restoreStep = 0;
+                bool foundStoredStep = false;
+                int storedStep = 0;
+                
+                // First, try to get the stored step from when the task was completed
+                if (_hostTaskStepMap != null && _hostTaskStepMap.TryGetValue((targetPlayerId, taskId), out storedStep))
+                {
+                    // When a task is completed, it's typically at the final step
+                    // So we restore to step - 1 (the step before completion)
+                    restoreStep = Math.Max(0, storedStep - 1);
+                    foundStoredStep = true;
+                }
+                
+                // For tasks excluded from local step tracking, use special handling
+                var taskType = n.TaskType;
+                if (!foundStoredStep || taskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel 
+                    or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways 
+                    or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi 
+                    or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
+                {
+                    // For these special tasks, handle based on task type
+                    if (taskType == TaskTypes.UploadData)
+                    {
+                        // UploadData: restore to step 1 (download complete, upload pending)
+                        restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
+                    }
+                    else if (taskType is TaskTypes.EmptyGarbage or TaskTypes.EmptyChute)
+                    {
+                        // Garbage tasks: restore to step 1 (first half done, second half pending)
+                        restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
+                    }
+                    else if (taskType is TaskTypes.OpenWaterways)
+                    {
+                        // Waterwheels: if at 3/3, restore to 2/3
+                        restoreStep = foundStoredStep ? Math.Max(2, storedStep - 1) : 2;
+                    }
+                    else if (taskType is TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel)
+                    {
+                        // Fuel tasks: restore to step 1 (first part done, second part pending)
+                        restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
+                    }
+                    else if (taskType is TaskTypes.ChartCourse)
+                    {
+                        // Divert power: restore to step 1
+                        restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
+                    }
+                    else if (taskType is TaskTypes.WaterPlants)
+                    {
+                        // Water plants: restore to step 1
+                        restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
+                    }
+                    else if (taskType is TaskTypes.PickUpTowels)
+                    {
+                        // Towels: restore to step 1 (first towel picked up, second pending)
+                        restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
+                    }
+                    else if (taskType is TaskTypes.InspectSample or TaskTypes.SubmitScan or TaskTypes.DevelopPhotos)
+                    {
+                        // These tasks: restore to step 1
+                        restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
+                    }
+                    else if (taskType is TaskTypes.SortRecords or TaskTypes.RebootWifi)
+                    {
+                        // These tasks: restore to step 1
+                        restoreStep = foundStoredStep ? Math.Max(1, storedStep - 1) : 1;
+                    }
+                    else if (foundStoredStep)
+                    {
+                        // For other excluded tasks, use stored step - 1
+                        restoreStep = Math.Max(0, storedStep - 1);
+                    }
+                    else
+                    {
+                        // Fallback: default to 0
+                        restoreStep = 0;
+                    }
+                }
+                
+                n.taskStep = restoreStep;
                 n.Initialize();
                 n.UpdateArrowAndLocation();
             }

@@ -101,13 +101,6 @@ public static class AdvancedMovementUtilities
 
         var controlType = ActiveInputManager.currentControlType;
 
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null)
-        {
-            var vJoy = hudManager.joystick.DeltaL;
-            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
-        }
-
         if (controlType is ActiveInputManager.InputType.Joystick)
         {
             x = ConsoleJoystick.player.GetAxis(2);
@@ -136,6 +129,13 @@ public static class AdvancedMovementUtilities
             }
         }
 
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null)
+        {
+            var vJoy = hudManager.joystick.DeltaL;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
+        }
+
         var v = new Vector2(x, y);
         return v == Vector2.zero ? Vector2.zero : v.normalized;
     }
@@ -152,13 +152,6 @@ public static class AdvancedMovementUtilities
         var y = 0f;
 
         var controlType = ActiveInputManager.currentControlType;
-
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null)
-        {
-            var vJoy = hudManager.joystick.DeltaL;
-            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
-        }
 
         if (controlType is ActiveInputManager.InputType.Joystick)
         {
@@ -188,6 +181,13 @@ public static class AdvancedMovementUtilities
             }
         }
 
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null)
+        {
+            var vJoy = hudManager.joystick.DeltaL;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
+        }
+
         var v = new Vector2(x, y);
         return v == Vector2.zero ? Vector2.zero : v.normalized;
     }
@@ -204,14 +204,6 @@ public static class AdvancedMovementUtilities
         var y = 0f;
 
         var controlType = ActiveInputManager.currentControlType;
-
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null &&
-            MobileJoystickR != null)
-        {
-            var vJoy = MobileJoystickR.DeltaR;
-            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
-        }
 
         if (controlType is ActiveInputManager.InputType.Joystick)
         {
@@ -239,6 +231,14 @@ public static class AdvancedMovementUtilities
             {
                 y -= 1f;
             }
+        }
+
+        if (controlType != ActiveInputManager.InputType.Keyboard &&
+            HudManager.InstanceExists && hudManager.joystick != null &&
+            MobileJoystickR != null)
+        {
+            var vJoy = MobileJoystickR.DeltaR;
+            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
         }
 
         var v = new Vector2(x, y);
@@ -277,7 +277,6 @@ public static class AdvancedMovementUtilities
         }
         else
         {
-            // Flip direction for rewind (backwards movement)
             physics.SetNormalizedVelocity(-dir);
         }
 
@@ -328,6 +327,7 @@ public static class AdvancedMovementUtilities
 
     /// <summary>
     /// Applies injected movement with position, velocity, and direction for Parasite/Puppeteer control.
+    /// Handles lag and missed RPCs with smoothing/lerp.
     /// </summary>
     public static void ApplyInjectedMovement(PlayerPhysics physics, Vector2 targetPosition, Vector2 targetVelocity, Vector2 direction)
     {
@@ -343,35 +343,43 @@ public static class AdvancedMovementUtilities
 
             var currentPos = physics.body != null ? physics.body.position : (Vector2)physics.myPlayer.transform.position;
             var delta = targetPosition - currentPos;
-            const float positionSnapThreshold = 0.5f;
+            const float positionSnapThreshold = 1.0f;
 
+            Vector2 finalPos;
             if (delta.sqrMagnitude <= 0.0001f * 0.0001f || delta.magnitude > positionSnapThreshold)
             {
+                finalPos = targetPosition;
                 if (physics.body != null)
                 {
-                    physics.body.position = targetPosition;
+                    physics.body.position = finalPos;
                 }
-                physics.myPlayer.transform.position = targetPosition;
+                physics.myPlayer.transform.position = finalPos;
             }
             else
             {
                 const float positionLerpSpeed = 60.0f;
                 var lerpFactor = Mathf.Clamp01(Time.fixedDeltaTime * positionLerpSpeed);
-                var smoothedPos = Vector2.Lerp(currentPos, targetPosition, lerpFactor);
+                finalPos = Vector2.Lerp(currentPos, targetPosition, lerpFactor);
                 if (physics.body != null)
                 {
-                    physics.body.position = smoothedPos;
+                    physics.body.position = finalPos;
                 }
-                physics.myPlayer.transform.position = smoothedPos;
+                physics.myPlayer.transform.position = finalPos;
             }
 
+            if (physics.body != null)
+            {
+                if (direction == Vector2.zero)
+                {
+                    physics.body.velocity = Vector2.zero;
+                }
+                else
+                {
+                    physics.body.velocity = targetVelocity;
+                }
+            }
 
             physics.SetNormalizedVelocity(direction);
-
-            if (physics.body != null && direction == Vector2.zero)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
         }
         finally
         {

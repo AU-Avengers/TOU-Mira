@@ -92,6 +92,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         config.Bind("Miscellaneous", "ShowWelcomeMessage", true);
 
     [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle { get; private set; } =
+        config.Bind("Miscellaneous", "ShowRulesOnLobbyJoin", true);
+
+    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
         config.Bind("Miscellaneous", "ShowSummaryMessage", true);
 
@@ -102,6 +106,14 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
         config.Bind("Miscellaneous", "ShowPracticeButtons", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
+        config.Bind("Miscellaneous", "ZoomingInLobby", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
+        config.Bind("Miscellaneous", "ZoomingInPractice", true);
 }
 
 public enum GameSummaryAppearance

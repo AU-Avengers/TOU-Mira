@@ -1,6 +1,7 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using TownOfUs.Modules.Anims;
+using TownOfUs.Modifiers.Game.Universal;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -30,6 +31,31 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
     public override void OnActivate()
     {
         _shield = AnimStore.SpawnAnimBody(Player, TouAssets.FirstRoundShield.LoadAsset(), false, -1.1f, -0.225f, 1.5f)!;
+        
+        if (_shield != null && Target != null)
+        {
+            var currentScale = _shield.transform.localScale;
+            
+            if (Player.HasModifier<GiantModifier>())
+            {
+                currentScale *= 0.7f;
+            }
+            else if (Player.HasModifier<MiniModifier>())
+            {
+                currentScale /= 0.7f;
+            }
+            
+            if (Target.HasModifier<GiantModifier>())
+            {
+                currentScale /= 0.7f;
+            }
+            else if (Target.HasModifier<MiniModifier>())
+            {
+                currentScale *= 0.7f;
+            }
+            
+            _shield.transform.localScale = currentScale;
+        }
     }
 
     public override void OnDeath(DeathReason reason)
