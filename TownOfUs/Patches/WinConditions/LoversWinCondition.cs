@@ -25,7 +25,7 @@ public sealed class LoversWinCondition : IWinCondition, IWinConditionWithBlockin
     /// <summary>
     ///     Checks if the lovers win condition is met.
     /// </summary>
-    public bool IsMet(LogicGameFlowNormal _)
+    public bool IsMet(LogicGameFlowNormal gameFlow)
     {
         var lovers = ModifierUtils.GetActiveModifiers<LoverModifier>().ToArray();
         return LoverModifier.WinConditionMet(lovers);
@@ -34,7 +34,7 @@ public sealed class LoversWinCondition : IWinCondition, IWinConditionWithBlockin
     /// <summary>
     ///     Triggers the lovers game over.
     /// </summary>
-    public void TriggerGameOver(LogicGameFlowNormal _)
+    public void TriggerGameOver(LogicGameFlowNormal gameFlow)
     {
         var winners = ModifierUtils.GetActiveModifiers<LoverModifier>()
             .Where(x => x?.Player?.Data != null)

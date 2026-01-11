@@ -45,7 +45,7 @@ public static class EndGameEvents
                 $"<color=#{Palette.ImpostorRed.ToHtmlStringRGBA()}>{TouLocale.Get("ImpostorWin")}</color>";
         }
 
-        if (reason == CustomGameOver.GameOverReason<DrawGameOver>())
+        if (reason == CustomGameOver.GameOverReason<DrawGameOver>() || reason == CustomGameOver.GameOverReason<HostGameOver>())
         {
             winType = 0;
         }

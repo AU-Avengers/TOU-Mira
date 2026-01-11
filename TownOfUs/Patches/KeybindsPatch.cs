@@ -2,6 +2,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
+using MiraAPI.GameEnd;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Networking;
@@ -10,6 +11,7 @@ using MiraAPI.Voting;
 using Rewired;
 using TownOfUs.Buttons;
 using TownOfUs.Events.Modifiers;
+using TownOfUs.GameOver;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles;
@@ -73,7 +75,7 @@ public static class Bindings
                     var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                     if (gameFlow != null)
                     {
-                        gameFlow.Manager.RpcEndGame(GameOverReason.ImpostorsByKill, false);
+                        CustomGameOver.Trigger<HostGameOver>([]);
                     }
                 }
 

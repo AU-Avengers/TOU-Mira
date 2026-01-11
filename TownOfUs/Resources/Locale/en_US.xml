@@ -290,6 +290,7 @@
   <string name="ImpostorsWin">Impostors Win</string>
   <string name="CrewmateWin">Crewmate Win</string>
   <string name="ImpostorWin">Impostor Win</string>
+  <string name="HostWin">Host Aborted Game</string>
   <string name="NobodyWins">Game Draw</string>
   <string name="SoloWin">\%role\% Wins</string>
   <string name="TeamWin">\%role\% Win</string>

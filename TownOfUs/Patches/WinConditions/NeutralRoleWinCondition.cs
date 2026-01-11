@@ -25,7 +25,7 @@ public sealed class NeutralRoleWinCondition : IWinCondition
     /// <summary>
     ///     Checks if any neutral role win condition is met.
     /// </summary>
-    public bool IsMet(LogicGameFlowNormal _)
+    public bool IsMet(LogicGameFlowNormal gameFlow)
     {
         return CustomRoleUtils.GetActiveRolesOfTeam(ModdedRoleTeams.Custom)
             .OrderBy(x => x.GetRoleAlignment())
@@ -35,7 +35,7 @@ public sealed class NeutralRoleWinCondition : IWinCondition
     /// <summary>
     ///     Triggers the neutral game over, or lovers game over if applicable.
     /// </summary>
-    public void TriggerGameOver(LogicGameFlowNormal _)
+    public void TriggerGameOver(LogicGameFlowNormal gameFlow)
     {
         var winner = CustomRoleUtils.GetActiveRolesOfTeam(ModdedRoleTeams.Custom)
             .OrderBy(x => x.GetRoleAlignment())
