@@ -52,16 +52,26 @@ public static class HudManagerPatches
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
+    private static void RefreshUIAnchors() // anchoring ui elements.
+    {
+        ResolutionManager.ResolutionChanged.Invoke(
+            (float)Screen.width / Screen.height,
+            Screen.width,
+            Screen.height,
+            Screen.fullScreen
+        );
+
+        foreach (var ap in Object.FindObjectsOfType<AspectPosition>())
+            ap.AdjustPosition();
+    }
+
     public static void AdjustCameraSize(float size)
     {
-        Camera.main!.orthographicSize = size;
-        foreach (var cam in Camera.allCameras)
-        {
-            cam.orthographicSize = Camera.main.orthographicSize;
-        }
+        if (Camera.main != null)
+            Camera.main.orthographicSize = size; // setting size for the main camera
 
-        ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height,
-            Screen.fullScreen);
+        if (HudManager.Instance != null && HudManager.Instance.UICamera != null) 
+            HudManager.Instance.UICamera.orthographicSize = size; // setting size for the ui camera as well. thanku pietro for the help :)
 
         if (size <= 3f)
         {
@@ -78,6 +88,8 @@ public static class HudManagerPatches
             Zooming ? TouAssets.ZoomPlus.LoadAsset() : TouAssets.ZoomMinus.LoadAsset();
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
+
+        RefreshUIAnchors(); // new function. Don't ban me :sob:
     }
 
     public static void ButtonClickZoom()
