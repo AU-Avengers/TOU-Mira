@@ -51,17 +51,47 @@ public static class HudManagerPatches
     public static bool CamouflageCommsEnabled;
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
+    private static Camera FindUICamera() // Find the UI camera among all cameras.
+    {
+        foreach (var cam in Camera.allCameras)
+        {
+            if (cam == Camera.main)
+                continue;
+
+            int uiLayer = LayerMask.NameToLayer("UI");
+            if (uiLayer != -1 && (cam.cullingMask & (1 << uiLayer)) != 0)
+                return cam;
+
+            if (cam.GetComponentInParent<HudManager>() != null)
+                return cam;
+        }
+
+        return null;
+    }
+
+    private static void RefreshUIAnchors() // Adjust UI anchors after zoom changes.
+    {
+        ResolutionManager.ResolutionChanged.Invoke(
+            (float)Screen.width / Screen.height,
+            Screen.width,
+            Screen.height,
+            Screen.fullScreen
+        );
+
+        foreach (var ap in Object.FindObjectsOfType<AspectPosition>())
+            ap.AdjustPosition();
+    }
 
     public static void AdjustCameraSize(float size)
     {
-        Camera.main!.orthographicSize = size;
-        foreach (var cam in Camera.allCameras)
-        {
-            cam.orthographicSize = Camera.main.orthographicSize;
-        }
+        // Instead of changing orthographicSize of all cameras, we'll just change the ones of main and ui camera for compatibility with other mods that use custom cameras.
 
-        ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height,
-            Screen.fullScreen);
+        if (Camera.main != null)
+            Camera.main.orthographicSize = size;
+
+        var uiCam = FindUICamera();
+        if (uiCam != null)
+            uiCam.orthographicSize = size;
 
         if (size <= 3f)
         {
@@ -78,6 +108,8 @@ public static class HudManagerPatches
             Zooming ? TouAssets.ZoomPlus.LoadAsset() : TouAssets.ZoomMinus.LoadAsset();
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
+
+        RefreshUIAnchors(); // I adding this cuz for some reason the ui elements not achoring properly after zooming in/out
     }
 
     public static void ButtonClickZoom()
