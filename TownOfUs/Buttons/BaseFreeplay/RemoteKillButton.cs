@@ -1,6 +1,8 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
+using Reactor.Networking.Rpc;
+using TownOfUs.Networking;
 using TownOfUs.Modules;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -35,7 +37,7 @@ public sealed class RemoteKillButton : TownOfUsButton
     public override bool Enabled(RoleBehaviour? role)
     {
         return PlayerControl.LocalPlayer != null &&
-               TutorialManager.InstanceExists &&
+               (TutorialManager.InstanceExists || MultiplayerFreeplayMode.Enabled) &&
                !FreeplayButtonsVisibility.Hidden;
     }
 
@@ -116,6 +118,15 @@ public sealed class RemoteKillButton : TownOfUsButton
         {
             return;
         }
+
+        if (MultiplayerFreeplayMode.Enabled)
+        {
+            Rpc<MultiplayerFreeplayRequestRpc>.Instance.Send(
+                PlayerControl.LocalPlayer,
+                new MultiplayerFreeplayRequest(MultiplayerFreeplayAction.RemoteKill, Killer.PlayerId, Victim.PlayerId, 0));
+            return;
+        }
+
         Killer.RpcCustomMurder(Victim);
     }
 }

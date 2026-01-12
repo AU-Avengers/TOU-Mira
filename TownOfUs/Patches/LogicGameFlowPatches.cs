@@ -177,6 +177,11 @@ public static class LogicGameFlowPatches
     [HarmonyPrefix]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
+        {
+            return false;
+        }
+
         if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd.Value && TownOfUsPlugin.IsDevBuild)
         {
             return false;

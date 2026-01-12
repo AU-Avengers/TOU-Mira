@@ -21,7 +21,8 @@ public static class FreeplayButtonsVisibility
 
     public static void Apply()
     {
-        if (!TutorialManager.InstanceExists || PlayerControl.LocalPlayer?.Data?.Role == null)
+        if ((!TutorialManager.InstanceExists && !MultiplayerFreeplayMode.Enabled) ||
+            PlayerControl.LocalPlayer?.Data?.Role == null)
         {
             return;
         }
