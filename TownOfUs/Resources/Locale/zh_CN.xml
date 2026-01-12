@@ -1886,7 +1886,7 @@
   <string name="TouOptionPuppeteerControlPerKill">额外控制所需击杀数</string>
   <string name="TouOptionPuppeteerVictimSeesControlDirection">纵偶师位置提示持续时间（针对被控制者）</string>
   <string name="TouOptionPuppeteerControlCooldown">控制冷却</string>
-  <string name="TouOptionPuppeteerControlDuration">控制冷却时间</string>
+  <string name="TouOptionPuppeteerControlDuration">控制持续时间</string>
   <string name="TouOptionPuppeteerCanVent">纵偶师可使用通风口</string>
   <string name="TouOptionArsonistImpVision">纵火狂拥有伪装者视野</string>
   <string name="TouOptionVampireNeutConvertBenign">善良型</string>
