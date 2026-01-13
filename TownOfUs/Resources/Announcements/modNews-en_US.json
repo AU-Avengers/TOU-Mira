@@ -650,6 +650,22 @@
         "\n- Vanilla Tweaks Option: Cooldown Pause in Tasks and Panels.",
         "\n- Local Settings: Zoom in Lobby/Practice."
       ]
+    },
+    {
+      "Date": "2026-01-12T12:51:00Z",
+      "Number": "100035",
+      "ShortTitle": "TOU: Mira v1.5.2",
+      "Title": "More Miner Bugfixes",
+      "SubTitle": "No, not Miner itself.",
+      "Text": [
+        "<b>This release includes bugfixes for a few minor issues.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2>TOU Mira v1.5.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Zooming no longer affects cameras that don't need it, fixing Submerged issues as well. (PR #117) (jukixyo)",
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- New Host Option: Freeplay Mode"
+      ]
     }
   ]
 }
