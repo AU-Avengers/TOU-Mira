@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Hazel;
 using InnerNet;
 using MiraAPI.GameOptions;
@@ -11,7 +9,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Utilities;
-using UnityEngine;
 
 namespace TownOfUs.Networking;
 

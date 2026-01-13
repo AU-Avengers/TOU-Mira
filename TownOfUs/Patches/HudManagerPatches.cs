@@ -67,21 +67,28 @@ public static class HudManagerPatches
 
     public static void AdjustCameraSize(float size)
     {
+        if (!HudManager.InstanceExists)
+        {
+            return;
+        }
+
+        var instance = HudManager.Instance;
         if (Camera.main != null)
             Camera.main.orthographicSize = size; // setting size for the main camera
 
-        if (HudManager.Instance != null && HudManager.Instance.UICamera != null) 
-            HudManager.Instance.UICamera.orthographicSize = size; // setting size for the ui camera as well. thanku pietro for the help :)
+        if (instance.UICamera != null)
+            instance.UICamera.orthographicSize =
+                size; // setting size for the ui camera as well. thanku pietro for the help :)
 
         if (size <= 3f)
         {
             Zooming = false;
-            HudManager.Instance.ShadowQuad.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead);
+            instance.ShadowQuad.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead);
         }
         else
         {
             Zooming = true;
-            HudManager.Instance.ShadowQuad.gameObject.SetActive(false);
+            instance.ShadowQuad.gameObject.SetActive(false);
         }
 
         ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
