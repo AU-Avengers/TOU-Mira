@@ -1,3 +1,4 @@
+using System;
 using TownOfUs.Events.TouEvents;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public sealed class TimeLordEventRegistry
 {
     private readonly List<QueuedEvent> _events = new();
     private readonly Dictionary<Type, Action<TimeLordEvent>> _undoHandlers = new();
+    private readonly Dictionary<Type, Func<TimeLordEvent, TimeLordUndoEvent>> _undoEventFactories = new();
 
     private sealed class QueuedEvent
     {
@@ -29,6 +31,34 @@ public sealed class TimeLordEventRegistry
     public void RegisterUndoHandler<T>(Action<T> handler) where T : TimeLordEvent
     {
         _undoHandlers[typeof(T)] = evt => handler((T)evt);
+    }
+
+    /// <summary>
+    /// Registers a factory function for creating undo events. This allows extensions to register
+    /// their own event types that can be undone during rewind.
+    /// </summary>
+    public void RegisterUndoEventFactory<T>(Func<T, TimeLordUndoEvent> factory) where T : TimeLordEvent
+    {
+        _undoEventFactories[typeof(T)] = evt => factory((T)evt);
+    }
+
+    /// <summary>
+    /// Creates an undo event for the given event, using registered factories or returning null if none is registered.
+    /// </summary>
+    public TimeLordUndoEvent? CreateUndoEvent(TimeLordEvent evt)
+    {
+        if (evt == null)
+        {
+            return null;
+        }
+
+        var eventType = evt.GetType();
+        if (_undoEventFactories.TryGetValue(eventType, out var factory))
+        {
+            return factory(evt);
+        }
+
+        return null;
     }
 
     public void RecordEvent(TimeLordEvent evt)
