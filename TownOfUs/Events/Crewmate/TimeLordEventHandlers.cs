@@ -21,7 +21,7 @@ public static class TimeLordEventHandlers
 
     static TimeLordEventHandlers()
     {
-        // Register undo handlers for each core event type
+        // Register undo handlers for each event type
         EventQueue.RegisterUndoHandler<TimeLordVentEnterEvent>(evt =>
         {
             var undoEvent = new TimeLordVentEnterUndoEvent(evt);
@@ -69,13 +69,6 @@ public static class TimeLordEventHandlers
             var undoEvent = new TimeLordKillCooldownUndoEvent(evt);
             MiraEventManager.InvokeEvent(undoEvent);
         });
-
-        // Register factories for extension events so TimeLordRewindSystem can create undo events
-        EventQueue.RegisterUndoEventFactory<TimeLordParasiteControlEvent>(evt =>
-            new TimeLordParasiteControlUndoEvent(evt));
-
-        EventQueue.RegisterUndoEventFactory<TimeLordPuppeteerControlEvent>(evt =>
-            new TimeLordPuppeteerControlUndoEvent(evt));
     }
 
     /// <summary>
@@ -202,36 +195,6 @@ public static class TimeLordEventHandlers
         }
 
         var evt = new TimeLordKillCooldownEvent(player, cooldownBefore, cooldownAfter, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
-        EventQueue.RecordEvent(evt);
-    }
-
-    /// <summary>
-    /// Records a Parasite control start and fires the appropriate event.
-    /// </summary>
-    public static void RecordParasiteControl(PlayerControl parasite, PlayerControl target)
-    {
-        if (parasite == null || target == null || !TimeLordRewindSystem.MatchHasTimeLord())
-        {
-            return;
-        }
-
-        var evt = new TimeLordParasiteControlEvent(parasite, target, UnityEngine.Time.time);
-        MiraEventManager.InvokeEvent(evt);
-        EventQueue.RecordEvent(evt);
-    }
-
-    /// <summary>
-    /// Records a Puppeteer control start and fires the appropriate event.
-    /// </summary>
-    public static void RecordPuppeteerControl(PlayerControl puppeteer, PlayerControl target)
-    {
-        if (puppeteer == null || target == null || !TimeLordRewindSystem.MatchHasTimeLord())
-        {
-            return;
-        }
-
-        var evt = new TimeLordPuppeteerControlEvent(puppeteer, target, UnityEngine.Time.time);
         MiraEventManager.InvokeEvent(evt);
         EventQueue.RecordEvent(evt);
     }
@@ -506,69 +469,5 @@ public static class TimeLordEventHandlers
                 HudManager.Instance.KillButton.SetCoolDown(player.killTimer, maxvalue);
             }
         }
-    }
-
-    /// <summary>
-    /// Handles Parasite control undo events during rewind (ends control on the target).
-    /// </summary>
-    [RegisterEvent]
-    public static void HandleParasiteControlUndo(TimeLordParasiteControlUndoEvent @event)
-    {
-        if (@event.OriginalEvent is not TimeLordParasiteControlEvent originalEvent)
-        {
-            return;
-        }
-
-        var parasite = originalEvent.Player;
-        var target = originalEvent.Target;
-
-        if (parasite == null || target == null)
-        {
-            return;
-        }
-
-        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
-        {
-            return;
-        }
-
-        if (parasite.Data == null || parasite.Data.Role is not TownOfUs.Roles.Impostor.ParasiteRole)
-        {
-            return;
-        }
-
-        TownOfUs.Roles.Impostor.ParasiteRole.RpcParasiteEndControl(parasite, target);
-    }
-
-    /// <summary>
-    /// Handles Puppeteer control undo events during rewind (ends control on the target).
-    /// </summary>
-    [RegisterEvent]
-    public static void HandlePuppeteerControlUndo(TimeLordPuppeteerControlUndoEvent @event)
-    {
-        if (@event.OriginalEvent is not TimeLordPuppeteerControlEvent originalEvent)
-        {
-            return;
-        }
-
-        var puppeteer = originalEvent.Player;
-        var target = originalEvent.Target;
-
-        if (puppeteer == null || target == null)
-        {
-            return;
-        }
-
-        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
-        {
-            return;
-        }
-
-        if (puppeteer.Data == null || puppeteer.Data.Role is not TownOfUs.Roles.Impostor.PuppeteerRole)
-        {
-            return;
-        }
-
-        TownOfUs.Roles.Impostor.PuppeteerRole.RpcPuppeteerEndControl(puppeteer, target);
     }
 }
