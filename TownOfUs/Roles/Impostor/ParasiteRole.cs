@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
@@ -699,6 +700,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         role.Controlled = target;
         role._overtakeKillLockoutUntil = Time.time + OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeKillCooldown;
+
+        // Record this takeover for Time Lord rewind so control can be undone during rewind.
+        TimeLordEventHandlers.RecordParasiteControl(parasite, target);
 
         ParasiteControlState.SetControl(target.PlayerId, parasite.PlayerId);
         if (!target.HasModifier<ParasiteInfectedModifier>())

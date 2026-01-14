@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events.Crewmate;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
@@ -186,6 +187,9 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         role.Controlled = target;
         role.ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
+
+        // Record this control start for Time Lord rewind so control can be undone during rewind.
+        TimeLordEventHandlers.RecordPuppeteerControl(puppeteer, target);
 
         PuppeteerControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
         if (!target.HasModifier<PuppeteerControlModifier>())
