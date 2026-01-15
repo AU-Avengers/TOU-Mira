@@ -807,7 +807,7 @@
   <string name="TouOptionJuggernautInitialCooldown">初始击杀冷却</string>
   <string name="TouOptionJuggernautCooldownReduction">击杀冷却缩减</string>
   <string name="TouOptionJuggernautCanVent">天启可进通风口</string>
-  <string name="TouRoleBomberIntroBlurb">布置炸弹，一次性击杀多名船员。</string>
+  <string name="TouRoleBomberIntroBlurb">放下炸弹，一次性击杀多名船员。</string>
   <string name="TouRoleBomberTabDescription">布置炸弹，一次性击杀多名船员</string>
   <string name="TouRoleBomberWikiDescription">爆破手是一名伪装者击杀型职业，可以在地图上布置炸弹，\%detonateDelay\%秒后爆炸。</string>
   <string name="TouRoleBomberPlace">布置</string>
@@ -960,7 +960,7 @@
   <string name="TouRoleBlackmailerTabDescription">让一名船员在下次会议中无法发言</string>
   <string name="TouRoleBlackmailerWikiDescription">勒索者是一名伪装者辅助型职业，可以让一名玩家在下次会议中无法发言（以\%symbol\%标记）</string>
   <string name="TouRoleBlackmailerBlackmail">勒索</string>
-  <string name="TouRoleBlackmailerBlackmailWikiDescription">让一名玩家在下次会议中无法发言。他们将无法说话，且在存活人数大于等于设定值前无法投票。是否公开勒索状态可由设置决定</string>
+  <string name="TouRoleBlackmailerBlackmailWikiDescription">让一名玩家在下次会议中无法发言。他们将无法说话，且在存活人数小于等于设定值前无法投票。是否公开勒索状态可由设置决定</string>
   <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">每局可用勒索次数</string>
   <string name="TouOptionBlackmailerBlackmailCooldown">勒索冷却</string>
   <string name="TouOptionBlackmailerMaxPlayersAliveUntilVoting">允许被勒索人投票的最大存活人数</string>
