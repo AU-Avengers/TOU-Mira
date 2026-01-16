@@ -1,4 +1,3 @@
-using System;
 using TownOfUs.Events.TouEvents;
 using UnityEngine;
 

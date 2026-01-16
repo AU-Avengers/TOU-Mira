@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="DiscordServer">Discord Server</string>
+  <string name="SourceCode">Source Code</string>
   <string name="FoolsMode">Fools Mode</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>

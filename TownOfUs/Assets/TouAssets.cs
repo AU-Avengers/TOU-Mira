@@ -36,28 +36,34 @@ public static class TouAssets
         return sprite;
     }
     public static LoadableAsset<Sprite> DleksBanner { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksBanner.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.DleksBanner.png");
 
     public static LoadableAsset<Sprite> DleksText { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.DleksText.png");
 
     public static LoadableAsset<Sprite> DleksTextAlt { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png", 155f);
+        new LoadableResourceAsset($"{ShortPath}.Menus.DleksText.png", 155f);
 
     public static LoadableAsset<Sprite> DleksIcon { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksIcon.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.DleksIcon.png");
 
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.Normal.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.Normal.png");
 
     public static LoadableAsset<Sprite> FoolsHorse { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.Horse.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.Horse.png");
 
     public static LoadableAsset<Sprite> FoolsLong { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.Long.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.Long.png");
 
     public static LoadableAsset<Sprite> FoolsLongHorse { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AprilFools.LongHorse.png");
+        new LoadableResourceAsset($"{ShortPath}.Menus.LongHorse.png");
+
+    public static LoadableAsset<Sprite> DiscordServer { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.DiscordServer.png");
+
+    public static LoadableAsset<Sprite> SourceCode { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.SourceCode.png");
 
     public static LoadableAsset<Sprite> BlankSprite { get; } =
         new LoadableResourceAsset($"{ShortPath}.BlankSprite.png");
