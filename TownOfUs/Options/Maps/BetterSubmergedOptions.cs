@@ -40,6 +40,23 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
         "TouOptionBetterDoorsEnumRandom"
     ]);
 
+    [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
+    public bool ChangeSaboTimers { get; set; } = true;
+
+    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("TouOptionBetterMapsSaboCountdownWaterLevelStabilizer", 45f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterSubmergedOptions>.Instance.ChangeSaboTimers
+    };
+
+    public ModdedNumberOption SaboCountdownOxygen { get; set; } = new("TouOptionBetterMapsSaboCountdownOxygenMask", 30f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterSubmergedOptions>.Instance.ChangeSaboTimers
+    };
+
     /*
     [ModdedEnumOption("Spawn Mode", typeof(SubSpawnLocation), ["Selectable", "Upper Deck", "Lower Deck"])]
     public SubSpawnLocation SpawnMode { get; set; } = SubSpawnLocation.Selectable;

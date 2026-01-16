@@ -411,6 +411,8 @@
   <string name="TouOptionBetterMapsSaboCountdownReactor">Reactor Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownSeismicStabilizer">Seismic Stabilizer Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownCrashCourse">Crash Course Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">Water Level Stabilizer Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownOxygenMask">Oxygen Mask Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>

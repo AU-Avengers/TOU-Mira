@@ -14,12 +14,12 @@ public static class ReactorPatch
         var flag = MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Airship => false,
-            ExpandedMapNames.Submerged => false,
             ExpandedMapNames.LevelImpostor => false,
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.ChangeSaboTimers,
             ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.ChangeSaboTimers,
             ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers,
+            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.ChangeSaboTimers,
             _ => true
         };
 
@@ -37,6 +37,7 @@ public static class ReactorPatch
                 ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownReactor.Value,
                 ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.SaboCountdownReactor.Value,
                 ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownReactor.Value,
+                ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.SaboCountdownReactor.Value,
                 _ => __instance.ReactorDuration
             };
             if (seconds >= 15f && seconds <= 90f)
