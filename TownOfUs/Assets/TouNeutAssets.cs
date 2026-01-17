@@ -102,6 +102,8 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> InquireSprite { get; } =
         new LoadableBundleAsset<Sprite>("InquireButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> ChefCookSprite { get; } =
+        new LoadableBundleAsset<Sprite>("CookButton", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> ChefServeEmptySprite { get; } =
         new LoadableBundleAsset<Sprite>("ServeEmptyButton", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> ChefServeSalmonSprite { get; } =
