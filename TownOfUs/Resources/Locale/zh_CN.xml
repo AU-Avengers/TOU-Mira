@@ -982,7 +982,7 @@
   <string name="TouRoleMinerWikiDescription">管道工是一名伪装者辅助型职业，可以制造通风口。</string>
   <string name="TouRoleMinerMine">布管</string>
   <string name="TouRoleMinerMineWikiDescription">在当前位置放置一个通风口。这些通风口不会与地图上已有通风口相连，只会彼此互通。</string>
-  <string name="TouOptionMinerNumberOfVentsPerGame">每局可用通风口数量</string>
+  <string name="TouOptionMinerNumberOfVentsPerGame">每局可造通风口数量</string>
   <string name="TouOptionMinerMineCooldown">造通风口冷却</string>
   <string name="TouOptionMinerMineVisibility">通风口可见性</string>
   <string name="TouOptionMinerMineDelay">通风口延迟可见</string>
@@ -996,7 +996,7 @@
   <string name="TouRoleMorphlingMorphWikiDescription">化形为已采样玩家的外观，可提前取消。</string>
   <string name="TouOptionMorphlingSamplesPerGame">每局可采样次数</string>
   <string name="TouOptionMorphlingMorphUsesPerRound">每回合可化形次数</string>
-  <string name="TouOptionMorphlingMorphCooldown">化形者冷却</string>
+  <string name="TouOptionMorphlingMorphCooldown">化形冷却</string>
   <string name="TouOptionMorphlingMorphDuration">化形持续时间</string>
   <string name="TouOptionMorphlingCanVent">化形者可进通风口</string>
   <string name="TouRoleTraitorIntroBlurb">背叛船员！</string>
