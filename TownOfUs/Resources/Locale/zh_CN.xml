@@ -504,7 +504,7 @@
   <string name="TouOptionAmbusherPursueArrowUpdateInterval">追踪箭头刷新间隔</string>
   <string name="TouOptionAmbusherStopPursuingPlayerOnAmbush">伏击后停止追踪玩家</string>
   <string name="TouOptionAmbusherCanVent">伏击者可进入通风口</string>
-  <string name="TouRoleInquisitorTabDescription">消灭你的异端目标或让他们被杀。\%nl\%所有异端死亡后你将获胜并离开游戏。\%nl\%若所有异端在会议结束后死亡，\%nl\%你将离开游戏\%and\%并宣布你的胜利</string>
+  <string name="TouRoleInquisitorTabDescription">消灭你的异端目标或让他们被杀。\%nl\%所有异端死亡后你将获胜并离开游戏。\%nl\%若所有异端在会议结束后死亡，\%nl\%你将离开游戏\%and\%宣布你的胜利</string>
   <string name="TouRoleInquisitorTabAddition">你的异端目标身份：</string>
   <string name="TouRoleInquisitorWikiDescription">审判官是一名中立外来者型职业，只要所有异端目标死亡即可获胜。你只知道他们的身份，需要审判官自己找出这些玩家（对死者以\%symbol\%标记），并想办法让他们被杀。</string>
   <string name="TouRoleInquisitorMessageTitle">审判官报告</string>
@@ -596,9 +596,9 @@
   <string name="TouModifierTelepathIntroBlurbNoDeath">知晓队友击杀的信息，知晓队友死亡的信息。</string>
   <string name="TouModifierTelepathIntroBlurb">你会收到队友击杀情况的通知。</string>
   <string name="TouModifierTelepathDescriptionBasic">知晓队友击杀的信息</string>
-  <string name="TouModifierTelepathDescriptionIfKnowWhen">知晓队友击杀的时间\%and\%和位置</string>
+  <string name="TouModifierTelepathDescriptionIfKnowWhen">知晓队友击杀的时间\%and\%位置</string>
   <string name="TouModifierTelepathDescriptionAddIfKnowDeath">，知晓队友死亡的时间</string>
-  <string name="TouModifierTelepathDescriptionAddIfKnowDeathLoc">，知晓队友死亡的时间和\%and\%位置。</string>
+  <string name="TouModifierTelepathDescriptionAddIfKnowDeathLoc">，知晓队友死亡的时间\%and\%位置。</string>
   <string name="TouOptionTelepathKnowKill">知晓队友击杀位置</string>
   <string name="TouOptionTelepathKnowDeath">知晓队友死亡时间</string>
   <string name="TouOptionTelepathKnowDeathLoc">知晓队友死亡位置</string>
@@ -975,7 +975,7 @@
   <string name="TouOptionJanitorCleanUsesPerGame">每局可用清理次数</string>
   <string name="TouOptionJanitorCleanCooldown">清理冷却</string>
   <string name="TouOptionJanitorCleanDelay">清理延迟</string>
-  <string name="TouOptionJanitorResetKillAndCleanCooldownsTogether">击杀与\%and\%清理冷却同步重置</string>
+  <string name="TouOptionJanitorResetKillAndCleanCooldownsTogether">击杀\%and\%清理冷却同步重置</string>
   <string name="TouOptionJanitorJanitorCanKillWithTeammate">清理者可与队友一起击杀</string>
   <string name="TouRoleMinerIntroBlurb">随处造通风口，随处潜行</string>
   <string name="TouRoleMinerTabDescription">在地图上放置互通的通风口</string>
@@ -1050,7 +1050,7 @@
   <string name="TouRoleSnitchIntroBlurb">找出\%color=#FF0000FF\%伪装者\%/color\%！</string>
   <string name="TouRoleSnitchTabDescription">完成所有任务以发现伪装者。</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasks">找出伪装者！</string>
-  <string name="TouRoleSnitchTabDescriptionEgo">完成所有任务以发现\%and\%并帮助伪装者。</string>
+  <string name="TouRoleSnitchTabDescriptionEgo">完成所有任务以发现\%and\%帮助伪装者。</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasksEgo">帮助伪装者！</string>
   <string name="TouRoleSnitchWikiDescription">告密者是一名船员调查型职业，通过完成所有任务可以发现伪装者。完成所有任务后，伪装者会被箭头和红名标记。</string>
   <string name="TouOptionSnitchRevealsNeutralKillers">告密者揭示中立杀手</string>
@@ -1248,7 +1248,7 @@
   <string name="TouRoleChefServeWikiDescription">将你手头上最早的食物喂给另一个空腹的人。</string>
   <string name="TouOptionChefServeCooldown">喂食冷却</string>
   <string name="TouOptionChefCookCooldown">烹饪冷却</string>
-  <string name="TouOptionChefLinkedCooldowns">烹饪\%and\% 和喂食冷却同步重置</string>
+  <string name="TouOptionChefLinkedCooldowns">烹饪\%and\% 喂食冷却同步重置</string>
   <string name="TouOptionChefServingAmount">所需喂食数量</string>
   <string name="TouRoleSeerAltIntroBlurb">比较两名玩家的阵营</string>
   <string name="TouRoleSeerAltTabDescription">比较两名玩家，\%nl\%确认他们是敌是友！</string>
@@ -1451,7 +1451,7 @@
   <string name="TouOptionDoomsayerWinEnumNothing">无</string>
   <string name="TouOptionDoomsayerContinuesGame">末日预言者继续游戏</string>
   <string name="TouOptionExecutionerWinEnumEndsGame">结束游戏</string>
-  <string name="TouOptionExecutionerWinEnumTorments">胜利离场\%and\% 并带走一人</string>
+  <string name="TouOptionExecutionerWinEnumTorments">胜利离场\%and\% 带走一人</string>
   <string name="TouOptionExecutionerWinEnumNothing">继续游戏</string>
   <string name="TouOptionFairyProtectionEnumFairy">守护天使</string>
   <string name="TouOptionFairyProtectionEnumFairyAndTarget">守护天使 + 目标</string>

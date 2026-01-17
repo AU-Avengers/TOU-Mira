@@ -998,7 +998,7 @@
   <string name="TouRoleSnitchIntroBlurb">找出\%color=#FF0000FF\%偽裝者\%/color\%!</string>
   <string name="TouRoleSnitchTabDescription">完成所有任務以發現偽裝者。</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasks">找出偽裝者!</string>
-  <string name="TouRoleSnitchTabDescriptionEgo">完成所有任務以發現\%and\%並幫助偽裝者。</string>
+  <string name="TouRoleSnitchTabDescriptionEgo">完成所有任務以發現\%and\%幫助偽裝者。</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasksEgo">幫助偽裝者!</string>
   <string name="TouRoleSnitchWikiDescription">告密者是一名船員調查型職業,通過完成所有任務可以發現偽裝者。完成所有任務後,偽裝者會被箭頭和紅名標記。</string>
   <string name="TouOptionSnitchRevealsNeutralKillers">告密者揭示中立殺手</string>
@@ -1244,4 +1244,27 @@
   <string name="TouRoleHerbalist">草藥師</string>
   <string name="TouRoleHypnotist">催眠師</string>
   <string name="TouRoleHypnotistWikiDescription">催眠師是一名偽裝者輔助型職業,可以催眠玩家。在會議期間可釋放集體癔症,使所有被催眠的玩家(以\%symbol\%標記)在下一回合看到不同的視覺效果。</string>
+  <string name="TouRoleHypnotistIntroBlurb">催眠船員</string>
+  <string name="TouRoleHypnotistTabDescription">催眠船員使其無法分辨玩家\%nl\%並陷入瘋狂</string>
+  <string name="TouRoleHypnotistHypnotize">催眠</string>
+  <string name="TouRoleHypnotistHypnotizeWikiDescription">催眠一名玩家,若集體癔症生效,被催眠者看到的遊戲畫面將與其他玩家不同。</string>
+  <string name="TouRoleHypnotistMassHysteria">集體癔症</string>
+  <string name="TouRoleHypnotistMassHysteriaWiki">集體癔症 (會議)</string>
+  <string name="TouRoleHypnotistMassHysteriaWikiDescription">讓所有被催眠的玩家在下一回合看到不同的視覺效果。</string>
+  <string name="TouOptionHypnotistHypnotizeCooldown">催眠冷卻</string>
+  <string name="TouOptionHypnotistHypnotistCanKillWithTeammate">催眠師可與隊友一起擊殺</string>
+  <string name="TouRoleJanitor">清理者</string>
+  <string name="TouRoleJanitorIntroBlurb">清理飛船</string>
+  <string name="TouRoleJanitorTabDescription">清理屍體以隱藏擊殺</string>
+  <string name="TouRoleJanitorWikiDescription">清理者是一名偽裝者輔助型職業,可以清理屍體。</string>
+  <string name="TouRoleJanitorClean">清理</string>
+  <string name="TouRoleJanitorCleaning">清理中</string>
+  <string name="TouRoleJanitorCleanWikiDescription">清理一具屍體,使其消失並無法被舉報。</string>
+  <string name="TouOptionJanitorCleanUsesPerGame">每局可用清理次數</string>
+  <string name="TouOptionJanitorCleanCooldown">清理冷卻</string>
+  <string name="TouOptionJanitorCleanDelay">清理延遲</string>
+  <string name="TouOptionJanitorResetKillAndCleanCooldownsTogether">擊殺\%and\%清理冷卻同步重置</string>
+  <string name="TouOptionJanitorJanitorCanKillWithTeammate">清理者可與隊友一起擊殺</string>
+  <string name="TouRoleMiner">管道工</string>
+  <string name="TouRoleMinerIntroBlurb">隨處製造通風口,隨處潛行</string>
 </resources>
