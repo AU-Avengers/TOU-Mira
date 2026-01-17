@@ -43,8 +43,6 @@ public static class ModCompatibility
     private static MethodInfo getMovementStageFromTime;
     private static FieldInfo getSubElevatorSystem;
 
-    private static Type submarineOxygenSystem;
-
     private static FieldInfo upperDeckIsTargetFloor;
 
     private static FieldInfo submergedInstance;
@@ -137,7 +135,7 @@ public static class ModCompatibility
         var retTaskType = AccessTools.Field(customTaskTypes, "taskType");
         RetrieveOxygenMask = (TaskTypes)retTaskType.GetValue(retrieveOxygenMask.GetValue(null))!;
 
-        submarineOxygenSystem = SubTypes.First(t => t.Name == "SubmarineOxygenSystem");
+        var submarineOxygenSystem = SubTypes.First(t => t.Name == "SubmarineOxygenSystem");
         submarineOxygenSystemInstance = AccessTools.Property(submarineOxygenSystem, "Instance");
         repairDamage = AccessTools.Method(submarineOxygenSystem, "RepairDamage");
         var rpcOxygenDeath = AccessTools.Method(submarineOxygenSystem, "RpcOxygenDeath");
@@ -158,10 +156,13 @@ public static class ModCompatibility
         SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame")!;
         SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem")!;
 
+        var types = new[] { typeof(float) };
         var oxyConstruct = submarineOxygenSystem.GetConstructor(
+#pragma warning disable S3011
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+#pragma warning restore S3011
             null,
-            new[] { typeof(float) },
+            types,
             null
         );
             

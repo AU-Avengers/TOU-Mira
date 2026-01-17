@@ -356,6 +356,11 @@ public static class HudManagerPatches
         {
             foreach (var playerVA in MeetingHud.Instance.playerStates)
             {
+                if (!playerVA.gameObject.active)
+                {
+                    // Spectators are hidden, and we try to avoid Linq methods for performance reasons
+                    continue;
+                }
                 var player = MiscUtils.PlayerById(playerVA.TargetPlayerId);
                 playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
 
