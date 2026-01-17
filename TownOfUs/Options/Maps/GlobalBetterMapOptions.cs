@@ -26,21 +26,21 @@ public sealed class GlobalBetterMapOptions : AbstractOptionGroup
         ]);
 
     public ModdedEnumOption GlobalMapCrewVisionConfig { get; set; } = new(
-        "TouOptionGlobalBetterMapCrewVisionMultiplier", (int)MapTweakMode.GlobalOff, typeof(MapTweakMode),
+        "TouOptionGlobalBetterMapCrewVisionMultiplier", (int)MapTweakMode.PerMap, typeof(MapTweakMode),
         [
             "TouOptionGlobalBetterMapChangeEnumOff", "TouOptionGlobalBetterMapChangeEnumOn",
             "TouOptionGlobalBetterMapChangeEnumPerMap",
         ]);
 
     public ModdedEnumOption GlobalMapImpVisionConfig { get; set; } = new("TouOptionGlobalBetterMapImpVisionMultiplier",
-        (int)MapTweakMode.GlobalOff, typeof(MapTweakMode),
+        (int)MapTweakMode.PerMap, typeof(MapTweakMode),
         [
             "TouOptionGlobalBetterMapChangeEnumOff", "TouOptionGlobalBetterMapChangeEnumOn",
             "TouOptionGlobalBetterMapChangeEnumPerMap",
         ]);
 
     public ModdedEnumOption GlobalMapCooldownConfig { get; set; } = new("TouOptionGlobalBetterMapCooldownOffset",
-        (int)MapTweakMode.GlobalOff, typeof(MapTweakMode),
+        (int)MapTweakMode.PerMap, typeof(MapTweakMode),
         [
             "TouOptionGlobalBetterMapChangeEnumOff", "TouOptionGlobalBetterMapChangeEnumOn",
             "TouOptionGlobalBetterMapChangeEnumPerMap",
