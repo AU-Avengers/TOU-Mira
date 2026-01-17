@@ -168,4 +168,3 @@ public static class MixUpPatch
         return false;
     }
 }
-// TODO: Add Better Submerged settings asap!
