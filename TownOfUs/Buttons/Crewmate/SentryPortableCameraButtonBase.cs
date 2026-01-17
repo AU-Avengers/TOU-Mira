@@ -88,6 +88,45 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         return ShouldBeVisible(sentryRole);
     }
 
+    public override void ClickHandler()
+    {
+        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
+            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities) || !MiscUtils.CanUseUtility(GameUtility.Cams, true))
+        {
+            return;
+        }
+
+        if (LimitedUses)
+        {
+            UsesLeft--;
+            Button?.SetUsesRemaining(UsesLeft);
+            TownOfUsColors.UseBasic = false;
+            if (TextOutlineColor != Color.clear)
+            {
+                SetTextOutline(TextOutlineColor);
+                if (Button != null)
+                {
+                    Button.usesRemainingSprite.color = TextOutlineColor;
+                }
+            }
+
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+                .UseCrewmateTeamColorToggle.Value;
+        }
+
+        OnClick();
+
+        if (HasEffect)
+        {
+            EffectActive = true;
+            Timer = EffectDuration;
+        }
+        else
+        {
+            Timer = Cooldown;
+        }
+    }
+
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);

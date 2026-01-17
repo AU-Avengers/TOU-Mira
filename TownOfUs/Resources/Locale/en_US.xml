@@ -369,6 +369,14 @@
   <string name="FreeplayRestartButton">Reset Game</string>
   <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
   <string name="TouFirstRoundDeathIndicator">First Round Death Indicator</string>
+  <!-- Advanced Utility Options -->
+  <string name="TouOptionAdvancedUtilTasksToUseAdmin">Tasks Required to Use Admin Table</string>
+  <string name="TouOptionAdvancedUtilTasksToUseCams">Tasks Required to Use Cams</string>
+  <string name="TouOptionAdvancedUtilTasksToUseDoorlog">Tasks Required to Use Doorlog</string>
+  <string name="TouOptionAdvancedUtilTasksToUseVitals">Tasks Required to Use Vitals</string>
+  <string name="TouOptionAdvancedUtilTasksRequiredOnPortableUtils">Tasks Are Checked On Portable Utils</string>
+  <string name="TouUnavailableUtilityNotif">You need to complete \%amount\% more tasks to use this!</string>
+  <string name="TouUnavailableUtilityNotifSingle">You need to complete \%amount\% more task to use this!</string>
   <!-- Advanced Sabotage Options -->
   <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboGlobalCamouflageComms">Toggle Camouflage Comms</string>

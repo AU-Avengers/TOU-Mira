@@ -2104,6 +2104,55 @@ public static class MiscUtils
         return $"&{name.Replace(" ", "-").RemoveAll(WikiHyperLinkPatches.RemovedCharacters)}";
     }
 
+    public static bool CanUseUtility(GameUtility utility, bool isPortable = false)
+    {
+        var opts = OptionGroupSingleton<AdvancedUtilityOptions>.Instance;
+        if (isPortable && !opts.TasksOnPortables.Value)
+        {
+            return true;
+        }
+        var tasksNeeded = utility switch
+        {
+            GameUtility.Admin => (int)opts.TasksToUseAdmin.Value,
+            GameUtility.Cams => (int)opts.TasksToUseCams.Value,
+            GameUtility.Doorlog => (int)opts.TasksToUseDoorlog.Value,
+            GameUtility.Vitals => (int)opts.TasksToUseVitals.Value,
+            _ => 0,
+        };
+        var sprite = utility switch
+        {
+            GameUtility.Admin => TouRoleIcons.Spy,
+            GameUtility.Cams => TouModifierIcons.Operative,
+            GameUtility.Doorlog => TouRoleIcons.Investigator,
+            GameUtility.Vitals => TouModifierIcons.Scientist,
+            _ => TouModifierIcons.Operative,
+        };
+        if (tasksNeeded <= 0)
+        {
+            return true;
+        }
+
+        var playerCompleted = PlayerControl.LocalPlayer.Data.Tasks.Count - PlayerControl.LocalPlayer.GetTasksLeft();
+        var cantUseCamera = tasksNeeded > playerCompleted;
+        var tasksLeftToUnlock = tasksNeeded - playerCompleted;
+
+        if (!cantUseCamera) return true;
+        var notif1 = Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed(tasksLeftToUnlock > 1 ? "TouUnavailableUtilityNotif" : "TouUnavailableUtilityNotifSingle").Replace("<amount>",
+                $"<size=120%><b>\n{tasksLeftToUnlock.ToString(TownOfUsPlugin.Culture)}</b></size>"),
+            Color.white, new Vector3(0f, 1f, -20f), spr: sprite.LoadAsset());
+
+        notif1.AdjustNotification();
+        return false;
+    }
+}
+
+public enum GameUtility
+{
+    Admin,
+    Cams,
+    Doorlog,
+    Vitals
 }
 
 public enum TouGamemode
