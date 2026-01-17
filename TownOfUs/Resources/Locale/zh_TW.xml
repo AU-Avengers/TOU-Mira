@@ -878,8 +878,6 @@
   <string name="TouRoleSentryPortableCameraWikiDescription">通過有限的電池隨時存取安全攝像頭。電池在觀看時會消耗,並且無法充電。通信破壞時將禁用該功能。</string>
   <string name="TouRoleSentryTabDescription">放置的攝像頭會在保全室顯示。\%nl\%完成所有任務以解鎖便攜式攝像頭。</string>
   <string name="TouRoleSentryPortableCameraUnlocked">便攜式攝像頭已解鎖!</string>
-  <string name="TouRoleSentryMapNoCameras">%map%沒有保全室。完成任務以解鎖便攜式攝像頭。</string>
-  <string name="TouRoleSentryMapNoCamerasImmediate">%map%沒有保全室。便攜式攝像頭可以立即使用。</string>
   <string name="TouRoleSentryCamerasHeader">攝像頭</string>
   <string name="TouRoleSentrySentryOnly">(僅限哨兵)</string>
   <string name="TouRoleSentryPlacing">(部署中...)</string>
@@ -891,8 +889,6 @@
   <string name="TouOptionSentryMaxCamerasPlaced">一次最多可放置攝像頭數量</string>
   <string name="TouOptionSentryPortableCamsBattery">便攜式攝像頭電量</string>
   <string name="TouOptionSentryPortableCamsBatteryPerTask">每完成一個任務增加的便攜式攝像頭電量</string>
-  <string name="TouOptionSentryPortableCamsImmediateOnNoCamMaps">在無固定攝像頭的地圖上立即解鎖便攜式攝像頭</string>
-  <string name="TouOptionSentryLegacyMode">傳統模式 (舊版攝像頭行為)</string>
   <string name="TouOptionSentryBlindspots">盲區</string>
   <string name="TouOptionSentryBlindspot1Room">盲區1號房間</string>
   <string name="TouOptionSentryBlindspot2Room">盲區2號房間</string>

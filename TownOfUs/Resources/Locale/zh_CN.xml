@@ -1739,8 +1739,6 @@
   <string name="TouRoleSentryPortableCamera">查看</string>
   <string name="TouRoleSentryPortableCameraWikiDescription">通过有限的电池随时访问安全摄像头。电池在观看时会消耗，并且无法充电。通信破坏时将禁用该功能。</string>
   <string name="TouRoleSentryPortableCameraUnlocked">便携式摄像头已解锁！</string>
-  <string name="TouRoleSentryMapNoCameras">%map% 没有保安室。完成任务以解锁便携式摄像头。</string>
-  <string name="TouRoleSentryMapNoCamerasImmediate">%map% 没有保安室。便携式摄像头可以立即使用。</string>
   <string name="TouRoleSentryCamerasHeader">摄像头</string>
   <string name="TouRoleSentrySentryOnly">（仅限哨兵）</string>
   <string name="TouRoleSentryPlacing">（部署中...）</string>
@@ -1752,8 +1750,6 @@
   <string name="TouOptionSentryMaxCamerasPlaced">一次最多可放置摄像头数量</string>
   <string name="TouOptionSentryPortableCamsBattery">便携式摄像头电量</string>
   <string name="TouOptionSentryPortableCamsBatteryPerTask">每完成一个任务增加的便携式摄像头电量</string>
-  <string name="TouOptionSentryPortableCamsImmediateOnNoCamMaps">在无固定摄像头的地图上立即解锁便携式摄像头</string>
-  <string name="TouOptionSentryLegacyMode">传统模式（旧版摄像头行为）</string>
   <string name="TouOptionSentryBlindspots">盲区</string>
   <string name="TouOptionSentryBlindspot1Room">盲区 1 号房间</string>
   <string name="TouOptionSentryBlindspot2Room">盲区 2 号房间</string>
