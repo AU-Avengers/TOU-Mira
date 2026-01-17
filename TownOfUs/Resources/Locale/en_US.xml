@@ -371,6 +371,7 @@
   <string name="TouFirstRoundDeathIndicator">First Round Death Indicator</string>
   <!-- Advanced Sabotage Options -->
   <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
+  <string name="TouOptionAdvancedSaboGlobalCamouflageComms">Toggle Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboKillDuringCamoComms">Kill Anyone During Camouflage</string>
   <string name="TouOptionAdvancedSaboCamoKillScreens">Camouflage Kill Screens During Comms</string>
   <string name="TouOptionAdvancedSaboHidePlayerSizeInCamo">Camouflage Hides Player Size</string>
@@ -399,6 +400,17 @@
   <string name="TouOptionBetterDoorsAirshipChance">Airship Door Chance</string>
   <string name="TouOptionBetterDoorsFungleChance">Fungle Door Chance</string>
   <string name="TouOptionBetterDoorsSubmergedChance">Submerged Door Chance</string>
+  <!-- Global Better Map Options -->
+  <string name="TouOptionGlobalBetterMapCamouflageComms">Use Camouflage Comms</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumOff">Globally Disabled</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumOn">Globally Enabled</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumPerMap">Per Map Change</string>
+  <string name="TouOptionGlobalBetterMapSpeedMultiplier">Change Speed Multiplier</string>
+  <string name="TouOptionGlobalBetterMapCrewVisionMultiplier">Change Crew Vision Multiplier</string>
+  <string name="TouOptionGlobalBetterMapImpVisionMultiplier">Change Impostor Vision Multiplier</string>
+  <string name="TouOptionGlobalBetterMapCooldownOffset">Change Cooldown Offset</string>
+  <string name="TouOptionGlobalBetterMapOffsetShortTasks">Change Short Tasks Offset</string>
+  <string name="TouOptionGlobalBetterMapOffsetLongTasks">Change Long Tasks Offset</string>
   <!-- Better Maps Options -->
   <string name="TouOptionBetterMapsSpeedMultiplier">Speed Multiplier</string>
   <string name="TouOptionBetterMapsCrewVisionMultiplier">Crew Vision Multiplier</string>

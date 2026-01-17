@@ -1622,7 +1622,7 @@ public static class MiscUtils
             return true;
         }
 
-        if (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms)
+        if (TownOfUsMapOptions.IsCamoCommsOn())
         {
             if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem) ||
                 commsSystem == null)

@@ -210,10 +210,8 @@ public static class HudManagerPatches
 
     public static bool CommsSaboActive()
     {
-        var genOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;
-
         // Camo comms
-        if (!genOpt.CamouflageComms)
+        if (!TownOfUsMapOptions.IsCamoCommsOn())
         {
             return false;
         }
