@@ -752,7 +752,7 @@
   <string name="TouOptionMedicShowReportsInChat">显示法医报告</string>
   <string name="TouOptionMediumRevealAppearanceOfMediateTarget">显示招魂对象外观</string>
   <string name="TouRoleVenererIntroBlurb">每次击杀都会强化你的能力</string>
-  <string name="TouRoleVenererTabDescription">击杀玩家以解锁能力加成。\%nl\%你的技能允许你隐形，然后变得快速，最后还能减慢你路径上其他人的速度。</string>
+  <string name="TouRoleVenererTabDescription">击杀玩家以解锁能力加成。\%nl\%你的技能允许你隐蔽，然后变得快速，最后还能减慢你路径上其他人的速度。</string>
   <string name="TouRoleVenererWikiDescription">狩猎者是一名伪装者隐蔽型职业，可以通过击杀玩家获得新能力，防止被抓住！但每次获得新能力时会立即使用，并且能力会叠加。</string>
   <string name="TouRoleVenererCamouflage">伪装</string>
   <string name="TouRoleVenererCamouflageWikiDescription">能力第一阶段。\%nl\%n你在所有玩家眼中会变成灰豆，可以悄悄离开击杀现场。</string>
@@ -946,7 +946,7 @@
   <string name="TouOptionSwooperSwoopUsesPerRound">每回合可隐身次数</string>
   <string name="TouOptionSwooperSwoopCooldown">隐身冷却</string>
   <string name="TouOptionSwooperSwoopDuration">隐身持续时间</string>
-  <string name="TouOptionSwooperCanVent">隐身人可进通风口</string>
+  <string name="TouOptionSwooperCanVent">隐身人可使用通风口</string>
   <string name="TouRolePlumberTabDescription">清理并管理通风口系统，同时\%nl\%放置路障在管道上，阻止下一轮的使用</string>
   <string name="TouRolePlumberExtraTabText">注意：路障将持续\%roundCount\%回合</string>
   <string name="TouRolePlumberVentListTabText">管道列表</string>
@@ -1225,7 +1225,7 @@
   <string name="TouRoleSpellslingerTabHexCounter">剩余待诅咒玩家: \%count\%</string>
   <string name="TouRoleSpellslingerTabHexFinished">所有玩家已被诅咒。</string>
   <string name="TouRoleSpellslingerTabHexedInfo">已诅咒玩家:</string>
-  <string name="TouRoleSpellslingerWikiDescription">爆咒师是伪装者强力型职业，可以对玩家施加诅咒使其准备被引爆。一旦所有非伪装者都被诅咒，爆咒师可以在设定时间后引爆诅咒炸弹来获得胜利。</string>
+  <string name="TouRoleSpellslingerWikiDescription">爆咒师是一个伪装者强力型职业，可以对玩家施加诅咒使其准备被引爆。一旦所有非伪装者都被诅咒，爆咒师可以在设定时间后引爆诅咒炸弹来获得胜利。</string>
   <string name="TouRoleSpellslingerHex">诅咒</string>
   <string name="TouRoleSpellslingerHexBomb">诅咒炸弹</string>
   <string name="TouRoleSpellslingerHexBombWikiDescription">开始诅咒炸弹的倒计时。如果炸弹引爆时你还活着，伪装者获胜！</string>
@@ -1863,13 +1863,13 @@
   <string name="TouOptionParasiteControlDuration">控制持续时间</string>
   <string name="TouOptionParasiteSaveVictimIfParasiteDies">寄宿者死亡时拯救被侵占者</string>
   <string name="TouOptionParasiteSaveVictimIfMeetingCalled">召集会议时拯救被侵占者</string>
-  <string name="TouOptionParasiteCanVent">寄宿者可使用通风管道</string>
+  <string name="TouOptionParasiteCanVent">寄宿者可进通风口</string>
   <string name="TouOptionParasiteCanMoveIndependently">寄宿者可独立移动</string>
   <string name="TouOptionParasiteOvertakenLooksLikeParasite">被侵占目标显示为寄宿者形象</string>
   <string name="TouRolePuppeteer">纵偶师</string>
   <string name="TouRolePuppeteerIntroBlurb">控制他人的双手</string>
   <string name="TouRolePuppeteerTabDescription">控制船员执行你的指令！</string>
-  <string name="TouRolePuppeteerWikiDescription">纵偶师是一个伪装者强力职业，可以控制其他玩家替自己击杀。当玩家被控制时，他们必须眼睁睁看着自己被迫杀害同伴船员。</string>
+  <string name="TouRolePuppeteerWikiDescription">纵偶师是一个伪装者强力型职业，可以控制其他玩家替自己击杀。当玩家被控制时，他们必须眼睁睁看着自己被迫杀害同伴船员。</string>
   <string name="TouRolePuppeteerControl">控制</string>
   <string name="TouRolePuppeteerKill">控制击杀</string>
   <string name="TouRolePuppeteerControlWikiDescription">通过菜单控制你想要的目标。在此状态下，被控制的玩家会像伪装者一样击杀，而不再是他们本来的职业。</string>
