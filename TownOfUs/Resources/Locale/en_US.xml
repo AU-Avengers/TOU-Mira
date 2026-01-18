@@ -1701,6 +1701,7 @@
   <string name="TouRoleArsonistIgniteWikiDescriptionLegacy">Kill every doused player on the map as long as you ignite one player close by.</string>
   <!-- Arsonist Options -->
   <string name="TouOptionArsonistDouseCooldown">Douse Cooldown</string>
+  <string name="TouOptionArsonistDouseUses">Douses Possible at Once</string>
   <string name="TouOptionArsonistDouseInteractions">Douse From Interactions</string>
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
   <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>

@@ -12,6 +12,7 @@ public sealed class ArsonistOptions : AbstractOptionGroup<ArsonistRole>
 
     [ModdedNumberOption("TouOptionArsonistDouseCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float DouseCooldown { get; set; } = 25f;
+    public ModdedNumberOption DouseUses { get; } = new("TouOptionArsonistDouseUses", 5f, 0f, 30f, 1f, "∞", "#", MiraNumberSuffixes.None, "0");
 
     [ModdedToggleOption("TouOptionArsonistDouseInteractions")]
     public bool DouseInteractions { get; set; } = true;

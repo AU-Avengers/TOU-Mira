@@ -24,6 +24,16 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public string LocaleKey => "Arsonist";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public static void SetDouseUses()
+    {
+        var button = CustomButtonSingleton<ArsonistDouseButton>.Instance;
+        if (button.LimitedUses)
+        {
+            var dousedCount = ModifierUtils.GetPlayersWithModifier<ArsonistDousedModifier>().Count(x => !x.HasDied());
+            var newUses = Math.Clamp(0, button.MaxUses - dousedCount, button.MaxUses);
+            button.SetUses(newUses);
+        }
+    }
 
     public string RoleLongDescription => OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
         ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionLegacy")
@@ -123,6 +133,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
             OffsetButtons();
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ArsoVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Arsonist);
+            SetDouseUses();
         }
     }
 
