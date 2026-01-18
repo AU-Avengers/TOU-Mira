@@ -2,6 +2,7 @@
 using AmongUs.GameOptions;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -29,7 +30,7 @@ public static class GhostRoleEvents
         }
 
         var player = @event.Player;
-        if (@event.NewRole is GuardianAngelRole)
+        if (@event.NewRole is GuardianAngelRole && !player.HasModifier<BasicGhostModifier>())
         {
             player.AddModifier<BasicGhostModifier>();
         }
@@ -53,6 +54,71 @@ public static class GhostRoleEvents
         @event.Cancel();
     }
 
+    [RegisterEvent(10000)]
+    public static void EjectionEventHandler(EjectionEvent @event)
+    {
+        if (!AmongUsClient.Instance.AmHost)
+        {
+            return;
+        }
+        var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
+
+        var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
+
+        if (CustomRoleUtils.GetActiveRoles().OfType<HaunterRole>().Count() < haunterData.Count)
+        {
+            var isSkipped = haunterData.Chance < 100 && HashRandom.Next(101) > haunterData.Chance;
+
+            if (!isSkipped)
+            {
+                var deadCrew = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                    (x.Data.IsDead || x == exiled) && x.GetRoleWhenAlive().IsCrewmate() && !x.HasModifier<AllianceGameModifier>() &&
+                    x.CanGetGhostRole() &&
+                    x.Data.Role).ToList();
+
+                if (deadCrew.Count > 0)
+                {
+                    deadCrew.Shuffle();
+
+                    var player = deadCrew.TakeFirst();
+
+                    if (player != null)
+                    {
+                        player.RpcChangeRole(RoleId.Get<HaunterRole>());
+                    }
+                }
+            }
+        }
+
+        var phantomData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
+
+        if (CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < phantomData.Count)
+        {
+            var isSkipped = phantomData.Chance < 100 && HashRandom.Next(101) > phantomData.Chance;
+
+            if (!isSkipped)
+            {
+                var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                    (x.Data.IsDead || x == exiled) && x.GetRoleWhenAlive().IsNeutral() &&
+                    !x.GetRoleWhenAlive().DidWin(GameOverReason.CrewmatesByVote) &&
+                    x.CanGetGhostRole() &&
+                    !x.HasModifier<AllianceGameModifier>()).ToList();
+
+                if (deadNeutral.Count > 0)
+                {
+                    deadNeutral.Shuffle();
+
+                    var player = deadNeutral.TakeFirst();
+
+                    if (player != null)
+                    {
+                        player.RpcChangeRole(RoleId.Get<SpectreRole>());
+                    }
+                }
+            }
+        }
+    }
+
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
@@ -61,69 +127,6 @@ public static class GhostRoleEvents
             return;
         }
 
-        if (AmongUsClient.Instance.AmHost)
-        {
-            var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
-
-            if (CustomRoleUtils.GetActiveRoles().OfType<HaunterRole>().Count() < haunterData.Count)
-            {
-                var isSkipped = haunterData.Chance < 100 && HashRandom.Next(101) > haunterData.Chance;
-
-                if (!isSkipped)
-                {
-                    var deadCrew = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                        x.Data.IsDead && x.GetRoleWhenAlive().IsCrewmate() && !x.HasModifier<AllianceGameModifier>() &&
-                        x.CanGetGhostRole() &&
-                        x.Data.Role).ToList();
-
-                    if (deadCrew.Count > 0)
-                    {
-                        deadCrew.Shuffle();
-
-                        var player = deadCrew.TakeFirst();
-
-                        if (player != null)
-                        {
-                            player.RpcChangeRole(RoleId.Get<HaunterRole>());
-                        }
-                    }
-                }
-            }
-
-            var phantomData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<SpectreRole>());
-
-            if (CustomRoleUtils.GetActiveRoles().OfType<SpectreRole>().Count() < phantomData.Count)
-            {
-                var isSkipped = phantomData.Chance < 100 && HashRandom.Next(101) > phantomData.Chance;
-
-                if (!isSkipped)
-                {
-                    var deadNeutral = PlayerControl.AllPlayerControls.ToArray().Where(x =>
-                        x.Data.IsDead && x.GetRoleWhenAlive().IsNeutral() && !x.GetRoleWhenAlive().DidWin(GameOverReason.CrewmatesByVote) &&
-                        x.CanGetGhostRole() &&
-                        !x.HasModifier<AllianceGameModifier>()).ToList();
-
-                    if (deadNeutral.Count > 0)
-                    {
-                        deadNeutral.Shuffle();
-
-                        var player = deadNeutral.TakeFirst();
-
-                        if (player != null)
-                        {
-                            player.RpcChangeRole(RoleId.Get<SpectreRole>());
-                        }
-                    }
-                }
-            }
-        }
-
-        Coroutines.Start(SpawnCoroutine());
-    }
-
-    private static IEnumerator SpawnCoroutine()
-    {
-        yield return new WaitForSeconds(0.1f);
         foreach (var ghost in CustomRoleUtils.GetActiveRoles().OfType<IGhostRole>())
         {
             if (ghost.Caught)
