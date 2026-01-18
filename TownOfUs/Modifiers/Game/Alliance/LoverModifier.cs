@@ -109,7 +109,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
                     impostors.Add(player);
                 }
                 else if (player.Is(ModdedRoleTeams.Crewmate) ||
-                         ((player.Is(RoleAlignment.NeutralBenign) || player.Is(RoleAlignment.NeutralEvil)) &&
+                         ((player.Is(RoleAlignment.NeutralBenign) || player.Is(RoleAlignment.NeutralEvil) || player.Is(RoleAlignment.NeutralOutlier)) &&
                           loveOpt.NeutralLovers))
                 {
                     crewmates.Add(player);
@@ -188,7 +188,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         var players = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
-                        x.Data.Role is not InquisitorRole).ToList();
+                        (x.Data.Role is not IUnlovable unlovable || !unlovable.IsUnlovable)).ToList();
         players.Shuffle();
 
         players.Remove(localPlr);
@@ -204,7 +204,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
                 impostors.Add(player);
             }
             else if (player.Is(ModdedRoleTeams.Crewmate) ||
-                     ((player.Is(RoleAlignment.NeutralBenign) || player.Is(RoleAlignment.NeutralEvil)) &&
+                     ((player.Is(RoleAlignment.NeutralBenign) || player.Is(RoleAlignment.NeutralEvil) || player.Is(RoleAlignment.NeutralOutlier)) &&
                       OptionGroupSingleton<LoversOptions>.Instance.NeutralLovers))
             {
                 crewmates.Add(player);
