@@ -1,26 +1,44 @@
-﻿using System.Collections;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Usables;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
-using UnityEngine;
 
 namespace TownOfUs.Events;
 
 public static class GhostRoleEvents
 {
+    public static bool IsConsoleAllowed(this Console? console)
+    {
+        if (OptionGroupSingleton<VanillaTweakOptions>.Instance.GhostwalkerFixSabos.Value || console == null)
+        {
+            return true;
+        }
+
+        if (console.TaskTypes.Contains(TaskTypes.ResetReactor) ||
+            console.TaskTypes.Contains(TaskTypes.ResetSeismic) ||
+            console.TaskTypes.Contains(TaskTypes.RestoreOxy) ||
+            console.TaskTypes.Contains(TaskTypes.FixLights) ||
+            console.TaskTypes.Contains(TaskTypes.FixComms))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     [RegisterEvent]
     public static void ChangeRoleHandler(ChangeRoleEvent @event)
     {
@@ -40,13 +58,13 @@ public static class GhostRoleEvents
     public static void PlayerCanUseEventHandler(PlayerCanUseEvent @event)
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
-            !PlayerControl.LocalPlayer.Data.Role)
+            !PlayerControl.LocalPlayer.Data.Role || PlayerControl.LocalPlayer.Data.Role is not IGhostRole ghostwalker)
         {
             return;
         }
 
-        if (!@event.Usable.TryCast<Console>() ||
-            PlayerControl.LocalPlayer.Data.Role is not IGhostRole { GhostActive: false })
+        var console = @event.Usable.TryCast<Console>();
+        if (!console || console.IsConsoleAllowed() || !ghostwalker.GhostActive)
         {
             return;
         }
