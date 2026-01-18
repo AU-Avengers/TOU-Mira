@@ -1,4 +1,5 @@
-﻿using AmongUs.GameOptions;
+﻿using System.Collections;
+using AmongUs.GameOptions;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
@@ -6,6 +7,7 @@ using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
@@ -15,6 +17,7 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Events;
 
@@ -80,6 +83,12 @@ public static class GhostRoleEvents
             return;
         }
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
+        Coroutines.Start(CoSetGhostwalkers(exiled));
+    }
+
+    public static IEnumerator CoSetGhostwalkers(PlayerControl? exiled)
+    {
+        yield return new WaitForSeconds(1f);
 
         var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
 
