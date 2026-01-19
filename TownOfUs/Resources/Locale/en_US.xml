@@ -440,6 +440,9 @@
   <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
+  <string name="TouOptionBetterSkeldVentNetwork">Skeld Vent Network</string>
+  <string name="TouOptionBetterSkeldVentModeEnumNormal">Unchanged</string>
+  <string name="TouOptionBetterSkeldVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Mira HQ Options -->
   <string name="TouOptionBetterMiraHqVentNetwork">Mira HQ Vent Network</string>
   <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconnected</string>

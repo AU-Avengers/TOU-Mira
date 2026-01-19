@@ -6,11 +6,10 @@ using Object = UnityEngine.Object;
 namespace TownOfUs.Patches.BetterMaps;
 
 [HarmonyPatch(typeof(ShipStatus))]
-public static class BetterMiraHq
+public static class BetterMiraHqPatches
 {
     public static bool IsAdjustmentsDone;
     public static bool IsObjectsFetched;
-    public static bool IsRoomsFetched;
     public static bool IsVentsFetched;
 
     public static Vent SpawnVent;
@@ -37,7 +36,6 @@ public static class BetterMiraHq
     public static void FindMiraHqObjects()
     {
         FindVents();
-        // FindRooms();
     }
 
     public static void AdjustMiraHq()
@@ -115,32 +113,6 @@ public static class BetterMiraHq
                          LockerVent != null && AdminVent != null && O2Vent != null && LightsVent != null &&
                          DeconVent != null && MedicVent != null && YRightVent != null;
     }
-
-    /*
-    public static void FindRooms()
-    {
-        if (Comms == null)
-        {
-            Comms = Object.FindObjectsOfType<GameObject>().ToList().Find(o => o.name == "Comms")!;
-        }
-
-        if (DropShip == null)
-        {
-            DropShip = Object.FindObjectsOfType<GameObject>().ToList().FindLast(o => o.name == "Dropship")!;
-        }
-
-        if (Outside == null)
-        {
-            Outside = Object.FindObjectsOfType<GameObject>().ToList().Find(o => o.name == "Outside")!;
-        }
-
-        if (Science == null)
-        {
-            Science = Object.FindObjectsOfType<GameObject>().ToList().Find(o => o.name == "Science")!;
-        }
-
-        IsRoomsFetched = Comms != null && DropShip != null && Outside != null && Science != null;
-    }*/
 
     public static void AdjustVents(MiraVentMode ventMode = MiraVentMode.Normal)
     {

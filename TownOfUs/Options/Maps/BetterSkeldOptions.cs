@@ -76,6 +76,12 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
         "TouOptionBetterDoorsEnumRandom"
     ]);
 
+    public ModdedEnumOption BetterVentNetwork { get; set; } = new("TouOptionBetterSkeldVentNetwork",
+        (int)SkeldVentMode.Normal, typeof(SkeldVentMode),
+        [
+            "TouOptionBetterSkeldVentModeEnumNormal", "TouOptionBetterSkeldVentModeEnumFourGroups"
+        ]);
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
@@ -92,4 +98,10 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers
     };
+}
+
+public enum SkeldVentMode
+{
+    Normal,
+    FourGroups,
 }
