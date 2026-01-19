@@ -1,6 +1,7 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using TownOfUs.Options.Maps;
+using TownOfUs.Utilities;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches.BetterMaps;
@@ -51,45 +52,46 @@ public static class BetterSkeldPatches
     public static void FindVents()
     {
         var ventsList = Object.FindObjectsOfType<Vent>().ToList();
+        var suffix = MiscUtils.GetCurrentMap is ExpandedMapNames.Dleks ? " (1)" : "";
 
         if (UpperEngineVent == null)
         {
-            UpperEngineVent = ventsList.Find(vent => vent.gameObject.name == "LEngineVent")!;
+            UpperEngineVent = ventsList.Find(vent => vent.gameObject.name == $"LEngineVent{suffix}")!;
         }
 
         if (LowerEngineVent == null)
         {
-            LowerEngineVent = ventsList.Find(vent => vent.gameObject.name == "REngineVent")!;
+            LowerEngineVent = ventsList.Find(vent => vent.gameObject.name == $"REngineVent{suffix}")!;
         }
 
         if (TopReactorVent == null)
         {
-            TopReactorVent = ventsList.Find(vent => vent.gameObject.name == "UpperReactorVent")!;
+            TopReactorVent = ventsList.Find(vent => vent.gameObject.name == $"UpperReactorVent{suffix}")!;
         }
 
         if (BottomReactorVent == null)
         {
-            BottomReactorVent = ventsList.Find(vent => vent.gameObject.name == "ReactorVent")!;
+            BottomReactorVent = ventsList.Find(vent => vent.gameObject.name == $"ReactorVent{suffix}")!;
         }
 
         if (WeaponsVent == null)
         {
-            WeaponsVent = ventsList.Find(vent => vent.gameObject.name == "WeaponsVent")!;
+            WeaponsVent = ventsList.Find(vent => vent.gameObject.name == $"WeaponsVent{suffix}")!;
         }
 
         if (TopNavVent == null)
         {
-            TopNavVent = ventsList.Find(vent => vent.gameObject.name == "NavVentNorth")!;
+            TopNavVent = ventsList.Find(vent => vent.gameObject.name == $"NavVentNorth{suffix}")!;
         }
 
         if (BottomNavVent == null)
         {
-            BottomNavVent = ventsList.Find(vent => vent.gameObject.name == "NavVentSouth")!;
+            BottomNavVent = ventsList.Find(vent => vent.gameObject.name == $"NavVentSouth{suffix}")!;
         }
 
         if (ShieldsVent == null)
         {
-            ShieldsVent = ventsList.Find(vent => vent.gameObject.name == "ShieldsVent")!;
+            ShieldsVent = ventsList.Find(vent => vent.gameObject.name == $"ShieldsVent{suffix}")!;
         }
 
         IsVentsFetched = UpperEngineVent != null && TopReactorVent != null && BottomReactorVent != null && LowerEngineVent != null &&
