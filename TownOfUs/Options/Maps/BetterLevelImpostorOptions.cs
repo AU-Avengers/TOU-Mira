@@ -74,13 +74,33 @@ public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
     [ModdedToggleOption("TouOptionBetterMapsNoLadderCooldown")]
     public bool NoLadderCooldown { get; set; } = true;
 
-    /*[ModdedToggleOption("Change Sabotage Timers")]
-    public bool ChangeSaboTimers { get; set; } = true;
+    [ModdedToggleOption("TouOptionBetterMapsChangeOxygenSaboTimer")]
+    public bool ChangeOxygenSaboTimer { get; set; } = false;
 
-    public ModdedNumberOption SaboCountdownOxygen { get; set; } = new("Oxygen Sabotage Countdown", 30f, 15f, 90f,
+    [ModdedToggleOption("TouOptionBetterMapsChangeReactorSaboTimer")]
+    public bool ChangeReactorSaboTimer { get; set; } = false;
+
+    [ModdedToggleOption("TouOptionBetterMapsChangeMixUpSaboTimer")]
+    public bool ChangeMixUpSaboTimer { get; set; } = false;
+
+    public ModdedNumberOption SaboCountdownOxygen { get; set; } = new("TouOptionBetterMapsSaboCountdownOxygen", 30f, 15f, 90f,
         5f, MiraNumberSuffixes.Seconds, "0.#")
     {
         Visible = () =>
-            OptionGroupSingleton<BetterSubmergedOptions>.Instance.ChangeSaboTimers
-    };*/
+            OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeOxygenSaboTimer
+    };
+
+    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("TouOptionBetterMapsSaboCountdownReactor", 30f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeReactorSaboTimer
+    };
+
+    public ModdedNumberOption SaboCountdownMixUp { get; set; } = new("TouOptionBetterMapsSaboDurationMixUp", 10f, 5f, 60f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeMixUpSaboTimer
+    };
 }

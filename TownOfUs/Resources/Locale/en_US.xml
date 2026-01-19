@@ -428,6 +428,9 @@
   <string name="TouOptionBetterMapsOffsetShortTasks">Short Tasks Offset</string>
   <string name="TouOptionBetterMapsOffsetLongTasks">Long Tasks Offset</string>
   <string name="TouOptionBetterMapsChangeSaboTimers">Change Sabotage Timers</string>
+  <string name="TouOptionBetterMapsChangeOxygenSaboTimer">Change Oxygen Sabotage Timer</string>
+  <string name="TouOptionBetterMapsChangeReactorSaboTimer">Change Reactor Sabotage Timer</string>
+  <string name="TouOptionBetterMapsChangeMixUpSaboTimer">Change Mix-Up Sabotage Duration</string>
   <string name="TouOptionBetterMapsSaboCountdownOxygen">Oxygen Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownReactor">Reactor Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownSeismicStabilizer">Seismic Stabilizer Sabotage Countdown</string>
