@@ -503,7 +503,7 @@
   <string name="TouOptionAmbusherAmbushCooldown">伏击冷却</string>
   <string name="TouOptionAmbusherPursueArrowUpdateInterval">追踪箭头刷新间隔</string>
   <string name="TouOptionAmbusherStopPursuingPlayerOnAmbush">伏击后停止追踪玩家</string>
-  <string name="TouOptionAmbusherCanVent">伏击者可进入通风口</string>
+  <string name="TouOptionAmbusherCanVent">伏击者可使用通风口</string>
   <string name="TouRoleInquisitorTabDescription">消灭你的异端目标或让他们被杀。\%nl\%所有异端死亡后你将获胜并离开游戏。\%nl\%若所有异端在会议结束后死亡，\%nl\%你将离开游戏\%and\%宣布你的胜利</string>
   <string name="TouRoleInquisitorTabAddition">你的异端目标身份：</string>
   <string name="TouRoleInquisitorWikiDescription">审判官是一名中立外来者型职业，只要所有异端目标死亡即可获胜。你只知道他们的身份，需要审判官自己找出这些玩家（对死者以\%symbol\%标记），并想办法让他们被杀。</string>
@@ -527,7 +527,7 @@
   <string name="TouRoleDoomsayerObserveWikiDescription">洞察一名玩家，在下次会议获得其身份线索。</string>
   <string name="TouOptionDoomsayerCooldown">洞察冷却</string>
   <string name="TouOptionDoomsayerNecessaryGuessed">获胜所需猜测次数</string>
-  <string name="TouOptionDoomsayerGuessCrewInvestigative">末日预言者可猜测船员侦查型职业</string>
+  <string name="TouOptionDoomsayerGuessCrewInvestigative">末日预言者可猜测船员调查型职业</string>
   <string name="TouOptionDoomsayerGuessesAllAtOnce">末日预言者需一次性猜测全部职业</string>
   <string name="TouOptionDoomsayerCantObserve">末日预言者无法使用洞察</string>
   <string name="TouOptionDoomsayerWin">末日预言者胜利效果</string>
@@ -541,7 +541,7 @@
   <string name="TouOptionVampireImpostorVision">吸血魔拥有伪装者视野</string>
   <string name="TouOptionVampireNewVampsAssassinate">新吸血魔可猜测</string>
   <string name="TouOptionVampireNewVampiresConvert">新吸血魔可转化</string>
-  <string name="TouOptionVampireCanVent">吸血魔可进通风口</string>
+  <string name="TouOptionVampireCanVent">吸血魔可使用通风口</string>
   <string name="TouRoleMercenaryIntroBlurb">通过行贿与他人共同获胜</string>
   <string name="TouRoleMercenaryTabDescription">守护船员，获取金币，\%nl\%然后贿赂获胜者！</string>
   <string name="TouRoleMercenaryWikiDescription">雇佣兵是一名中立善良型职业，只能通过贿赂玩家来获胜，可以获得多个胜利条件。</string>
@@ -582,7 +582,7 @@
   <string name="TouRoleSoulCollectorReap">收割</string>
   <string name="TouRoleSoulCollectorReapWikiDescription">收割型似于击杀按钮，但不会留下尸体，而是在原地生成一个看起来还活着的假人。</string>
   <string name="TouOptionSoulCollectorReapCooldown">收割冷却</string>
-  <string name="TouOptionSoulCollectorCanVent">噬魂兽可进通风口</string>
+  <string name="TouOptionSoulCollectorCanVent">噬魂兽可使用通风口</string>
   <string name="TouModifierEgotistIntroBlurb">背叛船员以满足你的虚荣心</string>
   <string name="TouModifierEgotistTabDescription">背叛船员，与杀手一同获胜。</string>
   <string name="TouModifierEgotistWikiDescription">自大狂是船员同盟附加属性（以\%symbol\%为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
@@ -616,7 +616,7 @@
   <string name="TouOptionWerewolfRampageCooldown">狂暴冷却</string>
   <string name="TouOptionWerewolfRampageDuration">狂暴持续时间</string>
   <string name="TouOptionWerewolfKillCooldown">狂暴击杀冷却</string>
-  <string name="TouOptionWerewolfCanVent">月下狼人狂暴时可进通风口</string>
+  <string name="TouOptionWerewolfCanVent">月下狼人狂暴时可使用通风口</string>
   <string name="TouRoleWerewolfIntroBlurb">以狂暴杀死所有人</string>
   <string name="TouRoleWerewolfTabDescription">快速狂暴杀敌，提升你的视野，\%nl\%并暂时可以进入通风口</string>
   <string name="TouRoleWerewolfWikiDescription">月下狼人是一名中立击杀型职业，通过成为场上最后的杀手获胜。可以进入狂暴状态获得击杀能力。</string>
@@ -755,7 +755,7 @@
   <string name="TouRoleVenererTabDescription">击杀玩家以解锁能力加成。\%nl\%你的技能允许你隐蔽，然后变得快速，最后还能减慢你路径上其他人的速度。</string>
   <string name="TouRoleVenererWikiDescription">狩猎者是一名伪装者隐蔽型职业，可以通过击杀玩家获得新能力，防止被抓住！但每次获得新能力时会立即使用，并且能力会叠加。</string>
   <string name="TouRoleVenererCamouflage">伪装</string>
-  <string name="TouRoleVenererCamouflageWikiDescription">能力第一阶段。\%nl\%n你在所有玩家眼中会变成灰豆，可以悄悄离开击杀现场。</string>
+  <string name="TouRoleVenererCamouflageWikiDescription">能力第一阶段。\%nl\%你在所有玩家眼中会变成灰豆，可以悄悄离开击杀现场。</string>
   <string name="TouRoleVenererSprint">疾跑</string>
   <string name="TouRoleVenererSprintWikiDescription">能力第二阶段。\%nl\%n你在伪装状态下会获得闪电侠般的速度。</string>
   <string name="TouRoleVenererFreeze">冰封</string>
@@ -782,11 +782,11 @@
   <string name="TouRoleArsonistDouseWikiDescription">给一名玩家浇汽油。</string>
   <string name="TouRoleArsonistIgnite">点燃</string>
   <string name="TouRoleArsonistIgniteWikiDescription">点燃你范围内所有被浇油的玩家。</string>
-  <string name="TouRoleArsonistIgniteWikiDescriptionLegacy">只要点燃一名附近玩家，即可焚烧全图所有被浇油的玩家。</string>
+  <string name="TouRoleArsonistIgniteWikiDescriptionLegacy">只要点燃附近一名玩家，即可焚烧全图所有被浇油的玩家。</string>
   <string name="TouOptionArsonistDouseCooldown">浇油冷却</string>
   <string name="TouOptionArsonistDouseInteractions">可通过被动及互动浇油</string>
   <string name="TouOptionArsonistLegacyMode">经典纵火狂（无半径范围点燃）</string>
-  <string name="TouOptionArsonistCanVent">纵火狂可进通风口</string>
+  <string name="TouOptionArsonistCanVent">纵火狂可使用通风口</string>
   <string name="TouRolePestilenceIntroBlurb">天启四骑士之一！</string>
   <string name="TouRolePestilenceTabDescription">击杀所有与自己互动的玩家！</string>
   <string name="TouRolePestilenceWikiDescription">万疫之神是一名中立击杀型职业，可以击杀并且除被放逐或猜错外无敌。通过成为场上最后一名杀手获胜。</string>
@@ -800,13 +800,13 @@
   <string name="TouOptionPlaguebearerInfectCooldown">感染冷却</string>
   <string name="TouOptionPlaguebearerAnnounceTransformation">告知瘟疫之源成神</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">万疫之神击杀冷却</string>
-  <string name="TouOptionPlaguebearerPestilenceCanVent">万疫之神可进通风口</string>
+  <string name="TouOptionPlaguebearerPestilenceCanVent">万疫之神可使用通风口</string>
   <string name="TouRoleJuggernautIntroBlurb">每次击杀都会降低你的冷却时间。</string>
   <string name="TouRoleJuggernautTabDescription">每击杀一人，你的击杀冷却都会减少。</string>
   <string name="TouRoleJuggernautWikiDescription">天启是一名中立击杀型职业，通过成为场上最后一名杀手获胜。每击杀一人，击杀冷却都会减少。</string>
   <string name="TouOptionJuggernautInitialCooldown">初始击杀冷却</string>
   <string name="TouOptionJuggernautCooldownReduction">击杀冷却缩减</string>
-  <string name="TouOptionJuggernautCanVent">天启可进通风口</string>
+  <string name="TouOptionJuggernautCanVent">天启可使用通风口</string>
   <string name="TouRoleBomberIntroBlurb">放下炸弹，一次性击杀多名船员。</string>
   <string name="TouRoleBomberTabDescription">布置炸弹，一次性击杀多名船员</string>
   <string name="TouRoleBomberWikiDescription">爆破手是一名伪装者击杀型职业，可以在地图上布置炸弹，\%detonateDelay\%秒后爆炸。</string>
@@ -818,7 +818,7 @@
   <string name="TouOptionBomberMAxKillsInDetonation">单次引爆最大击杀数</string>
   <string name="TouOptionBomberAllImpostorsSeeBomb">所有伪装者可见炸弹</string>
   <string name="TouOptionBomberAllowBombinginFirstRound">第一轮允许使用爆破技能</string>
-  <string name="TouOptionBomberCanVent">爆破手可进通风口</string>
+  <string name="TouOptionBomberCanVent">爆破手可使用通风口</string>
   <string name="TouRoleEclipsalIntroBlurb">遮蔽玩家的光线</string>
   <string name="TouRoleEclipsalTabDescription">让船员无法视物，视野会逐渐恢复正常</string>
   <string name="TouRoleEclipsalWikiDescription">蚀影者是一名伪装者隐蔽型职业，可以让所有靠近自己的船员和中立者视野受限。</string>
@@ -855,7 +855,7 @@
   <string name="TouOptionGlitchMoveInMimicMenu">使用模仿菜单时可移动(仅KB)</string>
   <string name="TouOptionGlitchHackCooldown">黑入冷却</string>
   <string name="TouOptionGlitchHackDuration">黑入持续时间</string>
-  <string name="TouOptionGlitchCan Vent">混沌可进通风口</string>
+  <string name="TouOptionGlitchCan Vent">混沌可使用通风口</string>
   <string name="TouRoleFairyTabDescription">保护\%target\%免于被击杀！</string>
   <string name="TouRoleFairyIfNoTarget">保护你的目标免于被击杀！</string>
   <string name="TouRoleFairyWikiDescription">守护天使是一名中立善良型职业，需要保护带有%symbol\%标记的目标不被击杀或放逐。</string>
@@ -906,7 +906,7 @@
   <string name="TouOptionUndertakerDragCooldown">拖拽冷却</string>
   <string name="TouOptionUndertakerDragSpeed">拖拽速度倍率</string>
   <string name="TouOptionUndertakerDraggingSpeedIsAffectedbyBodySize">拖拽速度受尸体大小影响</string>
-  <string name="TouOptionUndertakerCanVent">送葬者可进通风口</string>
+  <string name="TouOptionUndertakerCanVent">送葬者可使用通风口</string>
   <string name="TouOptionUndertakerCanVentWithBody">可带尸体使用通风口</string>
   <string name="TouOptionUndertakerUndertakerCanKillWithTeammate">送葬者可与队友一起击杀</string>
   <string name="TouRoleEscapistIntroBlurb">轻松脱离击杀现场</string>
@@ -918,7 +918,7 @@
   <string name="TouRoleEscapistRecallWikiDescription">回溯到已标记的位置。</string>
   <string name="TouOptionEscapistRecallUsesPerGame">每局可用回溯次数</string>
   <string name="TouOptionEscapistRecallCooldown">回溯冷却</string>
-  <string name="TouOptionEscapistEscapistCanVent">逃逸者可进通风口</string>
+  <string name="TouOptionEscapistEscapistCanVent">逃逸者可使用通风口</string>
   <string name="TouRoleGrenadierIntroBlurb">干扰船员视野</string>
   <string name="TouRoleGrenadierTabDescription">致盲船员，便于隐蔽击杀</string>
   <string name="TouRoleGrenadierWikiDescription">掷弹兵是一名伪装者隐蔽型职业，可以投掷手雷致盲所有其他玩家</string>
@@ -928,7 +928,7 @@
   <string name="TouOptionGrenadierFlashGrenadeCooldown">闪光弹冷却</string>
   <string name="TouOptionGrenadierFlashGrenadeDuration">闪光弹持续时间</string>
   <string name="TouOptionGrenadierFlashRadius">闪光半径</string>
-  <string name="TouOptionGrenadierGrenadierCanVent">掷弹兵可进通风口</string>
+  <string name="TouOptionGrenadierGrenadierCanVent">掷弹兵可使用通风口</string>
   <string name="TouRoleScavengerIntroBlurb">追猎你的猎物</string>
   <string name="TouRoleScavengerTabDescription">击杀指定目标可获得更短的击杀冷却。\%nl\%如果你未能杀死他们，你将受到惩罚。</string>
   <string name="TouRoleScavengerWikiDescription">赏金猎人是一名伪装者击杀型职业，每次击杀和回合开始都会获得新目标。击杀目标可获得更短的击杀冷却，未击杀目标则冷却大幅增加。</string>
@@ -998,7 +998,7 @@
   <string name="TouOptionMorphlingMorphUsesPerRound">每回合可化形次数</string>
   <string name="TouOptionMorphlingMorphCooldown">化形冷却</string>
   <string name="TouOptionMorphlingMorphDuration">化形持续时间</string>
-  <string name="TouOptionMorphlingCanVent">化形者可进通风口</string>
+  <string name="TouOptionMorphlingCanVent">化形者可使用通风口</string>
   <string name="TouRoleTraitorIntroBlurb">背叛船员！</string>
   <string name="TouRoleTraitorTabDescription">背叛船员，获得新伪装者身份！</string>
   <string name="TouRoleTraitorWikiDescription">背叛者是一名伪装者强力型职业，会在会议后满足条件时生成。市长不会成为背叛者，背叛者也必须是船员。其目标是为已死伪装者赢得游戏并消灭船员，同时可以变更为更强力的职业。</string>
@@ -1166,7 +1166,7 @@
   <string name="TouRoleDoomsayerRoleHintDeath">你观察到\%player\%对尸体有异常的执着</string>
   <string name="TouRoleDoomsayerRoleHintHunter">你观察到\%player\%擅长追猎猎物</string>
   <string name="TouRoleDoomsayerRoleHintFearmonger">你观察到\%player\%在队伍中散播恐惧</string>
-  <string name="TouRoleDoomsayerRoleHintProtective">你观察到\%player\%会隐藏自己或保护他人</string>
+  <string name="TouRoleDoomsayerRoleHintProtective">你观察到\%player\%会隐藏来保护自己或他人</string>
   <string name="TouRoleDoomsayerRoleHintTrickster">你观察到\%player\%暗藏诡计</string>
   <string name="TouRoleDoomsayerRoleHintRelentless">你观察到\%player\%能够发动无情的攻击</string>
   <string name="TouRoleDoomsayerRoleHintDefault">你观察到\%player\%并不来自这座小镇</string>
@@ -1863,7 +1863,7 @@
   <string name="TouOptionParasiteControlDuration">控制持续时间</string>
   <string name="TouOptionParasiteSaveVictimIfParasiteDies">寄宿者死亡时拯救被侵占者</string>
   <string name="TouOptionParasiteSaveVictimIfMeetingCalled">召集会议时拯救被侵占者</string>
-  <string name="TouOptionParasiteCanVent">寄宿者可进通风口</string>
+  <string name="TouOptionParasiteCanVent">寄宿者可使用通风口</string>
   <string name="TouOptionParasiteCanMoveIndependently">寄宿者可独立移动</string>
   <string name="TouOptionParasiteOvertakenLooksLikeParasite">被侵占目标显示为寄宿者形象</string>
   <string name="TouRolePuppeteer">纵偶师</string>
@@ -1918,7 +1918,7 @@
   <string name="HostWin">房主中止了游戏</string>
   <string name="TouOptionAdvancedUtilTasksToUseAdmin">使用管理地图所需任务数</string>
   <string name="TouOptionAdvancedUtilTasksToUseCams">使用监控所需任务数</string>
-  <string name="TouOptionAdvancedUtilTasksToUseDoorlog">使用门禁记录所需任务数</string>
+  <string name="TouOptionAdvancedUtilTasksToUseDoorlog">使用通行记录所需任务数</string>
   <string name="TouOptionAdvancedUtilTasksToUseVitals">使用生命监测所需任务数</string>
   <string name="TouOptionAdvancedUtilTasksRequiredOnPortableUtils">便携设备同样检查任务进度</string>
   <string name="TouUnavailableUtilityNotif">你还需要完成 \%amount\% 个任务才能使用此功能！</string>
@@ -1933,9 +1933,9 @@
   <string name="TouOptionGlobalBetterMapImpVisionMultiplier">更改伪装者视野倍率</string>
   <string name="TouOptionGlobalBetterMapCooldownOffset">更改冷却时间偏移量</string>
   <string name="TouOptionGlobalBetterMapOffsetShortTasks">更改短任务数量偏移量</string>
-  <string name="TouOptionGlobalBetterMapOffsetLongTasks">更改短任务数量偏移量</string>
-  <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">水位稳定器破坏倒计时</string>
-  <string name="TouOptionBetterMapsSaboCountdownOxygenMask">氧气面罩破坏倒计时</string>
+  <string name="TouOptionGlobalBetterMapOffsetLongTasks">更改长任务数量偏移量</string>
+  <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">水位稳定器破坏倒计时长</string>
+  <string name="TouOptionBetterMapsSaboCountdownOxygenMask">氧气面罩破坏倒计时长</string>
   <string name="TouRoleSentryPortableAvailableImmediately">便携式摄像头立即可用。</string>
   <string name="TouRoleSentryPortableAvailableAfterTasks">完成任务后解锁便携式摄像头。</string>
   <string name="TouOptionSentryDeployedCamerasVisibility">已部署摄像头可见性</string>
