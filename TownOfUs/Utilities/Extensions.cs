@@ -431,7 +431,7 @@ public static class Extensions
 
         roleBehaviour.AdjustTasks(player);
 
-        player.MyPhysics.ResetMoveState();
+        // player.MyPhysics.ResetMoveState();
 
         player.Data.Role.SpawnTaskHeader(player);
 
