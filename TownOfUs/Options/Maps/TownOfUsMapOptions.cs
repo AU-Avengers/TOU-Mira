@@ -252,6 +252,11 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
 
     public static bool AreLadderCooldownsDisabled()
     {
+        if (GameOptionsManager.Instance == null || AmongUsClient.Instance == null || PlayerControl.LocalPlayer == null)
+        {
+            return false;
+        }
+
         return MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown,
