@@ -13,7 +13,7 @@ public static class AppearanceExtensions
     public static void ResetAppearance(this PlayerControl player, bool override_checks = false, bool fullReset = false)
     {
         // swooper unswoop mid camo - needs testing
-        if (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms &&
+        if (TownOfUsMapOptions.IsCamoCommsOn() &&
             player.GetAppearanceType() == TownOfUsAppearances.Swooper)
         {
             var c = ShipStatus.Instance.Systems[SystemTypes.Comms];

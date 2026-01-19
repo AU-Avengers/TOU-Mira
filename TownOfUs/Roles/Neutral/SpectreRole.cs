@@ -6,6 +6,8 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using System.Collections;
+using System.Text;
+using Il2CppInterop.Runtime.Attributes;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
@@ -123,6 +125,13 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public override string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public override string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public override string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+
+    [HideFromIl2Cpp]
+    public StringBuilder SetTabText()
+    {
+       return ITownOfUsRole.SetNewTabText(this);
+    }
 
     public string GetAdvancedDescription()
     {

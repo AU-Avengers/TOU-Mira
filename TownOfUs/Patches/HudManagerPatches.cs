@@ -52,32 +52,51 @@ public static class HudManagerPatches
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
+    private static void RefreshUIAnchors() // anchoring ui elements.
+    {
+        ResolutionManager.ResolutionChanged.Invoke(
+            (float)Screen.width / Screen.height,
+            Screen.width,
+            Screen.height,
+            Screen.fullScreen
+        );
+
+        foreach (var ap in Object.FindObjectsOfType<AspectPosition>())
+            ap.AdjustPosition();
+    }
+
     public static void AdjustCameraSize(float size)
     {
-        Camera.main!.orthographicSize = size;
-        foreach (var cam in Camera.allCameras)
+        if (!HudManager.InstanceExists)
         {
-            cam.orthographicSize = Camera.main.orthographicSize;
+            return;
         }
 
-        ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height,
-            Screen.fullScreen);
+        var instance = HudManager.Instance;
+        if (Camera.main != null)
+            Camera.main.orthographicSize = size; // setting size for the main camera
+
+        if (instance.UICamera != null)
+            instance.UICamera.orthographicSize =
+                size; // setting size for the ui camera as well. thanku pietro for the help :)
 
         if (size <= 3f)
         {
             Zooming = false;
-            HudManager.Instance.ShadowQuad.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead);
+            instance.ShadowQuad.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead);
         }
         else
         {
             Zooming = true;
-            HudManager.Instance.ShadowQuad.gameObject.SetActive(false);
+            instance.ShadowQuad.gameObject.SetActive(false);
         }
 
         ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlus.LoadAsset() : TouAssets.ZoomMinus.LoadAsset();
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
+
+        RefreshUIAnchors(); // new function. Don't ban me :sob:
     }
 
     public static void ButtonClickZoom()
@@ -191,10 +210,8 @@ public static class HudManagerPatches
 
     public static bool CommsSaboActive()
     {
-        var genOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;
-
         // Camo comms
-        if (!genOpt.CamouflageComms)
+        if (!TownOfUsMapOptions.IsCamoCommsOn())
         {
             return false;
         }
@@ -337,6 +354,11 @@ public static class HudManagerPatches
         {
             foreach (var playerVA in MeetingHud.Instance.playerStates)
             {
+                if (!playerVA.gameObject.active)
+                {
+                    // Spectators are hidden, and we try to avoid Linq methods for performance reasons
+                    continue;
+                }
                 var player = MiscUtils.PlayerById(playerVA.TargetPlayerId);
                 playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
 

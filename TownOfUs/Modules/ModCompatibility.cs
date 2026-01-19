@@ -6,12 +6,14 @@ using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using MiraAPI.GameOptions;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
+using TownOfUs.Options.Maps;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -154,6 +156,16 @@ public static class ModCompatibility
         SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame")!;
         SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem")!;
 
+        var types = new[] { typeof(float) };
+        var oxyConstruct = submarineOxygenSystem.GetConstructor(
+#pragma warning disable S3011
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+#pragma warning restore S3011
+            null,
+            types,
+            null
+        );
+            
         var compatType = typeof(ModCompatibility);
         var harmony = new Harmony("tou.submerged.patch");
 
@@ -162,6 +174,9 @@ public static class ModCompatibility
 
         harmony.Patch(rpcOxygenDeath, null,
             new HarmonyMethod(AccessTools.Method(compatType, nameof(OxygenDeathPostfix))));
+
+        harmony.Patch(oxyConstruct, null,
+            new HarmonyMethod(AccessTools.Method(compatType, nameof(SetOxygenDuration))));
         harmony.Patch(canUse, null, null,
             new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
 
@@ -275,6 +290,16 @@ public static class ModCompatibility
         DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToSubmergedOxygen"),
         DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
         lockInfo: DeathHandlerOverride.SetTrue);
+    }
+
+    public static void SetOxygenDuration(object __instance, float duration)
+    {
+        var subOpts = OptionGroupSingleton<BetterSubmergedOptions>.Instance;
+        if (subOpts.ChangeSaboTimers)
+        {
+            var field = __instance.GetType().GetField("duration", BindingFlags.Public | BindingFlags.Instance);
+            field?.SetValue(__instance, subOpts.SaboCountdownOxygen.Value);
+        }
     }
 
     public static void ExileRoleChangePostfix()

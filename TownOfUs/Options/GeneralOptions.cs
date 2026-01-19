@@ -78,9 +78,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     [ModdedToggleOption("Powerful Crew Continue The Game")]
     public bool CrewKillersContinue { get; set; } = true;
-
-    [ModdedToggleOption("Continue Cooldown In Tasks and Panels")]
-    public bool TickCooldownsInMinigame { get; set; } = true;
 }
 
 public enum StartCooldownType

@@ -111,6 +111,7 @@ public enum TownOfUsRpc : uint
     SendLobbyRulesGlobal,
     SyncDeathState,
     RequestDeathStateValidation,
+    MultiplayerFreeplayRequest,
 }
 
 internal enum TownOfUsInternalRpc : uint

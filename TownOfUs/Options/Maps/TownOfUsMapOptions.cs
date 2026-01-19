@@ -62,60 +62,108 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
 
     public static float GetMapBasedSpeedMultiplier()
     {
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
+        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapImpVisionConfig);
+        if (mode == MapTweakMode.GlobalOn)
         {
-            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SpeedMultiplier,
-            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SpeedMultiplier,
-            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.SpeedMultiplier,
-            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.SpeedMultiplier,
-            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.SpeedMultiplier,
-            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.SpeedMultiplier,
-            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.SpeedMultiplier,
+            return opts.SpeedMultiplier.Value;
+        }
+
+        if (mode == MapTweakMode.GlobalOff)
+        {
+            return 1;
+        }
+
+        return MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SpeedMultiplier.Value,
+            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SpeedMultiplier.Value,
+            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.SpeedMultiplier.Value,
+            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.SpeedMultiplier.Value,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.SpeedMultiplier.Value,
+            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.SpeedMultiplier.Value,
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.SpeedMultiplier.Value,
             _ => 1
         };
     }
 
     public static float GetMapBasedCrewmateVision()
     {
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
+        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapCrewVisionConfig);
+        if (mode == MapTweakMode.GlobalOn)
         {
-            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CrewVisionMultiplier,
-            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CrewVisionMultiplier,
-            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.CrewVisionMultiplier,
-            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.CrewVisionMultiplier,
-            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.CrewVisionMultiplier,
-            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CrewVisionMultiplier,
-            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.CrewVisionMultiplier,
+            return opts.CrewVisionMultiplier.Value;
+        }
+
+        if (mode == MapTweakMode.GlobalOff)
+        {
+            return 1;
+        }
+
+        return MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CrewVisionMultiplier.Value,
+            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CrewVisionMultiplier.Value,
+            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.CrewVisionMultiplier.Value,
+            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.CrewVisionMultiplier.Value,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.CrewVisionMultiplier.Value,
+            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CrewVisionMultiplier.Value,
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.CrewVisionMultiplier.Value,
             _ => 1
         };
     }
 
     public static float GetMapBasedImpostorVision()
     {
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
+        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapImpVisionConfig);
+        if (mode == MapTweakMode.GlobalOn)
         {
-            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.ImpVisionMultiplier,
-            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.ImpVisionMultiplier,
-            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.ImpVisionMultiplier,
-            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.ImpVisionMultiplier,
-            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.ImpVisionMultiplier,
-            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.ImpVisionMultiplier,
-            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ImpVisionMultiplier,
+            return opts.ImpVisionMultiplier.Value;
+        }
+
+        if (mode == MapTweakMode.GlobalOff)
+        {
+            return 1;
+        }
+
+        return MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.ImpVisionMultiplier.Value,
+            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.ImpVisionMultiplier.Value,
+            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.ImpVisionMultiplier.Value,
+            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.ImpVisionMultiplier.Value,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.ImpVisionMultiplier.Value,
+            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.ImpVisionMultiplier.Value,
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ImpVisionMultiplier.Value,
             _ => 1
         };
     }
 
     public static float GetMapBasedCooldownDifference()
     {
-        var offset = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
+        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapCooldownConfig);
+        if (mode == MapTweakMode.GlobalOn)
         {
-            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CooldownOffset,
-            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CooldownOffset,
-            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.CooldownOffset,
-            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.CooldownOffset,
-            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.CooldownOffset,
-            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CooldownOffset,
-            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.CooldownOffset,
+            return opts.CooldownOffset.Value - EgotistModifier.CooldownReduction;
+        }
+
+        if (mode == MapTweakMode.GlobalOff)
+        {
+            return -EgotistModifier.CooldownReduction;
+        }
+
+        var offset = MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CooldownOffset.Value,
+            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CooldownOffset.Value,
+            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.CooldownOffset.Value,
+            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.CooldownOffset.Value,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.CooldownOffset.Value,
+            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CooldownOffset.Value,
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.CooldownOffset.Value,
             _ => 0
         };
         return offset - EgotistModifier.CooldownReduction;
@@ -123,31 +171,98 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
 
     public static int GetMapBasedShortTasks()
     {
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
+        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapShortTaskConfig);
+        if (mode == MapTweakMode.GlobalOn)
         {
-            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.OffsetShortTasks,
-            ExpandedMapNames.MiraHq => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.OffsetShortTasks,
-            ExpandedMapNames.Polus => (int)OptionGroupSingleton<BetterPolusOptions>.Instance.OffsetShortTasks,
-            ExpandedMapNames.Airship => (int)OptionGroupSingleton<BetterAirshipOptions>.Instance.OffsetShortTasks,
-            ExpandedMapNames.Fungle => (int)OptionGroupSingleton<BetterFungleOptions>.Instance.OffsetShortTasks,
-            ExpandedMapNames.Submerged => (int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.OffsetShortTasks,
-            ExpandedMapNames.LevelImpostor => (int)OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.OffsetShortTasks,
+            return (int)opts.OffsetShortTasks.Value;
+        }
+
+        if (mode == MapTweakMode.GlobalOff)
+        {
+            return 0;
+        }
+
+        return MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.OffsetShortTasks.Value,
+            ExpandedMapNames.MiraHq => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.OffsetShortTasks.Value,
+            ExpandedMapNames.Polus => (int)OptionGroupSingleton<BetterPolusOptions>.Instance.OffsetShortTasks.Value,
+            ExpandedMapNames.Airship => (int)OptionGroupSingleton<BetterAirshipOptions>.Instance.OffsetShortTasks.Value,
+            ExpandedMapNames.Fungle => (int)OptionGroupSingleton<BetterFungleOptions>.Instance.OffsetShortTasks.Value,
+            ExpandedMapNames.Submerged => (int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.OffsetShortTasks.Value,
+            ExpandedMapNames.LevelImpostor => (int)OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.OffsetShortTasks.Value,
             _ => 0
         };
     }
 
     public static int GetMapBasedLongTasks()
     {
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
+        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapLongTaskConfig);
+        if (mode == MapTweakMode.GlobalOn)
         {
-            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.OffsetLongTasks,
-            ExpandedMapNames.MiraHq => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.OffsetLongTasks,
-            ExpandedMapNames.Polus => (int)OptionGroupSingleton<BetterPolusOptions>.Instance.OffsetLongTasks,
-            ExpandedMapNames.Airship => (int)OptionGroupSingleton<BetterAirshipOptions>.Instance.OffsetLongTasks,
-            ExpandedMapNames.Fungle => (int)OptionGroupSingleton<BetterFungleOptions>.Instance.OffsetLongTasks,
-            ExpandedMapNames.Submerged => (int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.OffsetLongTasks,
-            ExpandedMapNames.LevelImpostor => (int)OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.OffsetLongTasks,
+            return (int)opts.OffsetLongTasks.Value;
+        }
+
+        if (mode == MapTweakMode.GlobalOff)
+        {
+            return 0;
+        }
+
+        return MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.OffsetLongTasks.Value,
+            ExpandedMapNames.MiraHq => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.OffsetLongTasks.Value,
+            ExpandedMapNames.Polus => (int)OptionGroupSingleton<BetterPolusOptions>.Instance.OffsetLongTasks.Value,
+            ExpandedMapNames.Airship => (int)OptionGroupSingleton<BetterAirshipOptions>.Instance.OffsetLongTasks.Value,
+            ExpandedMapNames.Fungle => (int)OptionGroupSingleton<BetterFungleOptions>.Instance.OffsetLongTasks.Value,
+            ExpandedMapNames.Submerged => (int)OptionGroupSingleton<BetterSubmergedOptions>.Instance.OffsetLongTasks.Value,
+            ExpandedMapNames.LevelImpostor => (int)OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.OffsetLongTasks.Value,
             _ => 0
+        };
+    }
+
+    public static bool IsCamoCommsOn()
+    {
+        var opts = OptionGroupSingleton<GlobalBetterMapOptions>.Instance;
+        var mode = GlobalBetterMapOptions.GetMapTweakMode(opts.GlobalMapCamoCommsConfig);
+        if (mode == MapTweakMode.GlobalOn)
+        {
+            return true;
+        }
+
+        if (mode == MapTweakMode.GlobalOff)
+        {
+            return false;
+        }
+
+        return MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CamoComms.Value,
+            ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CamoComms.Value,
+            ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.CamoComms.Value,
+            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.CamoComms.Value,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.CamoComms.Value,
+            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CamoComms.Value,
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.CamoComms.Value,
+            _ => false
+        };
+    }
+
+    public static bool AreLadderCooldownsDisabled()
+    {
+        if (GameOptionsManager.Instance == null || AmongUsClient.Instance == null || PlayerControl.LocalPlayer == null)
+        {
+            return false;
+        }
+
+        return MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.NoLadderCooldown,
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.NoLadderCooldown,
+            _ => false
         };
     }
 }

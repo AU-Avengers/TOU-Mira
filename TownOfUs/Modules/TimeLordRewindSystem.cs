@@ -2325,6 +2325,15 @@ return true;*/
 
     public static TimeLordUndoEvent CreateUndoEvent(TimeLordEvent evt)
     {
+        // First, check if an extension has registered a factory for this event type
+        var eventQueue = TownOfUs.Events.Crewmate.TimeLordEventHandlers.GetEventQueue();
+        var extensionUndoEvent = eventQueue.CreateUndoEvent(evt);
+        if (extensionUndoEvent != null)
+        {
+            return extensionUndoEvent;
+        }
+
+        // Fall back to base mod event types
         return evt switch
         {
             TimeLordVentEnterEvent e => new TimeLordVentEnterUndoEvent(e),

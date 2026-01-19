@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="DiscordServer">Discord Server</string>
+  <string name="SourceCode">Source Code</string>
   <string name="FoolsMode">Fools Mode</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
@@ -367,8 +369,17 @@
   <string name="FreeplayRestartButton">Reset Game</string>
   <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
   <string name="TouFirstRoundDeathIndicator">First Round Death Indicator</string>
+  <!-- Advanced Utility Options -->
+  <string name="TouOptionAdvancedUtilTasksToUseAdmin">Tasks Required to Use Admin Table</string>
+  <string name="TouOptionAdvancedUtilTasksToUseCams">Tasks Required to Use Cams</string>
+  <string name="TouOptionAdvancedUtilTasksToUseDoorlog">Tasks Required to Use Doorlog</string>
+  <string name="TouOptionAdvancedUtilTasksToUseVitals">Tasks Required to Use Vitals</string>
+  <string name="TouOptionAdvancedUtilTasksRequiredOnPortableUtils">Tasks Are Checked On Portable Utils</string>
+  <string name="TouUnavailableUtilityNotif">You need to complete \%amount\% more tasks to use this!</string>
+  <string name="TouUnavailableUtilityNotifSingle">You need to complete \%amount\% more task to use this!</string>
   <!-- Advanced Sabotage Options -->
   <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
+  <string name="TouOptionAdvancedSaboGlobalCamouflageComms">Toggle Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboKillDuringCamoComms">Kill Anyone During Camouflage</string>
   <string name="TouOptionAdvancedSaboCamoKillScreens">Camouflage Kill Screens During Comms</string>
   <string name="TouOptionAdvancedSaboHidePlayerSizeInCamo">Camouflage Hides Player Size</string>
@@ -397,21 +408,41 @@
   <string name="TouOptionBetterDoorsAirshipChance">Airship Door Chance</string>
   <string name="TouOptionBetterDoorsFungleChance">Fungle Door Chance</string>
   <string name="TouOptionBetterDoorsSubmergedChance">Submerged Door Chance</string>
+  <!-- Global Better Map Options -->
+  <string name="TouOptionGlobalBetterMapCamouflageComms">Use Camouflage Comms</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumOff">Globally Disabled</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumOn">Globally Enabled</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumPerMap">Per Map Change</string>
+  <string name="TouOptionGlobalBetterMapSpeedMultiplier">Change Speed Multiplier</string>
+  <string name="TouOptionGlobalBetterMapCrewVisionMultiplier">Change Crew Vision Multiplier</string>
+  <string name="TouOptionGlobalBetterMapImpVisionMultiplier">Change Impostor Vision Multiplier</string>
+  <string name="TouOptionGlobalBetterMapCooldownOffset">Change Cooldown Offset</string>
+  <string name="TouOptionGlobalBetterMapOffsetShortTasks">Change Short Tasks Offset</string>
+  <string name="TouOptionGlobalBetterMapOffsetLongTasks">Change Long Tasks Offset</string>
   <!-- Better Maps Options -->
   <string name="TouOptionBetterMapsSpeedMultiplier">Speed Multiplier</string>
   <string name="TouOptionBetterMapsCrewVisionMultiplier">Crew Vision Multiplier</string>
   <string name="TouOptionBetterMapsImpVisionMultiplier">Impostor Vision Multiplier</string>
+  <string name="TouOptionBetterMapsNoLadderCooldown">No Ladder Cooldown</string>
   <string name="TouOptionBetterMapsCooldownOffset">Cooldown Offset</string>
   <string name="TouOptionBetterMapsOffsetShortTasks">Short Tasks Offset</string>
   <string name="TouOptionBetterMapsOffsetLongTasks">Long Tasks Offset</string>
   <string name="TouOptionBetterMapsChangeSaboTimers">Change Sabotage Timers</string>
+  <string name="TouOptionBetterMapsChangeOxygenSaboTimer">Change Oxygen Sabotage Timer</string>
+  <string name="TouOptionBetterMapsChangeReactorSaboTimer">Change Reactor Sabotage Timer</string>
+  <string name="TouOptionBetterMapsChangeMixUpSaboTimer">Change Mix-Up Sabotage Duration</string>
   <string name="TouOptionBetterMapsSaboCountdownOxygen">Oxygen Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownReactor">Reactor Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownSeismicStabilizer">Seismic Stabilizer Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownCrashCourse">Crash Course Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">Water Level Stabilizer Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownOxygenMask">Oxygen Mask Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
+  <string name="TouOptionBetterSkeldVentNetwork">Skeld Vent Network</string>
+  <string name="TouOptionBetterSkeldVentModeEnumNormal">Unchanged</string>
+  <string name="TouOptionBetterSkeldVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Mira HQ Options -->
   <string name="TouOptionBetterMiraHqVentNetwork">Mira HQ Vent Network</string>
   <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconnected</string>
@@ -437,7 +468,6 @@
   <string name="TouOptionBetterAirshipSpawnLocationEnumEngineRoom">Engine Room</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
-  <string name="TouOptionBetterAirshipNoLadderCooldown">No Ladder Cooldown</string>
   <!-- Better Fungle Options -->
   <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
   <!-- Better Submerged Options -->
@@ -1677,6 +1707,7 @@
   <string name="TouRoleArsonistIgniteWikiDescriptionLegacy">Kill every doused player on the map as long as you ignite one player close by.</string>
   <!-- Arsonist Options -->
   <string name="TouOptionArsonistDouseCooldown">Douse Cooldown</string>
+  <string name="TouOptionArsonistDouseUses">Douses Possible at Once</string>
   <string name="TouOptionArsonistDouseInteractions">Douse From Interactions</string>
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
   <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>

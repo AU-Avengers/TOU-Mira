@@ -6,6 +6,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Modifiers;
@@ -151,7 +152,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
 
     public override void ClickHandler()
     {
-        if (!CanUse() || Minigame.Instance != null)
+        if (!CanUse() || Minigame.Instance != null || !MiscUtils.CanUseUtility(GameUtility.Admin, true))
         {
             return;
         }

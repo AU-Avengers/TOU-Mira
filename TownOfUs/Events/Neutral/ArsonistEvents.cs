@@ -40,5 +40,12 @@ public static class ArsonistEvents
         {
             TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
         }
+        ArsonistRole.SetDouseUses();
+    }
+
+    [RegisterEvent]
+    public static void OnRoundStartEventHandler(RoundStartEvent @event)
+    {
+        ArsonistRole.SetDouseUses();
     }
 }

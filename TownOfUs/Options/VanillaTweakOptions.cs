@@ -15,6 +15,8 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public ModdedNumberOption PlayerCountWhenVentsDisable { get; set; } = new("Max Players Alive When Vents Disable",
         2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
 
+    public ModdedToggleOption GhostwalkerFixSabos { get; set; } = new("Ghostwalkers Can Fix Sabotages", false);
+
     public ModdedToggleOption TickCooldownsInMinigame { get; set; } = new("Continue Cooldown In Tasks and Panels", true);
 
     public ModdedToggleOption ParallelMedbay { get; set; } = new("Parallel Medbay Scans", true);

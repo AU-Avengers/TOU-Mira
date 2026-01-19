@@ -25,8 +25,9 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
+public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IUnlovable
 {
+    public bool IsUnlovable => true;
     public bool ContinuesGame => !Player.HasDied() && StoredBodies.Count != 0 && Helpers.GetAlivePlayers().Any(x => !x.HasModifier<ChefServedModifier>() && x != Player);
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
     public DoomableType DoomHintType => DoomableType.Death;
@@ -55,7 +56,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             {
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Cook", "Cook"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CookWikiDescription"),
-                    TouNeutAssets.IgniteButtonSprite),
+                    TouNeutAssets.ChefCookSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Serve", "Serve"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ServeWikiDescription"),
                     TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),

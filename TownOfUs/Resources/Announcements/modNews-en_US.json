@@ -650,6 +650,39 @@
         "\n- Vanilla Tweaks Option: Cooldown Pause in Tasks and Panels.",
         "\n- Local Settings: Zoom in Lobby/Practice."
       ]
+    },
+    {
+      "Date": "2026-01-19T12:51:00Z",
+      "Number": "100036",
+      "ShortTitle": "TOU: Mira v1.5.2",
+      "Title": "More Miner Bugfixes",
+      "SubTitle": "No, not Miner itself.",
+      "Text": [
+        "<b>This release includes bugfixes for a few minor issues.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2>TOU Mira v1.5.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        "\n\n\r<size=105%>Ghost Role Bugfixes:</size>",
+        "\n- Spectre's role tab now displays the information properly",
+        "\n- Ghostwalker roles should appear to spawn properly for all players",
+        "\n- Spectator should no longer error out in the meeting",
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Upper and Lower Deck is no longer broken visually on Submerged (PR #117) (jukixyo)",
+        "\n- Cooldown Pause in Panels option is no longer duplicated",
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- The Main Menu now displays the Discord Server and Source Code links next to the Fools Mode toggle",
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Arsonist Option: Douses Possible at Once",
+        "\n- Vanilla Tweak Option: Ghostwalkers can Fix Sabotages Toggle",
+        "\n- Host Option: Multiplayer Freeplay Mode",
+        "\n- Better Maps Options: Tasks to use Admin/Cams/Doorlogs/Vitals",
+        "\n- Better Skeld Option: Quad-Group Vent System Toggle",
+        "\n- Better Fungle Options: No Ladder Cooldown toggle",
+        "\n- Better Submerged Options: Reactor/Oxygen Duration Changes",
+        "\n- Better LI Options: Reactor/Oxygen/Mix-Up Duration Changes, No Ladder Cooldown Toggle",
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Specific Better Maps settings can be changed Per-Map or via one setting",
+        "\n- Camo Comms can be toggled for each map now"
+      ]
     }
   ]
 }

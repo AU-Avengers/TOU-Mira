@@ -1,6 +1,8 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
+using Reactor.Networking.Rpc;
+using TownOfUs.Networking;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles;
@@ -25,7 +27,7 @@ public sealed class FreeplaySetRolesButton : TownOfUsButton
     public override bool Enabled(RoleBehaviour? role)
     {
         return PlayerControl.LocalPlayer != null &&
-               TutorialManager.InstanceExists &&
+               (TutorialManager.InstanceExists || MultiplayerFreeplayMode.Enabled) &&
                !FreeplayButtonsVisibility.Hidden;
     }
 
@@ -70,6 +72,15 @@ public sealed class FreeplaySetRolesButton : TownOfUsButton
 
                 void ClickRoleHandle(RoleBehaviour role)
                 {
+                    if (MultiplayerFreeplayMode.Enabled)
+                    {
+                        Rpc<MultiplayerFreeplayRequestRpc>.Instance.Send(
+                            PlayerControl.LocalPlayer,
+                            new MultiplayerFreeplayRequest(MultiplayerFreeplayAction.SetRole, plr.PlayerId, 0, (ushort)role.Role));
+                        roleMenu.ForceClose();
+                        return;
+                    }
+
                     if (plr.HasDied())
                     {
                         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>()
@@ -104,7 +115,7 @@ public sealed class FreeplaySetRolesButton : TownOfUsButton
 
     public override void OnEffectEnd()
     {
-        if (!PlayerControl.LocalPlayer.HasDied())
+        if (TutorialManager.InstanceExists && !PlayerControl.LocalPlayer.HasDied())
         {
             PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
         }
