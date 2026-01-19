@@ -54,7 +54,7 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption OffsetShortTasks { get; set; } =
-        new("TouOptionBetterMapsOffsetShortTasks", 0f, -5f, 5f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionBetterMapsOffsetShortTasks", 0f, -5f, 5f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapShortTaskConfig) ==
@@ -62,7 +62,7 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption OffsetLongTasks { get; set; } =
-        new("TouOptionBetterMapsOffsetLongTasks", 0f, -3f, 3f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionBetterMapsOffsetLongTasks", 0f, -3f, 3f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapLongTaskConfig) ==
@@ -86,6 +86,9 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
         Visible = () => OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == SpawnModes.HostChoosesOne,
     };
 
+    [ModdedToggleOption("TouOptionBetterMapsNoLadderCooldown")]
+    public bool NoLadderCooldown { get; set; } = true;
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
@@ -95,9 +98,6 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<BetterAirshipOptions>.Instance.ChangeSaboTimers
     };
-
-    [ModdedToggleOption("TouOptionBetterAirshipNoLadderCooldown")]
-    public bool NoLadderCooldown { get; set; } = true;
 
     public enum SpawnModes
     {

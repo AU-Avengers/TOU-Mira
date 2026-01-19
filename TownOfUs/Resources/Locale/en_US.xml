@@ -423,10 +423,14 @@
   <string name="TouOptionBetterMapsSpeedMultiplier">Speed Multiplier</string>
   <string name="TouOptionBetterMapsCrewVisionMultiplier">Crew Vision Multiplier</string>
   <string name="TouOptionBetterMapsImpVisionMultiplier">Impostor Vision Multiplier</string>
+  <string name="TouOptionBetterMapsNoLadderCooldown">No Ladder Cooldown</string>
   <string name="TouOptionBetterMapsCooldownOffset">Cooldown Offset</string>
   <string name="TouOptionBetterMapsOffsetShortTasks">Short Tasks Offset</string>
   <string name="TouOptionBetterMapsOffsetLongTasks">Long Tasks Offset</string>
   <string name="TouOptionBetterMapsChangeSaboTimers">Change Sabotage Timers</string>
+  <string name="TouOptionBetterMapsChangeOxygenSaboTimer">Change Oxygen Sabotage Timer</string>
+  <string name="TouOptionBetterMapsChangeReactorSaboTimer">Change Reactor Sabotage Timer</string>
+  <string name="TouOptionBetterMapsChangeMixUpSaboTimer">Change Mix-Up Sabotage Duration</string>
   <string name="TouOptionBetterMapsSaboCountdownOxygen">Oxygen Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownReactor">Reactor Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownSeismicStabilizer">Seismic Stabilizer Sabotage Countdown</string>
@@ -436,6 +440,9 @@
   <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
+  <string name="TouOptionBetterSkeldVentNetwork">Skeld Vent Network</string>
+  <string name="TouOptionBetterSkeldVentModeEnumNormal">Unchanged</string>
+  <string name="TouOptionBetterSkeldVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Mira HQ Options -->
   <string name="TouOptionBetterMiraHqVentNetwork">Mira HQ Vent Network</string>
   <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconnected</string>
@@ -461,7 +468,6 @@
   <string name="TouOptionBetterAirshipSpawnLocationEnumEngineRoom">Engine Room</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
-  <string name="TouOptionBetterAirshipNoLadderCooldown">No Ladder Cooldown</string>
   <!-- Better Fungle Options -->
   <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
   <!-- Better Submerged Options -->
@@ -1701,6 +1707,7 @@
   <string name="TouRoleArsonistIgniteWikiDescriptionLegacy">Kill every doused player on the map as long as you ignite one player close by.</string>
   <!-- Arsonist Options -->
   <string name="TouOptionArsonistDouseCooldown">Douse Cooldown</string>
+  <string name="TouOptionArsonistDouseUses">Douses Possible at Once</string>
   <string name="TouOptionArsonistDouseInteractions">Douse From Interactions</string>
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
   <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>

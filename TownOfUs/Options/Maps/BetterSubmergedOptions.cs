@@ -56,7 +56,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption OffsetShortTasks { get; set; } =
-        new("TouOptionBetterMapsOffsetShortTasks", 0f, -5f, 5f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionBetterMapsOffsetShortTasks", 0f, -5f, 5f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapShortTaskConfig) ==
@@ -64,7 +64,7 @@ public sealed class BetterSubmergedOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption OffsetLongTasks { get; set; } =
-        new("TouOptionBetterMapsOffsetLongTasks", 0f, -3f, 3f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionBetterMapsOffsetLongTasks", 0f, -3f, 3f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapLongTaskConfig) ==

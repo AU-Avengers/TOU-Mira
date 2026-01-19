@@ -1,4 +1,5 @@
 using MiraAPI.GameOptions;
+using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Modules;
@@ -55,7 +56,7 @@ public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption OffsetShortTasks { get; set; } =
-        new("TouOptionBetterMapsOffsetShortTasks", 0f, -5f, 5f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionBetterMapsOffsetShortTasks", 0f, -5f, 5f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapShortTaskConfig) ==
@@ -63,20 +64,43 @@ public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
         };
 
     public ModdedNumberOption OffsetLongTasks { get; set; } =
-        new("TouOptionBetterMapsOffsetLongTasks", 0f, -3f, 3f, 2.5f, MiraNumberSuffixes.Seconds)
+        new("TouOptionBetterMapsOffsetLongTasks", 0f, -3f, 3f, 1f, MiraNumberSuffixes.None)
         {
             Visible = () =>
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapLongTaskConfig) ==
                 MapTweakMode.PerMap
         };
 
-    /*[ModdedToggleOption("Change Sabotage Timers")]
-    public bool ChangeSaboTimers { get; set; } = true;
+    [ModdedToggleOption("TouOptionBetterMapsNoLadderCooldown")]
+    public bool NoLadderCooldown { get; set; } = true;
 
-    public ModdedNumberOption SaboCountdownOxygen { get; set; } = new("Oxygen Sabotage Countdown", 30f, 15f, 90f,
+    [ModdedToggleOption("TouOptionBetterMapsChangeOxygenSaboTimer")]
+    public bool ChangeOxygenSaboTimer { get; set; } = false;
+
+    [ModdedToggleOption("TouOptionBetterMapsChangeReactorSaboTimer")]
+    public bool ChangeReactorSaboTimer { get; set; } = false;
+
+    [ModdedToggleOption("TouOptionBetterMapsChangeMixUpSaboTimer")]
+    public bool ChangeMixUpSaboTimer { get; set; } = false;
+
+    public ModdedNumberOption SaboCountdownOxygen { get; set; } = new("TouOptionBetterMapsSaboCountdownOxygen", 30f, 15f, 90f,
         5f, MiraNumberSuffixes.Seconds, "0.#")
     {
         Visible = () =>
-            OptionGroupSingleton<BetterSubmergedOptions>.Instance.ChangeSaboTimers
-    };*/
+            OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeOxygenSaboTimer
+    };
+
+    public ModdedNumberOption SaboCountdownReactor { get; set; } = new("TouOptionBetterMapsSaboCountdownReactor", 30f, 15f, 90f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeReactorSaboTimer
+    };
+
+    public ModdedNumberOption SaboCountdownMixUp { get; set; } = new("TouOptionBetterMapsSaboDurationMixUp", 10f, 5f, 60f,
+        5f, MiraNumberSuffixes.Seconds, "0.#")
+    {
+        Visible = () =>
+            OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeMixUpSaboTimer
+    };
 }
