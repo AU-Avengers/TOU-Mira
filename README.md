@@ -189,7 +189,6 @@ If a mod is missing here and is a role/modifiers mod, it likely won't work unles
 |             [NewMod](https://github.com/CallOfCreator/NewMod)             | ✅ | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                                                                  |
 | [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) | ✅ | Launchpad tags overlap with Tou player names.<br/>Wiki is not fully implemented.                                                                  |
 |     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      | ⚠️ | Ability buttons are very seperated from one another.<br/>Roles are partially broken on latest Among Us update.<br/>Wiki is not fully implemented. |
-|          [ChaosTokens](https://github.com/xChipseq/ChaosTokens)           | ✅ | Extension mod that is fully designed for use with TOU Mira.                                                                                       |
 
 The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers!
 
