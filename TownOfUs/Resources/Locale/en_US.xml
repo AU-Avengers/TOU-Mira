@@ -423,6 +423,7 @@
   <string name="TouOptionBetterMapsSpeedMultiplier">Speed Multiplier</string>
   <string name="TouOptionBetterMapsCrewVisionMultiplier">Crew Vision Multiplier</string>
   <string name="TouOptionBetterMapsImpVisionMultiplier">Impostor Vision Multiplier</string>
+  <string name="TouOptionBetterMapsNoLadderCooldown">No Ladder Cooldown</string>
   <string name="TouOptionBetterMapsCooldownOffset">Cooldown Offset</string>
   <string name="TouOptionBetterMapsOffsetShortTasks">Short Tasks Offset</string>
   <string name="TouOptionBetterMapsOffsetLongTasks">Long Tasks Offset</string>
@@ -461,7 +462,6 @@
   <string name="TouOptionBetterAirshipSpawnLocationEnumEngineRoom">Engine Room</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
-  <string name="TouOptionBetterAirshipNoLadderCooldown">No Ladder Cooldown</string>
   <!-- Better Fungle Options -->
   <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
   <!-- Better Submerged Options -->

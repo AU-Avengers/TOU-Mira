@@ -74,7 +74,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             return 1;
         }
 
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SpeedMultiplier.Value,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SpeedMultiplier.Value,
@@ -101,7 +101,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             return 1;
         }
 
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CrewVisionMultiplier.Value,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CrewVisionMultiplier.Value,
@@ -128,7 +128,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             return 1;
         }
 
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.ImpVisionMultiplier.Value,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.ImpVisionMultiplier.Value,
@@ -155,7 +155,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             return -EgotistModifier.CooldownReduction;
         }
 
-        var offset = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        var offset = MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CooldownOffset.Value,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CooldownOffset.Value,
@@ -183,7 +183,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             return 0;
         }
 
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.OffsetShortTasks.Value,
             ExpandedMapNames.MiraHq => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.OffsetShortTasks.Value,
@@ -210,7 +210,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             return 0;
         }
 
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => (int)OptionGroupSingleton<BetterSkeldOptions>.Instance.OffsetLongTasks.Value,
             ExpandedMapNames.MiraHq => (int)OptionGroupSingleton<BetterMiraHqOptions>.Instance.OffsetLongTasks.Value,
@@ -237,7 +237,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             return false;
         }
 
-        return (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId switch
+        return MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.CamoComms.Value,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.CamoComms.Value,
@@ -246,6 +246,17 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
             ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.CamoComms.Value,
             ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.CamoComms.Value,
             ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.CamoComms.Value,
+            _ => false
+        };
+    }
+
+    public static bool AreLadderCooldownsDisabled()
+    {
+        return MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.Airship => OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.NoLadderCooldown,
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.NoLadderCooldown,
             _ => false
         };
     }

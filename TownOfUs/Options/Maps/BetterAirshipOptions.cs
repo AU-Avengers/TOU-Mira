@@ -86,6 +86,9 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
         Visible = () => OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == SpawnModes.HostChoosesOne,
     };
 
+    [ModdedToggleOption("TouOptionBetterMapsNoLadderCooldown")]
+    public bool NoLadderCooldown { get; set; } = true;
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
@@ -95,9 +98,6 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<BetterAirshipOptions>.Instance.ChangeSaboTimers
     };
-
-    [ModdedToggleOption("TouOptionBetterAirshipNoLadderCooldown")]
-    public bool NoLadderCooldown { get; set; } = true;
 
     public enum SpawnModes
     {

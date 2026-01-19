@@ -606,7 +606,7 @@
   <string name="TouTabOptionBetterMapsDesc">為每張地圖配置任務、冷卻時間、門、通風口、破壞等內容!</string>
   <string name="FreeplaySetModifiersButton">設置附加屬性</string>
   <string name="TouFirstRoundDeathIndicator">首回合死亡指示</string>
-  <string name="TouOptionBetterAirshipNoLadderCooldown">無梯子冷卻</string>
+  <string name="TouOptionBetterMapsNoLadderCooldown">無梯子冷卻</string>
   <string name="TouRoleAltruistRevivedNotif">你被一名殉道者復活了!</string>
   <string name="TouRoleAltruistReviveSuccessNotif">你已成功復活\%player\%!</string>
   <string name="TouRoleImitator">效顰者</string>

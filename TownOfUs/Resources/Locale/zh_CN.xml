@@ -1706,7 +1706,7 @@
   <string name="TouTabOptionModifiersDesc">每名玩家都可以获得阵营、通用和 / 或派系专属附加属性。</string>
   <string name="FreeplaySetModifiersButton">设置附加属性</string>
   <string name="TouFirstRoundDeathIndicator">首回合死亡指示</string>
-  <string name="TouOptionBetterAirshipNoLadderCooldown">无梯子冷却</string>
+  <string name="TouOptionBetterMapsNoLadderCooldown">无梯子冷却</string>
   <string name="TouRoleAltruistRevivedNotif">你被一名殉道者复活了！</string>
   <string name="TouRoleAltruistReviveSuccessNotif">你已成功复活 \%player\%！</string>
   <string name="TouOptionAltruistKillOnStartRevive">开始复活时击杀殉道者</string>

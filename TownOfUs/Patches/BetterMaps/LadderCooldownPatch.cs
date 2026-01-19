@@ -1,22 +1,15 @@
 using HarmonyLib;
-using MiraAPI.GameOptions;
 using TownOfUs.Options.Maps;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches.BetterMaps;
 
 [HarmonyPatch(typeof(ShipStatus))]
-public static class AirshipLadderCooldownPatch
+public static class MapLadderCooldownPatch
 {
     private static void ApplyLadderCooldown()
     {
-        if (!AirshipLadderCooldownUtils.IsAirship())
-        {
-            return;
-        }
-
-        if (!OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown)
+        if (!TownOfUsMapOptions.AreLadderCooldownsDisabled())
         {
             return;
         }
@@ -60,17 +53,12 @@ public static class AirshipLadderCooldownPatch
 }
 
 [HarmonyPatch(typeof(Ladder), "get_MaxCoolDown")]
-public static class AirshipLadderMaxCooldownPatch
+public static class MapLadderMaxCooldownPatch
 {
     [HarmonyPrefix]
     public static bool Prefix(ref float __result)
     {
-        if (!AirshipLadderCooldownUtils.IsAirship())
-        {
-            return true;
-        }
-
-        if (!OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown)
+        if (!TownOfUsMapOptions.AreLadderCooldownsDisabled())
         {
             return true;
         }
@@ -80,44 +68,13 @@ public static class AirshipLadderMaxCooldownPatch
     }
 }
 
-public static class AirshipLadderCooldownUtils
-{
-    public static bool IsAirship()
-    {
-        const byte AirshipMapId = 4;
-
-        if (GameOptionsManager.Instance != null && GameOptionsManager.Instance.currentGameOptions != null)
-        {
-            return GameOptionsManager.Instance.currentGameOptions.MapId == AirshipMapId;
-        }
-
-        return TutorialManager.InstanceExists && AmongUsClient.Instance != null &&
-               AmongUsClient.Instance.TutorialMapId == AirshipMapId;
-    }
-
-    public static float GetConfiguredCooldown()
-    {
-        return OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown ? 0f : 5f;
-    }
-
-    public static float Clamp(float value, float max)
-    {
-        return Mathf.Min(value, max);
-    }
-}
-
 [HarmonyPatch(typeof(Ladder), "set_CoolDown")]
-public static class AirshipLadderSetCooldownPatch
+public static class MapLadderSetCooldownPatch
 {
     [HarmonyPrefix]
     public static void Prefix(ref float value)
     {
-        if (!AirshipLadderCooldownUtils.IsAirship())
-        {
-            return;
-        }
-
-        if (!OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown)
+        if (!TownOfUsMapOptions.AreLadderCooldownsDisabled())
         {
             return;
         }
@@ -127,17 +84,12 @@ public static class AirshipLadderSetCooldownPatch
 }
 
 [HarmonyPatch(typeof(Ladder), "CanUse")]
-public static class AirshipLadderCanUseCooldownPatch
+public static class MapLadderCanUseCooldownPatch
 {
     [HarmonyPostfix]
     public static void Postfix(ref float __result)
     {
-        if (!AirshipLadderCooldownUtils.IsAirship())
-        {
-            return;
-        }
-
-        if (!OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown)
+        if (!TownOfUsMapOptions.AreLadderCooldownsDisabled())
         {
             return;
         }
@@ -147,17 +99,12 @@ public static class AirshipLadderCanUseCooldownPatch
 }
 
 [HarmonyPatch(typeof(Ladder), "Use")]
-public static class AirshipLadderUseCooldownPatch
+public static class MapLadderUseCooldownPatch
 {
     [HarmonyPostfix]
     public static void Postfix(Ladder __instance)
     {
-        if (__instance == null || !AirshipLadderCooldownUtils.IsAirship())
-        {
-            return;
-        }
-
-        if (!OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown)
+        if (__instance == null || !TownOfUsMapOptions.AreLadderCooldownsDisabled())
         {
             return;
         }
@@ -172,17 +119,12 @@ public static class AirshipLadderUseCooldownPatch
 }
 
 [HarmonyPatch(typeof(Ladder), "SetDestinationCooldown")]
-public static class AirshipLadderDestinationCooldownPatch
+public static class MapLadderDestinationCooldownPatch
 {
     [HarmonyPrefix]
     public static bool Prefix(Ladder __instance)
     {
-        if (__instance == null || !AirshipLadderCooldownUtils.IsAirship())
-        {
-            return true;
-        }
-
-        if (!OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown)
+        if (__instance == null || !TownOfUsMapOptions.AreLadderCooldownsDisabled())
         {
             return true;
         }
@@ -197,44 +139,34 @@ public static class AirshipLadderDestinationCooldownPatch
 }
 
 [HarmonyPatch(typeof(Ladder), "IsCoolingDown")]
-public static class AirshipLadderIsCoolingDownPatch
+public static class MapLadderIsCoolingDownPatch
 {
     [HarmonyPrefix]
     public static bool Prefix(ref bool __result)
     {
-        if (!AirshipLadderCooldownUtils.IsAirship())
+        if (!TownOfUsMapOptions.AreLadderCooldownsDisabled())
         {
             return true;
         }
 
-        if (OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown)
-        {
-            __result = false;
-            return false;
-        }
-
-        return true;
+        __result = false;
+        return false;
     }
 }
 
 [HarmonyPatch(typeof(Ladder), "get_PercentCool")]
-public static class AirshipLadderPercentCoolPatch
+public static class MapLadderPercentCoolPatch
 {
     [HarmonyPrefix]
     public static bool Prefix(ref float __result)
     {
-        if (!AirshipLadderCooldownUtils.IsAirship())
+        if (!TownOfUsMapOptions.AreLadderCooldownsDisabled())
         {
             return true;
         }
 
-        if (OptionGroupSingleton<BetterAirshipOptions>.Instance.NoLadderCooldown)
-        {
-            __result = 0f;
-            return false;
-        }
-
-        return true;
+        __result = 0f;
+        return false;
     }
 }
 

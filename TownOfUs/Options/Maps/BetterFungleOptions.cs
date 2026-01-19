@@ -77,6 +77,9 @@ public sealed class BetterFungleOptions : AbstractOptionGroup
         "TouOptionBetterDoorsEnumRandom"
     ]);
 
+    [ModdedToggleOption("TouOptionBetterMapsNoLadderCooldown")]
+    public bool NoLadderCooldown { get; set; } = true;
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 

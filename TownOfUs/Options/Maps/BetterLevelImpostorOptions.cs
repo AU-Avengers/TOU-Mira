@@ -1,4 +1,5 @@
 using MiraAPI.GameOptions;
+using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Modules;
@@ -69,6 +70,9 @@ public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
                 GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapLongTaskConfig) ==
                 MapTweakMode.PerMap
         };
+
+    [ModdedToggleOption("TouOptionBetterMapsNoLadderCooldown")]
+    public bool NoLadderCooldown { get; set; } = true;
 
     /*[ModdedToggleOption("Change Sabotage Timers")]
     public bool ChangeSaboTimers { get; set; } = true;
