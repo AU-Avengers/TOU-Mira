@@ -1517,4 +1517,5 @@
   <string name="TouRoleDoomsayerRoleHintDefault">你觀察到\%player\%並不來自這座小鎮</string>
   <string name="TouRoleExecutioner">行刑者</string>
   <string name="TouRoleDoomsayerRoleHintProtective">你觀察到\%player\%會隱藏來保護自己或他人</string>
+  <string name="TouRoleExecutionerTabDescription">投票放逐\%target\%即可獲勝。</string>
 </resources>
