@@ -294,7 +294,10 @@ public static class HudManagerPatches
             CamouflageFootsteps = true;*/
             CamouflageCommsEnabled = true;
 
-            FakePlayer.FakePlayers.Do(x => x.Camo());
+            foreach (var fakePlayer in FakePlayer.FakePlayers)
+            {
+                fakePlayer.Camo();
+            }
 
             return;
         }

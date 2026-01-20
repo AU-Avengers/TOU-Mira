@@ -143,25 +143,29 @@ public sealed class FakePlayer : IDisposable
 
     public void Camo()
     {
-        _cosmeticsLayer!.SetHat(string.Empty, _cosmicInfo.ColorInfo);
+        if (_cosmeticsLayer == null) return;
+
+        _cosmeticsLayer.SetHat(string.Empty, _cosmicInfo.ColorInfo);
         _cosmeticsLayer.SetVisor(string.Empty, _cosmicInfo.ColorInfo);
         _cosmeticsLayer.SetSkin(string.Empty, _cosmicInfo.ColorInfo);
 
         PlayerMaterial.SetColors(Color.grey, _cosmeticsLayer.currentBodySprite.BodySprite);
 
-        _nameTextMaster!.color = Color.clear;
-        _colorBindText!.color = Color.clear;
+        _nameTextMaster.color = Color.clear;
+        _colorBindText.color = Color.clear;
     }
 
     public void UnCamo()
     {
-        _cosmeticsLayer!.SetHat(_cosmicInfo.OutfitInfo.HatId, _cosmicInfo.ColorInfo);
+        if (_cosmeticsLayer == null) return;
+
+        _cosmeticsLayer.SetHat(_cosmicInfo.OutfitInfo.HatId, _cosmicInfo.ColorInfo);
         _cosmeticsLayer.SetVisor(_cosmicInfo.OutfitInfo.VisorId, _cosmicInfo.ColorInfo);
         _cosmeticsLayer.SetSkin(_cosmicInfo.OutfitInfo.SkinId, _cosmicInfo.ColorInfo);
         _cosmeticsLayer.SetColor(_cosmicInfo.ColorInfo);
 
-        _nameTextMaster!.color = Color.white;
-        _colorBindText!.color = Color.white;
+        _nameTextMaster.color = Color.white;
+        _colorBindText.color = Color.white;
     }
 
     private SpriteRenderer CreateBodyImage(PlayerCosmicInfo info)
