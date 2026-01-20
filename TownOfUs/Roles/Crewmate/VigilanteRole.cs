@@ -214,11 +214,10 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 return;
             }
-            Player.RpcSpecialMurder(victim, true, true, createDeadBody: false, teleportMurderer: false,
+            Player.RpcSpecialMurder(victim, inMeeting: true, true, true, createDeadBody: false, teleportMurderer: false,
                 showKillAnim: false,
                 playKillSound: false,
-                causeOfDeath: victim != Player ? "Guess" : "Misguess",
-                inMeeting: true);
+                causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
             {

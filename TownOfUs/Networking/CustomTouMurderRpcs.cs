@@ -18,6 +18,86 @@ namespace TownOfUs.Networking;
 public static class CustomTouMurderRpcs
 {
     /// <summary>
+    /// Networked Custom Murder method.
+    /// </summary>
+    /// <param name="source">The killer.</param>
+    /// <param name="target">The player to murder.</param>
+    /// <param name="isIndirect">Determines if the attack is indirect.</param>
+    /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
+    /// <param name="didSucceed">Whether the murder was successful or not.</param>
+    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
+    /// <param name="createDeadBody">Should a dead body be created.</param>
+    /// <param name="teleportMurderer">Should the killer be snapped to the dead player.</param>
+    /// <param name="showKillAnim">Should the kill animation be shown.</param>
+    /// <param name="playKillSound">Should the kill sound be played.</param>
+    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    public static void RpcSpecialMurder(
+        this PlayerControl source,
+        PlayerControl target,
+        bool isIndirect = false,
+        bool ignoreShield = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        RpcSpecialMurder(source, target, null, isIndirect, ignoreShield, didSucceed, resetKillTimer, createDeadBody,
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
+    }
+
+    /// <summary>
+    /// Networked Custom Murder method. Use this if changing from a dictionary is needed.
+    /// </summary>
+    /// <param name="source">The killer.</param>
+    /// <param name="targets">The players to murder.</param>
+    /// <param name="isIndirect">Determines if the attack is indirect.</param>
+    /// <param name="ignoreShields">If indirect, determines if shields are ignored.</param>
+    /// <param name="didSucceed">Whether the murder was successful or not.</param>
+    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
+    /// <param name="createDeadBody">Should a dead body be created.</param>
+    /// <param name="teleportMurderer">Should the killer be snapped to the dead player.</param>
+    /// <param name="showKillAnim">Should the kill animation be shown.</param>
+    /// <param name="playKillSound">Should the kill sound be played.</param>
+    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    public static void RpcSpecialMultiMurder(
+        this PlayerControl source,
+        List<PlayerControl> targets,
+        bool isIndirect = false,
+        bool ignoreShields = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        var newTargets = targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName)).ToDictionary(x => x.Key, x => x.Value);
+        RpcSpecialMultiMurder(source, newTargets, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
+    }
+
+    public static void RpcSpecialMultiMurder(
+        this PlayerControl source,
+        Dictionary<byte, string> targets,
+        bool isIndirect = false,
+        bool ignoreShields = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        RpcSpecialMultiMurder(source, targets, null, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
+    }
+
+    /// <summary>
     /// Networked Custom Murder method. Use this if changing from a dictionary is needed.
     /// </summary>
     /// <param name="source">The killer.</param>
@@ -35,6 +115,7 @@ public static class CustomTouMurderRpcs
     public static void RpcSpecialMultiMurder(
         this PlayerControl source,
         List<PlayerControl> targets,
+        bool? inMeeting,
         bool isIndirect = false,
         bool ignoreShields = false,
         bool didSucceed = true,
@@ -43,12 +124,11 @@ public static class CustomTouMurderRpcs
         bool teleportMurderer = true,
         bool showKillAnim = true,
         bool playKillSound = true,
-        string causeOfDeath = "null",
-        bool? inMeeting = null)
+        string causeOfDeath = "null")
     {
         var newTargets = targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName)).ToDictionary(x => x.Key, x => x.Value);
-        RpcSpecialMultiMurder(source, newTargets, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
-            teleportMurderer, showKillAnim, playKillSound, causeOfDeath, inMeeting);
+        RpcSpecialMultiMurder(source, newTargets, inMeeting, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
     }
 
     /// <summary>
@@ -70,6 +150,7 @@ public static class CustomTouMurderRpcs
     public static void RpcSpecialMultiMurder(
         this PlayerControl source,
         Dictionary<byte, string> targets,
+        bool? inMeeting,
         bool isIndirect = false,
         bool ignoreShields = false,
         bool didSucceed = true,
@@ -78,8 +159,7 @@ public static class CustomTouMurderRpcs
         bool teleportMurderer = true,
         bool showKillAnim = true,
         bool playKillSound = true,
-        string causeOfDeath = "null",
-        bool? inMeeting = null)
+        string causeOfDeath = "null")
     {
         var role = source.GetRoleWhenAlive();
         IndirectAttackerModifier? attackerMod = null;
@@ -304,6 +384,7 @@ public static class CustomTouMurderRpcs
     public static void RpcSpecialMurder(
         this PlayerControl source,
         PlayerControl target,
+        bool? inMeeting,
         bool isIndirect = false,
         bool ignoreShield = false,
         bool didSucceed = true,
@@ -312,8 +393,7 @@ public static class CustomTouMurderRpcs
         bool teleportMurderer = true,
         bool showKillAnim = true,
         bool playKillSound = true,
-        string causeOfDeath = "null",
-        bool? inMeeting = null)
+        string causeOfDeath = "null")
     {
         var role = source.GetRoleWhenAlive();
         IndirectAttackerModifier? attackerMod = null;

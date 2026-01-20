@@ -243,11 +243,10 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                     text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
                 }
 
-                Player.RpcSpecialMurder(Jailed, true, true, createDeadBody: false, teleportMurderer: false,
+                Player.RpcSpecialMurder(Jailed, inMeeting: true, true, true, createDeadBody: false, teleportMurderer: false,
                     showKillAnim: false,
                     playKillSound: false,
-                    causeOfDeath: "Jailor",
-                    inMeeting: true);
+                    causeOfDeath: "Jailor");
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

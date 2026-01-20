@@ -110,7 +110,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                     target,
                     teleportMurderer: false,
                     showKillAnim: false,
-                    causeOfDeath: "Parasite");
+                    causeOfDeath: "Parasite",
+                    inMeeting: null);
             }
 
             RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
@@ -134,7 +135,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                 target,
                 teleportMurderer: false,
                 showKillAnim: false,
-                causeOfDeath: "Parasite");
+                causeOfDeath: "Parasite",
+                inMeeting: null);
         }
 
         RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
@@ -186,7 +188,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                     target,
                     teleportMurderer: false,
                     showKillAnim: false,
-                    causeOfDeath: "Parasite");
+                    causeOfDeath: "Parasite",
+                    inMeeting: null);
             }
 
             if (PlayerControl.LocalPlayer != null)
@@ -574,7 +577,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             target,
             teleportMurderer: false,
             showKillAnim: false,
-            causeOfDeath: "Parasite");
+            causeOfDeath: "Parasite",
+            inMeeting: null);
 
         RpcParasiteEndControl(local, target);
     }

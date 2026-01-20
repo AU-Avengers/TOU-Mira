@@ -394,11 +394,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     }
                     else
                     {
-                        Player.RpcSpecialMurder(victim, true, createDeadBody: false, teleportMurderer: false,
+                        Player.RpcSpecialMurder(victim, inMeeting: true, true, createDeadBody: false, teleportMurderer: false,
                             showKillAnim: false,
                             playKillSound: false,
-                            causeOfDeath: "Doomsayer",
-                            inMeeting: true);
+                            causeOfDeath: "Doomsayer");
                     }
                 }
                 else
@@ -411,11 +410,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                         }
                         else
                         {
-                            Player.RpcSpecialMurder(victim2, true, true, createDeadBody: false, teleportMurderer: false,
+                            Player.RpcSpecialMurder(victim2, inMeeting: true, true, true, createDeadBody: false, teleportMurderer: false,
                                 showKillAnim: false,
                                 playKillSound: false,
-                                causeOfDeath: "Doomsayer",
-                                inMeeting: true);
+                                causeOfDeath: "Doomsayer");
                         }
                     }
                 }

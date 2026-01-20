@@ -73,10 +73,9 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
                 .Where(x => x.HasModifier<ArsonistDousedModifier>()).ToList();
         }
 
-        PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, true, teleportMurderer: false,
+        PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, inMeeting: false, true, teleportMurderer: false,
             playKillSound: false,
-            causeOfDeath: "Arsonist",
-            inMeeting:false);
+            causeOfDeath: "Arsonist");
 
         TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
 
