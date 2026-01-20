@@ -2,12 +2,15 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -136,5 +139,21 @@ public sealed class GlitchRole(IntPtr cppPtr)
 
         var console = usable.TryCast<Console>()!;
         return console == null || console.AllowImpostor;
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.TriggerGlitchHack)]
+    public static void RpcTriggerGlitchHack(PlayerControl victim, bool fullRemoval)
+    {
+        if (victim.TryGetModifier<GlitchHackedModifier>(out var hackMod))
+        {
+            if (fullRemoval)
+            {
+                victim.RemoveModifier(hackMod);
+            }
+            else
+            {
+                hackMod.ShowHacked();
+            }
+        }
     }
 }
