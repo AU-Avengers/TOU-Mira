@@ -483,6 +483,20 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
+    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent @event)
+    {
+        Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.Destroy());
+
+        foreach (var player in PlayerControl.AllPlayerControls)
+        {
+            player.MyPhysics.ResetAnimState();
+            player.MyPhysics.ResetMoveState();
+        }
+
+        FakePlayer.ClearAll();
+    }
+
+    [RegisterEvent]
     public static void ClearBodiesAndResetPlayersEventHandler(RoundStartEvent @event)
     {
         Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.Destroy());
