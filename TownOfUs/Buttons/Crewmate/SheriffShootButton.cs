@@ -50,12 +50,12 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
 
         if (missType is MisfireOptions.Target or MisfireOptions.Both)
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+            PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
         }
 
         if (missType is MisfireOptions.Sheriff or MisfireOptions.Both)
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
+            PlayerControl.LocalPlayer.RpcAltCustomMurder(PlayerControl.LocalPlayer, false);
         }
 
         FailedShot = true;
@@ -124,7 +124,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     }
                     else
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
                     }
 
                     break;
@@ -136,7 +136,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     }
                     else
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
                     }
 
                     break;
@@ -148,7 +148,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     }
                     else
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
                     }
 
                     break;
@@ -160,14 +160,14 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                     }
                     else
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
                     }
 
                     break;
                 default:
                     if (Target.IsImpostor() || Target.IsNeutral())
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
                     }
                     else
                     {
@@ -179,7 +179,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
         }
         else
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+            PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
         }
 
         if (!OptionGroupSingleton<SheriffOptions>.Instance.SheriffBodyReport)

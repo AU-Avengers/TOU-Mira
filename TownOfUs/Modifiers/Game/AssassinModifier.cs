@@ -198,7 +198,8 @@ public abstract class AssassinModifier : ExcludedGameModifier
             Player.RpcSpecialMurder(victim, true, true, createDeadBody: false, teleportMurderer: false,
                 showKillAnim: false,
                 playKillSound: false,
-                causeOfDeath: victim != Player ? "Guess" : "Misguess");
+                causeOfDeath: victim != Player ? "Guess" : "Misguess",
+                inMeeting: true);
 
             if (victim != Player)
             {

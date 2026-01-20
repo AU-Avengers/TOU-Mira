@@ -48,7 +48,7 @@ public sealed class HunterKillButton : TownOfUsKillRoleButton<HunterRole, Player
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
 
         if (!OptionGroupSingleton<HunterOptions>.Instance.HunterBodyReport)
         {

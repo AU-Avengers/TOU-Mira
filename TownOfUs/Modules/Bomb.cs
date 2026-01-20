@@ -51,7 +51,8 @@ public sealed class Bomb : IDisposable
         }
         var targetList = affected.Where(x => !x.HasDied() && !(x.HasModifier<BaseShieldModifier>() && x.AmOwner) && !(x.HasModifier<FirstDeadShield>() && x.AmOwner)).ToList();
         _bomber?.RpcSpecialMultiMurder(targetList, true, teleportMurderer: false,
-            causeOfDeath: "BomberBomb");
+            causeOfDeath: "BomberBomb",
+            inMeeting:false);
 
         _obj.Destroy();
     }

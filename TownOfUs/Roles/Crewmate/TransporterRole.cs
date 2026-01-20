@@ -173,7 +173,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play1.RpcCustomMurder(transporter);
+                play1.RpcAltCustomMurder(transporter, false);
             }
 
             return;
@@ -183,7 +183,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play2.RpcCustomMurder(transporter);
+                play2.RpcAltCustomMurder(transporter, false);
             }
 
             return;
@@ -193,7 +193,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play1.RpcCustomMurder(transporter);
+                play1.RpcAltCustomMurder(transporter, false);
             }
 
             return;
@@ -203,7 +203,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play2.RpcCustomMurder(transporter);
+                play2.RpcAltCustomMurder(transporter, false);
             }
 
             return;

@@ -111,7 +111,7 @@ public static class VeteranEvents
 
             if ((TutorialManager.InstanceExists || source.AmOwner) && !preventAttack && !alertMod.WasAttacked(source))
             {
-                target.RpcCustomMurder(source);
+                target.RpcAltCustomMurder(source, false);
             }
             alertMod.MarkPlayer(source);
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a veteran alert, attacking {source.Data.PlayerName}!");

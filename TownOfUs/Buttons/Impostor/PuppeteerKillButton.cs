@@ -83,7 +83,7 @@ public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, 
         }
         else
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+            PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
         }
     }
 }

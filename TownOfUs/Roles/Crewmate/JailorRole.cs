@@ -246,7 +246,8 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 Player.RpcSpecialMurder(Jailed, true, true, createDeadBody: false, teleportMurderer: false,
                     showKillAnim: false,
                     playKillSound: false,
-                    causeOfDeath: "Jailor");
+                    causeOfDeath: "Jailor",
+                    inMeeting: true);
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

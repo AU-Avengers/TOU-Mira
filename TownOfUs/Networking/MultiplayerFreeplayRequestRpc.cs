@@ -220,6 +220,6 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
             return;
         }
 
-        killer.RpcCustomMurder(victim);
+        killer.RpcAltCustomMurder(victim, false);
     }
 }

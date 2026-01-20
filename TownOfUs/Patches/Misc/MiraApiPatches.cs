@@ -121,6 +121,71 @@ public static class MiraApiPatches
         }
         return false;
     }
+    
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcAltCustomMurder))]
+    [HarmonyPrefix]
+    public static bool RpcAltCustomMurderPatch(
+        this PlayerControl source,
+        PlayerControl target,
+        bool inMeeting,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true)
+    {
+        var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
+
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
+        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        if ((inMeeting && !isMeetingActive) || (!inMeeting && isMeetingActive))
+        {
+            beforeMurderEvent.Cancel();
+        }
+
+        if (beforeMurderEvent.IsCancelled)
+        {
+            murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
+
+        // Track kill cooldown before CustomMurder for Time Lord rewind
+        float? killCooldownBefore = null;
+        if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            killCooldownBefore = source.killTimer;
+        }
+
+        source.CustomMurder(
+            target,
+            murderResultFlags2,
+            resetKillTimer,
+            createDeadBody,
+            teleportMurderer,
+            showKillAnim,
+            playKillSound);
+
+        // Force-sync death state after successful murder to prevent desyncs
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && target.HasDied())
+        {
+            DeathStateSync.ScheduleDeathStateSync(target, true);
+            // Request validation after kill to ensure all clients are in sync
+            if (source.AmOwner)
+            {
+                DeathStateSync.RequestValidationAfterKill(source);
+            }
+        }
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+        }
+        return false;
+    }
 
     [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
     [HarmonyPrefix]

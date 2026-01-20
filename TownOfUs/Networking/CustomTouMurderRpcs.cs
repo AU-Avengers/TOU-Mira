@@ -31,6 +31,7 @@ public static class CustomTouMurderRpcs
     /// <param name="showKillAnim">Should the kill animation be shown.</param>
     /// <param name="playKillSound">Should the kill sound be played.</param>
     /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    /// <param name="inMeeting">Should the murder only work in meetings.</param>
     public static void RpcSpecialMultiMurder(
         this PlayerControl source,
         List<PlayerControl> targets,
@@ -42,11 +43,12 @@ public static class CustomTouMurderRpcs
         bool teleportMurderer = true,
         bool showKillAnim = true,
         bool playKillSound = true,
-        string causeOfDeath = "null")
+        string causeOfDeath = "null",
+        bool? inMeeting = null)
     {
         var newTargets = targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName)).ToDictionary(x => x.Key, x => x.Value);
         RpcSpecialMultiMurder(source, newTargets, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
-            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath, inMeeting);
     }
 
     /// <summary>
@@ -63,6 +65,7 @@ public static class CustomTouMurderRpcs
     /// <param name="showKillAnim">Should the kill animation be shown.</param>
     /// <param name="playKillSound">Should the kill sound be played.</param>
     /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    /// <param name="inMeeting">Should the murder only work in meetings.</param>
     [MethodRpc((uint)TownOfUsRpc.SpecialMultiMurder, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcSpecialMultiMurder(
         this PlayerControl source,
@@ -75,7 +78,8 @@ public static class CustomTouMurderRpcs
         bool teleportMurderer = true,
         bool showKillAnim = true,
         bool playKillSound = true,
-        string causeOfDeath = "null")
+        string causeOfDeath = "null",
+        bool? inMeeting = null)
     {
         var role = source.GetRoleWhenAlive();
         IndirectAttackerModifier? attackerMod = null;
@@ -116,8 +120,13 @@ public static class CustomTouMurderRpcs
             {
                 continue;
             }
-            var beforeMurderEvent = new BeforeMurderEvent(source, newPlayer);
+            var beforeMurderEvent = inMeeting == null ? new BeforeMurderEvent(source, newPlayer) : new BeforeMurderEvent(source, newPlayer, inMeeting.Value);
             MiraEventManager.InvokeEvent(beforeMurderEvent);
+            var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+            if (inMeeting != null && ((inMeeting.Value && !isMeetingActive) || (!inMeeting.Value && isMeetingActive)))
+            {
+                beforeMurderEvent.Cancel();
+            }
 
             if (beforeMurderEvent.IsCancelled)
             {
@@ -215,7 +224,7 @@ public static class CustomTouMurderRpcs
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, false);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
 
         if (beforeMurderEvent.IsCancelled)
@@ -290,6 +299,7 @@ public static class CustomTouMurderRpcs
     /// <param name="showKillAnim">Should the kill animation be shown.</param>
     /// <param name="playKillSound">Should the kill sound be played.</param>
     /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    /// <param name="inMeeting">Should the murder only work in meetings.</param>
     [MethodRpc((uint)TownOfUsRpc.SpecialMurder, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcSpecialMurder(
         this PlayerControl source,
@@ -302,7 +312,8 @@ public static class CustomTouMurderRpcs
         bool teleportMurderer = true,
         bool showKillAnim = true,
         bool playKillSound = true,
-        string causeOfDeath = "null")
+        string causeOfDeath = "null",
+        bool? inMeeting = null)
     {
         var role = source.GetRoleWhenAlive();
         IndirectAttackerModifier? attackerMod = null;
@@ -322,8 +333,13 @@ public static class CustomTouMurderRpcs
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target);
+        var beforeMurderEvent = inMeeting == null ? new BeforeMurderEvent(source, target) : new BeforeMurderEvent(source, target, inMeeting.Value);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        if (inMeeting != null && ((inMeeting.Value && !isMeetingActive) || (!inMeeting.Value && isMeetingActive)))
+        {
+            beforeMurderEvent.Cancel();
+        }
 
         if (beforeMurderEvent.IsCancelled)
         {

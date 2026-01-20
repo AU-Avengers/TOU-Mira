@@ -522,7 +522,8 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                     target,
                     teleportMurderer: false,
                     showKillAnim: false,
-                    causeOfDeath: "Parasite");
+                    causeOfDeath: "Parasite",
+                    inMeeting: false);
             }
 
             ParasiteRole.RpcParasiteEndControl(PlayerControl.LocalPlayer, target);

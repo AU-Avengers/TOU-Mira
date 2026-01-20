@@ -166,7 +166,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
         yield return new WaitForSeconds(0.01f);
         if (MeetingHud.Instance == null && ExileController.Instance == null && !player.HasDied())
         {
-            player.RpcCustomMurder(player, showKillAnim: false, createDeadBody: false);
+            player.RpcAltCustomMurder(player, false, showKillAnim: false, createDeadBody: false);
         }
     }
 }

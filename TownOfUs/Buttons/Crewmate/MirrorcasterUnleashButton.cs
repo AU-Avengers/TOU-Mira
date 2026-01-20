@@ -36,7 +36,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsKillRoleButton<Mirrorcas
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
         MirrorcasterRole.RpcMirrorcasterUnleash(PlayerControl.LocalPlayer);
     }
 
