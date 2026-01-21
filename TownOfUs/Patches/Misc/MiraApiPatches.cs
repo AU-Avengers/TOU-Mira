@@ -62,7 +62,7 @@ public static class MiraApiPatches
         __result = TouLocale.Get("Modifiers");
         return false;
     }
-    
+    /*
     [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcCustomMurder))]
     [HarmonyPrefix]
     public static bool RpcAltCustomMurderPatch(
@@ -126,7 +126,7 @@ public static class MiraApiPatches
             Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
         }
         return false;
-    }
+    }*/
 
     [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
     [HarmonyPrefix]
