@@ -24,7 +24,14 @@ public static class DiscordStatus
             return true;
         }
 
-        InitializeDiscord(__instance);
+        try
+        {
+            InitializeDiscord(__instance);
+        }
+        catch
+        {
+            // ignore
+        }
         return false;
     }
 

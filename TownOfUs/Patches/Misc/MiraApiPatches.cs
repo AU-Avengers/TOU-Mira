@@ -62,8 +62,8 @@ public static class MiraApiPatches
         __result = TouLocale.Get("Modifiers");
         return false;
     }
-    /*
-    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcCustomMurder))]
+
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(MeetingCheck), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
     [HarmonyPrefix]
     public static bool RpcAltCustomMurderPatch(
         this PlayerControl source,
@@ -126,7 +126,7 @@ public static class MiraApiPatches
             Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
         }
         return false;
-    }*/
+    }
 
     [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
     [HarmonyPrefix]
