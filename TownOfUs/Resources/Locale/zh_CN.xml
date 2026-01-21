@@ -532,10 +532,10 @@
   <string name="TouOptionDoomsayerCantObserve">末日预言者无法使用洞察</string>
   <string name="TouOptionDoomsayerWin">末日预言者胜利效果</string>
   <string name="TouRoleVampireIntroBlurb">转化船员并杀死其他人</string>
-  <string name="TouRoleVampireTabDescription">咬所有其他玩家</string>
-  <string name="TouRoleVampireWikiDescription">吸血魔是一名中立击杀型职业，通过成为场上最后的击杀者获胜。吸血魔可以咬人，将其他玩家转化为吸血魔，或直接击杀对方。</string>
-  <string name="TouRoleVampireBite">咬人</string>
-  <string name="TouRoleVampireBiteWikiDescription">咬一名玩家。如果被咬的是船员或有效转化对象且本局吸血魔数量未达上限，则会将其转化为吸血魔，否则直接击杀对方。</string>
+  <string name="TouRoleVampireTabDescription">咬掉所有其他玩家</string>
+  <string name="TouRoleVampireWikiDescription">吸血魔是一名中立击杀型职业，通过成为场上最后一名杀手获胜。吸血魔可以咬人，将其他玩家转化为吸血魔，或直接击杀对方。</string>
+  <string name="TouRoleVampireBite">咬击</string>
+  <string name="TouRoleVampireBiteWikiDescription">咬击一名玩家。如果被咬的是船员或有效转化对象且本局吸血魔数量未达上限，则会将其转化为吸血魔，否则直接击杀对方。</string>
   <string name="TouOptionVampireBiteCooldown">咬击冷却</string>
   <string name="TouOptionVampireMaxVamps">每局最大吸血魔数量（含原生、死亡的）</string>
   <string name="TouOptionVampireImpostorVision">吸血魔拥有伪装者视野</string>
@@ -585,7 +585,7 @@
   <string name="TouOptionSoulCollectorCanVent">噬魂兽可使用通风口</string>
   <string name="TouModifierEgotistIntroBlurb">背叛船员以满足你的虚荣心</string>
   <string name="TouModifierEgotistTabDescription">背叛船员，与杀手一同获胜。</string>
-  <string name="TouModifierEgotistWikiDescription">自大狂是船员同盟附加属性（以\%symbol\%为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
+  <string name="TouModifierEgotistWikiDescription">自大狂是一种船员同盟附加属性（以\%symbol\%为标识）。作为自大狂，只有船员失败你才能获胜，即使你已死亡。如果会议结束后没有船员存活，你会直接胜利离场，但游戏会继续。</string>
   <string name="TouModifierLoverInfo">你的恋人是\%player\%。</string>
   <string name="TouModifierLoverWikiDescription">作为恋人，你可以在回合中与另一位恋人 (以\%symbol\%标识）聊天。如果你们是最后三人之一且都存活，则恋人可以共同获胜。</string>
   <string name="TouOptionLoverDieAndRevive">恋人同生共死</string>
@@ -593,7 +593,7 @@
   <string name="TouOptionLoverCanBeNeutral">中立职业可以成为恋人</string>
   <string name="TouOptionLoverKillFactionTeammates">恋人可以杀死同阵营队友</string>
   <string name="TouOptionLoverKillOneAnother">恋人可以杀死对方</string>
-  <string name="TouModifierTelepathIntroBlurbNoDeath">知晓队友击杀的信息，知晓队友死亡的信息。</string>
+  <string name="TouModifierTelepathIntroBlurbNoDeath">知晓队友击杀及死亡的信息。</string>
   <string name="TouModifierTelepathIntroBlurb">你会收到队友击杀情况的通知。</string>
   <string name="TouModifierTelepathDescriptionBasic">知晓队友击杀的信息</string>
   <string name="TouModifierTelepathDescriptionIfKnowWhen">知晓队友击杀的时间\%and\%位置</string>
@@ -619,14 +619,14 @@
   <string name="TouOptionWerewolfCanVent">月下狼人狂暴时可使用通风口</string>
   <string name="TouRoleWerewolfIntroBlurb">以狂暴杀死所有人</string>
   <string name="TouRoleWerewolfTabDescription">快速狂暴杀敌，提升你的视野，\%nl\%并暂时可以进入通风口</string>
-  <string name="TouRoleWerewolfWikiDescription">月下狼人是一名中立击杀型职业，通过成为场上最后的杀手获胜。可以进入狂暴状态获得击杀能力。</string>
+  <string name="TouRoleWerewolfWikiDescription">月下狼人是一名中立击杀型职业，通过成为场上最后一名杀手获胜。可以进入狂暴状态获得击杀能力。</string>
   <string name="TouRoleWerewolfRampage">狂暴</string>
   <string name="TouRoleWerewolfRampageWikiDescription">进入狂暴状态，获得击杀和伪装者视野。狂暴期间击杀冷却大幅降低。</string>
   <string name="TouModifierButtonBarryTabDescription">你可以在地图任意位置\%nl\%召开会议。</string>
   <string name="TouModifierButtonBarryWikiDescription">你可以在地图任意位置按下按钮召开紧急会议。</string>
-  <string name="TouModifierButtonBarryButton">按钮</string>
+  <string name="TouModifierButtonBarryButton">紧急按钮</string>
   <string name="TouModifierButtonBarryButtonWikiDescription">你可以在地图任意位置触发紧急会议，每局可用\%barryUses\%次。</string>
-  <string name="TouOptionButtonBarryButtonCooldown">按钮冷却</string>
+  <string name="TouOptionButtonBarryButtonCooldown">紧急按钮冷却</string>
   <string name="TouOptionButtonBarryMaxUses">最大可用次数</string>
   <string name="TouOptionButtonBarryIgnoreSabotage">无视破坏</string>
   <string name="TouOptionButtonBarryAllowFirstRound">首回合可用</string>
@@ -648,7 +648,7 @@
   <string name="TouModifierSatelliteWikiDescription">你可以在地图上检测尸体，每局可用\%maxUses\%次。</string>
   <string name="TouModifierSatelliteBroadcast">广播搜索</string>
   <string name="TouModifierSatelliteBroadcastWikiDescription">你可以在地图上检测尸体，每局可用\%maxUses\%次。</string>
-  <string name="TouOptionSatelliteCooldown">按钮冷却</string>
+  <string name="TouOptionSatelliteCooldown">发射按钮冷却</string>
   <string name="TouOptionSatelliteMaxUses">最大可用次数</string>
   <string name="TouOptionSatelliteOnePerRound">每回合限用一次</string>
   <string name="TouOptionSatelliteAllowFirst">首回合可用</string>
@@ -1258,7 +1258,7 @@
   <string name="TouModifierCrewpostor">伪船员</string>
   <string name="TouModifierCrewpostorIntroBlurb">协助\%color=#FF0000FF\%伪装者\%/color\%</string>
   <string name="TouModifierCrewpostorTabDescription">作为伪装者背叛船员。</string>
-  <string name="TouModifierCrewpostorWikiDescription">伪船员是一种船员同盟附加属性，会强迫一名船员为伪装者阵营效力。若所有内鬼死亡，你将变为背叛者。</string>
+  <string name="TouModifierCrewpostorWikiDescription">伪船员是一种船员同盟附加属性，会强迫一名船员为伪装者阵营效力。若所有伪装者死亡，你将变为背叛者。</string>
   <string name="CrewmatesWin">船员胜利</string>
   <string name="ImpostorsWin">伪装者胜利</string>
   <string name="CrewmateWin">船员胜利</string>
@@ -1354,7 +1354,7 @@
   <string name="TouModifierBaitTriggeredNotif">\%player\% 是 \%modifier\%，导致你强制自报尸体。</string>
   <string name="TouModifierCelebrityPopup">名人, \%player\%,已死亡!:(详情见聊天框)</string>
   <string name="TouRoleCelebrityMessageTitle">名人报告</string>
-  <string name="TouModifierCelebrityDetailsSelf">\%modifier\%, \%player\%,死亡! \%nl\%地点:\%room\%, \%nl\%死因: 自杀, \%nl\%时间:\%timeAgo\%秒前。</string>
+  <string name="TouModifierCelebrityDetailsSelf">\%modifier\%, \%player\%,已死亡! \%nl\%地点:\%room\%, \%nl\%死因: 自杀, \%nl\%时间:\%timeAgo\%秒前。</string>
   <string name="TouModifierCelebrityDetailsKilled">\%modifier\%, \%player\%,遭 \%killed\%! \%nl\%地点:\%room\%, \%nl\%凶手: \%role\%, \%nl\%时间:\%timeAgo\%秒前。</string>
   <string name="TouModifierDiseasedTriggeredNotif">\%player\% 是 \%modifier\%，你的击杀冷却将乘以 \%cooldownMultiplier\%倍。</string>
   <string name="TouModifierFrostyTriggeredNotif">\%player\% 是 \%modifier\%，你将在 \%time\% 秒内变得更慢。</string>
@@ -1889,12 +1889,12 @@
   <string name="TouOptionVampireNeutConvertEvil">邪恶型</string>
   <string name="TouOptionVampireNeutConvertOutlier">外来者型</string>
   <string name="TouOptionVampireNeutConvertNone">无</string>
-  <string name="TouOptionVampireConvertNeutralBenign">可转化善良中立职业</string>
-  <string name="TouOptionVampireConvertNeutralEvil">可转化邪恶中立职业</string>
-  <string name="TouOptionVampireConvertNeutralOutlier">可转化外来者中立职业</string>
+  <string name="TouOptionVampireConvertNeutralBenign">可转化中立善良型职业</string>
+  <string name="TouOptionVampireConvertNeutralEvil">可转化中立邪恶型职业</string>
+  <string name="TouOptionVampireConvertNeutralOutlier">可转化中立外来者型职业</string>
   <string name="TouModifierCircumvent">禁管者</string>
-  <string name="TouModifierCircumventIntroBlurb">你失去了使用通风管道的能力。</string>
-  <string name="TouModifierCircumventIntroBlurbNone">你的通风口使用能力受限。</string>
+  <string name="TouModifierCircumventIntroBlurb">你的通风口使用能力受限。</string>
+  <string name="TouModifierCircumventIntroBlurbNone">你失去了使用通风管道的能力。</string>
   <string name="TouModifierCircumventTabDescriptionNone">你无法使用通风口。</string>
   <string name="TouModifierCircumventTabDescription">剩余通风口使用次数：\%amount\%</string>
   <string name="TouModifierCircumventWikiDescription">你在地图上的通风口使用能力被严重削弱，或者完全无法使用通风口。</string>
