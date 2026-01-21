@@ -110,7 +110,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
 
         if (!Target.Data.IsDead)
         {
-            PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
+            PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
 
         if (Target.Data.IsDead && Charge >= 100 && !BurstActive)

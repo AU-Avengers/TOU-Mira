@@ -31,7 +31,7 @@ public sealed class GlitchKillButton : TownOfUsKillRoleButton<GlitchRole, Player
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 
     public override PlayerControl? GetTarget()

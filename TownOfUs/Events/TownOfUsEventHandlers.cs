@@ -722,6 +722,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void PlayerJoinEventHandler(PlayerJoinEvent @event)
     {
+        if (TutorialManager.InstanceExists)
+        {
+            return;
+        }
         Coroutines.Start(CoSendSpecData(@event.ClientData));
         Coroutines.Start(CoSendRulesToPlayer(@event.ClientData));
     }

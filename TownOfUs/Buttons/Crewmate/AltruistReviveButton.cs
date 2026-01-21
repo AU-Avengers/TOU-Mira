@@ -179,7 +179,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
         yield return new WaitForSeconds(0.01f);
         if (MeetingHud.Instance == null && ExileController.Instance == null && !player.HasDied())
         {
-            player.RpcAltCustomMurder(player, false, showKillAnim: false, createDeadBody: true);
+            player.RpcCustomMurder(player, MeetingCheck.OutsideMeeting, showKillAnim: false, createDeadBody: true);
         }
     }
 
@@ -198,7 +198,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
         yield return new WaitForSeconds(0.01f);
         if (MeetingHud.Instance == null && ExileController.Instance == null && !player.HasDied())
         {
-            player.RpcAltCustomMurder(player, false, showKillAnim: false, createDeadBody: false);
+            player.RpcCustomMurder(player, MeetingCheck.OutsideMeeting, showKillAnim: false, createDeadBody: false);
         }
     }
 }

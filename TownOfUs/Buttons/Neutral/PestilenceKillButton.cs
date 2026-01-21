@@ -48,6 +48,6 @@ public sealed class PestilenceKillButton : TownOfUsKillRoleButton<PestilenceRole
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 }

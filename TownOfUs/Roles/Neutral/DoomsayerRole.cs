@@ -394,7 +394,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     }
                     else
                     {
-                        Player.RpcSpecialMurder(victim, inMeeting: true, true, createDeadBody: false, teleportMurderer: false,
+                        Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, createDeadBody: false, teleportMurderer: false,
                             showKillAnim: false,
                             playKillSound: false,
                             causeOfDeath: "Doomsayer");
@@ -410,7 +410,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                         }
                         else
                         {
-                            Player.RpcSpecialMurder(victim2, inMeeting: true, true, true, createDeadBody: false, teleportMurderer: false,
+                            Player.RpcSpecialMurder(victim2, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                                 showKillAnim: false,
                                 playKillSound: false,
                                 causeOfDeath: "Doomsayer");
@@ -432,7 +432,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 }
 
                 // no incorrect guesses so this should be the target not the Doomsayer
-                Player.RpcAltCustomMurder(victim, true, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
+                Player.RpcCustomMurder(victim, MeetingCheck.ForMeeting, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
                     playKillSound: false);
             }
 

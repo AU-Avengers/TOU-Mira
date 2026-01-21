@@ -148,7 +148,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         if (role.Killer == target && !target.HasModifier<InvulnerabilityModifier>())
         {
-            Player.RpcAltCustomMurder(target, true, createDeadBody: false, teleportMurderer: false);
+            Player.RpcCustomMurder(target, MeetingCheck.ForMeeting, createDeadBody: false, teleportMurderer: false);
         }
         else
         {

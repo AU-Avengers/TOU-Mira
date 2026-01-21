@@ -129,7 +129,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         if (hunter.AmOwner)
         {
-            hunter.RpcAltCustomMurder(target, false, resetKillTimer: false, createDeadBody: false, teleportMurderer: false,
+            hunter.RpcCustomMurder(target, resetKillTimer: false, createDeadBody: false, teleportMurderer: false,
                 showKillAnim: false, playKillSound: false);
         }
 

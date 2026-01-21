@@ -40,7 +40,7 @@ public sealed class JuggernautKillButton : TownOfUsKillRoleButton<JuggernautRole
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcAltCustomMurder(Target, false);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 
     public override PlayerControl? GetTarget()

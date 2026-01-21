@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
@@ -50,7 +51,7 @@ public sealed class Bomb : IDisposable
             yield break;
         }
         var targetList = affected.Where(x => !x.HasDied() && !(x.HasModifier<BaseShieldModifier>() && x.AmOwner) && !(x.HasModifier<FirstDeadShield>() && x.AmOwner)).ToList();
-        _bomber?.RpcSpecialMultiMurder(targetList, inMeeting: false, true, teleportMurderer: false,
+        _bomber?.RpcSpecialMultiMurder(targetList, MeetingCheck.OutsideMeeting, true, teleportMurderer: false,
             causeOfDeath: "BomberBomb");
 
         _obj.Destroy();

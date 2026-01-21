@@ -18,37 +18,6 @@ namespace TownOfUs.Networking;
 public static class CustomTouMurderRpcs
 {
     /// <summary>
-    /// Networked Custom Murder method.
-    /// </summary>
-    /// <param name="source">The killer.</param>
-    /// <param name="target">The player to murder.</param>
-    /// <param name="isIndirect">Determines if the attack is indirect.</param>
-    /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
-    /// <param name="didSucceed">Whether the murder was successful or not.</param>
-    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
-    /// <param name="createDeadBody">Should a dead body be created.</param>
-    /// <param name="teleportMurderer">Should the killer be snapped to the dead player.</param>
-    /// <param name="showKillAnim">Should the kill animation be shown.</param>
-    /// <param name="playKillSound">Should the kill sound be played.</param>
-    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
-    public static void RpcSpecialMurder(
-        this PlayerControl source,
-        PlayerControl target,
-        bool isIndirect = false,
-        bool ignoreShield = false,
-        bool didSucceed = true,
-        bool resetKillTimer = true,
-        bool createDeadBody = true,
-        bool teleportMurderer = true,
-        bool showKillAnim = true,
-        bool playKillSound = true,
-        string causeOfDeath = "null")
-    {
-        RpcSpecialMurder(source, target, null, isIndirect, ignoreShield, didSucceed, resetKillTimer, createDeadBody,
-            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
-    }
-
-    /// <summary>
     /// Networked Custom Murder method. Use this if changing from a dictionary is needed.
     /// </summary>
     /// <param name="source">The killer.</param>
@@ -93,7 +62,7 @@ public static class CustomTouMurderRpcs
         bool playKillSound = true,
         string causeOfDeath = "null")
     {
-        RpcSpecialMultiMurder(source, targets, null, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
+        RpcSpecialMultiMurder(source, targets, MeetingCheck.Ignore, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
             teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
     }
 
@@ -115,7 +84,7 @@ public static class CustomTouMurderRpcs
     public static void RpcSpecialMultiMurder(
         this PlayerControl source,
         List<PlayerControl> targets,
-        bool? inMeeting,
+        MeetingCheck inMeeting,
         bool isIndirect = false,
         bool ignoreShields = false,
         bool didSucceed = true,
@@ -150,7 +119,7 @@ public static class CustomTouMurderRpcs
     public static void RpcSpecialMultiMurder(
         this PlayerControl source,
         Dictionary<byte, string> targets,
-        bool? inMeeting,
+        MeetingCheck inMeeting,
         bool isIndirect = false,
         bool ignoreShields = false,
         bool didSucceed = true,
@@ -200,10 +169,10 @@ public static class CustomTouMurderRpcs
             {
                 continue;
             }
-            var beforeMurderEvent = inMeeting == null ? new BeforeMurderEvent(source, newPlayer) : new BeforeMurderEvent(source, newPlayer, inMeeting.Value);
+            var beforeMurderEvent = new BeforeMurderEvent(source, newPlayer, inMeeting);
             MiraEventManager.InvokeEvent(beforeMurderEvent);
             var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
-            if (inMeeting != null && ((inMeeting.Value && !isMeetingActive) || (!inMeeting.Value && isMeetingActive)))
+            if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
             {
                 beforeMurderEvent.Cancel();
             }
@@ -304,7 +273,7 @@ public static class CustomTouMurderRpcs
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target, false);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.OutsideMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
 
         if (beforeMurderEvent.IsCancelled)
@@ -365,6 +334,38 @@ public static class CustomTouMurderRpcs
             Coroutines.Start(CoRemoveIndirect(source));
         }
     }
+
+    /// <summary>
+    /// Networked Custom Murder method.
+    /// </summary>
+    /// <param name="source">The killer.</param>
+    /// <param name="target">The player to murder.</param>
+    /// <param name="isIndirect">Determines if the attack is indirect.</param>
+    /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
+    /// <param name="didSucceed">Whether the murder was successful or not.</param>
+    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
+    /// <param name="createDeadBody">Should a dead body be created.</param>
+    /// <param name="teleportMurderer">Should the killer be snapped to the dead player.</param>
+    /// <param name="showKillAnim">Should the kill animation be shown.</param>
+    /// <param name="playKillSound">Should the kill sound be played.</param>
+    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    public static void RpcSpecialMurder(
+        this PlayerControl source,
+        PlayerControl target,
+        bool isIndirect = false,
+        bool ignoreShield = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        RpcSpecialMurder(source, target, MeetingCheck.Ignore, isIndirect, ignoreShield, didSucceed, resetKillTimer, createDeadBody,
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
+    }
+
     /// <summary>
     /// Networked Custom Murder method.
     /// </summary>
@@ -384,7 +385,7 @@ public static class CustomTouMurderRpcs
     public static void RpcSpecialMurder(
         this PlayerControl source,
         PlayerControl target,
-        bool? inMeeting,
+        MeetingCheck inMeeting,
         bool isIndirect = false,
         bool ignoreShield = false,
         bool didSucceed = true,
@@ -413,10 +414,10 @@ public static class CustomTouMurderRpcs
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = inMeeting == null ? new BeforeMurderEvent(source, target) : new BeforeMurderEvent(source, target, inMeeting.Value);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
         var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
-        if (inMeeting != null && ((inMeeting.Value && !isMeetingActive) || (!inMeeting.Value && isMeetingActive)))
+        if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
         {
             beforeMurderEvent.Cancel();
         }

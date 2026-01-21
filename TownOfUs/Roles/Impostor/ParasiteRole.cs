@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -110,8 +111,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                     target,
                     teleportMurderer: false,
                     showKillAnim: false,
-                    causeOfDeath: "Parasite",
-                    inMeeting: null);
+                    causeOfDeath: "Parasite");
             }
 
             RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
@@ -135,8 +135,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                 target,
                 teleportMurderer: false,
                 showKillAnim: false,
-                causeOfDeath: "Parasite",
-                inMeeting: null);
+                causeOfDeath: "Parasite");
         }
 
         RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
@@ -188,8 +187,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                     target,
                     teleportMurderer: false,
                     showKillAnim: false,
-                    causeOfDeath: "Parasite",
-                    inMeeting: null);
+                    causeOfDeath: "Parasite");
             }
 
             if (PlayerControl.LocalPlayer != null)
@@ -575,10 +573,10 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         local.RpcSpecialMurder(
             target,
+            MeetingCheck.ForMeeting,
             teleportMurderer: false,
             showKillAnim: false,
-            causeOfDeath: "Parasite",
-            inMeeting: null);
+            causeOfDeath: "Parasite");
 
         RpcParasiteEndControl(local, target);
     }

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -195,7 +196,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
                 return;
             }
-            Player.RpcSpecialMurder(victim, inMeeting: true, true, true, createDeadBody: false, teleportMurderer: false,
+            Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                 showKillAnim: false,
                 playKillSound: false,
                 causeOfDeath: victim != Player ? "Guess" : "Misguess");
