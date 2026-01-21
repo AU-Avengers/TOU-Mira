@@ -5,6 +5,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -13,6 +14,16 @@ namespace TownOfUs.Roles.Neutral;
 
 public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+    }
+
     public int KillCount { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string LocaleKey => "Juggernaut";
