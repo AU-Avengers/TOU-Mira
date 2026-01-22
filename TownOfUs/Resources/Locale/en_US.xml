@@ -104,10 +104,13 @@
   <string name="Options">Options</string>
   <string name="PlayerHasNoModifiers">No Modifiers</string>
   <!-- Task Text Info -->
+  <string name="NeutralBasicTaskHeader">Complete your objective.</string>
+  <string name="NeutralBasicDeadTaskHeader">You're dead. Sit back and enjoy the chaos.</string>
   <string name="NeutralBenignTaskHeader">You cannot win by yourself.\%nl\%Optional Tasks:</string>
-  <string name="NeutralEvilTaskHeader">You must complete your objective at all costs.\%nl\%Fake Tasks:</string>
+  <string name="NeutralEvilTaskHeader">You must complete your goal at all costs.\%nl\%Fake Tasks:</string>
   <string name="NeutralKillingTaskHeader">Eliminate all other teams by any means.\%nl\%Fake Tasks:</string>
   <string name="NeutralOutlierTaskHeader">You must complete your objective to win.\%nl\%Fake Tasks:</string>
+  <string name="NeutralSpectreTaskHeader">You're dead. Complete your tasks to win!</string>
   <!-- Role List -->
   <string name="SetRoleList">Set Role List</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
