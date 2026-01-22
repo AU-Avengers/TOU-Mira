@@ -180,8 +180,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         }
 
         if (TutorialManager.InstanceExists && Target == null &&
-            AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started && Player.AmOwner &&
-            Player.IsHost())
+            AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started && PlayerControl.LocalPlayer.IsHost())
         {
             Coroutines.Start(SetTutorialTargets(this));
         }

@@ -129,6 +129,19 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             return;
         }
 
+        if (player.GetModifiers<PlayerTargetModifier>().Any(x => x.OwnerId == target.PlayerId))
+        {
+            if (player.AmOwner)
+            {
+                var text = TouLocale.GetParsed("TouRoleAmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                notif1.AdjustNotification();
+            }
+
+            return;
+        }
+
         var touAbilityEvent = new TouAbilityEvent(AbilityType.AmnesiacPreRemember, player, target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 

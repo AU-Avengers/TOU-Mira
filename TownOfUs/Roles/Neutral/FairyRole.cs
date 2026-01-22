@@ -175,7 +175,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         _missingTargetDesc = TouLocale.GetParsed("TouRoleFairyIfNoTarget");
         _targetDesc = TouLocale.GetParsed("TouRoleFairyTabDescription");
 
-        if (TutorialManager.InstanceExists && Target == null && Player.AmOwner && Player.IsHost() &&
+        if (TutorialManager.InstanceExists && Target == null && PlayerControl.LocalPlayer.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
             Coroutines.Start(SetTutorialTargets(this));

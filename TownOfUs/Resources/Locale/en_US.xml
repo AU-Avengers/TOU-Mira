@@ -1695,6 +1695,7 @@
   <string name="TouRoleAmnesiacRememberWikiDescription">Remember the role of a dead body. If the dead body's role is a unique role, you will remember the base faction's role instead.</string>
   <string name="TouRoleAmnesiacRememberNotif">You remembered that you were like \%player\%, turning into \%role\%</string>
   <string name="TouRoleAmnesiacRememberFailNotif">\%player\% was \%role\%, so their role cannot be picked up.</string>
+  <string name="TouRoleAmnesiacRememberFailTargetNotif">\%player\% was targeting you, so their role cannot be picked up.</string>
   <!-- Amnesiac Options -->
   <string name="TouOptionAmnesiacShowArrows">Show Arrows Pointing To Dead Bodies</string>
   <string name="TouOptionAmnesiacArrowDelay">Time After Death Arrow Appears</string>
