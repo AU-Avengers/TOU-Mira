@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="FoolsMode">바보 모드</string>
+  <string name="FoolsMode">만우절 모드</string>
   <string name="TertiaryAbility">제3의 능력 (해킹 능력)</string>
   <string name="ClientTabGameplay">게임플레이</string>
   <string name="ShowWelcomeMessage">환영 메시지 보여주기</string>
@@ -8,7 +8,7 @@
   <string name="ClientOptionsButton">Tou 환경설정</string>
   <string name="ArrowDefault">기본값</string>
   <string name="SortGuessingByAlignment">성향별 추측 정렬</string>
-  <string name="PreciseCooldowns">버튼 쿨타임은 10초 미만일 때 소수점으로 표시됩니다</string>
+  <string name="PreciseCooldowns">버튼 쿨타임은 10초 미만일 때만 소수점으로 표시됩니다</string>
   <string name="ArrowStyle">화살표 스타일</string>
   <string name="Amount">양</string>
   <string name="Blood">피</string>
@@ -21,7 +21,7 @@
   <string name="DiedToDisconnect">연결이 해제되었습니다</string>
   <string name="TouRoleGrenadier">척탄병</string>
   <string name="ShowVents">환풍구 지도에서 보이기</string>
-  <string name="ColorPlayerName">플레이어 이름 색</string>
+  <string name="ColorPlayerName">색있는 플레이어 이름</string>
   <string name="UseCrewmateTeamColor">기본적인 크루원 색 사용하기</string>
   <string name="DeadSeeGhosts">다른 귀신들 보이기</string>
   <string name="Jungle">정글</string>
@@ -71,7 +71,7 @@
   <string name="CrewSupport">크루 지원</string>
   <string name="RandomImp">랜덤 임포스터</string>
   <string name="ArrowLegacy">예전</string>
-  <string name="OffsetButtons">환풍구 사용 못하면 버튼 숨기기</string>
+  <string name="OffsetButtons">환풍구 사용이 불가하면 버튼 숨기기</string>
   <string name="Azure">하늘빛</string>
   <string name="Plum">자두</string>
   <string name="Chartreuse">연두빛</string>
@@ -121,4 +121,39 @@
   <string name="TouModifierTaskmasterTabDescription">무작위 임무가 라운드마다 수행됩니다.</string>
   <string name="TouModifierTaskmasterIntroBlurb">라운드마다 무작위 임무를 수행합니다.</string>
   <string name="TouModifierTaskmaster">십장</string>
+  <string name="DiscordServer">디스코드</string>
+  <string name="SourceCode">소스 코드</string>
+  <string name="ShowVanillaWikiEntries">위키 보기</string>
+  <string name="SummaryMsgBreakdown">요약 메시지</string>
+  <string name="SummarySimple">단순하게</string>
+  <string name="SummaryNormal">적당하게</string>
+  <string name="SummaryAdvanced">자세하게</string>
+  <string name="GrenadierFlashColor">척탄병 플레시 색깔</string>
+  <string name="FlashWhite">하얀색</string>
+  <string name="FlashLightGray">연한 회색</string>
+  <string name="FlashGray">회색</string>
+  <string name="FlashDarkGray">어두운 회색</string>
+  <string name="PiPLocationTopLeft">좌측 상단</string>
+  <string name="PiPLocationMiddleLeft">왼쪽</string>
+  <string name="PiPLocationBottomLeft">좌측 하단</string>
+  <string name="PiPLocationTopRight">우측 상단</string>
+  <string name="PiPLocationMiddleRight">오른쪽</string>
+  <string name="PiPLocationBottomRight">우측 하단</string>
+  <string name="PiPLocationDynamic">다이내믹</string>
+  <string name="TouControlControlledNotif">당신은 &lt;controller&gt;에게 조정당하고 있습니다!</string>
+  <string name="PiPSizeNormal">적당하게</string>
+  <string name="PiPSizeSmall">작게</string>
+  <string name="PiPSizeLarge">크게</string>
+  <string name="PlayerColorDarker">어두운 계열</string>
+  <string name="PlayerColorLighter">밝은 계열</string>
+  <string name="ZoomingInLobby">로비에서 줌하기</string>
+  <string name="ZoomingInPractice">연습장에서 줌하기</string>
+  <string name="SeparateChatBubbles">구분된 채팅 메시지</string>
+  <string name="UseSeparateRedChat">구분된 비공개 채팅 보이기</string>
+  <string name="NeutralEvil">악 (중립)</string>
+  <string name="NeutralKilling">살인자 (중립)</string>
+  <string name="ImpostorConcealing">(임포스터)</string>
+  <string name="ImpostorKilling">살인자 (임포스터)</string>
+  <string name="ImpostorPower">힘 (임포스터)</string>
+  <string name="ImpostorSupport">서포터 (임포스터)</string>
 </resources>
