@@ -58,6 +58,7 @@ public static class TownOfUsColors
     public static Color TimeLord => UseBasic ? Palette.CrewmateBlue : new Color32(135, 137, 211, 255);
     public static Color Transporter => UseBasic ? Palette.CrewmateBlue : new Color32(0, 237, 255, 255);
     public static Color Catalyst => UseBasic ? Palette.CrewmateBlue : new Color32(255, 53, 224, 255);
+    public static Color Barkeeper => UseBasic ? Palette.CrewmateBlue : new Color32(227, 212, 119, 255);
 
     // Neutral Colors
     public static Color Amnesiac => new Color32(128, 179, 255, 255);
@@ -102,6 +103,7 @@ public static class TownOfUsColors
     public static Color SixthSense => new Color32(217, 255, 140, 255);
     public static Color Sleuth => new Color32(128, 51, 51, 255);
     public static Color Tiebreaker => new Color32(153, 230, 153, 255);
+    public static Color Drunk => new Color32(117, 128, 0, 255);
 
     // Crewmate Modifiers
     public static Color Aftermath => new Color32(166, 255, 166, 255);

@@ -118,6 +118,8 @@ public enum TownOfUsRpc : uint
     RequestDeathStateValidation,
     MultiplayerFreeplayRequest,
     TriggerGlitchHack,
+    BarkeeperRoleblock,
+    BootleggerRoleblock,
 }
 
 internal enum TownOfUsInternalRpc : uint
