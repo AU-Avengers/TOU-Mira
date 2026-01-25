@@ -117,6 +117,9 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> Transport { get; } =
         new LoadableBundleAsset<Sprite>("TransportButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> OverchargeSprite { get; } =
+        new LoadableResourceAsset("TownOfUs.Resources.CrewButtons.OverchargeButton.png");
+
     public static LoadableAsset<Sprite> DeployCamSprite { get; } =
         new LoadableBundleAsset<Sprite>("DeployButton", TouAssets.MainBundle);
 

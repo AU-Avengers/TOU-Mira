@@ -68,6 +68,7 @@ public enum AbilityType
     PlumberBlock,
     PlumberFlush,
     PoliticianCampaign,
+    OracleAegis,
 
     // SeerReveal,
     // SheriffShoot,
