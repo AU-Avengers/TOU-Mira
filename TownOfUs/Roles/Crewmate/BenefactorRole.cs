@@ -81,7 +81,7 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
         new("Aegis",
-            "Cast an Aegis over any valid role. All players with that role will be protected for the following round. During a meeting, you will learn if your Aegis protected anyone and if they were attacked. You can Aegis the Guardian role once",
+            "Cast an Aegis over any valid role. All players with that role will be protected for the following round. During a meeting, you will learn if your Aegis protected anyone and if they were attacked. You can Aegis the Benefactor role once",
             TouCrewAssets.FortifySprite)
     ];
 

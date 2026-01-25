@@ -20,8 +20,8 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string RoleName => "Barkeeper";
-    public string RoleDescription => "Roleblock Impostors To Stop Them From Killing";
-    public string RoleLongDescription => "Roleblock Impostors to slow down their killing";
+    public string RoleDescription => "Roleblock Evildoers to slow them down";
+    public string RoleLongDescription => "Roleblock Evildoers to disable their abilities.";
     public Color RoleColor => TownOfUsColors.Barkeeper;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;

@@ -23,8 +23,8 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string RoleName => "Bootlegger";
-    public string RoleDescription => "Roleblock Impostors To Stop Them";
-    public string RoleLongDescription => "Roleblock the crew to slow down their progress";
+    public string RoleDescription => "Roleblock Crewmates to stop them";
+    public string RoleLongDescription => "Roleblock the crew to disable their abilities";
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorSupport;
