@@ -9,6 +9,7 @@ public sealed class AssassinOptions : AbstractOptionGroup
 {
     public override string GroupName => "Assassin Options";
     public override uint GroupPriority => 7;
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
 
     [ModdedNumberOption("Number Of Impostor Assassins", 0, 4, 1, MiraNumberSuffixes.None, "0")]
     public float NumberOfImpostorAssassins { get; set; } = 1;

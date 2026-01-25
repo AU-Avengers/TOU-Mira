@@ -1,4 +1,3 @@
-using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -6,7 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
@@ -62,11 +60,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         Icon = TouRoleIcons.Hypnotist
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
@@ -158,7 +152,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not HypnotistRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcHysteria - Invalid hypnotist");
+            Error("RpcHysteria - Invalid hypnotist");
             return;
         }
 

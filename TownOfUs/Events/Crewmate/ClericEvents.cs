@@ -34,7 +34,7 @@ public static class ClericEvents
             return;
         }
 
-        CheckForClericBarrier(@event, target);
+        CheckForClericBarrier(@event, target, PlayerControl.LocalPlayer);
     }
 
     [RegisterEvent]
@@ -65,7 +65,7 @@ public static class ClericEvents
     }
 
     private static bool CheckForClericBarrier(MiraCancelableEvent @event, PlayerControl target,
-        PlayerControl? source = null)
+        PlayerControl source)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -73,18 +73,18 @@ public static class ClericEvents
         }
 
         if (!target.HasModifier<ClericBarrierModifier>() ||
-            source == null ||
             target.PlayerId == source.PlayerId ||
             (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
         {
             return false;
         }
 
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a cleric barrier, stopping an interaction from {source.Data.PlayerName}!");
         @event.Cancel();
 
         var cleric = target.GetModifier<ClericBarrierModifier>()?.Cleric.GetRole<ClericRole>();
 
-        if (cleric != null && source!.AmOwner)
+        if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
             ClericRole.RpcClericBarrierAttacked(cleric.Player, source, target);
         }

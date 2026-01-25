@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
 using TMPro;
@@ -54,7 +55,8 @@ public static class GameTimerPatch
             GameTimerObj.SetActive(false);
         }
 
-        if (!timeOpt.GameTimerEnabled)
+        if (!timeOpt.GameTimerEnabled || GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
+                or GameModes.SeekFools)
         {
             return;
         }
@@ -70,11 +72,9 @@ public static class GameTimerPatch
         }
 
         var inMeeting = MeetingHud.Instance || ExileController.Instance;
+
         if (Enabled && GameTimer > 0 && (!inMeeting ||
-                                         GameTimer > 300f &&
-                                         timeOpt.PauseInMeetings.Value is (int)PauseInMeetingsType.Below5Minutes ||
-                                         GameTimer > 600f &&
-                                         timeOpt.PauseInMeetings.Value is (int)PauseInMeetingsType.Below10Minutes))
+                                         GameTimer > (timeOpt.PauseInMeetings.Value * 60f)))
         {
             GameTimer -= Time.deltaTime;
             GameTimer = Math.Max(GameTimer, 0);
@@ -125,8 +125,6 @@ public static class GameTimerPatch
 
     public static void BeginTimer()
     {
-        Enabled = true;
-        TriggerEndGame = false;
         GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.GetFloatData() * 60f;
 
         if ((GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value is GameTimerType
@@ -138,6 +136,8 @@ public static class GameTimerPatch
         {
             TimerSprite.sprite = TouAssets.TimerDrawSprite.LoadAsset();
         }
+        TriggerEndGame = false;
+        Enabled = true;
     }
 
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]

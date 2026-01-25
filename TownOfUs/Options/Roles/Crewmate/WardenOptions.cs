@@ -8,8 +8,8 @@ public sealed class WardenOptions : AbstractOptionGroup<WardenRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleWarden", "Warden");
 
-    [ModdedEnumOption("Show Fortify Player", typeof(FortifyOptions),
-        ["Fortified", "Warden", "Fortified + Warden", "Everyone"])]
+    [ModdedEnumOption("TouOptionWardenShowFortifyPlayer", typeof(FortifyOptions),
+        ["TouOptionWardenFortEnumSelf", "TouOptionWardenFortEnumWarden", "TouOptionWardenFortEnumSelfAndWarden", "TouOptionWardenFortEnumEveryone"])]
     public FortifyOptions ShowFortified { get; set; } = FortifyOptions.SelfAndWarden;
 }
 

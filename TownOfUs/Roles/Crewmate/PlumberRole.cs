@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Globalization;
 using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
@@ -70,7 +68,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Engineer),
+        IntroSound = TouAudio.EngineerIntroSound,
         Icon = TouRoleIcons.Plumber
     };
 
@@ -85,11 +83,11 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var duration = (int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration;
         var text = duration == 0 ? "Barricades Stay Forever." : $"Barricades Stay For {duration} Round(s)";
-        stringB.Append(CultureInfo.InvariantCulture,
+        stringB.Append(TownOfUsPlugin.Culture,
             $"\n<b><size=60%>Note: {text}</size></b>");
         if (VentsBlocked.Count > 0 || FutureBlocks.Count > 0)
         {
-            stringB.Append(CultureInfo.InvariantCulture,
+            stringB.Append(TownOfUsPlugin.Culture,
                 $"\n<b>Vents List:</b>");
 
             if (VentsBlocked.Count > 0)
@@ -103,7 +101,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                     }
 
                     var text2 = duration == 0 ? string.Empty : $": {ventPair.Value} Round(s) Remaining";
-                    stringB.Append(CultureInfo.InvariantCulture,
+                    stringB.Append(TownOfUsPlugin.Culture,
                         $"\n{MiscUtils.GetRoomName(vent.transform.position)} Vent{text2}");
                 }
             }
@@ -118,7 +116,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                         continue;
                     }
 
-                    stringB.Append(CultureInfo.InvariantCulture,
+                    stringB.Append(TownOfUsPlugin.Culture,
                         $"\n<color=#BFBFBF>{MiscUtils.GetRoomName(vent.transform.position)} Vent: Preparing...</color>");
                 }
             }
@@ -282,7 +280,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         if (player.Data.Role is not PlumberRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlumberFlush - Invalid Plumber");
+            Error("RpcPlumberFlush - Invalid Plumber");
             return;
         }
 
@@ -317,7 +315,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         if (player.Data.Role is not PlumberRole plumber)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlumberBlockVent - Invalid Plumber");
+            Error("RpcPlumberBlockVent - Invalid Plumber");
             return;
         }
 

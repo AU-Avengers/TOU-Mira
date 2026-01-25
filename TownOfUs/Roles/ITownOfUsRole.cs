@@ -1,7 +1,8 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Roles;
+using TownOfUs.Options;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Roles;
@@ -14,6 +15,14 @@ public interface ITownOfUsRole : ICustomRole
     public virtual bool MetWinCon => false;
     public virtual string LocaleKey => "KEY_MISS";
     public static Dictionary<string, string> LocaleList => [];
+
+    public CustomRoleConfiguration Configuration => new(this)
+    {
+        /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.Normal*/
+    };
+
+    [HideFromIl2Cpp]
+    Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
 
     public virtual string YouAreText
     {
@@ -119,6 +128,41 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.NeutralKiller;
             }
 
+            if (RoleAlignment == RoleAlignment.CrewmateHider)
+            {
+                return TouRoleGroups.CrewHider;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorSeeker)
+            {
+                return TouRoleGroups.ImpSeeker;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorCultist)
+            {
+                return TouRoleGroups.ImpCultist;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorFollower)
+            {
+                return TouRoleGroups.ImpFollower;
+            }
+
+            if (RoleAlignment == RoleAlignment.CrewmateBeliever)
+            {
+                return TouRoleGroups.CrewBeliever;
+            }
+
+            if (RoleAlignment == RoleAlignment.CrewmateObstinate)
+            {
+                return TouRoleGroups.CrewObstinate;
+            }
+
+            if (RoleAlignment == RoleAlignment.NeutralObstinate)
+            {
+                return TouRoleGroups.NeutralObstinate;
+            }
+
             if (RoleAlignment == RoleAlignment.GameOutlier)
             {
                 return TouRoleGroups.Other;
@@ -145,50 +189,25 @@ public interface ITownOfUsRole : ICustomRole
     {
     }
 
+    /// <summary>
+    ///     OffsetButtons - Called when the role initializes and when the player offsets their buttons even without a vent button.
+    /// </summary>
+    void OffsetButtons()
+    {
+    }
+
     public static StringBuilder SetNewTabText(ICustomRole role)
     {
-        var alignment = MiscUtils.GetRoleAlignment(role);
-
-        var youAre = "Your role is";
-        if (role is ITownOfUsRole touRole2)
-        {
-            youAre = touRole2.YouAreText;
-        }
-
-        var stringB = new StringBuilder();
-        stringB.AppendLine(CultureInfo.InvariantCulture,
-            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.</b></color>");
-        stringB.AppendLine(CultureInfo.InvariantCulture,
-            $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
-        stringB.Append("<size=70%>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"{role.RoleLongDescription}");
-
-        return stringB;
+        return TouRoleUtils.SetTabText(role);
     }
 
     public static StringBuilder SetDeadTabText(ICustomRole role)
     {
-        var alignment = MiscUtils.GetRoleAlignment(role);
-
-        var youAre = "Your role was";
-        if (role is ITownOfUsRole touRole2)
-        {
-            youAre = touRole2.YouWereText;
-        }
-
-        var stringB = new StringBuilder();
-        stringB.AppendLine(CultureInfo.InvariantCulture,
-            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.</b></color>");
-        stringB.AppendLine(CultureInfo.InvariantCulture,
-            $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
-        stringB.Append("<size=70%>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"{role.RoleLongDescription}");
-
-        return stringB;
+        return TouRoleUtils.SetDeadTabText(role);
     }
 
     [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
+    StringBuilder ICustomRole.SetTabText()
     {
         return SetNewTabText(this);
     }
@@ -196,6 +215,7 @@ public interface ITownOfUsRole : ICustomRole
 
 public enum RoleAlignment
 {
+    // Base Town of Us Alignments
     CrewmateInvestigative,
     CrewmateKilling,
     CrewmateProtective,
@@ -209,5 +229,14 @@ public enum RoleAlignment
     NeutralEvil,
     NeutralOutlier,
     NeutralKilling,
-    GameOutlier // I honestly have no idea what else to put here lol
+    GameOutlier, // I honestly have no idea what else to put here 
+    // Hide and Seek Alignments
+    CrewmateHider,
+    ImpostorSeeker,
+    // Cultist Alignments
+    ImpostorCultist,
+    ImpostorFollower,
+    CrewmateBeliever,
+    CrewmateObstinate,
+    NeutralObstinate,
 }

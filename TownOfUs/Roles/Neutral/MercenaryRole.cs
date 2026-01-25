@@ -1,16 +1,12 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
-using TownOfUs.Buttons.Neutral;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -67,8 +63,8 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     // This is so the role can be guessed without requiring it to be enabled normally
     public bool CanBeGuessed =>
         (MiscUtils.GetPotentialRoles()
-             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<GuardianAngelTouRole>())) &&
-         OptionGroupSingleton<GuardianAngelOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary)
+             .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<FairyRole>())) &&
+         OptionGroupSingleton<FairyOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary)
         || (MiscUtils.GetPotentialRoles()
                 .Contains(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ExecutionerRole>())) &&
             OptionGroupSingleton<ExecutionerOptions>.Instance.OnTargetDeath is BecomeOptions.Mercenary);
@@ -86,16 +82,16 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var players = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>();
 
-        stringB.Append(CultureInfo.InvariantCulture, $"\n<b>{TouLocale.GetParsed("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.GetParsed("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
 
         var playerControls = players as PlayerControl[] ?? [.. players];
         if (playerControls.Length != 0)
         {
-            stringB.Append(CultureInfo.InvariantCulture, $"\n<b>{TouLocale.Get("TouRoleMercenaryTabBribedInfo")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleMercenaryTabBribedInfo")}</b>");
 
             foreach (var player in playerControls)
             {
-                stringB.Append(CultureInfo.InvariantCulture, $"\n{player.Data.PlayerName}");
+                stringB.Append(TownOfUsPlugin.Culture, $"\n{player.Data.PlayerName}");
             }
         }
 
@@ -106,7 +102,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
-        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils.GetActiveModifiers<MercenaryBribedModifier>(x => x.Mercenary == Player).Any())
+        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils.GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).Any())
         {
             Player.AddModifier<BasicGhostModifier>();
         }
@@ -121,39 +117,39 @@ public sealed class MercenaryRole(IntPtr cppPtr)
             x.GetModifiers<GameModifier>().Any(x => x.DidWin(gameOverReason) == true));
     }
 
-    public void AddPayment()
+    public void AddPayment(int gold = 1)
     {
-        Gold++;
-
-        if (CanBribe)
-        {
-            CustomButtonSingleton<MercenaryBribeButton>.Instance.SetActive(true, this);
-        }
+        Gold += gold;
     }
 
     public void Clear()
     {
         Gold = 0;
-
-        CustomButtonSingleton<MercenaryGuardButton>.Instance.SetActive(true, this);
-        CustomButtonSingleton<MercenaryBribeButton>.Instance.SetActive(false, this);
     }
 
     [MethodRpc((uint)TownOfUsRpc.Guarded)]
-    public static void RpcGuarded(PlayerControl player)
+    public static void RpcGuarded(PlayerControl player, PlayerControl target, bool isMurder = false)
     {
-        if (player.Data.Role is not MercenaryRole)
+        if (player.Data.Role is not MercenaryRole mercenary)
         {
-            Logger<TownOfUsPlugin>.Error("RpcGuarded - Invalid mercenary");
+            Error("RpcGuarded - Invalid mercenary");
             return;
         }
 
-        if (!player.AmOwner)
+        var mercOpts = OptionGroupSingleton<MercenaryOptions>.Instance;
+        if (isMurder && mercOpts.GuardProtection.Value)
         {
-            return;
+            mercenary.AddPayment(mercOpts.GoldGivenFromAttack);
+        }
+        else
+        {
+            mercenary.AddPayment();
         }
 
-        var mercenary = player.GetRole<MercenaryRole>();
-        mercenary?.AddPayment();
+        if (target.TryGetModifier<MercenaryGuardModifier>(out var mercGuard))
+        {
+            // This will remove it after a few seconds
+            mercGuard.StartTimer();
+        }
     }
 }

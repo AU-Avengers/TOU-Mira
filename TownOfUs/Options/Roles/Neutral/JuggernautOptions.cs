@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Neutral;
 
@@ -9,12 +10,12 @@ public sealed class JuggernautOptions : AbstractOptionGroup<JuggernautRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleJuggernaut", "Juggernaut");
 
-    [ModdedNumberOption("Initial Kill Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionJuggernautInitialCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Kill Cooldown Reduction", 2.5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float KillCooldownReduction { get; set; } = 5f;
+    public ModdedNumberOption KillCooldownReduction { get; } = new("TouOptionJuggernautCooldownReduction", 5f, 2.5f,
+        15f, 1f, "#", "#", MiraNumberSuffixes.Seconds, halfIncrements: true);
 
-    [ModdedToggleOption("Juggernaut Can Vent")]
+    [ModdedToggleOption("TouOptionJuggernautCanVent")]
     public bool CanVent { get; set; } = true;
 }

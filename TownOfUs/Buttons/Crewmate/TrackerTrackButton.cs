@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -11,13 +10,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class TrackerTrackButton : TownOfUsRoleButton<TrackerTouRole, PlayerControl>
+public sealed class TrackerTrackButton : TownOfUsRoleButton<SonarRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleTrackerTrack", "Track");
+    public override string Name => TouLocale.GetParsed("TouRoleSonarTrack", "Track");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Tracker;
-    public override float Cooldown => OptionGroupSingleton<TrackerOptions>.Instance.TrackCooldown + MapCooldown;
-    public override int MaxUses => (int)OptionGroupSingleton<TrackerOptions>.Instance.MaxTracks;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SonarOptions>.Instance.TrackCooldown + MapCooldown, 5f, 120f);
+    public override int MaxUses => (int)OptionGroupSingleton<SonarOptions>.Instance.MaxTracks;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrackSprite;
     public int ExtraUses { get; set; }
 
@@ -35,12 +34,12 @@ public sealed class TrackerTrackButton : TownOfUsRoleButton<TrackerTouRole, Play
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Track: Target is null");
+            Error("Track: Target is null");
             return;
         }
 
         Color color = Palette.PlayerColors[Target.GetDefaultAppearance().ColorId];
-        var update = OptionGroupSingleton<TrackerOptions>.Instance.UpdateInterval;
+        var update = OptionGroupSingleton<SonarOptions>.Instance.UpdateInterval;
 
         Target.AddModifier<TrackerArrowTargetModifier>(PlayerControl.LocalPlayer, color, update);
 

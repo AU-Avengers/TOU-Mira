@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class DetectiveExamineButton : TownOfUsRoleButton<DetectiveTouRole, PlayerControl>
+public sealed class DetectiveExamineButton : TownOfUsRoleButton<ForensicRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleDetectiveExamine", "Examine");
+    public override string Name => TouLocale.GetParsed("TouRoleForensicExamine", "Examine");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Detective;
-    public override float Cooldown => OptionGroupSingleton<DetectiveOptions>.Instance.ExamineCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ForensicOptions>.Instance.ExamineCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.ExamineSprite;
 
     public override bool CanUse()

@@ -1,5 +1,5 @@
 using HarmonyLib;
-using Reactor.Utilities;
+using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Patches;
 
@@ -12,7 +12,9 @@ public static class AmongUsClientPatches
     {
         if (AmongUsClient.Instance != __instance)
         {
-            Logger<TownOfUsPlugin>.Error("AmongUsClient duplicate detected.");
+            Error("AmongUsClient duplicate detected.");
         }
+
+        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat([(SystemTypes)HexBombSabotageSystem.SabotageId, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]).ToArray();
     }
 }

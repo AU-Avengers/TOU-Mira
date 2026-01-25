@@ -2,10 +2,16 @@
 
 public enum TownOfUsRpc : uint
 {
+    OffsetForAnticheat,
     GhostRoleMurder,
+    SpecialMurder,
+    SpecialMultiMurder,
     RemoveSpawns,
+    RerouteSystemByte,
+    RerouteSystemMsg,
 
     UpdateDeathHandler,
+    UpdateLocalDeathHandler,
     SetMap,
     ChangeRole,
     PlayerExile,
@@ -30,7 +36,6 @@ public enum TownOfUsRpc : uint
     MedicShieldAttacked,
     EngineerFix,
     EngineerEventFix,
-    IgniteSound,
     PlaceVent,
     ShowVent,
     Remember,
@@ -42,7 +47,7 @@ public enum TownOfUsRpc : uint
     Mediate,
     VampireBite,
     CheckInfected,
-    SetGATarget,
+    SetFairyTarget,
     SetOtherLover,
     SetTraitor,
     DragBody,
@@ -80,6 +85,16 @@ public enum TownOfUsRpc : uint
     GuardianAegisAttacked,
     SelectSpectator,
     RemoveSpectator,
+    SetSpectatorList,
     CookBody,
-    ServeBody
+    ServeBody,
+    SetRandomDoors,
+    TransportSeeker,
+    TriggerPestilence,
+    ForcePlayerRole,
+}
+
+internal enum TownOfUsInternalRpc : uint
+{
+    SendClientModInfo
 }

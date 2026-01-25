@@ -8,8 +8,9 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class FlashOptions : AbstractOptionGroup<FlashModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierFlash", "Flash");
-    public override uint GroupPriority => 24;
+    public override uint GroupPriority => 31;
     public override Color GroupColor => TownOfUsColors.Flash;
 
     [ModdedNumberOption("Flash Speed", 1.05f, 2.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]

@@ -13,11 +13,17 @@ namespace TownOfUs.Buttons.Neutral;
 public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
-    public override string Name => TouLocale.Get("TouRoleSoulCollectorReap", "Reap");
+    public override string Name => TouLocale.GetParsed("TouRoleSoulCollectorReap", "Reap");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.SoulCollector;
-    public override float Cooldown => OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ReapSprite;
+
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
+    }
 
     public void SetDiseasedTimer(float multiplier)
     {
@@ -28,16 +34,16 @@ public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRo
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Soul Collector Reap: Target is null");
+            Error("Soul Collector Reap: Target is null");
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target, createDeadBody: false);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, createDeadBody: false/*, showKillAnim: false*/);
 
         if (Target.Data.IsDead)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.SoulCollector.ToTextColor()}You have taken {Target.Data.PlayerName}'s soul from their body, leaving a soulless player behind.</color></b>",
+                TouLocale.GetParsed("TouRoleSoulCollectorReapNotif").Replace("<player>", $"{TownOfUsColors.SoulCollector.ToTextColor()}{Target.Data.PlayerName}</color>"),
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.SoulCollector.LoadAsset());
 
             notif1.AdjustNotification();

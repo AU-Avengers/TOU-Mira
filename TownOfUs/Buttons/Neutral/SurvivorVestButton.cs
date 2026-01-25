@@ -15,10 +15,10 @@ namespace TownOfUs.Buttons.Neutral;
 // or make swooper function like this?
 public sealed class SurvivorVestButton : TownOfUsRoleButton<SurvivorRole>
 {
-    public override string Name => TouLocale.Get("TouRoleSurvivorSafeguard", "Safeguard");
+    public override string Name => TouLocale.GetParsed("TouRoleSurvivorSafeguard", "Safeguard");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Survivor;
-    public override float Cooldown => OptionGroupSingleton<SurvivorOptions>.Instance.VestCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SurvivorOptions>.Instance.VestCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<SurvivorOptions>.Instance.VestDuration;
     public override int MaxUses => (int)OptionGroupSingleton<SurvivorOptions>.Instance.MaxVests;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.VestSprite;

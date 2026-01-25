@@ -2,7 +2,8 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
-using TownOfUs.Options;
+using TownOfUs.Modifiers.HnsGame.Crewmate;
+using TownOfUs.Options.Maps;
 using UnityEngine;
 
 namespace TownOfUs.Utilities.Appearances;
@@ -12,7 +13,7 @@ public static class AppearanceExtensions
     public static void ResetAppearance(this PlayerControl player, bool override_checks = false, bool fullReset = false)
     {
         // swooper unswoop mid camo - needs testing
-        if (OptionGroupSingleton<GeneralOptions>.Instance.CamouflageComms &&
+        if (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.CamouflageComms &&
             player.GetAppearanceType() == TownOfUsAppearances.Swooper)
         {
             var c = ShipStatus.Instance.Systems[SystemTypes.Comms];
@@ -34,7 +35,6 @@ public static class AppearanceExtensions
         {
             return;
         }
-
         if (fullReset)
         {
             player.RawSetAppearance(new VisualAppearance(player.GetDefaultAppearance(), TownOfUsAppearances.Default)
@@ -63,7 +63,7 @@ public static class AppearanceExtensions
 
     public static void SetCamouflage(this PlayerControl player, bool toggle = true)
     {
-        if (toggle && player.GetAppearanceType() != TownOfUsAppearances.Camouflage)
+        if (toggle && player.GetAppearanceType() != TownOfUsAppearances.Camouflage && !player.HasDied())
         {
             player.RawSetAppearance(new VisualAppearance(player.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
             {
@@ -75,7 +75,7 @@ public static class AppearanceExtensions
                 PetId = string.Empty,
                 NameVisible = false,
                 PlayerMaterialColor = Color.grey,
-                Size = player.GetAppearance().Size
+                Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : player.GetAppearance().Size
             });
         }
         else if (!toggle && player.GetModifiers<BaseModifier>()
@@ -165,7 +165,7 @@ public static class AppearanceExtensions
         {
             player.cosmetics.nameText.color = (Color)appearance.NameColor;
         }
-        else if (player.IsImpostor())
+        else if (player.IsImpostorAligned())
         {
             player.cosmetics.nameText.color = TownOfUsColors.Impostor;
         }
@@ -182,7 +182,9 @@ public static class AppearanceExtensions
         }
 
         player.CurrentOutfitType = (PlayerOutfitType)appearance.AppearanceType;
-        if (appearance.AppearanceType != 0)
+
+        // This was originally removed by Pietro, but without it, ladders and ziplines are extremely broken
+        if (player.CurrentOutfitType != 0)
         {
             player.Data.SetOutfit(player.CurrentOutfitType, appearance);
         }
@@ -223,12 +225,26 @@ public static class AppearanceExtensions
 
     public static VisualAppearance GetDefaultAppearance(this PlayerControl playerControl)
     {
+        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker)
+        {
+            return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
+            {
+                SkinId = string.Empty
+            };
+        }
         return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default);
     }
 
     public static VisualAppearance GetDefaultModifiedAppearance(this PlayerControl playerControl)
     {
         var appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default);
+        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker)
+        {
+            appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
+            {
+                SkinId = string.Empty
+            };
+        }
         if (playerControl.HasModifier<MiniModifier>())
         {
             appearance = playerControl.GetModifier<MiniModifier>()!.GetVisualAppearance()!;
@@ -236,6 +252,14 @@ public static class AppearanceExtensions
         else if (playerControl.HasModifier<GiantModifier>())
         {
             appearance = playerControl.GetModifier<GiantModifier>()!.GetVisualAppearance()!;
+        }
+        else if (playerControl.HasModifier<HnsMiniModifier>())
+        {
+            appearance = playerControl.GetModifier<HnsMiniModifier>()!.GetVisualAppearance()!;
+        }
+        else if (playerControl.HasModifier<HnsGiantModifier>())
+        {
+            appearance = playerControl.GetModifier<HnsGiantModifier>()!.GetVisualAppearance()!;
         }
         else if (playerControl.HasModifier<FlashModifier>())
         {

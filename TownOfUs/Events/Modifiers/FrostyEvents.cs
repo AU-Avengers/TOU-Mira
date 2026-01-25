@@ -23,8 +23,11 @@ public static class FrostyEvents
 
         if (@event.Source.AmOwner)
         {
+            var text = TouLocale.GetParsed("TouModifierFrostyTriggeredNotif").Replace("<player>", @event.Target.Data.PlayerName);
+            text = text.Replace("<modifier>", $"{TownOfUsColors.Frosty.ToTextColor()}{TouLocale.Get("TouModifierFrosty")}</color>");
+
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Frosty.ToTextColor()}{@event.Target.Data.PlayerName} was Frosty, causing you to be slower for {Math.Round(OptionGroupSingleton<FrostyOptions>.Instance.ChillDuration, 2)} seconds.</color></b>",
+                $"<b>{text.Replace("<time>", Math.Round(OptionGroupSingleton<FrostyOptions>.Instance.ChillDuration, 2).ToString(TownOfUsPlugin.Culture))}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Frosty.LoadAsset());
 
             notif1.AdjustNotification();

@@ -14,13 +14,22 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IAftermathableButton
 {
-    public override string Name => TouLocale.Get("TouRoleGrenadierFlash", "Flash");
+    public override string Name => TouLocale.GetParsed("TouRoleGrenadierFlash", "Flash");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<GrenadierOptions>.Instance.GrenadeCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<GrenadierOptions>.Instance.GrenadeCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<GrenadierOptions>.Instance.GrenadeDuration;
     public override int MaxUses => (int)OptionGroupSingleton<GrenadierOptions>.Instance.MaxFlashes;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.FlashSprite;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
+
+    public override bool CanUse()
+    {
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+
+        return base.CanUse() && system is { AnyActive: false };
+    }
 
     public void AftermathHandler()
     {
@@ -40,7 +49,7 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
 
         PlayerControl.LocalPlayer.RpcAddModifier<GrenadierFlashModifier>(PlayerControl.LocalPlayer);
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}All players around you are now flashbanged!</color></b>",
+            $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{TouLocale.GetParsed("TouRoleGrenadierFlashNotif")}</color></b>",
             Color.white, new Vector3(0f, 1f, -150f),
             spr: TouRoleIcons.Grenadier.LoadAsset());
         notif1.AdjustNotification();

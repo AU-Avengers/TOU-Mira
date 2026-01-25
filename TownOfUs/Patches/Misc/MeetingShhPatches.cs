@@ -17,7 +17,7 @@ public static class MeetingShhPatches
     {
         if (PlayerControl.LocalPlayer != null && !PlayerControl.LocalPlayer.Data.IsDead &&
             (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>() ||
-             PlayerControl.LocalPlayer.HasModifier<JailedModifier>()))
+             PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && jailMod.IsJailorValid))
         {
             Coroutines.Start(MeetingShhh());
         }
@@ -33,7 +33,7 @@ public static class MeetingShhPatches
             HudManager.Instance.shhhEmblem.transform.localPosition.y,
             HudManager.Instance.FullScreen.transform.position.z + 1f);
         var jailCell = new GameObject("jailCell");
-        if (PlayerControl.LocalPlayer.HasModifier<JailedModifier>())
+        if (PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && jailMod.IsJailorValid)
         {
             jailCell.transform.SetParent(HudManager.Instance.shhhEmblem!.transform);
             jailCell.transform.localPosition =

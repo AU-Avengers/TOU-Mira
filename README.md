@@ -7,7 +7,7 @@
 <div align="center">
   <img src="./Images/Logo.png" alt="Town of Us Mira"/>
   <p>Town Of Us Mira</p>
-  <a href="https://store.steampowered.com/app/945360/Among_Us"> <img alt="Latest AU Version" src="https://badgen.net/static/AmongUs/2025.5.20/yellow"></a>
+  <a href="https://store.steampowered.com/app/945360/Among_Us"> <img alt="Latest AU Version" src="https://badgen.net/static/AmongUs/2025.10.28/yellow"></a>
   <a href="https://github.com/AU-Avengers/TOU-Mira/releases/"> <img alt="Latest Release" src="https://badgen.net/github/release/AU-Avengers/TOU-Mira?icon=github"></a>
   <a href="https://github.com/AU-Avengers/TOU-Mira/releases"> <img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/AU-Avengers/TOU-Mira/total"></a>
   <a href="https://discord.gg/ugyc4EVUYZ"> <img alt="Mod Discord" src="https://img.shields.io/discord/1039196456667582555.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2"></a>
@@ -148,24 +148,37 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 **Disclaimer: The mod is *not* guaranteed to work on the latest versions of Among Us when the game updates.**
 
-| Among Us  | Mod Version | Download Link                                                           |
-|-----------|-------------|-------------------------------------------------------------------------|
-| 2025.9.9  | 1.2.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
-| 2025.9.9  | 1.2.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
-| 2025.5.20 | 1.1.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
-| 2025.5.20 | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
-| 2025.5.20 | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
-| 2025.5.20 | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
-| 2025.5.20 | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
-| 2025.5.20 | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
+| Among Us   | Mod Version | Download Link                                                           |
+|------------|-------------|-------------------------------------------------------------------------|
+| 2025.10.28 | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
+| 2025.10.28 | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
+| 2025.10.14 | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
+| 2025.9.9   | 1.3.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
+| 2025.9.9   | 1.2.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
+| 2025.9.9   | 1.2.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
+| 2025.5.20  | 1.1.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
+| 2025.5.20  | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
+| 2025.5.20  | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
+| 2025.5.20  | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
+| 2025.5.20  | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
+| 2025.5.20  | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
 
-<details>
-<summary>Older Versions</summary>
+-----------------------
 
-| Among Us   | Mod Version  | Download Link                                                                                                         |
-|------------|--------------|-----------------------------------------------------------------------------------------------------------------------|
+# Mod Compatibility
 
-</details>
+**Disclaimer: This mod compatibility list can and will change over time.**
+
+If a mod is missing here and is a role/modifiers mod, it likely won't work unless it is built with [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)!
+
+|                                    Mod                                    | Support | Notes                                                                                                                                             |
+|:-------------------------------------------------------------------------:|:-------:|:--------------------------------------------------------------------------------------------------------------------------------------------------|
+|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         | ✅ | Limited "Better Map" customization.                                                                                                               |
+|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        | ✅ | Limited "Better Map" customization.                                                                                                               |
+|             [NewMod](https://github.com/CallOfCreator/NewMod)             | ✅ | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                                                                  |
+| [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) | ✅ | Launchpad tags overlap with Tou player names.<br/>Wiki is not fully implemented.                                                                  |
+|     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      | ⚠️ | Ability buttons are very seperated from one another.<br/>Roles are partially broken on latest Among Us update.<br/>Wiki is not fully implemented. |
+|          [ChaosTokens](https://github.com/xChipseq/ChaosTokens)           | ✅ |                                                                                                                                                   |
 
 -----------------------
 

@@ -83,7 +83,7 @@ public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         _crimeScenes.Add(scene);
 
         scene.gameObject.SetActive(false);
-        if (PlayerControl.LocalPlayer.Data.Role is DetectiveTouRole)
+        if (PlayerControl.LocalPlayer.Data.Role is ForensicRole)
         {
             scene.gameObject.SetActive(true);
         }

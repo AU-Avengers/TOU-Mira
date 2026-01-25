@@ -16,6 +16,7 @@ public static class TownOfUsColors
 
     // Crew Colors
     public static Color Aurial => UseBasic ? Palette.CrewmateBlue : new Color32(179, 77, 153, 255);
+    public static Color Chameleon => UseBasic ? Palette.CrewmateBlue : new Color32(81, 180, 154, 255);
     public static Color Detective => UseBasic ? Palette.CrewmateBlue : new Color32(77, 77, 255, 255);
     public static Color Haunter => UseBasic ? Palette.CrewmateBlue : new Color32(212, 212, 212, 255);
     public static Color Investigator => UseBasic ? Palette.CrewmateBlue : new Color32(0, 179, 179, 255);

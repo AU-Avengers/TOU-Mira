@@ -16,6 +16,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
 {
     public override string ModifierName => TouLocale.Get("TouMedicShield", "Medic");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Medic;
+    public override float Duration => 2.5f;
 
     public override string ShieldDescription =>
         $"You are shielded by a {TouLocale.Get("TouRoleMedic", "Medic")} !\nYou may not die to other players";

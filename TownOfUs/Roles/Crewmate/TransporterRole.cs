@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -65,18 +64,14 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         IntroSound = TouAudio.TimeLordIntroSound
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [MethodRpc((uint)TownOfUsRpc.Transport)]
     public static void RpcTransport(PlayerControl transporter, byte player1, byte player2)
     {
         if (transporter.Data.Role is not TransporterRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcTransport - Invalid Transporter");
+            Error("RpcTransport - Invalid Transporter");
             return;
         }
 
@@ -169,7 +164,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         LookoutEvents.CheckForLookoutWatched(transporter, play2);
 
         var mercenary = PlayerControl.LocalPlayer.Data.Role as MercenaryRole;
-        if (play1.HasModifier<MercenaryGuardModifier>() || (play2.HasModifier<MercenaryGuardModifier>() && mercenary))
+        if ((play1.HasModifier<MercenaryGuardModifier>() || play2.HasModifier<MercenaryGuardModifier>()) && mercenary)
         {
             mercenary!.AddPayment();
         }
@@ -273,7 +268,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         if (play1.AmOwner && t1 is PlayerControl || play2.AmOwner && t2 is PlayerControl)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.Transporter.ToTextColor()}You were transported!</color></b>", Color.white,
+                $"<b>{TownOfUsColors.Transporter.ToTextColor()}{TouLocale.GetParsed("TouRoleTransporterTransportNotif")}</color></b>", Color.white,
                 new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Transporter.LoadAsset());
 
             notif1.AdjustNotification();
@@ -362,7 +357,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
             if (transportable.TryCast<DeadBody>() == null && transportable2.TryCast<DeadBody>() == null)
             {
-                Logger<TownOfUsPlugin>.Error($"type: {transportable.GetIl2CppType().Name}");
+                Error($"type: {transportable.GetIl2CppType().Name}");
                 var TP1 = transportable.TryCast<PlayerControl>()!;
                 TP1Position = TP1.GetTruePosition();
                 TP1Position = new Vector2(TP1Position.x, TP1Position.y + 0.3636f);

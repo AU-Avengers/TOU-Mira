@@ -1,4 +1,5 @@
-﻿using MiraAPI.GameOptions;
+﻿using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Utilities;
@@ -13,7 +14,7 @@ public sealed class ImpostorDoubleShotModifier : DoubleShotModifier, IWikiDiscov
 
     public override bool ShowInFreeplay => true;
 
-    public bool IsHiddenFromList => true;
+    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
 
     // YES this is scuffed, a better solution will be used at a later time
     public uint FakeTypeId =>

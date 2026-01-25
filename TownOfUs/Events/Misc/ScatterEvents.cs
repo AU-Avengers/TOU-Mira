@@ -11,7 +11,7 @@ public static class ScatterEvents
     [RegisterEvent]
     public static void RoundStartHandler(RoundStartEvent @event)
     {
-        //Logger<TownOfUsPlugin>.Error($"ScatterEvents - RoundStartHandler");
+        //Error($"ScatterEvents - RoundStartHandler");
 
         ModifierUtils.GetActiveModifiers<ScatterModifier>().Do(x => x.OnRoundStart());
     }

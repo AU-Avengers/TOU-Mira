@@ -20,6 +20,9 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
     public byte JailorId { get; } = jailorId;
     public bool HasOpenedQuickChat { get; set; }
 
+    public bool IsJailorValid => !GameData.Instance.GetPlayerById(JailorId).Object.HasDied() &&
+                                 GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is JailorRole;
+
     public override void OnActivate()
     {
         base.OnActivate();
@@ -35,7 +38,13 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
             GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is not JailorRole || Player.HasDied() ||
             !MeetingHud.Instance)
         {
+            ModifierComponent!.RemoveModifier(this);
             return;
+        }
+
+        if (Player.Data.Role is ProsecutorRole pros)
+        {
+            pros.HideProsButton = true;
         }
 
         if (Player.AmOwner)

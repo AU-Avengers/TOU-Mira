@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
@@ -49,7 +50,7 @@ public static class WikiHyperLinkPatches
             bool shouldHyperlink = true;
             if (match.Value[0] == '#') // Role tag
             {
-                var role = MiscUtils.AllRoles.FirstOrDefault(x =>
+                var role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
                     x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
                 if (role is ICustomRole customRole)
                 {
@@ -57,16 +58,36 @@ public static class WikiHyperLinkPatches
                         $"{fontTag}<b>{customRole.RoleColor.ToTextColor()}<link={customRole.GetType().FullName}:{linkIndex}>{customRole.RoleName}</link></color></b></font>";
                     shouldHyperlink = customRole is IWikiDiscoverable || SoftWikiEntries.RoleEntries.ContainsKey(role);
                 }
+                else if (role != null && SoftWikiEntries.RoleEntries.ContainsKey(role))
+                {
+                    replacement =
+                        $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={role.GetType().FullName}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                    if (Enum.IsDefined(role.Role))
+                    {
+                        replacement =
+                        $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                    }
+                    shouldHyperlink = true;
+                }
                 else
                 {
-                    // Non-custom roles (aka vanilla ones) can also be tagged, but they have no wiki entries.
-                    role = RoleManager.Instance.AllRoles.ToArray().FirstOrDefault(x =>
+                    // Some non-custom roles (specifically Impostor and Crewmate) can also be tagged, but they have no wiki entries.
+                    role = MiscUtils.AllRegisteredRoles.FirstOrDefault(x =>
                         x.GetRoleName().Equals(key, StringComparison.OrdinalIgnoreCase));
                     if (role != null)
                     {
-                        replacement =
-                            $"{fontTag}<b>{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color></b></font>";
-                        shouldHyperlink = false;
+                        if (role.Role is RoleTypes.Crewmate || role.Role is RoleTypes.Impostor)
+                        {
+                            replacement =
+                                $"{fontTag}<b>{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color></b></font>";
+                            shouldHyperlink = false;
+                        }
+                        else
+                        {
+                            replacement =
+                                $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                            shouldHyperlink = true;
+                        }
                     }
                 }
             }

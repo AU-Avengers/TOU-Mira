@@ -106,6 +106,7 @@ public enum AbilityType
     AmnesiacPreRemember,
     AmnesiacPostRemember,
     ArsonistDouse,
+    SpellslingerHex,
 
     // ArsonistIgnite,
     // DoomsayerObserve,

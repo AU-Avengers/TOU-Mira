@@ -24,7 +24,7 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
     public override string Name => _biteName;
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Vampire;
-    public override float Cooldown => OptionGroupSingleton<VampireOptions>.Instance.BiteCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<VampireOptions>.Instance.BiteCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.BiteSprite;
 
     public void SetDiseasedTimer(float multiplier)
@@ -43,6 +43,7 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
         _biteName = TouLocale.Get("TouRoleVampireBite", "Bite");
         OverrideName(_killName);
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
     }
 
     protected override void FixedUpdate(PlayerControl playerControl)
@@ -79,7 +80,7 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Bite: Target is null");
+            Error("Bite: Target is null");
             return;
         }
 
@@ -105,7 +106,7 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
             return false;
         }
 
-        if (target.IsImpostor())
+        if (target.IsImpostorAligned())
         {
             return false;
         }
@@ -130,16 +131,24 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
 
         if (target.HasModifier<LoverModifier>())
         {
-            canConvertAlliance = options.ConvertOptions.ToDisplayString().Contains("Lovers");
+            canConvertAlliance = options.ConvertLovers;
         }
 
-        if (target.Is(RoleAlignment.NeutralBenign))
+        if (options.ValidConversions.Value is ValidBites.NonKillerNeutrals)
         {
-            canConvertRole = options.ConvertOptions.ToDisplayString().Contains("Neutral Benign");
+            canConvertRole = true;
+        }
+        else if (target.Is(RoleAlignment.NeutralBenign))
+        {
+            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Benign");
         }
         else if (target.Is(RoleAlignment.NeutralEvil))
         {
-            canConvertRole = options.ConvertOptions.ToDisplayString().Contains("Neutral Evil");
+            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Evil");
+        }
+        else if (target.Is(RoleAlignment.NeutralOutlier))
+        {
+            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Outlier");
         }
 
         return canConvertRole && canConvertAlliance && vampireCount < 2 && totalVamps < options.MaxVampires &&

@@ -14,10 +14,10 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class AmbusherAmbushButton : TownOfUsRoleButton<AmbusherRole, PlayerControl>, IKillButton,
     IDiseaseableButton
 {
-    public override string Name => TouLocale.Get("TouRoleAmbusherAmbush", "Ambush");
+    public override string Name => TouLocale.GetParsed("TouRoleAmbusherAmbush", "Ambush");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown() + MapCooldown;
+    public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
     public override int MaxUses => (int)OptionGroupSingleton<AmbusherOptions>.Instance.MaxAmbushes;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.AmbushSprite;
 

@@ -12,11 +12,13 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
 {
-    public override string Name => TouLocale.Get("TouRoleMediumMediate", "Mediate");
+    public override string Name => TouLocale.GetParsed("TouRoleMediumMediate", "Mediate");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medium;
-    public override float Cooldown => OptionGroupSingleton<MediumOptions>.Instance.MediateCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<MediumOptions>.Instance.MediateCooldown + MapCooldown, 0.001f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MediateSprite;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
 
     protected override void OnClick()
     {

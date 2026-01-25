@@ -1,6 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Options.Roles.Impostor;
@@ -32,14 +30,10 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     {
         CanUseVent = OptionGroupSingleton<SwooperOptions>.Instance.CanVent,
         Icon = TouRoleIcons.Swooper,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom)
+        IntroSound = TouAudio.PhantomIntroSound
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

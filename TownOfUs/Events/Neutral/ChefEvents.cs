@@ -67,18 +67,18 @@ public static class ChefEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessageSelf").Replace("<player>", chef.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
+                    TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
             }
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(chef.Player, TouLocale.Get("DiedToWinning"),
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue);
 
             chef.Player.Exiled();
         }
@@ -107,18 +107,18 @@ public static class ChefEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessageSelf").Replace("<player>", chef.Player.Data.PlayerName),
+                    TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
 
                 notif1.AdjustNotification();
             }
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(chef.Player, TouLocale.Get("DiedToWinning"),
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue);
 
             chef.Player.Exiled();
         }

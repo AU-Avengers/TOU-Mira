@@ -12,11 +12,13 @@ namespace TownOfUs.Buttons.Impostor;
 public sealed class HypnotistHypnotizeButton : TownOfUsRoleButton<HypnotistRole, PlayerControl>,
     IAftermathablePlayerButton
 {
-    public override string Name => TouLocale.Get("TouRoleHypnotistHypnotize", "Hypnotize");
+    public override string Name => TouLocale.GetParsed("TouRoleHypnotistHypnotize", "Hypnotize");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => OptionGroupSingleton<HypnotistOptions>.Instance.HypnotiseCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<HypnotistOptions>.Instance.HypnotiseCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.HypnotiseButtonSprite;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
 
     public override bool Enabled(RoleBehaviour? role)
     {

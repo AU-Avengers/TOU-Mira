@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using Reactor.Utilities.Extensions;
@@ -19,7 +20,8 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         Blackmail,
         Blind,
         Flash,
-        Hypnosis
+        Hypnosis,
+        Hex
     }
 
     public override string ModifierName => "Cleric Cleanse";
@@ -37,7 +39,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
         Effects = FindNegativeEffects(Player);
 
-        // Logger<TownOfUsPlugin>.Error($"ClericCleanseModifier.OnActivate");
+        // Error($"ClericCleanseModifier.OnActivate");
     }
 
     public override void OnDeath(DeathReason reason)
@@ -47,7 +49,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
     public override void OnMeetingStart()
     {
-        // Logger<TownOfUsPlugin>.Error($"ClericCleanseModifier.OnMeetingStart");
+        // Error($"ClericCleanseModifier.OnMeetingStart");
         if (Cleric.AmOwner)
         {
             var text = new StringBuilder($"Cleansed effects on {Player.Data.PlayerName}:");
@@ -72,6 +74,11 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (Cleric == null)
+        {
+            ModifierComponent?.RemoveModifier(this);
+            return;
+        }
 
         if (!Cleansed)
         {
@@ -82,7 +89,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
     private void CleansePlayer()
     {
-        // Logger<TownOfUsPlugin>.Error($"ClericCleanseModifier.CleansePlayer");
+        // Error($"ClericCleanseModifier.CleansePlayer");
         if (Effects.Contains(EffectType.Douse))
         {
             Player.RemoveModifier<ArsonistDousedModifier>();
@@ -95,7 +102,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
         if (Effects.Contains(EffectType.Infect))
         {
-            Player.RemoveModifier<PlaguebearerInfectedModifier>();
+            Player.GetModifiers<PlaguebearerInfectedModifier>().Do(x => Player.RemoveModifier(x));
         }
 
         if (Effects.Contains(EffectType.Blackmail))
@@ -116,6 +123,11 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         if (Effects.Contains(EffectType.Hypnosis))
         {
             Player.RemoveModifier<HypnotisedModifier>();
+        }
+
+        if (Effects.Contains(EffectType.Hex))
+        {
+            Player.RemoveModifier<SpellslingerHexedModifier>();
         }
     }
 
@@ -156,6 +168,11 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
         if (player.HasModifier<HypnotisedModifier>())
         {
             effects.Add(EffectType.Hypnosis);
+        }
+
+        if (player.HasModifier<SpellslingerHexedModifier>())
+        {
+            effects.Add(EffectType.Hex);
         }
 
         return effects;

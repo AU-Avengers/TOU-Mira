@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
@@ -53,7 +52,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Trapper,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Tracker)
+        IntroSound = TouAudio.TrackerIntroSound
     };
 
     public void LobbyStart()
@@ -61,11 +60,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         Clear();
     }
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public override void Deinitialize(PlayerControl targetPlayer)
     {
@@ -82,22 +77,22 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public void Report()
     {
-        // Logger<TownOfUsPlugin>.Error($"TrapperRole.Report");
+        // Error($"TrapperRole.Report");
         if (!Player.AmOwner)
         {
             return;
         }
 
         var minAmountOfPlayersInTrap = OptionGroupSingleton<TrapperOptions>.Instance.MinAmountOfPlayersInTrap;
-        var msg = "No players entered any of your traps";
+        var msg = TouLocale.GetParsed("TouRoleTrapperNoPlayers");
 
         if (TrappedPlayers.Count < minAmountOfPlayersInTrap)
         {
-            msg = "Not enough players triggered your traps";
+            msg = TouLocale.GetParsed("TouRoleTrapperNotEnoughPLayers");
         }
         else if (TrappedPlayers.Count != 0)
         {
-            var message = new StringBuilder("Roles caught in your trap:\n");
+            var message = new StringBuilder($"{TouLocale.GetParsed("TouRoleTrapperRolesCaught")}\n");
 
             TrappedPlayers.Shuffle();
 
@@ -118,7 +113,8 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             msg = finalMessage;
         }
 
-        var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{RoleName} Report</color>";
+        var title = $"<color=#{TownOfUsColors.Trapper.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleTrapperMessageTitle")}</color>";
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
+        TrappedPlayers.Clear();
     }
 }

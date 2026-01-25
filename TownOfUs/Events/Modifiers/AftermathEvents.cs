@@ -29,8 +29,10 @@ public static class AftermathEvents
             return;
         }
 
+        var text = TouLocale.GetParsed("TouModifierAftermathTriggeredNotif").Replace("<player>", @event.Target.Data.PlayerName);
+
         var notif1 = Helpers.CreateAndShowNotification(
-            $"<b>{TownOfUsColors.Aftermath.ToTextColor()}{@event.Target.Data.PlayerName} was an Aftermath, forcing you to use your ability.</color></b>",
+            $"<b>{text.Replace("<modifier>", $"{TownOfUsColors.Aftermath.ToTextColor()}{TouLocale.Get("TouModifierAftermath")}</color>")}</b>",
             Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Aftermath.LoadAsset());
 
         notif1.AdjustNotification();

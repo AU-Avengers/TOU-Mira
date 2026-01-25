@@ -1,4 +1,3 @@
-using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -6,7 +5,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Anims;
@@ -33,7 +31,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
         if (EscapeMark != null)
         {
-            EscapeMark.SetActive(PlayerControl.LocalPlayer.IsImpostor() || (PlayerControl.LocalPlayer.HasDied() &&
+            EscapeMark.SetActive(PlayerControl.LocalPlayer.IsImpostorAligned() || (PlayerControl.LocalPlayer.HasDied() &&
                                                                             OptionGroupSingleton<GeneralOptions>
                                                                                 .Instance.TheDeadKnow));
             if (MarkedLocation == null)
@@ -69,11 +67,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<EscapistOptions>.Instance.CanVent
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
@@ -103,7 +97,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not EscapistRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRecall - Invalid escapist");
+            Error("RpcRecall - Invalid escapist");
             return;
         }
 
@@ -116,7 +110,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not EscapistRole henry)
         {
-            Logger<TownOfUsPlugin>.Error("RpcRecall - Invalid escapist");
+            Error("RpcRecall - Invalid escapist");
             return;
         }
 

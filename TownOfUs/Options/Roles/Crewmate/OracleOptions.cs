@@ -9,21 +9,24 @@ public sealed class OracleOptions : AbstractOptionGroup<OracleRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleOracle", "Oracle");
 
-    [ModdedNumberOption("Confess Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionOracleConfessCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float ConfessCooldown { get; set; } = 20f;
 
-    [ModdedNumberOption("Bless Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionOracleBlessCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float BlessCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Reveal Accuracy", 0f, 100f, suffixType: MiraNumberSuffixes.Percent)]
+    [ModdedNumberOption("TouOptionOracleRevealAccuracy", 0f, 100f, suffixType: MiraNumberSuffixes.Percent)]
     public float RevealAccuracyPercentage { get; set; } = 80f;
 
-    [ModdedToggleOption("Neutral Benign Show Up As Evil")]
+    [ModdedToggleOption("TouOptionOracleNeutralBenignShowEvil")]
     public bool ShowNeutralBenignAsEvil { get; set; } = false;
 
-    [ModdedToggleOption("Neutral Evil Show Up As Evil")]
+    [ModdedToggleOption("TouOptionOracleNeutralEvilShowEvil")]
     public bool ShowNeutralEvilAsEvil { get; set; } = false;
 
-    [ModdedToggleOption("Neutral Killing Show Up As Evil")]
+    [ModdedToggleOption("TouOptionOracleNeutralKillingShowEvil")]
     public bool ShowNeutralKillingAsEvil { get; set; } = true;
+
+    [ModdedToggleOption("TouOptionOracleNeutralOutlierShowEvil")]
+    public bool ShowNeutralOutlierAsEvil { get; set; } = true;
 }

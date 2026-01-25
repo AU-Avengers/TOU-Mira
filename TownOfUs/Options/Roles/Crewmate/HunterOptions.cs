@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Crewmate;
 
@@ -9,24 +10,24 @@ public sealed class HunterOptions : AbstractOptionGroup<HunterRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleHunter", "Hunter");
 
-    [ModdedNumberOption("Hunter Kill Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionHunterKillCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HunterKillCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Hunter Stalk Cooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionHunterStalkCooldown", 1f, 30f, 1f, MiraNumberSuffixes.Seconds)]
     public float HunterStalkCooldown { get; set; } = 20f;
 
-    [ModdedNumberOption("Hunter Stalk Duration", 5f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("TouOptionHunterStalkDuration", 5f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HunterStalkDuration { get; set; } = 25f;
+    public ModdedNumberOption StalkUses { get; } = new("TouOptionHunterStalkUses", 5f, -1f, 30f, 1f, "0", "∞", MiraNumberSuffixes.None, "0");
 
-    [ModdedNumberOption("Max Stalk Uses", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
-    public float StalkUses { get; set; } = 5;
+    public ModdedNumberOption StalkPerTasks { get; } = new("TouOptionHunterStalksPerTasks", 1f, 0f, 15f, 1f, "Off", "#", MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => OptionGroupSingleton<HunterOptions>.Instance.StalkUses != -1
+    };
 
-    [ModdedToggleOption("Get More Uses From Completing Tasks")]
-    public bool TaskUses { get; set; } = true;
-
-    [ModdedToggleOption("Hunter Kills Last Voter If Voted Out")]
+    [ModdedToggleOption("TouOptionHunterRetributionOnVote")]
     public bool RetributionOnVote { get; set; } = true;
 
-    [ModdedToggleOption("Hunter Can Report Who They've Killed")]
+    [ModdedToggleOption("TouOptionHunterHunterBodyReport")]
     public bool HunterBodyReport { get; set; } = false;
 }

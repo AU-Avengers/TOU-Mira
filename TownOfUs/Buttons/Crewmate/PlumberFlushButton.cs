@@ -3,7 +3,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -17,10 +16,10 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class PlumberFlushButton : TownOfUsRoleButton<PlumberRole, Vent>
 {
     private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
-    public override string Name => TouLocale.Get("TouRolePlumberFlush", "Flush");
+    public override string Name => TouLocale.GetParsed("TouRolePlumberFlush", "Flush");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
-    public override float Cooldown => OptionGroupSingleton<PlumberOptions>.Instance.FlushCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlumberOptions>.Instance.FlushCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.FlushSprite;
 
     public override Vent? GetTarget()
@@ -58,7 +57,7 @@ public sealed class PlumberFlushButton : TownOfUsRoleButton<PlumberRole, Vent>
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error($"{Name}: Target is null");
+            Error($"{Name}: Target is null");
             return;
         }
 

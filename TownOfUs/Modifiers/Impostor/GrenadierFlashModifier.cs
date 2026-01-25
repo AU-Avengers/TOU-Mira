@@ -12,7 +12,7 @@ namespace TownOfUs.Modifiers.Impostor;
 
 public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledModifier, IDisposable
 {
-    private readonly Color blindVision = new(0.83f, 0.83f, 0.83f, 1f);
+    public static Color blindVision = new(0.83f, 0.83f, 0.83f, 1f);
     private readonly Color dimVision = new(0.83f, 0.83f, 0.83f, 0.2f);
 
     private readonly Color normalVision = new(0.83f, 0.83f, 0.83f, 0f);
@@ -30,6 +30,26 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
         flash?.Dispose();
     }
 
+    public static void SetColor()
+    {
+        var colorType = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.GrenadierFlashColor.Value;
+        switch (colorType)
+        {
+            case GrenadeFlashColor.DarkGray:
+                blindVision = new(0.33f, 0.33f, 0.33f, 1f);
+                break;
+            case GrenadeFlashColor.Gray:
+                blindVision = new(0.6f, 0.6f, 0.6f, 1f);
+                break;
+            case GrenadeFlashColor.LightGray:
+                blindVision = new(0.83f, 0.83f, 0.83f, 1f);
+                break;
+            case GrenadeFlashColor.White:
+                blindVision = new(1f, 1f, 1f, 1f);
+                break;
+        }
+    }
+
     public override void OnActivate()
     {
         base.OnActivate();
@@ -37,6 +57,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
         flash = new ScreenFlash();
+        SetColor();
 
         if (Player.AmOwner && !Grenadier.AmOwner)
         {
@@ -53,7 +74,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     {
         base.FixedUpdate();
 
-        if (!Player.IsImpostor() && PlayerControl.LocalPlayer.IsImpostor())
+        if (!Player.IsImpostorAligned() && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             if (TimeRemaining <= Duration - 0.5f && TimeRemaining >= 0.5f)
             {
@@ -142,7 +163,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
             flash?.Destroy();
         }
 
-        if (!Player.IsImpostor() && PlayerControl.LocalPlayer.IsImpostor())
+        if (!Player.IsImpostorAligned() && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Palette.VisorColor);
         }
@@ -169,11 +190,11 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
 
     private static bool ShouldPlayerBeDimmed(PlayerControl player)
     {
-        return (player.IsImpostor() || player.HasDied()) && !MeetingHud.Instance;
+        return (player.IsImpostorAligned() || player.HasDied()) && !MeetingHud.Instance;
     }
 
     private static bool ShouldPlayerBeBlinded(PlayerControl player)
     {
-        return !player.IsImpostor() && !player.HasDied() && !MeetingHud.Instance;
+        return !player.IsImpostorAligned() && !player.HasDied() && !MeetingHud.Instance;
     }
 }

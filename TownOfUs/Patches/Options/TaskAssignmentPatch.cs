@@ -1,6 +1,5 @@
 using HarmonyLib;
-using MiraAPI.GameOptions;
-using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TaskLength = NormalPlayerTask.TaskLength;
 
 namespace TownOfUs.Patches.Options;
@@ -17,12 +16,12 @@ public static class TaskAssignmentPatch
 
         if (type is TaskLength.Short)
         {
-            count += OptionGroupSingleton<TownOfUsMapOptions>.Instance.GetMapBasedShortTasks();
+            count += TownOfUsMapOptions.GetMapBasedShortTasks();
             count = Math.Clamp(count, 0, __instance.ShortTasks.Count);
         }
         else if (type is TaskLength.Long)
         {
-            count += OptionGroupSingleton<TownOfUsMapOptions>.Instance.GetMapBasedLongTasks();
+            count += TownOfUsMapOptions.GetMapBasedLongTasks();
             count = Math.Clamp(count, 0, __instance.LongTasks.Count);
         }
         else if (type is TaskLength.Common)

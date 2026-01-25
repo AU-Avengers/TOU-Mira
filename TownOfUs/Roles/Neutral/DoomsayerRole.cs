@@ -11,11 +11,13 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -24,7 +26,7 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class DoomsayerRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
 {
     private MeetingMenu meetingMenu;
 
@@ -34,6 +36,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     [HideFromIl2Cpp] public List<PlayerControl> AllVictims { get; } = [];
 
+    public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame && Helpers.GetAlivePlayers().Count > 1;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Doomsayer";
@@ -57,11 +60,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public bool MetWinCon => AllGuessesCorrect;
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     public bool WinConditionMet()
     {
@@ -169,7 +168,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     private void GenerateReport()
     {
-        Logger<TownOfUsPlugin>.Info($"Generating Doomsayer report");
+        Info($"Generating Doomsayer report");
 
         var reportBuilder = new StringBuilder();
 
@@ -222,7 +221,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture, $"{hint.Replace("<player>", player.PlayerName)}\n");
             }
 
-            var roles = RoleManager.Instance.AllRoles.ToArray()
+            var roles = MiscUtils.AllRegisteredRoles
                 .Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
                     x is not IUnguessable || x is not IDoomable) && !x.IsDead).ToList();
             roles = roles.OrderBy(x => x.GetRoleName()).ToList();
@@ -303,14 +302,28 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         void ClickRoleHandle(RoleBehaviour role)
         {
             var realRole = player.Data.Role;
-
+            
             var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-            if (cachedMod != null)
-            {
-                realRole = cachedMod.CachedRole;
-            }
 
             var pickVictim = role.Role == realRole.Role;
+            if (cachedMod != null)
+            {
+                switch (cachedMod.GuessMode)
+                {
+                    case CacheRoleGuess.ActiveRole:
+                        // Checks for the role the player is at the moment
+                        pickVictim = role.Role == realRole.Role;
+                        break;
+                    case CacheRoleGuess.CachedRole:
+                        // Checks for the cached role itself (like Imitator or Traitor)
+                        pickVictim = role.Role == cachedMod.CachedRole.Role;
+                        break;
+                    default:
+                        // Checks if it's the cached or active role
+                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
+                        break;
+                }
+            }
             var victim = pickVictim ? player : Player;
 
             ClickHandler(victim, voteArea.TargetPlayerId);
@@ -381,9 +394,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     }
                     else
                     {
-                        Player.RpcCustomMurder(victim, createDeadBody: false, teleportMurderer: false,
+                        Player.RpcSpecialMurder(victim, true, createDeadBody: false, teleportMurderer: false,
                             showKillAnim: false,
-                            playKillSound: false);
+                            playKillSound: false,
+                            causeOfDeath: "Doomsayer");
                     }
                 }
                 else
@@ -396,9 +410,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                         }
                         else
                         {
-                            Player.RpcCustomMurder(victim2, createDeadBody: false, teleportMurderer: false,
+                            Player.RpcSpecialMurder(victim2, true, true, createDeadBody: false, teleportMurderer: false,
                                 showKillAnim: false,
-                                playKillSound: false);
+                                playKillSound: false,
+                                causeOfDeath: "Doomsayer");
                         }
                     }
                 }
@@ -460,7 +475,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not DoomsayerRole doom)
         {
-            Logger<TownOfUsPlugin>.Error("RpcDoomsayerWin - Invalid Doomsayer");
+            Error("RpcDoomsayerWin - Invalid Doomsayer");
             return;
         }
 

@@ -1,25 +1,20 @@
-using System.Globalization;
 using System.Text;
-using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Events;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modifiers.HnsGame;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -47,12 +42,12 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     public Color RoleColor => TownOfUsColors.Vigilante;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateKilling;
-    public bool IsPowerCrew => MaxKills > 0; // Always disable end game checks with a vigi running around
+    public bool IsPowerCrew => MaxKills > 0; // Always disable end game checks with a vigilante running around
 
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Vigilante,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Impostor)
+        IntroSound = TouAudio.ImpostorIntroSound
     };
 
     [HideFromIl2Cpp]
@@ -61,7 +56,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"You can also guess Crewmates.");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"You can also guess Crewmates.");
         }
 
         if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
@@ -69,7 +64,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             var newText = SafeShotsLeft == 0
                 ? "You have no more safe shots left."
                 : $"{SafeShotsLeft} safe shot(s) left.";
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"{newText}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         }
 
         return stringB;
@@ -125,7 +120,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (Player.AmOwner)
         {
-            meetingMenu?.Dispose();
+            meetingMenu.Dispose();
             meetingMenu = null!;
         }
     }
@@ -149,24 +144,29 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         void ClickRoleHandle(RoleBehaviour role)
         {
-            var pickVictim = role.Role == player.Data.Role.Role;
+            var realRole = player.Data.Role;
 
-            if (player.IsImpostor())
+            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
+
+            var pickVictim = role.Role == realRole.Role;
+            if (cachedMod != null)
             {
-                if (role.Role == player.Data.Role.Role && !player.HasModifier<TraitorCacheModifier>())
+                switch (cachedMod.GuessMode)
                 {
-                    pickVictim = true;
-                }
-                else if (role is TraitorRole && player.HasModifier<TraitorCacheModifier>())
-                {
-                    pickVictim = true;
-                }
-                else
-                {
-                    pickVictim = false;
+                    case CacheRoleGuess.ActiveRole:
+                        // Checks for the role the player is at the moment
+                        pickVictim = role.Role == realRole.Role;
+                        break;
+                    case CacheRoleGuess.CachedRole:
+                        // Checks for the cached role itself (like Imitator or Traitor)
+                        pickVictim = role.Role == cachedMod.CachedRole.Role;
+                        break;
+                    default:
+                        // Checks if it's the cached or active role
+                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
+                        break;
                 }
             }
-
             var victim = pickVictim ? player : Player;
 
             ClickHandler(victim);
@@ -185,7 +185,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             if (!OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteMultiKill || MaxKills == 0 ||
                 victim == Player)
             {
-                meetingMenu?.HideButtons();
+                meetingMenu.HideButtons();
             }
 
             if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
@@ -214,23 +214,14 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 return;
             }
-
-            Player.RpcCustomMurder(victim, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
-                playKillSound: false);
+            Player.RpcSpecialMurder(victim, true, true, createDeadBody: false, teleportMurderer: false,
+                showKillAnim: false,
+                playKillSound: false,
+                causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
             {
-                meetingMenu?.HideSingle(victim.PlayerId);
-                DeathHandlerModifier.RpcUpdateDeathHandler(victim, TouLocale.Get("DiedToGuess"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", Player.Data.PlayerName),
-                    lockInfo: DeathHandlerOverride.SetTrue);
-            }
-            else
-            {
-                DeathHandlerModifier.RpcUpdateDeathHandler(victim, TouLocale.Get("DiedToMisguess"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
+                meetingMenu.HideSingle(victim.PlayerId);
             }
 
             shapeMenu.Close();
@@ -239,8 +230,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     public bool IsExempt(PlayerVoteArea voteArea)
     {
-        return voteArea?.TargetPlayerId == Player.PlayerId ||
-               Player.Data.IsDead || voteArea!.AmDead ||
+        return voteArea?.TargetPlayerId == Player.PlayerId || Player.Data.IsDead || voteArea!.AmDead ||
                voteArea.GetPlayer()?.HasModifier<JailedModifier>() == true ||
                (voteArea.GetPlayer()?.Data.Role is MayorRole mayor && mayor.Revealed) ||
                (Player.IsLover() && voteArea.GetPlayer()?.IsLover() == true);
@@ -310,14 +300,12 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     private static bool IsModifierValid(BaseModifier modifier)
     {
-        var isValid = true;
         // This will remove modifiers that alter their chance/amount
-        if ((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
-            (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
-            (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)))
-        {
-            isValid = false;
-        }
+        var isValid =
+            !((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
+              (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
+              (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)
+               || modifier is HnsGameModifier));
 
         if (!isValid)
         {
@@ -330,8 +318,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return true;
         }
 
-        var impMod = modifier as TouGameModifier;
-        if (impMod != null &&
+        if (modifier is TouGameModifier impMod &&
             (impMod.FactionType.ToDisplayString().Contains("Imp") ||
              impMod.FactionType.ToDisplayString().Contains("Killer")) &&
             !impMod.FactionType.ToDisplayString().Contains("Non"))

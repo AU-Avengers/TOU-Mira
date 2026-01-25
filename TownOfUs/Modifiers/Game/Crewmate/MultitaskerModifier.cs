@@ -27,7 +27,7 @@ public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Multitasker;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
-    public override ModifierFaction FactionType => ModifierFaction.CrewmateVisibility;
+    public override ModifierFaction FactionType => ModifierFaction.CrewmatePassive;
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 

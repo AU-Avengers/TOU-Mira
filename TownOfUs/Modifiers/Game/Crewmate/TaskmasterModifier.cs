@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -22,7 +23,8 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 
     public string GetAdvancedDescription()
     {
-        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription");
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription")
+               + MiscUtils.AppendOptionsText(GetType());
     }
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Taskmaster;
@@ -44,7 +46,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role.IsCrewmate() &&
+        return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not SnitchRole &&
                !(GameOptionsManager.Instance.currentNormalGameOptions.MapId is 4 or 6);
     }
 
@@ -73,7 +75,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
                 taskText = taskText.Replace(Environment.NewLine, "");
 
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Taskmaster.ToTextColor()}The task '{taskText}' has been completed for you.</b></color>",
+                    $"<b>{TownOfUsColors.Taskmaster.ToTextColor()}{TouLocale.GetParsed("TouModifierTaskmasterTaskNotif").Replace("<taskName>", taskText)}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Taskmaster.LoadAsset());
                 notif1.AdjustNotification();
             }

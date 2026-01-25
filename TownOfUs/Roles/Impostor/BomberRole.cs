@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
@@ -46,11 +45,7 @@ public sealed class BomberRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<BomberOptions>.Instance.CanVent
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
@@ -72,7 +67,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not BomberRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcPlantBomb - Invalid bomber");
+            Error("RpcPlantBomb - Invalid bomber");
             return;
         }
 
@@ -83,12 +78,12 @@ public sealed class BomberRole(IntPtr cppPtr)
         {
             role.Bomb = Bomb.CreateBomb(player, position);
         }
-        else if (OptionGroupSingleton<BomberOptions>.Instance.AllImpsSeeBomb && PlayerControl.LocalPlayer.IsImpostor())
+        else if (OptionGroupSingleton<BomberOptions>.Instance.AllImpsSeeBomb && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
             Coroutines.Start(Bomb.BombShowTeammate(player, position));
         }
         else if ((PlayerControl.LocalPlayer.DiedOtherRound() &&
-                  OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
+                  OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
             Coroutines.Start(Bomb.BombShowTeammate(player, position));
         }

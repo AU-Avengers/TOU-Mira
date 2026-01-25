@@ -28,7 +28,7 @@ public static class GuardianAngelEvents
             return;
         }
 
-        CheckForGaProtection(@event, target);
+        CheckForGaProtection(@event, target, PlayerControl.LocalPlayer);
     }
 
     [RegisterEvent]
@@ -67,14 +67,14 @@ public static class GuardianAngelEvents
     [RegisterEvent]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
-        foreach (var ga in CustomRoleUtils.GetActiveRolesOfType<GuardianAngelTouRole>())
+        foreach (var ga in CustomRoleUtils.GetActiveRolesOfType<FairyRole>())
         {
             ga.CheckTargetDeath(@event.Player);
         }
     }
 
     private static bool CheckForGaProtection(MiraCancelableEvent @event, PlayerControl target,
-        PlayerControl? source = null)
+        PlayerControl source)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -82,7 +82,6 @@ public static class GuardianAngelEvents
         }
 
         if (!target.HasModifier<GuardianAngelProtectModifier>() ||
-            source == null ||
             source.PlayerId == target.PlayerId ||
             (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
         {
@@ -90,6 +89,7 @@ public static class GuardianAngelEvents
         }
 
         @event.Cancel();
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a ga shield, stopping an attack from {source.Data.PlayerName}!");
 
         return true;
     }

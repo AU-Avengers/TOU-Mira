@@ -6,7 +6,6 @@ using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -20,11 +19,13 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerControl>, IKillButton
 {
-    public override string Name => TouLocale.Get("TouRoleSheriffShoot", "Shoot");
+    public override string Name => TouLocale.GetParsed("TouRoleSheriffShoot", "Shoot");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sheriff;
-    public override float Cooldown => OptionGroupSingleton<SheriffOptions>.Instance.KillCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SheriffOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SheriffShootSprite;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
 
     public bool Usable { get; set; } =
         OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
@@ -40,7 +41,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Misfire: Target is null");
+            Error("Misfire: Target is null");
             return;
         }
 
@@ -55,8 +56,6 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
         if (missType is MisfireOptions.Sheriff or MisfireOptions.Both)
         {
             PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
-            DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToSuicide"),
-                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue, lockInfo: DeathHandlerOverride.SetTrue);
         }
 
         FailedShot = true;
@@ -87,7 +86,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Sheriff Shoot: Target is null");
+            Error("Sheriff Shoot: Target is null");
             return;
         }
 
@@ -110,7 +109,6 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
         {
             switch (alignment)
             {
-                case RoleAlignment.NeutralBenign:
                 case RoleAlignment.CrewmateInvestigative:
                 case RoleAlignment.CrewmateKilling:
                 case RoleAlignment.CrewmateProtective:
@@ -145,6 +143,18 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
 
                 case RoleAlignment.NeutralEvil:
                     if (!options.ShootNeutralEvil)
+                    {
+                        Misfire();
+                    }
+                    else
+                    {
+                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                    }
+
+                    break;
+
+                case RoleAlignment.NeutralBenign:
+                    if (!options.ShootNeutralBenign)
                     {
                         Misfire();
                     }

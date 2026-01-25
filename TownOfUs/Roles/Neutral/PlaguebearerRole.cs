@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
-using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -39,14 +37,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         if (allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
             (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2))
         {
-            var players =
-                ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) =>
-                    x.PlagueBearerId == Player.PlayerId);
-
-            players.Do(x =>
-                x.RpcRemoveModifier<PlaguebearerInfectedModifier>());
-
-            Player.RpcChangeRole(RoleId.Get<PestilenceRole>());
+            PestilenceRole.RpcTriggerPestilence(PlayerControl.LocalPlayer);
 
             CustomButtonSingleton<PestilenceKillButton>.Instance.SetTimer(OptionGroupSingleton<PlaguebearerOptions>
                 .Instance.PestKillCooldown);
@@ -87,7 +78,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom),
+        IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Plaguebearer,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
@@ -104,7 +95,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
         if (allInfected.Any())
         {
-            stringB.Append(CultureInfo.InvariantCulture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
             {
                 stringB.Append(TownOfUsPlugin.Culture, $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
@@ -114,7 +105,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
 
-        stringB.Append(CultureInfo.InvariantCulture, $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
+        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
 
         return stringB;
     }
@@ -183,12 +174,12 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             source.AddModifier<PlaguebearerInfectedModifier>(target.PlayerId);
         }
         else if (source.TryGetModifier<PlaguebearerInfectedModifier>(out var mod) &&
-                 !target.HasModifier<PlaguebearerInfectedModifier>())
+                 !target.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == mod.PlagueBearerId))
         {
             target.AddModifier<PlaguebearerInfectedModifier>(mod.PlagueBearerId);
         }
         else if (target.TryGetModifier<PlaguebearerInfectedModifier>(out var mod2) &&
-                 !source.HasModifier<PlaguebearerInfectedModifier>())
+                 !source.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == mod2.PlagueBearerId))
         {
             source.AddModifier<PlaguebearerInfectedModifier>(mod2.PlagueBearerId);
         }

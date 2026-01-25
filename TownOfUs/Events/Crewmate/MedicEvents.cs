@@ -164,7 +164,6 @@ public static class MedicEvents
         }
 
         if (!target.HasModifier<MedicShieldModifier>() ||
-            source == null ||
             target.PlayerId == source.PlayerId ||
             (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
         {
@@ -172,10 +171,11 @@ public static class MedicEvents
         }
 
         @event.Cancel();
+        MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a medic shield, stopping an attack from {source.Data.PlayerName}!");
 
         var medic = target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
 
-        if (medic != null && source.AmOwner)
+        if (medic != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
             MedicRole.RpcMedicShieldAttacked(medic.Player, source, target);
         }

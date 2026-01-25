@@ -1,10 +1,12 @@
-﻿using System.Text;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -53,7 +55,6 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent /* && (Rampaging || Player.inVent)*/,
         IntroSound = TouAudio.WerewolfRampageSound,
         Icon = TouRoleIcons.Werewolf,
-        MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -61,20 +62,25 @@ public sealed class WerewolfRole(IntPtr cppPtr)
 
     public bool WinConditionMet()
     {
-        if (Player.HasDied())
+        var wwCount = CustomRoleUtils.GetActiveRolesOfType<WerewolfRole>().Count(x => !x.Player.HasDied());
+
+        if (MiscUtils.KillersAliveCount > wwCount)
         {
             return false;
         }
 
-        var result = Helpers.GetAlivePlayers().Count <= 2 && MiscUtils.KillersAliveCount == 1;
-
-        return result;
+        return wwCount >= Helpers.GetAlivePlayers().Count - wwCount;
     }
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
+
+
+    public void OffsetButtons()
     {
-        return ITownOfUsRole.SetNewTabText(this);
+        var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
+        var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
+        var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
     }
 
     public override void Initialize(PlayerControl player)
@@ -82,6 +88,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
+            OffsetButtons();
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.WerewolfVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Werewolf);
         }

@@ -5,17 +5,18 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options;
-using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Impostor;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
@@ -25,6 +26,11 @@ public static class LogicGameFlowPatches
 {
     public static bool CheckEndGameViaTasks(LogicGameFlowNormal instance)
     {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
+        {
+            return false;
+        }
+
         GameData.Instance.RecomputeTaskCounts();
 
         if (GameData.Instance.TotalTasks > 0 && GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
@@ -39,6 +45,11 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaTimeLimit(LogicGameFlowNormal instance)
     {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
+        {
+            return false;
+        }
+
         if (OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled && GameTimerPatch.TriggerEndGame)
         {
             var timeType = (GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value;
@@ -64,11 +75,31 @@ public static class LogicGameFlowPatches
         return false;
     }
 
+    public static bool CheckEndGameViaHexBomb(LogicGameFlowNormal instance)
+    {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
+        {
+            return false;
+        }
+
+        if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
+        {
+            instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
+            return true;
+        }
+        return false;
+    }
+
     [HarmonyPatch(typeof(GameData), nameof(GameData.RecomputeTaskCounts))]
     [HarmonyPrefix]
     private static bool RecomputeTasksPatch(GameData __instance)
     {
-        if (__instance == null || GameOptionsManager.Instance == null)
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return true;
+        }
+
+        if (__instance == null || GameOptionsManager.Instance == null || GameManager.Instance == null)
         {
             return false;
         }
@@ -78,12 +109,12 @@ public static class LogicGameFlowPatches
         for (var i = 0; i < __instance.AllPlayers.Count; i++)
         {
             var playerInfo = __instance.AllPlayers.ToArray()[i];
-            if (playerInfo == null || playerInfo.Disconnected || !playerInfo.Object || playerInfo.Tasks == null || playerInfo.Object == null)
+            if (playerInfo == null || playerInfo.Disconnected || !playerInfo.Object || playerInfo.Tasks == null || playerInfo.Object == null || !playerInfo.Object.TryGetComponent<ModifierComponent>(out _))
             {
                 continue;
             }
 
-            if ((GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks || !playerInfo.IsDead) &&
+            if ((!playerInfo.IsDead || GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks) &&
                 !playerInfo._object.IsImpostor() &&
                 !(
                     (playerInfo._object.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks)
@@ -110,10 +141,41 @@ public static class LogicGameFlowPatches
         return false;
     }
 
+    [HarmonyPatch(typeof(GameManager), nameof(GameManager.StartGame))]
+    [HarmonyPostfix]
+    public static void StartGamePostfix()
+    {
+        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
+        {
+            ShipStatus.Instance.BreakEmergencyButton();
+        }
+    }
+
+    [HarmonyPatch(typeof(NormalGameManager), nameof(NormalGameManager.GetMapOptions))]
+    [HarmonyPriority(Priority.VeryHigh)] // make sure it occurs before other patches
+    [HarmonyPrefix]
+    public static bool GetMapOptions(ref MapOptions __result)
+    {
+        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.AllKillers)
+        {
+            return true;
+        }
+        __result = new MapOptions
+        {
+            Mode = MapOptions.Modes.Normal
+        };
+        return false;
+    }
+
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     [HarmonyPrefix]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
+        {
+            return false;
+        }
+
         if (TutorialManager.InstanceExists)
         {
             return true;
@@ -131,11 +193,6 @@ public static class LogicGameFlowPatches
 
         // Prevents game end on exile screen
         if (ExileController.Instance)
-        {
-            return false;
-        }
-
-        if (DeathHandlerModifier.IsCoroutineRunning || DeathEventHandlers.IsDeathRecent)
         {
             return false;
         }
@@ -160,12 +217,16 @@ public static class LogicGameFlowPatches
                 continue;
             }
 
-            var criticalSabotage = sabo;
-            if (criticalSabotage != null && criticalSabotage.Countdown < 0f)
+            if (sabo.Countdown < 0f)
             {
                 __instance.EndGameForSabotage();
-                criticalSabotage.ClearSabotage();
+                sabo.ClearSabotage();
             }
+        }
+
+        if (CheckEndGameViaHexBomb(__instance))
+        {
+            return false;
         }
 
         if (CheckEndGameViaTasks(__instance))
@@ -178,38 +239,64 @@ public static class LogicGameFlowPatches
             return false;
         }
 
+        if (DeathHandlerModifier.IsCoroutineRunning || DeathHandlerModifier.IsAltCoroutineRunning || DeathEventHandlers.IsDeathRecent)
+        {
+            return false;
+        }
+
+        if (AltruistRole.IsReviveInProgress)
+        {
+            return false;
+        }
+
         // End game if there are 3 players alive and 2 are lovers.
         var activeLovers = ModifierUtils.GetActiveModifiers<LoverModifier>().ToArray();
         if (!ExileController.Instance && LoverModifier.WinConditionMet(activeLovers))
         {
-            CustomGameOver.Trigger<LoverGameOver>(activeLovers.Select(x => x.Player.Data).ToArray());
+            CustomGameOver.Trigger<LoverGameOver>(activeLovers
+                .Where(x => x != null && x.Player != null && x.Player.Data != null)
+                .Select(x => x.Player!.Data)
+                .ToArray());
             return false;
         }
 
         // If any neutral win condition is met -> game over
         // Using RoleAlignment as a quick and basic way to prioritise NeutralEvil wins over NeutralKiller wins
         if (CustomRoleUtils.GetActiveRolesOfTeam(ModdedRoleTeams.Custom)
-                .OrderBy(x => (x as ITownOfUsRole)!.RoleAlignment)
+                .OrderBy(x => x.GetRoleAlignment())
                 .FirstOrDefault(x => x is ITownOfUsRole role && role.WinConditionMet()) is { } winner)
         {
-            Logger<TownOfUsPlugin>.Message($"Game Over");
-            CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
+            Message($"Game Over");
+
+            // Lovers + Jester combo fix maybe
+            if (winner is JesterRole && winner.Player != null && winner.Player.HasModifier<LoverModifier>())
+            {
+                var loverWinners = ModifierUtils.GetActiveModifiers<LoverModifier>()
+                    .Where(x => x != null && x.Player != null && x.Player.Data != null && x.Player.HasModifier<LoverModifier>())
+                    .Select(x => x.Player!.Data)
+                    .Distinct()
+                    .ToArray();
+
+                if (loverWinners.Length >= 2)
+                {
+                    CustomGameOver.Trigger<LoverGameOver>(loverWinners);
+                    return false;
+                }
+            }
+
+            if (winner.Player != null)
+            {
+                CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
+                return false;
+            }
 
             return false;
         }
 
-        // Prevents game end when all impostors are dead but there are neutral killers left alive
+        // Prevents game end when all impostors are dead but there are neutral killers alive, or when roles like doom are present.
         if (MiscUtils.NKillersAliveCount > 0 ||
-            (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0))
-        {
-            return false;
-        }
-
-        // Prevents game end when all impostors are dead but there is a possibility for a traitor to spawn given the conditions
-        var possibleTraitor = ModifierUtils.GetActiveModifiers<ToBecomeTraitorModifier>()
-            .FirstOrDefault(x => !x.Player.HasDied() && x.Player.IsCrewmate());
-        if (Helpers.GetAlivePlayers().Count > (int)OptionGroupSingleton<TraitorOptions>.Instance.LatestSpawn - 1 &&
-            possibleTraitor != null)
+            (MiscUtils.ImpAliveCount > 0 && MiscUtils.CrewKillersAliveCount > 0) ||
+            (MiscUtils.GameHaltersAliveCount > 0 && Helpers.GetAlivePlayers().Count > 1))
         {
             return false;
         }

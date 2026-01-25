@@ -15,6 +15,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
 {
     public override string ModifierName => $"Magic Mirror";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Mirrorcaster;
+    public override float Duration => 2.5f;
 
     public override string ShieldDescription =>
         $"You are protected by the Mirrorcaster!\nYou may not die to other players";

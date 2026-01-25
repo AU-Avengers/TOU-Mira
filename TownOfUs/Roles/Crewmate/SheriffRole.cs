@@ -1,13 +1,10 @@
-﻿using System.Globalization;
-using System.Text;
-using AmongUs.GameOptions;
+﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
@@ -56,32 +53,32 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Sheriff,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Impostor)
+        IntroSound = TouAudio.ImpostorIntroSound
     };
 
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();
-        stringB.AppendLine(CultureInfo.InvariantCulture,
+        stringB.AppendLine(TownOfUsPlugin.Culture,
             $"{RoleColor.ToTextColor()}{TouLocale.Get("YouAreA")}<b> {RoleName}.</b></color>");
-        stringB.AppendLine(CultureInfo.InvariantCulture,
+        stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
         if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEgo")}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEgo")}");
         }
         else
         {
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"{RoleLongDescription}");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{RoleLongDescription}");
             var addedText = "d";
             if (!CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot)
             {
                 var missType = OptionGroupSingleton<SheriffOptions>.Instance.MisfireType;
                 addedText = $"Kills{missType}";
             }
-            stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{TouLocale.GetParsed($"TouRole{LocaleKey}TabMisfire{addedText}")}</b>");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{TouLocale.GetParsed($"TouRole{LocaleKey}TabMisfire{addedText}")}</b>");
         }
 
         return stringB;
@@ -97,7 +94,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         if (sheriff.Data.Role is not SheriffRole role)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSheriffMisfire - Invalid sheriff");
+            Error("RpcSheriffMisfire - Invalid sheriff");
             return;
         }
 

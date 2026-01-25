@@ -1,6 +1,7 @@
-﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
+using MiraAPI.Patches.Hud;
+using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Utilities;
@@ -11,6 +12,7 @@ namespace TownOfUs.Roles.Impostor;
 public sealed class TraitorRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ISpawnChange
 {
+    public bool CanSpawnOnCurrentMode() => false;
     [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
     [HideFromIl2Cpp] public RoleBehaviour? RandomRole { get; set; }
     [HideFromIl2Cpp] public RoleBehaviour? SelectedRole { get; set; }
@@ -32,17 +34,23 @@ public sealed class TraitorRole(IntPtr cppPtr)
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
     public RoleAlignment RoleAlignment => RoleAlignment.ImpostorPower;
 
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        if (Player.AmOwner)
+        {
+            ButtonResetPatches.ResetCooldowns();
+            Player.SetKillTimer(Player.GetKillCooldown());
+        }
+    }
+
     public CustomRoleConfiguration Configuration => new(this)
     {
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Traitor
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

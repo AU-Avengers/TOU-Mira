@@ -16,8 +16,10 @@ public sealed class WarlockKillButton : TownOfUsRoleButton<WarlockRole, PlayerCo
     public override string Name => _killName;
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
-    public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown() + MapCooldown;
+    public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
     public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
+
+    public override bool ZeroIsInfinite { get; set; } = true;
 
     public float Charge { get; set; }
     public bool BurstActive { get; set; }

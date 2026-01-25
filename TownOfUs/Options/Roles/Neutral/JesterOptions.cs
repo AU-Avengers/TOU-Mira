@@ -9,21 +9,21 @@ public sealed class JesterOptions : AbstractOptionGroup<JesterRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleJester", "Jester");
 
-    [ModdedToggleOption("Can Use Button")] public bool CanButton { get; set; } = true;
+    [ModdedToggleOption("TouOptionJesterCanButton")] public bool CanButton { get; set; } = true;
 
-    [ModdedToggleOption("Can Hide In Vents")]
+    [ModdedToggleOption("TouOptionJesterCanVent")]
     public bool CanVent { get; set; } = true;
 
-    [ModdedToggleOption("Has Impostor Vision")]
+    [ModdedToggleOption("TouOptionJesterImpVision")]
     public bool ImpostorVision { get; set; } = true;
 
-    [ModdedToggleOption("Scatter Mechanic Enabled")]
+    [ModdedToggleOption("TouOptionJesterScatterEnabled")]
     public bool ScatterOn { get; set; } = true;
 
-    [ModdedNumberOption("Scatter Timer", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
+    [ModdedNumberOption("TouOptionJesterScatterTimer", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float ScatterTimer { get; set; } = 25f;
 
-    [ModdedEnumOption("After Win Type", typeof(JestWinOptions), ["Ends Game", "Haunts", "Nothing"])]
+    [ModdedEnumOption("TouOptionJesterAfterWin", typeof(JestWinOptions), ["TouOptionJesterWinEnumEndsGame", "TouOptionJesterWinEnumHaunts", "TouOptionJesterWinEnumNothing"])]
     public JestWinOptions JestWin { get; set; } = JestWinOptions.EndsGame;
 }
 

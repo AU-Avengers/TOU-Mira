@@ -18,7 +18,7 @@ public sealed class HunterKillButton : TownOfUsRoleButton<HunterRole, PlayerCont
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Hunter;
-    public override float Cooldown => OptionGroupSingleton<HunterOptions>.Instance.HunterKillCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<HunterOptions>.Instance.HunterKillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.HunterKillSprite;
 
     public void SetDiseasedTimer(float multiplier)
@@ -44,7 +44,7 @@ public sealed class HunterKillButton : TownOfUsRoleButton<HunterRole, PlayerCont
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Hunter HunterKill: Target is null");
+            Error("Hunter HunterKill: Target is null");
             return;
         }
 

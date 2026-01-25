@@ -108,8 +108,8 @@ public static class ExecutionerEvents
                 if (winOption is ExeWinOptions.Torments)
                 {
                     CustomButtonSingleton<ExeTormentButton>.Instance.SetActive(true, exe);
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer,
-                        TouLocale.Get("DiedToWinning"), DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
+                    DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer,
+                        "DiedToWinning", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
                         lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
                         $"<b>You have one round to torment a player of your choice to death, choose wisely.</b>",
@@ -118,8 +118,8 @@ public static class ExecutionerEvents
                 }
                 else
                 {
-                    DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer,
-                        TouLocale.Get("DiedToWinning"), DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                    DeathHandlerModifier.RpcUpdateLocalDeathHandler(PlayerControl.LocalPlayer,
+                        "DiedToWinning", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
                         lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
@@ -179,9 +179,9 @@ public static class ExecutionerEvents
             }
             var winOption = OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin;
 
-            if (!exiled.IsCrewmate() && winOption is ExeWinOptions.EndsGame)
+            if (!exiled.IsCrewmate())
             {
-                winOption = ExeWinOptions.Torments;
+                winOption = ExeWinOptions.Nothing;
             }
 
             if (exe.AmOwner && winOption is ExeWinOptions.Torments)

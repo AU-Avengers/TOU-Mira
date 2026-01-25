@@ -2,7 +2,6 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -13,10 +12,10 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleClericBarrier", "Barrier");
+    public override string Name => TouLocale.GetParsed("TouRoleClericBarrier", "Barrier");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Cleric;
-    public override float Cooldown => OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<ClericOptions>.Instance.BarrierDuration;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.BarrierSprite;
 
@@ -34,7 +33,7 @@ public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error($"{Name}: Target is null");
+            Error($"{Name}: Target is null");
             return;
         }
 

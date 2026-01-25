@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -15,11 +14,17 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleSeerReveal", "Reveal");
+    public override string Name => TouLocale.GetParsed("TouRoleSeerReveal", "Reveal");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
-    public override float Cooldown => OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SeerSprite;
+
+    public override bool Enabled(RoleBehaviour? role)
+    {
+        return base.Enabled(role) &&
+               !OptionGroupSingleton<SeerOptions>.Instance.SalemSeer;
+    }
 
     public override bool IsTargetValid(PlayerControl? target)
     {
@@ -159,13 +164,12 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
     public static bool IsEvil(PlayerControl target)
     {
         var options = OptionGroupSingleton<SeerOptions>.Instance;
-        return !target.HasModifier<ImitatorCacheModifier>() &&
-               ((target.Is(RoleAlignment.CrewmateKilling) && options.ShowCrewmateKillingAsRed) ||
+        return ((target.Is(RoleAlignment.CrewmateKilling) && options.ShowCrewmateKillingAsRed) ||
                 (target.Is(RoleAlignment.NeutralBenign) && options.ShowNeutralBenignAsRed) ||
                 (target.Is(RoleAlignment.NeutralEvil) && options.ShowNeutralEvilAsRed) ||
                 (target.Is(RoleAlignment.NeutralKilling) && options.ShowNeutralKillingAsRed) ||
                 (target.Is(RoleAlignment.NeutralOutlier) && options.ShowNeutralOutlierAsRed) ||
-                (target.IsImpostor() && !target.HasModifier<TraitorCacheModifier>()) ||
-                (target.HasModifier<TraitorCacheModifier>() && options.SwapTraitorColors));
+                (target.IsImpostor() && !target.IsTraitor()) ||
+                (target.IsTraitor() && options.SwapTraitorColors));
     }
 }

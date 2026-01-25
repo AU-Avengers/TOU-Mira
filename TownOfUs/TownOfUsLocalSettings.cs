@@ -1,8 +1,12 @@
 using BepInEx.Configuration;
+using InnerNet;
+using MiraAPI.Hud;
 using MiraAPI.Utilities;
+using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.Patches;
+using TownOfUs.Roles;
 
 namespace TownOfUs;
 
@@ -40,6 +44,26 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
                 HudManagerPatches.ResizeUI(1f / slider.OldValue);
                 HudManagerPatches.ResizeUI(slider.GetValue());
             }
+        }
+        else if (configEntry == OffsetButtonsToggle)
+        {
+            if ((AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
+                 !TutorialManager.InstanceExists) || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
+                PlayerControl.LocalPlayer.Data.Role == null || !ShipStatus.Instance)
+            {
+                return;
+            }
+
+            var role = PlayerControl.LocalPlayer.Data.Role;
+
+            var fakeVent = CustomButtonSingleton<FakeVentButton>.Instance;
+            fakeVent.SetActive(fakeVent.Enabled(role), role);
+            if (role is not ITownOfUsRole touRole)
+            {
+                return;
+            }
+
+            touRole.OffsetButtons();
         }
     }
 
@@ -83,6 +107,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> UseCrewmateTeamColorToggle { get; private set; } =
         config.Bind("UI/Visuals", "UseCrewmateTeamColor", false);
 
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> UseMultiChatSetup { get; private set; } =
+        config.Bind("UI/Visuals", "UseMultiChatSetup", true);
+
     [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
     public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =
         config.Bind("UI/Visuals", "ArrowStyle", ArrowStyleType.Default);
@@ -95,9 +123,13 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
         config.Bind("Miscellaneous", "ShowSummaryMessage", true);
 
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> VanillaWikiEntriesToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowVanillaWikiEntries", false);
+    [LocalizedLocalEnumSetting(names: ["SummarySimple", "SummaryNormal", "SummaryAdvanced"])]
+    public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
+        config.Bind("Miscellaneous", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
+
+    [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
+    public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
+        config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
 }
 
 public enum ArrowStyleType
@@ -106,4 +138,19 @@ public enum ArrowStyleType
     DarkGlow,
     ColorGlow,
     Legacy
+}
+
+public enum GrenadeFlashColor
+{
+    White,
+    LightGray,
+    Gray,
+    DarkGray
+}
+
+public enum GameSummaryAppearance
+{
+    Simplified,
+    Normal,
+    Advanced
 }

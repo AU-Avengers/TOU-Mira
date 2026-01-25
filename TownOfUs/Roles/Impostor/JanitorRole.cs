@@ -1,4 +1,3 @@
-using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -36,7 +35,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
                                                      (Player != null && MiscUtils.ImpAliveCount == 1));
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<DetectiveTouRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Janitor";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -61,11 +60,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
         IntroSound = TouAudio.JanitorCleanSound
     };
 
-    [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        return ITownOfUsRole.SetNewTabText(this);
-    }
+
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
@@ -86,7 +81,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
     {
         if (player.Data.Role is not JanitorRole)
         {
-            Logger<TownOfUsPlugin>.Error("RpcCleanBody - Invalid Janitor");
+            Error("RpcCleanBody - Invalid Janitor");
             return;
         }
 

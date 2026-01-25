@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using AmongUs.Data;
+﻿using AmongUs.Data;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.GameOptions;
@@ -8,6 +7,7 @@ using PowerTools;
 using TMPro;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
+using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -242,7 +242,7 @@ public sealed class FakePlayer : IDisposable
             petBehaviour.transform.localScale = Scale;
             petBehaviour.FlipX = flipX;
 
-            RemovePet(playerRef);
+            MiscUtils.RemovePet(playerRef);
 
             DestroyAllCollider(petBehaviour.gameObject);
 
@@ -362,10 +362,10 @@ public sealed class FakePlayer : IDisposable
 
         if (array.Length != 0)
         {
-            array[0] = char.ToUpper(array[0], CultureInfo.InvariantCulture);
+            array[0] = char.ToUpper(array[0], TownOfUsPlugin.Culture);
             for (var i = 1; i < array.Length; i++)
             {
-                array[i] = char.ToLower(array[i], CultureInfo.InvariantCulture);
+                array[i] = char.ToLower(array[i], TownOfUsPlugin.Culture);
             }
         }
 
@@ -435,21 +435,6 @@ public sealed class FakePlayer : IDisposable
                 Object.Destroy(_rend);
             }
         }
-    }
-
-    public static void RemovePet(PlayerControl pc)
-    {
-        if (pc == null || !pc.Data.IsDead)
-        {
-            return;
-        }
-
-        if (pc.CurrentOutfit.PetId == "")
-        {
-            return;
-        }
-
-        pc.SetPet("");
     }
 
     private struct PlayerCosmicInfo

@@ -19,7 +19,13 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.JuggKillSprite;
     public override float Cooldown => GetCooldown();
 
-    public static float BaseCooldown => OptionGroupSingleton<JuggernautOptions>.Instance.KillCooldown + MapCooldown;
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
+    }
+
+    public static float BaseCooldown => Math.Clamp(OptionGroupSingleton<JuggernautOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
 
     public void SetDiseasedTimer(float multiplier)
     {
@@ -30,7 +36,7 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Juggernaut Shoot: Target is null");
+            Error("Juggernaut Shoot: Target is null");
             return;
         }
 
@@ -58,6 +64,6 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
 
         var options = OptionGroupSingleton<JuggernautOptions>.Instance;
 
-        return Math.Max(BaseCooldown - options.KillCooldownReduction * juggernaut.KillCount, 0);
+        return Math.Max(BaseCooldown - options.KillCooldownReduction.Value * juggernaut.KillCount, 0);
     }
 }

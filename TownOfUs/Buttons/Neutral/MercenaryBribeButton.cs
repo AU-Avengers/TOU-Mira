@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
@@ -11,22 +10,22 @@ namespace TownOfUs.Buttons.Neutral;
 
 public sealed class MercenaryBribeButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleMercenaryBribe", "Bribe");
+    public override string Name => TouLocale.GetParsed("TouRoleMercenaryBribe", "Bribe");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mercenary;
-    public override float Cooldown => 0.001f + MapCooldown;
+    public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.BribeSprite;
 
-    public override bool Enabled(RoleBehaviour? role)
+    public override bool CanUse()
     {
-        return base.Enabled(role) && role is MercenaryRole && !PlayerControl.LocalPlayer.Data.IsDead && Role.CanBribe;
+        return base.CanUse() && Role.CanBribe;
     }
 
     protected override void OnClick()
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Mercenary Bribed: Target is null");
+            Error("Mercenary Bribed: Target is null");
             return;
         }
 

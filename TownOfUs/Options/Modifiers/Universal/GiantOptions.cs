@@ -8,8 +8,9 @@ namespace TownOfUs.Options.Modifiers.Universal;
 
 public sealed class GiantOptions : AbstractOptionGroup<GiantModifier>
 {
+    public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierGiant", "Giant");
-    public override uint GroupPriority => 25;
+    public override uint GroupPriority => 32;
     public override Color GroupColor => TownOfUsColors.Giant;
 
     [ModdedNumberOption("Giant Speed", 0.25f, 1f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]

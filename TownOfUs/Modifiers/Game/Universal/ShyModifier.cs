@@ -1,6 +1,7 @@
 ﻿using AmongUs.Data;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
@@ -114,7 +115,6 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         }
 
         StopShy = false;
-
         // check movement by animation
         var playerPhysics = Player.MyPhysics;
         var currentPhysicsAnim = playerPhysics.Animations.Animator.GetCurrentAnimation();
@@ -122,12 +122,16 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             LastMoved = DateTime.UtcNow;
         }
-
-        if (Player.GetAppearanceType() == TownOfUsAppearances.Swooper)
+        
+        if (HexBombSabotageSystem.BombFinished)
+        {
+            SetVisibility(Player, 1f);
+        }
+        else if (Player.GetAppearanceType() == TownOfUsAppearances.Swooper)
         {
             var opacity = 0f;
 
-            if ((PlayerControl.LocalPlayer.IsImpostor() && Player.Data.Role is SwooperRole) ||
+            if ((PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
                 (Player.AmOwner && Player.Data.Role is SwooperRole))
             {
                 opacity = 0.1f;

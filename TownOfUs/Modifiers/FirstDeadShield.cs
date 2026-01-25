@@ -1,11 +1,13 @@
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
+using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modifiers.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -104,7 +106,27 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
     {
         if (!MeetingHud.Instance && FirstRoundShield?.gameObject != null)
         {
-            FirstRoundShield?.SetActive(!Player.IsConcealed() && IsVisible);
+            // When morphed/mimicked, match ONLY the visual to the disguise target's First Death Shield state.
+            // This prevents leaking the real player's metadata while keeping the shield effect unchanged.
+            var showAsTarget = true;
+            if (Player.TryGetModifier<MorphlingMorphModifier>(out var morph) && morph.Target != null)
+            {
+                showAsTarget = morph.Target.HasModifier<FirstDeadShield>();
+            }
+            else if (Player.TryGetModifier<GlitchMimicModifier>(out var mimic) && mimic.Target != null)
+            {
+                showAsTarget = mimic.Target.HasModifier<FirstDeadShield>();
+            }
+
+            // Morph/Mimic are implemented as ConcealedModifier, but they are still visible to others.
+            // Only hide the shield for "true conceal" (e.g. swoop/invis), vents, disabled, etc.
+            var trulyConcealed =
+                Player.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) ||
+                !Player.Visible ||
+                (Player.TryGetModifier<DisabledModifier>(out var disabled) && !disabled.IsConsideredAlive) ||
+                Player.inVent;
+
+            FirstRoundShield.SetActive(!trulyConcealed && IsVisible && showAsTarget);
         }
         else if (MeetingHud.Instance)
         {

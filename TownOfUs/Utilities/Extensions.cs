@@ -2,6 +2,7 @@
 using AmongUs.GameOptions;
 using LibCpp2IL;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -11,10 +12,14 @@ using TMPro;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
+using TownOfUs.Options;
+using TownOfUs.Options.Maps;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
@@ -58,6 +63,11 @@ public static class Extensions
         return player?.HasModifier<LoverModifier>() == true;
     }
 
+    public static bool IsImpostorAligned(this PlayerControl player)
+    {
+        return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true || player?.GetModifiers<AllianceGameModifier>().Any(x => x.TrueFactionType is ModifierFaction.Impostor) == true);
+    }
+
     public static bool IsImpostor(this PlayerControl player)
     {
         return player?.Data && player?.Data?.Role && player?.Data?.Role.IsImpostor() == true;
@@ -72,8 +82,12 @@ public static class Extensions
 
     public static bool IsTraitor(this PlayerControl player)
     {
-        return player?.Data && player?.Data?.Role && player?.Data?.Role.IsImpostor() == true &&
-               (player?.HasModifier<TraitorCacheModifier>() == true || player?.Data?.Role is TraitorRole);
+        if (player == null || player.Data == null || player.Data.Role == null)
+        {
+            return false;
+        }
+        return player.Data.Role.IsImpostor() && (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
+               (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor.Value && player.HasModifier<CrewpostorModifier>());
     }
 
     public static bool IsCrewmate(this PlayerControl player)
@@ -100,7 +114,7 @@ public static class Extensions
 
     public static bool Is(this PlayerControl player, RoleTypes roleType)
     {
-        return player.Data.Role.Role == roleType;
+        return player != null && player.Data != null && player.Data.Role != null && player.Data.Role.Role == roleType;
     }
 
     public static bool Is(this PlayerControl player, RoleAlignment roleAlignment)
@@ -154,6 +168,15 @@ public static class Extensions
     {
         var renderer = body.bodyRenderers[^1];
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
+        var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
+        if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+        {
+            var player = MiscUtils.PlayerById(body.ParentId);
+            if (player != null && !player.AmOwner)
+            {
+                MiscUtils.RemovePet(player);
+            }
+        }
         body.gameObject.Destroy();
     }
 
@@ -506,6 +529,11 @@ public static class Extensions
 
         var pos = new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
+        if (ModCompatibility.IsSubmerged())
+        {
+            ModCompatibility.ChangeFloor(startingVent.transform.position.y > -7f);
+        }
+
         player.RpcSetPos(pos);
     }
 
@@ -560,7 +588,7 @@ public static class Extensions
 
     public static float GetKillCooldown(this PlayerControl player)
     {
-        return UnderdogModifier.GetKillCooldown(player);
+        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(), 5f, 120f);
     }
 
     /// <summary>
@@ -585,7 +613,7 @@ public static class Extensions
                                  ((playerInfo.TryGetModifier<DisabledModifier>(out var mod) && mod.IsConsideredAlive) ||
                                   !playerInfo.HasModifier<DisabledModifier>()) &&
                                  !playerInfo.Data.IsDead &&
-                                 (includeImpostors || !playerInfo.Data.Role.IsImpostor))
+                                 (includeImpostors || !playerInfo.IsImpostorAligned()))
             .ToList();
 
         return predicate != null ? filteredPlayers.Find(predicate) : filteredPlayers.FirstOrDefault();

@@ -8,13 +8,14 @@ public static class TouAssets
 {
     private const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
+    private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
-    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner.png");
+    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 150);
+        new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 600);
 
     public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
     {
@@ -34,6 +35,17 @@ public static class TouAssets
 
         return sprite;
     }
+    public static LoadableAsset<Sprite> DleksBanner { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksBanner.png");
+
+    public static LoadableAsset<Sprite> DleksText { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png");
+
+    public static LoadableAsset<Sprite> DleksTextAlt { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksText.png", 155f);
+
+    public static LoadableAsset<Sprite> DleksIcon { get; } =
+        new LoadableResourceAsset($"{ShortPath}.AprilFools.DleksIcon.png");
 
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
         new LoadableResourceAsset($"{ShortPath}.AprilFools.Normal.png");
@@ -67,6 +79,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AbilityCounterBodySprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Body.png");
 
+    public static LoadableAsset<Sprite> AbilityCounterClickSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.MouseClick.png", 120f);
+
     public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Basic.png");
 
@@ -96,6 +111,9 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> EclipsedPrefab { get; } =
         new LoadableBundleAsset<GameObject>("Eclipsed", MainBundle);
+
+    public static LoadableAsset<GameObject> HexBombDeathPrefab { get; } =
+        new LoadableBundleAsset<GameObject>("HexDeathAnimation", MainBundle);
 
     public static LoadableAsset<GameObject> AmbushPrefab { get; } =
         new LoadableBundleAsset<GameObject>("Ambush", MainBundle);
@@ -154,6 +172,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> ZoomMinusActive { get; } =
         new LoadableBundleAsset<Sprite>("MinusActive", MainBundle);
 
+    public static LoadableAsset<Sprite> TeamChatSwitch { get; } =
+        new LoadableResourceAsset($"{ShortPath}.TeamChatSwitch.png", 105f);
+
     public static LoadableAsset<Sprite> TeamChatInactive { get; } =
         new LoadableBundleAsset<Sprite>("TeamChatInactive", MainBundle);
 
@@ -165,6 +186,15 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> BarryButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarryButton", MainBundle);
+
+    public static LoadableAsset<Sprite> FreeplayRoleSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayRoleButton", MainBundle);
+
+    public static LoadableAsset<Sprite> FreeplayResetSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayResetButton", MainBundle);
+
+    public static LoadableAsset<Sprite> FreeplayModifierSprite { get; } =
+        new LoadableBundleAsset<Sprite>("FreeplayModifierButton", MainBundle);
 
     public static LoadableAsset<Sprite> BroadcastSprite { get; } =
         new LoadableBundleAsset<Sprite>("BroadcastButton", MainBundle);

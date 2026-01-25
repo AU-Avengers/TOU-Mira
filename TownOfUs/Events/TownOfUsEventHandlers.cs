@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Globalization;
 using HarmonyLib;
 using MiraAPI.Events;
 using System.Text;
+using InnerNet;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
@@ -16,6 +16,7 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using PowerTools;
+using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
@@ -28,9 +29,13 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
+using TownOfUs.Modules.Components;
+using TownOfUs.Modules.RainbowMod;
+using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Crewmate;
@@ -51,6 +56,17 @@ namespace TownOfUs.Events;
 
 public static class TownOfUsEventHandlers
 {
+    public enum LogLevel
+    {
+        Error,
+        Warning,
+        Info,
+        Debug,
+        Message
+    }
+
+    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
+
     internal static TextMeshPro ModifierText;
 
     public static void RunModChecks()
@@ -114,6 +130,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void IntroBeginEventHandler(IntroBeginEvent @event)
     {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
         var cutscene = @event.IntroCutscene;
         Coroutines.Start(CoChangeModifierText(cutscene));
     }
@@ -233,6 +253,8 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
+        // Incase the kill animation is stuck somehow
+        // HudManager.Instance.KillOverlay.gameObject.SetActive(false);
         foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
         {
             mod.ModifierComponent?.RemoveModifier(mod);
@@ -256,7 +278,11 @@ public static class TownOfUsEventHandlers
     {
         var killer = @event.Source;
         var victim = @event.Target;
-        Logger<TownOfUsPlugin>.Error($"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
+        var text =
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+
+
+        MiscUtils.LogInfo(LogLevel.Error, text);
     }
 
     [RegisterEvent(-100)]
@@ -264,7 +290,10 @@ public static class TownOfUsEventHandlers
     {
         var killer = @event.Source;
         var victim = @event.Target;
-        Logger<TownOfUsPlugin>.Error($"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}");
+        var text =
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+
+        MiscUtils.LogInfo(LogLevel.Error, text);
     }
 
     [RegisterEvent]
@@ -278,21 +307,39 @@ public static class TownOfUsEventHandlers
         if (FirstDeadPatch.PlayerNames.Count > 0)
         {
             var stringB = new StringBuilder();
-            stringB.Append(CultureInfo.InvariantCulture, $"List Of Players That Died In Order: ");
+            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died First In Order: ");
             foreach (var playername in FirstDeadPatch.PlayerNames)
             {
-                stringB.Append(CultureInfo.InvariantCulture, $"{playername}, ");
+                stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
             }
 
             stringB = stringB.Remove(stringB.Length - 2, 2);
 
-            Logger<TownOfUsPlugin>.Warning(stringB.ToString());
+            Warning(stringB.ToString());
+        }
+
+        if (FirstDeadPatch.FirstRoundPlayerNames.Count > 0)
+        {
+            var stringB = new StringBuilder();
+            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died Round One In Order: ");
+            foreach (var playername in FirstDeadPatch.FirstRoundPlayerNames)
+            {
+                stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
+            }
+
+            stringB = stringB.Remove(stringB.Length - 2, 2);
+
+            Warning(stringB.ToString());
         }
 
         FirstDeadPatch.PlayerNames = [];
+        FirstDeadPatch.FirstRoundPlayerNames = [];
 
-        HudManager.Instance.SetHudActive(false);
-        HudManager.Instance.SetHudActive(true);
+        if (HudManager.InstanceExists)
+        {
+            HudManager.Instance.SetHudActive(false);
+            HudManager.Instance.SetHudActive(true);
+        }
         CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable =
             OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
 
@@ -300,42 +347,31 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance
             .MaxWatches);
         CustomButtonSingleton<TrackerTrackButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<TrackerTrackButton>.Instance.SetUses((int)OptionGroupSingleton<TrackerOptions>.Instance
+        CustomButtonSingleton<TrackerTrackButton>.Instance.SetUses((int)OptionGroupSingleton<SonarOptions>.Instance
             .MaxTracks);
         CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
             .MaxTraps);
-
-        CustomButtonSingleton<HunterStalkButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<HunterStalkButton>.Instance.SetUses((int)OptionGroupSingleton<HunterOptions>.Instance
-            .StalkUses);
         CustomButtonSingleton<SheriffShootButton>.Instance.Usable =
             OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse;
         CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<VeteranAlertButton>.Instance.SetUses((int)OptionGroupSingleton<VeteranOptions>.Instance
             .MaxNumAlerts);
 
+        CustomButtonSingleton<SpellslingerHexButton>.Instance.SetUses((int)OptionGroupSingleton<SpellslingerOptions>
+            .Instance
+            .MaxHexes);
+
         CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = false;
 
-        var engiVent = CustomButtonSingleton<EngineerVentButton>.Instance;
-        engiVent.ExtraUses = 0;
-        engiVent.SetUses((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents);
-        if ((int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents == 0)
-        {
-            engiVent.Button?.usesRemainingText.gameObject.SetActive(false);
-            engiVent.Button?.usesRemainingSprite.gameObject.SetActive(false);
-        }
-        else
-        {
-            engiVent.Button?.usesRemainingText.gameObject.SetActive(true);
-            engiVent.Button?.usesRemainingSprite.gameObject.SetActive(true);
-        }
+        CustomButtonSingleton<AltruistReviveButton>.Instance.RevivedInRound = false;
+        CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
 
         var medicShield = CustomButtonSingleton<MedicShieldButton>.Instance;
         medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
             ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
             : 0);
-        if ((int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses == 0 ||
+        if (!medicShield.LimitedUses ||
             !OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget)
         {
             medicShield.Button?.usesRemainingText.gameObject.SetActive(false);
@@ -363,6 +399,16 @@ public static class TownOfUsEventHandlers
             OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
         CustomButtonSingleton<BomberPlantButton>.Instance.Usable =
             OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound || TutorialManager.InstanceExists;
+
+        // This sets the sabo cooldowns properly
+        if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
+        {
+            systemType.Cast<IDoorSystem>().SetInitialSabotageCooldown();
+        }
+        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
+        {
+            systemType2.Cast<IDoorSystem>().SetInitialSabotageCooldown();
+        }
     }
 
     [RegisterEvent]
@@ -467,6 +513,11 @@ public static class TownOfUsEventHandlers
 
         GameHistory.AddMurder(source, target);
 
+        if (SpellslingerRole.EveryoneHexed() && PlayerControl.LocalPlayer.Data.Role is SpellslingerRole)
+        {
+            CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, PlayerControl.LocalPlayer.Data.Role);
+        }
+
         if (target.AmOwner)
         {
             HudManager.Instance.SetHudActive(false);
@@ -474,7 +525,10 @@ public static class TownOfUsEventHandlers
             if (!MeetingHud.Instance)
             {
                 HudManager.Instance.SetHudActive(true);
-                HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
+                if (OptionGroupSingleton<PostmortemOptions>.Instance.HideChatButton && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.HideAndSeek)
+                {
+                    HudManager.Instance.Chat.chatButton.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -532,12 +586,12 @@ public static class TownOfUsEventHandlers
         {
             var body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == target.PlayerId);
 
-            if (target.HasModifier<MiniModifier>() && body != null)
+            if ((target.HasModifier<MiniModifier>() || target.HasModifier<HnsMiniModifier>()) && body != null)
             {
                 body.transform.localScale *= 0.7f;
             }
 
-            if (target.HasModifier<GiantModifier>() && body != null)
+            if ((target.HasModifier<GiantModifier>() || target.HasModifier<HnsGiantModifier>()) && body != null)
             {
                 body.transform.localScale /= 0.7f;
             }
@@ -568,12 +622,17 @@ public static class TownOfUsEventHandlers
             return;
         }
 
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
+
         if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             @event.Cancel();
         }
 
-        // Prevent last 2 players from venting
+        // Prevent last 2 players from venting (or however many are set up)
         if (@event.IsVent)
         {
             if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
@@ -593,15 +652,16 @@ public static class TownOfUsEventHandlers
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
-            if (PlayerControl.LocalPlayer.inVent && aliveCount <= 2 &&
+            if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&
                 PlayerControl.LocalPlayer.Data.Role is not IGhostRole)
             {
                 PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                 PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
             }
 
-            if (aliveCount <= 2)
+            if (aliveCount <= minimum)
             {
                 @event.Cancel();
             }
@@ -611,12 +671,12 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void PlayerJoinEventHandler(PlayerJoinEvent @event)
     {
-        Coroutines.Start(CoSendSpecData());
+        Coroutines.Start(CoSendSpecData(@event.ClientData));
     }
 
-    public static IEnumerator CoSendSpecData()
+    internal static IEnumerator CoSendSpecData(ClientData clientData)
     {
-        while (!AmongUsClient.Instance)
+        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
         {
             yield return null;
         }
@@ -626,18 +686,33 @@ public static class TownOfUsEventHandlers
             yield return null;
         }
 
+        while (PlayerControl.LocalPlayer.Data == null)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);
+
         if (!PlayerControl.LocalPlayer.IsHost())
+        {
+            ChatPatches.ClearSpectatorList();
+            yield break;
+        }
+
+        if (SpectatorRole.TrackedSpectators.Count == 0)
         {
             yield break;
         }
 
-        foreach (var player in PlayerControl.AllPlayerControls)
+        var fakeDictionary = new Dictionary<byte, string>();
+        byte specByte = 0;
+        foreach (var name in SpectatorRole.TrackedSpectators)
         {
-            if (SpectatorRole.TrackedSpectators.Contains(player.Data.PlayerName))
-            {
-                ChatPatches.RpcSelectSpectator(player);
-            }
+            fakeDictionary.Add(specByte, name);
+            specByte++;
         }
+
+        Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
     }
 
     [RegisterEvent]
@@ -674,10 +749,10 @@ public static class TownOfUsEventHandlers
     private static IEnumerator CoHideHud()
     {
         yield return new WaitForSeconds(0.01f);
-        HudManager.Instance.SetHudActive(false);
         HudManager.Instance.AbilityButton.SetDisabled();
         HudManager.Instance.SabotageButton.SetDisabled();
         HudManager.Instance.UseButton.SetDisabled();
+        HudManager.Instance.SetHudActive(false);
     }
 
     private static IEnumerator CoAnimateDeath(PlayerVoteArea voteArea)
@@ -696,6 +771,13 @@ public static class TownOfUsEventHandlers
 
         var animationRend = animation.GetComponent<SpriteRenderer>();
         animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
+        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>();
+        if (r == null)
+        {
+            r = animationRend.gameObject.AddComponent<RainbowBehaviour>();
+        }
+
+        r.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
 
         voteArea.Overlay.gameObject.SetActive(false);
         animation.gameObject.SetActive(false);
@@ -727,16 +809,57 @@ public static class TownOfUsEventHandlers
         SoundManager.Instance.PlaySound(voteArea.GetPlayer()!.KillSfx, false);
 
         yield return new WaitForSeconds(bodyAnimLength - 0.25f);
-        voteArea.Overlay.gameObject.SetActive(true);
-        animation.gameObject.Destroy();
-        voteArea.XMark.gameObject.SetActive(true);
+        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
+        try
+        {
+            voteArea.Overlay.gameObject.SetActive(true);
+        }
+        catch
+        {
+            // ignored
+        }
+        animation.Destroy();
+        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
+        try
+        {
+            voteArea.XMark.gameObject.SetActive(true);
+        }
+        catch
+        {
+            // ignored
+        }
         SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
         Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
-        voteArea.Overlay.gameObject.SetActive(true);
     }
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
     {
+        if (MeetingHud.Instance.CurrentState == MeetingHud.VoteStates.Animating)
+        {
+            if (target.AmOwner)
+            {
+                MeetingMenu.Instances.Do(x => x.HideButtons());
+                Coroutines.Start(CoHideHud());
+            }
+            // hide meeting menu button for victim
+            else if (!source.AmOwner && !target.AmOwner)
+            {
+                MeetingMenu.Instances.Do(x => x.HideSingle(target.PlayerId));
+            }
+
+            var targetVoteAreaEarly = instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+
+            if (!targetVoteAreaEarly)
+            {
+                return;
+            }
+
+            targetVoteAreaEarly.AmDead = true;
+            targetVoteAreaEarly.Overlay.gameObject.SetActive(true);
+            targetVoteAreaEarly.XMark.gameObject.SetActive(true);
+            return;
+        }
+
         var timer = (int)OptionGroupSingleton<GeneralOptions>.Instance.AddedMeetingDeathTimer;
         if (timer > 0 && timer <= 15)
         {

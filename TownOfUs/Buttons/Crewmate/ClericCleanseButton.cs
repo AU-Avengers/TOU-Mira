@@ -13,10 +13,10 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class ClericCleanseButton : TownOfUsRoleButton<ClericRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleClericCleanse", "Cleanse");
+    public override string Name => TouLocale.GetParsed("TouRoleClericCleanse", "Cleanse");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Cleric;
-    public override float Cooldown => OptionGroupSingleton<ClericOptions>.Instance.CleanseCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<ClericOptions>.Instance.CleanseCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CleanseSprite;
 
     public override PlayerControl? GetTarget()
@@ -28,7 +28,7 @@ public sealed class ClericCleanseButton : TownOfUsRoleButton<ClericRole, PlayerC
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error($"{Name}: Target is null");
+            Error($"{Name}: Target is null");
             return;
         }
 

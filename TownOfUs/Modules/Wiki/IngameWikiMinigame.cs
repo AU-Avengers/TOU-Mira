@@ -1,5 +1,4 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.Modifiers;
@@ -353,7 +352,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             SearchIcon.transform.localPosition += new Vector3(0.625f, 0.796f, -1.1f);
             SearchIcon.transform.localScale *= 0.25f;
             var renderer = SearchIcon.GetComponent<SpriteRenderer>();
-            renderer.sprite = TouRoleIcons.Detective.LoadAsset();
+            renderer.sprite = TouRoleIcons.Forensic.LoadAsset();
             SearchIcon.name = "SearchboxIcon";
         }
 
@@ -451,7 +450,20 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
         else
         {
-            List<ushort> roleList = [(ushort)PlayerControl.LocalPlayer.Data.Role.Role];
+            List<ushort> roleList = [];
+
+            var curRole = PlayerControl.LocalPlayer.Data.Role.Role;
+
+            var cachedMod =
+                PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
+                    x is ICachedRole cached && cached.CachedRole.Role != curRole) as ICachedRole;
+            if (cachedMod != null)
+            {
+                roleList.Add((ushort)cachedMod.CachedRole.Role);
+            }
+
+            roleList.Add((ushort)curRole);
+
             if (PlayerControl.LocalPlayer.Data.IsDead &&
                 !roleList.Contains((ushort)PlayerControl.LocalPlayer.GetRoleWhenAlive().Role))
             {
@@ -465,31 +477,15 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
 
             var comparer = new RoleComparer(roleList);
-            var allRoles = MiscUtils.AllRoles.ToList();
-            if (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.VanillaWikiEntriesToggle.Value)
-            {
-                // allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Crewmate));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Tracker));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Detective));
-                // allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Impostor));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Shapeshifter));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Phantom));
-                allRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Viper));
-            }
+            var allRoles = MiscUtils.AllRegisteredRoles.Excluding(role =>
+                !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
+                role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
 
+            Warning($"Roles: {allRoles.Count}");
             var roles = allRoles.OrderBy(x => x, comparer);
 
             foreach (var role in roles)
             {
-                if (role is not IWikiDiscoverable && !SoftWikiEntries.RoleEntries.ContainsKey(role))
-                {
-                    continue;
-                }
-
                 var customRole = role as ICustomRole;
 
                 var teamName = MiscUtils.GetParsedRoleAlignment(role);
@@ -560,7 +556,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     var roleEntry = SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!;
                     roleEntry.EntryName = TranslationController.Instance.GetString(role.StringName);
                     roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(role.BlurbNameLong);
-                    if (roleEntry.GetAdvancedDescription == "STRMISS")
+                    if (roleEntry.GetAdvancedDescription.Contains("STRMISS"))
                     {
                         var baseName = ($"{role.StringName}").Replace("Role", "");
                         if (Enum.TryParse<StringNames>($"RolesHelp_{baseName}_01", out var helpName))

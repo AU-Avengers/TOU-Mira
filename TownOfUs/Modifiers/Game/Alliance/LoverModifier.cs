@@ -11,6 +11,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
@@ -50,7 +51,9 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public override bool DoesTasks =>
         (OtherLover == null || OtherLover.IsCrewmate()) &&
-        Player.IsCrewmate(); // Lovers do tasks if they are not lovers with an Evil
+        Player.IsCrewmate() && !ForceDisableTasks; // Lovers do tasks if they are not lovers with an Evil
+
+    public bool ForceDisableTasks;
 
     public override bool HideOnUi => false;
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Lover;
@@ -65,6 +68,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
     public void AssignTargets()
     {
+        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        {
+            return;
+        }
+
         foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>())
                      .ToList())
         {
@@ -109,7 +117,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
             if (crewmates.Count < 2 || impostors.Count < 1)
             {
-                Logger<TownOfUsPlugin>.Error("Not enough players to select lovers");
+                Error("Not enough players to select lovers");
                 return;
             }
 
@@ -160,6 +168,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         }
 
         HudManager.Instance.Chat.gameObject.SetActive(true);
+        var buttonArray = new []
+            { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
+        HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
+        HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
+        HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
         if (TutorialManager.InstanceExists && OtherLover == null && Player.AmOwner && Player.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
@@ -242,9 +255,56 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         }
     }
 
+    public override void OnMeetingStart()
+    {
+        base.OnMeetingStart();
+        if (!Player.AmOwner)
+        {
+            return;
+        }
+
+        var buttonArray = new Sprite[]
+        {
+            TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(),
+            TouChatAssets.NormalChatOpen.LoadAsset()
+        };
+        HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            buttonArray[0];
+        HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+            buttonArray[1];
+        HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite =
+            buttonArray[2];
+    }
+
     public override bool? DidWin(GameOverReason reason)
     {
-        return reason == CustomGameOver.GameOverReason<LoverGameOver>() ? true : null;
+        if (reason == CustomGameOver.GameOverReason<LoverGameOver>())
+        {
+            return true;
+        }
+
+        // Co-win: if the Jester is a Lover and gets voted out (NeutralGameOver winner),
+        // both Lovers should be marked as winners.
+        if (reason == CustomGameOver.GameOverReason<NeutralGameOver>())
+        {
+            var winners = EndGameResult.CachedWinners;
+            if (winners != null && winners.Count == 1)
+            {
+                var winner = winners[0];
+                var winnerRole = RoleManager.Instance.GetRole(winner.RoleWhenAlive);
+                if (winnerRole is JesterRole)
+                {
+                    var winnerName = winner.PlayerName;
+                    if (winnerName == Player.Data.PlayerName ||
+                        (OtherLover != null && winnerName == OtherLover.Data.PlayerName))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     public static bool WinConditionMet(LoverModifier[] lovers)
@@ -262,6 +322,11 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         }
 
         HudManager.Instance.Chat.SetVisible(true);
+        var buttonArray = new []
+                { TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()};
+        HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = buttonArray[0];
+        HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = buttonArray[1];
+        HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = buttonArray[2];
     }
 
     public PlayerControl? GetOtherLover()
@@ -269,12 +334,35 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         return OtherLover;
     }
 
+    /// <summary>
+    /// Debug helper (Freeplay/Tutorial) to force-assign a pair of players as Lovers.
+    /// </summary>
+    public static void DebugSetLovers(PlayerControl loverA, PlayerControl loverB, bool clearExisting = true)
+    {
+        if (loverA == null || loverB == null || loverA == loverB)
+        {
+            return;
+        }
+
+        if (clearExisting)
+        {
+            foreach (var player in PlayerControl.AllPlayerControls.ToArray()
+                         .Where(x => x != null && x.HasModifier<LoverModifier>()).ToList())
+            {
+                player.RpcRemoveModifier<LoverModifier>();
+            }
+        }
+
+        // Uses the existing RPC path to ensure both sides are wired correctly.
+        RpcSetOtherLover(loverA, loverB);
+    }
+
     [MethodRpc((uint)TownOfUsRpc.SetOtherLover)]
     private static void RpcSetOtherLover(PlayerControl player, PlayerControl target)
     {
         if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)
         {
-            Logger<TownOfUsPlugin>.Error("RpcSetOtherLover - Lovers Already Spawned!");
+            Error("RpcSetOtherLover - Lovers Already Spawned!");
             return;
         }
 
@@ -282,5 +370,10 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         var sourceModifier = player.AddModifier<LoverModifier>();
         targetModifier!.OtherLover = player;
         sourceModifier!.OtherLover = target;
+        if (!player.IsCrewmate() || !target.IsCrewmate())
+        {
+            targetModifier.ForceDisableTasks = true;
+            sourceModifier.ForceDisableTasks = true;
+        }
     }
 }

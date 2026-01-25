@@ -11,7 +11,7 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 
-namespace TownOfUs.Events.Neutral;
+namespace TownOfUs.Events.Crewmate;
 
 public static class SheriffEvents
 {
@@ -52,7 +52,8 @@ public static class SheriffEvents
                 (target.IsCrewmate() && target.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
                  !allyMod.GetsPunished) ||
                 (target.Is(RoleAlignment.NeutralEvil) && options.ShootNeutralEvil) ||
-                (target.Is(RoleAlignment.NeutralKilling) && options.ShootNeutralKiller))
+                (target.Is(RoleAlignment.NeutralKilling) && options.ShootNeutralKiller) ||
+                (target.Is(RoleAlignment.NeutralBenign) && options.ShootNeutralBenign))
             {
                 stats.CorrectKills += 1;
             }

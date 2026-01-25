@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
@@ -14,10 +13,10 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerControl>
 {
-    public override string Name => TouLocale.Get("TouRoleHunterStalk", "Stalk");
+    public override string Name => TouLocale.GetParsed("TouRoleHunterStalk", "Stalk");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Hunter;
-    public override float Cooldown => OptionGroupSingleton<HunterOptions>.Instance.HunterStalkCooldown + MapCooldown;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<HunterOptions>.Instance.HunterStalkCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<HunterOptions>.Instance.HunterStalkDuration;
     public override int MaxUses => (int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.StalkButtonSprite;
@@ -27,7 +26,7 @@ public sealed class HunterStalkButton : TownOfUsRoleButton<HunterRole, PlayerCon
     {
         if (Target == null)
         {
-            Logger<TownOfUsPlugin>.Error("Stalk: Target is null");
+            Error("Stalk: Target is null");
             return;
         }
 

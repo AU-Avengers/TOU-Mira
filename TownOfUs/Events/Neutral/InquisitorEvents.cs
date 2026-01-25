@@ -3,10 +3,12 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -103,9 +105,6 @@ public static class InquisitorEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
@@ -115,6 +114,9 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(inquis.Player, TouLocale.Get("DiedToWinning"),
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue);
 
             inquis.Player.Exiled();
         }
@@ -128,6 +130,8 @@ public static class InquisitorEvents
             return;
         }
 
+        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable = true;
+
         var inquis = CustomRoleUtils.GetActiveRolesOfType<InquisitorRole>().FirstOrDefault();
         if (inquis != null && inquis.TargetsDead && !inquis.Player.HasDied())
         {
@@ -138,9 +142,6 @@ public static class InquisitorEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
 
                 notif1.AdjustNotification();
-                DeathHandlerModifier.RpcUpdateDeathHandler(PlayerControl.LocalPlayer, TouLocale.Get("DiedToWinning"),
-                    DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
-                    lockInfo: DeathHandlerOverride.SetTrue);
             }
             else
             {
@@ -150,6 +151,9 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(inquis.Player, TouLocale.Get("DiedToWinning"),
+                DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetFalse,
+                lockInfo: DeathHandlerOverride.SetTrue);
 
             inquis.Player.Exiled();
         }

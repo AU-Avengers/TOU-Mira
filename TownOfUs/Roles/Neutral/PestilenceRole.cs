@@ -1,13 +1,16 @@
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
+using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -19,7 +22,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IUnguessable, ICrewVariant
 {
     public bool Announced { get; set; }
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AurialRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string YouAreText => TouLocale.Get("YouAre");
     public string YouWereText => TouLocale.Get("YouWere");
@@ -48,7 +51,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         DefaultChance = 0,
         DefaultRoleCount = 0,
         MaxRoleCount = 0,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Phantom),
+        IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Pestilence,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -69,12 +72,12 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();
-        stringB.AppendLine(CultureInfo.InvariantCulture,
+        stringB.AppendLine(TownOfUsPlugin.Culture,
             $"{RoleColor.ToTextColor()}{YouAreText}<b> {RoleName},\n<size=80%>{RoleDescription}</size></b></color>");
-        stringB.AppendLine(CultureInfo.InvariantCulture,
+        stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"{RoleLongDescription}");
+        stringB.AppendLine(TownOfUsPlugin.Culture, $"{RoleLongDescription}");
 
         return stringB;
     }
@@ -82,13 +85,34 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public bool IsGuessable => false;
     public RoleBehaviour AppearAs => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PlaguebearerRole>());
 
+    [MethodRpc((uint)TownOfUsRpc.TriggerPestilence, LocalHandling = RpcLocalHandling.Before)]
+    public static void RpcTriggerPestilence(PlayerControl player)
+    {
+        if (player.HasDied() || (player.Data.Role is not PestilenceRole && player.Data.Role is not PlaguebearerRole))
+        {
+            return;
+        }
+        var players =
+            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>();
+
+        players.Do(x =>
+            x.RemoveModifier<PlaguebearerInfectedModifier>());
+        if (player.Data.Role is not PestilenceRole)
+        {
+            player.ChangeRole(RoleId.Get<PestilenceRole>());
+        }
+    }
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        player.AddModifier<InvulnerabilityModifier>(true, true, false);
 
         if (Player.AmOwner)
         {
+            if (!Player.HasModifier<InvulnerabilityModifier>())
+            {
+                Player.RpcAddModifier<InvulnerabilityModifier>(true, true, false);
+            }
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.PestVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Pestilence);
         }
@@ -99,10 +123,13 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
-        targetPlayer.RemoveModifier<InvulnerabilityModifier>();
 
         if (Player.AmOwner)
         {
+            if (Player.HasModifier<InvulnerabilityModifier>())
+            {
+                Player.RpcRemoveModifier<InvulnerabilityModifier>();
+            }
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }

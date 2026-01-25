@@ -7,6 +7,7 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -19,16 +20,53 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class HunterEvents
 {
+    public static int ActiveStalkTaskCount;
+    [RegisterEvent]
+    public static void RoundStartHandler(RoundStartEvent @event)
+    {
+        if (!@event.TriggeredByIntro)
+        {
+            return; // Only run when game starts.
+        }
+
+        ActiveStalkTaskCount = 0;
+
+        var hunterStalk = CustomButtonSingleton<HunterStalkButton>.Instance;
+        hunterStalk.ExtraUses = 0;
+        hunterStalk.SetUses((int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses);
+        if (!hunterStalk.LimitedUses)
+        {
+            hunterStalk.Button?.usesRemainingText.gameObject.SetActive(false);
+            hunterStalk.Button?.usesRemainingSprite.gameObject.SetActive(false);
+        }
+        else
+        {
+            hunterStalk.Button?.usesRemainingText.gameObject.SetActive(true);
+            hunterStalk.Button?.usesRemainingSprite.gameObject.SetActive(true);
+        }
+    }
+
     [RegisterEvent]
     public static void CompleteTaskEvent(CompleteTaskEvent @event)
     {
-        if (@event.Player.AmOwner && @event.Player.Data.Role is HunterRole &&
-            OptionGroupSingleton<HunterOptions>.Instance.TaskUses)
+        var opt = OptionGroupSingleton<HunterOptions>.Instance;
+        var stalkButton = CustomButtonSingleton<HunterStalkButton>.Instance;
+        if (@event.Player.AmOwner)
         {
-            var button = CustomButtonSingleton<HunterStalkButton>.Instance;
-            ++button.UsesLeft;
-            ++button.ExtraUses;
-            button.SetUses(button.UsesLeft);
+            ++ActiveStalkTaskCount;
+            if (@event.Player.Data.Role is not HunterRole)
+            {
+                return;
+            }
+
+            if (stalkButton.LimitedUses &&
+                opt.StalkPerTasks != 0 && opt.StalkPerTasks <= ActiveStalkTaskCount)
+            {
+                ++stalkButton.UsesLeft;
+                ++stalkButton.ExtraUses;
+                stalkButton.SetUses(stalkButton.UsesLeft);
+                ActiveStalkTaskCount = 0;
+            }
         }
     }
 
@@ -112,7 +150,7 @@ public static class HunterEvents
     }
 
 
-    [RegisterEvent]
+    [RegisterEvent(300)]
     public static void EjectionEventHandler(EjectionEvent @event)
     {
         if (!OptionGroupSingleton<HunterOptions>.Instance.RetributionOnVote)
@@ -127,7 +165,14 @@ public static class HunterEvents
             return;
         }
 
-        HunterRole.Retribution(hunter.Player, hunter.LastVoted!);
+        var target = hunter.LastVoted!;
+        var pros = CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>().FirstOrDefault();
+        if (pros != null && pros.HasProsecuted)
+        {
+            target = pros.Player;
+        }
+
+        HunterRole.Retribution(hunter.Player, target);
     }
 
     private static void CheckForHunterStalked(PlayerControl source)
@@ -144,7 +189,7 @@ public static class HunterEvents
 
         var mod = source.GetModifier<HunterStalkedModifier>();
 
-        if (mod?.Hunter == null || !source.AmOwner)
+        if (mod?.Hunter == null || !(TutorialManager.InstanceExists || source.AmOwner))
         {
             return;
         }
