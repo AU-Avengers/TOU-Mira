@@ -103,7 +103,6 @@ public static class TownOfUsColors
     public static Color SixthSense => new Color32(217, 255, 140, 255);
     public static Color Sleuth => new Color32(128, 51, 51, 255);
     public static Color Tiebreaker => new Color32(153, 230, 153, 255);
-    public static Color Drunk => new Color32(117, 128, 0, 255);
 
     // Crewmate Modifiers
     public static Color Aftermath => new Color32(166, 255, 166, 255);
@@ -120,6 +119,7 @@ public static class TownOfUsColors
     public static Color Scout => new Color32(69, 97, 87, 255);
     public static Color Taskmaster => new Color32(148, 214, 237, 255);
     public static Color Torch => new Color32(255, 255, 153, 255);
+    public static Color Drunk => new Color32(117, 128, 0, 255);
 
     // Neutral Modifiers
     public static Color Camouflaged => Color.gray;

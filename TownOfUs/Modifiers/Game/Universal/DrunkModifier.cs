@@ -8,6 +8,7 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
+    public override string LocaleKey => "Drunk";
     public override string ModifierName => "Drunk";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Drunk;
 
@@ -25,7 +26,7 @@ public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable, IV
     public override string GetDescription()
     {
         return
-            $"Youuuuuuu haaaaaaaave inverrrrrrted contrrrrrrrrrols";
+            $"You're tipsy, with inverted controls.";
     }
 
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
