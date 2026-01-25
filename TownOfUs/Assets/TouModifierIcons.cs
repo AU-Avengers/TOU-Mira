@@ -31,6 +31,9 @@ public static class TouModifierIcons
     public static LoadableAsset<Sprite> Diseased { get; } =
         new LoadableBundleAsset<Sprite>("Diseased", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Drunk { get; } =
+        new LoadableBundleAsset<Sprite>("Drunk", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> Egotist { get; } =
         new LoadableBundleAsset<Sprite>("Egotist", TouAssets.MainBundle);
 
