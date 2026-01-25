@@ -106,6 +106,19 @@ public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         _crimeScenes.Remove(crimeScene);
     }
 
+    public static void ClearCrimeScene(DeadBody body)
+    {
+        var crimeScene = _crimeScenes.FirstOrDefault(x => x.DeadPlayer == MiscUtils.PlayerById(body.ParentId));
+
+        if (crimeScene == null)
+        {
+            return;
+        }
+
+        Destroy(crimeScene.gameObject);
+        _crimeScenes.Remove(crimeScene);
+    }
+
     public static void Clear()
     {
         _crimeScenes.Do(x =>

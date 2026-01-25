@@ -180,6 +180,20 @@ public static class Extensions
         body.gameObject.Destroy();
     }
 
+    public static void ClearBody(this DeadBody body)
+    {
+        var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
+        if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+        {
+            var player = MiscUtils.PlayerById(body.ParentId);
+            if (player != null && !player.AmOwner)
+            {
+                MiscUtils.RemovePet(player);
+            }
+        }
+        body.gameObject.Destroy();
+    }
+
     public static void OverrideOnClickListeners(this PassiveButton passive, Action action, bool enabled = true)
     {
         if (!passive)
