@@ -77,7 +77,7 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Warden { get; } =
         new LoadableBundleAsset<Sprite>("Warden", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> Guardian { get; } = new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Guardian.png");
+    public static LoadableAsset<Sprite> Benefactor { get; } = new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Benefactor.png");
 
     // Crewmate Support
     public static LoadableAsset<Sprite> Barkeeper { get; } =

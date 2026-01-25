@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class GuardianAegisButton : TownOfUsRoleButton<GuardianRole>
+public sealed class BenefactorAegisButton : TownOfUsRoleButton<BenefactorRole>
 {
     public override string Name => "Aegis";
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
-    public override Color TextOutlineColor => TownOfUsColors.Guardian;
+    public override Color TextOutlineColor => TownOfUsColors.Benefactor;
     public override float Cooldown => 1;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.FortifySprite;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
@@ -18,7 +18,7 @@ public sealed class GuardianAegisButton : TownOfUsRoleButton<GuardianRole>
 
     protected override void OnClick()
     {
-        var guardian = PlayerControl.LocalPlayer.GetRole<GuardianRole>();
+        var guardian = PlayerControl.LocalPlayer.GetRole<BenefactorRole>();
 
         if (guardian != null)
         {

@@ -17,36 +17,36 @@ using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
-public static class GuardianEvents
+public static class BenefactorEvents
 {
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
-        CustomRoleUtils.GetActiveRolesOfType<GuardianRole>()
+        CustomRoleUtils.GetActiveRolesOfType<BenefactorRole>()
             .Do(role => role.Clear());
     }
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
-        if (PlayerControl.LocalPlayer.Data.Role is GuardianRole guardian && guardian.ProtectedRole.HasValue)
+        if (PlayerControl.LocalPlayer.Data.Role is BenefactorRole benefactor && benefactor.ProtectedRole.HasValue)
         {
-            if (!guardian.ProtectedRoleExists)
+            if (!benefactor.ProtectedRoleExists)
             {
                 MiscUtils.AddFakeChat(
                     PlayerControl.LocalPlayer.Data,
-                    $"{TownOfUsColors.Guardian.ToTextColor()}Guardian Report</color>",
-                    $"Your latest Aegis did not protect anyone. There must be no players with {FormatedTextForRole(guardian.ProtectedRole.Value)} role.",
+                    $"{TownOfUsColors.Benefactor.ToTextColor()}Benefactor Report</color>",
+                    $"Your latest Aegis did not protect anyone. There must be no players with {FormatedTextForRole(benefactor.ProtectedRole.Value)} role.",
                     false,
                     true);
                 return;
             }
             
-            foreach (var roleType in guardian.AegisAttacked)
+            foreach (var roleType in benefactor.AegisAttacked)
             {
                 MiscUtils.AddFakeChat(
                     PlayerControl.LocalPlayer.Data,
-                    $"{TownOfUsColors.Guardian.ToTextColor()}Guardian Report</color>",
+                    $"{TownOfUsColors.Benefactor.ToTextColor()}Benefactor Report</color>",
                     $"Your {FormatedTextForRole(roleType)} Aegis has been attacked!",
                     false,
                     true);
@@ -90,7 +90,7 @@ public static class GuardianEvents
             return false;
         }
 
-        if (!target.HasModifier<GuardianAegisModifier>() ||
+        if (!target.HasModifier<BenefactorAegisModifier>() ||
             source == null ||
             target.PlayerId == source.PlayerId ||
             (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
@@ -100,11 +100,11 @@ public static class GuardianEvents
 
         @event.Cancel();
 
-        var guardian = target.GetModifier<GuardianAegisModifier>()?.Guardian;
+        var guardian = target.GetModifier<BenefactorAegisModifier>()?.Benefactor;
 
         if (guardian != null && source.AmOwner)
         {
-            GuardianRole.RpcGuardianAegisAttacked(guardian, source, target);
+            BenefactorRole.RpcBenefactorAegisAttacked(guardian, source, target);
         }
 
         return true;

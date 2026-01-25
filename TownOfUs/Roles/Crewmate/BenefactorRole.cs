@@ -10,7 +10,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -21,26 +20,26 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
 
     public RoleTypes? ProtectedRole { get; set; }
     public bool ProtectedRoleExists { get; set; }
     public List<RoleTypes> AegisAttacked { get; } = [];
-    public bool UsedOnGuardian { get; private set; }
+    public bool UsedOnBenefactor { get; private set; }
 
     public DoomableType DoomHintType => DoomableType.Protective;
-    public string RoleName => "Guardian";
+    public string RoleName => "Benefactor";
     public string RoleDescription => "Cast Aegis over roles";
     public string RoleLongDescription => "Protect all players with a role of your choice.";
-    public Color RoleColor => TownOfUsColors.Guardian;
+    public Color RoleColor => TownOfUsColors.Benefactor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        Icon = TouRoleIcons.Guardian
+        Icon = TouRoleIcons.Benefactor
     };
 
     [HideFromIl2Cpp]
@@ -108,8 +107,8 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         void ClickRoleHandle(RoleBehaviour role)
         {
             menu.Close();
-            RpcGuardianAegis(Player, role.Role);
-            CustomButtonSingleton<GuardianAegisButton>.Instance.SetTimer(OptionGroupSingleton<GuardianOptions>.Instance.AegisCooldown);
+            RpcBenefactorAegis(Player, role.Role);
+            CustomButtonSingleton<BenefactorAegisButton>.Instance.SetTimer(OptionGroupSingleton<BenefactorOptions>.Instance.AegisCooldown);
         }
     }
 
@@ -120,9 +119,9 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             return false;
         }
 
-        if (role is GuardianRole)
+        if (role is BenefactorRole)
         {
-            return !UsedOnGuardian;
+            return !UsedOnBenefactor;
         }
 
         if (role.Role == ProtectedRole)
@@ -145,9 +144,9 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         ProtectedRole = role;
         ProtectedRoleExists = false;
 
-        if (role == (RoleTypes)RoleId.Get<GuardianRole>())
+        if (role == (RoleTypes)RoleId.Get<BenefactorRole>())
         {
-            UsedOnGuardian = true;
+            UsedOnBenefactor = true;
         }
         
         foreach (var player in Helpers.GetAlivePlayers())
@@ -155,7 +154,7 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             if (player.Data.Role.Role == ProtectedRole)
             {
                 ProtectedRoleExists = true;
-                player.AddModifier<GuardianAegisModifier>(Player);
+                player.AddModifier<BenefactorAegisModifier>(Player);
             }
         }
     }
@@ -163,47 +162,46 @@ public sealed class GuardianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public void Clear()
     {
         ProtectedRole = null;
-        ModifierUtils.GetActiveModifiers<GuardianAegisModifier>()
-            .Where(x => x.Guardian == Player)
+        ModifierUtils.GetActiveModifiers<BenefactorAegisModifier>()
+            .Where(x => x.Benefactor == Player)
             .Do(x => Player.RemoveModifier(x));
     }
     
-    [MethodRpc((uint)TownOfUsRpc.GuardianAegis)]
-    public static void RpcGuardianAegis(PlayerControl player, RoleTypes role)
+    [MethodRpc((uint)TownOfUsRpc.BenefactorAegis)]
+    public static void RpcBenefactorAegis(PlayerControl player, RoleTypes role)
     {
-        if (player.Data.Role is not GuardianRole)
+        if (player.Data.Role is not BenefactorRole benefactor)
         {
-            Logger<TownOfUsPlugin>.Error("RpcGuardianAegis - Invalid guardian");
+            Error("RpcBenefactorAegis - Invalid benefactor");
             return;
         }
 
-        var guardian = player.GetRole<GuardianRole>();
-        guardian?.SelectAegis(role);
+        benefactor.SelectAegis(role);
     }
     
-    [MethodRpc((uint)TownOfUsRpc.GuardianAegisAttacked)]
-    public static void RpcGuardianAegisAttacked(PlayerControl player, PlayerControl source, PlayerControl target)
+    [MethodRpc((uint)TownOfUsRpc.BenefactorAegisAttacked)]
+    public static void RpcBenefactorAegisAttacked(PlayerControl player, PlayerControl source, PlayerControl target)
     {
-        if (player.Data.Role is not GuardianRole guardian)
+        if (player.Data.Role is not BenefactorRole benefactor)
         {
-            Logger<TownOfUsPlugin>.Error("RpcGuardianAegis - Invalid guardian");
+            Error("RpcBenefactorAegis - Invalid benefactor");
             return;
         }
-        if (!target.HasModifier<GuardianAegisModifier>())
+        if (!target.HasModifier<BenefactorAegisModifier>())
         {
-            Logger<TownOfUsPlugin>.Error("RpcGuardianAegis - Target has no Aegis");
+            Error("RpcBenefactorAegis - Target has no Aegis");
             return;
         }
 
         var targetRole = target.Data.Role.Role;
-        if (guardian.ProtectedRole != targetRole)
+        if (benefactor.ProtectedRole != targetRole)
         {
             return;
         }
 
-        if (!guardian.AegisAttacked.Contains(targetRole))
+        if (!benefactor.AegisAttacked.Contains(targetRole))
         {
-            guardian.AegisAttacked.Add(targetRole);
+            benefactor.AegisAttacked.Add(targetRole);
         }
     }
 }
