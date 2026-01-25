@@ -15,6 +15,22 @@ namespace TownOfUs.Utilities;
 
 public static class TouRoleUtils
 {
+    public static Sprite GetRoleIcon(this RoleBehaviour role)
+    {
+        var roleImg = TouAssets.BlankSprite.LoadAsset();
+        var customRole = role as ICustomRole;
+        if (customRole != null && customRole.Configuration.Icon != null)
+        {
+            roleImg = customRole.Configuration.Icon.LoadAsset();
+        }
+        else if (role.RoleIconSolid != null)
+        {
+            roleImg = role.RoleIconSolid;
+        }
+
+        return roleImg;
+    }
+
     public static bool CanGetGhostRole(this PlayerControl player)
     {
         return !player.HasModifier<BasicGhostModifier>()
