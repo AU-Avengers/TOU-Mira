@@ -79,8 +79,9 @@ public static class TouRoleIcons
 
     public static LoadableAsset<Sprite> Guardian { get; } = new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Guardian.png");
 
-    public static LoadableAsset<Sprite> Bartender { get; } =
-        new LoadableBundleAsset<Sprite>("Bartender", TouAssets.MainBundle);
+    // Crewmate Support
+    public static LoadableAsset<Sprite> Barkeeper { get; } =
+        new LoadableBundleAsset<Sprite>("Barkeeper", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Chameleon { get; } =
         new LoadableBundleAsset<Sprite>("Chameleon", TouAssets.MainBundle);
     public static LoadableAsset<Sprite> Engineer { get; } =
@@ -225,6 +226,7 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Spectator { get; } =
         new LoadableBundleAsset<Sprite>("Spectator", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Bartender => Barkeeper;
     public static LoadableAsset<Sprite> GuardianAngel => Fairy;
     public static LoadableAsset<Sprite> Tracker => Sonar;
     public static LoadableAsset<Sprite> Detective => Forensic;
