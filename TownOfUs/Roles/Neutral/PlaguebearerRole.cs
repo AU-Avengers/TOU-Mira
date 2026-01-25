@@ -23,6 +23,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class PlaguebearerRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+    }
+
     public void FixedUpdate()
     {
         if (Player == null || Player.Data.Role is not PlaguebearerRole || Player.HasDied() || !Player.AmOwner)
@@ -31,8 +41,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
 
         var allInfected =
-            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) =>
-                x.PlagueBearerId == Player.PlayerId && !x.Player.HasDied());
+            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) => !x.Player.HasDied());
 
         if (allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
             (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2))

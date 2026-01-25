@@ -53,6 +53,11 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         RoleHintType = RoleHintType.TaskHint
     };
 
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        // ignore
+    }
+
     public override void AppendTaskHint(Il2CppSystem.Text.StringBuilder taskStringBuilder)
     {
         taskStringBuilder.AppendLine($"\n{RoleHintText}\n{RoleLongDescription}");

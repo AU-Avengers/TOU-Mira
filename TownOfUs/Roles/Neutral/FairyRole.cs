@@ -28,6 +28,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable,
     IDoomable, IAssignableTargets, ICrewVariant
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+    }
+
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MirrorcasterRole>());
     public PlayerControl? Target { get; set; }
     public int Priority { get; set; } = 1;
@@ -165,7 +175,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         _missingTargetDesc = TouLocale.GetParsed("TouRoleFairyIfNoTarget");
         _targetDesc = TouLocale.GetParsed("TouRoleFairyTabDescription");
 
-        if (TutorialManager.InstanceExists && Target == null && Player.AmOwner && Player.IsHost() &&
+        if (TutorialManager.InstanceExists && Target == null && PlayerControl.LocalPlayer.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
             Coroutines.Start(SetTutorialTargets(this));

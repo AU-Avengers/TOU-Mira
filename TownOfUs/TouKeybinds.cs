@@ -29,4 +29,44 @@ public static class TouKeybinds
     /// Gets the keybind for zooming out.
     /// </summary>
     public static MiraKeybind ZoomOutKeypad { get; } = new("Zoom Out (Alt)", KeyboardKeyCode.KeypadMinus);
+
+    /// <summary>
+    /// Gets the keybind for moving up as ControlRole.
+    /// </summary>
+    public static MiraKeybind ControlRolePrimaryUp { get; } = new("Control Role Move Up", KeyboardKeyCode.W, exclusive: false);
+
+    /// <summary>
+    /// Gets the keybind for moving left as ControlRole.
+    /// </summary>
+    public static MiraKeybind ControlRolePrimaryLeft { get; } = new("Control Role Move Left", KeyboardKeyCode.A, exclusive: false);
+
+    /// <summary>
+    /// Gets the keybind for moving down as ControlRole.
+    /// </summary>
+    public static MiraKeybind ControlRolePrimaryDown { get; } = new("Control Role Move Down", KeyboardKeyCode.S, exclusive: false);
+
+    /// <summary>
+    /// Gets the keybind for moving right as ControlRole.
+    /// </summary>
+    public static MiraKeybind ControlRolePrimaryRight { get; } = new("Control Role Move Right", KeyboardKeyCode.D, exclusive: false);
+
+    /// <summary>
+    /// Gets the keybind for moving up as the ControlRole's Victim.
+    /// </summary>
+    public static MiraKeybind ControlRoleSecondaryUp { get; } = new("Control Role Target Move Up", KeyboardKeyCode.UpArrow, exclusive: false);
+
+    /// <summary>
+    /// Gets the keybind for moving left as the ControlRole's Victim.
+    /// </summary>
+    public static MiraKeybind ControlRoleSecondaryLeft { get; } = new("Control Role Target Move Left", KeyboardKeyCode.LeftArrow, exclusive: false);
+
+    /// <summary>
+    /// Gets the keybind for moving down as the ControlRole's Victim.
+    /// </summary>
+    public static MiraKeybind ControlRoleSecondaryDown { get; } = new("Control Role Target Move Down", KeyboardKeyCode.DownArrow, exclusive: false);
+
+    /// <summary>
+    /// Gets the keybind for moving right as the ControlRole's Victim.
+    /// </summary>
+    public static MiraKeybind ControlRoleSecondaryRight { get; } = new("Control Role Target Move Right", KeyboardKeyCode.RightArrow, exclusive: false);
 }

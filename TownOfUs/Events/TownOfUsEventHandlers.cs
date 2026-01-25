@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using HarmonyLib;
-using MiraAPI.Events;
-using System.Text;
+﻿using HarmonyLib;
 using InnerNet;
+using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
@@ -19,6 +17,8 @@ using PowerTools;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Collections;
+using System.Text;
 using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
@@ -30,10 +30,12 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Networking;
 using TownOfUs.Options;
@@ -68,6 +70,41 @@ public static class TownOfUsEventHandlers
     internal static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
 
     internal static TextMeshPro ModifierText;
+    public static TaskPanelBehaviour RolePanel;
+    public static SpriteRenderer RoleIconRenderer;
+
+    public static TaskPanelBehaviour? TryGetRoleTab()
+    {
+        if (RolePanel == null)
+        {
+            var panelThing = HudManager.Instance.TaskStuff.transform.FindChild("RolePanel");
+            if (panelThing != null)
+            {
+                RolePanel = panelThing.gameObject.GetComponent<TaskPanelBehaviour>();
+            }
+        }
+
+        if (RolePanel != null && RoleIconRenderer == null)
+        {
+            var newObj = new GameObject("RoleIcon");
+            newObj.transform.parent = RolePanel.transform.FindChild("Tab").transform;
+            newObj.transform.localScale = new(5f, 1.3f, 1);
+            newObj.layer = LayerMask.NameToLayer("UI");
+            newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
+            RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
+        }
+
+        if (RoleIconRenderer != null)
+        {
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.transform.localScale = new Vector3(1, 1, 1);
+            RoleIconRenderer.SetSizeLimit(0.4f);
+            var oldScale = RoleIconRenderer.transform.localScale;
+            RoleIconRenderer.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
+        }
+
+        return RolePanel;
+    }
 
     public static void RunModChecks()
     {
@@ -221,38 +258,39 @@ public static class TownOfUsEventHandlers
             modsTab.ToggleTab();
         }
 
-        var panelThing = HudManager.Instance.TaskStuff.transform.FindChild("RolePanel");
-        if (panelThing != null)
+        var panel = TryGetRoleTab();
+        var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
+        if (role == null || panel == null)
         {
-            var panel = panelThing.gameObject.GetComponent<TaskPanelBehaviour>();
-            var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
-            if (role == null)
-            {
-                return;
-            }
-
-            panel.open = true;
-
-            var tabText = panel.tab.gameObject.GetComponentInChildren<TextMeshPro>();
-            var ogPanel = HudManager.Instance.TaskStuff.transform.FindChild("TaskPanel").gameObject
-                .GetComponent<TaskPanelBehaviour>();
-            if (tabText.text != role.RoleName)
-            {
-                tabText.text = role.RoleName;
-            }
-
-            var y = ogPanel.taskText.textBounds.size.y + 1;
-            panel.closedPosition = new Vector3(ogPanel.closedPosition.x, ogPanel.open ? y + 0.2f : 2f,
-                ogPanel.closedPosition.z);
-            panel.openPosition = new Vector3(ogPanel.openPosition.x, ogPanel.open ? y : 2f, ogPanel.openPosition.z);
-
-            panel.SetTaskText(role.SetTabText().ToString());
+            return;
         }
+
+        panel.open = true;
+
+        var tabText = panel.tab.gameObject.GetComponentInChildren<TextMeshPro>();
+        var ogPanel = HudManager.Instance.TaskStuff.transform.FindChild("TaskPanel").gameObject
+            .GetComponent<TaskPanelBehaviour>();
+        if (tabText.text != role.RoleName)
+        {
+            tabText.text = role.RoleName;
+        }
+
+        var y = ogPanel.taskText.textBounds.size.y + 1;
+        panel.closedPosition = new Vector3(ogPanel.closedPosition.x, ogPanel.open ? y + 0.2f : 2f,
+            ogPanel.closedPosition.z);
+        panel.openPosition = new Vector3(ogPanel.openPosition.x, ogPanel.open ? y : 2f, ogPanel.openPosition.z);
+
+        panel.SetTaskText(role.SetTabText().ToString());
     }
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
+        // Reset team chat state when a new meeting starts
+        Patches.Options.TeamChatPatches.TeamChatActive = false;
+        Patches.Options.TeamChatPatches.CurrentChatIndex = -1;
+        Patches.Options.TeamChatPatches.TeamChatManager.ClearAllUnread();
+
         // Incase the kill animation is stuck somehow
         // HudManager.Instance.KillOverlay.gameObject.SetActive(false);
         foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
@@ -341,7 +379,7 @@ public static class TownOfUsEventHandlers
             HudManager.Instance.SetHudActive(true);
         }
         CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable =
-            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
+            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
 
         CustomButtonSingleton<WatchButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance
@@ -353,7 +391,9 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
             .MaxTraps);
         CustomButtonSingleton<SheriffShootButton>.Instance.Usable =
-            OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse;
+            OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
+        CustomButtonSingleton<MonarchKnightButton>.Instance.Usable =
+            OptionGroupSingleton<MonarchOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
         CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<VeteranAlertButton>.Instance.SetUses((int)OptionGroupSingleton<VeteranOptions>.Instance
             .MaxNumAlerts);
@@ -414,12 +454,36 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void ChangeRoleHandler(ChangeRoleEvent @event)
     {
-        if (!PlayerControl.LocalPlayer)
+        var player = @event.Player;
+
+        if (!PlayerControl.LocalPlayer || player == null)
         {
             return;
         }
 
-        var player = @event.Player;
+        if (player.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        {
+            ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
+        }
+
+        if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        {
+            var controller = MiscUtils.PlayerById(controllerId);
+            if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
+            {
+                ParasiteRole.RpcParasiteEndControl(controller, player);
+            }
+            else
+            {
+                ParasiteControlState.ClearControl(player.PlayerId);
+            }
+        }
+
+        if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
+        {
+            player.RemoveModifier(mod);
+        }
+
         if (!MeetingHud.Instance && player.AmOwner)
         {
             foreach (var button in CustomButtonManager.Buttons)
@@ -441,12 +505,36 @@ public static class TownOfUsEventHandlers
             HudManager.Instance.SetHudActive(false);
             HudManager.Instance.SetHudActive(true);
         }
+
+        if (player.AmOwner)
+        {
+            TryGetRoleTab();
+        }
     }
 
     [RegisterEvent]
     public static void SetRoleHandler(SetRoleEvent @event)
     {
         GameHistory.RegisterRole(@event.Player, @event.Player.Data.Role);
+
+        if (@event.Player.AmOwner)
+        {
+            TryGetRoleTab();
+        }
+    }
+
+    [RegisterEvent]
+    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent @event)
+    {
+        Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.Destroy());
+
+        foreach (var player in PlayerControl.AllPlayerControls)
+        {
+            player.MyPhysics.ResetAnimState();
+            player.MyPhysics.ResetMoveState();
+        }
+
+        FakePlayer.ClearAll();
     }
 
     [RegisterEvent]
@@ -512,6 +600,10 @@ public static class TownOfUsEventHandlers
         var target = murderEvent.Target;
 
         GameHistory.AddMurder(source, target);
+
+        Crewmate.TimeLordEventHandlers.RecordKill(source, target);
+
+        TimeLordRewindSystem.NotifyHostMurderDuringRewind(source, target);
 
         if (SpellslingerRole.EveryoneHexed() && PlayerControl.LocalPlayer.Data.Role is SpellslingerRole)
         {
@@ -671,7 +763,12 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void PlayerJoinEventHandler(PlayerJoinEvent @event)
     {
+        if (TutorialManager.InstanceExists)
+        {
+            return;
+        }
         Coroutines.Start(CoSendSpecData(@event.ClientData));
+        Coroutines.Start(CoSendRulesToPlayer(@event.ClientData));
     }
 
     internal static IEnumerator CoSendSpecData(ClientData clientData)
@@ -713,6 +810,48 @@ public static class TownOfUsEventHandlers
         }
 
         Rpc<SetSpectatorListRpc>.Instance.Send(PlayerControl.LocalPlayer, fakeDictionary);
+    }
+
+    internal static IEnumerator CoSendRulesToPlayer(ClientData clientData)
+    {
+        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
+        {
+            yield return null;
+        }
+
+        while (!PlayerControl.LocalPlayer)
+        {
+            yield return null;
+        }
+
+        while (PlayerControl.LocalPlayer.Data == null)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        if (!PlayerControl.LocalPlayer.IsHost())
+        {
+            yield break;
+        }
+
+        var joiningPlayer = clientData.Character;
+        if (joiningPlayer == null)
+        {
+            yield break;
+        }
+
+        // Wait a bit more to ensure the player is fully initialized
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        var rulesText = ChatPatches.GetLobbyRulesText();
+        if (string.IsNullOrWhiteSpace(rulesText))
+        {
+            yield break;
+        }
+
+        ChatPatches.RpcSendLobbyRules(PlayerControl.LocalPlayer, joiningPlayer, rulesText, true);
     }
 
     [RegisterEvent]

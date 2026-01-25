@@ -15,6 +15,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class SurvivorRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+    }
+
     public DoomableType DoomHintType => DoomableType.Protective;
     public string LocaleKey => "Survivor";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

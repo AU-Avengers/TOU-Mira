@@ -4,6 +4,15 @@ namespace TownOfUs.Roles.Neutral;
 
 public abstract class NeutralRole(IntPtr cppPtr) : RoleBehaviour(cppPtr)
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBasicTaskHeader")}</color>";
+    }
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour
     public override bool IsAffectedByComms => false;
 

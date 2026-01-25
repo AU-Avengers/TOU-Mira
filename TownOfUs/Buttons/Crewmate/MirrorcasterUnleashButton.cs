@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class MirrorcasterUnleashButton : TownOfUsRoleButton<MirrorcasterRole, PlayerControl>, IDiseaseableButton,
+public sealed class MirrorcasterUnleashButton : TownOfUsKillRoleButton<MirrorcasterRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleMirrorcasterUnleash", "Unleash");
@@ -36,7 +36,7 @@ public sealed class MirrorcasterUnleashButton : TownOfUsRoleButton<MirrorcasterR
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         MirrorcasterRole.RpcMirrorcasterUnleash(PlayerControl.LocalPlayer);
     }
 

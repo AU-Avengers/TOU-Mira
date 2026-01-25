@@ -13,7 +13,7 @@ public static class TeamChatEvents
     {
         if (TeamChatPatches.TeamChatActive)
         {
-            TeamChatPatches.ForceNormalChat();
+            TeamChatPatches.ToggleTeamChat();
         }
     }
 
@@ -22,7 +22,7 @@ public static class TeamChatEvents
     {
         if (TeamChatPatches.TeamChatActive)
         {
-            TeamChatPatches.ForceNormalChat();
+            TeamChatPatches.ToggleTeamChat();
         }
     }
 
@@ -31,7 +31,7 @@ public static class TeamChatEvents
     {
         if (TeamChatPatches.TeamChatActive)
         {
-            TeamChatPatches.ForceNormalChat();
+            TeamChatPatches.ToggleTeamChat();
         }
     }
 }

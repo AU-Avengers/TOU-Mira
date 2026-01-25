@@ -1,9 +1,7 @@
 ﻿using HarmonyLib;
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Options;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -15,10 +13,10 @@ public static class GlitchPatches
     [HarmonyPrefix]
     public static bool DisabledReportButtonPatch(ActionButton __instance)
     {
-        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
+        /*if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
         {
             return false;
-        }
+        }*/
         if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanReport))
         {
             return false;

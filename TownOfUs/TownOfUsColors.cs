@@ -6,7 +6,7 @@ namespace TownOfUs;
 public static class TownOfUsColors
 {
     public static bool UseBasic { get; set; } =
-        LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+        LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
 
     public static Color Crewmate => Palette.CrewmateRoleBlue;
     public static Color Impostor => Palette.ImpostorRed;
@@ -36,6 +36,7 @@ public static class TownOfUsColors
 
     public static Color Jailor => UseBasic ? Palette.CrewmateBlue : new Color32(166, 166, 166, 255);
     public static Color Mayor => UseBasic ? Palette.CrewmateBlue : new Color32(112, 79, 168, 255);
+    public static Color Monarch => UseBasic ? Palette.CrewmateBlue : new Color32(116, 76, 196, 255);
     public static Color Politician => UseBasic ? Palette.CrewmateBlue : new Color32(102, 0, 153, 255);
     public static Color Prosecutor => UseBasic ? Palette.CrewmateBlue : new Color32(179, 128, 0, 255);
     public static Color Swapper => UseBasic ? Palette.CrewmateBlue : new Color32(102, 230, 102, 255);
@@ -53,14 +54,18 @@ public static class TownOfUsColors
     public static Color Imitator => UseBasic ? Palette.CrewmateBlue : new Color32(179, 217, 77, 255);
     public static Color Medium => UseBasic ? Palette.CrewmateBlue : new Color32(166, 128, 255, 255);
     public static Color Plumber => UseBasic ? Palette.CrewmateBlue : new Color32(204, 102, 0, 255);
+    public static Color Sentry => UseBasic ? Palette.CrewmateBlue : new Color32(100, 150, 200, 255);
+    public static Color TimeLord => UseBasic ? Palette.CrewmateBlue : new Color32(135, 137, 211, 255);
     public static Color Transporter => UseBasic ? Palette.CrewmateBlue : new Color32(0, 237, 255, 255);
     public static Color Catalyst => UseBasic ? Palette.CrewmateBlue : new Color32(255, 53, 224, 255);
 
     // Neutral Colors
     public static Color Amnesiac => new Color32(128, 179, 255, 255);
     public static Color GuardianAngel => new Color32(179, 255, 255, 255);
+    public static Color Lawyer => new Color32(237, 179, 140, 255);
     public static Color Mercenary => new Color32(140, 102, 153, 255);
     public static Color Survivor => new Color32(255, 230, 77, 255);
+    public static Color Shifter => new Color32(153, 153, 153, 255);
 
     public static Color Chef => new Color32(218, 162, 103, 255);
     public static Color Doomsayer => new Color32(0, 255, 128, 255);
@@ -101,6 +106,7 @@ public static class TownOfUsColors
     // Crewmate Modifiers
     public static Color Aftermath => new Color32(166, 255, 166, 255);
     public static Color Bait => new Color32(51, 179, 179, 255);
+    public static Color Bloody => new Color32(127, 51, 51, 255);
     public static Color Celebrity => new Color32(255, 153, 153, 255);
     public static Color Diseased => Color.grey;
     public static Color Frosty => new Color32(153, 255, 255, 255);

@@ -82,24 +82,15 @@ public static class ChatControllerPatches
         }
     }
 
-    //  Allow all symbols
-    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.IsCharAllowed))]
-    public static class IsCharAllowedPatch
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.Start))]
+    public static void TextBoxPostfix(TextBoxTMP __instance)
     {
-        public static bool Prefix(char i, ref bool __result)
-        {
-            // If it's a control character (ASCII < 32), let vanilla logic decide.
-            // This includes backspace, delete, tab, enter, etc.
-            if (i < 32 || i == '\b' || i == (char)127 || i == '<' || i == '>' || i == '[' || i == ']' || i == '{' || i == '}' || i == '*')
-            {
-                return true;
-            }
-
-            // Allow all printable Unicode
-            __result = true;
-            return false;
-        }
+        __instance.allowAllCharacters = true;
+        __instance.AllowEmail = true;
+        __instance.AllowSymbols = true;
     }
+
 
     //  Char limit and clipboard shortcuts
     [HarmonyPostfix]

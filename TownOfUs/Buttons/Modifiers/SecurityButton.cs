@@ -157,6 +157,8 @@ public sealed class SecurityButton : TownOfUsButton
             mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
         }
 
+        var securityType = GameUtility.Cams;
+
         canMoveWithMinigame = true;
         var basicCams = Object.FindObjectsOfType<SystemConsole>().FirstOrDefault(x =>
             x.gameObject.name.Contains("Surv_Panel") || x.name.Contains("Cam") ||
@@ -187,6 +189,8 @@ public sealed class SecurityButton : TownOfUsButton
                 PlayerControl.LocalPlayer.NetTransform.Halt();
                 canMoveWithMinigame = false;
             }
+
+            securityType = GameUtility.Doorlog;
         }
         else if (mapId is ExpandedMapNames.Fungle)
         {
@@ -206,6 +210,11 @@ public sealed class SecurityButton : TownOfUsButton
         if (basicCams == null)
         {
             Error($"No Camera System Found!");
+            return;
+        }
+
+        if (!MiscUtils.CanUseUtility(securityType, true))
+        {
             return;
         }
 

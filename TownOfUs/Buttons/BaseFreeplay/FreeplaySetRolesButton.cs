@@ -1,6 +1,7 @@
 ﻿using MiraAPI.Hud;
-using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
+using Reactor.Networking.Rpc;
+using TownOfUs.Networking;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles;
@@ -12,7 +13,7 @@ namespace TownOfUs.Buttons.BaseFreeplay;
 public sealed class FreeplaySetRolesButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("FreeplaySetRoleButton", "Set Roles");
-    public override Color TextOutlineColor => TownOfUsColors.Impostor;
+    public override Color TextOutlineColor => new Color32(231, 89, 105, 255);
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override float EffectDuration => 3;
@@ -25,7 +26,8 @@ public sealed class FreeplaySetRolesButton : TownOfUsButton
     public override bool Enabled(RoleBehaviour? role)
     {
         return PlayerControl.LocalPlayer != null &&
-               TutorialManager.InstanceExists;
+               (TutorialManager.InstanceExists || MultiplayerFreeplayMode.Enabled) &&
+               !FreeplayButtonsVisibility.Hidden;
     }
 
     public override void ClickHandler()
@@ -69,6 +71,15 @@ public sealed class FreeplaySetRolesButton : TownOfUsButton
 
                 void ClickRoleHandle(RoleBehaviour role)
                 {
+                    if (MultiplayerFreeplayMode.Enabled)
+                    {
+                        Rpc<MultiplayerFreeplayRequestRpc>.Instance.Send(
+                            PlayerControl.LocalPlayer,
+                            new MultiplayerFreeplayRequest(MultiplayerFreeplayAction.SetRole, plr.PlayerId, 0, (ushort)role.Role));
+                        roleMenu.ForceClose();
+                        return;
+                    }
+
                     if (plr.HasDied())
                     {
                         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>()
@@ -98,14 +109,6 @@ public sealed class FreeplaySetRolesButton : TownOfUsButton
             {
                 panel.NameText.color = Color.white;
             }
-        }
-    }
-
-    public override void OnEffectEnd()
-    {
-        if (!PlayerControl.LocalPlayer.HasDied())
-        {
-            PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
         }
     }
 

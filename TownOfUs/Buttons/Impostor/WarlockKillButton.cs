@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class WarlockKillButton : TownOfUsRoleButton<WarlockRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, PlayerControl>, IDiseaseableButton, IKillButton
 {
     private string _killName = "Kill";
     private string _burstKill = "Burst Kill";
@@ -110,7 +110,7 @@ public sealed class WarlockKillButton : TownOfUsRoleButton<WarlockRole, PlayerCo
 
         if (!Target.Data.IsDead)
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+            PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
 
         if (Target.Data.IsDead && Charge >= 100 && !BurstActive)

@@ -28,8 +28,19 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
-    IAssignableTargets, ICrewVariant, IContinuesGame
+    IAssignableTargets, ICrewVariant, IContinuesGame, IUnlovable
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralOutlierTaskHeader")}</color>";
+    }
+
+    public bool IsUnlovable => true;
     public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<InquisitorOptions>.Instance.StallGame && CanVanquish && !TargetsDead && Helpers.GetAlivePlayers().Count <= 3;
     public bool CanVanquish { get; set; } = true;
 

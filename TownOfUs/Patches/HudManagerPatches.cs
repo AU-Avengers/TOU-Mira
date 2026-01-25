@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
+using MiraAPI;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TMPro;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -32,6 +31,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Color = UnityEngine.Color;
+using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches;
@@ -52,110 +52,51 @@ public static class HudManagerPatches
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
-    public static IEnumerator CoResizeUI()
+    private static void RefreshUIAnchors() // anchoring ui elements.
     {
-        while (!HudManager.Instance)
-        {
-            yield return null;
-        }
+        ResolutionManager.ResolutionChanged.Invoke(
+            (float)Screen.width / Screen.height,
+            Screen.width,
+            Screen.height,
+            Screen.fullScreen
+        );
 
-        yield return new WaitForSeconds(0.01f);
-        ResizeUI(LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value);
-    }
-
-    public static void ResizeUI(float scaleFactor)
-    {
-        var baseButtons = HudManager.Instance.transform.FindChild("Buttons");
-        if (baseButtons != null)
-        {
-            foreach (var aspect in baseButtons.GetComponentsInChildren<AspectPosition>(true))
-            {
-                if (aspect.gameObject == null)
-                {
-                    continue;
-                }
-
-                if (aspect.gameObject.transform.parent.name == "TopRight")
-                {
-                    continue;
-                }
-
-                if (aspect.gameObject.transform.parent.transform.parent.name == "TopRight")
-                {
-                    continue;
-                }
-
-                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
-                aspect.DistanceFromEdge *= new Vector2(scaleFactor, scaleFactor);
-                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
-            }
-        }
-
-        foreach (var button in HudManager.Instance.GetComponentsInChildren<ActionButton>(true))
-        {
-            if (button.gameObject == null)
-            {
-                continue;
-            }
-
-            button.gameObject.SetActive(!button.isActiveAndEnabled);
-            button.gameObject.transform.localScale *= scaleFactor;
-            button.gameObject.SetActive(!button.isActiveAndEnabled);
-        }
-
-        if (baseButtons != null)
-        {
-            foreach (var arrange in baseButtons.GetComponentsInChildren<GridArrange>(true))
-            {
-                if (!arrange.gameObject || !arrange.transform)
-                {
-                    continue;
-                }
-
-                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
-                arrange.CellSize = new Vector2(scaleFactor, scaleFactor);
-                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
-                if (arrange.isActiveAndEnabled && arrange.gameObject.transform.childCount != 0)
-                {
-                    try
-                    {
-                        arrange.ArrangeChilds();
-                    }
-                    catch
-                    {
-                        // Error($"Error arranging child objects in GridArrange: {e}");
-                    }
-                }
-            }
-        }
+        foreach (var ap in Object.FindObjectsOfType<AspectPosition>())
+            ap.AdjustPosition();
     }
 
     public static void AdjustCameraSize(float size)
     {
-        Camera.main!.orthographicSize = size;
-        foreach (var cam in Camera.allCameras)
+        if (!HudManager.InstanceExists)
         {
-            cam.orthographicSize = Camera.main.orthographicSize;
+            return;
         }
 
-        ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height,
-            Screen.fullScreen);
+        var instance = HudManager.Instance;
+        if (Camera.main != null)
+            Camera.main.orthographicSize = size; // setting size for the main camera
+
+        if (instance.UICamera != null)
+            instance.UICamera.orthographicSize =
+                size; // setting size for the ui camera as well. thanku pietro for the help :)
 
         if (size <= 3f)
         {
             Zooming = false;
-            HudManager.Instance.ShadowQuad.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead);
+            instance.ShadowQuad.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead);
         }
         else
         {
             Zooming = true;
-            HudManager.Instance.ShadowQuad.gameObject.SetActive(false);
+            instance.ShadowQuad.gameObject.SetActive(false);
         }
 
         ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlus.LoadAsset() : TouAssets.ZoomMinus.LoadAsset();
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
+
+        RefreshUIAnchors(); // new function. Don't ban me :sob:
     }
 
     public static void ButtonClickZoom()
@@ -180,6 +121,10 @@ public static class HudManagerPatches
         var size = Camera.main!.orthographicSize;
         size = zoomOut ? size * 1.25f : size / 1.25f;
         size = Mathf.Clamp(size, 3, 15);
+        if (Camera.main!.orthographicSize == size)
+        {
+            return;
+        }
 
         AdjustCameraSize(size);
     }
@@ -196,6 +141,37 @@ public static class HudManagerPatches
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
         var axisRaw = ConsoleJoystick.player.GetAxisRaw(55);
 
+        if (scrollWheel == 0 && Input.touchCount < 2 && axisRaw == 0)
+        {
+            return;
+        }
+        if (Input.touchCount == 2)
+        {
+            Touch touch0 = Input.GetTouch(0);
+            Touch touch1 = Input.GetTouch(1);
+
+            Vector2 touch0PrevPos = touch0.position - touch0.deltaPosition;
+            Vector2 touch1PrevPos = touch1.position - touch1.deltaPosition;
+
+            float prevTouchDeltaMag = (touch0PrevPos - touch1PrevPos).magnitude;
+            float currentTouchDeltaMag = (touch0.position - touch1.position).magnitude;
+            float deltaMagnitudeDiff = currentTouchDeltaMag - prevTouchDeltaMag;
+
+            switch (deltaMagnitudeDiff)
+            {
+                case > 0:
+                {
+                    ScrollZoom();
+                    break;
+                }
+                case < 0:
+                {
+                    ScrollZoom(true);
+                    break;
+                }
+            }
+        }
+
         if (scrollWheel > 0 || axisRaw > 0)
         {
             ScrollZoom();
@@ -208,13 +184,14 @@ public static class HudManagerPatches
 
     public static void UpdateTeamChat()
     {
-        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        // Ensure built-in chats are registered
+        TeamChatPatches.TeamChatManager.RegisterBuiltInChats();
 
-        var isValid = MeetingHud.Instance &&
-                      (PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
-                       (PlayerControl.LocalPlayer.IsImpostorAligned() && genOpt is
-                           { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
-                       (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat));
+        var availableChats = TeamChatPatches.TeamChatManager.GetAllAvailableChats();
+        var isValid = MeetingHud.Instance != null && availableChats.Count > 0;
+
+        // Don't show team chat button for lover chat (it's handled separately outside meetings)
+        // Lover chat is always active when available and doesn't need the team chat button
 
         if (!TeamChatPatches.TeamChatButton)
         {
@@ -224,6 +201,7 @@ public static class HudManagerPatches
         if (TeamChatPatches.TeamChatActive && !isValid && HudManager.Instance.Chat.IsOpenOrOpening)
         {
             TeamChatPatches.TeamChatActive = false;
+            TeamChatPatches.CurrentChatIndex = -1;
             TeamChatPatches.UpdateChat();
         }
 
@@ -232,10 +210,8 @@ public static class HudManagerPatches
 
     public static bool CommsSaboActive()
     {
-        var genOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;
-
         // Camo comms
-        if (!genOpt.CamouflageComms)
+        if (!TownOfUsMapOptions.IsCamoCommsOn())
         {
             return false;
         }
@@ -318,7 +294,10 @@ public static class HudManagerPatches
             CamouflageFootsteps = true;*/
             CamouflageCommsEnabled = true;
 
-            FakePlayer.FakePlayers.Do(x => x.Camo());
+            foreach (var fakePlayer in FakePlayer.FakePlayers)
+            {
+                fakePlayer.Camo();
+            }
 
             return;
         }
@@ -378,6 +357,11 @@ public static class HudManagerPatches
         {
             foreach (var playerVA in MeetingHud.Instance.playerStates)
             {
+                if (!playerVA.gameObject.active)
+                {
+                    // Spectators are hidden, and we try to avoid Linq methods for performance reasons
+                    continue;
+                }
                 var player = MiscUtils.PlayerById(playerVA.TargetPlayerId);
                 playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
 
@@ -813,8 +797,8 @@ public static class HudManagerPatches
 
     public static string GetRoleForSlot(int slotValue)
     {
-        var roleListText = RoleOptions.OptionStrings.ToList();
-        if (slotValue >= 0 && slotValue < roleListText.Count)
+        var roleListText = RoleOptions.OptionStrings;
+        if (slotValue >= 0 && slotValue < roleListText.Length)
         {
             return roleListText[slotValue];
         }
@@ -842,7 +826,7 @@ public static class HudManagerPatches
                 GameStartManager.Instance.startState is GameStartManager.StartingStates.Countdown);
         }
 
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+        foreach (var player in PlayerControl.AllPlayerControls)
         {
             if (player == null || player.Data == null)
             {
@@ -850,21 +834,42 @@ public static class HudManagerPatches
             }
 
             var playerName = player.Data.PlayerName ?? "Unknown";
-            var playerInfo = "";
-            if (player.IsHost())
+            
+            var isHost = player.IsHost();
+            var isTrackedSpectator = SpectatorRole.TrackedSpectators.Contains(playerName);
+
+            if (isHost || isTrackedSpectator)
             {
-                playerInfo = $"<size=80%>{TownOfUsColors.Jester.ToTextColor()}{StoredHostLocale}";
+                var playerInfoSb = new StringBuilder("<size=80%>");
+
+                if (isHost)
+                {
+                    playerInfoSb.Append(TownOfUsColors.Jester.ToTextColor());
+                    playerInfoSb.Append(StoredHostLocale);
+                    if (isTrackedSpectator)
+                    {
+                        playerInfoSb.Append(' ');
+                    }
+                }
+
+                if (isTrackedSpectator)
+                {
+                    playerInfoSb.Append(Color.yellow.ToTextColor());
+                    playerInfoSb.Append('(');
+                    playerInfoSb.Append(StoredSpectatingLocale);
+                    playerInfoSb.Append(")</color>");
+                }
+
+                if (isHost)
+                { 
+                    playerInfoSb.Append("</color>");
+                }
+                playerInfoSb.Append("</size>\n");
+                playerInfoSb.Append(playerName);
+
+                playerName = playerInfoSb.ToString();
             }
 
-            if (SpectatorRole.TrackedSpectators.Contains(playerName))
-            {
-                playerInfo =
-                    playerInfo != ""
-                        ? $"{playerInfo} {Color.yellow.ToTextColor()}({StoredSpectatingLocale})</color>"
-                        : $"<size=80%>{Color.yellow.ToTextColor()}({StoredSpectatingLocale})";
-            }
-
-            playerName = playerInfo != "" ? $"{playerInfo}</color></size>\n{playerName}" : playerName;
             var playerColor = Color.white;
 
             player.cosmetics.nameText.text = playerName;
@@ -894,8 +899,8 @@ public static class HudManagerPatches
             {
                 return;
             }
-            var rolelistBuilder = new StringBuilder();
 
+            var rolelistBuilder = new StringBuilder("<color=#FFD700>");
             var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
             var maxSlots = players < 15 ? players : 15;
 
@@ -903,6 +908,8 @@ public static class HudManagerPatches
             switch (roleAssignmentType)
             {
                 case RoleDistribution.RoleList:
+                    rolelistBuilder.Append(StoredRoleList);
+                    rolelistBuilder.Append(":</color>\n");
                     for (var i = 0; i < maxSlots; i++)
                     {
                         var slotValue = i switch
@@ -926,23 +933,34 @@ public static class HudManagerPatches
                         };
 
                         rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
-                        RoleListTextComp.text = $"<color=#FFD700>{StoredRoleList}:</color>\n{rolelistBuilder}";
                     }
 
                     break;
                 case RoleDistribution.MinMaxList:
-                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                        $"{NeutralBenigns}: {list.MinNeutralBenign.Value} {StoredMinimum}, {list.MaxNeutralBenign.Value} {StoredMaximum}");
-                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                        $"{NeutralEvils}: {list.MinNeutralEvil.Value} {StoredMinimum}, {list.MaxNeutralEvil.Value} {StoredMaximum}");
-                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                        $"{NeutralKillers}: {list.MinNeutralKiller.Value} {StoredMinimum}, {list.MaxNeutralKiller.Value} {StoredMaximum}");
-                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                        $"{NeutralOutliers}: {list.MinNeutralOutlier.Value} {StoredMinimum}, {list.MaxNeutralOutlier.Value} {StoredMaximum}");
-                    RoleListTextComp.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
+                    var minMaxData = new (string Label, float Min, float Max)[]
+                    {
+                        (NeutralBenigns, list.MinNeutralBenign.Value, list.MaxNeutralBenign.Value),
+                        (NeutralEvils, list.MinNeutralEvil.Value, list.MaxNeutralEvil.Value),
+                        (NeutralKillers, list.MinNeutralKiller.Value, list.MaxNeutralKiller.Value),
+                        (NeutralOutliers, list.MinNeutralOutlier.Value, list.MaxNeutralOutlier.Value)
+                    };
+                    
+                    foreach (var (label, min, max) in minMaxData)
+                    {
+                        rolelistBuilder.Append(label);
+                        rolelistBuilder.Append(": ");
+                        rolelistBuilder.Append(min);
+                        rolelistBuilder.Append(' ');
+                        rolelistBuilder.Append(StoredMinimum);
+                        rolelistBuilder.Append(", ");
+                        rolelistBuilder.Append(max);
+                        rolelistBuilder.Append(' ');
+                        rolelistBuilder.AppendLine(StoredMaximum);
+                    }
                     break;
             }
 
+            RoleListTextComp.text = rolelistBuilder.ToString();
             RoleList.SetActive(true);
         }
     }
@@ -1055,6 +1073,11 @@ public static class HudManagerPatches
         UpdateRoleList(__instance);
         UpdateTeamChat();
 
+        if (CanZoom)
+        {
+            CheckForScrollZoom();
+        }
+
         if (PlayerControl.LocalPlayer.Data.Role == null ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
@@ -1062,20 +1085,26 @@ public static class HudManagerPatches
         {
             return;
         }
-
-        if (((PlayerControl.LocalPlayer.DiedOtherRound() &&
-              (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
-               PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) || TutorialManager.InstanceExists)
-            && Input.GetAxis("Mouse ScrollWheel") != 0 && !MeetingHud.Instance && Minigame.Instance == null &&
-            !HudManager.Instance.Chat.IsOpenOrOpening)
-        {
-            CheckForScrollZoom();
-        }
         
         UpdateCamouflageComms();
         UpdateRoleNameText();
         UpdateSubmergedButtons(__instance);
     }
+
+    public static bool CanZoom =>
+        ((PlayerControl.LocalPlayer.DiedOtherRound() &&
+          (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
+           PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
+         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
+                                                 HudManager.Instance.Chat.IsOpenOrOpening ||
+                                                 MeetingHud.Instance || Minigame.Instance ||
+                                                 PlayerCustomizationMenu.Instance ||
+                                                 FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
+                                                 GameStartManager.InstanceExists &&
+                                                 (GameStartManager.Instance.RulesViewPanel &&
+                                                  GameStartManager.Instance.RulesViewPanel.active ||
+                                                  GameSettingMenu.Instance));
 
     private static bool _registeredSoftModifiers;
     public static string StoredTasksText { get; private set; } = "Tasks";
@@ -1165,7 +1194,6 @@ public static class HudManagerPatches
         }
 
         RoleOptions.OptionStrings = localizedRoleList.ToArray();
-        Coroutines.Start(CoResizeUI());
         if (!_registeredSoftModifiers)
         {
             var modifiers = MiscUtils.AllModifiers.Where(x =>
@@ -1178,5 +1206,8 @@ public static class HudManagerPatches
 
             _registeredSoftModifiers = true;
         }
+
+        MiraApiSettings.OldButtonScaleFactor =
+            LocalSettingsTabSingleton<MiraApiSettings>.Instance.ButtonUIFactorSlider.Value;
     }
 }

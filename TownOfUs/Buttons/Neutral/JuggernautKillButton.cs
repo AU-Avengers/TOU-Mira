@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, PlayerControl>, IDiseaseableButton,
+public sealed class JuggernautKillButton : TownOfUsKillRoleButton<JuggernautRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
@@ -40,7 +40,7 @@ public sealed class JuggernautKillButton : TownOfUsRoleButton<JuggernautRole, Pl
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 
     public override PlayerControl? GetTarget()

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class InquisitorVanquishButton : TownOfUsRoleButton<InquisitorRole, PlayerControl>, IDiseaseableButton,
+public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<InquisitorRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleInquisitorVanquish", "Vanquish");
@@ -45,6 +45,6 @@ public sealed class InquisitorVanquishButton : TownOfUsRoleButton<InquisitorRole
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 }

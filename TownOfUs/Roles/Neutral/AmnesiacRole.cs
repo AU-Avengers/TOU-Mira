@@ -26,6 +26,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class AmnesiacRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable, ICrewVariant
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+    }
+
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MysticRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Amnesiac";
@@ -119,6 +129,19 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             return;
         }
 
+        if (player.GetModifiers<PlayerTargetModifier>().Any(x => x.OwnerId == target.PlayerId))
+        {
+            if (player.AmOwner)
+            {
+                var text = TouLocale.GetParsed("TouRoleAmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                notif1.AdjustNotification();
+            }
+
+            return;
+        }
+
         var touAbilityEvent = new TouAbilityEvent(AbilityType.AmnesiacPreRemember, player, target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
@@ -145,25 +168,25 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             mayor.Revealed = false;
         }
-        else if (player.Data.Role is FairyRole ga)
+        else if (player.Data.Role is FairyRole fairy)
         {
-            var gaTarget = ModifierUtils.GetPlayersWithModifier<GuardianAngelTargetModifier>()
-                .FirstOrDefault(x => x.PlayerId == target.PlayerId);
+            var fairyMod = ModifierUtils.GetActiveModifiers<GuardianAngelTargetModifier>()
+                .FirstOrDefault(x => x.OwnerId == target.PlayerId);
 
-            if (gaTarget != null && gaTarget.TryGetModifier<GuardianAngelTargetModifier>(out var gaMod))
+            if (fairyMod != null)
             {
-                ga.Target = gaTarget;
-                gaMod.OwnerId = player.PlayerId;
+                fairy.Target = fairyMod.Player;
+                fairyMod.OwnerId = player.PlayerId;
             }
         }
         else if (player.Data.Role is ExecutionerRole exe)
         {
-            var exeTarget = ModifierUtils.GetPlayersWithModifier<ExecutionerTargetModifier>()
-                .FirstOrDefault(x => x.PlayerId == target.PlayerId);
+            var exeMod = ModifierUtils.GetActiveModifiers<ExecutionerTargetModifier>()
+                .FirstOrDefault(x => x.OwnerId == target.PlayerId);
 
-            if (exeTarget != null && exeTarget.TryGetModifier<ExecutionerTargetModifier>(out var exeMod))
+            if (exeMod != null)
             {
-                exe.Target = exeTarget;
+                exe.Target = exeMod.Player;
                 exeMod.OwnerId = player.PlayerId;
             }
         }

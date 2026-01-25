@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class WerewolfKillButton : TownOfUsRoleButton<WerewolfRole, PlayerControl>, IDiseaseableButton,
+public sealed class WerewolfKillButton : TownOfUsKillRoleButton<WerewolfRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
@@ -36,7 +36,7 @@ public sealed class WerewolfKillButton : TownOfUsRoleButton<WerewolfRole, Player
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 
     public override PlayerControl? GetTarget()

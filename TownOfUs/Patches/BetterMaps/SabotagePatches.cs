@@ -14,12 +14,12 @@ public static class ReactorPatch
         var flag = MiscUtils.GetCurrentMap switch
         {
             ExpandedMapNames.Airship => false,
-            ExpandedMapNames.Submerged => false,
-            ExpandedMapNames.LevelImpostor => false,
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeReactorSaboTimer,
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.ChangeSaboTimers,
             ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.ChangeSaboTimers,
             ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers,
+            ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.ChangeSaboTimers,
             _ => true
         };
 
@@ -37,6 +37,8 @@ public static class ReactorPatch
                 ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownReactor.Value,
                 ExpandedMapNames.Polus => OptionGroupSingleton<BetterPolusOptions>.Instance.SaboCountdownReactor.Value,
                 ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownReactor.Value,
+                ExpandedMapNames.Submerged => OptionGroupSingleton<BetterSubmergedOptions>.Instance.SaboCountdownReactor.Value,
+                ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.SaboCountdownReactor.Value,
                 _ => __instance.ReactorDuration
             };
             if (seconds >= 15f && seconds <= 90f)
@@ -69,6 +71,7 @@ public static class O2Patch
     {
         var flag = MiscUtils.GetCurrentMap switch
         {
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeOxygenSaboTimer,
             ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers,
             ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.ChangeSaboTimers,
             _ => false
@@ -84,6 +87,7 @@ public static class O2Patch
         {
             var seconds = MiscUtils.GetCurrentMap switch
             {
+                ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.SaboCountdownOxygen.Value,
                 ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownOxygen.Value,
                 ExpandedMapNames.MiraHq => OptionGroupSingleton<BetterMiraHqOptions>.Instance.SaboCountdownOxygen.Value,
                 _ => __instance.LifeSuppDuration
@@ -147,7 +151,14 @@ public static class MixUpPatch
 {
     public static bool Prefix(MushroomMixupSabotageSystem __instance, PlayerControl player, MessageReader msgReader)
     {
-        if (MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle || !OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers)
+        var flag = MiscUtils.GetCurrentMap switch
+        {
+            ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.ChangeMixUpSaboTimer,
+            ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.ChangeSaboTimers,
+            _ => false
+        };
+
+        if (!flag)
             return true;
         
         MushroomMixupSabotageSystem.Operation operation = (MushroomMixupSabotageSystem.Operation)msgReader.ReadByte();
@@ -156,8 +167,12 @@ public static class MixUpPatch
             __instance.Host_GenerateRandomOutfits();
             __instance.MushroomMixUp();
             __instance.currentState = MushroomMixupSabotageSystem.State.JustTriggered;
-            var seconds =
-                OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownMixUp.Value;
+            var seconds = MiscUtils.GetCurrentMap switch
+            {
+                ExpandedMapNames.LevelImpostor => OptionGroupSingleton<BetterLevelImpostorOptions>.Instance.SaboCountdownMixUp.Value,
+                ExpandedMapNames.Fungle => OptionGroupSingleton<BetterFungleOptions>.Instance.SaboCountdownMixUp.Value,
+                _ => 10f
+            };
             if (seconds >= 5f && seconds <= 60f)
             {
                 __instance.currentSecondsUntilHeal = seconds;
@@ -167,4 +182,3 @@ public static class MixUpPatch
         return false;
     }
 }
-// TODO: Add Better Submerged settings asap!

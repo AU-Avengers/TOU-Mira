@@ -3,6 +3,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -214,7 +215,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 return;
             }
-            Player.RpcSpecialMurder(victim, true, true, createDeadBody: false, teleportMurderer: false,
+            Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                 showKillAnim: false,
                 playKillSound: false,
                 causeOfDeath: victim != Player ? "Guess" : "Misguess");
@@ -277,22 +278,22 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
         if (alignment == RoleAlignment.NeutralBenign)
         {
-            return options.VigilanteGuessNeutralBenign;
+            return options.VigilanteGuessNeutralBenign.Value;
         }
 
         if (alignment == RoleAlignment.NeutralEvil)
         {
-            return options.VigilanteGuessNeutralEvil;
+            return options.VigilanteGuessNeutralEvil.Value;
         }
 
         if (alignment == RoleAlignment.NeutralKilling)
         {
-            return options.VigilanteGuessNeutralKilling;
+            return options.VigilanteGuessNeutralKilling.Value;
         }
 
         if (alignment == RoleAlignment.NeutralOutlier)
         {
-            return options.VigilanteGuessNeutralOutlier;
+            return options.VigilanteGuessNeutralOutlier.Value;
         }
 
         return false;

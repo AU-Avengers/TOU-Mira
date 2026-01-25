@@ -2,12 +2,15 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Neutral;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -18,6 +21,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class GlitchRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+    }
+
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Glitch";
@@ -136,5 +149,21 @@ public sealed class GlitchRole(IntPtr cppPtr)
 
         var console = usable.TryCast<Console>()!;
         return console == null || console.AllowImpostor;
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.TriggerGlitchHack)]
+    public static void RpcTriggerGlitchHack(PlayerControl victim, bool fullRemoval)
+    {
+        if (victim.TryGetModifier<GlitchHackedModifier>(out var hackMod))
+        {
+            if (fullRemoval)
+            {
+                victim.RemoveModifier(hackMod);
+            }
+            else
+            {
+                hackMod.ShowHacked();
+            }
+        }
     }
 }

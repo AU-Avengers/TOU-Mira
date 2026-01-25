@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerControl>, IKillButton
+public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, PlayerControl>, IKillButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleSheriffShoot", "Shoot");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
@@ -50,12 +50,12 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
 
         if (missType is MisfireOptions.Target or MisfireOptions.Both)
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+            PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
 
         if (missType is MisfireOptions.Sheriff or MisfireOptions.Both)
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
+            PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer, MeetingCheck.OutsideMeeting);
         }
 
         FailedShot = true;
@@ -118,56 +118,56 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
                     break;
 
                 case RoleAlignment.NeutralOutlier:
-                    if (!options.ShootNeutralOutlier)
+                    if (!options.ShootNeutralOutlier.Value)
                     {
                         Misfire();
                     }
                     else
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
                     }
 
                     break;
 
                 case RoleAlignment.NeutralKilling:
-                    if (!options.ShootNeutralKiller)
+                    if (!options.ShootNeutralKiller.Value)
                     {
                         Misfire();
                     }
                     else
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
                     }
 
                     break;
 
                 case RoleAlignment.NeutralEvil:
-                    if (!options.ShootNeutralEvil)
+                    if (!options.ShootNeutralEvil.Value)
                     {
                         Misfire();
                     }
                     else
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
                     }
 
                     break;
 
                 case RoleAlignment.NeutralBenign:
-                    if (!options.ShootNeutralBenign)
+                    if (!options.ShootNeutralBenign.Value)
                     {
                         Misfire();
                     }
                     else
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
                     }
 
                     break;
                 default:
                     if (Target.IsImpostor() || Target.IsNeutral())
                     {
-                        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+                        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
                     }
                     else
                     {
@@ -179,7 +179,7 @@ public sealed class SheriffShootButton : TownOfUsRoleButton<SheriffRole, PlayerC
         }
         else
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+            PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
 
         if (!OptionGroupSingleton<SheriffOptions>.Instance.SheriffBodyReport)

@@ -84,3 +84,16 @@ public enum ModifierFaction
     External,
     Other
 }
+
+public enum AlliedFaction
+{
+    Crewmate,
+    CrewmateKiller,
+    Neutral,
+    NeutralKiller,
+    Impostor,
+    Lover,
+    Recruit,
+    RoleSpecific,
+    Other,
+}

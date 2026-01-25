@@ -9,5 +9,6 @@ riderModule.iml
 *.user
 .qodo
 TownOfUs/Properties/
+*.DS_Store
 
 .fake

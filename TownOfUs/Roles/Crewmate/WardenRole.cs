@@ -15,7 +15,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 {
     public override bool IsAffectedByComms => false;
 
-    public PlayerControl? Fortified { get; set; }
+    [HideFromIl2Cpp] public PlayerControl? Fortified { get; set; }
 
     public void FixedUpdate()
     {

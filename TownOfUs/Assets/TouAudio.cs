@@ -154,6 +154,11 @@ public static class TouAudio
 
     public static LoadableAsset<AudioClip> TribunalSound { get; } =
         new LoadableAudioResourceAsset("TownOfUs.Resources.Audio.MarshalTribunal.wav");
+    public static LoadableAsset<AudioClip> SentryPlaceSound { get; } =
+        new LoadableBundleAsset<AudioClip>("SentryPlace", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> DenySound { get; } =
+        new LoadableBundleAsset<AudioClip>("Deny", TouAssets.MainBundle);
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {

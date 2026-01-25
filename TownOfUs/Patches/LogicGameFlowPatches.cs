@@ -10,13 +10,10 @@ using TownOfUs.Events;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
-using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
@@ -26,11 +23,6 @@ public static class LogicGameFlowPatches
 {
     public static bool CheckEndGameViaTasks(LogicGameFlowNormal instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
-        {
-            return false;
-        }
-
         GameData.Instance.RecomputeTaskCounts();
 
         if (GameData.Instance.TotalTasks > 0 && GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
@@ -45,11 +37,6 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaTimeLimit(LogicGameFlowNormal instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
-        {
-            return false;
-        }
-
         if (OptionGroupSingleton<GameTimerOptions>.Instance.GameTimerEnabled && GameTimerPatch.TriggerEndGame)
         {
             var timeType = (GameTimerType)OptionGroupSingleton<GameTimerOptions>.Instance.TimerEndOption.Value;
@@ -77,11 +64,6 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaHexBomb(LogicGameFlowNormal instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
-        {
-            return false;
-        }
-
         if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
         {
             instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
@@ -101,7 +83,18 @@ public static class LogicGameFlowPatches
 
         if (__instance == null || GameOptionsManager.Instance == null || GameManager.Instance == null)
         {
-            return false;
+            return true;
+        }
+
+        var ghostsDoTasks = false;
+        try
+        {
+            ghostsDoTasks = GameOptionsManager.Instance.currentNormalGameOptions != null &&
+                            GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks;
+        }
+        catch
+        {
+            // ignored
         }
 
         __instance.TotalTasks = 0;
@@ -109,22 +102,51 @@ public static class LogicGameFlowPatches
         for (var i = 0; i < __instance.AllPlayers.Count; i++)
         {
             var playerInfo = __instance.AllPlayers.ToArray()[i];
-            if (playerInfo == null || playerInfo.Disconnected || !playerInfo.Object || playerInfo.Tasks == null || playerInfo.Object == null || !playerInfo.Object.TryGetComponent<ModifierComponent>(out _))
+            if (playerInfo == null || playerInfo.Disconnected || playerInfo.Tasks == null)
             {
                 continue;
             }
 
-            if ((!playerInfo.IsDead || GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks) &&
-                !playerInfo._object.IsImpostor() &&
-                !(
-                    (playerInfo._object.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks)
-                    || !playerInfo._object.Data.Role.TasksCountTowardProgress
-                ))
+            var player = playerInfo.Object;
+            if (player == null || !player || player.Data == null)
+            {
+                continue;
+            }
+
+            if (!player.TryGetComponent<ModifierComponent>(out _))
+            {
+                continue;
+            }
+
+            var tasksCountTowardProgress = true;
+            try
+            {
+                tasksCountTowardProgress = player.Data.Role != null && player.Data.Role.TasksCountTowardProgress;
+            }
+            catch
+            {
+                tasksCountTowardProgress = true;
+            }
+
+            var excludedByAlliance = false;
+            try
+            {
+                excludedByAlliance = player.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.DoesTasks;
+            }
+            catch
+            {
+                excludedByAlliance = false;
+            }
+
+            if ((!playerInfo.IsDead || ghostsDoTasks) &&
+                !player.IsImpostor() &&
+                !(excludedByAlliance || !tasksCountTowardProgress))
             {
                 for (var j = 0; j < playerInfo.Tasks.Count; j++)
                 {
                     __instance.TotalTasks++;
-                    if (playerInfo.Tasks.ToArray()[j].Complete)
+                    var task = playerInfo.Tasks.ToArray()[j];
+                    if (task != null && task.Complete)
                     {
                         __instance.CompletedTasks++;
                     }
@@ -141,7 +163,7 @@ public static class LogicGameFlowPatches
         return false;
     }
 
-    [HarmonyPatch(typeof(GameManager), nameof(GameManager.StartGame))]
+    /*[HarmonyPatch(typeof(GameManager), nameof(GameManager.StartGame))]
     [HarmonyPostfix]
     public static void StartGamePostfix()
     {
@@ -149,29 +171,18 @@ public static class LogicGameFlowPatches
         {
             ShipStatus.Instance.BreakEmergencyButton();
         }
-    }
-
-    [HarmonyPatch(typeof(NormalGameManager), nameof(NormalGameManager.GetMapOptions))]
-    [HarmonyPriority(Priority.VeryHigh)] // make sure it occurs before other patches
-    [HarmonyPrefix]
-    public static bool GetMapOptions(ref MapOptions __result)
-    {
-        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.AllKillers)
-        {
-            return true;
-        }
-        __result = new MapOptions
-        {
-            Mode = MapOptions.Modes.Normal
-        };
-        return false;
-    }
+    }*/
 
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     [HarmonyPrefix]
     public static bool CheckEndCriteriaPatch(LogicGameFlowNormal __instance)
     {
-        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd && TownOfUsPlugin.IsDevBuild)
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.MultiplayerFreeplay.Value)
+        {
+            return false;
+        }
+
+        if (OptionGroupSingleton<HostSpecificOptions>.Instance.NoGameEnd.Value && TownOfUsPlugin.IsDevBuild)
         {
             return false;
         }
@@ -249,47 +260,10 @@ public static class LogicGameFlowPatches
             return false;
         }
 
-        // End game if there are 3 players alive and 2 are lovers.
-        var activeLovers = ModifierUtils.GetActiveModifiers<LoverModifier>().ToArray();
-        if (!ExileController.Instance && LoverModifier.WinConditionMet(activeLovers))
+        // Check all registered win conditions (neutral roles, lovers, etc.)
+        // This allows extension mods to add their own win conditions
+        if (!ExileController.Instance && WinConditionRegistry.TryEvaluate(__instance))
         {
-            CustomGameOver.Trigger<LoverGameOver>(activeLovers
-                .Where(x => x != null && x.Player != null && x.Player.Data != null)
-                .Select(x => x.Player!.Data)
-                .ToArray());
-            return false;
-        }
-
-        // If any neutral win condition is met -> game over
-        // Using RoleAlignment as a quick and basic way to prioritise NeutralEvil wins over NeutralKiller wins
-        if (CustomRoleUtils.GetActiveRolesOfTeam(ModdedRoleTeams.Custom)
-                .OrderBy(x => x.GetRoleAlignment())
-                .FirstOrDefault(x => x is ITownOfUsRole role && role.WinConditionMet()) is { } winner)
-        {
-            Message($"Game Over");
-
-            // Lovers + Jester combo fix maybe
-            if (winner is JesterRole && winner.Player != null && winner.Player.HasModifier<LoverModifier>())
-            {
-                var loverWinners = ModifierUtils.GetActiveModifiers<LoverModifier>()
-                    .Where(x => x != null && x.Player != null && x.Player.Data != null && x.Player.HasModifier<LoverModifier>())
-                    .Select(x => x.Player!.Data)
-                    .Distinct()
-                    .ToArray();
-
-                if (loverWinners.Length >= 2)
-                {
-                    CustomGameOver.Trigger<LoverGameOver>(loverWinners);
-                    return false;
-                }
-            }
-
-            if (winner.Player != null)
-            {
-                CustomGameOver.Trigger<NeutralGameOver>([winner.Player.Data]);
-                return false;
-            }
-
             return false;
         }
 
@@ -306,7 +280,7 @@ public static class LogicGameFlowPatches
         {
             var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
                 !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x.GetModifiers<GameModifier>()
-                    .Any(x => x.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
+                    .Any(y => y.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
             CustomGameOver.Trigger<DrawGameOver>([
                 randomPlayer != null ? randomPlayer.Data : PlayerControl.LocalPlayer.Data
             ]);

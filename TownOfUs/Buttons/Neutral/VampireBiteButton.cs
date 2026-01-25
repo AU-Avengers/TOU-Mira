@@ -2,7 +2,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -17,7 +16,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, PlayerControl>, IDiseaseableButton, IKillButton
 {
     private string _biteName = "Bite";
     private string _killName = "Kill";
@@ -90,7 +89,7 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
         }
         else
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+            PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
     }
 
@@ -134,21 +133,17 @@ public sealed class VampireBiteButton : TownOfUsRoleButton<VampireRole, PlayerCo
             canConvertAlliance = options.ConvertLovers;
         }
 
-        if (options.ValidConversions.Value is ValidBites.NonKillerNeutrals)
+        if (target.Is(RoleAlignment.NeutralBenign))
         {
-            canConvertRole = true;
-        }
-        else if (target.Is(RoleAlignment.NeutralBenign))
-        {
-            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Benign");
+            canConvertRole = options.ConvertNeutralBenign.Value;
         }
         else if (target.Is(RoleAlignment.NeutralEvil))
         {
-            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Evil");
+            canConvertRole = options.ConvertNeutralEvil.Value;
         }
         else if (target.Is(RoleAlignment.NeutralOutlier))
         {
-            canConvertRole = options.ValidConversions.Value.ToDisplayString().Contains("Outlier");
+            canConvertRole = options.ConvertNeutralOutlier.Value;
         }
 
         return canConvertRole && canConvertAlliance && vampireCount < 2 && totalVamps < options.MaxVampires &&

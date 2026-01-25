@@ -1,11 +1,9 @@
 using BepInEx.Configuration;
 using InnerNet;
 using MiraAPI.Hud;
-using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
-using TownOfUs.Patches;
 using TownOfUs.Roles;
 
 namespace TownOfUs;
@@ -36,16 +34,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public override void OnOptionChanged(ConfigEntryBase configEntry)
     {
         base.OnOptionChanged(configEntry);
-        if (configEntry == ButtonUIFactorSlider)
-        {
-            var slider = TouLocale.LocalizedSliders.FirstOrDefault(x => x.Key.ConfigEntry == ButtonUIFactorSlider).Key;
-            if (HudManager.InstanceExists)
-            {
-                HudManagerPatches.ResizeUI(1f / slider.OldValue);
-                HudManagerPatches.ResizeUI(slider.GetValue());
-            }
-        }
-        else if (configEntry == OffsetButtonsToggle)
+        if (configEntry == OffsetButtonsToggle)
         {
             if ((AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
                  !TutorialManager.InstanceExists) || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
@@ -79,45 +68,32 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Gameplay", "ShowVents", true);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> SortGuessingByAlignmentToggle { get; private set; } =
-        config.Bind("Gameplay", "SortGuessingByAlignment", false);
-
-    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
-        config.Bind("Gameplay", "PreciseCooldowns", false);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } =
-        config.Bind("UI/Visuals", "ShowShieldHud", true);
+        config.Bind("UI/Visuals", "PreciseCooldowns", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
         config.Bind("UI/Visuals", "OffsetButtons", false);
-
-    [LocalizedLocalSliderSetting(min: 0.5f, max: 1.5f, suffixType: MiraNumberSuffixes.Multiplier, formatString: "0.00",
-        displayValue: true)]
-    public ConfigEntry<float> ButtonUIFactorSlider { get; private set; } =
-        config.Bind("UI/Visuals", "ButtonUIFactor", 0.75f);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ColorPlayerNameToggle { get; private set; } =
         config.Bind("UI/Visuals", "ColorPlayerName", false);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> UseCrewmateTeamColorToggle { get; private set; } =
-        config.Bind("UI/Visuals", "UseCrewmateTeamColor", false);
+    public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
+        config.Bind("Miscellaneous", "SeparateChatBubbles", false);
 
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> UseMultiChatSetup { get; private set; } =
-        config.Bind("UI/Visuals", "UseMultiChatSetup", true);
-
-    [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
-    public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =
-        config.Bind("UI/Visuals", "ArrowStyle", ArrowStyleType.Default);
+    /*[LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> UseSeparateRedChat { get; private set; } =
+        config.Bind("UI/Visuals", "UseSeparateRedChat", true);*/
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowWelcomeMessageToggle { get; private set; } =
         config.Bind("Miscellaneous", "ShowWelcomeMessage", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle { get; private set; } =
+        config.Bind("Miscellaneous", "ShowRulesOnLobbyJoin", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
@@ -127,25 +103,17 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
         config.Bind("Miscellaneous", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
 
-    [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
-    public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
-        config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
-}
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
+        config.Bind("Miscellaneous", "ShowPracticeButtons", true);
 
-public enum ArrowStyleType
-{
-    Default,
-    DarkGlow,
-    ColorGlow,
-    Legacy
-}
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
+        config.Bind("Miscellaneous", "ZoomingInLobby", true);
 
-public enum GrenadeFlashColor
-{
-    White,
-    LightGray,
-    Gray,
-    DarkGray
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
+        config.Bind("Miscellaneous", "ZoomingInPractice", true);
 }
 
 public enum GameSummaryAppearance

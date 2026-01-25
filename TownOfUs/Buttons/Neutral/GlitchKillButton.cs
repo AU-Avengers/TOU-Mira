@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class GlitchKillButton : TownOfUsRoleButton<GlitchRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class GlitchKillButton : TownOfUsKillRoleButton<GlitchRole, PlayerControl>, IDiseaseableButton, IKillButton
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
@@ -31,7 +31,7 @@ public sealed class GlitchKillButton : TownOfUsRoleButton<GlitchRole, PlayerCont
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 
     public override PlayerControl? GetTarget()

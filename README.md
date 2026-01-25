@@ -21,9 +21,9 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 # Key Differences with TOU Mira
 
 - Revamped visuals
-- New roles (Ambassador, Ambusher, Inquisitor, Mirrorcaster)
-- New modifiers (Scout, Telepath, Operative)
-- Localization to numerous languages (coming after v1.1.1)
+- New roles such as Ambassador, Ambusher, Inquisitor, Mirrorcaster
+- New modifiers such as Circumvent, Scout, Telepath, Operative
+- Localization to numerous languages (being worked on still)
 - Vanilla role support (allowing players to use vanilla roles alongside modded roles)
 - Balance changes into the mix for players to use
 - Compatibility with a handful of other role mods that run on MiraAPI.
@@ -150,6 +150,9 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us   | Mod Version | Download Link                                                           |
 |------------|-------------|-------------------------------------------------------------------------|
+| 2025.10.28 | 1.5.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
+| 2025.10.28 | 1.5.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
+| 2025.10.28 | 1.5.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
 | 2025.10.28 | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
 | 2025.10.28 | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
 | 2025.10.14 | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
@@ -165,6 +168,43 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 -----------------------
 
+# Actively Supported Languages
+
+All languages are added via our [Weblate](https://weblate.duikbo.at/projects/town-of-us-mira/) instance. If you want to contribute to the project please let us know in the discord server!
+
+|       Language        |                                                                                Overall Progress                                                                                 |
+|:---------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|     All Languages     |      <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/svg-badge.svg" alt="Translation status" /></a>      |
+|  Simplified Chinese   | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/zh_Hans/svg-badge.svg" alt="Translation status" /></a> |
+|  Traditional Chinese  | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/zh_Hant/svg-badge.svg" alt="Translation status" /></a> |
+|         Dutch         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/nl/svg-badge.svg" alt="Translation status" /></a>    |
+|       Filipino        | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/fil_PH/svg-badge.svg" alt="Translation status" /></a>  |
+|        French         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/fr/svg-badge.svg" alt="Translation status" /></a>    |
+|        German         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/de/svg-badge.svg" alt="Translation status" /></a>    |
+|         Irish         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ga/svg-badge.svg" alt="Translation status" /></a>    |
+|        Italian        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/it/svg-badge.svg" alt="Translation status" /></a>    |
+|       Japanese        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ja/svg-badge.svg" alt="Translation status" /></a>    |
+|        Korean         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ko/svg-badge.svg" alt="Translation status" /></a>    |
+|      Lithuanian       |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/lt/svg-badge.svg" alt="Translation status" /></a>    |
+|        Polish         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/pl/svg-badge.svg" alt="Translation status" /></a>    |
+|  Portuguese (Brazil)  |  <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/pt_BR/svg-badge.svg" alt="Translation status" /></a>  |
+| Portuguese (Portugal) |  <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/pt_PT/svg-badge.svg" alt="Translation status" /></a>  |
+|        Russian        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ru/svg-badge.svg" alt="Translation status" /></a>    |
+|        Spanish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/es/svg-badge.svg" alt="Translation status" /></a>    |
+|    Spanish (LATIM)    | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/es_419/svg-badge.svg" alt="Translation status" /></a>  |
+|        Swedish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/sv/svg-badge.svg" alt="Translation status" /></a>    |
+|        Turkish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/tr/svg-badge.svg" alt="Translation status" /></a>    |
+
+-----------------------
+
+# Contributions & Credits
+
+> [!NOTE]
+> If you wish to make an Extension Mod that builds on top of TOU Mira, you may look at [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)'s Example Mod or the official [Example Mod](https://github.com/AU-Avengers/TouExtensionExample).
+
+
+-----------------------
+
 # Mod Compatibility
 
 **Disclaimer: This mod compatibility list can and will change over time.**
@@ -173,12 +213,20 @@ If a mod is missing here and is a role/modifiers mod, it likely won't work unles
 
 |                                    Mod                                    | Support | Notes                                                                                                                                             |
 |:-------------------------------------------------------------------------:|:-------:|:--------------------------------------------------------------------------------------------------------------------------------------------------|
-|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         | ✅ | Limited "Better Map" customization.                                                                                                               |
-|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        | ✅ | Limited "Better Map" customization.                                                                                                               |
+|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         | ✅ | Custom Door Types cannot be adjusted fully.                                                                                                       |
+|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        | ✅ | Custom Door Types cannot be changed.                                                                                                              |
 |             [NewMod](https://github.com/CallOfCreator/NewMod)             | ✅ | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                                                                  |
 | [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) | ✅ | Launchpad tags overlap with Tou player names.<br/>Wiki is not fully implemented.                                                                  |
 |     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      | ⚠️ | Ability buttons are very seperated from one another.<br/>Roles are partially broken on latest Among Us update.<br/>Wiki is not fully implemented. |
-|          [ChaosTokens](https://github.com/xChipseq/ChaosTokens)           | ✅ |                                                                                                                                                   |
+
+The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers!
+
+|                              Extension Mod                              |     Mod Type      | Description                                                                                                                                                                           |
+|:-----------------------------------------------------------------------:|:-----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|         [ChaosTokens](https://github.com/xChipseq/ChaosTokens)          |   Game Feature    | A mod that adds gambling to TOU! Each round, players can get one, two, or no tokens, which enhances the chaos in the game. Each roll may give a positive, negative, or benign effect. |
+| [Roles Extension](https://github.com/rewalo/TownOfUsMiraRolesExtension) | Roles / Modifiers | A mod that adds new roles and modifiers, including a replacement of TOU Trapper.                                                                                                      |
+|           [AUSummary](https://github.com/notnico22/AUSummary)           |   Miscellaneous   | A client-side mod that directly connects with a custom application to display your previous matches.                                                                                  |
+|    [TOU Mira: Legacy](https://github.com/AU-Avengers/TouMiraLegacy)     |     UI Tweaks     | A client-side mod that replaces the assets of Among Us and TOU Mira to that of pre-2021 AU and TOU/TOUR.                                                                              |
 
 -----------------------
 

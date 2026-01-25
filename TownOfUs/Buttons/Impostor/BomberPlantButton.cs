@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class BomberPlantButton : TownOfUsRoleButton<BomberRole>, IAftermathableButton, IDiseaseableButton
+public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAftermathableButton, IDiseaseableButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleBomberPlace", "Place");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -15,6 +15,7 @@ public sealed class BomberPlantButton : TownOfUsRoleButton<BomberRole>, IAfterma
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
     public override float EffectDuration => OptionGroupSingleton<BomberOptions>.Instance.DetonateDelay;
     public override int MaxUses => (int)OptionGroupSingleton<BomberOptions>.Instance.MaxBombs;
+    public override bool ZeroIsInfinite => true;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.PlaceSprite;
 
     public bool Usable { get; set; } = OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound ||

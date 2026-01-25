@@ -1,4 +1,3 @@
-using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -10,12 +9,15 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using System.Text;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.Neutral;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules.TimeLord;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
@@ -23,8 +25,19 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
+public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IUnlovable
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralOutlierTaskHeader")}</color>";
+    }
+
+    public bool IsUnlovable => true;
     public bool ContinuesGame => !Player.HasDied() && StoredBodies.Count != 0 && Helpers.GetAlivePlayers().Any(x => !x.HasModifier<ChefServedModifier>() && x != Player);
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ForensicRole>());
     public DoomableType DoomHintType => DoomableType.Death;
@@ -53,7 +66,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             {
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Cook", "Cook"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CookWikiDescription"),
-                    TouNeutAssets.IgniteButtonSprite),
+                    TouNeutAssets.ChefCookSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Serve", "Serve"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ServeWikiDescription"),
                     TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),
@@ -178,10 +191,27 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
         if (body != null)
         {
-            /*var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, player, body);
-            MiraEventManager.InvokeEvent(touAbilityEvent);*/
+            // Record Chef cook event for Time Lord rewind system
+            var player = MiscUtils.PlayerById(body.ParentId);
+            if (player != null)
+            {
+                TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
+            }
 
-            Coroutines.Start(body.CoClean());
+            if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
+            {
+                var bodyPlayer = MiscUtils.PlayerById(body.ParentId);
+                if (bodyPlayer != null)
+                {
+                    TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
+                        TimeLordBodyManager.CleanedBodySource.Janitor);
+                }
+                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
+            }
+            else
+            {
+                Coroutines.Start(body.CoClean());
+            }
             //Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }
     }
@@ -208,7 +238,9 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         }
 
         target.AddModifier<ChefServedModifier>(chef, (int)platter.Value, platter.Key);
-        
+
+        TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefServe(chef, target, (byte)platter.Key, platter.Value);
+
         role.StoredBodies.RemoveAt(0);
     }
 }

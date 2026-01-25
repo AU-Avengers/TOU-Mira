@@ -3,6 +3,7 @@ using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Neutral;
@@ -20,7 +21,7 @@ public static class GlitchEvents
             return;
         }
 
-        CheckForGlitchHacked(@event, source);
+        CheckForGlitchHacked(@event, source, true);
     }
 
     [RegisterEvent]
@@ -31,7 +32,7 @@ public static class GlitchEvents
         CheckForGlitchHacked(@event, source);
     }
 
-    private static void CheckForGlitchHacked(MiraCancelableEvent miraEvent, PlayerControl source)
+    private static void CheckForGlitchHacked(MiraCancelableEvent miraEvent, PlayerControl source, bool isLocal = false)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -46,7 +47,11 @@ public static class GlitchEvents
         miraEvent.Cancel();
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{source.Data.PlayerName} was hacked, cancelling their interaction!");
 
-        if (source.AmOwner)
+        if (isLocal)
+        {
+            GlitchRole.RpcTriggerGlitchHack(source, false);
+        }
+        else if (source.AmOwner)
         {
             PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
         }

@@ -24,6 +24,9 @@ public static class TouImpAssets
     public static LoadableAsset<Sprite> MorphSprite { get; } =
         new LoadableBundleAsset<Sprite>("MorphButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> OvertakeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OvertakeButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> SwoopSprite { get; } =
         new LoadableBundleAsset<Sprite>("SwoopButton", TouAssets.MainBundle);
 
@@ -56,12 +59,15 @@ public static class TouImpAssets
 
     public static LoadableAsset<Sprite> PlantSprite { get; } =
         new LoadableBundleAsset<Sprite>("PlantButton", TouAssets.MainBundle);
-    
+
     public static LoadableAsset<Sprite> PoisonSprite { get; } =
         new LoadableBundleAsset<Sprite>("PoisonButton", TouAssets.MainBundle);
-    
+
     public static LoadableAsset<Sprite> PoisonedSprite { get; } =
         new LoadableBundleAsset<Sprite>("PoisonButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> ControlSprite { get; } =
+        new LoadableBundleAsset<Sprite>("ControlButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> HexSprite { get; } =
         new LoadableBundleAsset<Sprite>("HexButton", TouAssets.MainBundle);

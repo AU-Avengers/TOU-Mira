@@ -49,6 +49,57 @@ public static class CustomTouMurderRpcs
             teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
     }
 
+    public static void RpcSpecialMultiMurder(
+        this PlayerControl source,
+        Dictionary<byte, string> targets,
+        bool isIndirect = false,
+        bool ignoreShields = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        RpcSpecialMultiMurder(source, targets, MeetingCheck.Ignore, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
+    }
+
+    /// <summary>
+    /// Networked Custom Murder method. Use this if changing from a dictionary is needed.
+    /// </summary>
+    /// <param name="source">The killer.</param>
+    /// <param name="targets">The players to murder.</param>
+    /// <param name="isIndirect">Determines if the attack is indirect.</param>
+    /// <param name="ignoreShields">If indirect, determines if shields are ignored.</param>
+    /// <param name="didSucceed">Whether the murder was successful or not.</param>
+    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
+    /// <param name="createDeadBody">Should a dead body be created.</param>
+    /// <param name="teleportMurderer">Should the killer be snapped to the dead player.</param>
+    /// <param name="showKillAnim">Should the kill animation be shown.</param>
+    /// <param name="playKillSound">Should the kill sound be played.</param>
+    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    /// <param name="inMeeting">Should the murder only work in meetings.</param>
+    public static void RpcSpecialMultiMurder(
+        this PlayerControl source,
+        List<PlayerControl> targets,
+        MeetingCheck inMeeting,
+        bool isIndirect = false,
+        bool ignoreShields = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        var newTargets = targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName)).ToDictionary(x => x.Key, x => x.Value);
+        RpcSpecialMultiMurder(source, newTargets, inMeeting, isIndirect, ignoreShields, didSucceed, resetKillTimer, createDeadBody,
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
+    }
+
     /// <summary>
     /// Networked Custom Murder method.
     /// </summary>
@@ -63,10 +114,12 @@ public static class CustomTouMurderRpcs
     /// <param name="showKillAnim">Should the kill animation be shown.</param>
     /// <param name="playKillSound">Should the kill sound be played.</param>
     /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    /// <param name="inMeeting">Should the murder only work in meetings.</param>
     [MethodRpc((uint)TownOfUsRpc.SpecialMultiMurder, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcSpecialMultiMurder(
         this PlayerControl source,
         Dictionary<byte, string> targets,
+        MeetingCheck inMeeting,
         bool isIndirect = false,
         bool ignoreShields = false,
         bool didSucceed = true,
@@ -95,15 +148,34 @@ public static class CustomTouMurderRpcs
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
+        var firstTarget = true;
         foreach (var target in targets)
         {
-            var newPlayer = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
+            PlayerControl? newPlayer = null;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc == null || pc.Data == null)
+                {
+                    continue;
+                }
+
+                if (pc.PlayerId == target.Key || pc.Data.PlayerName == target.Value)
+                {
+                    newPlayer = pc;
+                    break;
+                }
+            }
             if (newPlayer == null)
             {
                 continue;
             }
-            var beforeMurderEvent = new BeforeMurderEvent(source, newPlayer);
+            var beforeMurderEvent = new BeforeMurderEvent(source, newPlayer, inMeeting);
             MiraEventManager.InvokeEvent(beforeMurderEvent);
+            var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+            if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+            {
+                beforeMurderEvent.Cancel();
+            }
 
             if (beforeMurderEvent.IsCancelled)
             {
@@ -117,8 +189,15 @@ public static class CustomTouMurderRpcs
             {
                 DeathHandlerModifier.UpdateDeathHandlerImmediate(newPlayer, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
                     (MeetingHud.Instance == null && ExileController.Instance == null) ? DeathHandlerOverride.SetTrue : DeathHandlerOverride.SetFalse,
-                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                    TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data?.PlayerName),
                     lockInfo: DeathHandlerOverride.SetTrue);
+            }
+
+            // Track kill cooldown before CustomMurder for Time Lord rewind (only for first target to avoid duplicates)
+            float? killCooldownBefore = null;
+            if (firstTarget && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+            {
+                killCooldownBefore = source.killTimer;
             }
 
             source.CustomMurder(
@@ -129,12 +208,133 @@ public static class CustomTouMurderRpcs
                 teleportMurderer,
                 showKillAnim,
                 playKillSound);
+
+            // Force-sync death state after successful murder to prevent desyncs
+            if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && newPlayer.HasDied())
+            {
+                DeathStateSync.ScheduleDeathStateSync(newPlayer, true);
+                // Request validation after kill to ensure all clients are in sync
+                if (source.AmOwner)
+                {
+                    DeathStateSync.RequestValidationAfterKill(source);
+                }
+            }
+
+            // Record kill cooldown change after CustomMurder if it was reset (only for first target)
+            if (killCooldownBefore.HasValue && firstTarget && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+            {
+                Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+            }
+
+            firstTarget = false;
         }
         if (attackerMod != null)
         {
             Coroutines.Start(CoRemoveIndirect(source));
         }
     }
+    /// <summary>
+    /// Networked Custom Murder method.
+    /// </summary>
+    /// <param name="source">The killer.</param>
+    /// <param name="target">The player to murder.</param>
+    /// <param name="framed">The player to frame.</param>
+    /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
+    /// <param name="didSucceed">Whether the murder was successful or not.</param>
+    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
+    /// <param name="createDeadBody">Should a dead body be created.</param>
+    /// <param name="showKillAnim">Should the kill animation be shown.</param>
+    /// <param name="playKillSound">Should the kill sound be played.</param>
+    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    [MethodRpc((uint)TownOfUsRpc.FramedMurder, LocalHandling = RpcLocalHandling.Before)]
+    public static void RpcFramedMurder(
+        this PlayerControl source,
+        PlayerControl target,
+        PlayerControl framed,
+        bool ignoreShield = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        var role = source.GetRoleWhenAlive();
+        var attackerMod = source.AddModifier<IndirectAttackerModifier>(ignoreShield);
+
+        var cod = "Killer";
+        if (causeOfDeath != "null")
+        {
+            cod = causeOfDeath;
+        }
+        else if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
+        {
+            cod = touRole.LocaleKey;
+        }
+        var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
+
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.OutsideMeeting);
+        MiraEventManager.InvokeEvent(beforeMurderEvent);
+
+        if (beforeMurderEvent.IsCancelled)
+        {
+            murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
+
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&
+            murderResultFlags2.HasFlag(MurderResultFlags.DecisionByHost))
+        {
+            DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"), DeathEventHandlers.CurrentRound,
+                (MeetingHud.Instance == null && ExileController.Instance == null) ? DeathHandlerOverride.SetTrue : DeathHandlerOverride.SetFalse,
+                TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
+                lockInfo: DeathHandlerOverride.SetTrue);
+        }
+
+        // Track kill cooldown before CustomMurder for Time Lord rewind
+        float? killCooldownBefore = null;
+        if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            killCooldownBefore = source.killTimer;
+        }
+
+        var targetPos = target.GetTruePosition();
+        source.CustomMurder(
+            target,
+            murderResultFlags2,
+            resetKillTimer,
+            createDeadBody,
+            false,
+            showKillAnim,
+            playKillSound);
+        if (target.HasDied())
+        {
+            MiscUtils.LungeToPos(framed, targetPos);
+            // Force-sync death state after successful murder to prevent desyncs
+            if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
+            {
+                DeathStateSync.ScheduleDeathStateSync(target, true);
+                // Request validation after kill to ensure all clients are in sync
+                if (source.AmOwner)
+                {
+                    DeathStateSync.RequestValidationAfterKill(source);
+                }
+            }
+        }
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+        }
+
+        if (attackerMod != null)
+        {
+            Coroutines.Start(CoRemoveIndirect(source));
+        }
+    }
+
     /// <summary>
     /// Networked Custom Murder method.
     /// </summary>
@@ -149,10 +349,43 @@ public static class CustomTouMurderRpcs
     /// <param name="showKillAnim">Should the kill animation be shown.</param>
     /// <param name="playKillSound">Should the kill sound be played.</param>
     /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    public static void RpcSpecialMurder(
+        this PlayerControl source,
+        PlayerControl target,
+        bool isIndirect = false,
+        bool ignoreShield = false,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true,
+        string causeOfDeath = "null")
+    {
+        RpcSpecialMurder(source, target, MeetingCheck.Ignore, isIndirect, ignoreShield, didSucceed, resetKillTimer, createDeadBody,
+            teleportMurderer, showKillAnim, playKillSound, causeOfDeath);
+    }
+
+    /// <summary>
+    /// Networked Custom Murder method.
+    /// </summary>
+    /// <param name="source">The killer.</param>
+    /// <param name="target">The player to murder.</param>
+    /// <param name="isIndirect">Determines if the attack is indirect.</param>
+    /// <param name="ignoreShield">If indirect, determines if shields are ignored.</param>
+    /// <param name="didSucceed">Whether the murder was successful or not.</param>
+    /// <param name="resetKillTimer">Should the kill timer be reset.</param>
+    /// <param name="createDeadBody">Should a dead body be created.</param>
+    /// <param name="teleportMurderer">Should the killer be snapped to the dead player.</param>
+    /// <param name="showKillAnim">Should the kill animation be shown.</param>
+    /// <param name="playKillSound">Should the kill sound be played.</param>
+    /// <param name="causeOfDeath">The appended cause of death from the XML, so if you write "Guess", it will look for "DiedToGuess".</param>
+    /// <param name="inMeeting">Should the murder only work in meetings.</param>
     [MethodRpc((uint)TownOfUsRpc.SpecialMurder, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcSpecialMurder(
         this PlayerControl source,
         PlayerControl target,
+        MeetingCheck inMeeting,
         bool isIndirect = false,
         bool ignoreShield = false,
         bool didSucceed = true,
@@ -181,8 +414,13 @@ public static class CustomTouMurderRpcs
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+        {
+            beforeMurderEvent.Cancel();
+        }
 
         if (beforeMurderEvent.IsCancelled)
         {
@@ -200,6 +438,13 @@ public static class CustomTouMurderRpcs
                 lockInfo: DeathHandlerOverride.SetTrue);
         }
 
+        // Track kill cooldown before CustomMurder for Time Lord rewind
+        float? killCooldownBefore = null;
+        if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            killCooldownBefore = source.killTimer;
+        }
+
         source.CustomMurder(
             target,
             murderResultFlags2,
@@ -208,9 +453,40 @@ public static class CustomTouMurderRpcs
             teleportMurderer,
             showKillAnim,
             playKillSound);
+
+        // Force-sync death state after successful murder to prevent desyncs
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && target.HasDied())
+        {
+            DeathStateSync.ScheduleDeathStateSync(target, true);
+            // Request validation after kill to ensure all clients are in sync
+            if (source.AmOwner)
+            {
+                DeathStateSync.RequestValidationAfterKill(source);
+            }
+        }
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+        }
+
         if (attackerMod != null)
         {
             Coroutines.Start(CoRemoveIndirect(source));
+        }
+    }
+
+    public static IEnumerator CoRecordKillCooldownAfterCustomMurder(PlayerControl player, float cooldownBefore)
+    {
+        // Wait for CustomMurder to process and SetKillTimer to be called
+        yield return null;
+        yield return null;
+        
+        var cooldownAfter = player.killTimer;
+        if (Mathf.Abs(cooldownBefore - cooldownAfter) > 0.01f)
+        {
+            TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKillCooldown(player, cooldownBefore, cooldownAfter);
         }
     }
     /// <summary>
@@ -257,6 +533,17 @@ public static class CustomTouMurderRpcs
         source.CustomMurder(
             target,
             MurderResultFlags.Succeeded);
+
+        // Force-sync death state after ghost role murder to prevent desyncs
+        if (target.HasDied())
+        {
+            DeathStateSync.ScheduleDeathStateSync(target, true);
+            // Request validation after kill to ensure all clients are in sync
+            if (source.AmOwner)
+            {
+                DeathStateSync.RequestValidationAfterKill(source);
+            }
+        }
 
         Coroutines.Start(CoRemoveIndirect(source));
     }

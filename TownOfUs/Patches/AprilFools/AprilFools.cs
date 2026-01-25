@@ -15,25 +15,12 @@ namespace TownOfUs.Patches.AprilFools;
 public static class AprilFoolsPatches
 {
     public static int CurrentMode;
-    public static BoxCollider2D? newsCollider;
-
-    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.LateUpdate))]
-    [HarmonyPostfix]
-    public static void Postfix(MainMenuManager __instance)
-    {
-        if (__instance.newsButton != null)
-        {
-            if (newsCollider == null || newsCollider.gameObject != __instance.newsButton.gameObject)
-            {
-                newsCollider = __instance.newsButton.GetComponent<BoxCollider2D>();
-            }
-
-            if (newsCollider)
-            {
-                newsCollider.size = new Vector2(1.8f, 0.4705f);
-            }
-        }
-    }
+#pragma warning disable S1075 // URIs should not be hardcoded
+    public static string DiscordServerUrl =
+        "https://discord.gg/XtfYcAkfSR";
+    public static string SourceCodeUrl =
+        "https://github.com/AU-Avengers/TOU-Mira";
+#pragma warning restore S1075 // URIs should not be hardcoded
 
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     [HarmonyPrefix]
@@ -68,98 +55,64 @@ public static class AprilFoolsPatches
         }
         if (__instance.newsButton != null)
         {
-            var aprilfoolstoggle = Object.Instantiate(__instance.newsButton, null);
-            aprilfoolstoggle.name = "AprilFoolsButton";
+            var aprilfoolstoggle = __instance.newsButton.CloneMenuItem("AprilFoolsButton", new Vector2(0.815f, 0.775f), TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset(), "FoolsMode", "Fools Mode");
 
-            var highlightObj = aprilfoolstoggle.transform.GetChild(1).gameObject;
-            var baseObj = aprilfoolstoggle.transform.GetChild(2).gameObject;
-            highlightObj.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOptionActive.LoadAsset();
-            highlightObj.transform.localScale = new Vector3(0.42f, 0.84f, 1f);
-            baseObj.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOption.LoadAsset();
-            baseObj.transform.localScale = new Vector3(0.42f, 0.84f, 1f);
-            aprilfoolstoggle.GetComponent<BoxCollider2D>().size = new Vector2(1.8f, 0.4705f);
+            var foolsHighlightObj = aprilfoolstoggle.transform.GetChild(1).gameObject;
+            var foolsBaseObj = aprilfoolstoggle.transform.GetChild(2).gameObject;
+            var foolsSprite = foolsHighlightObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
+            foolsSprite.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
+            var foolsSprite2 = foolsBaseObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
+            foolsSprite2.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
 
-            var passive = aprilfoolstoggle.GetComponent<PassiveButton>();
-            passive.OnClick = new Button.ButtonClickedEvent();
+            var foolsPassive = aprilfoolstoggle.GetComponent<PassiveButton>();
+            foolsPassive.OnClick = new Button.ButtonClickedEvent();
 
-            aprilfoolstoggle.gameObject.transform.SetParent(GameObject.Find("Main Buttons").transform);
-
-            /*var pos = aprilfoolstoggle.gameObject.AddComponent<AspectPosition>();
-            pos.Alignment = AspectPosition.EdgeAlignments.LeftBottom;
-            pos.DistanceFromEdge = new Vector3(2.1f, 2f, 8f);*/
-            highlightObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite =
-                TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
-            baseObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite =
-                TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
-            highlightObj.transform.GetChild(0).transform.localScale = new Vector3(1.0854f, 0.5427f, 0.5427f);
-            baseObj.transform.GetChild(0).transform.localScale = new Vector3(1.0854f, 0.5427f, 0.5427f);
-
-            aprilfoolstoggle.transform.GetChild(0).GetChild(0).transform.localPosition =
-                new Vector3(-1.0159f, -0.0818f, 0f);
-            aprilfoolstoggle.transform.GetChild(0).GetChild(0).GetComponent<AspectPosition>().anchorPoint =
-                new Vector2(0.48f, 0.505f);
-            var text = aprilfoolstoggle.transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>();
-            text.fontSize = 3f;
-            text.fontSizeMin = 3f;
-            text.fontSizeMax = 3f;
-            aprilfoolstoggle.transform.GetChild(0).GetChild(0)
-                .AddMiraTranslator("FoolsMode", false, "Fools Mode");
-            var sprite = highlightObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
-            sprite.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
-            var sprite2 = baseObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
-            sprite2.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
-            // pos.AdjustPosition();
-
-
-            var realNews = GameObject.Find("NewsButton")!;
-            var highlightObj2 = realNews.transform.GetChild(1).gameObject;
-            var baseObj2 = realNews.transform.GetChild(2).gameObject;
-            highlightObj2.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOptionActive.LoadAsset();
-            highlightObj2.transform.localScale = new Vector3(0.42f, 0.84f, 1f);
-            baseObj2.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOption.LoadAsset();
-            baseObj2.transform.localScale = new Vector3(0.42f, 0.84f, 1f);
-
-            highlightObj2.transform.GetChild(0).transform.localScale = new Vector3(1.0854f, 0.5427f, 0.5427f);
-            baseObj2.transform.GetChild(0).transform.localScale = new Vector3(1.0854f, 0.5427f, 0.5427f);
-
-            aprilfoolstoggle.transform.localPosition = new Vector3(-0.9f, -0.387f, 0f);
-            realNews.transform.localPosition = new Vector3(0.9f, -0.387f, 0f);
-            realNews.transform.localScale = new Vector3(1f, 1f, 1f);
-            realNews.GetComponent<BoxCollider2D>().size = new Vector2(1.8f, 0.4705f);
-            realNews.transform.GetChild(3).GetChild(0).localPosition = new Vector3(-1f, 0f, 0f);
-            realNews.transform.GetChild(0).GetChild(0).GetComponent<AspectPosition>().anchorPoint =
-                new Vector2(0.48f, 0.505f);
-
-            passive.OnClick.AddListener((Action)(() =>
+            foolsPassive.OnClick.AddListener((Action)(() =>
             {
                 var num = CurrentMode + 1;
                 CurrentMode = num > 3 ? 0 : num;
-                sprite.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
-                sprite2.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
+                foolsSprite.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
+                foolsSprite2.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
             }));
-            aprilfoolstoggle.GetComponent<NewsCountButton>().DestroyImmediate();
-            aprilfoolstoggle.transform.GetChild(3).gameObject.DestroyImmediate();
 
-            var text2 = realNews.transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>();
-            text2.fontSize = 3f;
-            text2.fontSizeMin = 3f;
-            text2.fontSizeMax = 3f;
+            var discordButton = __instance.newsButton.CloneMenuItem("DiscordJoinButton", new Vector2(0.815f, 0.69f), TouAssets.DiscordServer.LoadAsset(), "DiscordServer", "Discord Server");
+
+            var discordPassive = discordButton.GetComponent<PassiveButton>();
+            discordPassive.OnClick = new Button.ButtonClickedEvent();
+
+            discordPassive.OnClick.AddListener((Action)(() =>
+            {
+                Application.OpenURL(DiscordServerUrl);
+            }));
+
+            var githubButton = __instance.newsButton.CloneMenuItem("GithubCodeButton", new Vector2(0.815f, 0.605f), TouAssets.SourceCode.LoadAsset(), "SourceCode", "Source Code");
+
+            var githubPassive = githubButton.GetComponent<PassiveButton>();
+            githubPassive.OnClick = new Button.ButtonClickedEvent();
+
+            githubPassive.OnClick.AddListener((Action)(() =>
+            {
+                Application.OpenURL(SourceCodeUrl);
+            }));
 
             var uiList = new Il2CppSystem.Collections.Generic.List<PassiveButton>();
             uiList.Add(__instance.playButton);
             uiList.Add(__instance.inventoryButton);
             uiList.Add(__instance.shopButton);
+            uiList.Add(__instance.newsButton);
             uiList.Add(aprilfoolstoggle);
+            uiList.Add(discordPassive);
+            uiList.Add(githubButton);
 
-            foreach (var ogButtons in __instance.mainButtons)
+            foreach (var ogButton in __instance.mainButtons)
             {
-                if (ogButtons == __instance.playButton || ogButtons == __instance.inventoryButton ||
-                    ogButtons == __instance.shopButton)
+                if (ogButton == __instance.playButton || ogButton == __instance.inventoryButton ||
+                    ogButton == __instance.shopButton || ogButton == __instance.newsButton)
                 {
                     continue;
                 }
 
-                uiList.Add(ogButtons);
+                uiList.Add(ogButton);
             }
 
             __instance.mainButtons = uiList;
@@ -213,5 +166,45 @@ public static class AprilFoolsPatches
             default:
                 return true;
         }
+    }
+
+    public static PassiveButton CloneMenuItem(this PassiveButton newsButton, string objName, Vector2 pos, Sprite image, string localeKey, string? defaultText)
+    {
+        var obj = Object.Instantiate(newsButton,
+            GameObject.Find("Main Buttons").transform.Find("BottomButtonBounds").transform);
+        obj.name = objName;
+        var positioner = obj.gameObject.AddComponent<AspectPosition>();
+        positioner.Alignment = AspectPosition.EdgeAlignments.Center;
+        positioner.anchorPoint = pos;
+        positioner.updateAlways = true;
+
+        obj.transform.GetChild(0).GetChild(0)
+            .AddMiraTranslator(localeKey, false, defaultText);
+
+        var highlightObj = obj.transform.GetChild(1).gameObject;
+        var baseObj = obj.transform.GetChild(2).gameObject;
+        highlightObj.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOptionActive.LoadAsset();
+        highlightObj.transform.localScale = new Vector3(0.48f, 0.96f, 1f);
+        baseObj.GetComponent<SpriteRenderer>().sprite = TouAssets.MenuOption.LoadAsset();
+        baseObj.transform.localScale = new Vector3(0.48f, 0.96f, 1f);
+        obj.GetComponent<BoxCollider2D>().size = new Vector2(1.9f, 0.5205f);
+        obj.transform.GetChild(0).GetChild(0).transform.localPosition =
+            new Vector3(-1.0159f, -0.0818f, 0f);
+        obj.transform.GetChild(0).GetChild(0).GetComponent<AspectPosition>().anchorPoint =
+            new Vector2(0.48f, 0.505f);
+        obj.transform.GetChild(0).transform.localScale = new Vector3(1.1f, 1.1f, 1f);
+        var text = obj.transform.GetChild(0).GetChild(0).GetComponent<TextMeshPro>();
+        text.fontSize = 3f;
+        text.fontSizeMin = 3f;
+        text.fontSizeMax = 3f;
+        var sprite = highlightObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        sprite.sprite = image;
+        var sprite2 = baseObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        sprite2.sprite = image;
+        highlightObj.transform.GetChild(0).transform.localScale = new Vector3(1.2404f, 0.62023f, 0.62023f);
+        baseObj.transform.GetChild(0).transform.localScale = new Vector3(1.2404f, 0.62023f, 0.62023f);
+        obj.GetComponent<NewsCountButton>().DestroyImmediate();
+        obj.transform.GetChild(3).gameObject.DestroyImmediate();
+        return obj;
     }
 }

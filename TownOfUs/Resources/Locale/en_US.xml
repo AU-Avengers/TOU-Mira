@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="DiscordServer">Discord Server</string>
+  <string name="SourceCode">Source Code</string>
   <string name="FoolsMode">Fools Mode</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
@@ -11,10 +13,14 @@
   <string name="ShowVents">Show Vents On Map</string>
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
   <string name="ShowSummaryMessage">Show Summary Msg</string>
+  <string name="ShowPracticeButtons">Show Practice Buttons</string>
+  <string name="ZoomingInLobby">Zoom In Lobby</string>
+  <string name="ZoomingInPractice">Zoom In Practice</string>
+  <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
-  <string name="UseMultiChatSetup">Use Multi-Chat Setup</string>
+  <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
   <string name="SortGuessingByAlignment">Sort Guessing By Alignment</string>
@@ -33,6 +39,19 @@
   <string name="FlashLightGray">Light Gray</string>
   <string name="FlashGray">Gray</string>
   <string name="FlashDarkGray">Dark Gray</string>
+  <string name="ParasitePiPLocation">Parasite Picture-in-Picture Location</string>
+  <string name="PiPLocationTopLeft">Top Left</string>
+  <string name="PiPLocationMiddleLeft">Middle Left</string>
+  <string name="PiPLocationBottomLeft">Bottom Left</string>
+  <string name="PiPLocationTopRight">Top Right</string>
+  <string name="PiPLocationMiddleRight">Middle Right</string>
+  <string name="PiPLocationBottomRight">Bottom Right</string>
+  <string name="PiPLocationDynamic">Dynamic</string>
+  <string name="ParasitePiPSize">Parasite Picture-in-Picture Size</string>
+  <string name="TouControlControlledNotif">You are being controlled by a &lt;controller&gt;!</string>
+  <string name="PiPSizeNormal">Normal</string>
+  <string name="PiPSizeSmall">Small</string>
+  <string name="PiPSizeLarge">Large</string>
   <!-- Player Colors -->
   <string name="PlayerColorDarker">Darker</string>
   <string name="PlayerColorLighter">Lighter</string>
@@ -84,6 +103,14 @@
   <string name="Chance">Chance</string>
   <string name="Options">Options</string>
   <string name="PlayerHasNoModifiers">No Modifiers</string>
+  <!-- Task Text Info -->
+  <string name="NeutralBasicTaskHeader">Complete your objective.</string>
+  <string name="NeutralBasicDeadTaskHeader">You're dead. Sit back and enjoy the chaos.</string>
+  <string name="NeutralBenignTaskHeader">You cannot win by yourself.\%nl\%Optional Tasks:</string>
+  <string name="NeutralEvilTaskHeader">You must complete your goal at all costs.\%nl\%Fake Tasks:</string>
+  <string name="NeutralKillingTaskHeader">Eliminate all other teams by any means.\%nl\%Fake Tasks:</string>
+  <string name="NeutralOutlierTaskHeader">You must complete your objective to win.\%nl\%Fake Tasks:</string>
+  <string name="NeutralSpectreTaskHeader">You're dead. Complete your tasks to win!</string>
   <!-- Role List -->
   <string name="SetRoleList">Set Role List</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
@@ -245,6 +272,7 @@
   <string name="SpectateCommandDescription">/spec - Allows you to spectate for the rest of the game automatically. (if enabled by the host)</string>
   <string name="SummaryCommandDescription">/summary - Shows the previous end game summary</string>
   <string name="RolesCommandDescription">/roles - Shows a list of all enabled roles in the game.</string>
+  <string name="RulesCommandDescription">/rules - Shows the lobby rules saved by the host.</string>
   <string name="UpCommandList">up</string>
   <string name="UpCommandDescription">/up [Role] - Ensures you get the requested role next game. Use /up [Role] [PlayerName] to assign a role to another player. (Host + Dev Build only)</string>
   <string name="UpCommandHostError">You must be the host to use /up command.</string>
@@ -257,6 +285,11 @@
   <string name="UpCommandSuccess">Successfully requested role: \%role\% for next game.</string>
   <string name="UpCommandSuccessOther">Successfully requested role: \%role\% for player '\%player\%' next game.</string>
   <string name="UpCommandSuccessGlobal">Host requested role for player '\%player\%' next game.</string>
+  <string name="RulesCommandList">rules</string>
+  <string name="RulesMessageTitle">System</string>
+  <string name="RulesMissingError">Host has no rules saved.</string>
+  <string name="RulesShowHostError">You must be the host to use /rules show.</string>
+  <string name="ShowRulesOnLobbyJoin">Show Rules On Lobby Join</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
   <!-- End Game Summary Details -->
@@ -267,6 +300,7 @@
   <string name="ImpostorsWin">Impostors Win</string>
   <string name="CrewmateWin">Crewmate Win</string>
   <string name="ImpostorWin">Impostor Win</string>
+  <string name="HostWin">Host Aborted Game</string>
   <string name="NobodyWins">Game Draw</string>
   <string name="SoloWin">\%role\% Wins</string>
   <string name="TeamWin">\%role\% Win</string>
@@ -280,6 +314,7 @@
   <string name="RoundOfDeathLong">Round \%count\%</string>
   <string name="FirstDeadText">(Died R1)</string>
   <!-- Cause of Deaths -->
+  <string name="ExileTextConfirm">\%player\% was The \%role\%.</string>
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
   <string name="Alive">Alive</string>
@@ -316,6 +351,8 @@
   <string name="DiedToBomberBomb">Bombed</string>
   <string name="DiedToSpellslingerHexBomb">Disintegrated</string>
   <string name="DiedToViper">Dissolved</string>
+  <string name="DiedToParasite">Overtaken</string>
+  <string name="DiedToPuppetControl">Targeted</string>
   <!-- Status Effects -->
   <string name="TouFirstDeathShield">First Death Shield</string>
   <string name="TouClericBarrier">Cleric Barrier</string>
@@ -329,6 +366,10 @@
   <string name="TouScatter">Scatter</string>
   <!-- Common Terms -->
   <string name="TargetingNobody">Nobody</string>
+  <!-- Option Tabs -->
+  <string name="TouTabOptionBetterMaps">Better Maps/Sabotages</string>
+  <string name="TouTabOptionBetterMapsDesc">Configure tasks, cooldowns, doors, vents, sabotages, and more for each map!</string>
+  <string name="TouTabOptionModifiersDesc">Every player can get an Alliance, Universal, and/or Faction modifier.</string>
   <!-- Freeplay Terms -->
   <string name="FreeplayKillButton">Remote Kill</string>
   <string name="FreeplaySetRoleButton">Set Roles</string>
@@ -336,8 +377,17 @@
   <string name="FreeplayRestartButton">Reset Game</string>
   <string name="FreeplayRestartPopup">All dead players have been revived and tasks have been reset!</string>
   <string name="TouFirstRoundDeathIndicator">First Round Death Indicator</string>
+  <!-- Advanced Utility Options -->
+  <string name="TouOptionAdvancedUtilTasksToUseAdmin">Tasks Required to Use Admin Table</string>
+  <string name="TouOptionAdvancedUtilTasksToUseCams">Tasks Required to Use Cams</string>
+  <string name="TouOptionAdvancedUtilTasksToUseDoorlog">Tasks Required to Use Doorlog</string>
+  <string name="TouOptionAdvancedUtilTasksToUseVitals">Tasks Required to Use Vitals</string>
+  <string name="TouOptionAdvancedUtilTasksRequiredOnPortableUtils">Tasks Are Checked On Portable Utils</string>
+  <string name="TouUnavailableUtilityNotif">You need to complete \%amount\% more tasks to use this!</string>
+  <string name="TouUnavailableUtilityNotifSingle">You need to complete \%amount\% more task to use this!</string>
   <!-- Advanced Sabotage Options -->
   <string name="TouOptionAdvancedSaboCamouflageComms">Camouflage Comms</string>
+  <string name="TouOptionAdvancedSaboGlobalCamouflageComms">Toggle Camouflage Comms</string>
   <string name="TouOptionAdvancedSaboKillDuringCamoComms">Kill Anyone During Camouflage</string>
   <string name="TouOptionAdvancedSaboCamoKillScreens">Camouflage Kill Screens During Comms</string>
   <string name="TouOptionAdvancedSaboHidePlayerSizeInCamo">Camouflage Hides Player Size</string>
@@ -366,21 +416,41 @@
   <string name="TouOptionBetterDoorsAirshipChance">Airship Door Chance</string>
   <string name="TouOptionBetterDoorsFungleChance">Fungle Door Chance</string>
   <string name="TouOptionBetterDoorsSubmergedChance">Submerged Door Chance</string>
+  <!-- Global Better Map Options -->
+  <string name="TouOptionGlobalBetterMapCamouflageComms">Use Camouflage Comms</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumOff">Globally Disabled</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumOn">Globally Enabled</string>
+  <string name="TouOptionGlobalBetterMapChangeEnumPerMap">Per Map Change</string>
+  <string name="TouOptionGlobalBetterMapSpeedMultiplier">Change Speed Multiplier</string>
+  <string name="TouOptionGlobalBetterMapCrewVisionMultiplier">Change Crew Vision Multiplier</string>
+  <string name="TouOptionGlobalBetterMapImpVisionMultiplier">Change Impostor Vision Multiplier</string>
+  <string name="TouOptionGlobalBetterMapCooldownOffset">Change Cooldown Offset</string>
+  <string name="TouOptionGlobalBetterMapOffsetShortTasks">Change Short Tasks Offset</string>
+  <string name="TouOptionGlobalBetterMapOffsetLongTasks">Change Long Tasks Offset</string>
   <!-- Better Maps Options -->
   <string name="TouOptionBetterMapsSpeedMultiplier">Speed Multiplier</string>
   <string name="TouOptionBetterMapsCrewVisionMultiplier">Crew Vision Multiplier</string>
   <string name="TouOptionBetterMapsImpVisionMultiplier">Impostor Vision Multiplier</string>
+  <string name="TouOptionBetterMapsNoLadderCooldown">No Ladder Cooldown</string>
   <string name="TouOptionBetterMapsCooldownOffset">Cooldown Offset</string>
   <string name="TouOptionBetterMapsOffsetShortTasks">Short Tasks Offset</string>
   <string name="TouOptionBetterMapsOffsetLongTasks">Long Tasks Offset</string>
   <string name="TouOptionBetterMapsChangeSaboTimers">Change Sabotage Timers</string>
+  <string name="TouOptionBetterMapsChangeOxygenSaboTimer">Change Oxygen Sabotage Timer</string>
+  <string name="TouOptionBetterMapsChangeReactorSaboTimer">Change Reactor Sabotage Timer</string>
+  <string name="TouOptionBetterMapsChangeMixUpSaboTimer">Change Mix-Up Sabotage Duration</string>
   <string name="TouOptionBetterMapsSaboCountdownOxygen">Oxygen Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownReactor">Reactor Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownSeismicStabilizer">Seismic Stabilizer Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownCrashCourse">Crash Course Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">Water Level Stabilizer Sabotage Countdown</string>
+  <string name="TouOptionBetterMapsSaboCountdownOxygenMask">Oxygen Mask Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
+  <string name="TouOptionBetterSkeldVentNetwork">Skeld Vent Network</string>
+  <string name="TouOptionBetterSkeldVentModeEnumNormal">Unchanged</string>
+  <string name="TouOptionBetterSkeldVentModeEnumFourGroups">Quad-Group</string>
   <!-- Better Mira HQ Options -->
   <string name="TouOptionBetterMiraHqVentNetwork">Mira HQ Vent Network</string>
   <string name="TouOptionBetterMiraHqVentModeEnumNormal">Interconnected</string>
@@ -406,7 +476,6 @@
   <string name="TouOptionBetterAirshipSpawnLocationEnumEngineRoom">Engine Room</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumBrig">Brig</string>
   <string name="TouOptionBetterAirshipSpawnLocationEnumRecords">Records</string>
-  <string name="TouOptionBetterAirshipNoLadderCooldown">No Ladder Cooldown</string>
   <!-- Better Fungle Options -->
   <string name="TouOptionBetterFungleDoorType">Door Type on Fungle</string>
   <!-- Better Submerged Options -->
@@ -701,8 +770,8 @@
   <!-- Jailor Wiki / Abilities -->
   <string name="TouRoleJailor">Jailor</string>
   <string name="TouRoleJailorIntroBlurb">Jail and execute \%color=#FF0000FF\%evildoers\%/color\%</string>
-  <string name="TouRoleJailorTabDescription">Discuss with crewmates in meetings privately, and\%nl\%execute them if they are an evildoer</string>
-  <string name="TouRoleJailorTabDescriptionEvil">Discuss with crewmates in meetings privately, and\%nl\%execute them if you so desire</string>
+  <string name="TouRoleJailorTabDescription">Jail crewmates to private talk to them, and\%nl\%execute them if they are an evildoer</string>
+  <string name="TouRoleJailorTabDescriptionEvil">Jail crewmates to private talk to them, and\%nl\%execute them if you so desire</string>
   <string name="TouRoleJailorWikiDescription">The Jailor is a Crewmate Power role that can jail other players. During a meeting, the Jailor can choose to execute their jailed player. (Unless the Jailor is an Imitator)</string>
   <string name="TouRoleJailorJail">Jail</string>
   <string name="TouRoleJailorJailWikiDescription">Jail a player. During the meeting everyone will see who is jailed. You can privately talk with your detained player using the private chatbox toggle.</string>
@@ -827,6 +896,21 @@
   <!-- Mirrorcaster Feedback -->
   <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\% was attacked by the \%attackerRole\%! You can now unleash the attack onto another player!</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\% was attacked! You can now unleash the attack onto another player!</string>
+  <!-- Monarch - Crewmate Power -->
+  <!-- Monarch Wiki / Description -->
+  <string name="TouRoleMonarch">Monarch</string>
+  <string name="TouRoleMonarchIntroBlurb">Knight Crewmates to give extra votes</string>
+  <string name="TouRoleMonarchTabDescription">Knight crewmates to aid in meetings, but\%nl\%avoid knighting Evildoers.</string>
+  <string name="TouRoleMonarchTabDescriptionEgo">Knight evildoers to aid them in meetings.</string>
+  <string name="TouRoleMonarchTabVoteInfo">Knighted players each gain \%amount\% vote(s).</string>
+  <string name="TouRoleMonarchTabDefenseInfoEgo">Living knights give you protection.</string>
+  <string name="TouRoleMonarchTabDefenseInfo">Living crewmate knights give you protection.</string>
+  <string name="TouRoleMonarchTabDeathInfo">You are notified when a knighted player dies.</string>
+  <string name="TouRoleMonarchWikiDescription">The Monarch is a Crewmate Power role that can hand out additional votes to other players.</string>
+  <string name="TouRoleMonarchKnight">Knight</string>
+  <string name="TouRoleMonarchKnightDescription">Knight a player, giving them \%amount\% vote(s)</string>
+  <string name="TouRoleMonarchChangeFlash">Change Flash</string>
+  <string name="TouRoleMonarchChangeFlashDescription">If configurable, the Monarch can change how their defense appears to other attackers. The color can flash like a Cleric, Medic, Mercenary, Warden, or not flash at all!</string>
   <!-- Mystic - Crewmate Investigative -->
   <!-- Mystic Wiki / Description -->
   <string name="TouRoleMystic">Mystic</string>
@@ -854,6 +938,12 @@
   <string name="TouOptionOracleNeutralEvilShowEvil">Neutral Evils Show Up As Evil</string>
   <string name="TouOptionOracleNeutralKillingShowEvil">Neutral Killers Show Up As Evil</string>
   <string name="TouOptionOracleNeutralOutlierShowEvil">Neutral Outliers Show Up As Evil</string>
+  <string name="TouOptionOracleNeutralsThatShowEvil">Neutrals That Appear Evil</string>
+  <string name="TouOptionOracleNeutBadBenign">Benign</string>
+  <string name="TouOptionOracleNeutBadEvil">Evils</string>
+  <string name="TouOptionOracleNeutBadKilling">Killing</string>
+  <string name="TouOptionOracleNeutBadOutlier">Outliers</string>
+  <string name="TouOptionOracleNeutBadNone">None</string>
   <!-- Oracle Feedback -->
   <string name="TouRoleOracleConfessorDied">Your confessor failed to survive so you received no confession</string>
   <string name="TouRoleOracleTooFew">Too few people alive to receive a confessional</string>
@@ -951,6 +1041,107 @@
   <string name="TouOptionSeerNeutralKillingRolesAreRed">Neutral Killing Roles Are Red</string>
   <string name="TouOptionSeerNeutralOutlierRolesAreRed">Neutral Outlier Roles Are Red</string>
   <string name="TouOptionSeerTraitorSwapsColors">Traitor Swaps Colors</string>
+  <!-- Sentry - Crewmate Support -->
+  <!-- Sentry Wiki / Abilities -->
+  <string name="TouRoleSentry">Sentry</string>
+  <string name="TouRoleSentryIntroBlurb">Deploy cameras to monitor the map</string>
+  <string name="TouRoleSentryTabDescription">Place cameras that appear in Security.</string>
+  <string name="TouRoleSentryWikiDescription">The Sentry is a Crewmate Support role that can deploy cameras around the map that function like Security cameras.</string>
+  <string name="TouRoleSentryPlaceCamera">Deploy</string>
+  <string name="TouRoleSentryPlaceCameraWikiDescription">Deploy a camera at your current location. When it appears depends on settings.</string>
+  <string name="TouRoleSentryPortableCamera">View</string>
+  <string name="TouRoleSentryPortableCameraWikiDescription">Access Security cameras from anywhere with a limited battery. Battery drains while viewing and does not recharge. Disabled by Comms sabotage.</string>
+  <string name="TouRoleSentryPortableCameraUnlocked">Portable Cameras Unlocked!</string>
+  <string name="TouRoleSentryPortableAvailableImmediately">Portable Cameras are available immediately.</string>
+  <string name="TouRoleSentryPortableAvailableAfterTasks">Portable Cameras are available after tasks.</string>
+  <string name="TouRoleSentryCamerasHeader">Cameras</string>
+  <string name="TouRoleSentrySentryOnly">(Sentry-only)</string>
+  <string name="TouRoleSentryPlacing">(Placing...)</string>
+  <string name="TouRoleSentryMaxCamerasReached">Max cameras placed (%count%/%max%).</string>
+  <!-- Sentry Options -->
+  <string name="TouOptionSentryPlacementCooldown">Placement Cooldown</string>
+  <string name="TouOptionSentryDeployedCamerasVisibility">Deployed Cameras Visibility</string>
+  <string name="TouOptionSentryCamerasVisibleAfter">Cameras Visible After</string>
+  <string name="TouOptionSentryCanMoveWhilePlacingCameras">Can Move While Placing Cameras</string>
+  <string name="TouOptionSentryPortableCamerasMode">Instant Portable Cameras (or After Tasks)</string>
+  <string name="TouOptionSentryInitialCameras">Initial Cameras</string>
+  <string name="TouOptionSentryCameraRoundsLast">Amount Of Rounds Cameras Last</string>
+  <string name="TouOptionSentryTasksPerCamera">Tasks Required Per Camera</string>
+  <string name="TouOptionSentryMaxCamerasPlaced">Max Cameras Placed At Once</string>
+  <string name="TouOptionSentryPortableCamsBattery">Portable Cameras Battery</string>
+  <string name="TouOptionSentryPortableCamsBatteryPerTask">Portable Cameras Battery Per Task</string>
+  <string name="TouOptionSentryBlindspots">Blind Spots</string>
+  <string name="TouOptionSentryBlindspot1Room">Blindspot 1 Room</string>
+  <string name="TouOptionSentryBlindspot2Room">Blindspot 2 Room</string>
+  <string name="TouOptionSentryBlindspot3Room">Blindspot 3 Room</string>
+  <string name="TouOptionSentryBlindspot4Room">Blindspot 4 Room</string>
+  <string name="TouOptionSentryBlindspot5Room">Blindspot 5 Room</string>
+  <string name="TouOptionSentryBlindspot6Room">Blindspot 6 Room</string>
+  <string name="TouOptionSentryBlindspot7Room">Blindspot 7 Room</string>
+  <string name="TouOptionSentryBlindspot8Room">Blindspot 8 Room</string>
+  <string name="TouOptionSentryBlindspot9Room">Blindspot 9 Room</string>
+  <string name="TouOptionSentryBlindspot10Room">Blindspot 10 Room</string>
+  <!-- SystemTypes (for Sentry blindspot room picker) -->
+  <string name="TouSystemType_Hallway">Hallway</string>
+  <string name="TouSystemType_Storage">Storage</string>
+  <string name="TouSystemType_Cafeteria">Cafeteria</string>
+  <string name="TouSystemType_Reactor">Reactor</string>
+  <string name="TouSystemType_UpperEngine">Upper Engine</string>
+  <string name="TouSystemType_Nav">Navigation</string>
+  <string name="TouSystemType_Admin">Admin</string>
+  <string name="TouSystemType_Electrical">Electrical</string>
+  <string name="TouSystemType_LifeSupp">O2</string>
+  <string name="TouSystemType_Shields">Shields</string>
+  <string name="TouSystemType_MedBay">MedBay</string>
+  <string name="TouSystemType_Security">Security</string>
+  <string name="TouSystemType_Weapons">Weapons</string>
+  <string name="TouSystemType_LowerEngine">Lower Engine</string>
+  <string name="TouSystemType_Comms">Communications</string>
+  <string name="TouSystemType_ShipTasks">Ship Tasks</string>
+  <string name="TouSystemType_Doors">Doors</string>
+  <string name="TouSystemType_Sabotage">Sabotage</string>
+  <string name="TouSystemType_Decontamination">Decontamination</string>
+  <string name="TouSystemType_Launchpad">Launchpad</string>
+  <string name="TouSystemType_LockerRoom">Locker Room</string>
+  <string name="TouSystemType_Laboratory">Laboratory</string>
+  <string name="TouSystemType_Balcony">Balcony</string>
+  <string name="TouSystemType_Office">Office</string>
+  <string name="TouSystemType_Greenhouse">Greenhouse</string>
+  <string name="TouSystemType_Dropship">Dropship</string>
+  <string name="TouSystemType_Decontamination2">Decontamination</string>
+  <string name="TouSystemType_Outside">Outside</string>
+  <string name="TouSystemType_Specimens">Specimen Room</string>
+  <string name="TouSystemType_BoilerRoom">Boiler Room</string>
+  <string name="TouSystemType_VaultRoom">Vault</string>
+  <string name="TouSystemType_Cockpit">Cockpit</string>
+  <string name="TouSystemType_Armory">Armory</string>
+  <string name="TouSystemType_Kitchen">Kitchen</string>
+  <string name="TouSystemType_ViewingDeck">Viewing Deck</string>
+  <string name="TouSystemType_HallOfPortraits">Hall of Portraits</string>
+  <string name="TouSystemType_CargoBay">Cargo Bay</string>
+  <string name="TouSystemType_Ventilation">Ventilation</string>
+  <string name="TouSystemType_Showers">Showers</string>
+  <string name="TouSystemType_Engine">Engine Room</string>
+  <string name="TouSystemType_Brig">Brig</string>
+  <string name="TouSystemType_MeetingRoom">Meeting Room</string>
+  <string name="TouSystemType_Records">Records</string>
+  <string name="TouSystemType_Lounge">Lounge</string>
+  <string name="TouSystemType_GapRoom">Gap Room</string>
+  <string name="TouSystemType_MainHall">Main Hall</string>
+  <string name="TouSystemType_Medical">Medical</string>
+  <string name="TouSystemType_Decontamination3">Decontamination</string>
+  <string name="TouSystemType_Zipline">Zipline</string>
+  <string name="TouSystemType_MiningPit">Mining Pit</string>
+  <string name="TouSystemType_FishingDock">Fishing Dock</string>
+  <string name="TouSystemType_RecRoom">Rec Room</string>
+  <string name="TouSystemType_Lookout">Lookout</string>
+  <string name="TouSystemType_Beach">Beach</string>
+  <string name="TouSystemType_Highlands">Highlands</string>
+  <string name="TouSystemType_Jungle">Jungle</string>
+  <string name="TouSystemType_SleepingQuarters">Sleeping Quarters</string>
+  <string name="TouSystemType_MushroomMixupSabotage">Mushroom Mixup</string>
+  <string name="TouSystemType_HeliSabotage">Heli Sabotage</string>
+
   <!-- Sheriff - Crewmate Killing -->
   <!-- Sheriff Wiki / Abilities -->
   <string name="TouRoleSheriff">Sheriff</string>
@@ -976,6 +1167,12 @@
   <string name="TouOptionSheriffCanShootNeutralEvilRoles">Can Shoot Neutral Evil Roles</string>
   <string name="TouOptionSheriffCanShootNeutralKillingRoles">Can Shoot Neutral Killing Roles</string>
   <string name="TouOptionSheriffCanShootNeutralOutlierRoles">Can Shoot Neutral Outlier Roles</string>
+  <string name="TouOptionSheriffValidNeutralShots">Valid Neutral Shots</string>
+  <string name="TouOptionSheriffNeutShootBenign">Benign</string>
+  <string name="TouOptionSheriffNeutShootEvil">Evils</string>
+  <string name="TouOptionSheriffNeutShootKilling">Killing</string>
+  <string name="TouOptionSheriffNeutShootOutlier">Outliers</string>
+  <string name="TouOptionSheriffNeutShootNone">None</string>
   <string name="TouOptionSheriffMisfireKills">Misfire Kills</string>
   <string name="TouOptionSheriffKillEnumSheriff">Self</string>
   <string name="TouOptionSheriffKillEnumTarget">Target</string>
@@ -1029,6 +1226,27 @@
   <string name="TouRoleSwapperSwapWikiDescription">Select two players to swap votes for, and at the end of the meeting, they will swap spots!</string>
   <!-- Swapper Options -->
   <string name="TouOptionSwapperCanCallButton">Can Call Button</string>
+  <!-- Time Lord - Crewmate Power -->
+  <!-- Time Lord Wiki / Abilities -->
+  <string name="TouRoleTimeLord">Time Lord</string>
+  <string name="TouRoleTimeLordIntroBlurb">Rewind time</string>
+  <string name="TouRoleTimeLordTabDescription">Use Rewind to pull everyone back a few seconds.</string>
+  <string name="TouRoleTimeLordWikiDescription">The Time Lord is a Crewmate Power role that can rewind time, forcing every player to retrace their steps for a short duration.</string>
+  <string name="TouRoleTimeLordRewind">Rewind</string>
+  <string name="TouRoleTimeLordRewinding">Rewinding</string>
+  <string name="TouRoleTimeLordRewindWikiDescription">Rewind time for everyone. Players are forced back along their recent path for the duration. Any deaths that happened within that window are reversed.</string>
+  <string name="TouRoleTimeLordRewindNotif">Time is being rewound!</string>
+  <string name="TouRoleTimeLordRevivedNotif">You were revived thanks to the Time Lord!</string>
+  <!-- Time Lord Options -->
+  <string name="TouOptionTimeLordRewindCooldown">Rewind Cooldown</string>
+  <string name="TouOptionTimeLordRewindHistory">Rewind History</string>
+  <string name="TouOptionTimeLordMaxUses">Initial Uses</string>
+  <string name="TouOptionTimeLordUsesPerTasks">Tasks Required For Additional Rewind Use</string>
+  <string name="TouOptionTimeLordCanUseVitals">Can Use Vitals</string>
+  <string name="TouOptionTimeLordReviveOnRewind">Revive On Rewind</string>
+  <string name="TouOptionTimeLordUndoTasksOnRewind">Undo Tasks On Rewind</string>
+  <string name="TouOptionTimeLordUncleanBodiesOnRewind">Unclean Bodies On Rewind</string>
+  <string name="TouOptionTimeLordNotifyOnRevive">Notify Time Lord On Revive</string>
   <!-- Sonar - Crewmate Investigative -->
   <!-- Sonar Wiki / Abilities -->
   <string name="TouRoleSonar">Sonar</string>
@@ -1111,8 +1329,14 @@
   <string name="TouOptionVigilanteCanGuessNeutralEvilRoles">Can Guess Neutral Evil Roles</string>
   <string name="TouOptionVigilanteCanGuessNeutralKillingRoles">Can Guess Neutral Killing Roles</string>
   <string name="TouOptionVigilanteCanGuessNeutralOutlierRoles">Can Guess Neutral Outlier Roles</string>
+  <string name="TouOptionVigilanteGuessableNeutrals">Guessable Neutrals</string>
+  <string name="TouOptionVigilanteGuessableBenign">Benign</string>
+  <string name="TouOptionVigilanteGuessableEvil">Evils</string>
+  <string name="TouOptionVigilanteGuessableKilling">Killing</string>
+  <string name="TouOptionVigilanteGuessableOutlier">Outliers</string>
+  <string name="TouOptionVigilanteGuessableNone">None</string>
   <string name="TouOptionVigilanteCanGuessKillerModifiers">Can Guess Killer Modifiers</string>
-  <string name="TouOptionVigilanteCanGuessAlliances">Can Guess Alliances</string>
+  <string name="TouOptionVigilanteCanGuessAlliances">Can Guess Alliance Modifiers</string>
   <string name="TouOptionVigilanteSafeShotsAvailable">Safe Shots Available</string>
   <!-- Warden - Crewmate Protective -->
   <!-- Warden Wiki / Abilities -->
@@ -1313,6 +1537,24 @@
   <string name="TouOptionMorphlingMorphCooldown">Morph Cooldown</string>
   <string name="TouOptionMorphlingMorphDuration">Morph Duration</string>
   <string name="TouOptionMorphlingCanVent">Morphling Can Vent</string>
+  <!-- Parasite Wiki / Abilities -->
+  <string name="TouRoleParasite">Parasite</string>
+  <string name="TouRoleParasiteIntroBlurb">Overtake and control players</string>
+  <string name="TouRoleParasiteTabDescription">Overtake a victim to control their movement.\%nl\%Press the same button again to kill them, or wait for the timer.</string>
+  <string name="TouRoleParasiteWikiDescription">The Parasite can Overtake nearby non-impostors to take control of their movement. By default, while overtaken, the victim looks like the Parasite and cannot use abilities. You can watch them with a PiP camera and kill them at any time, or wait for the control timer to kill them.</string>
+  <string name="TouRoleParasiteOvertake">Overtake</string>
+  <string name="TouRoleParasiteOvertakeWikiDescription">Overtake a nearby non-impostor to take control of their movement. By default, you move with WASD and control them with Arrow Keys. If "Parasite Can Move Independently" is disabled, you cannot move and control them with WASD instead.</string>
+  <string name="TouRoleParasiteDecay">Kill</string>
+  <string name="TouRoleParasiteDecayWikiDescription">Kill your currently overtaken victim immediately.</string>
+  <!-- Parasite Options -->
+  <string name="TouOptionParasiteOvertakeCooldown">Overtake Cooldown</string>
+  <string name="TouOptionParasiteOvertakeKillCooldown">Kill Cooldown</string>
+  <string name="TouOptionParasiteControlDuration">Control Duration</string>
+  <string name="TouOptionParasiteSaveVictimIfParasiteDies">Save Victim If Parasite Dies</string>
+  <string name="TouOptionParasiteSaveVictimIfMeetingCalled">Save Victim If Meeting Called</string>
+  <string name="TouOptionParasiteCanVent">Parasite Can Vent</string>
+  <string name="TouOptionParasiteCanMoveIndependently">Parasite Can Move Independently</string>
+  <string name="TouOptionParasiteOvertakenLooksLikeParasite">Overtaken Looks Like Parasite</string>
   <!-- Scavenger Wiki / Description -->
   <string name="TouRoleScavenger">Scavenger</string>
   <string name="TouRoleScavengerIntroBlurb">Hunt down your prey</string>
@@ -1326,6 +1568,26 @@
   <string name="TouOptionScavengerScavengeDurationIncreasePerKill">Scavenge Duration Increase Per Kill</string>
   <string name="TouOptionScavengerScavengeKillCooldownOnCorrectKill">Scavenge Kill Cooldown On Correct Kill</string>
   <string name="TouOptionScavengerKillCooldownMultiplierOnIncorrectKill">Kill Cooldown Multiplier On Incorrect Kill</string>
+  <!-- Puppeteer Wiki / Abilities -->
+  <string name="TouRolePuppeteer">Puppeteer</string>
+  <string name="TouRolePuppeteerIntroBlurb">Control the hands of others</string>
+  <string name="TouRolePuppeteerTabDescription">Control crewmates to do your bidding!</string>
+  <string name="TouRolePuppeteerWikiDescription">The Puppeteer is an Impostor Power role that controls other players to kill for them. When a player is controlled, they must watch as they are forced to kill their fellow crewmates.</string>
+  <string name="TouRolePuppeteerControl">Control</string>
+  <string name="TouRolePuppeteerKill">Control Kill</string>
+  <string name="TouRolePuppeteerControlWikiDescription">Use your menu to control whoever you wish. In this state, the controlled player will kill as if they were an impostor, and not as whatever role they actually are.</string>
+  <string name="TouRolePuppeteerControlNotifBasic">You are under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif1">You've lost sensation of yourself. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif2">You feel a mystical power overtaking you. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlNotif3">You seem to feel your skin crawl. You're under the control of a \%role\%!</string>
+  <string name="TouRolePuppeteerControlFinishNotif">You're free from the \%role\%'s control!</string>
+  <!-- Puppeteer Options -->
+  <string name="TouOptionPuppeteerControlUses">Initial Control Uses</string>
+  <string name="TouOptionPuppeteerControlPerKill">Kills Required For Additional Control Use</string>
+  <string name="TouOptionPuppeteerVictimSeesControlDirection">Puppeteer Location Hint Duration (For Victim)</string>
+  <string name="TouOptionPuppeteerControlCooldown">Control Cooldown</string>
+  <string name="TouOptionPuppeteerControlDuration">Control Duration</string>
+  <string name="TouOptionPuppeteerCanVent">Puppeteer Can Vent</string>
   <!-- Spellslinger Wiki / Abilities -->
   <string name="TouRoleSpellslinger">Spellslinger</string>
   <string name="TouRoleSpellslingerIntroBlurb">Hex the crew to trigger a Hex Bomb</string>
@@ -1433,6 +1695,7 @@
   <string name="TouRoleAmnesiacRememberWikiDescription">Remember the role of a dead body. If the dead body's role is a unique role, you will remember the base faction's role instead.</string>
   <string name="TouRoleAmnesiacRememberNotif">You remembered that you were like \%player\%, turning into \%role\%</string>
   <string name="TouRoleAmnesiacRememberFailNotif">\%player\% was \%role\%, so their role cannot be picked up.</string>
+  <string name="TouRoleAmnesiacRememberFailTargetNotif">\%player\% had a role with you as their target, so their role cannot be picked up.</string>
   <!-- Amnesiac Options -->
   <string name="TouOptionAmnesiacShowArrows">Show Arrows Pointing To Dead Bodies</string>
   <string name="TouOptionAmnesiacArrowDelay">Time After Death Arrow Appears</string>
@@ -1453,6 +1716,7 @@
   <string name="TouRoleArsonistIgniteWikiDescriptionLegacy">Kill every doused player on the map as long as you ignite one player close by.</string>
   <!-- Arsonist Options -->
   <string name="TouOptionArsonistDouseCooldown">Douse Cooldown</string>
+  <string name="TouOptionArsonistDouseUses">Douses Possible at Once</string>
   <string name="TouOptionArsonistDouseInteractions">Douse From Interactions</string>
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
   <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>
@@ -1731,14 +1995,13 @@
   <string name="TouOptionVampireImpostorVision">Vampires Have Impostor Vision</string>
   <string name="TouOptionVampireNewVampsAssassinate">New Vampires Can Assassinate</string>
   <string name="TouOptionVampireValidNeutralConversions">Valid Neutral Conversions</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyCrew">Only Crew</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyBenign">Benign</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyEvil">Evils</string>
-  <string name="TouOptionVampireNeutConvertEnumOnlyOutlier">Outliers</string>
-  <string name="TouOptionVampireNeutConvertEnumBenignEvil">Benign \%and\% Evils</string>
-  <string name="TouOptionVampireNeutConvertEnumBenignOutlier">Benign \%and\% Outliers</string>
-  <string name="TouOptionVampireNeutConvertEnumEvilOutlier">Evils \%and\% Outliers</string>
-  <string name="TouOptionVampireNeutConvertEnumMostNeuts">Non-Killer Neutrals</string>
+  <string name="TouOptionVampireNeutConvertBenign">Benign</string>
+  <string name="TouOptionVampireNeutConvertEvil">Evils</string>
+  <string name="TouOptionVampireNeutConvertOutlier">Outliers</string>
+  <string name="TouOptionVampireNeutConvertNone">None</string>
+  <string name="TouOptionVampireConvertNeutralBenign">Can Convert Neutral Benign Roles</string>
+  <string name="TouOptionVampireConvertNeutralEvil">Can Convert Neutral Evil Roles</string>
+  <string name="TouOptionVampireConvertNeutralOutlier">Can Convert Neutral Outlier Roles</string>
   <string name="TouOptionVampireConvertLovers">Can Convert Lovers</string>
   <string name="TouOptionVampireNewVampiresConvert">New Vampires Can Convert</string>
   <string name="TouOptionVampireCanVent">Vampires Can Vent</string>
@@ -1955,6 +2218,22 @@
   <string name="TouRoleCelebrityMessageTitle">Celebrity Report</string>
   <string name="TouModifierCelebrityDetailsSelf">The \%modifier\%, \%player\%, has died!\%nl\%Location: \%room\%\%nl\%Death: By Suicide\%nl\%Time: \%timeAgo\% seconds ago.</string>
   <string name="TouModifierCelebrityDetailsKilled">The \%modifier\%, \%player\%, was \%killed\%!\%nl\%Location: \%room\%\%nl\%Death: By The \%role\%\%nl\%Time: \%timeAgo\% seconds ago.</string>
+  <!-- Circumvent -->
+  <!-- Circumvent Wiki / Description -->
+  <string name="TouModifierCircumvent">Circumvent</string>
+  <string name="TouModifierCircumventIntroBlurb">Your ability to vent is limited.</string>
+  <string name="TouModifierCircumventIntroBlurbNone">You lack the ability to vent.</string>
+  <string name="TouModifierCircumventTabDescriptionNone">You cannot vent.</string>
+  <string name="TouModifierCircumventTabDescription">Vents remaining: \%amount\%</string>
+  <string name="TouModifierCircumventWikiDescription">Your ability to vent around the map is severely weakened, or may be unavailable in general.</string>
+  <!-- DeadlyQuota -->
+  <!-- DeadlyQuota Wiki / Description -->
+  <string name="TouModifierDeadlyQuota">Deadly Quota</string>
+  <string name="TouModifierDeadlyQuotaIntroBlurb">You must kill at least one person.</string>
+  <string name="TouModifierDeadlyQuotaIntroBlurbPlural">You must kill at least \%amount\% people.</string>
+  <string name="TouModifierDeadlyQuotaTabDescription">Meet your quota or lose!\%nl\%Kills: \%amount\% / \%total\%</string>
+  <string name="TouModifierDeadlyQuotaWikiDescription">You lose if you do not complete your quota. To complete your quota, you need to kill a set number of people chosen at the start of the game.</string>
+  <string name="TouModifierDeadlyQuotaWarningNotif">You haven't started working on your quota. You WILL lose if Impostors win, and you do not meet your quota of \%amount\% by the end of the game.</string>
   <!-- Diseased -->
   <!-- Diseased Wiki / Description -->
   <string name="TouModifierDiseased">Diseased</string>

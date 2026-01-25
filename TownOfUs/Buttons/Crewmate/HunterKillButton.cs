@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class HunterKillButton : TownOfUsRoleButton<HunterRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class HunterKillButton : TownOfUsKillRoleButton<HunterRole, PlayerControl>, IDiseaseableButton, IKillButton
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
@@ -48,7 +48,7 @@ public sealed class HunterKillButton : TownOfUsRoleButton<HunterRole, PlayerCont
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
 
         if (!OptionGroupSingleton<HunterOptions>.Instance.HunterBodyReport)
         {

@@ -5,7 +5,6 @@ using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
-using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -16,18 +15,14 @@ namespace TownOfUs.Patches;
 public static class PlayerJoinPatch
 {
     public static bool SentOnce { get; private set; }
-    public static HudManager HUD => HudManager.Instance;
 
     public static void Zoom(bool zoomOut)
     {
-        if (((PlayerControl.LocalPlayer.DiedOtherRound() &&
-              (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
-               PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) || TutorialManager.InstanceExists)
-            && !MeetingHud.Instance && Minigame.Instance == null &&
-            !HudManager.Instance.Chat.IsOpenOrOpening)
+        if (!HudManagerPatches.CanZoom)
         {
-            HudManagerPatches.ScrollZoom(zoomOut);
+            return;
         }
+        HudManagerPatches.ScrollZoom(zoomOut);
     }
 
     internal static void Postfix()

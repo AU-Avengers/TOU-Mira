@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRole, PlayerControl>, IDiseaseableButton,
+public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollectorRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleSoulCollectorReap", "Reap");
@@ -38,7 +38,7 @@ public sealed class SoulCollectorReapButton : TownOfUsRoleButton<SoulCollectorRo
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target, createDeadBody: false/*, showKillAnim: false*/);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting, createDeadBody:false);
 
         if (Target.Data.IsDead)
         {

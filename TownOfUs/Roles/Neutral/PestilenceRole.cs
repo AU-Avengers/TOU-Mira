@@ -21,6 +21,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class PestilenceRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IUnguessable, ICrewVariant
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+    }
+
     public bool Announced { get; set; }
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
@@ -106,13 +116,13 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        if (!Player.HasModifier<InvulnerabilityModifier>())
+        {
+            Player.AddModifier<InvulnerabilityModifier>(true, true, false);
+        }
 
         if (Player.AmOwner)
         {
-            if (!Player.HasModifier<InvulnerabilityModifier>())
-            {
-                Player.RpcAddModifier<InvulnerabilityModifier>(true, true, false);
-            }
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.PestVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Pestilence);
         }
@@ -123,13 +133,13 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        if (Player.HasModifier<InvulnerabilityModifier>())
+        {
+            Player.RemoveModifier<InvulnerabilityModifier>();
+        }
 
         if (Player.AmOwner)
         {
-            if (Player.HasModifier<InvulnerabilityModifier>())
-            {
-                Player.RpcRemoveModifier<InvulnerabilityModifier>();
-            }
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }

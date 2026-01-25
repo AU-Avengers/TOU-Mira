@@ -3,6 +3,7 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -203,9 +204,9 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         passive.OnClick.AddListener(Execute());
 
         var usesTextObj = Instantiate(voteArea.NameText, voteArea.transform);
-        usesTextObj.transform.localPosition = new Vector3(-0.22f, 0.16f, newButtonObj.transform.position.z - 0.1f);
+        usesTextObj.transform.localPosition = new Vector3(-0.22f, 0.16f, -6f);
         usesTextObj.text = $"{Executes}";
-        usesTextObj.transform.localScale = usesTextObj.transform.localScale * 0.65f;
+        usesTextObj.transform.localScale *= 0.65f;
 
         usesText = usesTextObj;
     }
@@ -222,7 +223,6 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
             Clear();
 
-            Executes--;
             var text = TouLocale.GetParsed("TouRoleJailorCannotExecute");
             var color = TownOfUsColors.Jailor;
             if (!Jailed.HasModifier<InvulnerabilityModifier>())
@@ -244,7 +244,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                     text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
                 }
 
-                Player.RpcSpecialMurder(Jailed, true, true, createDeadBody: false, teleportMurderer: false,
+                Player.RpcSpecialMurder(Jailed, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                     showKillAnim: false,
                     playKillSound: false,
                     causeOfDeath: "Jailor");

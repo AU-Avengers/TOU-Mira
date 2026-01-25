@@ -1,8 +1,14 @@
 using AmongUs.GameOptions;
 using MiraAPI.Patches.Freeplay;
 using HarmonyLib;
+using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Networking;
+using MiraAPI.Patches.Options;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
+using TownOfUs.Networking;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
@@ -55,5 +61,94 @@ public static class MiraApiPatches
     {
         __result = TouLocale.Get("Modifiers");
         return false;
+    }
+
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(MeetingCheck), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
+    [HarmonyPrefix]
+    public static bool RpcAltCustomMurderPatch(
+        this PlayerControl source,
+        PlayerControl target,
+        MeetingCheck inMeeting,
+        bool didSucceed = true,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true)
+    {
+        var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
+
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
+        MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+        {
+            beforeMurderEvent.Cancel();
+        }
+
+        if (beforeMurderEvent.IsCancelled)
+        {
+            murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
+
+        // Track kill cooldown before CustomMurder for Time Lord rewind
+        float? killCooldownBefore = null;
+        if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            killCooldownBefore = source.killTimer;
+        }
+
+        source.CustomMurder(
+            target,
+            murderResultFlags2,
+            resetKillTimer,
+            createDeadBody,
+            teleportMurderer,
+            showKillAnim,
+            playKillSound);
+
+        // Force-sync death state after successful murder to prevent desyncs
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && target.HasDied())
+        {
+            DeathStateSync.ScheduleDeathStateSync(target, true);
+            // Request validation after kill to ensure all clients are in sync
+            if (source.AmOwner)
+            {
+                DeathStateSync.RequestValidationAfterKill(source);
+            }
+        }
+
+        // Record kill cooldown change after CustomMurder if it was reset
+        if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        {
+            Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+        }
+        return false;
+    }
+
+    [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
+    [HarmonyPrefix]
+#pragma warning disable S3400
+    public static bool MiraClosePatch()
+#pragma warning restore S3400
+    {
+        // Patching this for now
+        return false;
+    }
+
+    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
+    [HarmonyPostfix]
+    public static void OpenPatch()
+    {
+        HudManager.Instance.PlayerCam.OverrideScreenShakeEnabled = false;
+    }
+
+    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Close))]
+    [HarmonyPostfix]
+    public static void ClosePatch()
+    {
+        HudManager.Instance.PlayerCam.OverrideScreenShakeEnabled = true;
     }
 }

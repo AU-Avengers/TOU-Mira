@@ -57,8 +57,8 @@ public sealed class RoleOptions : AbstractOptionGroup
         {
             case TouGamemode.Cultist:
                 return RoleDistribution.Cultist;
-            case TouGamemode.AllKillers:
-                return RoleDistribution.AllKillers;
+            /*case TouGamemode.AllKillers:
+                return RoleDistribution.AllKillers;*/
         }
 
         switch (roleDist)
@@ -78,11 +78,11 @@ public sealed class RoleOptions : AbstractOptionGroup
         {
             var gameMode = (TouGamemode)CustomGameMode.Value;
             return !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools || gameMode is TouGamemode.Cultist || gameMode is TouGamemode.AllKillers);
+                or GameModes.SeekFools || gameMode is TouGamemode.Cultist/* || gameMode is TouGamemode.AllKillers*/);
         }
     }
     public ModdedEnumOption CustomGameMode { get; } =
-        new("Current Game Mode", (int)TouGamemode.Normal, typeof(TouGamemode), ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)", "All Killers (N/A)", "Legacy TOU (N/A)"], false)
+        new("Current Game Mode", (int)TouGamemode.Normal, typeof(TouGamemode), ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)"/*, "All Killers (N/A)", "Legacy TOU (N/A)"*/], false)
         {
             // Who could've possibly thought this code breaks the game?
             /*ChangedEvent = x =>
@@ -296,7 +296,7 @@ public enum RoleDistribution
     MinMaxList,
     HideAndSeek,
     Cultist,
-    AllKillers,
+    // AllKillers,
     // Legacy
 }
 

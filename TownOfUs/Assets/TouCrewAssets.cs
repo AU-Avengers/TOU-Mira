@@ -29,6 +29,22 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> SeerSprite { get; } =
         new LoadableBundleAsset<Sprite>("SeerButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> GazeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("GazeButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> IntuitSprite { get; } =
+        new LoadableBundleAsset<Sprite>("IntuitButton", TouAssets.MainBundle);
+
+    public static List<LoadableAsset<Sprite>> SeerButtonSprites { get; set; } = new()
+    {
+        SeerSprite,
+        GazeSprite,
+        IntuitSprite,
+    };
+
+    public static LoadableAsset<Sprite> KnightSprite { get; } =
+        new LoadableBundleAsset<Sprite>("KnightButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> TrackSprite { get; } =
         new LoadableBundleAsset<Sprite>("TrackButton", TouAssets.MainBundle);
 
@@ -103,7 +119,10 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> OverchargeSprite { get; } =
         new LoadableResourceAsset("TownOfUs.Resources.CrewButtons.OverchargeButton.png");
-    
+
+    public static LoadableAsset<Sprite> DeployCamSprite { get; } =
+        new LoadableBundleAsset<Sprite>("DeployButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> EngineerRoleBanner { get; } =
         new LoadableBundleAsset<Sprite>("EngineerBanner", TouAssets.MainBundle);
 }

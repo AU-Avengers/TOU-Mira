@@ -13,23 +13,61 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
     public override uint GroupPriority => 3;
     public override Color GroupColor => new Color32(188, 206, 200, 255);
 
-    [ModdedNumberOption("TouOptionBetterMapsSpeedMultiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
-    public float SpeedMultiplier { get; set; } = 1f;
+    public ModdedToggleOption CamoComms { get; set; } =
+        new("TouOptionAdvancedSaboCamouflageComms", true)
+        {
+            Visible = () =>
+                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCamoCommsConfig) ==
+                MapTweakMode.PerMap
+        };
 
-    [ModdedNumberOption("TouOptionBetterMapsCrewVisionMultiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
-    public float CrewVisionMultiplier { get; set; } = 1f;
-    
-    [ModdedNumberOption("TouOptionBetterMapsImpVisionMultiplier", 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
-    public float ImpVisionMultiplier { get; set; } = 1f;
+    public ModdedNumberOption SpeedMultiplier { get; set; } =
+        new("TouOptionBetterMapsSpeedMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
+        {
+            Visible = () =>
+                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapSpeedConfig) ==
+                MapTweakMode.PerMap
+        };
 
-    [ModdedNumberOption("TouOptionBetterMapsCooldownOffset", -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float CooldownOffset { get; set; } = 0f;
+    public ModdedNumberOption CrewVisionMultiplier { get; set; } =
+        new("TouOptionBetterMapsCrewVisionMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
+        {
+            Visible = () =>
+                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCrewVisionConfig) ==
+                MapTweakMode.PerMap
+        };
 
-    [ModdedNumberOption("TouOptionBetterMapsOffsetShortTasks", -5f, 5f)]
-    public float OffsetShortTasks { get; set; } = 0f;
+    public ModdedNumberOption ImpVisionMultiplier { get; set; } =
+        new("TouOptionBetterMapsImpVisionMultiplier", 1f, 0.25f, 1.5f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")
+        {
+            Visible = () =>
+                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapImpVisionConfig) ==
+                MapTweakMode.PerMap
+        };
 
-    [ModdedNumberOption("TouOptionBetterMapsOffsetLongTasks", -3f, 3f)]
-    public float OffsetLongTasks { get; set; } = 0f;
+    public ModdedNumberOption CooldownOffset { get; set; } =
+        new("TouOptionBetterMapsCooldownOffset", 0f, -15f, 15f, 2.5f, MiraNumberSuffixes.Seconds)
+        {
+            Visible = () =>
+                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapCooldownConfig) ==
+                MapTweakMode.PerMap
+        };
+
+    public ModdedNumberOption OffsetShortTasks { get; set; } =
+        new("TouOptionBetterMapsOffsetShortTasks", 0f, -5f, 5f, 1f, MiraNumberSuffixes.None)
+        {
+            Visible = () =>
+                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapShortTaskConfig) ==
+                MapTweakMode.PerMap
+        };
+
+    public ModdedNumberOption OffsetLongTasks { get; set; } =
+        new("TouOptionBetterMapsOffsetLongTasks", 0f, -3f, 3f, 1f, MiraNumberSuffixes.None)
+        {
+            Visible = () =>
+                GlobalBetterMapOptions.GetMapTweakMode(OptionGroupSingleton<GlobalBetterMapOptions>.Instance.GlobalMapLongTaskConfig) ==
+                MapTweakMode.PerMap
+        };
 
     public ModdedEnumOption SkeldDoorType { get; set; } = new("TouOptionBetterSkeldDoorType", (int)MapDoorType.Skeld, typeof(MapDoorType),
     [
@@ -37,6 +75,12 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
         "TouOptionBetterDoorsEnumFungle", "TouOptionBetterDoorsEnumSubmerged", "TouOptionBetterDoorsEnumNoDoors",
         "TouOptionBetterDoorsEnumRandom"
     ]);
+
+    public ModdedEnumOption BetterVentNetwork { get; set; } = new("TouOptionBetterSkeldVentNetwork",
+        (int)SkeldVentMode.Normal, typeof(SkeldVentMode),
+        [
+            "TouOptionBetterSkeldVentModeEnumNormal", "TouOptionBetterSkeldVentModeEnumFourGroups"
+        ]);
 
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
@@ -54,4 +98,10 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers
     };
+}
+
+public enum SkeldVentMode
+{
+    Normal,
+    FourGroups,
 }

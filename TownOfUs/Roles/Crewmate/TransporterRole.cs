@@ -173,7 +173,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play1.RpcCustomMurder(transporter);
+                play1.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
             }
 
             return;
@@ -183,7 +183,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play2.RpcCustomMurder(transporter);
+                play2.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
             }
 
             return;
@@ -193,7 +193,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play1.RpcCustomMurder(transporter);
+                play1.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
             }
 
             return;
@@ -203,7 +203,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play2.RpcCustomMurder(transporter);
+                play2.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
             }
 
             return;
@@ -261,7 +261,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
                 }
             }
 
-            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
                 .UseCrewmateTeamColorToggle.Value;
         }
 
@@ -461,7 +461,15 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
         if (player != null && player.AmOwner)
         {
-            MiscUtils.SnapPlayerCamera(PlayerControl.LocalPlayer);
+            // If the transported player is a Puppeteer/Parasite controlling someone, snap camera to the victim instead
+            MonoBehaviour? cameraTarget = null;
+            
+            if (player.Data?.Role is ITransportTrigger triggerRole)
+            {
+                cameraTarget = triggerRole.OnTransport();
+            }
+            
+            MiscUtils.SnapPlayerCamera(cameraTarget ?? PlayerControl.LocalPlayer);
         }
     }
 }

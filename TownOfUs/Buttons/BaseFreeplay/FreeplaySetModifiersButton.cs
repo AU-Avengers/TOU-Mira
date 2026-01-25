@@ -1,7 +1,9 @@
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
+using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Networking;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Utilities;
@@ -15,7 +17,7 @@ namespace TownOfUs.Buttons.BaseFreeplay;
 public sealed class FreeplaySetModifiersButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("FreeplaySetModifiersButton", "Set Modifiers");
-    public override Color TextOutlineColor => TownOfUsColors.Impostor;
+    public override Color TextOutlineColor => new Color32(89, 223, 231, 255);
     public override float Cooldown => 0.001f;
     public override float InitialCooldown => 0.001f;
     public override float EffectDuration => 0.001f;
@@ -27,7 +29,9 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null && TutorialManager.InstanceExists;
+        return PlayerControl.LocalPlayer != null &&
+               (TutorialManager.InstanceExists || MultiplayerFreeplayMode.Enabled) &&
+               !FreeplayButtonsVisibility.Hidden;
     }
 
     public override void ClickHandler()
@@ -119,6 +123,19 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton
 
     private static void ToggleModifierByType(PlayerControl player, Type modifierType)
     {
+        if (MultiplayerFreeplayMode.Enabled)
+        {
+            if (!MultiplayerFreeplayRegistry.TryGetModifierId(modifierType, out var id))
+            {
+                return;
+            }
+
+            Rpc<MultiplayerFreeplayRequestRpc>.Instance.Send(
+                PlayerControl.LocalPlayer,
+                new MultiplayerFreeplayRequest(MultiplayerFreeplayAction.ToggleModifier, player.PlayerId, 0, id));
+            return;
+        }
+
         var comp = player.GetModifierComponent();
         if (comp == null)
         {
@@ -157,7 +174,10 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton
             return;
         }
 
-        ReviveIfDead(loverA);
+        if (!MultiplayerFreeplayMode.Enabled)
+        {
+            ReviveIfDead(loverA);
+        }
 
         var player2Menu = CustomPlayerMenu.Create();
         player2Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
@@ -175,8 +195,17 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton
                     return;
                 }
 
-                ReviveIfDead(plr2);
-                LoverModifier.DebugSetLovers(loverA, plr2, clearExisting: true);
+                if (MultiplayerFreeplayMode.Enabled)
+                {
+                    Rpc<MultiplayerFreeplayRequestRpc>.Instance.Send(
+                        PlayerControl.LocalPlayer,
+                        new MultiplayerFreeplayRequest(MultiplayerFreeplayAction.SetLovers, loverA.PlayerId, plr2.PlayerId, 0));
+                }
+                else
+                {
+                    ReviveIfDead(plr2);
+                    LoverModifier.DebugSetLovers(loverA, plr2, clearExisting: true);
+                }
             });
 
         foreach (var panel in player2Menu.potentialVictims)
