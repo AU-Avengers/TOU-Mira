@@ -58,7 +58,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
                                                                         genOpt.TheDeadKnow && !body &&
                                                                         !fakePlayer?.body))
         {
-            var roleEffectAnimation = Object.Instantiate(DestroyableSingleton<RoleManager>.Instance.protectLoopAnim,
+            var roleEffectAnimation = Object.Instantiate(RoleManager.Instance.protectLoopAnim,
                 Player.gameObject.transform);
             roleEffectAnimation
                 .SetMaterialColor(7); // This is white, if it's not, make sure it is set to white from the int

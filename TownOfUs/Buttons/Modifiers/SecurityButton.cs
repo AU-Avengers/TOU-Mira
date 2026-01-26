@@ -67,11 +67,11 @@ public sealed class SecurityButton : TownOfUsButton
     {
         if (AvailableCharge > 0f && !PlayerControl.LocalPlayer.AreCommsAffected())
         {
-            DestroyableSingleton<HudManager>.Instance.AbilityButton.SetEnabled();
+            HudManager.Instance.AbilityButton.SetEnabled();
             return;
         }
 
-        DestroyableSingleton<HudManager>.Instance.AbilityButton.SetDisabled();
+        HudManager.Instance.AbilityButton.SetDisabled();
     }
 
     protected override void FixedUpdate(PlayerControl playerControl)

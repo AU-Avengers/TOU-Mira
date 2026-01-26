@@ -31,7 +31,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<BarkeeperRole>());
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Glitch";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

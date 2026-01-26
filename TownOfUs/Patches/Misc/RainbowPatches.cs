@@ -89,7 +89,7 @@ public static class RainbowLobbyInfoPanePatch
             NetworkedPlayerInfo host = GameData.Instance.GetHost();
             string text = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
             __instance.hostLabel.text =
-                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HostNounLabel,
+                TranslationController.Instance.GetString(StringNames.HostNounLabel,
                     Array.Empty<Object>());
             if (__instance.ShouldBoldenHostLabel(DataManager.Settings.Language.CurrentLanguage))
             {
@@ -103,7 +103,7 @@ public static class RainbowLobbyInfoPanePatch
                                                  ? "..."
                                                  : $"<color=#{text}>{host.PlayerName}</color>")
                                              + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" +
-                                             DestroyableSingleton<TranslationController>.Instance.GetString(
+                                             TranslationController.Instance.GetString(
                                                  StringNames.HostYouLabel, Array.Empty<Object>());
             }
             else
@@ -122,7 +122,7 @@ public static class RainbowLobbyInfoPanePatch
             NetworkedPlayerInfo host = GameData.Instance.GetHost();
             string text = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
             __instance.hostLabel.text =
-                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HostNounLabel,
+                TranslationController.Instance.GetString(StringNames.HostNounLabel,
                     Array.Empty<Object>());
             if (__instance.ShouldBoldenHostLabel(DataManager.Settings.Language.CurrentLanguage))
             {
@@ -136,7 +136,7 @@ public static class RainbowLobbyInfoPanePatch
                                                  ? "..."
                                                  : $"<color=#{text}>{host.PlayerName}</color>")
                                              + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" +
-                                             DestroyableSingleton<TranslationController>.Instance.GetString(
+                                             TranslationController.Instance.GetString(
                                                  StringNames.HostYouLabel, Array.Empty<Object>());
             }
             else

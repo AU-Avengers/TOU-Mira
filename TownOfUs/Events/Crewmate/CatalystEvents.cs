@@ -1,6 +1,5 @@
-﻿using HarmonyLib;
-using MiraAPI.Events;
-using MiraAPI.Events.Vanilla.Meeting;
+﻿using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -14,10 +13,12 @@ namespace TownOfUs.Events.Crewmate;
 public static class CatalystEvents
 {
     [RegisterEvent]
-    public static void EndMeetingEventHandler(EndMeetingEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent @event)
     {
-        ModifierUtils.GetPlayersWithModifier<CatalystOverchargedModifier>()
-            .Do(p => p.RemoveModifier<CatalystOverchargedModifier>());
+        foreach (var charged in ModifierUtils.GetActiveModifiers<CatalystOverchargedModifier>())
+        {
+            charged.Player.RemoveModifier(charged);
+        }
 
         if (PlayerControl.LocalPlayer.Data.Role is CatalystRole)
         {

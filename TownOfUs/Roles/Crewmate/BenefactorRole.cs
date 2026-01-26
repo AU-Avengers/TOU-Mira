@@ -24,8 +24,10 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
 {
     public override bool IsAffectedByComms => false;
 
+    [HideFromIl2Cpp]
     public RoleTypes? ProtectedRole { get; set; }
     public bool ProtectedRoleExists { get; set; }
+    [HideFromIl2Cpp]
     public List<RoleTypes> AegisAttacked { get; } = [];
     public bool UsedOnBenefactor { get; private set; }
 

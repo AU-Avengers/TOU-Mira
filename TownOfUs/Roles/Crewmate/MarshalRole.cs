@@ -292,10 +292,10 @@ public sealed class MarshalRole(IntPtr cppPtr)
         instance.ProceedButton.gameObject.SetActive(false);
         instance.playerStates.Do(x => x.SetDisabled());
 
-        if (DestroyableSingleton<HudManager>.Instance.Chat.IsOpenOrOpening)
+        if (HudManager.Instance.Chat.IsOpenOrOpening)
         {
-            DestroyableSingleton<HudManager>.Instance.Chat.ForceClosed();
-            ControllerManager.Instance.CloseOverlayMenu(DestroyableSingleton<HudManager>.Instance.Chat.name);
+            HudManager.Instance.Chat.ForceClosed();
+            ControllerManager.Instance.CloseOverlayMenu(HudManager.Instance.Chat.name);
         }
 
         ControllerManager.Instance.CloseOverlayMenu(instance.name);
@@ -326,8 +326,8 @@ public sealed class MarshalRole(IntPtr cppPtr)
             {
                 MapBehaviour.Instance.Close();
             }
-            DestroyableSingleton<HudManager>.Instance.Chat.SetVisible(PlayerControl.LocalPlayer.Data.IsDead);
-            DestroyableSingleton<HudManager>.Instance.Chat.HideBanButton();
+            HudManager.Instance.Chat.SetVisible(PlayerControl.LocalPlayer.Data.IsDead);
+            HudManager.Instance.Chat.HideBanButton();
             
             MeetingHud.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
             yield return new WaitForSeconds(1);
@@ -342,7 +342,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
             }
         }
         
-        ExileController exileController = Object.Instantiate(ShipStatus.Instance.ExileCutscenePrefab, DestroyableSingleton<HudManager>.Instance.transform);
+        ExileController exileController = Object.Instantiate(ShipStatus.Instance.ExileCutscenePrefab, HudManager.Instance.transform);
         exileController.transform.localPosition = new Vector3(0f, 0f, -60f);
         if (skipped)
         {

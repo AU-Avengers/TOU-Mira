@@ -11,7 +11,7 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class ImitatorEvents
 {
-    [RegisterEvent(1001)]
+    [RegisterEvent(1)]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
         if (@event.TriggeredByIntro)
@@ -50,7 +50,7 @@ public static class ImitatorEvents
         }
     }
 
-    [RegisterEvent]
+    [RegisterEvent(1)]
     public static void ChangeRoleHandler(ChangeRoleEvent @event)
     {
         if (!PlayerControl.LocalPlayer)
