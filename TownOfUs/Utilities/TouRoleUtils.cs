@@ -70,7 +70,7 @@ public static class TouRoleUtils
         return role.GetRoleName().Replace(" ", "");
     }
     public static bool IsRevealed(this PlayerControl? player) =>
-        player?.GetModifiers<RevealModifier>().Any(x => x.Visible && x.RevealRole) == true ||
+        player?.GetModifiers<BaseRevealModifier>().Any(x => x.Visible && x.RevealRole) == true ||
         player?.Data?.Role is MayorRole mayor && mayor.Revealed;
     public static StringBuilder SetTabText(ICustomRole role)
     {
