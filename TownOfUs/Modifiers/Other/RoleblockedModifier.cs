@@ -2,7 +2,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Utilities;
-using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Other;
@@ -44,8 +43,6 @@ public sealed class RoleblockedModifier(bool invertControls, bool hangover, floa
                 Player.AddModifier<HangoverModifier>(HangoverDuration, autoStart);
             }
         }
-
-        Player.ResetAppearance(fullReset: true);
     }
 
     public override void OnMeetingStart()
