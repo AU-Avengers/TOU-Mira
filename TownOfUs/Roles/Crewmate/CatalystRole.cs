@@ -12,7 +12,7 @@ public sealed class CatalystRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string RoleName => "Catalyst";
     public string RoleDescription => "Overdrive!";
-    public string RoleLongDescription => "Overcharge the crew.";
+    public string RoleLongDescription => "Overcharge the crewmates by lowering cooldowns.";
     public Color RoleColor => TownOfUsColors.Catalyst;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;
