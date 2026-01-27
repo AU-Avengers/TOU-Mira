@@ -1,19 +1,13 @@
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Modifiers;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
-using Reactor.Networking.Attributes;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 using System.Globalization;
-using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modifiers.Crewmate;
 using AmongUs.GameOptions;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Modifiers.Game.Universal;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -71,32 +65,4 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             $"Drink with a player, roleblocking them for {OptionGroupSingleton<BootleggerOptions>.Instance.RoleblockDuration} second(s)",
             TouImpAssets.SampleSprite)
     ];
-
-    [MethodRpc((uint)TownOfUsRpc.BootleggerRoleblock)]
-    public static void RpcRoleblock(PlayerControl player, PlayerControl target)
-    {
-        var targetName = target.CachedPlayerData.PlayerName;
-        var iconSelf = TouRoleIcons.Bootlegger.LoadAsset();
-        var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
-
-        if (!(target.HasModifier<BarkeeperHangoverModifier>() || target.HasModifier<BootleggerHangoverModifier>() || target.HasModifier<DrunkModifier>())) target.AddModifier<BootleggerRoleblockedModifier>();
-
-        if (player.AmOwner)
-        {
-            ShowNotification($"{targetName} was roleblocked!", iconSelf);
-        }
-
-        if (target.AmOwner)
-        {
-            if (target.HasModifier<BarkeeperHangoverModifier>() || target.HasModifier<BootleggerHangoverModifier>() || target.HasModifier<DrunkModifier>()) ShowNotification($"Someone gave you a drink, but you are too hungover!", iconTarget);
-            else ShowNotification($"Someone gave you a drink, you were roleblocked!", iconTarget);
-        }
-
-        static void ShowNotification(string message, Sprite icon)
-        {
-            var notif = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: icon);
-            notif.Text.SetOutlineThickness(0.35f);
-        }
-    }
-
 }

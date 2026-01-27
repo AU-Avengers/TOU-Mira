@@ -2,6 +2,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -49,7 +50,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
 
         if (_roleblockedTarget == null) return;
 
-        BootleggerRole.RpcRoleblock(PlayerControl.LocalPlayer, _roleblockedTarget);
+        BarkeeperRole.RpcRoleblock(PlayerControl.LocalPlayer, _roleblockedTarget);
         _roleblockedTarget = null;
     }
 

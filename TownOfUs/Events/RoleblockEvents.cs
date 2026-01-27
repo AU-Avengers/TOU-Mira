@@ -2,14 +2,36 @@
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
-using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Impostor;
+using MiraAPI.Utilities;
+using TownOfUs.Modifiers.Other;
 using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Events;
 
 public static class RoleblockEvents
 {
+    [RegisterEvent]
+    public static void RoundStartEventHandler(RoundStartEvent @event)
+    {
+        foreach (var hangover in ModifierUtils.GetActiveModifiers<HangoverModifier>())
+        {
+            if (!hangover.TimerActive)
+            {
+                hangover.StartTimer();
+                if (hangover.Player.AmOwner)
+                {
+                    var notif = Helpers.CreateAndShowNotification(
+                        $"<b>You are now hungover!</color></b>", Color.white,
+                        spr: TouRoleIcons.Barkeeper.LoadAsset());
+
+                    notif.Text.SetOutlineThickness(0.35f);
+                    notif.transform.localPosition = new Vector3(0f, 1f, -20f);
+                }
+            }
+        }
+    }
+
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
@@ -39,7 +61,7 @@ public static class RoleblockEvents
             return;
         }
 
-        if (!source.HasModifier<BarkeeperRoleblockedModifier>() && !source.HasModifier<BootleggerRoleblockedModifier>())
+        if (!source.HasModifier<RoleblockedModifier>())
         {
             return;
         }
