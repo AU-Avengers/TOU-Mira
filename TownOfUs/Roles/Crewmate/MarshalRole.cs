@@ -330,14 +330,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
             HudManager.Instance.Chat.SetVisible(PlayerControl.LocalPlayer.Data.IsDead);
             HudManager.Instance.Chat.HideBanButton();
 
-            try
-            {
-                MeetingHud.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
-            }
-            catch
-            {
-                // ignored
-            }
+            HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
 
             yield return new WaitForSeconds(1);
 
