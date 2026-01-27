@@ -75,7 +75,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     {
         var options = OptionGroupSingleton<BarkeeperOptions>.Instance;
         var roleblockDuration = options.RoleblockDuration;
-        var hangoverDuration = options.HangoverDuration;
+        var hangoverDuration = options.HangoverDuration.Value;
         var applyHangover = options.Hangover;
         var invertControls = options.InvertControlsOfRoleblocked;
         var iconSelf = TouRoleIcons.Barkeeper.LoadAsset();
@@ -84,7 +84,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         {
             var options2 = OptionGroupSingleton<BootleggerOptions>.Instance;
             roleblockDuration = options2.RoleblockDuration;
-            hangoverDuration = options2.HangoverDuration;
+            hangoverDuration = options2.HangoverDuration.Value;
             applyHangover = options2.Hangover;
             invertControls = options2.InvertControlsOfRoleblocked;
             iconSelf = TouRoleIcons.Bootlegger.LoadAsset();
