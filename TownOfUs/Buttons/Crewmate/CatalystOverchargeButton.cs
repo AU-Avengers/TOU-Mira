@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class CatalystOverchargeButton : TownOfUsRoleButton<CatalystRole, PlayerControl>
 {
     public override string Name => "Overcharge";
-    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Catalyst;
     public override float Cooldown => OptionGroupSingleton<CatalystOptions>.Instance.OverchargeCooldown;
     public override int MaxUses => (int)OptionGroupSingleton<CatalystOptions>.Instance.OverchargeUses;

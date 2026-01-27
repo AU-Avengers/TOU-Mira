@@ -9,7 +9,7 @@ namespace TownOfUs.Buttons.Crewmate;
 public sealed class BenefactorAegisButton : TownOfUsRoleButton<BenefactorRole>
 {
     public override string Name => "Aegis";
-    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
+    public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Benefactor;
     public override float Cooldown => 1;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.FortifySprite;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Globalization;
 using System.Text;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
@@ -14,6 +15,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
@@ -24,8 +26,12 @@ using Object = UnityEngine.Object;
 namespace TownOfUs.Roles.Crewmate;
 
 public sealed class MarshalRole(IntPtr cppPtr)
-    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
+    public bool CanBeTraitor => false;
+    public bool CanBeCrewpostor => false;
+    public bool CanBeEgotist => true;
+    public bool CanBeOtherEvil => true;
     private MeetingMenu meetingMenu;
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string RoleName => "Marshal";
@@ -176,6 +182,14 @@ public sealed class MarshalRole(IntPtr cppPtr)
         if (!MeetingHud.Instance)
         {
             return;
+        }
+        if (!player.HasModifier<MayorRevealModifier>())
+        {
+            player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MarshalRole>()));
+        }
+        if (player.TryGetModifier<ToBecomeTraitorModifier>(out var traitorMod))
+        {
+            traitorMod.Clear();
         }
         var meetingHud = MeetingHud.Instance;
         
