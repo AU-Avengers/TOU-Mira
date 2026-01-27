@@ -220,25 +220,23 @@ public sealed class MarshalRole(IntPtr cppPtr)
         
         meetingHud.ClearVote();
         meetingHud.SkipVoteButton.gameObject.SetActive(false);
-    
-        // Roles with abilities that can change the meeting result are disabled during a tribunal
-        switch (PlayerControl.LocalPlayer.Data.Role)
-        {
-            case SwapperRole swapper:
-                swapper.Swap1 = null;
-                swapper.Swap2 = null;
-                break;
-            case ProsecutorRole pros:
-                MeetingMenu.Instances.Do(x => x.HideButtons());
 
-                if (pros.HasProsecuted && pros.ProsecuteVictim != byte.MaxValue)
-                {
-                    pros.HasProsecuted = false;
-                    pros.ProsecutionsCompleted++;
-                    pros.ProsecuteVictim = byte.MaxValue;
-                }
-                break;
+        foreach (var pros in CustomRoleUtils.GetActiveRolesOfType<ProsecutorRole>())
+        {
+            if (pros.HasProsecuted && pros.ProsecuteVictim != byte.MaxValue)
+            {
+                pros.HasProsecuted = false;
+                pros.ProsecutionsCompleted++;
+                pros.ProsecuteVictim = byte.MaxValue;
+            }
         }
+
+        foreach (var swapper in CustomRoleUtils.GetActiveRolesOfType<SwapperRole>())
+        {
+            swapper.Swap1 = null;
+            swapper.Swap2 = null;
+        }
+        MeetingMenu.Instances.Do(x => x.HideButtons());
 
         AdjustTimeRemaining();
     }
@@ -258,12 +256,8 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             SoundManager.Instance.PlaySound(victim.KillSfx, false, 0.8f);
         }
-        
-        MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
-        if (victim.AmOwner)
-        {
-            MeetingMenu.Instances.Do(x => x.HideButtons());
-        }
+
+        MeetingMenu.Instances.Do(x => x.HideButtons());
 
         var victimPva = MeetingHud.Instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == victim.PlayerId);
         if (victimPva != null)
