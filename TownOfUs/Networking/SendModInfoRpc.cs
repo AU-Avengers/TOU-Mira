@@ -61,8 +61,17 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
     internal static void ReceiveClientModInfo(PlayerControl client, Dictionary<byte, string> list)
     {
         // Added the original Move Mod to blacklist due to it having (unintended) cheat functionalities (player can still move themselves and zoom out in the game)
-        string[] blacklist = ["MalumMenu", "SickoMenu", "SigmaMenu", "MoveModPublic: 1.0.0-dev+b18db3c689edef84d1f433480a91ce4ae0154060", "MoveModPublic: 1.0.0-dev+94ede73cbba272aae2cd118cbc7a69d9df779e6b", "MoveMod", "Move Mod"];
-        string[] whitelist = ["AuthFix", "GraphicsPlus", "Submerged", "LevelImposter", "VanillaEnhancements", "StringUtils", "ModExplorer", "Reactor", "Mini.RegionInstall", "TOU Mira Legacy", "GameNotifier", "Localize Us!", "AUSUMMARY - "];
+        string[] blacklist =
+        [
+            "MalumMenu", "SickoMenu", "SigmaMenu", "MoveModPublic: 1.0.0-dev+b18db3c689edef84d1f433480a91ce4ae0154060",
+            "MoveModPublic: 1.0.0-dev+94ede73cbba272aae2cd118cbc7a69d9df779e6b", "MoveMod", "Move Mod"
+        ];
+        string[] whitelist =
+        [
+            "AuthFix", "GraphicsPlus", "Submerged", "LevelImposter", "VanillaEnhancements", "StringUtils",
+            "ModExplorer", "Reactor", "Mini.RegionInstall", "TOU Mira Legacy", "GameNotifier", "Localize Us!",
+            "AUSUMMARY - ", "BetterAmongUs"
+        ];
         Error(
             $"{client.Data.PlayerName} is joining with the following mods:");
         foreach (var mod in list)
