@@ -15,17 +15,17 @@ public sealed class BootleggerOptions : AbstractOptionGroup<BootleggerRole>
     [ModdedNumberOption("Roleblock Duration", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float RoleblockDuration { get; set; } = 15f;
 
-    [ModdedToggleOption("Grant Hangover")]
-    public bool Hangover { get; set; } = true;
-    public ModdedNumberOption HangoverDuration { get; } =
-        new("Hangover Duration", 5f, 30f, 1f, 20f, MiraNumberSuffixes.None)
-        {
-            Visible = () => OptionGroupSingleton<BootleggerOptions>.Instance.Hangover
-        };
-
     [ModdedNumberOption("Roleblock Delay", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
     public float RoleblockDelay { get; set; } = 3f;
     [ModdedToggleOption("Invert Controls Of Roleblocked")]
     public bool InvertControlsOfRoleblocked { get; set; } = true;
+
+    [ModdedToggleOption("Grant Hangover")]
+    public bool Hangover { get; set; } = true;
+    public ModdedNumberOption HangoverDuration { get; } =
+        new("Hangover Duration", 30f, 15f, 120f, 20f, MiraNumberSuffixes.Seconds)
+        {
+            Visible = () => OptionGroupSingleton<BootleggerOptions>.Instance.Hangover
+        };
 
 }
