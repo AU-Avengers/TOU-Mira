@@ -487,6 +487,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             foreach (var role in roles)
             {
                 var customRole = role as ICustomRole;
+                var color = role.IsCrewmate() ? TownOfUsColors.CrewmateWiki : TownOfUsColors.ImpWiki;
 
                 var teamName = MiscUtils.GetParsedRoleAlignment(role);
                 var roleImg = TouRoleIcons.RandomAny.LoadAsset();
@@ -498,21 +499,25 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         continue;
                     }
 
-                    if (customRole.Configuration.Icon != null)
+                    if (customRole.Team is ModdedRoleTeams.Crewmate)
                     {
-                        roleImg = customRole.Configuration.Icon.LoadAsset();
-                    }
-                    else if (customRole.Team == ModdedRoleTeams.Crewmate)
-                    {
+                        color = TownOfUsColors.CrewmateWiki;
                         roleImg = TouRoleIcons.RandomCrew.LoadAsset();
                     }
-                    else if (customRole.Team == ModdedRoleTeams.Impostor)
+                    else if (customRole.Team is ModdedRoleTeams.Impostor)
                     {
+                        color = TownOfUsColors.ImpWiki;
                         roleImg = TouRoleIcons.RandomImp.LoadAsset();
                     }
                     else
                     {
+                        color = TownOfUsColors.NeutralWiki;
                         roleImg = TouRoleIcons.RandomNeut.LoadAsset();
+                    }
+
+                    if (customRole.Configuration.Icon != null)
+                    {
+                        roleImg = customRole.Configuration.Icon.LoadAsset();
                     }
                 }
                 else
@@ -523,7 +528,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     }
                 }
 
-                var newItem = CreateNewItem(role.GetRoleName(), roleImg, role.TeamColor);
+                var newItem = CreateNewItem(role.GetRoleName(), roleImg, color);
                 var team = newItem.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>();
                 team.fontSizeMax = 2.65f;
                 team.text =
