@@ -13,13 +13,15 @@ using TownOfUs.Roles.Neutral;
 namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class ImitatedRevealedModifier(RoleBehaviour role)
-    : RevealModifier((int)ChangeRoleResult.Nothing, true, role)
+    : BaseRevealModifier
 {
+
+    public RoleBehaviour? ShownRole { get; set; } = role;
+    public bool RevealRole { get; set; } = true;
     public override string ModifierName => "Role Revealed";
     public override void OnActivate()
     {
         base.OnActivate();
-        ChangeRoleResult = ChangeRoleResult.Nothing;
         var roleWhenAlive = Player.GetRoleWhenAlive();
         if (roleWhenAlive is ICrewVariant crewType)
         {
@@ -36,7 +38,7 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
     // TODO: Fix Imitator not showing role icons on already imitated players. Is this required? No, but it makes it more visually appealing.
     public override void OnMeetingStart()
     {
-        var roleWhenAlive = Player.GetRoleWhenAlive();
+        /*var roleWhenAlive = Player.GetRoleWhenAlive();
         if (roleWhenAlive is ICrewVariant crewType)
         {
             roleWhenAlive = crewType.CrewVariant;
@@ -49,7 +51,7 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
         SetNewInfo(true, null, null, roleWhenAlive);
         RevealRole = true;
         NameColor = roleWhenAlive.TeamColor;
-        ShownRole = roleWhenAlive;
+        ShownRole = roleWhenAlive;*/
         /*if (ShownRole == null)
         {
             return;

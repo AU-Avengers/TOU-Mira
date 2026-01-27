@@ -41,7 +41,7 @@ public static class PlayerRoleTextExtensions
         etModifier => etModifier.OwnerId == PlayerControl.LocalPlayer.PlayerId;
     private static Func<HunterStalkedModifier, bool> HunterStalkedPredicate { get; } =
         hsModifier => hsModifier.Hunter.AmOwner;
-    private static Func<RevealModifier, bool> RevealVisibleRolePredicate { get; } =
+    private static Func<BaseRevealModifier, bool> RevealVisibleRolePredicate { get; } =
         revealModifier => revealModifier.Visible && revealModifier.RevealRole;
 
     private static Func<PlaguebearerInfectedModifier, bool> PbPredicate1 { get; } =
@@ -208,7 +208,7 @@ public static class PlayerRoleTextExtensions
 
         if (player.IsCrewmate() && player.TryGetModifier<EgotistModifier>(out var egoMod) && (player.AmOwner ||
                                                                        (EgotistModifier.EgoVisibilityFlag(player) &&
-                                                                        (player.GetModifiers<RevealModifier>().Any(RevealVisibleRolePredicate))) || isDead))
+                                                                        (player.GetModifiers<BaseRevealModifier>().Any(RevealVisibleRolePredicate))) || isDead))
         {
             name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ModifierName}</color>)</color>";
         }

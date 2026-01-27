@@ -348,7 +348,7 @@ public static class HudManagerPatches
         static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
         {
             var displayPlayer = GetDisguiseTargetOrSelf(player);
-            var mod = displayPlayer.GetModifiers<RevealModifier>()
+            var mod = displayPlayer.GetModifiers<BaseRevealModifier>()
                 .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
             return mod?.ExtraNameText ?? string.Empty;
         }
@@ -370,7 +370,7 @@ public static class HudManagerPatches
                     continue;
                 }
 
-                var revealMods = player.GetModifiers<RevealModifier>().ToList();
+                var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
 
                 var playerName = player.GetDefaultAppearance().PlayerName ?? "Unknown";
                 var playerColor = Color.white;
@@ -587,7 +587,7 @@ public static class HudManagerPatches
                     continue;
                 }
 
-                var revealMods = player.GetModifiers<RevealModifier>().ToList();
+                var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
 
                 var playerName = player.GetAppearance().PlayerName ?? "Unknown";
                 var playerColor = Color.white;

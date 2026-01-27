@@ -6,9 +6,12 @@ using UnityEngine;
 namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class SnitchImpostorRevealModifier()
-    : RevealModifier((int)ChangeRoleResult.Nothing, true, null!)
+    : BaseRevealModifier
 {
     public override string ModifierName => "Revealed Impostor";
+
+    public ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;
+
 
     public override void OnActivate()
     {
@@ -30,7 +33,7 @@ public sealed class SnitchImpostorRevealModifier()
         }
         else if (!Player.HasDied())
         {
-            NameColor = Player.Data.Role.TeamColor;
+            NameColor = TownOfUsColors.Neutral;
         }
     }
 }

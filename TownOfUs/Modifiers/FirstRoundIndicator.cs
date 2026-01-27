@@ -1,6 +1,6 @@
 namespace TownOfUs.Modifiers;
 
-public sealed class FirstRoundIndicator(): RevealModifier((int)ChangeRoleResult.Nothing, true, null)
+public sealed class FirstRoundIndicator: BaseRevealModifier
 {
     public override string ModifierName => TouLocale.Get("TouFirstRoundDeathIndicator", "First Round Death Indicator");
     public override bool HideOnUi => true;

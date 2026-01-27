@@ -3,9 +3,14 @@
 namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class MayorRevealModifier(RoleBehaviour role)
-    : RevealModifier((int)ChangeRoleResult.RemoveModifier, true, role)
+    : BaseRevealModifier
 {
     public override string ModifierName => "Mayor Reveal";
+
+    public ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.RemoveModifier;
+
+    public RoleBehaviour? ShownRole { get; set; } = role;
+    public bool RevealRole { get; set; } = true;
 
     public override void OnDeath(DeathReason reason)
     {
