@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Other;
 
-public sealed class RoleblockedModifier(bool invertControls, bool hangover, float blockDuration, float hangoverDuration) : DisabledModifier, IVisualAppearance
+public sealed class RoleblockedModifier(bool invertControls, bool hangover, float blockDuration, float hangoverDuration) : DisabledModifier
 {
     public override string ModifierName => "Roleblocked";
     public override bool HideOnUi => false;
@@ -21,24 +21,9 @@ public sealed class RoleblockedModifier(bool invertControls, bool hangover, floa
     public bool Hangover => hangover;
     public override bool AutoStart => true;
 
-    public VisualAppearance GetVisualAppearance()
-    {
-        var appearance = Player.GetDefaultAppearance();
-        if (InvertControls)
-        {
-            appearance.Speed *= -1;
-            appearance.PetId = string.Empty;
-        }
-
-        return appearance;
-    }
     public override string GetDescription()
     {
         return $"Someone gave you a drink, you are roleblocked!";
-    }
-    public override void OnActivate()
-    {
-        Player.RawSetAppearance(this);
     }
     public override void OnDeactivate()
     {

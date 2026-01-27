@@ -48,7 +48,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
     
     public static bool TribunalHappening { get; set; }
     public static int RequiredVotes { get; private set; }
-    public static List<NetworkedPlayerInfo> EjectedPlayers { get; } = [];
+    public static List<PlayerControl> EjectedPlayers { get; } = [];
 
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
@@ -246,12 +246,12 @@ public sealed class MarshalRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.TribunalEjection)]
     private static void RpcTribunalEjection(PlayerControl victim)
     {
-        if (EjectedPlayers.Contains(victim.Data))
+        if (EjectedPlayers.Contains(victim))
         {
             return;
         }
         
-        EjectedPlayers.Add(victim.Data);
+        EjectedPlayers.Add(victim);
         ResetAllVotes();
         
         if (Constants.ShouldPlaySfx())
@@ -281,7 +281,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.EndTribunal)]
     public static void RpcEndTribunal(PlayerControl player)
     {
-        Logger<TownOfUsPlugin>.Warning($"RpcEndTribunal");
+        Warning($"RpcEndTribunal");
         var instance = MeetingHud.Instance;
         AmongUsClient.Instance.DisconnectHandlers.Remove(MeetingHud.Instance.Cast<IDisconnectHandler>());
         PlayerControl.AllPlayerControls.ToArray().Do(p => p.Data.Role.OnVotingComplete());
@@ -301,7 +301,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         ControllerManager.Instance.CloseOverlayMenu(instance.name);
         if (EjectedPlayers.Count > 0)
         {
-            Coroutines.Start(CoEjectionCutscene(EjectedPlayers[0], false, true));
+            Coroutines.Start(CoEjectionCutscene(EjectedPlayers[0].Data, false, true));
             EjectedPlayers.RemoveAt(0);
         }
         else
@@ -312,24 +312,33 @@ public sealed class MarshalRole(IntPtr cppPtr)
     
     public static IEnumerator CoEjectionCutscene(NetworkedPlayerInfo? exiled, bool skipped = false, bool first = false)
     {
-        Logger<TownOfUsPlugin>.Warning($"CoEjectionCutscene");
-        
+        Warning($"CoEjectionCutscene");
+
         if (first)
         {
-            Logger<TownOfUsPlugin>.Warning($"The cutscene is played for the first time");
-            
+            Warning($"The cutscene is played for the first time");
+
             yield return new WaitForSeconds(3);
-            
+
             ConsoleJoystick.SetMode_Task();
             MeetingHud.Instance.DespawnOnDestroy = false;
             if (MapBehaviour.Instance)
             {
                 MapBehaviour.Instance.Close();
             }
+
             HudManager.Instance.Chat.SetVisible(PlayerControl.LocalPlayer.Data.IsDead);
             HudManager.Instance.Chat.HideBanButton();
-            
-            MeetingHud.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
+
+            try
+            {
+                MeetingHud.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black, 1f));
+            }
+            catch
+            {
+                // ignored
+            }
+
             yield return new WaitForSeconds(1);
 
             try
@@ -341,17 +350,17 @@ public sealed class MarshalRole(IntPtr cppPtr)
                 // ignored
             }
         }
-        
+
         ExileController exileController = Object.Instantiate(ShipStatus.Instance.ExileCutscenePrefab, HudManager.Instance.transform);
         exileController.transform.localPosition = new Vector3(0f, 0f, -60f);
         if (skipped)
         {
-            Logger<TownOfUsPlugin>.Warning($"The tribunal is skipped");
+            Warning($"The tribunal is skipped");
             exileController.BeginForGameplay(null, false);
             yield break;
         }
         
-        Logger<TownOfUsPlugin>.Warning($"Creating exile controller for {exiled!.PlayerName}");
+        Warning($"Creating exile controller for {exiled!.PlayerName}");
         exileController.BeginForGameplay(exiled, false);
     }
 
@@ -370,13 +379,13 @@ public sealed class MarshalRole(IntPtr cppPtr)
                 return;
             }
             
-            Logger<TownOfUsPlugin>.Warning($"Player {player.Data.PlayerName} has enough votes to be ejected");
+            Warning($"Player {player.Data.PlayerName} has enough votes to be ejected");
             RpcTribunalEjection(player);
         }
 
         if (EjectedPlayers.Count >= OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunalEjections)
         {
-            Logger<TownOfUsPlugin>.Warning($"{EjectedPlayers.Count} ejected players - Ending the tribunal");
+            Warning($"{EjectedPlayers.Count} ejected players - Ending the tribunal");
             RpcEndTribunal(PlayerControl.LocalPlayer);
         }
     }
@@ -384,7 +393,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
     private static void UpdateVoteRequirement()
     {
         var validPlayers = Helpers.GetAlivePlayers()
-            .Where(p => !EjectedPlayers.Contains(p.Data))
+            .Where(p => !EjectedPlayers.Contains(p))
             .ToList();
         
         RequiredVotes = validPlayers.Count / 2 + 1;

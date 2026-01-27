@@ -48,7 +48,7 @@ public static class MarshalEvents
         {
             return;
         }
-        if (MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo))
+        if (MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo.Object))
         {
             return;
         }
@@ -90,7 +90,7 @@ public static class MarshalEvents
         }
         
         // Freeplay fix so dummies can vote multiple times
-        if (TutorialManager.Instance)
+        if (TutorialManager.InstanceExists)
         {
             Object.FindObjectsOfType<DummyBehaviour>().Do(x => x.voted = false);
         }
@@ -127,7 +127,7 @@ public static class MarshalEvents
         }
 
         // Players marked as ejected during a tribunal can't vote and other players can't vote them
-        if (MarshalRole.EjectedPlayers.Contains(PlayerControl.LocalPlayer.Data) || MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo))
+        if (MarshalRole.EjectedPlayers.Contains(PlayerControl.LocalPlayer) || MarshalRole.EjectedPlayers.Contains(@event.TargetPlayerInfo.Object))
         {
             @event.AllowSelect = false;
         }
@@ -176,7 +176,7 @@ public static class MarshalEvents
         if (MarshalRole.EjectedPlayers.Count > 0)
         {
             @event.Cancel();
-            Coroutines.Start(MarshalRole.CoEjectionCutscene(MarshalRole.EjectedPlayers[0]));
+            Coroutines.Start(MarshalRole.CoEjectionCutscene(MarshalRole.EjectedPlayers[0].Data));
             MarshalRole.EjectedPlayers.RemoveAt(0);
         }
         else
