@@ -101,7 +101,7 @@ public static class VeteranEvents
 
         var preventAttack = source.TryGetModifier<IndirectAttackerModifier>(out var indirectMod);
 
-        if (target.TryGetModifier<VeteranAlertModifier>(out var alertMod) && source != target)
+        if (target.HasModifier<VeteranAlertModifier>() && source != target)
         {
             if (!OptionGroupSingleton<VeteranOptions>.Instance.KilledOnAlert &&
                 (indirectMod == null || !indirectMod.IgnoreShield))
@@ -109,11 +109,10 @@ public static class VeteranEvents
                 miraEvent.Cancel();
             }
 
-            if ((TutorialManager.InstanceExists || source.AmOwner) && !preventAttack && !alertMod.WasAttacked(source))
+            if ((TutorialManager.InstanceExists || source.AmOwner) && !preventAttack)
             {
                 target.RpcCustomMurder(source, MeetingCheck.OutsideMeeting);
             }
-            alertMod.MarkPlayer(source);
             MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a veteran alert, attacking {source.Data.PlayerName}!");
         }
     }
