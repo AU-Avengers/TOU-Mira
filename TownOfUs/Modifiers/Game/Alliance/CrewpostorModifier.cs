@@ -5,6 +5,7 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
@@ -12,7 +13,6 @@ using TownOfUs.Options;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -66,11 +66,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             var filtered = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
-                            x.Data.Role is not PoliticianRole &&
-                            x.Data.Role is not MayorRole &&
-                            x.Data.Role is not SnitchRole &&
-                            x.Data.Role is not JailorRole &&
-                            x.Data.Role is not SwapperRole &&
+                            (x.Data.Role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeCrewpostor) &&
                             !x.HasModifier<AllianceGameModifier>() &&
                             !x.HasModifier<ExecutionerTargetModifier>()).ToList();
 
@@ -177,7 +173,8 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && role.IsCrewmate();
+        return base.IsModifierValidOn(role) && role.IsCrewmate() &&
+               (role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeCrewpostor);
     }
 
     public override bool? DidWin(GameOverReason reason)

@@ -4,6 +4,8 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Roles.Impostor;
@@ -79,6 +81,39 @@ public static class TraitorEvents
             }
 
             ToBecomeTraitorModifier.RpcSetTraitor(traitorPlayer);
+        }
+    }
+
+    [RegisterEvent]
+    public static void ChangeRoleHandler(ChangeRoleEvent @event)
+    {
+        var player = @event.Player;
+
+        if (!PlayerControl.LocalPlayer || player == null || (@event.NewRole is not ILoyalCrewmate loyal || loyal.CanBeTraitor))
+        {
+            return;
+        }
+        if (player.TryGetModifier<ToBecomeTraitorModifier>(out var traitorMod))
+        {
+            traitorMod.Clear();
+        }
+    }
+
+    [RegisterEvent]
+    public static void SetRoleHandler(SetRoleEvent @event)
+    {
+        var player = @event.Player;
+
+        if (!PlayerControl.LocalPlayer || player == null ||
+            (RoleManager.Instance.AllRoles.ToArray().First(x => x.Role == @event.Role) is not ILoyalCrewmate loyal ||
+             loyal.CanBeTraitor))
+        {
+            return;
+        }
+
+        if (player.TryGetModifier<ToBecomeTraitorModifier>(out var traitorMod))
+        {
+            traitorMod.Clear();
         }
     }
 }

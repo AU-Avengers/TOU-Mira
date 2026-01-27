@@ -10,6 +10,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
 using TownOfUs.Events;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Roles.Crewmate;
@@ -18,8 +19,13 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
+    public bool CanBeTraitor => false;
+    public bool CanBeCrewpostor => false;
+    public bool CanBeEgotist => true;
+    public bool CanBeOtherEvil => false;
+
     private Dictionary<byte, ArrowBehaviour>? _snitchArrows;
     [HideFromIl2Cpp] public ArrowBehaviour? SnitchRevealArrow { get; private set; }
     public bool CompletedAllTasks => TaskStage is TaskStage.CompletedTasks;
