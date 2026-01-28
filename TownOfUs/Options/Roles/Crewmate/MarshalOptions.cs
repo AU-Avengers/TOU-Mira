@@ -10,10 +10,10 @@ public sealed class MarshalOptions : AbstractOptionGroup<MarshalRole>
     public override string GroupName => "Marshal";
 
     [ModdedNumberOption("Amount Of Tribunals", 1, 5)]
-    public float MaxTribunals { get; set; } = 2;
+    public float MaxTribunals { get; set; } = 1;
     
     [ModdedNumberOption("Max Ejections During A Tribunal", 2, 5)]
-    public float MaxTribunalEjections { get; set; } = 2;
+    public float MaxTribunalEjections { get; set; } = 3;
     
     [ModdedNumberOption("Time To Eject One Person", 10, 100, 5, MiraNumberSuffixes.Seconds)]
     public float TribunalEjectionTime { get; set; } = 30;
