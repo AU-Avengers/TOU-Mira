@@ -17,7 +17,9 @@ public sealed class CatalystOverchargeButton : TownOfUsRoleButton<CatalystRole, 
     public override Color TextOutlineColor => TownOfUsColors.Catalyst;
     public override float Cooldown => OptionGroupSingleton<CatalystOptions>.Instance.OverchargeCooldown;
     public override int MaxUses => (int)OptionGroupSingleton<CatalystOptions>.Instance.OverchargeUses;
+    public override float EffectDuration => Math.Clamp(OptionGroupSingleton<CatalystOptions>.Instance.OverchargeDelay, 0.001f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.OverchargeSprite;
+    public PlayerControl? _overchargedTarget;
 
     public override bool IsTargetValid(PlayerControl? target)
     {
@@ -37,6 +39,17 @@ public sealed class CatalystOverchargeButton : TownOfUsRoleButton<CatalystRole, 
             return;
         }
 
-        Target?.RpcAddModifier<CatalystOverchargedModifier>(PlayerControl.LocalPlayer);
+        _overchargedTarget = Target;
+        OverrideName("Overcharging");
+    }
+
+    public override void OnEffectEnd()
+    {
+        OverrideName("Overcharge");
+
+        if (_overchargedTarget == null) return;
+
+        _overchargedTarget.RpcAddModifier<CatalystOverchargedModifier>(PlayerControl.LocalPlayer);
+        _overchargedTarget = null;
     }
 }

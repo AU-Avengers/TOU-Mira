@@ -14,6 +14,9 @@ public sealed class CatalystOptions : AbstractOptionGroup<CatalystRole>
     
     [ModdedNumberOption("Overcharge Uses Per Round", 0, 15, 1, zeroInfinity: true)]
     public float OverchargeUses { get; set; } = 1;
+
+    [ModdedNumberOption("Overcharge Delay", 0f, 10f, 1f, MiraNumberSuffixes.Seconds)]
+    public float OverchargeDelay { get; set; } = 3f;
     
     [ModdedNumberOption("Overcharge Cooldown Decrease Multiplier", 1.1f, 3, 0.1f, MiraNumberSuffixes.Multiplier, "0.0")]
     public float OverchargedMultiplier { get; set; } = 2f;

@@ -1,8 +1,10 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
@@ -36,5 +38,28 @@ public sealed class CatalystOverchargedModifier(PlayerControl catalyst) : BaseMo
         }
 
         Player.killTimer -= Time.deltaTime * value;
+    }
+
+    public override void OnActivate()
+    {
+        base.OnActivate();
+        var text = string.Empty;
+        if (Player.AmOwner)
+        {
+            text = "You're been overcharged! Your cooldowns are reduced.";
+        }
+        else if (Catalyst.AmOwner)
+        {
+            text = $"{Player.Data.PlayerName} was overcharged! Their cooldowns are reduced.";
+        }
+
+        if (text == string.Empty)
+        {
+            return;
+        }
+
+        var notif = Helpers.CreateAndShowNotification($"<b>{text}</b>",
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Catalyst.LoadAsset());
+        notif.AdjustNotification();
     }
 }
