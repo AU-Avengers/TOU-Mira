@@ -20,6 +20,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class MercenaryRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+    }
+
     public static int BrideCost => (int)OptionGroupSingleton<MercenaryOptions>.Instance.BribeCost;
 
     public int Gold { get; set; }

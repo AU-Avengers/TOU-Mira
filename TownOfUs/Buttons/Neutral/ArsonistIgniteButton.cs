@@ -3,6 +3,7 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
@@ -73,7 +74,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
                 .Where(x => x.HasModifier<ArsonistDousedModifier>()).ToList();
         }
 
-        PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, true, teleportMurderer: false,
+        PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, MeetingCheck.OutsideMeeting, true, teleportMurderer: false,
             playKillSound: false,
             causeOfDeath: "Arsonist");
 

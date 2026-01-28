@@ -24,6 +24,15 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class SpectreRole(IntPtr cppPtr)
     : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = TouLocale.GetParsed("NeutralSpectreTaskHeader");
+    }
     public bool CompletedAllTasks => TaskStage is GhostTaskStage.CompletedTasks;
 
     public bool Setup { get; set; }

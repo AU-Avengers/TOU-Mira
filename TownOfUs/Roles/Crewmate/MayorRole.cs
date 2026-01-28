@@ -6,10 +6,10 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.RainbowMod;
@@ -19,8 +19,12 @@ using UnityEngine;
 namespace TownOfUs.Roles.Crewmate;
 
 public sealed class MayorRole(IntPtr cppPtr)
-    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable
+    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate
 {
+    public bool CanBeTraitor => false;
+    public bool CanBeCrewpostor => false;
+    public bool CanBeEgotist => true;
+    public bool CanBeOtherEvil => true;
     public static GameObject MayorPlayer;
 
     private MeetingMenu meetingMenu;
@@ -78,10 +82,9 @@ public sealed class MayorRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Initialize(this, player);
         UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");
-        Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
-        if (Player.TryGetModifier<ToBecomeTraitorModifier>(out var traitorMod) && PlayerControl.LocalPlayer.IsHost())
+        if (!Player.HasModifier<MayorRevealModifier>())
         {
-            traitorMod.Clear();
+            Player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MayorRole>()));
         }
 
         if (MeetingHud.Instance && !DisabledAnimation)

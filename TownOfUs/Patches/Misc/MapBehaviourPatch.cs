@@ -30,17 +30,17 @@ public static class ShowVentsPatch
                 var location = deadBody.transform.position / ShipStatus.Instance.MapScale;
                 location.z = -1.99f;
 
-                if (!BodyIcons.TryGetValue(deadBody.ParentId, out var Icon) || Icon == null)
+                if (!BodyIcons.TryGetValue(deadBody.ParentId, out var icon) || icon == null)
                 {
-                    Icon = Object.Instantiate(__instance.HerePoint.gameObject, __instance.HerePoint.transform.parent);
-                    var renderer = Icon.GetComponent<SpriteRenderer>();
+                    icon = Object.Instantiate(__instance.HerePoint.gameObject, __instance.HerePoint.transform.parent);
+                    var renderer = icon.GetComponent<SpriteRenderer>();
                     renderer.sprite = TouAssets.MapBodySprite.LoadAsset();
-                    Icon.name = $"Satellite Body {deadBody.ParentId} Map Icon";
-                    Icon.transform.localPosition = location;
-                    BodyIcons[deadBody.ParentId] = Icon;
+                    icon.name = $"Satellite Body {deadBody.ParentId} Map Icon";
+                    icon.transform.localPosition = location;
+                    BodyIcons[deadBody.ParentId] = icon;
                 }
 
-                Icon.transform.localScale = Vector3.one;
+                icon.transform.localScale = Vector3.one;
             }
         }
 
@@ -81,23 +81,23 @@ public static class ShowVentsPatch
             location.x *= xPos;
             location.z = -0.99f;
 
-            if (!VentIcons.TryGetValue(vent.Id, out var Icon) || Icon == null)
+            if (!VentIcons.TryGetValue(vent.Id, out var icon) || icon == null)
             {
-                Icon = Object.Instantiate(__instance.HerePoint.gameObject, __instance.HerePoint.transform.parent);
-                var renderer = Icon.GetComponent<SpriteRenderer>();
+                icon = Object.Instantiate(__instance.HerePoint.gameObject, __instance.HerePoint.transform.parent);
+                var renderer = icon.GetComponent<SpriteRenderer>();
                 renderer.sprite = TouAssets.MapVentSprite.LoadAsset();
-                Icon.name = $"Vent {vent.Id} Map Icon";
-                Icon.transform.localPosition = location;
-                VentIcons[vent.Id] = Icon;
+                icon.name = $"Vent {vent.Id} Map Icon";
+                icon.transform.localPosition = location;
+                VentIcons[vent.Id] = icon;
             }
 
             if (task?.IsComplete == false && task.FindConsoles()[0].ConsoleId == vent.Id)
             {
-                Icon.transform.localScale *= 0.6f;
+                icon.transform.localScale *= 0.6f;
             }
             else
             {
-                Icon.transform.localScale = Vector3.one;
+                icon.transform.localScale = Vector3.one;
             }
 
             HandleMiraOrSub();
@@ -105,11 +105,11 @@ public static class ShowVentsPatch
             var network = GetNetworkFor(vent);
             if (network == null)
             {
-                VentNetworks.Add(new List<Vent>(vent.NearbyVents.Where(x => x != null)) { vent });
+                VentNetworks.Add([..vent.NearbyVents.Where(x => x != null), vent]);
             }
             else
             {
-                if (!network.Any(x => x == vent))
+                if (network.All(x => x != vent))
                 {
                     network.Add(vent);
                 }
@@ -118,19 +118,20 @@ public static class ShowVentsPatch
 
         if (AllVentsRegistered())
         {
-            var array = VentNetworks.ToArray();
-            foreach (var connectedgroup in VentNetworks)
+            for (var i = 0; i < VentNetworks.Count; i++)
             {
-                var index = Array.IndexOf(array, connectedgroup);
-                if (connectedgroup.Count == 0)
+                var ventNetwork = VentNetworks[i];
+                if (ventNetwork.Count == 0)
                 {
                     continue;
                 }
-                foreach (var vent in connectedgroup)
+
+                foreach (var vent in ventNetwork)
                 {
-                    if (VentIcons[vent.Id].TryGetComponent<SpriteRenderer>(out var sprite))
+                    var go = VentIcons[vent.Id];
+                    if (go && go.TryGetComponent<SpriteRenderer>(out var sprite))
                     {
-                        sprite.color = Palette.PlayerColors[index];
+                        sprite.color = Palette.PlayerColors[i];
                     }
                 }
             }
@@ -167,7 +168,7 @@ public static class ShowVentsPatch
             }
 
             var network = GetNetworkFor(vent);
-            if (network == null || !network.Any(x => x == vent))
+            if (network == null || network.All(x => x != vent))
             {
                 return false;
             }

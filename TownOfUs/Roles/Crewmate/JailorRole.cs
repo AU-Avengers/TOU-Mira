@@ -3,12 +3,14 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -20,8 +22,13 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
+    public bool CanBeTraitor => false;
+    public bool CanBeCrewpostor => false;
+    public bool CanBeEgotist => true;
+    public bool CanBeOtherEvil => true;
+
     private GameObject? executeButton;
     private TMP_Text? usesText;
     public override bool IsAffectedByComms => false;
@@ -243,7 +250,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                     text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
                 }
 
-                Player.RpcSpecialMurder(Jailed, true, true, createDeadBody: false, teleportMurderer: false,
+                Player.RpcSpecialMurder(Jailed, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                     showKillAnim: false,
                     playKillSound: false,
                     causeOfDeath: "Jailor");

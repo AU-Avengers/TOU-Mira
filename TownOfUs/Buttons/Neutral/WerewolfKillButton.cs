@@ -36,7 +36,7 @@ public sealed class WerewolfKillButton : TownOfUsKillRoleButton<WerewolfRole, Pl
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 
     public override PlayerControl? GetTarget()

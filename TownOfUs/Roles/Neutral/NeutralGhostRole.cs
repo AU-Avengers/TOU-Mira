@@ -12,6 +12,15 @@ namespace TownOfUs.Roles.Neutral;
 
 public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = TouLocale.GetParsed("NeutralBasicDeadTaskHeader");
+    }
     private Minigame _hauntMenu = null!;
 
     public override bool IsDead => true;

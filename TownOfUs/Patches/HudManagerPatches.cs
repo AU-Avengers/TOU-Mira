@@ -294,7 +294,10 @@ public static class HudManagerPatches
             CamouflageFootsteps = true;*/
             CamouflageCommsEnabled = true;
 
-            FakePlayer.FakePlayers.Do(x => x.Camo());
+            foreach (var fakePlayer in FakePlayer.FakePlayers)
+            {
+                fakePlayer.Camo();
+            }
 
             return;
         }
@@ -345,7 +348,7 @@ public static class HudManagerPatches
         static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
         {
             var displayPlayer = GetDisguiseTargetOrSelf(player);
-            var mod = displayPlayer.GetModifiers<RevealModifier>()
+            var mod = displayPlayer.GetModifiers<BaseRevealModifier>()
                 .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
             return mod?.ExtraNameText ?? string.Empty;
         }
@@ -367,7 +370,7 @@ public static class HudManagerPatches
                     continue;
                 }
 
-                var revealMods = player.GetModifiers<RevealModifier>().ToList();
+                var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
 
                 var playerName = player.GetDefaultAppearance().PlayerName ?? "Unknown";
                 var playerColor = Color.white;
@@ -584,7 +587,7 @@ public static class HudManagerPatches
                     continue;
                 }
 
-                var revealMods = player.GetModifiers<RevealModifier>().ToList();
+                var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
 
                 var playerName = player.GetAppearance().PlayerName ?? "Unknown";
                 var playerColor = Color.white;
@@ -794,8 +797,8 @@ public static class HudManagerPatches
 
     public static string GetRoleForSlot(int slotValue)
     {
-        var roleListText = RoleOptions.OptionStrings.ToList();
-        if (slotValue >= 0 && slotValue < roleListText.Count)
+        var roleListText = RoleOptions.OptionStrings;
+        if (slotValue >= 0 && slotValue < roleListText.Length)
         {
             return roleListText[slotValue];
         }
@@ -823,7 +826,7 @@ public static class HudManagerPatches
                 GameStartManager.Instance.startState is GameStartManager.StartingStates.Countdown);
         }
 
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+        foreach (var player in PlayerControl.AllPlayerControls)
         {
             if (player == null || player.Data == null)
             {
@@ -831,21 +834,42 @@ public static class HudManagerPatches
             }
 
             var playerName = player.Data.PlayerName ?? "Unknown";
-            var playerInfo = "";
-            if (player.IsHost())
+            
+            var isHost = player.IsHost();
+            var isTrackedSpectator = SpectatorRole.TrackedSpectators.Contains(playerName);
+
+            if (isHost || isTrackedSpectator)
             {
-                playerInfo = $"<size=80%>{TownOfUsColors.Jester.ToTextColor()}{StoredHostLocale}";
+                var playerInfoSb = new StringBuilder("<size=80%>");
+
+                if (isHost)
+                {
+                    playerInfoSb.Append(TownOfUsColors.Jester.ToTextColor());
+                    playerInfoSb.Append(StoredHostLocale);
+                    if (isTrackedSpectator)
+                    {
+                        playerInfoSb.Append(' ');
+                    }
+                }
+
+                if (isTrackedSpectator)
+                {
+                    playerInfoSb.Append(Color.yellow.ToTextColor());
+                    playerInfoSb.Append('(');
+                    playerInfoSb.Append(StoredSpectatingLocale);
+                    playerInfoSb.Append(")</color>");
+                }
+
+                if (isHost)
+                { 
+                    playerInfoSb.Append("</color>");
+                }
+                playerInfoSb.Append("</size>\n");
+                playerInfoSb.Append(playerName);
+
+                playerName = playerInfoSb.ToString();
             }
 
-            if (SpectatorRole.TrackedSpectators.Contains(playerName))
-            {
-                playerInfo =
-                    playerInfo != ""
-                        ? $"{playerInfo} {Color.yellow.ToTextColor()}({StoredSpectatingLocale})</color>"
-                        : $"<size=80%>{Color.yellow.ToTextColor()}({StoredSpectatingLocale})";
-            }
-
-            playerName = playerInfo != "" ? $"{playerInfo}</color></size>\n{playerName}" : playerName;
             var playerColor = Color.white;
 
             player.cosmetics.nameText.text = playerName;
@@ -875,8 +899,8 @@ public static class HudManagerPatches
             {
                 return;
             }
-            var rolelistBuilder = new StringBuilder();
 
+            var rolelistBuilder = new StringBuilder("<color=#FFD700>");
             var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
             var maxSlots = players < 15 ? players : 15;
 
@@ -884,6 +908,8 @@ public static class HudManagerPatches
             switch (roleAssignmentType)
             {
                 case RoleDistribution.RoleList:
+                    rolelistBuilder.Append(StoredRoleList);
+                    rolelistBuilder.Append(":</color>\n");
                     for (var i = 0; i < maxSlots; i++)
                     {
                         var slotValue = i switch
@@ -907,23 +933,36 @@ public static class HudManagerPatches
                         };
 
                         rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
-                        RoleListTextComp.text = $"<color=#FFD700>{StoredRoleList}:</color>\n{rolelistBuilder}";
                     }
 
                     break;
                 case RoleDistribution.MinMaxList:
-                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                        $"{NeutralBenigns}: {list.MinNeutralBenign.Value} {StoredMinimum}, {list.MaxNeutralBenign.Value} {StoredMaximum}");
-                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                        $"{NeutralEvils}: {list.MinNeutralEvil.Value} {StoredMinimum}, {list.MaxNeutralEvil.Value} {StoredMaximum}");
-                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                        $"{NeutralKillers}: {list.MinNeutralKiller.Value} {StoredMinimum}, {list.MaxNeutralKiller.Value} {StoredMaximum}");
-                    rolelistBuilder.AppendLine(TownOfUsPlugin.Culture,
-                        $"{NeutralOutliers}: {list.MinNeutralOutlier.Value} {StoredMinimum}, {list.MaxNeutralOutlier.Value} {StoredMaximum}");
-                    RoleListTextComp.text = $"<color=#FFD700>{StoredFactionList}:</color>\n{rolelistBuilder}";
+                    rolelistBuilder.Append(StoredFactionList);
+                    rolelistBuilder.Append(":</color>\n");
+                    var minMaxData = new (string Label, float Min, float Max)[]
+                    {
+                        (NeutralBenigns, list.MinNeutralBenign.Value, list.MaxNeutralBenign.Value),
+                        (NeutralEvils, list.MinNeutralEvil.Value, list.MaxNeutralEvil.Value),
+                        (NeutralKillers, list.MinNeutralKiller.Value, list.MaxNeutralKiller.Value),
+                        (NeutralOutliers, list.MinNeutralOutlier.Value, list.MaxNeutralOutlier.Value)
+                    };
+                    
+                    foreach (var (label, min, max) in minMaxData)
+                    {
+                        rolelistBuilder.Append(label);
+                        rolelistBuilder.Append(": ");
+                        rolelistBuilder.Append(min);
+                        rolelistBuilder.Append(' ');
+                        rolelistBuilder.Append(StoredMinimum);
+                        rolelistBuilder.Append(", ");
+                        rolelistBuilder.Append(max);
+                        rolelistBuilder.Append(' ');
+                        rolelistBuilder.AppendLine(StoredMaximum);
+                    }
                     break;
             }
 
+            RoleListTextComp.text = rolelistBuilder.ToString();
             RoleList.SetActive(true);
         }
     }

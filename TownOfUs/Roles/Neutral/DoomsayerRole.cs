@@ -28,6 +28,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class DoomsayerRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralEvilTaskHeader")}</color>";
+    }
+
     private MeetingMenu meetingMenu;
 
     public int NumberOfGuesses { get; set; }
@@ -394,7 +404,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     }
                     else
                     {
-                        Player.RpcSpecialMurder(victim, true, createDeadBody: false, teleportMurderer: false,
+                        Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, createDeadBody: false, teleportMurderer: false,
                             showKillAnim: false,
                             playKillSound: false,
                             causeOfDeath: "Doomsayer");
@@ -410,7 +420,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                         }
                         else
                         {
-                            Player.RpcSpecialMurder(victim2, true, true, createDeadBody: false, teleportMurderer: false,
+                            Player.RpcSpecialMurder(victim2, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                                 showKillAnim: false,
                                 playKillSound: false,
                                 causeOfDeath: "Doomsayer");
@@ -432,7 +442,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 }
 
                 // no incorrect guesses so this should be the target not the Doomsayer
-                Player.RpcCustomMurder(victim, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
+                Player.RpcCustomMurder(victim, MeetingCheck.ForMeeting, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
                     playKillSound: false);
             }
 

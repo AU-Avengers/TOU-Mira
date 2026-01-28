@@ -168,6 +168,35 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 -----------------------
 
+# Actively Supported Languages
+
+All languages are added via our [Weblate](https://weblate.duikbo.at/projects/town-of-us-mira/) instance. If you want to contribute to the project please let us know in the discord server!
+
+|       Language        |                                                                                Overall Progress                                                                                 |
+|:---------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|     All Languages     |      <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/svg-badge.svg" alt="Translation status" /></a>      |
+|  Simplified Chinese   | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/zh_Hans/svg-badge.svg" alt="Translation status" /></a> |
+|  Traditional Chinese  | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/zh_Hant/svg-badge.svg" alt="Translation status" /></a> |
+|         Dutch         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/nl/svg-badge.svg" alt="Translation status" /></a>    |
+|       Filipino        | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/fil_PH/svg-badge.svg" alt="Translation status" /></a>  |
+|        French         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/fr/svg-badge.svg" alt="Translation status" /></a>    |
+|        German         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/de/svg-badge.svg" alt="Translation status" /></a>    |
+|         Irish         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ga/svg-badge.svg" alt="Translation status" /></a>    |
+|        Italian        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/it/svg-badge.svg" alt="Translation status" /></a>    |
+|       Japanese        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ja/svg-badge.svg" alt="Translation status" /></a>    |
+|        Korean         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ko/svg-badge.svg" alt="Translation status" /></a>    |
+|      Lithuanian       |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/lt/svg-badge.svg" alt="Translation status" /></a>    |
+|        Polish         |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/pl/svg-badge.svg" alt="Translation status" /></a>    |
+|  Portuguese (Brazil)  |  <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/pt_BR/svg-badge.svg" alt="Translation status" /></a>  |
+| Portuguese (Portugal) |  <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/pt_PT/svg-badge.svg" alt="Translation status" /></a>  |
+|        Russian        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/ru/svg-badge.svg" alt="Translation status" /></a>    |
+|        Spanish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/es/svg-badge.svg" alt="Translation status" /></a>    |
+|    Spanish (LATIM)    | <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/es_419/svg-badge.svg" alt="Translation status" /></a>  |
+|        Swedish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/sv/svg-badge.svg" alt="Translation status" /></a>    |
+|        Turkish        |   <a href="https://weblate.duikbo.at/engage/town-of-us-mira/"><img src="https://weblate.duikbo.at/widget/town-of-us-mira/-/tr/svg-badge.svg" alt="Translation status" /></a>    |
+
+-----------------------
+
 # Contributions & Credits
 
 > [!NOTE]
@@ -189,7 +218,6 @@ If a mod is missing here and is a role/modifiers mod, it likely won't work unles
 |             [NewMod](https://github.com/CallOfCreator/NewMod)             | ✅ | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                                                                  |
 | [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) | ✅ | Launchpad tags overlap with Tou player names.<br/>Wiki is not fully implemented.                                                                  |
 |     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      | ⚠️ | Ability buttons are very seperated from one another.<br/>Roles are partially broken on latest Among Us update.<br/>Wiki is not fully implemented. |
-|          [ChaosTokens](https://github.com/xChipseq/ChaosTokens)           | ✅ | Extension mod that is fully designed for use with TOU Mira.                                                                                       |
 
 The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers!
 

@@ -38,7 +38,7 @@ public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollect
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target, createDeadBody: false/*, showKillAnim: false*/);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting, createDeadBody:false);
 
         if (Target.Data.IsDead)
         {

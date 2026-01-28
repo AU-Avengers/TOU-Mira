@@ -1,5 +1,4 @@
 ﻿using MiraAPI.Hud;
-using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Rpc;
 using TownOfUs.Networking;
@@ -110,14 +109,6 @@ public sealed class FreeplaySetRolesButton : TownOfUsButton
             {
                 panel.NameText.color = Color.white;
             }
-        }
-    }
-
-    public override void OnEffectEnd()
-    {
-        if (TutorialManager.InstanceExists && !PlayerControl.LocalPlayer.HasDied())
-        {
-            PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
         }
     }
 

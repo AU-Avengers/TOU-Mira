@@ -13,13 +13,15 @@ using TownOfUs.Roles.Neutral;
 namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class ImitatedRevealedModifier(RoleBehaviour role)
-    : RevealModifier((int)ChangeRoleResult.Nothing, true, role)
+    : BaseRevealModifier
 {
+
+    public RoleBehaviour? ShownRole { get; set; } = role;
+    public bool RevealRole { get; set; } = true;
     public override string ModifierName => "Role Revealed";
     public override void OnActivate()
     {
         base.OnActivate();
-        ChangeRoleResult = ChangeRoleResult.Nothing;
         var roleWhenAlive = Player.GetRoleWhenAlive();
         if (roleWhenAlive is ICrewVariant crewType)
         {

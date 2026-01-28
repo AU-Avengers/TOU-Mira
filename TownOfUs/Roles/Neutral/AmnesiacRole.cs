@@ -26,6 +26,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class AmnesiacRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable, ICrewVariant
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+    }
+
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MysticRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Amnesiac";
@@ -113,6 +123,19 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{text.Replace("<role>", $"{roleWhenAlive.TeamColor.ToTextColor()}{roleWhenAlive.GetRoleName()}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                notif1.AdjustNotification();
+            }
+
+            return;
+        }
+
+        if (player.GetModifiers<PlayerTargetModifier>().Any(x => x.OwnerId == target.PlayerId))
+        {
+            if (player.AmOwner)
+            {
+                var text = TouLocale.GetParsed("TouRoleAmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
                 notif1.AdjustNotification();
             }
 
