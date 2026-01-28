@@ -5,11 +5,13 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
+using MiraAPI.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;
 
@@ -63,6 +65,17 @@ public static class LoverEvents
     public static void RoundStartHandler(RoundStartEvent @event)
     {
         ModifierUtils.GetActiveModifiers<LoverModifier>().Do(x => x.OnRoundStart());
+        if (@event.TriggeredByIntro && PlayerControl.LocalPlayer.TryGetModifier<LoverModifier>(out var lover) &&
+            lover.OtherLover != null)
+        {
+            var notif1 = Helpers.CreateAndShowNotification(
+                TouLocale.GetParsed("TouModifierLoverIntroMessage")
+                    .Replace("<modifier>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.ModifierName}</color>")
+                    .Replace("<player>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.OtherLover}</color>"),
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover.LoadAsset());
+
+            notif1.AdjustNotification();
+        }
     }
 
     [RegisterEvent]

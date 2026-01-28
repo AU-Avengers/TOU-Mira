@@ -937,6 +937,8 @@ public static class HudManagerPatches
 
                     break;
                 case RoleDistribution.MinMaxList:
+                    rolelistBuilder.Append(StoredFactionList);
+                    rolelistBuilder.Append(":</color>\n");
                     var minMaxData = new (string Label, float Min, float Max)[]
                     {
                         (NeutralBenigns, list.MinNeutralBenign.Value, list.MaxNeutralBenign.Value),

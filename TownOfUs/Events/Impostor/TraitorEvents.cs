@@ -1,7 +1,9 @@
-﻿using MiraAPI.Events;
+﻿using AmongUs.GameOptions;
+using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
@@ -10,7 +12,9 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Events.Impostor;
 
@@ -33,12 +37,30 @@ public static class TraitorEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
-        if (@event.TriggeredByIntro || !PlayerControl.LocalPlayer.IsHost())
+        var crewpostor = ModifierUtils.GetActiveModifiers<CrewpostorModifier>()
+            .FirstOrDefault(x => x.Player.IsCrewmate());
+        if (@event.TriggeredByIntro)
+        {
+            if (crewpostor != null && crewpostor.Player.AmOwner)
+            {
+                var traitorRole = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>());
+                var notif1 = Helpers.CreateAndShowNotification(
+                    TouLocale.GetParsed("TouModifierCrewpostorIntroMessage")
+                        .Replace("<modifier>",
+                            $"{TownOfUsColors.Impostor.ToTextColor()}{crewpostor.ModifierName}</color>")
+                        .Replace("<role>",
+                            $"{TownOfUsColors.Impostor.ToTextColor()}{traitorRole.GetRoleName()}</color>"),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Crewpostor.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
+            return;
+        }
+
+        if (!PlayerControl.LocalPlayer.IsHost())
         {
             return;
         }
-        var crewpostor = ModifierUtils.GetActiveModifiers<CrewpostorModifier>()
-            .FirstOrDefault(x => x.Player.IsCrewmate());
         var alives = Helpers.GetAlivePlayers().ToList();
         if (crewpostor != null)
         {

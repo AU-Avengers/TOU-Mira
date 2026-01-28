@@ -517,7 +517,7 @@ public static class ModCompatibility
         BauVersion = value.Metadata.Version;
         BauTypes = AccessTools.GetTypesFromAssembly(BauAssembly);
 
-        var pluginBase = BauTypes.First(t => t.Name == "BAUPlugin");
+        // var pluginBase = BauTypes.First(t => t.Name == "BAUPlugin");
         /*bauCommandPrefix = AccessTools.Property(pluginBase, "CommandPrefix");
         Traverse.Create(entry).Property("Value").GetValue<string>();*/
 

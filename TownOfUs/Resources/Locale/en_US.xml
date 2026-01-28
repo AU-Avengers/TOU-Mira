@@ -2026,12 +2026,14 @@
   <string name="TouModifierCrewpostorIntroBlurb">Aid the \%color=#FF0000FF\%Impostors\%/color\%</string>
   <string name="TouModifierCrewpostorTabDescription">Betray the crewmates as an Impostor.</string>
   <string name="TouModifierCrewpostorWikiDescription">The Crewpostor is a Crewmate Alliance modifier, which forces a crewmate to work for the impostor faction. If all impostors are dead, you become a Traitor.</string>
+  <string name="TouModifierCrewpostorIntroMessage">You are the \%modifier\%. You can only win with Impostors, and become \%role\% upon their death.</string>
   <!-- Egotist - Crewmate Alliance -->
   <!-- Egotist Wiki / Description -->
   <string name="TouModifierEgotist">Egotist</string>
   <string name="TouModifierEgotistIntroBlurb">Betray the crew to feed your ego</string>
   <string name="TouModifierEgotistTabDescription">Defy the crew, win with killers.</string>
   <string name="TouModifierEgotistWikiDescription">The Egotist is a Crewmate Alliance modifier (signified by \%symbol\%). As the Egotist, you can only win if Crewmates lose, even when dead. If no crewmates remain after a meeting ends, you will leave in victory, but the game will continue.</string>
+  <string name="TouModifierEgotistIntroMessage">You are the \%modifier\%. You can only win if Crewmates lose.</string>
   <string name="TouModifierEgotistVictoryMessage">The \%modifier\%, \%player\%, has successfully won, as no more crewmates remain!</string>
   <string name="TouModifierEgotistVictoryMessageSelf">You have successfully won as the \%modifier\%, as no more crewmates remain!</string>
   <string name="TouModifierEgotistSpeedChangeMessage">The \%modifier\%'s adrenaline grows stronger. Players are now \%newSpeed\% times faster!</string>
@@ -2043,6 +2045,7 @@
   <string name="TouModifierLover">Lover</string>
   <string name="TouModifierLoverInfo">You are in love with \%player\%.</string>
   <string name="TouModifierLoverWikiDescription">As a lover, you can chat with your other lover (signified with \%symbol\%) during the round, and you can win with your lover if you are both a part of the final three players.</string>
+  <string name="TouModifierLoverIntroMessage">You are a \%modifier\% with \%player\%. Chat with them and win with them when you two are part of the final three.</string>
   <!-- Lover Options -->
   <string name="TouOptionLoverDieAndRevive">Both Lovers Die And Revive Together</string>
   <string name="TouOptionLoverAnotherKiller">Loving Another Killer Probability</string>
