@@ -75,6 +75,10 @@ public static class TownOfUsEventHandlers
 
     public static TaskPanelBehaviour? TryGetRoleTab()
     {
+        if (!HudManager.InstanceExists)
+        {
+            return null;
+        }
         if (RolePanel == null)
         {
             var panelThing = HudManager.Instance.TaskStuff.transform.FindChild("RolePanel");
@@ -209,8 +213,11 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void IntroEndEventHandler(IntroEndEvent @event)
     {
-        HudManager.Instance.SetHudActive(false);
-        HudManager.Instance.SetHudActive(true);
+        if (HudManager.InstanceExists)
+        {
+            HudManager.Instance.SetHudActive(false);
+            HudManager.Instance.SetHudActive(true);
+        }
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
@@ -502,8 +509,11 @@ public static class TownOfUsEventHandlers
                 }
             }
 
-            HudManager.Instance.SetHudActive(false);
-            HudManager.Instance.SetHudActive(true);
+            if (HudManager.InstanceExists)
+            {
+                HudManager.Instance.SetHudActive(false);
+                HudManager.Instance.SetHudActive(true);
+            }
         }
 
         if (player.AmOwner)
@@ -560,7 +570,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (exiled.AmOwner)
+        if (exiled.AmOwner && HudManager.InstanceExists)
         {
             HudManager.Instance.SetHudActive(false);
 
@@ -610,7 +620,7 @@ public static class TownOfUsEventHandlers
             CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, PlayerControl.LocalPlayer.Data.Role);
         }
 
-        if (target.AmOwner)
+        if (target.AmOwner && HudManager.InstanceExists)
         {
             HudManager.Instance.SetHudActive(false);
 
@@ -888,6 +898,10 @@ public static class TownOfUsEventHandlers
     private static IEnumerator CoHideHud()
     {
         yield return new WaitForSeconds(0.01f);
+        if (!HudManager.InstanceExists)
+        {
+            yield break;
+        }
         HudManager.Instance.AbilityButton.SetDisabled();
         HudManager.Instance.SabotageButton.SetDisabled();
         HudManager.Instance.UseButton.SetDisabled();
