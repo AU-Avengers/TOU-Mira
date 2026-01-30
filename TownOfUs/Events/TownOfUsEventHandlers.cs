@@ -729,10 +729,10 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        /*if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             @event.Cancel();
-        }
+        }*/
 
         // Prevent last 2 players from venting (or however many are set up)
         if (@event.IsVent)
