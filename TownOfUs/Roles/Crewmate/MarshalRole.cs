@@ -184,9 +184,9 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             return;
         }
-        if (!player.HasModifier<MayorRevealModifier>())
+        if (!player.HasModifier<MarshalRevealModifier>())
         {
-            player.AddModifier<MayorRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MarshalRole>()));
+            player.AddModifier<MarshalRevealModifier>(RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MarshalRole>()));
         }
         if (player.TryGetModifier<ToBecomeTraitorModifier>(out var traitorMod))
         {
