@@ -13,7 +13,9 @@ public sealed class RoleblockedModifier(bool invertControls, bool hangover, floa
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Barkeeper;
     public override bool Unique => false;
     public override bool CanUseAbilities => false;
-    public override bool CanReport => false;
+    public override bool CanUseConsoles => true;
+    public override bool CanOpenMap => true;
+    public override bool CanReport => true;
     public override float Duration => blockDuration;
     public float HangoverDuration => hangoverDuration;
     public bool InvertControls => invertControls;
