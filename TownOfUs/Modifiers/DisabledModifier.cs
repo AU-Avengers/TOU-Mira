@@ -14,6 +14,8 @@ public abstract class DisabledModifier : TimedModifier
     public virtual bool CanBeInteractedWith => true;
     public virtual bool IsConsideredAlive => true;
     public virtual bool CanUseAbilities => false;
+    public virtual bool CanUseConsoles => CanUseAbilities;
+    public virtual bool CanOpenMap => CanUseAbilities;
     public virtual bool CanReport => false;
     public override float Duration => 1f;
     public override bool AutoStart => false;

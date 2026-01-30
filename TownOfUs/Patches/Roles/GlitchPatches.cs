@@ -17,10 +17,6 @@ public static class GlitchPatches
         {
             return false;
         }*/
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanReport))
-        {
-            return false;
-        }
 
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
         {
@@ -56,7 +52,7 @@ public static class GlitchPatches
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanOpenMap))
         {
             return false;
         }
