@@ -93,9 +93,10 @@ public sealed class MarshalRole(IntPtr cppPtr)
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
+                "Tribunal",
                 MeetingAbilityType.Click,
-                TouAssets.TribunalSprite,
-                TouAssets.RetrainSprite,
+                TouAssets.TribunalClearSprite,
+                TouAssets.TribunalClearSprite,
                 IsExempt,
                 hoverColor: RoleColor)
             {
