@@ -11,9 +11,9 @@ namespace TownOfUs.Modifiers;
 [MiraIgnore]
 public abstract class RevealModifier(int roleChangeResult, bool revealRole, RoleBehaviour? role) : BaseRevealModifier
 {
-    public bool RevealRole { get; set; } = revealRole;
+    public override bool RevealRole { get; set; } = revealRole;
 
-    public ChangeRoleResult ChangeRoleResult { get; set; } = (ChangeRoleResult)roleChangeResult;
+    public override ChangeRoleResult ChangeRoleResult { get; set; } = (ChangeRoleResult)roleChangeResult;
 
     public override void OnActivate()
     {
@@ -41,16 +41,16 @@ public abstract class BaseRevealModifier : TimedModifier
     public override bool AutoStart => false;
     public override bool HideOnUi => true;
     public override bool RemoveOnComplete => false;
-    public string ExtraRoleText { get; set; } = string.Empty;
-    public string ExtraNameText { get; set; } = string.Empty;
-    public Color? NameColor { get; set; }
-    public bool RevealRole { get; set; }
+    public virtual string ExtraRoleText { get; set; } = string.Empty;
+    public virtual string ExtraNameText { get; set; } = string.Empty;
+    public virtual Color? NameColor { get; set; }
+    public virtual bool RevealRole { get; set; }
 
-    public ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;
+    public virtual ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;
 
-    public RoleBehaviour? ShownRole { get; set; }
+    public virtual RoleBehaviour? ShownRole { get; set; }
 
-    public bool Visible { get; set; } = true;
+    public virtual bool Visible { get; set; } = true;
 
     public override string GetDescription() => "You are Revealed!";
 

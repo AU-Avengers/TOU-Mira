@@ -16,8 +16,8 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
     : BaseRevealModifier
 {
 
-    public RoleBehaviour? ShownRole { get; set; } = role;
-    public bool RevealRole { get; set; } = true;
+    public override RoleBehaviour? ShownRole { get; set; } = role;
+    public override bool RevealRole { get; set; } = true;
     public override string ModifierName => "Role Revealed";
     public override void OnActivate()
     {
