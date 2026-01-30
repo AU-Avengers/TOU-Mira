@@ -9,24 +9,6 @@ namespace TownOfUs.Patches.Roles;
 public static class GlitchPatches
 {
     [HarmonyPatch(typeof(ReportButton), nameof(ReportButton.DoClick))]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPrefix]
-    public static bool DisabledReportButtonPatch(ActionButton __instance)
-    {
-        /*if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
-        {
-            return false;
-        }*/
-
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
-        {
-            PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
-            return false;
-        }
-
-        return true;
-    }
-
     [HarmonyPatch(typeof(UseButton), nameof(UseButton.DoClick))]
     [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.DoClick))]
     [HarmonyPriority(Priority.First)]

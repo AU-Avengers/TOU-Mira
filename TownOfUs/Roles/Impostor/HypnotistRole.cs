@@ -88,8 +88,9 @@ public sealed class HypnotistRole(IntPtr cppPtr)
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
+                TouLocale.GetParsed("TouRoleHypnotistMassHysteria"),
                 MeetingAbilityType.Click,
-                TouAssets.HysteriaSprite,
+                TouAssets.HysteriaCleanSprite,
                 null!,
                 IsExempt)
             {

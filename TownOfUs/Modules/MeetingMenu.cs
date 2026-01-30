@@ -2,6 +2,7 @@ using HarmonyLib;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
+using TMPro;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UObject = UnityEngine.Object;
@@ -37,6 +38,35 @@ public sealed class MeetingMenu : IDisposable
         HoverColor = hoverColor ?? Color.red;
         Type = abilityType;
         Position = position ?? new Vector3(-0.95f, 0.03f, -3f);
+        AbilityName = string.Empty;
+
+        Instances.Add(this);
+    }
+
+    public MeetingMenu(
+        RoleBehaviour owner,
+        OnClick onClick,
+        string abilityName,
+        MeetingAbilityType abilityType,
+        LoadableAsset<Sprite> activeSprite,
+        LoadableAsset<Sprite> disabledSprite = null!,
+        Exemption exemption = null!,
+        Color? activeColor = null!,
+        Color? disabledColor = null!,
+        Color? hoverColor = null!,
+        Vector3? position = null!)
+    {
+        Owner = owner;
+        Click = onClick ?? throw new ArgumentException("onClick should exist");
+        IsExempt = exemption;
+        ActiveSprite = activeSprite;
+        DisabledSprite = disabledSprite;
+        ActiveColor = activeColor ?? Color.green;
+        DisabledColor = disabledColor ?? Color.white;
+        HoverColor = hoverColor ?? Color.red;
+        Type = abilityType;
+        Position = position ?? new Vector3(-0.95f, 0.03f, -3f);
+        AbilityName = abilityName;
 
         Instances.Add(this);
     }
@@ -48,6 +78,7 @@ public sealed class MeetingMenu : IDisposable
     public Exemption IsExempt { get; }
     public LoadableAsset<Sprite> ActiveSprite { get; }
     public LoadableAsset<Sprite> DisabledSprite { get; }
+    public string AbilityName { get; }
     private Color ActiveColor { get; }
     private Color DisabledColor { get; }
     private Color HoverColor { get; }
@@ -114,6 +145,19 @@ public sealed class MeetingMenu : IDisposable
         collider.size = renderer.sprite.bounds.size;
         collider.offset = Vector2.zero;
         targetBox.transform.GetChild(0).gameObject.Destroy();
+
+        var buttonText = UObject.Instantiate(
+            __instance.MeetingAbilityButton.buttonLabelText.gameObject,
+            targetBox.transform);
+        buttonText.transform.localPosition = new Vector3(0, -0.2f, 0f);
+        var tmpText = buttonText.GetComponent<TextMeshPro>();
+        tmpText.color = Color.white;
+        tmpText.text = AbilityName;
+        //tmpText.ForceMeshUpdate();
+        tmpText.fontSize = 2.5f;
+        tmpText.fontSizeMax = 2.5f;
+        tmpText.fontSizeMin = 2.5f;
+        tmpText.m_enableWordWrapping = false;
         Buttons.Add(voteArea.TargetPlayerId, targetBox);
         ButtonSprites.Add(voteArea.TargetPlayerId, renderer);
     }
