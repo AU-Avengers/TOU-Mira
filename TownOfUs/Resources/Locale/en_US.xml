@@ -1484,7 +1484,7 @@
   <string name="TouRoleHypnotistWikiDescription">The Hypnotist is an Impostor Support role that can hypnotize players. During a meeting they can release Mass Hysteria, which makes all hypnotized players (marked with \%symbol\%) have different visuals applied to players the following round.</string>
   <string name="TouRoleHypnotistHypnotize">Hypnotize</string>
   <string name="TouRoleHypnotistHypnotizeWikiDescription">Hypnotize a player, causing them to see the game differently than non-hypnotized players if mass hysteria is active.</string>
-  <string name="TouRoleHypnotistMassHysteria">Mass Hysteria</string>
+  <string name="TouRoleHypnotistMassHysteria">Hysteria</string>
   <string name="TouRoleHypnotistMassHysteriaWiki">Mass Hysteria (Meeting)</string>
   <string name="TouRoleHypnotistMassHysteriaWikiDescription">Cause all hypnotized players to have different visuals applied to players on their screen the following round.</string>
   <!-- Hypnotist Options -->

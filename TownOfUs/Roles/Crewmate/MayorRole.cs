@@ -98,8 +98,9 @@ public sealed class MayorRole(IntPtr cppPtr)
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
+                TouLocale.GetParsed("TouRolePoliticianReveal"),
                 MeetingAbilityType.Click,
-                TouAssets.RevealButtonSprite,
+                TouAssets.RevealCleanSprite,
                 null!,
                 IsExempt)
             {
