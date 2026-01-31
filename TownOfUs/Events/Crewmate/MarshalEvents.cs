@@ -14,7 +14,8 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class MarshalEvents
 {
-    private static byte? _previousVote;
+    // Voter and Target
+    private static Dictionary<byte, byte> _previousVotes;
 
 #pragma warning disable S3241
     private static SpriteRenderer CustomBloopAVoteIcon(NetworkedPlayerInfo voterPlayer, int index, Transform parent)
@@ -58,10 +59,10 @@ public static class MarshalEvents
         }
         @event.Cancel();
         
-        if (_previousVote != null)
+        if (_previousVotes.TryGetValue(@event.Player.PlayerId, out var targetId))
         {
             var previousState =
-                MeetingHud.Instance.playerStates.FirstOrDefault(state => state.TargetPlayerId == _previousVote);
+                MeetingHud.Instance.playerStates.FirstOrDefault(state => state.TargetPlayerId == targetId);
 
             if (previousState != null)
             {
@@ -94,8 +95,9 @@ public static class MarshalEvents
         {
             Object.FindObjectsOfType<DummyBehaviour>().Do(x => x.voted = false);
         }
-        
-        _previousVote = @event.TargetId;
+
+        _previousVotes.Remove(@event.Player.PlayerId);
+        _previousVotes.Add(@event.Player.PlayerId, @event.TargetId);
     }
 
     [RegisterEvent]
@@ -147,6 +149,7 @@ public static class MarshalEvents
     [RegisterEvent]
     public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
     {
+        _previousVotes.Clear();
         if (!MarshalRole.TribunalHappening)
         {
             return;
@@ -168,6 +171,7 @@ public static class MarshalEvents
     [RegisterEvent]
     public static void BeforeRoundStartEventHandler(BeforeRoundStartEvent @event)
     {
+        _previousVotes.Clear();
         if (!MarshalRole.TribunalHappening)
         {
             return;
