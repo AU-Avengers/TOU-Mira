@@ -354,7 +354,7 @@ public static class TimeLordBodyManager
 
         if (CleanedBodies.TryGetValue(body.ParentId, out var rec) && rec != null)
         {
-            var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
+            var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
             if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
             {
                 var player = MiscUtils.PlayerById(body.ParentId);

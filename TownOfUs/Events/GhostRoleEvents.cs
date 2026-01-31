@@ -25,7 +25,7 @@ public static class GhostRoleEvents
 {
     public static bool IsConsoleAllowed(this Console? console)
     {
-        if (OptionGroupSingleton<VanillaTweakOptions>.Instance.GhostwalkerFixSabos.Value || console == null)
+        if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerFixSabos.Value || console == null)
         {
             return true;
         }

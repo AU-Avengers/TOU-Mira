@@ -93,8 +93,16 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         {
             var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
                 "touhats.catalog");
-            AddressablesLoader.RegisterCatalog(path);
-            AddressablesLoader.RegisterHats("touhats");
+            if (!File.Exists(path))
+            {
+                Error("touhats.catalog not found!");
+            }
+            else
+            {
+                AddressablesLoader.RegisterCatalog(path);
+                AddressablesLoader.RegisterHats("touhats");
+                Error("touhats.catalog was loaded!");
+            }
         }
 
         GameSummaryMode = Config.Bind("LocalSettings", "GameSummaryMode", 1,
