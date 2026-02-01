@@ -15,6 +15,9 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
 
     public ModdedToggleOption GhostwalkerFixSabos { get; set; } = new("Ghostwalkers Can Fix Sabotages", false);
 
+    [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
+    public float TempSaveCdReset { get; set; } = 5f;
+    public ModdedToggleOption RoleblockAffectsConsoles { get; set; } = new("Roleblock Affects Non-Role Actions", false);
     public ModdedEnumOption ShowPetsMode { get; set; } = new("Pet Visibility", (int)PetVisiblity.AlwaysVisible,
         typeof(PetVisiblity), ["Client Side", "When Alive", "Always Visible"]);
 
@@ -22,9 +25,6 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     {
         Visible = () => (PetVisiblity)OptionGroupSingleton<GameMechanicOptions>.Instance.ShowPetsMode.Value is PetVisiblity.AlwaysVisible
     };
-
-    [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
-    public float TempSaveCdReset { get; set; } = 5f;
 }
 
 public enum PetVisiblity

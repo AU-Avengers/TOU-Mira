@@ -1,6 +1,8 @@
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Options;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -13,9 +15,9 @@ public sealed class RoleblockedModifier(bool invertControls, bool hangover, floa
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Barkeeper;
     public override bool Unique => false;
     public override bool CanUseAbilities => false;
-    public override bool CanUseConsoles => true;
-    public override bool CanOpenMap => true;
-    public override bool CanReport => true;
+    public override bool CanUseConsoles => !OptionGroupSingleton<GameMechanicOptions>.Instance.RoleblockAffectsConsoles.Value;
+    public override bool CanOpenMap => CanUseConsoles;
+    public override bool CanReport => CanUseConsoles;
     public override float Duration => blockDuration;
     public float HangoverDuration => hangoverDuration;
     public bool InvertControls => invertControls;
