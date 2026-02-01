@@ -26,7 +26,6 @@ using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
@@ -308,10 +307,6 @@ public static class TownOfUsEventHandlers
         var exeButton = CustomButtonSingleton<ExeTormentButton>.Instance;
         var jestButton = CustomButtonSingleton<JesterHauntButton>.Instance;
         var phantomButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
-        if (exeButton.Show || jestButton.Show || phantomButton.Show)
-        {
-            PlayerControl.LocalPlayer.RpcRemoveModifier<IndirectAttackerModifier>();
-        }
 
         exeButton.Show = false;
         jestButton.Show = false;

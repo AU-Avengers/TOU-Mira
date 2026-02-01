@@ -71,7 +71,7 @@ public static class LoverEvents
             var notif1 = Helpers.CreateAndShowNotification(
                 TouLocale.GetParsed("TouModifierLoverIntroMessage")
                     .Replace("<modifier>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.ModifierName}</color>")
-                    .Replace("<player>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.OtherLover}</color>"),
+                    .Replace("<player>", $"{TownOfUsColors.Lover.ToTextColor()}{lover.OtherLover.Data.PlayerName}</color>"),
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Lover.LoadAsset());
 
             notif1.AdjustNotification();

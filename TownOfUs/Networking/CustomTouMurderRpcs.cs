@@ -131,10 +131,9 @@ public static class CustomTouMurderRpcs
         string causeOfDeath = "null")
     {
         var role = source.GetRoleWhenAlive();
-        IndirectAttackerModifier? attackerMod = null;
         if (isIndirect)
         {
-            attackerMod = source.AddModifier<IndirectAttackerModifier>(ignoreShields);
+            source.AddModifier<IndirectAttackerModifier>(ignoreShields);
         }
 
         var cod = "Killer";
@@ -154,7 +153,7 @@ public static class CustomTouMurderRpcs
             PlayerControl? newPlayer = null;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc == null || pc.Data == null)
+                if (pc == null || pc.Data == null || newPlayer != null)
                 {
                     continue;
                 }
@@ -162,7 +161,6 @@ public static class CustomTouMurderRpcs
                 if (pc.PlayerId == target.Key || pc.Data.PlayerName == target.Value)
                 {
                     newPlayer = pc;
-                    break;
                 }
             }
             if (newPlayer == null)
@@ -228,10 +226,6 @@ public static class CustomTouMurderRpcs
 
             firstTarget = false;
         }
-        if (attackerMod != null)
-        {
-            Coroutines.Start(CoRemoveIndirect(source));
-        }
     }
     /// <summary>
     /// Networked Custom Murder method.
@@ -260,7 +254,7 @@ public static class CustomTouMurderRpcs
         string causeOfDeath = "null")
     {
         var role = source.GetRoleWhenAlive();
-        var attackerMod = source.AddModifier<IndirectAttackerModifier>(ignoreShield);
+        source.AddModifier<IndirectAttackerModifier>(ignoreShield);
 
         var cod = "Killer";
         if (causeOfDeath != "null")
@@ -328,11 +322,6 @@ public static class CustomTouMurderRpcs
         {
             Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
         }
-
-        if (attackerMod != null)
-        {
-            Coroutines.Start(CoRemoveIndirect(source));
-        }
     }
 
     /// <summary>
@@ -397,10 +386,9 @@ public static class CustomTouMurderRpcs
         string causeOfDeath = "null")
     {
         var role = source.GetRoleWhenAlive();
-        IndirectAttackerModifier? attackerMod = null;
         if (isIndirect)
         {
-            attackerMod = source.AddModifier<IndirectAttackerModifier>(ignoreShield);
+            source.AddModifier<IndirectAttackerModifier>(ignoreShield);
         }
 
         var cod = "Killer";
@@ -470,11 +458,6 @@ public static class CustomTouMurderRpcs
         {
             Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
         }
-
-        if (attackerMod != null)
-        {
-            Coroutines.Start(CoRemoveIndirect(source));
-        }
     }
 
     public static IEnumerator CoRecordKillCooldownAfterCustomMurder(PlayerControl player, float cooldownBefore)
@@ -543,17 +526,6 @@ public static class CustomTouMurderRpcs
             {
                 DeathStateSync.RequestValidationAfterKill(source);
             }
-        }
-
-        Coroutines.Start(CoRemoveIndirect(source));
-    }
-
-    public static IEnumerator CoRemoveIndirect(PlayerControl source)
-    {
-        yield return new WaitForEndOfFrame();
-        if (source.TryGetModifier<IndirectAttackerModifier>(out var indirectMod))
-        {
-            source.RemoveModifier(indirectMod);
         }
     }
 }

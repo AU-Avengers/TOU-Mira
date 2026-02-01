@@ -45,12 +45,17 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// <summary>
     ///     Determines if the current build is a dev build or not. This will change certain visuals as well as always grab news locally to be up to date.
     /// </summary>
-    public static bool IsDevBuild => true;
+    public static bool IsDevBuild => IsBetaBuild || IsWipBuild;
 
     /// <summary>
     ///     Determines if the current build is a beta build. Beta builds are dev builds but should have restricted features like /up command.
     /// </summary>
-    public static bool IsBetaBuild => IsDevBuild && Version.Contains("beta", StringComparison.OrdinalIgnoreCase) || Version.Contains("prerelease", StringComparison.OrdinalIgnoreCase);
+    public static bool IsBetaBuild => Version.Contains("beta", StringComparison.OrdinalIgnoreCase) || Version.Contains("prerelease", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    ///     Determines if the current build is a beta build. Beta builds are dev builds but should have restricted features like /up command.
+    /// </summary>
+    public static bool IsWipBuild => Version.Contains("dev", StringComparison.OrdinalIgnoreCase) || Version.Contains("ci", StringComparison.OrdinalIgnoreCase);
 
     /// <inheritdoc />
     public string OptionsTitleText => "TOU Mira";

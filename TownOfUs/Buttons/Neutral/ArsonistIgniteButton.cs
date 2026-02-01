@@ -111,7 +111,7 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
             }
         }
 
-        if (playersToIgnite.Any())
+        if (playersToIgnite.Count > 0)
         {
             PlayerControl.LocalPlayer.RpcSpecialMultiMurder(playersToIgnite, MeetingCheck.OutsideMeeting, true, teleportMurderer: false,
                 playKillSound: false,
