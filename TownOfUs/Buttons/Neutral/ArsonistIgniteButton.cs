@@ -6,10 +6,12 @@ using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -74,9 +76,47 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>
                 .Where(x => x.HasModifier<ArsonistDousedModifier>()).ToList();
         }
 
-        PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, MeetingCheck.OutsideMeeting, true, teleportMurderer: false,
-            playKillSound: false,
-            causeOfDeath: "Arsonist");
+        var playersToIgnite = new List<PlayerControl>();
+        var medicsToFlash = new Dictionary<PlayerControl, PlayerControl>();
+
+        foreach (var dousedPlayer in dousedPlayers)
+        {
+            if (dousedPlayer.TryGetModifier<MedicShieldModifier>(out var shieldMod))
+            {
+                var medic = shieldMod.Medic;
+                
+                if (medic != null && medic.HasModifier<ArsonistDousedModifier>())
+                {
+                    playersToIgnite.Add(dousedPlayer);
+                }
+                else
+                {
+                    if (medic != null)
+                    {
+                        medicsToFlash[medic] = dousedPlayer;
+                    }
+                }
+            }
+            else
+            {
+                playersToIgnite.Add(dousedPlayer);
+            }
+        }
+
+        foreach (var (medic, shieldedPlayer) in medicsToFlash)
+        {
+            if (medic != null && !medic.HasDied() && (TutorialManager.InstanceExists || PlayerControl.LocalPlayer.AmOwner))
+            {
+                MedicRole.RpcMedicShieldAttacked(medic, PlayerControl.LocalPlayer, shieldedPlayer);
+            }
+        }
+
+        if (playersToIgnite.Any())
+        {
+            PlayerControl.LocalPlayer.RpcSpecialMultiMurder(playersToIgnite, MeetingCheck.OutsideMeeting, true, teleportMurderer: false,
+                playKillSound: false,
+                causeOfDeath: "Arsonist");
+        }
 
         TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
 
