@@ -15,7 +15,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class MarshalEvents
 {
     // Voter and Target
-    private static Dictionary<byte, byte> _previousVotes;
+    private static Dictionary<byte, byte> _previousVotes = new();
 
 #pragma warning disable S3241
     private static SpriteRenderer CustomBloopAVoteIcon(NetworkedPlayerInfo voterPlayer, int index, Transform parent)
