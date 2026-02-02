@@ -1922,6 +1922,8 @@
   <string name="TouRolePestilenceTabDescription">Kill everyone in your path that interacts with you!</string>
   <string name="TouRolePestilenceYouAreText">You Are</string>
   <string name="TouRolePestilenceWikiDescription">The Pestilence is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive.</string>
+  <string name="TouRolePestilenceMessageTitle">Pestilence Warning</string>
+  <string name="TouRolePestilenceAnnounceMessage">A deadly plague has consumed the Crew.\%nl\%\%role\%, Horseman of the Apocalypse, has emerged!</string>
   <!-- Spectre -->
   <!-- Spectre Wiki / Description -->
   <string name="TouRoleSpectre">Spectre</string>
