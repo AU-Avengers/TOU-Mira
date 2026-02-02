@@ -9,6 +9,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
@@ -143,6 +144,20 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
         }
+    }
+
+    public override void OnMeetingStart()
+    {
+        RoleBehaviourStubs.OnMeetingStart(this);
+
+        if (Announced)
+        {
+            return;
+        }
+        Announced = true;
+        var title = $"<color=#{TownOfUsColors.Plaguebearer.ToHtmlStringRGBA()}>{TouLocale.Get("TouRolePestilenceMessageTitle")}</color>";
+
+        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, TouLocale.GetParsed("TouRolePestilenceAnnounceMessage").Replace("<role>", MiscUtils.GetHyperlinkText(this)), false, true);
     }
 
 

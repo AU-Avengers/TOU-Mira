@@ -108,6 +108,11 @@ public static class VeteranEvents
             {
                 miraEvent.Cancel();
             }
+            if (source.HasModifier<InvulnerabilityModifier>())
+            {
+                // stops pestilence from softlocking the game when attacking vet
+                return;
+            }
 
             if ((TutorialManager.InstanceExists || source.AmOwner) && !preventAttack)
             {
