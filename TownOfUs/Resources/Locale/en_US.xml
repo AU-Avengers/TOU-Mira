@@ -726,12 +726,18 @@
   <string name="TouRoleHunterStalking">Stalking</string>
   <string name="TouRoleHunterStalkWikiDescription">Choose a target to stalk. You can stalk \%hunterMaxStalkUsages\% players. If they use any ability while stalked, they're added to your hitlist and can be killed.</string>
   <string name="TouRoleHunterStalkNotif">If \%player\% uses an ability, you will be able to kill them at any time in the round.</string>
+  <string name="TouRoleHunterCaughtInteractionNotif">\%player\% used an ability on another player!</string>
+  <string name="TouRoleHunterCaughtAbilityNotif">\%player\% used a regular ability!</string>
   <!-- Hunter Options -->
   <string name="TouOptionHunterKillCooldown">Hunter Kill Cooldown</string>
   <string name="TouOptionHunterStalkCooldown">Hunter Stalk Cooldown</string>
   <string name="TouOptionHunterStalkDuration">Hunter Stalk Duration</string>
   <string name="TouOptionHunterStalkUses">Initial Stalk Uses</string>
   <string name="TouOptionHunterStalksPerTasks">Tasks Required For Additional Stalk Use</string>
+  <string name="TouOptionHunterSeesTypeOfInteraction">Hunter Sees Interaction Type</string>
+  <string name="TouOptionHunterStalkTriggeredBy">Stalk Triggered By</string>
+  <string name="TouOptionHunterStalkTriggerEnumInteraction">Interactions</string>
+  <string name="TouOptionHunterStalkTriggerEnumAlways">All Abilities</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
   <!-- Imitator - Crewmate Support -->

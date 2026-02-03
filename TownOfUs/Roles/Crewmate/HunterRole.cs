@@ -5,6 +5,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
@@ -92,7 +93,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     }
 
     [MethodRpc((uint)TownOfUsRpc.CatchPlayer)]
-    public static void RpcCatchPlayer(PlayerControl hunter, PlayerControl source)
+    public static void RpcCatchPlayer(PlayerControl hunter, PlayerControl source, bool playerInteraction)
     {
         if (hunter.Data.Role is not HunterRole role)
         {
@@ -109,7 +110,20 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Hunter));
 
                 CustomButtonSingleton<HunterStalkButton>.Instance.ResetCooldownAndOrEffect();
+                var text = playerInteraction && OptionGroupSingleton<HunterOptions>.Instance.SeesTypeOfInteraction.Value
+                    ? TouLocale.GetParsed("TouRoleHunterCaughtInteractionNotif")
+                    : TouLocale.GetParsed("TouRoleHunterCaughtAbilityNotif");
+
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{text.Replace("<player>", source.Data.PlayerName)}</b>",
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Hunter.LoadAsset());
+                notif1.AdjustNotification();
             }
+        }
+
+        if (source.TryGetModifier<HunterStalkedModifier>(out var modifier))
+        {
+            source.RemoveModifier(modifier);
         }
     }
 
