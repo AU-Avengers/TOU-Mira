@@ -1315,12 +1315,16 @@
   <string name="TouRoleVeteranAlert">Alert</string>
   <string name="TouRoleVeteranAlerting">Alerting</string>
   <string name="TouRoleVeteranAlertWikiDescription">When the Veteran is on alert, any player who interacts with them will be instantly killed, except Pestilence and shielded players, who will ignore the attack.</string>
+  <string name="TouRoleVeteranMessageTitle">Veteran Warning</string>
+  <string name="TouRoleVeteranAttackMessage">You were attacked prior to this meeting while on alert!</string>
   <!-- Veteran Options -->
   <string name="TouOptionVeteranAlertCooldown">Alert Cooldown</string>
   <string name="TouOptionVeteranAlertDuration">Alert Duration</string>
   <string name="TouOptionVeteranMaxNumberofAlerts">Initial Number of Alerts</string>
   <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
+  <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
   <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
+  <string name="TouOptionVeteranKnowWhenAttackedInMeeting">Knows When Attacked In Meeting</string>
 
   <!-- Vigilante - Crewmate Killing -->
   <!-- Vigilante Wiki / Description -->
