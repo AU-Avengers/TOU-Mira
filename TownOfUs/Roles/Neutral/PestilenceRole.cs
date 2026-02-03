@@ -156,8 +156,14 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         }
         Announced = true;
         var title = $"<color=#{TownOfUsColors.Plaguebearer.ToHtmlStringRGBA()}>{TouLocale.Get("TouRolePestilenceMessageTitle")}</color>";
+        var msg = TouLocale.GetParsed("TouRolePestilenceAnnounceMessage");
 
-        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, TouLocale.GetParsed("TouRolePestilenceAnnounceMessage").Replace("<role>", MiscUtils.GetHyperlinkText(this)), false, true);
+        var notif1 = Helpers.CreateAndShowNotification(
+            $"<b>{msg.Replace("<role>", $"{TownOfUsColors.Pestilence.ToTextColor()}{RoleName}</color>")}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Pestilence.LoadAsset());
+
+        notif1.AdjustNotification();
+
+        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg.Replace("<role>", MiscUtils.GetHyperlinkText(this)), false, true);
     }
 
 

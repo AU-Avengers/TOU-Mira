@@ -2,6 +2,9 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
+using Reactor.Networking.Attributes;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -13,6 +16,7 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public override bool IsAffectedByComms => false;
 
     public int Alerts { get; set; }
+    public bool AttackedRecently { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string LocaleKey => "Veteran";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -51,7 +55,40 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         IntroSound = TouAudio.ImpostorIntroSound
     };
 
+    public override void OnMeetingStart()
+    {
+        RoleBehaviourStubs.OnMeetingStart(this);
 
+        if (!AttackedRecently)
+        {
+            return;
+        }
+        AttackedRecently = false;
+        if (!OptionGroupSingleton<VeteranOptions>.Instance.KnowWhenAttackedInMeeting.Value)
+        {
+            return;
+        }
+        var title = $"<color=#{TownOfUsColors.Veteran.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleVeteranMessageTitle")}</color>";
+        var msg = TouLocale.GetParsed("TouRoleVeteranAttackMessage");
+
+        var notif1 = Helpers.CreateAndShowNotification(
+            $"<b>{msg}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Veteran.LoadAsset());
+
+        notif1.AdjustNotification();
+
+        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg, false, true);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.RecentVetAttack)]
+    public static void RpcRecentVetAttack(PlayerControl veteran)
+    {
+        if (veteran.Data.Role is not VeteranRole role)
+        {
+            Error("RpcRecentVetAttack - Invalid veteran");
+            return;
+        }
+        role.AttackedRecently = true;
+    }
 
     public override void Initialize(PlayerControl player)
     {
