@@ -10,6 +10,9 @@ public sealed class AmnesiacOptions : AbstractOptionGroup<AmnesiacRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleAmnesiac", "Amnesiac");
 
+    [ModdedToggleOption("TouOptionAmnesiacInheritFactionModifier")]
+    public bool InheritFactionModifier { get; set; } = true;
+
     [ModdedToggleOption("TouOptionAmnesiacShowArrows")]
     public bool RememberArrows { get; set; } = true;
 
