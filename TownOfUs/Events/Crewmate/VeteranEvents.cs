@@ -6,6 +6,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
+using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -49,7 +50,7 @@ public static class VeteranEvents
             return;
         }
 
-        CheckForVeteranAlert(@event, source, target);
+        CheckForVeteranAlert(@event, source, target, button is IKillButton, true);
     }
 
     [RegisterEvent(1)]
@@ -58,7 +59,7 @@ public static class VeteranEvents
         var source = @event.Source;
         var target = @event.Target;
 
-        CheckForVeteranAlert(@event, source, target);
+        CheckForVeteranAlert(@event, source, target, true);
     }
 
     [RegisterEvent]
@@ -92,7 +93,7 @@ public static class VeteranEvents
         }
     }
 
-    private static void CheckForVeteranAlert(MiraCancelableEvent miraEvent, PlayerControl source, PlayerControl target)
+    private static void CheckForVeteranAlert(MiraCancelableEvent miraEvent, PlayerControl source, PlayerControl target, bool isAttack, bool isLocal = false)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -103,10 +104,26 @@ public static class VeteranEvents
 
         if (target.HasModifier<VeteranAlertModifier>() && source != target)
         {
+            if (isAttack && target.Data.Role is VeteranRole vet)
+            {
+                if (isLocal)
+                {
+                    VeteranRole.RpcRecentVetAttack(target);
+                }
+                else
+                {
+                    vet.AttackedRecently = true;
+                }
+            }
             if (!OptionGroupSingleton<VeteranOptions>.Instance.KilledOnAlert &&
                 (indirectMod == null || !indirectMod.IgnoreShield))
             {
                 miraEvent.Cancel();
+            }
+            if (source.HasModifier<InvulnerabilityModifier>())
+            {
+                // stops pestilence from softlocking the game when attacking vet
+                return;
             }
 
             if ((TutorialManager.InstanceExists || source.AmOwner) && !preventAttack)

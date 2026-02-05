@@ -15,8 +15,6 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public ModdedNumberOption PlayerCountWhenVentsDisable { get; set; } = new("Max Players Alive When Vents Disable",
         2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
 
-    public ModdedToggleOption GhostwalkerFixSabos { get; set; } = new("Ghostwalkers Can Fix Sabotages", false);
-
     public ModdedToggleOption TickCooldownsInMinigame { get; set; } = new("Continue Cooldown In Tasks and Panels", true);
 
     public ModdedToggleOption ParallelMedbay { get; set; } = new("Parallel Medbay Scans", true);
@@ -29,23 +27,8 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public ModdedToggleOption HideVentAnimationNotInVision { get; set; } =
         new("Hide Vent Animations Not In Vision", true);
 
-    public ModdedEnumOption ShowPetsMode { get; set; } = new("Pet Visibility", (int)PetVisiblity.AlwaysVisible,
-        typeof(PetVisiblity), ["Client Side", "When Alive", "Always Visible"]);
-
-    public ModdedToggleOption HidePetsOnBodyRemove { get; set; } = new("Remove Pets Upon Janitor/Chef Clean", true)
-    {
-        Visible = () => (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value is PetVisiblity.AlwaysVisible
-    };
-
     public bool CanPauseCooldown => !TickCooldownsInMinigame.Value &&
                                  (Minigame.Instance && Minigame.Instance is not IngameWikiMinigame);
-}
-
-public enum PetVisiblity
-{
-    ClientSide,
-    WhenAlive,
-    AlwaysVisible
 }
 
 public enum SkipState

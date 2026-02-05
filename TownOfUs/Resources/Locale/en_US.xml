@@ -726,12 +726,18 @@
   <string name="TouRoleHunterStalking">Stalking</string>
   <string name="TouRoleHunterStalkWikiDescription">Choose a target to stalk. You can stalk \%hunterMaxStalkUsages\% players. If they use any ability while stalked, they're added to your hitlist and can be killed.</string>
   <string name="TouRoleHunterStalkNotif">If \%player\% uses an ability, you will be able to kill them at any time in the round.</string>
+  <string name="TouRoleHunterCaughtInteractionNotif">\%player\% used an ability on another player!</string>
+  <string name="TouRoleHunterCaughtAbilityNotif">\%player\% used a regular ability!</string>
   <!-- Hunter Options -->
   <string name="TouOptionHunterKillCooldown">Hunter Kill Cooldown</string>
   <string name="TouOptionHunterStalkCooldown">Hunter Stalk Cooldown</string>
   <string name="TouOptionHunterStalkDuration">Hunter Stalk Duration</string>
   <string name="TouOptionHunterStalkUses">Initial Stalk Uses</string>
   <string name="TouOptionHunterStalksPerTasks">Tasks Required For Additional Stalk Use</string>
+  <string name="TouOptionHunterSeesTypeOfInteraction">Hunter Sees Interaction Type</string>
+  <string name="TouOptionHunterStalkTriggeredBy">Stalk Triggered By</string>
+  <string name="TouOptionHunterStalkTriggerEnumInteraction">Interactions</string>
+  <string name="TouOptionHunterStalkTriggerEnumAlways">All Abilities</string>
   <string name="TouOptionHunterRetributionOnVote">Hunter Kills Last Voter If Voted Out</string>
   <string name="TouOptionHunterHunterBodyReport">Hunter Can Report Who They've Killed</string>
   <!-- Imitator - Crewmate Support -->
@@ -1309,12 +1315,16 @@
   <string name="TouRoleVeteranAlert">Alert</string>
   <string name="TouRoleVeteranAlerting">Alerting</string>
   <string name="TouRoleVeteranAlertWikiDescription">When the Veteran is on alert, any player who interacts with them will be instantly killed, except Pestilence and shielded players, who will ignore the attack.</string>
+  <string name="TouRoleVeteranMessageTitle">Veteran Warning</string>
+  <string name="TouRoleVeteranAttackMessage">You were attacked prior to this meeting while on alert!</string>
   <!-- Veteran Options -->
   <string name="TouOptionVeteranAlertCooldown">Alert Cooldown</string>
   <string name="TouOptionVeteranAlertDuration">Alert Duration</string>
   <string name="TouOptionVeteranMaxNumberofAlerts">Initial Number of Alerts</string>
   <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
+  <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
   <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
+  <string name="TouOptionVeteranKnowWhenAttackedInMeeting">Knows When Attacked In Meeting</string>
 
   <!-- Vigilante - Crewmate Killing -->
   <!-- Vigilante Wiki / Description -->
@@ -1484,7 +1494,7 @@
   <string name="TouRoleHypnotistWikiDescription">The Hypnotist is an Impostor Support role that can hypnotize players. During a meeting they can release Mass Hysteria, which makes all hypnotized players (marked with \%symbol\%) have different visuals applied to players the following round.</string>
   <string name="TouRoleHypnotistHypnotize">Hypnotize</string>
   <string name="TouRoleHypnotistHypnotizeWikiDescription">Hypnotize a player, causing them to see the game differently than non-hypnotized players if mass hysteria is active.</string>
-  <string name="TouRoleHypnotistMassHysteria">Mass Hysteria</string>
+  <string name="TouRoleHypnotistMassHysteria">Hysteria</string>
   <string name="TouRoleHypnotistMassHysteriaWiki">Mass Hysteria (Meeting)</string>
   <string name="TouRoleHypnotistMassHysteriaWikiDescription">Cause all hypnotized players to have different visuals applied to players on their screen the following round.</string>
   <!-- Hypnotist Options -->
@@ -1697,6 +1707,7 @@
   <string name="TouRoleAmnesiacRememberFailNotif">\%player\% was \%role\%, so their role cannot be picked up.</string>
   <string name="TouRoleAmnesiacRememberFailTargetNotif">\%player\% had a role with you as their target, so their role cannot be picked up.</string>
   <!-- Amnesiac Options -->
+  <string name="TouOptionAmnesiacInheritFactionModifier">Inherit Faction Modifiers</string>
   <string name="TouOptionAmnesiacShowArrows">Show Arrows Pointing To Dead Bodies</string>
   <string name="TouOptionAmnesiacArrowDelay">Time After Death Arrow Appears</string>
   <!-- Arsonist -->
@@ -1922,6 +1933,8 @@
   <string name="TouRolePestilenceTabDescription">Kill everyone in your path that interacts with you!</string>
   <string name="TouRolePestilenceYouAreText">You Are</string>
   <string name="TouRolePestilenceWikiDescription">The Pestilence is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive.</string>
+  <string name="TouRolePestilenceMessageTitle">Pestilence Warning</string>
+  <string name="TouRolePestilenceAnnounceMessage">A deadly plague has consumed the Crew.\%nl\%\%role\%, Horseman of the Apocalypse, has emerged!</string>
   <!-- Spectre -->
   <!-- Spectre Wiki / Description -->
   <string name="TouRoleSpectre">Spectre</string>

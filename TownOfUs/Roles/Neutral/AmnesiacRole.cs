@@ -11,6 +11,7 @@ using Reactor.Networking.Attributes;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Game.Neutral;
 using TownOfUs.Modifiers.Neutral;
@@ -202,6 +203,12 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 // Makes the og vampire a bitten vampire so to speak, yes it makes it more confusing, but that's how it is, deal with it - Atony
                 target.AddModifier<VampireBittenModifier>();
             }
+        }
+
+        var modifiers = target.GetModifiers<TouGameModifier>().ToList();
+        if (OptionGroupSingleton<AmnesiacOptions>.Instance.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().Any())
+        {
+            player.AddModifier(modifiers.FirstOrDefault()!.GetType());
         }
 
         if (player.AmOwner)

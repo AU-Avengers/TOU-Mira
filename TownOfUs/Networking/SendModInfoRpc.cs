@@ -63,8 +63,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         // Added the original Move Mod to blacklist due to it having (unintended) cheat functionalities (player can still move themselves and zoom out in the game)
         string[] blacklist =
         [
-            "MalumMenu", "SickoMenu", "SigmaMenu", "MoveModPublic: 1.0.0-dev+b18db3c689edef84d1f433480a91ce4ae0154060",
-            "MoveModPublic: 1.0.0-dev+94ede73cbba272aae2cd118cbc7a69d9df779e6b", "MoveMod", "Move Mod"
+            "MalumMenu", "SickoMenu", "SigmaMenu", "MoveMod", "Move Mod", "Get All Lobbies", "AUSUMMARY - Game Logger: 1.0.0", "AUSUMMARY - Game Logger: 1.1.0"
         ];
         string[] whitelist =
         [
@@ -79,7 +78,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             if (blacklist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
             {
                 Error(
-                    $"{mod.Value} (Cheat Mod?)");
+                    $"{mod.Value} (Cheat Mod? / Incompatible Mod?)");
                 continue;
             }
             else if (whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))

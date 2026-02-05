@@ -119,7 +119,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             ambushAnim.gameObject.Destroy();
 
             Player.Visible = true;
-            Player.RemoveModifier<IndirectAttackerModifier>();
 
             foreach (var shield in Player.GetModifiers<BaseShieldModifier>())
             {
@@ -195,7 +194,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         yield return new WaitForSeconds(0.01f);
         if (!target.HasDied() || MeetingHud.Instance || ambusher.HasDied())
         {
-            ambusher.RemoveModifier<IndirectAttackerModifier>();
             yield break;
         }
 
@@ -249,7 +247,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             {
                 ambushAnim.gameObject.Destroy();
                 ambusher.Visible = true;
-                ambusher.RemoveModifier<IndirectAttackerModifier>();
 
                 foreach (var shield in ambusher.GetModifiers<BaseShieldModifier>())
                 {
@@ -303,7 +300,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             {
                 ambushAnim.gameObject.Destroy();
                 ambusher.Visible = true;
-                ambusher.RemoveModifier<IndirectAttackerModifier>();
 
                 foreach (var shield in ambusher.GetModifiers<BaseShieldModifier>())
                 {
@@ -347,7 +343,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
             }
 
             ambusher.Visible = true;
-            ambusher.RemoveModifier<IndirectAttackerModifier>();
 
             foreach (var shield in ambusher.GetModifiers<BaseShieldModifier>())
             {

@@ -10,7 +10,7 @@ public sealed class SnitchImpostorRevealModifier()
 {
     public override string ModifierName => "Revealed Impostor";
 
-    public ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;
+    public override ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;
 
 
     public override void OnActivate()

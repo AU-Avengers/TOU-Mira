@@ -7,10 +7,10 @@ public sealed class MayorRevealModifier(RoleBehaviour role)
 {
     public override string ModifierName => "Mayor Reveal";
 
-    public ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.RemoveModifier;
+    public override ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.RemoveModifier;
 
-    public RoleBehaviour? ShownRole { get; set; } = role;
-    public bool RevealRole { get; set; } = true;
+    public override RoleBehaviour? ShownRole { get; set; } = role;
+    public override bool RevealRole { get; set; } = true;
 
     public override void OnDeath(DeathReason reason)
     {

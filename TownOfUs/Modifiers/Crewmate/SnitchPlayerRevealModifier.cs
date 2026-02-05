@@ -5,8 +5,8 @@ public sealed class SnitchPlayerRevealModifier(RoleBehaviour role)
 {
     public override string ModifierName => "Revealed Snitch";
 
-    public ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;
+    public override ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;
 
-    public RoleBehaviour? ShownRole { get; set; } = role;
-    public bool RevealRole { get; set; } = true;
+    public override RoleBehaviour? ShownRole { get; set; } = role;
+    public override bool RevealRole { get; set; } = true;
 }
