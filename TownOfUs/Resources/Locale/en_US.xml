@@ -1707,6 +1707,7 @@
   <string name="TouRoleAmnesiacRememberFailNotif">\%player\% was \%role\%, so their role cannot be picked up.</string>
   <string name="TouRoleAmnesiacRememberFailTargetNotif">\%player\% had a role with you as their target, so their role cannot be picked up.</string>
   <!-- Amnesiac Options -->
+  <string name="TouOptionAmnesiacInheritFactionModifier">Inherit Faction Modifiers</string>
   <string name="TouOptionAmnesiacShowArrows">Show Arrows Pointing To Dead Bodies</string>
   <string name="TouOptionAmnesiacArrowDelay">Time After Death Arrow Appears</string>
   <!-- Arsonist -->
