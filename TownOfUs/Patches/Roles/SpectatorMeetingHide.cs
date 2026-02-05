@@ -10,7 +10,7 @@ public static class HideSpecVoteAreas
     [HarmonyPatch(nameof(MeetingHud.Update))]
     public static void Postfix(MeetingHud __instance)
     {
-        if (SpectatorRole.TrackedSpectators.Count == 0)
+        if (SpectatorRole.TrackedSpectators.Count == 0 || __instance.playerStates.Length == 0)
         {
             return;
         }
