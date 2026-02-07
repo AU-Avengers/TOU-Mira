@@ -2,6 +2,7 @@
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -17,7 +18,11 @@ public static class GlitchPatches
     {
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
         {
-            PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
+            if (!PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShouldHideHacked)
+            {
+                return false;
+            }
+            GlitchRole.RpcTriggerGlitchHack(PlayerControl.LocalPlayer, false);
             return false;
         }
 

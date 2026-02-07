@@ -51,9 +51,9 @@ public static class GlitchEvents
         {
             GlitchRole.RpcTriggerGlitchHack(source, false);
         }
-        else if (source.AmOwner)
+        else
         {
-            PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
+            source.GetModifier<GlitchHackedModifier>()!.ShowHacked();
         }
     }
 }
