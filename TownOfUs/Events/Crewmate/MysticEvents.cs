@@ -20,7 +20,7 @@ public static class MysticEvents
 
         if (PlayerControl.LocalPlayer.Data.Role is MysticRole && !victim.AmOwner)
         {
-            victim?.AddModifier<MysticDeathNotifierModifier>(PlayerControl.LocalPlayer);
+            victim.AddModifier<MysticDeathNotifierModifier>(PlayerControl.LocalPlayer);
         }
     }
 }
