@@ -854,7 +854,7 @@
   <string name="TouRoleMedium">Medium</string>
   <string name="TouRoleMediumIntroBlurb">Watch the spooky ghosts</string>
   <string name="TouRoleMediumTabDescription">Follow ghosts to get clues from them</string>
-  <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Support role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times.</string>
+  <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Investigative role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times.</string>
   <string name="TouRoleMediumMediate">Mediate</string>
   <string name="TouRoleMediumMediateWikiDescription">Communicate with the dead, which may lead you to the killers.</string>
   <!-- Medium Options -->
