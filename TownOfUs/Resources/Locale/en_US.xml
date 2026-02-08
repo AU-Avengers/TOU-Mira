@@ -856,8 +856,8 @@
   <string name="TouRoleMediumAltIntroBlurb">Become a spirit to leave your flesh</string>
   <string name="TouRoleMediumTabDescription">Follow ghosts to get clues from them</string>
   <string name="TouRoleMediumAltTabDescription">Mediate to leave your mortal body behind for some time.\%nl\%Your body is still vulnerable in this state.</string>
-  <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Support role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times.</string>
-  <string name="TouRoleMediumAltWikiDescription">The Medium is a Crewmate Support role that can temporarily become a ghost. They can pass through walls, but leave their body unprotected.</string>
+  <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Investigative role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times.</string>
+  <string name="TouRoleMediumAltWikiDescription">The Medium is a Crewmate Investigative role that can temporarily become a ghost. They can pass through walls, but leave their body unprotected.</string>
   <string name="TouRoleMediumMediate">Mediate</string>
   <string name="TouRoleMediumMediateWikiDescription">Communicate with the dead, which may lead you to the killers.</string>
   <string name="TouRoleMediumMediateAltWikiDescription">Project your spirit outside of your body for some time to uncover clues.</string>

@@ -52,7 +52,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public Color RoleColor => TownOfUsColors.Medium;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;
+    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
