@@ -120,6 +120,8 @@ public enum TownOfUsRpc : uint
     TriggerGlitchHack,
     Roleblock,
     RecentVetAttack,
+    CreateMediumSpirit,
+    RemoveMediumSpirit,
 }
 
 internal enum TownOfUsInternalRpc : uint

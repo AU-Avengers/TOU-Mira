@@ -44,7 +44,7 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
 
         _medium.MediatedPlayers.Add(this);
 
-        switch (OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility)
+        switch ((MediumVisibility)OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility.Value)
         {
             case MediumVisibility.Both:
                 var ownerTransform = Player.AmOwner ? _mediumPlayer.transform : Player.transform;
@@ -60,7 +60,7 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
                 break;
         }
 
-        if (_mediumPlayer.AmOwner && !OptionGroupSingleton<MediumOptions>.Instance.RevealMediateAppearance)
+        if (_mediumPlayer.AmOwner && !OptionGroupSingleton<MediumOptions>.Instance.RevealMediateAppearance.Value)
         {
             Player.SetCamouflage();
         }
@@ -85,7 +85,7 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
             CustomButtonSingleton<MediumMediateButton>.Instance.SetTimerPaused(false);
             CustomButtonSingleton<MediumMediateButton>.Instance.ResetCooldownAndOrEffect();
 
-            if (!OptionGroupSingleton<MediumOptions>.Instance.RevealMediateAppearance)
+            if (!OptionGroupSingleton<MediumOptions>.Instance.RevealMediateAppearance.Value)
             {
                 Player.SetCamouflage(false);
             }
