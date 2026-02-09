@@ -23,6 +23,19 @@ public static class GlitchEvents
 
         CheckForGlitchHacked(@event, source, true);
     }
+    [RegisterEvent]
+    public static void VanillaButtonClickEventHandler(VanillaButtonClickEvent @event)
+    {
+        var source = PlayerControl.LocalPlayer;
+        var button = @event.Button;
+
+        if (button == null)
+        {
+            return;
+        }
+
+        CheckForGlitchHacked(@event, source, true);
+    }
 
     [RegisterEvent]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
@@ -51,9 +64,9 @@ public static class GlitchEvents
         {
             GlitchRole.RpcTriggerGlitchHack(source, false);
         }
-        else if (source.AmOwner)
+        else
         {
-            PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
+            source.GetModifier<GlitchHackedModifier>()!.ShowHacked();
         }
     }
 }

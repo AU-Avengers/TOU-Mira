@@ -10,7 +10,7 @@ public static class HideSpecVoteAreas
     [HarmonyPatch(nameof(MeetingHud.Update))]
     public static void Postfix(MeetingHud __instance)
     {
-        if (SpectatorRole.TrackedSpectators.Count == 0)
+        if (SpectatorRole.TrackedSpectators.Count == 0 || __instance.playerStates.Length == 0)
         {
             return;
         }
@@ -20,8 +20,8 @@ public static class HideSpecVoteAreas
             {
                 continue;
             }
-            if (SpectatorRole.TrackedSpectators.Contains(GameData.Instance.GetPlayerById(voteArea.TargetPlayerId)
-                    .PlayerName))
+            if (GameData.Instance.GetPlayerById(voteArea.TargetPlayerId)
+                    .Role is SpectatorRole)
             {
                 voteArea.gameObject.SetActive(false);
             }
@@ -38,7 +38,8 @@ public static class HideSpecVoteAreas
                 return 0;
             }
 
-            if (SpectatorRole.TrackedSpectators.Contains(GameData.Instance.GetPlayerById(p.TargetPlayerId).PlayerName))
+            if (GameData.Instance.GetPlayerById(p.TargetPlayerId)
+                    .Role is SpectatorRole)
             {
                 return 100;
             }

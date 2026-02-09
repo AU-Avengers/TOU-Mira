@@ -23,13 +23,6 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
     {
         base.OnActivate();
 
-        var deadPlayer = GameData.Instance.AllPlayers.ToArray()
-            .FirstOrDefault(x => x.PlayerId == Player.PlayerId && x.IsDead);
-        if (deadPlayer == null)
-        {
-            return;
-        }
-
         if (OptionGroupSingleton<MysticOptions>.Instance.MysticHnsPopUp.Value)
         {
             var popup = GameManagerCreator.Instance.HideAndSeekManagerPrefab.DeathPopupPrefab;
@@ -38,7 +31,7 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
         }
 
         _arrow = MiscUtils.CreateArrow(Mystic.transform, Color.white);
-        _arrow.target = deadPlayer.Object.GetTruePosition();
+        _arrow.target = Player.GetTruePosition();
 
         Coroutines.Start(MiscUtils.CoFlash(FlashColor));
     }
