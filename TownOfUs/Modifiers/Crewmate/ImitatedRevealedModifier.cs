@@ -73,8 +73,8 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
                     newIcon.enabled = true;
                     newIcon.name = "RoleIcon";
                     newIcon.SetSizeLimit(1.44f);
-                    // newIcon.transform.localPosition = new Vector3(-1.25f, -0.15f, -3f);
-                    newIcon.transform.localPosition = new Vector3(-1.3f, 0f, -3f);
+                    newIcon.transform.localPosition = new Vector3(-1.25f, -0.15f, -3f);
+                    // newIcon.transform.localPosition = new Vector3(-1.3f, 0f, -3f);
                     newIcon.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
                 }
 
