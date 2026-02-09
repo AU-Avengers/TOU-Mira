@@ -26,7 +26,6 @@ using TownOfUs.Buttons.Impostor;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
@@ -70,6 +69,45 @@ public static class TownOfUsEventHandlers
     internal static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
 
     internal static TextMeshPro ModifierText;
+    public static TaskPanelBehaviour RolePanel;
+    public static SpriteRenderer RoleIconRenderer;
+
+    public static TaskPanelBehaviour? TryGetRoleTab()
+    {
+        if (!HudManager.InstanceExists)
+        {
+            return null;
+        }
+        if (RolePanel == null)
+        {
+            var panelThing = HudManager.Instance.TaskStuff.transform.FindChild("RolePanel");
+            if (panelThing != null)
+            {
+                RolePanel = panelThing.gameObject.GetComponent<TaskPanelBehaviour>();
+            }
+        }
+
+        if (RolePanel != null && RoleIconRenderer == null)
+        {
+            var newObj = new GameObject("RoleIcon");
+            newObj.transform.parent = RolePanel.transform.FindChild("Tab").transform;
+            newObj.transform.localScale = new(5f, 1.3f, 1);
+            newObj.layer = LayerMask.NameToLayer("UI");
+            newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
+            RoleIconRenderer = newObj.AddComponent<SpriteRenderer>();
+        }
+
+        if (RoleIconRenderer != null)
+        {
+            RoleIconRenderer.sprite = PlayerControl.LocalPlayer.Data.Role.GetRoleIcon();
+            RoleIconRenderer.transform.localScale = new Vector3(1, 1, 1);
+            RoleIconRenderer.SetSizeLimit(0.4f);
+            var oldScale = RoleIconRenderer.transform.localScale;
+            RoleIconRenderer.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
+        }
+
+        return RolePanel;
+    }
 
     public static void RunModChecks()
     {
@@ -174,8 +212,11 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void IntroEndEventHandler(IntroEndEvent @event)
     {
-        HudManager.Instance.SetHudActive(false);
-        HudManager.Instance.SetHudActive(true);
+        if (HudManager.InstanceExists)
+        {
+            HudManager.Instance.SetHudActive(false);
+            HudManager.Instance.SetHudActive(true);
+        }
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
@@ -223,42 +264,38 @@ public static class TownOfUsEventHandlers
             modsTab.ToggleTab();
         }
 
-        var panelThing = HudManager.Instance.TaskStuff.transform.FindChild("RolePanel");
-        if (panelThing != null)
+        var panel = TryGetRoleTab();
+        var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
+        if (role == null || panel == null)
         {
-            var panel = panelThing.gameObject.GetComponent<TaskPanelBehaviour>();
-            var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
-            if (role == null)
-            {
-                return;
-            }
-
-            panel.open = true;
-
-            var tabText = panel.tab.gameObject.GetComponentInChildren<TextMeshPro>();
-            var ogPanel = HudManager.Instance.TaskStuff.transform.FindChild("TaskPanel").gameObject
-                .GetComponent<TaskPanelBehaviour>();
-            if (tabText.text != role.RoleName)
-            {
-                tabText.text = role.RoleName;
-            }
-
-            var y = ogPanel.taskText.textBounds.size.y + 1;
-            panel.closedPosition = new Vector3(ogPanel.closedPosition.x, ogPanel.open ? y + 0.2f : 2f,
-                ogPanel.closedPosition.z);
-            panel.openPosition = new Vector3(ogPanel.openPosition.x, ogPanel.open ? y : 2f, ogPanel.openPosition.z);
-
-            panel.SetTaskText(role.SetTabText().ToString());
+            return;
         }
+
+        panel.open = true;
+
+        var tabText = panel.tab.gameObject.GetComponentInChildren<TextMeshPro>();
+        var ogPanel = HudManager.Instance.TaskStuff.transform.FindChild("TaskPanel").gameObject
+            .GetComponent<TaskPanelBehaviour>();
+        if (tabText.text != role.RoleName)
+        {
+            tabText.text = role.RoleName;
+        }
+
+        var y = ogPanel.taskText.textBounds.size.y + 1;
+        panel.closedPosition = new Vector3(ogPanel.closedPosition.x, ogPanel.open ? y + 0.2f : 2f,
+            ogPanel.closedPosition.z);
+        panel.openPosition = new Vector3(ogPanel.openPosition.x, ogPanel.open ? y : 2f, ogPanel.openPosition.z);
+
+        panel.SetTaskText(role.SetTabText().ToString());
     }
 
     [RegisterEvent]
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
         // Reset team chat state when a new meeting starts
-        TownOfUs.Patches.Options.TeamChatPatches.TeamChatActive = false;
-        TownOfUs.Patches.Options.TeamChatPatches.CurrentChatIndex = -1;
-        TownOfUs.Patches.Options.TeamChatPatches.TeamChatManager.ClearAllUnread();
+        Patches.Options.TeamChatPatches.TeamChatActive = false;
+        Patches.Options.TeamChatPatches.CurrentChatIndex = -1;
+        Patches.Options.TeamChatPatches.TeamChatManager.ClearAllUnread();
 
         // Incase the kill animation is stuck somehow
         // HudManager.Instance.KillOverlay.gameObject.SetActive(false);
@@ -270,10 +307,6 @@ public static class TownOfUsEventHandlers
         var exeButton = CustomButtonSingleton<ExeTormentButton>.Instance;
         var jestButton = CustomButtonSingleton<JesterHauntButton>.Instance;
         var phantomButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
-        if (exeButton.Show || jestButton.Show || phantomButton.Show)
-        {
-            PlayerControl.LocalPlayer.RpcRemoveModifier<IndirectAttackerModifier>();
-        }
 
         exeButton.Show = false;
         jestButton.Show = false;
@@ -423,19 +456,19 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void ChangeRoleHandler(ChangeRoleEvent @event)
     {
-        if (!PlayerControl.LocalPlayer)
+        var player = @event.Player;
+
+        if (!PlayerControl.LocalPlayer || player == null)
         {
             return;
         }
 
-        var player = @event.Player;
-
-        if (player?.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        if (player.Data.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
         {
             ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
         }
 
-        if (player != null && ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
         {
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
@@ -448,12 +481,12 @@ public static class TownOfUsEventHandlers
             }
         }
 
-        if (player != null && player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
+        if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
         {
             player.RemoveModifier(mod);
         }
 
-        if (!MeetingHud.Instance && player != null && player.AmOwner)
+        if (!MeetingHud.Instance && player.AmOwner)
         {
             foreach (var button in CustomButtonManager.Buttons)
             {
@@ -471,8 +504,16 @@ public static class TownOfUsEventHandlers
                 }
             }
 
-            HudManager.Instance.SetHudActive(false);
-            HudManager.Instance.SetHudActive(true);
+            if (HudManager.InstanceExists)
+            {
+                HudManager.Instance.SetHudActive(false);
+                HudManager.Instance.SetHudActive(true);
+            }
+        }
+
+        if (player.AmOwner)
+        {
+            TryGetRoleTab();
         }
     }
 
@@ -480,6 +521,25 @@ public static class TownOfUsEventHandlers
     public static void SetRoleHandler(SetRoleEvent @event)
     {
         GameHistory.RegisterRole(@event.Player, @event.Player.Data.Role);
+
+        if (@event.Player.AmOwner)
+        {
+            TryGetRoleTab();
+        }
+    }
+
+    [RegisterEvent]
+    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent @event)
+    {
+        Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.Destroy());
+
+        foreach (var player in PlayerControl.AllPlayerControls)
+        {
+            player.MyPhysics.ResetAnimState();
+            player.MyPhysics.ResetMoveState();
+        }
+
+        FakePlayer.ClearAll();
     }
 
     [RegisterEvent]
@@ -505,7 +565,7 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (exiled.AmOwner)
+        if (exiled.AmOwner && HudManager.InstanceExists)
         {
             HudManager.Instance.SetHudActive(false);
 
@@ -546,7 +606,7 @@ public static class TownOfUsEventHandlers
 
         GameHistory.AddMurder(source, target);
 
-        TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordKill(source, target);
+        Crewmate.TimeLordEventHandlers.RecordKill(source, target);
 
         TimeLordRewindSystem.NotifyHostMurderDuringRewind(source, target);
 
@@ -555,7 +615,7 @@ public static class TownOfUsEventHandlers
             CustomButtonSingleton<SpellslingerHexButton>.Instance.SetActive(false, PlayerControl.LocalPlayer.Data.Role);
         }
 
-        if (target.AmOwner)
+        if (target.AmOwner && HudManager.InstanceExists)
         {
             HudManager.Instance.SetHudActive(false);
 
@@ -664,10 +724,10 @@ public static class TownOfUsEventHandlers
             return;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        /*if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             @event.Cancel();
-        }
+        }*/
 
         // Prevent last 2 players from venting (or however many are set up)
         if (@event.IsVent)
@@ -708,6 +768,10 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void PlayerJoinEventHandler(PlayerJoinEvent @event)
     {
+        if (TutorialManager.InstanceExists)
+        {
+            return;
+        }
         Coroutines.Start(CoSendSpecData(@event.ClientData));
         Coroutines.Start(CoSendRulesToPlayer(@event.ClientData));
     }
@@ -829,6 +893,10 @@ public static class TownOfUsEventHandlers
     private static IEnumerator CoHideHud()
     {
         yield return new WaitForSeconds(0.01f);
+        if (!HudManager.InstanceExists)
+        {
+            yield break;
+        }
         HudManager.Instance.AbilityButton.SetDisabled();
         HudManager.Instance.SabotageButton.SetDisabled();
         HudManager.Instance.UseButton.SetDisabled();

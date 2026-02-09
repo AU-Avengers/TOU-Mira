@@ -16,6 +16,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class JesterRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralEvilTaskHeader")}</color>";
+    }
+
     public bool Voted { get; set; }
     public bool AboutToWin { get; set; }
     public bool SentWinMsg { get; set; }
@@ -74,7 +84,9 @@ public sealed class JesterRole(IntPtr cppPtr)
         // Only the Jester being *voted out* should trigger a Jester win.
         // Some mechanics (e.g. Lovers chain deaths) can cause a player to die during an exile,
         // which may be recorded as Exile in history even though they were not the voted-out player.
-        return Voted;
+        // Check AboutToWin as well to handle timing issues where Voted might not be set yet on the host
+        // when Spectre assignment checks this (e.g., in GhostRoleEvents.CoSetGhostwalkers)
+        return Voted || AboutToWin;
     }
 
     public override void Initialize(PlayerControl player)

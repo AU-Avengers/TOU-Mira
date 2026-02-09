@@ -89,7 +89,7 @@ public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, Play
         }
         else
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+            PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
     }
 

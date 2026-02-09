@@ -9,23 +9,48 @@ namespace TownOfUs.Modifiers;
 // This is intended to be used for roles such as Snitch or Mayor
 // for getting the role, use this: RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>())
 [MiraIgnore]
-public abstract class RevealModifier(int roleChangeResult, bool revealRole, RoleBehaviour? role) : TimedModifier
+public abstract class RevealModifier(int roleChangeResult, bool revealRole, RoleBehaviour? role) : BaseRevealModifier
+{
+    public override bool RevealRole { get; set; } = revealRole;
+
+    public override ChangeRoleResult ChangeRoleResult { get; set; } = (ChangeRoleResult)roleChangeResult;
+
+    public override void OnActivate()
+    {
+        if (RevealRole && ShownRole == null)
+        {
+            ShownRole = role != null ? role : Player.Data.Role;
+        }
+
+        if (MeetingHud.Instance && RevealRole)
+        {
+            var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
+            if (targetVoteArea.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId)
+            {
+                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.TargetPlayerId));
+            }
+        }
+    }
+}
+
+[MiraIgnore]
+public abstract class BaseRevealModifier : TimedModifier
 {
     public override string ModifierName => "Revealed";
     public override float Duration => 1f;
     public override bool AutoStart => false;
     public override bool HideOnUi => true;
     public override bool RemoveOnComplete => false;
-    public string ExtraRoleText { get; set; } = string.Empty;
-    public string ExtraNameText { get; set; } = string.Empty;
-    public Color? NameColor { get; set; }
-    public bool RevealRole { get; set; } = revealRole;
+    public virtual string ExtraRoleText { get; set; } = string.Empty;
+    public virtual string ExtraNameText { get; set; } = string.Empty;
+    public virtual Color? NameColor { get; set; }
+    public virtual bool RevealRole { get; set; }
 
-    public ChangeRoleResult ChangeRoleResult { get; set; } = (ChangeRoleResult)roleChangeResult;
+    public virtual ChangeRoleResult ChangeRoleResult { get; set; } = ChangeRoleResult.Nothing;
 
-    public RoleBehaviour? ShownRole { get; set; }
+    public virtual RoleBehaviour? ShownRole { get; set; }
 
-    public bool Visible { get; set; } = true;
+    public virtual bool Visible { get; set; } = true;
 
     public override string GetDescription() => "You are Revealed!";
 
@@ -44,7 +69,7 @@ public abstract class RevealModifier(int roleChangeResult, bool revealRole, Role
         base.OnActivate();
         if (RevealRole && ShownRole == null)
         {
-            ShownRole = role != null ? role : Player.Data.Role;
+            ShownRole = Player.Data.Role;
         }
 
         if (MeetingHud.Instance && RevealRole)

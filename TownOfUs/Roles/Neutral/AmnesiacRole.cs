@@ -11,6 +11,7 @@ using Reactor.Networking.Attributes;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Game.Neutral;
 using TownOfUs.Modifiers.Neutral;
@@ -26,6 +27,16 @@ namespace TownOfUs.Roles.Neutral;
 public sealed class AmnesiacRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable, ICrewVariant
 {
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        if (playerControl != PlayerControl.LocalPlayer)
+        {
+            return;
+        }
+        ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
+        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+    }
+
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MysticRole>());
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Amnesiac";
@@ -119,6 +130,19 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             return;
         }
 
+        if (player.GetModifiers<PlayerTargetModifier>().Any(x => x.OwnerId == target.PlayerId))
+        {
+            if (player.AmOwner)
+            {
+                var text = TouLocale.GetParsed("TouRoleAmnesiacRememberFailTargetNotif").Replace("<player>", target.Data.PlayerName);
+                var notif1 = Helpers.CreateAndShowNotification(
+                    $"<b>{text}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Amnesiac.LoadAsset());
+                notif1.AdjustNotification();
+            }
+
+            return;
+        }
+
         var touAbilityEvent = new TouAbilityEvent(AbilityType.AmnesiacPreRemember, player, target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
@@ -179,6 +203,12 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 // Makes the og vampire a bitten vampire so to speak, yes it makes it more confusing, but that's how it is, deal with it - Atony
                 target.AddModifier<VampireBittenModifier>();
             }
+        }
+
+        var modifiers = target.GetModifiers<TouGameModifier>().ToList();
+        if (OptionGroupSingleton<AmnesiacOptions>.Instance.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().Any())
+        {
+            player.AddModifier(modifiers.FirstOrDefault()!.GetType());
         }
 
         if (player.AmOwner)

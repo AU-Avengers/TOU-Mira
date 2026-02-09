@@ -31,7 +31,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
 
     public void AssignTargets()
     {
-        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment)
+        if (!OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment || !PlayerControl.LocalPlayer.IsHost())
         {
             return;
         }
@@ -54,7 +54,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
                             !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<EgotistModifier>() &&
-                            x.Data.Role is not MayorRole).ToList();
+                            (x.Data.Role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeTraitor)).ToList();
 
             if (filtered.Count == 0)
             {

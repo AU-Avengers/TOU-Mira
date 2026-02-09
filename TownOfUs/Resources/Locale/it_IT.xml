@@ -389,4 +389,23 @@
   <string name="TouRoleImitator">Imitatore</string>
   <string name="TouRoleImitatorIntroBlurb">Usa I Ruoli Dei Morti A Beneficio Dell'Equipaggio</string>
   <string name="TouRoleImitatorTabDescription">Usa i giocatori morti a beneficio dell'equipaggio imitando nelle riunioni</string>
+  <string name="DiscordServer">Server Discord</string>
+  <string name="SourceCode">Codice Sorgente</string>
+  <string name="ShowPracticeButtons">Mostra Pulsanti di Pratica</string>
+  <string name="ZoomingInLobby">Zoom nella Lobby</string>
+  <string name="ZoomingInPractice">Zoom nella Pratica</string>
+  <string name="SeparateChatBubbles">Separa le Bolle della Chat</string>
+  <string name="UseSeparateRedChat">Mostra Chat Privata Separata</string>
+  <string name="SummarySimple">Semplificato</string>
+  <string name="SummaryNormal">Normale</string>
+  <string name="SummaryAdvanced">Avanzato</string>
+  <string name="FlashWhite">Bianco</string>
+  <string name="FlashLightGray">Grigio Chiaro</string>
+  <string name="FlashGray">Grigio</string>
+  <string name="FlashDarkGray">Grigio Scuro</string>
+  <string name="PiPLocationDynamic">Dinamico</string>
+  <string name="PiPSizeNormal">Normale</string>
+  <string name="PlayerColorDarker">Scuro</string>
+  <string name="PlayerColorLighter">Chiaro</string>
+  <string name="GrenadierFlashColor">Colore Flash del Granatiere</string>
 </resources>

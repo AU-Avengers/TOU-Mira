@@ -62,12 +62,13 @@ public static class MiraApiPatches
         __result = TouLocale.Get("Modifiers");
         return false;
     }
-    
-    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcCustomMurder))]
+
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(MeetingCheck), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
     [HarmonyPrefix]
-    public static bool RpcCustomMurderPatch(
+    public static bool RpcAltCustomMurderPatch(
         this PlayerControl source,
         PlayerControl target,
+        MeetingCheck inMeeting,
         bool didSucceed = true,
         bool resetKillTimer = true,
         bool createDeadBody = true,
@@ -77,8 +78,13 @@ public static class MiraApiPatches
     {
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
-        var beforeMurderEvent = new BeforeMurderEvent(source, target);
+        var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
+        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+        {
+            beforeMurderEvent.Cancel();
+        }
 
         if (beforeMurderEvent.IsCancelled)
         {

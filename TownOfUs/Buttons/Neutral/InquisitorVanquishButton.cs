@@ -45,6 +45,6 @@ public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<Inquisitor
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target);
+        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 }

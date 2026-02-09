@@ -2,6 +2,7 @@
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -9,28 +10,6 @@ namespace TownOfUs.Patches.Roles;
 public static class GlitchPatches
 {
     [HarmonyPatch(typeof(ReportButton), nameof(ReportButton.DoClick))]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPrefix]
-    public static bool DisabledReportButtonPatch(ActionButton __instance)
-    {
-        /*if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
-        {
-            return false;
-        }*/
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanReport))
-        {
-            return false;
-        }
-
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
-        {
-            PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
-            return false;
-        }
-
-        return true;
-    }
-
     [HarmonyPatch(typeof(UseButton), nameof(UseButton.DoClick))]
     [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.DoClick))]
     [HarmonyPriority(Priority.First)]
@@ -39,7 +18,11 @@ public static class GlitchPatches
     {
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
         {
-            PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
+            if (!PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShouldHideHacked)
+            {
+                return false;
+            }
+            GlitchRole.RpcTriggerGlitchHack(PlayerControl.LocalPlayer, false);
             return false;
         }
 
@@ -56,7 +39,7 @@ public static class GlitchPatches
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanOpenMap))
         {
             return false;
         }

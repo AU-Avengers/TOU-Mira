@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Crewmate;
 
@@ -20,6 +21,12 @@ public sealed class VeteranOptions : AbstractOptionGroup<VeteranRole>
 
     [ModdedToggleOption("TouOptionVeteranCanBeKilledOnAlert")]
     public bool KilledOnAlert { get; set; } = false;
+
+    public ModdedToggleOption KnowWhenAttackedInMeeting { get; } = new("TouOptionVeteranKnowWhenAttackedInMeeting", true)
+    {
+        Visible = () =>
+            !OptionGroupSingleton<VeteranOptions>.Instance.KilledOnAlert
+    };
 
     [ModdedToggleOption("TouOptionVeteranGetMoreUsesFromCompletingTasks")]
     public bool TaskUses { get; set; } = true;

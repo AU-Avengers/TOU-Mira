@@ -112,6 +112,8 @@ public enum TownOfUsRpc : uint
     SyncDeathState,
     RequestDeathStateValidation,
     MultiplayerFreeplayRequest,
+    TriggerGlitchHack,
+    RecentVetAttack,
 }
 
 internal enum TownOfUsInternalRpc : uint

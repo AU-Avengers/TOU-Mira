@@ -15,7 +15,7 @@ using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
 
-[HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
+[HarmonyPatch]
 public static class ChatPatches
 {
     private static readonly char[] separator = [' '];
@@ -47,8 +47,10 @@ public static class ChatPatches
             TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
     }
 
-    // ReSharper disable once InconsistentNaming
-    public static bool Prefix(ChatController __instance)
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
+    public static bool FirstPrefix(ChatController __instance)
     {
         var text = __instance.freeChatField.Text.ToLower(TownOfUsPlugin.Culture);
         var textRegular = __instance.freeChatField.Text.WithoutRichText();
@@ -555,6 +557,10 @@ public static class ChatPatches
 
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg);
 
+            if (ModCompatibility.CommandModsInstalled)
+            {
+                return true;
+            }
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
             __instance.quickChatField.Clear();
@@ -565,18 +571,6 @@ public static class ChatPatches
         if (spaceLess.StartsWith("/jail", StringComparison.OrdinalIgnoreCase))
         {
             MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("JailCommandError"));
-
-            __instance.freeChatField.Clear();
-            __instance.quickChatMenu.Clear();
-            __instance.quickChatField.Clear();
-            __instance.UpdateChatMode();
-            return false;
-        }
-
-        if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase))
-        {
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
-                TouLocale.GetParsed("NoCommandFoundError"));
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -607,6 +601,39 @@ public static class ChatPatches
                 }
             }
             ChatControllerPatches.CurrentHistorySelection = ChatControllerPatches.ChatHistory.Count;
+        }
+
+        return true;
+    }
+
+
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.Last)]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
+    public static bool Prefix(ChatController __instance)
+    {
+        var text = __instance.freeChatField.Text.ToLower(TownOfUsPlugin.Culture);
+        var textRegular = __instance.freeChatField.Text.WithoutRichText();
+
+        // Remove chat limit
+        if (textRegular.Length < 1)
+        {
+            return true;
+        }
+
+        var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
+        var spaceLess = text.Replace(" ", string.Empty);
+
+        if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase))
+        {
+            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                TouLocale.GetParsed("NoCommandFoundError"));
+
+            __instance.freeChatField.Clear();
+            __instance.quickChatMenu.Clear();
+            __instance.quickChatField.Clear();
+            __instance.UpdateChatMode();
+            return false;
         }
 
         return true;

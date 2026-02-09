@@ -57,6 +57,11 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
         taskStringBuilder.AppendLine($"\n{RoleHintText}\n{RoleLongDescription}");
     }
 
+    public override void SpawnTaskHeader(PlayerControl playerControl)
+    {
+        // ignore
+    }
+
     [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
 
     public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;

@@ -13,6 +13,7 @@ public static class AmongUsClientPatches
         if (AmongUsClient.Instance != __instance)
         {
             Error("AmongUsClient duplicate detected.");
+            return;
         }
 
         SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat([(SystemTypes)HexBombSabotageSystem.SabotageId, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]).ToArray();

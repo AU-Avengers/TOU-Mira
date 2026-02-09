@@ -1088,13 +1088,12 @@ public static class TouRoleManagerPatches
         var text = $"AssignRoleOnDeathPatch - Player: '{player.Data.PlayerName}', specialRolesAllowed: {specialRolesAllowed}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);
 
-        if (player == null || !player.Data.IsDead || !player.CanGetGhostRole())
-        // Message($"AssignRoleOnDeathPatch - !player.Data.IsDead: '{!player.Data.IsDead}'");
+        if (player == null || !player.Data.IsDead)
         {
             return false;
         }
 
-        if ( /*!player.Data.Role.IsImpostor && */specialRolesAllowed)
+        if (player.CanGetGhostRole() && specialRolesAllowed)
         // Message($"AssignRoleOnDeathPatch - !player.Data.Role.IsImpostor: '{!player.Data.Role.IsImpostor}' specialRolesAllowed: {specialRolesAllowed}");
         {
             RoleManager.TryAssignSpecialGhostRoles(player, player.IsImpostor());

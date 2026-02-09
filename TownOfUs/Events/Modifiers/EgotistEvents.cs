@@ -19,17 +19,25 @@ public static class EgotistEvents
     [RegisterEvent]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
+        var ego = ModifierUtils.GetActiveModifiers<EgotistModifier>().FirstOrDefault();
         var egoOpts = OptionGroupSingleton<EgotistOptions>.Instance;
         if (@event.TriggeredByIntro)
         {
             EgotistModifier.CooldownReduction = 0f;
             EgotistModifier.SpeedMultiplier = 1f;
             EgotistRoundTracker = (int)egoOpts.RoundsToApplyEffects.Value;
+            if (ego != null && ego.Player.AmOwner)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    TouLocale.GetParsed("TouModifierEgotistIntroMessage").Replace("<modifier>", $"{TownOfUsColors.Egotist.ToTextColor()}{ego.ModifierName}</color>"),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouModifierIcons.Egotist.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
             return;
         }
 
         EgotistRoundTracker--;
-        var ego = ModifierUtils.GetActiveModifiers<EgotistModifier>().FirstOrDefault();
         if (ego != null && !ego.LeaveMessageSent && !ego.Player.HasDied() && Helpers.GetAlivePlayers().Where(x =>
                     x.IsCrewmate() && !(x.TryGetModifier<AllianceGameModifier>(out var ally) && !ally.GetsPunished))
                 .ToList().Count == 0)

@@ -393,14 +393,12 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     continue;
                 }
 
-                var color = MiscUtils.GetModifierColour(modifier);
-                var newItem = CreateNewItem(modifier.ModifierName, modifier.ModifierIcon?.LoadAsset(), color);
-                newItem.transform.GetChild(2).gameObject.SetActive(false);
-                var alignment = MiscUtils.GetParsedModifierFaction(modifier);
-
                 var amount = modifier is GameModifier gameMod ? gameMod.GetAmountPerGame() : 0;
                 var chance = modifier is GameModifier gameMod2 ? gameMod2.GetAssignmentChance() : 0;
-                var amountTxt = newItem.transform.FindChild("AmountTxt").gameObject.GetComponent<TextMeshPro>();
+                var faction = MiscUtils.GetModifierFaction(modifier);
+                var alignment = MiscUtils.GetParsedModifierFaction(faction);
+                var basicFaction = faction.ToString();
+                var color = MiscUtils.GetModifierColour(modifier);
                 if (modifier is UniversalGameModifier uniMod2)
                 {
                     amount = uniMod2.CustomAmount;
@@ -416,11 +414,39 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     amount = allyMod2.CustomAmount;
                     chance = allyMod2.CustomChance;
                 }
+                var non = basicFaction.Contains("Non");
+                if (modifier is not AllianceGameModifier)
+                {
+                    if (basicFaction.Contains("Crew") && !non)
+                    {
+                        color = TownOfUsColors.CrewmateWiki;
+                    }
+                    else if (basicFaction.Contains("Neut") && !non)
+                    {
+                        color = TownOfUsColors.NeutralWiki;
+                    }
+                    else if (basicFaction.Contains("Imp") && !non)
+                    {
+                        color = TownOfUsColors.ImpWiki;
+                    }
+                    else if (basicFaction.Contains("Game") || non)
+                    {
+                        color = TownOfUsColors.Other;
+                    }
+                    else if (modifier is UniversalGameModifier || modifier is TouGameModifier)
+                    {
+                        color = modifier.FreeplayFileColor;
+                    }
+                }
+
+                var newItem = CreateNewItem(modifier.ModifierName, modifier.ModifierIcon?.LoadAsset(), color);
+                newItem.transform.GetChild(2).gameObject.SetActive(false);
 
                 var txt = amount != 0
                     ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
                     : $"{TouLocale.Get("Amount", "Amount")}: 0";
 
+                var amountTxt = newItem.transform.FindChild("AmountTxt").gameObject.GetComponent<TextMeshPro>();
                 amountTxt.text =
                     $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{txt}</font>";
                 amountTxt.fontSizeMin = 1.66f;
@@ -487,6 +513,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             foreach (var role in roles)
             {
                 var customRole = role as ICustomRole;
+                var color = role.IsCrewmate() ? TownOfUsColors.CrewmateWiki : TownOfUsColors.ImpWiki;
 
                 var teamName = MiscUtils.GetParsedRoleAlignment(role);
                 var roleImg = TouRoleIcons.RandomAny.LoadAsset();
@@ -498,21 +525,25 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         continue;
                     }
 
-                    if (customRole.Configuration.Icon != null)
+                    if (customRole.Team is ModdedRoleTeams.Crewmate)
                     {
-                        roleImg = customRole.Configuration.Icon.LoadAsset();
-                    }
-                    else if (customRole.Team == ModdedRoleTeams.Crewmate)
-                    {
+                        color = TownOfUsColors.CrewmateWiki;
                         roleImg = TouRoleIcons.RandomCrew.LoadAsset();
                     }
-                    else if (customRole.Team == ModdedRoleTeams.Impostor)
+                    else if (customRole.Team is ModdedRoleTeams.Impostor)
                     {
+                        color = TownOfUsColors.ImpWiki;
                         roleImg = TouRoleIcons.RandomImp.LoadAsset();
                     }
                     else
                     {
+                        color = TownOfUsColors.NeutralWiki;
                         roleImg = TouRoleIcons.RandomNeut.LoadAsset();
+                    }
+
+                    if (customRole.Configuration.Icon != null)
+                    {
+                        roleImg = customRole.Configuration.Icon.LoadAsset();
                     }
                 }
                 else
@@ -523,7 +554,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     }
                 }
 
-                var newItem = CreateNewItem(role.GetRoleName(), roleImg, role.TeamColor);
+                var newItem = CreateNewItem(role.GetRoleName(), roleImg, color);
                 var team = newItem.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>();
                 team.fontSizeMax = 2.65f;
                 team.text =

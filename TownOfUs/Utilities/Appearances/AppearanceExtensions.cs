@@ -133,16 +133,17 @@ public static class AppearanceExtensions
 
         if (appearance.PlayerMaterialBackColor != null)
         {
-            player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.BackColor,
-                (Color)appearance.PlayerMaterialBackColor);
+            // Ensure we're using instance materials to prevent shared material issues
+            var bodyMaterial = player.cosmetics.currentBodySprite.BodySprite.material;
+            bodyMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
             if (player.cosmetics.GetLongBoi() != null)
             {
-                player.cosmetics.GetLongBoi().headSprite.material.SetColor(ShaderID.BackColor,
-                    (Color)appearance.PlayerMaterialBackColor);
-                player.cosmetics.GetLongBoi().neckSprite.material.SetColor(ShaderID.BackColor,
-                    (Color)appearance.PlayerMaterialBackColor);
-                player.cosmetics.GetLongBoi().foregroundNeckSprite.material.SetColor(ShaderID.BackColor,
-                    (Color)appearance.PlayerMaterialBackColor);
+                var headMaterial = player.cosmetics.GetLongBoi().headSprite.material;
+                var neckMaterial = player.cosmetics.GetLongBoi().neckSprite.material;
+                var foregroundNeckMaterial = player.cosmetics.GetLongBoi().foregroundNeckSprite.material;
+                headMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+                neckMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
+                foregroundNeckMaterial.SetColor(ShaderID.BackColor, (Color)appearance.PlayerMaterialBackColor);
             }
         }
 

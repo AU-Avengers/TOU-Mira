@@ -81,7 +81,7 @@ public static class HunterEvents
             return;
         }
 
-        CheckForHunterStalked(source);
+        CheckForHunterStalked(source, button is CustomActionButton<PlayerControl>);
     }
 
     [RegisterEvent]
@@ -89,7 +89,7 @@ public static class HunterEvents
     {
         var source = @event.Source;
 
-        CheckForHunterStalked(source);
+        CheckForHunterStalked(source, true);
     }
 
     [RegisterEvent]
@@ -97,7 +97,7 @@ public static class HunterEvents
     {
         var source = @event.Source;
 
-        CheckForHunterStalked(source);
+        CheckForHunterStalked(source, true);
 
         if (source.Data.Role is not HunterRole)
         {
@@ -175,9 +175,9 @@ public static class HunterEvents
         HunterRole.Retribution(hunter.Player, target);
     }
 
-    private static void CheckForHunterStalked(PlayerControl source)
+    private static void CheckForHunterStalked(PlayerControl source, bool isInteraction)
     {
-        if (MeetingHud.Instance || ExileController.Instance)
+        if (MeetingHud.Instance || ExileController.Instance || !isInteraction && (StalkTriggered)OptionGroupSingleton<HunterOptions>.Instance.StalkTriggeredBy.Value is StalkTriggered.Interactions)
         {
             return;
         }
@@ -194,6 +194,6 @@ public static class HunterEvents
             return;
         }
 
-        HunterRole.RpcCatchPlayer(mod.Hunter, source);
+        HunterRole.RpcCatchPlayer(mod.Hunter, source, isInteraction);
     }
 }

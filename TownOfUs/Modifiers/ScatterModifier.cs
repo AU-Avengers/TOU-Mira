@@ -163,7 +163,7 @@ public class ScatterModifier(float time) : TimedModifier
     {
         if (Player.AmOwner && !Player.HasDied())
         {
-            Player.RpcCustomMurder(Player);
+            Player.RpcCustomMurder(Player, MeetingCheck.OutsideMeeting);
         }
     }
 

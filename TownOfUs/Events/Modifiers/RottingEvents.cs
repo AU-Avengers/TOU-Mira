@@ -16,7 +16,7 @@ public static class RottingEvents
         if (@event.Target.HasModifier<RottingModifier>() && !@event.Source.IsRole<SoulCollectorRole>() &&
             !MeetingHud.Instance)
         {
-            Coroutines.Start(RottingModifier.StartRotting(@event.Target));
+            Coroutines.Start(RottingModifier.StartRotting(@event.Target, @event.Source));
         }
     }
 }

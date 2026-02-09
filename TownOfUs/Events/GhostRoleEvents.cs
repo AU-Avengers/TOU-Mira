@@ -25,7 +25,7 @@ public static class GhostRoleEvents
 {
     public static bool IsConsoleAllowed(this Console? console)
     {
-        if (OptionGroupSingleton<VanillaTweakOptions>.Instance.GhostwalkerFixSabos.Value || console == null)
+        if (OptionGroupSingleton<GameMechanicOptions>.Instance.GhostwalkerFixSabos.Value || console == null)
         {
             return true;
         }
@@ -129,7 +129,8 @@ public static class GhostRoleEvents
                     (x.Data.IsDead || x == exiled) && x.GetRoleWhenAlive().IsNeutral() &&
                     !x.GetRoleWhenAlive().DidWin(GameOverReason.CrewmatesByVote) &&
                     x.CanGetGhostRole() &&
-                    !x.HasModifier<AllianceGameModifier>()).ToList();
+                    !x.HasModifier<AllianceGameModifier>() &&
+                    !(x.GetRoleWhenAlive() is ITownOfUsRole touRole && touRole.WinConditionMet())).ToList();
 
                 if (deadNeutral.Count > 0)
                 {

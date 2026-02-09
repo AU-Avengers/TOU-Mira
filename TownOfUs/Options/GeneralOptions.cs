@@ -12,14 +12,15 @@ public sealed class GeneralOptions : AbstractOptionGroup
 
     // Legacy Compatibility, this allows mods like ChaosTokens to still use this value as normal.
     
-#pragma warning disable S2325 // Make 'TheDeadKnow' a static property.
+#pragma warning disable S2325 // Make a static property.
     
-#pragma warning disable CA1822 // Member 'TheDeadKnow' does not access instance data and can be marked as static
+#pragma warning disable CA1822 // Member does not access instance data and can be marked as static
     public bool TheDeadKnow => OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow.Value;
+    public float TempSaveCdReset => OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
     
-#pragma warning restore CA1822 // Member 'TheDeadKnow' does not access instance data and can be marked as static
+#pragma warning restore CA1822 // Member does not access instance data and can be marked as static
     
-#pragma warning restore S2325 // Make 'TheDeadKnow' a static property.
+#pragma warning restore S2325 // Make a static property.
 
     [ModdedEnumOption("Modifier Type To Show In Role Intro", typeof(ModReveal))]
     public ModReveal ModifierReveal { get; set; } = ModReveal.Universal;
@@ -63,9 +64,6 @@ public sealed class GeneralOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<GeneralOptions>.Instance.StartCooldownMode is StartCooldownType.SpecificCooldowns
     };
-
-    [ModdedNumberOption("Temp Save Cooldown Reset", 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.#")]
-    public float TempSaveCdReset { get; set; } = 5f;
 
     [ModdedNumberOption("Voting Time Added After Meeting Death", 0f, 15f, 1f, MiraNumberSuffixes.Seconds, "0.#")]
     public float AddedMeetingDeathTimer { get; set; } = 5f;

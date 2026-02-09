@@ -57,6 +57,11 @@ public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
         ModifierComponent!.RemoveModifier(this);
     }
 
+    public override void OnMeetingStart()
+    {
+        ModifierComponent!.RemoveModifier(this);
+    }
+
     public void ShowHacked()
     {
         if (!ShouldHideHacked)

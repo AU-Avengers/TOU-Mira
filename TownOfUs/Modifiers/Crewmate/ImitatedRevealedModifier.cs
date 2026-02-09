@@ -5,21 +5,21 @@ using MiraAPI.Roles;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-
-// using TownOfUs.Utilities;
-// using UnityEngine;
-// using Object = UnityEngine.Object;
+using TownOfUs.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class ImitatedRevealedModifier(RoleBehaviour role)
-    : RevealModifier((int)ChangeRoleResult.Nothing, true, role)
+    : BaseRevealModifier
 {
+
+    public override RoleBehaviour? ShownRole { get; set; } = role;
+    public override bool RevealRole { get; set; } = true;
     public override string ModifierName => "Role Revealed";
     public override void OnActivate()
     {
         base.OnActivate();
-        ChangeRoleResult = ChangeRoleResult.Nothing;
         var roleWhenAlive = Player.GetRoleWhenAlive();
         if (roleWhenAlive is ICrewVariant crewType)
         {
@@ -33,7 +33,6 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
         SetNewInfo(true, null, null, roleWhenAlive);
     }
 
-    // TODO: Fix Imitator not showing role icons on already imitated players. Is this required? No, but it makes it more visually appealing.
     public override void OnMeetingStart()
     {
         var roleWhenAlive = Player.GetRoleWhenAlive();
@@ -47,10 +46,7 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
             roleWhenAlive = RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ImitatorRole>());
         }
         SetNewInfo(true, null, null, roleWhenAlive);
-        RevealRole = true;
-        NameColor = roleWhenAlive.TeamColor;
-        ShownRole = roleWhenAlive;
-        /*if (ShownRole == null)
+        if (ShownRole == null)
         {
             return;
         }
@@ -71,14 +67,19 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
 
                 if (roleImg != null)
                 {
-                    var newIcon = Object.Instantiate(voteArea.FairyIcon, voteArea.transform);
+                    var newIcon = UnityEngine.Object.Instantiate(voteArea.GAIcon, voteArea.transform);
                     newIcon.gameObject.SetActive(true);
                     newIcon.sprite = roleImg;
+                    newIcon.enabled = true;
+                    newIcon.name = "RoleIcon";
                     newIcon.SetSizeLimit(1.44f);
+                    newIcon.transform.localPosition = new Vector3(-1.25f, -0.15f, -3f);
+                    // newIcon.transform.localPosition = new Vector3(-1.3f, 0f, -3f);
+                    newIcon.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
                 }
 
                 break;
             }
-        }*/
+        }
     }
 }

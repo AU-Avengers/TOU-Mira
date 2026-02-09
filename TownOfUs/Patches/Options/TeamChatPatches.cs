@@ -1245,6 +1245,7 @@ public static class TeamChatPatches
                 {
                     return;
                 }
+                UpdateChat();
 
                 __result.gameObject.name = PublicBubblePrefix;
             }

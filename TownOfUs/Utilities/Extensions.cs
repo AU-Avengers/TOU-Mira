@@ -168,7 +168,21 @@ public static class Extensions
     {
         var renderer = body.bodyRenderers[^1];
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
-        var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
+        var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
+        if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+        {
+            var player = MiscUtils.PlayerById(body.ParentId);
+            if (player != null && !player.AmOwner)
+            {
+                MiscUtils.RemovePet(player);
+            }
+        }
+        body.gameObject.Destroy();
+    }
+
+    public static void ClearBody(this DeadBody body)
+    {
+        var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
         if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
         {
             var player = MiscUtils.PlayerById(body.ParentId);
@@ -431,7 +445,7 @@ public static class Extensions
 
         roleBehaviour.AdjustTasks(player);
 
-        player.MyPhysics.ResetMoveState();
+        // player.MyPhysics.ResetMoveState();
 
         player.Data.Role.SpawnTaskHeader(player);
 

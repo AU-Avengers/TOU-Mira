@@ -3,12 +3,14 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -17,11 +19,17 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
+    public bool CanBeTraitor => false;
+    public bool CanBeCrewpostor => false;
+    public bool CanBeEgotist => true;
+    public bool CanBeOtherEvil => true;
+
     private GameObject? executeButton;
     private TMP_Text? usesText;
     public override bool IsAffectedByComms => false;
@@ -193,10 +201,23 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         newButtonObj.layer = 5;
         newButtonObj.transform.parent = confirmButton.transform.parent.parent;
 
+        var buttonText = Object.Instantiate(
+            MeetingHud.Instance.MeetingAbilityButton.buttonLabelText.gameObject,
+            newButtonObj.transform);
+        buttonText.transform.localPosition = new Vector3(0, -0.2f, 0f);
+        var tmpText = buttonText.GetComponent<TextMeshPro>();
+        tmpText.color = Color.white;
+        tmpText.text = TouLocale.GetParsed("TouRoleJailorExecute");
+        //tmpText.ForceMeshUpdate();
+        tmpText.fontSize = 2.5f;
+        tmpText.fontSizeMax = 2.5f;
+        tmpText.fontSizeMin = 2.5f;
+        tmpText.m_enableWordWrapping = false;
+
         executeButton = newButtonObj;
 
         var renderer = newButtonObj.GetComponent<SpriteRenderer>();
-        renderer.sprite = TouAssets.ExecuteSprite.LoadAsset();
+        renderer.sprite = TouAssets.ExecuteCleanSprite.LoadAsset();
 
         var passive = newButtonObj.GetComponent<PassiveButton>();
         passive.OnClick = new Button.ButtonClickedEvent();
@@ -243,7 +264,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                     text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
                 }
 
-                Player.RpcSpecialMurder(Jailed, true, true, createDeadBody: false, teleportMurderer: false,
+                Player.RpcSpecialMurder(Jailed, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                     showKillAnim: false,
                     playKillSound: false,
                     causeOfDeath: "Jailor");

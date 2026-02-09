@@ -24,7 +24,8 @@ namespace TownOfUs.Modules;
 
 public static class ModCompatibility
 {
-    internal static string InternalModList = "???";
+    public static bool CommandModsInstalled => BauLoaded;
+    public static string InternalModList = "???";
     public const string SubmergedGuid = "Submerged";
     public const ShipStatus.MapType SubmergedMapType = (ShipStatus.MapType)6;
 
@@ -77,8 +78,19 @@ public static class ModCompatibility
     private static Type[] LITypes { get; set; }
     public static bool IsWikiButtonOffset { get; set; }
 
+
+    public const string BetterAuGuid = "com.d1gq.betteramongus";
+    public static Version BauVersion { get; private set; }
+    public static bool BauLoaded { get; private set; }
+    public static BasePlugin BauPlugin { get; private set; }
+    public static Assembly BauAssembly { get; private set; }
+    public static Type[] BauTypes { get; private set; }
+    /*private static PropertyInfo bauCommandPrefix;
+    public static bool TweakForBauCommands => bauCommandPrefix.GetValue(null)*/
+
     public static void Initialize()
     {
+        InitBetterAmongUs();
         InitSubmerged();
         InitLevelImpostor();
 
@@ -491,6 +503,27 @@ public static class ModCompatibility
 
         LILoaded = true;
         Message("LevelImpostor was detected");
+    }
+
+    private static void InitBetterAmongUs()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(BetterAuGuid, out var value))
+        {
+            return;
+        }
+
+        BauPlugin = (value.Instance as BasePlugin)!;
+        BauAssembly = BauPlugin.GetType().Assembly;
+        BauVersion = value.Metadata.Version;
+        BauTypes = AccessTools.GetTypesFromAssembly(BauAssembly);
+
+        // var pluginBase = BauTypes.First(t => t.Name == "BAUPlugin");
+        /*bauCommandPrefix = AccessTools.Property(pluginBase, "CommandPrefix");
+        Traverse.Create(entry).Property("Value").GetValue<string>();*/
+
+
+        BauLoaded = true;
+        Message("Better Among Us was detected");
     }
 
     public static string GetLIVentType(Vent vent)

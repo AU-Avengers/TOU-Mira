@@ -5,6 +5,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
@@ -14,8 +15,13 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
+    public bool CanBeTraitor => false;
+    public bool CanBeCrewpostor => false;
+    public bool CanBeEgotist => true;
+    public bool CanBeOtherEvil => true;
+
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
 
@@ -86,8 +92,9 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
+                TouLocale.GetParsed("TouRolePoliticianReveal"),
                 MeetingAbilityType.Click,
-                TouAssets.RevealButtonSprite,
+                TouAssets.RevealCleanSprite,
                 null!,
                 IsExempt)
             {

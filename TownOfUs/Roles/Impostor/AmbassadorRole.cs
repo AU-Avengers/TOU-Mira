@@ -115,9 +115,10 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
+                TouLocale.GetParsed("TouRoleAmbassadorRetrain"),
                 MeetingAbilityType.Toggle,
-                TouAssets.RetrainSprite,
-                TouAssets.RetrainSprite,
+                TouAssets.RetrainCleanSprite,
+                TouAssets.RetrainCleanSprite,
                 IsExempt,
                 activeColor: new Color32(200, 80, 80, 255))
             {

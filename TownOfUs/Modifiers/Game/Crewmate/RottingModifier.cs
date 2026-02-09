@@ -2,11 +2,10 @@
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Collections;
+using HarmonyLib;
 using TownOfUs.Modules.Components;
-using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
-using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -53,16 +52,15 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
         return base.IsModifierValidOn(role) && role.IsCrewmate();
     }
 
-    public static IEnumerator StartRotting(PlayerControl player)
+    public static IEnumerator StartRotting(PlayerControl player, PlayerControl? killer = null)
     {
-        yield return new WaitForSeconds(OptionGroupSingleton<RottingOptions>.Instance.RotDelay);
         var rotting = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId);
         if (rotting == null)
         {
             yield break;
         }
 
-        if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
+        /*if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
         {
             // Fire event for Time Lord system (this will also call RecordBodyCleaned internally)
             var bodyPlayer = MiscUtils.PlayerById(player.PlayerId);
@@ -76,7 +74,22 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
         else
         {
             Coroutines.Start(rotting.CoClean());
-        }
-        Coroutines.Start(CrimeSceneComponent.CoClean(rotting));
+        }*/
+        CrimeSceneComponent.ClearCrimeScene(rotting);
+        Coroutines.Start(CoSetUpRot(rotting, player, killer == null ? player : killer));
+    }
+
+    public static IEnumerator CoSetUpRot(DeadBody body, PlayerControl target, PlayerControl killer)
+    {
+        yield return new WaitForEndOfFrame();
+        ViperDeadBody deadBody = Object.Instantiate(GameManager.Instance.deadBodyPrefab[1]).Cast<ViperDeadBody>();
+        deadBody.enabled = false;
+        deadBody.ParentId = target.PlayerId;
+        deadBody.bodyRenderers.Do(x => target.SetPlayerMaterialColors(x));
+        target.SetPlayerMaterialColors(deadBody.bloodSplatter);
+        deadBody.transform.position = body.transform.position;
+        body.ClearBody();
+        deadBody.SetupViperInfo(OptionGroupSingleton<RottingOptions>.Instance.RotDelay, killer, target);
+        deadBody.enabled = true;
     }
 }
