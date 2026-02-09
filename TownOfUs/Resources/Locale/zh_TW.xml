@@ -3,7 +3,7 @@
   <string name="FoolsMode">愚人節模式</string>
   <string name="TertiaryAbility">第三技能(黑入技能)</string>
   <string name="ModifierAbility">附加屬性技能</string>
-  <string name="ClientTabGameplay">游戲玩法</string>
+  <string name="ClientTabGameplay">遊戲玩法</string>
   <string name="ClientOptionsButton">我們的小鎮Mira客户端設置</string>
   <string name="ShowVanillaWikiEntries">展示原版維基條目</string>
   <string name="DeadSeeGhosts">死後顯示其他鬼魂</string>
@@ -1948,4 +1948,15 @@
   <string name="TouModifierTorchIntroBlurb">當燈被破壞時,視野不會減少。</string>
   <string name="TouModifierTorchTabDescription">當燈被破壞時,\%nl\%你的視野不會減少。</string>
   <string name="TouModifierTorchWikiDescription">燈被破壞時不會影響你的視野。</string>
+  <string name="NeutralBasicTaskHeader">完成你的目標。</string>
+  <string name="NeutralBasicDeadTaskHeader">你已經死亡。坐下來,盡情欣賞混亂吧。</string>
+  <string name="NeutralBenignTaskHeader">你無法獨自獲勝。\%nl\%可選任務:</string>
+  <string name="NeutralEvilTaskHeader">不惜一切代價完成你的目標。\%nl\%偽裝任務:</string>
+  <string name="NeutralKillingTaskHeader">用任何手段消滅所有其他陣營。\%nl\%偽裝任務:</string>
+  <string name="NeutralOutlierTaskHeader">你必須完成你的目標才能獲勝。\%nl\%偽裝任務:</string>
+  <string name="NeutralSpectreTaskHeader">你已經死亡。完成任務即可獲勝!</string>
+  <string name="TouRoleAmnesiacRememberFailTargetNotif">\%player\%的職業以你為目標,因此該職業無法被繼承。</string>
+  <string name="TouModifierCrewpostorIntroMessage">你獲得了\%modifier\%附加屬性。你只能與偽裝者陣營一同獲勝,並會在他們死亡後變為\%role\%。</string>
+  <string name="TouModifierEgotistIntroMessage">你獲得了\%modifier\%附加屬性。只有當船員失敗時你才能獲勝。</string>
+  <string name="TouModifierLoverIntroMessage">你與\%player\%成為了\%modifier\%。與你的愛人聊天,並在你們二人成為最後三人之一時一同獲勝。</string>
 </resources>

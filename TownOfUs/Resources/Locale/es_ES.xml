@@ -377,4 +377,7 @@
   <string name="UpCommandDevBuildError">El comando /up está solo disponible en las versiones de desarrolladores.</string>
   <string name="UpCommandLobbyError">¡Solo puedes usar el comando /up en la sala!</string>
   <string name="UpCommandInvalidError">Uso invalido del comando /up. Usa /up [Rol] o /up [Rol] [NombreDelJugador].</string>
+  <string name="DiscordServer">Servidor de Discord</string>
+  <string name="SourceCode">Código Original</string>
+  <string name="ShowPracticeButtons">Mostrar Botones de Práctica</string>
 </resources>

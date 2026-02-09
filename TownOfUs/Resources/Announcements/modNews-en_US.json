@@ -683,6 +683,53 @@
         "\n- Specific Better Maps settings can be changed Per-Map or via one setting",
         "\n- Camo Comms can be toggled for each map now"
       ]
+    },
+    {
+      "Date": "2026-02-08T12:51:00Z",
+      "Number": "100037",
+      "ShortTitle": "TOU: Mira v1.5.3",
+      "Title": "Less Roaches in the Vents",
+      "SubTitle": "Less bugs and more fixes!",
+      "Text": [
+        "<b>This release includes bugfixes for a handful of things, and also improves anticheat a bit.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3>TOU Mira v1.5.3 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Veteran should no longer crash from trying to defend and retaliating against Pestilence",
+        "\n- Imitator should properly show the crewmate variants of roles",
+        "\n- Mystic can see the location of viper bodies properly now",
+        "\n- Sentry now shows up via Doomsayer hints",
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Arsonist should no longer break when igniting a shielded player",
+        "\n- Amnesiac can no longer be its own Executioner/Fairy target, preventing game crashes.",
+        "\n- Glitch Hack no longer breaks kills when triggered by a basic button press",
+        "\n- Pestilence announcement now works properly",
+        "\n- Spectre should no longer cause issues with win conditions",
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Role changing mid animation no longer softlocks the player",
+        "\n- Player checks are cached, resulting in better performance",
+        "\n- Kill animations should no longer break from corrupted memory.",
+        "\n- Kills should no longer desync",
+        "\n- Pseudo-spectators should no longer appear in meetings.",
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Medium is no longer a Support role, and is now an Investigative role",
+        "\n- Rotting now has the base game Viper animation (and isn't removed from the player list)",
+        "\n- Neutrals and Egotist now have a grey map",
+        "\n- Impostors and Crewpostor always have a red map now",
+        "\n- Some game options have moved into the Game Mechanics category",
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Meeting abilities now have text that can be translated.",
+        "\n- The wiki now shows colors based on alignment rather than actual role color.",
+        "\n- Alliance modifiers now display a notification explaining the player's objective.",
+        "\n- The mod now displays a new smooth splash screen",
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- All neutrals have objective text in their task list, just like Impostors.",
+        "\n- Veteran can now be told if an attack was attempted on them in the meeting (Optional)",
+        "\n- Amnesiac by default picks up faction modifiers",
+        "\n\n\r<size=105%>Changes for Developers:</size>",
+        "\n- The Player Reveal system has been changed a bit. Use BaseRevealModifier instead!",
+        "\n- MeetingMenu abilities can now have text, but this is optional for mod developers."
+      ]
     }
   ]
 }

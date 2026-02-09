@@ -1333,7 +1333,6 @@
   <string name="TouOptionVeteranAlertDuration">Alert Duration</string>
   <string name="TouOptionVeteranMaxNumberofAlerts">Initial Number of Alerts</string>
   <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
-  <string name="TouOptionVeteranCanBeKilledOnAlert">Can Be Killed On Alert</string>
   <string name="TouOptionVeteranGetMoreUsesFromCompletingTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionVeteranKnowWhenAttackedInMeeting">Knows When Attacked In Meeting</string>
 

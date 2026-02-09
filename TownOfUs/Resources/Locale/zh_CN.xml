@@ -1949,4 +1949,27 @@
   <string name="TouOptionBetterSkeldVentModeEnumFourGroups">四组管道互通</string>
   <string name="TouOptionBetterSkeldVentModeEnumNormal">维持不变</string>
   <string name="TouOptionArsonistDouseUses">最大同时被浇油的玩家数量</string>
+  <string name="NeutralBasicTaskHeader">完成你的目标。</string>
+  <string name="NeutralBasicDeadTaskHeader">你已经死亡。坐下来，尽情欣赏混乱吧。</string>
+  <string name="NeutralBenignTaskHeader">你无法独自获胜。\%nl\%可选任务：</string>
+  <string name="NeutralEvilTaskHeader">不惜一切代价完成你的目标。\%nl\%伪装任务：</string>
+  <string name="NeutralKillingTaskHeader">用任何手段消灭所有其他阵营。\%nl\%伪装任务：</string>
+  <string name="NeutralOutlierTaskHeader">你必须完成你的目标才能获胜。\%nl\%伪装任务：</string>
+  <string name="NeutralSpectreTaskHeader">你已经死亡。完成任务即可获胜！</string>
+  <string name="TouRoleAmnesiacRememberFailTargetNotif">\%player\% 的职业以你为目标，因此该职业无法被继承。</string>
+  <string name="TouModifierCrewpostorIntroMessage">你获得了 \%modifier\% 附加属性。你只能与伪装者阵营一同获胜，并会在他们死亡后变为 \%role\%。</string>
+  <string name="TouModifierEgotistIntroMessage">你获得了 \%modifier\% 附加属性。只有当船员失败时你才能获胜。</string>
+  <string name="TouModifierLoverIntroMessage">你与 \%player\%成为了 \%modifier\%。与你的爱人聊天，并在你们二人成为最后三人之一时一同获胜。</string>
+  <string name="TouRoleHunterCaughtInteractionNotif">\%player\%对另一名玩家使用了能力！</string>
+  <string name="TouRoleHunterCaughtAbilityNotif">\%player\% 使用了一个常规能力！</string>
+  <string name="TouOptionHunterSeesTypeOfInteraction">巡猎者可见互动类型</string>
+  <string name="TouOptionHunterStalkTriggeredBy">盯梢触发条件</string>
+  <string name="TouOptionHunterStalkTriggerEnumInteraction">互动行为</string>
+  <string name="TouOptionHunterStalkTriggerEnumAlways">互动行为</string>
+  <string name="TouRoleVeteranMessageTitle">老兵警告</string>
+  <string name="TouRoleVeteranAttackMessage">你在本次会议前处于警戒状态时遭到了攻击！</string>
+  <string name="TouOptionVeteranKnowWhenAttackedInMeeting">在会议中得知自己遭到攻击</string>
+  <string name="TouOptionAmnesiacInheritFactionModifier">继承阵营的附加属性</string>
+  <string name="TouRolePestilenceMessageTitle">万疫之神警告</string>
+  <string name="TouRolePestilenceAnnounceMessage">致命瘟疫席卷了全体船员。\%nl\%\%role\%，天启四骑士之一，已然降临！</string>
 </resources>
