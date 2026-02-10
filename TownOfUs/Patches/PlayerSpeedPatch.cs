@@ -5,7 +5,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Venerer;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modifiers.Other;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities.Appearances;
@@ -20,11 +19,6 @@ public static class PlayerSpeedPatch
     {
         __result *= TownOfUsMapOptions.GetMapBasedSpeedMultiplier();
         __result *= EgotistModifier.SpeedMultiplier;
-
-        if (pc.TryGetModifier<RoleblockedModifier>(out var roleblocked) && roleblocked.InvertControls)
-        {
-            __result *= -1;
-        }
 
         if (!(HudManagerPatches.CamouflageCommsEnabled &&
               OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSpeedInCamo))

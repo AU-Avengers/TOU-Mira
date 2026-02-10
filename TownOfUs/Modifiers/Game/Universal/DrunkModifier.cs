@@ -1,12 +1,11 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
-using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
+public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable
 {
     public override string LocaleKey => "Drunk";
     public override string ModifierName => "Drunk";
@@ -14,14 +13,6 @@ public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable, IV
 
     public override ModifierFaction FactionType => ModifierFaction.UniversalPassive;
     public override Color FreeplayFileColor => new Color32(180, 180, 180, 255);
-
-    public VisualAppearance GetVisualAppearance()
-    {
-        var appearance = Player.GetDefaultAppearance();
-        appearance.Speed = -1;
-        appearance.PetId = string.Empty;
-        return appearance;
-    }
 
     public override string GetDescription()
     {
@@ -44,15 +35,5 @@ public sealed class DrunkModifier : UniversalGameModifier, IWikiDiscoverable, IV
     public override int GetAmountPerGame()
     {
         return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkAmount;
-    }
-
-    public override void OnActivate()
-    {
-        Player.RawSetAppearance(this);
-    }
-
-    public override void OnDeactivate()
-    {
-        Player?.ResetAppearance(fullReset: true);
     }
 }
