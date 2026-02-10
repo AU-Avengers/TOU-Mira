@@ -1497,10 +1497,10 @@
   
   <string name="TouRoleHerbalist">Herbalist</string>
   <string name="TouRoleHerbalistIntroBlurb">Let your plants and herbs guide the way</string>
-  <string name="TouRoleHerbalistTabDescription">Use your herbs and plants on another players.\%nl\%Your kill cooldown is unlinked from other abilities.</string>
+  <string name="TouRoleHerbalistTabDescription">Use your herbs and plants on other players.\%nl\%Your kill cooldown is unlinked from other abilities.</string>
   <string name="TouRoleHerbalistWikiDescription">The Herbalist is an Impostor Support role that has many abilities that are tied to one cooldown, either to help Impostors or to affect what others see.</string>
   <string name="TouRoleHerbalistExpose">Expose</string>
-  <string name="TouRoleHerbalistExposeWikiDescription">Expose a player to the whole team, revealing their role but preventing them from being guessed.</string>
+  <string name="TouRoleHerbalistExposeWikiDescription">Expose a player to all Impostors, revealing their role but preventing them from being guessed.</string>
   <string name="TouRoleHerbalistConfuse">Confuse</string>
   <string name="TouRoleHerbalistConfuseWikiDescription">Confuse a player with fungal spores to prevent them from identifying players.</string>
   <string name="TouRoleHerbalistGlamour">Glamour</string>

@@ -18,8 +18,9 @@ public sealed class HerbalistOptions : AbstractOptionGroup<HerbalistRole>
     [ModdedNumberOption("Confuse Duration", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ConfuseDuration { get; set; } = 15f;
 
+    /*
     [ModdedNumberOption("Glamour Duration", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float GlamourDuration { get; set; } = 15f;
+    public float GlamourDuration { get; set; } = 15f;*/
 
     [ModdedNumberOption("Protect Duration", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ProtectDuration { get; set; } = 15f;
