@@ -1,5 +1,7 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Hud;
 using MiraAPI.Roles;
+using TownOfUs.Buttons.Impostor;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -13,6 +15,29 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
+    public void FixedUpdate()
+    {
+        if (Player == null || Player.Data.Role is not HerbalistRole || Player.HasDied() || !Player.AmOwner ||
+            MeetingHud.Instance || (!HudManager.Instance.UseButton.isActiveAndEnabled &&
+                                    !HudManager.Instance.PetButton.isActiveAndEnabled))
+        {
+            return;
+        }
+
+        var herbs = CustomButtonSingleton<HerbalistAbilityHerbButton>.Instance;
+        var herbsActive = herbs.Button!.isActiveAndEnabled;
+        var kill = CustomButtonSingleton<HerbalistAbilityKillButton>.Instance;
+        var killActive = kill.Button!.isActiveAndEnabled;
+        if (herbsActive && !killActive)
+        {
+            kill.UpdateCooldownHandler(Player);
+        }
+        else if (!herbsActive && killActive)
+        {
+            herbs.UpdateCooldownHandler(Player);
+        }
+        
+    }
     public string GetAdvancedDescription()
     {
         return TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());

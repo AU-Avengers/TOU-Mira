@@ -9,11 +9,11 @@ public sealed class HerbalistOptions : AbstractOptionGroup<HerbalistRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleHerbalist", "Herbalist");
 
-    [ModdedNumberOption("Kill Cooldown", 10f, 90f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float KillCooldown { get; set; } = 45f;
-
     [ModdedNumberOption("Herb Cooldown", 10f, 90f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HerbCooldown { get; set; } = 30f;
+
+    [ModdedNumberOption("Confuse Delay", 0.5f, 5f, 0.5f, MiraNumberSuffixes.Seconds)]
+    public float ConfuseDelay{ get; set; } = 3f;
 
     [ModdedNumberOption("Confuse Duration", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float ConfuseDuration { get; set; } = 15f;
