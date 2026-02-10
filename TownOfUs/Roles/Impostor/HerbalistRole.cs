@@ -36,7 +36,10 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         {
             herbs.UpdateCooldownHandler(Player);
         }
-        
+
+        herbs.UpdateMiniAbilityCooldown(kill.Timer);
+        kill.UpdateMiniAbilityCooldown(herbs.Timer);
+
     }
     public string GetAdvancedDescription()
     {

@@ -62,6 +62,13 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         "Protect",
     };
 
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+
+        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterKillSprite.LoadAsset();
+    }
+
     protected override void OnClick()
     {
         if (Target == null)
@@ -79,6 +86,17 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         }
 
         _selectedTarget = Target;
+    }
+
+    public void UpdateMiniAbilityCooldown(float cooldown)
+    {
+        if (Button == null)
+        {
+            return;
+        }
+        Button.usesRemainingText.gameObject.SetActive(true);
+        Button.usesRemainingSprite.gameObject.SetActive(true);
+        Button.usesRemainingText.text = (int)cooldown + "<size=80%>s</size>";
     }
 
     public void UpdateCooldownHandler(PlayerControl playerControl)

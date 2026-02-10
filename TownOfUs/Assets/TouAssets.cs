@@ -79,6 +79,12 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AuAvengersLogo { get; } =
         new LoadableResourceAsset($"{ShortPath}.AuAvengersLogo.png", 200);
 
+    public static LoadableAsset<Sprite> AbilityCounterHerbsSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Herbs.png");
+
+    public static LoadableAsset<Sprite> AbilityCounterKillSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Kill.png");
+
     public static LoadableAsset<Sprite> AbilityCounterPlayerSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Player.png");
 

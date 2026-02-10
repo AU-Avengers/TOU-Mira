@@ -34,6 +34,24 @@ public sealed class HerbalistAbilityKillButton : TownOfUsRoleButton<HerbalistRol
     {
         return base.CanUse() && OtherHerbButton.CurrentAbility is HerbAbilities.Kill;
     }
+
+    public override void CreateButton(Transform parent)
+    {
+        base.CreateButton(parent);
+
+        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterHerbsSprite.LoadAsset();
+    }
+
+    public void UpdateMiniAbilityCooldown(float cooldown)
+    {
+        if (Button == null)
+        {
+            return;
+        }
+        Button.usesRemainingText.gameObject.SetActive(true);
+        Button.usesRemainingSprite.gameObject.SetActive(true);
+        Button.usesRemainingText.text = (int)cooldown + "<size=80%>s</size>";
+    }
     protected override void OnClick()
     {
         if (Target == null)
