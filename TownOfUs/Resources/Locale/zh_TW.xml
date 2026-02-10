@@ -705,7 +705,7 @@
   <string name="TouRoleMediumTabDescription">跟隨幽靈以獲取線索</string>
   <string name="TouRoleMediumMediate">招魂</string>
   <string name="TouRoleMediumMediateWikiDescription">與死者交流,可能會獲得指向兇手的線索。</string>
-  <string name="TouRoleMediumWikiDescription">招魂師是一名船員輔助型職業,可以招魂,而每次可以看到一名幽靈。招魂師和幽靈會互相顯示箭頭,隨時指示對方的位置。</string>
+  <string name="TouRoleMediumWikiDescription">招魂師是一名船員調查型職業,可以招魂,而每次可以看到一名幽靈。招魂師和幽靈會互相顯示箭頭,隨時指示對方的位置。</string>
   <string name="TouOptionMediumMediateCooldown">招魂冷卻</string>
   <string name="TouOptionMediumRevealAppearanceOfMediateTarget">顯示招魂對象外觀</string>
   <string name="TouOptionMediumArrowVisibility">箭頭可見性</string>
@@ -1959,4 +1959,16 @@
   <string name="TouModifierCrewpostorIntroMessage">你獲得了\%modifier\%附加屬性。你只能與偽裝者陣營一同獲勝,並會在他們死亡後變為\%role\%。</string>
   <string name="TouModifierEgotistIntroMessage">你獲得了\%modifier\%附加屬性。只有當船員失敗時你才能獲勝。</string>
   <string name="TouModifierLoverIntroMessage">你與\%player\%成為了\%modifier\%。與你的愛人聊天,並在你們二人成為最後三人之一時一同獲勝。</string>
+  <string name="TouRoleHunterCaughtInteractionNotif">\%player\%對另一名玩家使用了能力!</string>
+  <string name="TouRoleHunterCaughtAbilityNotif">\%player\%使用了一個常規能力!</string>
+  <string name="TouOptionHunterSeesTypeOfInteraction">巡獵者可看見互動類型</string>
+  <string name="TouOptionHunterStalkTriggeredBy">盯梢觸發條件</string>
+  <string name="TouOptionHunterStalkTriggerEnumInteraction">互動行為</string>
+  <string name="TouOptionHunterStalkTriggerEnumAlways">全部行為</string>
+  <string name="TouRoleVeteranMessageTitle">老兵警告</string>
+  <string name="TouRoleVeteranAttackMessage">你在本次會議前處於警戒狀態時遭到了攻擊!</string>
+  <string name="TouOptionVeteranKnowWhenAttackedInMeeting">在會議中得知自己遭到攻擊</string>
+  <string name="TouOptionAmnesiacInheritFactionModifier">繼承陣營的附加屬性</string>
+  <string name="TouRolePestilenceMessageTitle">萬疫之神警告</string>
+  <string name="TouRolePestilenceAnnounceMessage">致命瘟疫席捲了全體船員。\%nl\%\%role\%,天啟四騎士之ー,已然降臨!</string>
 </resources>

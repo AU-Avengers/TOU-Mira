@@ -472,7 +472,7 @@
   <string name="TouOptionMedicTimeWhereMedicWillHaveColorType">法医报告显示颜色类型信息的时间</string>
   <string name="TouRoleMediumIntroBlurb">观察幽灵的动向</string>
   <string name="TouRoleMediumTabDescription">跟随幽灵以获取线索</string>
-  <string name="TouRoleMediumWikiDescription">招魂师是一名船员辅助型职业，可以招魂，每次可看到一名幽灵。招魂师和幽灵会互相显示箭头，随时指示对方的位置。</string>
+  <string name="TouRoleMediumWikiDescription">招魂师是一名船员调查型职业，可以招魂，每次可看到一名幽灵。招魂师和幽灵会互相显示箭头，随时指示对方的位置。</string>
   <string name="TouRoleMediumMediate">招魂</string>
   <string name="TouRoleMediumMediateWikiDescription">与死者交流，可能会获得指向凶手的线索。</string>
   <string name="TouOptionMediumMediateCooldown">招魂冷却</string>
@@ -1965,7 +1965,7 @@
   <string name="TouOptionHunterSeesTypeOfInteraction">巡猎者可见互动类型</string>
   <string name="TouOptionHunterStalkTriggeredBy">盯梢触发条件</string>
   <string name="TouOptionHunterStalkTriggerEnumInteraction">互动行为</string>
-  <string name="TouOptionHunterStalkTriggerEnumAlways">互动行为</string>
+  <string name="TouOptionHunterStalkTriggerEnumAlways">全部行为</string>
   <string name="TouRoleVeteranMessageTitle">老兵警告</string>
   <string name="TouRoleVeteranAttackMessage">你在本次会议前处于警戒状态时遭到了攻击！</string>
   <string name="TouOptionVeteranKnowWhenAttackedInMeeting">在会议中得知自己遭到攻击</string>
