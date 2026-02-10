@@ -243,6 +243,7 @@
   <string name="JaileeChatTitle">\%player\% (Jailed)</string>
   <string name="SystemChatTitle">System</string>
   <string name="AnticheatChatTitle">Anticheat System</string>
+  <string name="AnticheatKillMessage">A kill was attempted in the lobby, attached to \%player\%.</string>
   <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
