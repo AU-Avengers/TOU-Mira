@@ -130,6 +130,11 @@ public static class CustomTouMurderRpcs
         bool playKillSound = true,
         string causeOfDeath = "null")
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return;
+        }
         var role = source.GetRoleWhenAlive();
         if (isIndirect)
         {
@@ -253,6 +258,11 @@ public static class CustomTouMurderRpcs
         bool playKillSound = true,
         string causeOfDeath = "null")
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return;
+        }
         var role = source.GetRoleWhenAlive();
         source.AddModifier<IndirectAttackerModifier>(ignoreShield);
 
@@ -385,6 +395,11 @@ public static class CustomTouMurderRpcs
         bool playKillSound = true,
         string causeOfDeath = "null")
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return;
+        }
         var role = source.GetRoleWhenAlive();
         if (isIndirect)
         {
@@ -482,6 +497,11 @@ public static class CustomTouMurderRpcs
         this PlayerControl source,
         PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return;
+        }
         if (!source.HasDied() || target.HasDied())
         {
             return;
