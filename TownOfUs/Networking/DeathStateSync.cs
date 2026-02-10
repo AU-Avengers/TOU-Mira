@@ -244,18 +244,8 @@ public static class DeathStateSync
             return;
         }
 
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
-        {
-            return;
-        }
-
         if (AmongUsClient.Instance == null || 
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
-        {
-            return;
-        }
-
-        if (Minigame.Instance != null || SpawnInMinigame.Instance != null)
         {
             return;
         }
