@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using TownOfUs.Options.Maps;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
@@ -9,7 +10,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class MediumHiddenModifier : ConcealedModifier, IVisualAppearance
 {
-    public override float Duration => OptionGroupSingleton<MediumOptions>.Instance.MediateDurationReal;
+    public override float Duration => OptionGroupSingleton<MediumOptions>.Instance.MediateDurationReal + 1f;
     public override string ModifierName => "Hidden";
     public override bool HideOnUi => true;
     public override bool AutoStart => true;
@@ -20,7 +21,7 @@ public sealed class MediumHiddenModifier : ConcealedModifier, IVisualAppearance
     {
         var playerColor = new Color(0.3f, 0f, 0.7f, 0.5f);
 
-        return new VisualAppearance(Player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Swooper)
+        return new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
         {
             HatId = string.Empty,
             SkinId = string.Empty,
@@ -68,6 +69,18 @@ public sealed class MediumHiddenModifier : ConcealedModifier, IVisualAppearance
 
         if (HudManagerPatches.CamouflageCommsEnabled)
         {
+            Player.RawSetAppearance(new VisualAppearance(Player.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
+            {
+                ColorId = Player.Data.DefaultOutfit.ColorId,
+                HatId = string.Empty,
+                SkinId = string.Empty,
+                VisorId = string.Empty,
+                PlayerName = string.Empty,
+                PetId = string.Empty,
+                NameVisible = false,
+                PlayerMaterialColor = Color.grey,
+                Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : Player.GetAppearance().Size
+            });
             Player.cosmetics.ToggleNameVisible(false);
         }
 

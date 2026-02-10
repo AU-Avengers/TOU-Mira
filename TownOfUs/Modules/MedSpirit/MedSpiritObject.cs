@@ -28,6 +28,7 @@ public sealed class MedSpiritObject : InnerNetObject
     public SpecialInputHandler InputHandler { get; private set; } = null!;
     private static Color32 BodyColor => new(129, 85, 142, 255);
     private static Color32 BackColor => new(112, 69, 124, 255);
+    private static Color VisorColor => new(0.3f, 0f, 0.7f, 1f);
 
     // Movement
     public float CurrentSpeed { get; private set; }
@@ -105,12 +106,9 @@ public sealed class MedSpiritObject : InnerNetObject
         var targetPlayer = Owner;
         var materialColor =
             targetPlayer!.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
-        var visorColor =
-            targetPlayer!.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.VisorColor);
 
         PlayerMaterial.SetColors(materialColor, Rend);
-        // For some reason the visor color gets set to `Color32.op_Implicit(Palette.VisorColor)` in the above function...
-        Rend.material.SetColor(ShaderID.VisorColor, visorColor);
+        Rend.material.SetColor(ShaderID.VisorColor, VisorColor);
         Rend.material.SetColor(ShaderID.BackColor, BackColor);
         Rend.material.SetColor(ShaderID.BodyColor, BodyColor);
         Coroutines.Start(CoFadeIn());

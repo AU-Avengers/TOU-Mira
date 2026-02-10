@@ -270,7 +270,7 @@ public static class HudManagerPatches
             else
             {
                 if (appearanceType == TownOfUsAppearances.Camouflage &&
-                    !player.HasModifier<VenererCamouflageModifier>())
+                    !player.HasModifier<VenererCamouflageModifier>() && !player.HasModifier<MediumHiddenModifier>())
                 {
                     player.SetCamouflage(false);
                 }
