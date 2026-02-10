@@ -20,7 +20,7 @@ public static class DeadlyQuotaEvents
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
         var source = @event.Source;
-        if (!source.TryGetModifier<DeadlyQuotaModifier>(out var deadlyQuota) || (MeetingHud.Instance && OptionGroupSingleton<DeadlyQuotaOptions>.Instance.MeetingKillsCountTowardsQuota))
+        if (!source.TryGetModifier<DeadlyQuotaModifier>(out var deadlyQuota) || (MeetingHud.Instance && !OptionGroupSingleton<DeadlyQuotaOptions>.Instance.MeetingKillsCountTowardsQuota))
             return;
 
         deadlyQuota.KillCount++;
