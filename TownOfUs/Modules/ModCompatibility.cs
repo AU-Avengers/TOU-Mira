@@ -88,11 +88,27 @@ public static class ModCompatibility
     /*private static PropertyInfo bauCommandPrefix;
     public static bool TweakForBauCommands => bauCommandPrefix.GetValue(null)*/
 
+
+    public const string CrowdedGuid = "xyz.crowdedmods.crowdedmod";
+    public static Version CrowdedVersion { get; private set; }
+    public static bool CrowdedLoaded { get; private set; }
+    public static BasePlugin CrowdedPlugin { get; private set; }
+    public static Assembly CrowdedAssembly { get; private set; }
+
+
+    public const string AleLuduGuid = "pl.townofus.aleludu";
+    public static Version AleLuduVersion { get; private set; }
+    public static bool AleLuduLoaded { get; private set; }
+    public static BasePlugin AleLuduPlugin { get; private set; }
+    public static Assembly AleLuduAssembly { get; private set; }
+    
     public static void Initialize()
     {
         InitBetterAmongUs();
         InitSubmerged();
         InitLevelImpostor();
+        InitCrowded();
+        InitAleLudu();
 
         var sBuilder = new StringBuilder();
 
@@ -524,6 +540,46 @@ public static class ModCompatibility
 
         BauLoaded = true;
         Message("Better Among Us was detected");
+    }
+
+    private static void InitCrowded()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(CrowdedGuid, out var value))
+        {
+            return;
+        }
+
+        CrowdedPlugin = (value.Instance as BasePlugin)!;
+        CrowdedAssembly = CrowdedPlugin.GetType().Assembly;
+        CrowdedVersion = value.Metadata.Version;
+
+        // var pluginBase = BauTypes.First(t => t.Name == "BAUPlugin");
+        /*bauCommandPrefix = AccessTools.Property(pluginBase, "CommandPrefix");
+        Traverse.Create(entry).Property("Value").GetValue<string>();*/
+
+
+        CrowdedLoaded = true;
+        Message("Crowded was detected");
+    }
+
+    private static void InitAleLudu()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(AleLuduGuid, out var value))
+        {
+            return;
+        }
+
+        AleLuduPlugin = (value.Instance as BasePlugin)!;
+        AleLuduAssembly = AleLuduPlugin.GetType().Assembly;
+        AleLuduVersion = value.Metadata.Version;
+
+        // var pluginBase = BauTypes.First(t => t.Name == "BAUPlugin");
+        /*bauCommandPrefix = AccessTools.Property(pluginBase, "CommandPrefix");
+        Traverse.Create(entry).Property("Value").GetValue<string>();*/
+
+
+        AleLuduLoaded = true;
+        Message("AleLuduMod was detected");
     }
 
     public static string GetLIVentType(Vent vent)
