@@ -148,7 +148,7 @@ public static class BetterPolusPatches
 
         if (DropShip == null)
         {
-            DropShip = Object.FindObjectsOfType<GameObject>().ToList().FindLast(o => o.name == "Dropship")!;
+            DropShip = GameObject.Find("PolusShip(Clone)")?.transform?.FindChild("Dropship")?.gameObject;
         }
 
         if (Outside == null)
