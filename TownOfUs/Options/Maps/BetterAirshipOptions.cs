@@ -89,6 +89,13 @@ public sealed class BetterAirshipOptions : AbstractOptionGroup
     [ModdedToggleOption("TouOptionBetterMapsNoLadderCooldown")]
     public bool NoLadderCooldown { get; set; } = true;
 
+    /*public ModdedEnumOption MapTheme { get; set; } = new("TouOptionBetterMapsTheme",
+        (int)PolusTheme.Auto, typeof(PolusTheme),
+        [
+            "TouOptionBetterMapsThemeEnumAuto", "TouOptionBetterMapsThemeEnumBasic",
+            "TouOptionBetterMapsThemeEnumHalloween"
+        ]);*/
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 

@@ -122,6 +122,8 @@ public enum TownOfUsRpc : uint
     RecentVetAttack,
     CreateMediumSpirit,
     RemoveMediumSpirit,
+    HostStartMeeting,
+    HostEndMeeting,
 }
 
 internal enum TownOfUsInternalRpc : uint

@@ -293,6 +293,8 @@
   <string name="ShowRulesOnLobbyJoin">Show Rules On Lobby Join</string>
   <string name="JailCommandError">The mod no longer uses /jail chat. Use the red in-game chat button instead.</string>
   <string name="NoCommandFoundError">Invalid command. If you need information on chat commands, type /help. If you are trying to know what a role or modifier does, check out the in-game wiki by pressing the globe icon on the top right of your screen.</string>
+  <string name="HostStartMeetingNotif">The host has forced a meeting.</string>
+  <string name="HostEndMeetingNotif">The host has forced the meeting to end.</string>
   <!-- End Game Summary Details -->
   <string name="GameSummaryModeButton">End Game:Summary</string>
   <string name="EndGameSummary">End Game Summary</string>
@@ -447,6 +449,11 @@
   <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">Water Level Stabilizer Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownOxygenMask">Oxygen Mask Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
+  <string name="TouOptionBetterMapsTheme">Themed Map Decor </string>
+  <string name="TouOptionBetterMapsThemeEnumBasic">No Decor </string>
+  <string name="TouOptionBetterMapsThemeEnumHalloween">Halloween</string>
+  <string name="TouOptionBetterMapsThemeEnumBirthday">Birthday</string>
+  <string name="TouOptionBetterMapsThemeEnumAuto">Automatic</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
   <string name="TouOptionBetterSkeldVentNetwork">Skeld Vent Network</string>

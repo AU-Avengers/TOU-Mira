@@ -32,17 +32,16 @@ public static class DeathStateSync
     [MethodRpc((uint)TownOfUsRpc.SyncDeathState, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcSyncDeathState(PlayerControl target, bool isDead)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            return;
+        }
         if (target == null || target.Data == null)
         {
             return;
         }
 
         if (target.Data.Disconnected)
-        {
-            return;
-        }
-
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
         {
             return;
         }
@@ -75,6 +74,10 @@ public static class DeathStateSync
     [MethodRpc((uint)TownOfUsRpc.RequestDeathStateValidation, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcRequestDeathStateValidation(PlayerControl requester)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            return;
+        }
         if (requester == null || requester.Data == null)
         {
             return;
