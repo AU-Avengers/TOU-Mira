@@ -232,4 +232,16 @@ public sealed class MedSpiritObject : InnerNetObject
         AmongUsClient.Instance.RemoveNetObject(this);
         Destroy(gameObject);
     }
+
+    public void DestroyImmediate()
+    {
+        Moveable = false;
+        Rigidbody.isKinematic = true;
+        NetTransform.enabled = false;
+        NetTransform.ClearPositionQueues();
+        Rigidbody.velocity = Vector2.zero;
+        AmongUsClient.Instance.DestroyedObjects.Add(NetId);
+        AmongUsClient.Instance.RemoveNetObject(this);
+        Destroy(gameObject);
+    }
 }

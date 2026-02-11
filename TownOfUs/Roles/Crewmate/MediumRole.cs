@@ -65,8 +65,17 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
         MediatedPlayers.ForEach(mod => mod.Player?.GetModifierComponent()?.RemoveModifier(mod));
-        if (!Spirit) return;
-        Spirit!.StartCoroutine(Spirit.CoDestroy().WrapToIl2Cpp());
+        if (Spirit == null) return;
+        Spirit.DestroyImmediate();
+    }
+
+    public override void OnMeetingStart()
+    {
+        RoleBehaviourStubs.OnMeetingStart(this);
+
+        MediatedPlayers.ForEach(mod => mod.Player?.GetModifierComponent()?.RemoveModifier(mod));
+        if (Spirit == null) return;
+        Spirit.DestroyImmediate();
     }
     
     public MedSpiritObject? Spirit { get; set; }
