@@ -8,6 +8,7 @@ using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using MiraAPI.Voting;
+using Reactor.Networking.Attributes;
 using Rewired;
 using TownOfUs.Buttons;
 using TownOfUs.Events.Modifiers;
@@ -26,6 +27,150 @@ public static class Bindings
 {
     private static int? _originalPlayerLayer;
     private static bool _wasCtrlHeld;
+
+    [MethodRpc((uint)TownOfUsRpc.HostStartMeeting)]
+    public static void RpcHostStartMeeting(PlayerControl host)
+    {
+        if (!host.IsHost())
+        {
+            Error($"{host.Data.PlayerName} tried to start a meeting when they were not the host!");
+            return;
+        }
+
+        if (host.AmOwner)
+        {
+            MeetingRoomManager.Instance.AssignSelf(host, null);
+            if (!GameManager.Instance.CheckTaskCompletion())
+            {
+                HudManager.Instance.OpenMeetingRoom(host);
+                host.RpcStartMeeting(null);
+            }
+        }
+
+        CreateNotif("HostStartMeetingNotif", TouRoleIcons.Monarch.LoadAsset());
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.HostEndMeeting)]
+    public static void RpcHostEndMeeting(PlayerControl host)
+    {
+        if (!host.IsHost())
+        {
+            Error($"{host.Data.PlayerName} tried to end the meeting when they were not the host!");
+            return;
+        }
+
+        if (host.AmOwner)
+        {
+            var hud = MeetingHud.Instance;
+
+            var areas = hud.playerStates;
+            foreach (var area in areas)
+            {
+                if (area.VotedFor != byte.MaxValue && area.VotedFor != area.TargetPlayerId)
+                {
+                    var voter = MiscUtils.PlayerById(area.TargetPlayerId);
+                    if (voter != null && !voter.HasDied())
+                    {
+                        var voteData = voter.GetVoteData();
+                        if (!voteData.Votes.Any(v => v.Voter == area.TargetPlayerId && v.Suspect == area.VotedFor))
+                        {
+                            voteData.VoteForPlayer(area.VotedFor);
+                        }
+                    }
+                }
+            }
+
+            MiraEventManager.InvokeEvent(new CheckForEndVotingEvent(true));
+
+            var finalVoteList = new List<CustomVote>();
+            foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+            {
+                if (player == null || player.HasDied())
+                {
+                    continue;
+                }
+
+                var voteData = player.GetVoteData();
+                foreach (var vote in voteData.Votes)
+                {
+                    finalVoteList.Add(vote);
+                }
+            }
+
+            var seededExiled = VotingUtils.GetExiled(finalVoteList, out var seededTie);
+            if (seededTie)
+            {
+                seededExiled = null;
+            }
+
+            var processEvent = new ProcessVotesEvent(finalVoteList)
+            {
+                ExiledPlayer = seededExiled
+            };
+            MiraEventManager.InvokeEvent(processEvent);
+
+            var votesForStates = processEvent.Votes.ToList();
+            if (TiebreakerEvents.TiebreakingVote.HasValue)
+            {
+                votesForStates.Add(TiebreakerEvents.TiebreakingVote.Value);
+            }
+
+            var playerIdsWithAnyVote = new HashSet<byte>();
+            var voterStatesList = new List<MeetingHud.VoterState>();
+            foreach (var vote in votesForStates)
+            {
+                playerIdsWithAnyVote.Add(vote.Voter);
+                voterStatesList.Add(new MeetingHud.VoterState
+                {
+                    VoterId = vote.Voter,
+                    VotedForId = vote.Suspect
+                });
+            }
+
+            foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+            {
+                if (player == null || player.HasDied())
+                {
+                    continue;
+                }
+
+                if (playerIdsWithAnyVote.Contains(player.PlayerId))
+                {
+                    continue;
+                }
+
+                voterStatesList.Add(new MeetingHud.VoterState
+                {
+                    VoterId = player.PlayerId,
+                    VotedForId = byte.MaxValue
+                });
+            }
+
+            var voterStates = new Il2CppStructArray<MeetingHud.VoterState>(voterStatesList.Count);
+            for (int i = 0; i < voterStatesList.Count; i++)
+            {
+                voterStates[i] = voterStatesList[i];
+            }
+
+            var exiled = processEvent.ExiledPlayer;
+            bool tie = exiled == null && seededTie;
+            if (exiled == null)
+            {
+                exiled = VotingUtils.GetExiled(processEvent.Votes, out tie);
+            }
+
+            hud.RpcVotingComplete(voterStates, exiled, tie);
+        }
+
+        CreateNotif("HostEndMeetingNotif", TouRoleIcons.Prosecutor.LoadAsset());
+    }
+
+    public static void CreateNotif(string localeKey, Sprite icon)
+    {
+        var notif1 = Helpers.CreateAndShowNotification(TouLocale.GetParsed(localeKey),
+            Color.white, new Vector3(0f, 1f, -20f), spr: icon);
+        notif1.AdjustNotification();
+    }
 
     public static void Postfix(HudManager __instance)
     {
@@ -84,117 +229,14 @@ public static class Bindings
                     !ExileController.Instance && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.K) &&
                     Input.GetKey(KeyCode.LeftShift))
                 {
-                    MeetingRoomManager.Instance.AssignSelf(PlayerControl.LocalPlayer, null);
-                    if (!GameManager.Instance.CheckTaskCompletion())
-                    {
-                        HudManager.Instance.OpenMeetingRoom(PlayerControl.LocalPlayer);
-                        PlayerControl.LocalPlayer.RpcStartMeeting(null);
-                    }
+                    RpcHostStartMeeting(PlayerControl.LocalPlayer);
                 }
             }
 
             // End Meeting Keybind (F6)
             if (Input.GetKeyDown(KeyCode.F6) && MeetingHud.Instance)
             {
-                var hud = MeetingHud.Instance;
-
-                var areas = hud.playerStates;
-                foreach (var area in areas)
-                {
-                    if (area.VotedFor != byte.MaxValue && area.VotedFor != area.TargetPlayerId)
-                    {
-                        var voter = MiscUtils.PlayerById(area.TargetPlayerId);
-                        if (voter != null && !voter.HasDied())
-                        {
-                            var voteData = voter.GetVoteData();
-                            if (!voteData.Votes.Any(v => v.Voter == area.TargetPlayerId && v.Suspect == area.VotedFor))
-                            {
-                                voteData.VoteForPlayer(area.VotedFor);
-                            }
-                        }
-                    }
-                }
-
-                MiraEventManager.InvokeEvent(new CheckForEndVotingEvent(true));
-
-                var finalVoteList = new List<CustomVote>();
-                foreach (var player in PlayerControl.AllPlayerControls.ToArray())
-                {
-                    if (player == null || player.HasDied())
-                    {
-                        continue;
-                    }
-
-                    var voteData = player.GetVoteData();
-                    foreach (var vote in voteData.Votes)
-                    {
-                        finalVoteList.Add(vote);
-                    }
-                }
-
-                var seededExiled = VotingUtils.GetExiled(finalVoteList, out var seededTie);
-                if (seededTie)
-                {
-                    seededExiled = null;
-                }
-
-                var processEvent = new ProcessVotesEvent(finalVoteList)
-                {
-                    ExiledPlayer = seededExiled
-                };
-                MiraEventManager.InvokeEvent(processEvent);
-
-                var votesForStates = processEvent.Votes.ToList();
-                if (TiebreakerEvents.TiebreakingVote.HasValue)
-                {
-                    votesForStates.Add(TiebreakerEvents.TiebreakingVote.Value);
-                }
-
-                var playerIdsWithAnyVote = new HashSet<byte>();
-                var voterStatesList = new List<MeetingHud.VoterState>();
-                foreach (var vote in votesForStates)
-                {
-                    playerIdsWithAnyVote.Add(vote.Voter);
-                    voterStatesList.Add(new MeetingHud.VoterState
-                    {
-                        VoterId = vote.Voter,
-                        VotedForId = vote.Suspect
-                    });
-                }
-
-                foreach (var player in PlayerControl.AllPlayerControls.ToArray())
-                {
-                    if (player == null || player.HasDied())
-                    {
-                        continue;
-                    }
-
-                    if (playerIdsWithAnyVote.Contains(player.PlayerId))
-                    {
-                        continue;
-                    }
-
-                    voterStatesList.Add(new MeetingHud.VoterState
-                    {
-                        VoterId = player.PlayerId,
-                        VotedForId = byte.MaxValue
-                    });
-                }
-
-                var voterStates = new Il2CppStructArray<MeetingHud.VoterState>(voterStatesList.Count);
-                for (int i = 0; i < voterStatesList.Count; i++)
-                {
-                    voterStates[i] = voterStatesList[i];
-                }
-
-                var exiled = processEvent.ExiledPlayer;
-                bool tie = exiled == null && seededTie;
-                if (exiled == null)
-                {
-                    exiled = VotingUtils.GetExiled(processEvent.Votes, out tie);
-                }
-
-                hud.RpcVotingComplete(voterStates, exiled, tie);
+                RpcHostEndMeeting(PlayerControl.LocalPlayer);
             }
 
             // Random Impostor Role Keybind (F3)

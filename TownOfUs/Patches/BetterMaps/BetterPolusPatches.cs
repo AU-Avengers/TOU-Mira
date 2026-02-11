@@ -26,6 +26,8 @@ public static class BetterPolusPatches
     public static bool IsObjectsFetched;
     public static bool IsRoomsFetched;
     public static bool IsVentsFetched;
+    public static bool ThemesFetched;
+    public static GameObject HalloweenTheme;
 
     public static Console WifiConsole;
     public static Console NavConsole;
@@ -60,11 +62,18 @@ public static class BetterPolusPatches
         FindVents();
         FindRooms();
         FindObjects();
+        FindThemes();
     }
 
     public static void AdjustPolus()
     {
         var options = OptionGroupSingleton<BetterPolusOptions>.Instance;
+        var themeMode = (PolusTheme)options.MapTheme.Value;
+
+        if (themeMode is not PolusTheme.Auto)
+        {
+            AdjustTheme(themeMode);
+        }
         if (IsObjectsFetched && IsRoomsFetched)
         {
             if (options.BPVitalsInLab)
@@ -99,6 +108,21 @@ public static class BetterPolusPatches
         }
 
         IsAdjustmentsDone = true;
+    }
+
+    public static void FindThemes()
+    {
+        var rootObj = GameObject.Find("PolusShip(Clone)");
+        if (rootObj == null)
+        {
+            ThemesFetched = false;
+            return;
+        }
+        if (HalloweenTheme == null)
+        {
+            HalloweenTheme = rootObj.transform.FindChild("HalloweenDecorPolus").gameObject;
+        }
+        ThemesFetched = HalloweenTheme != null;
     }
 
     public static void FindVents()
@@ -148,7 +172,7 @@ public static class BetterPolusPatches
 
         if (DropShip == null)
         {
-            DropShip = Object.FindObjectsOfType<GameObject>().ToList().FindLast(o => o.name == "Dropship")!;
+            DropShip = GameObject.Find("PolusShip(Clone)").transform.FindChild("Dropship").gameObject;
         }
 
         if (Outside == null)
@@ -203,6 +227,22 @@ public static class BetterPolusPatches
 
         IsObjectsFetched = WifiConsole != null && NavConsole != null && Vitals != null &&
                            DvdScreenOffice != null && TempCold != null;
+    }
+
+    public static void AdjustTheme(PolusTheme theme)
+    {
+        if (ThemesFetched)
+        {
+            switch (theme)
+            {
+                case PolusTheme.Basic:
+                    HalloweenTheme.SetActive(false);
+                    break;
+                case PolusTheme.Halloween:
+                    HalloweenTheme.SetActive(true);
+                    break;
+            }
+        }
     }
 
     public static void AdjustVents()

@@ -2145,6 +2145,13 @@ public static class MiscUtils
         notif1.AdjustNotification();
         return false;
     }
+
+    public static void RunKillWarning(PlayerControl source)
+    {
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKillMessage").Replace("<player>", source.Data.PlayerName)}");
+        AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
+    }
 }
 
 public enum GameUtility

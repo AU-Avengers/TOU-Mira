@@ -63,6 +63,19 @@ public static class MiraApiPatches
         return false;
     }
 
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.CustomMurder))]
+    [HarmonyPrefix]
+    public static bool CustomMurderPatch(PlayerControl source)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return false;
+        }
+
+        return true;
+    }
+
     [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(MeetingCheck), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
     [HarmonyPrefix]
     public static bool RpcAltCustomMurderPatch(
@@ -76,6 +89,11 @@ public static class MiraApiPatches
         bool showKillAnim = true,
         bool playKillSound = true)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return false;
+        }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);

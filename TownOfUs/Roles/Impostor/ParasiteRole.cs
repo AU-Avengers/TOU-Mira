@@ -92,7 +92,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         ClearControlLocal();
-        if (AdvancedMovementUtilities.MobileJoystickR.gameObject != null)
+        if (AdvancedMovementUtilities.MobileJoystickR && AdvancedMovementUtilities.MobileJoystickR.gameObject != null)
         {
             AdvancedMovementUtilities.MobileJoystickR.gameObject.Destroy();
         }

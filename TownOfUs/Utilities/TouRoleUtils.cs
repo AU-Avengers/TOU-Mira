@@ -84,7 +84,7 @@ public static class TouRoleUtils
 
         var stringB = new StringBuilder();
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.</b></color>");
+            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.‎ ‎ ‎ </b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
         stringB.Append("<size=70%>");
@@ -105,7 +105,7 @@ public static class TouRoleUtils
 
         var stringB = new StringBuilder();
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.</b></color>");
+            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.‎ ‎ ‎ </b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
         stringB.Append("<size=70%>");
