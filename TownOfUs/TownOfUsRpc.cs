@@ -114,6 +114,8 @@ public enum TownOfUsRpc : uint
     MultiplayerFreeplayRequest,
     TriggerGlitchHack,
     RecentVetAttack,
+    HostStartMeeting,
+    HostEndMeeting,
 }
 
 internal enum TownOfUsInternalRpc : uint
