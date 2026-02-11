@@ -447,6 +447,11 @@
   <string name="TouOptionBetterMapsSaboCountdownWaterLevelStabilizer">Water Level Stabilizer Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboCountdownOxygenMask">Oxygen Mask Sabotage Countdown</string>
   <string name="TouOptionBetterMapsSaboDurationMixUp">Mix-Up Sabotage Duration</string>
+  <string name="TouOptionBetterMapsTheme">Themed Map Decor </string>
+  <string name="TouOptionBetterMapsThemeEnumBasic">No Decor </string>
+  <string name="TouOptionBetterMapsThemeEnumHalloween">Halloween</string>
+  <string name="TouOptionBetterMapsThemeEnumBirthday">Birthday</string>
+  <string name="TouOptionBetterMapsThemeEnumAuto">Automatic</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
   <string name="TouOptionBetterSkeldVentNetwork">Skeld Vent Network</string>

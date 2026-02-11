@@ -82,6 +82,13 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
             "TouOptionBetterSkeldVentModeEnumNormal", "TouOptionBetterSkeldVentModeEnumFourGroups"
         ]);
 
+    public ModdedEnumOption MapTheme { get; set; } = new("TouOptionBetterMapsTheme",
+        (int)SkeldTheme.Auto, typeof(SkeldTheme),
+        [
+            "TouOptionBetterMapsThemeEnumAuto", "TouOptionBetterMapsThemeEnumBasic",
+            "TouOptionBetterMapsThemeEnumBirthday", "TouOptionBetterMapsThemeEnumHalloween"
+        ]);
+    
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
@@ -104,4 +111,12 @@ public enum SkeldVentMode
 {
     Normal,
     FourGroups,
+}
+
+public enum SkeldTheme
+{
+    Auto,
+    Basic,
+    Birthday,
+    Halloween,
 }
