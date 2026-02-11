@@ -101,11 +101,6 @@ public static class DeathStateSync
             yield break;
         }
 
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
-        {
-            yield break;
-        }
-
         var corrections = new List<(byte playerId, bool shouldBeDead)>();
 
         foreach (var player in PlayerControl.AllPlayerControls)
