@@ -442,8 +442,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 }
 
                 // no incorrect guesses so this should be the target not the Doomsayer
-                Player.RpcCustomMurder(victim, MeetingCheck.ForMeeting, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
-                    playKillSound: false);
+                Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
+                    showKillAnim: false,
+                    playKillSound: false,
+                    causeOfDeath: "Doomsayer");
             }
 
             if (opts.DoomsayerGuessAllAtOnce || NumberOfGuesses == (int)opts.DoomsayerGuessesToWin)
