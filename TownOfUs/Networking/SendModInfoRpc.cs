@@ -73,7 +73,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         [
             "AuthFix", "GraphicsPlus", "Submerged", "LevelImposter", "VanillaEnhancements", "StringUtils",
             "ModExplorer", "Reactor", "Mini.RegionInstall", "TOU Mira Legacy", "GameNotifier", "Localize Us!",
-            "AUSUMMARY - ", "BetterAmongUs", "CrowdedMod", "AleLuduMod"
+            "AUSUMMARY - ", "BetterAmongUs", "CrowdedMod", "AleLuduMod", "CrowdedMeetings", "OutfitPresets","AUnlocker" 
         ];
         Error(
             $"{client.Data.PlayerName} is joining with the following mods:");
