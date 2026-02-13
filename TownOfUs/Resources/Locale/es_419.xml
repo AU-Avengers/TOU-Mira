@@ -380,4 +380,26 @@
   <string name="SeparateChatBubbles">Burbujas de Texto Separadas</string>
   <string name="ShowShieldHud">Mostrar Escudos En HUD</string>
   <string name="UseSeparateRedChat">Mostrar Chat Privado Separado</string>
+  <string name="HnsRoleSnitch">Soplón</string>
+  <string name="HnsRoleSnitchTabHint">Pista del Soplón</string>
+  <string name="HnsRoleSnitchTabDescription">Tus tareas disminuyen el temporizador más rápido,\%nl\%al costo de mostrar tu ubicación.</string>
+  <string name="HnsRoleSnitchWikiDescription">El Soplón es un Tripulante que disminuye el temporizador restante más rápido que otros jugadores con tareas, al costo de descubrirse al buscador.</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Amnésico ⇨ Médico | Doom ⇨ Vigi | Exe ⇨ Soplón\%nl\%Glitch ⇨ Sheriff | Hada ⇨Clerigo | Inquis ⇨ Oráculo\%nl\%Bufón ⇨Plomero | Merc ⇨ Guardián\%nl\%Pb/Pest ⇨ Aurial | SC ⇨Medio | WW ⇨ Cazador</string>
+  <string name="TouRoleSnitch">Soplón</string>
+  <string name="TouRoleSnitchIntroBlurb">¡Encuentra a los \%color=#FF0000FF\%Impostores\%/color\%!</string>
+  <string name="TouRoleSnitchTabDescription">Completa todas tus tareas para descubrir a los Impostores.</string>
+  <string name="TouRoleSnitchTabDescriptionCompletedTasks">¡Encuentra a los Impostores!</string>
+  <string name="TouRoleSnitchTabDescriptionEgo">Completa todas tus tareas para descubrir \%and\% ayudar a los Impostores.</string>
+  <string name="TouRoleSnitchTabDescriptionCompletedTasksEgo">¡Ayuda a los Impostores!</string>
+  <string name="TouRoleSnitchWikiDescription">El Soplón es un rol Tripulante Investigador que puede revelar los Impostores para sí mismo al terminar todas sus tareas. Al haber completada todas los tareas, los Impostores serán revelados al Soplón con una flecha y su nombre en rojo.</string>
+  <string name="TouOptionSnitchRevealsNeutralKillers">Soplón revela Asesinos Neutrales</string>
+  <string name="TouOptionSnitchSeesTraitor">Soplón revela Traidor</string>
+  <string name="TouOptionSnitchSeesImpostorsInMeetings">Soplón ve los Impostores en reuniones</string>
+  <string name="TouOptionSnitchTasksRemainingWhenRevealed">Tereas Pendientes Cuando Revelado</string>
+  <string name="TouRoleBlackmailer">Extorsionista</string>
+  <string name="TouRoleBlackmailerIntroBlurb">Silencia Tripulantes durante las reuniones</string>
+  <string name="TouRoleBlackmailerTabDescription">Silencia un tripulante para la siguiente reunión</string>
+  <string name="TouRoleBlackmailerWikiDescription">El Extorsionista es un rol Impostor Soporte que puede detener a un jugador de hablar (marcado con \%symbol\%) en la siguiente reunión</string>
+  <string name="TouRoleBlackmailerBlackmail">Extorsionar</string>
+  <string name="TouRoleBlackmailerBlackmailWikiDescription">Silencia un jugador por la siguiente reunión. No podrá hablar. Tampoco podrá votar hasta que haya una cantidad igual o menor de jugadores vivos a la que los ajustes del extorsionista permiten. La extorsión será visible para los otros jugadores sólo si el ajuste correspondiente es encendido</string>
 </resources>
