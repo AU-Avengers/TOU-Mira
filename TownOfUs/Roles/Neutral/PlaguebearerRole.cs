@@ -41,7 +41,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
 
         var allInfected =
-            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) => !x.Player.HasDied());
+            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) => !x.Player.HasDied() && x.PlagueBearerId == Player.PlayerId && !x.Player.AmOwner);
 
         if (allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
             (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2))
