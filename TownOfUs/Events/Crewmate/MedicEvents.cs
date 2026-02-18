@@ -185,6 +185,11 @@ public static class MedicEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
+        if (OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks)
+        {
+            return;
+        }
+
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
 
         button?.SetTimer(reset);
