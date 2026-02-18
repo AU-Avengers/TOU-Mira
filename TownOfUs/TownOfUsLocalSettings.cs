@@ -126,7 +126,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> RainbowColorAsFortegreen { get; private set; } =
-        config.Bind("Miscellaneous", "RainbowColorAsFortegreen", true);
+        config.Bind("Miscellaneous", "RainbowColorAsFortegreen", false);
 }
 
 public enum GameSummaryAppearance
