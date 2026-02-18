@@ -194,6 +194,18 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                 {
                     return;
                 }
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKickMissingMessage").Replace("<player>", client.Data.PlayerName)}");
+                foreach (var mod in requiredMods)
+                {
+                    if (!reqModDictionary.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        stringBuilder.Append(TownOfUsPlugin.Culture, $"\n<color=#FF0000>{mod}</color>");
+                        continue;
+                    }
+                    stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
+                }
+                MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{TouLocale.Get("SystemChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
                 kickPlayer = true;
                 AmongUsClient.Instance.KickPlayer(playerInfo.ClientId, false);
             }
