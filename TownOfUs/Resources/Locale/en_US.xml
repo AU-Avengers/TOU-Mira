@@ -15,6 +15,8 @@
   <string name="ShowSummaryMessage">Show Summary Msg</string>
   <string name="ShowPracticeButtons">Show Practice Buttons</string>
   <string name="ZoomingInLobby">Zoom In Lobby</string>
+  <string name="ShowRoleIconOnRoleTab">Icon On Role Tab</string>
+  <string name="RainbowColorAsFortegreen">Rainbow Color As Fortegreen</string>
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
   <string name="ColorPlayerName">Colored Player Name</string>
@@ -245,6 +247,7 @@
   <string name="AnticheatChatTitle">Anticheat System</string>
   <string name="AnticheatKillMessage">A kill was attempted in the lobby, attached to \%player\%.</string>
   <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
+  <string name="AnticheatKickMissingMessage">\%player\% is missing these mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>

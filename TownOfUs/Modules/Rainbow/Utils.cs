@@ -5,8 +5,11 @@ namespace TownOfUs.Modules.RainbowMod;
 
 public static class RainbowUtils
 {
-    public static Color Rainbow => new HSBColor(PP(0, 1, 0.3f), 1, 1).ToColor();
-    public static Color RainbowShadow => Shadow(Rainbow);
+    public static bool IsForte => LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.RainbowColorAsFortegreen.Value;
+    public static Color ForteBodyColor { get; private set; } =new Color32(20, 140, 20, 255);
+    public static Color ForteShadowColor { get; private set; } =new Color32(30, 120, 50, 255);
+    public static Color Rainbow => IsForte ? ForteBodyColor : new HSBColor(PP(0, 1, 0.3f), 1, 1).ToColor();
+    public static Color RainbowShadow => IsForte ? ForteShadowColor : Shadow(Rainbow);
 
     public static float PP(float min, float max, float mul)
     {

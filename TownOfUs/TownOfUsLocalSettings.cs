@@ -2,6 +2,7 @@ using BepInEx.Configuration;
 using InnerNet;
 using MiraAPI.Hud;
 using TownOfUs.Buttons;
+using TownOfUs.Events;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.Roles;
@@ -53,6 +54,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             }
 
             touRole.OffsetButtons();
+        }
+        else if (configEntry == ShowRoleIconOnRoleTab)
+        {
+            TownOfUsEventHandlers.TryGetRoleTab();
         }
     }
 
@@ -114,6 +119,14 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
         config.Bind("Miscellaneous", "ZoomingInPractice", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowRoleIconOnRoleTab { get; private set; } =
+        config.Bind("Miscellaneous", "ShowRoleIconOnRoleTab", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> RainbowColorAsFortegreen { get; private set; } =
+        config.Bind("Miscellaneous", "RainbowColorAsFortegreen", true);
 }
 
 public enum GameSummaryAppearance
