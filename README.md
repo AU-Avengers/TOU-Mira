@@ -105,7 +105,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Parasite"><img width="10%" src="./Images/RoleIcons/Parasite.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Scavenger"><img width="10%" src="./Images/RoleIcons/Scavenger.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Warlock"><img width="10%" src="./Images/RoleIcons/Warlock.png" /></a>
-  <img src="./Images/Groups/ImpKilling.png" />
+  <img src="./Images/Groups/ImpPower.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Bomber"><img width="10%" src="./Images/RoleIcons/Ambassador.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Puppeteer"><img width="10%" src="./Images/RoleIcons/Puppeteer.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Spellslinger"><img width="10%" src="./Images/RoleIcons/Spellslinger.png" /></a>
@@ -136,7 +136,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Soul%20Collector"><img width="10%" src="./Images/RoleIcons/SoulCollector.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Vampire"><img width="10%" src="./Images/RoleIcons/Vampire.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Werewolf"><img width="10%" src="./Images/RoleIcons/Werewolf.png" /></a>
-  <img src="./Images/Groups/NeutBenign.png" />
+  <img src="./Images/Groups/NeutOutlier.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/outlier/Chef"><img width="10%" src="./Images/RoleIcons/Chef.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/outlier/Inquisitor"><img width="10%" src="./Images/RoleIcons/Inquisitor.png" /></a>
 
