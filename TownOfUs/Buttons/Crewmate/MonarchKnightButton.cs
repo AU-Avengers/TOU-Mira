@@ -35,7 +35,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasDied() && !Usable)
+        if (PlayerControl.LocalPlayer.HasDied() || !Usable)
         {
             return false;
         }
