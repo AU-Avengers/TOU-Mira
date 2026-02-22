@@ -77,7 +77,7 @@ public static class DleksMapOptionPickerPatches
     [HarmonyPrefix]
     public static void SetupMapBackground(CreateGameOptions __instance)
     {
-        if (__instance.currentCrewSprites == null)
+        if (__instance.currentCrewSprites.Count == 0)
         {
             __instance.mapBanner.sprite = TouAssets.DleksText.LoadAsset();
         }
