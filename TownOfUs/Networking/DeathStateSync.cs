@@ -41,6 +41,8 @@ public static class DeathStateSync
             return;
         }
 
+        PendingDeathSyncs.Remove(target.PlayerId);
+
         if (target.Data.Disconnected)
         {
             return;
@@ -51,7 +53,7 @@ public static class DeathStateSync
             return;
         }
 
-        if (target.Data.Role is IGhostRole ghostRole && ghostRole.GhostActive && !isDead)
+        if (target.Data.Role is IGhostRole ghostRole && ghostRole.GhostActive)
         {
             return;
         }
@@ -64,7 +66,6 @@ public static class DeathStateSync
             target.AddModifier(deathHandler);
         }
 
-        PendingDeathSyncs.Remove(target.PlayerId);
     }
 
     /// <summary>
@@ -199,12 +200,6 @@ public static class DeathStateSync
         yield return new WaitForSeconds(SyncDelayAfterMurder);
 
         if (target.Data == null || target.Data.Disconnected)
-        {
-            PendingDeathSyncs.Remove(target.PlayerId);
-            yield break;
-        }
-
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
         {
             PendingDeathSyncs.Remove(target.PlayerId);
             yield break;

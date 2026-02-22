@@ -192,7 +192,7 @@ public static class BetterSkeldPatches
                     WeaponsVent.Left = null;
                     WeaponsVent.Center = ShieldsVent;
                     WeaponsVent.Right = TopNavVent;
-                    TopNavVent.Left = ShieldsVent;
+                    TopNavVent.Left = WeaponsVent;
                     TopNavVent.Center = BottomNavVent;
                     TopNavVent.Right = null;
                     BottomNavVent.Right = null;
