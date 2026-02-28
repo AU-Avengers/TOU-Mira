@@ -86,7 +86,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         var report = BuildReport(confessing);
 
-        var title = $"<color=#{TownOfUsColors.Oracle.ToHtmlStringRGBA()}>Oracle Confession</color>";
+        var title = $"<color=#{TownOfUsColors.Oracle.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRoleOracleConfessionTitle")}</color>";
         MiscUtils.AddFakeChat(confessing.Data, title, report, false, true);
     }
 
@@ -94,14 +94,14 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (player.HasDied())
         {
-            return "Your confessor failed to survive so you received no confession";
+            return TouLocale.GetParsed("TouRoleOracleConfessorDied");
         }
 
         var allPlayers = PlayerControl.AllPlayerControls.ToArray()
             .Where(x => !x.HasDied() && x != PlayerControl.LocalPlayer && x != player).ToList();
         if (allPlayers.Count < 2)
         {
-            return "Too few people alive to receive a confessional";
+            return TouLocale.GetParsed("TouRoleOracleTooFew");
         }
 
         var options = OptionGroupSingleton<OracleOptions>.Instance;
@@ -123,8 +123,8 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (evilPlayers.Count == 0)
         {
-            return
-                $"{player.GetDefaultAppearance().PlayerName} confesses to knowing that there are no more evil players!";
+            return TouLocale.GetParsed("TouRoleOracleNoMoreEvil")
+                .Replace("\\%player\\%", player.GetDefaultAppearance().PlayerName);
         }
 
         allPlayers.Shuffle();
@@ -136,15 +136,19 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             var thirdPlayer = allPlayers[1];
 
-            return
-                $"{player.GetDefaultAppearance().PlayerName} confesses to knowing that they, {secondPlayer.GetDefaultAppearance().PlayerName} and/or {thirdPlayer.GetDefaultAppearance().PlayerName} is evil!";
+            return TouLocale.GetParsed("TouRoleOracleThreePlayers")
+                .Replace("\\%player1\\%", player.GetDefaultAppearance().PlayerName)
+                .Replace("\\%player2\\%", secondPlayer.GetDefaultAppearance().PlayerName)
+                .Replace("\\%player3\\%", thirdPlayer.GetDefaultAppearance().PlayerName);
         }
         else
         {
             var thirdPlayer = evilPlayers[0];
 
-            return
-                $"{player.GetDefaultAppearance().PlayerName} confesses to knowing that they, {secondPlayer.GetDefaultAppearance().PlayerName} and/or {thirdPlayer.GetDefaultAppearance().PlayerName} is evil!";
+            return TouLocale.GetParsed("TouRoleOracleThreePlayers")
+                .Replace("\\%player1\\%", player.GetDefaultAppearance().PlayerName)
+                .Replace("\\%player2\\%", secondPlayer.GetDefaultAppearance().PlayerName)
+                .Replace("\\%player3\\%", thirdPlayer.GetDefaultAppearance().PlayerName);
         }
     }
 
@@ -185,7 +189,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>Your blessing has saved {TownOfUsColors.Oracle.ToTextColor()}{target.Data.PlayerName}</color> from getting guessed!</b>",
+                $"<b>{TouLocale.GetParsed("TouRoleOracleBlessingMessageSelf").Replace("\\%player\\%", target.Data.PlayerName)}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
             notif1.AdjustNotification();
         }
@@ -193,7 +197,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{target.Data.PlayerName}</color> survived due to being blessed by an {TownOfUsColors.Oracle.ToTextColor()}Oracle</color>!</b>",
+                $"<b>{TouLocale.GetParsed("TouRoleOracleBlessingMessageOthers").Replace("\\%player\\%", target.Data.PlayerName)}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
             notif1.AdjustNotification();
         }

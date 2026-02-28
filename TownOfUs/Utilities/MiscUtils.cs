@@ -285,6 +285,19 @@ public static class MiscUtils
             }
         }
 
+        if (role.IsDead)
+        {
+            if (role.IsNeutral())
+            {
+                return RoleAlignment.NeutralGhost;
+            }
+            if (role.IsImpostor())
+            {
+                return RoleAlignment.ImpostorGhost;
+            }
+            return RoleAlignment.CrewmateGhost;
+        }
+
         if (role.Role is RoleTypes.Tracker or RoleTypes.Detective)
         {
             return RoleAlignment.CrewmateInvestigative;
@@ -616,6 +629,8 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
                 // registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
+                break;
+            case RoleAlignment.CrewmateGhost:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case RoleAlignment.ImpostorSupport:

@@ -123,6 +123,9 @@
   <string name="MinimumShort">Min</string>
   <string name="MaximumShort">Max</string>
   <!-- Role Subalignments -->
+  <string name="CrewmateGhost">Crewmate Ghost</string>
+  <string name="NeutralGhost">Neutral Ghost</string>
+  <string name="ImpostorGhost">Impostor Ghost</string>
   <string name="GameOutlier">Game Outlier</string>
   <string name="CrewmateInvestigative">Crewmate Investigative</string>
   <string name="CrewmateKilling">Crewmate Killing</string>
@@ -724,8 +727,11 @@
   <string name="TouOptionHaunterClickEnumNonCrew">Non-Crew</string>
   <string name="TouOptionHaunterClickEnumImpsOnly">Impostors Only</string>
   <!-- Haunter Feedback -->
+  <string name="TouRoleHaunterClickableFeedback">You are now clickable by players!</string>
   <string name="TouRoleHaunterSelfAlertFeedback">You have alerted the Killers!</string>
   <string name="TouRoleHaunterImpAlertFeedback">A Haunter is loose, catch them before they reveal you!</string>
+  <string name="TouRoleHaunterSelfRevealFeedback">You have revealed the Killers!</string>
+  <string name="TouRoleHaunterImpRevealFeedback">The Haunter has completed their tasks!</string>
   <!-- Hunter - Crewmate Killing -->
   <!-- Hunter Wiki / Abilities -->
   <string name="TouRoleHunter">Hunter</string>
@@ -806,6 +812,7 @@
   <string name="TouRoleJailorCannotExecute">\%player\% cannot be executed! They must be Invulnerable or blessed!</string>
   <string name="TouRoleJailorExecutedCrew">\%player\% was a crewmate! You can no longer jail anyone!</string>
   <string name="TouRoleJailorExecutedEvil">\%player\% was successfully executed!</string>
+  <string name="TouRoleJailorEgotistTabInfo">You can execute crewmates.</string>
   <!-- Lookout - Crewmate Investigative -->
   <!-- Lookout Wiki / Abilities -->
   <string name="TouRoleLookout">Lookout</string>
@@ -815,6 +822,10 @@
   <string name="TouRoleLookoutWatch">Watch</string>
   <string name="TouRoleLookoutWatchWikiDescription">Watch a player or multiple, the next meeting you will know which players interacted with the watched ones.</string>
   <string name="TouRoleLookoutWatchNotif">You will know what roles interact with \%player\% next meeting.</string>
+  <!-- Lookout Feedback -->
+  <string name="TouRoleLookoutFeedbackTitle">Lookout Feedback</string>
+  <string name="TouRoleLookoutNoInteractionFeedback">No players interacted with \%player\%</string>
+  <string name="TouRoleLookoutInteractionFeedback">Roles seen interacting with \%player\%</string>
   <!-- Lookout Options -->
   <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
   <string name="TouOptionLookoutMaxWatches">Initial Players That Can be Watched</string>
@@ -924,6 +935,8 @@
   <!-- Mirrorcaster Feedback -->
   <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\% was attacked by the \%attackerRole\%! You can now unleash the attack onto another player!</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\% was attacked! You can now unleash the attack onto another player!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithFaction">\%player\% was attacked by a \%faction\%! You can now unleash the attack onto another player!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithSubalignment">\%player\% was attacked by a \%subalignment\%! You can now unleash the attack onto another player!</string>
   <!-- Monarch - Crewmate Power -->
   <!-- Monarch Wiki / Description -->
   <string name="TouRoleMonarch">Monarch</string>
@@ -984,7 +997,8 @@
   <string name="TouRolePlumber">Plumber</string>
   <string name="TouRolePlumberIntroBlurb">Kick out the pesky venters onboard</string>
   <string name="TouRolePlumberTabDescription">Flush the vent system to kick venters out, and\%nl\%barricade vents to block them the next round</string>
-  <string name="TouRolePlumberExtraTabText">Note: Barricades Stay For \%roundCount\% Round(s)</string>
+  <string name="TouRolePlumberExtraTabText">Barricades Stay For \%roundCount\% Round(s)</string>
+  <string name="TouRolePlumberExtraTabTextForever">Barricades Stay Forever</string>
   <string name="TouRolePlumberVentListTabText">Vents List</string>
   <string name="TouRolePlumberUnbuiltBarricadeTabText">Preparing...</string>
   <string name="TouRolePlumberVentLabelTabText">\%roomName\% Vent</string>
@@ -1026,6 +1040,10 @@
   <string name="TouRoleProsecutor">Prosecutor</string>
   <string name="TouRoleProsecutorIntroBlurb">Exile players of your choosing</string>
   <string name="TouRoleProsecutorTabDescription">Choose to exile anyone of your choosing</string>
+  <string name="TouRoleProsecutorCanProsecuteCrew">
+    <b>You may prosecute crew.</b>
+  </string>
+  <string name="TouRoleProsecutorProsecutionsRemaining">\%count\% Prosecution(s) Remaining</string>
   <string name="TouRoleProsecutorWikiDescription">The Prosecutor is a Crewmate Power role that can Exile a player, applying five votes to a player of their choosing. They can also see who voted for whom, even if they're anonymous.</string>
   <string name="TouRoleProsecutorProsecute">Prosecute</string>
   <string name="TouRoleProsecutorProsecuteWiki">Prosecute (Meeting)</string>
@@ -1973,7 +1991,7 @@
   <string name="TouRoleSpectre">Spectre</string>
   <string name="TouRoleSpectreIntroBlurb">Use your second chance to win</string>
   <string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
-  <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Evil Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
+  <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
   <string name="TouRoleSpectreSpook">Spook</string>
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>

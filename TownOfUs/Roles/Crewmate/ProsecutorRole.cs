@@ -114,12 +114,11 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         var text = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            text.AppendLine(TownOfUsPlugin.Culture, $"<b>You may prosecute crew.</b>");
+            text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}CanProsecuteCrew")}");
         }
 
         var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions - ProsecutionsCompleted;
-        var newText = prosecutes == 1 ? "1 Prosecution Remaining." : $"\n{prosecutes} Prosecutions Remaining.";
-        text.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
+        text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}ProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture))}");
         return text;
     }
 

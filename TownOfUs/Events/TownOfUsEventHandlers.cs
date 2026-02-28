@@ -978,7 +978,7 @@ public static class TownOfUsEventHandlers
         {
             // ignored
         }
-        SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);;
+        SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
     }
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)

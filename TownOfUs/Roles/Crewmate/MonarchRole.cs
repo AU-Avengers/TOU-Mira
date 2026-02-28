@@ -158,7 +158,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             if (player.AmOwner)
             {
-                ShowNotification($"{targetName} died before you could knight them.");
+                ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightTargetDied").Replace("<targetName>", targetName));
             }
             return;
         }
@@ -167,12 +167,12 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (player.AmOwner)
         {
-            ShowNotification($"{targetName} was knighted!");
+            ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightSuccess").Replace("<targetName>", targetName));
         }
 
         if (target.AmOwner)
         {
-            ShowNotification($"You were knighted by a {TownOfUsColors.Monarch.ToTextColor()}Monarch</color>. You gained {(int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight} vote(s)!");
+            ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightedFeedback").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }
 
 

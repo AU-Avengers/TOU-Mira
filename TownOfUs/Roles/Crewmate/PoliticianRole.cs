@@ -77,7 +77,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
             stringB.AppendLine(TownOfUsPlugin.Culture,
-                $"<b>The Impostors will know your true motives when revealed.</b>");
+                $"<b>{TouLocale.GetParsed("TouRolePoliticianEgotistTabInfo")}</b>");
         }
 
         return stringB;
@@ -165,14 +165,14 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
         else
         {
-            var text = "You need to campaign more Crewmates! You may not reveal again in this meeting.";
+            var text = TouLocale.GetParsed("TouRolePoliticianFailedRevealCanCampaign");
             if (OptionGroupSingleton<PoliticianOptions>.Instance.PreventCampaign)
             {
                 CanCampaign = false;
-                text = "You need to campaign more Crewmates! However, you may not campaign next round.";
+                text = TouLocale.GetParsed("TouRolePoliticianFailedRevealCannotCampaign");
             }
 
-            var title = $"<color=#{TownOfUsColors.Mayor.ToHtmlStringRGBA()}>{RoleName} Feedback</color>";
+            var title = $"<color=#{TownOfUsColors.Mayor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRolePoliticianFeedbackText")}</color>";
             MiscUtils.AddFakeChat(Player.Data, title, text, false, true);
         }
     }
