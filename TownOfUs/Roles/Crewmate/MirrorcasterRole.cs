@@ -248,15 +248,16 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
             CustomButtonSingleton<MirrorcasterMagicMirrorButton>.Instance.ResetCooldownAndOrEffect();
             CustomButtonSingleton<MirrorcasterUnleashButton>.Instance.ResetCooldownAndOrEffect();
             DangerAnim();
-            var text =
-                $"{protectedPlayer.Data.PlayerName} was attacked! You can now unleash the attack onto another player!";
+            var text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithoutType")
+                .Replace("\\%player\\%", protectedPlayer.Data.PlayerName);
             switch (attackInfo)
             {
                 case MirrorAttackInfo.Role:
                     if (role.ContainedRole != null)
                     {
-                        text =
-                            $"{protectedPlayer.Data.PlayerName} was attacked by the {role.ContainedRole.GetRoleName()}! You can now unleash the attack onto another player!";
+                        text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithType")
+                            .Replace("\\%player\\%", protectedPlayer.Data.PlayerName)
+                            .Replace("\\%attackerRole\\%", role.ContainedRole.GetRoleName());
                     }
                     break;
                 case MirrorAttackInfo.Faction:
@@ -269,14 +270,16 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
                     {
                         faction = TouLocale.Get("ImpKeyword");
                     }
-                    text =
-                        $"{protectedPlayer.Data.PlayerName} was attacked by a {MiscUtils.GetColoredFactionString(faction)}! You can now unleash the attack onto another player!";
+                    text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithFaction")
+                        .Replace("\\%player\\%", protectedPlayer.Data.PlayerName)
+                        .Replace("\\%faction\\%", MiscUtils.GetColoredFactionString(faction));
                     break;
                 case MirrorAttackInfo.Subalignment:
                     if (role.ContainedRole != null)
                     {
-                        text =
-                            $"{protectedPlayer.Data.PlayerName} was attacked by a {MiscUtils.GetParsedRoleAlignment(role.ContainedRole, true)}! You can now unleash the attack onto another player!";
+                        text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithSubalignment")
+                            .Replace("\\%player\\%", protectedPlayer.Data.PlayerName)
+                            .Replace("\\%subalignment\\%", MiscUtils.GetParsedRoleAlignment(role.ContainedRole, true));
                     }
                     break;
             }
