@@ -82,13 +82,15 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var duration = (int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration;
-        var text = duration == 0 ? "Barricades Stay Forever." : $"Barricades Stay For {duration} Round(s)";
+        var barrText = duration == 0
+            ? TouLocale.GetParsed("TouRolePlumberExtraTabTextForever")
+            : TouLocale.GetParsed("TouRolePlumberExtraTabText").Replace("<roundCount>", duration.ToString(TownOfUsPlugin.Culture));
         stringB.Append(TownOfUsPlugin.Culture,
-            $"\n<b><size=60%>Note: {text}</size></b>");
+            $"\n<b><size=60%>Note: {barrText}</size></b>");
         if (VentsBlocked.Count > 0 || FutureBlocks.Count > 0)
         {
             stringB.Append(TownOfUsPlugin.Culture,
-                $"\n<b>Vents List:</b>");
+                $"\n<b>{TouLocale.GetParsed("TouRolePlumberVentListTabText")}:</b>");
 
             if (VentsBlocked.Count > 0)
             {
@@ -100,9 +102,10 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                         continue;
                     }
 
-                    var text2 = duration == 0 ? string.Empty : $": {ventPair.Value} Round(s) Remaining";
+                    var ventLabel = TouLocale.GetParsed("TouRolePlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
+                    var text2 = duration == 0 ? string.Empty : $": {TouLocale.GetParsed("TouRolePlumberVentRoundsTabText").Replace("<roundsRemaining>", ventPair.Value.ToString(TownOfUsPlugin.Culture))}";
                     stringB.Append(TownOfUsPlugin.Culture,
-                        $"\n{MiscUtils.GetRoomName(vent.transform.position)} Vent{text2}");
+                        $"\n{ventLabel}{text2}");
                 }
             }
 
@@ -116,8 +119,9 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                         continue;
                     }
 
+                    var prepLabel = TouLocale.GetParsed("TouRolePlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
                     stringB.Append(TownOfUsPlugin.Culture,
-                        $"\n<color=#BFBFBF>{MiscUtils.GetRoomName(vent.transform.position)} Vent: Preparing...</color>");
+                        $"\n<color=#BFBFBF>{prepLabel}: {TouLocale.GetParsed("TouRolePlumberUnbuiltBarricadeTabText")}</color>");
                 }
             }
         }
