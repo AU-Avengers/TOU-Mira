@@ -123,6 +123,9 @@
 	<string name="MinimumShort">Min</string>
 	<string name="MaximumShort">Max</string>
 	<!-- Role Subalignments -->
+	<string name="CrewmateGhost">Crewmate Ghost</string>
+	<string name="NeutralGhost">Neutral Ghost</string>
+	<string name="ImpostorGhost">Impostor Ghost</string>
 	<string name="GameOutlier">Game Outlier</string>
 	<string name="CrewmateInvestigative">Crewmate Investigative</string>
 	<string name="CrewmateKilling">Crewmate Killing</string>
@@ -1965,7 +1968,7 @@
 	<string name="TouRoleSpectre">Spectre</string>
 	<string name="TouRoleSpectreIntroBlurb">Use your second chance to win</string>
 	<string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
-	<string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Evil Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
+	<string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
 	<string name="TouRoleSpectreSpook">Spook</string>
 	<!-- Spectre Options -->
 	<string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>

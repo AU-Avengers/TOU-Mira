@@ -118,7 +118,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         }
 
         var prosecutes = OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions - ProsecutionsCompleted;
-        text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}ProsecutionsRemaining").Replace("<count>", prosecutes.ToString())}");
+        text.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}ProsecutionsRemaining").Replace("<count>", prosecutes.ToString(TownOfUsPlugin.Culture))}");
         return text;
     }
 
