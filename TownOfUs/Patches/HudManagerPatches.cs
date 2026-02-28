@@ -795,6 +795,18 @@ public static class HudManagerPatches
         }
     }
 
+    public static string GetRoleForSlot(RoleListOption slotValue)
+    {
+        var newVal = (int)slotValue;
+        var roleListText = RoleOptions.OptionStrings;
+        if (newVal >= 0 && newVal < roleListText.Length)
+        {
+            return roleListText[newVal];
+        }
+
+        return "<color=#696969>???</color>";
+    }
+
     public static string GetRoleForSlot(int slotValue)
     {
         var roleListText = RoleOptions.OptionStrings;
@@ -914,22 +926,22 @@ public static class HudManagerPatches
                     {
                         var slotValue = i switch
                         {
-                            0 => list.Slot1,
-                            1 => list.Slot2,
-                            2 => list.Slot3,
-                            3 => list.Slot4,
-                            4 => list.Slot5,
-                            5 => list.Slot6,
-                            6 => list.Slot7,
-                            7 => list.Slot8,
-                            8 => list.Slot9,
-                            9 => list.Slot10,
-                            10 => list.Slot11,
-                            11 => list.Slot12,
-                            12 => list.Slot13,
-                            13 => list.Slot14,
-                            14 => list.Slot15,
-                            _ => -1
+                            0 => list.Slot1.Value,
+                            1 => list.Slot2.Value,
+                            2 => list.Slot3.Value,
+                            3 => list.Slot4.Value,
+                            4 => list.Slot5.Value,
+                            5 => list.Slot6.Value,
+                            6 => list.Slot7.Value,
+                            7 => list.Slot8.Value,
+                            8 => list.Slot9.Value,
+                            9 => list.Slot10.Value,
+                            10 => list.Slot11.Value,
+                            11 => list.Slot12.Value,
+                            12 => list.Slot13.Value,
+                            13 => list.Slot14.Value,
+                            14 => list.Slot15.Value,
+                            _ => (RoleListOption)(-1)
                         };
 
                         rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
@@ -1120,6 +1132,34 @@ public static class HudManagerPatches
     public static string NeutralKillers { get; private set; } = "Neutral Killers";
     public static string StoredMinimum { get; private set; } = "Min";
     public static string StoredMaximum { get; private set; } = "Max";
+    internal static List<string> StoredRoleBuckets =
+    [
+        "CommonCrew",
+        "RandomCrew",
+        "CrewInvestigative",
+        "CrewKilling",
+        "CrewProtective",
+        "CrewPower",
+        "CrewSupport",
+        "SpecialCrew",
+        "NonImp",
+        "CommonNeutral",
+        "SpecialNeutral",
+        "WildcardNeutral",
+        "RandomNeutral",
+        "NeutralBenign",
+        "NeutralEvil",
+        "NeutralKilling",
+        "NeutralOutlier",
+        "CommonImp",
+        "RandomImp",
+        "ImpConcealing",
+        "ImpKilling",
+        "ImpPower",
+        "ImpSupport",
+        "SpecialImp",
+        "Any"
+    ];
 
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
     [HarmonyPriority(Priority.Last)]
@@ -1162,35 +1202,7 @@ public static class HudManagerPatches
         StoredMinimum = TouLocale.Get("MinimumShort");
         StoredMaximum = TouLocale.Get("MaximumShort");
         List<string> localizedRoleList = [];
-        List<string> roleBuckets =
-        [
-            "CommonCrew",
-            "RandomCrew",
-            "CrewInvestigative",
-            "CrewKilling",
-            "CrewProtective",
-            "CrewPower",
-            "CrewSupport",
-            "SpecialCrew",
-            "NonImp",
-            "CommonNeutral",
-            "SpecialNeutral",
-            "WildcardNeutral",
-            "RandomNeutral",
-            "NeutralBenign",
-            "NeutralEvil",
-            "NeutralKilling",
-            "NeutralOutlier",
-            "CommonImp",
-            "RandomImp",
-            "ImpConcealing",
-            "ImpKilling",
-            "ImpPower",
-            "ImpSupport",
-            "SpecialImp",
-            "Any"
-        ];
-        foreach (var bucket in roleBuckets)
+        foreach (var bucket in StoredRoleBuckets)
         {
             localizedRoleList.Add(MiscUtils.GetParsedRoleBucket(bucket));
         }

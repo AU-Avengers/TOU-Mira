@@ -16,6 +16,6 @@ public sealed class FrostyOptions : AbstractOptionGroup<FrostyModifier>
     [ModdedNumberOption("Chill Duration", 0f, 15f, suffixType: MiraNumberSuffixes.Seconds)]
     public float ChillDuration { get; set; } = 10f;
 
-    [ModdedNumberOption("Chill Start Speed", 0.25f, 0.95f, 0.05f, MiraNumberSuffixes.Multiplier)]
+    [ModdedNumberOption("Chill Start Speed", 0.25f, 0.95f, 0.05f, MiraNumberSuffixes.Multiplier, "0.00")]
     public float ChillStartSpeed { get; set; } = 0.75f;
 }

@@ -21,6 +21,18 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
 
     public ModdedToggleOption MultiplayerFreeplay { get; set; } = new("Freeplay Mode", false, false);
 
+    public ModdedToggleOption ExperimentalKillSystem { get; set; } = new("Experimental Kill System", false, false);
+
+    public ModdedToggleOption ExperimentalKillSystemMeetings { get; set; } = new("Account for Meeting Kills", true, false)
+    {
+        Visible = () => OptionGroupSingleton<HostSpecificOptions>.Instance.ExperimentalKillSystem
+    };
+
+    public ModdedToggleOption ExperimentalKillSystemResync { get; set; } = new("Resync Kills for Players", true, false)
+    {
+        Visible = () => OptionGroupSingleton<HostSpecificOptions>.Instance.ExperimentalKillSystem
+    };
+
     public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryonePostGame, typeof(LoggingLevel),
         ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"], false)
     {

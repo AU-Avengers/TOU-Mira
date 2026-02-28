@@ -98,10 +98,13 @@ public static class MiraApiPatches
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
-        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
-        if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+        if (CustomTouMurderRpcs.ExperimentalMeetings)
         {
-            beforeMurderEvent.Cancel();
+            var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+            if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+            {
+                beforeMurderEvent.Cancel();
+            }
         }
 
         if (beforeMurderEvent.IsCancelled)
@@ -127,9 +130,9 @@ public static class MiraApiPatches
             showKillAnim,
             playKillSound);
 
-        // Force-sync death state after successful murder to prevent desyncs
-        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && target.HasDied())
+        if (CustomTouMurderRpcs.ExperimentalResync && murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
         {
+            // Force-sync death state after successful murder to prevent desyncs
             DeathStateSync.ScheduleDeathStateSync(target, true);
             // Request validation after kill to ensure all clients are in sync
             if (source.AmOwner)

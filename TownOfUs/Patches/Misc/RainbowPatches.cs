@@ -82,39 +82,6 @@ public static class ChatNotifRainbowPatch
 [HarmonyPatch(typeof(HostInfoPanel), nameof(HostInfoPanel.Update))]
 public static class RainbowLobbyInfoPanePatch
 {
-    public static void Prefix(HostInfoPanel __instance)
-    {
-        if (__instance.gameObject.activeInHierarchy && RainbowUtils.IsRainbow(__instance.player.cosmetics.ColorId))
-        {
-            NetworkedPlayerInfo host = GameData.Instance.GetHost();
-            string text = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
-            __instance.hostLabel.text =
-                TranslationController.Instance.GetString(StringNames.HostNounLabel,
-                    Array.Empty<Object>());
-            if (__instance.ShouldBoldenHostLabel(DataManager.Settings.Language.CurrentLanguage))
-            {
-                __instance.hostLabel.text = __instance.hostLabel.text.Insert(0, "<b>");
-                __instance.hostLabel.text = __instance.hostLabel.text.Insert(__instance.hostLabel.text.Length, "</b>");
-            }
-
-            if (AmongUsClient.Instance.AmHost)
-            {
-                __instance.playerName.text = (string.IsNullOrEmpty(host.PlayerName)
-                                                 ? "..."
-                                                 : $"<color=#{text}>{host.PlayerName}</color>")
-                                             + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" +
-                                             TranslationController.Instance.GetString(
-                                                 StringNames.HostYouLabel, Array.Empty<Object>());
-            }
-            else
-            {
-                __instance.playerName.text =
-                    (string.IsNullOrEmpty(host.PlayerName) ? "..." : $"<color=#{text}>{host.PlayerName}</color>") +
-                    " (" + __instance.player.ColorBlindName + ")";
-            }
-        }
-    }
-
     public static void Postfix(HostInfoPanel __instance)
     {
         if (__instance.gameObject.activeInHierarchy && RainbowUtils.IsRainbow(__instance.player.cosmetics.ColorId))

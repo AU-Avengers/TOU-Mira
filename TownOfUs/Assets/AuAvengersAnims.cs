@@ -5,9 +5,6 @@ namespace TownOfUs.Assets;
 
 public static class AuAvengersAnims
 {
-    /*public static AssetBundle SoundVisionBundle { get; } =
-        AssetBundleManager.Load(typeof(AuAvengersAnims).Assembly, "soundvision");*/ // unused?
-
     // bomb visualizer thing
     public static LoadableAsset<Material> BombMaterial { get; private set; }
     public static LoadableAsset<Material> IgniteMaterial { get; private set; }
