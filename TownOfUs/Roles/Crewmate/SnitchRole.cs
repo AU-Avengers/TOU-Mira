@@ -184,11 +184,9 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = "The impostors know of your whereabouts!";
-                    if (Player.HasModifier<EgotistModifier>())
-                    {
-                        text = "The impostors know of your whereabouts, and know you're the Egotist!";
-                    }
+                    var text = Player.HasModifier<EgotistModifier>()
+                        ? TouLocale.GetParsed("TouRoleSnitchSelfRevealedEgoFeedback")
+                        : TouLocale.GetParsed("TouRoleSnitchSelfRevealedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
@@ -203,11 +201,9 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 if (!silent)
                 {
                     Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                    var text = "The Snitch is getting closer to reveal you!";
-                    if (Player.HasModifier<EgotistModifier>())
-                    {
-                        text = "The Snitch is an Egotist, who will help you overthrow the crewmates!";
-                    }
+                    var text = Player.HasModifier<EgotistModifier>()
+                        ? TouLocale.GetParsed("TouRoleSnitchImpRevealedEgoFeedback")
+                        : TouLocale.GetParsed("TouRoleSnitchImpRevealedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
@@ -224,11 +220,9 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 CreateSnitchArrows(silent);
                 if (!silent)
                 {
-                    var text = "You have revealed the impostors!";
-                    if (Player.HasModifier<EgotistModifier>())
-                    {
-                        text = "You have revealed the impostors, who can help your win condition!";
-                    }
+                    var text = Player.HasModifier<EgotistModifier>()
+                        ? TouLocale.GetParsed("TouRoleSnitchSelfCompletedEgoFeedback")
+                        : TouLocale.GetParsed("TouRoleSnitchSelfCompletedFeedback");
 
                     var notif1 = Helpers.CreateAndShowNotification(
                         $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
@@ -240,11 +234,9 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             else if (IsTargetOfSnitch(PlayerControl.LocalPlayer) && !silent)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
-                var text = "The Snitch knows what you are now!";
-                if (Player.HasModifier<EgotistModifier>())
-                {
-                    text = "The Snitch can now help you as the Egotist!";
-                }
+                var text = Player.HasModifier<EgotistModifier>()
+                    ? TouLocale.GetParsed("TouRoleSnitchImpCompletedEgoFeedback")
+                    : TouLocale.GetParsed("TouRoleSnitchImpCompletedFeedback");
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Snitch.ToTextColor()}{text}</color></b>", Color.white,
