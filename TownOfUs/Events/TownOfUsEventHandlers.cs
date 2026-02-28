@@ -972,13 +972,13 @@ public static class TownOfUsEventHandlers
         try
         {
             voteArea.XMark.gameObject.SetActive(true);
+            Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
         }
         catch
         {
             // ignored
         }
-        SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
-        Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
+        SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);;
     }
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
