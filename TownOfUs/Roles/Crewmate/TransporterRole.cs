@@ -18,7 +18,6 @@ using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
-using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities;
 using UnityEngine;

@@ -130,17 +130,14 @@ public static class MiraApiPatches
             showKillAnim,
             playKillSound);
 
-        if (CustomTouMurderRpcs.ExperimentalResync)
+        if (CustomTouMurderRpcs.ExperimentalResync && murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
         {
             // Force-sync death state after successful murder to prevent desyncs
-            if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && target.HasDied())
+            DeathStateSync.ScheduleDeathStateSync(target, true);
+            // Request validation after kill to ensure all clients are in sync
+            if (source.AmOwner)
             {
-                DeathStateSync.ScheduleDeathStateSync(target, true);
-                // Request validation after kill to ensure all clients are in sync
-                if (source.AmOwner)
-                {
-                    DeathStateSync.RequestValidationAfterKill(source);
-                }
+                DeathStateSync.RequestValidationAfterKill(source);
             }
         }
 

@@ -493,7 +493,7 @@ public static class TouRoleManagerPatches
         var slotsToAdd = Math.Min(playerCount, 15);
         for (var i = 0; i < slotsToAdd; i++)
         {
-            buckets.Add((RoleListOption)slotValues[i].Value);
+            buckets.Add(slotValues[i].Value);
         }
 
         // For players beyond 15, add random crew/non-imp roles
@@ -1175,30 +1175,30 @@ public static class TouRoleManagerPatches
         List<RoleListOption> buckets = [];
         var anySlots = 0;
 
-        for (var i = 0; i < maxSlots; i++)
+        for (int i = 0; i < maxSlots; i++)
         {
-            var slotValue = i switch
+            RoleListOption slotValue = i switch
             {
-                0 => list.Slot1,
-                1 => list.Slot2,
-                2 => list.Slot3,
-                3 => list.Slot4,
-                4 => list.Slot5,
-                5 => list.Slot6,
-                6 => list.Slot7,
-                7 => list.Slot8,
-                8 => list.Slot9,
-                9 => list.Slot10,
-                10 => list.Slot11,
-                11 => list.Slot12,
-                12 => list.Slot13,
-                13 => list.Slot14,
-                14 => list.Slot15,
-                _ => -1
+                0 => list.Slot1.Value,
+                1 => list.Slot2.Value,
+                2 => list.Slot3.Value,
+                3 => list.Slot4.Value,
+                4 => list.Slot5.Value,
+                5 => list.Slot6.Value,
+                6 => list.Slot7.Value,
+                7 => list.Slot8.Value,
+                8 => list.Slot9.Value,
+                9 => list.Slot10.Value,
+                10 => list.Slot11.Value,
+                11 => list.Slot12.Value,
+                12 => list.Slot13.Value,
+                13 => list.Slot14.Value,
+                14 => list.Slot15.Value,
+                _ => (RoleListOption)(-1)
             };
-            buckets.Add((RoleListOption)slotValue);
-        }
 
+            buckets.Add(slotValue);
+        }
 
         foreach (var roleOption in buckets)
         {
