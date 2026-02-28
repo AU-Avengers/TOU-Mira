@@ -8,6 +8,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.Crewmate;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
@@ -333,18 +334,26 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
         void PreCheckUndertaker(DeadBody body)
         {
-            if (PlayerControl.LocalPlayer.Data.Role is not TransporterRole)
-            {
-                return;
-            }
-
             var mods = ModifierUtils.GetActiveModifiers<DragModifier>();
 
             foreach (var mod in mods)
             {
                 if (mod.BodyId == body.ParentId)
                 {
-                    UndertakerRole.RpcStopDragging(mod.Player, body.transform.position);
+                    var dragMod = mod.Player.GetModifier<DragModifier>()!;
+                    var dropPos = body.transform.position;
+                    dropPos.z = dropPos.y / 1000f;
+                    dragMod.DeadBody!.transform.position = dropPos;
+
+                    var touAbilityEvent2 = new TouAbilityEvent(AbilityType.UndertakerDrop, mod.Player, dragMod.DeadBody);
+                    MiraEventManager.InvokeEvent(touAbilityEvent2);
+
+                    if (mod.Player.AmOwner)
+                    {
+                        CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
+                    }
+
+                    mod.Player.RemoveModifier(dragMod);
                 }
             }
         }
@@ -433,18 +442,18 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        mono.transform.position = position;
-        Collider2D cd = mono.GetComponent<Collider2D>();
-        if (cd != null && deadBody != null)
-        {
-            mono.transform.position += cd.bounds.center - position;
-        }
-
         if (player != null)
         {
             player.MyPhysics.ResetMoveState();
             player.transform.position = position;
             player.NetTransform.SnapTo(position);
+        }
+
+        mono.transform.position = position;
+        Collider2D cd = mono.GetComponent<Collider2D>();
+        if (cd != null && deadBody != null)
+        {
+            mono.transform.position += cd.bounds.center - position;
         }
 
         var cnt = mono.TryCast<CustomNetworkTransform>();
