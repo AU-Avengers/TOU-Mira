@@ -142,7 +142,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             var cheatMods = newModDictionary.Where(mod => blacklist.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase))).ToList();
             var playerInfo = GameData.Instance.GetPlayerById(client.PlayerId);
             
-            if (cheatMods.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.KickCheatMods)
+            if (cheatMods.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.KickCheatMods.Value)
             {
                 var chatMessageBuilder = new StringBuilder();
                 chatMessageBuilder.Append(TouLocale.GetParsed("AnticheatKickChatMessage").Replace("<player>", client.Data.PlayerName));
@@ -158,7 +158,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                     kickPlayer = true;
                 }
             }
-            else if (throwNewMsg && newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings)
+            else if (throwNewMsg && newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings.Value)
             {
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");

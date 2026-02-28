@@ -1,6 +1,7 @@
 using System.Collections;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using Reactor.Networking.Attributes;
@@ -9,6 +10,7 @@ using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -17,6 +19,10 @@ namespace TownOfUs.Networking;
 
 public static class CustomTouMurderRpcs
 {
+    public static bool ExperimentalKills =>
+        OptionGroupSingleton<HostSpecificOptions>.Instance.ExperimentalKillSystem.Value;
+    public static bool ExperimentalResync => ExperimentalKills && OptionGroupSingleton<HostSpecificOptions>.Instance.ExperimentalKillSystemResync.Value;
+    public static bool ExperimentalMeetings => ExperimentalKills && OptionGroupSingleton<HostSpecificOptions>.Instance.ExperimentalKillSystemMeetings.Value;
     /// <summary>
     /// Networked Custom Murder method. Use this if changing from a dictionary is needed.
     /// </summary>
@@ -153,31 +159,24 @@ public static class CustomTouMurderRpcs
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var firstTarget = true;
+        var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
         foreach (var target in targets)
         {
-            PlayerControl? newPlayer = null;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc == null || pc.Data == null || newPlayer != null)
-                {
-                    continue;
-                }
-
-                if (pc.PlayerId == target.Key || pc.Data.PlayerName == target.Value)
-                {
-                    newPlayer = pc;
-                }
-            }
+            var newPlayer = allPlayers.FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
             if (newPlayer == null)
             {
                 continue;
             }
+            allPlayers.Remove(newPlayer);
             var beforeMurderEvent = new BeforeMurderEvent(source, newPlayer, inMeeting);
             MiraEventManager.InvokeEvent(beforeMurderEvent);
-            var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
-            if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+            if (ExperimentalMeetings)
             {
-                beforeMurderEvent.Cancel();
+                var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+                if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+                {
+                    beforeMurderEvent.Cancel();
+                }
             }
 
             if (beforeMurderEvent.IsCancelled)
@@ -212,9 +211,9 @@ public static class CustomTouMurderRpcs
                 showKillAnim,
                 playKillSound);
 
-            // Force-sync death state after successful murder to prevent desyncs
-            if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && newPlayer.HasDied())
+            if (ExperimentalResync && murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
             {
+                // Force-sync death state after successful murder to prevent desyncs
                 DeathStateSync.ScheduleDeathStateSync(newPlayer, true);
                 // Request validation after kill to ensure all clients are in sync
                 if (source.AmOwner)
@@ -312,12 +311,12 @@ public static class CustomTouMurderRpcs
             false,
             showKillAnim,
             playKillSound);
-        if (target.HasDied())
+        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
         {
             MiscUtils.LungeToPos(framed, targetPos);
-            // Force-sync death state after successful murder to prevent desyncs
-            if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
+            if (ExperimentalResync)
             {
+                // Force-sync death state after successful murder to prevent desyncs
                 DeathStateSync.ScheduleDeathStateSync(target, true);
                 // Request validation after kill to ensure all clients are in sync
                 if (source.AmOwner)
@@ -419,10 +418,13 @@ public static class CustomTouMurderRpcs
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
-        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
-        if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+        if (ExperimentalMeetings)
         {
-            beforeMurderEvent.Cancel();
+            var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+            if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+            {
+                beforeMurderEvent.Cancel();
+            }
         }
 
         if (beforeMurderEvent.IsCancelled)
@@ -457,9 +459,9 @@ public static class CustomTouMurderRpcs
             showKillAnim,
             playKillSound);
 
-        // Force-sync death state after successful murder to prevent desyncs
-        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && target.HasDied())
+        if (ExperimentalResync && murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
         {
+            // Force-sync death state after successful murder to prevent desyncs
             DeathStateSync.ScheduleDeathStateSync(target, true);
             // Request validation after kill to ensure all clients are in sync
             if (source.AmOwner)
@@ -537,9 +539,9 @@ public static class CustomTouMurderRpcs
             target,
             MurderResultFlags.Succeeded);
 
-        // Force-sync death state after ghost role murder to prevent desyncs
-        if (target.HasDied())
+        if (ExperimentalResync)
         {
+            // Force-sync death state after ghost role murder to prevent desyncs
             DeathStateSync.ScheduleDeathStateSync(target, true);
             // Request validation after kill to ensure all clients are in sync
             if (source.AmOwner)
