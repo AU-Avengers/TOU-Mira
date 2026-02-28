@@ -98,7 +98,7 @@ public static class ExecutionerEvents
             if (exe.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>You have successfully won as the {TownOfUsColors.Executioner.ToTextColor()}Executioner</color>, as your target was exiled!</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonSelf")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -112,7 +112,7 @@ public static class ExecutionerEvents
                         "DiedToWinning", DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,
                         lockInfo: DeathHandlerOverride.SetTrue);
                     var notif2 = Helpers.CreateAndShowNotification(
-                        $"<b>You have one round to torment a player of your choice to death, choose wisely.</b>",
+                        $"<b>{TouLocale.GetParsed("TouRoleExecutionerTormentFeedback")}</b>",
                         Color.white, new Vector3(0f, 0.85f, -20f));
                     notif2.AdjustNotification();
                 }
@@ -126,7 +126,7 @@ public static class ExecutionerEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>The {TownOfUsColors.Executioner.ToTextColor()}Executioner</color>, {exe.Player.Data.PlayerName}, has successfully won, as their target was exiled!</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonOther").Replace("<player>", exe.Player.Data.PlayerName)}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
 
                 notif1.AdjustNotification();
