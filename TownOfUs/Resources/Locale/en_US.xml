@@ -1497,7 +1497,7 @@
 	<string name="TouOptionEscapistEscapistCanVent">Escapist Can Vent</string>
 	<!-- Grenadier Wiki / Abilities -->
 	<string name="TouRoleGrenadier">Grenadier</string>
-	<string name="TouRoleGrenadierIntroBlurb">Hinder the Crewmates' vision</string>
+	<string name="TouRoleGrenadierIntroBlurb">Hinder the Crewmates' vision.</string>
 	<string name="TouRoleGrenadierTabDescription">Flashbang the crewmates to get sneaky kills</string>
 	<string name="TouRoleGrenadierWikiDescription">The Grenadier is an Impostor Concealing role that can throw down a grenade that will blind all other players</string>
 	<string name="TouRoleGrenadierFlash">Flash</string>
