@@ -1,7 +1,7 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
@@ -13,7 +13,7 @@ using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Modifiers.Crewmate;
 
-public sealed class MediatedModifier(byte mediumId) : BaseModifier
+public sealed class MediatedModifier(byte mediumId) : TimedModifier
 {
     private ArrowBehaviour? _arrow;
 
@@ -22,6 +22,7 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
     public override string ModifierName => "Mediated";
     public override bool HideOnUi => true;
     public byte MediumId { get; } = mediumId;
+    public override float Duration => OptionGroupSingleton<MediumOptions>.Instance.MediateDuration.Value + 1f;
 
     public override void OnMeetingStart()
     {
@@ -114,5 +115,6 @@ public sealed class MediatedModifier(byte mediumId) : BaseModifier
         {
             _arrow.target = _arrow.transform.parent.position;
         }
+        base.FixedUpdate();
     }
 }

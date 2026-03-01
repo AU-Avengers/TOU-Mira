@@ -10,7 +10,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class MediumHiddenModifier : ConcealedModifier, IVisualAppearance
 {
-    public override float Duration => OptionGroupSingleton<MediumOptions>.Instance.MediateDurationReal + 1f;
+    public override float Duration => OptionGroupSingleton<MediumOptions>.Instance.MediateDuration.Value + 1f;
     public override string ModifierName => "Hidden";
     public override bool HideOnUi => true;
     public override bool AutoStart => true;

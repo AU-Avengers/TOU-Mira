@@ -17,8 +17,8 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
     public override string Name => TouLocale.GetParsed("TouRoleMediumMediate", "Mediate");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medium;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<MediumOptions>.Instance.MediateCooldown + MapCooldown, 0.001f, 120f);
-    public override float EffectDuration => OptionGroupSingleton<MediumOptions>.Instance.MediateDurationReal;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<MediumOptions>.Instance.MediateCooldown.Value + MapCooldown, 0.001f, 120f);
+    public override float EffectDuration => OptionGroupSingleton<MediumOptions>.Instance.MediateDuration.Value;
 
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MediateSprite;
 
@@ -51,19 +51,15 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
 
     protected override void OnClick()
     {
-        if (MediumRole.IsReworked)
+        if (EffectActive)
         {
-            if (EffectActive)
+            if (Role.Spirit != null)
             {
-                if (Role.Spirit != null)
-                {
-                    MediumRole.RpcRemoveMediumSpirit(PlayerControl.LocalPlayer, Role.Spirit);
-                }
-                return;
+                MediumRole.RpcRemoveMediumSpirit(PlayerControl.LocalPlayer, Role.Spirit);
             }
-            MediumRole.RpcCreateMediumSpirit(PlayerControl.LocalPlayer);
             return;
         }
+
         var deadPlayers = PlayerControl.AllPlayerControls.ToArray()
             .Where(plr => plr.Data.IsDead && !plr.Data.Disconnected &&
                           Object.FindObjectsOfType<DeadBody>().Any(x => x.ParentId == plr.PlayerId)
@@ -71,6 +67,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
 
         if (deadPlayers.Count == 0)
         {
+            MediumRole.RpcMediate(PlayerControl.LocalPlayer);
             return;
         }
 
@@ -83,15 +80,12 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
             _ => []
         };
 
-        foreach (var plr in targets)
-        {
-            MediumRole.RpcMediate(PlayerControl.LocalPlayer, plr);
-        }
+        MediumRole.RpcMultiMediate(PlayerControl.LocalPlayer, targets);
     }
 
     public override void OnEffectEnd()
     {
-        if (!MediumRole.IsReworked || Role.Spirit == null)
+        if (Role.Spirit == null)
         {
             return;
         }
@@ -100,10 +94,6 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
 
     public override bool CanUse()
     {
-        if (!MediumRole.IsReworked || !OptionGroupSingleton<MediumOptions>.Instance.MediateEarlyCancel.Value)
-        {
-            return base.CanUse();
-        }
         if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
         {
             return false;
@@ -115,6 +105,6 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
             return false;
         }
 
-        return ((Timer <= 0 && !EffectActive) || (EffectActive && Timer <= EffectDuration - 2f));
+        return ((Timer <= 0 && !EffectActive) || (EffectActive && Timer <= EffectDuration - OptionGroupSingleton<MediumOptions>.Instance.LivingSeeSpiritTimer.Value - 1f));
     }
 }

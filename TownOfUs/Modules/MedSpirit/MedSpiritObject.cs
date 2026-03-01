@@ -133,7 +133,24 @@ public sealed class MedSpiritObject : InnerNetObject
 
     private void OnDisable()
     {
-        if (!Owner || !Owner!.Data || !Owner.Data.Role) return;
+        if (!Owner || !Owner!.Data)
+        {
+            return;
+        }
+
+        foreach (var modifier in ModifierUtils.GetActiveModifiers<MediatedModifier>())
+        {
+            if (modifier.MediumId == Owner.PlayerId)
+            {
+                modifier.Player.RemoveModifier(modifier);
+            }
+        }
+
+        if (!Owner.Data.Role)
+        {
+            return;
+        }
+
         if (Owner.Data.Role is MediumRole detonator) detonator.Spirit = null;
 
         if (!AmOwner) return;
@@ -141,6 +158,7 @@ public sealed class MedSpiritObject : InnerNetObject
         {
             modifier.Player.RemoveModifier(modifier);
         }
+
         var button = CustomButtonSingleton<MediumMediateButton>.Instance;
         button.ResetCooldownAndOrEffect();
 

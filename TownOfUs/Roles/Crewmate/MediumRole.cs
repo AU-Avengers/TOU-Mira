@@ -22,17 +22,15 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = new();
 
     public DoomableType DoomHintType => DoomableType.Death;
-    public static bool IsReworked => OptionGroupSingleton<MediumOptions>.Instance.ReworkToggle.Value;
-    public static string ReworkString => IsReworked ? "Alt" : string.Empty;
     public string LocaleKey => "Medium";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
-    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
-            TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}WikiDescription") +
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -44,7 +42,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return new List<CustomButtonWikiDescription>
             {
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mediate", "Mediate"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}Mediate{ReworkString}WikiDescription"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}MediateWikiDescription"),
                     TouCrewAssets.MediateSprite)
             };
         }
@@ -80,9 +78,62 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     
     public MedSpiritObject? Spirit { get; set; }
 
-    [MethodRpc((uint)TownOfUsRpc.CreateMediumSpirit)]
-    public static void RpcCreateMediumSpirit(PlayerControl player)
+    [MethodRpc((uint)TownOfUsRpc.Mediate)]
+    public static void RpcMediate(PlayerControl player)
     {
+        if (player.AmOwner && OptionGroupSingleton<MediumOptions>.Instance.HidePlayersWhileMediating.Value)
+        {
+            foreach (var plr in Helpers.GetAlivePlayers())
+            {
+                if (plr.AmOwner)
+                {
+                    continue;
+                }
+
+                plr.AddModifier<MediumHiddenModifier>();
+            }
+        }
+
+        if (!AmongUsClient.Instance.AmHost)
+        {
+            return;
+        }
+
+        var spirit = Instantiate(TouAssets.MediumSpirit.LoadAsset()).GetComponent<MedSpiritObject>();
+        AmongUsClient.Instance.Spawn(spirit, player.OwnerId);
+    }
+    public static void RpcMultiMediate(
+        PlayerControl source,
+        List<PlayerControl> targets)
+    {
+        var newTargets = targets.Count == 0 ? new Dictionary<byte, string>() : targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName)).ToDictionary(x => x.Key, x => x.Value);
+        RpcMultiMediate(source, newTargets);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.MultiMediate)]
+    public static void RpcMultiMediate(PlayerControl player, Dictionary<byte, string> targets)
+    {
+        if (targets.Count != 0)
+        {
+            var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
+            allPlayers.Remove(player);
+            foreach (var target in targets)
+            {
+                var newPlayer =
+                    allPlayers.FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
+                if (newPlayer == null)
+                {
+                    continue;
+                }
+
+                allPlayers.Remove(newPlayer);
+                if (player.AmOwner || newPlayer.AmOwner)
+                {
+                    var modifier = new MediatedModifier(player.PlayerId);
+                    newPlayer.GetModifierComponent()?.AddModifier(modifier);
+                }
+            }
+        }
         if (player.AmOwner && OptionGroupSingleton<MediumOptions>.Instance.HidePlayersWhileMediating.Value)
         {
             foreach (var plr in Helpers.GetAlivePlayers())
@@ -109,17 +160,5 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public static void RpcRemoveMediumSpirit(PlayerControl medium, MedSpiritObject spirit)
     {
         spirit.StartCoroutine(spirit.CoDestroy().WrapToIl2Cpp());
-    }
-
-    [MethodRpc((uint)TownOfUsRpc.Mediate, LocalHandling = RpcLocalHandling.Before)]
-    public static void RpcMediate(PlayerControl source, PlayerControl target)
-    {
-        if ((!source.AmOwner && !target.AmOwner) || (source.Data.Role is not MediumRole && !target.Data.IsDead))
-        {
-            return;
-        }
-
-        var modifier = new MediatedModifier(source.PlayerId);
-        target.GetModifierComponent()?.AddModifier(modifier);
     }
 }
