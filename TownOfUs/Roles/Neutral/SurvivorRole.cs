@@ -23,6 +23,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     public DoomableType DoomHintType => DoomableType.Protective;
@@ -88,6 +89,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
 
         if (Player.AmOwner && OptionGroupSingleton<SurvivorOptions>.Instance.ScatterOn)
         {

@@ -31,6 +31,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     public void FixedUpdate()

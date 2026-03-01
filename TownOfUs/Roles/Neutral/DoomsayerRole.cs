@@ -36,6 +36,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralEvilTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     private MeetingMenu meetingMenu;
@@ -163,6 +164,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
 
         if (Player.AmOwner)
         {

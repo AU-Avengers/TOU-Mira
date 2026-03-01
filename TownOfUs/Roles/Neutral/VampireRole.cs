@@ -28,6 +28,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SeerRole>());
@@ -107,6 +108,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();

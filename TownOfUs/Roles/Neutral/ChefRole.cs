@@ -35,6 +35,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralOutlierTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     public bool IsUnlovable => true;
@@ -138,6 +139,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
 
         if (!Player.HasModifier<BasicGhostModifier>() && TargetsServed)
         {

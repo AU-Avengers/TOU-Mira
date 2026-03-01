@@ -70,6 +70,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         ClearControlLocal();
     }
 

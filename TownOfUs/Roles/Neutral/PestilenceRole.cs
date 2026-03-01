@@ -30,6 +30,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     public bool Announced { get; set; }
@@ -134,6 +135,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         if (Player.HasModifier<InvulnerabilityModifier>())
         {
             Player.RemoveModifier<InvulnerabilityModifier>();

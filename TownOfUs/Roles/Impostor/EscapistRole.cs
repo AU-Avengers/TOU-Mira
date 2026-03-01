@@ -89,6 +89,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         EscapeMark?.gameObject.Destroy();
     }
 

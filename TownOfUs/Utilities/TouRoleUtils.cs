@@ -3,6 +3,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -15,6 +16,24 @@ namespace TownOfUs.Utilities;
 
 public static class TouRoleUtils
 {
+    public static void ClearTaskHeader(PlayerControl playerControl)
+    {
+        if (!playerControl.AmOwner)
+        {
+            return;
+        }
+        var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "NeutralRoleText");
+        if (playerTask == null)
+        {
+            playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "ImpostorRole");
+        }
+        if (playerTask != null)
+        {
+            playerControl.myTasks.Remove(playerTask);
+            playerTask.gameObject.Destroy();
+        }
+    }
+
     public static Sprite GetRoleIcon(this RoleBehaviour role)
     {
         var roleImg = TouAssets.BlankSprite.LoadAsset();

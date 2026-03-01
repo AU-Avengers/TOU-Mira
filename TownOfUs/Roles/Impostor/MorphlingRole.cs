@@ -95,6 +95,7 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
 
         Clear();
     }

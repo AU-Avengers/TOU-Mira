@@ -22,6 +22,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     public static bool AutoPlaceFakePlayers => true;
@@ -94,6 +95,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();

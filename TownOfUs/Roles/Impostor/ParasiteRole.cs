@@ -91,6 +91,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         ClearControlLocal();
         if (AdvancedMovementUtilities.MobileJoystickR && AdvancedMovementUtilities.MobileJoystickR.gameObject != null)
         {

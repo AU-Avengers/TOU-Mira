@@ -2,10 +2,12 @@
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -20,6 +22,12 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = TouLocale.GetParsed("NeutralBasicDeadTaskHeader");
+        orCreateTask.name = "NeutralRoleText";
+    }
+    public override void Deinitialize(PlayerControl targetPlayer)
+    {
+        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
     }
     private Minigame _hauntMenu = null!;
 
