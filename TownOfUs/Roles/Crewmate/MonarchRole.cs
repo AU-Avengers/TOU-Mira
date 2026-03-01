@@ -163,7 +163,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             if (player.AmOwner)
             {
-                ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightTargetDied").Replace("<targetName>", targetName));
+                ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightTargetDied").Replace("<player>", targetName));
             }
             return;
         }
@@ -172,7 +172,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (player.AmOwner)
         {
-            ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightSuccess").Replace("<targetName>", targetName));
+            ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightSuccess").Replace("<player>", targetName));
         }
 
         if (target.AmOwner)
