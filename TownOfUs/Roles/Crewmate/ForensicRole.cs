@@ -58,6 +58,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Forensic,
+        OptionsScreenshot = TouCrewAssets.ForensicRoleBanner,
         IntroSound = TouAudio.QuestionSound
     };
 
