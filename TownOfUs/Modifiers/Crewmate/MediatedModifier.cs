@@ -34,7 +34,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
         _medium = GameData.Instance.GetPlayerById(MediumId).Role as MediumRole;
         _mediumPlayer = _medium?.Player;
 
-        if (_mediumPlayer == null || _medium == null || !Player.Data.IsDead)
+        if (_mediumPlayer == null || _medium == null || !Player.Data.IsDead || _medium.Spirit == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;
@@ -48,12 +48,12 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
         switch ((MediumVisibility)OptionGroupSingleton<MediumOptions>.Instance.ArrowVisibility.Value)
         {
             case MediumVisibility.Both:
-                var ownerTransform = Player.AmOwner ? _mediumPlayer.transform : Player.transform;
+                var ownerTransform = Player.AmOwner ? _medium.Spirit.transform : Player.transform;
                 _arrow = MiscUtils.CreateArrow(ownerTransform, TownOfUsColors.Medium);
                 break;
 
             case MediumVisibility.ShowMedium when Player.AmOwner:
-                _arrow = MiscUtils.CreateArrow(_mediumPlayer.transform, TownOfUsColors.Medium);
+                _arrow = MiscUtils.CreateArrow(_medium.Spirit.transform, TownOfUsColors.Medium);
                 break;
 
             case MediumVisibility.ShowMediate when _mediumPlayer.AmOwner:

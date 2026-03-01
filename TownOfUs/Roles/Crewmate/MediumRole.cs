@@ -63,7 +63,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
-        MediatedPlayers.ForEach(mod => mod.Player?.GetModifierComponent()?.RemoveModifier(mod));
+        MediatedPlayers.ForEach(mod => mod.Player.RemoveModifier(mod));
         if (Spirit == null) return;
         Spirit.DestroyImmediate();
     }
@@ -72,7 +72,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        MediatedPlayers.ForEach(mod => mod.Player?.GetModifierComponent()?.RemoveModifier(mod));
+        MediatedPlayers.ForEach(mod => mod.Player.RemoveModifier(mod));
         if (Spirit == null) return;
         Spirit.DestroyImmediate();
     }
@@ -121,6 +121,11 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.MultiMediate)]
     public static void RpcMultiMediate(PlayerControl player, Dictionary<byte, string> targets)
     {
+        if (AmongUsClient.Instance.AmHost)
+        {
+            var spirit = Instantiate(TouAssets.MediumSpirit.LoadAsset()).GetComponent<MedSpiritObject>();
+            AmongUsClient.Instance.Spawn(spirit, player.OwnerId);
+        }
         if (targets.Count != 0)
         {
             var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
@@ -158,14 +163,6 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 plr.AddModifier<MediumHiddenModifier>();
             }
         }
-
-        if (!AmongUsClient.Instance.AmHost)
-        {
-            return;
-        }
-
-        var spirit = Instantiate(TouAssets.MediumSpirit.LoadAsset()).GetComponent<MedSpiritObject>();
-        AmongUsClient.Instance.Spawn(spirit, player.OwnerId);
     }
 
     [MethodRpc((uint)TownOfUsRpc.RemoveMediumSpirit)]
