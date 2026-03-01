@@ -98,7 +98,7 @@ public static class ExecutionerEvents
             if (exe.Player.AmOwner)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonSelf")}</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonSelf").Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -126,7 +126,7 @@ public static class ExecutionerEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonOther").Replace("<player>", exe.Player.Data.PlayerName)}</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonOther").Replace("<player>", exe.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
 
                 notif1.AdjustNotification();

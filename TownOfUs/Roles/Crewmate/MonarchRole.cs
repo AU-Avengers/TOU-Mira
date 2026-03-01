@@ -151,6 +151,11 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [MethodRpc((uint)TownOfUsRpc.Knight)]
     public static void RpcKnight(PlayerControl player, PlayerControl target)
     {
+        if (player.Data.Role is not MonarchRole monarch)
+        {
+            Error("RpcKnight - Invalid monarch");
+            return;
+        }
         var targetName = target.CachedPlayerData.PlayerName;
         var icon = TouRoleIcons.Monarch.LoadAsset();
 
@@ -172,7 +177,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (target.AmOwner)
         {
-            ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightedFeedback").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
+            ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.RoleName}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }
 
 
