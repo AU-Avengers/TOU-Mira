@@ -76,13 +76,16 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         if (Spirit == null) return;
         Spirit.DestroyImmediate();
     }
-    
+
     public MedSpiritObject? Spirit { get; set; }
 
     [MethodRpc((uint)TownOfUsRpc.Mediate)]
     public static void RpcMediate(PlayerControl player)
     {
-        if (player.AmOwner && OptionGroupSingleton<MediumOptions>.Instance.HidePlayersWhileMediating.Value)
+        var hidden =
+            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            AppearanceVisibility.None or AppearanceVisibility.Ghosts;
+        if (player.AmOwner && hidden)
         {
             foreach (var plr in Helpers.GetAlivePlayers())
             {
@@ -103,11 +106,15 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         var spirit = Instantiate(TouAssets.MediumSpirit.LoadAsset()).GetComponent<MedSpiritObject>();
         AmongUsClient.Instance.Spawn(spirit, player.OwnerId);
     }
+
     public static void RpcMultiMediate(
         PlayerControl source,
         List<PlayerControl> targets)
     {
-        var newTargets = targets.Count == 0 ? new Dictionary<byte, string>() : targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName)).ToDictionary(x => x.Key, x => x.Value);
+        var newTargets = targets.Count == 0
+            ? new Dictionary<byte, string>()
+            : targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName))
+                .ToDictionary(x => x.Key, x => x.Value);
         RpcMultiMediate(source, newTargets);
     }
 
@@ -135,7 +142,11 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 }
             }
         }
-        if (player.AmOwner && OptionGroupSingleton<MediumOptions>.Instance.HidePlayersWhileMediating.Value)
+
+        var hidden =
+            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            AppearanceVisibility.None or AppearanceVisibility.Ghosts;
+        if (player.AmOwner && hidden)
         {
             foreach (var plr in Helpers.GetAlivePlayers())
             {

@@ -61,7 +61,10 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
                 break;
         }
 
-        if (_mediumPlayer.AmOwner && !OptionGroupSingleton<MediumOptions>.Instance.RevealMediateAppearance.Value)
+        var hidden =
+            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            AppearanceVisibility.None or AppearanceVisibility.Living;
+        if (_mediumPlayer.AmOwner && hidden)
         {
             Player.SetCamouflage();
         }
@@ -86,7 +89,11 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
             CustomButtonSingleton<MediumMediateButton>.Instance.SetTimerPaused(false);
             CustomButtonSingleton<MediumMediateButton>.Instance.ResetCooldownAndOrEffect();
 
-            if (!OptionGroupSingleton<MediumOptions>.Instance.RevealMediateAppearance.Value)
+            var hidden =
+                (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+                AppearanceVisibility.None or AppearanceVisibility.Living;
+
+            if (hidden)
             {
                 Player.SetCamouflage(false);
             }
@@ -115,6 +122,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
         {
             _arrow.target = _arrow.transform.parent.position;
         }
+
         base.FixedUpdate();
     }
 }

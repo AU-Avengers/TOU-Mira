@@ -15,16 +15,18 @@ public sealed class MediumOptions : AbstractOptionGroup<MediumRole>
     public ModdedNumberOption MediateDuration { get; set; } =
         new("TouOptionMediumMediateDuration", 15f, 5f, 20f, 2.5f, MiraNumberSuffixes.Seconds);
 
-    public ModdedToggleOption HidePlayersWhileMediating { get; set; } =
-        new("TouOptionMediumHidePlayersWhileMediating", true);
-
     public ModdedNumberOption MediatingSpeed { get; set; } =
         new("TouOptionMediumMediatingSpeed", 3.5f, 1.5f, 10f, 0.25f, MiraNumberSuffixes.Multiplier, "0.00");
 
     public ModdedNumberOption LivingSeeSpiritTimer { get; set; } =
         new("TouOptionMediumLivingSeeSpiritTimer", 2.5f, 0.5f, 20f, 0.5f, MiraNumberSuffixes.Seconds);
-    public ModdedToggleOption RevealMediateAppearance { get; set; } =
-        new("TouOptionMediumRevealAppearanceOfMediateTarget", true);
+
+    public ModdedEnumOption PlayerVisibility { get; set; } = new("TouOptionMediumAppearanceVisibility",
+        (int)AppearanceVisibility.Both, typeof(AppearanceVisibility),
+        [
+            "TouOptionMediumAppearanceEnumLiving", "TouOptionMediumAppearanceEnumDead",
+            "TouOptionMediumAppearanceEnumBoth", "TouOptionMediumAppearanceEnumNone"
+        ]);
 
     public ModdedEnumOption ArrowVisibility { get; set; } = new("TouOptionMediumArrowVisibility",
         (int)MediumVisibility.Both, typeof(MediumVisibility),
@@ -53,6 +55,14 @@ public enum MediumVisibility
 {
     ShowMedium,
     ShowMediate,
+    Both,
+    None
+}
+
+public enum AppearanceVisibility
+{
+    Living,
+    Ghosts,
     Both,
     None
 }
