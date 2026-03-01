@@ -375,6 +375,7 @@
   <string name="TouScatter">Scatter</string>
   <!-- Common Terms -->
   <string name="TargetingNobody">Nobody</string>
+  <string name="GuesserNoResults">No results</string>
   <!-- Option Tabs -->
   <string name="TouTabOptionBetterMaps">Better Maps/Sabotages</string>
   <string name="TouTabOptionBetterMapsDesc">Configure tasks, cooldowns, doors, vents, sabotages, and more for each map!</string>
@@ -812,7 +813,7 @@
   <string name="TouRoleJailorCannotExecute">\%player\% cannot be executed! They must be Invulnerable or blessed!</string>
   <string name="TouRoleJailorExecutedCrew">\%player\% was a crewmate! You can no longer jail anyone!</string>
   <string name="TouRoleJailorExecutedEvil">\%player\% was successfully executed!</string>
-  <string name="TouRoleJailorEgotistTabInfo">You can execute crewmates.</string>
+  <string name="TouRoleJailorEvilTabInfo">You can execute crewmates.</string>
   <!-- Lookout - Crewmate Investigative -->
   <!-- Lookout Wiki / Abilities -->
   <string name="TouRoleLookout">Lookout</string>
@@ -941,6 +942,10 @@
   <string name="TouRoleMonarchKnightDescription">Knight a player, giving them \%amount\% vote(s)</string>
   <string name="TouRoleMonarchChangeFlash">Change Flash</string>
   <string name="TouRoleMonarchChangeFlashDescription">If configurable, the Monarch can change how their defense appears to other attackers. The color can flash like a Cleric, Medic, Mercenary, Warden, or not flash at all!</string>
+  <string name="TouRoleMonarchKnightTargetDied">\%player\% died before you could knight them.</string>
+  <string name="TouRoleMonarchKnightSuccess">\%player\% was knighted!</string>
+  <string name="TouRoleMonarchKnightedFeedback">You were knighted by a \%role\%. You gained \%votes\% vote(s)!</string>
+  <string name="TouRoleMonarchKnightFallenFeedback">Your knight, \%player\%, has fallen...</string>
   <!-- Mystic - Crewmate Investigative -->
   <!-- Mystic Wiki / Description -->
   <string name="TouRoleMystic">Mystic</string>
@@ -975,6 +980,7 @@
   <string name="TouOptionOracleNeutBadOutlier">Outliers</string>
   <string name="TouOptionOracleNeutBadNone">None</string>
   <!-- Oracle Feedback -->
+  <string name="TouRoleOracleConfessionTitle">Oracle Confession</string>
   <string name="TouRoleOracleConfessorDied">Your confessor failed to survive so you received no confession</string>
   <string name="TouRoleOracleTooFew">Too few people alive to receive a confessional</string>
   <string name="TouRoleOracleNoMoreEvil">\%player\% confesses to knowing that there are no more evil players!</string>
@@ -1010,6 +1016,7 @@
   <string name="TouRolePolitician">Politician</string>
   <string name="TouRolePoliticianIntroBlurb">Campaign to become the Mayor!</string>
   <string name="TouRolePoliticianTabDescription">Campaign crewmates in hopes to become the Mayor! At least half of\%nl\%the innocent players must be campaigned to reveal successfully</string>
+  <string name="TouRolePoliticianEgotistTabInfo">Evildoers will know your true motives when revealed.</string>
   <string name="TouRolePoliticianWikiDescription">The Politician is a Crewmate Power role that can reveal themselves to the crew as the Mayor, given that they have campaigned at least half of the crewmates.</string>
   <string name="TouRolePoliticianCampaign">Campaign</string>
   <string name="TouRolePoliticianCampaignWikiDescription">Give a player a ballot, which will only be useful to you if they are a Crewmate.</string>
@@ -1029,9 +1036,7 @@
   <string name="TouRoleProsecutor">Prosecutor</string>
   <string name="TouRoleProsecutorIntroBlurb">Exile players of your choosing</string>
   <string name="TouRoleProsecutorTabDescription">Choose to exile anyone of your choosing</string>
-  <string name="TouRoleProsecutorCanProsecuteCrew">
-    <b>You may prosecute crew.</b>
-  </string>
+  <string name="TouRoleProsecutorCanProsecuteCrew">\%b\%You may prosecute crew.\%/b\%</string>
   <string name="TouRoleProsecutorProsecutionsRemaining">\%count\% Prosecution(s) Remaining</string>
   <string name="TouRoleProsecutorWikiDescription">The Prosecutor is a Crewmate Power role that can Exile a player, applying five votes to a player of their choosing. They can also see who voted for whom, even if they're anonymous.</string>
   <string name="TouRoleProsecutorProsecute">Prosecute</string>
@@ -1222,6 +1227,14 @@
   <string name="TouRoleSnitchTabDescriptionEgo">Complete all your tasks to discover \%and\% help the Impostors.</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasksEgo">Help the Impostors!</string>
   <string name="TouRoleSnitchWikiDescription">The Snitch is a Crewmate Investigative role that can reveal the Impostors to themselves by finishing all their tasks. Upon completing all tasks, the Impostors will be revealed to the Snitch with an arrow and their red name.</string>
+  <string name="TouRoleSnitchSelfRevealedEgoFeedback">The impostors know of your whereabouts, and know you're the Egotist!</string>
+  <string name="TouRoleSnitchSelfRevealedFeedback">The impostors know of your whereabouts!</string>
+  <string name="TouRoleSnitchImpRevealedEgoFeedback">The Snitch is an Egotist, who will help you overthrow the crewmates!</string>
+  <string name="TouRoleSnitchImpRevealedFeedback">The Snitch is getting closer to reveal you!</string>
+  <string name="TouRoleSnitchSelfCompletedEgoFeedback">You have revealed the impostors, who can help your win condition!</string>
+  <string name="TouRoleSnitchSelfCompletedFeedback">You have revealed the impostors!</string>
+  <string name="TouRoleSnitchImpCompletedEgoFeedback">The Snitch can now help you as the Egotist!</string>
+  <string name="TouRoleSnitchImpCompletedFeedback">The Snitch knows what you are now!</string>
   <!-- Snitch Options -->
   <string name="TouOptionSnitchRevealsNeutralKillers">Snitch Reveals Neutral Killers</string>
   <string name="TouOptionSnitchSeesTraitor">Snitch Sees Traitor</string>
@@ -1359,6 +1372,10 @@
   <string name="TouRoleVigilante">Vigilante</string>
   <string name="TouRoleVigilanteIntroBlurb">Kill \%color=#FF0000FF\%Evildoers\%/color\% by guessing them!</string>
   <string name="TouRoleVigilanteTabDescription">Guess the roles of impostors mid-meeting to kill them!</string>
+  <string name="TouRoleVigilanteEvilTabInfo">You can also guess Crewmates.</string>
+  <string name="TouRoleVigilanteNoSafeShots">You have no more safe shots left.</string>
+  <string name="TouRoleVigilanteSafeShotsLeft">\%count\% safe shot(s) left.</string>
+  <string name="TouRoleVigilanteMultiShotFeedback">Your Multi-Shot has prevented you from dying this meeting! You have \%count\% safe shot(s) left!</string>
   <string name="TouRoleVigilanteWikiDescription">The Vigilante is a Crewmate Killing role that can guess roles of players in meetings. If they guess correctly, the other player will die. If not, they will die. </string>
   <!-- Vigilante Options -->
   <string name="TouOptionVigilanteNumberOfGuesses">Number Of Guesses</string>
@@ -1771,6 +1788,8 @@
   <string name="TouRoleDoomsayerObserve">Observe</string>
   <string name="TouRoleDoomsayerObserveWikiDescription">Observe a player, gaining a hint in the next meeting what their role could be.</string>
   <string name="TouRoleDoomsayerObserveNotif">You will receive a report on \%player\% in the following meeting. This will help you narrow down their role.</string>
+  <string name="TouRoleDoomsayerWonSelf">You have successfully won as the \%role\%, as you have guessed enough players successfully!</string>
+  <string name="TouRoleDoomsayerWonOther">The \%role\%, \%player\%, has successfully won, as they have guessed enough players!</string>
   <!-- Doomsayer Options -->
   <string name="TouOptionDoomsayerCooldown">Observe Cooldown</string>
   <string name="TouOptionDoomsayerNecessaryGuessed">Number Of Guesses Needed To Win</string>
@@ -1804,6 +1823,9 @@
   <string name="TouRoleExecutionerMissingTargetDescription">Get your target voted out to win.</string>
   <string name="TouRoleExecutionerWikiDescription">The Executioner is a Neutral Evil role that wins by getting their target (signified by \%symbol\%) ejected in a meeting.</string>
   <string name="TouRoleExecutionerTorment">Torment</string>
+  <string name="TouRoleExecutionerWonSelf">You have successfully won as the \%role\%, as your target was voted out!</string>
+  <string name="TouRoleExecutionerWonOther">The \%role\%, \%player\%, has successfully won, as their target was voted out!</string>
+  <string name="TouRoleExecutionerTormentFeedback">You have one round to torment a player of your choice to death, choose wisely.</string>
   <!-- Executioner Options -->
   <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
   <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>

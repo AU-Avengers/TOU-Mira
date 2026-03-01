@@ -124,7 +124,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         if (evilPlayers.Count == 0)
         {
             return TouLocale.GetParsed("TouRoleOracleNoMoreEvil")
-                .Replace("\\%player\\%", player.GetDefaultAppearance().PlayerName);
+                .Replace("<player>", player.GetDefaultAppearance().PlayerName);
         }
 
         allPlayers.Shuffle();
@@ -137,18 +137,18 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             var thirdPlayer = allPlayers[1];
 
             return TouLocale.GetParsed("TouRoleOracleThreePlayers")
-                .Replace("\\%player1\\%", player.GetDefaultAppearance().PlayerName)
-                .Replace("\\%player2\\%", secondPlayer.GetDefaultAppearance().PlayerName)
-                .Replace("\\%player3\\%", thirdPlayer.GetDefaultAppearance().PlayerName);
+                .Replace("<player1>", player.GetDefaultAppearance().PlayerName)
+                .Replace("<player2>", secondPlayer.GetDefaultAppearance().PlayerName)
+                .Replace("<player3>", thirdPlayer.GetDefaultAppearance().PlayerName);
         }
         else
         {
             var thirdPlayer = evilPlayers[0];
 
             return TouLocale.GetParsed("TouRoleOracleThreePlayers")
-                .Replace("\\%player1\\%", player.GetDefaultAppearance().PlayerName)
-                .Replace("\\%player2\\%", secondPlayer.GetDefaultAppearance().PlayerName)
-                .Replace("\\%player3\\%", thirdPlayer.GetDefaultAppearance().PlayerName);
+                .Replace("<player1>", player.GetDefaultAppearance().PlayerName)
+                .Replace("<player2>", secondPlayer.GetDefaultAppearance().PlayerName)
+                .Replace("<player3>", thirdPlayer.GetDefaultAppearance().PlayerName);
         }
     }
 
@@ -189,7 +189,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TouLocale.GetParsed("TouRoleOracleBlessingMessageSelf").Replace("\\%player\\%", target.Data.PlayerName)}</b>",
+                $"<b>{TouLocale.GetParsed("TouRoleOracleBlessingMessageSelf").Replace("<player>", target.Data.PlayerName)}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
             notif1.AdjustNotification();
         }
@@ -197,7 +197,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TouLocale.GetParsed("TouRoleOracleBlessingMessageOthers").Replace("\\%player\\%", target.Data.PlayerName)}</b>",
+                $"<b>{TouLocale.GetParsed("TouRoleOracleBlessingMessageOthers").Replace("<player>", target.Data.PlayerName)}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
             notif1.AdjustNotification();
         }
