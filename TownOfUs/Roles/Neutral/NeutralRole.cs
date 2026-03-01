@@ -1,4 +1,6 @@
 ﻿using Il2CppSystem.Text;
+using MiraAPI.Patches.Stubs;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Roles.Neutral;
 
@@ -10,8 +12,17 @@ public abstract class NeutralRole(IntPtr cppPtr) : RoleBehaviour(cppPtr)
         {
             return;
         }
+
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
-        orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBasicTaskHeader")}</color>";
+        orCreateTask.Text =
+            $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBasicTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
+    }
+
+    public override void Deinitialize(PlayerControl targetPlayer)
+    {
+        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
     }
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour
     public override bool IsAffectedByComms => false;

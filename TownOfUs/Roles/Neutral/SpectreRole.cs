@@ -32,6 +32,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = TouLocale.GetParsed("NeutralSpectreTaskHeader");
+        orCreateTask.name = "NeutralRoleText";
     }
     public bool CompletedAllTasks => TaskStage is GhostTaskStage.CompletedTasks;
 
@@ -225,6 +226,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         if (TutorialManager.InstanceExists)
         {
             Player.ResetAppearance();

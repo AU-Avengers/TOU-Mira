@@ -110,6 +110,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
 
         Clear();
         var ambushAnim = GameObject.Find($"{Player.Data.PlayerName} Ambush Animation");
