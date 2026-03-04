@@ -59,6 +59,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Deputy,
+        OptionsScreenshot = TouBanners.DeputyRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound,
     };
 

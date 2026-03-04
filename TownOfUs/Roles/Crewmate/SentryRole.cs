@@ -52,7 +52,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Sentry,
-        OptionsScreenshot = TouCrewAssets.SentryRoleBanner,
+        OptionsScreenshot = TouBanners.SentryRoleBanner,
     };
 
     [HideFromIl2Cpp] public static List<KeyValuePair<SurvCamera, int>> Cameras { get; set; } = [];

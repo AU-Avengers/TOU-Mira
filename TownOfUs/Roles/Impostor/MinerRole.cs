@@ -57,7 +57,7 @@ public sealed class MinerRole(IntPtr cppPtr)
     {
         UseVanillaKillButton = true,
         Icon = TouRoleIcons.Miner,
-        OptionsScreenshot = TouImpAssets.MinerRoleBanner,
+        OptionsScreenshot = TouBanners.MinerRoleBanner,
         IntroSound = TouAudio.MineSound
     };
 

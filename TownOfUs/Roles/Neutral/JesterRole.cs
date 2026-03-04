@@ -66,6 +66,7 @@ public sealed class JesterRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<JesterOptions>.Instance.CanVent,
         IntroSound = TouAudio.NoisemakerIntroSound,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
+        OptionsScreenshot = TouBanners.JesterRoleBanner,
         Icon = TouRoleIcons.Jester
     };
 

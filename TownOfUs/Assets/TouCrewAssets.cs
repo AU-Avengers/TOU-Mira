@@ -119,19 +119,4 @@ public static class TouCrewAssets
 
     public static LoadableAsset<Sprite> DeployCamSprite { get; } =
         new LoadableBundleAsset<Sprite>("DeployButton", TouAssets.MainBundle);
-
-    public static LoadableAsset<Sprite> EngineerRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("EngineerBanner", TouAssets.MainBundle);
-
-    public static LoadableAsset<Sprite> ForensicRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("ForensicBanner", TouAssets.MainBundle);
-
-    public static LoadableAsset<Sprite> MedicRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("MedicBanner", TouAssets.MainBundle);
-
-    public static LoadableAsset<Sprite> MediumRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("MediumBanner", TouAssets.MainBundle);
-
-    public static LoadableAsset<Sprite> SentryRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("SentryBanner", TouAssets.MainBundle);
 }

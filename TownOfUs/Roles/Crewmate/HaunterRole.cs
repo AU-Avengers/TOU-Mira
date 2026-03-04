@@ -164,6 +164,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Haunter,
+        OptionsScreenshot = TouBanners.HaunterRoleBanner,
         TasksCountForProgress = false,
         HideSettings = false,
         ShowInFreeplay = true

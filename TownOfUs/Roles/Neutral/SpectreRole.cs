@@ -156,6 +156,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public override CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Spectre,
+        OptionsScreenshot = TouBanners.SpectreRoleBanner,
         HideSettings = false,
         ShowInFreeplay = true
     };

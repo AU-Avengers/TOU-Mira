@@ -35,6 +35,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Aurial,
+        OptionsScreenshot = TouBanners.AurialRoleBanner,
         IntroSound = TouAudio.MediumIntroSound
     };
 
