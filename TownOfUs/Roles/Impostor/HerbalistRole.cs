@@ -53,6 +53,7 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public CustomRoleConfiguration Configuration => new(this)
     {
         UseVanillaKillButton = false,
+        OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
         Icon = TouRoleIcons.Herbalist,
     };
 

@@ -19,7 +19,8 @@ public sealed class CatalystRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        Icon = TouRoleIcons.Catalyst
+        Icon = TouRoleIcons.Catalyst,
+        OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
     };
 
     [HideFromIl2Cpp]

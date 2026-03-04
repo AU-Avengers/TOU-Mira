@@ -44,6 +44,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Marshal,
+        OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
         MaxRoleCount = 1,
         IntroSound = TouAudio.TribunalSound
     };

@@ -41,7 +41,8 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        Icon = TouRoleIcons.Benefactor
+        Icon = TouRoleIcons.Benefactor,
+        OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
     };
 
     [HideFromIl2Cpp]

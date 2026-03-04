@@ -26,6 +26,7 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Bootlegger,
+        OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
         // IntroSound = TouAudio.ToppatIntroSound,
         MaxRoleCount = 15
     };

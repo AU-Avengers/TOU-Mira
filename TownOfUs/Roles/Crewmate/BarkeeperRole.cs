@@ -30,6 +30,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Barkeeper,
+        OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
         // IntroSound = TouAudio.ToppatIntroSound,
         MaxRoleCount = 15
     };
