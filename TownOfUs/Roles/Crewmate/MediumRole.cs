@@ -55,7 +55,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Medium,
-        OptionsScreenshot = TouCrewAssets.MediumRoleBanner,
+        OptionsScreenshot = TouBanners.MediumRoleBanner,
         IntroSound = TouAudio.MediumIntroSound
     };
 

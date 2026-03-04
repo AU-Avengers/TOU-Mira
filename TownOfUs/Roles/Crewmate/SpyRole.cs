@@ -32,6 +32,7 @@ public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Spy,
+        OptionsScreenshot = TouBanners.SpyRoleBanner,
         IntroSound = TouAudio.SpyIntroSound
     };
 

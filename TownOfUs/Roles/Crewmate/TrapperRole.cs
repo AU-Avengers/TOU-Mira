@@ -52,6 +52,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Trapper,
+        OptionsScreenshot = TouBanners.TrapperRoleBanner,
         IntroSound = TouAudio.TrackerIntroSound
     };
 

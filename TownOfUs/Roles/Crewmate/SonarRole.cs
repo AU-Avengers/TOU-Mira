@@ -46,6 +46,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Sonar,
+        OptionsScreenshot = TouBanners.SonarRoleBanner,
         IntroSound = TouAudio.TrackerIntroSound
     };
 

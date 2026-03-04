@@ -70,6 +70,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Snitch,
+        OptionsScreenshot = TouBanners.SnitchRoleBanner,
         IntroSound = TouAudio.ToppatIntroSound
     };
 

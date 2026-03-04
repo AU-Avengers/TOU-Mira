@@ -26,6 +26,7 @@ public sealed class MysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Mystic,
+        OptionsScreenshot = TouBanners.MysticRoleBanner,
         IntroSound = TouAudio.MediumIntroSound
     };
 

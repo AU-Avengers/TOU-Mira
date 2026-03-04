@@ -62,6 +62,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Seer,
+        OptionsScreenshot = TouBanners.SeerRoleBanner,
         IntroSound = TouAudio.QuestionSound
     };
     [HideFromIl2Cpp] public PlayerControl? GazeTarget { get; set; }

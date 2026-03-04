@@ -64,6 +64,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         Icon = TouRoleIcons.Escapist,
         IntroSound = TouAudio.TimeLordIntroSound,
+        OptionsScreenshot = TouBanners.EscapistRoleBanner,
         CanUseVent = OptionGroupSingleton<EscapistOptions>.Instance.CanVent
     };
 

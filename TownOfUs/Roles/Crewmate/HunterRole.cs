@@ -64,6 +64,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Hunter,
+        OptionsScreenshot = TouBanners.HunterRoleBanner,
         IntroSound = TouAudio.OtherIntroSound
     };
 
