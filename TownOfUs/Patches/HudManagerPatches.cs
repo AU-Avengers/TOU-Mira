@@ -1092,6 +1092,22 @@ public static class HudManagerPatches
         if (CanZoom)
         {
             CheckForScrollZoom();
+
+            if (_targetZoom > 0f && Camera.main != null)
+            {
+                float current = Camera.main.orthographicSize;
+            
+                float newZoom = Mathf.Lerp(
+                    current,
+                    _targetZoom,
+                    Time.deltaTime * 40f
+                );
+            
+                if (Mathf.Abs(newZoom - _targetZoom) < 0.02f)
+                    newZoom = _targetZoom;
+            
+                AdjustCameraSize(newZoom);
+            }
         }
 
         if (PlayerControl.LocalPlayer.Data.Role == null ||
