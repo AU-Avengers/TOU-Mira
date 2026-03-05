@@ -49,6 +49,8 @@ public static class HudManagerPatches
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
+    
+    private static float _targetZoom = -1f;
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
