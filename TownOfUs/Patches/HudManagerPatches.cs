@@ -128,7 +128,7 @@ public static class HudManagerPatches
             return;
         }
 
-        AdjustCameraSize(size);
+        _targetZoom = size;
     }
 
     public static void ResetZoom()
