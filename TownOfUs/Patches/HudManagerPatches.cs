@@ -1095,7 +1095,9 @@ public static class HudManagerPatches
 
         if (MeetingHud.Instance || ExileController.Instance)
         {
-            _targetZoom = Camera.main.orthographicSize;
+            if (Camera.main != null)
+                _targetZoom = Camera.main.orthographicSize;
+        
             return;
         }
 
