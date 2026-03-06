@@ -108,7 +108,7 @@ public static class HudManagerPatches
             return;
         }
 
-        AdjustCameraSize(!Zooming ? 12f : 3f);
+        _targetZoom = !Zooming ? 12f : 3f;
     }
 
     public static void ScrollZoom(bool zoomOut = false)
