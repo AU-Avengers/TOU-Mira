@@ -1083,6 +1083,11 @@ public static class HudManagerPatches
             return;
         }
 
+        if (_targetZoom < 0f && Camera.main != null)
+        {
+            _targetZoom = Camera.main.orthographicSize;
+        }
+
         CreateZoomButton(__instance);
         CreateWikiButton(__instance);
 
