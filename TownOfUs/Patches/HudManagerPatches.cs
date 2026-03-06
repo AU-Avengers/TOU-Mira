@@ -1093,6 +1093,12 @@ public static class HudManagerPatches
         UpdateRoleList(__instance);
         UpdateTeamChat();
 
+        if (MeetingHud.Instance || ExileController.Instance)
+        {
+            _targetZoom = Camera.main.orthographicSize;
+            return;
+        }
+
         if (CanZoom)
         {
             CheckForScrollZoom();
