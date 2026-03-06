@@ -76,11 +76,10 @@ public static class HudManagerPatches
 
         var instance = HudManager.Instance;
         if (Camera.main != null)
-            Camera.main.orthographicSize = size; // setting size for the main camera
+            Camera.main.orthographicSize = size;
 
         if (instance.UICamera != null)
-            instance.UICamera.orthographicSize =
-                size; // setting size for the ui camera as well. thanku pietro for the help :)
+            instance.UICamera.orthographicSize = size; 
 
         if (size <= 3f)
         {
@@ -98,7 +97,7 @@ public static class HudManagerPatches
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
 
-        RefreshUIAnchors(); // new function. Don't ban me :sob:
+        RefreshUIAnchors(); 
     }
 
     public static void ButtonClickZoom()
