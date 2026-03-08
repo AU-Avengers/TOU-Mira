@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Text;
+using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -36,7 +38,7 @@ public static class TouRoleUtils
 
     public static Sprite GetRoleIcon(this RoleBehaviour role)
     {
-        var roleImg = TouAssets.BlankSprite.LoadAsset();
+        var roleImg = GetBasicRoleIcon(role);
         var customRole = role as ICustomRole;
         if (customRole != null && customRole.Configuration.Icon != null)
         {
@@ -45,9 +47,57 @@ public static class TouRoleUtils
         else if (role.RoleIconSolid != null)
         {
             roleImg = role.RoleIconSolid;
+            var changedIcon = TryGetVanillaRoleIcon(role.Role);
+            if (changedIcon != null)
+            {
+                roleImg = changedIcon;
+            }
         }
 
         return roleImg;
+    }
+
+    public static Sprite GetBasicRoleIcon(ITownOfUsRole role)
+    {
+        var basicText = role.RoleAlignment.ToString();
+        if (basicText.Contains("Impostor"))
+        {
+            return TouRoleIcons.Impostor.LoadAsset();
+        }
+        if (basicText.Contains("Crewmate"))
+        {
+            return TouRoleIcons.Crewmate.LoadAsset();
+        }
+        return TouRoleIcons.Neutral.LoadAsset();
+    }
+
+    public static Sprite GetBasicRoleIcon(RoleBehaviour role)
+    {
+        if (role.IsImpostor())
+        {
+            return TouRoleIcons.Impostor.LoadAsset();
+        }
+        if (role.IsCrewmate())
+        {
+            return TouRoleIcons.Crewmate.LoadAsset();
+        }
+        return TouRoleIcons.Neutral.LoadAsset();
+    }
+
+    public static Sprite? TryGetVanillaRoleIcon(RoleTypes roleType)
+    {
+        return roleType switch
+        {
+            RoleTypes.GuardianAngel => TouRoleIcons.GuardianAngel.LoadAsset(),
+            RoleTypes.Detective => TouRoleIcons.Detective.LoadAsset(),
+            RoleTypes.Tracker => TouRoleIcons.Tracker.LoadAsset(),
+            RoleTypes.Scientist => TouRoleIcons.Scientist.LoadAsset(),
+            RoleTypes.Noisemaker => TouRoleIcons.Noisemaker.LoadAsset(),
+            RoleTypes.Phantom => TouRoleIcons.Phantom.LoadAsset(),
+            RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter.LoadAsset(),
+            RoleTypes.Viper => TouRoleIcons.Viper.LoadAsset(),
+            _ => null
+        };
     }
 
     public static bool CanGetGhostRole(this PlayerControl player)

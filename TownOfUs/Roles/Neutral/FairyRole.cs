@@ -122,7 +122,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         return desc;
     }
 
-    public Color RoleColor => TownOfUsColors.GuardianAngel;
+    public Color RoleColor => TownOfUsColors.Fairy;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralBenign;
 

@@ -2139,7 +2139,7 @@ public static class MiscUtils
             GameUtility.Admin => TouRoleIcons.Spy,
             GameUtility.Cams => TouModifierIcons.Operative,
             GameUtility.Doorlog => TouRoleIcons.Investigator,
-            GameUtility.Vitals => TouModifierIcons.Scientist,
+            GameUtility.Vitals => TouRoleIcons.Scientist,
             _ => TouModifierIcons.Operative,
         };
         if (tasksNeeded <= 0)

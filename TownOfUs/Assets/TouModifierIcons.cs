@@ -43,17 +43,11 @@ public static class TouModifierIcons
     public static LoadableAsset<Sprite> Multitasker { get; } =
         new LoadableBundleAsset<Sprite>("Multitasker", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> Noisemaker { get; } =
-        new LoadableBundleAsset<Sprite>("Noisemaker", TouAssets.MainBundle);
-
     public static LoadableAsset<Sprite> Operative { get; } =
         new LoadableBundleAsset<Sprite>("Operative", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Rotting { get; } =
         new LoadableBundleAsset<Sprite>("Rotting", TouAssets.MainBundle);
-
-    public static LoadableAsset<Sprite> Scientist { get; } =
-        new LoadableBundleAsset<Sprite>("Scientist", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Scout { get; } = new LoadableBundleAsset<Sprite>("Scout", TouAssets.MainBundle);
 

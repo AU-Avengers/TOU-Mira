@@ -13,7 +13,7 @@ public sealed class GuardianAngelProtectButton : TownOfUsRoleButton<FairyRole>
 {
     public override string Name => TouLocale.GetParsed("TouRoleFairyProtect", "Protect");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
-    public override Color TextOutlineColor => TownOfUsColors.GuardianAngel;
+    public override Color TextOutlineColor => TownOfUsColors.Fairy;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<FairyOptions>.Instance.ProtectCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<FairyOptions>.Instance.ProtectDuration;
     public override int MaxUses => (int)OptionGroupSingleton<FairyOptions>.Instance.MaxProtects;

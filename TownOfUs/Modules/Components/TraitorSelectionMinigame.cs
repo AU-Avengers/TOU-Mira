@@ -99,33 +99,15 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
             var teamName = MiscUtils.GetParsedRoleAlignment(role);
 
             var roleName = role.GetRoleName();
-            var roleImg = TouRoleIcons.RandomAny.LoadAsset();
+            var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
 
-            if (role is ICustomRole customRole)
+            if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
             {
-                if (customRole.Configuration.Icon != null)
-                {
-                    roleImg = customRole.Configuration.Icon.LoadAsset();
-                }
-                else if (customRole.Team == ModdedRoleTeams.Crewmate)
-                {
-                    roleImg = TouRoleIcons.RandomCrew.LoadAsset();
-                }
-                else if (customRole.Team == ModdedRoleTeams.Impostor)
-                {
-                    roleImg = TouRoleIcons.RandomImp.LoadAsset();
-                }
-                else
-                {
-                    roleImg = TouRoleIcons.RandomNeut.LoadAsset();
-                }
+                roleImg = customRole.Configuration.Icon.LoadAsset();
             }
-            else
+            else if (role.RoleIconSolid != null)
             {
-                if (role.RoleIconSolid != null)
-                {
-                    roleImg = role.RoleIconSolid;
-                }
+                roleImg = role.RoleIconSolid;
             }
 
             var card = CreateCard(roleName, teamName, roleImg, z, role.TeamColor);
