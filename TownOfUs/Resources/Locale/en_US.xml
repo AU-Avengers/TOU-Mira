@@ -93,6 +93,8 @@
   <string name="Rainbow">Rainbow</string>
   <!-- Terms used in-game and in the wiki -->
   <string name="BackButtonText">Back</string>
+  <string name="PreviousButtonText">Previous</string>
+  <string name="NextButtonText">Next</string>
   <string name="Alignment">Alignment</string>
   <string name="WikiDescriptionTab">Description</string>
   <string name="WikiAbilitiesTab">Abilities</string>
@@ -101,10 +103,20 @@
   <string name="Roles">Roles</string>
   <string name="Modifier">Modifier</string>
   <string name="Modifiers">Modifiers</string>
+  <string name="Terminology">Terminology</string>
+  <string name="GameSettings">Game Settings</string>
+  <string name="TermsPageCount">Page \%open\%/\%total\%</string>
   <string name="Amount">Amount</string>
   <string name="Chance">Chance</string>
   <string name="Options">Options</string>
   <string name="PlayerHasNoModifiers">No Modifiers</string>
+  <!-- Terminology Wiki -->
+  <string name="TermsCrewRoleAlignmentsTitle">\%color=#8CFFFF\%Crewmate\%/color\% Subalignments</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%Investigative\%/color\% roles can gather information about other players. They can use this info to deduce who is crew or not. • \%color=#8CFFFF\%Killing\%/color\% roles can \%color=#FF8B95\%kill\%/color\% others, but \%color=#FF8B95\%killing\%/color\% \%color=#8CFFFF\%Crewmates\%/color\% may have consequences. • \%color=#8CFFFF\%Protective\%/color\% roles have a way to defend other players, sometimes themselves as well. • \%color=#8CFFFF\%Power\%/color\% roles usually influence votes or have stronger abilities compared to other \%color=#8CFFFF\%Crewmates\%/color\%. • \%color=#8CFFFF\%Support\%/color\% roles usually have ways to help the rest of the \%color=#8CFFFF\%Crewmates\%/color\%, or may just benefit themselves.</string>
+  <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%Neutral\%/color\% Subalignments</string>
+  <string name="TermsNeutRoleAlignmentsInfo">• \%color=#8A8A8A\%Benign\%/color\% roles cannot win by themselves, either helping others or surviving as long as possible. • \%color=#8A8A8A\%Evil\%/color\% roles set out to complete their goals, staying as kingmakers, leaving in victory, or ending the game abruptly. • \%color=#8A8A8A\%Killing\%/color\% roles set out to be the last \%color=#FF8B95\%killer\%/color\% alive at all costs. • \%color=#8A8A8A\%Outlier\%/color\% roles set out to achieve their own goals, but each role impacts the game differently, sometimes behaving like a mix of \%color=#8A8A8A\%Benign\%/color\%, \%color=#8A8A8A\%Evil\%/color\%, and \%color=#8A8A8A\%Killing\%/color\% roles.</string>
+  <string name="TermsImpRoleAlignmentsTitle">\%color=#FF0000\%Impostor\%/color\% Subalignments</string>
+  <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%Concealing\%/color\% roles have the ability to \%color=#FF8B95\%kill\%/color\% as well as deceive others or hide away while doing so. • \%color=#FF0000\%Killing\%/color\% roles have enhanced or altered \%color=#FF8B95\%killing\%/color\% abilities, allowing them to \%color=#FF8B95\%kill\%/color\% more effectively. • \%color=#FF0000\%Power\%/color\% roles have abilities that can be deemed far stronger than any other roles, granting \%color=#FF0000\%Impostors\%/color\% a shift in strength. • \%color=#FF0000\%Support\%/color\% roles can help hide away bodies or to make \%color=#FF8B95\%killing\%/color\% more accessible.</string>
   <!-- Task Text Info -->
   <string name="NeutralBasicTaskHeader">Complete your objective.</string>
   <string name="NeutralBasicDeadTaskHeader">You're dead. Sit back and enjoy the chaos.</string>

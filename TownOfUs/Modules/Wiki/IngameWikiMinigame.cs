@@ -6,6 +6,7 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
@@ -27,6 +28,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     private bool _modifiersSelected;
     private IWikiDiscoverable? _selectedItem;
     private SoftWikiInfo? _selectedSoftItem;
+    private TermWikiInfo? _selectedTermPage;
+    public readonly List<TermWikiInfo> _activeTerms = [];
     public Il2CppReferenceField<Scroller> AbilityScroller;
     public Il2CppReferenceField<Transform> AbilityTemplate;
     public Il2CppReferenceField<PassiveButton> CloseButton;
@@ -39,6 +42,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     public Il2CppReferenceField<Transform> Homepage;
     public Il2CppReferenceField<PassiveButton> HomepageModifiersBtn;
     public Il2CppReferenceField<PassiveButton> HomepageRolesBtn;
+    public Il2CppReferenceField<PassiveButton> HomepageTermsBtn;
+    public Il2CppReferenceField<PassiveButton> HomepageSettingsBtn;
     public Il2CppReferenceField<PassiveButton> OutsideCloseButton;
     public Il2CppReferenceField<Transform> SearchItemTemplate;
     public Il2CppReferenceField<SpriteRenderer> SearchPageIcon;
@@ -50,8 +55,24 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     public Il2CppReferenceField<TextBoxTMP> SearchTextbox;
     public Il2CppReferenceField<PassiveButton> ToggleAbilitiesBtn;
 
+    public Il2CppReferenceField<Transform> TermsScreen;
+    public Il2CppReferenceField<TextMeshPro> TermsDescription;
+    public Il2CppReferenceField<PassiveButton> TermsPreviousBtn;
+    public Il2CppReferenceField<PassiveButton> TermsNextBtn;
+    public Il2CppReferenceField<PassiveButton> TermsBackBtn;
+    public Il2CppReferenceField<SpriteRenderer> TermsScreenIcon;
+    public Il2CppReferenceField<TextMeshPro> TermsScreenSectionName;
+    public Il2CppReferenceField<TextMeshPro> TermsScreenTabCount;
+
+    public static void AddNewTerms(IngameWikiMinigame instance)
+    {
+        instance._activeTerms.Add(new TermWikiInfo("TermsCrewRoleAlignmentsTitle", "TermsCrewRoleAlignmentsInfo", TouRoleIcons.Crewmate));
+        instance._activeTerms.Add(new TermWikiInfo("TermsNeutRoleAlignmentsTitle", "TermsNeutRoleAlignmentsInfo", TouRoleIcons.Neutral));
+        instance._activeTerms.Add(new TermWikiInfo("TermsImpRoleAlignmentsTitle", "TermsImpRoleAlignmentsInfo", TouRoleIcons.Impostor));
+    }
     private void Awake()
     {
+        AddNewTerms(this);
         if (MeetingHud.Instance)
         {
             MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(false));
@@ -93,6 +114,27 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             _modifiersSelected = false;
             UpdatePage(WikiPage.SearchScreen);
         }));
+
+        HomepageTermsBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("Terminology", "Terminology");
+        HomepageTermsBtn.Value.OnClick.AddListener((UnityAction)(() =>
+        {
+            UpdatePage(WikiPage.TermsScreen);
+        }));
+
+        HomepageSettingsBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("GameSettings", "GameSettings");
+        HomepageSettingsBtn.Value.OnClick.AddListener((UnityAction)(() =>
+        {
+            UpdatePage(WikiPage.TermsScreen);
+        }));
+
+        TermsBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
+        TermsBackBtn.Value.OnClick.AddListener((UnityAction)(() => { UpdatePage(WikiPage.Homepage); }));
+
+        TermsPreviousBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("PreviousButtonText", "Previous");
+        TermsPreviousBtn.Value.OnClick.AddListener((UnityAction)(() => { ShiftTermsPage(false); }));
+
+        TermsNextBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("NextButtonText", "Next");
+        TermsNextBtn.Value.OnClick.AddListener((UnityAction)(() => { ShiftTermsPage(true); }));
 
         SearchScreenBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
         SearchScreenBackBtn.Value.OnClick.AddListener((UnityAction)(() => { UpdatePage(WikiPage.Homepage); }));
@@ -177,6 +219,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         Homepage.Value.gameObject.SetActive(false);
         SearchScreen.Value.gameObject.SetActive(false);
         DetailScreen.Value.gameObject.SetActive(false);
+        TermsScreen.Value.gameObject.SetActive(false);
         if (SearchIcon)
         {
             SearchIcon.SetActive(false);
@@ -210,7 +253,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         .TryGetComponent<SpriteRenderer>(out var roleIcon))
                 {
                     playerRoleIcon = roleIcon;
-                    roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Warlock.LoadAsset();
+                    roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
                 }
 
                 if (modifierIcon != null)
@@ -232,10 +275,84 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             case WikiPage.DetailScreen:
                 LoadDetailScreen();
                 break;
+
+            case WikiPage.TermsScreen:
+                LoadTermsScreen();
+                break;
         }
 
         TownOfUsColors.UseBasic =
             LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+    }
+
+    private void LoadTermsScreen()
+    {
+        TermsScreen.Value.gameObject.SetActive(true);
+        if (_selectedTermPage == null)
+        {
+            SelectTermsPage(_activeTerms[0], false);
+        }
+    }
+
+    private void ShiftTermsPage(bool goNext)
+    {
+        if (_selectedTermPage == null)
+        {
+            SelectTermsPage(_activeTerms[0], false);
+        }
+        var index = _activeTerms.IndexOf(_selectedTermPage!.Value);
+        if (goNext)
+        {
+            if (TermsDescription.Value.pageToDisplay < TermsDescription.Value.textInfo.pageCount)
+            {
+                ++TermsDescription.Value.pageToDisplay;
+            }
+            else if (_activeTerms.Count > (index + 1))
+            {
+                SelectTermsPage(_activeTerms[index + 1], false);
+            }
+            else
+            {
+                SelectTermsPage(_activeTerms[0], false);
+            }
+        }
+        else
+        {
+            if (TermsDescription.Value.pageToDisplay > 1)
+            {
+                --TermsDescription.Value.pageToDisplay;
+            }
+            else if (index == 0)
+            {
+                SelectTermsPage(_activeTerms[_activeTerms.Count - 1], true);
+            }
+            else
+            {
+                SelectTermsPage(_activeTerms[index - 1], true);
+            }
+        }
+
+        TermsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
+            .Replace("<open>", $"{TermsDescription.Value.pageToDisplay}")
+            .Replace("<total>", $"{TermsDescription.Value.textInfo.pageCount}");
+        // Error($"Page Count: {TermsDescription.Value.textInfo.pageCount}, current page is {TermsDescription.Value.pageToDisplay}");
+    }
+
+    private void SelectTermsPage(TermWikiInfo newTerms, bool lastPage)
+    {
+        _selectedTermPage = newTerms;
+        TermsDescription.Value.text = TouLocale.GetParsed(newTerms.description).Replace(" • ", "\n• ");
+        TermsDescription.Value.ForceMeshUpdate();
+        TermsScreenSectionName.Value.text = TouLocale.GetParsed(newTerms.title);
+
+        TermsDescription.Value.pageToDisplay = lastPage ? TermsDescription.Value.textInfo.pageCount : 1;
+        TermsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
+            .Replace("<open>", $"{TermsDescription.Value.pageToDisplay}")
+            .Replace("<total>", $"{TermsDescription.Value.textInfo.pageCount}");
+
+        TermsScreenIcon.Value.sprite = newTerms.icon.LoadAsset();
+        TermsScreenIcon.Value.SetSizeLimit(1.44f);
+        // Error($"Page Count: {TermsDescription.Value.textInfo.pageCount}, current page is {TermsDescription.Value.pageToDisplay}");
     }
 
     private void LoadDetailScreen()
@@ -350,7 +467,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         SearchPageText.Value.text = TouLocale.Get(_modifiersSelected ? "Modifiers" : "Roles");
         SearchPageIcon.Value.sprite = _modifiersSelected
             ? TouModifierIcons.Bait.LoadAsset()
-            : TouRoleIcons.Warlock.LoadAsset();
+            : TouRoleIcons.Parasite.LoadAsset();
         if (!SearchIcon)
         {
             SearchIcon = Instantiate(SearchPageIcon.Value.gameObject, Instance.gameObject.transform);
@@ -504,7 +621,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             var aliveRole = PlayerControl.LocalPlayer.GetRoleWhenAlive();
             if (aliveRole != null)
             {
-                SearchPageIcon.Value.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Warlock.LoadAsset();
+                SearchPageIcon.Value.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
             }
 
             var comparer = new RoleComparer(roleList);
@@ -512,7 +629,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
                 role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
 
-            Warning($"Roles: {allRoles.Count}");
+            // Warning($"Roles: {allRoles.Count}");
             var roles = allRoles.OrderBy(x => x, comparer);
 
             foreach (var role in roles)
@@ -750,5 +867,8 @@ public enum WikiPage
 {
     Homepage,
     SearchScreen,
-    DetailScreen
+    DetailScreen,
+    TermsScreen
 }
+
+public record struct TermWikiInfo(string title, string description, LoadableAsset<Sprite> icon);
