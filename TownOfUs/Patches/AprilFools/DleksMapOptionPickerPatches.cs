@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Reactor.Localization.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,10 @@ namespace TownOfUs.Patches.AprilFools;
 [HarmonyPatch]
 public static class DleksMapOptionPickerPatches
 {
+    public static StringNames DleksName => CustomStringName.CreateAndRegister("dlekS");
+    // TODO: localize this, probably by stealing from the sloth translations
+    public static StringNames DleksTooltip => CustomStringName.CreateAndRegister(".sepor eht gninrael rof taerG .srodirroc dna smoor elpitlum htiw pihs dezis-muidem a :dlekS ehT");
+    
     [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.SetupMapButtons))]
     [HarmonyPrefix]
     public static void AddToGameOptionsUI(GameOptionsMapPicker __instance)
@@ -47,10 +52,10 @@ public static class DleksMapOptionPickerPatches
     [HarmonyPrefix]
     public static void AddToActualOptions(MapSelectionGameSetting __instance)
     {
-        if (__instance.Values.Count(x => x is StringNames.MapNameSkeld) != 2)
+        if (__instance.Values.All(x => (int)x != (int)DleksName))
         {
             var list = __instance.Values.ToList();
-            list.Insert((int)MapNames.Dleks, StringNames.MapNameSkeld);
+            list.Insert((int)MapNames.Dleks, DleksName);
             __instance.Values = list.ToArray();
         }
     }
@@ -82,6 +87,7 @@ public static class DleksMapOptionPickerPatches
             __instance.mapBanner.sprite = TouAssets.DleksText.LoadAsset();
         }
         __instance.currentCrewSprites ??= __instance.skeldCrewSprites;
+        __instance.mapTooltips[3] = DleksTooltip;
     }
 
     // __instance method is patched to fix issues on Epic Games
