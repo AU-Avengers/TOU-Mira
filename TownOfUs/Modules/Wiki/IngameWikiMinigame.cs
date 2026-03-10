@@ -3,6 +3,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.GameOptions;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
@@ -12,7 +13,10 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Options;
+using TownOfUs.Options.Maps;
 using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -91,7 +95,28 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
     public static void AddNewSettings(IngameWikiMinigame instance)
     {
-        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAmongUsGameSettingsTitle", new Dictionary<AbstractOptionGroup, LoadableAsset<Sprite>>(), TouRoleIcons.Detective, true));
+        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAmongUsGameSettingsTitle", new List<AbstractOptionGroup>(), TouRoleIcons.Detective, true));
+        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsTouMiraGameSettingsTitle",
+            new List<AbstractOptionGroup>()
+            {
+                OptionGroupSingleton<GeneralOptions>.Instance, OptionGroupSingleton<VanillaTweakOptions>.Instance,
+                OptionGroupSingleton<GameMechanicOptions>.Instance, OptionGroupSingleton<PostmortemOptions>.Instance,
+                OptionGroupSingleton<GameTimerOptions>.Instance, OptionGroupSingleton<TaskTrackingOptions>.Instance
+            }, TouRoleIcons.Engineer));
+        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsMapsSabotageSettingsTitle",
+            new List<AbstractOptionGroup>()
+            {
+                OptionGroupSingleton<GlobalBetterMapOptions>.Instance, OptionGroupSingleton<AdvancedUtilityOptions>.Instance,
+                OptionGroupSingleton<AdvancedSabotageOptions>.Instance
+            }, TouModifierIcons.Operative));
+        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsBetterMapsSettingsTitle",
+            new List<AbstractOptionGroup>()
+            {
+                OptionGroupSingleton<BetterSkeldOptions>.Instance, OptionGroupSingleton<BetterMiraHqOptions>.Instance,
+                OptionGroupSingleton<BetterPolusOptions>.Instance, OptionGroupSingleton<BetterAirshipOptions>.Instance,
+                OptionGroupSingleton<BetterFungleOptions>.Instance, OptionGroupSingleton<BetterSubmergedOptions>.Instance,
+                OptionGroupSingleton<BetterLevelImpostorOptions>.Instance
+            }, TouRoleIcons.Spy));
     }
     private void Awake()
     {
@@ -393,9 +418,9 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         _selectedSettingsPage = newTerms;
         var sBuilder = new StringBuilder();
+        var isFirst = true;
         if (newTerms.IsVanilla)
         {
-            var isFirst = true;
             foreach (var rulesCategory in GameManager.Instance.GameSettingsList.AllCategories)
             {
                 sBuilder.AppendLine(GetCategoryHeader(rulesCategory.CategoryName, isFirst));
@@ -406,6 +431,149 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 }
             }
         }
+        else
+        {
+            var mainOptionGroups =
+                AccessTools.Field(typeof(ModdedOptionsManager), "Groups").GetValue(null) as List<AbstractOptionGroup>;
+            foreach (var optionsCategory in newTerms.OptionGroups)
+            {
+                var options = mainOptionGroups?.FirstOrDefault(x => x == optionsCategory)?.Children;
+                IWikiOptionsSummaryProvider? summaryProvider = null;
+                IReadOnlySet<StringNames>? hiddenKeys = null;
+                try
+                {
+                    var optionGroups =
+                        AccessTools.Field(typeof(ModdedOptionsManager), "Groups").GetValue(null) as
+                            List<AbstractOptionGroup>;
+                    summaryProvider =
+                        optionGroups?.FirstOrDefault(x => x == optionsCategory) as IWikiOptionsSummaryProvider;
+                    hiddenKeys = summaryProvider?.WikiHiddenOptionKeys;
+                }
+                catch
+                {
+                    summaryProvider = null;
+                    hiddenKeys = null;
+                }
+
+                if (options == null || !optionsCategory.GroupVisible())
+                {
+                    continue;
+                }
+
+                sBuilder.AppendLine(GetCategoryHeader(optionsCategory.GroupName, isFirst));
+                isFirst = false;
+
+                var insertedSummary = false;
+                foreach (var option in options)
+                {
+                    if (!insertedSummary && summaryProvider != null && hiddenKeys != null)
+                    {
+                        StringNames? key = option switch
+                        {
+                            ModdedToggleOption t => t.StringName,
+                            ModdedEnumOption e => e.StringName,
+                            ModdedNumberOption n => n.StringName,
+                            _ => null
+                        };
+                        if (key.HasValue && hiddenKeys.Contains(key.Value))
+                        {
+                            foreach (var line in summaryProvider.GetWikiOptionSummaryLines())
+                            {
+                                if (!string.IsNullOrWhiteSpace(line))
+                                {
+                                    sBuilder.AppendLine(line);
+                                }
+                            }
+
+                            insertedSummary = true;
+                        }
+                    }
+
+                    switch (option)
+                    {
+                        case ModdedToggleOption toggleOption:
+                            if (!toggleOption.Visible())
+                            {
+                                continue;
+                            }
+
+                            if (hiddenKeys != null && hiddenKeys.Contains(toggleOption.StringName))
+                            {
+                                continue;
+                            }
+
+                            sBuilder.AppendLine(TranslationController.Instance.GetString(toggleOption.StringName) +
+                                                ": " +
+                                                toggleOption.Value);
+                            break;
+                        /*case ModdedMultiSelectOption<Enum> enumOption:
+                            if (!enumOption.Visible())
+                            {
+                                continue;
+                            }
+
+                            builder.AppendLine(enumOption.Title + ": " + enumOption.Values[enumOption.Value]);
+                            break;*/
+                        case ModdedEnumOption enumOption:
+                            if (!enumOption.Visible())
+                            {
+                                continue;
+                            }
+
+                            if (hiddenKeys != null && hiddenKeys.Contains(enumOption.StringName))
+                            {
+                                continue;
+                            }
+
+                            sBuilder.AppendLine(TranslationController.Instance.GetString(enumOption.StringName) + ": " +
+                                                TouLocale.GetParsed(enumOption.Values[enumOption.Value],
+                                                    enumOption.Values[enumOption.Value]));
+                            break;
+                        case ModdedNumberOption numberOption:
+                            if (!numberOption.Visible())
+                            {
+                                continue;
+                            }
+
+                            if (hiddenKeys != null && hiddenKeys.Contains(numberOption.StringName))
+                            {
+                                continue;
+                            }
+
+                            var optionStr = numberOption.Data.GetValueString(numberOption.Value);
+                            if (optionStr.Contains(".000"))
+                            {
+                                optionStr = optionStr.Replace(".000", "");
+                            }
+                            else if (optionStr.Contains(".00"))
+                            {
+                                optionStr = optionStr.Replace(".00", "");
+                            }
+                            else if (optionStr.Contains(".0"))
+                            {
+                                optionStr = optionStr.Replace(".0", "");
+                            }
+
+                            var title = TranslationController.Instance.GetString(numberOption.StringName);
+                            if (numberOption is { NegativeWordValue: not "#", Value: -1 })
+                            {
+                                sBuilder.AppendLine(title + $": {numberOption.NegativeWordValue}");
+                            }
+                            else if (numberOption is { ZeroWordValue: not "#", Value: 0 })
+                            {
+                                sBuilder.AppendLine(title + $": {numberOption.ZeroWordValue}");
+                            }
+                            else
+                            {
+                                sBuilder.AppendLine(title + ": " + optionStr);
+                            }
+
+                            break;
+                    }
+                }
+            }
+        }
+
         SettingsDescription.Value.text = sBuilder.ToString();
         SettingsDescription.Value.ForceMeshUpdate();
         SettingsScreenSectionName.Value.text = TouLocale.GetParsed(newTerms.Title);
@@ -451,6 +619,16 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
 
         return $"<size=50%> </size>\n<b><color=#FFFF99>{text}</color></b>";
+    }
+
+    public static string GetCategoryHeader(string title, bool first = false)
+    {
+        if (first)
+        {
+            return $"<b><color=#FFFF99>{title}</color></b>";
+        }
+
+        return $"<size=50%> </size>\n<b><color=#FFFF99>{title}</color></b>";
     }
 
     public static string GetLocale(StringNames stringName)
@@ -1055,4 +1233,4 @@ public enum WikiPage
 }
 
 public record struct TermWikiInfo(string Title, string Description, LoadableAsset<Sprite> Icon);
-public record struct OptionWikiInfo(string Title, Dictionary<AbstractOptionGroup, LoadableAsset<Sprite>> OptionGroups, LoadableAsset<Sprite> DefaultIcon, bool IsVanilla = false);
+public record struct OptionWikiInfo(string Title, List<AbstractOptionGroup> OptionGroups, LoadableAsset<Sprite> DefaultIcon, bool IsVanilla = false);
