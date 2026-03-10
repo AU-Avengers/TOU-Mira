@@ -103,6 +103,11 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 OptionGroupSingleton<GameMechanicOptions>.Instance, OptionGroupSingleton<PostmortemOptions>.Instance,
                 OptionGroupSingleton<GameTimerOptions>.Instance, OptionGroupSingleton<TaskTrackingOptions>.Instance
             }, TouRoleIcons.Engineer));
+        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAssassinSettingsTitle",
+            new List<AbstractOptionGroup>()
+            {
+                OptionGroupSingleton<AssassinOptions>.Instance
+            }, TouModifierIcons.DoubleShot));
         instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsMapsSabotageSettingsTitle",
             new List<AbstractOptionGroup>()
             {

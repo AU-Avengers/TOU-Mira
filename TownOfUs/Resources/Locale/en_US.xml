@@ -113,6 +113,7 @@
   <!-- Settings Wiki -->
   <string name="WikiSettingsAmongUsGameSettingsTitle">Among Us Game Settings</string>
   <string name="WikiSettingsTouMiraGameSettingsTitle">TOU Mira Game Settings</string>
+  <string name="WikiSettingsAssassinSettingsTitle">Assassin Settings</string>
   <string name="WikiSettingsMapsSabotageSettingsTitle">Maps/Sabotage Settings</string>
   <string name="WikiSettingsBetterMapsSettingsTitle">Better Maps Settings</string>
   <!-- Terminology Wiki -->
