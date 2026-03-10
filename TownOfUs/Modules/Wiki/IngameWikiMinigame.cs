@@ -1,6 +1,8 @@
-﻿using HarmonyLib;
+﻿using System.Text;
+using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
@@ -30,6 +32,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     private SoftWikiInfo? _selectedSoftItem;
     private TermWikiInfo? _selectedTermPage;
     public readonly List<TermWikiInfo> _activeTerms = [];
+    private OptionWikiInfo? _selectedSettingsPage;
+    public readonly List<OptionWikiInfo> _activeSettings = [];
     public Il2CppReferenceField<Scroller> AbilityScroller;
     public Il2CppReferenceField<Transform> AbilityTemplate;
     public Il2CppReferenceField<PassiveButton> CloseButton;
@@ -64,6 +68,15 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     public Il2CppReferenceField<TextMeshPro> TermsScreenSectionName;
     public Il2CppReferenceField<TextMeshPro> TermsScreenTabCount;
 
+    public Il2CppReferenceField<Transform> SettingsScreen;
+    public Il2CppReferenceField<TextMeshPro> SettingsDescription;
+    public Il2CppReferenceField<PassiveButton> SettingsPreviousBtn;
+    public Il2CppReferenceField<PassiveButton> SettingsNextBtn;
+    public Il2CppReferenceField<PassiveButton> SettingsBackBtn;
+    public Il2CppReferenceField<SpriteRenderer> SettingsScreenIcon;
+    public Il2CppReferenceField<TextMeshPro> SettingsScreenSectionName;
+    public Il2CppReferenceField<TextMeshPro> SettingsScreenTabCount;
+
     public static void AddNewTerms(IngameWikiMinigame instance)
     {
         instance._activeTerms.Add(new TermWikiInfo("TermsTargetSymbolsTitle", "TermsTargetSymbolsInfo", TouRoleIcons.Executioner));
@@ -75,9 +88,15 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         instance._activeTerms.Add(new TermWikiInfo("TermsRoleBucketsTitle", "TermsRoleBucketsInfo", TouRoleIcons.Traitor));
         instance._activeTerms.Add(new TermWikiInfo("TermsCommonSlangTitle", "TermsCommonSlangInfo", TouAssets.TerminologySprite));
     }
+
+    public static void AddNewSettings(IngameWikiMinigame instance)
+    {
+        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAmongUsGameSettingsTitle", new Dictionary<AbstractOptionGroup, LoadableAsset<Sprite>>(), TouRoleIcons.Detective, true));
+    }
     private void Awake()
     {
         AddNewTerms(this);
+        AddNewSettings(this);
         if (MeetingHud.Instance)
         {
             MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(false));
@@ -126,12 +145,6 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             UpdatePage(WikiPage.TermsScreen);
         }));
 
-        HomepageSettingsBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("GameSettings", "GameSettings");
-        HomepageSettingsBtn.Value.OnClick.AddListener((UnityAction)(() =>
-        {
-            UpdatePage(WikiPage.TermsScreen);
-        }));
-
         TermsBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
         TermsBackBtn.Value.OnClick.AddListener((UnityAction)(() => { UpdatePage(WikiPage.Homepage); }));
 
@@ -140,6 +153,32 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         TermsNextBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("NextButtonText", "Next");
         TermsNextBtn.Value.OnClick.AddListener((UnityAction)(() => { ShiftTermsPage(true); }));
+
+        SearchScreenBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
+        SearchScreenBackBtn.Value.OnClick.AddListener((UnityAction)(() => { UpdatePage(WikiPage.Homepage); }));
+
+        DetailScreenBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
+        DetailScreenBackBtn.Value.OnClick.AddListener((UnityAction)(() =>
+        {
+            _selectedItem = null;
+            _selectedSoftItem = null;
+            UpdatePage(WikiPage.SearchScreen);
+        }));
+
+        HomepageSettingsBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("GameSettings", "GameSettings");
+        HomepageSettingsBtn.Value.OnClick.AddListener((UnityAction)(() =>
+        {
+            UpdatePage(WikiPage.SettingsScreen);
+        }));
+
+        SettingsBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
+        SettingsBackBtn.Value.OnClick.AddListener((UnityAction)(() => { UpdatePage(WikiPage.Homepage); }));
+
+        SettingsPreviousBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("PreviousButtonText", "Previous");
+        SettingsPreviousBtn.Value.OnClick.AddListener((UnityAction)(() => { ShiftSettingsPage(false); }));
+
+        SettingsNextBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("NextButtonText", "Next");
+        SettingsNextBtn.Value.OnClick.AddListener((UnityAction)(() => { ShiftSettingsPage(true); }));
 
         SearchScreenBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
         SearchScreenBackBtn.Value.OnClick.AddListener((UnityAction)(() => { UpdatePage(WikiPage.Homepage); }));
@@ -225,6 +264,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         SearchScreen.Value.gameObject.SetActive(false);
         DetailScreen.Value.gameObject.SetActive(false);
         TermsScreen.Value.gameObject.SetActive(false);
+        SettingsScreen.Value.gameObject.SetActive(false);
         if (SearchIcon)
         {
             SearchIcon.SetActive(false);
@@ -284,10 +324,143 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             case WikiPage.TermsScreen:
                 LoadTermsScreen();
                 break;
+
+            case WikiPage.SettingsScreen:
+                LoadSettingsScreen();
+                break;
         }
 
         TownOfUsColors.UseBasic =
             LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+    }
+
+    private void LoadSettingsScreen()
+    {
+        SettingsScreen.Value.gameObject.SetActive(true);
+        if (_selectedSettingsPage == null)
+        {
+            SelectSettingsPage(_activeSettings[0], false);
+        }
+    }
+
+    private void ShiftSettingsPage(bool goNext)
+    {
+        if (_selectedSettingsPage == null)
+        {
+            SelectSettingsPage(_activeSettings[0], false);
+        }
+        var index = _activeSettings.IndexOf(_selectedSettingsPage!.Value);
+        if (goNext)
+        {
+            if (SettingsDescription.Value.pageToDisplay < SettingsDescription.Value.textInfo.pageCount)
+            {
+                ++SettingsDescription.Value.pageToDisplay;
+            }
+            else if (_activeSettings.Count > (index + 1))
+            {
+                SelectSettingsPage(_activeSettings[index + 1], false);
+            }
+            else
+            {
+                SelectSettingsPage(_activeSettings[0], false);
+            }
+        }
+        else
+        {
+            if (SettingsDescription.Value.pageToDisplay > 1)
+            {
+                --SettingsDescription.Value.pageToDisplay;
+            }
+            else if (index == 0)
+            {
+                SelectSettingsPage(_activeSettings[_activeSettings.Count - 1], true);
+            }
+            else
+            {
+                SelectSettingsPage(_activeSettings[index - 1], true);
+            }
+        }
+
+        SettingsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
+            .Replace("<po>", $"{SettingsDescription.Value.pageToDisplay}")
+            .Replace("<pt>", $"{SettingsDescription.Value.textInfo.pageCount}")
+            .Replace("<so>", $"{_activeSettings.IndexOf(_selectedSettingsPage!.Value) + 1}")
+            .Replace("<st>", $"{_activeSettings.Count}");
+        // Error($"Page Count: {SettingsDescription.Value.textInfo.pageCount}, current page is {SettingsDescription.Value.pageToDisplay}");
+    }
+
+    private void SelectSettingsPage(OptionWikiInfo newTerms, bool lastPage)
+    {
+        _selectedSettingsPage = newTerms;
+        var sBuilder = new StringBuilder();
+        if (newTerms.IsVanilla)
+        {
+            var isFirst = true;
+            foreach (var rulesCategory in GameManager.Instance.GameSettingsList.AllCategories)
+            {
+                sBuilder.AppendLine(GetCategoryHeader(rulesCategory.CategoryName, isFirst));
+                isFirst = false;
+                foreach (BaseGameSetting baseGameSetting in rulesCategory.AllGameSettings)
+                {
+                    sBuilder.AppendLine(GetVanillaOptionData(baseGameSetting));
+                }
+            }
+        }
+        SettingsDescription.Value.text = sBuilder.ToString();
+        SettingsDescription.Value.ForceMeshUpdate();
+        SettingsScreenSectionName.Value.text = TouLocale.GetParsed(newTerms.Title);
+
+        SettingsDescription.Value.pageToDisplay = lastPage ? SettingsDescription.Value.textInfo.pageCount : 1;
+        SettingsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
+            .Replace("<po>", $"{SettingsDescription.Value.pageToDisplay}")
+            .Replace("<pt>", $"{SettingsDescription.Value.textInfo.pageCount}")
+            .Replace("<so>", $"{_activeSettings.IndexOf(_selectedSettingsPage!.Value) + 1}")
+            .Replace("<st>", $"{_activeSettings.Count}");
+
+        SettingsScreenIcon.Value.sprite = newTerms.DefaultIcon.LoadAsset();
+        SettingsScreenIcon.Value.SetSizeLimit(1.44f);
+        // Error($"Page Count: {SettingsDescription.Value.textInfo.pageCount}, current page is {SettingsDescription.Value.pageToDisplay}");
+    }
+
+    public static string GetVanillaOptionData(BaseGameSetting option)
+    {
+        var gameOpts = GameOptionsManager.Instance.CurrentGameOptions;
+        var value = option.GetValueString(gameOpts.GetValue(option));
+        return TranslationController.Instance.GetString(option.Title) + ": " + value;
+    }
+
+    public static string GetVanillaOptionData(NumberOption option)
+    {
+        return TranslationController.Instance.GetString(option.Title) + ": " +
+               option.GetValueString(option.GetFloat());
+    }
+
+    public static string GetVanillaOptionData(StringOption option)
+    {
+        return TranslationController.Instance.GetString(option.Title) + ": " +
+               option.GetValueString(option.GetFloat());
+    }
+
+    public static string GetCategoryHeader(StringNames stringName, bool first = false)
+    {
+        var text = TranslationController.Instance.GetString(stringName);
+
+        if (first)
+        {
+            return $"<b><color=#FFFF99>{text}</color></b>";
+        }
+
+        return $"<size=50%> </size>\n<b><color=#FFFF99>{text}</color></b>";
+    }
+
+    public static string GetLocale(StringNames stringName)
+    {
+        if (TranslationController.InstanceExists)
+        {
+            return TranslationController.Instance.GetString(stringName);
+        }
+
+        return stringName.ToDisplayString();
     }
 
     private void LoadTermsScreen()
@@ -348,9 +521,9 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     private void SelectTermsPage(TermWikiInfo newTerms, bool lastPage)
     {
         _selectedTermPage = newTerms;
-        TermsDescription.Value.text = TouLocale.GetParsed(newTerms.description).Replace(" • ", "\n• ");
+        TermsDescription.Value.text = TouLocale.GetParsed(newTerms.Description).Replace(" • ", "\n• ");
         TermsDescription.Value.ForceMeshUpdate();
-        TermsScreenSectionName.Value.text = TouLocale.GetParsed(newTerms.title);
+        TermsScreenSectionName.Value.text = TouLocale.GetParsed(newTerms.Title);
 
         TermsDescription.Value.pageToDisplay = lastPage ? TermsDescription.Value.textInfo.pageCount : 1;
         TermsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
@@ -359,7 +532,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             .Replace("<so>", $"{_activeTerms.IndexOf(_selectedTermPage!.Value) + 1}")
             .Replace("<st>", $"{_activeTerms.Count}");
 
-        TermsScreenIcon.Value.sprite = newTerms.icon.LoadAsset();
+        TermsScreenIcon.Value.sprite = newTerms.Icon.LoadAsset();
         TermsScreenIcon.Value.SetSizeLimit(1.44f);
         // Error($"Page Count: {TermsDescription.Value.textInfo.pageCount}, current page is {TermsDescription.Value.pageToDisplay}");
     }
@@ -877,7 +1050,9 @@ public enum WikiPage
     Homepage,
     SearchScreen,
     DetailScreen,
-    TermsScreen
+    TermsScreen,
+    SettingsScreen
 }
 
-public record struct TermWikiInfo(string title, string description, LoadableAsset<Sprite> icon);
+public record struct TermWikiInfo(string Title, string Description, LoadableAsset<Sprite> Icon);
+public record struct OptionWikiInfo(string Title, Dictionary<AbstractOptionGroup, LoadableAsset<Sprite>> OptionGroups, LoadableAsset<Sprite> DefaultIcon, bool IsVanilla = false);
