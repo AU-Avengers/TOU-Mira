@@ -7,8 +7,11 @@ public enum TownOfUsRpc : uint
     OffsetForPuppeteer,
     GhostRoleMurder,
     SpecialMurder,
+    ConfirmSpecialMurder,
     SpecialMultiMurder,
+    ConfirmSpecialMultiMurder,
     FramedMurder,
+    ConfirmFramedMurder,
     RemoveSpawns,
     RerouteSystemByte,
     RerouteSystemMsg,
@@ -114,6 +117,8 @@ public enum TownOfUsRpc : uint
     MultiplayerFreeplayRequest,
     TriggerGlitchHack,
     RecentVetAttack,
+    HostStartMeeting,
+    HostEndMeeting,
 }
 
 internal enum TownOfUsInternalRpc : uint

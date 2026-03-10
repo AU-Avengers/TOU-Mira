@@ -58,7 +58,8 @@ public sealed class UndertakerRole(IntPtr cppPtr)
     {
         UseVanillaKillButton = true,
         CanUseVent = OptionGroupSingleton<UndertakerOptions>.Instance.CanVent,
-        Icon = TouRoleIcons.Undertaker
+        Icon = TouRoleIcons.Undertaker,
+        OptionsScreenshot = TouBanners.UndertakerRoleBanner,
     };
 
 

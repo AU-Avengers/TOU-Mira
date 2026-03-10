@@ -51,13 +51,14 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         }
     }
 
-    public Color RoleColor => TownOfUsColors.Detective;
+    public Color RoleColor => TownOfUsColors.Forensic;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Forensic,
+        OptionsScreenshot = TouBanners.ForensicRoleBanner,
         IntroSound = TouAudio.QuestionSound
     };
 
@@ -99,7 +100,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public void ExaminePlayer(PlayerControl player)
     {
-        var text = TouLocale.GetParsed("TouRoleForensicAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
+        var text = TouLocale.GetParsed("TouRoleForensicAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
         if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene != null && InvestigatingScene.DeadPlayer != null)
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.red));
@@ -110,7 +111,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         else
         {
             Coroutines.Start(MiscUtils.CoFlash(Color.green));
-            text = TouLocale.GetParsed("TouRoleForensicNotAtScene").Replace("<player>", $"{TownOfUsColors.Detective.ToTextColor()}{player.Data.PlayerName}</color>");
+            text = TouLocale.GetParsed("TouRoleForensicNotAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
         }
         var notif1 = Helpers.CreateAndShowNotification(text,
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Forensic.LoadAsset());
@@ -156,7 +157,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         }
 
         // Send the message through chat only visible to the forensic
-        var title = $"<color=#{TownOfUsColors.Detective.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleForensicMessageTitle")}</color>";
+        var title = $"<color=#{TownOfUsColors.Forensic.ToHtmlStringRGBA()}>{TouLocale.Get("TouRoleForensicMessageTitle")}</color>";
         var reported = Player;
         if (br.Body != null)
         {

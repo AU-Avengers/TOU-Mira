@@ -2,6 +2,7 @@
 using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Events;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -42,6 +43,12 @@ public sealed class DeathHandlerModifier : BaseModifier
 
     // This will specify who killed the player, if any, such as; By Innersloth
     public string KilledBy { get; set; } = string.Empty;
+
+    public override void OnActivate()
+    {
+        base.OnActivate();
+        RoundOfDeath = DeathEventHandlers.CurrentRound;
+    }
 
     [MethodRpc((uint)TownOfUsRpc.UpdateDeathHandler)]
     public static void RpcUpdateDeathHandler(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,

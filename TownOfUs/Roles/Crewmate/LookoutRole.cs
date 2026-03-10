@@ -32,6 +32,7 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Lookout,
+        OptionsScreenshot = TouBanners.LookoutRoleBanner,
         IntroSound = TouAudio.QuestionSound
     };
 

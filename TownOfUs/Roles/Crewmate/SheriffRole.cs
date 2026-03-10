@@ -53,6 +53,7 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Sheriff,
+        OptionsScreenshot = TouBanners.SheriffRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
     };
 

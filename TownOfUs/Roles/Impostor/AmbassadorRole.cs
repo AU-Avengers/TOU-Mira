@@ -166,6 +166,9 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public override void Deinitialize(PlayerControl targetPlayer)
     {
+        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+
+        TouRoleUtils.ClearTaskHeader(Player);
         SelectedPlr = null;
 
         if (Player.AmOwner)
@@ -173,8 +176,6 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             meetingMenu?.Dispose();
             meetingMenu = null!;
         }
-
-        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
     }
 
     public void Click(PlayerVoteArea voteArea, MeetingHud __)

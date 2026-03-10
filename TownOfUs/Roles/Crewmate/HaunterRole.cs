@@ -159,11 +159,12 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public Color RoleColor => TownOfUsColors.Haunter;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
+    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateGhost;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Haunter,
+        OptionsScreenshot = TouBanners.HaunterRoleBanner,
         TasksCountForProgress = false,
         HideSettings = false,
         ShowInFreeplay = true
@@ -371,7 +372,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             if (Player.AmOwner && !silent)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}You are now clickable by players!</b></color>",
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterClickableFeedback")}</b></color>",
                     Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
@@ -396,7 +397,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}You have alerted the Killers!</b></color>", Color.white,
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterSelfAlertFeedback")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -404,7 +405,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Coroutines.Start(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}A Haunter is loose, catch them before they reveal you!</b></color>",
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterImpAlertFeedback")}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -428,7 +429,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}You have revealed the Killers!</b></color>", Color.white,
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterSelfRevealFeedback")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }
@@ -436,7 +437,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
             {
                 Coroutines.Start(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}The Haunter has completed their tasks!</b></color>",
+                    $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterImpRevealFeedback")}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
                 notif1.AdjustNotification();
             }

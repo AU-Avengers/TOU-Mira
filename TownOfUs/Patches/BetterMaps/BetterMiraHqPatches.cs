@@ -1,6 +1,7 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using TownOfUs.Options.Maps;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches.BetterMaps;
@@ -11,6 +12,8 @@ public static class BetterMiraHqPatches
     public static bool IsAdjustmentsDone;
     public static bool IsObjectsFetched;
     public static bool IsVentsFetched;
+    public static bool ThemesFetched;
+    public static GameObject HalloweenTheme;
 
     public static Vent SpawnVent;
     public static Vent ReactorVent;
@@ -36,18 +39,40 @@ public static class BetterMiraHqPatches
     public static void FindMiraHqObjects()
     {
         FindVents();
+        FindThemes();
     }
 
     public static void AdjustMiraHq()
     {
         var options = OptionGroupSingleton<BetterMiraHqOptions>.Instance;
         var ventMode = (MiraVentMode)options.BetterVentNetwork.Value;
+        var themeMode = (PolusTheme)options.MapTheme.Value;
         if (ventMode is not MiraVentMode.Normal)
         {
             AdjustVents(ventMode);
         }
 
+        if (themeMode is not PolusTheme.Auto)
+        {
+            AdjustTheme(themeMode);
+        }
+
         IsAdjustmentsDone = true;
+    }
+
+    public static void FindThemes()
+    {
+        var rootObj = GameObject.Find("MiraShip(Clone)");
+        if (rootObj == null)
+        {
+            ThemesFetched = false;
+            return;
+        }
+        if (HalloweenTheme == null)
+        {
+            HalloweenTheme = rootObj.transform.FindChild("HalloweenDecorMira").gameObject;
+        }
+        ThemesFetched = HalloweenTheme != null;
     }
 
     public static void FindVents()
@@ -112,6 +137,22 @@ public static class BetterMiraHqPatches
         IsVentsFetched = SpawnVent != null && BalcVent != null && ReactorVent != null && LabVent != null &&
                          LockerVent != null && AdminVent != null && O2Vent != null && LightsVent != null &&
                          DeconVent != null && MedicVent != null && YRightVent != null;
+    }
+
+    public static void AdjustTheme(PolusTheme theme)
+    {
+        if (ThemesFetched)
+        {
+            switch (theme)
+            {
+                case PolusTheme.Basic:
+                    HalloweenTheme.SetActive(false);
+                    break;
+                case PolusTheme.Halloween:
+                    HalloweenTheme.SetActive(true);
+                    break;
+            }
+        }
     }
 
     public static void AdjustVents(MiraVentMode ventMode = MiraVentMode.Normal)

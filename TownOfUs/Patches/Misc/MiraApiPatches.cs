@@ -63,6 +63,19 @@ public static class MiraApiPatches
         return false;
     }
 
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.CustomMurder))]
+    [HarmonyPrefix]
+    public static bool CustomMurderPatch(PlayerControl source)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return false;
+        }
+
+        return true;
+    }
+
     [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(MeetingCheck), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
     [HarmonyPrefix]
     public static bool RpcAltCustomMurderPatch(
@@ -76,6 +89,11 @@ public static class MiraApiPatches
         bool showKillAnim = true,
         bool playKillSound = true)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return false;
+        }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
@@ -91,14 +109,55 @@ public static class MiraApiPatches
             murderResultFlags = MurderResultFlags.FailedError;
         }
 
-        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
-
         // Track kill cooldown before CustomMurder for Time Lord rewind
-        float? killCooldownBefore = null;
+        CustomTouMurderRpcs.RecordedKillCooldown = -1f;
         if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
         {
-            killCooldownBefore = source.killTimer;
+            CustomTouMurderRpcs.RecordedKillCooldown = source.killTimer;
         }
+
+        if (!PlayerControl.LocalPlayer.IsHost())
+        {
+            return false;
+        }
+
+        CustomMurderRpc.RpcConfirmCustomMurder(
+            PlayerControl.LocalPlayer,
+            source,
+            target,
+            murderResultFlags,
+            resetKillTimer,
+            createDeadBody,
+            teleportMurderer,
+            showKillAnim,
+            playKillSound);
+        return false;
+    }
+
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcConfirmCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(PlayerControl), typeof(MurderResultFlags), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
+    [HarmonyPrefix]
+    public static bool RpcConfirmCustomMurderPatch(
+        this PlayerControl host,
+        PlayerControl source,
+        PlayerControl target,
+        MurderResultFlags murderResultFlags,
+        bool resetKillTimer = true,
+        bool createDeadBody = true,
+        bool teleportMurderer = true,
+        bool showKillAnim = true,
+        bool playKillSound = true)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunKillWarning(source);
+            return false;
+        }
+        if (!host.IsHost())
+        {
+            return false;
+        }
+
+        var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
 
         source.CustomMurder(
             target,
@@ -109,21 +168,10 @@ public static class MiraApiPatches
             showKillAnim,
             playKillSound);
 
-        // Force-sync death state after successful murder to prevent desyncs
-        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) && target.HasDied())
-        {
-            DeathStateSync.ScheduleDeathStateSync(target, true);
-            // Request validation after kill to ensure all clients are in sync
-            if (source.AmOwner)
-            {
-                DeathStateSync.RequestValidationAfterKill(source);
-            }
-        }
-
         // Record kill cooldown change after CustomMurder if it was reset
-        if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
+        if (CustomTouMurderRpcs.RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
         {
-            Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, killCooldownBefore.Value));
+            Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, CustomTouMurderRpcs.RecordedKillCooldown));
         }
         return false;
     }

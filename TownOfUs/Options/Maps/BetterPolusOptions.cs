@@ -91,6 +91,13 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
     [ModdedToggleOption("TouOptionBetterPolusMoveToiletVent")]
     public bool MoveToiletVent { get; set; } = false;
 
+    public ModdedEnumOption MapTheme { get; set; } = new("TouOptionBetterMapsTheme",
+        (int)PolusTheme.Auto, typeof(PolusTheme),
+        [
+            "TouOptionBetterMapsThemeEnumAuto", "TouOptionBetterMapsThemeEnumBasic",
+            "TouOptionBetterMapsThemeEnumHalloween"
+        ]);
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
@@ -100,4 +107,11 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<BetterPolusOptions>.Instance.ChangeSaboTimers
     };
+}
+
+public enum PolusTheme
+{
+    Auto,
+    Basic,
+    Halloween,
 }

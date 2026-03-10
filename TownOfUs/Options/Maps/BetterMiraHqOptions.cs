@@ -75,6 +75,13 @@ public sealed class BetterMiraHqOptions : AbstractOptionGroup
             "TouOptionBetterMiraHqVentModeEnumNormal", "TouOptionBetterMiraHqVentModeEnumThreeGroups", "TouOptionBetterMiraHqVentModeEnumFourGroups"
         ]);
 
+    public ModdedEnumOption MapTheme { get; set; } = new("TouOptionBetterMapsTheme",
+        (int)PolusTheme.Auto, typeof(PolusTheme),
+        [
+            "TouOptionBetterMapsThemeEnumAuto", "TouOptionBetterMapsThemeEnumBasic",
+            "TouOptionBetterMapsThemeEnumHalloween"
+        ]);
+
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 

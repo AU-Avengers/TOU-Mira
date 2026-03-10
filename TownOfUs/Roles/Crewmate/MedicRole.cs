@@ -71,6 +71,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.ScientistIntroSound,
+        OptionsScreenshot = TouBanners.MedicRoleBanner,
         Icon = TouRoleIcons.Medic
     };
 

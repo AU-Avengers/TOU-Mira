@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using HarmonyLib;
 using InnerNet;
 using MiraAPI.Events;
@@ -32,17 +32,18 @@ public static class DeathStateSync
     [MethodRpc((uint)TownOfUsRpc.SyncDeathState, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcSyncDeathState(PlayerControl target, bool isDead)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            return;
+        }
         if (target == null || target.Data == null)
         {
             return;
         }
 
-        if (target.Data.Disconnected)
-        {
-            return;
-        }
+        PendingDeathSyncs.Remove(target.PlayerId);
 
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
+        if (target.Data.Disconnected)
         {
             return;
         }
@@ -52,7 +53,7 @@ public static class DeathStateSync
             return;
         }
 
-        if (target.Data.Role is IGhostRole ghostRole && ghostRole.GhostActive && !isDead)
+        if (target.Data.Role is IGhostRole ghostRole && ghostRole.GhostActive)
         {
             return;
         }
@@ -65,7 +66,6 @@ public static class DeathStateSync
             target.AddModifier(deathHandler);
         }
 
-        PendingDeathSyncs.Remove(target.PlayerId);
     }
 
     /// <summary>
@@ -75,6 +75,10 @@ public static class DeathStateSync
     [MethodRpc((uint)TownOfUsRpc.RequestDeathStateValidation, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcRequestDeathStateValidation(PlayerControl requester)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            return;
+        }
         if (requester == null || requester.Data == null)
         {
             return;
@@ -97,11 +101,6 @@ public static class DeathStateSync
         yield return new WaitForSeconds(0.1f);
 
         if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
-        {
-            yield break;
-        }
-
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
         {
             yield break;
         }
@@ -206,12 +205,6 @@ public static class DeathStateSync
             yield break;
         }
 
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
-        {
-            PendingDeathSyncs.Remove(target.PlayerId);
-            yield break;
-        }
-
         if (!PendingDeathSyncs.TryGetValue(target.PlayerId, out var pendingState) || pendingState != isDead)
         {
             PendingDeathSyncs.Remove(target.PlayerId);
@@ -244,18 +237,8 @@ public static class DeathStateSync
             return;
         }
 
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
-        {
-            return;
-        }
-
         if (AmongUsClient.Instance == null || 
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
-        {
-            return;
-        }
-
-        if (Minigame.Instance != null || SpawnInMinigame.Instance != null)
         {
             return;
         }
@@ -352,4 +335,4 @@ public static class DeathStateSyncPatches
             DeathStateSync.ScheduleDeathStateSync(player, false);
         }
     }
-}
+}*/

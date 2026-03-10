@@ -285,6 +285,19 @@ public static class MiscUtils
             }
         }
 
+        if (role.IsDead)
+        {
+            if (role.IsNeutral())
+            {
+                return RoleAlignment.NeutralGhost;
+            }
+            if (role.IsImpostor())
+            {
+                return RoleAlignment.ImpostorGhost;
+            }
+            return RoleAlignment.CrewmateGhost;
+        }
+
         if (role.Role is RoleTypes.Tracker or RoleTypes.Detective)
         {
             return RoleAlignment.CrewmateInvestigative;
@@ -616,6 +629,8 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Scientist));
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
                 // registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
+                break;
+            case RoleAlignment.CrewmateGhost:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case RoleAlignment.ImpostorSupport:
@@ -2124,7 +2139,7 @@ public static class MiscUtils
             GameUtility.Admin => TouRoleIcons.Spy,
             GameUtility.Cams => TouModifierIcons.Operative,
             GameUtility.Doorlog => TouRoleIcons.Investigator,
-            GameUtility.Vitals => TouModifierIcons.Scientist,
+            GameUtility.Vitals => TouRoleIcons.Scientist,
             _ => TouModifierIcons.Operative,
         };
         if (tasksNeeded <= 0)
@@ -2144,6 +2159,13 @@ public static class MiscUtils
 
         notif1.AdjustNotification();
         return false;
+    }
+
+    public static void RunKillWarning(PlayerControl source)
+    {
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKillMessage").Replace("<player>", source.Data.PlayerName)}");
+        AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
     }
 }
 

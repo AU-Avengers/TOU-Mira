@@ -37,7 +37,7 @@ public static class ImpostorKillTimerPatch
             }
             
             __instance.killTimer = cooldownAfter;
-            if (HudManager.Instance != null && HudManager.Instance.KillButton != null)
+            if (HudManager.InstanceExists && HudManager.Instance.KillButton != null)
             {
                 HudManager.Instance.KillButton.SetCoolDown(__instance.killTimer, maxvalue);
             }

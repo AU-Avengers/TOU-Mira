@@ -32,6 +32,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = TouLocale.GetParsed("NeutralSpectreTaskHeader");
+        orCreateTask.name = "NeutralRoleText";
     }
     public bool CompletedAllTasks => TaskStage is GhostTaskStage.CompletedTasks;
 
@@ -149,12 +150,13 @@ public sealed class SpectreRole(IntPtr cppPtr)
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    public override Color RoleColor => TownOfUsColors.Phantom;
-    public override RoleAlignment RoleAlignment => RoleAlignment.NeutralEvil;
+    public override Color RoleColor => TownOfUsColors.Spectre;
+    public override RoleAlignment RoleAlignment => RoleAlignment.NeutralGhost;
 
     public override CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Spectre,
+        OptionsScreenshot = TouBanners.SpectreRoleBanner,
         HideSettings = false,
         ShowInFreeplay = true
     };
@@ -225,6 +227,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         if (TutorialManager.InstanceExists)
         {
             Player.ResetAppearance();
@@ -336,7 +339,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
             if (Player.AmOwner && !silent)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TownOfUsColors.Phantom.ToTextColor()}You are now clickable by players!</b></color>",
+                    $"<b>{TownOfUsColors.Spectre.ToTextColor()}You are now clickable by players!</b></color>",
                     Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Spectre.LoadAsset());
                 notif1.AdjustNotification();

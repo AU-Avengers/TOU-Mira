@@ -31,6 +31,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Investigator,
+        OptionsScreenshot = TouBanners.InvestigatorRoleBanner,
         IntroSound = TouAudio.SpyIntroSound
     };
 

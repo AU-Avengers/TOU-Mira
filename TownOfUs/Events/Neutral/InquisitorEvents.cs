@@ -40,9 +40,9 @@ public static class InquisitorEvents
             }
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is InquisitorRole)
+        if (PlayerControl.LocalPlayer.Data.Role is InquisitorRole && !victim.AmOwner)
         {
-            if (victim.HasModifier<InquisitorHereticModifier>() && !victim.AmOwner && !source.AmOwner)
+            if (victim.HasModifier<InquisitorHereticModifier>() && !source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.1f));
                 var notif1 = Helpers.CreateAndShowNotification(
@@ -51,7 +51,7 @@ public static class InquisitorEvents
                     spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
             }
-            else if (!victim.HasModifier<InquisitorHereticModifier>() && !victim.AmOwner && source.AmOwner)
+            else if (!victim.HasModifier<InquisitorHereticModifier>() && source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
@@ -59,7 +59,7 @@ public static class InquisitorEvents
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
                 notif1.AdjustNotification();
             }
-            else if (victim.HasModifier<InquisitorHereticModifier>() && !victim.AmOwner && source.AmOwner)
+            else if (victim.HasModifier<InquisitorHereticModifier>() && source.AmOwner)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Doomsayer, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(

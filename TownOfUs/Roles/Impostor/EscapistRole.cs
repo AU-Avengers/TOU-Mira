@@ -64,6 +64,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         Icon = TouRoleIcons.Escapist,
         IntroSound = TouAudio.TimeLordIntroSound,
+        OptionsScreenshot = TouBanners.EscapistRoleBanner,
         CanUseVent = OptionGroupSingleton<EscapistOptions>.Instance.CanVent
     };
 
@@ -89,6 +90,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
         EscapeMark?.gameObject.Destroy();
     }
 

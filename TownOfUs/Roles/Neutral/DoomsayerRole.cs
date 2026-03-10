@@ -36,6 +36,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralEvilTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     private MeetingMenu meetingMenu;
@@ -163,6 +164,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
 
         if (Player.AmOwner)
         {
@@ -442,8 +444,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 }
 
                 // no incorrect guesses so this should be the target not the Doomsayer
-                Player.RpcCustomMurder(victim, MeetingCheck.ForMeeting, createDeadBody: false, teleportMurderer: false, showKillAnim: false,
-                    playKillSound: false);
+                Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
+                    showKillAnim: false,
+                    playKillSound: false,
+                    causeOfDeath: "Doomsayer");
             }
 
             if (opts.DoomsayerGuessAllAtOnce || NumberOfGuesses == (int)opts.DoomsayerGuessesToWin)

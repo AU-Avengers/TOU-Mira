@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using Reactor.Utilities;
+using TownOfUs.Modules;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
@@ -47,6 +48,21 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
             }
             Debug("Removed all spectators.");
         },
+    };
+
+    public ModdedToggleOption RequireSubmerged { get; set; } = new("Require Players to have Submerged Installed", true, false)
+    {
+        Visible = () => ModCompatibility.SubLoaded
+    };
+
+    public ModdedToggleOption RequireCrowded { get; set; } = new("Require Players to have Crowded Installed", true, false)
+    {
+        Visible = () => ModCompatibility.CrowdedLoaded
+    };
+
+    public ModdedToggleOption RequireAleLudu { get; set; } = new("Require Players to have AleLuduMod Installed", true, false)
+    {
+        Visible = () => ModCompatibility.AleLuduLoaded
     };
 
     public ModdedToggleOption NoGameEnd { get; set; } = new("No Game End", false, false)

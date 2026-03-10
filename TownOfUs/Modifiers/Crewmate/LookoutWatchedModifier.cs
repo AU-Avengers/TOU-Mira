@@ -43,12 +43,12 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
             return;
         }
 
-        var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>Lookout Feedback</color>";
-        var msg = $"No players interacted with {Player.Data.PlayerName}";
+        var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRoleLookoutFeedbackTitle")}</color>";
+        var msg = TouLocale.GetParsed("TouRoleLookoutNoInteractionFeedback").Replace("<player>", Player.Data.PlayerName);
 
         if (SeenPlayers.Count != 0)
         {
-            var message = new StringBuilder($"Roles seen interacting with {Player.Data.PlayerName}:\n");
+            var message = new StringBuilder($"{TouLocale.GetParsed("TouRoleLookoutInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
 
             SeenPlayers.Shuffle();
 

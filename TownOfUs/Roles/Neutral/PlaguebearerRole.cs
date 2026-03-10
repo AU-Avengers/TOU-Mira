@@ -31,6 +31,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralKillingTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     public void FixedUpdate()
@@ -41,7 +42,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
 
         var allInfected =
-            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) => !x.Player.HasDied());
+            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) => !x.Player.HasDied() && x.PlagueBearerId == Player.PlayerId && !x.Player.AmOwner);
 
         if (allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
             (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2))
@@ -174,23 +175,25 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public static void CheckInfected(PlayerControl source, PlayerControl target)
     {
-        if (source.Data.Role is PlaguebearerRole)
+        var sourceInfection = source.TryGetModifier<PlaguebearerInfectedModifier>(out var sourceMod) ? sourceMod : null;
+        var targetInfection = target.TryGetModifier<PlaguebearerInfectedModifier>(out var targetMod) ? targetMod : null;
+        var sourcePb = source.Data.Role is PlaguebearerRole;
+        var targetPb = target.Data.Role is PlaguebearerRole;
+        if (sourcePb && targetInfection == null)
         {
             target.AddModifier<PlaguebearerInfectedModifier>(source.PlayerId);
         }
-        else if (target.Data.Role is PlaguebearerRole)
+        else if (targetPb && sourceInfection == null)
         {
             source.AddModifier<PlaguebearerInfectedModifier>(target.PlayerId);
         }
-        else if (source.TryGetModifier<PlaguebearerInfectedModifier>(out var mod) &&
-                 !target.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == mod.PlagueBearerId))
+        else if (sourceInfection != null && targetInfection == null)
         {
-            target.AddModifier<PlaguebearerInfectedModifier>(mod.PlagueBearerId);
+            target.AddModifier<PlaguebearerInfectedModifier>(sourceInfection.PlagueBearerId);
         }
-        else if (target.TryGetModifier<PlaguebearerInfectedModifier>(out var mod2) &&
-                 !source.HasModifier<PlaguebearerInfectedModifier>(x => x.PlagueBearerId == mod2.PlagueBearerId))
+        else if (targetInfection != null && sourceInfection == null)
         {
-            source.AddModifier<PlaguebearerInfectedModifier>(mod2.PlagueBearerId);
+            source.AddModifier<PlaguebearerInfectedModifier>(targetInfection.PlagueBearerId);
         }
     }
 

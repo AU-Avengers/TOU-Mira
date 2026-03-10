@@ -53,7 +53,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         // CanUseVent = true,
         Icon = TouRoleIcons.Engineer,
-        OptionsScreenshot = TouCrewAssets.EngineerRoleBanner,
+        OptionsScreenshot = TouBanners.EngineerRoleBanner,
         IntroSound = TouAudio.EngineerIntroSound
     };
 

@@ -24,6 +24,9 @@ public static class PlayerRoleTextExtensions
     private static Func<MedicShieldModifier, bool> MedicShieldPredicate { get; } =
         msModifier => msModifier.Medic.AmOwner;
 
+    private static Func<OracleBlessedModifier, bool> OracleBlessPredicate { get; } =
+        msModifier => msModifier.Oracle.AmOwner;
+
     private static Func<MagicMirrorModifier, bool> MagicMirrorPredicate { get; } =
         mmModifier => mmModifier.Mirrorcaster.AmOwner;
 
@@ -62,6 +65,12 @@ public static class PlayerRoleTextExtensions
 
     private static Func<SpellslingerHexedModifier, bool> SpellslingerHexedPredicate { get; } =
         shModifier => shModifier.Spellslinger.AmOwner;
+
+    private static Func<PuppeteerControlModifier, bool> PuppeteerControlledPredicate { get; } =
+        shModifier => shModifier.Controller.AmOwner;
+
+    private static Func<ParasiteInfectedModifier, bool> ParasiteOvertakenPredicate { get; } =
+        shModifier => shModifier.Controller.AmOwner;
 
     public static Color UpdateTargetColor(this Color color, PlayerControl player, bool hidden = false)
     {
@@ -164,6 +173,14 @@ public static class PlayerRoleTextExtensions
             name += "<color=#006600> +</color>";
         }
 
+        if ((player.HasModifier(OracleBlessPredicate) &&
+             PlayerControl.LocalPlayer.IsRole<OracleRole>())
+            || (player.HasModifier<OracleBlessedModifier>() &&
+                isDead))
+        {
+            name += "<color=#BF00BF> †</color>";
+        }
+
         if ((player.HasModifier(MagicMirrorPredicate) &&
              PlayerControl.LocalPlayer.IsRole<MirrorcasterRole>())
             || (player.HasModifier<MagicMirrorModifier>() &&
@@ -239,6 +256,14 @@ public static class PlayerRoleTextExtensions
             name += "<color=#FF4D00> Δ</color>";
         }
 
+        // This doesn't check for the role itself incase external mods make use of these functions
+        if (player.HasModifier(PuppeteerControlledPredicate)
+            || player.HasModifier(ParasiteOvertakenPredicate)
+            || ((player.HasModifier<PuppeteerControlModifier>() || player.HasModifier<ParasiteInfectedModifier>()) && (isDead || isImp)))
+        {
+            name += "<color=#FF2660> ⦿</color>";
+        }
+
         if ((player.HasModifier(BlackmailedPredicate) &&
              PlayerControl.LocalPlayer.IsRole<BlackmailerRole>())
             || (player.HasModifier<BlackmailedModifier>() && (isDead || isImp)))
@@ -262,6 +287,11 @@ public static class PlayerRoleTextExtensions
         if (player.HasModifier<KnightedModifier>() && (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !hidden || PlayerControl.LocalPlayer.IsRole<MonarchRole>()))
             name += $" {TownOfUsColors.Monarch.ToTextColor()}♠</color>";
 
+        if (player.protectedByGuardianId != -1 && isDead)
+        {
+            name += "<color=#66AAF3> ☀</color>";
+        }
+        
         return name;
     }
 }

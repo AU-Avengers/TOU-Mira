@@ -730,6 +730,34 @@
         "\n- The Player Reveal system has been changed a bit. Use BaseRevealModifier instead!",
         "\n- MeetingMenu abilities can now have text, but this is optional for mod developers."
       ]
+    },
+    {
+      "Date": "2026-02-11T12:51:00Z",
+      "Number": "100038",
+      "ShortTitle": "TOU: Mira v1.5.4",
+      "Title": "Critical Bugfixes and Improvements",
+      "SubTitle": "You waste our time, we waste yours.",
+      "Text": [
+        "<b>This release is focused on fighting against hackers who continuously barge into lobbies to cause chaos. Normally our updates aren't this soon but we felt the need to address this immediately.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4>TOU Mira v1.5.4 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Mirrorcaster no longer bypasses their cooldowns.",
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Soul Collected bodies are now removed upon revive.",
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Deadly Quota's guess setting is checked correctly again.",
+        "\n- Taskmaster no longer activates when the player is a Vampire/Traitor",
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Deaths should no longer desync under race conditions with meetings.",
+        "\n- Kills can no longer be triggered in the lobby from cheat clients.",
+        "\n- Role icons will no longer appear behind text in the role tab.",
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Visual Theme toggles for Skeld, Mira, and Polus can now be adjusted",
+        "\n- Add Required Mods setting for hosts",
+        "\n\n\r<size=105%>Known Issues:</size>",
+        "\n- Sentry's portable cameras are completely broken on Starlight"
+      ]
     }
   ]
 }

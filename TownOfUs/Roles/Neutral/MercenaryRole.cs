@@ -28,6 +28,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         }
         ImportantTextTask orCreateTask = PlayerTask.GetOrCreateTask<ImportantTextTask>(playerControl, 0);
         orCreateTask.Text = $"{TownOfUsColors.Neutral.ToTextColor()}{TouLocale.GetParsed("NeutralBenignTaskHeader")}</color>";
+        orCreateTask.name = "NeutralRoleText";
     }
 
     public static int BrideCost => (int)OptionGroupSingleton<MercenaryOptions>.Instance.BribeCost;
@@ -111,6 +112,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
 
         if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils.GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).Any())
         {

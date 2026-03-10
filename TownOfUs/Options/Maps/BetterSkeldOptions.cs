@@ -82,6 +82,13 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
             "TouOptionBetterSkeldVentModeEnumNormal", "TouOptionBetterSkeldVentModeEnumFourGroups"
         ]);
 
+    public ModdedEnumOption MapTheme { get; set; } = new("TouOptionBetterMapsTheme",
+        (int)SkeldTheme.Auto, typeof(SkeldTheme),
+        [
+            "TouOptionBetterMapsThemeEnumAuto", "TouOptionBetterMapsThemeEnumBasic",
+            "TouOptionBetterMapsThemeEnumBirthday", "TouOptionBetterMapsThemeEnumHalloween"
+        ]);
+    
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
     public bool ChangeSaboTimers { get; set; } = true;
 
@@ -98,10 +105,21 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers
     };
+
+    public static float MSaboCountdownReactor => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownReactor.Value;
+    public static bool MChangeSaboTimers => OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers;
 }
 
 public enum SkeldVentMode
 {
     Normal,
     FourGroups,
+}
+
+public enum SkeldTheme
+{
+    Auto,
+    Basic,
+    Birthday,
+    Halloween,
 }

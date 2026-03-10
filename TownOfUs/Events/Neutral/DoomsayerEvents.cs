@@ -65,7 +65,7 @@ public static class DoomsayerEvents
             {
                 PlayerControl.LocalPlayer.RpcPlayerExile();
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>You have successfully won as the {TownOfUsColors.Doomsayer.ToTextColor()}Doomsayer</color>, as you have guessed enough players successfully!</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
 
                 notif1.AdjustNotification();
@@ -73,7 +73,7 @@ public static class DoomsayerEvents
             else
             {
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>The {TownOfUsColors.Doomsayer.ToTextColor()}Doomsayer</color>, {doom.Player.Data.PlayerName}, has successfully won, as they have guessed enough players!</b>",
+                    $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther").Replace("<player>", doom.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
 
                 notif1.AdjustNotification();

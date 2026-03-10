@@ -92,7 +92,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"You can execute crewmates.");
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("TouRoleJailorEvilTabInfo")}");
         }
 
         return stringB;

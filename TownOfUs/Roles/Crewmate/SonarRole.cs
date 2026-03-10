@@ -39,13 +39,14 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
     }
 
-    public Color RoleColor => TownOfUsColors.Tracker;
+    public Color RoleColor => TownOfUsColors.Sonar;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Sonar,
+        OptionsScreenshot = TouBanners.SonarRoleBanner,
         IntroSound = TouAudio.TrackerIntroSound
     };
 

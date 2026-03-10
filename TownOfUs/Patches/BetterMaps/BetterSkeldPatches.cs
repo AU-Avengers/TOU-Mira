@@ -2,6 +2,7 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using TownOfUs.Options.Maps;
 using TownOfUs.Utilities;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches.BetterMaps;
@@ -12,6 +13,9 @@ public static class BetterSkeldPatches
     public static bool IsAdjustmentsDone;
     public static bool IsObjectsFetched;
     public static bool IsVentsFetched;
+    public static bool ThemesFetched;
+    public static GameObject HalloweenTheme;
+    public static GameObject BirthdayTheme;
 
     public static Vent UpperEngineVent;
     public static Vent TopReactorVent;
@@ -35,18 +39,51 @@ public static class BetterSkeldPatches
     public static void FindSkeldObjects()
     {
         FindVents();
+        FindThemes();
     }
 
     public static void AdjustSkeld()
     {
         var options = OptionGroupSingleton<BetterSkeldOptions>.Instance;
         var ventMode = (SkeldVentMode)options.BetterVentNetwork.Value;
+        var themeMode = (SkeldTheme)options.MapTheme.Value;
         if (ventMode is not SkeldVentMode.Normal)
         {
             AdjustVents(ventMode);
         }
 
+        if (themeMode is not SkeldTheme.Auto)
+        {
+            AdjustTheme(themeMode);
+        }
+
         IsAdjustmentsDone = true;
+    }
+
+    public static void FindThemes()
+    {
+        var rootObj = GameObject.Find("SkeldShip(Clone)");
+        if (rootObj == null)
+        {
+            rootObj = GameObject.Find("AprilShip(Clone)");
+        }
+        if (rootObj == null)
+        {
+            ThemesFetched = false;
+            return;
+        }
+
+        var hallowTheme = rootObj.transform.FindChild("HalloweenDecorSkeld") ?? rootObj.transform.FindChild("Helloween");
+        var birthTheme = rootObj.transform.FindChild("BirthdayDecorSkeld");
+        if (HalloweenTheme == null && hallowTheme != null)
+        {
+            HalloweenTheme = hallowTheme.gameObject;
+        }
+        if (BirthdayTheme == null && birthTheme != null)
+        {
+            BirthdayTheme = birthTheme.gameObject;
+        }
+        ThemesFetched = HalloweenTheme != null;
     }
 
     public static void FindVents()
@@ -98,6 +135,38 @@ public static class BetterSkeldPatches
                          WeaponsVent != null && TopNavVent != null && BottomNavVent != null && ShieldsVent != null;
     }
 
+    public static void AdjustTheme(SkeldTheme theme)
+    {
+        if (ThemesFetched)
+        {
+            var birthdayAvailable = BirthdayTheme != null;
+            switch (theme)
+            {
+                case SkeldTheme.Basic:
+                    HalloweenTheme.SetActive(false);
+                    if (birthdayAvailable)
+                    {
+                        BirthdayTheme!.SetActive(false);
+                    }
+                    break;
+                case SkeldTheme.Birthday:
+                    HalloweenTheme.SetActive(false);
+                    if (birthdayAvailable)
+                    {
+                        BirthdayTheme!.SetActive(true);
+                    }
+                    break;
+                case SkeldTheme.Halloween:
+                    HalloweenTheme.SetActive(true);
+                    if (birthdayAvailable)
+                    {
+                        BirthdayTheme!.SetActive(false);
+                    }
+                    break;
+            }
+        }
+    }
+
     public static void AdjustVents(SkeldVentMode ventMode = SkeldVentMode.Normal)
     {
         if (IsVentsFetched)
@@ -121,7 +190,7 @@ public static class BetterSkeldPatches
                     WeaponsVent.Left = null;
                     WeaponsVent.Center = ShieldsVent;
                     WeaponsVent.Right = TopNavVent;
-                    TopNavVent.Left = ShieldsVent;
+                    TopNavVent.Left = WeaponsVent;
                     TopNavVent.Center = BottomNavVent;
                     TopNavVent.Right = null;
                     BottomNavVent.Right = null;

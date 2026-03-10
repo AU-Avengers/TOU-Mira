@@ -104,6 +104,7 @@ public static class TownOfUsEventHandlers
             RoleIconRenderer.SetSizeLimit(0.4f);
             var oldScale = RoleIconRenderer.transform.localScale;
             RoleIconRenderer.transform.localScale = new(3.3333333333f * oldScale.x, 0.7843137255f * oldScale.y, 1);
+            RoleIconRenderer.gameObject.SetActive(LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowRoleIconOnRoleTab.Value);
         }
 
         return RolePanel;
@@ -971,13 +972,13 @@ public static class TownOfUsEventHandlers
         try
         {
             voteArea.XMark.gameObject.SetActive(true);
+            Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
         }
         catch
         {
             // ignored
         }
         SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
-        Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
     }
 
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)

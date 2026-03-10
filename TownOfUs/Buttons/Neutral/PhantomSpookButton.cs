@@ -13,7 +13,7 @@ public sealed class PhantomSpookButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleSpectreSpook", "Spook");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
-    public override Color TextOutlineColor => TownOfUsColors.Phantom;
+    public override Color TextOutlineColor => TownOfUsColors.Spectre;
     public override float Cooldown => 0.01f;
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.PhantomSpookSprite;
     public override ButtonLocation Location => ButtonLocation.BottomRight;

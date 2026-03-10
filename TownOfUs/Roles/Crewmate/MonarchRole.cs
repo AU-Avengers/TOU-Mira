@@ -151,6 +151,11 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [MethodRpc((uint)TownOfUsRpc.Knight)]
     public static void RpcKnight(PlayerControl player, PlayerControl target)
     {
+        if (player.Data.Role is not MonarchRole monarch)
+        {
+            Error("RpcKnight - Invalid monarch");
+            return;
+        }
         var targetName = target.CachedPlayerData.PlayerName;
         var icon = TouRoleIcons.Monarch.LoadAsset();
 
@@ -158,7 +163,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             if (player.AmOwner)
             {
-                ShowNotification($"{targetName} died before you could knight them.");
+                ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightTargetDied").Replace("<player>", targetName));
             }
             return;
         }
@@ -167,12 +172,12 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (player.AmOwner)
         {
-            ShowNotification($"{targetName} was knighted!");
+            ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightSuccess").Replace("<player>", targetName));
         }
 
         if (target.AmOwner)
         {
-            ShowNotification($"You were knighted by a {TownOfUsColors.Monarch.ToTextColor()}Monarch</color>. You gained {(int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight} vote(s)!");
+            ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.RoleName}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }
 
 

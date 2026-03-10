@@ -1,8 +1,10 @@
 using System.Text;
+using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -15,9 +17,27 @@ namespace TownOfUs.Utilities;
 
 public static class TouRoleUtils
 {
+    public static void ClearTaskHeader(PlayerControl playerControl)
+    {
+        if (!playerControl.AmOwner)
+        {
+            return;
+        }
+        var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "NeutralRoleText");
+        if (playerTask == null)
+        {
+            playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "ImpostorRole");
+        }
+        if (playerTask != null)
+        {
+            playerControl.myTasks.Remove(playerTask);
+            playerTask.gameObject.Destroy();
+        }
+    }
+
     public static Sprite GetRoleIcon(this RoleBehaviour role)
     {
-        var roleImg = TouAssets.BlankSprite.LoadAsset();
+        var roleImg = GetBasicRoleIcon(role);
         var customRole = role as ICustomRole;
         if (customRole != null && customRole.Configuration.Icon != null)
         {
@@ -26,9 +46,57 @@ public static class TouRoleUtils
         else if (role.RoleIconSolid != null)
         {
             roleImg = role.RoleIconSolid;
+            var changedIcon = TryGetVanillaRoleIcon(role.Role);
+            if (changedIcon != null)
+            {
+                roleImg = changedIcon;
+            }
         }
 
         return roleImg;
+    }
+
+    public static Sprite GetBasicRoleIcon(ITownOfUsRole role)
+    {
+        var basicText = role.RoleAlignment.ToString();
+        if (basicText.Contains("Impostor"))
+        {
+            return TouRoleIcons.Impostor.LoadAsset();
+        }
+        if (basicText.Contains("Crewmate"))
+        {
+            return TouRoleIcons.Crewmate.LoadAsset();
+        }
+        return TouRoleIcons.Neutral.LoadAsset();
+    }
+
+    public static Sprite GetBasicRoleIcon(RoleBehaviour role)
+    {
+        if (role.IsImpostor())
+        {
+            return TouRoleIcons.Impostor.LoadAsset();
+        }
+        if (role.IsCrewmate())
+        {
+            return TouRoleIcons.Crewmate.LoadAsset();
+        }
+        return TouRoleIcons.Neutral.LoadAsset();
+    }
+
+    public static Sprite? TryGetVanillaRoleIcon(RoleTypes roleType)
+    {
+        return roleType switch
+        {
+            RoleTypes.GuardianAngel => TouRoleIcons.GuardianAngel.LoadAsset(),
+            RoleTypes.Detective => TouRoleIcons.Detective.LoadAsset(),
+            RoleTypes.Tracker => TouRoleIcons.Tracker.LoadAsset(),
+            RoleTypes.Scientist => TouRoleIcons.Scientist.LoadAsset(),
+            RoleTypes.Noisemaker => TouRoleIcons.Noisemaker.LoadAsset(),
+            RoleTypes.Phantom => TouRoleIcons.Phantom.LoadAsset(),
+            RoleTypes.Shapeshifter => TouRoleIcons.Shapeshifter.LoadAsset(),
+            RoleTypes.Viper => TouRoleIcons.Viper.LoadAsset(),
+            _ => null
+        };
     }
 
     public static bool CanGetGhostRole(this PlayerControl player)
@@ -84,7 +152,7 @@ public static class TouRoleUtils
 
         var stringB = new StringBuilder();
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.</b></color>");
+            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.‎ ‎ ‎ </b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
         stringB.Append("<size=70%>");
@@ -105,7 +173,7 @@ public static class TouRoleUtils
 
         var stringB = new StringBuilder();
         stringB.AppendLine(TownOfUsPlugin.Culture,
-            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.</b></color>");
+            $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.‎ ‎ ‎ </b></color>");
         stringB.AppendLine(TownOfUsPlugin.Culture,
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
         stringB.Append("<size=70%>");

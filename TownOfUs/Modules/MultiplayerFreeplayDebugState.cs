@@ -1,6 +1,5 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
-using TownOfUs.Networking;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Options;
 using TownOfUs.Utilities;
@@ -105,7 +104,7 @@ public static class MultiplayerFreeplayDebugState
                 {
                     GameHistory.ClearMurder(player);
                     player.Revive();
-                    DeathStateSync.RpcSyncDeathState(player, false);
+                    //DeathStateSync.RpcSyncDeathState(player, false);
                 }
             }
 
