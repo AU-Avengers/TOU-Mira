@@ -6,6 +6,7 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
@@ -27,6 +28,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     private bool _modifiersSelected;
     private IWikiDiscoverable? _selectedItem;
     private SoftWikiInfo? _selectedSoftItem;
+    private TermWikiInfo? _selectedTermPage;
+    public readonly List<TermWikiInfo> _activeTerms = [];
     public Il2CppReferenceField<Scroller> AbilityScroller;
     public Il2CppReferenceField<Transform> AbilityTemplate;
     public Il2CppReferenceField<PassiveButton> CloseButton;
@@ -39,6 +42,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     public Il2CppReferenceField<Transform> Homepage;
     public Il2CppReferenceField<PassiveButton> HomepageModifiersBtn;
     public Il2CppReferenceField<PassiveButton> HomepageRolesBtn;
+    public Il2CppReferenceField<PassiveButton> HomepageTermsBtn;
+    public Il2CppReferenceField<PassiveButton> HomepageSettingsBtn;
     public Il2CppReferenceField<PassiveButton> OutsideCloseButton;
     public Il2CppReferenceField<Transform> SearchItemTemplate;
     public Il2CppReferenceField<SpriteRenderer> SearchPageIcon;
@@ -50,8 +55,29 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     public Il2CppReferenceField<TextBoxTMP> SearchTextbox;
     public Il2CppReferenceField<PassiveButton> ToggleAbilitiesBtn;
 
+    public Il2CppReferenceField<Transform> TermsScreen;
+    public Il2CppReferenceField<TextMeshPro> TermsDescription;
+    public Il2CppReferenceField<PassiveButton> TermsPreviousBtn;
+    public Il2CppReferenceField<PassiveButton> TermsNextBtn;
+    public Il2CppReferenceField<PassiveButton> TermsBackBtn;
+    public Il2CppReferenceField<SpriteRenderer> TermsScreenIcon;
+    public Il2CppReferenceField<TextMeshPro> TermsScreenSectionName;
+    public Il2CppReferenceField<TextMeshPro> TermsScreenTabCount;
+
+    public static void AddNewTerms(IngameWikiMinigame instance)
+    {
+        instance._activeTerms.Add(new TermWikiInfo("TermsTargetSymbolsTitle", "TermsTargetSymbolsInfo", TouRoleIcons.Executioner));
+        instance._activeTerms.Add(new TermWikiInfo("TermsProtectionSymbolsTitle", "TermsProtectionSymbolsInfo", TouRoleIcons.Fairy));
+        instance._activeTerms.Add(new TermWikiInfo("TermsStatusEffectSymbolsTitle", "TermsStatusEffectInfo", TouRoleIcons.Monarch));
+        instance._activeTerms.Add(new TermWikiInfo("TermsCrewRoleAlignmentsTitle", "TermsCrewRoleAlignmentsInfo", TouRoleIcons.Crewmate));
+        instance._activeTerms.Add(new TermWikiInfo("TermsNeutRoleAlignmentsTitle", "TermsNeutRoleAlignmentsInfo", TouRoleIcons.Neutral));
+        instance._activeTerms.Add(new TermWikiInfo("TermsImpRoleAlignmentsTitle", "TermsImpRoleAlignmentsInfo", TouRoleIcons.Impostor));
+        instance._activeTerms.Add(new TermWikiInfo("TermsRoleBucketsTitle", "TermsRoleBucketsInfo", TouRoleIcons.Traitor));
+        instance._activeTerms.Add(new TermWikiInfo("TermsCommonSlangTitle", "TermsCommonSlangInfo", TouAssets.TerminologySprite));
+    }
     private void Awake()
     {
+        AddNewTerms(this);
         if (MeetingHud.Instance)
         {
             MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(false));
@@ -93,6 +119,27 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             _modifiersSelected = false;
             UpdatePage(WikiPage.SearchScreen);
         }));
+
+        HomepageTermsBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("Terminology", "Terminology");
+        HomepageTermsBtn.Value.OnClick.AddListener((UnityAction)(() =>
+        {
+            UpdatePage(WikiPage.TermsScreen);
+        }));
+
+        HomepageSettingsBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("GameSettings", "GameSettings");
+        HomepageSettingsBtn.Value.OnClick.AddListener((UnityAction)(() =>
+        {
+            UpdatePage(WikiPage.TermsScreen);
+        }));
+
+        TermsBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
+        TermsBackBtn.Value.OnClick.AddListener((UnityAction)(() => { UpdatePage(WikiPage.Homepage); }));
+
+        TermsPreviousBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("PreviousButtonText", "Previous");
+        TermsPreviousBtn.Value.OnClick.AddListener((UnityAction)(() => { ShiftTermsPage(false); }));
+
+        TermsNextBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("NextButtonText", "Next");
+        TermsNextBtn.Value.OnClick.AddListener((UnityAction)(() => { ShiftTermsPage(true); }));
 
         SearchScreenBackBtn.Value.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
         SearchScreenBackBtn.Value.OnClick.AddListener((UnityAction)(() => { UpdatePage(WikiPage.Homepage); }));
@@ -177,6 +224,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         Homepage.Value.gameObject.SetActive(false);
         SearchScreen.Value.gameObject.SetActive(false);
         DetailScreen.Value.gameObject.SetActive(false);
+        TermsScreen.Value.gameObject.SetActive(false);
         if (SearchIcon)
         {
             SearchIcon.SetActive(false);
@@ -210,7 +258,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         .TryGetComponent<SpriteRenderer>(out var roleIcon))
                 {
                     playerRoleIcon = roleIcon;
-                    roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Warlock.LoadAsset();
+                    roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
                 }
 
                 if (modifierIcon != null)
@@ -232,10 +280,88 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             case WikiPage.DetailScreen:
                 LoadDetailScreen();
                 break;
+
+            case WikiPage.TermsScreen:
+                LoadTermsScreen();
+                break;
         }
 
         TownOfUsColors.UseBasic =
             LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
+    }
+
+    private void LoadTermsScreen()
+    {
+        TermsScreen.Value.gameObject.SetActive(true);
+        if (_selectedTermPage == null)
+        {
+            SelectTermsPage(_activeTerms[0], false);
+        }
+    }
+
+    private void ShiftTermsPage(bool goNext)
+    {
+        if (_selectedTermPage == null)
+        {
+            SelectTermsPage(_activeTerms[0], false);
+        }
+        var index = _activeTerms.IndexOf(_selectedTermPage!.Value);
+        if (goNext)
+        {
+            if (TermsDescription.Value.pageToDisplay < TermsDescription.Value.textInfo.pageCount)
+            {
+                ++TermsDescription.Value.pageToDisplay;
+            }
+            else if (_activeTerms.Count > (index + 1))
+            {
+                SelectTermsPage(_activeTerms[index + 1], false);
+            }
+            else
+            {
+                SelectTermsPage(_activeTerms[0], false);
+            }
+        }
+        else
+        {
+            if (TermsDescription.Value.pageToDisplay > 1)
+            {
+                --TermsDescription.Value.pageToDisplay;
+            }
+            else if (index == 0)
+            {
+                SelectTermsPage(_activeTerms[_activeTerms.Count - 1], true);
+            }
+            else
+            {
+                SelectTermsPage(_activeTerms[index - 1], true);
+            }
+        }
+
+        TermsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
+            .Replace("<po>", $"{TermsDescription.Value.pageToDisplay}")
+            .Replace("<pt>", $"{TermsDescription.Value.textInfo.pageCount}")
+            .Replace("<so>", $"{_activeTerms.IndexOf(_selectedTermPage!.Value) + 1}")
+            .Replace("<st>", $"{_activeTerms.Count}");
+        // Error($"Page Count: {TermsDescription.Value.textInfo.pageCount}, current page is {TermsDescription.Value.pageToDisplay}");
+    }
+
+    private void SelectTermsPage(TermWikiInfo newTerms, bool lastPage)
+    {
+        _selectedTermPage = newTerms;
+        TermsDescription.Value.text = TouLocale.GetParsed(newTerms.description).Replace(" • ", "\n• ");
+        TermsDescription.Value.ForceMeshUpdate();
+        TermsScreenSectionName.Value.text = TouLocale.GetParsed(newTerms.title);
+
+        TermsDescription.Value.pageToDisplay = lastPage ? TermsDescription.Value.textInfo.pageCount : 1;
+        TermsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
+            .Replace("<po>", $"{TermsDescription.Value.pageToDisplay}")
+            .Replace("<pt>", $"{TermsDescription.Value.textInfo.pageCount}")
+            .Replace("<so>", $"{_activeTerms.IndexOf(_selectedTermPage!.Value) + 1}")
+            .Replace("<st>", $"{_activeTerms.Count}");
+
+        TermsScreenIcon.Value.sprite = newTerms.icon.LoadAsset();
+        TermsScreenIcon.Value.SetSizeLimit(1.44f);
+        // Error($"Page Count: {TermsDescription.Value.textInfo.pageCount}, current page is {TermsDescription.Value.pageToDisplay}");
     }
 
     private void LoadDetailScreen()
@@ -267,7 +393,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 $"{touRole.RoleName}\n<size=60%>{touRole.RoleColor.ToTextColor()}{MiscUtils.GetParsedRoleAlignment(touRole.RoleAlignment)}</size></color>";
             DetailScreenIcon.Value.sprite = touRole.Configuration.Icon != null
                 ? touRole.Configuration.Icon.LoadAsset()
-                : TouRoleIcons.RandomAny.LoadAsset();
+                : TouRoleUtils.GetBasicRoleIcon(touRole);
         }
         else if (_selectedItem is BaseModifier baseModifier)
         {
@@ -283,6 +409,11 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon != null
                 ? _selectedSoftItem.Icon
                 : TouRoleIcons.RandomAny.LoadAsset();
+            var possibleIcon = TouRoleUtils.TryGetVanillaRoleIcon(_selectedSoftItem.AssociatedRole);
+            if (possibleIcon != null)
+            {
+                DetailScreenIcon.Value.sprite = possibleIcon;
+            }
         }
 
         DetailScreenIcon.Value.SetSizeLimit(1.44f);
@@ -345,7 +476,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         SearchPageText.Value.text = TouLocale.Get(_modifiersSelected ? "Modifiers" : "Roles");
         SearchPageIcon.Value.sprite = _modifiersSelected
             ? TouModifierIcons.Bait.LoadAsset()
-            : TouRoleIcons.Warlock.LoadAsset();
+            : TouRoleIcons.Parasite.LoadAsset();
         if (!SearchIcon)
         {
             SearchIcon = Instantiate(SearchPageIcon.Value.gameObject, Instance.gameObject.transform);
@@ -499,7 +630,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             var aliveRole = PlayerControl.LocalPlayer.GetRoleWhenAlive();
             if (aliveRole != null)
             {
-                SearchPageIcon.Value.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Warlock.LoadAsset();
+                SearchPageIcon.Value.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
             }
 
             var comparer = new RoleComparer(roleList);
@@ -507,7 +638,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
                 role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
 
-            Warning($"Roles: {allRoles.Count}");
+            // Warning($"Roles: {allRoles.Count}");
             var roles = allRoles.OrderBy(x => x, comparer);
 
             foreach (var role in roles)
@@ -516,7 +647,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 var color = role.IsCrewmate() ? TownOfUsColors.CrewmateWiki : TownOfUsColors.ImpWiki;
 
                 var teamName = MiscUtils.GetParsedRoleAlignment(role);
-                var roleImg = TouRoleIcons.RandomAny.LoadAsset();
+                var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
                 if (customRole != null)
                 {
                     // Hides hidden roles from other mods, but keeps them visible for Pest/Mayor
@@ -528,17 +659,14 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     if (customRole.Team is ModdedRoleTeams.Crewmate)
                     {
                         color = TownOfUsColors.CrewmateWiki;
-                        roleImg = TouRoleIcons.RandomCrew.LoadAsset();
                     }
                     else if (customRole.Team is ModdedRoleTeams.Impostor)
                     {
                         color = TownOfUsColors.ImpWiki;
-                        roleImg = TouRoleIcons.RandomImp.LoadAsset();
                     }
                     else
                     {
                         color = TownOfUsColors.NeutralWiki;
-                        roleImg = TouRoleIcons.RandomNeut.LoadAsset();
                     }
 
                     if (customRole.Configuration.Icon != null)
@@ -546,12 +674,9 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         roleImg = customRole.Configuration.Icon.LoadAsset();
                     }
                 }
-                else
+                else if (role.RoleIconSolid != null)
                 {
-                    if (role.RoleIconSolid != null)
-                    {
-                        roleImg = role.RoleIconSolid;
-                    }
+                    roleImg = role.RoleIconSolid;
                 }
 
                 var newItem = CreateNewItem(role.GetRoleName(), roleImg, color);
@@ -562,19 +687,26 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 team.gameObject.SetActive(true);
                 team.SetOutlineColor(Color.black);
                 team.SetOutlineThickness(0.35f);
+                var modInfo = Instantiate(newItem.transform.GetChild(2), newItem.transform).gameObject.GetComponent<TextMeshPro>();
+                modInfo.gameObject.name = "RoleOrigin";
+                var modInfoTxt = "AU";
 
                 var amount = 0;
                 var chance = 0;
-                if (customRole != null && customRole.Configuration.MaxRoleCount != 0 &&
-                    !customRole.Configuration.HideSettings)
+                if (customRole != null)
                 {
-                    amount = (int)customRole.GetCount()!;
-                    chance = (int)customRole.GetChance()!;
-                    if (SoftWikiEntries.RoleEntries.ContainsKey(role))
+                    modInfoTxt = RemoveNonCaps(customRole.ParentMod.MiraPlugin.OptionsTitleText);
+                    if (customRole.Configuration.MaxRoleCount != 0 &&
+                        !customRole.Configuration.HideSettings)
                     {
-                        SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!.EntryName = customRole.RoleName;
-                        SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!.GetAdvancedDescription =
-                            customRole.RoleDescription + MiscUtils.AppendOptionsText(role.GetType());
+                        amount = (int)customRole.GetCount()!;
+                        chance = (int)customRole.GetChance()!;
+                        if (SoftWikiEntries.RoleEntries.ContainsKey(role))
+                        {
+                            SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!.EntryName = customRole.RoleName;
+                            SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!.GetAdvancedDescription =
+                                customRole.RoleDescription + MiscUtils.AppendOptionsText(role.GetType());
+                        }
                     }
                 }
                 else if (customRole == null)
@@ -596,6 +728,17 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         }
                     }
                 }
+
+                modInfo.alignment = TextAlignmentOptions.Center;
+                modInfo.text = 
+                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{modInfoTxt}</font>";
+                modInfo.fontSizeMin = 1.66f;
+                modInfo.fontSizeMax = 1.85f;
+                modInfo.fontSize = 1.85f;
+                modInfo.transform.localPosition += new Vector3(0.9f, 0f);
+                modInfo.color = Color.white;
+
+                modInfo.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
 
                 var amountTxt = newItem.transform.FindChild("AmountTxt").gameObject.GetComponent<TextMeshPro>();
                 var txt = amount != 0
@@ -663,13 +806,10 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         var bgSprite = bgColor.GetComponent<SpriteRenderer>();
         bgSprite.color = color;
-        if (SearchScroller.Value.Inner.GetChildCount() > 1)
-        {
-            newItem.GetChild(3).localPosition += Vector3.up * 0.015f;
-        }
+        newItem.GetChild(3).localPosition += Vector3.up * 0.015f;
 
         var amountTextObj =
-            Instantiate(newItem.GetChild(1).gameObject, newItem.GetChild(1).gameObject.transform.parent);
+            Instantiate(newItem.GetChild(1), newItem.GetChild(1).gameObject.transform.parent);
         amountTextObj.name = "AmountTxt";
         amountTextObj.transform.localPosition -= new Vector3(0f, 0.22f);
 
@@ -725,11 +865,19 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         _selectedSoftItem = softWikiInfo;
         UpdatePage(WikiPage.DetailScreen);
     }
+
+    private static string RemoveNonCaps(string text)
+    {
+        return new string(text.Where(c => !Char.IsLower(c) && !Char.IsWhiteSpace(c)).ToArray());
+    }
 }
 
 public enum WikiPage
 {
     Homepage,
     SearchScreen,
-    DetailScreen
+    DetailScreen,
+    TermsScreen
 }
+
+public record struct TermWikiInfo(string title, string description, LoadableAsset<Sprite> icon);

@@ -378,6 +378,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> TimerImpSprite { get; } =
         new LoadableBundleAsset<Sprite>("TimerImp.png", MainBundle);
 
+    public static LoadableAsset<Sprite> TerminologySprite { get; } =
+        new LoadableBundleAsset<Sprite>("Terminology", MainBundle);
+
     public static void Initialize()
     {
         AuAvengersAnims.Initialize();

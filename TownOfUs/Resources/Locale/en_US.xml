@@ -93,6 +93,8 @@
   <string name="Rainbow">Rainbow</string>
   <!-- Terms used in-game and in the wiki -->
   <string name="BackButtonText">Back</string>
+  <string name="PreviousButtonText">Previous</string>
+  <string name="NextButtonText">Next</string>
   <string name="Alignment">Alignment</string>
   <string name="WikiDescriptionTab">Description</string>
   <string name="WikiAbilitiesTab">Abilities</string>
@@ -101,10 +103,30 @@
   <string name="Roles">Roles</string>
   <string name="Modifier">Modifier</string>
   <string name="Modifiers">Modifiers</string>
+  <string name="Terminology">Terminology</string>
+  <string name="GameSettings">Game Settings</string>
+  <string name="TermsPageCount">Section \%so\%/\%st\% | Page \%po\%/\%pt\%</string>
   <string name="Amount">Amount</string>
   <string name="Chance">Chance</string>
   <string name="Options">Options</string>
   <string name="PlayerHasNoModifiers">No Modifiers</string>
+  <!-- Terminology Wiki -->
+  <string name="TermsTargetSymbolsTitle">Target Symbols</string>
+  <string name="TermsTargetSymbolsInfo">Target Symbols appear on player names in meetings and mid-game, usually only visible to the role they pertain to and/or the dead. • Executioner targets are marked with \%color=#643B1F\%X\%/color\% • Inquisitor heretics are marked with \%color=#D94291\%$\%/color\% to the dead. • Fairy targets are marked with \%color=#B3FFFF\%★\%/color\%</string>
+  <string name="TermsProtectionSymbolsTitle">Protection Symbols</string>
+  <string name="TermsProtectionSymbolsInfo">Protection Symbols appear on player names in meetings and/or mid-game, showing that they are immune to most attacks. These are usually only visible to the role they pertain to, their target, and/or the dead. • Medic shields are marked with \%color=#006600\%+\%/color\% • Cleric barriers are marked with \%color=#00FFB3\%Ω\%/color\% • Warden fortification is marked with \%color=#9900FF\%π\%/color\% • Mirrorcaster's reflections are marked with\%color=#90A2C3\%〚〛\%/color\% • Fairy Protection is marked with \%color=#FFD900\%★\%/color\% • Guardian Angel Protection is marked with \%color=#66AAF3\%☀\%/color\% • Oracle blessing is marked with \%color=#BF00BF\%†\%/color\%</string>
+  <string name="TermsStatusEffectSymbolsTitle">Status Effect Symbols</string>
+  <string name="TermsStatusEffectInfo">Status Effects appear on player names in meetings and mid-game, usually only visible to the role they pertain to and/or the dead. • Arsonist douses are marked with \%color=#FF4D00\%Δ\%/color\% • Plaguebearer plague is marked with \%color=#E6FFB3\%¥\%/color\% • Controlled players are marked with \%color=#FF2660\%⦿\%/color\% • Blackmailed targets are marked with \%color=#2A1119\%M\%/color\% • Hypnosis is marked with \%color=#D53F42\%@\%/color\% • Spellslinger Hex is marked with \%color=#FF0000\%乂\%/color\% • Monarch Knights are marked with \%color=#EA535B\%♠\%/color\%</string>
+  <string name="TermsCrewRoleAlignmentsTitle">\%color=#8CFFFF\%Crewmate\%/color\% Subalignments</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%Investigative\%/color\% roles can gather information about other players. They can use this info to deduce who is crew or not. • \%color=#8CFFFF\%Killing\%/color\% roles can \%color=#FF8B95\%kill\%/color\% others, but \%color=#FF8B95\%killing\%/color\% \%color=#8CFFFF\%Crewmates\%/color\% may have consequences. • \%color=#8CFFFF\%Protective\%/color\% roles have a way to defend other players, sometimes themselves as well. • \%color=#8CFFFF\%Power\%/color\% roles usually influence votes or have stronger abilities compared to other \%color=#8CFFFF\%Crewmates\%/color\%. • \%color=#8CFFFF\%Support\%/color\% roles usually have ways to help the rest of the \%color=#8CFFFF\%Crewmates\%/color\%, or may just benefit themselves.</string>
+  <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%Neutral\%/color\% Subalignments</string>
+  <string name="TermsNeutRoleAlignmentsInfo">• \%color=#8A8A8A\%Benign\%/color\% roles cannot win by themselves, either helping others or surviving as long as possible. • \%color=#8A8A8A\%Evil\%/color\% roles set out to complete their goals, staying as kingmakers, leaving in victory, or ending the game abruptly. • \%color=#8A8A8A\%Killing\%/color\% roles set out to be the last \%color=#FF8B95\%killer\%/color\% alive at all costs. • \%color=#8A8A8A\%Outlier\%/color\% roles set out to achieve their own goals, but each role impacts the game differently, sometimes behaving like a mix of \%color=#8A8A8A\%Benign\%/color\%, \%color=#8A8A8A\%Evil\%/color\%, and \%color=#8A8A8A\%Killing\%/color\% roles.</string>
+  <string name="TermsImpRoleAlignmentsTitle">\%color=#FF0000\%Impostor\%/color\% Subalignments</string>
+  <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%Concealing\%/color\% roles have the ability to \%color=#FF8B95\%kill\%/color\% as well as deceive others or hide away while doing so. • \%color=#FF0000\%Killing\%/color\% roles have enhanced or altered \%color=#FF8B95\%killing\%/color\% abilities, allowing them to \%color=#FF8B95\%kill\%/color\% more effectively. • \%color=#FF0000\%Power\%/color\% roles have abilities that can be deemed far stronger than any other roles, granting \%color=#FF0000\%Impostors\%/color\% a shift in strength. • \%color=#FF0000\%Support\%/color\% roles can help hide away bodies or to make \%color=#FF8B95\%killing\%/color\% more accessible.</string>
+  <string name="TermsRoleBucketsTitle">Role List Buckets</string>
+  <string name="TermsRoleBucketsInfo">Role List Buckets are only relevant when the "Set Role List" setting is used for role spawning. • Common \%color=#8CFFFF\%Crew\%/color\% contains Investigative, Protective, and Support roles. • Common \%color=#FF0000\%Impostor\%/color\% contains Concealing and Support roles. • Common \%color=#8A8A8A\%Neutral\%/color\% contains Benign and Evil roles. • Special \%color=#8CFFFF\%Crew\%/color\% contains Killing and Power roles. • Special \%color=#FF0000\%Impostor\%/color\% contains Killing and Power roles. • Special \%color=#8A8A8A\%Neutral\%/color\% contains Killing and Outlier roles. • Wildcard \%color=#8A8A8A\%Neutral\%/color\% contains Benign, Evil, and Outlier roles. • Non-\%color=#FF0000\%Impostor\%/color\% contains all \%color=#8A8A8A\%Neutral\%/color\% and \%color=#8CFFFF\%Crewmate\%/color\% roles. • Random buckets spawn any role of said faction (like Random \%color=#8CFFFF\%Crew\%/color\%). • The Any bucket allows any enabled role to spawn.</string>
+  <string name="TermsCommonSlangTitle">Common Slang</string>
+  <string name="TermsCommonSlangInfo">Common Slang is usually coined by the TOU and TOS communities to quickly pass information. • HC stands for Hard-Cleared, meaning a player is undoubtedly innocent. • Glorphing is a term used when someone is taking on the appearance of another player, whether that's from a \%color=#00FF00\%Glitch\%/color\%, \%color=#FF0000\%Morphling\%/color\%, \%color=#FF0000\%Shapeshifter\%/color\%, or any other similar role. • Ghostwalkers are terms used to describe roles like \%color=#D4D4D4\%Haunter\%/color\% and \%color=#662961\%Spectre\%/color\%, as a way to differentiate them from standard ghost roles. • Sidebars are called when a player is pulled aside in a Proximity Chat lobby to discuss private matters.</string>
   <!-- Task Text Info -->
   <string name="NeutralBasicTaskHeader">Complete your objective.</string>
   <string name="NeutralBasicDeadTaskHeader">You're dead. Sit back and enjoy the chaos.</string>
