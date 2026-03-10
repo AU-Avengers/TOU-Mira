@@ -134,7 +134,7 @@ public static class MiraApiPatches
         return false;
     }
 
-    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcConfirmCustomMurder))]
+    [HarmonyPatch(typeof(CustomMurderRpc), nameof(CustomMurderRpc.RpcConfirmCustomMurder), typeof(PlayerControl), typeof(PlayerControl), typeof(PlayerControl), typeof(MurderResultFlags), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
     [HarmonyPrefix]
     public static bool RpcConfirmCustomMurderPatch(
         this PlayerControl host,
@@ -147,9 +147,13 @@ public static class MiraApiPatches
         bool showKillAnim = true,
         bool playKillSound = true)
     {
-        if (LobbyBehaviour.Instance || !host.IsHost())
+        if (LobbyBehaviour.Instance)
         {
             MiscUtils.RunKillWarning(source);
+            return false;
+        }
+        if (!host.IsHost())
+        {
             return false;
         }
 

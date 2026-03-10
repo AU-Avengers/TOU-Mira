@@ -6,7 +6,6 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.TimeLord;
-using TownOfUs.Networking;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -87,16 +86,9 @@ public static class ReviveUtilities
             yield break;
         }
 
-        DeathStateSync.CancelPendingDeathSync(revived.PlayerId);
-
         GameHistory.ClearMurder(revived);
 
         revived.Revive();
-
-        if (!inMeetingOrExile)
-        {
-            DeathStateSync.ScheduleDeathStateSync(revived, false);
-        }
 
         if (!inMeetingOrExile)
         {
