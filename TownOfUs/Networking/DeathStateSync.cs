@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using HarmonyLib;
 using InnerNet;
 using MiraAPI.Events;
@@ -335,4 +335,4 @@ public static class DeathStateSyncPatches
             DeathStateSync.ScheduleDeathStateSync(player, false);
         }
     }
-}
+}*/

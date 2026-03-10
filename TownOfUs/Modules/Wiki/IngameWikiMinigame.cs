@@ -66,9 +66,14 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
     public static void AddNewTerms(IngameWikiMinigame instance)
     {
+        instance._activeTerms.Add(new TermWikiInfo("TermsTargetSymbolsTitle", "TermsTargetSymbolsInfo", TouRoleIcons.Executioner));
+        instance._activeTerms.Add(new TermWikiInfo("TermsProtectionSymbolsTitle", "TermsProtectionSymbolsInfo", TouRoleIcons.Fairy));
+        instance._activeTerms.Add(new TermWikiInfo("TermsStatusEffectSymbolsTitle", "TermsStatusEffectInfo", TouRoleIcons.Monarch));
         instance._activeTerms.Add(new TermWikiInfo("TermsCrewRoleAlignmentsTitle", "TermsCrewRoleAlignmentsInfo", TouRoleIcons.Crewmate));
         instance._activeTerms.Add(new TermWikiInfo("TermsNeutRoleAlignmentsTitle", "TermsNeutRoleAlignmentsInfo", TouRoleIcons.Neutral));
         instance._activeTerms.Add(new TermWikiInfo("TermsImpRoleAlignmentsTitle", "TermsImpRoleAlignmentsInfo", TouRoleIcons.Impostor));
+        instance._activeTerms.Add(new TermWikiInfo("TermsRoleBucketsTitle", "TermsRoleBucketsInfo", TouRoleIcons.Traitor));
+        instance._activeTerms.Add(new TermWikiInfo("TermsCommonSlangTitle", "TermsCommonSlangInfo", TouAssets.TerminologySprite));
     }
     private void Awake()
     {
@@ -333,8 +338,10 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
 
         TermsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
-            .Replace("<open>", $"{TermsDescription.Value.pageToDisplay}")
-            .Replace("<total>", $"{TermsDescription.Value.textInfo.pageCount}");
+            .Replace("<po>", $"{TermsDescription.Value.pageToDisplay}")
+            .Replace("<pt>", $"{TermsDescription.Value.textInfo.pageCount}")
+            .Replace("<so>", $"{_activeTerms.IndexOf(_selectedTermPage!.Value) + 1}")
+            .Replace("<st>", $"{_activeTerms.Count}");
         // Error($"Page Count: {TermsDescription.Value.textInfo.pageCount}, current page is {TermsDescription.Value.pageToDisplay}");
     }
 
@@ -347,8 +354,10 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         TermsDescription.Value.pageToDisplay = lastPage ? TermsDescription.Value.textInfo.pageCount : 1;
         TermsScreenTabCount.Value.text = TouLocale.GetParsed("TermsPageCount")
-            .Replace("<open>", $"{TermsDescription.Value.pageToDisplay}")
-            .Replace("<total>", $"{TermsDescription.Value.textInfo.pageCount}");
+            .Replace("<po>", $"{TermsDescription.Value.pageToDisplay}")
+            .Replace("<pt>", $"{TermsDescription.Value.textInfo.pageCount}")
+            .Replace("<so>", $"{_activeTerms.IndexOf(_selectedTermPage!.Value) + 1}")
+            .Replace("<st>", $"{_activeTerms.Count}");
 
         TermsScreenIcon.Value.sprite = newTerms.icon.LoadAsset();
         TermsScreenIcon.Value.SetSizeLimit(1.44f);

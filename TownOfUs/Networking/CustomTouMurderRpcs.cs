@@ -19,10 +19,7 @@ namespace TownOfUs.Networking;
 
 public static class CustomTouMurderRpcs
 {
-    public static bool ExperimentalKills =>
-        OptionGroupSingleton<HostSpecificOptions>.Instance.ExperimentalKillSystem.Value;
-    public static bool ExperimentalResync => ExperimentalKills && OptionGroupSingleton<HostSpecificOptions>.Instance.ExperimentalKillSystemResync.Value;
-    public static bool ExperimentalMeetings => ExperimentalKills && OptionGroupSingleton<HostSpecificOptions>.Instance.ExperimentalKillSystemMeetings.Value;
+    public static float RecordedKillCooldown = -1f;
     /// <summary>
     /// Networked Custom Murder method. Use this if changing from a dictionary is needed.
     /// </summary>
@@ -170,13 +167,10 @@ public static class CustomTouMurderRpcs
             allPlayers.Remove(newPlayer);
             var beforeMurderEvent = new BeforeMurderEvent(source, newPlayer, inMeeting);
             MiraEventManager.InvokeEvent(beforeMurderEvent);
-            if (ExperimentalMeetings)
+            var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+            if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
             {
-                var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
-                if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
-                {
-                    beforeMurderEvent.Cancel();
-                }
+                beforeMurderEvent.Cancel();
             }
 
             if (beforeMurderEvent.IsCancelled)
@@ -210,17 +204,6 @@ public static class CustomTouMurderRpcs
                 teleportMurderer,
                 showKillAnim,
                 playKillSound);
-
-            if (ExperimentalResync && murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
-            {
-                // Force-sync death state after successful murder to prevent desyncs
-                DeathStateSync.ScheduleDeathStateSync(newPlayer, true);
-                // Request validation after kill to ensure all clients are in sync
-                if (source.AmOwner)
-                {
-                    DeathStateSync.RequestValidationAfterKill(source);
-                }
-            }
 
             // Record kill cooldown change after CustomMurder if it was reset (only for first target)
             if (killCooldownBefore.HasValue && firstTarget && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
@@ -314,16 +297,6 @@ public static class CustomTouMurderRpcs
         if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
         {
             MiscUtils.LungeToPos(framed, targetPos);
-            if (ExperimentalResync)
-            {
-                // Force-sync death state after successful murder to prevent desyncs
-                DeathStateSync.ScheduleDeathStateSync(target, true);
-                // Request validation after kill to ensure all clients are in sync
-                if (source.AmOwner)
-                {
-                    DeathStateSync.RequestValidationAfterKill(source);
-                }
-            }
         }
 
         // Record kill cooldown change after CustomMurder if it was reset
@@ -418,13 +391,10 @@ public static class CustomTouMurderRpcs
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
-        if (ExperimentalMeetings)
+        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
         {
-            var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
-            if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
-            {
-                beforeMurderEvent.Cancel();
-            }
+            beforeMurderEvent.Cancel();
         }
 
         if (beforeMurderEvent.IsCancelled)
@@ -458,17 +428,6 @@ public static class CustomTouMurderRpcs
             teleportMurderer,
             showKillAnim,
             playKillSound);
-
-        if (ExperimentalResync && murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
-        {
-            // Force-sync death state after successful murder to prevent desyncs
-            DeathStateSync.ScheduleDeathStateSync(target, true);
-            // Request validation after kill to ensure all clients are in sync
-            if (source.AmOwner)
-            {
-                DeathStateSync.RequestValidationAfterKill(source);
-            }
-        }
 
         // Record kill cooldown change after CustomMurder if it was reset
         if (killCooldownBefore.HasValue && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
@@ -538,16 +497,5 @@ public static class CustomTouMurderRpcs
         source.CustomMurder(
             target,
             MurderResultFlags.Succeeded);
-
-        if (ExperimentalResync)
-        {
-            // Force-sync death state after ghost role murder to prevent desyncs
-            DeathStateSync.ScheduleDeathStateSync(target, true);
-            // Request validation after kill to ensure all clients are in sync
-            if (source.AmOwner)
-            {
-                DeathStateSync.RequestValidationAfterKill(source);
-            }
-        }
     }
 }

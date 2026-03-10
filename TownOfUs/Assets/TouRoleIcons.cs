@@ -213,6 +213,9 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Inquisitor { get; } =
         new LoadableBundleAsset<Sprite>("Inquisitor", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Jackal { get; } =
+        new LoadableBundleAsset<Sprite>("Jackal", TouAssets.MainBundle);
+
     // Impostor Concealing
     public static LoadableAsset<Sprite> Eclipsal { get; } =
         new LoadableBundleAsset<Sprite>("Eclipsal", TouAssets.MainBundle);

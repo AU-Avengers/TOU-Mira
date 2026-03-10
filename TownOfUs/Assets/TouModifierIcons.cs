@@ -46,6 +46,9 @@ public static class TouModifierIcons
     public static LoadableAsset<Sprite> Operative { get; } =
         new LoadableBundleAsset<Sprite>("Operative", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Recruit { get; } =
+        new LoadableBundleAsset<Sprite>("Recruit", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> Rotting { get; } =
         new LoadableBundleAsset<Sprite>("Rotting", TouAssets.MainBundle);
 
