@@ -243,7 +243,7 @@ public static class CustomTouMurderRpcs
         foreach (var target in victims)
         {
             var newPlayer = allPlayers.FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
-            if (newPlayer == null)
+            if (newPlayer == null || newPlayer.HasDied())
             {
                 continue;
             }
@@ -360,7 +360,7 @@ public static class CustomTouMurderRpcs
             MiscUtils.RunKillWarning(source);
             return;
         }
-        if (!host.IsHost())
+        if (!host.IsHost() || target.HasDied())
         {
             return;
         }
@@ -538,7 +538,7 @@ public static class CustomTouMurderRpcs
             MiscUtils.RunKillWarning(source);
             return;
         }
-        if (!host.IsHost())
+        if (!host.IsHost() || target.HasDied())
         {
             return;
         }
