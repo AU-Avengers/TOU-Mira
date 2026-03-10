@@ -110,6 +110,12 @@
   <string name="Chance">Chance</string>
   <string name="Options">Options</string>
   <string name="PlayerHasNoModifiers">No Modifiers</string>
+  <!-- Settings Wiki -->
+  <string name="WikiSettingsAmongUsGameSettingsTitle">Among Us Game Settings</string>
+  <string name="WikiSettingsTouMiraGameSettingsTitle">TOU Mira Game Settings</string>
+  <string name="WikiSettingsAssassinSettingsTitle">Assassin Settings</string>
+  <string name="WikiSettingsMapsSabotageSettingsTitle">Maps/Sabotage Settings</string>
+  <string name="WikiSettingsBetterMapsSettingsTitle">Better Maps Settings</string>
   <!-- Terminology Wiki -->
   <string name="TermsTargetSymbolsTitle">Target Symbols</string>
   <string name="TermsTargetSymbolsInfo">Target Symbols appear on player names in meetings and mid-game, usually only visible to the role they pertain to and/or the dead. • Executioner targets are marked with \%color=#643B1F\%X\%/color\% • Inquisitor heretics are marked with \%color=#D94291\%$\%/color\% to the dead. • Fairy targets are marked with \%color=#B3FFFF\%★\%/color\%</string>
