@@ -200,7 +200,7 @@ public static class CustomTouMurderRpcs
             playKillSound,
             causeOfDeath);
     }
-    [MethodRpc((uint)TownOfUsRpc.ConfirmSpecialMultiMurder, LocalHandling = RpcLocalHandling.Before)]
+    [MethodRpc((uint)TownOfUsRpc.ConfirmSpecialMultiMurder, LocalHandling = RpcLocalHandling.After)]
     public static void RpcConfirmSpecialMultiMurder(
         this PlayerControl host,
         PlayerControl source,
@@ -341,7 +341,7 @@ public static class CustomTouMurderRpcs
             causeOfDeath);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.ConfirmFramedMurder, LocalHandling = RpcLocalHandling.Before)]
+    [MethodRpc((uint)TownOfUsRpc.ConfirmFramedMurder, LocalHandling = RpcLocalHandling.After)]
     public static void RpcConfirmFramedMurder(
         this PlayerControl host,
         PlayerControl source,
@@ -518,7 +518,7 @@ public static class CustomTouMurderRpcs
             playKillSound,
             causeOfDeath);
     }
-    [MethodRpc((uint)TownOfUsRpc.ConfirmSpecialMurder, LocalHandling = RpcLocalHandling.Before)]
+    [MethodRpc((uint)TownOfUsRpc.ConfirmSpecialMurder, LocalHandling = RpcLocalHandling.After)]
     public static void RpcConfirmSpecialMurder(
         this PlayerControl host,
         PlayerControl source,
