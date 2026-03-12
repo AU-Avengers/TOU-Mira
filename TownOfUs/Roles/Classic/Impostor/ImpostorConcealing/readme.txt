@@ -1,0 +1,1 @@
+These roles can spawn normally in the regular gamemode.

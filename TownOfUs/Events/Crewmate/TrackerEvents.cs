@@ -19,7 +19,7 @@ public static class TrackerEvents
         if (@event.Player.AmOwner && @event.Player.Data.Role is SonarRole &&
             opt.TaskUses && !opt.ResetOnNewRound)
         {
-            var button = CustomButtonSingleton<TrackerTrackButton>.Instance;
+            var button = CustomButtonSingleton<SonarTrackButton>.Instance;
             ++button.UsesLeft;
             ++button.ExtraUses;
             button.SetUses(button.UsesLeft);
@@ -39,7 +39,7 @@ public static class TrackerEvents
             tracker.Clear();
         }
 
-        var button = CustomButtonSingleton<TrackerTrackButton>.Instance;
+        var button = CustomButtonSingleton<SonarTrackButton>.Instance;
         button.SetUses((int)OptionGroupSingleton<SonarOptions>.Instance.MaxTracks);
     }
 }
