@@ -10,6 +10,7 @@ public enum TownOfUsRpc : uint
     ConfirmSpecialMurder,
     SpecialMultiMurder,
     ConfirmSpecialMultiMurder,
+    ConfirmSpecialMultiMurderDouble,
     FramedMurder,
     ConfirmFramedMurder,
     RemoveSpawns,
