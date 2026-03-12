@@ -1134,30 +1134,36 @@ public static class HudManagerPatches
     public static string StoredMaximum { get; private set; } = "Max";
     internal static List<string> StoredRoleBuckets =
     [
-        "CommonCrew",
-        "RandomCrew",
         "CrewInvestigative",
         "CrewKilling",
         "CrewProtective",
         "CrewPower",
         "CrewSupport",
-        "SpecialCrew",
-        "NonImp",
-        "CommonNeutral",
-        "SpecialNeutral",
-        "WildcardNeutral",
-        "RandomNeutral",
+
         "NeutralBenign",
         "NeutralEvil",
         "NeutralKilling",
         "NeutralOutlier",
-        "CommonImp",
-        "RandomImp",
+
         "ImpConcealing",
         "ImpKilling",
         "ImpPower",
         "ImpSupport",
+
+        "CommonCrew",
+        "SpecialCrew",
+        "RandomCrew",
+
+        "CommonNeutral",
+        "SpecialNeutral",
+        "WildcardNeutral",
+        "RandomNeutral",
+
+        "CommonImp",
         "SpecialImp",
+        "RandomImp",
+
+        "NonImp",
         "Any"
     ];
 

@@ -14,30 +14,36 @@ public sealed class RoleOptions : AbstractOptionGroup
             or GameModes.SeekFools);
     internal static string[] OptionStrings =
     [
-        MiscUtils.GetParsedRoleBucket("CommonCrew"),
-        MiscUtils.GetParsedRoleBucket("RandomCrew"),
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
         MiscUtils.GetParsedRoleBucket("CrewKilling"),
         MiscUtils.GetParsedRoleBucket("CrewProtective"),
         MiscUtils.GetParsedRoleBucket("CrewPower"),
         MiscUtils.GetParsedRoleBucket("CrewSupport"),
-        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
-        MiscUtils.GetParsedRoleBucket("NonImp"),
-        MiscUtils.GetParsedRoleBucket("CommonNeutral"),
-        MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
-        MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
-        MiscUtils.GetParsedRoleBucket("RandomNeutral"),
+
         MiscUtils.GetParsedRoleBucket("NeutralBenign"),
         MiscUtils.GetParsedRoleBucket("NeutralEvil"),
         MiscUtils.GetParsedRoleBucket("NeutralKilling"),
         MiscUtils.GetParsedRoleBucket("NeutralOutlier"),
-        MiscUtils.GetParsedRoleBucket("CommonImp"),
-        MiscUtils.GetParsedRoleBucket("RandomImp"),
+
         MiscUtils.GetParsedRoleBucket("ImpConcealing"),
         MiscUtils.GetParsedRoleBucket("ImpKilling"),
         MiscUtils.GetParsedRoleBucket("ImpPower"),
         MiscUtils.GetParsedRoleBucket("ImpSupport"),
+
+        MiscUtils.GetParsedRoleBucket("CommonCrew"),
+        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
+        MiscUtils.GetParsedRoleBucket("RandomCrew"),
+
+        MiscUtils.GetParsedRoleBucket("CommonNeutral"),
+        MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
+        MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
+        MiscUtils.GetParsedRoleBucket("RandomNeutral"),
+
+        MiscUtils.GetParsedRoleBucket("CommonImp"),
         MiscUtils.GetParsedRoleBucket("SpecialImp"),
+        MiscUtils.GetParsedRoleBucket("RandomImp"),
+
+        MiscUtils.GetParsedRoleBucket("NonImp"),
         MiscUtils.GetParsedRoleBucket("Any")
     ];
 
@@ -308,29 +314,43 @@ public enum RoleDistribution
 
 public enum RoleListOption
 {
-    CrewCommon,
-    CrewRandom,
     CrewInvest,
     CrewKilling,
     CrewProtective,
     CrewPower,
     CrewSupport,
-    CrewSpecial,
-    NonImp,
-    NeutCommon,
-    NeutSpecial,
-    NeutWildcard,
-    NeutRandom,
+
     NeutBenign,
     NeutEvil,
     NeutKilling,
     NeutOutlier,
-    ImpCommon,
-    ImpRandom,
+
     ImpConceal,
     ImpKilling,
     ImpPower,
     ImpSupport,
-    ImpSpecial,
+
+    CrewCommon, // Investigative / Protective / Support
+    CrewSpecial, // Killing / Power
+    // CrewUtility, // Investigative / Support
+    // CrewBasic, // Vanilla Crewmate
+    CrewRandom, // Any Crewmate role
+
+    NeutCommon, // Benign / Evil
+    NeutSpecial, // Killing / Outlier
+    NeutWildcard, // Benign / Evil / Outlier
+    // NeutChaos, // Evil / Outlier
+    // NeutPassive, // Benign / Outlier, this name sucks btw - Atony
+    NeutRandom, // Any Neutral role
+
+    ImpCommon, // Concealing / Support
+    ImpSpecial, // Killing / Power
+    // ImpUtility, // Concealing / Killing / Support
+    // ImpBasic, // Vanilla Impostor
+    ImpRandom, // Any Impostor role
+
+    NonImp, // Crewmate / Neutral
+    // NonKilling, // Everything but Impostors, NKs, and CKs
+    // AnyKilling, // Impostors, NKs, and CKs
     Any
 }

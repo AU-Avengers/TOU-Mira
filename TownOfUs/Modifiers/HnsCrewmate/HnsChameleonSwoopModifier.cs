@@ -2,7 +2,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using TownOfUs.Buttons.HnsCrewmate;
+using TownOfUs.Buttons.HideAndSeek.Hider;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.HnsCrewmate;
