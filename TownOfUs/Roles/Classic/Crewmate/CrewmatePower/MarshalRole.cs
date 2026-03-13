@@ -328,10 +328,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             Warning($"The cutscene is played for the first time");
 
-            if (TutorialManager.InstanceExists)
-            {
-                yield return new WaitForSeconds(3);
-            }
+            yield return new WaitForSeconds(0.75f);
 
             ConsoleJoystick.SetMode_Task();
             MeetingHud.Instance.DespawnOnDestroy = false;
