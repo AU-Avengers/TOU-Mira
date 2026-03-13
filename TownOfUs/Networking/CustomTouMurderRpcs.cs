@@ -546,7 +546,6 @@ public static class CustomTouMurderRpcs
                 lockInfo: DeathHandlerOverride.SetTrue);
         }
 
-        var targetPos = target.GetTruePosition();
         source.CustomMurder(
             target,
             murderResultFlags2,
@@ -555,16 +554,27 @@ public static class CustomTouMurderRpcs
             false,
             showKillAnim,
             playKillSound);
-        if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded))
-        {
-            MiscUtils.LungeToPos(framed, targetPos);
-        }
+
+        Coroutines.Start(CoWaitForJump(murderResultFlags2, framed, target));
 
         // Record kill cooldown change after CustomMurder if it was reset
         if (RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner &&
             source.Data?.Role?.CanUseKillButton == true)
         {
             Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
+        }
+    }
+
+    public static IEnumerator CoWaitForJump(MurderResultFlags flags, PlayerControl framed, PlayerControl target)
+    {
+        // Wait for CustomMurder to process and get the proper position
+        yield return null;
+        yield return null;
+
+        var targetPos = target.transform.position;
+        if (flags.HasFlag(MurderResultFlags.Succeeded))
+        {
+            MiscUtils.LungeToPos(framed, targetPos);
         }
     }
 
