@@ -11,6 +11,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using MiraAPI.Voting;
 using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
@@ -21,7 +22,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Crewmate;
 
@@ -257,7 +257,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         AdjustTimeRemaining();
     }
 
-    [MethodRpc((uint)TownOfUsRpc.TribunalEjection)]
+    [MethodRpc((uint)TownOfUsRpc.TribunalEjection, LocalHandling = RpcLocalHandling.After)]
     private static void RpcTribunalEjection(PlayerControl victim)
     {
         if (EjectedPlayers.Contains(victim))
@@ -288,7 +288,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
         UpdateVoteRequirement();
     }
     
-    [MethodRpc((uint)TownOfUsRpc.EndTribunal)]
+    [MethodRpc((uint)TownOfUsRpc.EndTribunal, LocalHandling = RpcLocalHandling.After)]
     public static void RpcEndTribunal(PlayerControl player)
     {
         Warning($"RpcEndTribunal");
@@ -328,7 +328,10 @@ public sealed class MarshalRole(IntPtr cppPtr)
         {
             Warning($"The cutscene is played for the first time");
 
-            yield return new WaitForSeconds(3);
+            if (TutorialManager.InstanceExists)
+            {
+                yield return new WaitForSeconds(3);
+            }
 
             ConsoleJoystick.SetMode_Task();
             MeetingHud.Instance.DespawnOnDestroy = false;
@@ -352,9 +355,22 @@ public sealed class MarshalRole(IntPtr cppPtr)
             {
                 // ignored
             }
+
+            try
+            {
+                if (ExileController.Instance != null)
+                {
+                    Error("ExileController already active, destroying this one.");
+                    ExileController.Instance.gameObject.DestroyImmediate();
+                }
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
-        ExileController exileController = Object.Instantiate(ShipStatus.Instance.ExileCutscenePrefab, HudManager.Instance.transform);
+        var exileController = Instantiate(ShipStatus.Instance.ExileCutscenePrefab, HudManager.Instance.transform);
         exileController.transform.localPosition = new Vector3(0f, 0f, -60f);
         if (skipped)
         {
