@@ -2,16 +2,17 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Options;
 
 public sealed class RoleOptions : AbstractOptionGroup
 {
-    // TODO: Once hide and seek is possibly implemented as a selectable mode, then this code should be removed.
+    /*// TODO: Once hide and seek is possibly implemented as a selectable mode, then this code should be removed.
     public override Func<bool> GroupVisible => () =>
         !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-            or GameModes.SeekFools);
+            or GameModes.SeekFools);*/
     internal static string[] OptionStrings =
     [
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
@@ -52,7 +53,7 @@ public sealed class RoleOptions : AbstractOptionGroup
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        var gameMode = (TouGamemode)CustomGameMode.Value;
+        var gameMode = CustomGameMode.Value;
         var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
         if (/*gameMode is TouGamemode.HideAndSeek && */GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
         {
@@ -63,8 +64,8 @@ public sealed class RoleOptions : AbstractOptionGroup
         {
             case TouGamemode.Cultist:
                 return RoleDistribution.Cultist;
-            /*case TouGamemode.AllKillers:
-                return RoleDistribution.AllKillers;*/
+            case TouGamemode.KillFrenzy:
+                return RoleDistribution.KillFrenzy;
         }
 
         switch (roleDist)
@@ -82,39 +83,88 @@ public sealed class RoleOptions : AbstractOptionGroup
     {
         get
         {
-            var gameMode = (TouGamemode)CustomGameMode.Value;
+            var gameMode = CustomGameMode.Value;
             return !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools || gameMode is TouGamemode.Cultist/* || gameMode is TouGamemode.AllKillers*/);
+                or GameModes.SeekFools || gameMode is TouGamemode.Cultist || gameMode is TouGamemode.KillFrenzy);
         }
     }
-    public ModdedEnumOption CustomGameMode { get; } =
-        new("Current Game Mode", (int)TouGamemode.Normal, typeof(TouGamemode), ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)"/*, "All Killers (N/A)", "Legacy TOU (N/A)"*/], false)
+    public ModdedEnumOption<TouGamemode> CustomGameMode { get; } =
+        new("Current Game Mode", TouGamemode.Normal, ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)", "Kill Frenzy"/*, "All Killers (N/A)", "Legacy TOU (N/A)"*/], false)
         {
             // Who could've possibly thought this code breaks the game?
             /*ChangedEvent = x =>
             {
-                var newGm = (TouGamemode)x;
+                var newGm = x;
                 var manager = GameOptionsManager.Instance;
                 if (manager != null)
                 {
-                    if (newGm is TouGamemode.HideAndSeek && manager.currentGameMode is not GameModes.HideNSeek && manager.currentGameMode is not GameModes.SeekFools)
+                    var oldGameMan = GameManager.Instance;
+                    if (newGm is TouGamemode.HideAndSeek && manager.currentGameMode is not GameModes.HideNSeek &&
+                        manager.currentGameMode is not GameModes.SeekFools)
                     {
                         GameOptionsManager.Instance.SwitchGameMode(GameModes.HideNSeek);
-                        GameManager.DestroyInstance();
-                        GameManager netObjParent2 = GameManagerCreator.CreateGameManager(GameOptionsManager.Instance.CurrentGameOptions.GameMode);
-                        AmongUsClient.Instance.Spawn(netObjParent2, -2, SpawnFlags.None);
+                        var newGameMan =
+                            UnityEngine.Object.Instantiate<HideAndSeekManager>(GameManagerCreator.Instance
+                                .HideAndSeekManagerPrefab);
+                        UnityEngine.Object.DontDestroyOnLoad(newGameMan.gameObject);
+                        GameManager.Instance = newGameMan;
+                        oldGameMan.LogicComponents.Clear();
+                        oldGameMan.gameObject.Destroy();
+                        newGameMan.InitComponents();
+                        newGameMan.AllGameSettingData =
+                            new Il2CppSystem.Collections.Generic.Dictionary<StringNames, BaseGameSetting>();
+                        foreach (RulesCategory rulesCategory in newGameMan.gameSettingsList.AllCategories)
+                        {
+                            foreach (BaseGameSetting baseGameSetting in rulesCategory.AllGameSettings)
+                            {
+                                if (!newGameMan.AllGameSettingData.ContainsKey(baseGameSetting.Title))
+                                {
+                                    newGameMan.AllGameSettingData.Add(baseGameSetting.Title, baseGameSetting);
+                                }
+                            }
+                        }
                     }
-                    else if (newGm is not TouGamemode.HideAndSeek && (manager.currentGameMode is GameModes.HideNSeek || manager.currentGameMode is GameModes.SeekFools))
+                    else if (newGm is not TouGamemode.HideAndSeek && (manager.currentGameMode is GameModes.HideNSeek ||
+                                                                      manager.currentGameMode is GameModes.SeekFools))
                     {
                         GameOptionsManager.Instance.SwitchGameMode(GameModes.Normal);
-                        GameManager.DestroyInstance();
-                        GameManager netObjParent2 = GameManagerCreator.CreateGameManager(GameOptionsManager.Instance.CurrentGameOptions.GameMode);
-                        AmongUsClient.Instance.Spawn(netObjParent2, -2, SpawnFlags.None);
+                        var newGameMan =
+                            UnityEngine.Object.Instantiate<NormalGameManager>(GameManagerCreator.Instance
+                                .NormalGameManagerPrefab);
+                        UnityEngine.Object.DontDestroyOnLoad(newGameMan.gameObject);
+                        GameManager.Instance = newGameMan;
+                        oldGameMan.LogicComponents.Clear();
+                        oldGameMan.gameObject.Destroy();
+                        newGameMan.InitComponents();
+                        newGameMan.AllGameSettingData =
+                            new Il2CppSystem.Collections.Generic.Dictionary<StringNames, BaseGameSetting>();
+                        foreach (RulesCategory rulesCategory in newGameMan.gameSettingsList.AllCategories)
+                        {
+                            foreach (BaseGameSetting baseGameSetting in rulesCategory.AllGameSettings)
+                            {
+                                if (!newGameMan.AllGameSettingData.ContainsKey(baseGameSetting.Title))
+                                {
+                                    newGameMan.AllGameSettingData.Add(baseGameSetting.Title, baseGameSetting);
+                                }
+                            }
+                        }
+
+                        foreach (RoleBehaviour roleBehaviour in RoleManager.Instance.AllRoles)
+                        {
+                            foreach (BaseGameSetting baseGameSetting2 in roleBehaviour.AllGameSettings)
+                            {
+                                if (!newGameMan.AllGameSettingData.ContainsKey(baseGameSetting2.Title))
+                                {
+                                    newGameMan.AllGameSettingData.Add(baseGameSetting2.Title, baseGameSetting2);
+                                }
+                            }
+                        }
                     }
+
                 }
 
                 Debug($"New gamemode is {newGm.ToString().ToLowerInvariant()}!");
-            }*/
+            },*/
             Visible = () => true
         };
     public ModdedEnumOption RoleAssignmentType { get; } =
@@ -308,7 +358,7 @@ public enum RoleDistribution
     MinMaxList,
     HideAndSeek,
     Cultist,
-    // AllKillers,
+    KillFrenzy,
     // Legacy
 }
 

@@ -182,6 +182,11 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.Other;
             }
 
+            if (RoleAlignment == RoleAlignment.FrenzyKiller)
+            {
+                return TouRoleGroups.FrenzyKiller;
+            }
+
             return Team switch
             {
                 ModdedRoleTeams.Crewmate => TouRoleGroups.CrewSup,
@@ -256,4 +261,6 @@ public enum RoleAlignment
     CrewmateBeliever,
     CrewmateObstinate,
     NeutralObstinate,
+    // Killing Frenzy
+    FrenzyKiller
 }

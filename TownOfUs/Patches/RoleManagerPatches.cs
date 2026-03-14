@@ -902,7 +902,7 @@ public static class TouRoleManagerPatches
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
 
-        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
+        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla || OptionGroupSingleton<RoleOptions>.Instance.CustomGameMode.Value is TouGamemode.KillFrenzy or TouGamemode.Cultist)
         {
             return true;
         }

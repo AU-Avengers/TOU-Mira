@@ -113,13 +113,14 @@ public enum TownOfUsRpc : uint
     RequestLobbyRules,
     SendLobbyRules,
     SendLobbyRulesGlobal,
-    SyncDeathState,
-    RequestDeathStateValidation,
     MultiplayerFreeplayRequest,
     TriggerGlitchHack,
     RecentVetAttack,
     HostStartMeeting,
     HostEndMeeting,
+    FrenzyRecall,
+    FrenzyMarkLocation,
+    FrenzyPlantBomb,
 }
 
 internal enum TownOfUsInternalRpc : uint

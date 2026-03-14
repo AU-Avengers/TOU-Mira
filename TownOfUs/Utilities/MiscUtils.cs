@@ -1961,7 +1961,7 @@ public static class MiscUtils
     {
         if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
             return TouGamemode.HideAndSeek;
-        return TouGamemode.Normal;
+        return OptionGroupSingleton<RoleOptions>.Instance.CustomGameMode.Value;
     }
 
     public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
@@ -2182,7 +2182,7 @@ public enum TouGamemode
     Normal,
     HideAndSeek,
     Cultist,
-    // AllKillers,
+    KillFrenzy,
     // Legacy
 }
 public enum ExpandedMapNames
