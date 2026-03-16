@@ -79,6 +79,12 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AuAvengersLogo { get; } =
         new LoadableResourceAsset($"{ShortPath}.AuAvengersLogo.png", 200);
 
+    public static LoadableAsset<Sprite> AbilityCounterHerbsSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Herbs.png");
+
+    public static LoadableAsset<Sprite> AbilityCounterKillSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Kill.png");
+
     public static LoadableAsset<Sprite> AbilityCounterPlayerSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Player.png");
 
@@ -287,9 +293,14 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> RetrainCleanSprite { get; } =
         new LoadableBundleAsset<Sprite>("RetrainClean.png", MainBundle);
-
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableBundleAsset<Sprite>("Hacked", MainBundle);
 
+    public static LoadableAsset<Sprite> TribunalSprite { get; } =
+        new LoadableBundleAsset<Sprite>("Tribunal.png", MainBundle);
+    
+    public static LoadableAsset<Sprite> TribunalClearSprite { get; } =
+        new LoadableBundleAsset<Sprite>("TribunalClean.png", MainBundle);
+  
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);
 
