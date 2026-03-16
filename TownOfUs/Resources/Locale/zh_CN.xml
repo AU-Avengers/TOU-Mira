@@ -948,7 +948,7 @@
   <string name="TouOptionSwooperSwoopDuration">隐身持续时间</string>
   <string name="TouOptionSwooperCanVent">隐身人可使用通风口</string>
   <string name="TouRolePlumberTabDescription">清理并管理通风口系统，同时\%nl\%放置路障在管道上，阻止下一轮的使用</string>
-  <string name="TouRolePlumberExtraTabText">注意：路障将持续\%roundCount\%回合</string>
+  <string name="TouRolePlumberExtraTabText">路障将持续\%roundCount\%回合</string>
   <string name="TouRolePlumberVentListTabText">管道列表</string>
   <string name="TouRolePlumberUnbuiltBarricadeTabText">准备中...</string>
   <string name="TouRolePlumberVentLabelTabText">\%roomName\%管道</string>
@@ -1972,4 +1972,80 @@
   <string name="TouOptionAmnesiacInheritFactionModifier">继承阵营的附加属性</string>
   <string name="TouRolePestilenceMessageTitle">万疫之神警告</string>
   <string name="TouRolePestilenceAnnounceMessage">致命瘟疫席卷了全体船员。\%nl\%\%role\%，天启四骑士之一，已然降临！</string>
+  <string name="TouRoleHaunterClickableFeedback">现在玩家可以点击你了！</string>
+  <string name="TouRoleHaunterSelfRevealFeedback">你已揭示所有杀手！</string>
+  <string name="TouRoleHaunterImpRevealFeedback">冤魂已完成所有任务！</string>
+  <string name="TouRoleJailorEvilTabInfo">你可以处决船员。</string>
+  <string name="TouRoleLookoutFeedbackTitle">观测反馈</string>
+  <string name="TouRoleLookoutNoInteractionFeedback">没有玩家与 \%player\% 发生互动</string>
+  <string name="TouRoleLookoutInteractionFeedback">与 \%player\% 发生互动的职业</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithFaction">\%player\% 被 \%faction\% 阵营攻击！你现在可以将这次攻击释放到另一名玩家身上！</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithSubalignment">\%player\% 被 \%subalignment\% 阵营攻击！你现在可以将这次攻击释放到另一名玩家身上！</string>
+  <string name="TouRoleMonarchKnightTargetDied">\%player\%在你册封骑士前就已死亡。</string>
+  <string name="TouRoleMonarchKnightSuccess">\%player\% 已被册封骑士！</string>
+  <string name="TouRoleMonarchKnightedFeedback">你被 \%role\% 册封了骑士身份，获得了\%votes\% 票！</string>
+  <string name="TouRoleMonarchKnightFallenFeedback">你的骑士 \%player\% 已阵亡……</string>
+  <string name="TouRoleOracleConfessionTitle">神谕者坦白</string>
+  <string name="TouRolePlumberExtraTabTextForever">路障将永远存在</string>
+  <string name="TouRolePoliticianEgotistTabInfo">当你的身份被揭露时，邪恶阵营将知道你的真正目的。</string>
+  <string name="TouRoleProsecutorCanProsecuteCrew">\%b\%你可以起诉船员。\%/b\%</string>
+  <string name="TouRoleProsecutorProsecutionsRemaining">剩余起诉次数：\%count\%</string>
+  <string name="TouRoleSnitchSelfRevealedEgoFeedback">伪装者已经知道你的位置，并且知道你是自大狂！</string>
+  <string name="TouRoleSnitchSelfRevealedFeedback">伪装者已经知道你的位置！</string>
+  <string name="TouRoleSnitchImpRevealedEgoFeedback">告密者是一名自大狂，他会帮助你推翻船员！</string>
+  <string name="TouRoleSnitchImpRevealedFeedback">告密者正在接近揭露你的身份！</string>
+  <string name="TouRoleSnitchSelfCompletedEgoFeedback">你已经揭露了伪装者，他们可以帮助你达成胜利条件！</string>
+  <string name="TouRoleSnitchSelfCompletedFeedback">你已经揭露了伪装者！</string>
+  <string name="TouRoleSnitchImpCompletedEgoFeedback">告密者现在可以以自大狂的身份帮助你！</string>
+  <string name="TouRoleSnitchImpCompletedFeedback">告密者现在知道你的身份了！</string>
+  <string name="TouRoleVigilanteEvilTabInfo">你也可以猜测船员。</string>
+  <string name="TouRoleVigilanteNoSafeShots">你已经没有安全射击次数了。</string>
+  <string name="TouRoleVigilanteSafeShotsLeft">剩余 \%count\% 次安全射击。</string>
+  <string name="TouRoleVigilanteMultiShotFeedback">你的多重射击让你在本次会议中免于死亡！剩余 \%count\% 次安全射击！</string>
+  <string name="TouRoleDoomsayerWonSelf">你作为 \%role\% 成功获胜，因为你成功猜中了足够多的玩家！</string>
+  <string name="TouRoleDoomsayerWonOther">\%role\%, \%player\% 已成功获胜，因为他们成功猜中了足够多的玩家！</string>
+  <string name="TouRoleExecutionerWonSelf">你作为 \%role\% 成功获胜，因为你的目标被投票出局了！</string>
+  <string name="TouRoleExecutionerWonOther">\%role\%, \%player\%, 已成功获胜，因为他们的目标被投票出局了！</string>
+  <string name="TouRoleExecutionerTormentFeedback">你有一回合时间折磨并杀死一名玩家，请谨慎选择。</string>
+  <string name="ShowRoleIconOnRoleTab">在职业标签页显示图标</string>
+  <string name="RainbowColorAsFortegreen">将彩虹颜色显示为 Fortegreen</string>
+  <string name="PreviousButtonText">上一页</string>
+  <string name="NextButtonText">下一页</string>
+  <string name="Terminology">游戏术语</string>
+  <string name="GameSettings">游戏设置</string>
+  <string name="TermsPageCount">章节 \%so\%/\%st\% | 页面 \%po\%/\%pt\%</string>
+  <string name="WikiSettingsAmongUsGameSettingsTitle">Among Us 游戏设置</string>
+  <string name="WikiSettingsTouMiraGameSettingsTitle">我们的小镇 Mira 设置</string>
+  <string name="WikiSettingsAssassinSettingsTitle">刺客设置</string>
+  <string name="WikiSettingsMapsSabotageSettingsTitle">地图 / 破坏设置</string>
+  <string name="WikiSettingsBetterMapsSettingsTitle">高级地图设置</string>
+  <string name="TermsTargetSymbolsTitle">目标标记</string>
+  <string name="TermsTargetSymbolsInfo">目标标记会显示在会议和游戏进行中玩家的名字旁，通常只有相关职业或死亡玩家能看到。• 行刑者的目标会标记为 \%color=#643B1F\%X\%/color\% • 审判官的异端在死亡玩家视角下会标记为 \%color=#D94291\%$\%/color\% • 天使的目标会标记为 \%color=#B3FFFF\%★\%/color\%</string>
+  <string name="TermsProtectionSymbolsTitle">保护标记</string>
+  <string name="TermsProtectionSymbolsInfo">保护标记会显示在会议或游戏过程中玩家名字旁，表示他们对大多数攻击免疫。通常只有相关职业、目标玩家或死亡玩家可见。• 法医护盾标记为 \%color=#006600\%+\%/color\%• 牧师屏障标记为 \%color=#00FFB3\%Ω\%/color\%• 护卫者驻防标记为 \%color=#9900FF\%π\%/color\%• 镜法师反射标记为 \%color=#90A2C3\%〚〛\%/color\% • 天使保护标记为 \%color=#FFD900\%★\%/color\%• 守护天使保护标记为 \%color=#66AAF3\%☀\%/color\%• 神谕者护佑标记为 \%color=#BF00BF\%†\%/color\%</string>
+  <string name="TermsStatusEffectSymbolsTitle">状态效果标记</string>
+  <string name="TermsStatusEffectInfo">状态效果标记会显示在会议或游戏过程中玩家名字旁，通常只有相关职业或死亡玩家可见。• 纵火狂浇油标记为 \%color=#FF4D00\%Δ\%/color\% • 瘟疫之源使者感染标记为 \%color=#E6FFB3\%¥\%/color\% • 被控制的玩家标记为 \%color=#FF2660\%⦿\%/color\% • 被勒索的目标标记为 \%color=#2A1119\%M\%/color\% • 被催眠标记为 \%color=#D53F42\%@\%/color\% • 爆咒师诅咒标记为 \%color=#FF0000\%乂\%/color\% • 君主册封的骑士标记为 \%color=#EA535B\%♠\%/color\%</string>
+  <string name="TermsCrewRoleAlignmentsTitle">\%color=#8CFFFF\%船员\%/color\% 子阵营</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%调查型\%/color\% 职业可以收集其他玩家的信息，从而判断谁是船员。 • \%color=#8CFFFF\%击杀型\%/color\%职业可以\%color=#FF8B95\%击杀\%/color\%他人，但\%color=#FF8B95\%击杀\%/color\%\%color=#8CFFFF\%船员\%/color\%可能会带来后果。 • \%color=#8CFFFF\%保护型\%/color\%职业可以保护其他玩家，有时也能保护自己。 • \%color=#8CFFFF\%强力型\%/color\% 职业通常会影响投票，或拥有比其他\%color=#8CFFFF\%船员\%/color\%更强的能力。 • \%color=#8CFFFF\%支援型\%/color\%职业通常可以帮助其他\%color=#8CFFFF\%船员\%/color\%，或为自己提供帮助。</string>
+  <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%中立\%/color\% 子阵营</string>
+  <string name="TermsNeutRoleAlignmentsInfo">•\%color=#8A8A8A\%友善型\%/color\% 职业无法单独获胜，通常需要帮助别人或尽可能存活。 • \%color=#8A8A8A\%邪恶型\%/color\%职业专注完成自己的目标，可能操控胜负或提前结束游戏。 • \%color=#8A8A8A\%杀手型\%/color\% 职业的目标是不惜一切成为最后存活的 \%color=#FF8B95\%杀手\%/color\%。 • \%color=#8A8A8A\%外来者型\%/color\%职业拥有各自独特的胜利条件，行为可能类似于\%color=#8A8A8A\%友善型\%/color\%、\%color=#8A8A8A\%邪恶型\%/color\%或\%color=#8A8A8A\%杀手型\%/color\%职业的混合。</string>
+  <string name="TermsImpRoleAlignmentsTitle">\%color=#FF0000\%伪装者\%/color\% 子阵营</string>
+  <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%隐匿型\%/color\%职业可以\%color=#FF8B95\%击杀\%/color\% 并通过伪装或隐藏来欺骗他人。 • \%color=#FF0000\%击杀型\%/color\%职业拥有强化或特殊的 \%color=#FF8B95\%击杀\%/color\%能力。 • \%color=#FF0000\%强力型\%/color\%职业拥有非常强大的技能，可以显著增强\%color=#FF0000\%伪装者\%/color\%阵营。 • \%color=#FF0000\%辅助型\%/color\%职业可以隐藏尸体或让 \%color=#FF8B95\%击杀\%/color\%更加容易。</string>
+  <string name="TermsRoleBucketsTitle">职业池分类</string>
+  <string name="TermsRoleBucketsInfo">职业池分类仅在启用“设置职业列表”生成方式时生效。 • 常规 \%color=#8CFFFF\%船员\%/color\% ：调查型、保护型、支援型。• Common \%color=#FF0000\%伪装者\%/color\% ：隐匿型、辅助型。 • 常规 \%color=#8A8A8A\%中立\%/color\% 友善型、邪恶型。 • 特殊\%color=#8CFFFF\%船员\%/color\% ：击杀型、强力型。 • Special \%color=#FF0000\%伪装者\%/color\% ：击杀型、强力型。• 特殊\%color=#8A8A8A\%中立\%/color\% ：杀手型、外来者型。 • 非杀手\%color=#8A8A8A\%中立\%/color\% ：友善型、邪恶型、外来者型。 • 非-\%color=#FF0000\%伪装者\%/color\% 包含所有 \%color=#8A8A8A\%中立\%/color\% 和\%color=#8CFFFF\%船员\%/color\% 职业。• 随机分类会生成该阵营的任意职业 (如随机 \%color=#8CFFFF\%船员\%/color\%). • “任意”分类允许生成任何启用的职业。</string>
+  <string name="TermsCommonSlangTitle">常见术语</string>
+  <string name="TermsCommonSlangInfo">常见术语通常由 TOU / TOS 社区创造，用于快速交流信息。 • 金水HC：Hard-Cleared，表示该玩家几乎可以确定是好人。 •变身 Glorphing：指玩家变成另一名玩家的外观，例如来自\%color=#00FF00\%混沌\%/color\%、\%color=#FF0000\%化形者\%/color\%, \%color=#FF0000\%变形者\%/color\%, 等职业。 • 鬼影Ghostwalkers：用于称呼 \%color=#D4D4D4\%冤魂\%/color\% 和\%color=#662961\%幻影\%/color\% 等能在死亡后行动的幽灵职业。 • 说悄悄话Sidebars：在近距离语音房间中把玩家拉到一旁进行私下交流。</string>
+  <string name="CrewmateGhost">船员幽灵</string>
+  <string name="NeutralGhost">中立幽灵</string>
+  <string name="ImpostorGhost">伪装者幽灵</string>
+  <string name="AnticheatKillMessage">在大厅中检测到一次击杀尝试，关联玩家：\%player\%。</string>
+  <string name="AnticheatKickMissingMessage">\%player\% 缺少以下模组：</string>
+  <string name="HostStartMeetingNotif">房主已强制召开会议。</string>
+  <string name="HostEndMeetingNotif">房主已强制结束会议。</string>
+  <string name="GuesserNoResults">没有结果</string>
+  <string name="TouOptionBetterMapsTheme">地图主题装饰 </string>
+  <string name="TouOptionBetterMapsThemeEnumBasic">无装饰 </string>
+  <string name="TouOptionBetterMapsThemeEnumHalloween">万圣节</string>
+  <string name="TouOptionBetterMapsThemeEnumBirthday">生日</string>
+  <string name="TouOptionBetterMapsThemeEnumAuto">自动</string>
 </resources>
