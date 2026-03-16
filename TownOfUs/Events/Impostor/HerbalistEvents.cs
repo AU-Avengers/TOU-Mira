@@ -7,6 +7,7 @@ using MiraAPI.Modifiers;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Options;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Impostor;
@@ -72,6 +73,13 @@ public static class HerbalistEvents
 
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has herbalist protection, stopping an interaction from {source.Data.PlayerName}!");
         @event.Cancel();
+
+        var cleric = target.GetModifier<HerbalistProtectionModifier>()?.Herbalist.GetRole<HerbalistRole>();
+
+        if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
+        {
+            HerbalistRole.RpcHerbalistBarrierAttacked(cleric.Player, source, target);
+        }
 
         return true;
     }

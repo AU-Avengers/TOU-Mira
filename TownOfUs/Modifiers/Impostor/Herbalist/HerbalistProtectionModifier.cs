@@ -15,13 +15,28 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
 {
     public override string ModifierName => "Barrier";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Cleric;
+    public override string ShieldDescription => "You are shielded by a Cleric!\nNo one can interact with you.";
     public override float Duration => OptionGroupSingleton<HerbalistOptions>.Instance.ProtectDuration;
     public override bool AutoStart => true;
     public bool ShowBarrier { get; set; }
 
-    public override bool HideOnUi => true;
+    public override bool HideOnUi
+    {
+        get
+        {
+            return !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowShieldHudToggle.Value ||
+                   !OptionGroupSingleton<HerbalistOptions>.Instance.ShowBarrier;
+        }
+    }
 
-    public override bool VisibleSymbol => false;
+    public override bool VisibleSymbol
+    {
+        get
+        {
+            var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId && OptionGroupSingleton<HerbalistOptions>.Instance.ShowBarrier;
+            return showBarrierSelf;
+        }
+    }
 
     public PlayerControl Herbalist { get; } = herbalist;
     public GameObject? ClericBarrier { get; set; }
@@ -31,12 +46,14 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
 
+        var showBarrierSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId && OptionGroupSingleton<HerbalistOptions>.Instance.ShowBarrier;
+
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
             x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
             x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
 
-        ShowBarrier = Herbalist.AmOwner ||
+        ShowBarrier = showBarrierSelf || Herbalist.AmOwner ||
                       (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
         ClericBarrier =
