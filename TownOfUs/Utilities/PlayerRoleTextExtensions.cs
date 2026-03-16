@@ -4,6 +4,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options;
@@ -71,6 +72,9 @@ public static class PlayerRoleTextExtensions
 
     private static Func<ParasiteInfectedModifier, bool> ParasiteOvertakenPredicate { get; } =
         shModifier => shModifier.Controller.AmOwner;
+
+    private static Func<HerbalistProtectionModifier, bool> HerbalistBarrierPredicate { get; } =
+        cbModifier => cbModifier.Herbalist.AmOwner;
 
     public static Color UpdateTargetColor(this Color color, PlayerControl player, bool hidden = false)
     {
@@ -196,6 +200,16 @@ public static class PlayerRoleTextExtensions
                 (isDead
                  || (player.AmOwner && player.TryGetModifier<ClericBarrierModifier>(out var cleric) &&
                      cleric.VisibleSymbol))))
+        {
+            name += "<color=#00FFB3> Ω</color>";
+        }
+
+        if ((player.HasModifier(HerbalistBarrierPredicate) &&
+             PlayerControl.LocalPlayer.IsRole<HerbalistRole>())
+            || (player.HasModifier<HerbalistProtectionModifier>() &&
+                (isDead
+                 || (player.AmOwner && player.TryGetModifier<HerbalistProtectionModifier>(out var herbalist) &&
+                     herbalist.VisibleSymbol))))
         {
             name += "<color=#00FFB3> Ω</color>";
         }

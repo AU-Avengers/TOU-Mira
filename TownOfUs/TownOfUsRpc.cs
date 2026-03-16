@@ -1,4 +1,4 @@
-﻿﻿namespace TownOfUs;
+﻿namespace TownOfUs;
 
 public enum TownOfUsRpc : uint
 {
@@ -13,6 +13,8 @@ public enum TownOfUsRpc : uint
     ConfirmSpecialMultiMurderDouble,
     FramedMurder,
     ConfirmFramedMurder,
+    GlamourMurder,
+    ConfirmGlamourMurder,
     RemoveSpawns,
     RerouteSystemByte,
     RerouteSystemMsg,
@@ -128,6 +130,7 @@ public enum TownOfUsRpc : uint
     RemoveMediumSpirit,
     HostStartMeeting,
     HostEndMeeting,
+    HerbalistBarrierAttacked,
 }
 
 internal enum TownOfUsInternalRpc : uint
