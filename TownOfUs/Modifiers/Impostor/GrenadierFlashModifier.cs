@@ -22,7 +22,12 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     public override bool HideOnUi => true;
     public override float Duration => OptionGroupSingleton<GrenadierOptions>.Instance.GrenadeDuration + 0.5f;
     public override bool AutoStart => true;
+    public override bool CanBeInteractedWith => true;
+    public override bool IsConsideredAlive => true;
     public override bool CanUseAbilities => true;
+    public override bool CanUseConsoles => false;
+    public override bool CanOpenMap => false;
+    public override bool CanReport => false;
     public PlayerControl Grenadier => grenadier;
 
     public void Dispose()

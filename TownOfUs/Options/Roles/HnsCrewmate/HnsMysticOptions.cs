@@ -1,7 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using MiraAPI.Utilities;
-using TownOfUs.Roles.HnsCrewmate;
+using TownOfUs.Roles.HideAndSeek.Hider;
 
 namespace TownOfUs.Options.Roles.HnsCrewmate;
 

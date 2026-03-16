@@ -1,0 +1,1 @@
+A modification of Vanilla's Hide and Seek mode.

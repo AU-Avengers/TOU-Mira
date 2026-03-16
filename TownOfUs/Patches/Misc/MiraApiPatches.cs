@@ -152,7 +152,7 @@ public static class MiraApiPatches
             MiscUtils.RunKillWarning(source);
             return false;
         }
-        if (!host.IsHost())
+        if (!host.IsHost() || target.HasDied())
         {
             return false;
         }
