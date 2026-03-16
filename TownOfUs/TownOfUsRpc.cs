@@ -1,4 +1,4 @@
-﻿namespace TownOfUs;
+﻿﻿namespace TownOfUs;
 
 public enum TownOfUsRpc : uint
 {
@@ -52,6 +52,7 @@ public enum TownOfUsRpc : uint
     MarkLocation,
     Disperse,
     Mediate,
+    MultiMediate,
     VampireBite,
     CheckInfected,
     SetFairyTarget,
@@ -85,6 +86,11 @@ public enum TownOfUsRpc : uint
     RetrainImpostor,
     AmbushPlayer,
     RetrainConfirm,
+    Tribunal,
+    TribunalEjection,
+    EndTribunal,
+    BenefactorAegis,
+    BenefactorAegisAttacked,
     SelectSpectator,
     RemoveSpectator,
     SetSpectatorList,
@@ -117,7 +123,9 @@ public enum TownOfUsRpc : uint
     RequestDeathStateValidation,
     MultiplayerFreeplayRequest,
     TriggerGlitchHack,
+    Roleblock,
     RecentVetAttack,
+    RemoveMediumSpirit,
     HostStartMeeting,
     HostEndMeeting,
 }

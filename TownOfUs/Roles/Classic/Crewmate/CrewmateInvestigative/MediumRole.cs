@@ -1,10 +1,15 @@
-﻿using Il2CppInterop.Runtime.Attributes;
+﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
+using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modules.MedSpirit;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -54,24 +59,115 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         IntroSound = TouAudio.MediumIntroSound
     };
 
-
-
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
 
-        MediatedPlayers.ForEach(mod => mod.Player?.GetModifierComponent()?.RemoveModifier(mod));
+        MediatedPlayers.ForEach(mod => mod.Player.RemoveModifier(mod));
+        if (Spirit == null) return;
+        Spirit.DestroyImmediate();
     }
 
-    [MethodRpc((uint)TownOfUsRpc.Mediate, LocalHandling = RpcLocalHandling.Before)]
-    public static void RpcMediate(PlayerControl source, PlayerControl target)
+    public override void OnMeetingStart()
     {
-        if ((!source.AmOwner && !target.AmOwner) || (source.Data.Role is not MediumRole && !target.Data.IsDead))
+        RoleBehaviourStubs.OnMeetingStart(this);
+
+        MediatedPlayers.ForEach(mod => mod.Player.RemoveModifier(mod));
+        if (Spirit == null) return;
+        Spirit.DestroyImmediate();
+    }
+
+    public MedSpiritObject? Spirit { get; set; }
+
+    [MethodRpc((uint)TownOfUsRpc.Mediate)]
+    public static void RpcMediate(PlayerControl player)
+    {
+        var hidden =
+            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            AppearanceVisibility.None or AppearanceVisibility.Ghosts;
+        if (player.AmOwner && hidden)
+        {
+            foreach (var plr in Helpers.GetAlivePlayers())
+            {
+                if (plr.AmOwner)
+                {
+                    continue;
+                }
+
+                plr.AddModifier<MediumHiddenModifier>();
+            }
+        }
+
+        if (!AmongUsClient.Instance.AmHost)
         {
             return;
         }
 
-        var modifier = new MediatedModifier(source.PlayerId);
-        target.GetModifierComponent()?.AddModifier(modifier);
+        var spirit = Instantiate(TouAssets.MediumSpirit.LoadAsset()).GetComponent<MedSpiritObject>();
+        AmongUsClient.Instance.Spawn(spirit, player.OwnerId);
+    }
+
+    public static void RpcMultiMediate(
+        PlayerControl source,
+        List<PlayerControl> targets)
+    {
+        var newTargets = targets.Count == 0
+            ? new Dictionary<byte, string>()
+            : targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName))
+                .ToDictionary(x => x.Key, x => x.Value);
+        RpcMultiMediate(source, newTargets);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.MultiMediate)]
+    public static void RpcMultiMediate(PlayerControl player, Dictionary<byte, string> targets)
+    {
+        if (AmongUsClient.Instance.AmHost)
+        {
+            var spirit = Instantiate(TouAssets.MediumSpirit.LoadAsset()).GetComponent<MedSpiritObject>();
+            AmongUsClient.Instance.Spawn(spirit, player.OwnerId);
+        }
+        if (targets.Count != 0)
+        {
+            var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
+            allPlayers.Remove(player);
+            foreach (var target in targets)
+            {
+                var newPlayer =
+                    allPlayers.FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
+                if (newPlayer == null)
+                {
+                    continue;
+                }
+
+                allPlayers.Remove(newPlayer);
+                if (player.AmOwner || newPlayer.AmOwner)
+                {
+                    var modifier = new MediatedModifier(player.PlayerId);
+                    newPlayer.GetModifierComponent()?.AddModifier(modifier);
+                }
+            }
+        }
+
+        var hidden =
+            (AppearanceVisibility)OptionGroupSingleton<MediumOptions>.Instance.PlayerVisibility.Value is
+            AppearanceVisibility.None or AppearanceVisibility.Ghosts;
+        if (player.AmOwner && hidden)
+        {
+            foreach (var plr in Helpers.GetAlivePlayers())
+            {
+                if (plr.AmOwner)
+                {
+                    continue;
+                }
+
+                plr.AddModifier<MediumHiddenModifier>();
+            }
+        }
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.RemoveMediumSpirit)]
+    public static void RpcRemoveMediumSpirit(PlayerControl medium, MedSpiritObject spirit)
+    {
+        spirit.StartCoroutine(spirit.CoDestroy().WrapToIl2Cpp());
     }
 }
