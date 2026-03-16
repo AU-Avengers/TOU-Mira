@@ -1566,7 +1566,7 @@
   <string name="TouOptionGrenadierFlashGrenadeDuration">Flash Grenade Duration</string>
   <string name="TouOptionGrenadierFlashRadius">Flash Radius</string>
   <string name="TouOptionGrenadierGrenadierCanVent">Grenadier Can Vent</string>
-  
+
   <string name="TouRoleHerbalist">Herbalist</string>
   <string name="TouRoleHerbalistIntroBlurb">Let your plants and herbs guide the way</string>
   <string name="TouRoleHerbalistTabDescription">Use your herbs and plants on other players.\%nl\%Your kill cooldown is unlinked from other abilities.</string>

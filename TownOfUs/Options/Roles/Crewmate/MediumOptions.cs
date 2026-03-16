@@ -22,7 +22,7 @@ public sealed class MediumOptions : AbstractOptionGroup<MediumRole>
         new("TouOptionMediumLivingSeeSpiritTimer", 2.5f, 0.5f, 20f, 0.5f, MiraNumberSuffixes.Seconds);
 
     public ModdedEnumOption PlayerVisibility { get; set; } = new("TouOptionMediumAppearanceVisibility",
-        (int)AppearanceVisibility.Both, typeof(AppearanceVisibility),
+        (int)AppearanceVisibility.None, typeof(AppearanceVisibility),
         [
             "TouOptionMediumAppearanceEnumLiving", "TouOptionMediumAppearanceEnumDead",
             "TouOptionMediumAppearanceEnumBoth", "TouOptionMediumAppearanceEnumNone"

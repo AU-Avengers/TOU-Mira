@@ -1,4 +1,4 @@
-﻿namespace TownOfUs;
+﻿﻿namespace TownOfUs;
 
 public enum TownOfUsRpc : uint
 {
