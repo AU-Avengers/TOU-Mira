@@ -645,7 +645,6 @@
   <string name="TouRoleClericTabProtecting">Barriere Auf: \%player\%</string>
   <string name="TouRoleMedicTabProtecting">Schild auf: \%player\%</string>
   <string name="TouOptionMediumMediateCooldown">Erhören Abklingzeit</string>
-  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">Zeige Aussehen des Erhörten Zieles</string>
   <string name="TouOptionMediumArrowVisibility">Pfeil Sichtbarkeit</string>
   <string name="TouOptionMediumWhoisRevealed">Wer ist Aufgedeckt</string>
   <string name="TouRoleMirrorcasterIntroBlurb">Reflektiere Angriffe auf Andere</string>

@@ -343,7 +343,6 @@
   <string name="TouRoleMediumMediate">Медитировать</string>
   <string name="TouRoleMediumMediateWikiDescription">Общайтесь с мёртвыми, они могут привести вас к убийце.</string>
   <string name="TouOptionMediumMediateCooldown">Откат Медитации</string>
-  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">Показывать призрака при медитации</string>
   <string name="TouOptionMediumArrowVisibility">Видимость Стрелки</string>
   <string name="TouOptionMediumWhoisRevealed">Будет показан</string>
   <string name="TouRoleMirrorcaster">Отражатель</string>

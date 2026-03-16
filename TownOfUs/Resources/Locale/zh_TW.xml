@@ -707,7 +707,6 @@
   <string name="TouRoleMediumMediateWikiDescription">與死者交流,可能會獲得指向兇手的線索。</string>
   <string name="TouRoleMediumWikiDescription">招魂師是一名船員調查型職業,可以招魂,而每次可以看到一名幽靈。招魂師和幽靈會互相顯示箭頭,隨時指示對方的位置。</string>
   <string name="TouOptionMediumMediateCooldown">招魂冷卻</string>
-  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">顯示招魂對象外觀</string>
   <string name="TouOptionMediumArrowVisibility">箭頭可見性</string>
   <string name="TouOptionMediumArrowEnumShowMedium">招魂師</string>
   <string name="TouOptionMediumArrowEnumShowMediated">被招魂者</string>

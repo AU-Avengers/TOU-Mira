@@ -750,7 +750,6 @@
   <string name="TouOptionHypnotistHypnotistCanKillWithTeammate">催眠师可与队友一起击杀</string>
   <string name="TouOptionMedicMaxAmountOfShieldUses">最大护盾使用次数</string>
   <string name="TouOptionMedicShowReportsInChat">显示法医报告</string>
-  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">显示招魂对象外观</string>
   <string name="TouRoleVenererIntroBlurb">每次击杀都会强化你的能力</string>
   <string name="TouRoleVenererTabDescription">击杀玩家以解锁能力加成。\%nl\%你的技能允许你隐蔽，然后变得快速，最后还能减慢你路径上其他人的速度。</string>
   <string name="TouRoleVenererWikiDescription">狩猎者是一名伪装者隐蔽型职业，可以通过击杀玩家获得新能力，防止被抓住！但每次获得新能力时会立即使用，并且能力会叠加。</string>
