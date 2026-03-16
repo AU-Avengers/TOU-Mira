@@ -289,11 +289,11 @@ If a mod is missing here and is a role/modifiers mod, it likely won't work unles
 
 |                                    Mod                                    | Support | Notes                                                                                            |
 |:-------------------------------------------------------------------------:|:-------:|:-------------------------------------------------------------------------------------------------|
-|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         | ✅ | Custom Door Types cannot be adjusted fully.                                                      |
-|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        | ✅ | Custom Door Types cannot be changed.                                                             |
-|             [NewMod](https://github.com/CallOfCreator/NewMod)             | ✅ | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                 |
-| [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) | ✅ | Launchpad tags overlap with Tou player names.<br/>Wiki is not fully implemented.                 |
-|     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      | ⚠️ | Mod is non-functional on new Among Us releases at the moment.<br/>Wiki is not fully implemented. |
+|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         |    ✅    | Custom Door Types cannot be adjusted fully.                                                      |
+|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        |    ✅    | Custom Door Types cannot be changed.                                                             |
+|             [NewMod](https://github.com/CallOfCreator/NewMod)             |    ✅    | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                 |
+| [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) |   ⚠️    | Launchpad's Gambler role is broken with TOU Mira.<br/>Wiki is not fully implemented.             |
+|     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      |   ⚠️    | Mod is non-functional on new Among Us releases at the moment.<br/>Wiki is not fully implemented. |
 
 The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers!
 
