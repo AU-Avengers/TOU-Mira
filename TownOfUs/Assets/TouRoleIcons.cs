@@ -114,7 +114,8 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Warden { get; } =
         new LoadableBundleAsset<Sprite>("Warden", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> Benefactor { get; } = new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Benefactor.png");
+    public static LoadableAsset<Sprite> Benefactor { get; } =
+        new LoadableBundleAsset<Sprite>("Benefactor", TouAssets.MainBundle);
 
     // Crewmate Support
     public static LoadableAsset<Sprite> Barkeeper { get; } =
@@ -147,7 +148,8 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Transporter { get; } =
         new LoadableBundleAsset<Sprite>("Transporter", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> Catalyst { get; } = new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Catalyst.png");
+    public static LoadableAsset<Sprite> Catalyst { get; } =
+        new LoadableBundleAsset<Sprite>("Catalyst", TouAssets.MainBundle);
     // Neutral Ghost
     public static LoadableAsset<Sprite> Spectre { get; } =
         new LoadableBundleAsset<Sprite>("Spectre", TouAssets.MainBundle);

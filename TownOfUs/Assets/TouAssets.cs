@@ -296,10 +296,10 @@ public static class TouAssets
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableBundleAsset<Sprite>("Hacked", MainBundle);
 
     public static LoadableAsset<Sprite> TribunalSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.Tribunal.png", 300);
+        new LoadableBundleAsset<Sprite>("Tribunal.png", MainBundle);
     
     public static LoadableAsset<Sprite> TribunalClearSprite { get; } =
-        new LoadableResourceAsset($"{ShortPath}.TribunalClean.png", 300);
+        new LoadableBundleAsset<Sprite>("TribunalClean.png", MainBundle);
   
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);

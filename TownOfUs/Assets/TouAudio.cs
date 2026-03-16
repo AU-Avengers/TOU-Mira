@@ -153,7 +153,7 @@ public static class TouAudio
         new LoadableBundleAsset<AudioClip>("JanitorClean", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> TribunalSound { get; } =
-        new LoadableAudioResourceAsset("TownOfUs.Resources.Audio.MarshalTribunal.wav");
+        new LoadableBundleAsset<AudioClip>("MarshalTribunal", TouAssets.MainBundle);
     public static LoadableAsset<AudioClip> SentryPlaceSound { get; } =
         new LoadableBundleAsset<AudioClip>("SentryPlace", TouAssets.MainBundle);
 
