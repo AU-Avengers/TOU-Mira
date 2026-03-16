@@ -201,13 +201,44 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 
 # Contributions & Credits
 
-> [!NOTE]
-> If you wish to make an Extension Mod that builds on top of TOU Mira, you may look at [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)'s Example Mod or the official [Example Mod](https://github.com/AU-Avengers/TouExtensionExample).
+[MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI) - The primary framework of the mod\
+[Zeo666](https://github.com/Zeo666) - For implementing the Game Timer mechanic.\
+[le killer](https://github.com/lekillerdesgames) - For implementing the split faction chat.\
+[AlchlcDvl](https://github.com/AlchlcDvl) - For implementing the Spectator feature.\
+[xChipseq](https://github.com/xChipseq) - For implementing the wiki hyperlinks feature for chat.\
+[Amber](https://github.com/Nix-main) - For helping on the translation system.\
+[IdkImNeil](https://github.com/neilmjain) - For implementing the /rules system.\
+[rewalo](https://github.com/rewalo) - FOr implementing host keybinds, improving anticheat, as well as adding Time Lord, Sentry and Parasite.\
+[ItzLoonie](https://github.com/ItzLoonie) - For the original implementations of the reworked Seer, Monarch, and Spellslinger roles. Also implemented Deadly Quota and Circumvent modifiers.\
+[Unlock dlekS](https://github.com/Tommy-XL/Unlock-dlekS-ehT) - For the dlekS reimplementation.\
+[Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) - For the original Discord Status patch.\
+[Better Among Us](https://github.com/D1GQ/BetterAmongUs) - For the original Splash Intro patch.
 
+> [!NOTE]
+> The following credits originate from the original TOU/TOUR repositories.
+
+[Reactor](https://github.com/NuclearPowered/Reactor) - Dependency for the mod\
+[BepInEx](https://github.com/BepInEx) - For hooking game functions\
+[Among-Us-Sheriff-Mod](https://github.com/Woodi-dev/Among-Us-Sheriff-Mod) - For the Sheriff role.\
+[Among-Us-Love-Couple-Mod](https://github.com/Woodi-dev/Among-Us-Love-Couple-Mod) - For the inspiration of Lovers role.\
+[ExtraRolesAmongUs](https://github.com/NotHunter101/ExtraRolesAmongUs) - For the Engineer & Medic roles.\
+[TooManyRolesMods](https://github.com/Hardel-DW/TooManyRolesMods) - For the Investigator & Time Lord roles.\
+[TorchMod](https://github.com/tomozbot/TorchMod) - For the inspiration of the Torch modifier.\
+[XtraCube](https://github.com/XtraCube) - For the Rainbow color.\
+[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - For the inspiration of the Vigilante, Sonar (formerly Tracker) and Spy roles, as well as the Bait modifier.\
+[5up](https://www.twitch.tv/5uppp) and the Submarine Team - For the inspiration of the Grenadier role.\
+[MyDragonBreath](https://github.com/MyDragonBreath) - For Submerged Compatibility, the Trapper and Aurial roles, and the Aftermath modifier\
+[ItsTheNumberH](https://github.com/itsTheNumberH/Town-Of-H) - For the code used for Blind, Bait, Poisoner and partially for Sonar, as well as other bug fixes.\
+[Ruiner](https://github.com/ruiner189/Town-Of-Us-Redux) - For lovers changed into a modifier and Task Tracking.\
+[Term](https://www.twitch.tv/termboii) - For creating Transporter, Medium, Blackmailer, Plaguebearer, Sleuth, Multitasker.\
+[BryBry16](https://github.com/Brybry16/BetterPolus) - For the code used for Better Polus.
 
 -----------------------
 
 # Mod Compatibility
+
+> [!NOTE]
+> If you wish to make an Extension Mod that builds on top of TOU Mira, you may look at [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)'s Example Mod or the official [Example Mod](https://github.com/AU-Avengers/TouExtensionExample).
 
 **Disclaimer: This mod compatibility list can and will change over time.**
 
