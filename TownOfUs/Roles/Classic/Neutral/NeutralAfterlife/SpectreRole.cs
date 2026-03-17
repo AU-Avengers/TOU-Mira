@@ -151,7 +151,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     }
 
     public override Color RoleColor => TownOfUsColors.Spectre;
-    public override RoleAlignment RoleAlignment => RoleAlignment.NeutralGhost;
+    public override RoleAlignment RoleAlignment => RoleAlignment.NeutralAfterlife;
 
     public override CustomRoleConfiguration Configuration => new(this)
     {
