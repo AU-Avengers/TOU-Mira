@@ -111,6 +111,8 @@ public enum TownOfUsRpc : uint
     TimeLordRewind,
     TimeLordRewindRevive,
     TimeLordUndoTask,
+    BasicRevive,
+    FullRevive,
     TimeLordSetDeadBodyPos,
     SentryPlaceCamera,
     SentryRevealCamera,

@@ -159,7 +159,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public Color RoleColor => TownOfUsColors.Haunter;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateGhost;
+    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateAfterlife;
 
     public CustomRoleConfiguration Configuration => new(this)
     {

@@ -287,15 +287,16 @@ public static class MiscUtils
 
         if (role.IsDead)
         {
+            // TODO: Add support in MiraAPI for automatic ghost roles, similar to Spectator. Then, we can rely on that for better checks.
             if (role.IsNeutral())
             {
-                return RoleAlignment.NeutralGhost;
+                return RoleAlignment.NeutralAfterlife;
             }
             if (role.IsImpostor())
             {
-                return RoleAlignment.ImpostorGhost;
+                return RoleAlignment.ImpostorAfterlife;
             }
-            return RoleAlignment.CrewmateGhost;
+            return RoleAlignment.CrewmateAfterlife;
         }
 
         if (role.Role is RoleTypes.Tracker or RoleTypes.Detective)
@@ -630,7 +631,7 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
                 // registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
                 break;
-            case RoleAlignment.CrewmateGhost:
+            case RoleAlignment.CrewmateAfterlife:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case RoleAlignment.ImpostorSupport:

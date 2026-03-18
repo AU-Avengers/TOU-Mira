@@ -154,6 +154,9 @@
   <string name="CrewmateGhost">Crewmate Ghost</string>
   <string name="NeutralGhost">Neutral Ghost</string>
   <string name="ImpostorGhost">Impostor Ghost</string>
+  <string name="CrewmateAfterlife">Crewmate Afterlife</string>
+  <string name="NeutralAfterlife">Neutral Afterlife</string>
+  <string name="ImpostorAfterlife">Impostor Afterlife</string>
   <string name="GameOutlier">Game Outlier</string>
   <string name="CrewmateInvestigative">Crewmate Investigative</string>
   <string name="CrewmateKilling">Crewmate Killing</string>
