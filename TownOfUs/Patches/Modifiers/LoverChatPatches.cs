@@ -22,7 +22,7 @@ public static class LoverChatPatches
 
         var text = __instance.freeChatField.Text.WithoutRichText();
 
-        if (text.Length < 1 || text.Length > 100)
+        if (text.Length < 1 || text.Length > 301)
         {
             return true;
         }
