@@ -79,9 +79,27 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
         Player.RawSetAppearance(this);
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        var mushroom = UnityEngine.Object.FindObjectOfType<MushroomMixupSabotageSystem>();
+        if (mushroom && mushroom.IsActive)
+        {
+            Player.RawSetAppearance(this);
+            Player.cosmetics.ToggleNameVisible(false);
+        }
+    }
+
     public override void OnDeactivate()
     {
         Player.MyPhysics.SetForcedBodyType(PlayerControl.LocalPlayer.BodyType);
+
+        var mushroom = UnityEngine.Object.FindObjectOfType<MushroomMixupSabotageSystem>();
+        if (mushroom && mushroom.IsActive)
+        {
+            MushroomMixUp(mushroom, Player);
+        }
         if (HudManagerPatches.CamouflageCommsEnabled)
         {
             return;
@@ -89,5 +107,17 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
 
         Player.RawSetAppearance(Player.GetDefaultModifiedAppearance());
         Player.cosmetics.ToggleNameVisible(true);
+    }
+
+    public static void MushroomMixUp(MushroomMixupSabotageSystem instance, PlayerControl player)
+    {
+        if (player != null && !player.Data.IsDead && instance.currentMixups.ContainsKey(player.PlayerId))
+        {
+            var condensedOutfit = instance.currentMixups[player.PlayerId];
+            var playerOutfit = instance.ConvertToPlayerOutfit(condensedOutfit);
+            playerOutfit.NamePlateId = player.Data.DefaultOutfit.NamePlateId;
+
+            player.MixUpOutfit(playerOutfit);
+        }
     }
 }
