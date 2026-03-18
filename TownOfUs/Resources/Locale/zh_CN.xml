@@ -1985,7 +1985,7 @@
   <string name="TouRoleMonarchKnightedFeedback">你被 \%role\% 册封了骑士身份，获得了\%votes\% 票！</string>
   <string name="TouRoleMonarchKnightFallenFeedback">你的骑士 \%player\% 已阵亡……</string>
   <string name="TouRoleOracleConfessionTitle">神谕者坦白</string>
-  <string name="TouRolePlumberExtraTabTextForever">路障将永远存在</string>
+  <string name="TouRolePlumberExtraTabTextForever">路障整局存在</string>
   <string name="TouRolePoliticianEgotistTabInfo">当你的身份被揭露时，邪恶阵营将知道你的真正目的。</string>
   <string name="TouRoleProsecutorCanProsecuteCrew">\%b\%你可以起诉船员。\%/b\%</string>
   <string name="TouRoleProsecutorProsecutionsRemaining">剩余起诉次数：\%count\%</string>
@@ -2007,7 +2007,7 @@
   <string name="TouRoleExecutionerWonOther">\%role\%, \%player\%, 已成功获胜，因为他们的目标被投票出局了！</string>
   <string name="TouRoleExecutionerTormentFeedback">你有一回合时间折磨并杀死一名玩家，请谨慎选择。</string>
   <string name="ShowRoleIconOnRoleTab">在职业标签页显示图标</string>
-  <string name="RainbowColorAsFortegreen">将彩虹颜色显示为 Fortegreen</string>
+  <string name="RainbowColorAsFortegreen">彩虹颜色显示为 Fortegreen</string>
   <string name="PreviousButtonText">上一页</string>
   <string name="NextButtonText">下一页</string>
   <string name="Terminology">游戏术语</string>
@@ -2017,7 +2017,7 @@
   <string name="WikiSettingsTouMiraGameSettingsTitle">我们的小镇 Mira 设置</string>
   <string name="WikiSettingsAssassinSettingsTitle">刺客设置</string>
   <string name="WikiSettingsMapsSabotageSettingsTitle">地图 / 破坏设置</string>
-  <string name="WikiSettingsBetterMapsSettingsTitle">高级地图设置</string>
+  <string name="WikiSettingsBetterMapsSettingsTitle">地图优化设置</string>
   <string name="TermsTargetSymbolsTitle">目标标记</string>
   <string name="TermsTargetSymbolsInfo">目标标记会显示在会议和游戏进行中玩家的名字旁，通常只有相关职业或死亡玩家能看到。• 行刑者的目标会标记为 \%color=#643B1F\%X\%/color\% • 审判官的异端在死亡玩家视角下会标记为 \%color=#D94291\%$\%/color\% • 天使的目标会标记为 \%color=#B3FFFF\%★\%/color\%</string>
   <string name="TermsProtectionSymbolsTitle">保护标记</string>
@@ -2034,9 +2034,9 @@
   <string name="TermsRoleBucketsInfo">职业池分类仅在启用“设置职业列表”生成方式时生效。 • 常规 \%color=#8CFFFF\%船员\%/color\% ：调查型、保护型、支援型。• Common \%color=#FF0000\%伪装者\%/color\% ：隐匿型、辅助型。 • 常规 \%color=#8A8A8A\%中立\%/color\% 友善型、邪恶型。 • 特殊\%color=#8CFFFF\%船员\%/color\% ：击杀型、强力型。 • Special \%color=#FF0000\%伪装者\%/color\% ：击杀型、强力型。• 特殊\%color=#8A8A8A\%中立\%/color\% ：杀手型、外来者型。 • 非杀手\%color=#8A8A8A\%中立\%/color\% ：友善型、邪恶型、外来者型。 • 非-\%color=#FF0000\%伪装者\%/color\% 包含所有 \%color=#8A8A8A\%中立\%/color\% 和\%color=#8CFFFF\%船员\%/color\% 职业。• 随机分类会生成该阵营的任意职业 (如随机 \%color=#8CFFFF\%船员\%/color\%). • “任意”分类允许生成任何启用的职业。</string>
   <string name="TermsCommonSlangTitle">常见术语</string>
   <string name="TermsCommonSlangInfo">常见术语通常由 TOU / TOS 社区创造，用于快速交流信息。 • 金水HC：Hard-Cleared，表示该玩家几乎可以确定是好人。 •变身 Glorphing：指玩家变成另一名玩家的外观，例如来自\%color=#00FF00\%混沌\%/color\%、\%color=#FF0000\%化形者\%/color\%, \%color=#FF0000\%变形者\%/color\%, 等职业。 • 鬼影Ghostwalkers：用于称呼 \%color=#D4D4D4\%冤魂\%/color\% 和\%color=#662961\%幻影\%/color\% 等能在死亡后行动的幽灵职业。 • 说悄悄话Sidebars：在近距离语音房间中把玩家拉到一旁进行私下交流。</string>
-  <string name="CrewmateGhost">船员幽灵</string>
-  <string name="NeutralGhost">中立幽灵</string>
-  <string name="ImpostorGhost">伪装者幽灵</string>
+  <string name="CrewmateGhost">船员幽灵型</string>
+  <string name="NeutralGhost">中立幽灵型</string>
+  <string name="ImpostorGhost">伪装者幽灵型</string>
   <string name="AnticheatKillMessage">在大厅中检测到一次击杀尝试，关联玩家：\%player\%。</string>
   <string name="AnticheatKickMissingMessage">\%player\% 缺少以下模组：</string>
   <string name="HostStartMeetingNotif">房主已强制召开会议。</string>
