@@ -1580,4 +1580,22 @@
   <string name="TouOptionBetterMapsChangeMixUpSaboTimer">Измениить длительность разных саботажей</string>
   <string name="TouOptionBetterMapsSaboCountdownOxygen">Длительность кислорода (саб)</string>
   <string name="TouOptionBetterMapsSaboCountdownReactor">Длительность реактора (саб)</string>
+  <string name="ShowRoleIconOnRoleTab">Иконка вкладки ролей</string>
+  <string name="RainbowColorAsFortegreen">Радужный цвет как баг-зелёный</string>
+  <string name="PreviousButtonText">Предыдущий</string>
+  <string name="NextButtonText">Следующий</string>
+  <string name="Terminology">Терминология</string>
+  <string name="GameSettings">Настройки Игры</string>
+  <string name="TermsPageCount">Секция \%so\%/\%st\% | Страница \%po\%/\%pt\%</string>
+  <string name="WikiSettingsAmongUsGameSettingsTitle">Настройки Игрового Клиента</string>
+  <string name="WikiSettingsTouMiraGameSettingsTitle">Настройки TOU Mira</string>
+  <string name="WikiSettingsAssassinSettingsTitle">Настройки Угадывания</string>
+  <string name="WikiSettingsMapsSabotageSettingsTitle">Настройки Карт/Саботажей</string>
+  <string name="WikiSettingsBetterMapsSettingsTitle">Настройки Улучшенных Карт</string>
+  <string name="TermsTargetSymbolsTitle">Символы Целей</string>
+  <string name="TermsTargetSymbolsInfo">Символы Целей появляются над именами игроков в собраниях или в игре, обычно они видны только для роли, к которой они относятся и/или для мёртвых. Цели палача помечены \%color=#643B1F\%X\%/color\%• Еретики для инквизитора помечены \%color=#D94291\%$\%/color\%. • Цели фей помечены \%color=#B3FFFF\%★\%/color\%</string>
+  <string name="TermsProtectionSymbolsTitle">Символы Защиты</string>
+  <string name="TermsProtectionSymbolsInfo">Символы защиты появляются над именами игроков на собраниях и/или в процессе игры, показывая, что они неуязвимы для большинства атак. Обычно их видит только та роль, которая выдала защиту, её цель и/или мёртвые игроки. • Щиты Медика отмечаются символом \%color=#006600\%+\%/color\% • Барьеры Клирика отмечаются символом \%color=#00FFB3\%Ω\%/color\% • Укрепление Хранителя отмечается символом \%color=#9900FF\%π\%/color\% • Зеркала Отражателя отмечаются символом \%color=#90A2C3\%〚〛\%/color\%• Защита Феи отмечается символом \%color=#FFD900\%★\%/color\% • Защита Ангела-Хранителя отмечается символом \%color=#66AAF3\%☀\%/color\% • Благословение Оракула отмечается символом \%color=#BF00BF\%†\%/color\%</string>
+  <string name="TermsStatusEffectSymbolsTitle">Символы Статусов</string>
+  <string name="TermsStatusEffectInfo">Статусные эффекты появляются над именами игроков на собраниях и в процессе игры, обычно их видит только та роль, которая их наложила, и/или мёртвые игроки. • Облитые Поджигателем отмечаются символом \%color=#FF4D00\%Δ\%/color\% • Чума Чумоносца отмечается символом \%color=#E6FFB3\%¥\%/color\% • Подконтрольные игроки отмечаются символом \%color=#FF2660\%⦿\%/color\% • Шантажируемые цели отмечаются символом \%color=#2A1119\%M\%/color\% • Гипноз отмечается символом \%color=#D53F42\%@\%/color\% • Проклятие Заклинателя отмечается символом \%color=#FF0000\%乂\%/color\% • Рыцари Монарха отмечаются символом \%color=#EA535B\%♠\%/color\%</string>
 </resources>
