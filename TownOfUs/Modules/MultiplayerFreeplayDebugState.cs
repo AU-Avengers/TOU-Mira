@@ -1,9 +1,7 @@
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using TownOfUs.Networking;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Options;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
