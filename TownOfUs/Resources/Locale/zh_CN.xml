@@ -1972,7 +1972,7 @@
   <string name="TouRolePestilenceMessageTitle">万疫之神警告</string>
   <string name="TouRolePestilenceAnnounceMessage">致命瘟疫席卷了全体船员。\%nl\%\%role\%，天启四骑士之一，已然降临！</string>
   <string name="TouRoleHaunterClickableFeedback">现在玩家可以点击你了！</string>
-  <string name="TouRoleHaunterSelfRevealFeedback">你已揭示所有杀手！</string>
+  <string name="TouRoleHaunterSelfRevealFeedback">你已揭示了杀手！</string>
   <string name="TouRoleHaunterImpRevealFeedback">冤魂已完成所有任务！</string>
   <string name="TouRoleJailorEvilTabInfo">你可以处决船员。</string>
   <string name="TouRoleLookoutFeedbackTitle">观测反馈</string>

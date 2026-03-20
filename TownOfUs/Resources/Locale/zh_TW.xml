@@ -700,13 +700,13 @@
   <string name="TouRoleMedicBodyKillerName">兇手似乎是\%player\%!\%nl\%(擊殺時間: \%time\%秒前)。</string>
   <string name="TouRoleMedicBodyKillerDarkColor">兇手似乎是深色的!\%nl\%(擊殺時間: \%time\%秒前)。</string>
   <string name="TouRoleMedicBodyKillerLightColor">兇手似乎是淺色的!\%nl\%(擊殺時間: \%time\%秒前)。</string>
-  <string name="TouRoleMedium">招魂師</string>
-  <string name="TouRoleMediumIntroBlurb">觀察幽靈的動向</string>
-  <string name="TouRoleMediumTabDescription">跟隨幽靈以獲取線索</string>
-  <string name="TouRoleMediumMediate">招魂</string>
+  <string name="TouRoleMedium">靈化使</string>
+  <string name="TouRoleMediumIntroBlurb">與幽靈合一</string>
+  <string name="TouRoleMediumTabDescription">通過冥想暫時離開你的肉身。\%nl\%在此狀態下你的身體仍然會受到攻擊。</string>
+  <string name="TouRoleMediumMediate">冥想</string>
   <string name="TouRoleMediumMediateWikiDescription">與死者交流,可能會獲得指向兇手的線索。</string>
   <string name="TouRoleMediumWikiDescription">招魂師是一名船員調查型職業,可以招魂,而每次可以看到一名幽靈。招魂師和幽靈會互相顯示箭頭,隨時指示對方的位置。</string>
-  <string name="TouOptionMediumMediateCooldown">招魂冷卻</string>
+  <string name="TouOptionMediumMediateCooldown">冥想冷卻</string>
   <string name="TouOptionMediumArrowVisibility">箭頭可見性</string>
   <string name="TouOptionMediumArrowEnumShowMedium">招魂師</string>
   <string name="TouOptionMediumArrowEnumShowMediated">被招魂者</string>
@@ -1997,4 +1997,15 @@
   <string name="TouOptionBetterMapsThemeEnumHalloween">萬聖節</string>
   <string name="TouOptionBetterMapsThemeEnumBirthday">生日</string>
   <string name="TouOptionBetterMapsThemeEnumAuto">自動</string>
+  <string name="TouRoleHaunterClickableFeedback">現在玩家可以點擊你了!</string>
+  <string name="TouRoleHaunterSelfRevealFeedback">你已揭示了殺手!</string>
+  <string name="TouRoleHaunterImpRevealFeedback">冤魂已完成所有任務!</string>
+  <string name="TouRoleJailorEvilTabInfo">你可以處決船員。</string>
+  <string name="TouRoleLookoutFeedbackTitle">觀測反饋</string>
+  <string name="TouRoleLookoutNoInteractionFeedback">沒有玩家與\%player\%發生互動</string>
+  <string name="TouRoleLookoutInteractionFeedback">與\%player\%發生互動的職業</string>
+  <string name="TouOptionMediumReworkToggle">冥想時暫時生成靈魂</string>
+  <string name="TouOptionMediumMediateDuration">冥想持續時間</string>
+  <string name="TouOptionMediumMediateEarlyCancel">冥想可提前取消</string>
+  <string name="TouOptionMediumMediatingSpeed">冥想時靈魂速度</string>
 </resources>
