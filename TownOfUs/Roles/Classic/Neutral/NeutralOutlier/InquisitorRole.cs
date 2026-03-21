@@ -327,12 +327,12 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
                         if (role2 == lastRole)
                         {
                             reportBuilder.Append(TownOfUsPlugin.Culture,
-                                $"#{lastRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
+                                $"{MiscUtils.GetHyperlinkText(lastRole)})");
                         }
                         else
                         {
                             reportBuilder.Append(TownOfUsPlugin.Culture,
-                                $"#{role2.GetRoleName().ToLowerInvariant().Replace(" ", "-")}, ");
+                                $"{MiscUtils.GetHyperlinkText(role2)}, ");
                         }
                     }
                 }
