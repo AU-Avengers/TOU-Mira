@@ -453,22 +453,22 @@ public static class EndGamePatches
             tmp2.ResetText();
         }
 
-        switch (TownOfUsPlugin.GameSummaryMode.Value)
+        switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value)
         {
             default:
                 // No summary
                 roleSummary.gameObject.SetActive(false);
                 roleSummary2.gameObject.SetActive(false);
                 roleSummaryLeft.gameObject.SetActive(false);
-                TownOfUsPlugin.GameSummaryMode.Value = 0;
+                LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Hidden;
                 break;
-            case 1:
+            case EndGameSummaryVisibility.Split:
                 // Split summary
                 roleSummary.gameObject.SetActive(true);
                 roleSummary2.gameObject.SetActive(true);
                 roleSummaryLeft.gameObject.SetActive(false);
                 break;
-            case 2:
+            case EndGameSummaryVisibility.LeftSide:
                 // Left side summary
                 roleSummary.gameObject.SetActive(false);
                 roleSummary2.gameObject.SetActive(false);
@@ -478,28 +478,28 @@ public static class EndGamePatches
 
         var toggleAction = new Action(() =>
         {
-            switch (TownOfUsPlugin.GameSummaryMode.Value)
+            switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value)
             {
-                case 0:
+                case EndGameSummaryVisibility.Hidden:
                     // Split summary
                     roleSummary.gameObject.SetActive(true);
                     roleSummary2.gameObject.SetActive(true);
                     roleSummaryLeft.gameObject.SetActive(false);
-                    TownOfUsPlugin.GameSummaryMode.Value = 1;
+                    LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Split;
                     break;
-                case 1:
+                case EndGameSummaryVisibility.Split:
                     // Left side summary
                     roleSummary.gameObject.SetActive(false);
                     roleSummary2.gameObject.SetActive(false);
                     roleSummaryLeft.gameObject.SetActive(true);
-                    TownOfUsPlugin.GameSummaryMode.Value = 2;
+                    LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.LeftSide;
                     break;
-                case 2:
+                case EndGameSummaryVisibility.LeftSide:
                     // No summary
                     roleSummary.gameObject.SetActive(false);
                     roleSummary2.gameObject.SetActive(false);
                     roleSummaryLeft.gameObject.SetActive(false);
-                    TownOfUsPlugin.GameSummaryMode.Value = 0;
+                    LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value = EndGameSummaryVisibility.Hidden;
                     break;
             }
         });

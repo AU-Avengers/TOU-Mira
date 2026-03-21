@@ -133,7 +133,7 @@ public static class ChatPatches
             var title = systemName;
             var msg = TouLocale.GetParsed("SummaryMissingError");
             var summary = GameHistory.EndGameSummary;
-            switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SummaryMessageAppearance.Value)
+            switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SummaryMessageAppearance.Value)
             {
                 case GameSummaryAppearance.Advanced:
                     summary = GameHistory.EndGameSummaryAdvanced;
@@ -653,7 +653,7 @@ public static class ChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRules)]
     public static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText, bool optional)
     {
-        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowRulesOnLobbyJoinToggle.Value)
+        if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowRulesOnLobbyJoinToggle.Value)
         {
             return;
         }

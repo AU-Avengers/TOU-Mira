@@ -1116,8 +1116,8 @@ public static class HudManagerPatches
         ((PlayerControl.LocalPlayer.DiedOtherRound() &&
           (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
            PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
-         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInPractice.Value) ||
-         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
+         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
                                                  HudManager.Instance.Chat.IsOpenOrOpening ||
                                                  MeetingHud.Instance || Minigame.Instance ||
                                                  PlayerCustomizationMenu.Instance ||

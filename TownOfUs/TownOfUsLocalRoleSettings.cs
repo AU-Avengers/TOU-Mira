@@ -1,4 +1,5 @@
 using BepInEx.Configuration;
+using TownOfUs.Events;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
 
@@ -38,6 +39,10 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
             parasiteRole.MarkPiPSettingsDirty(resetManualThisSession: true);
             parasiteRole.TickPiP();
         }
+        else if (configEntry == ShowRoleIconOnRoleTab)
+        {
+            TownOfUsEventHandlers.TryGetRoleTab();
+        }
     }
 
     public override LocalSettingTabAppearance TabAppearance => new()
@@ -53,13 +58,17 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
     public ConfigEntry<bool> UseCrewmateTeamColorToggle { get; private set; } =
         config.Bind("Gameplay", "UseCrewmateTeamColor", false);
 
-    [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
-    public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =
-        config.Bind("Gameplay", "ArrowStyle", ArrowStyleType.Default);
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowRoleIconOnRoleTab { get; private set; } =
+        config.Bind("Gameplay", "ShowRoleIconOnRoleTab", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } =
         config.Bind("Gameplay", "ShowShieldHud", true);
+
+    [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
+    public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =
+        config.Bind("Gameplay", "ArrowStyle", ArrowStyleType.Default);
 
     [LocalizedLocalEnumSetting(names: ["PiPLocationTopLeft", "PiPLocationMiddleLeft", "PiPLocationBottomLeft", "PiPLocationTopRight", "PiPLocationMiddleRight", "PiPLocationBottomRight", "PiPLocationDynamic"])]
     public ConfigEntry<ParasitePiPLocation> ParasitePiPLocation { get; private set; } =
