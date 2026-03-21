@@ -898,6 +898,16 @@ public static class MiscUtils
     public static void AddFakeChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
         bool showHeadsup = false, bool altColors = false, bool onLeft = true)
     {
+        if (!FakeChatHistory.IsReplaying)
+        {
+            // Don't record the /info "no info" fallback message itself
+            var noInfoKey = TouLocale.GetParsed("InfoCommandNoInfo");
+            if (!message.Contains(noInfoKey))
+            {
+                FakeChatHistory.Record(nameText, message);
+            }
+        }
+        
         var chat = HudManager.Instance.Chat;
 
         var pooledBubble = chat.GetPooledBubble();

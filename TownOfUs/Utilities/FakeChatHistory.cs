@@ -12,7 +12,7 @@ public static class FakeChatHistory
     /// Set to true while /info is replaying entries so the patch doesn't
     /// re-record the replayed messages back into history.
     /// </summary>
-    public static bool IsReplaying { get; set; } = false;
+    public static bool IsReplaying { get; set; }
 
     /// <summary>Whether any role info messages have been recorded this meeting.</summary>
     public static bool HasInfo => _entries.Count > 0;
