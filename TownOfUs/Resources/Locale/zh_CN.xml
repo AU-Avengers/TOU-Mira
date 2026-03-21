@@ -472,7 +472,7 @@
   <string name="TouOptionMedicTimeWhereMedicWillHaveColorType">法医报告显示颜色类型信息的时间</string>
   <string name="TouRoleMediumIntroBlurb">与幽灵合一</string>
   <string name="TouRoleMediumTabDescription">通过冥想暂时离开你的肉身。\%nl\%在此状态下你的身体仍然会受到攻击。</string>
-  <string name="TouRoleMediumWikiDescription">灵化使是一名船员阵营的调查型职业，可以暂时释放自己的灵魂。灵魂可以穿墙并看见幽灵，但身体会处于无人保护的状态。</string>
+  <string name="TouRoleMediumWikiDescription">灵化使是一名船员调查型职业，可以暂时释放自己的灵魂。灵魂可以穿墙并看见幽灵，但身体会处于无人保护的状态。</string>
   <string name="TouRoleMediumMediate">冥想</string>
   <string name="TouRoleMediumMediateWikiDescription">将灵魂投射到身体之外一段时间以寻找线索。时间结束后，你会回到身体中，幽灵也会消失。</string>
   <string name="TouOptionMediumMediateCooldown">冥想冷却</string>
@@ -558,8 +558,8 @@
   <string name="TouOptionMirrorcasterUnleashCooldown">反射（击杀）冷却</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">可累积并多次反射</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">魔法镜最大数量</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\%被\%attackerRole\%攻击！你现在可以将攻击反射到另一名玩家！</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\%被攻击！你现在可以将攻击反射到另一名玩家！</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\%被\%attackerRole\%攻击！你现在可以将这次攻击反射到另一名玩家！</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\%被攻击！你现在可以将这次攻击反射到另一名玩家！</string>
   <string name="TouRoleOracleIntroBlurb">让其他玩家坦白他们的身份</string>s
   <string name="TouRoleOracleTabDescription">佑护船员以在会议中保护他们，\%nl\%并让他们在会议中坦白</string>
   <string name="TouRoleOracleWikiDescription">神谕者是一名船员保护型职业，可以让一名玩家坦白（当神谕者死亡时，以\%revealAccuracy\%的准确率揭示其阵营），也可以保护一名玩家免受会议技能影响。</string>
@@ -1400,7 +1400,7 @@
   <string name="TouOptionMirrorcasterNotifEnumMirrorcasterAndKiller">镜法师+凶手</string>
   <string name="TouOptionMirrorcasterAttackInformationGiven">镜法师知晓吸收的攻击类型</string>
   <string name="TouOptionMirrorcasterInfoEnumRole">职业</string>
-  <string name="TouOptionMirrorcasterInfoEnumSubalignment">次阵营</string>
+  <string name="TouOptionMirrorcasterInfoEnumSubalignment">子阵营</string>
   <string name="TouOptionMirrorcasterInfoEnumFaction">阵营</string>
   <string name="TouOptionMirrorcasterInfoEnumNothing">无</string>
   <string name="TouOptionOracleNeutralBenignShowEvil">中立善良显示为邪恶</string>
@@ -1983,7 +1983,7 @@
   <string name="TouRoleMonarchKnightTargetDied">\%player\%在你册封骑士前就已死亡。</string>
   <string name="TouRoleMonarchKnightSuccess">\%player\% 已被册封骑士！</string>
   <string name="TouRoleMonarchKnightedFeedback">你被 \%role\% 册封了骑士身份，获得了\%votes\% 票！</string>
-  <string name="TouRoleMonarchKnightFallenFeedback">你的骑士 \%player\% 已阵亡……</string>
+  <string name="TouRoleMonarchKnightFallenFeedback">你的骑士 \%player\% 已阵亡...</string>
   <string name="TouRoleOracleConfessionTitle">神谕者坦白</string>
   <string name="TouRolePlumberExtraTabTextForever">路障整局存在</string>
   <string name="TouRolePoliticianEgotistTabInfo">当你的身份被揭露时，邪恶阵营将知道你的真正目的。</string>
@@ -2021,9 +2021,9 @@
   <string name="TermsTargetSymbolsTitle">目标标记</string>
   <string name="TermsTargetSymbolsInfo">目标标记会显示在会议和游戏进行中玩家的名字旁，通常只有相关职业或死亡玩家能看到。• 行刑者的目标会标记为 \%color=#643B1F\%X\%/color\% • 审判官的异端在死亡玩家视角下会标记为 \%color=#D94291\%$\%/color\% • 天使的目标会标记为 \%color=#B3FFFF\%★\%/color\%</string>
   <string name="TermsProtectionSymbolsTitle">保护标记</string>
-  <string name="TermsProtectionSymbolsInfo">保护标记会显示在会议或游戏过程中玩家名字旁，表示他们对大多数攻击免疫。通常只有相关职业、目标玩家或死亡玩家可见。• 法医护盾标记为 \%color=#006600\%+\%/color\%• 牧师屏障标记为 \%color=#00FFB3\%Ω\%/color\%• 护卫者驻防标记为 \%color=#9900FF\%π\%/color\%• 镜法师反射标记为 \%color=#90A2C3\%〚〛\%/color\% • 天使保护标记为 \%color=#FFD900\%★\%/color\%• 守护天使保护标记为 \%color=#66AAF3\%☀\%/color\%• 神谕者护佑标记为 \%color=#BF00BF\%†\%/color\%</string>
+  <string name="TermsProtectionSymbolsInfo">保护标记会显示在会议或游戏过程中玩家名字旁，表示他们对大多数攻击免疫。通常只有相关职业、目标玩家或死亡玩家可见。• 法医护盾标记为 \%color=#006600\%+\%/color\%• 牧师屏障标记为 \%color=#00FFB3\%Ω\%/color\%• 护卫者驻防标记为 \%color=#9900FF\%π\%/color\%• 镜法师反射标记为 \%color=#90A2C3\%〚〛\%/color\% • 天使保护标记为 \%color=#FFD900\%★\%/color\%• 守护天使保护标记为 \%color=#66AAF3\%☀\%/color\%• 神谕者佑护标记为 \%color=#BF00BF\%†\%/color\%</string>
   <string name="TermsStatusEffectSymbolsTitle">状态效果标记</string>
-  <string name="TermsStatusEffectInfo">状态效果标记会显示在会议或游戏过程中玩家名字旁，通常只有相关职业或死亡玩家可见。• 纵火狂浇油标记为 \%color=#FF4D00\%Δ\%/color\% • 瘟疫之源使者感染标记为 \%color=#E6FFB3\%¥\%/color\% • 被控制的玩家标记为 \%color=#FF2660\%⦿\%/color\% • 被勒索的目标标记为 \%color=#2A1119\%M\%/color\% • 被催眠标记为 \%color=#D53F42\%@\%/color\% • 爆咒师诅咒标记为 \%color=#FF0000\%乂\%/color\% • 君主册封的骑士标记为 \%color=#EA535B\%♠\%/color\%</string>
+  <string name="TermsStatusEffectInfo">状态效果标记会显示在会议或游戏过程中玩家名字旁，通常只有相关职业或死亡玩家可见。• 纵火狂浇油标记为 \%color=#FF4D00\%Δ\%/color\% • 瘟疫之源感染标记为 \%color=#E6FFB3\%¥\%/color\% • 被控制的玩家标记为 \%color=#FF2660\%⦿\%/color\% • 被勒索的目标标记为 \%color=#2A1119\%M\%/color\% • 被催眠标记为 \%color=#D53F42\%@\%/color\% • 爆咒师诅咒标记为 \%color=#FF0000\%乂\%/color\% • 君主册封的骑士标记为 \%color=#EA535B\%♠\%/color\%</string>
   <string name="TermsCrewRoleAlignmentsTitle">\%color=#8CFFFF\%船员\%/color\% 子阵营</string>
   <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%调查型\%/color\% 职业可以收集其他玩家的信息，从而判断谁是船员。 • \%color=#8CFFFF\%击杀型\%/color\%职业可以\%color=#FF8B95\%击杀\%/color\%他人，但\%color=#FF8B95\%击杀\%/color\%\%color=#8CFFFF\%船员\%/color\%可能会带来后果。 • \%color=#8CFFFF\%保护型\%/color\%职业可以保护其他玩家，有时也能保护自己。 • \%color=#8CFFFF\%强力型\%/color\% 职业通常会影响投票，或拥有比其他\%color=#8CFFFF\%船员\%/color\%更强的能力。 • \%color=#8CFFFF\%支援型\%/color\%职业通常可以帮助其他\%color=#8CFFFF\%船员\%/color\%，或为自己提供帮助。</string>
   <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%中立\%/color\% 子阵营</string>

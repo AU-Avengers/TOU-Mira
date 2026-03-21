@@ -505,7 +505,7 @@
   <string name="TouOptionClericBarrierCooldown">屏障冷卻</string>
   <string name="TouOptionClericBarrierDuration">屏障持續時間</string>
   <string name="TouOptionClericCleanseCooldown">淨化冷卻</string>
-  <string name="TouOptionClericProtectedSeesBarrier">被保護的玩家可見屏障</string>
+  <string name="TouOptionClericProtectedSeesBarrier">被保護的玩家可以見到屏障</string>
   <string name="TouOptionClericAttackNotif">牧師收到攻擊通知</string>
   <string name="TouRoleDeputy">副手</string>
   <string name="TouRoleDeputyIntroBlurb">守護船員,抓住兇手</string>
@@ -704,8 +704,8 @@
   <string name="TouRoleMediumIntroBlurb">與幽靈合一</string>
   <string name="TouRoleMediumTabDescription">通過冥想暫時離開你的肉身。\%nl\%在此狀態下你的身體仍然會受到攻擊。</string>
   <string name="TouRoleMediumMediate">冥想</string>
-  <string name="TouRoleMediumMediateWikiDescription">與死者交流,可能會獲得指向兇手的線索。</string>
-  <string name="TouRoleMediumWikiDescription">招魂師是一名船員調查型職業,可以招魂,而每次可以看到一名幽靈。招魂師和幽靈會互相顯示箭頭,隨時指示對方的位置。</string>
+  <string name="TouRoleMediumMediateWikiDescription">將靈魂投射到身體之外一段時間以尋找線索。時間結束後,你會回到身體中,幽靈也會消失。</string>
+  <string name="TouRoleMediumWikiDescription">靈化使是一名船員調查型職業,可以暫時釋放自己的靈魂。靈魂可以穿牆並看見幽靈,但身體會處於無人保護的狀態。</string>
   <string name="TouOptionMediumMediateCooldown">冥想冷卻</string>
   <string name="TouOptionMediumArrowVisibility">箭頭可見性</string>
   <string name="TouOptionMediumArrowEnumShowMedium">招魂師</string>
@@ -738,13 +738,13 @@
   <string name="TouOptionMirrorcasterUnleashCooldown">反射(擊殺)冷卻</string>
   <string name="TouOptionMirrorcasterAttackInformationGiven">鏡法師知曉吸收的攻擊類型</string>
   <string name="TouOptionMirrorcasterInfoEnumRole">職業</string>
-  <string name="TouOptionMirrorcasterInfoEnumSubalignment">次陣營</string>
+  <string name="TouOptionMirrorcasterInfoEnumSubalignment">子陣營</string>
   <string name="TouOptionMirrorcasterInfoEnumFaction">陣營</string>
   <string name="TouOptionMirrorcasterInfoEnumNothing">無</string>
   <string name="TouOptionMirrorcasterAccumulateMultipleUnleashes">可累積並多次反射</string>
   <string name="TouOptionMirrorcasterMaxNumberOfMagicMirrors">魔法鏡最大數量</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\%被\%attackerRole\%攻擊!你現在可以將攻擊反射到另一名玩家!</string>
-  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\%被攻擊!你現在可以將攻擊反射到另一名玩家!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\%被\%attackerRole\%攻擊! 你現在可以將這次攻擊反射到另一名玩家!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\%被攻擊! 你現在可以將這次攻擊反射到另一名玩家!</string>
   <string name="TouRoleMonarch">君主</string>
   <string name="TouRoleMonarchIntroBlurb">冊封船員為騎士以獲得額外投票數</string>
   <string name="TouRoleMonarchTabDescription">冊封船員以在會議中獲得幫助,\%nl\%但請避免冊封邪惡陣營玩家。</string>
@@ -997,8 +997,8 @@
   <string name="TouRoleSnitchTabDescriptionCompletedTasksEgo">幫助偽裝者!</string>
   <string name="TouRoleSnitchWikiDescription">告密者是一名船員調查型職業,通過完成所有任務可以發現偽裝者。完成所有任務後,偽裝者會被箭頭和紅名標記。</string>
   <string name="TouOptionSnitchRevealsNeutralKillers">告密者揭示中立殺手</string>
-  <string name="TouOptionSnitchSeesTraitor">告密者可見背叛者</string>
-  <string name="TouOptionSnitchSeesImpostorsInMeetings">會議中可見偽裝者</string>
+  <string name="TouOptionSnitchSeesTraitor">告密者可以見到背叛者</string>
+  <string name="TouOptionSnitchSeesImpostorsInMeetings">會議中可以見到偽裝者</string>
   <string name="TouOptionSnitchTasksRemainingWhenRevealed">被揭示時剩餘任務數</string>
   <string name="TouRoleSpy">特工</string>
   <string name="TouRoleSpyIntroBlurb">四處偵查,發現情報</string>
@@ -1187,7 +1187,7 @@
   <string name="TouOptionBlackmailerBlackmailCooldown">勒索冷卻</string>
   <string name="TouOptionBlackmailerMaxPlayersAliveUntilVoting">允許被勒索人投票的最大存活人數</string>
   <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">可連續勒索同一人</string>
-  <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">僅目標可見勒索提示</string>
+  <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">僅目標可以見到勒索提示</string>
   <string name="TouOptionBlackmailerCanKillWithTeammate">勒索者可與隊友一起擊殺</string>
   <string name="TouRoleBomber">爆破手</string>
   <string name="TouRoleBomberIntroBlurb">放下炸彈,一次性擊殺多名船員。</string>
@@ -1200,7 +1200,7 @@
   <string name="TouOptionBomberDetonateDelay">引爆延遲</string>
   <string name="TouOptionBomberDetonateRadius">引爆半徑</string>
   <string name="TouOptionBomberMAxKillsInDetonation">單次引爆最大擊殺數目</string>
-  <string name="TouOptionBomberAllImpostorsSeeBomb">所有偽裝者可見炸彈</string>
+  <string name="TouOptionBomberAllImpostorsSeeBomb">所有偽裝者可以見到炸彈</string>
   <string name="TouOptionBomberAllowBombinginFirstRound">第一輪允許使用爆破功能</string>
   <string name="TouOptionBomberCanVent">爆破手可使用通風口</string>
   <string name="TouRoleEclipsal">蝕影者</string>
@@ -2008,4 +2008,23 @@
   <string name="TouOptionMediumMediateDuration">冥想持續時間</string>
   <string name="TouOptionMediumMediateEarlyCancel">冥想可提前取消</string>
   <string name="TouOptionMediumMediatingSpeed">冥想時靈魂速度</string>
+  <string name="TermsTargetSymbolsInfo">目標標記會顯示在會議和遊戲進行中玩家的名字旁,通常只有相關職業或死亡玩家能看到。•行刑者的目標會標記為\%color=#643B1F\%X\%/color\%•審判官的異端在死亡玩家視角下會標記為\%color=#D94291\%$\%/color\%•天使的目標會標記為\%color=#B3FFFF\%★\%/color\%</string>
+  <string name="TermsProtectionSymbolsTitle">保護標記</string>
+  <string name="TermsProtectionSymbolsInfo">保護標記會顯示在會議或遊戲過程中玩家名字旁,表示他們對大多數攻擊免疫。通常只有相關職業、目標玩家或死亡玩家可以見到。•法醫護盾標記為\%color=#006600\%+\%/color\%•牧師屏障標記為\%color=#00FFB3\%Ω\%/color\%•護衛者駐防標記為\%color=#9900FF\%π\%/color\% •鏡法師反射標記為\%color=#90A2C3\%〚〛\%/color\% •天使保護標記為\%color=#FFD900\%★\%/color\% •守護天使保護標記為\%color=#66AAF3\%☀\%/color\% •神諭者佑護標記為\%color=#BF00BF\%†\%/color\%</string>
+  <string name="TermsStatusEffectSymbolsTitle">狀態效果標記</string>
+  <string name="TermsStatusEffectInfo">狀態效果標記會顯示在會議或遊戲過程中玩家名字旁,通常只有相關職業或死亡玩家可以見到•縱火犯澆油標記為\%color=#FF4D00\%Δ\%/color\% • 瘟疫之源感染標記為\%color=#E6FFB3\%¥\%/color\% • 被控制的玩家標記為 \%color=#FF2660\%⦿\%/color\% • 被勒索的目標標記為\%color=#2A1119\%M\%/color\% • 被催眠標記為\%color=#D53F42\%@\%/color\% • 爆咒師詛咒標記為\%color=#FF0000\%乂\%/color\% • 君主冊封的騎士標記為\%color=#EA535B\%♠\%/color\%</string>
+  <string name="TermsCrewRoleAlignmentsTitle">\%color=#8CFFFF\%船員\%/color\%子陣營</string>
+  <string name="TouOptionMediumLivingSeeSpiritTimer">靈魂對他人可見前的時間</string>
+  <string name="TouOptionMediumAppearanceVisibility">靈化使可識別</string>
+  <string name="TouOptionMediumAppearanceEnumLiving">存活玩家</string>
+  <string name="TouOptionMediumAppearanceEnumDead">幽靈</string>
+  <string name="TouOptionMediumAppearanceEnumBoth">存活玩家+幽靈</string>
+  <string name="TouOptionMediumAppearanceEnumNone">無人</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithFaction">\%player\%被\%faction\%陣營攻擊! 你現在可以將這次攻擊釋放到另一名玩家身上!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithSubalignment">\%player\%被\%subalignment\%陣營攻擊! 你現在可以將這次攻擊釋放到另一名玩家身上!</string>
+  <string name="TouRoleMonarchKnightTargetDied">\%player\%在你冊封騎士前就已經死亡。</string>
+  <string name="TouRoleMonarchKnightSuccess">\%player\%已被冊封騎士!</string>
+  <string name="TouRoleMonarchKnightedFeedback">你被\%role\%冊封了騎士身份,獲得了\%votes\%票!</string>
+  <string name="TouRoleMonarchKnightFallenFeedback">你的騎士\%player\%已陣亡...</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%調查型\%/color\%職業可以收集其他玩家的信息,從而判斷誰是船員。• \%color=#8CFFFF\%擊殺型\%/color\%職業可以\%color=#FF8B95\%擊殺\%/color\%他人,但\%color=#FF8B95\%擊殺\%/color\%\%color=#8CFFFF\%船員\%/color\%可能會帶來後果。 • \%color=#8CFFFF\%保護型\%/color\%職業可以保護其他玩家,有時也能保護自己。 • \%color=#8CFFFF\%強力型\%/color\% 職業通常會影響投票,或擁有比其他\%color=#8CFFFF\%船員\%/color\%更強的能力。 • \%color=#8CFFFF\%支援型\%/color\%職業通常可以幫助其他\%color=#8CFFFF\%船員\%/color\%，或為自己提供幫助。</string>
 </resources>
