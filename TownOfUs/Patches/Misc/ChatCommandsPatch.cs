@@ -43,7 +43,7 @@ public static class ChatPatches
             return;
         }
         var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
-        MiscUtils.AddFakeChat(host.Data, systemName,
+        MiscUtils.AddSystemChat(host.Data, systemName,
             TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
     }
 
@@ -91,7 +91,7 @@ public static class ChatPatches
         {
             if (!LobbyBehaviour.Instance)
             {
-                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("SpectatorLobbyError"));
             }
             else
@@ -99,23 +99,23 @@ public static class ChatPatches
                 if (GameStartManager.InstanceExists &&
                     GameStartManager.Instance.startState is GameStartManager.StartingStates.Countdown)
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         TouLocale.GetParsed("SpectatorStartError"));
                 }
                 else if (SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName))
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         TouLocale.GetParsed("SpectatorToggleOff"));
                     RpcRemoveSpectator(PlayerControl.LocalPlayer);
                 }
                 else if (!OptionGroupSingleton<HostSpecificOptions>.Instance.EnableSpectators)
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         TouLocale.GetParsed("SpectatorHostError"));
                 }
                 else
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         TouLocale.GetParsed("SpectatorToggleOn"));
                     RpcSelectSpectator(PlayerControl.LocalPlayer);
                 }
@@ -157,7 +157,7 @@ public static class ChatPatches
                 msg = string.Empty;
             }
 
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -200,7 +200,7 @@ public static class ChatPatches
                     var rulesText = GetLobbyRulesText();
                     var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
                     var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
                 }
             }
             else
@@ -227,7 +227,7 @@ public static class ChatPatches
 
                 if (remainingText.Trim().Equals("show", StringComparison.OrdinalIgnoreCase))
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         TouLocale.GetParsed("RulesShowHostError"));
                 }
                 else
@@ -251,7 +251,7 @@ public static class ChatPatches
                 msg = TouLocale.GetParsed($"NerfMeToggle" + (VisionPatch.NerfMe ? "On" : "Off"));
             }
 
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg);
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -306,7 +306,7 @@ public static class ChatPatches
                 }
             }
 
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg);
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -319,17 +319,17 @@ public static class ChatPatches
         {
             if (AmongUsClient.Instance != null && !AmongUsClient.Instance.AmHost)
             {
-                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandHostError"));
             }
             else if (!TownOfUsPlugin.IsDevBuild || TownOfUsPlugin.IsBetaBuild)
             {
-                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandDevBuildError"));
             }
             else if (!LobbyBehaviour.Instance)
             {
-                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandLobbyError"));
             }
             else
@@ -338,7 +338,7 @@ public static class ChatPatches
                 var commandMatch = upCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase));
                 if (commandMatch == null)
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                         TouLocale.GetParsed("UpCommandInvalidError"));
                 }
                 else
@@ -352,7 +352,7 @@ public static class ChatPatches
 
                     if (string.IsNullOrWhiteSpace(remainingText))
                     {
-                        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                        MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                             TouLocale.GetParsed("UpCommandNoRoleError"));
                     }
                     else
@@ -383,7 +383,7 @@ public static class ChatPatches
 
                         if (matchingRole == null)
                         {
-                            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                                 TouLocale.GetParsed("UpCommandRoleNotFoundError").Replace("<role>", roleNameInput));
                         }
                         else
@@ -397,7 +397,7 @@ public static class ChatPatches
 
                                 if (targetPlayer == null)
                                 {
-                                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                                         TouLocale.GetParsed("UpCommandPlayerNotFoundError").Replace("<player>", targetPlayerName));
                                 }
                                 else
@@ -406,7 +406,7 @@ public static class ChatPatches
                                     var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
                                     RpcForcePlayerRole(PlayerControl.LocalPlayer, targetPlayer);
                                     UpCommandRequests.SetRequest(targetName, roleIdentifier);
-                                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                                         TouLocale.GetParsed("UpCommandSuccessOther").Replace("<player>", targetName).Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                                 }
                             }
@@ -417,7 +417,7 @@ public static class ChatPatches
                                 var roleIdentifier = matchingRole is ITownOfUsRole touRole ? touRole.LocaleKey : matchingRole.GetRoleName();
                                 RpcForcePlayerRole(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                                 UpCommandRequests.SetRequest(targetName, roleIdentifier);
-                                MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+                                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                                     TouLocale.GetParsed("UpCommandSuccess").Replace("<role>", MiscUtils.GetHyperlinkText(matchingRole)));
                             }
                         }
@@ -506,7 +506,7 @@ public static class ChatPatches
 
             var msg = string.Join("\n\n", msgParts);
 
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg);
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -543,7 +543,7 @@ public static class ChatPatches
 
             msg += "</size>";
 
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg);
 
             if (ModCompatibility.CommandModsInstalled)
             {
@@ -564,13 +564,13 @@ public static class ChatPatches
                 FakeChatHistory.IsReplaying = true;
                 foreach (var (infoTitle, infoMsg) in FakeChatHistory.GetEntries())
                 {
-                    MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, infoTitle, infoMsg, false, true);
+                    MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, infoTitle, infoMsg, false, true);
                 }
                 FakeChatHistory.IsReplaying = false;
             }
             else
             {
-                MiscUtils.AddFakeChat(
+                MiscUtils.AddSystemChat(
                     PlayerControl.LocalPlayer.Data,
                     systemName,
                     TouLocale.GetParsed("InfoCommandNoInfo"));
@@ -585,7 +585,7 @@ public static class ChatPatches
 
         if (spaceLess.StartsWith("/jail", StringComparison.OrdinalIgnoreCase))
         {
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("JailCommandError"));
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, TouLocale.GetParsed("JailCommandError"));
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();
@@ -641,7 +641,7 @@ public static class ChatPatches
 
         if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase))
         {
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName,
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                 TouLocale.GetParsed("NoCommandFoundError"));
 
             __instance.freeChatField.Clear();
@@ -679,7 +679,7 @@ public static class ChatPatches
         }
         var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
         var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+        MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
     }
 
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRulesGlobal)]
@@ -692,7 +692,7 @@ public static class ChatPatches
         }
         var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
         var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
-        MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+        MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
     }
 
     [MethodRpc((uint)TownOfUsRpc.SelectSpectator)]

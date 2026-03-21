@@ -122,13 +122,13 @@ public static class PlayerJoinPatch
 
             var title =
                 $"{systemName}\n<size=62%>{factionText}{summary}</size>";
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
         }
 
         if (!SentOnce && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowWelcomeMessageToggle.Value)
         {
             var msg = TouLocale.GetParsed("WelcomeMessageBlurb").Replace("<modVersion>", TownOfUsPlugin.Version);
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg, true);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg, true);
             time = 5f;
         }
         else if (!LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowWelcomeMessageToggle.Value)
