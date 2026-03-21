@@ -312,6 +312,9 @@
   <string name="SetNameSimilarError">Another player has a name too similar to \%name\%! Please try a different name.</string>
   <string name="SetNameSuccess">Changed player name for the next match to: \%name\%.</string>
   <string name="WelcomeMessageBlurb">Welcome to Town of Us Mira v\%modVersion\%!\%nl\%Use the wiki (the globe icon) to get more info on roles or modifiers, where you can use the searchbar. Otherwise, use /help in the chat to get a list of commands.\%nl\%You may disable this message through your option menu.</string>
+  <string name="InfoCommandList">info</string>
+  <string name="InfoCommandDescription">/info - Replay the most recent role information message you received</string>
+  <string name="InfoCommandNoInfo">You do not have any role information available to replay.</string>
   <string name="HelpCommandList">help:support:command:commands:guide</string>
   <string name="HelpMessageTitle">Chat Commands:</string>
   <string name="HelpCommandDescription">/help - Shows this message</string>
