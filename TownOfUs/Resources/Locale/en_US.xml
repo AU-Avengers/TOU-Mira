@@ -1393,7 +1393,7 @@
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
   <string name="TouOptionTrapperMaxNumberOfTraps">Initial Number Of Traps</string>
   <string name="TouOptionTrapperTrapSize">Trap Size</string>
-  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Reset After Each Round</string>
   <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
   <!-- Trapper Feedback -->

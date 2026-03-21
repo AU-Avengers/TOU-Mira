@@ -758,6 +758,79 @@
         "\n\n\r<size=105%>Known Issues:</size>",
         "\n- Sentry's portable cameras are completely broken on Starlight"
       ]
+    },
+    {
+      "Date": "2026-03-21T12:51:00Z",
+      "Number": "100039",
+      "ShortTitle": "TOU: Mira v1.5.9 (Prerelease)",
+      "Title": "A new Mira update? This can't be!",
+      "SubTitle": "- Shakespeare, probably.",
+      "Text": [
+        "<b>This release changes a LOT. As a result, this has taken longer than expected, and we are fairly confident that most of the mod is now bug free. For the sake of everything though, v1.6.0 will not be released until we clear up most of the bugs that we can find.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9>TOU Mira v1.5.9 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+        
+        "\n\n\r<size=105%>Critical Changes:</size>",
+        "\n- All Role List buckets are reset! The options are now unable to be affected by the addition of extra role buckets.",
+        "\n- Kills are now confirmed by the host before they are visible for everyone else. This means that there are no more death desyncs.",
+
+        "\n\n\r<size=105%>Main Changes:</size>",
+        "\n- Medium has been fully reworked now.",
+        "\n- A new Impostor Power role has been added: Herbalist!",
+        "\n- The wiki now has a way to view game settings and includes a Terminology page.",
+        "\n- Ghost roles are now in an Afterlife category rather than Crew Investigative or Neutral Evil.",
+        "\n- Vanilla roles have their own colors now, and are fully integrated into the mod.",
+
+        "\n\n\r<size=105%>Known Bugs:</size>",
+        "\n- Operative and Sentry Portable cameras are unusable on Android.",
+        "\n- Some roles (such as Hunter) are known to have issues on Android, for reasons unknown to us.",
+        "\n- Private chats are invisible by players killed mid-meeting.",
+        "\n- Neutral Wildcard may duplicate the amount of each neutral present if any selected slots are wildcards.",
+
+        "\n\n\r<size=105%>Possibly Fixed Bugs:</size>",
+        "\n- Medic Shield is no longer ignored if it is supposed to break.",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Monarch's Round One setting is properly checked.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Amnesiac properly removes their \"win condition\" information from the task tab.",
+        "\n- Doomsayer causes of death appear consistently now.",
+        "\n- Spectre no longer prevents Neutral Evils from winning.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Hypnotist no longer breaks Mix-Up or kill animations",
+        "\n- Ambusher is no longer caught by Investigator footprints",
+        "\n- Traitor is no longer unguessable if Crewpostor is disabled.",
+        "\n- Players controlled by a Puppeteer can no longer no-clip when they're too close to the wall",
+        "\n- Grenadier's flash no longer prevents abilities from being used. (besides reports)",
+
+        "\n\n\r<size=105%>Modifier Bugfixes:</size>",
+        "\n- Lovers can no longer chat when under control",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Ghostwalker roles spawn properly on Submerged",
+        "\n- Players are no longer kicked out of vents that there were no longer present in.",
+        "\n- Multi-kills from Bomber and Arsonist no longer break when one of the players is shielded",
+        "\n- Negative rounds will no longer appear in the Game Summary.",
+        "\n- Skeld decor settings are now checked properly.",
+        "\n- dlekS will no longer cause the Create Game Menu to freeze.",
+        "\n- \"Airship\" is no longer shown when \"dlekS\" is actually selected.",
+        "\n- Better Skeld's Vent Network connects the Navigation vent to Weapons properly.",
+
+        "\n\n\r<size=105%>Local Setting Changes:</size>",
+        "\n- Added Role Icon on Role Tab toggle.",
+        "\n- Added Rainbow color as Fortegreen toggle.",
+
+        "\n\n\r<size=105%>Chat Changes:</size>",
+        "\n- When a player is kicked for missing a mod, the host is now properly notified.",
+        "\n- Lobby Rules Messages are now titled \"Lobby Rules,\" instead of \"System\".",
+        "\n- Added /info command for roles with meeting info. (PR #142)",
+
+        "\n\n\r<size=105%>Other Improvements:</size>",
+        "\n- More roles have role banners in the game options pane.",
+        "\n- More role and modifier icons have been redrawn in a higher quality."
+      ]
     }
   ]
 }
