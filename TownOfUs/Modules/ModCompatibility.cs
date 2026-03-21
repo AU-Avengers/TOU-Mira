@@ -79,6 +79,15 @@ public static class ModCompatibility
     public static bool IsWikiButtonOffset { get; set; }
 
 
+    public const string LaunchpadGuid = "dev.xtracube.launchpad";
+    public static Version LaunchpadVersion { get; private set; }
+    public static bool LaunchpadLoaded { get; private set; }
+    public static BasePlugin LaunchpadPlugin { get; private set; }
+    public static Assembly LaunchpadAssembly { get; private set; }
+    public static Type[] LaunchpadTypes { get; private set; }
+    public static Type LaunchpadTagManager { get; private set; }
+
+
     public const string BetterAuGuid = "com.d1gq.betteramongus";
     public static Version BauVersion { get; private set; }
     public static bool BauLoaded { get; private set; }
@@ -109,6 +118,7 @@ public static class ModCompatibility
         InitLevelImpostor();
         InitCrowded();
         InitAleLudu();
+        InitLaunchpad();
 
         var sBuilder = new StringBuilder();
 
@@ -128,6 +138,67 @@ public static class ModCompatibility
         // This allows the custom door types to update properly
         SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat(customSysTypes).ToArray();
     }
+
+#pragma warning disable S3011
+    private static void InitLaunchpad()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(LaunchpadGuid, out var value))
+        {
+            return;
+        }
+
+        LaunchpadPlugin = (value.Instance as BasePlugin)!;
+        LaunchpadAssembly = LaunchpadPlugin.GetType().Assembly;
+        LaunchpadVersion = value.Metadata.Version;
+
+        LaunchpadTypes = AccessTools.GetTypesFromAssembly(LaunchpadAssembly);
+
+        LaunchpadTagManager = LaunchpadTypes.First(x => x.Name == "PlayerTagManager");
+        
+        LaunchpadLoaded = true;
+        IsWikiButtonOffset = true;
+        Message("Launchpad Reloaded was detected");
+        /*
+        var harmony = new Harmony("tou.launchpad.patch");
+
+        RenameRole(LaunchpadTypes, harmony, "MedicRole", "Practitioner");
+        RenameRole(LaunchpadTypes, harmony, "LpDetectiveRole", "Sherlock");
+        DisableRole(LaunchpadTypes, harmony, "SheriffRole");
+        DisableRole(LaunchpadTypes, harmony, "BurrowerRole");
+        DisableRole(LaunchpadTypes, harmony, "ExecutionerRole");
+        DisableRole(LaunchpadTypes, harmony, "JesterRole");*/
+    }
+
+    public static void RenameRole(Type[] modTypes, Harmony harmony, string roleType, string roleName)
+    {
+        var compatType = typeof(ModCompatibility);
+        var types = new[] { typeof(string), typeof(bool) };
+        var role = modTypes.First(t => t.Name == roleType);
+        var detConstruct = role.GetConstructor(
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+            null,
+            types,
+            null
+        );
+        SelectedRoleName = roleName;
+        harmony.Patch(detConstruct, new HarmonyMethod(AccessTools.Method(compatType, nameof(AdjustRoleBehaviour))));
+    }
+
+    public static void DisableRole(Type[] modTypes, Harmony harmony, string roleType)
+    {
+        var compatType = typeof(ModCompatibility);
+        var types = new[] { typeof(string), typeof(bool) };
+        var role = modTypes.First(t => t.Name == roleType);
+        var detConstruct = role.GetConstructor(
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+            null,
+            types,
+            null
+        );
+        SelectedRoleStatus = false;
+        harmony.Patch(detConstruct, new HarmonyMethod(AccessTools.Method(compatType, nameof(AdjustRoleBehaviour))));
+    }
+#pragma warning restore S3011
 
     public static void InitSubmerged()
     {
@@ -320,6 +391,26 @@ public static class ModCompatibility
         lockInfo: DeathHandlerOverride.SetTrue);
     }
 
+    public static string SelectedRoleName;
+    public static bool SelectedRoleStatus = true;
+    public static void AdjustRoleBehaviour(object __instance, ref bool __state)
+    {
+        if (SelectedRoleName != "")
+        {
+            var nameField = __instance.GetType().GetField("RoleName", BindingFlags.Public | BindingFlags.Instance);
+            nameField?.SetValue(__instance, SelectedRoleName);
+        }
+        if (!SelectedRoleStatus)
+        {
+            var nameField = __instance.GetType().GetField("CanSpawnOnCurrentMode", BindingFlags.Public | BindingFlags.Instance);
+            nameField?.SetValue(__instance, false);
+        }
+
+        SelectedRoleName = "";
+        SelectedRoleStatus = true;
+        __state = false;
+    }
+
     public static void SetOxygenDuration(object __instance, float duration)
     {
         var subOpts = OptionGroupSingleton<BetterSubmergedOptions>.Instance;
@@ -376,14 +467,14 @@ public static class ModCompatibility
                     ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
             }
 
-            ChangeFloor(startingVent.transform.position.y > -7f);
-
             var pos = new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
             PlayerControl.LocalPlayer.RpcSetPos(pos);
             PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
 
             ghost.Setup = true;
+
+            ChangeFloor(PlayerControl.LocalPlayer.GetTruePosition().y > -7);
         }
     }
 

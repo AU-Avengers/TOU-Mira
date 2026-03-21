@@ -96,6 +96,12 @@ public static class TouImpAssets
     public static LoadableAsset<Sprite> DropSprite { get; } =
         new LoadableBundleAsset<Sprite>("DropButton", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> MinerRoleBanner { get; } =
-        new LoadableBundleAsset<Sprite>("MinerBanner", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> HerbConfuseSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HerbConfuseButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> HerbExposeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HerbExposeButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> HerbProtectSprite { get; } =
+        new LoadableBundleAsset<Sprite>("HerbProtectButton", TouAssets.MainBundle);
 }

@@ -1,0 +1,234 @@
+﻿using System.Collections;
+using System.Text;
+using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.Attributes;
+using InnerNet;
+using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
+using MiraAPI.Patches.Stubs;
+using MiraAPI.Roles;
+using Reactor.Utilities;
+using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Roles.Crewmate;
+using TownOfUs.Utilities;
+using UnityEngine;
+
+namespace TownOfUs.Roles.Impostor;
+
+public sealed class ScavengerRole(IntPtr cppPtr)
+    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+{
+    public bool GameStarted { get; set; }
+    public float TimeRemaining { get; set; }
+    [HideFromIl2Cpp] public PlayerControl? Target { get; set; }
+    public bool Scavenging { get; set; }
+
+    public void FixedUpdate()
+    {
+        if (Player == null || Player.Data.Role is not ScavengerRole)
+        {
+            return;
+        }
+
+        if (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
+            !TutorialManager.InstanceExists)
+        {
+            return;
+        }
+
+        if (!Player.AmOwner)
+        {
+            return;
+        }
+
+        if (MeetingHud.Instance || ExileController.Instance)
+        {
+            Scavenging = false;
+            GameStarted = false;
+            return;
+        }
+
+        if (!GameStarted && Player.killTimer > 0f)
+        {
+            GameStarted = true;
+        }
+
+        // scavenge mode starts once kill timer reaches 0
+        if (Player.killTimer <= 0f && !Scavenging && GameStarted && !Player.HasDied())
+        {
+            // Message($"Scavenge Begin");
+            Scavenging = true;
+            TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
+
+            Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true,
+                x => !x.HasModifier<FirstDeadShield>())!;
+
+            if (Player.HasModifier<LoverModifier>())
+            {
+                Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true,
+                    x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
+            }
+
+            Target.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
+        }
+
+        if (TimeRemaining > 0)
+        {
+            TimeRemaining -= Time.deltaTime;
+        }
+
+        if ((TimeRemaining <= 0 || MeetingHud.Instance || Player.HasDied()) && Scavenging)
+        {
+            Clear();
+
+            // Message($"Scavenge End");
+            Player.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());
+        }
+    }
+
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<InvestigatorRole>());
+    public DoomableType DoomHintType => DoomableType.Hunter;
+    public string LocaleKey => "Scavenger";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    public Color RoleColor => TownOfUsColors.Impostor;
+    public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
+    public RoleAlignment RoleAlignment => RoleAlignment.ImpostorKilling;
+
+    public CustomRoleConfiguration Configuration => new(this)
+    {
+        Icon = TouRoleIcons.Scavenger,
+        IntroSound = TouAudio.WarlockIntroSound
+    };
+
+    [HideFromIl2Cpp]
+    public StringBuilder SetTabText()
+    {
+        var stringB = ITownOfUsRole.SetNewTabText(this);
+
+        if (Target != null && Scavenging)
+        {
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TimerString.Replace("<timeLeft>", TimeRemaining.ToString("0", TownOfUsPlugin.Culture))}</b>");
+            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TargetString.Replace("<player>", Target.Data.PlayerName)}</b>");
+        }
+
+        return stringB;
+    }
+
+    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
+
+    public override void OnDeath(DeathReason reason)
+    {
+        RoleBehaviourStubs.OnDeath(this, reason);
+
+        Clear();
+    }
+
+    public static string TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
+    public static string TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        TimerString = TouLocale.GetParsed("TouRoleScavengerTabTimer");
+        TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
+        if (TutorialManager.InstanceExists && Target == null && Player.AmOwner)
+        {
+            Coroutines.Start(SetTutorialTarget(this, Player));
+        }
+    }
+
+    private static IEnumerator SetTutorialTarget(ScavengerRole scav, PlayerControl player)
+    {
+        yield return new WaitForSeconds(0.01f);
+        scav.GameStarted = true;
+        scav.Scavenging = false;
+        if (player.killTimer <= 0f && !player.HasDied())
+        {
+            // Message($"Scavenge Begin");
+            scav.Scavenging = true;
+            scav.TimeRemaining = OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeDuration;
+
+            scav.Target =
+                player.GetClosestLivingPlayer(false, float.MaxValue, true, x => !x.HasModifier<FirstDeadShield>())!;
+
+            if (player.HasModifier<LoverModifier>())
+            {
+                scav.Target = player.GetClosestLivingPlayer(false, float.MaxValue, true,
+                    x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
+            }
+
+            scav.Target.AddModifier<ScavengerArrowModifier>(player, TownOfUsColors.Impostor);
+        }
+    }
+
+    public override void Deinitialize(PlayerControl targetPlayer)
+    {
+        RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        TouRoleUtils.ClearTaskHeader(Player);
+        Clear();
+    }
+
+    public void Clear()
+    {
+        var players = ModifierUtils.GetPlayersWithModifier<ScavengerArrowModifier>();
+
+        foreach (var player in players)
+        {
+            player.RemoveModifier<ScavengerArrowModifier>();
+        }
+
+        Scavenging = false;
+        TimeRemaining = 0;
+        Target = null;
+    }
+
+    public void OnPlayerKilled(PlayerControl victim)
+    {
+        if (!Player.AmOwner)
+        {
+            return;
+        }
+
+        if (victim == Target)
+        {
+            // extend scavenge duration
+            TimeRemaining += OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncreaseDuration;
+
+            // set kill timer
+            Player.SetKillTimer(OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeCorrectKillCooldown);
+
+            // get new target
+            Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true)!;
+
+            if (Player.HasModifier<LoverModifier>())
+            {
+                Target = Player.GetClosestLivingPlayer(false, float.MaxValue, true,
+                    x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
+            }
+
+            // update arrow to point to new target
+            Target.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
+        }
+        else
+        {
+            // set kill timer
+            Player.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown() *
+                                OptionGroupSingleton<ScavengerOptions>.Instance.ScavengeIncorrectKillCooldown);
+
+            // clear arrows
+            Clear();
+        }
+    }
+}

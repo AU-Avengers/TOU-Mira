@@ -151,7 +151,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return true;
         }
         
-        if (playerRole is MayorRole || playerRole is PoliticianRole)
+        if (playerRole is MayorRole || playerRole is PoliticianRole || playerRole is MonarchRole || playerRole is TimeLordRole)
         {
             return true;
         }

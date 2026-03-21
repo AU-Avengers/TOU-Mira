@@ -39,7 +39,7 @@ public static class MonarchEvents
             return;
 
         var notif = Helpers.CreateAndShowNotification(
-            $"<b>Your knight, {deadPlayer.Data.PlayerName}, has fallen...</b>",
+            $"<b>{TouLocale.GetParsed("TouRoleMonarchKnightFallenFeedback").Replace("<player>", deadPlayer.Data.PlayerName)}</b>",
             Color.white,
             new Vector3(0f, 1f, -20f),
             spr: TouRoleIcons.Monarch.LoadAsset());

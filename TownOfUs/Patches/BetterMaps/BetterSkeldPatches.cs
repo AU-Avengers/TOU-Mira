@@ -72,18 +72,16 @@ public static class BetterSkeldPatches
             ThemesFetched = false;
             return;
         }
-        if (HalloweenTheme == null)
+
+        var hallowTheme = rootObj.transform.FindChild("HalloweenDecorSkeld") ?? rootObj.transform.FindChild("Helloween");
+        var birthTheme = rootObj.transform.FindChild("BirthdayDecorSkeld");
+        if (HalloweenTheme == null && hallowTheme != null)
         {
-            HalloweenTheme = rootObj.transform.FindChild("HalloweenDecorSkeld").gameObject;
+            HalloweenTheme = hallowTheme.gameObject;
         }
-        if (BirthdayTheme == null)
+        if (BirthdayTheme == null && birthTheme != null)
         {
-            BirthdayTheme = rootObj.transform.FindChild("BirthdayDecorSkeld").gameObject;
-        }
-        if (HalloweenTheme == null)
-        {
-            // Yes, this IS Helloween, not Halloween lol
-            HalloweenTheme = rootObj.transform.FindChild("Helloween").gameObject;
+            BirthdayTheme = birthTheme.gameObject;
         }
         ThemesFetched = HalloweenTheme != null;
     }
@@ -192,7 +190,7 @@ public static class BetterSkeldPatches
                     WeaponsVent.Left = null;
                     WeaponsVent.Center = ShieldsVent;
                     WeaponsVent.Right = TopNavVent;
-                    TopNavVent.Left = ShieldsVent;
+                    TopNavVent.Left = WeaponsVent;
                     TopNavVent.Center = BottomNavVent;
                     TopNavVent.Right = null;
                     BottomNavVent.Right = null;

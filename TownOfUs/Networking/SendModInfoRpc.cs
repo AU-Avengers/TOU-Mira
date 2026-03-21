@@ -17,6 +17,8 @@ namespace TownOfUs.Networking;
 internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
     : PlayerCustomRpc<TownOfUsPlugin, Dictionary<byte, string>>(plugin, id)
 {
+    // The Player Name it originates from, as well as the actual list of mods they had.
+    public static readonly Dictionary<string, string> AnticheatLogs = new();
     public override RpcLocalHandling LocalHandling => RpcLocalHandling.Before;
     public static bool RequireCrowded => ModCompatibility.CrowdedLoaded && OptionGroupSingleton<HostSpecificOptions>.Instance.RequireCrowded.Value;
     public static bool RequireAleLudu => ModCompatibility.AleLuduLoaded && OptionGroupSingleton<HostSpecificOptions>.Instance.RequireAleLudu.Value;
@@ -75,6 +77,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             "ModExplorer", "Reactor", "Mini.RegionInstall", "TOU Mira Legacy", "GameNotifier", "Localize Us!",
             "AUSUMMARY - ", "BetterAmongUs", "CrowdedMod", "AleLuduMod"
         ];
+        var sbuilder = new StringBuilder();
         Error(
             $"{client.Data.PlayerName} is joining with the following mods:");
         foreach (var mod in list)
@@ -94,6 +97,18 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             Warning(
                 $"{mod.Value}");
         }
+
+        var throwNewMsg = true;
+        var newText = sbuilder.ToString();
+        if (AnticheatLogs.TryGetValue(client.Data.PlayerName, out var oldData))
+        {
+            if (oldData == newText)
+            {
+                throwNewMsg = false;
+            }
+            AnticheatLogs.Remove(client.Data.PlayerName);
+        }
+        AnticheatLogs.Add(client.Data.PlayerName, newText);
 
         if (!client.AmOwner && PlayerControl.LocalPlayer.IsHost() && HudManager.InstanceExists)
         {
@@ -127,7 +142,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             var cheatMods = newModDictionary.Where(mod => blacklist.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase))).ToList();
             var playerInfo = GameData.Instance.GetPlayerById(client.PlayerId);
             
-            if (cheatMods.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.KickCheatMods)
+            if (cheatMods.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.KickCheatMods.Value)
             {
                 var chatMessageBuilder = new StringBuilder();
                 chatMessageBuilder.Append(TouLocale.GetParsed("AnticheatKickChatMessage").Replace("<player>", client.Data.PlayerName));
@@ -143,7 +158,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                     kickPlayer = true;
                 }
             }
-            else if (newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings)
+            else if (throwNewMsg && newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings.Value)
             {
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");
@@ -194,6 +209,18 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                 {
                     return;
                 }
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKickMissingMessage").Replace("<player>", client.Data.PlayerName)}");
+                foreach (var mod in requiredMods)
+                {
+                    if (!reqModDictionary.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        stringBuilder.Append(TownOfUsPlugin.Culture, $"\n<color=#FF0000>{mod}</color>");
+                        continue;
+                    }
+                    stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
+                }
+                MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{TouLocale.Get("SystemChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
                 kickPlayer = true;
                 AmongUsClient.Instance.KickPlayer(playerInfo.ClientId, false);
             }

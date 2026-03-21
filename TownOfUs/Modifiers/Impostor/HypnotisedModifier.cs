@@ -1,10 +1,9 @@
-﻿using MiraAPI.Events;
+﻿using HarmonyLib;
+using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Patches;
 using TownOfUs.Utilities;
-using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -33,6 +32,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
     public override void OnDeactivate()
     {
         UnHysteria();
+        Player.MyPhysics.SetForcedBodyType(PlayerControl.LocalPlayer.BodyType);
     }
 
     public void Hysteria()
@@ -59,71 +59,35 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
 
         var bodyType = Random.RandomRangeInt(0, 10);
         var bodyShape = PlayerBodyTypes.Normal;
+        var localBodyShape = PlayerBodyTypes.Normal;
 
         if (bodyType == 1)
         {
             bodyShape = PlayerBodyTypes.Horse;
+            localBodyShape = PlayerBodyTypes.Horse;
         }
         else if (bodyType == 2)
         {
             bodyShape = PlayerBodyTypes.LongSeeker;
+            localBodyShape = PlayerBodyTypes.Long;
         }
         else if (bodyType == 3)
         {
             bodyShape = PlayerBodyTypes.Long;
+            localBodyShape = PlayerBodyTypes.Long;
         }
         else if (bodyType == 4)
         {
             bodyShape = PlayerBodyTypes.Seeker;
         }
 
-        Player.MyPhysics.SetForcedBodyType(bodyShape);
+        PlayerControl.LocalPlayer.MyPhysics.SetForcedBodyType(localBodyShape);
 
         foreach (var player in players)
         {
             player.MyPhysics.SetForcedBodyType(bodyShape);
             var hidden = Random.RandomRangeInt(0, 4);
-            if (hidden == 0)
-            {
-                var morph = new VisualAppearance(Player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Morph);
-
-                player.RawSetAppearance(morph);
-                if (bodyShape is PlayerBodyTypes.Seeker)
-                {
-                    var seeker = new VisualAppearance(Player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Morph)
-                    {
-                        HatId = string.Empty,
-                        SkinId = string.Empty,
-                        VisorId = string.Empty,
-                        PlayerName = string.Empty,
-                        PetId = string.Empty
-                    };
-
-                    player.RawSetAppearance(seeker);
-                }
-            }
-            else if (hidden == 1)
-            {
-                player.SetCamouflage();
-            }
-            else
-            {
-                var swoop = new VisualAppearance(player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Swooper)
-                {
-                    HatId = string.Empty,
-                    SkinId = string.Empty,
-                    VisorId = string.Empty,
-                    PlayerName = string.Empty,
-                    PetId = string.Empty,
-                    RendererColor = new Color(0f, 0f, 0f, 0.1f),
-                    NameColor = Color.clear,
-                    ColorBlindTextColor = Color.clear
-                };
-
-                player.RawSetAppearance(swoop);
-            }
-
-            player?.cosmetics.ToggleNameVisible(false);
+            player.AddModifier<HypnotistHysteriaModifier>(bodyShape, hidden);
         }
 
         if (Player.AmOwner)
@@ -151,17 +115,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         }
 
         // Message($"HypnotisedModifier.UnHysteria - {Player.Data.PlayerName}");
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied()))
-        {
-            player.MyPhysics.SetForcedBodyType(PlayerControl.LocalPlayer.BodyType);
-            if (HudManagerPatches.CamouflageCommsEnabled)
-            {
-                continue;
-            }
-
-            player.RawSetAppearance(player.GetDefaultModifiedAppearance());
-            player.cosmetics.ToggleNameVisible(true);
-        }
+        ModifierUtils.GetActiveModifiers<HypnotistHysteriaModifier>().Do(x => x.Player.RemoveModifier(x));
 
         HysteriaActive = false;
     }

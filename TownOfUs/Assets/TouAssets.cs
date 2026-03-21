@@ -79,6 +79,12 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AuAvengersLogo { get; } =
         new LoadableResourceAsset($"{ShortPath}.AuAvengersLogo.png", 200);
 
+    public static LoadableAsset<Sprite> AbilityCounterHerbsSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Herbs.png");
+
+    public static LoadableAsset<Sprite> AbilityCounterKillSprite { get; } =
+        new LoadableResourceAsset($"{CounterPath}.Kill.png");
+
     public static LoadableAsset<Sprite> AbilityCounterPlayerSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Player.png");
 
@@ -141,6 +147,8 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> MayorPostRevealPrefab { get; set; } =
         new LoadableBundleAsset<GameObject>("MayorPostReveal", MainBundle);
+
+    public static LoadableAsset<GameObject> MediumSpirit { get; } = new LoadableBundleAsset<GameObject>("MediumSpirit", MainBundle);
 
     public static LoadableAsset<AnimationClip> SentryCamOffAnim { get; } =
         new LoadableBundleAsset<AnimationClip>("SentryCamOffAnimation", MainBundle);
@@ -285,9 +293,14 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> RetrainCleanSprite { get; } =
         new LoadableBundleAsset<Sprite>("RetrainClean.png", MainBundle);
-
     public static LoadableAsset<Sprite> Hacked { get; } = new LoadableBundleAsset<Sprite>("Hacked", MainBundle);
 
+    public static LoadableAsset<Sprite> TribunalSprite { get; } =
+        new LoadableBundleAsset<Sprite>("Tribunal.png", MainBundle);
+    
+    public static LoadableAsset<Sprite> TribunalClearSprite { get; } =
+        new LoadableBundleAsset<Sprite>("TribunalClean.png", MainBundle);
+  
     public static LoadableAsset<Sprite> BarricadeVentSprite { get; } =
         new LoadableBundleAsset<Sprite>("BarricadeVent1.png", MainBundle);
 
@@ -364,6 +377,9 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> TimerImpSprite { get; } =
         new LoadableBundleAsset<Sprite>("TimerImp.png", MainBundle);
+
+    public static LoadableAsset<Sprite> TerminologySprite { get; } =
+        new LoadableBundleAsset<Sprite>("Terminology", MainBundle);
 
     public static void Initialize()
     {

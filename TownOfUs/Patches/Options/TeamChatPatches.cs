@@ -22,7 +22,7 @@ namespace TownOfUs.Patches.Options;
 public static class TeamChatPatches
 {
     public static bool SplitChats =>
-        LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SeparateChatBubbles.Value;
+        LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SeparateChatBubbles.Value;
     public static GameObject TeamChatButton;
     private static TextMeshPro? _teamText;
     public static bool TeamChatActive; // True if any team chat is active
@@ -997,6 +997,11 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendJailorChat)]
     public static void RpcSendJailorChat(PlayerControl player, string text)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         var shouldMarkUnread = false;
         if (PlayerControl.LocalPlayer.IsJailed())
         {
@@ -1030,6 +1035,11 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendJaileeChat)]
     public static void RpcSendJaileeChat(PlayerControl player, string text)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         var shouldMarkUnread = false;
         if (PlayerControl.LocalPlayer.Data.Role is JailorRole || PlayerControl.LocalPlayer.IsJailed() || (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) &&
                                                                  OptionGroupSingleton<GeneralOptions>.Instance
@@ -1058,6 +1068,11 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendVampTeamChat)]
     public static void RpcSendVampTeamChat(PlayerControl player, string text)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         var shouldMarkUnread = false;
         if ((PlayerControl.LocalPlayer.Data.Role is VampireRole) ||
             (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
@@ -1085,6 +1100,11 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendImpTeamChat)]
     public static void RpcSendImpTeamChat(PlayerControl player, string text)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         var shouldMarkUnread = false;
         if ((PlayerControl.LocalPlayer.IsImpostorAligned()) ||
             (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow))
@@ -1112,6 +1132,11 @@ public static class TeamChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendLoveChat)]
     public static void RpcSendLoveChat(PlayerControl player, string text)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (PlayerControl.LocalPlayer.IsLover() ||
             (DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {

@@ -1,6 +1,8 @@
 using HarmonyLib;
 using MiraAPI.Modifiers;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Patches.Options;
 using TownOfUs.Utilities;
 
@@ -20,14 +22,24 @@ public static class LoverChatPatches
 
         var text = __instance.freeChatField.Text.WithoutRichText();
 
-        if (text.Length < 1 || text.Length > 100)
+        if (text.Length < 1 || text.Length > 301)
         {
             return true;
         }
 
         if (PlayerControl.LocalPlayer.HasModifier<LoverModifier>())
         {
-            TeamChatPatches.RpcSendLoveChat(PlayerControl.LocalPlayer, text);
+            if (PlayerControl.LocalPlayer.HasModifier<ParasiteInfectedModifier>() ||
+                PlayerControl.LocalPlayer.HasModifier<PuppeteerControlModifier>())
+            {
+                MiscUtils.AddTeamChat(PlayerControl.LocalPlayer.Data,
+                    $"<color=#{TownOfUsColors.Lover.ToHtmlStringRGBA()}>{TouLocale.GetParsed("LoverChatTitle").Replace("<player>", PlayerControl.LocalPlayer.Data.PlayerName)}</color>",
+                    "You are under control! Your message cannot be sent.", blackoutText: false, bubbleType: BubbleType.Lover, onLeft: false);
+            }
+            else
+            {
+                TeamChatPatches.RpcSendLoveChat(PlayerControl.LocalPlayer, text);
+            }
 
             __instance.freeChatField.Clear();
             __instance.quickChatMenu.Clear();

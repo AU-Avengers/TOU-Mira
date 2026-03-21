@@ -14,7 +14,15 @@
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
   <string name="ShowSummaryMessage">Show Summary Msg</string>
   <string name="ShowPracticeButtons">Show Practice Buttons</string>
+  <string name="AutoRejoinDelay">Auto Rejoin Delay</string>
+  <string name="AutoRejoinSelection">Auto Rejoin</string>
+  <string name="EndRejoinAlways">Always</string>
+  <string name="EndRejoinHost">As Host</string>
+  <string name="EndRejoinClient">As Client</string>
+  <string name="EndRejoinNever">Never</string>
   <string name="ZoomingInLobby">Zoom In Lobby</string>
+  <string name="ShowRoleIconOnRoleTab">Icon On Role Tab</string>
+  <string name="RainbowColorAsFortegreen">Rainbow Color As Fortegreen</string>
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
   <string name="ColorPlayerName">Colored Player Name</string>
@@ -34,6 +42,10 @@
   <string name="SummarySimple">Simplified</string>
   <string name="SummaryNormal">Normal</string>
   <string name="SummaryAdvanced">Advanced</string>
+  <string name="EndSummaryVisibility">End Summary Visibility</string>
+  <string name="EndSumLeftSide">Left-Side</string>
+  <string name="EndSumSplit">Split</string>
+  <string name="EndSumHidden">Hidden</string>
   <string name="GrenadierFlashColor">Grenadier Flash Color</string>
   <string name="FlashWhite">White</string>
   <string name="FlashLightGray">Light Gray</string>
@@ -91,6 +103,8 @@
   <string name="Rainbow">Rainbow</string>
   <!-- Terms used in-game and in the wiki -->
   <string name="BackButtonText">Back</string>
+  <string name="PreviousButtonText">Previous</string>
+  <string name="NextButtonText">Next</string>
   <string name="Alignment">Alignment</string>
   <string name="WikiDescriptionTab">Description</string>
   <string name="WikiAbilitiesTab">Abilities</string>
@@ -99,10 +113,36 @@
   <string name="Roles">Roles</string>
   <string name="Modifier">Modifier</string>
   <string name="Modifiers">Modifiers</string>
+  <string name="Terminology">Terminology</string>
+  <string name="GameSettings">Game Settings</string>
+  <string name="TermsPageCount">Section \%so\%/\%st\% | Page \%po\%/\%pt\%</string>
   <string name="Amount">Amount</string>
   <string name="Chance">Chance</string>
   <string name="Options">Options</string>
   <string name="PlayerHasNoModifiers">No Modifiers</string>
+  <!-- Settings Wiki -->
+  <string name="WikiSettingsAmongUsGameSettingsTitle">Among Us Game Settings</string>
+  <string name="WikiSettingsTouMiraGameSettingsTitle">TOU Mira Game Settings</string>
+  <string name="WikiSettingsAssassinSettingsTitle">Assassin Settings</string>
+  <string name="WikiSettingsMapsSabotageSettingsTitle">Maps/Sabotage Settings</string>
+  <string name="WikiSettingsBetterMapsSettingsTitle">Better Maps Settings</string>
+  <!-- Terminology Wiki -->
+  <string name="TermsTargetSymbolsTitle">Target Symbols</string>
+  <string name="TermsTargetSymbolsInfo">Target Symbols appear on player names in meetings and mid-game, usually only visible to the role they pertain to and/or the dead. • Executioner targets are marked with \%color=#643B1F\%X\%/color\% • Inquisitor heretics are marked with \%color=#D94291\%$\%/color\% to the dead. • Fairy targets are marked with \%color=#B3FFFF\%★\%/color\%</string>
+  <string name="TermsProtectionSymbolsTitle">Protection Symbols</string>
+  <string name="TermsProtectionSymbolsInfo">Protection Symbols appear on player names in meetings and/or mid-game, showing that they are immune to most attacks. These are usually only visible to the role they pertain to, their target, and/or the dead. • Medic shields are marked with \%color=#006600\%+\%/color\% • Cleric barriers are marked with \%color=#00FFB3\%Ω\%/color\% • Warden fortification is marked with \%color=#9900FF\%π\%/color\% • Mirrorcaster's reflections are marked with\%color=#90A2C3\%〚〛\%/color\% • Fairy Protection is marked with \%color=#FFD900\%★\%/color\% • Guardian Angel Protection is marked with \%color=#66AAF3\%☀\%/color\% • Oracle blessing is marked with \%color=#BF00BF\%†\%/color\%</string>
+  <string name="TermsStatusEffectSymbolsTitle">Status Effect Symbols</string>
+  <string name="TermsStatusEffectInfo">Status Effects appear on player names in meetings and mid-game, usually only visible to the role they pertain to and/or the dead. • Arsonist douses are marked with \%color=#FF4D00\%Δ\%/color\% • Plaguebearer plague is marked with \%color=#E6FFB3\%¥\%/color\% • Controlled players are marked with \%color=#FF2660\%⦿\%/color\% • Blackmailed targets are marked with \%color=#2A1119\%M\%/color\% • Hypnosis is marked with \%color=#D53F42\%@\%/color\% • Spellslinger Hex is marked with \%color=#FF0000\%乂\%/color\% • Monarch Knights are marked with \%color=#EA535B\%♠\%/color\%</string>
+  <string name="TermsCrewRoleAlignmentsTitle">\%color=#8CFFFF\%Crewmate\%/color\% Subalignments</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%Investigative\%/color\% roles can gather information about other players. They can use this info to deduce who is crew or not. • \%color=#8CFFFF\%Killing\%/color\% roles can \%color=#FF8B95\%kill\%/color\% others, but \%color=#FF8B95\%killing\%/color\% \%color=#8CFFFF\%Crewmates\%/color\% may have consequences. • \%color=#8CFFFF\%Protective\%/color\% roles have a way to defend other players, sometimes themselves as well. • \%color=#8CFFFF\%Power\%/color\% roles usually influence votes or have stronger abilities compared to other \%color=#8CFFFF\%Crewmates\%/color\%. • \%color=#8CFFFF\%Support\%/color\% roles usually have ways to help the rest of the \%color=#8CFFFF\%Crewmates\%/color\%, or may just benefit themselves.</string>
+  <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%Neutral\%/color\% Subalignments</string>
+  <string name="TermsNeutRoleAlignmentsInfo">• \%color=#8A8A8A\%Benign\%/color\% roles cannot win by themselves, either helping others or surviving as long as possible. • \%color=#8A8A8A\%Evil\%/color\% roles set out to complete their goals, staying as kingmakers, leaving in victory, or ending the game abruptly. • \%color=#8A8A8A\%Killing\%/color\% roles set out to be the last \%color=#FF8B95\%killer\%/color\% alive at all costs. • \%color=#8A8A8A\%Outlier\%/color\% roles set out to achieve their own goals, but each role impacts the game differently, sometimes behaving like a mix of \%color=#8A8A8A\%Benign\%/color\%, \%color=#8A8A8A\%Evil\%/color\%, and \%color=#8A8A8A\%Killing\%/color\% roles.</string>
+  <string name="TermsImpRoleAlignmentsTitle">\%color=#FF0000\%Impostor\%/color\% Subalignments</string>
+  <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%Concealing\%/color\% roles have the ability to \%color=#FF8B95\%kill\%/color\% as well as deceive others or hide away while doing so. • \%color=#FF0000\%Killing\%/color\% roles have enhanced or altered \%color=#FF8B95\%killing\%/color\% abilities, allowing them to \%color=#FF8B95\%kill\%/color\% more effectively. • \%color=#FF0000\%Power\%/color\% roles have abilities that can be deemed far stronger than any other roles, granting \%color=#FF0000\%Impostors\%/color\% a shift in strength. • \%color=#FF0000\%Support\%/color\% roles can help hide away bodies or to make \%color=#FF8B95\%killing\%/color\% more accessible.</string>
+  <string name="TermsRoleBucketsTitle">Role List Buckets</string>
+  <string name="TermsRoleBucketsInfo">Role List Buckets are only relevant when the "Set Role List" setting is used for role spawning. • Common \%color=#8CFFFF\%Crew\%/color\% contains Investigative, Protective, and Support roles. • Common \%color=#FF0000\%Impostor\%/color\% contains Concealing and Support roles. • Common \%color=#8A8A8A\%Neutral\%/color\% contains Benign and Evil roles. • Special \%color=#8CFFFF\%Crew\%/color\% contains Killing and Power roles. • Special \%color=#FF0000\%Impostor\%/color\% contains Killing and Power roles. • Special \%color=#8A8A8A\%Neutral\%/color\% contains Killing and Outlier roles. • Wildcard \%color=#8A8A8A\%Neutral\%/color\% contains Benign, Evil, and Outlier roles. • Non-\%color=#FF0000\%Impostor\%/color\% contains all \%color=#8A8A8A\%Neutral\%/color\% and \%color=#8CFFFF\%Crewmate\%/color\% roles. • Random buckets spawn any role of said faction (like Random \%color=#8CFFFF\%Crew\%/color\%). • The Any bucket allows any enabled role to spawn.</string>
+  <string name="TermsCommonSlangTitle">Common Slang</string>
+  <string name="TermsCommonSlangInfo">Common Slang is usually coined by the TOU and TOS communities to quickly pass information. • HC stands for Hard-Cleared, meaning a player is undoubtedly innocent. • Glorphing is a term used when someone is taking on the appearance of another player, whether that's from a \%color=#00FF00\%Glitch\%/color\%, \%color=#FF0000\%Morphling\%/color\%, \%color=#FF0000\%Shapeshifter\%/color\%, or any other similar role. • Ghostwalkers are terms used to describe roles like \%color=#D4D4D4\%Haunter\%/color\% and \%color=#662961\%Spectre\%/color\%, as a way to differentiate them from standard ghost roles. • Sidebars are called when a player is pulled aside in a Proximity Chat lobby to discuss private matters.</string>
   <!-- Task Text Info -->
   <string name="NeutralBasicTaskHeader">Complete your objective.</string>
   <string name="NeutralBasicDeadTaskHeader">You're dead. Sit back and enjoy the chaos.</string>
@@ -121,6 +161,12 @@
   <string name="MinimumShort">Min</string>
   <string name="MaximumShort">Max</string>
   <!-- Role Subalignments -->
+  <string name="CrewmateGhost">Crewmate Ghost</string>
+  <string name="NeutralGhost">Neutral Ghost</string>
+  <string name="ImpostorGhost">Impostor Ghost</string>
+  <string name="CrewmateAfterlife">Crewmate Afterlife</string>
+  <string name="NeutralAfterlife">Neutral Afterlife</string>
+  <string name="ImpostorAfterlife">Impostor Afterlife</string>
   <string name="GameOutlier">Game Outlier</string>
   <string name="CrewmateInvestigative">Crewmate Investigative</string>
   <string name="CrewmateKilling">Crewmate Killing</string>
@@ -243,8 +289,9 @@
   <string name="JaileeChatTitle">\%player\% (Jailed)</string>
   <string name="SystemChatTitle">System</string>
   <string name="AnticheatChatTitle">Anticheat System</string>
-  <string name="AnticheatKillMessage">A kill was attempted in the lobby, attached to \%player\%.</string>
+  <string name="AnticheatIllegalRpcMessage">A non-lobby feature/ability was run by \%player\%. They may be cheating/exploiting.</string>
   <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
+  <string name="AnticheatKickMissingMessage">\%player\% is missing these mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
   <string name="SpectatorCommandList">spec:spectate</string>
   <string name="SpectatorLobbyError">You cannot toggle spectating outside the lobby!</string>
@@ -265,6 +312,9 @@
   <string name="SetNameSimilarError">Another player has a name too similar to \%name\%! Please try a different name.</string>
   <string name="SetNameSuccess">Changed player name for the next match to: \%name\%.</string>
   <string name="WelcomeMessageBlurb">Welcome to Town of Us Mira v\%modVersion\%!\%nl\%Use the wiki (the globe icon) to get more info on roles or modifiers, where you can use the searchbar. Otherwise, use /help in the chat to get a list of commands.\%nl\%You may disable this message through your option menu.</string>
+  <string name="InfoCommandList">info</string>
+  <string name="InfoCommandDescription">/info - Replay the most recent role information message you received</string>
+  <string name="InfoCommandNoInfo">You do not have any role information available to replay.</string>
   <string name="HelpCommandList">help:support:command:commands:guide</string>
   <string name="HelpMessageTitle">Chat Commands:</string>
   <string name="HelpCommandDescription">/help - Shows this message</string>
@@ -287,7 +337,7 @@
   <string name="UpCommandSuccessOther">Successfully requested role: \%role\% for player '\%player\%' next game.</string>
   <string name="UpCommandSuccessGlobal">Host requested role for player '\%player\%' next game.</string>
   <string name="RulesCommandList">rules</string>
-  <string name="RulesMessageTitle">System</string>
+  <string name="RulesMessageTitle">Lobby Rules</string>
   <string name="RulesMissingError">Host has no rules saved.</string>
   <string name="RulesShowHostError">You must be the host to use /rules show.</string>
   <string name="ShowRulesOnLobbyJoin">Show Rules On Lobby Join</string>
@@ -369,6 +419,7 @@
   <string name="TouScatter">Scatter</string>
   <!-- Common Terms -->
   <string name="TargetingNobody">Nobody</string>
+  <string name="GuesserNoResults">No results</string>
   <!-- Option Tabs -->
   <string name="TouTabOptionBetterMaps">Better Maps/Sabotages</string>
   <string name="TouTabOptionBetterMapsDesc">Configure tasks, cooldowns, doors, vents, sabotages, and more for each map!</string>
@@ -721,8 +772,11 @@
   <string name="TouOptionHaunterClickEnumNonCrew">Non-Crew</string>
   <string name="TouOptionHaunterClickEnumImpsOnly">Impostors Only</string>
   <!-- Haunter Feedback -->
+  <string name="TouRoleHaunterClickableFeedback">You are now clickable by players!</string>
   <string name="TouRoleHaunterSelfAlertFeedback">You have alerted the Killers!</string>
   <string name="TouRoleHaunterImpAlertFeedback">A Haunter is loose, catch them before they reveal you!</string>
+  <string name="TouRoleHaunterSelfRevealFeedback">You have revealed the Killers!</string>
+  <string name="TouRoleHaunterImpRevealFeedback">The Haunter has completed their tasks!</string>
   <!-- Hunter - Crewmate Killing -->
   <!-- Hunter Wiki / Abilities -->
   <string name="TouRoleHunter">Hunter</string>
@@ -803,6 +857,7 @@
   <string name="TouRoleJailorCannotExecute">\%player\% cannot be executed! They must be Invulnerable or blessed!</string>
   <string name="TouRoleJailorExecutedCrew">\%player\% was a crewmate! You can no longer jail anyone!</string>
   <string name="TouRoleJailorExecutedEvil">\%player\% was successfully executed!</string>
+  <string name="TouRoleJailorEvilTabInfo">You can execute crewmates.</string>
   <!-- Lookout - Crewmate Investigative -->
   <!-- Lookout Wiki / Abilities -->
   <string name="TouRoleLookout">Lookout</string>
@@ -812,6 +867,10 @@
   <string name="TouRoleLookoutWatch">Watch</string>
   <string name="TouRoleLookoutWatchWikiDescription">Watch a player or multiple, the next meeting you will know which players interacted with the watched ones.</string>
   <string name="TouRoleLookoutWatchNotif">You will know what roles interact with \%player\% next meeting.</string>
+  <!-- Lookout Feedback -->
+  <string name="TouRoleLookoutFeedbackTitle">Lookout Feedback</string>
+  <string name="TouRoleLookoutNoInteractionFeedback">No players interacted with \%player\%</string>
+  <string name="TouRoleLookoutInteractionFeedback">Roles seen interacting with \%player\%</string>
   <!-- Lookout Options -->
   <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
   <string name="TouOptionLookoutMaxWatches">Initial Players That Can be Watched</string>
@@ -860,14 +919,23 @@
   <!-- Medium - Crewmate Support -->
   <!-- Medium Wiki / Abilities -->
   <string name="TouRoleMedium">Medium</string>
-  <string name="TouRoleMediumIntroBlurb">Watch the spooky ghosts</string>
-  <string name="TouRoleMediumTabDescription">Follow ghosts to get clues from them</string>
-  <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Investigative role who can Mediate to see one ghost per use. Both the Medium and Ghost then have an arrow showing them where each other are at all times.</string>
+  <string name="TouRoleMediumIntroBlurb">Become one with the ghosts</string>
+  <string name="TouRoleMediumTabDescription">Mediate to leave your mortal body behind for some time.\%nl\%Your body is still vulnerable in this state.</string>
+  <string name="TouRoleMediumWikiDescription">The Medium is a Crewmate Investigative role that can temporarily release their spirit. They can pass through walls and see ghosts, but leave their body unprotected.</string>
   <string name="TouRoleMediumMediate">Mediate</string>
-  <string name="TouRoleMediumMediateWikiDescription">Communicate with the dead, which may lead you to the killers.</string>
+  <string name="TouRoleMediumMediateWikiDescription">Project your spirit outside your body for some time to uncover clues. Once time is up, return to your mortal flesh and ghosts will disappear.</string>
   <!-- Medium Options -->
   <string name="TouOptionMediumMediateCooldown">Mediate Cooldown</string>
-  <string name="TouOptionMediumRevealAppearanceOfMediateTarget">Reveal Appearance of Mediated Target</string>
+  <string name="TouOptionMediumReworkToggle">Mediation Creates a Spirit Temporarily</string>
+  <string name="TouOptionMediumMediateDuration">Mediate Duration</string>
+  <string name="TouOptionMediumMediateEarlyCancel">Mediate Can Be Canceled Early</string>
+  <string name="TouOptionMediumMediatingSpeed">Spirit Speed When Mediating</string>
+  <string name="TouOptionMediumLivingSeeSpiritTimer">Time Before Spirit is Visible to Others</string>
+  <string name="TouOptionMediumAppearanceVisibility">Medium can Identify</string>
+  <string name="TouOptionMediumAppearanceEnumLiving">Living</string>
+  <string name="TouOptionMediumAppearanceEnumDead">Ghosts</string>
+  <string name="TouOptionMediumAppearanceEnumBoth">Living + Ghosts</string>
+  <string name="TouOptionMediumAppearanceEnumNone">Nobody</string>
   <string name="TouOptionMediumArrowVisibility">Arrow Visibility</string>
   <string name="TouOptionMediumArrowEnumShowMedium">Medium</string>
   <string name="TouOptionMediumArrowEnumShowMediated">Mediated</string>
@@ -910,6 +978,8 @@
   <!-- Mirrorcaster Feedback -->
   <string name="TouRoleMirrorcasterAttackedMessageWithType">\%player\% was attacked by the \%attackerRole\%! You can now unleash the attack onto another player!</string>
   <string name="TouRoleMirrorcasterAttackedMessageWithoutType">\%player\% was attacked! You can now unleash the attack onto another player!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithFaction">\%player\% was attacked by a \%faction\%! You can now unleash the attack onto another player!</string>
+  <string name="TouRoleMirrorcasterAttackedMessageWithSubalignment">\%player\% was attacked by a \%subalignment\%! You can now unleash the attack onto another player!</string>
   <!-- Monarch - Crewmate Power -->
   <!-- Monarch Wiki / Description -->
   <string name="TouRoleMonarch">Monarch</string>
@@ -925,6 +995,10 @@
   <string name="TouRoleMonarchKnightDescription">Knight a player, giving them \%amount\% vote(s)</string>
   <string name="TouRoleMonarchChangeFlash">Change Flash</string>
   <string name="TouRoleMonarchChangeFlashDescription">If configurable, the Monarch can change how their defense appears to other attackers. The color can flash like a Cleric, Medic, Mercenary, Warden, or not flash at all!</string>
+  <string name="TouRoleMonarchKnightTargetDied">\%player\% died before you could knight them.</string>
+  <string name="TouRoleMonarchKnightSuccess">\%player\% was knighted!</string>
+  <string name="TouRoleMonarchKnightedFeedback">You were knighted by a \%role\%. You gained \%votes\% vote(s)!</string>
+  <string name="TouRoleMonarchKnightFallenFeedback">Your knight, \%player\%, has fallen...</string>
   <!-- Mystic - Crewmate Investigative -->
   <!-- Mystic Wiki / Description -->
   <string name="TouRoleMystic">Mystic</string>
@@ -959,6 +1033,7 @@
   <string name="TouOptionOracleNeutBadOutlier">Outliers</string>
   <string name="TouOptionOracleNeutBadNone">None</string>
   <!-- Oracle Feedback -->
+  <string name="TouRoleOracleConfessionTitle">Oracle Confession</string>
   <string name="TouRoleOracleConfessorDied">Your confessor failed to survive so you received no confession</string>
   <string name="TouRoleOracleTooFew">Too few people alive to receive a confessional</string>
   <string name="TouRoleOracleNoMoreEvil">\%player\% confesses to knowing that there are no more evil players!</string>
@@ -970,7 +1045,8 @@
   <string name="TouRolePlumber">Plumber</string>
   <string name="TouRolePlumberIntroBlurb">Kick out the pesky venters onboard</string>
   <string name="TouRolePlumberTabDescription">Flush the vent system to kick venters out, and\%nl\%barricade vents to block them the next round</string>
-  <string name="TouRolePlumberExtraTabText">Note: Barricades Stay For \%roundCount\% Round(s)</string>
+  <string name="TouRolePlumberExtraTabText">Barricades Stay For \%roundCount\% Round(s)</string>
+  <string name="TouRolePlumberExtraTabTextForever">Barricades Stay Forever</string>
   <string name="TouRolePlumberVentListTabText">Vents List</string>
   <string name="TouRolePlumberUnbuiltBarricadeTabText">Preparing...</string>
   <string name="TouRolePlumberVentLabelTabText">\%roomName\% Vent</string>
@@ -993,6 +1069,7 @@
   <string name="TouRolePolitician">Politician</string>
   <string name="TouRolePoliticianIntroBlurb">Campaign to become the Mayor!</string>
   <string name="TouRolePoliticianTabDescription">Campaign crewmates in hopes to become the Mayor! At least half of\%nl\%the innocent players must be campaigned to reveal successfully</string>
+  <string name="TouRolePoliticianEgotistTabInfo">Evildoers will know your true motives when revealed.</string>
   <string name="TouRolePoliticianWikiDescription">The Politician is a Crewmate Power role that can reveal themselves to the crew as the Mayor, given that they have campaigned at least half of the crewmates.</string>
   <string name="TouRolePoliticianCampaign">Campaign</string>
   <string name="TouRolePoliticianCampaignWikiDescription">Give a player a ballot, which will only be useful to you if they are a Crewmate.</string>
@@ -1012,6 +1089,8 @@
   <string name="TouRoleProsecutor">Prosecutor</string>
   <string name="TouRoleProsecutorIntroBlurb">Exile players of your choosing</string>
   <string name="TouRoleProsecutorTabDescription">Choose to exile anyone of your choosing</string>
+  <string name="TouRoleProsecutorCanProsecuteCrew">\%b\%You may prosecute crew.\%/b\%</string>
+  <string name="TouRoleProsecutorProsecutionsRemaining">\%count\% Prosecution(s) Remaining</string>
   <string name="TouRoleProsecutorWikiDescription">The Prosecutor is a Crewmate Power role that can Exile a player, applying five votes to a player of their choosing. They can also see who voted for whom, even if they're anonymous.</string>
   <string name="TouRoleProsecutorProsecute">Prosecute</string>
   <string name="TouRoleProsecutorProsecuteWiki">Prosecute (Meeting)</string>
@@ -1201,6 +1280,14 @@
   <string name="TouRoleSnitchTabDescriptionEgo">Complete all your tasks to discover \%and\% help the Impostors.</string>
   <string name="TouRoleSnitchTabDescriptionCompletedTasksEgo">Help the Impostors!</string>
   <string name="TouRoleSnitchWikiDescription">The Snitch is a Crewmate Investigative role that can reveal the Impostors to themselves by finishing all their tasks. Upon completing all tasks, the Impostors will be revealed to the Snitch with an arrow and their red name.</string>
+  <string name="TouRoleSnitchSelfRevealedEgoFeedback">The impostors know of your whereabouts, and know you're the Egotist!</string>
+  <string name="TouRoleSnitchSelfRevealedFeedback">The impostors know of your whereabouts!</string>
+  <string name="TouRoleSnitchImpRevealedEgoFeedback">The Snitch is an Egotist, who will help you overthrow the crewmates!</string>
+  <string name="TouRoleSnitchImpRevealedFeedback">The Snitch is getting closer to reveal you!</string>
+  <string name="TouRoleSnitchSelfCompletedEgoFeedback">You have revealed the impostors, who can help your win condition!</string>
+  <string name="TouRoleSnitchSelfCompletedFeedback">You have revealed the impostors!</string>
+  <string name="TouRoleSnitchImpCompletedEgoFeedback">The Snitch can now help you as the Egotist!</string>
+  <string name="TouRoleSnitchImpCompletedFeedback">The Snitch knows what you are now!</string>
   <!-- Snitch Options -->
   <string name="TouOptionSnitchRevealsNeutralKillers">Snitch Reveals Neutral Killers</string>
   <string name="TouOptionSnitchSeesTraitor">Snitch Sees Traitor</string>
@@ -1306,7 +1393,7 @@
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
   <string name="TouOptionTrapperMaxNumberOfTraps">Initial Number Of Traps</string>
   <string name="TouOptionTrapperTrapSize">Trap Size</string>
-  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Reset After Each Round</string>
   <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
   <!-- Trapper Feedback -->
@@ -1338,6 +1425,10 @@
   <string name="TouRoleVigilante">Vigilante</string>
   <string name="TouRoleVigilanteIntroBlurb">Kill \%color=#FF0000FF\%Evildoers\%/color\% by guessing them!</string>
   <string name="TouRoleVigilanteTabDescription">Guess the roles of impostors mid-meeting to kill them!</string>
+  <string name="TouRoleVigilanteEvilTabInfo">You can also guess Crewmates.</string>
+  <string name="TouRoleVigilanteNoSafeShots">You have no more safe shots left.</string>
+  <string name="TouRoleVigilanteSafeShotsLeft">\%count\% safe shot(s) left.</string>
+  <string name="TouRoleVigilanteMultiShotFeedback">Your Multi-Shot has prevented you from dying this meeting! You have \%count\% safe shot(s) left!</string>
   <string name="TouRoleVigilanteWikiDescription">The Vigilante is a Crewmate Killing role that can guess roles of players in meetings. If they guess correctly, the other player will die. If not, they will die. </string>
   <!-- Vigilante Options -->
   <string name="TouOptionVigilanteNumberOfGuesses">Number Of Guesses</string>
@@ -1491,7 +1582,17 @@
   <string name="TouOptionGrenadierFlashGrenadeDuration">Flash Grenade Duration</string>
   <string name="TouOptionGrenadierFlashRadius">Flash Radius</string>
   <string name="TouOptionGrenadierGrenadierCanVent">Grenadier Can Vent</string>
+
   <string name="TouRoleHerbalist">Herbalist</string>
+  <string name="TouRoleHerbalistIntroBlurb">Let your plants and herbs guide the way</string>
+  <string name="TouRoleHerbalistTabDescription">Use your deep knowledge of nature on others.\%nl\%Your kill cooldown is unlinked from other abilities.</string>
+  <string name="TouRoleHerbalistWikiDescription">The Herbalist is an Impostor Power role that has many abilities tied to one cooldown, either to help Impostors or to affect what others see.</string>
+  <string name="TouRoleHerbalistExpose">Expose</string>
+  <string name="TouRoleHerbalistExposeWikiDescription">Expose a player to all Impostors, revealing their role but preventing them from being guessed.</string>
+  <string name="TouRoleHerbalistConfuse">Confuse</string>
+  <string name="TouRoleHerbalistConfuseWikiDescription">Confuse a player with fungal spores to prevent them from identifying players.</string>
+  <string name="TouRoleHerbalistProtect">Protect</string>
+  <string name="TouRoleHerbalistProtectWikiDescription">Protect a player temporarily as if you were a Cleric, including other impostors.</string>
   <!-- Not in code yet -->
 
   <!-- Hypnotist Wiki / Abilities -->
@@ -1750,6 +1851,8 @@
   <string name="TouRoleDoomsayerObserve">Observe</string>
   <string name="TouRoleDoomsayerObserveWikiDescription">Observe a player, gaining a hint in the next meeting what their role could be.</string>
   <string name="TouRoleDoomsayerObserveNotif">You will receive a report on \%player\% in the following meeting. This will help you narrow down their role.</string>
+  <string name="TouRoleDoomsayerWonSelf">You have successfully won as the \%role\%, as you have guessed enough players successfully!</string>
+  <string name="TouRoleDoomsayerWonOther">The \%role\%, \%player\%, has successfully won, as they have guessed enough players!</string>
   <!-- Doomsayer Options -->
   <string name="TouOptionDoomsayerCooldown">Observe Cooldown</string>
   <string name="TouOptionDoomsayerNecessaryGuessed">Number Of Guesses Needed To Win</string>
@@ -1783,6 +1886,9 @@
   <string name="TouRoleExecutionerMissingTargetDescription">Get your target voted out to win.</string>
   <string name="TouRoleExecutionerWikiDescription">The Executioner is a Neutral Evil role that wins by getting their target (signified by \%symbol\%) ejected in a meeting.</string>
   <string name="TouRoleExecutionerTorment">Torment</string>
+  <string name="TouRoleExecutionerWonSelf">You have successfully won as the \%role\%, as your target was voted out!</string>
+  <string name="TouRoleExecutionerWonOther">The \%role\%, \%player\%, has successfully won, as their target was voted out!</string>
+  <string name="TouRoleExecutionerTormentFeedback">You have one round to torment a player of your choice to death, choose wisely.</string>
   <!-- Executioner Options -->
   <string name="TouOptionExecutionerBecomesTargetDeath">On Target Death, Executioner Becomes</string>
   <string name="TouOptionExecutionerCanButton">Executioner Can Button</string>
@@ -1947,7 +2053,7 @@
   <string name="TouRoleSpectre">Spectre</string>
   <string name="TouRoleSpectreIntroBlurb">Use your second chance to win</string>
   <string name="TouRoleSpectreTabDescription">Complete all your tasks without being caught!</string>
-  <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Evil Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
+  <string name="TouRoleSpectreWikiDescription">The Spectre is a Neutral Ghost role that wins the game by finishing their tasks before a living player has clicked on them.</string>
   <string name="TouRoleSpectreSpook">Spook</string>
   <!-- Spectre Options -->
   <string name="TouOptionSpectreTasksLeftClickable">Tasks Left Before Clickable</string>

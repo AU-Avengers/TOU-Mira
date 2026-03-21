@@ -162,6 +162,21 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.NeutralObstinate;
             }
 
+            if (RoleAlignment == RoleAlignment.CrewmateAfterlife)
+            {
+                return TouRoleGroups.CrewAfterlife;
+            }
+
+            if (RoleAlignment == RoleAlignment.NeutralAfterlife)
+            {
+                return TouRoleGroups.NeutralAfterlife;
+            }
+
+            if (RoleAlignment == RoleAlignment.ImpostorAfterlife)
+            {
+                return TouRoleGroups.ImpAfterlife;
+            }
+
             if (RoleAlignment == RoleAlignment.CrewmateGhost)
             {
                 return TouRoleGroups.CrewGhost;
@@ -247,6 +262,9 @@ public enum RoleAlignment
     CrewmateGhost,
     ImpostorGhost,
     NeutralGhost,
+    CrewmateAfterlife,
+    ImpostorAfterlife,
+    NeutralAfterlife,
     // Hide and Seek Alignments
     CrewmateHider,
     ImpostorSeeker,

@@ -20,6 +20,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override float Duration => OptionGroupSingleton<SwooperOptions>.Instance.SwoopDuration;
     public override bool HideOnUi => true;
     public override bool AutoStart => true;
+    public override bool VisibleToOthers => false;
     public bool VisualPriority => true;
 
     public VisualAppearance GetVisualAppearance()

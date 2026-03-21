@@ -1,0 +1,104 @@
+﻿using System.Text;
+using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
+using MiraAPI.Patches.Stubs;
+using MiraAPI.Roles;
+using Reactor.Networking.Attributes;
+using Reactor.Utilities;
+using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Utilities;
+using UnityEngine;
+
+namespace TownOfUs.Roles.Crewmate;
+
+public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+{
+    public override bool IsAffectedByComms => false;
+    public DoomableType DoomHintType => DoomableType.Protective;
+    public string LocaleKey => "Cleric";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
+
+    public static string ProtectionString = TouLocale.GetParsed("TouRoleClericTabProtecting");
+
+    public override void Initialize(PlayerControl player)
+    {
+        RoleBehaviourStubs.Initialize(this, player);
+        ProtectionString = TouLocale.GetParsed("TouRoleClericTabProtecting");
+    }
+
+    [HideFromIl2Cpp]
+    public StringBuilder SetTabText()
+    {
+        var stringB = ITownOfUsRole.SetNewTabText(this);
+
+        var barrieredPlayer = ModifierUtils.GetPlayersWithModifier<ClericBarrierModifier>(x => x.Cleric.AmOwner).FirstOrDefault();
+        if (barrieredPlayer != null)
+        {
+            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", barrieredPlayer.Data.PlayerName)}</b>");
+        }
+
+        return stringB;
+    }
+
+    [HideFromIl2Cpp]
+    public List<CustomButtonWikiDescription> Abilities
+    {
+        get
+        {
+            return new List<CustomButtonWikiDescription>
+            {
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Barrier", "Barrier"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}BarrierWikiDescription").Replace("<BarrierCooldown>",
+                        $"{OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown}"),
+                    TouCrewAssets.BarrierSprite),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Cleanse", "Cleanse"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}CleanseWikiDescription"),
+                    TouCrewAssets.CleanseSprite)
+            };
+        }
+    }
+
+    public Color RoleColor => TownOfUsColors.Cleric;
+    public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
+    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
+
+    public CustomRoleConfiguration Configuration => new(this)
+    {
+        IntroSound = TouAudio.ScientistIntroSound,
+        OptionsScreenshot = TouBanners.ClericRoleBanner,
+        Icon = TouRoleIcons.Cleric
+    };
+
+    [MethodRpc((uint)TownOfUsRpc.ClericBarrierAttacked)]
+    public static void RpcClericBarrierAttacked(PlayerControl source, PlayerControl cleric, PlayerControl shielded)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
+        if (cleric.Data.Role is not ClericRole)
+        {
+            Error("RpcClericBarrierAttacked - Invalid cleric");
+            return;
+        }
+
+        if (PlayerControl.LocalPlayer.PlayerId == source.PlayerId ||
+            (PlayerControl.LocalPlayer.PlayerId == cleric.PlayerId &&
+             OptionGroupSingleton<ClericOptions>.Instance.AttackNotif))
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Cleric));
+        }
+    }
+}

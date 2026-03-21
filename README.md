@@ -53,133 +53,133 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 <p align="center">
   <img src="./Images/Groups/CrewInvest.png" align="center" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Aurial"><img width="10%" src="./Images/RoleIcons/Aurial.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Forensic"><img width="10%" src="./Images/RoleIcons/Forensic.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Haunter"><img width="10%" src="./Images/RoleIcons/Haunter.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Investigator"><img width="10%" src="./Images/RoleIcons/Investigator.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Lookout"><img width="10%" src="./Images/RoleIcons/Lookout.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Medium"><img width="10%" src="./Images/RoleIcons/Medium.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Mystic"><img width="10%" src="./Images/RoleIcons/Mystic.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Seer"><img width="10%" src="./Images/RoleIcons/Seer.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Snitch"><img width="10%" src="./Images/RoleIcons/Snitch.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Sonar"><img width="10%" src="./Images/RoleIcons/Sonar.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Spy"><img width="10%" src="./Images/RoleIcons/Spy.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Trapper"><img width="10%" src="./Images/RoleIcons/Trapper.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Aurial"><img width="10%" src="./Images/Icons/Aurial.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Forensic"><img width="10%" src="./Images/Icons/Forensic.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/afterlife/Haunter"><img width="10%" src="./Images/Icons/Haunter.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Investigator"><img width="10%" src="./Images/Icons/Investigator.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Lookout"><img width="10%" src="./Images/Icons/Lookout.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Medium"><img width="10%" src="./Images/Icons/Medium.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Mystic"><img width="10%" src="./Images/Icons/Mystic.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Seer"><img width="10%" src="./Images/Icons/Seer.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Snitch"><img width="10%" src="./Images/Icons/Snitch.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Sonar"><img width="10%" src="./Images/Icons/Sonar.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Spy"><img width="10%" src="./Images/Icons/Spy.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/investigative/Trapper"><img width="10%" src="./Images/Icons/Trapper.png" /></a>
   <img src="./Images/Groups/CrewKilling.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Deputy"><img width="10%" src="./Images/RoleIcons/Deputy.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Hunter"><img width="10%" src="./Images/RoleIcons/Hunter.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Sheriff"><img width="10%" src="./Images/RoleIcons/Sheriff.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Veteran"><img width="10%" src="./Images/RoleIcons/Veteran.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Vigilante"><img width="10%" src="./Images/RoleIcons/Vigilante.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Deputy"><img width="10%" src="./Images/Icons/Deputy.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Hunter"><img width="10%" src="./Images/Icons/Hunter.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Sheriff"><img width="10%" src="./Images/Icons/Sheriff.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Veteran"><img width="10%" src="./Images/Icons/Veteran.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/killing/Vigilante"><img width="10%" src="./Images/Icons/Vigilante.png" /></a>
   <img src="./Images/Groups/CrewPower.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Jailor"><img width="10%" src="./Images/RoleIcons/Jailor.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Mayor"><img width="10%" src="./Images/RoleIcons/Mayor.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Monarch"><img width="10%" src="./Images/RoleIcons/Monarch.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Politician"><img width="10%" src="./Images/RoleIcons/Politician.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Prosecutor"><img width="10%" src="./Images/RoleIcons/Prosecutor.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Swapper"><img width="10%" src="./Images/RoleIcons/Swapper.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Time%20Lord"><img width="10%" src="./Images/RoleIcons/TimeLord.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Jailor"><img width="10%" src="./Images/Icons/Jailor.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Mayor"><img width="10%" src="./Images/Icons/Mayor.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Monarch"><img width="10%" src="./Images/Icons/Monarch.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Politician"><img width="10%" src="./Images/Icons/Politician.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Prosecutor"><img width="10%" src="./Images/Icons/Prosecutor.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Swapper"><img width="10%" src="./Images/Icons/Swapper.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/power/Time%20Lord"><img width="10%" src="./Images/Icons/TimeLord.png" /></a>
   <img src="./Images/Groups/CrewProtect.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Altruist"><img width="10%" src="./Images/RoleIcons/Altruist.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Cleric"><img width="10%" src="./Images/RoleIcons/Cleric.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Medic"><img width="10%" src="./Images/RoleIcons/Medic.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Mirrorcaster"><img width="10%" src="./Images/RoleIcons/Mirrorcaster.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Oracle"><img width="10%" src="./Images/RoleIcons/Oracle.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Warden"><img width="10%" src="./Images/RoleIcons/Warden.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Altruist"><img width="10%" src="./Images/Icons/Altruist.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Cleric"><img width="10%" src="./Images/Icons/Cleric.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Medic"><img width="10%" src="./Images/Icons/Medic.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Mirrorcaster"><img width="10%" src="./Images/Icons/Mirrorcaster.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Oracle"><img width="10%" src="./Images/Icons/Oracle.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/protective/Warden"><img width="10%" src="./Images/Icons/Warden.png" /></a>
   <img src="./Images/Groups/CrewSupport.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Engineer"><img width="10%" src="./Images/RoleIcons/Engineer.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Imitator"><img width="10%" src="./Images/RoleIcons/Imitator.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Plumber"><img width="10%" src="./Images/RoleIcons/Plumber.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Sentry"><img width="10%" src="./Images/RoleIcons/Sentry.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Transporter"><img width="10%" src="./Images/RoleIcons/Transporter.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Engineer"><img width="10%" src="./Images/Icons/Engineer.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Imitator"><img width="10%" src="./Images/Icons/Imitator.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Plumber"><img width="10%" src="./Images/Icons/Plumber.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Sentry"><img width="10%" src="./Images/Icons/Sentry.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/crewmate/support/Transporter"><img width="10%" src="./Images/Icons/Transporter.png" /></a>
   <img src="./Images/Groups/ImpConcealing.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Eclipsal"><img width="10%" src="./Images/RoleIcons/Eclipsal.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Escapist"><img width="10%" src="./Images/RoleIcons/Escapist.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Grenadier"><img width="10%" src="./Images/RoleIcons/Grenadier.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Morphling"><img width="10%" src="./Images/RoleIcons/Morphling.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Swooper"><img width="10%" src="./Images/RoleIcons/Swooper.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Venerer"><img width="10%" src="./Images/RoleIcons/Venerer.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Eclipsal"><img width="10%" src="./Images/Icons/Eclipsal.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Escapist"><img width="10%" src="./Images/Icons/Escapist.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Grenadier"><img width="10%" src="./Images/Icons/Grenadier.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Morphling"><img width="10%" src="./Images/Icons/Morphling.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Swooper"><img width="10%" src="./Images/Icons/Swooper.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/concealing/Venerer"><img width="10%" src="./Images/Icons/Venerer.png" /></a>
   <img src="./Images/Groups/ImpKilling.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Ambusher"><img width="10%" src="./Images/RoleIcons/Ambusher.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Bomber"><img width="10%" src="./Images/RoleIcons/Bomber.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Parasite"><img width="10%" src="./Images/RoleIcons/Parasite.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Scavenger"><img width="10%" src="./Images/RoleIcons/Scavenger.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Warlock"><img width="10%" src="./Images/RoleIcons/Warlock.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Ambusher"><img width="10%" src="./Images/Icons/Ambusher.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Bomber"><img width="10%" src="./Images/Icons/Bomber.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Parasite"><img width="10%" src="./Images/Icons/Parasite.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Scavenger"><img width="10%" src="./Images/Icons/Scavenger.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Warlock"><img width="10%" src="./Images/Icons/Warlock.png" /></a>
   <img src="./Images/Groups/ImpPower.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Bomber"><img width="10%" src="./Images/RoleIcons/Ambassador.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Puppeteer"><img width="10%" src="./Images/RoleIcons/Puppeteer.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Spellslinger"><img width="10%" src="./Images/RoleIcons/Spellslinger.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Traitor"><img width="10%" src="./Images/RoleIcons/Traitor.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Ambassador"><img width="10%" src="./Images/Icons/Ambassador.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Puppeteer"><img width="10%" src="./Images/Icons/Puppeteer.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Spellslinger"><img width="10%" src="./Images/Icons/Spellslinger.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Traitor"><img width="10%" src="./Images/Icons/Traitor.png" /></a>
   <img src="./Images/Groups/ImpSupport.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Blackmailer"><img width="10%" src="./Images/RoleIcons/Blackmailer.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Hypnotist"><img width="10%" src="./Images/RoleIcons/Hypnotist.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Janitor"><img width="10%" src="./Images/RoleIcons/Janitor.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Miner"><img width="10%" src="./Images/RoleIcons/Miner.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Undertaker"><img width="10%" src="./Images/RoleIcons/Undertaker.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Blackmailer"><img width="10%" src="./Images/Icons/Blackmailer.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Hypnotist"><img width="10%" src="./Images/Icons/Hypnotist.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Janitor"><img width="10%" src="./Images/Icons/Janitor.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Miner"><img width="10%" src="./Images/Icons/Miner.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Undertaker"><img width="10%" src="./Images/Icons/Undertaker.png" /></a>
 
   <img src="./Images/Groups/NeutBenign.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Amnesiac"><img width="10%" src="./Images/RoleIcons/Amnesiac.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Fairy"><img width="10%" src="./Images/RoleIcons/Fairy.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Mercenary"><img width="10%" src="./Images/RoleIcons/Mercenary.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Survivor"><img width="10%" src="./Images/RoleIcons/Survivor.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Amnesiac"><img width="10%" src="./Images/Icons/Amnesiac.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Fairy"><img width="10%" src="./Images/Icons/Fairy.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Mercenary"><img width="10%" src="./Images/Icons/Mercenary.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/benign/Survivor"><img width="10%" src="./Images/Icons/Survivor.png" /></a>
   <img src="./Images/Groups/NeutEvil.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Doomsayer"><img width="10%" src="./Images/RoleIcons/Doomsayer.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Executioner"><img width="10%" src="./Images/RoleIcons/Executioner.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Jester"><img width="10%" src="./Images/RoleIcons/Jester.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Spectre"><img width="10%" src="./Images/RoleIcons/Spectre.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Doomsayer"><img width="10%" src="./Images/Icons/Doomsayer.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Executioner"><img width="10%" src="./Images/Icons/Executioner.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/evil/Jester"><img width="10%" src="./Images/Icons/Jester.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/afterlife/Spectre"><img width="10%" src="./Images/Icons/Spectre.png" /></a>
   <img src="./Images/Groups/NeutKilling.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Arsonist"><img width="10%" src="./Images/RoleIcons/Arsonist.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Glitch"><img width="10%" src="./Images/RoleIcons/Glitch.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Juggernaut"><img width="10%" src="./Images/RoleIcons/Juggernaut.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Plaguebearer"><img width="10%" src="./Images/RoleIcons/Plaguebearer.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Pestilence"><img width="10%" src="./Images/RoleIcons/Pestilence.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Soul%20Collector"><img width="10%" src="./Images/RoleIcons/SoulCollector.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Vampire"><img width="10%" src="./Images/RoleIcons/Vampire.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Werewolf"><img width="10%" src="./Images/RoleIcons/Werewolf.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Arsonist"><img width="10%" src="./Images/Icons/Arsonist.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Glitch"><img width="10%" src="./Images/Icons/Glitch.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Juggernaut"><img width="10%" src="./Images/Icons/Juggernaut.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Plaguebearer"><img width="10%" src="./Images/Icons/Plaguebearer.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Pestilence"><img width="10%" src="./Images/Icons/Pestilence.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Soul%20Collector"><img width="10%" src="./Images/Icons/SoulCollector.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Vampire"><img width="10%" src="./Images/Icons/Vampire.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/killing/Werewolf"><img width="10%" src="./Images/Icons/Werewolf.png" /></a>
   <img src="./Images/Groups/NeutOutlier.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/outlier/Chef"><img width="10%" src="./Images/RoleIcons/Chef.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/outlier/Inquisitor"><img width="10%" src="./Images/RoleIcons/Inquisitor.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/outlier/Chef"><img width="10%" src="./Images/Icons/Chef.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/neutral/outlier/Inquisitor"><img width="10%" src="./Images/Icons/Inquisitor.png" /></a>
 
   <img src="./Images/Groups/AllianceMods.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Crewpostor"><img width="10%" src="./Images/ModifierIcons/Crewpostor.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Egotist"><img width="10%" src="./Images/ModifierIcons/Egotist.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Lovers"><img width="10%" src="./Images/ModifierIcons/Lover.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Crewpostor"><img width="10%" src="./Images/Icons/Crewpostor.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Egotist"><img width="10%" src="./Images/Icons/Egotist.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/alliance/Lovers"><img width="10%" src="./Images/Icons/Lover.png" /></a>
   <img src="./Images/Groups/CrewMods.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Aftermath"><img width="10%" src="./Images/ModifierIcons/Aftermath.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Bait"><img width="10%" src="./Images/ModifierIcons/Bait.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Celebrity"><img width="10%" src="./Images/ModifierIcons/Celebrity.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Diseased"><img width="10%" src="./Images/ModifierIcons/Diseased.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Frosty"><img width="10%" src="./Images/ModifierIcons/Frosty.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Investigator"><img width="10%" src="./Images/RoleIcons/Investigator.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Multitasker"><img width="10%" src="./Images/ModifierIcons/Multitasker.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Noisemaker"><img width="10%" src="./Images/ModifierIcons/Noisemaker.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Operative"><img width="10%" src="./Images/ModifierIcons/Operative.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Rotting"><img width="10%" src="./Images/ModifierIcons/Rotting.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Scientist"><img width="10%" src="./Images/ModifierIcons/Scientist.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Scout"><img width="10%" src="./Images/ModifierIcons/Scout.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Spy"><img width="10%" src="./Images/RoleIcons/Spy.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Taskmaster"><img width="10%" src="./Images/ModifierIcons/Taskmaster.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Torch"><img width="10%" src="./Images/ModifierIcons/Torch.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Aftermath"><img width="10%" src="./Images/Icons/Aftermath.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Bait"><img width="10%" src="./Images/Icons/Bait.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Celebrity"><img width="10%" src="./Images/Icons/Celebrity.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Diseased"><img width="10%" src="./Images/Icons/Diseased.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Frosty"><img width="10%" src="./Images/Icons/Frosty.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Investigator"><img width="10%" src="./Images/Icons/Investigator.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Multitasker"><img width="10%" src="./Images/Icons/Multitasker.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Noisemaker"><img width="10%" src="./Images/Icons/Noisemaker.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Operative"><img width="10%" src="./Images/Icons/Operative.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Rotting"><img width="10%" src="./Images/Icons/Rotting.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Scientist"><img width="10%" src="./Images/Icons/Scientist.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Scout"><img width="10%" src="./Images/Icons/Scout.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Spy"><img width="10%" src="./Images/Icons/Spy.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Taskmaster"><img width="10%" src="./Images/Icons/Taskmaster.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/crewmate/Torch"><img width="10%" src="./Images/Icons/Torch.png" /></a>
   <img src="./Images/Groups/ImpMods.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Circumvent"><img width="10%" src="./Images/ModifierIcons/Circumvent.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Deadly%20Quota"><img width="10%" src="./Images/ModifierIcons/DeadlyQuota.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Disperser"><img width="10%" src="./Images/ModifierIcons/Disperser.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Double%20Shot"><img width="10%" src="./Images/ModifierIcons/DoubleShot.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Saboteur"><img width="10%" src="./Images/ModifierIcons/Saboteur.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Telepath"><img width="10%" src="./Images/ModifierIcons/Telepath.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Underdog"><img width="10%" src="./Images/ModifierIcons/Underdog.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Circumvent"><img width="10%" src="./Images/Icons/Circumvent.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Deadly%20Quota"><img width="10%" src="./Images/Icons/DeadlyQuota.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Disperser"><img width="10%" src="./Images/Icons/Disperser.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Double%20Shot"><img width="10%" src="./Images/Icons/DoubleShot.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Saboteur"><img width="10%" src="./Images/Icons/Saboteur.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Telepath"><img width="10%" src="./Images/Icons/Telepath.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/impostor/Underdog"><img width="10%" src="./Images/Icons/Underdog.png" /></a>
   <img src="./Images/Groups/UniMods.png" />
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Button%20Barry"><img width="10%" src="./Images/ModifierIcons/ButtonBarry.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Flash"><img width="10%" src="./Images/ModifierIcons/Flash.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Giant"><img width="10%" src="./Images/ModifierIcons/Giant.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Immovable"><img width="10%" src="./Images/ModifierIcons/Immovable.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Mini"><img width="10%" src="./Images/ModifierIcons/Mini.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Radar"><img width="10%" src="./Images/ModifierIcons/Radar.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Satellite"><img width="10%" src="./Images/ModifierIcons/Satellite.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Shy"><img width="10%" src="./Images/ModifierIcons/Shy.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Sixth%20Sense"><img width="10%" src="./Images/ModifierIcons/SixthSense.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Sleuth"><img width="10%" src="./Images/ModifierIcons/Sleuth.png" /></a>
-  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Tiebreaker"><img width="10%" src="./Images/ModifierIcons/Tiebreaker.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Button%20Barry"><img width="10%" src="./Images/Icons/ButtonBarry.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Flash"><img width="10%" src="./Images/Icons/Flash.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Giant"><img width="10%" src="./Images/Icons/Giant.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Immovable"><img width="10%" src="./Images/Icons/Immovable.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Mini"><img width="10%" src="./Images/Icons/Mini.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Radar"><img width="10%" src="./Images/Icons/Radar.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Satellite"><img width="10%" src="./Images/Icons/Satellite.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Shy"><img width="10%" src="./Images/Icons/Shy.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Sixth%20Sense"><img width="10%" src="./Images/Icons/SixthSense.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Sleuth"><img width="10%" src="./Images/Icons/Sleuth.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/modifiers/universal/Tiebreaker"><img width="10%" src="./Images/Icons/Tiebreaker.png" /></a>
 </p>
 
 -----------------------
@@ -190,25 +190,26 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 **Note: Due to differing releases on PC and Android, any version that has an x in its version means that it works for that minor release for both platforms.**
 
-| Among Us          | Mod Version | Download Link                                                           |
-|-------------------|-------------|-------------------------------------------------------------------------|
-| 17.1 and 17.2.1   | 1.5.4       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
-| 17.1.x            | 1.5.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3)  |
-| 17.1.x            | 1.5.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
-| 17.1.x            | 1.5.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
-| 17.1.x            | 1.5.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
-| 17.1.x            | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
-| 17.1.x            | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
-| 17.0.1            | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
-| 17.0.0            | 1.3.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
-| 17.0.0            | 1.2.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
-| 17.0.0            | 1.2.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
-| 16.0.5            | 1.1.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
-| 16.0.5            | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
-| 16.0.5            | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
-| 16.0.5            | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
-| 16.0.5            | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
-| 16.0.5            | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
+| Among Us        | Mod Version | Download Link                                                           |
+|-----------------|-------|-------------------------------------------------------------------------|
+| 17.2.x          | 1.5.9 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
+| 17.1 and 17.2.1 | 1.5.4 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
+| 17.1.x          | 1.5.3 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3)  |
+| 17.1.x          | 1.5.2 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
+| 17.1.x          | 1.5.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
+| 17.1.x          | 1.5.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
+| 17.1.x          | 1.4.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
+| 17.1.x          | 1.4.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
+| 17.0.1          | 1.3.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
+| 17.0.0          | 1.3.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
+| 17.0.0          | 1.2.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
+| 17.0.0          | 1.2.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
+| 16.0.5          | 1.1.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
+| 16.0.5          | 1.1.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
+| 16.0.5          | 1.0.5 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
+| 16.0.5          | 1.0.2 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
+| 16.0.5          | 1.0.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
+| 16.0.5          | 1.0.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
 
 -----------------------
 
@@ -243,13 +244,45 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 
 # Contributions & Credits
 
-> [!NOTE]
-> If you wish to make an Extension Mod that builds on top of TOU Mira, you may look at [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)'s Example Mod or the official [Example Mod](https://github.com/AU-Avengers/TouExtensionExample).
+[MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI) - The primary framework of the mod\
+[Zeo666](https://github.com/Zeo666) - For implementing the Game Timer mechanic.\
+[le killer](https://github.com/lekillerdesgames) - For implementing the split faction chat.\
+[AlchlcDvl](https://github.com/AlchlcDvl) - For implementing the Spectator feature.\
+[xChipseq](https://github.com/xChipseq) - For implementing the wiki hyperlinks feature for chat.\
+[Amber](https://github.com/Nix-main) - For helping on the translation system.\
+[IdkImNeil](https://github.com/neilmjain) - For implementing the /rules system.\
+[rewalo](https://github.com/rewalo) - FOr implementing host keybinds, improving anticheat, as well as adding Time Lord, Sentry and Parasite.\
+[ItzLoonie](https://github.com/ItzLoonie) - For the original implementations of the reworked Seer, Monarch, and Spellslinger roles. Also implemented Deadly Quota and Circumvent modifiers.\
+[Unlock dlekS](https://github.com/Tommy-XL/Unlock-dlekS-ehT) - For the dlekS reimplementation.\
+[Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) - For the original Discord Status patch.\
+[Better Among Us](https://github.com/D1GQ/BetterAmongUs) - For the original Splash Intro patch.\
+[AutoRejoin](https://github.com/Maxi0fc/AutoRejoin) - For the original implementation of Auto Rejoin.
 
+> [!NOTE]
+> The following credits originate from the original TOU/TOUR repositories.
+
+[Reactor](https://github.com/NuclearPowered/Reactor) - Dependency for the mod\
+[BepInEx](https://github.com/BepInEx) - For hooking game functions\
+[Among-Us-Sheriff-Mod](https://github.com/Woodi-dev/Among-Us-Sheriff-Mod) - For the Sheriff role.\
+[Among-Us-Love-Couple-Mod](https://github.com/Woodi-dev/Among-Us-Love-Couple-Mod) - For the inspiration of Lovers role.\
+[ExtraRolesAmongUs](https://github.com/NotHunter101/ExtraRolesAmongUs) - For the Engineer & Medic roles.\
+[TooManyRolesMods](https://github.com/Hardel-DW/TooManyRolesMods) - For the Investigator & Time Lord roles.\
+[TorchMod](https://github.com/tomozbot/TorchMod) - For the inspiration of the Torch modifier.\
+[XtraCube](https://github.com/XtraCube) - For the Rainbow color.\
+[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - For the inspiration of the Vigilante, Sonar (formerly Tracker) and Spy roles, as well as the Bait modifier.\
+[5up](https://www.twitch.tv/5uppp) and the Submarine Team - For the inspiration of the Grenadier role.\
+[MyDragonBreath](https://github.com/MyDragonBreath) - For Submerged Compatibility, the Trapper and Aurial roles, and the Aftermath modifier\
+[ItsTheNumberH](https://github.com/itsTheNumberH/Town-Of-H) - For the code used for Blind, Bait, Poisoner and partially for Sonar, as well as other bug fixes.\
+[Ruiner](https://github.com/ruiner189/Town-Of-Us-Redux) - For lovers changed into a modifier and Task Tracking.\
+[Term](https://www.twitch.tv/termboii) - For creating Transporter, Medium, Blackmailer, Plaguebearer, Sleuth, Multitasker.\
+[BryBry16](https://github.com/Brybry16/BetterPolus) - For the code used for Better Polus.
 
 -----------------------
 
 # Mod Compatibility
+
+> [!NOTE]
+> If you wish to make an Extension Mod that builds on top of TOU Mira, you may look at [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)'s Example Mod or the official [Example Mod](https://github.com/AU-Avengers/TouExtensionExample).
 
 **Disclaimer: This mod compatibility list can and will change over time.**
 
@@ -257,11 +290,11 @@ If a mod is missing here and is a role/modifiers mod, it likely won't work unles
 
 |                                    Mod                                    | Support | Notes                                                                                            |
 |:-------------------------------------------------------------------------:|:-------:|:-------------------------------------------------------------------------------------------------|
-|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         | ✅ | Custom Door Types cannot be adjusted fully.                                                      |
-|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        | ✅ | Custom Door Types cannot be changed.                                                             |
-|             [NewMod](https://github.com/CallOfCreator/NewMod)             | ✅ | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                 |
-| [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) | ✅ | Launchpad tags overlap with Tou player names.<br/>Wiki is not fully implemented.                 |
-|     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      | ⚠️ | Mod is non-functional on new Among Us releases at the moment.<br/>Wiki is not fully implemented. |
+|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         |    ✅    | Custom Door Types cannot be adjusted fully.                                                      |
+|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        |    ✅    | Custom Door Types cannot be changed.                                                             |
+|             [NewMod](https://github.com/CallOfCreator/NewMod)             |    ✅    | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                 |
+| [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) |   ⚠️    | Launchpad's Gambler role is broken with TOU Mira.<br/>Wiki is not fully implemented.             |
+|     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      |   ⚠️    | Mod is non-functional on new Among Us releases at the moment.<br/>Wiki is not fully implemented. |
 
 The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers!
 

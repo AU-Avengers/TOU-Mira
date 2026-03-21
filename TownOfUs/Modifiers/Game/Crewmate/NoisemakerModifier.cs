@@ -30,7 +30,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
                + MiscUtils.AppendOptionsText(GetType());
     }
 
-    public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Noisemaker;
+    public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Noisemaker;
     public override Color FreeplayFileColor => new Color32(140, 255, 255, 255);
 
     public override ModifierFaction FactionType => ModifierFaction.CrewmatePostmortem;
