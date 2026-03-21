@@ -49,6 +49,8 @@ public static class HudManagerPatches
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
+    
+    private static float _targetZoom = -1f;
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
@@ -74,11 +76,10 @@ public static class HudManagerPatches
 
         var instance = HudManager.Instance;
         if (Camera.main != null)
-            Camera.main.orthographicSize = size; // setting size for the main camera
+            Camera.main.orthographicSize = size;
 
         if (instance.UICamera != null)
-            instance.UICamera.orthographicSize =
-                size; // setting size for the ui camera as well. thanku pietro for the help :)
+            instance.UICamera.orthographicSize = size; 
 
         if (size <= 3f)
         {
@@ -96,7 +97,7 @@ public static class HudManagerPatches
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
 
-        RefreshUIAnchors(); // new function. Don't ban me :sob:
+        RefreshUIAnchors(); 
     }
 
     public static void ButtonClickZoom()
@@ -107,7 +108,7 @@ public static class HudManagerPatches
             return;
         }
 
-        AdjustCameraSize(!Zooming ? 12f : 3f);
+        _targetZoom = !Zooming ? 12f : 3f;
     }
 
     public static void ScrollZoom(bool zoomOut = false)
@@ -126,7 +127,7 @@ public static class HudManagerPatches
             return;
         }
 
-        AdjustCameraSize(size);
+        _targetZoom = size;
     }
 
     public static void ResetZoom()
@@ -1088,15 +1089,44 @@ public static class HudManagerPatches
             return;
         }
 
+        if (_targetZoom < 0f && Camera.main != null)
+        {
+            _targetZoom = Camera.main.orthographicSize;
+        }
+
         CreateZoomButton(__instance);
         CreateWikiButton(__instance);
 
         UpdateRoleList(__instance);
         UpdateTeamChat();
 
+        if (MeetingHud.Instance || ExileController.Instance)
+        {
+            if (Camera.main != null)
+                _targetZoom = Camera.main.orthographicSize;
+        
+            return;
+        }
+
         if (CanZoom)
         {
             CheckForScrollZoom();
+
+            if (_targetZoom > 0f && Camera.main != null)
+            {
+                float current = Camera.main.orthographicSize;
+            
+                float newZoom = Mathf.Lerp(
+                    current,
+                    _targetZoom,
+                    Time.deltaTime * 40f
+                );
+            
+                if (Mathf.Abs(newZoom - _targetZoom) < 0.02f)
+                    newZoom = _targetZoom;
+            
+                AdjustCameraSize(newZoom);
+            }
         }
 
         if (PlayerControl.LocalPlayer.Data.Role == null ||
