@@ -282,6 +282,11 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [MethodRpc((uint)TownOfUsRpc.PlumberFlush)]
     public static void RpcPlumberFlush(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not PlumberRole)
         {
             Error("RpcPlumberFlush - Invalid Plumber");
@@ -317,6 +322,11 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [MethodRpc((uint)TownOfUsRpc.PlumberBlockVent)]
     public static void RpcPlumberBlockVent(PlayerControl player, int ventId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not PlumberRole plumber)
         {
             Error("RpcPlumberBlockVent - Invalid Plumber");

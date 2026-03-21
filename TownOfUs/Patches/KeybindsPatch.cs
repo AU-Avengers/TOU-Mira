@@ -36,6 +36,11 @@ public static class Bindings
             Error($"{host.Data.PlayerName} tried to start a meeting when they were not the host!");
             return;
         }
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(host);
+            return;
+        }
 
         if (host.AmOwner)
         {
@@ -56,6 +61,11 @@ public static class Bindings
         if (!host.IsHost())
         {
             Error($"{host.Data.PlayerName} tried to end the meeting when they were not the host!");
+            return;
+        }
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(host);
             return;
         }
 

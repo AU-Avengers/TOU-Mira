@@ -191,7 +191,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
             if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
             {
-                OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
+                OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
                 MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
 

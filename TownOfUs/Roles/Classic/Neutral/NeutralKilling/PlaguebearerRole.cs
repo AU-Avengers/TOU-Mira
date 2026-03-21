@@ -200,6 +200,11 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.CheckInfected)]
     public static void RpcCheckInfected(PlayerControl source, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         CheckInfected(source, target);
     }
 }

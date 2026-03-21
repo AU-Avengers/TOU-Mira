@@ -14,6 +14,12 @@
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
   <string name="ShowSummaryMessage">Show Summary Msg</string>
   <string name="ShowPracticeButtons">Show Practice Buttons</string>
+  <string name="AutoRejoinDelay">Auto Rejoin Delay</string>
+  <string name="AutoRejoinSelection">Auto Rejoin</string>
+  <string name="EndRejoinAlways">Always</string>
+  <string name="EndRejoinHost">As Host</string>
+  <string name="EndRejoinClient">As Client</string>
+  <string name="EndRejoinNever">Never</string>
   <string name="ZoomingInLobby">Zoom In Lobby</string>
   <string name="ShowRoleIconOnRoleTab">Icon On Role Tab</string>
   <string name="RainbowColorAsFortegreen">Rainbow Color As Fortegreen</string>
@@ -36,6 +42,10 @@
   <string name="SummarySimple">Simplified</string>
   <string name="SummaryNormal">Normal</string>
   <string name="SummaryAdvanced">Advanced</string>
+  <string name="EndSummaryVisibility">End Summary Visibility</string>
+  <string name="EndSumLeftSide">Left-Side</string>
+  <string name="EndSumSplit">Split</string>
+  <string name="EndSumHidden">Hidden</string>
   <string name="GrenadierFlashColor">Grenadier Flash Color</string>
   <string name="FlashWhite">White</string>
   <string name="FlashLightGray">Light Gray</string>
@@ -279,7 +289,7 @@
   <string name="JaileeChatTitle">\%player\% (Jailed)</string>
   <string name="SystemChatTitle">System</string>
   <string name="AnticheatChatTitle">Anticheat System</string>
-  <string name="AnticheatKillMessage">A kill was attempted in the lobby, attached to \%player\%.</string>
+  <string name="AnticheatIllegalRpcMessage">A non-lobby feature/ability was run by \%player\%. They may be cheating/exploiting.</string>
   <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
   <string name="AnticheatKickMissingMessage">\%player\% is missing these mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
@@ -302,6 +312,9 @@
   <string name="SetNameSimilarError">Another player has a name too similar to \%name\%! Please try a different name.</string>
   <string name="SetNameSuccess">Changed player name for the next match to: \%name\%.</string>
   <string name="WelcomeMessageBlurb">Welcome to Town of Us Mira v\%modVersion\%!\%nl\%Use the wiki (the globe icon) to get more info on roles or modifiers, where you can use the searchbar. Otherwise, use /help in the chat to get a list of commands.\%nl\%You may disable this message through your option menu.</string>
+  <string name="InfoCommandList">info</string>
+  <string name="InfoCommandDescription">/info - Replay the most recent role information message you received</string>
+  <string name="InfoCommandNoInfo">You do not have any role information available to replay.</string>
   <string name="HelpCommandList">help:support:command:commands:guide</string>
   <string name="HelpMessageTitle">Chat Commands:</string>
   <string name="HelpCommandDescription">/help - Shows this message</string>
@@ -324,7 +337,7 @@
   <string name="UpCommandSuccessOther">Successfully requested role: \%role\% for player '\%player\%' next game.</string>
   <string name="UpCommandSuccessGlobal">Host requested role for player '\%player\%' next game.</string>
   <string name="RulesCommandList">rules</string>
-  <string name="RulesMessageTitle">System</string>
+  <string name="RulesMessageTitle">Lobby Rules</string>
   <string name="RulesMissingError">Host has no rules saved.</string>
   <string name="RulesShowHostError">You must be the host to use /rules show.</string>
   <string name="ShowRulesOnLobbyJoin">Show Rules On Lobby Join</string>
@@ -1380,7 +1393,7 @@
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
   <string name="TouOptionTrapperMaxNumberOfTraps">Initial Number Of Traps</string>
   <string name="TouOptionTrapperTrapSize">Trap Size</string>
-  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Reset After Each Round</string>
   <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
   <!-- Trapper Feedback -->

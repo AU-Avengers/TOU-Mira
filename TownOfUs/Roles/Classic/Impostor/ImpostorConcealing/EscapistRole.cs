@@ -97,6 +97,11 @@ public sealed class EscapistRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Recall)]
     public static void RpcRecall(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not EscapistRole)
         {
             Error("RpcRecall - Invalid escapist");
@@ -110,6 +115,11 @@ public sealed class EscapistRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.MarkLocation)]
     public static void RpcMarkLocation(PlayerControl player, Vector2 pos)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not EscapistRole henry)
         {
             Error("RpcRecall - Invalid escapist");

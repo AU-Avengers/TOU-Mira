@@ -327,12 +327,12 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
                         if (role2 == lastRole)
                         {
                             reportBuilder.Append(TownOfUsPlugin.Culture,
-                                $"#{lastRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
+                                $"{MiscUtils.GetHyperlinkText(lastRole)})");
                         }
                         else
                         {
                             reportBuilder.Append(TownOfUsPlugin.Culture,
-                                $"#{role2.GetRoleName().ToLowerInvariant().Replace(" ", "-")}, ");
+                                $"{MiscUtils.GetHyperlinkText(role2)}, ");
                         }
                     }
                 }
@@ -394,6 +394,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.AddInquisTarget)]
     public static void RpcAddInquisTarget(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not InquisitorRole)
         {
             Error("RpcAddInquisTarget - Invalid Inquisitor");
@@ -420,6 +425,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.InquisitorWin)]
     public static void RpcInquisitorWin(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         InquisitorWin(player);
     }
 

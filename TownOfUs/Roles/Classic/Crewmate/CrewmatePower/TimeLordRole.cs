@@ -54,6 +54,11 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.TimeLordRewind)]
     public static void RpcStartRewind(PlayerControl timeLord)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(timeLord);
+            return;
+        }
         var isTimeLordRole = timeLord.Data?.Role is TimeLordRole;
         var hasTestModifier = timeLord.HasModifier<TestTimeLordModifier>();
 
@@ -141,6 +146,11 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
     [MethodRpc((uint)TownOfUsRpc.TimeLordRewindRevive)]
     public static void RpcRewindRevive(PlayerControl revived)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(revived);
+            return;
+        }
         if (!revived)
         {
             return;
@@ -156,6 +166,11 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         {
             return;
         }
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(sender);
+            return;
+        }
 
         TimeLordRewindSystem.UndoTask(targetPlayerId, taskId);
     }
@@ -165,6 +180,11 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
     {
         if (sender == null)
         {
+            return;
+        }
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(sender);
             return;
         }
 

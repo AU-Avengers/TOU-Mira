@@ -108,6 +108,11 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Remember)]
     public static void RpcRemember(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not AmnesiacRole)
         {
             Error("RpcRemember - Invalid amnesiac");

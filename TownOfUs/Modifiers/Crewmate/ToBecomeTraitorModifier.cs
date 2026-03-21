@@ -88,6 +88,11 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     [MethodRpc((uint)TownOfUsRpc.SetTraitor)]
     public static void RpcSetTraitor(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (!player.HasModifier<ToBecomeTraitorModifier>() && !player.HasModifier<CrewpostorModifier>())
         {
             return;

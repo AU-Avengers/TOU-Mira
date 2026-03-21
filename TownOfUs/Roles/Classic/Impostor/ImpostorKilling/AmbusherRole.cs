@@ -124,6 +124,11 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.AmbushPlayer)]
     public static void RpcAmbushPlayer(PlayerControl ambusher, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(ambusher);
+            return;
+        }
         if (ambusher.Data.Role is not AmbusherRole)
         {
             Error("RpcAmbushPlayer - Invalid ambusher");

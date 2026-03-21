@@ -90,6 +90,11 @@ public sealed class MinerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.PlaceVent)]
     public static void RpcPlaceVent(PlayerControl player, int ventId, Vector2 position, float zAxis, bool immediate)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not MinerRole miner)
         {
             Error("RpcPlaceVent - Invalid miner");
@@ -196,6 +201,11 @@ public sealed class MinerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.ShowVent)]
     public static void RpcShowVent(PlayerControl player, int ventId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not MinerRole miner)
         {
             Error("RpcShowVent - Invalid miner");

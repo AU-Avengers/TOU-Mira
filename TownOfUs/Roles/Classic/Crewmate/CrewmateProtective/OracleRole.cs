@@ -155,6 +155,11 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.OracleConfess)]
     public static void RpcOracleConfess(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         var mod = ModifierUtils.GetActiveModifiers<OracleConfessModifier>(x => x.Oracle == player).FirstOrDefault();
 
         if (mod != null)
@@ -166,6 +171,11 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.OracleBless)]
     public static void RpcOracleBless(PlayerControl exiled)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(exiled);
+            return;
+        }
         // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
         var mod = exiled.GetModifier<OracleBlessedModifier>();
 
@@ -177,8 +187,13 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify)]
-    public static void RpcOracleBlessNotify(PlayerControl oracle, PlayerControl source, PlayerControl target)
+    public static void RpcOracleBlessNotify(PlayerControl source, PlayerControl oracle, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (oracle.Data.Role is not OracleRole || !source.AmOwner && !oracle.AmOwner)
         {
             Error("RpcOracleBlessNotify - Invalid oracle");

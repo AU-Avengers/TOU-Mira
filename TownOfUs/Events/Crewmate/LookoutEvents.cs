@@ -82,6 +82,6 @@ public static class LookoutEvents
             return;
         }
 
-        LookoutRole.RpcSeePlayer(target, source);
+        LookoutRole.RpcSeePlayer(source, target);
     }
 }

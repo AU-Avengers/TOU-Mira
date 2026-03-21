@@ -583,6 +583,11 @@ public static class Extensions
     [MethodRpc((uint)TownOfUsRpc.CatchGhost)]
     public static void RpcCatchGhost(this PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is IGhostRole ghost)
         {
             ghost.Clicked();

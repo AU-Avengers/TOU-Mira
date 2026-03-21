@@ -135,6 +135,11 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.VampireBite)]
     public static void RpcVampireBite(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not VampireRole)
         {
             Error("RpcVampireBite - Invalid vampire");

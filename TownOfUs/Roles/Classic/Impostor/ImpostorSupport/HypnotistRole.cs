@@ -152,6 +152,11 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Hysteria)]
     public static void RpcHysteria(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not HypnotistRole)
         {
             Error("RpcHysteria - Invalid hypnotist");

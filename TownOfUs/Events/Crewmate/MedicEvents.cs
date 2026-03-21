@@ -177,7 +177,7 @@ public static class MedicEvents
 
         if (medic != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            MedicRole.RpcMedicShieldAttacked(medic.Player, source, target);
+            MedicRole.RpcMedicShieldAttacked(source, medic.Player, target);
         }
 
         return true;

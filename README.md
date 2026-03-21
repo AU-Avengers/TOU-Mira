@@ -191,25 +191,25 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 **Note: Due to differing releases on PC and Android, any version that has an x in its version means that it works for that minor release for both platforms.**
 
 | Among Us        | Mod Version | Download Link                                                           |
-|-----------------|-------------|-------------------------------------------------------------------------|
-| 17.2.x          | 1.6.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0)  |
-| 17.1 and 17.2.1 | 1.5.4       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
-| 17.1.x          | 1.5.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3)  |
-| 17.1.x          | 1.5.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
-| 17.1.x          | 1.5.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
-| 17.1.x          | 1.5.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
-| 17.1.x          | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
-| 17.1.x          | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
-| 17.0.1          | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
-| 17.0.0          | 1.3.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
-| 17.0.0          | 1.2.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
-| 17.0.0          | 1.2.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
-| 16.0.5          | 1.1.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
-| 16.0.5          | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
-| 16.0.5          | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
-| 16.0.5          | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
-| 16.0.5          | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
-| 16.0.5          | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
+|-----------------|-------|-------------------------------------------------------------------------|
+| 17.2.x          | 1.5.9 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
+| 17.1 and 17.2.1 | 1.5.4 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
+| 17.1.x          | 1.5.3 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3)  |
+| 17.1.x          | 1.5.2 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
+| 17.1.x          | 1.5.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
+| 17.1.x          | 1.5.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
+| 17.1.x          | 1.4.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
+| 17.1.x          | 1.4.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
+| 17.0.1          | 1.3.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
+| 17.0.0          | 1.3.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
+| 17.0.0          | 1.2.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
+| 17.0.0          | 1.2.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
+| 16.0.5          | 1.1.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
+| 16.0.5          | 1.1.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
+| 16.0.5          | 1.0.5 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
+| 16.0.5          | 1.0.2 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
+| 16.0.5          | 1.0.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
+| 16.0.5          | 1.0.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
 
 -----------------------
 
@@ -255,7 +255,8 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 [ItzLoonie](https://github.com/ItzLoonie) - For the original implementations of the reworked Seer, Monarch, and Spellslinger roles. Also implemented Deadly Quota and Circumvent modifiers.\
 [Unlock dlekS](https://github.com/Tommy-XL/Unlock-dlekS-ehT) - For the dlekS reimplementation.\
 [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) - For the original Discord Status patch.\
-[Better Among Us](https://github.com/D1GQ/BetterAmongUs) - For the original Splash Intro patch.
+[Better Among Us](https://github.com/D1GQ/BetterAmongUs) - For the original Splash Intro patch.\
+[AutoRejoin](https://github.com/Maxi0fc/AutoRejoin) - For the original implementation of Auto Rejoin.
 
 > [!NOTE]
 > The following credits originate from the original TOU/TOUR repositories.

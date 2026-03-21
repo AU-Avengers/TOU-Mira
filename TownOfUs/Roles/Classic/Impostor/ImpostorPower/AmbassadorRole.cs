@@ -312,6 +312,11 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public static void RpcRetrainConfirm(PlayerControl ambassador, PlayerControl player, int cooldown, ushort role = 0,
         bool accepted = false)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (ambassador.Data.Role is not AmbassadorRole ambassadorRole)
         {
             Error("RpcRetrainConfirm - Invalid ambassador");

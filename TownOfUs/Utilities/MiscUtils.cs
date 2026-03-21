@@ -898,6 +898,64 @@ public static class MiscUtils
     public static void AddFakeChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
         bool showHeadsup = false, bool altColors = false, bool onLeft = true)
     {
+        if (!FakeChatHistory.IsReplaying)
+        {
+            FakeChatHistory.Record(nameText, message);
+        }
+        
+        var chat = HudManager.Instance.Chat;
+
+        var pooledBubble = chat.GetPooledBubble();
+
+        pooledBubble.transform.SetParent(chat.scroller.Inner);
+        pooledBubble.transform.localScale = Vector3.one;
+        if (onLeft)
+        {
+            pooledBubble.SetLeft();
+        }
+        else
+        {
+            pooledBubble.SetRight();
+        }
+
+        pooledBubble.SetCosmetics(basePlayer);
+        pooledBubble.NameText.text = nameText;
+        pooledBubble.NameText.color = Color.white;
+        pooledBubble.NameText.ForceMeshUpdate(true, true);
+        pooledBubble.votedMark.enabled = false;
+        pooledBubble.Xmark.enabled = false;
+        pooledBubble.TextArea.text = message;
+        pooledBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, pooledBubble.TextArea);
+        pooledBubble.TextArea.ForceMeshUpdate(true, true);
+        pooledBubble.Background.size = new Vector2(5.52f,
+            0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
+        pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
+        if (altColors)
+        {
+            pooledBubble.Background.color = Color.black;
+            pooledBubble.TextArea.color = Color.white;
+        }
+
+        pooledBubble.AlignChildren();
+        var pos = pooledBubble.NameText.transform.localPosition;
+        pooledBubble.NameText.transform.localPosition = pos;
+        chat.AlignAllBubbles();
+        if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
+        {
+            chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
+        }
+
+        if (showHeadsup && !chat.IsOpenOrOpening)
+        {
+            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
+                0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
+            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+        }
+    }
+
+    public static void AddSystemChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
+        bool showHeadsup = false, bool altColors = false, bool onLeft = true)
+    {
         var chat = HudManager.Instance.Chat;
 
         var pooledBubble = chat.GetPooledBubble();
@@ -2162,10 +2220,10 @@ public static class MiscUtils
         return false;
     }
 
-    public static void RunKillWarning(PlayerControl source)
+    public static void RunAnticheatWarning(PlayerControl source)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKillMessage").Replace("<player>", source.Data.PlayerName)}");
+        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatIllegalRpcMessage").Replace("<player>", source.Data.PlayerName)}");
         AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
     }
 }

@@ -2,6 +2,7 @@ using MiraAPI.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
+using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
@@ -16,6 +17,11 @@ public static class MiscTouRpcs
     public static void RpcBasicRevive(
         this PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.IsDead)
         {
             GameHistory.ClearMurder(player);
@@ -38,6 +44,11 @@ public static class MiscTouRpcs
         ushort newRoleType,
         bool recordRole = true)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.IsDead && !isDead)
         {
             GameHistory.ClearMurder(player);

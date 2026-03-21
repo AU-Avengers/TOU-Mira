@@ -151,6 +151,11 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [MethodRpc((uint)TownOfUsRpc.Knight)]
     public static void RpcKnight(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not MonarchRole monarch)
         {
             Error("RpcKnight - Invalid monarch");
@@ -191,6 +196,11 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [MethodRpc((uint)TownOfUsRpc.UpdateMonShield)]
     public static void RpcUpdateMonShield(PlayerControl monarch, int shieldId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(monarch);
+            return;
+        }
         if (monarch.Data.Role is not MonarchRole role)
         {
             Error("RpcUpdateMonShield - Invalid monarch");

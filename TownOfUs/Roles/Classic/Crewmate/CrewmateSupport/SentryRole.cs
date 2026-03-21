@@ -221,6 +221,11 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.SentryPortableCamsInUse)]
     public static void RpcSentryPortableCamsInUse(PlayerControl player, bool inUse)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         try
         {
             if (player == null) return;
@@ -244,6 +249,11 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.SentryPlaceCamera)]
     public static void RpcPlaceCamera(PlayerControl player, Vector2 position)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not SentryRole sentry)
         {
             return;
@@ -255,6 +265,11 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.SentryRevealCamera)]
     public static void RpcRevealCamera(PlayerControl player, Vector2 position, float zAxis)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not SentryRole sentry)
         {
             return;

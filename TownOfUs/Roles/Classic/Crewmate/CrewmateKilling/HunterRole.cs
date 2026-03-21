@@ -94,8 +94,13 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     }
 
     [MethodRpc((uint)TownOfUsRpc.CatchPlayer)]
-    public static void RpcCatchPlayer(PlayerControl hunter, PlayerControl source, bool playerInteraction)
+    public static void RpcCatchPlayer(PlayerControl source, PlayerControl hunter, bool playerInteraction)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (hunter.Data.Role is not HunterRole role)
         {
             Error("RpcCatchPlayer - Invalid hunter");

@@ -684,6 +684,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.ParasiteControl)]
     public static void RpcParasiteControl(PlayerControl parasite, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(parasite);
+            return;
+        }
         if (parasite.Data.Role is not ParasiteRole role)
         {
             Error("RpcParasiteControl - Invalid parasite");
@@ -752,6 +757,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.ParasiteEndControl)]
     public static void RpcParasiteEndControl(PlayerControl parasite, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(parasite);
+            return;
+        }
         if (parasite.Data.Role is not ParasiteRole role)
         {
             return;
@@ -846,6 +856,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.ParasiteTriggerInteraction)]
     public static void RpcParasiteTriggerInteraction(PlayerControl parasite, PlayerControl controlled, Vector2 interactablePosition)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(parasite);
+            return;
+        }
         if (parasite.Data.Role is not ParasiteRole role)
         {
             Error("RpcParasiteTriggerInteraction - Invalid parasite");

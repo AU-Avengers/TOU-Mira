@@ -103,6 +103,11 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.HerbalistBarrierAttacked)]
     public static void RpcHerbalistBarrierAttacked(PlayerControl cleric, PlayerControl source, PlayerControl shielded)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(cleric);
+            return;
+        }
         if (cleric.Data.Role is not HerbalistRole)
         {
             Error("RpcHerbalistBarrierAttacked - Invalid herbalist");
