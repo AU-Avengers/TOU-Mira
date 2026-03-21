@@ -139,7 +139,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -270,7 +270,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -352,7 +352,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -436,7 +436,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -511,7 +511,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -642,7 +642,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -732,7 +732,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -811,7 +811,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 

@@ -93,6 +93,11 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     [MethodRpc((uint)TownOfUsRpc.SheriffMisfire)]
     public static void RpcSheriffMisfire(PlayerControl sheriff)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(sheriff);
+            return;
+        }
         if (sheriff.Data.Role is not SheriffRole role)
         {
             Error("RpcSheriffMisfire - Invalid sheriff");

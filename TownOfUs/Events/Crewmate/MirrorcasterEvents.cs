@@ -101,7 +101,7 @@ public static class MirrorcasterEvents
 
         if (mirrorcaster != null && ((target.AmOwner && TutorialManager.InstanceExists) || source.AmOwner))
         {
-            MirrorcasterRole.RpcMagicMirrorAttacked(mirrorcaster.Player, source, target);
+            MirrorcasterRole.RpcMagicMirrorAttacked(source, mirrorcaster.Player, target);
         }
 
         return true;

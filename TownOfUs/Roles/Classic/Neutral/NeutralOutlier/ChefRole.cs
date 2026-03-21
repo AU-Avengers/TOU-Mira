@@ -166,6 +166,11 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     [MethodRpc((uint)TownOfUsRpc.CookBody)]
     public static void RpcCookBody(PlayerControl chef, DeadBody body)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(chef);
+            return;
+        }
         if (chef.Data.Role is not ChefRole role)
         {
             Error("RpcCookBody - Invalid chef");
@@ -220,6 +225,11 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     [MethodRpc((uint)TownOfUsRpc.ServeBody)]
     public static void RpcServeBody(PlayerControl chef, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(chef);
+            return;
+        }
         if (chef.Data.Role is not ChefRole role)
         {
             Error("RpcServeBody - Invalid chef");

@@ -2162,10 +2162,10 @@ public static class MiscUtils
         return false;
     }
 
-    public static void RunKillWarning(PlayerControl source)
+    public static void RunAnticheatWarning(PlayerControl source)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKillMessage").Replace("<player>", source.Data.PlayerName)}");
+        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatIllegalRpcMessage").Replace("<player>", source.Data.PlayerName)}");
         AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
     }
 }

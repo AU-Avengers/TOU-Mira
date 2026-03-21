@@ -82,6 +82,11 @@ public sealed class JanitorRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.CleanBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcCleanBody(PlayerControl player, byte bodyId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] RpcCleanBody called: player={player.Data.PlayerName}, bodyId={bodyId}, isLocal={player.AmOwner}");
 
         if (player.Data.Role is not JanitorRole)

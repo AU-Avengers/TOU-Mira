@@ -146,6 +146,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     [MethodRpc((uint)TownOfUsRpc.MagicMirror)]
     public static void RpcMagicMirror(PlayerControl mc, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(mc);
+            return;
+        }
         if (mc.Data.Role is not MirrorcasterRole role)
         {
             Error("RpcMagicMirror - Invalid mirrorcaster");
@@ -158,12 +163,22 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     [MethodRpc((uint)TownOfUsRpc.ClearMagicMirror)]
     public static void RpcClearMagicMirror(PlayerControl mc)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(mc);
+            return;
+        }
         ClearMagicMirror(mc);
     }
 
     [MethodRpc((uint)TownOfUsRpc.MirrorcasterUnleash)]
     public static void RpcMirrorcasterUnleash(PlayerControl mc)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(mc);
+            return;
+        }
         if (mc.Data.Role is not MirrorcasterRole role)
         {
             Error("ClearMagicMirror - Invalid mirrorcaster");
@@ -185,9 +200,14 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     }
 
     [MethodRpc((uint)TownOfUsRpc.MagicMirrorAttacked)]
-    public static void RpcMagicMirrorAttacked(PlayerControl mirrorcaster, PlayerControl source,
+    public static void RpcMagicMirrorAttacked(PlayerControl source, PlayerControl mirrorcaster,
         PlayerControl protectedPlayer)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (mirrorcaster.Data.Role is not MirrorcasterRole role)
         {
             Error("RpcMagicMirrorAttacked - Invalid mirrorcaster");

@@ -162,6 +162,11 @@ public sealed class MayorRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.AnimateNewReveal)]
     public static void RpcAnimateNewReveal(PlayerControl plr)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(plr);
+            return;
+        }
         if (plr.Data.Role is MayorRole mayor)
         {
             mayor.Revealed = true;

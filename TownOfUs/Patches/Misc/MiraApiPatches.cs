@@ -69,7 +69,7 @@ public static class MiraApiPatches
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return false;
         }
 
@@ -91,7 +91,7 @@ public static class MiraApiPatches
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return false;
         }
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
@@ -149,7 +149,7 @@ public static class MiraApiPatches
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return false;
         }
         if (!host.IsHost() || target.HasDied())

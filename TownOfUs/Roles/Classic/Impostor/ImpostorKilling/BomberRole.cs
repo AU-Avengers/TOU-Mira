@@ -67,6 +67,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     {
         if (LobbyBehaviour.Instance)
         {
+            MiscUtils.RunAnticheatWarning(player);
             return;
         }
         if (player.Data.Role is not BomberRole role)

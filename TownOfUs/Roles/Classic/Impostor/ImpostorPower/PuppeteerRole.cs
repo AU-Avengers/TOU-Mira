@@ -169,6 +169,11 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.PuppeteerControl)]
     public static void RpcPuppeteerControl(PlayerControl puppeteer, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(puppeteer);
+            return;
+        }
         if (puppeteer.Data.Role is not PuppeteerRole role)
         {
             Error("RpcPuppeteerControl - Invalid puppeteer");
@@ -237,6 +242,11 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.PuppeteerEndControl)]
     public static void RpcPuppeteerEndControl(PlayerControl puppeteer, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(puppeteer);
+            return;
+        }
         if (puppeteer.Data.Role is not PuppeteerRole role)
         {
             return;
@@ -323,6 +333,11 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.PuppeteerTriggerInteraction)]
     public static void RpcPuppeteerTriggerInteraction(PlayerControl puppeteer, PlayerControl controlled, Vector2 interactablePosition)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(puppeteer);
+            return;
+        }
         if (puppeteer.Data.Role is not PuppeteerRole role)
         {
             Error("RpcPuppeteerTriggerInteraction - Invalid puppeteer");

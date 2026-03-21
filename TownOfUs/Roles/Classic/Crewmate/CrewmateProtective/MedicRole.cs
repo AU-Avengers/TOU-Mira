@@ -331,6 +331,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     [MethodRpc((uint)TownOfUsRpc.MedicShield)]
     public static void RpcMedicShield(PlayerControl medic, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(medic);
+            return;
+        }
         if (medic.Data.Role is not MedicRole)
         {
             Error("RpcMedicShield - Invalid medic");
@@ -345,6 +350,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     [MethodRpc((uint)TownOfUsRpc.ClearMedicShield)]
     public static void RpcClearMedicShield(PlayerControl medic)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(medic);
+            return;
+        }
         ClearMedicShield(medic);
     }
 
@@ -362,8 +372,13 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     }
 
     [MethodRpc((uint)TownOfUsRpc.MedicShieldAttacked)]
-    public static void RpcMedicShieldAttacked(PlayerControl medic, PlayerControl source, PlayerControl shielded)
+    public static void RpcMedicShieldAttacked(PlayerControl source, PlayerControl medic, PlayerControl shielded)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (medic.Data.Role is not MedicRole)
         {
             Error("RpcMedicShieldAttacked - Invalid medic");

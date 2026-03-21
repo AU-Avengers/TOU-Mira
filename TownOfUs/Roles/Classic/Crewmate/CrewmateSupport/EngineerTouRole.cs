@@ -321,6 +321,11 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     [MethodRpc((uint)TownOfUsRpc.EngineerEventFix)]
     public static void RpcEngineerEventFix(PlayerControl engi)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(engi);
+            return;
+        }
         if (engi.Data.Role is not EngineerTouRole)
         {
             Error("Invalid engineer");

@@ -269,6 +269,11 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     [MethodRpc((uint)TownOfUsRpc.SetExeTarget)]
     public static void RpcSetExeTarget(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not ExecutionerRole)
         {
             Error("RpcSetExeTarget - Invalid executioner");

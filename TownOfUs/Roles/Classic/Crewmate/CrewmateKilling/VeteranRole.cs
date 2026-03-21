@@ -82,6 +82,11 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     [MethodRpc((uint)TownOfUsRpc.RecentVetAttack)]
     public static void RpcRecentVetAttack(PlayerControl veteran)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(veteran);
+            return;
+        }
         if (veteran.Data.Role is not VeteranRole role)
         {
             Error("RpcRecentVetAttack - Invalid veteran");

@@ -142,6 +142,11 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Guarded)]
     public static void RpcGuarded(PlayerControl player, PlayerControl target, bool isMurder = false)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not MercenaryRole mercenary)
         {
             Error("RpcGuarded - Invalid mercenary");
