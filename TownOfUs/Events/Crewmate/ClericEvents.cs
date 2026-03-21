@@ -86,7 +86,7 @@ public static class ClericEvents
 
         if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            ClericRole.RpcClericBarrierAttacked(cleric.Player, source, target);
+            ClericRole.RpcClericBarrierAttacked(source, cleric.Player, target);
         }
 
         return true;

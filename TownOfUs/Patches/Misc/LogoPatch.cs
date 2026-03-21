@@ -42,22 +42,20 @@ public static class LogoPatch
             }
         }
 
-        List<RoleBehaviour> vanillaRoles =
-        [
-            RoleManager.Instance.GetRole(RoleTypes.Scientist),
-            RoleManager.Instance.GetRole(RoleTypes.Noisemaker),
-            // RoleManager.Instance.GetRole(RoleTypes.Engineer),
-            RoleManager.Instance.GetRole(RoleTypes.Tracker),
-            RoleManager.Instance.GetRole(RoleTypes.GuardianAngel),
-            RoleManager.Instance.GetRole(RoleTypes.Detective),
-            // RoleManager.Instance.GetRole(RoleTypes.Impostor),
-            RoleManager.Instance.GetRole(RoleTypes.Shapeshifter),
-            RoleManager.Instance.GetRole(RoleTypes.Phantom),
-            RoleManager.Instance.GetRole(RoleTypes.Viper)
-        ];
-        foreach (var role in vanillaRoles)
+        Dictionary<RoleBehaviour, RoleTypes> vanillaRoles = new Dictionary<RoleBehaviour, RoleTypes>()
         {
-            SoftWikiEntries.RegisterVanillaRoleEntry(role);
+            { RoleManager.Instance.GetRole(RoleTypes.Scientist), RoleTypes.Scientist },
+            { RoleManager.Instance.GetRole(RoleTypes.Noisemaker), RoleTypes.Noisemaker },
+            { RoleManager.Instance.GetRole(RoleTypes.Tracker), RoleTypes.Tracker },
+            { RoleManager.Instance.GetRole(RoleTypes.GuardianAngel), RoleTypes.GuardianAngel },
+            { RoleManager.Instance.GetRole(RoleTypes.Detective), RoleTypes.Detective },
+            { RoleManager.Instance.GetRole(RoleTypes.Shapeshifter), RoleTypes.Shapeshifter },
+            { RoleManager.Instance.GetRole(RoleTypes.Phantom), RoleTypes.Phantom },
+            { RoleManager.Instance.GetRole(RoleTypes.Viper), RoleTypes.Viper },
+        };
+        foreach (var rolePair in vanillaRoles)
+        {
+            SoftWikiEntries.RegisterVanillaRoleEntry(rolePair.Key, rolePair.Value);
         }
 
         var newLogo = GameObject.Find("LOGO-AU");

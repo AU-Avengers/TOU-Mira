@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Reactor.Localization.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,41 +8,89 @@ namespace TownOfUs.Patches.AprilFools;
 [HarmonyPatch]
 public static class DleksMapOptionPickerPatches
 {
-    [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.Initialize))]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPrefix]
-    public static void LobbyOptionsDleksPatch(GameOptionsMapPicker __instance)
-    {
-        if (!__instance.AllMapIcons._items.Any(x => x.Name == MapNames.Dleks))
-        {
-            __instance.AllMapIcons.Insert((int)MapNames.Dleks, new MapIconByName
-            {
-                Name = MapNames.Dleks,
-                MapImage = TouAssets.DleksBanner.LoadAsset(),
-                MapIcon = TouAssets.DleksIcon.LoadAsset(),
-                NameImage = TouAssets.DleksText.LoadAsset(),
-            });
-        }
-    }
+    public static StringNames DleksName => CustomStringName.CreateAndRegister("dlekS");
+    // TODO: localize this, probably by stealing from the sloth translations
+    public static StringNames DleksTooltip => CustomStringName.CreateAndRegister(".sepor eht gninrael rof taerG .srodirroc dna smoor elpitlum htiw pihs dezis-muidem a :dlekS ehT");
     
-    [HarmonyPatch(typeof(CreateGameMapPicker), nameof(CreateGameMapPicker.Initialize))]
+    [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.SetupMapButtons))]
+    [HarmonyPrefix]
+    public static void AddToGameOptionsUI(GameOptionsMapPicker __instance)
+    {
+        if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
+        {
+            return;
+        }
+
+        __instance.AllMapIcons.Insert((int)MapNames.Dleks, new MapIconByName
+        {
+            Name = MapNames.Dleks,
+            MapImage = TouAssets.DleksBanner.LoadAsset(),
+            MapIcon = TouAssets.DleksIcon.LoadAsset(),
+            NameImage = TouAssets.DleksText.LoadAsset(),
+        });
+    }
+
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
     [HarmonyPriority(Priority.First)]
     [HarmonyPrefix]
-    public static void CreateGameDleksPatch(CreateGameMapPicker __instance)
+    public static void GameManagerDleksPatch(GameStartManager __instance)
     {
-        if (!__instance.AllMapIcons._items.Any(x => x.Name == MapNames.Dleks))
+        if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
         {
-            __instance.AllMapIcons.Insert((int)MapNames.Dleks, new MapIconByName
-            {
-                Name = MapNames.Dleks,
-                MapImage = TouAssets.DleksBanner.LoadAsset(),
-                MapIcon = TouAssets.DleksIcon.LoadAsset(),
-                NameImage = TouAssets.DleksText.LoadAsset(),
-            });
+            return;
+        }
+
+        __instance.AllMapIcons.Insert((int)MapNames.Dleks, new MapIconByName
+        {
+            Name = MapNames.Dleks,
+            MapIcon = TouAssets.DleksTextAlt.LoadAsset(),
+        });
+    }
+
+    [HarmonyPriority(Priority.VeryLow)]
+    [HarmonyPatch(typeof(MapSelectionGameSetting), nameof(MapSelectionGameSetting.GetValueString))]
+    [HarmonyPrefix]
+    public static void AddToActualOptions(MapSelectionGameSetting __instance)
+    {
+        if (__instance.Values.All(x => (int)x != (int)DleksName))
+        {
+            var list = __instance.Values.ToList();
+            list.Insert((int)MapNames.Dleks, DleksName);
+            __instance.Values = list.ToArray();
         }
     }
 
-    // This method is patched to fix issues on Epic Games
+    [HarmonyPatch(typeof(CreateGameOptions), nameof(CreateGameOptions.MapChanged))]
+    [HarmonyPrefix]
+    public static bool MapChangedPrefix(CreateGameOptions __instance, OptionBehaviour behaviour)
+    {
+        if (__instance.mapPicker.GetSelectedID() is (int)MapNames.Dleks)
+        {
+            __instance.mapBanner.flipX = false;
+            __instance.rendererBGCrewmates.sprite = __instance.bgCrewmates[0];
+            __instance.mapBanner.sprite = TouAssets.DleksText.LoadAsset();
+            __instance.TurnOffCrewmates();
+            __instance.currentCrewSprites = __instance.skeldCrewSprites;
+            __instance.SetCrewmateGraphic(__instance.capacityOption.Value - 1f);
+            return false;
+        }
+
+        return true;
+    }
+
+    [HarmonyPatch(typeof(CreateGameOptions), nameof(CreateGameOptions.Start))]
+    [HarmonyPrefix]
+    public static void SetupMapBackground(CreateGameOptions __instance)
+    {
+        if (__instance.currentCrewSprites == null)
+        {
+            __instance.mapBanner.sprite = TouAssets.DleksText.LoadAsset();
+        }
+        __instance.currentCrewSprites ??= __instance.skeldCrewSprites;
+        __instance.mapTooltips[3] = DleksTooltip;
+    }
+
+    // __instance method is patched to fix issues on Epic Games
     [HarmonyPatch(typeof(FreeplayPopover), nameof(FreeplayPopover.OnMapButtonPressed))]
     [HarmonyPrefix]
     public static bool ButtonPressPatch(FreeplayPopover __instance, FreeplayPopoverButton button)
@@ -80,75 +129,5 @@ public static class DleksMapOptionPickerPatches
         dleksButton.transform.position = new Vector3(fungleButton.transform.position.x, __instance.buttons[0].transform.position.y + 0.7f, fungleButton.transform.position.z);
 
         __instance.buttons = new List<FreeplayPopoverButton>(__instance.buttons) { dleksButton }.ToArray();
-    }
-
-    /*[HarmonyPatch(typeof(CreateGameMapPicker), nameof(CreateGameMapPicker.SetupMapButtons))]
-    [HarmonyPostfix]
-    public static void SetupMapButtons(CreateGameMapPicker __instance, int maskLayer)
-    {
-        if (__instance.mapButtons != null)
-        {
-            for (int i = 0; i < __instance.mapButtons.Count; i++)
-            {
-                __instance.mapButtons[i].gameObject.Destroy();
-            }
-        }
-        if (!__instance.AllMapIcons._items.Any(x => x.Name == MapNames.Dleks))
-        {
-            __instance.AllMapIcons.Insert((int)MapNames.Dleks, new MapIconByName
-            {
-                Name = MapNames.Dleks,
-                MapImage = TouAssets.DleksBanner.LoadAsset(),
-                MapIcon = TouAssets.DleksIcon.LoadAsset(),
-                NameImage = TouAssets.DleksText.LoadAsset(),
-            });
-        }
-        __instance.mapButtons = new Il2CppSystem.Collections.Generic.List<MapSelectButton>();
-        for (int j = 0; j < __instance.AllMapIcons.Count; j++)
-        {
-            MapIconByName instanceVal = __instance.AllMapIcons[j];
-            MapSelectButton mapButton = UnityEngine.Object.Instantiate<MapSelectButton>(__instance.MapButtonOrigin, Vector3.zero, Quaternion.identity, __instance.transform);
-            mapButton.SetImage(instanceVal.MapIcon, maskLayer);
-            mapButton.transform.localPosition = new Vector3(__instance.StartPosX + (float)j * __instance.SpacingX, __instance.MapButtonY, -2f);
-            mapButton.Button.ClickMask = __instance.ButtonClickMask;
-            mapButton.MapID = (int)instanceVal.Name;
-            mapButton.Button.OnClick.AddListener((UnityAction)(() => 
-            {
-                if (__instance.selectedButton)
-                {
-                    __instance.selectedButton.Button.SelectButton(false);
-                }
-                __instance.selectedButton = mapButton;
-                __instance.selectedButton.Button.SelectButton(true);
-                __instance.SelectMap(instanceVal);
-            }));
-            if (j > 0)
-            {
-                mapButton.Button.ControllerNav.selectOnLeft = __instance.mapButtons[j - 1].Button;
-                __instance.mapButtons[j - 1].Button.ControllerNav.selectOnRight = mapButton.Button;
-            }
-            __instance.mapButtons.Add(mapButton);
-            if (instanceVal.Name == (MapNames)__instance.selectedMapId)
-            {
-                mapButton.Button.SelectButton(true);
-                __instance.SelectMap(__instance.selectedMapId);
-                __instance.selectedButton = mapButton;
-            }
-        }
-    }*/
-
-    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
-    [HarmonyPriority(Priority.First)]
-    [HarmonyPrefix]
-    public static void GameManagerDleksPatch(GameStartManager __instance)
-    {
-        if (!__instance.AllMapIcons._items.Any(x => x.Name == MapNames.Dleks))
-        {
-            __instance.AllMapIcons.Insert((int)MapNames.Dleks, new MapIconByName
-            {
-                Name = MapNames.Dleks,
-                MapIcon = TouAssets.DleksTextAlt.LoadAsset(),
-            });
-        }
     }
 }

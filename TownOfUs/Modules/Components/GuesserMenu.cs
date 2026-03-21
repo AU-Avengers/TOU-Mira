@@ -326,7 +326,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         if (noResultsText != null)
         {
             noResultsText.name = "GuesserNoResultsText";
-            noResultsText.text = "No results";
+            noResultsText.text = TouLocale.GetParsed("GuesserNoResults", "No results");
             noResultsText.alignment = TextAlignmentOptions.Center;
             noResultsText.fontSize = noResultsText.fontSizeMin = noResultsText.fontSizeMax = 2.25f;
             noResultsText.color = Color.white;

@@ -194,6 +194,6 @@ public static class HunterEvents
             return;
         }
 
-        HunterRole.RpcCatchPlayer(mod.Hunter, source, isInteraction);
+        HunterRole.RpcCatchPlayer(source, mod.Hunter, isInteraction);
     }
 }

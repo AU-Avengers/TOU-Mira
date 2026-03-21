@@ -54,7 +54,7 @@ public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
         RetrainText.text =
             $"Are you sure you want to be retrained into {NewRole.GetRoleName()}?\nThis change is permanent.";
 
-        RoleIcon.sprite = NewRole.RoleIconWhite ?? TouRoleIcons.RandomImp.LoadAsset();
+        RoleIcon.sprite = NewRole.RoleIconWhite ?? TouRoleIcons.Impostor.LoadAsset();
 
         RoleIcon.SetSizeLimit(2.8f);
 

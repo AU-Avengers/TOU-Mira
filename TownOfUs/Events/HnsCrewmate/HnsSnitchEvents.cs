@@ -4,7 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.HnsCrewmate;
 using TownOfUs.Options.Roles.HnsCrewmate;
-using TownOfUs.Roles.HnsCrewmate;
+using TownOfUs.Roles.HideAndSeek.Hider;
 using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;

@@ -14,30 +14,36 @@ public sealed class RoleOptions : AbstractOptionGroup
             or GameModes.SeekFools);
     internal static string[] OptionStrings =
     [
-        MiscUtils.GetParsedRoleBucket("CommonCrew"),
-        MiscUtils.GetParsedRoleBucket("RandomCrew"),
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
         MiscUtils.GetParsedRoleBucket("CrewKilling"),
         MiscUtils.GetParsedRoleBucket("CrewProtective"),
         MiscUtils.GetParsedRoleBucket("CrewPower"),
         MiscUtils.GetParsedRoleBucket("CrewSupport"),
-        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
-        MiscUtils.GetParsedRoleBucket("NonImp"),
-        MiscUtils.GetParsedRoleBucket("CommonNeutral"),
-        MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
-        MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
-        MiscUtils.GetParsedRoleBucket("RandomNeutral"),
+
         MiscUtils.GetParsedRoleBucket("NeutralBenign"),
         MiscUtils.GetParsedRoleBucket("NeutralEvil"),
         MiscUtils.GetParsedRoleBucket("NeutralKilling"),
         MiscUtils.GetParsedRoleBucket("NeutralOutlier"),
-        MiscUtils.GetParsedRoleBucket("CommonImp"),
-        MiscUtils.GetParsedRoleBucket("RandomImp"),
+
         MiscUtils.GetParsedRoleBucket("ImpConcealing"),
         MiscUtils.GetParsedRoleBucket("ImpKilling"),
         MiscUtils.GetParsedRoleBucket("ImpPower"),
         MiscUtils.GetParsedRoleBucket("ImpSupport"),
+
+        MiscUtils.GetParsedRoleBucket("CommonCrew"),
+        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
+        MiscUtils.GetParsedRoleBucket("RandomCrew"),
+
+        MiscUtils.GetParsedRoleBucket("CommonNeutral"),
+        MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
+        MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
+        MiscUtils.GetParsedRoleBucket("RandomNeutral"),
+
+        MiscUtils.GetParsedRoleBucket("CommonImp"),
         MiscUtils.GetParsedRoleBucket("SpecialImp"),
+        MiscUtils.GetParsedRoleBucket("RandomImp"),
+
+        MiscUtils.GetParsedRoleBucket("NonImp"),
         MiscUtils.GetParsedRoleBucket("Any")
     ];
 
@@ -136,92 +142,98 @@ public sealed class RoleOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };*/
 
-    public ModdedEnumOption Slot1 { get; } =
-        new("Slot 1", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    /*public ModdedStringOption SlotCustom { get; } =
+        new("Custom Slot", HudManagerPatches.StoredRoleBuckets[0], HudManagerPatches.StoredRoleBuckets.ToArray())
+        {
+            Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
+        };*/
+
+    public ModdedEnumOption<RoleListOption> Slot1 { get; } =
+        new("Slot 1", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot2 { get; } =
-        new("Slot 2", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot2 { get; } =
+        new("Slot 2", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot3 { get; } =
-        new("Slot 3", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot3 { get; } =
+        new("Slot 3", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot4 { get; } =
-        new("Slot 4", (int)RoleListOption.ImpCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot4 { get; } =
+        new("Slot 4", RoleListOption.ImpCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot5 { get; } =
-        new("Slot 5", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot5 { get; } =
+        new("Slot 5", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot6 { get; } =
-        new("Slot 6", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot6 { get; } =
+        new("Slot 6", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot7 { get; } =
-        new("Slot 7", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot7 { get; } =
+        new("Slot 7", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot8 { get; } =
-        new("Slot 8", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot8 { get; } =
+        new("Slot 8", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot9 { get; } =
-        new("Slot 9", (int)RoleListOption.ImpCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot9 { get; } =
+        new("Slot 9", RoleListOption.ImpCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot10 { get; } =
-        new("Slot 10", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot10 { get; } =
+        new("Slot 10", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot11 { get; } =
-        new("Slot 11", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot11 { get; } =
+        new("Slot 11", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot12 { get; } =
-        new("Slot 12", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot12 { get; } =
+        new("Slot 12", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot13 { get; } =
-        new("Slot 13", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot13 { get; } =
+        new("Slot 13", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot14 { get; } =
-        new("Slot 14", (int)RoleListOption.ImpCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot14 { get; } =
+        new("Slot 14", RoleListOption.ImpCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
 
-    public ModdedEnumOption Slot15 { get; } =
-        new("Slot 15", (int)RoleListOption.CrewCommon, typeof(RoleListOption), OptionStrings)
+    public ModdedEnumOption<RoleListOption> Slot15 { get; } =
+        new("Slot 15", RoleListOption.CrewCommon, OptionStrings)
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.RoleList
         };
@@ -302,29 +314,43 @@ public enum RoleDistribution
 
 public enum RoleListOption
 {
-    CrewCommon,
-    CrewRandom,
     CrewInvest,
     CrewKilling,
     CrewProtective,
     CrewPower,
     CrewSupport,
-    CrewSpecial,
-    NonImp,
-    NeutCommon,
-    NeutSpecial,
-    NeutWildcard,
-    NeutRandom,
+
     NeutBenign,
     NeutEvil,
     NeutKilling,
     NeutOutlier,
-    ImpCommon,
-    ImpRandom,
+
     ImpConceal,
     ImpKilling,
     ImpPower,
     ImpSupport,
-    ImpSpecial,
+
+    CrewCommon, // Investigative / Protective / Support
+    CrewSpecial, // Killing / Power
+    // CrewUtility, // Investigative / Support
+    // CrewBasic, // Vanilla Crewmate
+    CrewRandom, // Any Crewmate role
+
+    NeutCommon, // Benign / Evil
+    NeutSpecial, // Killing / Outlier
+    NeutWildcard, // Benign / Evil / Outlier
+    // NeutChaos, // Evil / Outlier
+    // NeutPassive, // Benign / Outlier, this name sucks btw - Atony
+    NeutRandom, // Any Neutral role
+
+    ImpCommon, // Concealing / Support
+    ImpSpecial, // Killing / Power
+    // ImpUtility, // Concealing / Killing / Support
+    // ImpBasic, // Vanilla Impostor
+    ImpRandom, // Any Impostor role
+
+    NonImp, // Crewmate / Neutral
+    // NonKilling, // Everything but Impostors, NKs, and CKs
+    // AnyKilling, // Impostors, NKs, and CKs
     Any
 }

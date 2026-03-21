@@ -78,47 +78,4 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ColorPlayerNameToggle { get; private set; } =
         config.Bind("UI/Visuals", "ColorPlayerName", false);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> SeparateChatBubbles { get; private set; } =
-        config.Bind("Miscellaneous", "SeparateChatBubbles", false);
-
-    /*[LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> UseSeparateRedChat { get; private set; } =
-        config.Bind("UI/Visuals", "UseSeparateRedChat", true);*/
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowWelcomeMessageToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowWelcomeMessage", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowRulesOnLobbyJoinToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowRulesOnLobbyJoin", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowSummaryMessageToggle { get; private set; } =
-        config.Bind("Miscellaneous", "ShowSummaryMessage", true);
-
-    [LocalizedLocalEnumSetting(names: ["SummarySimple", "SummaryNormal", "SummaryAdvanced"])]
-    public ConfigEntry<GameSummaryAppearance> SummaryMessageAppearance { get; private set; } =
-        config.Bind("Miscellaneous", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
-        config.Bind("Miscellaneous", "ShowPracticeButtons", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
-        config.Bind("Miscellaneous", "ZoomingInLobby", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
-        config.Bind("Miscellaneous", "ZoomingInPractice", true);
-}
-
-public enum GameSummaryAppearance
-{
-    Simplified,
-    Normal,
-    Advanced
 }

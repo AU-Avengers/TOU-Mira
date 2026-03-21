@@ -105,6 +105,9 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
         Visible = () =>
             OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers
     };
+
+    public static float MSaboCountdownReactor => OptionGroupSingleton<BetterSkeldOptions>.Instance.SaboCountdownReactor.Value;
+    public static bool MChangeSaboTimers => OptionGroupSingleton<BetterSkeldOptions>.Instance.ChangeSaboTimers;
 }
 
 public enum SkeldVentMode

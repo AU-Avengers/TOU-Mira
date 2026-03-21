@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using HarmonyLib;
 using InnerNet;
 using MiraAPI.Events;
@@ -41,6 +41,8 @@ public static class DeathStateSync
             return;
         }
 
+        PendingDeathSyncs.Remove(target.PlayerId);
+
         if (target.Data.Disconnected)
         {
             return;
@@ -51,7 +53,7 @@ public static class DeathStateSync
             return;
         }
 
-        if (target.Data.Role is IGhostRole ghostRole && ghostRole.GhostActive && !isDead)
+        if (target.Data.Role is IGhostRole ghostRole && ghostRole.GhostActive)
         {
             return;
         }
@@ -64,7 +66,6 @@ public static class DeathStateSync
             target.AddModifier(deathHandler);
         }
 
-        PendingDeathSyncs.Remove(target.PlayerId);
     }
 
     /// <summary>
@@ -204,12 +205,6 @@ public static class DeathStateSync
             yield break;
         }
 
-        if (MeetingHud.Instance != null || ExileController.Instance != null)
-        {
-            PendingDeathSyncs.Remove(target.PlayerId);
-            yield break;
-        }
-
         if (!PendingDeathSyncs.TryGetValue(target.PlayerId, out var pendingState) || pendingState != isDead)
         {
             PendingDeathSyncs.Remove(target.PlayerId);
@@ -340,4 +335,4 @@ public static class DeathStateSyncPatches
             DeathStateSync.ScheduleDeathStateSync(player, false);
         }
     }
-}
+}*/

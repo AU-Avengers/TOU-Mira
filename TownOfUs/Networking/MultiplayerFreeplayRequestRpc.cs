@@ -130,7 +130,6 @@ internal sealed class MultiplayerFreeplayRequestRpc(TownOfUsPlugin plugin, uint 
 
         GameHistory.ClearMurder(plr);
         plr.Revive();
-        DeathStateSync.RpcSyncDeathState(plr, false);
     }
 
     private static void HandleSetRole(byte targetId, ushort roleType)
