@@ -653,6 +653,11 @@ public static class ChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRules)]
     public static void RpcSendLobbyRules(PlayerControl host, PlayerControl target, string rulesText, bool optional)
     {
+        if (!host.IsHost())
+        {
+            MiscUtils.RunAnticheatWarning(host);
+            return;
+        }
         if (PlayerControl.LocalPlayer.PlayerId != target.PlayerId || optional && !LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowRulesOnLobbyJoinToggle.Value)
         {
             return;
@@ -665,6 +670,11 @@ public static class ChatPatches
     [MethodRpc((uint)TownOfUsRpc.SendLobbyRulesGlobal)]
     public static void RpcSendLobbyRulesGlobal(PlayerControl host, string rulesText)
     {
+        if (!host.IsHost())
+        {
+            MiscUtils.RunAnticheatWarning(host);
+            return;
+        }
         var title = $"<color=#8BFDFD>{TouLocale.GetParsed("RulesMessageTitle")}</color>";
         var msg = string.IsNullOrWhiteSpace(rulesText) ? TouLocale.GetParsed("RulesMissingError") : $"<size=75%>{rulesText}</size>";
         MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
