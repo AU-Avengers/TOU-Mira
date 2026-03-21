@@ -33,7 +33,7 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
         TabIcon = TouModifierIcons.Aftermath
     };
 
-    [LocalizedLocalSliderSetting(min: 4f, max: 10f, suffixType: MiraNumberSuffixes.Seconds, formatString: "0.00", displayValue: true)]
+    [LocalizedLocalSliderSetting(min: 4f, max: 15f, suffixType: MiraNumberSuffixes.Seconds, formatString: "0", displayValue: true, roundValue: true)]
     public ConfigEntry<float> AutoRejoinDelay { get; private set; } =
         config.Bind("End Game Screen", "AutoRejoinDelay", 4f);
 

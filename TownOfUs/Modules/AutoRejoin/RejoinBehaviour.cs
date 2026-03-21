@@ -1,4 +1,5 @@
 
+using AmongUs.Data;
 using InnerNet;
 using Reactor.Utilities.Attributes;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public static RejoinBehaviour? Instance;
 
+    private bool _isStreamer;
     private bool _running;
     private float _timer;
     private int _lastShown = -1;
@@ -28,12 +30,14 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         _timer = LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.AutoRejoinDelay.Value;
         _lastShown = -1;
         _running = true;
-        Info($"[AutoRejoin] Countdown started ({_timer}s) for: {_gameCode}");
+        _isStreamer = DataManager.Settings.Gameplay.StreamerMode;
+        Info($"[AutoRejoin] Countdown started ({_timer}s) for: {_gameCode} | Streamer Mode: {_isStreamer}");
     }
 
     public void Cancel()
     {
         _running = false;
+        _isStreamer = false;
         ScreenText = "";
     }
 
@@ -47,7 +51,11 @@ public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         if (secs != _lastShown)
         {
             _lastShown = secs;
-            ScreenText = $"[AutoRejoin]  Rejoining in {secs}s  ({_gameCode})";
+            ScreenText = $"[AutoRejoin]  Rejoining in {secs}s";
+            if (!_isStreamer)
+            {
+                ScreenText += $" ({_gameCode})";
+            }
             Info(ScreenText);
         }
 
