@@ -68,11 +68,11 @@ public static class AppearanceExtensions
             player.RawSetAppearance(new VisualAppearance(player.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
             {
                 ColorId = player.Data.DefaultOutfit.ColorId,
-                HatId = string.Empty,
-                SkinId = string.Empty,
-                VisorId = string.Empty,
+                HatId = "hat_NoHat",
+                SkinId = "skin_None",
+                VisorId = "visor_EmptyVisor",
                 PlayerName = string.Empty,
-                PetId = string.Empty,
+                PetId = "pet_EmptyPet",
                 NameVisible = false,
                 PlayerMaterialColor = Color.grey,
                 Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : player.GetAppearance().Size
@@ -230,7 +230,7 @@ public static class AppearanceExtensions
         {
             return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
             {
-                SkinId = string.Empty
+                SkinId = "skin_None"
             };
         }
         return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default);
@@ -243,7 +243,7 @@ public static class AppearanceExtensions
         {
             appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
             {
-                SkinId = string.Empty
+                SkinId = "skin_None"
             };
         }
 

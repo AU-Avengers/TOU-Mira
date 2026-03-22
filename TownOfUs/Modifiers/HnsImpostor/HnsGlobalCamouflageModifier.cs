@@ -21,7 +21,7 @@ public sealed class HnsGlobalCamouflageModifier(PlayerControl camoSeeker) : Conc
         appearance.Speed = 1f;
         appearance.Size = new Vector3(0.7f, 0.7f, 1f);
         appearance.PlayerName = "???";
-        appearance.PetId = string.Empty;
+        appearance.PetId = "pet_EmptyPet";
         appearance.NameVisible = GameManager.Instance.LogicOptions.GetShowCrewmateNames();
         return appearance;
     }

@@ -21,11 +21,11 @@ public sealed class VenererCamouflageModifier : ConcealedModifier, IVenererModif
         appearance.Speed = 1f;
         appearance.Size = new Vector3(0.7f, 0.7f, 1f);
         appearance.ColorId = Player.Data.DefaultOutfit.ColorId;
-        appearance.HatId = string.Empty;
-        appearance.SkinId = string.Empty;
-        appearance.VisorId = string.Empty;
+        appearance.HatId = "hat_NoHat";
+        appearance.SkinId = "skin_None";
+        appearance.VisorId = "visor_EmptyVisor";
         appearance.PlayerName = string.Empty;
-        appearance.PetId = string.Empty;
+        appearance.PetId = "pet_EmptyPet";
         appearance.NameVisible = false;
         appearance.PlayerMaterialColor = Color.grey;
         return appearance;
