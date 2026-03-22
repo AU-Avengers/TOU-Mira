@@ -2027,4 +2027,5 @@
   <string name="TouRoleMonarchKnightedFeedback">你被\%role\%冊封了騎士身份,獲得了\%votes\%票!</string>
   <string name="TouRoleMonarchKnightFallenFeedback">你的騎士\%player\%已陣亡...</string>
   <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%調查型\%/color\%職業可以收集其他玩家的信息,從而判斷誰是船員。• \%color=#8CFFFF\%擊殺型\%/color\%職業可以\%color=#FF8B95\%擊殺\%/color\%他人,但\%color=#FF8B95\%擊殺\%/color\%\%color=#8CFFFF\%船員\%/color\%可能會帶來後果。 • \%color=#8CFFFF\%保護型\%/color\%職業可以保護其他玩家,有時也能保護自己。 • \%color=#8CFFFF\%強力型\%/color\% 職業通常會影響投票,或擁有比其他\%color=#8CFFFF\%船員\%/color\%更強的能力。 • \%color=#8CFFFF\%支援型\%/color\%職業通常可以幫助其他\%color=#8CFFFF\%船員\%/color\%，或為自己提供幫助。</string>
+  <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%中立\%/color\%子陣營</string>
 </resources>
