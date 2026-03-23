@@ -20,7 +20,7 @@ public sealed class BenefactorAegisModifier(PlayerControl benefactor) : BaseShie
     public override void OnActivate()
     {
         base.OnActivate();
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.BenefactorAegis, Benefactor, Player);
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.BenefactorAegisSuccess, Benefactor, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }
     
