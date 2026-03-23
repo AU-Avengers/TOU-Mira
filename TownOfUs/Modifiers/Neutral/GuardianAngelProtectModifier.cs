@@ -35,7 +35,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
 
     public override void OnActivate()
     {
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.GuardianAngelProtect, Guardian, Player);
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.FairyProtect, Guardian, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;

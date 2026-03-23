@@ -497,11 +497,11 @@ public static class Extensions
         {
             var fade = new VisualAppearance(player.GetDefaultModifiedAppearance(), TownOfUsAppearances.PlayerOnly)
             {
-                HatId = string.Empty,
-                SkinId = string.Empty,
-                VisorId = string.Empty,
+                HatId = "hat_NoHat",
+                SkinId = "skin_None",
+                VisorId = "visor_EmptyVisor",
                 PlayerName = string.Empty,
-                PetId = string.Empty,
+                PetId = "pet_EmptyPet",
                 RendererColor = color,
                 NameColor = Color.clear,
                 ColorBlindTextColor = Color.clear,
