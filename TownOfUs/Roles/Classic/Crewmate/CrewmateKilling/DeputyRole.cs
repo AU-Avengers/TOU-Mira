@@ -10,6 +10,7 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -149,7 +150,10 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         if (role.Killer == target && !target.HasModifier<InvulnerabilityModifier>())
         {
-            Player.RpcCustomMurder(target, MeetingCheck.ForMeeting, createDeadBody: false, teleportMurderer: false);
+            Player.RpcSpecialMurder(target, MeetingCheck.ForMeeting, true, createDeadBody: false, teleportMurderer: false,
+                showKillAnim: false,
+                playKillSound: false,
+                causeOfDeath: "Deputy");
         }
         else
         {

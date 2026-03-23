@@ -385,6 +385,8 @@
   <string name="DiedToHeartbreak">Heartbroken</string>
   <string name="DiedToSheriff">Shot</string>
   <string name="DiedToDeputy">Blasted</string>
+  <string name="DiedToSwapper">Swapped</string>
+  <string name="DiedToMarshal">Tribunal</string>
   <string name="DiedToVeteran">Attacked</string>
   <string name="DiedToJailor">Executed</string>
   <string name="DiedToProsecutor">Prosecuted</string>

@@ -67,6 +67,14 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             }
         }
     }
+
+    public void LobbyStart()
+    {
+        var herbs = CustomButtonSingleton<HerbalistAbilityHerbButton>.Instance;
+        herbs.ExposeUsesLeft = -2;
+        herbs.ConfuseUsesLeft = -2;
+        herbs.ProtectUsesLeft = -2;
+    }
     public string GetAdvancedDescription()
     {
         return TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
