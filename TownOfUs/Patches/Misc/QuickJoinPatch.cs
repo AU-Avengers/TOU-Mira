@@ -11,7 +11,8 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch]
 public static class LobbyJoin
 {
-    private static int GameId;
+    public static int GameId;
+    public static IRegionInfo? TempRegion;
 
     private static GameObject LobbyText;
 
@@ -23,6 +24,33 @@ public static class LobbyJoin
     public static void Postfix(InnerNetClient __instance)
     {
         GameId = __instance.GameId;
+    }
+    [HarmonyPatch(typeof(EnterCodeManager), nameof(EnterCodeManager.FindGameResult))]
+    [HarmonyPostfix]
+    public static void FindGameResult_Postfix(HttpMatchmakerManager.FindGameByCodeResponse response)
+    {
+        if (ServerManager.InstanceExists)
+        {
+            IRegionInfo? region;
+            if (response.Region != StringNames.NoTranslation)
+            {
+                region = ServerManager.DefaultRegions.FirstOrDefault(r => r.TranslateName == response.Region);
+
+                if (region != null)
+                {
+                    TempRegion = region;
+                    Info($"Caching Official Region {TempRegion.Name} for {response.Game.GameId}");
+                    return;
+                }
+            }
+
+            region = ServerManager.Instance.AvailableRegions.FirstOrDefault(r => r.Name == response.UntranslatedRegion);
+            if (region != null)
+            {
+                TempRegion = region;
+                Info($"Caching Region {TempRegion.Name} for {response.Game.GameId}");
+            }
+        }
     }
 
     [HarmonyPatch(typeof(EnterCodeManager), nameof(EnterCodeManager.OnEnable))]
