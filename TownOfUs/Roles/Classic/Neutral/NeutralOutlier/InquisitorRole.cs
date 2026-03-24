@@ -218,11 +218,6 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         return stringB;
     }
 
-    public static void OnRoundStart()
-    {
-        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable = true;
-    }
-
     public void OffsetButtons()
     {
         var canVent = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;

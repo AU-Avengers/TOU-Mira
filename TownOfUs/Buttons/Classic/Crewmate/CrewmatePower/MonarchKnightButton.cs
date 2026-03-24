@@ -3,6 +3,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -25,8 +26,8 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
     public PlayerControl? _knightedTarget;
     private bool _isProcessingClick;
 
-    public bool Usable { get; set; } =
-        OptionGroupSingleton<MonarchOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
+    public static bool Usable =>
+        OptionGroupSingleton<MonarchOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
 
     public override bool CanUse()
     {

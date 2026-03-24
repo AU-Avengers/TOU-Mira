@@ -4,6 +4,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Utilities;
@@ -21,9 +22,10 @@ public sealed class SatelliteButton : TownOfUsButton
     public override int MaxUses => (int)OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.BroadcastSprite;
+    public bool CanStillUse = true;
 
-    public bool Usable { get; set; } = OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse ||
-                                       TutorialManager.InstanceExists;
+    public static bool Usable => OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse ||
+                          TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
 
     public override bool Enabled(RoleBehaviour? role)
     {
@@ -34,7 +36,7 @@ public sealed class SatelliteButton : TownOfUsButton
 
     public override bool CanUse()
     {
-        return base.CanUse() && Usable;
+        return base.CanUse() && Usable && CanStillUse;
     }
 
     public override void CreateButton(Transform parent)
@@ -64,7 +66,7 @@ public sealed class SatelliteButton : TownOfUsButton
 
         if (OptionGroupSingleton<SatelliteOptions>.Instance.OneUsePerRound)
         {
-            Usable = false;
+            CanStillUse = false;
         }
         // will return to this once i get more freetime
         //deadBodies.Do(x => PlayerControl.LocalPlayer.GetModifier<SatelliteModifier>().NewMapIcon(MiscUtils.PlayerById(x.ParentId)));

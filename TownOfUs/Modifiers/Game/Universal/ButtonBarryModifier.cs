@@ -1,10 +1,8 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
@@ -81,10 +79,5 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
 
         return base.IsModifierValidOn(role) &&
                !role.Player.GetModifierComponent().HasModifier<GameModifier>(true, x => x is IButtonModifier);
-    }
-
-    public static void OnRoundStart()
-    {
-        CustomButtonSingleton<BarryButton>.Instance.Usable = true;
     }
 }
