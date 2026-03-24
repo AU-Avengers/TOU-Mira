@@ -61,7 +61,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         foreach (var ga in gas)
         {
             var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.IsRole<FairyRole>() && !x.HasDied() &&
+                .Where(x => !x.IsRole<FairyRole>() && !x.Is(RoleAlignment.NeutralOutlier) && !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName))
                 .ToList();

@@ -23,7 +23,6 @@ using TMPro;
 using TownOfUs.Buttons;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
-using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game;
@@ -38,10 +37,8 @@ using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Networking;
 using TownOfUs.Options;
-using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
@@ -381,8 +378,6 @@ public static class TownOfUsEventHandlers
             HudManager.Instance.SetHudActive(false);
             HudManager.Instance.SetHudActive(true);
         }
-        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable =
-            OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
 
         CustomButtonSingleton<WatchButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance
@@ -393,10 +388,6 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
             .MaxTraps);
-        CustomButtonSingleton<SheriffShootButton>.Instance.Usable =
-            OptionGroupSingleton<SheriffOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
-        CustomButtonSingleton<MonarchKnightButton>.Instance.Usable =
-            OptionGroupSingleton<MonarchOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
         CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
         CustomButtonSingleton<VeteranAlertButton>.Instance.SetUses((int)OptionGroupSingleton<VeteranOptions>.Instance
             .MaxNumAlerts);
@@ -435,13 +426,6 @@ public static class TownOfUsEventHandlers
 
         CustomButtonSingleton<WarlockKillButton>.Instance.Charge = 0f;
         CustomButtonSingleton<WarlockKillButton>.Instance.BurstActive = false;
-
-        CustomButtonSingleton<BarryButton>.Instance.Usable =
-            OptionGroupSingleton<ButtonBarryOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
-        CustomButtonSingleton<SatelliteButton>.Instance.Usable =
-            OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists;
-        CustomButtonSingleton<BomberPlantButton>.Instance.Usable =
-            OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound || TutorialManager.InstanceExists;
 
         // This sets the sabo cooldowns properly
         if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))

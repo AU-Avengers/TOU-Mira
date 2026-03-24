@@ -1,6 +1,7 @@
 ﻿// using MiraAPI.Roles;
 
 using AmongUs.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Crewmate;
@@ -35,6 +36,11 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
 
     public override void OnMeetingStart()
     {
+        if (PlayerControl.LocalPlayer.HasDied())
+        {
+            Player.RemoveModifier(this);
+            return;
+        }
         var roleWhenAlive = Player.GetRoleWhenAlive();
         if (roleWhenAlive is ICrewVariant crewType)
         {

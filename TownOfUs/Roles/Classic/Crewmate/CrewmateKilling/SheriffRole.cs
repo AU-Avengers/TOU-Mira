@@ -85,11 +85,6 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         return stringB;
     }
 
-    public static void OnRoundStart()
-    {
-        CustomButtonSingleton<SheriffShootButton>.Instance.Usable = true;
-    }
-
     [MethodRpc((uint)TownOfUsRpc.SheriffMisfire)]
     public static void RpcSheriffMisfire(PlayerControl sheriff)
     {

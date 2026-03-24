@@ -3,6 +3,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
+using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
 using UnityEngine;
@@ -19,8 +20,8 @@ public sealed class BarryButton : TownOfUsButton
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => TouAssets.BarryButtonSprite;
 
-    public bool Usable { get; set; } = OptionGroupSingleton<ButtonBarryOptions>.Instance.FirstRoundUse ||
-                                       TutorialManager.InstanceExists;
+    public static bool Usable => OptionGroupSingleton<ButtonBarryOptions>.Instance.FirstRoundUse ||
+                          TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
 
     public override bool Enabled(RoleBehaviour? role)
     {

@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -56,6 +57,10 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
     public override void OnMeetingStart()
     {
+        if (Player.HasDied() && Player.AmOwner)
+        {
+            ModifierUtils.GetActiveModifiers<ImitatedRevealedModifier>().Do(x => x.Player.RemoveModifier(x));
+        }
         if (!Player.IsCrewmate())
         {
             var text = "Removed Imitator Cache Modifier On Meeting Start";

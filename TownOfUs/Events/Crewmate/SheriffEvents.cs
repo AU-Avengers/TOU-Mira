@@ -22,10 +22,6 @@ public static class SheriffEvents
         {
             CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot = false;
         }
-        else if (PlayerControl.LocalPlayer.Data.Role is SheriffRole)
-        {
-            SheriffRole.OnRoundStart();
-        }
     }
 
     [RegisterEvent]

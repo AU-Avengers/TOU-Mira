@@ -223,11 +223,6 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
     }
 
-    public static void OnRoundStart()
-    {
-        CustomButtonSingleton<MonarchKnightButton>.Instance.Usable = true;
-    }
-
 }
 
 public enum RealFlash
