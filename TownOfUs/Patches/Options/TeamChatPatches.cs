@@ -861,12 +861,12 @@ public static class TeamChatPatches
     {
         public static void Postfix(ChatController __instance)
         {
-            if (!__instance.IsOpenOrOpening)
-            {
-                return;
-            }
+            if (
+                !__instance.IsOpenOrOpening ||
+                __instance == null ||
+                __instance.Pointer == IntPtr.Zero
+            ) return;
 
-            // Ensure that opening chat reflects the currently-selected custom chat mode.
             if (TeamChatActive && !ForceReset)
             {
                 UpdateChat();
@@ -876,15 +876,22 @@ public static class TeamChatPatches
                 (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null || TeamChatActive))
             {
                 var sprite = PrivateChatDot.GetComponent<SpriteRenderer>();
-                sprite.enabled = false;
+                if (sprite != null) sprite.enabled = false;
             }
 
             if (!TeamChatActive || ForceReset)
             {
                 ForceReset = false;
+
                 var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
+                if (ChatScreenContainer == null) return;
+
                 var Background = ChatScreenContainer.transform.FindChild("Background");
+                if (Background == null) return;
+
                 var bubbleItems = GameObject.Find("Items");
+                if (bubbleItems == null) return;
+
                 foreach (var bubble in bubbleItems.GetAllChildren())
                 {
                     bubble.gameObject.SetActive(true);
@@ -893,10 +900,15 @@ public static class TeamChatPatches
                         bubble.gameObject.SetActive(false);
                     }
                 }
-                var chat = HudManager.Instance.Chat;
+
+                var chat = HudManager.Instance?.Chat;
+                if (chat == null) return;
+
                 calledByChatUpdate = true;
                 chat.AlignAllBubbles();
-                Background.GetComponent<SpriteRenderer>().color = Color.white;
+
+                var bgRenderer = Background.GetComponent<SpriteRenderer>();
+                if (bgRenderer != null) bgRenderer.color = Color.white;
             }
 
             if (TeamChatButton)
