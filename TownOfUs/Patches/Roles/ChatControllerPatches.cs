@@ -23,7 +23,7 @@ public static class ChatControllerPatches
     public static void AwakePostfix(ChatController __instance)
     {
         if (
-            __instance == null ||
+            __instance is null ||
             __instance.Pointer == IntPtr.Zero ||
             __instance.sendRateMessageText == null
         ) return;
@@ -45,7 +45,6 @@ public static class ChatControllerPatches
         }
 
         var localData = PlayerControl.LocalPlayer.Data;
-        if (localData == null) return;
 
         if (!MeetingHud.Instance)
         {

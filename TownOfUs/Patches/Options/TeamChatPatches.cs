@@ -862,9 +862,9 @@ public static class TeamChatPatches
         public static void Postfix(ChatController __instance)
         {
             if (
-                !__instance.IsOpenOrOpening ||
-                __instance == null ||
-                __instance.Pointer == IntPtr.Zero
+                __instance is null ||
+                __instance.Pointer == IntPtr.Zero ||
+                !__instance.IsOpenOrOpening
             ) return;
 
             if (TeamChatActive && !ForceReset)
