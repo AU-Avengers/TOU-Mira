@@ -2028,4 +2028,12 @@
   <string name="TouRoleMonarchKnightFallenFeedback">你的騎士\%player\%已陣亡...</string>
   <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%調查型\%/color\%職業可以收集其他玩家的信息,從而判斷誰是船員。• \%color=#8CFFFF\%擊殺型\%/color\%職業可以\%color=#FF8B95\%擊殺\%/color\%他人,但\%color=#FF8B95\%擊殺\%/color\%\%color=#8CFFFF\%船員\%/color\%可能會帶來後果。 • \%color=#8CFFFF\%保護型\%/color\%職業可以保護其他玩家,有時也能保護自己。 • \%color=#8CFFFF\%強力型\%/color\% 職業通常會影響投票,或擁有比其他\%color=#8CFFFF\%船員\%/color\%更強的能力。 • \%color=#8CFFFF\%支援型\%/color\%職業通常可以幫助其他\%color=#8CFFFF\%船員\%/color\%，或為自己提供幫助。</string>
   <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%中立\%/color\%子陣營</string>
+  <string name="TouRoleProsecutorCanProsecuteCrew">\%b\%你可以起訴船員。\%/b\%</string>
+  <string name="TouRoleProsecutorProsecutionsRemaining">剩餘起訴次數: \%count\%</string>
+  <string name="TouRoleSnitchSelfRevealedEgoFeedback">偽裝者已經知道你的位置,並且知道你是自大狂!</string>
+  <string name="TouRoleSnitchSelfRevealedFeedback">偽裝者已經知道你的位置!</string>
+  <string name="TouRoleSnitchImpRevealedEgoFeedback">告密者是一名自大狂,他會幫助你推翻船員!</string>
+  <string name="TouRoleSnitchImpRevealedFeedback">告密者即將揭露你的身份!</string>
+  <string name="TouRoleSnitchSelfCompletedEgoFeedback">你已經揭露了偽裝者,他們可以幫助你達成勝利條件!</string>
+  <string name="TouRoleSnitchSelfCompletedFeedback">你已經揭露了偽裝者!</string>
 </resources>

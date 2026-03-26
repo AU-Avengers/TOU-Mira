@@ -1992,7 +1992,7 @@
   <string name="TouRoleSnitchSelfRevealedEgoFeedback">伪装者已经知道你的位置，并且知道你是自大狂！</string>
   <string name="TouRoleSnitchSelfRevealedFeedback">伪装者已经知道你的位置！</string>
   <string name="TouRoleSnitchImpRevealedEgoFeedback">告密者是一名自大狂，他会帮助你推翻船员！</string>
-  <string name="TouRoleSnitchImpRevealedFeedback">告密者正在接近揭露你的身份！</string>
+  <string name="TouRoleSnitchImpRevealedFeedback">告密者即将揭露你的身份！</string>
   <string name="TouRoleSnitchSelfCompletedEgoFeedback">你已经揭露了伪装者，他们可以帮助你达成胜利条件！</string>
   <string name="TouRoleSnitchSelfCompletedFeedback">你已经揭露了伪装者！</string>
   <string name="TouRoleSnitchImpCompletedEgoFeedback">告密者现在可以以自大狂的身份帮助你！</string>
