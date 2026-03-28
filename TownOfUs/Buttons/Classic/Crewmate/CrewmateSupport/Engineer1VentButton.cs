@@ -1,6 +1,7 @@
-﻿using MiraAPI.GameOptions;
+﻿using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Usables;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -13,7 +14,6 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Vent>
 {
-    private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.VentLabel, "Vent");
     public override BaseKeybind Keybind => Keybinds.VentAction;
     public override Color TextOutlineColor => TownOfUsColors.Engineer;
@@ -29,28 +29,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
 
     public override Vent? GetTarget()
     {
-        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(Distance / 4, Filter);
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(Distance / 3, Filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(Distance / 2, Filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(Distance, Filter);
-        }
-
-        if (vent != null && PlayerControl.LocalPlayer.CanUseVent(vent))
-        {
-            return vent;
-        }
-
-        return null;
+        return TouRoleUtils.GetClosestUsableVent(true);
     }
 
     public override bool CanUse()
@@ -137,8 +116,40 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         if (PlayerControl.LocalPlayer.inVent)
         {
             // Error($"Left Vent");
+            _ = Vent.currentVent.CanUse(PlayerControl.LocalPlayer.Data, true, out var couldUse);
             Vent.currentVent.SetButtons(false);
-            PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+            if (!couldUse)
+            {
+                Error($"Current vent cannot be exited, finding alternate route.");
+                Vent? newVent = null;
+                foreach (var closeVent in Vent.currentVent.NearbyVents)
+                {
+                    if (newVent != null)
+                    {
+                        break;
+                    }
+                    var @event = new PlayerCanUseEvent(closeVent.Cast<IUsable>());
+                    MiraEventManager.InvokeEvent(@event);
+
+                    if (!@event.IsCancelled)
+                    {
+                        newVent = closeVent;
+                    }
+                }
+
+                if (newVent != null)
+                {
+                    PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(newVent.Id);
+                }
+                else
+                {
+                    PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+                }
+            }
+            else
+            {
+                PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+            }
             UsesLeft--;
             if (LimitedUses)
             {
