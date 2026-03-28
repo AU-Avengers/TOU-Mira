@@ -416,11 +416,6 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (shieldBreaks)
         {
-            if (source.AmOwner)
-            {
-                source.SetKillTimer(source.GetKillCooldown());
-            }
-
             var role = medic.GetRole<MedicRole>();
             role?.SetShieldedPlayer(null);
         }
