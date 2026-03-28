@@ -68,6 +68,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public CustomRoleConfiguration Configuration => new(this)
     {
         MaxRoleCount = 1,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Ambassador
     };
 

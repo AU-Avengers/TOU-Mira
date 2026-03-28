@@ -47,6 +47,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Ambusher,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<AmbusherOptions>.Instance.CanVent
     };
 

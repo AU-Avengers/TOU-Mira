@@ -59,6 +59,7 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Swapper,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         MaxRoleCount = 1,
         IntroSound = TouAudio.TimeLordIntroSound
     };

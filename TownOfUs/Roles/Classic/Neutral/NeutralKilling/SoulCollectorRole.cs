@@ -63,6 +63,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<SoulCollectorOptions>.Instance.CanVent,
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.SoulCollector,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 

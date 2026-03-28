@@ -46,6 +46,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         CanUseVent = OptionGroupSingleton<JuggernautOptions>.Instance.CanVent,
         IntroSound = TouAudio.WarlockIntroSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Juggernaut,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

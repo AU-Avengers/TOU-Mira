@@ -30,6 +30,7 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     {
         CanUseVent = OptionGroupSingleton<SwooperOptions>.Instance.CanVent,
         Icon = TouRoleIcons.Swooper,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.PhantomIntroSound
     };
 

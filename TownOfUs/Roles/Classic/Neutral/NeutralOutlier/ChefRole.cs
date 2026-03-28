@@ -83,6 +83,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         IntroSound = TouAudio.ChefSound,
         Icon = TouRoleIcons.Chef,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

@@ -110,6 +110,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Scavenger,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.WarlockIntroSound
     };
 

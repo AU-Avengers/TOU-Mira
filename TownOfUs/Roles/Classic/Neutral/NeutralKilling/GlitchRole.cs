@@ -71,6 +71,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
     {
         CanUseVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent,
         IntroSound = TouAudio.GlitchSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Glitch,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

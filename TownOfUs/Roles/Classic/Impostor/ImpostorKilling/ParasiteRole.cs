@@ -63,6 +63,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     public CustomRoleConfiguration Configuration => new(this)
     {
         UseVanillaKillButton = false,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Parasite,
         CanUseVent = OptionGroupSingleton<ParasiteOptions>.Instance.CanVent
     };

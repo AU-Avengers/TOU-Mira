@@ -65,6 +65,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     {
         CanUseVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent /* && (Rampaging || Player.inVent)*/,
         IntroSound = TouAudio.WerewolfRampageSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Werewolf,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

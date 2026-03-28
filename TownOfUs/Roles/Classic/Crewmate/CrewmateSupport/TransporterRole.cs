@@ -61,6 +61,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Transporter,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.TimeLordIntroSound
     };
 

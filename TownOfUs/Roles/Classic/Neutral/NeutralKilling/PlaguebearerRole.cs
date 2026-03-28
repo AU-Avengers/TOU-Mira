@@ -90,6 +90,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Plaguebearer,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

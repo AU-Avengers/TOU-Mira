@@ -77,6 +77,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public CustomRoleConfiguration Configuration => new(this)
     {
         MaxRoleCount = 1,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Jailor,
         IntroSound = TouAudio.ImpostorIntroSound
     };

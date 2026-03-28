@@ -32,10 +32,9 @@ public sealed class WarlockRole(IntPtr cppPtr)
     {
         UseVanillaKillButton = false,
         IntroSound = TouAudio.WarlockIntroSound,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Warlock
     };
-
-
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

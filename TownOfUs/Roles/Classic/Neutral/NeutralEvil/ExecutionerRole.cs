@@ -143,6 +143,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     {
         IntroSound = TouAudio.DiscoveredSound,
         Icon = TouRoleIcons.Executioner,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
