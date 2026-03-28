@@ -66,6 +66,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         IntroSound = TouAudio.QuestionSound,
         Icon = TouRoleIcons.Doomsayer,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 

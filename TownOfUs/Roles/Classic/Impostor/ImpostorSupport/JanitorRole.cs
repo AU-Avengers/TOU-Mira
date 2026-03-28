@@ -60,6 +60,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
     {
         UseVanillaKillButton = true,
         Icon = TouRoleIcons.Janitor,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.JanitorCleanSound
     };
 

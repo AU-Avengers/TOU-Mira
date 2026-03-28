@@ -77,6 +77,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.ScientistIntroSound,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Mirrorcaster
     };
 

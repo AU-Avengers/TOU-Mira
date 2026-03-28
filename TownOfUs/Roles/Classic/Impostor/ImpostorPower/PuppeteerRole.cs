@@ -49,6 +49,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         UseVanillaKillButton = false,
         Icon = TouRoleIcons.Puppeteer,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,
         CanUseVent = OptionGroupSingleton<PuppeteerOptions>.Instance.CanVent
     };

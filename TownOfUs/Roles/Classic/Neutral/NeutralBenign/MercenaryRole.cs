@@ -84,6 +84,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Mercenary,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 

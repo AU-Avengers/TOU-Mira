@@ -57,6 +57,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         MaxRoleCount = 1,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Traitor
     };
 

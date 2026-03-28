@@ -71,6 +71,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     {
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Survivor,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 

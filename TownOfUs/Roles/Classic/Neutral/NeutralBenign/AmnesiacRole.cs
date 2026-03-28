@@ -83,6 +83,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.MediumIntroSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         Icon = TouRoleIcons.Amnesiac
     };

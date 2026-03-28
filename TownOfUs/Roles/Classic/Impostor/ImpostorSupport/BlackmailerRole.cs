@@ -46,6 +46,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
     public CustomRoleConfiguration Configuration => new(this)
     {
         UseVanillaKillButton = true,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Blackmailer
     };
 

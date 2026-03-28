@@ -90,6 +90,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     {
         CanUseVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent,
         IntroSound = TouAudio.ArsoIgniteSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Arsonist,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),

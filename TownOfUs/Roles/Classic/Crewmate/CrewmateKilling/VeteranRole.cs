@@ -52,6 +52,7 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Veteran,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
     };
 

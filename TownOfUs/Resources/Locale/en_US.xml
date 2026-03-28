@@ -384,6 +384,7 @@
   <string name="DiedToGuess">Guessed</string>
   <string name="DiedToHeartbreak">Heartbroken</string>
   <string name="DiedToSheriff">Shot</string>
+  <string name="DiedToOfficer">Wounded</string>
   <string name="DiedToDeputy">Blasted</string>
   <string name="DiedToSwapper">Swapped</string>
   <string name="DiedToMarshal">Tribunal</string>
@@ -1237,13 +1238,24 @@
   <string name="TouSystemType_MushroomMixupSabotage">Mushroom Mixup</string>
   <string name="TouSystemType_HeliSabotage">Heli Sabotage</string>
 
+  <!-- Officer - Crewmate Killing -->
+  <!-- Officer Wiki / Abilities -->
+  <string name="TouRoleOfficer">Officer</string>
+  <string name="TouRoleOfficerIntroBlurb">Reload and shoot the \%color=#FF0000FF\%Killers\%/color\%</string>
+  <string name="TouRoleOfficerTabDescription">Load bullets strategically without wasting them.</string>
+  <string name="TouRoleOfficerWikiDescription">The Officer is a Crewmate Killing role that can shoot players, but with limited uses. They must also load bullets into their chamber, which will be ditched the following round.</string>
+  <string name="TouRoleOfficerLoad">Load</string>
+  <string name="TouRoleOfficerLoadWikiDescription">Load a bullet into your gun, allowing you to shoot.</string>
+  <string name="TouRoleOfficerShoot">Shoot</string>
+  <string name="TouRoleOfficerShootWikiDescription">Shoot a player to kill them. If the player is considered "innocent," then you will put away your gun temporarily.</string>
+
   <!-- Sheriff - Crewmate Killing -->
   <!-- Sheriff Wiki / Abilities -->
   <string name="TouRoleSheriff">Sheriff</string>
   <string name="TouRoleSheriffIntroBlurb">Shoot the \%color=#FF0000FF\%Evildoers\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">Kill off the impostors but don't kill crewmates</string>
   <string name="TouRoleSheriffTabDescriptionEgo">Kill off whoever you wish in hopes of crew losing</string>
-  <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
+  <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing role that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
   <string name="TouRoleSheriffShoot">Shoot</string>
   <string name="TouRoleSheriffShootWikiDescription">Shoot a player to kill them, misfiring if they aren't an Impostor or one of the other selected shootable factions</string>
   <!-- Sheriff Misfire Text -->

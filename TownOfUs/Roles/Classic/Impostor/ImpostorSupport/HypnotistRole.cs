@@ -57,6 +57,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         UseVanillaKillButton = true,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Hypnotist
     };
 

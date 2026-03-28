@@ -51,6 +51,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Spellslinger,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,
         IntroSound = TouAudio.ArsoIgniteSound,
     };
