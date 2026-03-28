@@ -7,7 +7,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using TownOfUs.Buttons;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 using UnityEngine;
 using TownOfUs.Options.Modifiers.Impostor;
 using MiraAPI.Utilities;
