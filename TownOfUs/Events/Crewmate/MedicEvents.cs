@@ -185,21 +185,21 @@ public static class MedicEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
         if (OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks)
         {
+            button?.ResetCooldownAndOrEffect();
+            source.SetKillTimer(source.GetKillCooldown());
             return;
         }
 
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
 
         button?.SetTimer(reset);
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
-        {
-            return;
-        }
-
         source.SetKillTimer(reset);
     }
 }

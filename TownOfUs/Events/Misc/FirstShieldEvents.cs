@@ -62,16 +62,14 @@ public static class FirstShieldEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a first round shield, fending off {source.Data.PlayerName}!");
         @event.Cancel();
 
-        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
-
-        button?.SetTimer(reset);
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
+        if (!source.AmOwner)
         {
             return;
         }
 
+        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
+
+        button?.SetTimer(reset);
         source.SetKillTimer(reset);
     }
 }

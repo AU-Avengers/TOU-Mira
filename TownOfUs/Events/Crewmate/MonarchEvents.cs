@@ -125,13 +125,14 @@ public static class MonarchEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
 
         button?.SetTimer(reset);
-
-        if (!source.AmOwner || !source.IsImpostor())
-            return;
-
         source.SetKillTimer(reset);
     }
 }

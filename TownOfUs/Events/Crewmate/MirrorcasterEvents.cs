@@ -109,19 +109,17 @@ public static class MirrorcasterEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
         button?.ResetCooldownAndOrEffect();
 
         if (source.Data.Role is WerewolfRole)
         {
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
-        {
-            return;
-        }
-
         source.SetKillTimer(source.GetKillCooldown());
     }
 }

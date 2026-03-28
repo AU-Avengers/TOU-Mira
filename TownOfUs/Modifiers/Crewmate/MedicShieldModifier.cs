@@ -80,8 +80,9 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
         }
     }
 
-    public override void Update()
+    public override void FixedUpdate()
     {
+        base.FixedUpdate();
         if (Player == null || Medic == null)
         {
             ModifierComponent?.RemoveModifier(this);
