@@ -1242,15 +1242,13 @@
   <!-- Officer Wiki / Abilities -->
   <string name="TouRoleOfficer">Officer</string>
   <string name="TouRoleOfficerIntroBlurb">Reload and shoot the \%color=#FF0000FF\%Killers\%/color\%</string>
-  <string name="TouRoleOfficerTabDescription">Load bullets strategically without wasting them.</string>
   <string name="TouRoleOfficerTabAdditionCount">Rounds left to shoot again: \%count\%</string>
   <string name="TouRoleOfficerTabAdditionNext">Next round, you may shoot again.</string>
   <string name="TouRoleOfficerTabAdditionMajorityInno">Only shoot Impostors and Neutral Killers.</string>
   <string name="TouRoleOfficerTabAdditionCrewmatesInno">Only shoot Impostors and Neutrals.</string>
   <string name="TouRoleOfficerTabAdditionKillBasedInno">Only shoot anyone who's killed already.</string>
-  <string name="TouRoleOfficerWikiDescription">The Officer is a Crewmate Killing role that can shoot players, but with limited uses. They must also load bullets into their chamber, which will be ditched the following round.</string>
-  <string name="TouRoleOfficerTabDescription">Load bullets strategically without wasting them.\%nl\%All loaded bullets are reset next round.</string>
-  <string name="TouRoleOfficerWikiDescription">The Officer is a Crewmate Killing role that can shoot players with limited uses. They must also load bullets, which will be ditched the following round, unless they were added within 10 seconds.</string>
+  <string name="TouRoleOfficerTabDescription">Load bullets strategically without wasting them.\%nl\%Loaded bullets older than 10s are reset next round.</string>
+  <string name="TouRoleOfficerWikiDescription">The Officer is a Crewmate Killing role that can shoot players with limited ammo. They must load bullets, which only last one round unless they are added within 10 seconds.</string>
   <string name="TouRoleOfficerLoad">Load</string>
   <string name="TouRoleOfficerLoadWikiDescription">Load a bullet into your gun, allowing you to shoot.</string>
   <string name="TouRoleOfficerShoot">Shoot</string>

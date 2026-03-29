@@ -894,7 +894,8 @@ public static class TownOfUsEventHandlers
         {
             { TouAssets.MeetingDeathBloodAnim1.LoadAsset(), TouAssets.MeetingDeathAnim1.LoadAsset() },
             { TouAssets.MeetingDeathBloodAnim2.LoadAsset(), TouAssets.MeetingDeathAnim2.LoadAsset() },
-            { TouAssets.MeetingDeathBloodAnim3.LoadAsset(), TouAssets.MeetingDeathAnim3.LoadAsset() }
+            { TouAssets.MeetingDeathBloodAnim3.LoadAsset(), TouAssets.MeetingDeathAnim3.LoadAsset() },
+            { TouAssets.MeetingDeathBloodAnim4.LoadAsset(), TouAssets.MeetingDeathAnim4.LoadAsset() }
         };
         var trueAnim = animDic.Random();
         var animation = Object.Instantiate(TouAssets.MeetingDeathPrefab.LoadAsset(), voteArea.transform);
@@ -937,11 +938,20 @@ public static class TownOfUsEventHandlers
         bodysAnim.SetSpeed(1.05f);
         bloodAnim.SetSpeed(1.05f);
         var bodyAnimLength = bodysAnim.m_currAnim.length;
+        var isRhm = (trueAnim.Key == TouAssets.MeetingDeathBloodAnim4.LoadAsset());
 
-        yield return new WaitForSeconds(0.1f);
-        SoundManager.Instance.PlaySound(voteArea.GetPlayer()!.KillSfx, false);
+        if (isRhm)
+        {
+            SoundManager.Instance.PlaySound(TouAudio.LaserKillSound.LoadAsset(), false);
+            yield return new WaitForSeconds(bodyAnimLength);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.1f);
+            SoundManager.Instance.PlaySound(voteArea.GetPlayer()!.KillSfx, false);
+            yield return new WaitForSeconds(bodyAnimLength - 0.25f);
+        }
 
-        yield return new WaitForSeconds(bodyAnimLength - 0.25f);
         // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
         try
         {
