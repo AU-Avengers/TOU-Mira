@@ -1259,7 +1259,7 @@
   <string name="TouOptionOfficerShootCooldown">Shoot Cooldown</string>
   <string name="TouOptionOfficerLoadCooldown">Load Cooldown</string>
   <string name="TouOptionOfficerCanSelfReport">Can Self Report</string>
-  <string name="TouOptionOfficerCanOnlyShootActiveKillers">Officer Can Only Shoot Active Killers</string>
+  <string name="TouOptionOfficerCanOnlyShootActiveKillers">Officer Can Only Shoot Players That Have Killed</string>
   <string name="TouOptionOfficerCrewKillingAreInnocent">Crewmate Killing Roles are Innocent</string>
   <string name="TouOptionOfficerNonKillingNeutralsAreInnocent">Non-Killing Neutrals are Innocent</string>
   <string name="TouOptionOfficerFirstRound">Allow Shooting in First Round</string>
