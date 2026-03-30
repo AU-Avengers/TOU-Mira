@@ -149,11 +149,6 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     [MethodRpc((uint)TownOfUsRpc.OfficerMisfire)]
     public static void RpcOfficerMisfire(PlayerControl officer)
     {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(officer);
-            return;
-        }
         if (officer.Data.Role is not OfficerRole role)
         {
             Error("RpcOfficerMisfire - Invalid officer");
@@ -180,11 +175,6 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public static void OfficerSyncBullets(PlayerControl officer, int roundsBeforeReset, int totalBullets,
         int loadedBullets)
     {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(officer);
-            return;
-        }
         if (officer.Data.Role is not OfficerRole role)
         {
             Error("RpcOfficerMisfire - Invalid officer");
