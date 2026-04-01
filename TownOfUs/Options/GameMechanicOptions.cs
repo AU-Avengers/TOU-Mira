@@ -13,6 +13,11 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     /*[ModdedToggleOption("Hide Names Out Of Sight")]
     public bool HideNamesOutOfSight { get; set; } = true;*/
 
+    public ModdedEnumOption KillAnimationBackgroundColor { get; set; } = new("Kill Animation Background Color", (int)KillColor.Red,
+        typeof(KillColor), ["Red", "Faction", "Role Color"]);
+
+    public ModdedToggleOption CleanedBodiesAppearAsMissing { get; set; } = new("Cleaned Bodies Appear as Missing", true);
+
     public ModdedToggleOption GhostwalkerFixSabos { get; set; } = new("Ghostwalkers Can Fix Sabotages", false);
 
     public ModdedEnumOption ShowPetsMode { get; set; } = new("Pet Visibility", (int)PetVisiblity.AlwaysVisible,
@@ -32,4 +37,11 @@ public enum PetVisiblity
     ClientSide,
     WhenAlive,
     AlwaysVisible
+}
+
+public enum KillColor
+{
+    Red,
+    Faction,
+    RoleColor
 }
