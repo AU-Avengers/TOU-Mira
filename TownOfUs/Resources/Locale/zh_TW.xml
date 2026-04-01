@@ -2036,4 +2036,13 @@
   <string name="TouRoleSnitchImpRevealedFeedback">告密者即將揭露你的身份!</string>
   <string name="TouRoleSnitchSelfCompletedEgoFeedback">你已經揭露了偽裝者,他們可以幫助你達成勝利條件!</string>
   <string name="TouRoleSnitchSelfCompletedFeedback">你已經揭露了偽裝者!</string>
+  <string name="TouRoleVigilanteEvilTabInfo">你也可以猜測船員。</string>
+  <string name="TouRoleVigilanteNoSafeShots">你已經沒有安全射擊次數了。</string>
+  <string name="TouRoleVigilanteSafeShotsLeft">剩餘\%count\%次安全射擊。</string>
+  <string name="TouRoleVigilanteMultiShotFeedback">你的多重射擊讓你在本次會議中免於死亡! 剩餘\%count\%次安全射擊!</string>
+  <string name="TouRoleDoomsayerWonSelf">你作為\%role\%成功獲勝,因為你成功猜中了足夠多的玩家!</string>
+  <string name="TouRoleDoomsayerWonOther">\%role\%,\%player\%已成功獲勝,因為他們成功猜中了足夠多的玩家!</string>
+  <string name="TouRoleExecutionerWonSelf">你作為\%role\%成功獲勝,因為你的目標被投票出局了!</string>
+  <string name="TouRoleExecutionerWonOther">\%role\%,\%player\%已成功獲勝,因為他們的目標被投票出局了!</string>
+  <string name="TouRoleExecutionerTormentFeedback">你有一回合時間折磨並殺死一名玩家,請謹慎選擇。</string>
 </resources>
