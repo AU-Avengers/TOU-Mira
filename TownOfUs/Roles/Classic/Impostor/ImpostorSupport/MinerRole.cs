@@ -159,7 +159,7 @@ public sealed class MinerRole(IntPtr cppPtr)
             }
         }
 
-        var mapId = (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+        var mapId = (MapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
         if (TutorialManager.InstanceExists)
         {
             mapId = (MapNames)AmongUsClient.Instance.TutorialMapId;

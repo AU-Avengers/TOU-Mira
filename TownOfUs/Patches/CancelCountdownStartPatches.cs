@@ -75,7 +75,7 @@ internal static class CancelCountdownStart
                 notif.AdjustNotification();
             }
 
-            var curMap = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+            var curMap = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
             var defaultDoorType = curMap switch
             {
                 ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => MapDoorType.Skeld,

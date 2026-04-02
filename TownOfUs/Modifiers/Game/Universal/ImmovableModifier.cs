@@ -42,7 +42,7 @@ public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return base.IsModifierValidOn(role) && !(GameOptionsManager.Instance.currentNormalGameOptions.MapId is 4 or 6);
+        return base.IsModifierValidOn(role) && !(GameOptionsManager.Instance.currentGameOptions.MapId is 4 or 6);
     }
 
     public override void FixedUpdate()

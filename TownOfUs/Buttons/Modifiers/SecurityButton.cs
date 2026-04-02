@@ -151,7 +151,7 @@ public sealed class SecurityButton : TownOfUsButton
     protected override void OnClick()
     {
         // Warning($"Checking Base Conditions");
-        /*var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+        /*var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
         if (TutorialManager.InstanceExists)
         {
             mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
