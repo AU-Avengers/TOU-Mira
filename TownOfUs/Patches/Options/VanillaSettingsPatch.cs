@@ -68,9 +68,20 @@ public static class VanillaSettingsPatch
         var commonTask = Math.Min(__instance.CommonTasks.Count, 4);
         var normalTask = Math.Min(__instance.ShortTasks.Count, 8);
         var longTask = Math.Min(__instance.LongTasks.Count, 4);
-        if (GameOptionsManager.Instance.currentNormalGameOptions.NumCommonTasks > commonTask) GameOptionsManager.Instance.currentNormalGameOptions.NumCommonTasks = commonTask;
-        if (GameOptionsManager.Instance.currentNormalGameOptions.NumShortTasks > normalTask) GameOptionsManager.Instance.currentNormalGameOptions.NumShortTasks = normalTask;
-        if (GameOptionsManager.Instance.currentNormalGameOptions.NumLongTasks > longTask) GameOptionsManager.Instance.currentNormalGameOptions.NumLongTasks = longTask;
+        if (GameOptionsManager.Instance.currentGameOptions.GameMode is GameModes.HideNSeek)
+        {
+            var options = GameOptionsManager.Instance.currentHideNSeekGameOptions;
+            if (options.NumCommonTasks > commonTask) options.NumCommonTasks = commonTask;
+            if (options.NumShortTasks > normalTask) options.NumShortTasks = normalTask;
+            if (options.NumLongTasks > longTask) options.NumLongTasks = longTask;
+        }
+        else
+        {
+            var options = GameOptionsManager.Instance.currentNormalGameOptions;
+            if (options.NumCommonTasks > commonTask) options.NumCommonTasks = commonTask;
+            if (options.NumShortTasks > normalTask) options.NumShortTasks = normalTask;
+            if (options.NumLongTasks > longTask) options.NumLongTasks = longTask;
+        }
         return true;
     }
 }
