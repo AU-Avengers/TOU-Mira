@@ -575,7 +575,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         local.RpcSpecialMurder(
             target,
-            MeetingCheck.ForMeeting,
             teleportMurderer: false,
             showKillAnim: false,
             causeOfDeath: "Parasite");
