@@ -1,7 +1,9 @@
-﻿using HarmonyLib;
+﻿using System.Collections;
+using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Utilities;
 using UnityEngine;
@@ -115,6 +117,13 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         }
 
         // Message($"HypnotisedModifier.UnHysteria - {Player.Data.PlayerName}");
+        Coroutines.Start(CoUnHysteria());
+    }
+
+    public IEnumerator CoUnHysteria()
+    {
+        yield return new WaitForSeconds(1f);
+
         ModifierUtils.GetActiveModifiers<HypnotistHysteriaModifier>().Do(x => x.Player.RemoveModifier(x));
 
         HysteriaActive = false;

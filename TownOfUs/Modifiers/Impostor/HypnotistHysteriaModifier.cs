@@ -93,7 +93,7 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
 
     public override void OnDeactivate()
     {
-        Player.MyPhysics.SetForcedBodyType(PlayerControl.LocalPlayer.BodyType);
+        Player.MyPhysics.SetForcedBodyType(PlayerBodyTypes.Normal);
 
         var mushroom = UnityEngine.Object.FindObjectOfType<MushroomMixupSabotageSystem>();
         if (mushroom && mushroom.IsActive)

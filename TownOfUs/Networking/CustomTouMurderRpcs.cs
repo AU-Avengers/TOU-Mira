@@ -179,7 +179,8 @@ public static class CustomTouMurderRpcs
             MiraEventManager.InvokeEvent(beforeMurderEvent);
             var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
             if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) ||
-                (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+                (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive) ||
+                target.ProtectedByGa())
             {
                 beforeMurderEvent.Cancel();
             }
@@ -466,7 +467,18 @@ public static class CustomTouMurderRpcs
         var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.OutsideMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
 
-        if (beforeMurderEvent.IsCancelled)
+        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        if (isMeetingActive)
+        {
+            beforeMurderEvent.Cancel();
+        }
+
+        if (target.ProtectedByGa())
+        {
+            beforeMurderEvent.Cancel();
+            murderResultFlags = MurderResultFlags.FailedProtected;
+        }
+        else if (beforeMurderEvent.IsCancelled)
         {
             murderResultFlags = MurderResultFlags.FailedError;
         }
@@ -683,7 +695,12 @@ public static class CustomTouMurderRpcs
             beforeMurderEvent.Cancel();
         }
 
-        if (beforeMurderEvent.IsCancelled)
+        if (target.ProtectedByGa())
+        {
+            beforeMurderEvent.Cancel();
+            murderResultFlags = MurderResultFlags.FailedProtected;
+        }
+        else if (beforeMurderEvent.IsCancelled)
         {
             murderResultFlags = MurderResultFlags.FailedError;
         }
