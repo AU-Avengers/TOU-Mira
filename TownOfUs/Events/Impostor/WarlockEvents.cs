@@ -21,6 +21,19 @@ public static class WarlockEvents
         {
             ++button.Kills;
         }
+        if (button.Charge >= 100 && !button.BurstActive)
+        {
+            button.BurstActive = true;
+            button.Kills = 0;
+        }
+        else if (button.Charge <= 100 && !button.BurstActive)
+        {
+            button.Charge = 0;
+        }
+        if (!button.BurstActive)
+        {
+            button.Timer = button.Cooldown;
+        }
     }
 
     [RegisterEvent]

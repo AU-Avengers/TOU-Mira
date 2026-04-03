@@ -1,13 +1,20 @@
-﻿using MiraAPI.GameOptions;
+﻿using System.Collections;
+using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities;
+using TownOfUs.Options;
+using TownOfUs.Options.Maps;
+using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, PlayerControl>, IDiseaseableButton,
+    IKillButton
 {
     private string _killName = "Kill";
     private string _burstKill = "Burst Kill";
@@ -107,20 +114,21 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
             return;
         }
 
-        if (!Target.Data.IsDead)
+        if (!Target.Data.IsDead && !MarkedTargets.Contains(Target))
         {
             PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
 
-        if (Target.Data.IsDead && Charge >= 100 && !BurstActive)
-        {
-            BurstActive = true;
-            Kills = 0;
-        } 
-        else if (Target.Data.IsDead && Charge <= 100 && !BurstActive)
-        {
-            Charge = 0;
-        }
+        Coroutines.Start(CoMarkForDeath(Target));
+    }
+
+    public List<PlayerControl> MarkedTargets = new();
+
+    public IEnumerator CoMarkForDeath(PlayerControl player)
+    {
+        MarkedTargets.Add(player);
+        yield return new WaitForSeconds(1f);
+        MarkedTargets.Remove(player);
     }
 
     public override void ClickHandler()
@@ -132,14 +140,27 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
 
         OnClick();
         Button?.SetDisabled();
-        if (!BurstActive)
-        {
-            Timer = Cooldown;
-        }
+        // The timer changes are moved to WarlockEvents.cs due to the kill system changes adding a delay.
     }
 
     public override PlayerControl? GetTarget()
     {
-        return MiscUtils.GetImpostorTarget(Distance);
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var saboOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;
+        var closePlayer = PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
+
+        var includePostors = genOpt.FFAImpostorMode ||
+                             (PlayerControl.LocalPlayer.IsLover() &&
+                              OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates) ||
+                             (saboOpt.KillDuringCamoComms &&
+                              closePlayer?.GetAppearanceType() == TownOfUsAppearances.Camouflage);
+        if (!OptionGroupSingleton<LoversOptions>.Instance.LoversKillEachOther && PlayerControl.LocalPlayer.IsLover())
+        {
+            return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, Distance, false,
+                x => !MarkedTargets.Contains(x) && !x.IsLover());
+        }
+
+        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(includePostors, Distance, false,
+            x => !MarkedTargets.Contains(x));
     }
 }

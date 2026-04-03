@@ -117,7 +117,6 @@ public static class AprilFoolsPatches
         }
     }
 
-    // TODO: Look into these patches to see if they are the reason hide and seek + hypnotist break.
     /*[HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetBodyType))]
     [HarmonyPrefix]
     public static void Prefix(ref PlayerBodyTypes bodyType)
