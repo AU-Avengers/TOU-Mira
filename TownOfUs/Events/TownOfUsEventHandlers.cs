@@ -403,7 +403,7 @@ public static class TownOfUsEventHandlers
         var medicShield = CustomButtonSingleton<MedicShieldButton>.Instance;
         medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
             ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
-            : 0);
+            : 1);
         if (!medicShield.LimitedUses ||
             !OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget)
         {
