@@ -226,7 +226,7 @@ public static class AppearanceExtensions
 
     public static VisualAppearance GetDefaultAppearance(this PlayerControl playerControl)
     {
-        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker)
+        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker or PlayerBodyTypes.Classic)
         {
             return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
             {
@@ -239,7 +239,7 @@ public static class AppearanceExtensions
     public static VisualAppearance GetDefaultModifiedAppearance(this PlayerControl playerControl)
     {
         var appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default);
-        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker)
+        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker or PlayerBodyTypes.Classic)
         {
             appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
             {
