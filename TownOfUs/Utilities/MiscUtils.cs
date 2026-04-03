@@ -2227,7 +2227,7 @@ public static class MiscUtils
         AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
     }
 
-    public static string GetRegionName(IRegionInfo? region = null)
+    public static string GetRegionName(IRegionInfo? region = null, bool shorten = true)
     {
         region ??= ServerManager.Instance.CurrentRegion;
 
@@ -2245,32 +2245,35 @@ public static class MiscUtils
             name = LobbyJoin.TempRegion.Name;
         }
 
-        if (region.PingServer.EndsWith("among.us", StringComparison.Ordinal))
+        if (shorten)
         {
-            // Official Server
-            if (name == "North America") name = "NA";
-            else if (name == "Europe") name = "EU";
-            else if (name == "Asia") name = "AS";
+            if (region.PingServer.EndsWith("among.us", StringComparison.Ordinal))
+            {
+                // Official Server
+                if (name == "North America") name = "NA";
+                else if (name == "Europe") name = "EU";
+                else if (name == "Asia") name = "AS";
 
-            return name;
-        }
+                return name;
+            }
 
-        var Ip = region.Servers.FirstOrDefault()?.Ip ?? string.Empty;
+            var Ip = region.Servers.FirstOrDefault()?.Ip ?? string.Empty;
 
-        if (Ip.Contains("aumods.us", StringComparison.Ordinal)
-            || Ip.Contains("duikbo.at", StringComparison.Ordinal))
-        {
-            // Official Modded Server
-            if (Ip.Contains("au-eu")) name = "MEU";
-            else if (Ip.Contains("au-as")) name = "MAS";
-            else if (Ip.Contains("www.")) name = "MNA";
+            if (Ip.Contains("aumods.us", StringComparison.Ordinal)
+                || Ip.Contains("duikbo.at", StringComparison.Ordinal))
+            {
+                // Official Modded Server
+                if (Ip.Contains("au-eu")) name = "MEU";
+                else if (Ip.Contains("au-as")) name = "MAS";
+                else if (Ip.Contains("www.")) name = "MNA";
 
-            return name;
-        }
+                return name;
+            }
 
-        if (name.Contains("nikocat233", StringComparison.OrdinalIgnoreCase))
-        {
-            name = name.Replace("nikocat233", "Niko233", StringComparison.OrdinalIgnoreCase);
+            if (name.Contains("nikocat233", StringComparison.OrdinalIgnoreCase))
+            {
+                name = name.Replace("nikocat233", "Niko233", StringComparison.OrdinalIgnoreCase);
+            }
         }
 
         return name;
