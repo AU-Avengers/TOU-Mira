@@ -8,6 +8,7 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
@@ -42,8 +43,7 @@ public sealed class FootstepsModifier : BaseModifier
     {
         if (_currentSteps == null || Player.AmOwner ||
             PlayerControl.LocalPlayer.GetModifiers<HypnotisedModifier>().Any(x => x.HysteriaActive) ||
-            Player.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) ||
-            (Player.TryGetModifier<DisabledModifier>(out var mod) && !mod.IsConsideredAlive) || _footstepInterval <
+            !Player.IsVisibleToOthers() || _footstepInterval <
             OptionGroupSingleton<InvestigatorOptions>.Instance.FootprintInterval)
         {
             _footstepInterval += Time.fixedDeltaTime;

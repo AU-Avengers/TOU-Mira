@@ -86,6 +86,8 @@ public enum AbilityType
 
     ShapeshifterShift,
     ShapeshifterUnshift,
+    PhantomVanish,
+    PhantomAppear,
 
     HaunterRevealed,
     HaunterRevealsEvils,

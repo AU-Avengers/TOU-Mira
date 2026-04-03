@@ -46,11 +46,11 @@ public static class ShapeshifterRolePatch
             return false;
         }
 
-        var targetPlayerInfo = targetPlayer == null ? __instance.Data : targetPlayer.Data;
+        var trueTargetPlayer = targetPlayer == null ? __instance : targetPlayer;
 
         Action changeOutfit = delegate()
         {
-            if (targetPlayerInfo.PlayerId == __instance.Data.PlayerId)
+            if (trueTargetPlayer.Data.PlayerId == __instance.Data.PlayerId)
             {
                 __instance.RemoveModifier<ShapeshifterShiftModifier>();
                 __instance.logger.Info(
@@ -65,12 +65,12 @@ public static class ShapeshifterRolePatch
             }
             else
             {
-                __instance.AddModifier<ShapeshifterShiftModifier>(targetPlayer);
+                __instance.AddModifier<ShapeshifterShiftModifier>(trueTargetPlayer);
                 __instance.logger.Info(
                     string.Format(TownOfUsPlugin.Culture, "Player {0} is shapeshifting into {1}", __instance.PlayerId,
-                        targetPlayer.PlayerId),
+                        trueTargetPlayer.PlayerId),
                     null);
-                __instance.shapeshiftTargetPlayerId = (int)targetPlayer.PlayerId;
+                __instance.shapeshiftTargetPlayerId = (int)trueTargetPlayer.PlayerId;
                 if (__instance.AmOwner)
                 {
                     HudManager.Instance.AbilityButton.OverrideText(

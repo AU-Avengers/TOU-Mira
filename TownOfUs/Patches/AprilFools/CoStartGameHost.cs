@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Patches.AprilFools;
 
+#pragma warning disable S1121
 // Thanks Galster (https://github.com/Galster-dev), taken from https://github.com/Tommy-XL/Unlock-dlekS-ehT/blob/main/Patches/CoStartGameHostPatch.cs
 [HarmonyPatch]
 public static class CoStartGameHostPatch
@@ -48,3 +49,4 @@ public static class CoStartGameHostPatch
         return false;
     }
 }
+#pragma warning restore S1121

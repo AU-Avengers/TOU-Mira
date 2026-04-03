@@ -8,7 +8,7 @@ namespace TownOfUs.Modifiers.Impostor;
 
 public sealed class ShapeshifterShiftModifier(PlayerControl target) : ConcealedModifier, IVisualAppearance
 {
-    public override string ModifierName => "Morph";
+    public override string ModifierName => "Shifted";
     public override bool HideOnUi => true;
     // This doesn't autostart, as we let vanilla handle the timer logic instead.
     public override bool AutoStart => false;

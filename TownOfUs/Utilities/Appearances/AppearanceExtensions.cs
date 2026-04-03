@@ -1,6 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Options.Maps;
@@ -274,5 +275,12 @@ public static class AppearanceExtensions
         }
 
         return appearance;
+    }
+
+    public static bool IsVisibleToOthers(this PlayerControl playerControl)
+    {
+        return !playerControl.shouldAppearInvisible && playerControl.Visible && !playerControl.inVent &&
+               !playerControl.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) &&
+               !(playerControl.TryGetModifier<DisabledModifier>(out var mod) && !mod.IsConsideredAlive);
     }
 }
