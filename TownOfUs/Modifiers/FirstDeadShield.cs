@@ -8,6 +8,7 @@ using TownOfUs.Patches;
 using TownOfUs.Roles.Other;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -117,16 +118,15 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             {
                 showAsTarget = mimic.Target.HasModifier<FirstDeadShield>();
             }
+            else if (Player.TryGetModifier<ShapeshifterShiftModifier>(out var shift) && shift.Target != null)
+            {
+                showAsTarget = shift.Target.HasModifier<FirstDeadShield>();
+            }
 
             // Morph/Mimic are implemented as ConcealedModifier, but they are still visible to others.
             // Only hide the shield for "true conceal" (e.g. swoop/invis), vents, disabled, etc.
-            var trulyConcealed =
-                Player.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) ||
-                !Player.Visible ||
-                (Player.TryGetModifier<DisabledModifier>(out var disabled) && !disabled.IsConsideredAlive) ||
-                Player.inVent;
 
-            FirstRoundShield.SetActive(!trulyConcealed && IsVisible && showAsTarget);
+            FirstRoundShield.SetActive(Player.IsVisibleToOthers() && IsVisible && showAsTarget);
         }
         else if (MeetingHud.Instance)
         {

@@ -25,7 +25,8 @@ public static class MedicEvents
     {
         if (PlayerControl.LocalPlayer.Data.Role is MedicRole)
         {
-            MedicRole.OnRoundStart();
+            var button = CustomButtonSingleton<MedicShieldButton>.Instance;
+            button.CanChangeTarget = true;
         }
 
         var medicShields = ModifierUtils.GetActiveModifiers<MedicShieldModifier>();
