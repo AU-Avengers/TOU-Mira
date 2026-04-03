@@ -81,6 +81,11 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         {
             bodyShape = PlayerBodyTypes.Seeker;
         }
+        else if (bodyType == 5)
+        {
+            localBodyShape = PlayerBodyTypes.Classic;
+            bodyShape = PlayerBodyTypes.Classic;
+        }
 
         PlayerControl.LocalPlayer.MyPhysics.SetForcedBodyType(localBodyShape);
 

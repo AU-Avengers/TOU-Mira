@@ -1,20 +1,31 @@
+using System.Reflection;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes;
+using MiraAPI.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.AprilFools;
 
 // Thanks Galster (https://github.com/Galster-dev), taken from https://github.com/Tommy-XL/Unlock-dlekS-ehT/blob/main/Patches/CoStartGameHostPatch.cs
-[HarmonyPatch(typeof(AmongUsClient._CoStartGameHost_d__28), nameof(AmongUsClient._CoStartGameHost_d__28.MoveNext))]
+[HarmonyPatch]
 public static class CoStartGameHostPatch
 {
-    public static bool Prefix(AmongUsClient._CoStartGameHost_d__28 __instance, ref bool __result)
+    public static MethodBase TargetMethod()
     {
-        if (__instance.__1__state != 0)
+        return Helpers.GetStateMachineMoveNext<AmongUsClient>(nameof(AmongUsClient.CoStartGameHost))!;
+    }
+
+    public static bool Prefix(Il2CppObjectBase __instance, ref bool __result)
+    {
+        var wrapper = new StateMachineWrapper<AmongUsClient>(__instance);
+        if (wrapper.GetState() != 0)
         {
             return true;
         }
 
-        __instance.__1__state = -1;
+        var client = wrapper.Instance;
+
+        wrapper.SetState(-1);
         if (LobbyBehaviour.Instance)
         {
             LobbyBehaviour.Instance.Despawn();
@@ -22,16 +33,16 @@ public static class CoStartGameHostPatch
 
         if (ShipStatus.Instance)
         {
-            __instance.__2__current = null;
-            __instance.__1__state = 2;
+            wrapper.SetRecentReturn(null!);
+            wrapper.SetState(2);
             __result = true;
             return false;
         }
 
         // removed dleks check as it's always false
         var num2 = Mathf.Clamp(GameOptionsManager.Instance.CurrentGameOptions.MapId, 0, Constants.MapNames.Length - 1);
-        __instance.__2__current = __instance.__4__this.ShipLoadingAsyncHandle = __instance.__4__this.ShipPrefabs[num2].InstantiateAsync();
-        __instance.__1__state = 1;
+        wrapper.SetRecentReturn(client.ShipLoadingAsyncHandle = client.ShipPrefabs[num2].InstantiateAsync());
+        wrapper.SetState(1);
 
         __result = true;
         return false;

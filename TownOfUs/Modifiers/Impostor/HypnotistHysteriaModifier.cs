@@ -37,6 +37,17 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
                 };
             }
 
+            if (NewBodyType is PlayerBodyTypes.Classic)
+            {
+                return new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultModifiedAppearance(), TownOfUsAppearances.Morph)
+                {
+                    SkinId = "skin_None",
+                    PlayerName = string.Empty,
+                    PetId = "pet_EmptyPet",
+                    Size = new Vector3(0.7f, 0.7f, 1f)
+                };
+            }
+
             return morph;
         }
 
