@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using TownOfUs.Options.Roles.HnsImpostor;
 using TownOfUs.Roles.HideAndSeek.Seeker;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 

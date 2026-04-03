@@ -16,7 +16,6 @@ using TownOfUs.Modules;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;

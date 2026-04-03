@@ -5,7 +5,6 @@ using Reactor.Utilities.Attributes;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modules.Components;
 
@@ -114,7 +113,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
                 BombFinished = true;
             }
         }
-        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
+        else if (Stage == HexBombStage.Countdown && !CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().HasAny())
         {
             Stage = HexBombStage.SpellslingerDead;
             TimeRemaining = 3f;

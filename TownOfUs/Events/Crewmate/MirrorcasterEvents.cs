@@ -11,7 +11,6 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 

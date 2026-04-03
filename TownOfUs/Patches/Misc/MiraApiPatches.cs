@@ -9,7 +9,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Networking;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
 

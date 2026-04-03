@@ -4,7 +4,6 @@ using AmongUs.Data;
 using AmongUs.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Utilities;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.HideAndSeek.Hider;

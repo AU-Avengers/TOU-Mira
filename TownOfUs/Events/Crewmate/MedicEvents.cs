@@ -15,7 +15,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -31,7 +30,7 @@ public static class MedicEvents
 
         var medicShields = ModifierUtils.GetActiveModifiers<MedicShieldModifier>();
 
-        if (!medicShields.Any())
+        if (!medicShields.HasAny())
         {
             return;
         }

@@ -7,7 +7,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;

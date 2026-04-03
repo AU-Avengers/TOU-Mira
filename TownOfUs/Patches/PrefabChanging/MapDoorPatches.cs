@@ -7,7 +7,6 @@ using TownOfUs.Modules;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.PrefabChanging;
 

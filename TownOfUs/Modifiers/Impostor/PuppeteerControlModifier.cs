@@ -2,7 +2,6 @@
 using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.ControlSystem;
 
 namespace TownOfUs.Modifiers.Impostor;

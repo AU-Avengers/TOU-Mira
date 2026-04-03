@@ -5,7 +5,6 @@ using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = Il2CppSystem.Object;
 

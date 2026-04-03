@@ -9,7 +9,6 @@ using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;

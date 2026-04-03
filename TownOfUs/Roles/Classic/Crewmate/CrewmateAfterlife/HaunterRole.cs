@@ -12,7 +12,6 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using UnityEngine.UI;

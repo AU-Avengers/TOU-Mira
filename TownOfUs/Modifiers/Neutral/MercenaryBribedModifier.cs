@@ -2,7 +2,6 @@ using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modifiers.Neutral;
 

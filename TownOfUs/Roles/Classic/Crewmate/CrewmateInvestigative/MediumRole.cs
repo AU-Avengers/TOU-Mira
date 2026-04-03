@@ -10,7 +10,6 @@ using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules.MedSpirit;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;

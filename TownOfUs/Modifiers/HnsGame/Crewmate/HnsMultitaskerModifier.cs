@@ -4,7 +4,6 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.HnsGame.Crewmate;

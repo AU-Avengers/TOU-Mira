@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Modifiers;
 

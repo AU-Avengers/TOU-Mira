@@ -65,7 +65,9 @@ public static class Extensions
 
     public static bool IsImpostorAligned(this PlayerControl player)
     {
-        return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true || player?.GetModifiers<AllianceGameModifier>().Any(x => x.TrueFactionType is AlliedFaction.Impostor) == true);
+        return player?.Data && player?.Data?.Role && (player?.Data?.Role.IsImpostor() == true ||
+                                                      player?.GetModifiers<AllianceGameModifier>().Any(x =>
+                                                          x.TrueFactionType is AlliedFaction.Impostor) == true);
     }
 
     public static bool IsImpostor(this PlayerControl player)
@@ -86,8 +88,11 @@ public static class Extensions
         {
             return false;
         }
-        return player.Data.Role.IsImpostor() && (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
-               (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor.Value && player.HasModifier<CrewpostorModifier>());
+
+        return player.Data.Role.IsImpostor() &&
+               (player.HasModifier<TraitorCacheModifier>() || player.Data.Role is TraitorRole) ||
+               (OptionGroupSingleton<CrewpostorOptions>.Instance.ShowsAsImpostor.Value &&
+                player.HasModifier<CrewpostorModifier>());
     }
 
     public static bool IsCrewmate(this PlayerControl player)
@@ -169,7 +174,8 @@ public static class Extensions
         var renderer = body.bodyRenderers[^1];
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
         var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
-        if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+        if (tweakOpt.HidePetsOnBodyRemove.Value &&
+            (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
         {
             var player = MiscUtils.PlayerById(body.ParentId);
             if (player != null && !player.AmOwner)
@@ -177,13 +183,15 @@ public static class Extensions
                 MiscUtils.RemovePet(player);
             }
         }
+
         body.gameObject.Destroy();
     }
 
     public static void ClearBody(this DeadBody body)
     {
         var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
-        if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+        if (tweakOpt.HidePetsOnBodyRemove.Value &&
+            (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
         {
             var player = MiscUtils.PlayerById(body.ParentId);
             if (player != null && !player.AmOwner)
@@ -191,6 +199,7 @@ public static class Extensions
                 MiscUtils.RemovePet(player);
             }
         }
+
         body.gameObject.Destroy();
     }
 
@@ -588,6 +597,7 @@ public static class Extensions
             MiscUtils.RunAnticheatWarning(player);
             return;
         }
+
         if (player.Data.Role is IGhostRole ghost)
         {
             ghost.Clicked();
@@ -607,7 +617,8 @@ public static class Extensions
 
     public static float GetKillCooldown(this PlayerControl player)
     {
-        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(), 5f, 120f);
+        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
+            5f, 120f);
     }
 
     /// <summary>
@@ -661,4 +672,46 @@ public static class Extensions
             hackedSprite.GetComponent<SpriteRenderer>().enabled = isActive;
         }
     }
+
+    public static void FillWhere<T>(this List<T> source, List<T> destination, System.Predicate<T> match)
+    {
+        destination.Clear(); // Clear the reusable list
+        for (int i = 0; i < source.Count; i++)
+        {
+            if (match(source[i]))
+            {
+                destination.Add(source[i]);
+            }
+        }
+    }
+
+    public static bool HasAny<T>(this T[] list, System.Predicate<T> match)
+    {
+        if (list.Length < 1) return false;
+
+        for (int i = 0; i < list.Length; i++)
+        {
+            if (match(list[i])) return true;
+        }
+
+        return false;
+    }
+
+    public static bool HasAny<T>(this T[] list)
+    {
+        if (list.Length > 0) return true;
+
+        return false;
+    }
+
+#pragma warning disable CA1827
+#pragma warning disable S1155
+    public static bool HasAny<T>(this IEnumerable<T> list)
+    {
+        if (list.Count() > 0) return true;
+
+        return false;
+    }
+#pragma warning restore S1155
+#pragma warning restore CA1827
 }

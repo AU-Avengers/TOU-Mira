@@ -11,7 +11,6 @@ using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Interfaces;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;

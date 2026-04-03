@@ -3,7 +3,6 @@ using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;

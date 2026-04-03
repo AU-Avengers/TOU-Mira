@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Options;
 

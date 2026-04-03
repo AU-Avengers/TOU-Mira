@@ -8,7 +8,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;

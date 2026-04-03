@@ -6,7 +6,6 @@ using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;

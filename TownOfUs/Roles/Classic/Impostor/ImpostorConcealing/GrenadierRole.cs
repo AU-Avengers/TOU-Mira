@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;

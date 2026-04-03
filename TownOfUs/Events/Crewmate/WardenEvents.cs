@@ -11,7 +11,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -22,7 +21,7 @@ public static class WardenEvents
     {
         var wardenForts = ModifierUtils.GetActiveModifiers<WardenFortifiedModifier>();
 
-        if (!wardenForts.Any())
+        if (!wardenForts.HasAny())
         {
             return;
         }

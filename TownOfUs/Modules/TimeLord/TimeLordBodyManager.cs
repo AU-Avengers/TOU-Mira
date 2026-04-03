@@ -2,7 +2,6 @@ using BepInEx.Logging;
 using MiraAPI.GameOptions;
 using Reactor.Utilities;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
