@@ -84,6 +84,9 @@ public enum AbilityType
     SendChat,
     SendPrivateChat,
 
+    ShapeshifterShift,
+    ShapeshifterUnshift,
+
     HaunterRevealed,
     HaunterRevealsEvils,
     HaunterClicked,
