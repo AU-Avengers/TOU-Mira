@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events;
