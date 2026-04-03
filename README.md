@@ -251,8 +251,9 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 [xChipseq](https://github.com/xChipseq) - For implementing the wiki hyperlinks feature for chat.\
 [Amber](https://github.com/Nix-main) - For helping on the translation system.\
 [IdkImNeil](https://github.com/neilmjain) - For implementing the /rules system.\
-[rewalo](https://github.com/rewalo) - FOr implementing host keybinds, improving anticheat, as well as adding Time Lord, Sentry and Parasite.\
-[ItzLoonie](https://github.com/ItzLoonie) - For the original implementations of the reworked Seer, Monarch, and Spellslinger roles. Also implemented Deadly Quota and Circumvent modifiers.\
+[rewalo](https://github.com/rewalo) - For implementing host keybinds, improving anticheat, as well as adding Time Lord, Sentry and Parasite.\
+[ItzLoonie](https://github.com/ItzLoonie) - For the original implementations of the reworked Seer, Monarch, and Spellslinger roles. Also ported Deadly Quota and Circumvent modifiers.\
+[Endless Host Roles](https://github.com/Gurge44/EndlessHostRoles) - For the original Deadly Quota and Circumvent modifiers.\
 [Unlock dlekS](https://github.com/Tommy-XL/Unlock-dlekS-ehT) - For the dlekS reimplementation.\
 [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) - For the original Discord Status patch.\
 [Better Among Us](https://github.com/D1GQ/BetterAmongUs) - For the original Splash Intro patch.\
