@@ -15,6 +15,10 @@ public static class LobbyJoin
     public static IRegionInfo? TempRegion;
 
     private static GameObject LobbyText;
+    private static GameObject OriginalRegionText;
+
+    private static GameObject RegionFindText;
+    private static TextMeshPro RegionText;
 
     private static TextMeshPro Text;
     private static bool JoiningAttempted;
@@ -60,20 +64,36 @@ public static class LobbyJoin
         if (LobbyText)
         {
             LobbyText.SetActive(GameId != 0);
-            return;
+        }
+        else
+        {
+            LobbyText = Object.Instantiate(__instance.transform.FindChild("Header").gameObject, __instance.transform);
+            LobbyText.name = "LobbyText";
+            Text = LobbyText.transform.GetChild(1).GetComponent<TextMeshPro>();
+            Text.fontSizeMin = 3.35f;
+            Text.fontSizeMax = 3.35f;
+            Text.fontSize = 3.35f;
+            Text.text = string.Empty;
+            Text.alignment = TextAlignmentOptions.Center;
+            LobbyText.transform.localPosition = new Vector3(1f, 0f, 0f);
+            LobbyText.transform.GetChild(0).gameObject.Destroy();
+            LobbyText.SetActive(GameId != 0);
         }
 
-        LobbyText = Object.Instantiate(__instance.transform.FindChild("Header").gameObject, __instance.transform);
-        LobbyText.name = "LobbyText";
-        Text = LobbyText.transform.GetChild(1).GetComponent<TextMeshPro>();
-        Text.fontSizeMin = 3.35f;
-        Text.fontSizeMax = 3.35f;
-        Text.fontSize = 3.35f;
-        Text.text = string.Empty;
-        Text.alignment = TextAlignmentOptions.Center;
-        LobbyText.transform.localPosition = new Vector3(1f, 0f, 0f);
-        LobbyText.transform.GetChild(0).gameObject.Destroy();
-        LobbyText.SetActive(GameId != 0);
+        if (RegionFindText)
+        {
+            RegionFindText.SetActive(!OriginalRegionText.active);
+        }
+        else
+        {
+            OriginalRegionText = __instance.transform.FindChild("AspectSize").FindChild("Scaler")
+                    .FindChild("FieldsContainer").FindChild("Server").GetChild(2).gameObject;
+            RegionFindText = Object.Instantiate(OriginalRegionText, OriginalRegionText.transform.parent);
+            RegionFindText.name = "RegionFindText";
+            RegionText = RegionFindText.GetComponent<TextMeshPro>();
+            RegionText.text = MiscUtils.GetRegionName(null, false);
+            RegionFindText.SetActive(!OriginalRegionText.active);
+        }
     }
 
     [HarmonyPatch(typeof(EnterCodeManager), nameof(EnterCodeManager.OnDisable))]
@@ -91,6 +111,11 @@ public static class LobbyJoin
     [HarmonyPostfix]
     public static void Update()
     {
+        if (RegionFindText && RegionFindText.active)
+        {
+            RegionFindText.SetActive(!OriginalRegionText.active);
+            RegionText.text = MiscUtils.GetRegionName(null, false);
+        }
         if (GameId == 0 || !LobbyText || !LobbyText.active)
         {
             return;
