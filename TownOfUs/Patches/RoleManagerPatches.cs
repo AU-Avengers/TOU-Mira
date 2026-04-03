@@ -920,12 +920,12 @@ public static class TouRoleManagerPatches
         var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
+        ModifierManager.MiraAssignsModifiers = false;
 
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
         {
             return true;
         }
-        ModifierManager.MiraAssignsModifiers = false;
 
         var random = new System.Random();
 
