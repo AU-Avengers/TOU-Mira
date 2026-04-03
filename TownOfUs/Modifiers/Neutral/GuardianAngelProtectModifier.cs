@@ -18,7 +18,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
     public override float Duration => OptionGroupSingleton<FairyOptions>.Instance.ProtectDuration;
     public override string ModifierName => "Protected";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Fairy;
-    public override string ShieldDescription => "You are protected by your Guardian Angel!\nYou cannot be killed.";
+    public override string ShieldDescription => "You are protected by your Fairy!\nYou cannot be killed.";
     public override bool AutoStart => true;
     public PlayerControl Guardian => guardianAngel;
 

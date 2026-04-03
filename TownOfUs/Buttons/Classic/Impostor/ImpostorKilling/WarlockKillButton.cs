@@ -117,7 +117,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
         {
             BurstActive = true;
             Kills = 0;
-        }
+        } 
         else if (Target.Data.IsDead && Charge <= 100 && !BurstActive)
         {
             Charge = 0;
