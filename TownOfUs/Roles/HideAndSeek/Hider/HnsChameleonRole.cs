@@ -189,7 +189,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         {
             usesRemaining = logicOptionsHnS.GetCrewmateVentUses();
             HudManager.Instance.AbilityButton.OverrideText(
-                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HideActionButton));
+                TranslationController.Instance.GetString(StringNames.HideActionButton));
             HudManager.Instance.AbilityButton.SetUsesRemaining(usesRemaining);
         }
     }

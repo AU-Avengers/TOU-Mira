@@ -225,7 +225,7 @@ public static class MapDoorPatches
                 return false;
             }
             instance.RpcCloseDoorsOfType(__instance.room);
-            DestroyableSingleton<DebugAnalytics>.Instance.Analytics.SabotageStart(SkeldDoorsSystemType.SystemType);
+            DebugAnalytics.Instance.Analytics.SabotageStart(SkeldDoorsSystemType.SystemType);
             return false;
         }
 
@@ -236,7 +236,7 @@ public static class MapDoorPatches
                 return false;
             }
             instance.RpcCloseDoorsOfType(__instance.room);
-            DestroyableSingleton<DebugAnalytics>.Instance.Analytics.SabotageStart(ManualDoorsSystemType.SystemType);
+            DebugAnalytics.Instance.Analytics.SabotageStart(ManualDoorsSystemType.SystemType);
             return false;
         }
         return true;

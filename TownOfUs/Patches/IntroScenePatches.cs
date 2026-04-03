@@ -61,7 +61,7 @@ public static class IntroScenePatches
         }
 
         __instance.TeamTitle.text =
-            DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor, Array.Empty<Object>());
+            TranslationController.Instance.GetString(StringNames.Impostor, Array.Empty<Object>());
         __instance.TeamTitle.color = Palette.ImpostorRed;
 
         var player = __instance.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
@@ -79,7 +79,7 @@ public static class IntroScenePatches
         if (PlayerControl.LocalPlayer.HasModifier<CrewpostorModifier>())
         {
             __instance.TeamTitle.text =
-                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.Impostor,
+                TranslationController.Instance.GetString(StringNames.Impostor,
                     Array.Empty<Object>());
             __instance.TeamTitle.color = Palette.ImpostorRed;
             __instance.ImpostorText.gameObject.SetActive(false);
@@ -155,7 +155,7 @@ public static class IntroScenePatches
     {
         var amount = MiscUtils.ImpostorHeadCount;
         __instance.ImpostorText.text =
-            DestroyableSingleton<TranslationController>.Instance.GetString(
+            TranslationController.Instance.GetString(
                 amount == 1 ? StringNames.NumImpostorsS : StringNames.NumImpostorsP, amount);
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>");
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[]", "</color>");
@@ -211,7 +211,7 @@ public static class IntroScenePatches
 
 
         __instance.ImpostorText.text =
-            DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.NumImpostorsP, 256);
+            TranslationController.Instance.GetString(StringNames.NumImpostorsP, 256);
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[FF1919FF]", "<color=#FF1919FF>");
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("[]", "</color>");
         __instance.ImpostorText.text = __instance.ImpostorText.text.Replace("256", "???");

@@ -172,7 +172,7 @@ public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         {
             usesRemaining = logicOptionsHnS.GetCrewmateVentUses();
             HudManager.Instance.AbilityButton.OverrideText(
-                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HideActionButton));
+                TranslationController.Instance.GetString(StringNames.HideActionButton));
             HudManager.Instance.AbilityButton.SetUsesRemaining(usesRemaining);
         }
     }
