@@ -18,7 +18,6 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 

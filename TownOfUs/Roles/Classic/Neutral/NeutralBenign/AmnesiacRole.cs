@@ -19,7 +19,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -212,7 +211,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         }
 
         var modifiers = target.GetModifiers<TouGameModifier>().ToList();
-        if (OptionGroupSingleton<AmnesiacOptions>.Instance.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().Any())
+        if (OptionGroupSingleton<AmnesiacOptions>.Instance.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().HasAny())
         {
             player.AddModifier(modifiers.FirstOrDefault()!.GetType());
         }

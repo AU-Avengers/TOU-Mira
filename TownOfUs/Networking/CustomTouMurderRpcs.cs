@@ -11,7 +11,6 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Networking;

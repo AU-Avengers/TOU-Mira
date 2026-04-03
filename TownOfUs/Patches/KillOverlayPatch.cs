@@ -2,7 +2,6 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;

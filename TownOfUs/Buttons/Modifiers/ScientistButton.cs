@@ -7,7 +7,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

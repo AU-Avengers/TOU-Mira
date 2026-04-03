@@ -12,7 +12,6 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

@@ -16,7 +16,6 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

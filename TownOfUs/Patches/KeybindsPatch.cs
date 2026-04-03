@@ -16,7 +16,6 @@ using TownOfUs.GameOver;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Impostor;
 

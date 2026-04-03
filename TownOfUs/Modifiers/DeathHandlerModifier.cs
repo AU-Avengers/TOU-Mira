@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Events;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;

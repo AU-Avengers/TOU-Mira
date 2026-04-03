@@ -11,7 +11,6 @@ using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Modifiers;

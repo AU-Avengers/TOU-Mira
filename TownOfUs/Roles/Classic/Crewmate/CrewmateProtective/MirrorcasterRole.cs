@@ -13,7 +13,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -84,7 +83,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     public bool IsPowerCrew =>
         UnleashesAvailable > 0 ||
         ModifierUtils.GetActiveModifiers<MagicMirrorModifier>()
-            .Any(); // Always disable end game checks if there is an Unleash available
+            .HasAny(); // Always disable end game checks if there is an Unleash available
 
     public static string ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
 

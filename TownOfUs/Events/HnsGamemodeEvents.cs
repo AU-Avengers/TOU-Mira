@@ -9,7 +9,6 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events;

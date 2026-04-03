@@ -2,7 +2,6 @@
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
 

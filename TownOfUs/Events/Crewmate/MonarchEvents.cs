@@ -12,7 +12,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;

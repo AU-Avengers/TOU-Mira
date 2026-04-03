@@ -10,7 +10,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 

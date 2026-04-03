@@ -9,7 +9,6 @@ using MiraAPI.Roles;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;

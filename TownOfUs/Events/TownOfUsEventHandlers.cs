@@ -45,7 +45,6 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;

@@ -2,7 +2,6 @@ using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -44,7 +43,7 @@ public static class ShowVentsPatch
             }
         }
 
-        if (!ModifierUtils.GetActiveModifiers<SatelliteArrowModifier>().Any())
+        if (!ModifierUtils.GetActiveModifiers<SatelliteArrowModifier>().HasAny())
         {
             foreach (var icon in BodyIcons.Values.Where(x => x))
             {

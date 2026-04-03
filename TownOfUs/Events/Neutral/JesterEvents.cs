@@ -14,7 +14,6 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
@@ -134,7 +133,7 @@ public static class JesterEvents
         {
             var allVoters = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => jest.Voters.Contains(x.PlayerId) && !x.AmOwner);
-            if (!allVoters.Any())
+            if (!allVoters.HasAny())
             {
                 return;
             }

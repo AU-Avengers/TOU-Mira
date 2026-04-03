@@ -8,7 +8,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
 namespace TownOfUs.Networking;

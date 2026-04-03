@@ -7,7 +7,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.HnsCrewmate;
 using TownOfUs.Patches;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;

@@ -9,7 +9,6 @@ using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;

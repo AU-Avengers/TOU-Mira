@@ -7,7 +7,6 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;

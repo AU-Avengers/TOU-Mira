@@ -10,7 +10,6 @@ using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Networking;

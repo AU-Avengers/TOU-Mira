@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.Types;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Impostor.Venerer;

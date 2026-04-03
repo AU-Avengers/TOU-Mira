@@ -1,7 +1,6 @@
 using MiraAPI.Modifiers;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Options;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Modules;

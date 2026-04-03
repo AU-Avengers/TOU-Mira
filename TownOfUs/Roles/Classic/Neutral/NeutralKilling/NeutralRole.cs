@@ -1,6 +1,5 @@
 ﻿using Il2CppSystem.Text;
 using MiraAPI.Patches.Stubs;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Roles.Neutral;
 

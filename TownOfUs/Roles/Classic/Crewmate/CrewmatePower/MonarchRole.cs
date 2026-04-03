@@ -8,7 +8,6 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using MiraAPI.Patches.Stubs;
 using Reactor.Utilities.Extensions;

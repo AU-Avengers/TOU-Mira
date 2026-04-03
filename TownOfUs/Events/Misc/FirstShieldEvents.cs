@@ -8,7 +8,6 @@ using MiraAPI.Modifiers;
 using TownOfUs.Buttons;
 using TownOfUs.Modifiers;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Misc;
 

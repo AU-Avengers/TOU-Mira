@@ -9,7 +9,6 @@ using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

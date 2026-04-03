@@ -14,7 +14,6 @@ using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = System.Random;
 
@@ -38,7 +37,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
         }
 
         if (GameOptionsManager.Instance.CurrentGameOptions.RoleOptions
-                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().Any())
+                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().HasAny())
         {
             return;
         }

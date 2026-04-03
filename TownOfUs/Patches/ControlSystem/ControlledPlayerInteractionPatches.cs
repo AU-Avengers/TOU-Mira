@@ -1,7 +1,6 @@
 using HarmonyLib;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
 

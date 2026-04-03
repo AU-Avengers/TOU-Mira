@@ -1,7 +1,6 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Interfaces;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;

@@ -2,7 +2,6 @@
 using MiraAPI.Networking;
 using Reactor.Utilities.Extensions;
 using TMPro;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;

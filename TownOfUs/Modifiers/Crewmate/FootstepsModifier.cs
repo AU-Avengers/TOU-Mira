@@ -8,7 +8,6 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;

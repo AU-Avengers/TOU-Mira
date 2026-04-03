@@ -2,7 +2,6 @@ using HarmonyLib;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;

@@ -8,7 +8,6 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 
 namespace TownOfUs.Modifiers.Crewmate;

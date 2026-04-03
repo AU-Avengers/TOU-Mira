@@ -7,7 +7,6 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

@@ -8,7 +8,6 @@ using MiraAPI.Voting;
 using Reactor.Utilities;
 using TownOfUs.Events.Modifiers;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
@@ -26,7 +25,7 @@ public static class SwapperEvents
     [RegisterEvent]
     public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
     {
-        if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().Any())
+        if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().HasAny())
         {
             return;
         }

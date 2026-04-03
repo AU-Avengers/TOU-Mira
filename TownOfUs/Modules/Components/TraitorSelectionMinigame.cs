@@ -9,7 +9,6 @@ using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;

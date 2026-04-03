@@ -5,7 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

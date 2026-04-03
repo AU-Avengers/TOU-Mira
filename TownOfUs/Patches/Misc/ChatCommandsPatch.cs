@@ -11,7 +11,6 @@ using TownOfUs.Patches.Options;
 using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
 

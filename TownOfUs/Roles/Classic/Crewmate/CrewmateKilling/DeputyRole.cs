@@ -11,7 +11,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -55,7 +54,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public bool IsPowerCrew =>
         Killer || ModifierUtils.GetActiveModifiers<DeputyCampedModifier>()
-            .Any(); // Only stop end game checks if the deputy can actually kill someone
+            .HasAny(); // Only stop end game checks if the deputy can actually kill someone
 
     public CustomRoleConfiguration Configuration => new(this)
     {

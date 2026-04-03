@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Neutral;
 

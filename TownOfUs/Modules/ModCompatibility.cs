@@ -15,7 +15,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Version = SemanticVersioning.Version;

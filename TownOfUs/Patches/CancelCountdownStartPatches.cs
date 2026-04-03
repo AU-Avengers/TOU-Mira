@@ -5,7 +5,6 @@ using Reactor.Networking.Attributes;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Patches.PrefabChanging;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
