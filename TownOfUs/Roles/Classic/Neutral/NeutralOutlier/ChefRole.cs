@@ -205,6 +205,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             {
                 TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
             }
+            var destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value;
 
             if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
             {
@@ -214,13 +215,13 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                     TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
-                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
+                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
             }
             else
             {
-                Coroutines.Start(body.CoClean(OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value));
+                Coroutines.Start(body.CoCleanCustom(destroyBody));
             }
-            //Coroutines.Start(CrimeSceneComponent.CoClean(body));
+            // Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }
     }
     [MethodRpc((uint)TownOfUsRpc.ServeBody)]

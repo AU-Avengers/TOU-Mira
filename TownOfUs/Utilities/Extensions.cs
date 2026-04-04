@@ -171,10 +171,10 @@ public static class Extensions
 
     public static IEnumerator CoClean(this DeadBody body)
     {
-        yield return CoClean(body, true);
+        yield return CoCleanCustom(body, true);
     }
 
-    public static IEnumerator CoClean(this DeadBody body, bool destroyBody)
+    public static IEnumerator CoCleanCustom(this DeadBody body, bool destroyBody)
     {
         var renderer = body.bodyRenderers[^1];
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
@@ -197,9 +197,6 @@ public static class Extensions
         {
             body.Reported = true;
             body.myCollider.enabled = false;
-            body.bodyRenderers[0].gameObject.SetActive(false);
-            body.bodyRenderers[1].gameObject.SetActive(false);
-            body.gameObject.SetActive(true);
         }
     }
 

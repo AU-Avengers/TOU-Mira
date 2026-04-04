@@ -187,6 +187,8 @@ public static class TimeLordBodyManager
         LogBodyRestore($"RestoreCleanedBody: body={bodyId} activating at pos={rec.Position}");
 
         body.gameObject.SetActive(true);
+        body.Reported = false;
+        body.myCollider.enabled = true;
 
         foreach (var r in body.bodyRenderers)
         {
@@ -341,7 +343,7 @@ public static class TimeLordBodyManager
         }
     }
 
-    public static System.Collections.IEnumerator CoHideBodyForTimeLord(DeadBody body)
+    public static System.Collections.IEnumerator CoHideBodyForTimeLord(DeadBody body, bool destroyBody)
     {
         if (body == null)
         {
@@ -380,7 +382,15 @@ public static class TimeLordBodyManager
             yield break;
         }
 
-        body.gameObject.SetActive(false);
+        if (destroyBody)
+        {
+            body.gameObject.SetActive(false);
+        }
+        else
+        {
+            body.Reported = true;
+            body.myCollider.enabled = false;
+        }
     }
 
 

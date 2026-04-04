@@ -112,6 +112,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
 
             var isHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
             var optionEnabled = OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind;
+            var destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value;
 
             var shouldRecord = isHost ? optionEnabled : (optionEnabled || TimeLordRewindSystem.MatchHasTimeLord());
 
@@ -127,12 +128,12 @@ public sealed class JanitorRole(IntPtr cppPtr)
                     TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(player, body, body.transform.position, 
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
-                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
+                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
             }
             else
             {
-                TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean (body will be destroyed)");
-                Coroutines.Start(body.CoClean(OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value));
+                TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean ({(destroyBody ? "Body will be destroyed" : "Body will be hidden")})");
+                Coroutines.Start(body.CoCleanCustom(destroyBody));
             }
             Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }
