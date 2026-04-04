@@ -349,7 +349,7 @@ public static class TimeLordBodyManager
         }
     }
 
-    public static System.Collections.IEnumerator CoHideBodyForTimeLord(DeadBody body, bool destroyBody)
+    public static System.Collections.IEnumerator CoHideBodyForTimeLord(DeadBody body, BodyVitalsMode result)
     {
         if (body == null)
         {
@@ -361,7 +361,7 @@ public static class TimeLordBodyManager
 
         if (CleanedBodies.TryGetValue(body.ParentId, out var rec) && rec != null)
         {
-            var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
+            var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
             if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
             {
                 var player = MiscUtils.PlayerById(body.ParentId);
@@ -388,7 +388,7 @@ public static class TimeLordBodyManager
             yield break;
         }
 
-        if (destroyBody)
+        if (result is BodyVitalsMode.Disconnected)
         {
             body.gameObject.SetActive(false);
         }
@@ -396,10 +396,13 @@ public static class TimeLordBodyManager
         {
             body.Reported = true;
             body.myCollider.enabled = false;
-            var player = MiscUtils.PlayerById(body.ParentId);
-            if (player != null)
+            if (result is BodyVitalsMode.Missing)
             {
-                VitalsBodyPatches.AddMissingPlayer(player.Data);
+                var player = MiscUtils.PlayerById(body.ParentId);
+                if (player != null)
+                {
+                    VitalsBodyPatches.AddMissingPlayer(player.Data);
+                }
             }
         }
     }

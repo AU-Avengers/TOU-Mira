@@ -41,7 +41,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
-        return validPlayer != null && OptionGroupSingleton<GeneralOptions>.Instance.FirstDeathShield
+        return validPlayer != null && OptionGroupSingleton<InitialRoundOptions>.Instance.FirstDeathShield
             ? 1
             : 0;
     }
@@ -57,7 +57,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
-        return validPlayer != null && OptionGroupSingleton<GeneralOptions>.Instance.FirstDeathShield
+        return validPlayer != null && OptionGroupSingleton<InitialRoundOptions>.Instance.FirstDeathShield
             ? 100
             : 0;
     }

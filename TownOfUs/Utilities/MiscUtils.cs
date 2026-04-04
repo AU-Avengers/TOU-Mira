@@ -48,7 +48,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int RealKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.Is(RoleAlignment.NeutralKilling));
@@ -60,7 +60,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
@@ -71,7 +71,7 @@ public static class MiscUtils
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-        OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue);
+        OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue);
 
     public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
 

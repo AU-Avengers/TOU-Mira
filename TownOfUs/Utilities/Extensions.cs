@@ -172,14 +172,14 @@ public static class Extensions
 
     public static IEnumerator CoClean(this DeadBody body)
     {
-        yield return CoCleanCustom(body, true);
+        yield return CoCleanCustom(body, BodyVitalsMode.Disconnected);
     }
 
-    public static IEnumerator CoCleanCustom(this DeadBody body, bool destroyBody)
+    public static IEnumerator CoCleanCustom(this DeadBody body, BodyVitalsMode result)
     {
         var renderer = body.bodyRenderers[^1];
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
-        var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
+        var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
         if (tweakOpt.HidePetsOnBodyRemove.Value &&
             (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
         {
@@ -190,7 +190,7 @@ public static class Extensions
             }
         }
 
-        if (destroyBody)
+        if (result is BodyVitalsMode.Disconnected)
         {
             body.gameObject.Destroy();
         }
@@ -198,17 +198,20 @@ public static class Extensions
         {
             body.Reported = true;
             body.myCollider.enabled = false;
-            var player = MiscUtils.PlayerById(body.ParentId);
-            if (player != null)
+            if (result is BodyVitalsMode.Missing)
             {
-                VitalsBodyPatches.AddMissingPlayer(player.Data);
+                var player = MiscUtils.PlayerById(body.ParentId);
+                if (player != null)
+                {
+                    VitalsBodyPatches.AddMissingPlayer(player.Data);
+                }
             }
         }
     }
 
     public static void ClearBody(this DeadBody body)
     {
-        var tweakOpt = OptionGroupSingleton<GameMechanicOptions>.Instance;
+        var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
         if (tweakOpt.HidePetsOnBodyRemove.Value &&
             (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
         {

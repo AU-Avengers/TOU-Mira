@@ -1,4 +1,10 @@
+using AmongUs.Data;
 using HarmonyLib;
+using MiraAPI.GameOptions;
+using Reactor.Utilities.Extensions;
+using TownOfUs.Modules.Components;
+using TownOfUs.Options;
+using UnityEngine;
 
 namespace TownOfUs.Patches.Options;
 
@@ -22,6 +28,78 @@ public static class VitalsBodyPatches
     public static void ClearMissingPlayers()
     {
         MissingPlayers.Clear();
+    }
+
+    [HarmonyPatch(typeof(ViperDeadBody), nameof(ViperDeadBody.FixedUpdate))]
+    [HarmonyPrefix]
+    public static bool ViperBodyFixedUpdatePrefix(ViperDeadBody __instance)
+    {
+        if (__instance.victimDissolving && __instance.dissolveCurrentTime > 0f)
+        {
+            __instance.dissolveCurrentTime -= Time.fixedDeltaTime;
+            if (__instance.dissolveCurrentTime <= 0f)
+            {
+                __instance.myController.DisableCurrentTrackers();
+                __instance.victimDissolving = false;
+                __instance.spriteAnim.gameObject.SetActive(false);
+                __instance.myController.cosmetics.HidePetViper();
+                var result = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
+
+                CrimeSceneComponent.ClearCrimeScene(__instance);
+                if (result is BodyVitalsMode.Disconnected)
+                {
+                    if (__instance.myKiller.AmOwner)
+                    {
+                        DataManager.Player.Stats.IncrementStat(StatID.Role_Viper_BodiesDissolved);
+                    }
+                    __instance.gameObject.Destroy();
+                    return false;
+                }
+                else
+                {
+                    __instance.Reported = true;
+                    __instance.myCollider.enabled = false;
+                    if (result is BodyVitalsMode.Missing)
+                    {
+                        var player = MiscUtils.PlayerById(__instance.ParentId);
+                        if (player != null)
+                        {
+                            AddMissingPlayer(player.Data);
+                        }
+                    }
+                    if (__instance.myKiller.AmOwner)
+                    {
+                        DataManager.Player.Stats.IncrementStat(StatID.Role_Viper_BodiesDissolved);
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                float num = __instance.dissolveCurrentTime / __instance.maxDissolveTime;
+                if (num <= 0.8f && num > 0.3f)
+                {
+                    if (__instance.dissolveStage == 1)
+                    {
+                        return false;
+                    }
+                    __instance.dissolveStage = 1;
+                    __instance.spriteAnim.Play(__instance.dissolveAnims[0], 1f);
+                    return false;
+                }
+                else if (num <= 0.3f)
+                {
+                    if (__instance.dissolveStage == 2)
+                    {
+                        return false;
+                    }
+                    __instance.dissolveStage = 2;
+                    __instance.spriteAnim.Play(__instance.dissolveAnims[1], 1f);
+                }
+            }
+        }
+
+        return false;
     }
 
     [HarmonyPatch(typeof(VitalsMinigame), nameof(VitalsMinigame.Begin))]

@@ -65,7 +65,7 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, PlayerControl.LocalPlayer, body);
         MiraEventManager.InvokeEvent(touAbilityEvent);
-        var destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value;
+        var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
 
         if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
         {
