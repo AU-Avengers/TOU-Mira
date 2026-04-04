@@ -60,7 +60,7 @@
   <string name="NeutralEvil">中立邪恶型</string>
   <string name="NeutralOutlier">中立外来者型</string>
   <string name="NeutralKilling">中立击杀型</string>
-  <string name="ImpostorConcealing">伪装者隐蔽型</string>
+  <string name="ImpostorConcealing">伪装者隐匿型</string>
   <string name="ImpostorKilling">伪装者击杀型</string>
   <string name="ImpostorPower">伪装者强力型</string>
   <string name="ImpostorSupport">伪装者辅助型</string>
@@ -79,7 +79,7 @@
   <string name="CrewPower">船员强力型</string>
   <string name="CrewProtective">船员保护型</string>
   <string name="CrewSupport">船员辅助型</string>
-  <string name="ImpConcealing">伪装者隐蔽型</string>
+  <string name="ImpConcealing">伪装者隐匿型</string>
   <string name="ImpKilling">伪装者击杀型</string>
   <string name="ImpPower">伪装者强力型</string>
   <string name="ImpSupport">伪装者辅助型</string>
@@ -752,7 +752,7 @@
   <string name="TouOptionMedicShowReportsInChat">显示法医报告</string>
   <string name="TouRoleVenererIntroBlurb">每次击杀都会强化你的能力</string>
   <string name="TouRoleVenererTabDescription">击杀玩家以解锁能力加成。\%nl\%你的技能允许你隐蔽，然后变得快速，最后还能减慢你路径上其他人的速度。</string>
-  <string name="TouRoleVenererWikiDescription">狩猎者是一名伪装者隐蔽型职业，可以通过击杀玩家获得新能力，防止被抓住！但每次获得新能力时会立即使用，并且能力会叠加。</string>
+  <string name="TouRoleVenererWikiDescription">狩猎者是一名伪装者隐匿型职业，可以通过击杀玩家获得新能力，防止被抓住！但每次获得新能力时会立即使用，并且能力会叠加。</string>
   <string name="TouRoleVenererCamouflage">伪装</string>
   <string name="TouRoleVenererCamouflageWikiDescription">能力第一阶段。\%nl\%你在所有玩家眼中会变成灰豆，可以悄悄离开击杀现场。</string>
   <string name="TouRoleVenererSprint">疾跑</string>
@@ -820,7 +820,7 @@
   <string name="TouOptionBomberCanVent">爆破手可使用通风口</string>
   <string name="TouRoleEclipsalIntroBlurb">遮蔽玩家的光线</string>
   <string name="TouRoleEclipsalTabDescription">让船员无法视物，视野会逐渐恢复正常</string>
-  <string name="TouRoleEclipsalWikiDescription">蚀影者是一名伪装者隐蔽型职业，可以让所有靠近自己的船员和中立者视野受限。</string>
+  <string name="TouRoleEclipsalWikiDescription">蚀影者是一名伪装者隐匿型职业，可以让所有靠近自己的船员和中立者视野受限。</string>
   <string name="TouRoleEclipsalBlind">致盲</string>
   <string name="TouRoleEclipsalBlindWikiDescription">致盲玩家会让他们的战争迷雾遮蔽整个屏幕，只能看到地图且无法举报。过一段时间后，他们的视野会恢复正常。</string>
   <string name="TouOptionEclipsalBlindCooldown">致盲冷却</string>
@@ -910,7 +910,7 @@
   <string name="TouOptionUndertakerUndertakerCanKillWithTeammate">送葬者可与队友一起击杀</string>
   <string name="TouRoleEscapistIntroBlurb">轻松脱离击杀现场</string>
   <string name="TouRoleEscapistTabDescription">标记一个位置，\%nl\%然后随时回溯到该位置以逃离犯罪现场</string>
-  <string name="TouRoleEscapistWikiDescription">逃逸者是一名伪装者隐蔽型职业，可以标记一个位置并随后传送（回溯）到该位置。</string>
+  <string name="TouRoleEscapistWikiDescription">逃逸者是一名伪装者隐匿型职业，可以标记一个位置并随后传送（回溯）到该位置。</string>
   <string name="TouRoleEscapistMark">标记</string>
   <string name="TouRoleEscapistMarkWikiDescription">标记一个位置以备后用。</string>
   <string name="TouRoleEscapistRecall">回溯</string>
@@ -920,7 +920,7 @@
   <string name="TouOptionEscapistEscapistCanVent">逃逸者可使用通风口</string>
   <string name="TouRoleGrenadierIntroBlurb">干扰船员视野</string>
   <string name="TouRoleGrenadierTabDescription">致盲船员，便于隐蔽击杀</string>
-  <string name="TouRoleGrenadierWikiDescription">掷弹兵是一名伪装者隐蔽型职业，可以投掷手雷致盲所有其他玩家</string>
+  <string name="TouRoleGrenadierWikiDescription">掷弹兵是一名伪装者隐匿型职业，可以投掷手雷致盲所有其他玩家</string>
   <string name="TouRoleGrenadierFlash">闪光</string>
   <string name="TouRoleGrenadierFlashWikiDescription">投掷手雷，致盲范围内所有玩家。</string>
   <string name="TouOptionGrenadierFlashUsesPerGame">每局可用闪光弹次数</string>
@@ -937,7 +937,7 @@
   <string name="TouOptionScavengerKillCooldownMultiplierOnIncorrectKill">错误击杀后的冷却倍率</string>
   <string name="TouRoleSwooperIntroBlurb">短暂隐身, 并悄悄击杀玩家</string>
   <string name="TouRoleSwooperTabDescription">隐身并悄悄击杀</string>
-  <string name="TouRoleSwooperWikiDescription">隐身人是一名伪装者隐蔽型职业，可以短暂隐身。</string>
+  <string name="TouRoleSwooperWikiDescription">隐身人是一名伪装者隐匿型职业，可以短暂隐身。</string>
   <string name="TouRoleSwooperSwoop">隐身</string>
   <string name="TouRoleSwooperSwoopWikiDescription">对除伪装者外的所有玩家隐身。</string>
   <string name="TouRoleSwooperUnswoop">解除隐身</string>
@@ -988,7 +988,7 @@
   <string name="TouOptionMinerCanKillWithTeammate">管道工可与队友一起击杀</string>
   <string name="TouRoleMorphlingIntroBlurb">变身为船员</string>
   <string name="TouRoleMorphlingTabDescription">采样玩家并变身为其伪装自己。\%nl\%每回合开始时采样会被清除。</string>
-  <string name="TouRoleMorphlingWikiDescription">化形者是一名伪装者隐蔽型职业，可以采样一名玩家并变身为其外观。</string>
+  <string name="TouRoleMorphlingWikiDescription">化形者是一名伪装者隐匿型职业，可以采样一名玩家并变身为其外观。</string>
   <string name="TouRoleMorphlingSample">采样</string>
   <string name="TouRoleMorphlingSampleWikiDescription">采集一名玩家的DNA，之后可变身为其。</string>
   <string name="TouRoleMorphlingMorph">化形</string>
@@ -1199,7 +1199,7 @@
   <string name="TouRoleTraitorRoleSelectTitle">选择一个职业。</string>
   <string name="TouRoleTraitorRandomImpostorCard">随机\%nl\%伪装者</string>
   <string name="SpecialNeutral">特殊中立</string>
-  <string name="WildcardNeutral">万能中立</string>
+  <string name="WildcardNeutral">非杀手中立</string>
   <string name="TouRoleDeputyCampNotif">等待\%player\%死亡后，你可以在会议中为TA复仇。</string>
   <string name="TouRoleForensicInspectNotif">你已调查了\%player\%的案发现场。凶手或任何进入案发现场的人在被检查时会闪红光。</string>
   <string name="TouRoleHunterStalkNotif">如果\%player\%使用了技能，你将在本回合内可以随时击杀TA。</string>
@@ -2029,11 +2029,11 @@
   <string name="TermsNeutRoleAlignmentsTitle">\%color=#8A8A8A\%中立\%/color\% 子阵营</string>
   <string name="TermsNeutRoleAlignmentsInfo">•\%color=#8A8A8A\%友善型\%/color\% 职业无法单独获胜，通常需要帮助别人或尽可能存活。 • \%color=#8A8A8A\%邪恶型\%/color\%职业专注完成自己的目标，可能操控胜负或提前结束游戏。 • \%color=#8A8A8A\%杀手型\%/color\% 职业的目标是不惜一切成为最后存活的 \%color=#FF8B95\%杀手\%/color\%。 • \%color=#8A8A8A\%外来者型\%/color\%职业拥有各自独特的胜利条件，行为可能类似于\%color=#8A8A8A\%友善型\%/color\%、\%color=#8A8A8A\%邪恶型\%/color\%或\%color=#8A8A8A\%杀手型\%/color\%职业的混合。</string>
   <string name="TermsImpRoleAlignmentsTitle">\%color=#FF0000\%伪装者\%/color\% 子阵营</string>
-  <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%隐匿型\%/color\%职业可以\%color=#FF8B95\%击杀\%/color\% 并通过伪装或隐藏来欺骗他人。 • \%color=#FF0000\%击杀型\%/color\%职业拥有强化或特殊的 \%color=#FF8B95\%击杀\%/color\%能力。 • \%color=#FF0000\%强力型\%/color\%职业拥有非常强大的技能，可以显著增强\%color=#FF0000\%伪装者\%/color\%阵营。 • \%color=#FF0000\%辅助型\%/color\%职业可以隐藏尸体或让 \%color=#FF8B95\%击杀\%/color\%更加容易。</string>
+  <string name="TermsImpRoleAlignmentsInfo">• \%color=#FF0000\%隐匿型\%/color\%职业可以\%color=#FF8B95\%击杀\%/color\% 并通过伪装或隐藏来欺骗他人。 • \%color=#FF0000\%击杀型\%/color\%职业拥有强化或特殊的 \%color=#FF8B95\%击杀\%/color\%能力, 从而提升\%color=#FF8B95\%击杀\%/color\%效率。 • \%color=#FF0000\%强力型\%/color\%职业拥有非常强大的技能，可以显著增强\%color=#FF0000\%伪装者\%/color\%阵营。 • \%color=#FF0000\%辅助型\%/color\%职业可以隐藏尸体或让 \%color=#FF8B95\%击杀\%/color\%更加容易。</string>
   <string name="TermsRoleBucketsTitle">职业池分类</string>
-  <string name="TermsRoleBucketsInfo">职业池分类仅在启用“设置职业列表”生成方式时生效。 • 常规 \%color=#8CFFFF\%船员\%/color\% ：调查型、保护型、支援型。• Common \%color=#FF0000\%伪装者\%/color\% ：隐匿型、辅助型。 • 常规 \%color=#8A8A8A\%中立\%/color\% 友善型、邪恶型。 • 特殊\%color=#8CFFFF\%船员\%/color\% ：击杀型、强力型。 • Special \%color=#FF0000\%伪装者\%/color\% ：击杀型、强力型。• 特殊\%color=#8A8A8A\%中立\%/color\% ：杀手型、外来者型。 • 非杀手\%color=#8A8A8A\%中立\%/color\% ：友善型、邪恶型、外来者型。 • 非-\%color=#FF0000\%伪装者\%/color\% 包含所有 \%color=#8A8A8A\%中立\%/color\% 和\%color=#8CFFFF\%船员\%/color\% 职业。• 随机分类会生成该阵营的任意职业 (如随机 \%color=#8CFFFF\%船员\%/color\%). • “任意”分类允许生成任何启用的职业。</string>
+  <string name="TermsRoleBucketsInfo">职业池分类仅在启用“设置职业列表”生成方式时生效。 • 常规 \%color=#8CFFFF\%船员\%/color\% ：调查型、保护型、支援型。• 常规 \%color=#FF0000\%伪装者\%/color\% ：隐匿型、辅助型。 • 常规 \%color=#8A8A8A\%中立\%/color\% ：友善型、邪恶型。 • 特殊\%color=#8CFFFF\%船员\%/color\% ：击杀型、强力型。 • 特殊 \%color=#FF0000\%伪装者\%/color\% ：击杀型、强力型。• 特殊 \%color=#8A8A8A\%中立\%/color\% ：杀手型、外来者型。 • 非杀手\%color=#8A8A8A\%中立\%/color\% ：友善型、邪恶型、外来者型。 • 非-\%color=#FF0000\%伪装者\%/color\% 包含所有 \%color=#8A8A8A\%中立\%/color\% 和\%color=#8CFFFF\%船员\%/color\% 职业。• “随机”分类会生成该阵营的任意职业 (如随机 \%color=#8CFFFF\%船员\%/color\%)。• “任意”分类允许生成任何启用的职业。</string>
   <string name="TermsCommonSlangTitle">常见术语</string>
-  <string name="TermsCommonSlangInfo">常见术语通常由 TOU / TOS 社区创造，用于快速交流信息。 • 金水HC：Hard-Cleared，表示该玩家几乎可以确定是好人。 •变身 Glorphing：指玩家变成另一名玩家的外观，例如来自\%color=#00FF00\%混沌\%/color\%、\%color=#FF0000\%化形者\%/color\%, \%color=#FF0000\%变形者\%/color\%, 等职业。 • 鬼影Ghostwalkers：用于称呼 \%color=#D4D4D4\%冤魂\%/color\% 和\%color=#662961\%幻影\%/color\% 等能在死亡后行动的幽灵职业。 • 说悄悄话Sidebars：在近距离语音房间中把玩家拉到一旁进行私下交流。</string>
+  <string name="TermsCommonSlangInfo">常见术语通常由 TOU / TOS 社区创造，用于快速交流信息。 • 金水HC：Hard-Cleared，表示该玩家几乎可以确定是好人。 •变身 Glorphing：指玩家变成另一名玩家的外观，例如来自\%color=#00FF00\%混沌\%/color\%、\%color=#FF0000\%化形者\%/color\%、\%color=#FF0000\%变形者\%/color\% 等相关职业。 • 鬼影Ghostwalkers：用于称呼 \%color=#D4D4D4\%冤魂\%/color\% 和\%color=#662961\%幻影\%/color\% 等能在死亡后行动的幽灵职业。 • 说悄悄话Sidebars：在近距离语音房间中把玩家拉到一旁进行私下交流。</string>
   <string name="CrewmateGhost">船员幽灵型</string>
   <string name="NeutralGhost">中立幽灵型</string>
   <string name="ImpostorGhost">伪装者幽灵型</string>
