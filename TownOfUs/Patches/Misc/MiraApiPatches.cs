@@ -113,6 +113,11 @@ public static class MiraApiPatches
             murderResultFlags = MurderResultFlags.FailedError;
         }
 
+        if (beforeMurderEvent.IsCancelled && source.AmOwner)
+        {
+            source.isKilling = true;
+        }
+
         // Track kill cooldown before CustomMurder for Time Lord rewind
         CustomTouMurderRpcs.RecordedKillCooldown = -1f;
         if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
@@ -153,6 +158,7 @@ public static class MiraApiPatches
     {
         if (LobbyBehaviour.Instance)
         {
+            source.isKilling = false;
             MiscUtils.RunAnticheatWarning(source);
             return false;
         }
