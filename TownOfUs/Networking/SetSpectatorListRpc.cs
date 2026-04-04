@@ -2,6 +2,7 @@
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Patches.Misc;
+using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Networking;
 
@@ -43,8 +44,14 @@ public sealed class SetSpectatorListRpc(TownOfUsPlugin plugin, uint id)
 
     public override void Handle(PlayerControl innerNetObject, Dictionary<byte, string>? data)
     {
-        if (data == null || data.Count == 0)
+        if (data == null)
         {
+            return;
+        }
+
+        if (data.Count == 0)
+        {
+            SpectatorRole.TrackedSpectators.Clear();
             return;
         }
 
