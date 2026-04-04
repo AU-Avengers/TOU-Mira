@@ -3,7 +3,6 @@ using Reactor.Utilities.Attributes;
 using TMPro;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;
@@ -22,7 +21,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     private string _tooltipBaseText = string.Empty; // clean text without hover formatting
 
     private const float BaseX = 0.43f;
-    private float _hideDelay = 0f;
+    private float _hideDelay;
     private const float HideDelayDuration = 0.3f;
     private const float BaseY = 0.1f;
 

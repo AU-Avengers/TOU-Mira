@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
@@ -1196,5 +1196,57 @@ public static class HudManagerPatches
 
         MiraApiSettings.OldButtonScaleFactor =
             LocalSettingsTabSingleton<MiraApiSettings>.Instance.ButtonUIFactorSlider.Value;
+
+        TownOfUsColors.UseBasic = false;
+        BucketTooltipData.AllRoles.Clear();
+        foreach (var pair in TooltipAlignments)
+        {
+            var allRoles = MiscUtils.GetRegisteredRoles(pair.Value).ToList();
+            BucketTooltipData.RoleEntry[] roleEntry = new BucketTooltipData.RoleEntry[0];
+            foreach (var role in allRoles)
+            {
+                Warning($"Adding: {role.GetRoleName()}, {role.Role}, {role.GetNamespace()}");
+                roleEntry = roleEntry.AddToArray(new(role.GetRoleName(), role.Role, role.GetNamespace(), role.TeamColor));
+            }
+            BucketTooltipData.AllRoles.Add(pair.Key, roleEntry);
+        }
+
+        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+            .UseCrewmateTeamColorToggle.Value;
+    }
+
+    internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()
+    {
+        { RoleListOption.CrewInvest, RoleAlignment.CrewmateInvestigative },
+        { RoleListOption.CrewKilling, RoleAlignment.CrewmateKilling },
+        { RoleListOption.CrewProtective, RoleAlignment.CrewmateProtective },
+        { RoleListOption.CrewPower, RoleAlignment.CrewmatePower },
+        { RoleListOption.CrewSupport, RoleAlignment.CrewmateSupport },
+                
+        { RoleListOption.NeutBenign, RoleAlignment.NeutralBenign },
+        { RoleListOption.NeutEvil, RoleAlignment.NeutralEvil },
+        { RoleListOption.NeutKilling, RoleAlignment.NeutralKilling },
+        { RoleListOption.NeutOutlier, RoleAlignment.NeutralOutlier },
+
+        { RoleListOption.ImpConceal, RoleAlignment.ImpostorConcealing },
+        { RoleListOption.ImpKilling, RoleAlignment.ImpostorKilling },
+        { RoleListOption.ImpPower, RoleAlignment.ImpostorPower },
+        { RoleListOption.ImpSupport, RoleAlignment.ImpostorSupport },
+    };
+
+    public static string GetNamespace(this RoleBehaviour role)
+    {
+        if (role is ICustomRole customRole)
+        {
+            return customRole.GetType().FullName!;
+        }
+
+        var text = role.GetType().FullName!;
+        if (Enum.IsDefined(role.Role))
+        {
+            text = $"AmongUs.Roles.{role.Role.ToString()}";
+        }
+
+        return text;
     }
 }
