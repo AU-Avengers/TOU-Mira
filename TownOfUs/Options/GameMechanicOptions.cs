@@ -13,10 +13,17 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     /*[ModdedToggleOption("Hide Names Out Of Sight")]
     public bool HideNamesOutOfSight { get; set; } = true;*/
 
+    [ModdedToggleOption("Powerful Crew Continue The Game")]
+    public bool CrewKillersContinue { get; set; } = true;
+
+    public ModdedEnumOption CleanedBodiesAppearance { get; set; } = new("Cleaned/Dissolved Bodies Appear as", (int)BodyVitalsMode.Missing,
+        typeof(BodyVitalsMode), ["Missing (MIS)", "Dead (DED)", "Disconnected (D/C)"]);
+
     public ModdedEnumOption KillAnimationBackgroundColor { get; set; } = new("Kill Animation Background Color", (int)KillColor.Red,
         typeof(KillColor), ["Red", "Faction", "Role Color"]);
 
-    public ModdedToggleOption CleanedBodiesAppearAsMissing { get; set; } = new("Cleaned Bodies Appear as Missing", true);
+    public ModdedNumberOption PlayerCountWhenVentsDisable { get; set; } = new("Max Players Alive When Vents Disable",
+        2f, 1f, 15f, 1f, MiraNumberSuffixes.None, "0.#");
 
     public ModdedToggleOption GhostwalkerFixSabos { get; set; } = new("Ghostwalkers Can Fix Sabotages", false);
 
@@ -32,11 +39,11 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     };
 }
 
-public enum PetVisiblity
+public enum BodyVitalsMode
 {
-    ClientSide,
-    WhenAlive,
-    AlwaysVisible
+    Missing,
+    Dead,
+    Disconnected
 }
 
 public enum KillColor

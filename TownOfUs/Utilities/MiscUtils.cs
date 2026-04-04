@@ -48,7 +48,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int RealKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.Is(RoleAlignment.NeutralKilling));
@@ -60,7 +60,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
@@ -71,7 +71,7 @@ public static class MiscUtils
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-        OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue);
+        OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue);
 
     public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
 
@@ -2100,19 +2100,23 @@ public static class MiscUtils
         return (IList)Activator.CreateInstance(genericListType)!;
     }
 
-    public static void RemovePet(PlayerControl pc)
+    public static void RemovePet(PlayerControl pc, PetHidden hidden = PetHidden.Remove)
     {
-        if (pc == null || !pc.Data.IsDead)
+        if (pc == null || !pc.Data.IsDead || hidden is PetHidden.Never)
         {
             return;
         }
 
-        if (pc.CurrentOutfit.PetId == "")
+        if (!pc.cosmetics.currentPet)
         {
             return;
         }
 
-        pc.SetPet("");
+        if (hidden is PetHidden.DuringRound)
+        {
+            pc.cosmetics.petHiddenByViper = true;
+        }
+        pc.cosmetics.TogglePet(false);
     }
 
     public static void LungeToPos(PlayerControl player, Vector2 pos)

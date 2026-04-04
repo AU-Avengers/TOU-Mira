@@ -109,7 +109,7 @@ public static class TownOfUsEventHandlers
 
     public static void RunModChecks()
     {
-        var option = OptionGroupSingleton<GeneralOptions>.Instance.ModifierReveal;
+        var option = OptionGroupSingleton<InitialRoundOptions>.Instance.ModifierReveal;
         var modifier = PlayerControl.LocalPlayer.GetModifiers<AllianceGameModifier>().FirstOrDefault();
         var uniModifier = PlayerControl.LocalPlayer.GetModifiers<UniversalGameModifier>().FirstOrDefault();
 
@@ -156,7 +156,7 @@ public static class TownOfUsEventHandlers
         }
 
         var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
-        if (teamModifier != null && OptionGroupSingleton<GeneralOptions>.Instance.TeamModifierReveal)
+        if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
         {
             var color = MiscUtils.GetModifierColour(teamModifier);
 
@@ -191,7 +191,7 @@ public static class TownOfUsEventHandlers
         }
 
         var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
-        if (teamModifier != null && OptionGroupSingleton<GeneralOptions>.Instance.TeamModifierReveal)
+        if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
         {
             var color = MiscUtils.GetModifierColour(teamModifier);
 
@@ -216,7 +216,7 @@ public static class TownOfUsEventHandlers
             HudManager.Instance.SetHudActive(true);
         }
 
-        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var genOpt = OptionGroupSingleton<InitialRoundOptions>.Instance;
 
         if (genOpt.StartCooldownMode is not StartCooldownType.NoButtons)
         {
@@ -743,7 +743,7 @@ public static class TownOfUsEventHandlers
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+            var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
             if (PlayerControl.LocalPlayer.inVent && aliveCount <= minimum &&
                 PlayerControl.LocalPlayer.Data.Role is not IGhostRole)

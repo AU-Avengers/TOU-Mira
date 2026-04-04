@@ -76,7 +76,7 @@ public static class HnsGamemodeEvents
             }
 
             var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
-            var minimum = (int)OptionGroupSingleton<VanillaTweakOptions>.Instance.PlayerCountWhenVentsDisable.Value;
+            var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
             if (PlayerControl.LocalPlayer.inVent && (aliveCount <= minimum
                                                      || PlayerControl.LocalPlayer.IsImpostor()))

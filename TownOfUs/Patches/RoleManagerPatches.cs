@@ -1051,7 +1051,7 @@ public static class TouRoleManagerPatches
             player.Object.RpcSetRole(specId);
         }
 
-        if (OptionGroupSingleton<GeneralOptions>.Instance.RoundOneVictims)
+        if (OptionGroupSingleton<InitialRoundOptions>.Instance.RoundOneVictims)
         {
             var firstDead = GameData.Instance.AllPlayers.ToArray()
                 .Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x)).ToList();

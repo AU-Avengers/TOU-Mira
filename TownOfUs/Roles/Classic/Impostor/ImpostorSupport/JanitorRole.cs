@@ -4,6 +4,7 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
@@ -112,7 +113,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
 
             var isHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
             var optionEnabled = OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind;
-            var destroyBody = OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value;
+            var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
 
             var shouldRecord = isHost ? optionEnabled : (optionEnabled || TimeLordRewindSystem.MatchHasTimeLord());
 
@@ -132,7 +133,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
             }
             else
             {
-                TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean ({(destroyBody ? "Body will be destroyed" : "Body will be hidden")})");
+                TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean (Body will appear {destroyBody.ToDisplayString()})");
                 Coroutines.Start(body.CoCleanCustom(destroyBody));
             }
             Coroutines.Start(CrimeSceneComponent.CoClean(body));
