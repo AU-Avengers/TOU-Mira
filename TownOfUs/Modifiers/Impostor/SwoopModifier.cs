@@ -7,7 +7,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -33,11 +32,11 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
         return new VisualAppearance(Player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Swooper)
         {
-            HatId = string.Empty,
-            SkinId = string.Empty,
-            VisorId = string.Empty,
+            HatId = "hat_NoHat",
+            SkinId = "skin_None",
+            VisorId = "visor_EmptyVisor",
             PlayerName = string.Empty,
-            PetId = string.Empty,
+            PetId = "pet_EmptyPet",
             RendererColor = playerColor,
             NameColor = Color.clear,
             ColorBlindTextColor = Color.clear

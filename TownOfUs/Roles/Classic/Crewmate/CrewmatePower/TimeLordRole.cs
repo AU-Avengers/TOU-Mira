@@ -12,7 +12,6 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -47,6 +46,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.TimeLord,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         MaxRoleCount = 1,
         IntroSound = TouAudio.TimeLordIntroSound
     };

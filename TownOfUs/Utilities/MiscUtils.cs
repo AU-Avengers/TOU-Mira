@@ -48,7 +48,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int RealKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.Is(RoleAlignment.NeutralKilling));
@@ -60,7 +60,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
@@ -71,7 +71,7 @@ public static class MiscUtils
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-        OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue);
+        OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue);
 
     public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
 
@@ -2100,19 +2100,23 @@ public static class MiscUtils
         return (IList)Activator.CreateInstance(genericListType)!;
     }
 
-    public static void RemovePet(PlayerControl pc)
+    public static void RemovePet(PlayerControl pc, PetHidden hidden = PetHidden.Remove)
     {
-        if (pc == null || !pc.Data.IsDead)
+        if (pc == null || !pc.Data.IsDead || hidden is PetHidden.Never)
         {
             return;
         }
 
-        if (pc.CurrentOutfit.PetId == "")
+        if (!pc.cosmetics.currentPet)
         {
             return;
         }
 
-        pc.SetPet("");
+        if (hidden is PetHidden.DuringRound)
+        {
+            pc.cosmetics.petHiddenByViper = true;
+        }
+        pc.cosmetics.TogglePet(false);
     }
 
     public static void LungeToPos(PlayerControl player, Vector2 pos)
@@ -2225,6 +2229,58 @@ public static class MiscUtils
         var stringBuilder = new StringBuilder();
         stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatIllegalRpcMessage").Replace("<player>", source.Data.PlayerName)}");
         AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
+    }
+
+    public static string GetRegionName(IRegionInfo? region = null, bool shorten = true)
+    {
+        region ??= ServerManager.Instance.CurrentRegion;
+
+        string name = region.Name;
+
+        if (AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
+        {
+            name = "Local Game";
+            return name;
+        }
+
+        if (AmongUsClient.Instance.GameId == LobbyJoin.GameId && LobbyJoin.TempRegion != null)
+        {
+            region = LobbyJoin.TempRegion;
+            name = LobbyJoin.TempRegion.Name;
+        }
+
+        if (shorten)
+        {
+            if (region.PingServer.EndsWith("among.us", StringComparison.Ordinal))
+            {
+                // Official Server
+                if (name == "North America") name = "NA";
+                else if (name == "Europe") name = "EU";
+                else if (name == "Asia") name = "AS";
+
+                return name;
+            }
+
+            var Ip = region.Servers.FirstOrDefault()?.Ip ?? string.Empty;
+
+            if (Ip.Contains("aumods.us", StringComparison.Ordinal)
+                || Ip.Contains("duikbo.at", StringComparison.Ordinal))
+            {
+                // Official Modded Server
+                if (Ip.Contains("au-eu")) name = "MEU";
+                else if (Ip.Contains("au-as")) name = "MAS";
+                else if (Ip.Contains("www.")) name = "MNA";
+
+                return name;
+            }
+
+            if (name.Contains("nikocat233", StringComparison.OrdinalIgnoreCase))
+            {
+                name = name.Replace("nikocat233", "Niko233", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        return name;
     }
 }
 

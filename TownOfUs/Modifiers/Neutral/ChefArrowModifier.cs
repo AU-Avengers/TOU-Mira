@@ -3,7 +3,6 @@ using MiraAPI.Modifiers.Types;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Neutral;

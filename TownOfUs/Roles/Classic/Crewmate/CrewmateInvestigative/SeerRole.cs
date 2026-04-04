@@ -11,7 +11,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Events;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;

@@ -14,7 +14,6 @@ using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Alliance;

@@ -6,7 +6,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -46,6 +45,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         CanUseVent = OptionGroupSingleton<JuggernautOptions>.Instance.CanVent,
         IntroSound = TouAudio.WarlockIntroSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Juggernaut,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

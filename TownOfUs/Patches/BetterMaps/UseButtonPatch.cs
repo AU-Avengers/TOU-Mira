@@ -1,6 +1,5 @@
 using HarmonyLib;
 using MiraAPI.Roles;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.BetterMaps;
 

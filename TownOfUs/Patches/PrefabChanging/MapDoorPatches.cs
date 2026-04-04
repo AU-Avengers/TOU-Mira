@@ -7,7 +7,6 @@ using TownOfUs.Modules;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.PrefabChanging;
 
@@ -225,7 +224,7 @@ public static class MapDoorPatches
                 return false;
             }
             instance.RpcCloseDoorsOfType(__instance.room);
-            DestroyableSingleton<DebugAnalytics>.Instance.Analytics.SabotageStart(SkeldDoorsSystemType.SystemType);
+            DebugAnalytics.Instance.Analytics.SabotageStart(SkeldDoorsSystemType.SystemType);
             return false;
         }
 
@@ -236,7 +235,7 @@ public static class MapDoorPatches
                 return false;
             }
             instance.RpcCloseDoorsOfType(__instance.room);
-            DestroyableSingleton<DebugAnalytics>.Instance.Analytics.SabotageStart(ManualDoorsSystemType.SystemType);
+            DebugAnalytics.Instance.Analytics.SabotageStart(ManualDoorsSystemType.SystemType);
             return false;
         }
         return true;

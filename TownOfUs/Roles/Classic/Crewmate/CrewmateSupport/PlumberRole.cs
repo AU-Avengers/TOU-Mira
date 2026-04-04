@@ -14,7 +14,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -69,6 +68,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.EngineerIntroSound,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Plumber
     };
 

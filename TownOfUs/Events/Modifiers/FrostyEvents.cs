@@ -5,7 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Options.Modifiers.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Modifiers;

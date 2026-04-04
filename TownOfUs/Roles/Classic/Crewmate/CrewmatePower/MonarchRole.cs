@@ -8,7 +8,6 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using MiraAPI.Patches.Stubs;
 using Reactor.Utilities.Extensions;
@@ -99,6 +98,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Monarch,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ToppatIntroSound,
         MaxRoleCount = 1
     };
@@ -221,11 +221,6 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             CustomButtonSingleton<MonarchProtectionFlashButton>.Instance.SetShieldType(role.currentFlashType);
         }
-    }
-
-    public static void OnRoundStart()
-    {
-        CustomButtonSingleton<MonarchKnightButton>.Instance.Usable = true;
     }
 
 }

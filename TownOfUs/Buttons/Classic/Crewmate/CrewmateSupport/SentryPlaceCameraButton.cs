@@ -7,7 +7,6 @@ using System.Collections;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;

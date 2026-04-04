@@ -4,7 +4,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;

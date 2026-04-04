@@ -22,7 +22,6 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -176,6 +175,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Inquisitor,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -216,11 +216,6 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
 
         return stringB;
-    }
-
-    public static void OnRoundStart()
-    {
-        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable = true;
     }
 
     public void OffsetButtons()

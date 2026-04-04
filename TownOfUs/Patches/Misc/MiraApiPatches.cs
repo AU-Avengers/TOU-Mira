@@ -9,7 +9,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Networking;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -104,9 +103,19 @@ public static class MiraApiPatches
             beforeMurderEvent.Cancel();
         }
 
-        if (beforeMurderEvent.IsCancelled)
+        if (target.ProtectedByGa())
+        {
+            beforeMurderEvent.Cancel();
+            murderResultFlags = MurderResultFlags.FailedProtected;
+        }
+        else if (beforeMurderEvent.IsCancelled)
         {
             murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        if (beforeMurderEvent.IsCancelled && source.AmOwner)
+        {
+            source.isKilling = true;
         }
 
         // Track kill cooldown before CustomMurder for Time Lord rewind
@@ -149,6 +158,7 @@ public static class MiraApiPatches
     {
         if (LobbyBehaviour.Instance)
         {
+            source.isKilling = false;
             MiscUtils.RunAnticheatWarning(source);
             return false;
         }

@@ -133,6 +133,8 @@ public enum TownOfUsRpc : uint
     HostStartMeeting,
     HostEndMeeting,
     HerbalistBarrierAttacked,
+    OfficerMisfire,
+    OfficerSyncBullets,
 }
 
 internal enum TownOfUsInternalRpc : uint

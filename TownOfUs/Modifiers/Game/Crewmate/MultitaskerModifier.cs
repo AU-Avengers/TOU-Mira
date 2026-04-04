@@ -3,7 +3,6 @@ using MiraAPI.Hud;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;

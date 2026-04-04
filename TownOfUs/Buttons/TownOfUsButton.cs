@@ -12,7 +12,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons;

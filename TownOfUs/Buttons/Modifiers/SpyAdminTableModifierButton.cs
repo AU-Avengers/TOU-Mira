@@ -6,7 +6,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Modifiers;

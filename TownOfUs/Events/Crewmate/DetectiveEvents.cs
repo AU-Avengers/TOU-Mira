@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Meeting;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 

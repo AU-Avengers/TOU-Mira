@@ -1,6 +1,5 @@
 using HarmonyLib;
 using MiraAPI.Utilities;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
 

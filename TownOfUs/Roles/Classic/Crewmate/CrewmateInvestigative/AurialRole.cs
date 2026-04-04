@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Color = UnityEngine.Color;
 

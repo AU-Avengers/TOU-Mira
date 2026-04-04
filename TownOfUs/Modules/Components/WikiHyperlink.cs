@@ -2,7 +2,6 @@
 using Reactor.Utilities.Attributes;
 using UnityEngine;
 using TMPro;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modules.Components;
 

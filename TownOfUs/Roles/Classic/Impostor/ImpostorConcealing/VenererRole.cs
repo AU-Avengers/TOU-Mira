@@ -5,7 +5,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -32,6 +31,7 @@ public sealed class VenererRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Venerer
     };
 

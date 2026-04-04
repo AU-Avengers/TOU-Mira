@@ -14,7 +14,6 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Runtime.CompilerServices;

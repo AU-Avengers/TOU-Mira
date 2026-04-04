@@ -98,7 +98,7 @@ public class LocalizedLocalToggleSetting : LocalToggleSetting
     public static void UpdateToggleText(TextMeshPro tmp, string localeName, bool value)
     {
         tmp.text = TouLocale.Get(localeName) + ": " +
-                   DestroyableSingleton<TranslationController>.Instance.GetString(value
+                   TranslationController.Instance.GetString(value
                        ? StringNames.SettingsOn
                        : StringNames.SettingsOff);
     }

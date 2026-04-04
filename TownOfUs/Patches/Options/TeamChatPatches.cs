@@ -11,7 +11,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using UnityEngine.UI;

@@ -6,7 +6,6 @@ using MiraAPI.Modifiers.Types;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Neutral;

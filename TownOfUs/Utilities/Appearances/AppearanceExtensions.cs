@@ -1,6 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Options.Maps;
@@ -68,11 +69,11 @@ public static class AppearanceExtensions
             player.RawSetAppearance(new VisualAppearance(player.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
             {
                 ColorId = player.Data.DefaultOutfit.ColorId,
-                HatId = string.Empty,
-                SkinId = string.Empty,
-                VisorId = string.Empty,
+                HatId = "hat_NoHat",
+                SkinId = "skin_None",
+                VisorId = "visor_EmptyVisor",
                 PlayerName = string.Empty,
-                PetId = string.Empty,
+                PetId = "pet_EmptyPet",
                 NameVisible = false,
                 PlayerMaterialColor = Color.grey,
                 Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : player.GetAppearance().Size
@@ -226,11 +227,11 @@ public static class AppearanceExtensions
 
     public static VisualAppearance GetDefaultAppearance(this PlayerControl playerControl)
     {
-        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker)
+        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker or PlayerBodyTypes.Classic)
         {
             return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
             {
-                SkinId = string.Empty
+                SkinId = "skin_None"
             };
         }
         return new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default);
@@ -239,11 +240,11 @@ public static class AppearanceExtensions
     public static VisualAppearance GetDefaultModifiedAppearance(this PlayerControl playerControl)
     {
         var appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default);
-        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker)
+        if (playerControl.MyPhysics.bodyType is PlayerBodyTypes.Horse or PlayerBodyTypes.LongSeeker or PlayerBodyTypes.Classic)
         {
             appearance = new VisualAppearance(playerControl.Data.DefaultOutfit, TownOfUsAppearances.Default)
             {
-                SkinId = string.Empty
+                SkinId = "skin_None"
             };
         }
 
@@ -274,5 +275,12 @@ public static class AppearanceExtensions
         }
 
         return appearance;
+    }
+
+    public static bool IsVisibleToOthers(this PlayerControl playerControl)
+    {
+        return !playerControl.shouldAppearInvisible && playerControl.Visible && !playerControl.inVent &&
+               !playerControl.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) &&
+               !(playerControl.TryGetModifier<DisabledModifier>(out var mod) && !mod.IsConsideredAlive);
     }
 }

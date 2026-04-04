@@ -8,7 +8,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -59,6 +58,7 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Swapper,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         MaxRoleCount = 1,
         IntroSound = TouAudio.TimeLordIntroSound
     };

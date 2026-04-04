@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Utilities.Assets;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;

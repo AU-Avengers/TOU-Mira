@@ -11,7 +11,6 @@ using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;

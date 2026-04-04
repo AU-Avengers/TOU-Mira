@@ -10,7 +10,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -159,7 +158,7 @@ public sealed class MinerRole(IntPtr cppPtr)
             }
         }
 
-        var mapId = (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+        var mapId = (MapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
         if (TutorialManager.InstanceExists)
         {
             mapId = (MapNames)AmongUsClient.Instance.TutorialMapId;

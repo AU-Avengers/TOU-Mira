@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -30,6 +29,7 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     {
         CanUseVent = OptionGroupSingleton<SwooperOptions>.Instance.CanVent,
         Icon = TouRoleIcons.Swooper,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.PhantomIntroSound
     };
 

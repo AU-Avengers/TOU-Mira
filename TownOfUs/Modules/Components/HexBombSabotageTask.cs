@@ -9,7 +9,6 @@ using Reactor.Utilities.Attributes;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

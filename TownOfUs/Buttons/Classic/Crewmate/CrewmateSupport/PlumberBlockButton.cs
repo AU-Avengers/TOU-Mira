@@ -5,17 +5,14 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
 {
-    private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
     public override string Name => TouLocale.GetParsed("TouRolePlumberBlock", "Block");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
@@ -32,33 +29,7 @@ public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
 
     public override Vent? GetTarget()
     {
-        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(Distance / 4, Filter);
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(Distance / 3, Filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(Distance / 2, Filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(Distance, Filter);
-        }
-
-        if (ModCompatibility.IsSubmerged() && vent != null && (vent.Id == 0 || vent.Id == 14))
-        {
-            vent = null;
-        }
-
-        if (vent != null && PlayerControl.LocalPlayer.CanUseVent(vent))
-        {
-            return vent;
-        }
-
-        return null;
+        return TouRoleUtils.GetClosestUsableVent(false, Distance);
     }
 
     public override bool CanUse()

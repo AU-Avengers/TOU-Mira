@@ -6,7 +6,6 @@ using PowerTools;
 using TMPro;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;

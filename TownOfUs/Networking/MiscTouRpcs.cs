@@ -2,7 +2,6 @@ using MiraAPI.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Networking;

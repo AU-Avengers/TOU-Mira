@@ -11,7 +11,6 @@ using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;

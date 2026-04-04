@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Neutral;
 

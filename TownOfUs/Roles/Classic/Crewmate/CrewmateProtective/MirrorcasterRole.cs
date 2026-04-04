@@ -13,7 +13,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -77,13 +76,14 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.ScientistIntroSound,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Mirrorcaster
     };
 
     public bool IsPowerCrew =>
         UnleashesAvailable > 0 ||
         ModifierUtils.GetActiveModifiers<MagicMirrorModifier>()
-            .Any(); // Always disable end game checks if there is an Unleash available
+            .HasAny(); // Always disable end game checks if there is an Unleash available
 
     public static string ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
 
@@ -127,6 +127,21 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public void SetProtectedPlayer(PlayerControl? player)
     {
+        if (Protected == player && player != null)
+        {
+            if (player.TryGetModifier<MagicMirrorModifier>(out var mod2))
+            {
+                if (!mod2.TimerActive)
+                {
+                    return;
+                }
+
+                mod2.ResetTimer();
+            }
+
+            return;
+        }
+
         if (Protected?.TryGetModifier<MagicMirrorModifier>(out var mod) == true)
         {
             // This should prevent any issues with murder attempts

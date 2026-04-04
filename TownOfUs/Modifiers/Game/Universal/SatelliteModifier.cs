@@ -1,17 +1,14 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Interfaces;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -74,7 +71,6 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
 
     public void OnRoundStart()
     {
-        CustomButtonSingleton<SatelliteButton>.Instance.Usable = true;
         ClearMapIcons();
     }
 

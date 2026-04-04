@@ -6,7 +6,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Networking;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.BaseFreeplay;

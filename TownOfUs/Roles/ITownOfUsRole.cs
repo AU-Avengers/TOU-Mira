@@ -3,7 +3,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Roles;
 

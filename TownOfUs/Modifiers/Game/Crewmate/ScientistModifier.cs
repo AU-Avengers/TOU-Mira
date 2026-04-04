@@ -9,7 +9,6 @@ using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;

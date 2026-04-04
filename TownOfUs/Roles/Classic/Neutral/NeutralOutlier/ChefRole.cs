@@ -17,10 +17,10 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules.TimeLord;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -83,6 +83,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         IntroSound = TouAudio.ChefSound,
         Icon = TouRoleIcons.Chef,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -204,6 +205,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             {
                 TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordChefCook(chef, body, platter);
             }
+            var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
 
             if (OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind)
             {
@@ -213,13 +215,13 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
                     TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
-                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body));
+                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
             }
             else
             {
-                Coroutines.Start(body.CoClean());
+                Coroutines.Start(body.CoCleanCustom(destroyBody));
             }
-            //Coroutines.Start(CrimeSceneComponent.CoClean(body));
+            // Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }
     }
     [MethodRpc((uint)TownOfUsRpc.ServeBody)]

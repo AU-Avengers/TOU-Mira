@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.ControlSystem;
 

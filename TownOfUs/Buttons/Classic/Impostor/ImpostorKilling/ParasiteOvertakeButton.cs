@@ -15,7 +15,6 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
@@ -205,7 +204,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return true;
         }
 
-        return target.GetModifiers<BaseShieldModifier>().Any();
+        return target.GetModifiers<BaseShieldModifier>().HasAny();
     }
 
     public override PlayerControl? GetTarget()

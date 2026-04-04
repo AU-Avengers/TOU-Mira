@@ -8,7 +8,6 @@ using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Networking;
 

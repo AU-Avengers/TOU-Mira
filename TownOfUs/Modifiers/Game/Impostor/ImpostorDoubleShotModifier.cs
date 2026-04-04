@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Options.Modifiers;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Impostor;

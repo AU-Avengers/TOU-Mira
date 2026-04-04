@@ -12,7 +12,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
@@ -125,13 +124,14 @@ public static class MonarchEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
 
         button?.SetTimer(reset);
-
-        if (!source.AmOwner || !source.IsImpostor())
-            return;
-
         source.SetKillTimer(reset);
     }
 }

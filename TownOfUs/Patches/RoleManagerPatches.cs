@@ -16,7 +16,6 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -917,10 +916,10 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.First)]
     public static bool SelectRolesPatch(RoleManager __instance)
     {
-        ModifierManager.MiraAssignsModifiers = false;
         var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
+        ModifierManager.MiraAssignsModifiers = false;
 
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
         {
@@ -1052,7 +1051,7 @@ public static class TouRoleManagerPatches
             player.Object.RpcSetRole(specId);
         }
 
-        if (OptionGroupSingleton<GeneralOptions>.Instance.RoundOneVictims)
+        if (OptionGroupSingleton<InitialRoundOptions>.Instance.RoundOneVictims)
         {
             var firstDead = GameData.Instance.AllPlayers.ToArray()
                 .Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x)).ToList();

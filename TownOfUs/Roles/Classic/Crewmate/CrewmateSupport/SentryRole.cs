@@ -6,7 +6,6 @@ using Reactor.Networking.Attributes;
 using System.Text;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;

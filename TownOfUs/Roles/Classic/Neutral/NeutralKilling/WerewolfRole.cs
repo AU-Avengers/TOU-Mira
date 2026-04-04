@@ -9,7 +9,6 @@ using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -65,6 +64,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
     {
         CanUseVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent /* && (Rampaging || Player.inVent)*/,
         IntroSound = TouAudio.WerewolfRampageSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Werewolf,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };

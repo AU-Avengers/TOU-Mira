@@ -16,7 +16,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -77,6 +76,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public CustomRoleConfiguration Configuration => new(this)
     {
         MaxRoleCount = 1,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Jailor,
         IntroSound = TouAudio.ImpostorIntroSound
     };

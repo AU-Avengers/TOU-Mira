@@ -5,7 +5,6 @@ using Reactor.Networking.Attributes;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Patches.PrefabChanging;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -75,7 +74,7 @@ internal static class CancelCountdownStart
                 notif.AdjustNotification();
             }
 
-            var curMap = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+            var curMap = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
             var defaultDoorType = curMap switch
             {
                 ExpandedMapNames.Skeld or ExpandedMapNames.Dleks => MapDoorType.Skeld,
@@ -105,10 +104,10 @@ internal static class CancelCountdownStart
     [HarmonyPostfix]
     public static void PostfixStart(GameStartManager __instance)
     {
-        /*if (MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek)
         {
-        }*/
-        __instance.MinPlayers = 1;
+            __instance.MinPlayers = 1;
+        }
     }
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]

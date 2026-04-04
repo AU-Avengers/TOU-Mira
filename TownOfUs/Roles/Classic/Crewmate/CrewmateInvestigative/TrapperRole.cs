@@ -7,7 +7,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -99,7 +98,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
             foreach (var role in TrappedPlayers)
             {
-                message.Append(TownOfUsPlugin.Culture, $"#{MiscUtils.GetHyperlinkText(role)}, ");
+                message.Append(TownOfUsPlugin.Culture, $"{MiscUtils.GetHyperlinkText(role)}, ");
             }
 
             message = message.Remove(message.Length - 2, 2);

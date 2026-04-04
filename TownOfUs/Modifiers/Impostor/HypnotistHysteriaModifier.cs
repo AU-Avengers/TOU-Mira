@@ -1,5 +1,4 @@
 ﻿using TownOfUs.Patches;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
             var morph = new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultModifiedAppearance(), TownOfUsAppearances.Morph)
             {
                 Size = new Vector3(0.7f, 0.7f, 1f),
-                PetId = string.Empty,
+                PetId = "pet_EmptyPet",
                 PlayerName = string.Empty
             };
 
@@ -29,11 +28,22 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
             {
                 return new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultModifiedAppearance(), TownOfUsAppearances.Morph)
                 {
-                    HatId = string.Empty,
-                    SkinId = string.Empty,
-                    VisorId = string.Empty,
+                    HatId = "hat_NoHat",
+                    SkinId = "skin_None",
+                    VisorId = "visor_EmptyVisor",
                     PlayerName = string.Empty,
-                    PetId = string.Empty,
+                    PetId = "pet_EmptyPet",
+                    Size = new Vector3(0.7f, 0.7f, 1f)
+                };
+            }
+
+            if (NewBodyType is PlayerBodyTypes.Classic)
+            {
+                return new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultModifiedAppearance(), TownOfUsAppearances.Morph)
+                {
+                    SkinId = "skin_None",
+                    PlayerName = string.Empty,
+                    PetId = "pet_EmptyPet",
                     Size = new Vector3(0.7f, 0.7f, 1f)
                 };
             }
@@ -46,11 +56,11 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
             return new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
             {
                 ColorId = PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId,
-                HatId = string.Empty,
-                SkinId = string.Empty,
-                VisorId = string.Empty,
+                HatId = "hat_NoHat",
+                SkinId = "skin_None",
+                VisorId = "visor_EmptyVisor",
                 PlayerName = string.Empty,
-                PetId = string.Empty,
+                PetId = "pet_EmptyPet",
                 NameVisible = false,
                 PlayerMaterialColor = Color.grey,
                 Size = new Vector3(0.7f, 0.7f, 1f)
@@ -59,11 +69,11 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
 
         var swoop = new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultModifiedAppearance(), TownOfUsAppearances.Swooper)
         {
-            HatId = string.Empty,
-            SkinId = string.Empty,
-            VisorId = string.Empty,
+            HatId = "hat_NoHat",
+            SkinId = "skin_None",
+            VisorId = "visor_EmptyVisor",
             PlayerName = string.Empty,
-            PetId = string.Empty,
+            PetId = "pet_EmptyPet",
             RendererColor = new Color(0f, 0f, 0f, 0.1f),
             NameColor = Color.clear,
             ColorBlindTextColor = Color.clear,
@@ -93,7 +103,7 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
 
     public override void OnDeactivate()
     {
-        Player.MyPhysics.SetForcedBodyType(PlayerControl.LocalPlayer.BodyType);
+        Player.MyPhysics.SetForcedBodyType(PlayerBodyTypes.Normal);
 
         var mushroom = UnityEngine.Object.FindObjectOfType<MushroomMixupSabotageSystem>();
         if (mushroom && mushroom.IsActive)

@@ -1,5 +1,7 @@
 using System.Text;
 using AmongUs.GameOptions;
+using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -182,29 +184,136 @@ public static class TouRoleUtils
         return stringB;
     }
 
-    private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
-
-    public static Vent? GetClosestUsableVent
+    public static Vent? GetClosestUsableVent(bool forVenting, float distance)
     {
-        get
+        var playerControl = PlayerControl.LocalPlayer;
+        var data = playerControl.Data;
+        Vector2 truePosition = playerControl.GetTruePosition();
+        var flag2 = (playerControl.CanMove || playerControl.inVent || !forVenting);
+        int num2 = Physics2D.OverlapCircleNonAlloc(truePosition, distance, playerControl.hitBuffer, Constants.Usables);
+        float num3 = float.MaxValue;
+        List<Vent> list = new List<Vent>();
+        for (int i = 0; i < num2; i++)
         {
-            var player = PlayerControl.LocalPlayer;
-            Vector2 truePosition = player.GetTruePosition();
-            var closestVents = Helpers.GetNearestObjectsOfType<Vent>(truePosition, player.MaxReportDistance, Filter);
-            Vent? vent = null;
-            if (closestVents.Count == 0)
+            Collider2D collider2D = playerControl.hitBuffer[i];
+            if (!playerControl.cache.TryGetValue(collider2D, out var array))
             {
-                return null;
+                playerControl.cache[collider2D] = collider2D.GetComponents<IUsable>().ToArray();
+                array = playerControl.cache[collider2D];
             }
-            foreach (var closeVent in closestVents)
+            if (array != null && flag2)
             {
-                if (player.CanUseVent(closeVent))
+                foreach (var usable2 in array.Where(x => x.TryCast<Vent>() != null).Select(x => x.TryCast<Vent>()!))
                 {
-                    vent = closeVent;
-                    break;
+                    bool flag4;
+                    float num4 = usable2.CanUse(data, forVenting, distance, out flag4);
+                    if (flag4 && num4 < num3)
+                    {
+                        list.Add(usable2);
+                    }
                 }
             }
-            return vent;
         }
+        var vent = (list.Count > 0) ? list.FirstOrDefault() : null;
+
+        return vent;
+    }
+    
+
+    public static Vent? GetClosestUsableVent(bool forVenting)
+    {
+        var playerControl = PlayerControl.LocalPlayer;
+        var data = playerControl.Data;
+        Vector2 truePosition = playerControl.GetTruePosition();
+        var flag2 = (playerControl.CanMove || playerControl.inVent || !forVenting);
+        int num2 = Physics2D.OverlapCircleNonAlloc(truePosition, playerControl.MaxReportDistance, playerControl.hitBuffer, Constants.Usables);
+        float num3 = float.MaxValue;
+        List<Vent> list = new List<Vent>();
+        for (int i = 0; i < num2; i++)
+        {
+            Collider2D collider2D = playerControl.hitBuffer[i];
+            if (!playerControl.cache.TryGetValue(collider2D, out var array))
+            {
+                array = playerControl.cache[collider2D];
+            }
+            if (array != null && flag2)
+            {
+                foreach (var usable2 in array.Where(x => x.TryCast<Vent>() != null).Select(x => x.TryCast<Vent>()!))
+                {
+                    bool flag4;
+                    float num4 = usable2.CanUse(data, forVenting, out flag4);
+                    if (flag4 && num4 < num3)
+                    {
+                        list.Add(usable2);
+                    }
+                }
+            }
+        }
+        var vent = (list.Count > 0) ? list.FirstOrDefault() : null;
+
+        return vent;
+    }
+    public static float CanUse(this Vent vent, NetworkedPlayerInfo pc, bool toVent, float distance, out bool couldUse)
+    {
+        float num = float.MaxValue;
+        PlayerControl @object = pc.Object;
+        couldUse = !toVent || !@object.MustCleanVent(vent.Id) || Vent.currentVent == vent;
+
+        var @event = new PlayerCanUseEvent(vent.Cast<IUsable>());
+        MiraEventManager.InvokeEvent(@event);
+
+        if (@event.IsCancelled)
+        {
+            return num;
+        }
+        ISystemType systemType;
+        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out systemType))
+        {
+            var ventilationSystem = systemType.TryCast<VentilationSystem>();
+            if (ventilationSystem != null && ventilationSystem.IsVentCurrentlyBeingCleaned(vent.Id))
+            {
+                couldUse = false;
+            }
+        }
+        if (couldUse)
+        {
+            Vector3 center = @object.Collider.bounds.center;
+            Vector3 position = vent.transform.position;
+            num = Vector2.Distance(center, position);
+            couldUse &= (num <= distance && !PhysicsHelpers.AnythingBetween(@object.Collider, center, position, Constants.ShipOnlyMask, false));
+        }
+        return num;
+    }
+    public static float CanUse(this Vent vent, NetworkedPlayerInfo pc, bool toVent, out bool couldUse)
+    {
+        float num = float.MaxValue;
+        PlayerControl @object = pc.Object;
+        couldUse = !toVent || !@object.MustCleanVent(vent.Id) || Vent.currentVent == vent;
+
+        var @event = new PlayerCanUseEvent(vent.Cast<IUsable>());
+        MiraEventManager.InvokeEvent(@event);
+
+        if (@event.IsCancelled)
+        {
+            couldUse = false;
+            return num;
+        }
+        ISystemType systemType;
+        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out systemType))
+        {
+            var ventilationSystem = systemType.TryCast<VentilationSystem>();
+            if (ventilationSystem != null && ventilationSystem.IsVentCurrentlyBeingCleaned(vent.Id))
+            {
+                couldUse = false;
+            }
+        }
+        if (couldUse)
+        {
+            Vector3 center = @object.Collider.bounds.center;
+            Vector3 position = vent.transform.position;
+            num = Vector2.Distance(center, position);
+            couldUse &= (num <= vent.UsableDistance && !PhysicsHelpers.AnythingBetween(@object.Collider, center, position, Constants.ShipOnlyMask, false));
+        }
+        return num;
     }
 }
