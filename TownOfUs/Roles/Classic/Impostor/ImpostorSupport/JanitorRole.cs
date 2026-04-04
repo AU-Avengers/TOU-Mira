@@ -11,6 +11,7 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Modules.TimeLord;
 using TownOfUs.Modules.Components;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
@@ -131,7 +132,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
             else
             {
                 TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean (body will be destroyed)");
-                Coroutines.Start(body.CoClean());
+                Coroutines.Start(body.CoClean(OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value));
             }
             Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }

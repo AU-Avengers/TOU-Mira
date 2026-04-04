@@ -10,6 +10,7 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.TimeLord;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -77,7 +78,7 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
         }
         else
         {
-            Coroutines.Start(body.CoClean());
+            Coroutines.Start(body.CoClean(OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value));
         }
         Coroutines.Start(CrimeSceneComponent.CoClean(body));
     }

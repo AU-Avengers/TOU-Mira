@@ -206,6 +206,11 @@ public static class CustomTouMurderRpcs
             firstTarget = false;
         }
 
+        if (victims.HasAny() && source.AmOwner)
+        {
+            source.isKilling = true;
+        }
+
         if (!PlayerControl.LocalPlayer.IsHost())
         {
             yield break;
@@ -270,6 +275,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
+            source.isKilling = false;
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
@@ -352,6 +358,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
+            source.isKilling = false;
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
@@ -482,6 +489,11 @@ public static class CustomTouMurderRpcs
             murderResultFlags = MurderResultFlags.FailedError;
         }
 
+        if (beforeMurderEvent.IsCancelled && source.AmOwner)
+        {
+            source.isKilling = true;
+        }
+
         // Track kill cooldown before CustomMurder for Time Lord rewind
         RecordedKillCooldown = -1f;
         if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
@@ -522,6 +534,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
+            source.isKilling = false;
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
@@ -704,6 +717,11 @@ public static class CustomTouMurderRpcs
             murderResultFlags = MurderResultFlags.FailedError;
         }
 
+        if (beforeMurderEvent.IsCancelled && source.AmOwner)
+        {
+            source.isKilling = true;
+        }
+
         // Track kill cooldown before CustomMurder for Time Lord rewind
         RecordedKillCooldown = -1f;
         if (resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
@@ -748,6 +766,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
+            source.isKilling = false;
             MiscUtils.RunAnticheatWarning(source);
             return;
         }

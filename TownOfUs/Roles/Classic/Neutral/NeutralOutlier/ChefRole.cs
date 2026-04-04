@@ -17,6 +17,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules.TimeLord;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
@@ -217,7 +218,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
             }
             else
             {
-                Coroutines.Start(body.CoClean());
+                Coroutines.Start(body.CoClean(OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearAsMissing.Value));
             }
             //Coroutines.Start(CrimeSceneComponent.CoClean(body));
         }
