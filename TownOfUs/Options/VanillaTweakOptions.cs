@@ -26,13 +26,18 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public ModdedEnumOption ShowPetsMode { get; set; } = new("Pet Visibility", (int)PetVisiblity.AlwaysVisible,
         typeof(PetVisiblity), ["Client Side", "When Alive", "Always Visible"]);
 
-    public ModdedToggleOption HidePetsOnBodyRemove { get; set; } = new("Remove Pets Upon Janitor/Chef Clean", true)
+    public ModdedEnumOption HidePetsOnBodyRemove { get; set; } = new("Pet Removed on Body Clean", (int)PetHidden.DuringRound,
+        typeof(PetHidden), ["Never", "During Round", "Always"])
     {
-        Visible = () => (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value is PetVisiblity.AlwaysVisible
+        Visible = () => (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value is not PetVisiblity.WhenAlive
     };
 
     public bool CanPauseCooldown => !TickCooldownsInMinigame.Value &&
                                  (Minigame.Instance && Minigame.Instance is not IngameWikiMinigame);
+
+    public PetHidden PetVisibilityUponDeath => ((PetVisiblity)ShowPetsMode.Value is PetVisiblity.WhenAlive)
+        ? PetHidden.Never
+        : (PetHidden)HidePetsOnBodyRemove.Value;
 }
 
 public enum SkipState
@@ -47,4 +52,11 @@ public enum PetVisiblity
     ClientSide,
     WhenAlive,
     AlwaysVisible
+}
+
+public enum PetHidden
+{
+    Never,
+    DuringRound,
+    Remove
 }

@@ -2100,19 +2100,23 @@ public static class MiscUtils
         return (IList)Activator.CreateInstance(genericListType)!;
     }
 
-    public static void RemovePet(PlayerControl pc)
+    public static void RemovePet(PlayerControl pc, PetHidden hidden = PetHidden.Remove)
     {
-        if (pc == null || !pc.Data.IsDead)
+        if (pc == null || !pc.Data.IsDead || hidden is PetHidden.Never)
         {
             return;
         }
 
-        if (pc.CurrentOutfit.PetId == "")
+        if (!pc.cosmetics.currentPet)
         {
             return;
         }
 
-        pc.SetPet("");
+        if (hidden is PetHidden.DuringRound)
+        {
+            pc.cosmetics.petHiddenByViper = true;
+        }
+        pc.cosmetics.TogglePet(false);
     }
 
     public static void LungeToPos(PlayerControl player, Vector2 pos)

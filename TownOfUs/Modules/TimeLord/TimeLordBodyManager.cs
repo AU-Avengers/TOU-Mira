@@ -52,6 +52,8 @@ public static class TimeLordBodyManager
 
     private static readonly Dictionary<byte, CleanedBodyRecord> CleanedBodies = new();
 
+    public static Dictionary<byte, CleanedBodyRecord> CleanBodies => CleanedBodies;
+
     public static readonly ManualLogSource BodyLogger =
         BepInEx.Logging.Logger.CreateLogSource("TOU.TimeLordBodies");
 
@@ -362,14 +364,15 @@ public static class TimeLordBodyManager
         if (CleanedBodies.TryGetValue(body.ParentId, out var rec) && rec != null)
         {
             var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
-            if (tweakOpt.HidePetsOnBodyRemove.Value && (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+            var hidePets = tweakOpt.PetVisibilityUponDeath;
+            if (hidePets is not PetHidden.Never)
             {
                 var player = MiscUtils.PlayerById(body.ParentId);
-                if (player != null && !player.AmOwner && player.CurrentOutfit.PetId != "")
+                if (player != null && !player.AmOwner && player.cosmetics.currentPet)
                 {
                     rec.OriginalPetId = player.CurrentOutfit.PetId;
                     rec.PetWasRemoved = true;
-                    MiscUtils.RemovePet(player);
+                    MiscUtils.RemovePet(player, hidePets);
                     BodyLogger?.LogError($"[CoHideBodyForTimeLord] Removed pet '{rec.OriginalPetId}' from player {body.ParentId}");
                 }
             }
@@ -407,7 +410,6 @@ public static class TimeLordBodyManager
         }
     }
 
-
     private static System.Collections.IEnumerator CoRefreshPetState(PlayerControl player)
     {
         yield return null;
@@ -419,6 +421,7 @@ public static class TimeLordBodyManager
             {
                 player.SetPet(petId);
             }
+            player.cosmetics.TogglePet(true);
         }
     }
 

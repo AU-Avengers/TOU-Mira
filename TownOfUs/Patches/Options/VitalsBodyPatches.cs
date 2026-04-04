@@ -3,6 +3,7 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options;
 using UnityEngine;
 
@@ -42,7 +43,16 @@ public static class VitalsBodyPatches
                 __instance.myController.DisableCurrentTrackers();
                 __instance.victimDissolving = false;
                 __instance.spriteAnim.gameObject.SetActive(false);
-                __instance.myController.cosmetics.HidePetViper();
+                var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
+                var hidePets = tweakOpt.PetVisibilityUponDeath;
+                if (hidePets is not PetHidden.Never)
+                {
+                    var player = MiscUtils.PlayerById(__instance.ParentId);
+                    if (player != null && !player.AmOwner && player.cosmetics.currentPet)
+                    {
+                        MiscUtils.RemovePet(player, hidePets);
+                    }
+                }
                 var result = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
 
                 CrimeSceneComponent.ClearCrimeScene(__instance);
@@ -96,6 +106,51 @@ public static class VitalsBodyPatches
                     __instance.dissolveStage = 2;
                     __instance.spriteAnim.Play(__instance.dissolveAnims[1], 1f);
                 }
+            }
+        }
+
+        return false;
+    }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ResetForMeeting))]
+    [HarmonyPrefix]
+    public static bool ResetForMeetingPrefix(PlayerControl __instance)
+    {
+        if (!__instance.GetComponent<DummyBehaviour>().enabled)
+        {
+            __instance.MyPhysics.ExitAllVents();
+            ShipStatus.Instance.SpawnPlayer(__instance, GameData.Instance.PlayerCount, false);
+        }
+
+        __instance.RemoveProtection();
+        __instance.NetTransform.enabled = true;
+        __instance.MyPhysics.ResetMoveState(true);
+        for (int i = 0; i < __instance.currentRoleAnimations.Count; i++)
+        {
+            if (__instance.currentRoleAnimations[i] != null && __instance.currentRoleAnimations[i].gameObject != null)
+            {
+                UnityEngine.Object.Destroy(__instance.currentRoleAnimations[i].gameObject);
+                __instance.logger.Error("Encountered a null Role Animation while destroying.", null);
+            }
+        }
+
+        __instance.inMovingPlat = false;
+        __instance.isKilling = false;
+        __instance.currentRoleAnimations.Clear();
+        if (TimeLordBodyManager.CleanBodies.TryGetValue(__instance.PlayerId, out var record) && !record.PetWasRemoved && !string.IsNullOrEmpty(record.OriginalPetId))
+        {
+            __instance.SetPet(record.OriginalPetId);
+        }
+        if (__instance.cosmetics.CurrentPet != null)
+        {
+            __instance.cosmetics.TogglePet(true);
+
+            __instance.cosmetics.CurrentPet.SetGettingPet(false, __instance.cosmetics.CurrentPet.transform.position);
+            var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
+            var hidePets = tweakOpt.PetVisibilityUponDeath;
+            if (hidePets is PetHidden.Remove)
+            {
+                __instance.cosmetics.CurrentPet.Visible = false;
             }
         }
 

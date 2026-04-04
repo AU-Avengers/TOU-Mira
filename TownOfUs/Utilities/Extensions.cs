@@ -180,13 +180,13 @@ public static class Extensions
         var renderer = body.bodyRenderers[^1];
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
         var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
-        if (tweakOpt.HidePetsOnBodyRemove.Value &&
-            (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+        var hidePets = tweakOpt.PetVisibilityUponDeath;
+        if (hidePets is not PetHidden.Never)
         {
             var player = MiscUtils.PlayerById(body.ParentId);
-            if (player != null && !player.AmOwner)
+            if (player != null && !player.AmOwner && player.cosmetics.currentPet)
             {
-                MiscUtils.RemovePet(player);
+                MiscUtils.RemovePet(player, hidePets);
             }
         }
 
@@ -212,13 +212,13 @@ public static class Extensions
     public static void ClearBody(this DeadBody body)
     {
         var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
-        if (tweakOpt.HidePetsOnBodyRemove.Value &&
-            (PetVisiblity)tweakOpt.ShowPetsMode.Value is PetVisiblity.AlwaysVisible)
+        var hidePets = tweakOpt.PetVisibilityUponDeath;
+        if (hidePets is not PetHidden.Never)
         {
             var player = MiscUtils.PlayerById(body.ParentId);
-            if (player != null && !player.AmOwner)
+            if (player != null && !player.AmOwner && player.cosmetics.currentPet)
             {
-                MiscUtils.RemovePet(player);
+                MiscUtils.RemovePet(player, hidePets);
             }
         }
 
