@@ -21,6 +21,7 @@ using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Patches;
+using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Utilities.Appearances;
@@ -197,6 +198,11 @@ public static class Extensions
         {
             body.Reported = true;
             body.myCollider.enabled = false;
+            var player = MiscUtils.PlayerById(body.ParentId);
+            if (player != null)
+            {
+                VitalsBodyPatches.AddMissingPlayer(player.Data);
+            }
         }
     }
 

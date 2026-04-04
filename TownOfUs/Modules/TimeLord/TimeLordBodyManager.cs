@@ -2,6 +2,7 @@ using BepInEx.Logging;
 using MiraAPI.GameOptions;
 using Reactor.Utilities;
 using TownOfUs.Options;
+using TownOfUs.Patches.Options;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -189,6 +190,11 @@ public static class TimeLordBodyManager
         body.gameObject.SetActive(true);
         body.Reported = false;
         body.myCollider.enabled = true;
+        var player2 = MiscUtils.PlayerById(body.ParentId);
+        if (player2 != null)
+        {
+            VitalsBodyPatches.RemoveMissingPlayer(player2.Data);
+        }
 
         foreach (var r in body.bodyRenderers)
         {
@@ -390,6 +396,11 @@ public static class TimeLordBodyManager
         {
             body.Reported = true;
             body.myCollider.enabled = false;
+            var player = MiscUtils.PlayerById(body.ParentId);
+            if (player != null)
+            {
+                VitalsBodyPatches.AddMissingPlayer(player.Data);
+            }
         }
     }
 

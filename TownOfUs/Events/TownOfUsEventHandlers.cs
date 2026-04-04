@@ -41,6 +41,7 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
+using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
@@ -524,6 +525,7 @@ public static class TownOfUsEventHandlers
         }
 
         FakePlayer.ClearAll();
+        VitalsBodyPatches.ClearMissingPlayers();
     }
 
     [RegisterEvent]
@@ -538,6 +540,14 @@ public static class TownOfUsEventHandlers
         }
 
         FakePlayer.ClearAll();
+        VitalsBodyPatches.ClearMissingPlayers();
+    }
+
+    [RegisterEvent(500)]
+    public static void PlayerReviveEventHandler(PlayerReviveEvent reviveEvent)
+    {
+        var player = reviveEvent.Player;
+        VitalsBodyPatches.RemoveMissingPlayer(player.Data);
     }
 
     [RegisterEvent]
