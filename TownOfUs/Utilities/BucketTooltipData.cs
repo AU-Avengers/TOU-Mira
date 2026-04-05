@@ -19,7 +19,7 @@ public static class BucketTooltipData
 
     public readonly struct TooltipInfo
     {
-        public readonly RoleEntry[] Roles;
+        internal readonly RoleEntry[] Roles;
         public TooltipInfo(RoleEntry[] roles) { Roles = roles; }
     }
 

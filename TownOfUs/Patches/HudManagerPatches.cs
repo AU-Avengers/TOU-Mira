@@ -1202,10 +1202,15 @@ public static class HudManagerPatches
         foreach (var pair in TooltipAlignments)
         {
             var allRoles = MiscUtils.GetRegisteredRoles(pair.Value).ToList();
-            BucketTooltipData.RoleEntry[] roleEntry = new BucketTooltipData.RoleEntry[0];
+            BucketTooltipData.RoleEntry[] roleEntry = Array.Empty<BucketTooltipData.RoleEntry>();
             foreach (var role in allRoles)
             {
-                Warning($"Adding: {role.GetRoleName()}, {role.Role}, {role.GetNamespace()}");
+                if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
+                    role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+                {
+                    continue;
+                }
+                // Warning($"Adding: {role.GetRoleName()}, {role.Role}, {role.GetNamespace()}");
                 roleEntry = roleEntry.AddToArray(new(role.GetRoleName(), role.Role, role.GetNamespace(), role.TeamColor));
             }
             BucketTooltipData.AllRoles.Add(pair.Key, roleEntry);
