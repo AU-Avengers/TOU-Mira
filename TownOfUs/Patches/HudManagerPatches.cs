@@ -43,6 +43,7 @@ public static class HudManagerPatches
     public static GameObject WikiButton;
     public static AspectPosition WikiAspectPos;
     public static GameObject RoleList;
+    public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
     public static GameObject SubmergedFloorButton;
     public static bool IsHoveringRoleList;
@@ -885,6 +886,7 @@ public static class HudManagerPatches
             switch (roleAssignmentType)
             {
                 case RoleDistribution.RoleList:
+                    rolelistBuilder.Append(RoleListPrefixText);
                     rolelistBuilder.Append(StoredRoleList);
                     rolelistBuilder.Append(":</color>\n");
                     for (var i = 0; i < maxSlots; i++)
