@@ -322,7 +322,13 @@ public static class EndGamePatches
                 PlayerId = playerControl.PlayerId
             });
         }
+
+        foreach (var disconnected in EndGameData.DisconnectedPlayerRecords)
+        {
+            EndGameData.PlayerRecords.Add(disconnected);
+        }
         EndGameData.PlayerRecords = EndGameData.PlayerRecords.OrderByDescending(x => x.Winner).ThenBy(x => x.LastRole).ToList();
+        EndGameData.DisconnectedPlayerRecords.Clear();
     }
 
     public static void BuildEndGameSummary(EndGameManager instance)
@@ -639,6 +645,7 @@ public static class EndGamePatches
     public static class EndGameData
     {
         public static List<PlayerRecord> PlayerRecords { get; set; } = [];
+        public static List<PlayerRecord> DisconnectedPlayerRecords { get; set; } = [];
 
         public static void Clear()
         {
