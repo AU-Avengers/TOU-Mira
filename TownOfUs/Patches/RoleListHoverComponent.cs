@@ -71,6 +71,10 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         }
 
         var slotIndex = line - 1;
+        if (!HudManagerPatches.RoleListPrefixText.IsNullOrWhiteSpace())
+        {
+            slotIndex--;
+        }
         if (slotIndex < 0)
         {
             HideTooltip();
