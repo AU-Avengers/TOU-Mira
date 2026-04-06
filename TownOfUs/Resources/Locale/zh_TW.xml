@@ -1987,7 +1987,6 @@
   <string name="CrewmateGhost">船員幽靈型</string>
   <string name="NeutralGhost">中立幽靈型</string>
   <string name="ImpostorGhost">偽裝者幽靈型</string>
-  <string name="AnticheatKillMessage">在大廳中檢測到一次擊殺嘗試, 關聯玩家: \%player\%。</string>
   <string name="AnticheatKickMissingMessage">\%player\%缺少以下模組:</string>
   <string name="HostStartMeetingNotif">房主已強制召開會議。</string>
   <string name="HostEndMeetingNotif">房主已強制結束會議。</string>

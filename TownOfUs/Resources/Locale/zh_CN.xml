@@ -2037,7 +2037,6 @@
   <string name="CrewmateGhost">船员幽灵型</string>
   <string name="NeutralGhost">中立幽灵型</string>
   <string name="ImpostorGhost">伪装者幽灵型</string>
-  <string name="AnticheatKillMessage">在大厅中检测到一次击杀尝试，关联玩家：\%player\%。</string>
   <string name="AnticheatKickMissingMessage">\%player\% 缺少以下模组：</string>
   <string name="HostStartMeetingNotif">房主已强制召开会议。</string>
   <string name="HostEndMeetingNotif">房主已强制结束会议。</string>
