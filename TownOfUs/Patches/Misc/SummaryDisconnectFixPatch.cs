@@ -48,6 +48,7 @@ public static class SummaryDisconnectFixPatch
             });
             return;
         }
+        EndGamePatches.ContainedMeetingData.AddPlayerData(player);
 
         var latestRole = string.Empty;
         var changedAgain = false;

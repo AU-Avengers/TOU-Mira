@@ -7,13 +7,21 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Options;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using UnityEngine;
@@ -29,6 +37,7 @@ public static class EndGamePatches
     public static void BuildEndGameData()
     {
         EndGameData.Clear();
+        ContainedMeetingData.Clear();
 
         var playerRoleString = new StringBuilder();
         var playerRoleStringShort = new StringBuilder();
@@ -664,6 +673,372 @@ public static class EndGamePatches
             public bool Winner { get; set; }
             public RoleTypes LastRole { get; set; }
             public ModdedRoleTeams Team { get; set; }
+            public byte PlayerId { get; set; }
+        }
+    }
+
+    public static class ContainedMeetingData
+    {
+        public static List<PlayerMeetingRecord> PlayerMeetingRecords { get; set; } = [];
+
+        public static void AddPlayerData(PlayerControl player)
+        {
+            if (PlayerMeetingRecords.Any(x => x.PlayerId == player.Data.PlayerId))
+            {
+                return;
+            }
+            Warning($"Added Meeting Record for {player.Data.PlayerName}");
+            var curRound = DeathEventHandlers.CurrentRound;
+            var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+            var taskOpt = OptionGroupSingleton<TaskTrackingOptions>.Instance;
+
+            var causeOfDeath = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedData").Replace("<round>", $"{curRound}")}</color>』</size>\n";
+            var causeOfDeathFull = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", TouLocale.Get("Alive")).Replace("<round>", $"{curRound}")}</color>』</size>\n";
+            var playerName = player.Data.PlayerName ?? "Unknown";
+            var playerNameColored = player.Data.PlayerName ?? "Unknown";
+            var playerNameFull = player.Data.PlayerName ?? "Unknown";
+            var playerNameColoredFull = player.Data.PlayerName ?? "Unknown";
+            var playerColor = Color.white;
+            var playerColorColored = Color.white;
+
+            static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
+            {
+                var mod = player.GetModifiers<BaseRevealModifier>()
+                    .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
+                return mod?.ExtraNameText ?? string.Empty;
+            }
+
+            var localDead = PlayerControl.LocalPlayer.HasDied();
+            var localGhost = localDead && genOpt.TheDeadKnow;
+            var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                           genOpt is
+                               { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
+            var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
+            if (player.Data.Role != null)
+            {
+                var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
+
+                if (PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() &&
+                    !player.AmOwner && !genOpt.FFAImpostorMode)
+                {
+                    playerColorColored = Color.red;
+                }
+
+                playerColor = playerColor.UpdateTargetColor(player);
+                playerName = playerName.UpdateTargetSymbols(player);
+                playerName = playerName.UpdateProtectionSymbols(player);
+                playerName = playerName.UpdateAllianceSymbols(player);
+                playerName = playerName.UpdateStatusSymbols(player);
+
+                playerNameFull = playerNameFull.UpdateTargetSymbols(player, DataVisibility.Show);
+                playerNameFull = playerNameFull.UpdateProtectionSymbols(player, DataVisibility.Show);
+                playerNameFull = playerNameFull.UpdateAllianceSymbols(player, DataVisibility.Show);
+                playerNameFull = playerNameFull.UpdateStatusSymbols(player, DataVisibility.Show);
+
+                playerColorColored = playerColorColored.UpdateTargetColor(player);
+                playerNameColored = playerNameColored.UpdateTargetSymbols(player);
+                playerNameColored = playerNameColored.UpdateProtectionSymbols(player);
+                playerNameColored = playerNameColored.UpdateAllianceSymbols(player);
+                playerNameColored = playerNameColored.UpdateStatusSymbols(player);
+
+                playerNameColoredFull = playerNameColoredFull.UpdateTargetSymbols(player, DataVisibility.Show);
+                playerNameColoredFull = playerNameColoredFull.UpdateProtectionSymbols(player, DataVisibility.Show);
+                playerNameColoredFull = playerNameColoredFull.UpdateAllianceSymbols(player, DataVisibility.Show);
+                playerNameColoredFull = playerNameColoredFull.UpdateStatusSymbols(player, DataVisibility.Show);
+
+                var role = player.Data.Role;
+
+                var color = role.TeamColor;
+
+                if (HaunterRole.HaunterVisibilityFlag(player))
+                {
+                    playerColor = color;
+                    playerColorColored = color;
+                }
+
+                var roleName = "";
+                var roleNameFull = "";
+
+                var impostorBuddy = localImp && player.IsImpostorAligned();
+                var vampBuddy = localVamp && role is VampireRole;
+                var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
+                var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
+                var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth)
+                {
+                    color = role.TeamColor;
+                    roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
+
+                    var revealedRole = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);
+                    if (revealedRole != null)
+                    {
+                        color = revealedRole.ShownRole!.TeamColor;
+                        roleName =
+                            $"<size=80%>{color.ToTextColor()}{revealedRole.ShownRole!.GetRoleName()}</color></size>";
+                    }
+
+                    if (!player.HasModifier<VampireBittenModifier>() && role is VampireRole &&
+                        (vampBuddy || localGhost))
+                    {
+                        roleName += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                    }
+
+                    if (player.HasModifier<AmbassadorRetrainedModifier>() && (impostorBuddy || localGhost))
+                    {
+                        roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                    }
+
+                    var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
+                    if (cachedMod is ICachedRole cache && cache.Visible &&
+                        player.Data.Role.GetType() != cache.CachedRole.GetType())
+                    {
+                        roleName = cache.ShowCurrentRoleFirst
+                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color>)</size>"
+                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                    }
+
+                    if (player.Data.IsDead && role is GuardianAngelRole gaRole)
+                    {
+                        roleName =
+                            $"<size=80%>{gaRole.TeamColor.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
+                    }
+
+                    if (localSleuth || (player.Data.IsDead &&
+                                        role.Role is RoleTypes.CrewmateGhost
+                                            or RoleTypes.ImpostorGhost))
+                    {
+                        var roleWhenAlive = player.GetRoleWhenAlive();
+                        color = roleWhenAlive.TeamColor;
+
+                        roleName = $"<size=80%>{color.ToTextColor()}{roleWhenAlive.GetRoleName()}</color></size>";
+                        if (localDead && !player.HasModifier<VampireBittenModifier>() &&
+                            roleWhenAlive is VampireRole)
+                        {
+                            roleName += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                        }
+
+                        if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostorAligned())
+                        {
+                            roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                        }
+                    }
+
+                    if (player.TryGetModifier<DeathHandlerModifier>(out var deathMod))
+                    {
+                        causeOfDeathFull = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", deathMod.CauseOfDeath).Replace("<round>", $"{curRound}")}</color>』</size>\n";
+                    }
+                    roleName = $"<cod>{roleName}";
+                }
+                else
+                {
+                    causeOfDeath = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedData").Replace("<round>", $"{curRound}")}</color>』</size>";
+                    if (player.TryGetModifier<DeathHandlerModifier>(out var deathMod2))
+                    {
+                        causeOfDeathFull = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", deathMod2.CauseOfDeath).Replace("<round>", $"{curRound}")}</color>』</size>";
+                    }
+                    roleName = $"<cod>";
+                }
+
+                color = role.TeamColor;
+                    roleNameFull = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
+
+                    var revealedRole2 = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);
+                    if (revealedRole2 != null)
+                    {
+                        color = revealedRole2.ShownRole!.TeamColor;
+                        roleNameFull =
+                            $"<size=80%>{color.ToTextColor()}{revealedRole2.ShownRole!.GetRoleName()}</color></size>";
+                    }
+
+                    if (!player.HasModifier<VampireBittenModifier>() && role is VampireRole)
+                    {
+                        roleNameFull += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                    }
+
+                    if (player.HasModifier<AmbassadorRetrainedModifier>())
+                    {
+                        roleNameFull += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                    }
+
+                    var cachedMod2 = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
+                    if (cachedMod2 is ICachedRole cache2 && cache2.Visible &&
+                        player.Data.Role.GetType() != cache2.CachedRole.GetType())
+                    {
+                        roleNameFull = cache2.ShowCurrentRoleFirst
+                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache2.CachedRole.TeamColor.ToTextColor()}{cache2.CachedRole.GetRoleName()}</color>)</size>"
+                            : $"<size=80%>{cache2.CachedRole.TeamColor.ToTextColor()}{cache2.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                    }
+
+                    if (player.Data.IsDead && role is GuardianAngelRole gaRole2)
+                    {
+                        roleNameFull =
+                            $"<size=80%>{gaRole2.TeamColor.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
+                    }
+
+                    if (player.Data.IsDead &&
+                                        role.Role is RoleTypes.CrewmateGhost
+                                            or RoleTypes.ImpostorGhost)
+                    {
+                        var roleWhenAlive = player.GetRoleWhenAlive();
+                        color = roleWhenAlive.TeamColor;
+
+                        roleNameFull = $"<size=80%>{color.ToTextColor()}{roleWhenAlive.GetRoleName()}</color></size>";
+                        if (localDead && !player.HasModifier<VampireBittenModifier>() &&
+                            roleWhenAlive is VampireRole)
+                        {
+                            roleNameFull += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                        }
+
+                        if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostorAligned())
+                        {
+                            roleNameFull += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                        }
+                    }
+
+                    var fullCod =
+                        $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", TouLocale.Get("Alive")).Replace("<round>", $"{curRound}")}</color>』</size>\n";
+                    if (player.TryGetModifier<DeathHandlerModifier>(out var deathMod3))
+                    {
+                        fullCod = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", deathMod3.CauseOfDeath).Replace("<round>", $"{curRound}")}</color>』</size>\n";
+                    }
+                    roleNameFull = $"{fullCod}{roleNameFull}";
+
+                var revealedColorMod = revealMods.FirstOrDefault(x => x.Visible && x.NameColor != null);
+                if (revealedColorMod != null)
+                {
+                    playerColor = (Color)revealedColorMod.NameColor!;
+                    playerName = $"{playerColor.ToTextColor()}{playerName}</color>";
+                    playerNameFull = $"{playerColor.ToTextColor()}{playerNameFull}</color>";
+                    playerColorColored = (Color)revealedColorMod.NameColor!;
+                    playerNameColored = $"{playerColorColored.ToTextColor()}{playerNameColored}</color>";
+                    playerNameColoredFull = $"{playerColorColored.ToTextColor()}{playerNameColoredFull}</color>";
+                }
+
+                var addedRoleNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraRoleText != string.Empty);
+                if (addedRoleNameText != null)
+                {
+                    roleName += $"<size=80%>{addedRoleNameText.ExtraRoleText}</size>";
+                    roleNameFull += $"<size=80%>{addedRoleNameText.ExtraRoleText}</size>";
+                }
+
+                if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
+                     (localDead && taskOpt.ShowTaskDead)) &&
+                    (player.IsCrewmate() || player.Data.Role is SpectreRole))
+                {
+                    if (roleName != string.Empty)
+                    {
+                        roleName += " ";
+                    }
+
+                    roleName += $"<size=80%>{player.TaskInfo()}</size>";
+                }
+
+                if (taskOpt.ShowTaskDead && (player.IsCrewmate() || player.Data.Role is SpectreRole))
+                {
+                    if (roleNameFull != string.Empty)
+                    {
+                        roleNameFull += " ";
+                    }
+
+                    roleNameFull += $"<size=80%>{player.TaskInfo()}</size>";
+                }
+
+                if (player.TryGetModifier<OracleConfessModifier>(out var confess, x => x.ConfessToAll))
+                {
+                    var accuracy = OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage;
+                    var revealText = confess.RevealedFaction switch
+                    {
+                        ModdedRoleTeams.Crewmate =>
+                            $"\n<size=75%>{Palette.CrewmateBlue.ToTextColor()}({accuracy}% Crew) </color></size>",
+                        ModdedRoleTeams.Custom =>
+                            $"\n<size=75%>{TownOfUsColors.Neutral.ToTextColor()}({accuracy}% Neut) </color></size>",
+                        ModdedRoleTeams.Impostor =>
+                            $"\n<size=75%>{TownOfUsColors.ImpSoft.ToTextColor()}({accuracy}% Imp) </color></size>",
+                        _ => string.Empty
+                    };
+
+                    playerName += revealText;
+                    playerNameColored += revealText;
+                    playerNameFull += revealText;
+                    playerNameColoredFull += revealText;
+                }
+
+                var addedPlayerNameText = revealMods.FirstOrDefault(x =>
+                    x.Visible && x.ExtraNameText != string.Empty && x is not FirstRoundIndicator);
+                if (addedPlayerNameText != null)
+                {
+                    playerName += addedPlayerNameText.ExtraNameText;
+                    playerNameColored += addedPlayerNameText.ExtraNameText;
+                    playerNameFull += addedPlayerNameText.ExtraNameText;
+                    playerNameColoredFull += addedPlayerNameText.ExtraNameText;
+                }
+
+                var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player);
+                if (!string.IsNullOrEmpty(diedR1Text))
+                {
+                    playerName += diedR1Text;
+                    playerNameColored += diedR1Text;
+                    playerNameFull += diedR1Text;
+                    playerNameColoredFull += diedR1Text;
+                }
+
+                if (!string.IsNullOrEmpty(roleName))
+                {
+                    playerNameColored = $"{roleName}\n{color.ToTextColor()}<size=92%>{playerNameColored}</size></color>";
+                    playerName = $"{roleName}\n<size=92%>{playerName}</size>";
+                }
+
+                if (!string.IsNullOrEmpty(roleNameFull))
+                {
+                    playerNameColoredFull = $"{roleNameFull}\n{color.ToTextColor()}<size=92%>{playerNameColoredFull}</size></color>";
+                    playerNameFull = $"{roleNameFull}\n<size=92%>{playerNameFull}</size>";
+                }
+
+                playerNameColoredFull = playerNameColoredFull.Replace("<cod>", causeOfDeathFull);
+                playerNameFull = playerNameFull.Replace("<cod>", causeOfDeathFull);
+                playerNameColored = playerNameColored.Replace("<cod>", causeOfDeath);
+                playerName = playerName.Replace("<cod>", causeOfDeath);
+            }
+
+            PlayerMeetingRecords.Add(new PlayerMeetingRecord
+            {
+                PlayerNameUncolored = playerName,
+                PlayerNameColored = playerNameColored,
+                PlayerNameUncoloredFull = playerNameFull,
+                PlayerNameColoredFull = playerNameColoredFull,
+                PlayerColorColored = playerColorColored,
+                PlayerColorUncolored = playerColor,
+                PlayerId = player.Data.PlayerId
+            });
+        }
+
+        public static void DisplayRecordData(TextMeshPro tmp, PlayerMeetingRecord record, bool color, bool isLocalDead)
+        {
+            if (color)
+            {
+                tmp.text = isLocalDead ? record.PlayerNameColoredFull : record.PlayerNameColored;
+                tmp.color = record.PlayerColorColored;
+            }
+            else
+            {
+                tmp.text = isLocalDead ? record.PlayerNameUncoloredFull : record.PlayerNameUncolored;
+                tmp.color = record.PlayerColorUncolored;
+            }
+        }
+
+        public static void Clear()
+        {
+            PlayerMeetingRecords.Clear();
+        }
+
+        public sealed class PlayerMeetingRecord
+        {
+            public string PlayerNameUncolored { get; set; }
+            public string PlayerNameColored { get; set; }
+            public string PlayerNameUncoloredFull { get; set; }
+            public string PlayerNameColoredFull { get; set; }
+            public Color PlayerColorUncolored { get; set; }
+            public Color PlayerColorColored { get; set; }
             public byte PlayerId { get; set; }
         }
     }
