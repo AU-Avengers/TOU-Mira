@@ -1097,24 +1097,24 @@ public static class HudManagerPatches
         "CrewPower",
         "CrewSupport",
 
+        "CommonCrew",
+        "SpecialCrew",
+        "RandomCrew",
+
         "NeutralBenign",
         "NeutralEvil",
         "NeutralKilling",
         "NeutralOutlier",
 
-        "ImpConcealing",
-        "ImpKilling",
-        "ImpPower",
-        "ImpSupport",
-
-        "CommonCrew",
-        "SpecialCrew",
-        "RandomCrew",
-
         "CommonNeutral",
         "SpecialNeutral",
         "WildcardNeutral",
         "RandomNeutral",
+
+        "ImpConcealing",
+        "ImpKilling",
+        "ImpPower",
+        "ImpSupport",
 
         "CommonImp",
         "SpecialImp",
