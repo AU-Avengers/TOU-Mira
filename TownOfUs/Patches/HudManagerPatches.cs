@@ -339,6 +339,11 @@ public static class HudManagerPatches
 
                 if (player == null || player.Data == null || player.Data.Role == null)
                 {
+                    var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.TargetPlayerId);
+                    if (data != null)
+                    {
+                        EndGamePatches.ContainedMeetingData.DisplayRecordData(playerVA.NameText, data, colorPlayerNames, localGhost);
+                    }
                     continue;
                 }
 
@@ -506,26 +511,9 @@ public static class HudManagerPatches
 
                 if (player.Data?.Disconnected == true)
                 {
-                    if (!(impostorBuddy ||
-                          vampBuddy ||
-                          (!TutorialManager.InstanceExists &&
-                           (localGhost ||
-                            localFairy ||
-                            localSleuth ||
-                            revealed))))
-                    {
-                        roleName = "";
-                        color = Color.white;
-                        playerColor = Color.white;
-                    }
-
-                    var dash = "";
-                    if (!string.IsNullOrEmpty(roleName))
-                    {
-                        dash = " - ";
-                    }
-
-                    roleName = $"{roleName}<size=80%>{dash}Disconnected</size>";
+                    EndGamePatches.ContainedMeetingData.AddPlayerData(player);
+                    // don't wanna leak info!
+                    continue;
                 }
 
                 if (!string.IsNullOrEmpty(roleName))

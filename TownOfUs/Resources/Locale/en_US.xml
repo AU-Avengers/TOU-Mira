@@ -371,6 +371,8 @@
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
   <string name="Alive">Alive</string>
+  <string name="DisconnectedData">D/C R\%round\% </string>
+  <string name="DisconnectedDataFull">\%cod\% | D/C R\%round\% </string>
   <string name="DiedToDisconnect">Disconnected</string>
   <string name="DiedToEjection">Ejected</string>
   <string name="DiedToKiller">Killed</string>

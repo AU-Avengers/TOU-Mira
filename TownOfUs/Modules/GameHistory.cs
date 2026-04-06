@@ -215,6 +215,7 @@ public static class GameHistory
         PlayerStats.Clear();
         PlayerEvents.Clear();
         EndGamePatches.EndGameData.DisconnectedPlayerRecords.Clear();
+        EndGamePatches.ContainedMeetingData.Clear();
     }
 
     public static RoleBehaviour GetRoleWhenAlive(this PlayerControl player)
