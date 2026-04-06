@@ -19,7 +19,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -83,6 +82,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.MediumIntroSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         Icon = TouRoleIcons.Amnesiac
     };
@@ -108,6 +108,11 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Remember)]
     public static void RpcRemember(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not AmnesiacRole)
         {
             Error("RpcRemember - Invalid amnesiac");
@@ -206,7 +211,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         }
 
         var modifiers = target.GetModifiers<TouGameModifier>().ToList();
-        if (OptionGroupSingleton<AmnesiacOptions>.Instance.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().Any())
+        if (OptionGroupSingleton<AmnesiacOptions>.Instance.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().HasAny())
         {
             player.AddModifier(modifiers.FirstOrDefault()!.GetType());
         }

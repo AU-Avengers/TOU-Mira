@@ -25,7 +25,6 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using UnityEngine.Events;
@@ -44,15 +43,17 @@ public static class HudManagerPatches
     public static GameObject WikiButton;
     public static AspectPosition WikiAspectPos;
     public static GameObject RoleList;
+    public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
     public static GameObject SubmergedFloorButton;
+    public static bool IsHoveringRoleList;
 
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
 
     private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
 
-    private static void RefreshUIAnchors() // anchoring ui elements.
+    private static void RefreshUIAnchors()
     {
         ResolutionManager.ResolutionChanged.Invoke(
             (float)Screen.width / Screen.height,
@@ -74,11 +75,10 @@ public static class HudManagerPatches
 
         var instance = HudManager.Instance;
         if (Camera.main != null)
-            Camera.main.orthographicSize = size; // setting size for the main camera
+            Camera.main.orthographicSize = size;
 
         if (instance.UICamera != null)
-            instance.UICamera.orthographicSize =
-                size; // setting size for the ui camera as well. thanku pietro for the help :)
+            instance.UICamera.orthographicSize = size;
 
         if (size <= 3f)
         {
@@ -96,7 +96,7 @@ public static class HudManagerPatches
         ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
             Zooming ? TouAssets.ZoomPlusActive.LoadAsset() : TouAssets.ZoomMinusActive.LoadAsset();
 
-        RefreshUIAnchors(); // new function. Don't ban me :sob:
+        RefreshUIAnchors();
     }
 
     public static void ButtonClickZoom()
@@ -132,7 +132,6 @@ public static class HudManagerPatches
     public static void ResetZoom()
     {
         ZoomButton.SetActive(false);
-
         AdjustCameraSize(3f);
     }
 
@@ -184,14 +183,10 @@ public static class HudManagerPatches
 
     public static void UpdateTeamChat()
     {
-        // Ensure built-in chats are registered
         TeamChatPatches.TeamChatManager.RegisterBuiltInChats();
 
         var availableChats = TeamChatPatches.TeamChatManager.GetAllAvailableChats();
         var isValid = MeetingHud.Instance != null && availableChats.Count > 0;
-
-        // Don't show team chat button for lover chat (it's handled separately outside meetings)
-        // Lover chat is always active when available and doesn't need the team chat button
 
         if (!TeamChatPatches.TeamChatButton)
         {
@@ -210,7 +205,6 @@ public static class HudManagerPatches
 
     public static bool CommsSaboActive()
     {
-        // Camo comms
         if (!TownOfUsMapOptions.IsCamoCommsOn())
         {
             return false;
@@ -279,19 +273,6 @@ public static class HudManagerPatches
 
         if (isActive)
         {
-            /*if (!CamouflageFootsteps)
-            {
-                foreach (var steps in ModifierUtils.GetActiveModifiers<FootstepsModifier>()
-                             .Select(mod => mod._currentSteps))
-                {
-                    if (steps != null && steps.Count > 0)
-                    {
-                        steps.DoIf(x => x.Key, x => x.Value.color = new Color(0.2f, 0.2f, 0.2f, x.Value.color.a));
-                    }
-                }
-            }
-
-            CamouflageFootsteps = true;*/
             CamouflageCommsEnabled = true;
 
             foreach (var fakePlayer in FakePlayer.FakePlayers)
@@ -302,25 +283,9 @@ public static class HudManagerPatches
             return;
         }
 
-        /*if (CamouflageFootsteps)
-        {
-            CamouflageFootsteps = false;
-
-            foreach (var mod in ModifierUtils.GetActiveModifiers<FootstepsModifier>())
-            {
-                if (mod._currentSteps != null && mod._currentSteps.Count > 0)
-                {
-                    mod._currentSteps.DoIf(x => x.Key,
-                        x => x.Value.color = new Color(mod._footstepColor.r, mod._footstepColor.g, mod._footstepColor.b,
-                            x.Value.color.a));
-                }
-            }
-        }*/
-
         if (CamouflageCommsEnabled)
         {
             CamouflageCommsEnabled = false;
-
             FakePlayer.FakePlayers.Do(x => x.UnCamo());
         }
     }
@@ -367,7 +332,6 @@ public static class HudManagerPatches
             {
                 if (!playerVA.gameObject.active)
                 {
-                    // Spectators are hidden, and we try to avoid Linq methods for performance reasons
                     continue;
                 }
                 var player = MiscUtils.PlayerById(playerVA.TargetPlayerId);
@@ -375,6 +339,11 @@ public static class HudManagerPatches
 
                 if (player == null || player.Data == null || player.Data.Role == null)
                 {
+                    var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.TargetPlayerId);
+                    if (data != null)
+                    {
+                        EndGamePatches.ContainedMeetingData.DisplayRecordData(playerVA.NameText, data, colorPlayerNames, localGhost);
+                    }
                     continue;
                 }
 
@@ -542,26 +511,9 @@ public static class HudManagerPatches
 
                 if (player.Data?.Disconnected == true)
                 {
-                    if (!(impostorBuddy ||
-                          vampBuddy ||
-                          (!TutorialManager.InstanceExists &&
-                           (localGhost ||
-                            localFairy ||
-                            localSleuth ||
-                            revealed))))
-                    {
-                        roleName = "";
-                        color = Color.white;
-                        playerColor = Color.white;
-                    }
-
-                    var dash = "";
-                    if (!string.IsNullOrEmpty(roleName))
-                    {
-                        dash = " - ";
-                    }
-
-                    roleName = $"{roleName}<size=80%>{dash}Disconnected</size>";
+                    EndGamePatches.ContainedMeetingData.AddPlayerData(player);
+                    // don't wanna leak info!
+                    continue;
                 }
 
                 if (!string.IsNullOrEmpty(roleName))
@@ -758,27 +710,19 @@ public static class HudManagerPatches
                 player.cosmetics.nameText.text = playerName;
                 player.cosmetics.nameText.color = playerColor;
 
-                // Keep the name position consistent with vanilla/Tou defaults.
                 player.cosmetics.nameText.transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
 
-                // Avoid overlap between the "(Died R1)" line and the color-blind label (e.g. "Orange"),
-                // especially when a player is morphing/mimicking a First-Round-Death player.
-                // Avoid overlap between "(Died R1)" and the color-blind label (e.g. "Pink"/"Orange") WITHOUT drift:
-                // we keep a stable baseline position per-player and apply an idempotent offset from it.
                 var cbId = player.PlayerId;
                 var cbCurrent = player.cosmetics.colorBlindText.transform.localPosition;
                 var cbOffset = Vector3.down * 0.12f;
 
                 if (!_colorBlindBasePos.TryGetValue(cbId, out var cbBase))
                 {
-                    // If we first see the player while DiedR1 is visible, infer baseline by reversing our offset.
                     cbBase = string.IsNullOrEmpty(diedR1Text) ? cbCurrent : cbCurrent - cbOffset;
                     _colorBlindBasePos[cbId] = cbBase;
                 }
                 else if (string.IsNullOrEmpty(diedR1Text))
                 {
-                    // If something else moved the colorblind label while DiedR1 is NOT visible, accept that as the new baseline.
-                    // (But ignore our own previously-applied offset positions.)
                     var cbExpectedNoR1 = cbBase;
                     var cbExpectedR1 = cbBase + cbOffset;
                     if ((cbCurrent - cbExpectedNoR1).sqrMagnitude > 0.0001f &&
@@ -910,6 +854,9 @@ public static class HudManagerPatches
             RoleListTextComp.verticalAlignment = VerticalAlignmentOptions.Top;
             RoleListTextComp.fontSize = RoleListTextComp.fontSizeMin = RoleListTextComp.fontSizeMax = 3f;
             RoleList.SetActive(false);
+            var hoverComp = instance.gameObject.GetComponent<RoleListHoverComponent>()
+                         ?? instance.gameObject.AddComponent<RoleListHoverComponent>();
+            hoverComp.TextTarget = RoleListTextComp;
         }
         else
         {
@@ -927,6 +874,7 @@ public static class HudManagerPatches
             switch (roleAssignmentType)
             {
                 case RoleDistribution.RoleList:
+                    rolelistBuilder.Append(RoleListPrefixText);
                     rolelistBuilder.Append(StoredRoleList);
                     rolelistBuilder.Append(":</color>\n");
                     for (var i = 0; i < maxSlots; i++)
@@ -981,7 +929,9 @@ public static class HudManagerPatches
                     break;
             }
 
-            RoleListTextComp.text = rolelistBuilder.ToString();
+            if (!IsHoveringRoleList)
+                RoleListTextComp.text = rolelistBuilder.ToString();
+
             RoleList.SetActive(true);
         }
     }
@@ -1066,7 +1016,7 @@ public static class HudManagerPatches
             distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
 
             if ((ModCompatibility.IsWikiButtonOffset || ZoomButton.active) &&
-                !MeetingHud.Instance /*  && Minigame.Instance == null */ &&
+                !MeetingHud.Instance &&
                 (PlayerJoinPatch.SentOnce || TutorialManager.InstanceExists))
             {
                 distanceFromEdge.x += 0.84f;
@@ -1116,8 +1066,8 @@ public static class HudManagerPatches
         ((PlayerControl.LocalPlayer.DiedOtherRound() &&
           (PlayerControl.LocalPlayer.Data.Role is IGhostRole { Caught: true } ||
            PlayerControl.LocalPlayer.Data.Role is not IGhostRole)) ||
-         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInPractice.Value) ||
-         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
+         (TutorialManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ZoomingInPractice.Value) ||
+         (GameStartManager.InstanceExists && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ZoomingInLobby.Value)) && !(HudManager.Instance.GameMenu.IsOpen ||
                                                  HudManager.Instance.Chat.IsOpenOrOpening ||
                                                  MeetingHud.Instance || Minigame.Instance ||
                                                  PlayerCustomizationMenu.Instance ||
@@ -1236,5 +1186,62 @@ public static class HudManagerPatches
 
         MiraApiSettings.OldButtonScaleFactor =
             LocalSettingsTabSingleton<MiraApiSettings>.Instance.ButtonUIFactorSlider.Value;
+
+        TownOfUsColors.UseBasic = false;
+        BucketTooltipData.AllRoles.Clear();
+        foreach (var pair in TooltipAlignments)
+        {
+            var allRoles = MiscUtils.GetRegisteredRoles(pair.Value).ToList();
+            BucketTooltipData.RoleEntry[] roleEntry = Array.Empty<BucketTooltipData.RoleEntry>();
+            foreach (var role in allRoles)
+            {
+                if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
+                    role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+                {
+                    continue;
+                }
+                // Warning($"Adding: {role.GetRoleName()}, {role.Role}, {role.GetNamespace()}");
+                roleEntry = roleEntry.AddToArray(new(role.GetRoleName(), role.Role, role.GetNamespace(), role.TeamColor));
+            }
+            BucketTooltipData.AllRoles.Add(pair.Key, roleEntry);
+        }
+
+        TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+            .UseCrewmateTeamColorToggle.Value;
+    }
+
+    internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()
+    {
+        { RoleListOption.CrewInvest, RoleAlignment.CrewmateInvestigative },
+        { RoleListOption.CrewKilling, RoleAlignment.CrewmateKilling },
+        { RoleListOption.CrewProtective, RoleAlignment.CrewmateProtective },
+        { RoleListOption.CrewPower, RoleAlignment.CrewmatePower },
+        { RoleListOption.CrewSupport, RoleAlignment.CrewmateSupport },
+                
+        { RoleListOption.NeutBenign, RoleAlignment.NeutralBenign },
+        { RoleListOption.NeutEvil, RoleAlignment.NeutralEvil },
+        { RoleListOption.NeutKilling, RoleAlignment.NeutralKilling },
+        { RoleListOption.NeutOutlier, RoleAlignment.NeutralOutlier },
+
+        { RoleListOption.ImpConceal, RoleAlignment.ImpostorConcealing },
+        { RoleListOption.ImpKilling, RoleAlignment.ImpostorKilling },
+        { RoleListOption.ImpPower, RoleAlignment.ImpostorPower },
+        { RoleListOption.ImpSupport, RoleAlignment.ImpostorSupport },
+    };
+
+    public static string GetNamespace(this RoleBehaviour role)
+    {
+        if (role is ICustomRole customRole)
+        {
+            return customRole.GetType().FullName!;
+        }
+
+        var text = role.GetType().FullName!;
+        if (Enum.IsDefined(role.Role))
+        {
+            text = $"AmongUs.Roles.{role.Role.ToString()}";
+        }
+
+        return text;
     }
 }

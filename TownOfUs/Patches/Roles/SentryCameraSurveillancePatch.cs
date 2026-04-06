@@ -2,7 +2,6 @@ using System.Reflection;
 using BepInEx.Logging;
 using HarmonyLib;
 using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Roles;

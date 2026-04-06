@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Modifiers;
 

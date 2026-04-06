@@ -10,7 +10,7 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
-using TownOfUs.Utilities;
+using TownOfUs.Networking;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -54,7 +54,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public bool IsPowerCrew =>
         Killer || ModifierUtils.GetActiveModifiers<DeputyCampedModifier>()
-            .Any(); // Only stop end game checks if the deputy can actually kill someone
+            .HasAny(); // Only stop end game checks if the deputy can actually kill someone
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -149,7 +149,10 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
         if (role.Killer == target && !target.HasModifier<InvulnerabilityModifier>())
         {
-            Player.RpcCustomMurder(target, MeetingCheck.ForMeeting, createDeadBody: false, teleportMurderer: false);
+            Player.RpcSpecialMurder(target, MeetingCheck.ForMeeting, true, createDeadBody: false, teleportMurderer: false,
+                showKillAnim: false,
+                playKillSound: false,
+                causeOfDeath: "Deputy");
         }
         else
         {

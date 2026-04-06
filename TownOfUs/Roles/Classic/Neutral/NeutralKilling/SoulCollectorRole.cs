@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -63,6 +62,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<SoulCollectorOptions>.Instance.CanVent,
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.SoulCollector,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 

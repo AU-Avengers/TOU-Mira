@@ -1,13 +1,14 @@
 ﻿using AmongUs.Data;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -131,7 +132,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
         {
             var opacity = 0f;
 
-            if ((PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
+            if (Player.TryGetModifier<HypnotistHysteriaModifier>(out var hypnoMod) && hypnoMod.AppearanceType > 1 || (PlayerControl.LocalPlayer.IsImpostorAligned() && Player.Data.Role is SwooperRole) ||
                 (Player.AmOwner && Player.Data.Role is SwooperRole))
             {
                 opacity = 0.1f;

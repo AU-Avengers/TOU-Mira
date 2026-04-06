@@ -16,7 +16,6 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -641,6 +640,7 @@ public static class TouRoleManagerPatches
 
         // Build and adjust role list buckets
         var buckets = BuildRoleListBuckets(players);
+        var wildcardActive = buckets.Any(x => x == RoleListOption.NeutWildcard);
         AdjustRoleListBucketsForImpostors(buckets, impBuckets, impostors.Count);
         EnsureCrewNeutralRoles(buckets, impBuckets, crewNkBuckets);
 
@@ -738,20 +738,39 @@ public static class TouRoleManagerPatches
 
         var randomNonImpRoles = randomCrewRoles;
 
-        // neutral buckets
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
-            RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
+        List<(ushort RoleType, int Chance)> commonNeutRoles;
+        if (wildcardActive)
+        {
+            // neutral buckets
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
+                RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
 
-        var commonNeutRoles = neutBenignRoles;
+            commonNeutRoles = neutBenignRoles;
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
-            RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
+                RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
 
-        commonNeutRoles.AddRange(neutEvilRoles);
+            commonNeutRoles.AddRange(neutEvilRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
-            RoleListOption.NeutSpecial, RoleListOption.NeutWildcard));
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
+                RoleListOption.NeutSpecial, RoleListOption.NeutWildcard));
+        }
+        else
+        {
+            // neutral buckets
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
+                RoleListOption.NeutCommon));
 
+            commonNeutRoles = neutBenignRoles;
+
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
+                RoleListOption.NeutCommon));
+
+            commonNeutRoles.AddRange(neutEvilRoles);
+
+            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
+                RoleListOption.NeutSpecial));
+        }
         var specialNeutRoles = neutOutlierRoles;
 
         var wildNeutRoles = new List<(ushort RoleType, int Chance)>();
@@ -897,10 +916,10 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.First)]
     public static bool SelectRolesPatch(RoleManager __instance)
     {
-        ModifierManager.MiraAssignsModifiers = false;
         var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
+        ModifierManager.MiraAssignsModifiers = false;
 
         if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
         {
@@ -1032,7 +1051,7 @@ public static class TouRoleManagerPatches
             player.Object.RpcSetRole(specId);
         }
 
-        if (OptionGroupSingleton<GeneralOptions>.Instance.RoundOneVictims)
+        if (OptionGroupSingleton<InitialRoundOptions>.Instance.RoundOneVictims)
         {
             var firstDead = GameData.Instance.AllPlayers.ToArray()
                 .Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x)).ToList();

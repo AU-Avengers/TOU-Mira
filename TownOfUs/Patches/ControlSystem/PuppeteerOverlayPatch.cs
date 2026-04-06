@@ -2,7 +2,6 @@ using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.ControlSystem;
 

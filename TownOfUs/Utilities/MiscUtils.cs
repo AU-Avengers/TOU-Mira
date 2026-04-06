@@ -48,7 +48,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int RealKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.Is(RoleAlignment.NeutralKilling));
@@ -60,7 +60,7 @@ public static class MiscUtils
         x.Is(RoleAlignment.NeutralKilling) ||
         (x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
          !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-         OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue));
+         OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue));
 
     public static int ImpAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.IsImpostor() || x.GetModifiers<AllianceGameModifier>().Any(y => y.TrueFactionType is AlliedFaction.Impostor));
@@ -71,7 +71,7 @@ public static class MiscUtils
     public static int CrewKillersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is ITouCrewRole { IsPowerCrew: true } &&
         !(x.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.CrewContinuesGame) &&
-        OptionGroupSingleton<GeneralOptions>.Instance.CrewKillersContinue);
+        OptionGroupSingleton<GameMechanicOptions>.Instance.CrewKillersContinue);
 
     public static IEnumerable<BaseModifier> AllModifiers => ModifierManager.Modifiers;
 
@@ -287,15 +287,16 @@ public static class MiscUtils
 
         if (role.IsDead)
         {
+            // TODO: Add support in MiraAPI for automatic ghost roles, similar to Spectator. Then, we can rely on that for better checks.
             if (role.IsNeutral())
             {
-                return RoleAlignment.NeutralGhost;
+                return RoleAlignment.NeutralAfterlife;
             }
             if (role.IsImpostor())
             {
-                return RoleAlignment.ImpostorGhost;
+                return RoleAlignment.ImpostorAfterlife;
             }
-            return RoleAlignment.CrewmateGhost;
+            return RoleAlignment.CrewmateAfterlife;
         }
 
         if (role.Role is RoleTypes.Tracker or RoleTypes.Detective)
@@ -630,7 +631,7 @@ public static class MiscUtils
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Noisemaker));
                 // registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.Engineer));
                 break;
-            case RoleAlignment.CrewmateGhost:
+            case RoleAlignment.CrewmateAfterlife:
                 registeredRoles.Add(RoleManager.Instance.GetRole(RoleTypes.GuardianAngel));
                 break;
             case RoleAlignment.ImpostorSupport:
@@ -895,6 +896,64 @@ public static class MiscUtils
     }
 
     public static void AddFakeChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
+        bool showHeadsup = false, bool altColors = false, bool onLeft = true)
+    {
+        if (!FakeChatHistory.IsReplaying)
+        {
+            FakeChatHistory.Record(nameText, message);
+        }
+        
+        var chat = HudManager.Instance.Chat;
+
+        var pooledBubble = chat.GetPooledBubble();
+
+        pooledBubble.transform.SetParent(chat.scroller.Inner);
+        pooledBubble.transform.localScale = Vector3.one;
+        if (onLeft)
+        {
+            pooledBubble.SetLeft();
+        }
+        else
+        {
+            pooledBubble.SetRight();
+        }
+
+        pooledBubble.SetCosmetics(basePlayer);
+        pooledBubble.NameText.text = nameText;
+        pooledBubble.NameText.color = Color.white;
+        pooledBubble.NameText.ForceMeshUpdate(true, true);
+        pooledBubble.votedMark.enabled = false;
+        pooledBubble.Xmark.enabled = false;
+        pooledBubble.TextArea.text = message;
+        pooledBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, pooledBubble.TextArea);
+        pooledBubble.TextArea.ForceMeshUpdate(true, true);
+        pooledBubble.Background.size = new Vector2(5.52f,
+            0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
+        pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
+        if (altColors)
+        {
+            pooledBubble.Background.color = Color.black;
+            pooledBubble.TextArea.color = Color.white;
+        }
+
+        pooledBubble.AlignChildren();
+        var pos = pooledBubble.NameText.transform.localPosition;
+        pooledBubble.NameText.transform.localPosition = pos;
+        chat.AlignAllBubbles();
+        if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
+        {
+            chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
+        }
+
+        if (showHeadsup && !chat.IsOpenOrOpening)
+        {
+            SoundManager.Instance.PlaySound(chat.messageSound, false).pitch =
+                0.5f + PlayerControl.LocalPlayer.PlayerId / 15f;
+            chat.chatNotification.SetUp(PlayerControl.LocalPlayer, message);
+        }
+    }
+
+    public static void AddSystemChat(NetworkedPlayerInfo basePlayer, string nameText, string message,
         bool showHeadsup = false, bool altColors = false, bool onLeft = true)
     {
         var chat = HudManager.Instance.Chat;
@@ -2041,19 +2100,23 @@ public static class MiscUtils
         return (IList)Activator.CreateInstance(genericListType)!;
     }
 
-    public static void RemovePet(PlayerControl pc)
+    public static void RemovePet(PlayerControl pc, PetHidden hidden = PetHidden.Remove)
     {
-        if (pc == null || !pc.Data.IsDead)
+        if (pc == null || !pc.Data.IsDead || hidden is PetHidden.Never)
         {
             return;
         }
 
-        if (pc.CurrentOutfit.PetId == "")
+        if (!pc.cosmetics.currentPet)
         {
             return;
         }
 
-        pc.SetPet("");
+        if (hidden is PetHidden.DuringRound)
+        {
+            pc.cosmetics.petHiddenByViper = true;
+        }
+        pc.cosmetics.TogglePet(false);
     }
 
     public static void LungeToPos(PlayerControl player, Vector2 pos)
@@ -2161,11 +2224,63 @@ public static class MiscUtils
         return false;
     }
 
-    public static void RunKillWarning(PlayerControl source)
+    public static void RunAnticheatWarning(PlayerControl source)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKillMessage").Replace("<player>", source.Data.PlayerName)}");
+        stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatIllegalRpcMessage").Replace("<player>", source.Data.PlayerName)}");
         AddFakeChat(source.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
+    }
+
+    public static string GetRegionName(IRegionInfo? region = null, bool shorten = true)
+    {
+        region ??= ServerManager.Instance.CurrentRegion;
+
+        string name = region.Name;
+
+        if (AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
+        {
+            name = "Local Game";
+            return name;
+        }
+
+        if (AmongUsClient.Instance.GameId == LobbyJoin.GameId && LobbyJoin.TempRegion != null)
+        {
+            region = LobbyJoin.TempRegion;
+            name = LobbyJoin.TempRegion.Name;
+        }
+
+        if (shorten)
+        {
+            if (region.PingServer.EndsWith("among.us", StringComparison.Ordinal))
+            {
+                // Official Server
+                if (name == "North America") name = "NA";
+                else if (name == "Europe") name = "EU";
+                else if (name == "Asia") name = "AS";
+
+                return name;
+            }
+
+            var Ip = region.Servers.FirstOrDefault()?.Ip ?? string.Empty;
+
+            if (Ip.Contains("aumods.us", StringComparison.Ordinal)
+                || Ip.Contains("duikbo.at", StringComparison.Ordinal))
+            {
+                // Official Modded Server
+                if (Ip.Contains("au-eu")) name = "MEU";
+                else if (Ip.Contains("au-as")) name = "MAS";
+                else if (Ip.Contains("www.")) name = "MNA";
+
+                return name;
+            }
+
+            if (name.Contains("nikocat233", StringComparison.OrdinalIgnoreCase))
+            {
+                name = name.Replace("nikocat233", "Niko233", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        return name;
     }
 }
 

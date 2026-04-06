@@ -1,5 +1,4 @@
 ﻿using MiraAPI.Modifiers;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modifiers.Impostor.Herbalist;
 

@@ -12,7 +12,6 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -322,15 +321,19 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         Coroutines.Start(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
     }
 
-    public static void OnRoundStart()
+    public void LobbyStart()
     {
-        CustomButtonSingleton<MedicShieldButton>.Instance.CanChangeTarget =
-            OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget;
+        CustomButtonSingleton<MedicShieldButton>.Instance.CanChangeTarget = true;
     }
 
     [MethodRpc((uint)TownOfUsRpc.MedicShield)]
     public static void RpcMedicShield(PlayerControl medic, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(medic);
+            return;
+        }
         if (medic.Data.Role is not MedicRole)
         {
             Error("RpcMedicShield - Invalid medic");
@@ -345,6 +348,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     [MethodRpc((uint)TownOfUsRpc.ClearMedicShield)]
     public static void RpcClearMedicShield(PlayerControl medic)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(medic);
+            return;
+        }
         ClearMedicShield(medic);
     }
 
@@ -362,8 +370,13 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     }
 
     [MethodRpc((uint)TownOfUsRpc.MedicShieldAttacked)]
-    public static void RpcMedicShieldAttacked(PlayerControl medic, PlayerControl source, PlayerControl shielded)
+    public static void RpcMedicShieldAttacked(PlayerControl source, PlayerControl medic, PlayerControl shielded)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (medic.Data.Role is not MedicRole)
         {
             Error("RpcMedicShieldAttacked - Invalid medic");
@@ -401,11 +414,6 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (shieldBreaks)
         {
-            if (source.AmOwner)
-            {
-                source.SetKillTimer(source.GetKillCooldown());
-            }
-
             var role = medic.GetRole<MedicRole>();
             role?.SetShieldedPlayer(null);
         }

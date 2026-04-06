@@ -13,7 +13,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -77,13 +76,14 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.ScientistIntroSound,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Mirrorcaster
     };
 
     public bool IsPowerCrew =>
         UnleashesAvailable > 0 ||
         ModifierUtils.GetActiveModifiers<MagicMirrorModifier>()
-            .Any(); // Always disable end game checks if there is an Unleash available
+            .HasAny(); // Always disable end game checks if there is an Unleash available
 
     public static string ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
 
@@ -127,6 +127,21 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public void SetProtectedPlayer(PlayerControl? player)
     {
+        if (Protected == player && player != null)
+        {
+            if (player.TryGetModifier<MagicMirrorModifier>(out var mod2))
+            {
+                if (!mod2.TimerActive)
+                {
+                    return;
+                }
+
+                mod2.ResetTimer();
+            }
+
+            return;
+        }
+
         if (Protected?.TryGetModifier<MagicMirrorModifier>(out var mod) == true)
         {
             // This should prevent any issues with murder attempts
@@ -146,6 +161,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     [MethodRpc((uint)TownOfUsRpc.MagicMirror)]
     public static void RpcMagicMirror(PlayerControl mc, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(mc);
+            return;
+        }
         if (mc.Data.Role is not MirrorcasterRole role)
         {
             Error("RpcMagicMirror - Invalid mirrorcaster");
@@ -158,12 +178,22 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     [MethodRpc((uint)TownOfUsRpc.ClearMagicMirror)]
     public static void RpcClearMagicMirror(PlayerControl mc)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(mc);
+            return;
+        }
         ClearMagicMirror(mc);
     }
 
     [MethodRpc((uint)TownOfUsRpc.MirrorcasterUnleash)]
     public static void RpcMirrorcasterUnleash(PlayerControl mc)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(mc);
+            return;
+        }
         if (mc.Data.Role is not MirrorcasterRole role)
         {
             Error("ClearMagicMirror - Invalid mirrorcaster");
@@ -185,9 +215,14 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     }
 
     [MethodRpc((uint)TownOfUsRpc.MagicMirrorAttacked)]
-    public static void RpcMagicMirrorAttacked(PlayerControl mirrorcaster, PlayerControl source,
+    public static void RpcMagicMirrorAttacked(PlayerControl source, PlayerControl mirrorcaster,
         PlayerControl protectedPlayer)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (mirrorcaster.Data.Role is not MirrorcasterRole role)
         {
             Error("RpcMagicMirrorAttacked - Invalid mirrorcaster");

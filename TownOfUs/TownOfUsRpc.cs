@@ -111,6 +111,8 @@ public enum TownOfUsRpc : uint
     TimeLordRewind,
     TimeLordRewindRevive,
     TimeLordUndoTask,
+    BasicRevive,
+    FullRevive,
     TimeLordSetDeadBodyPos,
     SentryPlaceCamera,
     SentryRevealCamera,
@@ -131,6 +133,8 @@ public enum TownOfUsRpc : uint
     HostStartMeeting,
     HostEndMeeting,
     HerbalistBarrierAttacked,
+    OfficerMisfire,
+    OfficerSyncBullets,
 }
 
 internal enum TownOfUsInternalRpc : uint

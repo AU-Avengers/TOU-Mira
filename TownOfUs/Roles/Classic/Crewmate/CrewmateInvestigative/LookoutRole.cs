@@ -4,7 +4,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -53,8 +52,13 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     }
 
     [MethodRpc((uint)TownOfUsRpc.LookoutSeePlayer)]
-    public static void RpcSeePlayer(PlayerControl target, PlayerControl source)
+    public static void RpcSeePlayer(PlayerControl source, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (!target.TryGetModifier<LookoutWatchedModifier>(out var mod))
         {
             Error("Not a watched player");

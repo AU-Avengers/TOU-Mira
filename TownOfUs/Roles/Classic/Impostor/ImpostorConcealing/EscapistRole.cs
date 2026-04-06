@@ -11,7 +11,6 @@ using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -97,6 +96,11 @@ public sealed class EscapistRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Recall)]
     public static void RpcRecall(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not EscapistRole)
         {
             Error("RpcRecall - Invalid escapist");
@@ -110,6 +114,11 @@ public sealed class EscapistRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.MarkLocation)]
     public static void RpcMarkLocation(PlayerControl player, Vector2 pos)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not EscapistRole henry)
         {
             Error("RpcRecall - Invalid escapist");

@@ -12,7 +12,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -84,6 +83,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Mercenary,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -114,7 +114,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
 
-        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils.GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).Any())
+        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils.GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).HasAny())
         {
             Player.AddModifier<BasicGhostModifier>();
         }
@@ -142,6 +142,11 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.Guarded)]
     public static void RpcGuarded(PlayerControl player, PlayerControl target, bool isMurder = false)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not MercenaryRole mercenary)
         {
             Error("RpcGuarded - Invalid mercenary");

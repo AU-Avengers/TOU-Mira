@@ -14,7 +14,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
@@ -189,7 +188,7 @@ public static class ExecutionerEvents
                 var allVoters = PlayerControl.AllPlayerControls.ToArray()
                     .Where(x => exeRole.Voters.Contains(x.PlayerId) && !x.AmOwner);
 
-                if (!allVoters.Any())
+                if (!allVoters.HasAny())
                 {
                     return;
                 }

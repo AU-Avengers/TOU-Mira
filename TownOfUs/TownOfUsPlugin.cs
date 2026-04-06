@@ -40,8 +40,6 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// </summary>
     public Harmony Harmony { get; } = new(Id);
 
-    public static ConfigEntry<int> GameSummaryMode { get; set; }
-
     /// <summary>
     ///     Determines if the current build is a dev build or not. This will change certain visuals as well as always grab news locally to be up to date.
     /// </summary>
@@ -109,9 +107,6 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
                 Error("touhats.catalog was loaded!");
             }
         }
-
-        GameSummaryMode = Config.Bind("LocalSettings", "GameSummaryMode", 1,
-            "How the Game Summary appears in the Win Screen. 0 is to the left, 1 is split, and 2 is hidden.");
         Harmony.PatchAll();
         RegisterWinConditions();
     }

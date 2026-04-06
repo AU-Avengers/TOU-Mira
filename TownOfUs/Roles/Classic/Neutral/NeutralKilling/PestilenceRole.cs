@@ -14,7 +14,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -100,6 +99,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.TriggerPestilence, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcTriggerPestilence(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.HasDied() || (player.Data.Role is not PestilenceRole && player.Data.Role is not PlaguebearerRole))
         {
             return;

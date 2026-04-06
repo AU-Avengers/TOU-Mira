@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
@@ -134,6 +133,11 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.AurialSense)]
     public static void RpcSense(PlayerControl player, PlayerControl source)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not AurialRole aurial)
         {
             Error("Invalid Aurial");

@@ -6,7 +6,6 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -64,6 +63,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.SpyIntroSound,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Warden
     };
 
@@ -119,6 +119,11 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.WardenFortify)]
     public static void RpcWardenFortify(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not WardenRole)
         {
             Error("RpcWardenFortify - Invalid warden");
@@ -132,6 +137,11 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.ClearWardenFortify)]
     public static void RpcClearWardenFortify(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not WardenRole)
         {
             Error("RpcClearWardenFortify - Invalid warden");
@@ -145,6 +155,11 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.WardenNotify)]
     public static void RpcWardenNotify(PlayerControl player, PlayerControl source, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not WardenRole)
         {
             Error("RpcWardenNotify - Invalid warden");

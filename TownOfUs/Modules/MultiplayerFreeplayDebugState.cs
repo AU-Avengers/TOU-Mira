@@ -1,8 +1,7 @@
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
+using TownOfUs.Networking;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Options;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -88,28 +87,7 @@ public static class MultiplayerFreeplayDebugState
             {
                 continue;
             }
-
-            // Revive/dead state restore.
-            if (baseline.WasDead)
-            {
-                // If baseline was dead, keep them dead.
-                if (!player.Data.IsDead)
-                {
-                    player.RpcCustomMurder(player);
-                }
-            }
-            else
-            {
-                if (player.Data.IsDead)
-                {
-                    GameHistory.ClearMurder(player);
-                    player.Revive();
-                    //DeathStateSync.RpcSyncDeathState(player, false);
-                }
-            }
-
-            player.RpcChangeRole(baseline.RoleType);
-            player.RpcSetPos(baseline.Position);
+            player.RpcFullRevive(baseline.WasDead, baseline.Position, baseline.RoleType);
 
             // Restore baseline modifiers that have parameterless ctors (best effort).
             if (modComp != null)

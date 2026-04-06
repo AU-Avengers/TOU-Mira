@@ -14,7 +14,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -68,6 +67,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.AltruistReviveSound,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Altruist
     };
 
@@ -227,6 +227,11 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [MethodRpc((uint)TownOfUsRpc.AltruistRevive)]
     public static void RpcRevive(PlayerControl alt, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(alt);
+            return;
+        }
         if (alt.GetRoleWhenAlive() is not AltruistRole role)
         {
             Error("RpcRevive - Invalid altruist");

@@ -9,7 +9,6 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -85,14 +84,14 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         return stringB;
     }
 
-    public static void OnRoundStart()
-    {
-        CustomButtonSingleton<SheriffShootButton>.Instance.Usable = true;
-    }
-
     [MethodRpc((uint)TownOfUsRpc.SheriffMisfire)]
     public static void RpcSheriffMisfire(PlayerControl sheriff)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(sheriff);
+            return;
+        }
         if (sheriff.Data.Role is not SheriffRole role)
         {
             Error("RpcSheriffMisfire - Invalid sheriff");

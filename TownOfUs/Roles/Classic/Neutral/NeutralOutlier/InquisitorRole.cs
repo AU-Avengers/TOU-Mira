@@ -22,7 +22,6 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -176,6 +175,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Inquisitor,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -216,11 +216,6 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         }
 
         return stringB;
-    }
-
-    public static void OnRoundStart()
-    {
-        CustomButtonSingleton<InquisitorVanquishButton>.Instance.Usable = true;
     }
 
     public void OffsetButtons()
@@ -327,12 +322,12 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
                         if (role2 == lastRole)
                         {
                             reportBuilder.Append(TownOfUsPlugin.Culture,
-                                $"#{lastRole.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
+                                $"{MiscUtils.GetHyperlinkText(lastRole)})");
                         }
                         else
                         {
                             reportBuilder.Append(TownOfUsPlugin.Culture,
-                                $"#{role2.GetRoleName().ToLowerInvariant().Replace(" ", "-")}, ");
+                                $"{MiscUtils.GetHyperlinkText(role2)}, ");
                         }
                     }
                 }
@@ -394,6 +389,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.AddInquisTarget)]
     public static void RpcAddInquisTarget(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not InquisitorRole)
         {
             Error("RpcAddInquisTarget - Invalid Inquisitor");
@@ -420,6 +420,11 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     [MethodRpc((uint)TownOfUsRpc.InquisitorWin)]
     public static void RpcInquisitorWin(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         InquisitorWin(player);
     }
 

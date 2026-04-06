@@ -11,7 +11,6 @@ using TMPro;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -182,6 +181,11 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     [MethodRpc((uint)TownOfUsRpc.Prosecute)]
     public static void RpcProsecute(PlayerControl plr, byte Victim)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(plr);
+            return;
+        }
         if (plr.Data.Role is not ProsecutorRole prosecutorRole)
         {
             return;

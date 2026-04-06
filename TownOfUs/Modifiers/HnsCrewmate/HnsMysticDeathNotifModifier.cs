@@ -3,7 +3,6 @@ using MiraAPI.Modifiers.Types;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.HnsCrewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.HnsCrewmate;

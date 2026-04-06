@@ -8,7 +8,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -81,8 +80,13 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     };
 
     [MethodRpc((uint)TownOfUsRpc.ClericBarrierAttacked)]
-    public static void RpcClericBarrierAttacked(PlayerControl cleric, PlayerControl source, PlayerControl shielded)
+    public static void RpcClericBarrierAttacked(PlayerControl source, PlayerControl cleric, PlayerControl shielded)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         if (cleric.Data.Role is not ClericRole)
         {
             Error("RpcClericBarrierAttacked - Invalid cleric");

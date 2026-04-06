@@ -8,7 +8,6 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.PrefabChanging;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -339,31 +338,13 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         
         var mapWithoutCameras = SentryCameraUtilities.IsMapWithoutCameras(mapId);
         SystemConsole? basicCams = null;
-        
+
         if (!mapWithoutCameras)
         {
-            var allConsoles = Object.FindObjectsOfType<SystemConsole>();
-            
-            if (mapId is ExpandedMapNames.Airship)
-            {
-                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("task_cams"));
-            }
-            else if (mapId is ExpandedMapNames.Skeld or ExpandedMapNames.Dleks)
-            {
-                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("SurvConsole"));
-            }
-            else if (mapId is ExpandedMapNames.Submerged)
-            {
-                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null && x.gameObject.name.Contains("SecurityConsole"));
-            }
-            else
-            {
-                basicCams = allConsoles.FirstOrDefault(x => x != null && x.gameObject != null &&
-                    (x.gameObject.name.Contains("Surv_Panel") || x.gameObject.name.Contains("Cam") ||
-                     x.gameObject.name.Contains("BinocularsSecurityConsole")));
-            }
+            basicCams = Object.FindObjectsOfType<SystemConsole>().FirstOrDefault(x =>
+                x.MinigamePrefab.TryCast<SurveillanceMinigame>() || x.MinigamePrefab.TryCast<PlanetSurveillanceMinigame>() ||
+                x.MinigamePrefab.TryCast<FungleSurveillanceMinigame>() || x.UseIcon is ImageNames.CamsButton);
         }
-
         if (basicCams == null)
         {
             try
@@ -393,7 +374,26 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         try
         {
-            _securityMinigame.Begin(null);
+            var fungleGame = _securityMinigame.TryCast<FungleSurveillanceMinigame>();
+            var planetGame = _securityMinigame.TryCast<PlanetSurveillanceMinigame>();
+            var camsGame = _securityMinigame.TryCast<SurveillanceMinigame>();
+            // NOTE: The reason for checking the minigame itself is that Android shits the bed and refuses to show a camera feed. According to xtra, these are I2LCPP shenanigans.
+            if (fungleGame != null)
+            {
+                fungleGame.Begin(null);
+            }
+            else if (planetGame != null)
+            {
+                planetGame.Begin(null);
+            }
+            else if (camsGame != null)
+            {
+                camsGame.Begin(null);
+            }
+            else
+            {
+                _securityMinigame.Begin(null);
+            }
 
             SentryCameraMinigameUtilities.SwapAllCamerasForNonSentry(_securityMinigame);
             SentryCameraMinigameUtilities.AddSentryCameras(_securityMinigame);

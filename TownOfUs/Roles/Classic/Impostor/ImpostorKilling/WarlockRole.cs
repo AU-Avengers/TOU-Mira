@@ -2,7 +2,6 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -32,10 +31,9 @@ public sealed class WarlockRole(IntPtr cppPtr)
     {
         UseVanillaKillButton = false,
         IntroSound = TouAudio.WarlockIntroSound,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Warlock
     };
-
-
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities

@@ -6,7 +6,6 @@ using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;
@@ -100,7 +99,7 @@ public static class PlayerJoinPatch
 
         var time = 0f;
         var summary = GameHistory.EndGameSummary;
-        switch (LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.SummaryMessageAppearance.Value)
+        switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SummaryMessageAppearance.Value)
         {
             case GameSummaryAppearance.Advanced:
                 summary = GameHistory.EndGameSummaryAdvanced;
@@ -109,7 +108,7 @@ public static class PlayerJoinPatch
                 summary = GameHistory.EndGameSummarySimple;
                 break;
         }
-        if (summary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance
+        if (summary != string.Empty && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance
                 .ShowSummaryMessageToggle.Value)
         {
             systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
@@ -122,16 +121,16 @@ public static class PlayerJoinPatch
 
             var title =
                 $"{systemName}\n<size=62%>{factionText}{summary}</size>";
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, title, msg);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
         }
 
-        if (!SentOnce && LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowWelcomeMessageToggle.Value)
+        if (!SentOnce && LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowWelcomeMessageToggle.Value)
         {
             var msg = TouLocale.GetParsed("WelcomeMessageBlurb").Replace("<modVersion>", TownOfUsPlugin.Version);
-            MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, systemName, msg, true);
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName, msg, true);
             time = 5f;
         }
-        else if (!LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowWelcomeMessageToggle.Value)
+        else if (!LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowWelcomeMessageToggle.Value)
         {
             time = 2.48f;
         }

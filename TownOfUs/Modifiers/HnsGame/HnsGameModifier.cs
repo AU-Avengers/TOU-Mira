@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.HnsGame;

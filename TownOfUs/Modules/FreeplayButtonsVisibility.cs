@@ -10,7 +10,7 @@ namespace TownOfUs.Modules;
 public static class FreeplayButtonsVisibility
 {
     public static ConfigEntry<bool> PracticeModeToggle =>
-        LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ShowPracticeButtons;
+        LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.ShowPracticeButtons;
     public static bool Hidden => !PracticeModeToggle.Value;
 
     public static void Toggle()

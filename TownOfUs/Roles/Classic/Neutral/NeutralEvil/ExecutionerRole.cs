@@ -17,7 +17,6 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = System.Random;
 
@@ -143,6 +142,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     {
         IntroSound = TouAudio.DiscoveredSound,
         Icon = TouRoleIcons.Executioner,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -269,6 +269,11 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     [MethodRpc((uint)TownOfUsRpc.SetExeTarget)]
     public static void RpcSetExeTarget(PlayerControl player, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not ExecutionerRole)
         {
             Error("RpcSetExeTarget - Invalid executioner");

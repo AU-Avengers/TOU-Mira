@@ -10,7 +10,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -42,6 +41,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Bomber,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<BomberOptions>.Instance.CanVent
     };
 
@@ -67,6 +67,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     {
         if (LobbyBehaviour.Instance)
         {
+            MiscUtils.RunAnticheatWarning(player);
             return;
         }
         if (player.Data.Role is not BomberRole role)

@@ -13,7 +13,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Modules.RainbowMod;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -162,6 +161,11 @@ public sealed class MayorRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.AnimateNewReveal)]
     public static void RpcAnimateNewReveal(PlayerControl plr)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(plr);
+            return;
+        }
         if (plr.Data.Role is MayorRole mayor)
         {
             mayor.Revealed = true;

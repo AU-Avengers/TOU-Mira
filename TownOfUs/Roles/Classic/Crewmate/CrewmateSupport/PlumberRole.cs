@@ -14,7 +14,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -69,6 +68,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         IntroSound = TouAudio.EngineerIntroSound,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Plumber
     };
 
@@ -282,6 +282,11 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [MethodRpc((uint)TownOfUsRpc.PlumberFlush)]
     public static void RpcPlumberFlush(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not PlumberRole)
         {
             Error("RpcPlumberFlush - Invalid Plumber");
@@ -317,6 +322,11 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     [MethodRpc((uint)TownOfUsRpc.PlumberBlockVent)]
     public static void RpcPlumberBlockVent(PlayerControl player, int ventId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not PlumberRole plumber)
         {
             Error("RpcPlumberBlockVent - Invalid Plumber");

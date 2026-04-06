@@ -14,6 +14,12 @@
   <string name="ShowWelcomeMessage">Show Welcome Msg</string>
   <string name="ShowSummaryMessage">Show Summary Msg</string>
   <string name="ShowPracticeButtons">Show Practice Buttons</string>
+  <string name="AutoRejoinDelay">Auto Rejoin Delay</string>
+  <string name="AutoRejoinSelection">Auto Rejoin</string>
+  <string name="EndRejoinAlways">Always</string>
+  <string name="EndRejoinHost">As Host</string>
+  <string name="EndRejoinClient">As Client</string>
+  <string name="EndRejoinNever">Never</string>
   <string name="ZoomingInLobby">Zoom In Lobby</string>
   <string name="ShowRoleIconOnRoleTab">Icon On Role Tab</string>
   <string name="RainbowColorAsFortegreen">Rainbow Color As Fortegreen</string>
@@ -36,6 +42,10 @@
   <string name="SummarySimple">Simplified</string>
   <string name="SummaryNormal">Normal</string>
   <string name="SummaryAdvanced">Advanced</string>
+  <string name="EndSummaryVisibility">End Summary Visibility</string>
+  <string name="EndSumLeftSide">Left-Side</string>
+  <string name="EndSumSplit">Split</string>
+  <string name="EndSumHidden">Hidden</string>
   <string name="GrenadierFlashColor">Grenadier Flash Color</string>
   <string name="FlashWhite">White</string>
   <string name="FlashLightGray">Light Gray</string>
@@ -154,6 +164,9 @@
   <string name="CrewmateGhost">Crewmate Ghost</string>
   <string name="NeutralGhost">Neutral Ghost</string>
   <string name="ImpostorGhost">Impostor Ghost</string>
+  <string name="CrewmateAfterlife">Crewmate Afterlife</string>
+  <string name="NeutralAfterlife">Neutral Afterlife</string>
+  <string name="ImpostorAfterlife">Impostor Afterlife</string>
   <string name="GameOutlier">Game Outlier</string>
   <string name="CrewmateInvestigative">Crewmate Investigative</string>
   <string name="CrewmateKilling">Crewmate Killing</string>
@@ -276,7 +289,7 @@
   <string name="JaileeChatTitle">\%player\% (Jailed)</string>
   <string name="SystemChatTitle">System</string>
   <string name="AnticheatChatTitle">Anticheat System</string>
-  <string name="AnticheatKillMessage">A kill was attempted in the lobby, attached to \%player\%.</string>
+  <string name="AnticheatIllegalRpcMessage">A non-lobby feature/ability was run by \%player\%. They may be cheating/exploiting.</string>
   <string name="AnticheatMessage">\%player\% is joining with these different mods:</string>
   <string name="AnticheatKickMissingMessage">\%player\% is missing these mods:</string>
   <string name="AnticheatKickChatMessage">\%player\% was kicked for using cheat mods:</string>
@@ -299,6 +312,9 @@
   <string name="SetNameSimilarError">Another player has a name too similar to \%name\%! Please try a different name.</string>
   <string name="SetNameSuccess">Changed player name for the next match to: \%name\%.</string>
   <string name="WelcomeMessageBlurb">Welcome to Town of Us Mira v\%modVersion\%!\%nl\%Use the wiki (the globe icon) to get more info on roles or modifiers, where you can use the searchbar. Otherwise, use /help in the chat to get a list of commands.\%nl\%You may disable this message through your option menu.</string>
+  <string name="InfoCommandList">info</string>
+  <string name="InfoCommandDescription">/info - Replay the most recent role information message you received</string>
+  <string name="InfoCommandNoInfo">You do not have any role information available to replay.</string>
   <string name="HelpCommandList">help:support:command:commands:guide</string>
   <string name="HelpMessageTitle">Chat Commands:</string>
   <string name="HelpCommandDescription">/help - Shows this message</string>
@@ -321,7 +337,7 @@
   <string name="UpCommandSuccessOther">Successfully requested role: \%role\% for player '\%player\%' next game.</string>
   <string name="UpCommandSuccessGlobal">Host requested role for player '\%player\%' next game.</string>
   <string name="RulesCommandList">rules</string>
-  <string name="RulesMessageTitle">System</string>
+  <string name="RulesMessageTitle">Lobby Rules</string>
   <string name="RulesMissingError">Host has no rules saved.</string>
   <string name="RulesShowHostError">You must be the host to use /rules show.</string>
   <string name="ShowRulesOnLobbyJoin">Show Rules On Lobby Join</string>
@@ -355,6 +371,8 @@
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
   <string name="Alive">Alive</string>
+  <string name="DisconnectedData">D/C R\%round\% </string>
+  <string name="DisconnectedDataFull">\%cod\% | D/C R\%round\% </string>
   <string name="DiedToDisconnect">Disconnected</string>
   <string name="DiedToEjection">Ejected</string>
   <string name="DiedToKiller">Killed</string>
@@ -368,7 +386,10 @@
   <string name="DiedToGuess">Guessed</string>
   <string name="DiedToHeartbreak">Heartbroken</string>
   <string name="DiedToSheriff">Shot</string>
+  <string name="DiedToOfficer">Wounded</string>
   <string name="DiedToDeputy">Blasted</string>
+  <string name="DiedToSwapper">Swapped</string>
+  <string name="DiedToMarshal">Tribunal</string>
   <string name="DiedToVeteran">Attacked</string>
   <string name="DiedToJailor">Executed</string>
   <string name="DiedToProsecutor">Prosecuted</string>
@@ -1219,13 +1240,44 @@
   <string name="TouSystemType_MushroomMixupSabotage">Mushroom Mixup</string>
   <string name="TouSystemType_HeliSabotage">Heli Sabotage</string>
 
+  <!-- Officer - Crewmate Killing -->
+  <!-- Officer Wiki / Abilities -->
+  <string name="TouRoleOfficer">Officer</string>
+  <string name="TouRoleOfficerIntroBlurb">Reload and shoot the \%color=#FF0000FF\%Killers\%/color\%</string>
+  <string name="TouRoleOfficerTabAdditionCount">Rounds left to shoot again: \%count\%</string>
+  <string name="TouRoleOfficerTabAdditionNext">Next round, you may shoot again.</string>
+  <string name="TouRoleOfficerTabAdditionMajorityInno">Only shoot Impostors and Neutral Killers.</string>
+  <string name="TouRoleOfficerTabAdditionCrewmatesInno">Only shoot Impostors and Neutrals.</string>
+  <string name="TouRoleOfficerTabAdditionKillBasedInno">Only shoot anyone who's killed already.</string>
+  <string name="TouRoleOfficerTabDescription">Load bullets strategically without wasting them.\%nl\%Loaded bullets older than 10s are reset next round.</string>
+  <string name="TouRoleOfficerWikiDescription">The Officer is a Crewmate Killing role that can shoot players with limited ammo. They must load bullets, which only last one round unless they are added within 10 seconds.</string>
+  <string name="TouRoleOfficerLoad">Load</string>
+  <string name="TouRoleOfficerLoadWikiDescription">Load a bullet into your gun, allowing you to shoot.</string>
+  <string name="TouRoleOfficerShoot">Shoot</string>
+  <string name="TouRoleOfficerShootWikiDescription">Shoot a player to kill them. If the player is considered "innocent," then you will put away your gun temporarily.</string>
+  <!-- Officer Feedback -->
+  <string name="TouRoleOfficerBadKillFeedback">You've shot an innocent player! Your gun has been confiscated for now.</string>
+  <!-- Officer Options -->
+  <string name="TouOptionOfficerShootCooldown">Shoot Cooldown</string>
+  <string name="TouOptionOfficerLoadCooldown">Load Cooldown</string>
+  <string name="TouOptionOfficerCanSelfReport">Can Self Report</string>
+  <string name="TouOptionOfficerCanOnlyShootActiveKillers">Officer Can Only Shoot Players That Have Killed</string>
+  <string name="TouOptionOfficerCrewKillingAreInnocent">Crewmate Killing Roles are Innocent</string>
+  <string name="TouOptionOfficerNonKillingNeutralsAreInnocent">Non-Killing Neutrals are Innocent</string>
+  <string name="TouOptionOfficerFirstRound">Allow Shooting in First Round</string>
+  <string name="TouOptionOfficerMaxBulletsTotal">Maximum Bullets in Total</string>
+  <string name="TouOptionOfficerMaxBulletsAtOnce">Maximum Bullets at Once</string>
+  <string name="TouOptionOfficerCooldownSummary">Shoot Cooldown: \%shoot\%s | Load Cooldown: \%load\%s</string>
+  <string name="TouOptionOfficerBulletsSummary">Bullets at Once: \%once\% | Bullets Total: \%total\%</string>
+  <string name="TouOptionOfficerRoundPunishment"># of Rounds to Shoot Again After Misfire</string>
+
   <!-- Sheriff - Crewmate Killing -->
   <!-- Sheriff Wiki / Abilities -->
   <string name="TouRoleSheriff">Sheriff</string>
   <string name="TouRoleSheriffIntroBlurb">Shoot the \%color=#FF0000FF\%Evildoers\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">Kill off the impostors but don't kill crewmates</string>
   <string name="TouRoleSheriffTabDescriptionEgo">Kill off whoever you wish in hopes of crew losing</string>
-  <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
+  <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing role that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
   <string name="TouRoleSheriffShoot">Shoot</string>
   <string name="TouRoleSheriffShootWikiDescription">Shoot a player to kill them, misfiring if they aren't an Impostor or one of the other selected shootable factions</string>
   <!-- Sheriff Misfire Text -->
@@ -1377,7 +1429,7 @@
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">Min Amount Of Time In Trap To Register</string>
   <string name="TouOptionTrapperMaxNumberOfTraps">Initial Number Of Traps</string>
   <string name="TouOptionTrapperTrapSize">Trap Size</string>
-  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Removed After Each Round</string>
+  <string name="TouOptionTrapperTrapsRemovedAfterRound">Traps Reset After Each Round</string>
   <string name="TouOptionTrapperGetUsesFromTasks">Get More Uses From Completing Tasks</string>
   <string name="TouOptionTrapperMinimumNumberOfRoles">Minimum Number Of Roles Required To Trigger Trap</string>
   <!-- Trapper Feedback -->

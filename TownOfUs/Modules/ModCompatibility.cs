@@ -15,7 +15,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Version = SemanticVersioning.Version;
@@ -467,14 +466,14 @@ public static class ModCompatibility
                     ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
             }
 
-            ChangeFloor(startingVent.transform.position.y > -7f);
-
             var pos = new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
             PlayerControl.LocalPlayer.RpcSetPos(pos);
             PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
 
             ghost.Setup = true;
+
+            ChangeFloor(PlayerControl.LocalPlayer.GetTruePosition().y > -7);
         }
     }
 

@@ -174,6 +174,12 @@ public static class TouAssets
     public static LoadableAsset<AnimationClip> MeetingDeathBloodAnim3 { get; } =
         new LoadableBundleAsset<AnimationClip>("DeathMeetingBodyBlood", MainBundle);
 
+    public static LoadableAsset<AnimationClip> MeetingDeathAnim4 { get; } =
+        new LoadableBundleAsset<AnimationClip>("DeathMeetingLaserPlayer", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MeetingDeathBloodAnim4 { get; } =
+        new LoadableBundleAsset<AnimationClip>("DeathMeetingLaserBlood", MainBundle);
+
     public static LoadableAsset<GameObject> ScatterUI { get; } =
         new LoadableBundleAsset<GameObject>("ScatterUI", MainBundle);
 
@@ -357,6 +363,18 @@ public static class TouAssets
         new LoadableBundleAsset<Sprite>("ScreenFlash", MainBundle);
 
     public static LoadableAsset<Sprite> KillBG { get; } = new LoadableBundleAsset<Sprite>("KillBackground", MainBundle);
+
+    public static LoadableAsset<Sprite> ColorKillBg { get; } =
+        new LoadableResourceAsset($"{ShortPath}.ColorKillBg.png");
+
+    public static LoadableAsset<Sprite> NeutKillBg { get; } =
+        new LoadableResourceAsset($"{ShortPath}.NeutKillBg.png");
+
+    public static LoadableAsset<Sprite> CrewKillBg { get; } =
+        new LoadableResourceAsset($"{ShortPath}.CrewKillBg.png");
+
+    public static LoadableAsset<Sprite> VitalBgMissin { get; } =
+        new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
 
     public static LoadableAsset<Sprite> RetributionBG { get; } =
         new LoadableBundleAsset<Sprite>("RetributionBackground", MainBundle);

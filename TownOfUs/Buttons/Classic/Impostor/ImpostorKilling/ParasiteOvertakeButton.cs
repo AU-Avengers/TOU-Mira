@@ -15,7 +15,6 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
@@ -180,7 +179,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             var medic = target.GetModifier<MedicShieldModifier>()?.Medic.GetRole<MedicRole>();
             if (medic != null && (TutorialManager.InstanceExists || local.AmOwner))
             {
-                MedicRole.RpcMedicShieldAttacked(medic.Player, local, target);
+                MedicRole.RpcMedicShieldAttacked(local, medic.Player, target);
             }
             return true;
         }
@@ -190,7 +189,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             var cleric = barrier?.Cleric?.GetRole<ClericRole>();
             if (cleric != null && (TutorialManager.InstanceExists || local.AmOwner))
             {
-                ClericRole.RpcClericBarrierAttacked(cleric.Player, local, target);
+                ClericRole.RpcClericBarrierAttacked(local, cleric.Player, target);
             }
             return true;
         }
@@ -200,12 +199,12 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             var mirrorcaster = mirror?.Mirrorcaster?.GetRole<MirrorcasterRole>();
             if (mirrorcaster != null && (TutorialManager.InstanceExists || local.AmOwner))
             {
-                MirrorcasterRole.RpcMagicMirrorAttacked(mirrorcaster.Player, local, target);
+                MirrorcasterRole.RpcMagicMirrorAttacked(local, mirrorcaster.Player, target);
             }
             return true;
         }
 
-        return target.GetModifiers<BaseShieldModifier>().Any();
+        return target.GetModifiers<BaseShieldModifier>().HasAny();
     }
 
     public override PlayerControl? GetTarget()

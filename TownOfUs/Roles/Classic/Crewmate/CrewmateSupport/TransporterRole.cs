@@ -19,7 +19,6 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -61,6 +60,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Transporter,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.TimeLordIntroSound
     };
 
@@ -69,6 +69,11 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     [MethodRpc((uint)TownOfUsRpc.Transport)]
     public static void RpcTransport(PlayerControl transporter, byte player1, byte player2)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(transporter);
+            return;
+        }
         if (transporter.Data.Role is not TransporterRole)
         {
             Error("RpcTransport - Invalid Transporter");
@@ -119,7 +124,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                ClericRole.RpcClericBarrierAttacked(cleric.Player, transporter, play1);
+                ClericRole.RpcClericBarrierAttacked(transporter, cleric.Player, play1);
             }
 
             return;
@@ -130,7 +135,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                ClericRole.RpcClericBarrierAttacked(cleric2.Player, transporter, play2);
+                ClericRole.RpcClericBarrierAttacked(transporter, cleric2.Player, play2);
             }
 
             return;

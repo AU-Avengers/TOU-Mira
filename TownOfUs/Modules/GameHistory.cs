@@ -3,8 +3,8 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -214,6 +214,8 @@ public static class GameHistory
         DeathHistory.Clear();
         PlayerStats.Clear();
         PlayerEvents.Clear();
+        EndGamePatches.EndGameData.DisconnectedPlayerRecords.Clear();
+        EndGamePatches.ContainedMeetingData.Clear();
     }
 
     public static RoleBehaviour GetRoleWhenAlive(this PlayerControl player)

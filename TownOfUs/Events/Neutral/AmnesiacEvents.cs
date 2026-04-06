@@ -20,7 +20,7 @@ public static class AmnesiacEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (!CustomRoleUtils.GetActiveRolesOfType<AmnesiacRole>().Any())
+        if (!CustomRoleUtils.GetActiveRolesOfType<AmnesiacRole>().HasAny())
         {
             return;
         }

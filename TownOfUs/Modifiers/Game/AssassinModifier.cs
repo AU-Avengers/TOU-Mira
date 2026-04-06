@@ -16,7 +16,6 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game;
@@ -167,7 +166,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
             if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
             {
-                OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
+                OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
                 MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
 

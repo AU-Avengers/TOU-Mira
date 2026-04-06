@@ -10,7 +10,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -46,6 +45,7 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
     public CustomRoleConfiguration Configuration => new(this)
     {
         UseVanillaKillButton = true,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Blackmailer
     };
 
@@ -75,6 +75,11 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
     [MethodRpc((uint)TownOfUsRpc.Blackmail, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcBlackmail(PlayerControl source, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
         var existingBmed = PlayerControl.AllPlayerControls.ToArray()
             .FirstOrDefault(x => x.GetModifier<BlackmailedModifier>()?.BlackMailerId == source.PlayerId);
 

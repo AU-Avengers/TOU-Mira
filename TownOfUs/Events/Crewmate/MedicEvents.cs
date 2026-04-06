@@ -15,7 +15,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -26,12 +25,13 @@ public static class MedicEvents
     {
         if (PlayerControl.LocalPlayer.Data.Role is MedicRole)
         {
-            MedicRole.OnRoundStart();
+            var button = CustomButtonSingleton<MedicShieldButton>.Instance;
+            button.CanChangeTarget = true;
         }
 
         var medicShields = ModifierUtils.GetActiveModifiers<MedicShieldModifier>();
 
-        if (!medicShields.Any())
+        if (!medicShields.HasAny())
         {
             return;
         }
@@ -177,7 +177,7 @@ public static class MedicEvents
 
         if (medic != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            MedicRole.RpcMedicShieldAttacked(medic.Player, source, target);
+            MedicRole.RpcMedicShieldAttacked(source, medic.Player, target);
         }
 
         return true;
@@ -185,21 +185,21 @@ public static class MedicEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
+        if (!source.AmOwner)
+        {
+            return;
+        }
+
         if (OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks)
         {
+            button?.ResetCooldownAndOrEffect();
+            source.SetKillTimer(source.GetKillCooldown());
             return;
         }
 
         var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
 
         button?.SetTimer(reset);
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
-        {
-            return;
-        }
-
         source.SetKillTimer(reset);
     }
 }

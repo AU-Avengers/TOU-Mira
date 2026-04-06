@@ -13,7 +13,7 @@ using TownOfUs.Options;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
+using TownOfUs.Roles.Other;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Alliance;
@@ -66,6 +66,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
             var filtered = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
+                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
                             (x.Data.Role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeCrewpostor) &&
                             !x.HasModifier<AllianceGameModifier>() &&
                             !x.HasModifier<ExecutionerTargetModifier>()).ToList();

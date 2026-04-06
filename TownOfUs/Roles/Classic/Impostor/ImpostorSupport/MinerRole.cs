@@ -10,7 +10,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -90,6 +89,11 @@ public sealed class MinerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.PlaceVent)]
     public static void RpcPlaceVent(PlayerControl player, int ventId, Vector2 position, float zAxis, bool immediate)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not MinerRole miner)
         {
             Error("RpcPlaceVent - Invalid miner");
@@ -154,7 +158,7 @@ public sealed class MinerRole(IntPtr cppPtr)
             }
         }
 
-        var mapId = (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+        var mapId = (MapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
         if (TutorialManager.InstanceExists)
         {
             mapId = (MapNames)AmongUsClient.Instance.TutorialMapId;
@@ -196,6 +200,11 @@ public sealed class MinerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.ShowVent)]
     public static void RpcShowVent(PlayerControl player, int ventId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not MinerRole miner)
         {
             Error("RpcShowVent - Invalid miner");

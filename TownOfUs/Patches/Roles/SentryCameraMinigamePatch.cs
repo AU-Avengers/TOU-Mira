@@ -1,6 +1,5 @@
 using BepInEx.Logging;
 using HarmonyLib;
-using TownOfUs.Utilities;
 using UnityEngine;
 using TMPro;
 

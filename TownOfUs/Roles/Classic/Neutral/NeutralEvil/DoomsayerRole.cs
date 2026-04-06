@@ -20,7 +20,6 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -66,6 +65,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         IntroSound = TouAudio.QuestionSound,
         Icon = TouRoleIcons.Doomsayer,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -402,7 +402,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 {
                     if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
                     {
-                        OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
+                        OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
                     }
                     else
                     {
@@ -418,7 +418,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     {
                         if (victim2.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
                         {
-                            OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim2);
+                            OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim2);
                         }
                         else
                         {
@@ -434,7 +434,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             {
                 if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
                 {
-                    OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
+                    OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
                     MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
 
@@ -487,6 +487,11 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.DoomsayerWin)]
     public static void RpcDoomsayerWin(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (player.Data.Role is not DoomsayerRole doom)
         {
             Error("RpcDoomsayerWin - Invalid Doomsayer");

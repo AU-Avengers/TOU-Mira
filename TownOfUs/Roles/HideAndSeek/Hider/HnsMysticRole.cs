@@ -4,7 +4,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.HideAndSeek.Hider;
@@ -172,7 +171,7 @@ public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         {
             usesRemaining = logicOptionsHnS.GetCrewmateVentUses();
             HudManager.Instance.AbilityButton.OverrideText(
-                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HideActionButton));
+                TranslationController.Instance.GetString(StringNames.HideActionButton));
             HudManager.Instance.AbilityButton.SetUsesRemaining(usesRemaining);
         }
     }

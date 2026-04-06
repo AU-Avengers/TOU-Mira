@@ -13,7 +13,6 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -84,6 +83,11 @@ public sealed class UndertakerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.DragBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcStartDragging(PlayerControl playerControl, byte bodyId)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(playerControl);
+            return;
+        }
         if (ModifierUtils.GetActiveModifiers<DragModifier>().Any(x => x.BodyId == bodyId))
         {
             return;
@@ -103,6 +107,11 @@ public sealed class UndertakerRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.DropBody, LocalHandling = RpcLocalHandling.Before)]
     public static void RpcStopDragging(PlayerControl playerControl, Vector2 dropLocation)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(playerControl);
+            return;
+        }
         var dragMod = playerControl.GetModifier<DragModifier>()!;
         var dropPos = (Vector3)dropLocation;
         dropPos.z = dropPos.y / 1000f;

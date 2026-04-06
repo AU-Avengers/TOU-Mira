@@ -23,11 +23,11 @@ public sealed class MediumHiddenModifier : ConcealedModifier, IVisualAppearance
 
         return new VisualAppearance(PlayerControl.LocalPlayer.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
         {
-            HatId = string.Empty,
-            SkinId = string.Empty,
-            VisorId = string.Empty,
+            HatId = "hat_NoHat",
+            SkinId = "skin_None",
+            VisorId = "visor_EmptyVisor",
             PlayerName = string.Empty,
-            PetId = string.Empty,
+            PetId = "pet_EmptyPet",
             RendererColor = playerColor,
             NameColor = Color.clear,
             ColorBlindTextColor = Color.clear
@@ -72,11 +72,11 @@ public sealed class MediumHiddenModifier : ConcealedModifier, IVisualAppearance
             Player.RawSetAppearance(new VisualAppearance(Player.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
             {
                 ColorId = Player.Data.DefaultOutfit.ColorId,
-                HatId = string.Empty,
-                SkinId = string.Empty,
-                VisorId = string.Empty,
+                HatId = "hat_NoHat",
+                SkinId = "skin_None",
+                VisorId = "visor_EmptyVisor",
                 PlayerName = string.Empty,
-                PetId = string.Empty,
+                PetId = "pet_EmptyPet",
                 NameVisible = false,
                 PlayerMaterialColor = Color.grey,
                 Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : Player.GetAppearance().Size

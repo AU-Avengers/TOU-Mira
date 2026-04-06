@@ -14,7 +14,6 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -194,6 +193,6 @@ public static class HunterEvents
             return;
         }
 
-        HunterRole.RpcCatchPlayer(mod.Hunter, source, isInteraction);
+        HunterRole.RpcCatchPlayer(source, mod.Hunter, isInteraction);
     }
 }

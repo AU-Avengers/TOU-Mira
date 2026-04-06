@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;

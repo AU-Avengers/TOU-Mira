@@ -16,7 +16,6 @@ using TownOfUs.GameOver;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -34,6 +33,11 @@ public static class Bindings
         if (!host.IsHost())
         {
             Error($"{host.Data.PlayerName} tried to start a meeting when they were not the host!");
+            return;
+        }
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(host);
             return;
         }
 
@@ -56,6 +60,11 @@ public static class Bindings
         if (!host.IsHost())
         {
             Error($"{host.Data.PlayerName} tried to end the meeting when they were not the host!");
+            return;
+        }
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(host);
             return;
         }
 
@@ -189,7 +198,9 @@ public static class Bindings
             return;
         }
 
-        if (TutorialManager.InstanceExists && Input.GetKeyDown(KeyCode.F9))
+        var freeplay = TutorialManager.InstanceExists;
+
+        if (freeplay && Input.GetKeyDown(KeyCode.F9))
         {
             FreeplayButtonsVisibility.Toggle();
         }
@@ -206,7 +217,7 @@ public static class Bindings
         //      CTRL to pass through objects in lobby ONLY
         if (isHost) // Disable all keybinds except CTRL in lobby if not host (NOTE: Might want a toggle in settings for these binds?)
         {
-            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined)
+            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined || freeplay)
             {
                 // Suicide Keybind (ENTER + T + Left Shift)
                 if (!PlayerControl.LocalPlayer.HasDied() && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))

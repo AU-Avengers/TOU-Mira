@@ -5,7 +5,7 @@ namespace TownOfUs.Modules.RainbowMod;
 
 public static class RainbowUtils
 {
-    public static bool IsForte => LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.RainbowColorAsFortegreen.Value;
+    public static bool IsForte => LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.RainbowColorAsFortegreen.Value;
     public static Color ForteBodyColor { get; private set; } =new Color32(20, 140, 20, 255);
     public static Color ForteShadowColor { get; private set; } =new Color32(30, 120, 50, 255);
     public static Color Rainbow => IsForte ? ForteBodyColor : new HSBColor(PP(0, 1, 0.3f), 1, 1).ToColor();

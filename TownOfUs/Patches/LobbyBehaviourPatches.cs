@@ -2,7 +2,6 @@
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
 
@@ -10,8 +9,9 @@ namespace TownOfUs.Patches;
 public static class LobbyBehaviourPatches
 {
     [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
+    [HarmonyPatch(typeof(TutorialManager), nameof(TutorialManager.Awake))]
     [HarmonyPostfix]
-    public static void LobbyStartPatch(LobbyBehaviour __instance)
+    public static void LobbyStartPatch()
     {
         foreach (var role in GameHistory.AllRoles)
         {

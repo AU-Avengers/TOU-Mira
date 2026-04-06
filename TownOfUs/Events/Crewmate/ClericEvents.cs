@@ -10,7 +10,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -86,7 +85,7 @@ public static class ClericEvents
 
         if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            ClericRole.RpcClericBarrierAttacked(cleric.Player, source, target);
+            ClericRole.RpcClericBarrierAttacked(source, cleric.Player, target);
         }
 
         return true;
@@ -94,16 +93,14 @@ public static class ClericEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
-        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
-
-        button?.SetTimer(reset);
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
+        if (!source.AmOwner)
         {
             return;
         }
 
+        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
+
+        button?.SetTimer(reset);
         source.SetKillTimer(reset);
     }
 }

@@ -2,6 +2,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -85,13 +86,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
              // Show only while the target *actually* has the shield.
              // Morph/Mimic are implemented as ConcealedModifier, but they are still visible to others.
              // Only hide the shield for "true conceal" (e.g. swoop/invis), vents, disabled, etc.
-             var trulyConcealed =
-                 Player.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) ||
-                 !Player.Visible ||
-                 (Player.TryGetModifier<DisabledModifier>(out var disabled) && !disabled.IsConsideredAlive) ||
-                 Player.inVent;
-
-             _shield.SetActive(!trulyConcealed && IsVisible && Target.HasModifier<FirstDeadShield>());
+             _shield.SetActive(Player.IsVisibleToOthers() && IsVisible && Target.HasModifier<FirstDeadShield>());
         }
         else if (MeetingHud.Instance)
         {

@@ -13,7 +13,7 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
+using TownOfUs.Roles.Other;
 using UnityEngine;
 using Random = System.Random;
 
@@ -37,7 +37,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
         }
 
         if (GameOptionsManager.Instance.CurrentGameOptions.RoleOptions
-                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().Any())
+                .GetNumPerGame((RoleTypes)RoleId.Get<TraitorRole>()) == 0 || ModifierUtils.GetActiveModifiers<CrewpostorModifier>().HasAny())
         {
             return;
         }
@@ -54,6 +54,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
                             !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<EgotistModifier>() &&
+                            !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
                             (x.Data.Role is not ILoyalCrewmate loyalCrew || loyalCrew.CanBeTraitor)).ToList();
 
             if (filtered.Count == 0)
@@ -86,6 +87,11 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
     [MethodRpc((uint)TownOfUsRpc.SetTraitor)]
     public static void RpcSetTraitor(PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
         if (!player.HasModifier<ToBecomeTraitorModifier>() && !player.HasModifier<CrewpostorModifier>())
         {
             return;

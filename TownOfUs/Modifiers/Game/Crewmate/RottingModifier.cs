@@ -6,7 +6,6 @@ using HarmonyLib;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

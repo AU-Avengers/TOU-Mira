@@ -4,7 +4,6 @@ using AmongUs.Data;
 using AmongUs.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Utilities;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.HideAndSeek.Hider;
@@ -189,7 +188,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
         {
             usesRemaining = logicOptionsHnS.GetCrewmateVentUses();
             HudManager.Instance.AbilityButton.OverrideText(
-                DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.HideActionButton));
+                TranslationController.Instance.GetString(StringNames.HideActionButton));
             HudManager.Instance.AbilityButton.SetUsesRemaining(usesRemaining);
         }
     }

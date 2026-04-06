@@ -3,7 +3,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events;
 
@@ -23,7 +22,7 @@ public static class VanillaTweakEvents
         {
             return;
         }
-        var petMode = (PetVisiblity)OptionGroupSingleton<GameMechanicOptions>.Instance.ShowPetsMode.Value;
+        var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
         if (petMode is PetVisiblity.AlwaysVisible)
         {
             return;
@@ -45,7 +44,7 @@ public static class VanillaTweakEvents
         {
             return;
         }
-        var petMode = (PetVisiblity)OptionGroupSingleton<GameMechanicOptions>.Instance.ShowPetsMode.Value;
+        var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
         if (petMode is PetVisiblity.AlwaysVisible)
         {
             return;

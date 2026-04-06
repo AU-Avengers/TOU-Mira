@@ -3,7 +3,6 @@ using MiraAPI.Modifiers.Types;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

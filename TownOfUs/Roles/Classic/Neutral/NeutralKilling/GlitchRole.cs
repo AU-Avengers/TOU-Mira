@@ -13,7 +13,6 @@ using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -71,6 +70,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
     {
         CanUseVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent,
         IntroSound = TouAudio.GlitchSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Glitch,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -156,6 +156,11 @@ public sealed class GlitchRole(IntPtr cppPtr)
     [MethodRpc((uint)TownOfUsRpc.TriggerGlitchHack)]
     public static void RpcTriggerGlitchHack(PlayerControl victim, bool fullRemoval)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(victim);
+            return;
+        }
         if (victim.TryGetModifier<GlitchHackedModifier>(out var hackMod))
         {
             if (fullRemoval)

@@ -16,7 +16,6 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -48,6 +47,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Vigilante,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
     };
 
@@ -191,7 +191,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
             if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
             {
-                OracleRole.RpcOracleBlessNotify(oracleMod.Oracle, PlayerControl.LocalPlayer, victim);
+                OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
                 MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
 

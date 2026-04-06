@@ -11,7 +11,6 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
@@ -139,7 +138,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -179,7 +178,8 @@ public static class CustomTouMurderRpcs
             MiraEventManager.InvokeEvent(beforeMurderEvent);
             var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
             if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) ||
-                (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
+                (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive) ||
+                target.ProtectedByGa())
             {
                 beforeMurderEvent.Cancel();
             }
@@ -204,6 +204,11 @@ public static class CustomTouMurderRpcs
             }
 
             firstTarget = false;
+        }
+
+        if (victims.HasAny() && source.AmOwner)
+        {
+            source.isKilling = true;
         }
 
         if (!PlayerControl.LocalPlayer.IsHost())
@@ -270,7 +275,8 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            source.isKilling = false;
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -352,7 +358,8 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            source.isKilling = false;
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -436,7 +443,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -466,9 +473,25 @@ public static class CustomTouMurderRpcs
         var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.OutsideMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
 
-        if (beforeMurderEvent.IsCancelled)
+        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        if (isMeetingActive)
+        {
+            beforeMurderEvent.Cancel();
+        }
+
+        if (target.ProtectedByGa())
+        {
+            beforeMurderEvent.Cancel();
+            murderResultFlags = MurderResultFlags.FailedProtected;
+        }
+        else if (beforeMurderEvent.IsCancelled)
         {
             murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        if (beforeMurderEvent.IsCancelled && source.AmOwner)
+        {
+            source.isKilling = true;
         }
 
         // Track kill cooldown before CustomMurder for Time Lord rewind
@@ -511,7 +534,8 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            source.isKilling = false;
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -642,7 +666,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -683,9 +707,19 @@ public static class CustomTouMurderRpcs
             beforeMurderEvent.Cancel();
         }
 
-        if (beforeMurderEvent.IsCancelled)
+        if (target.ProtectedByGa())
+        {
+            beforeMurderEvent.Cancel();
+            murderResultFlags = MurderResultFlags.FailedProtected;
+        }
+        else if (beforeMurderEvent.IsCancelled)
         {
             murderResultFlags = MurderResultFlags.FailedError;
+        }
+
+        if (beforeMurderEvent.IsCancelled && source.AmOwner)
+        {
+            source.isKilling = true;
         }
 
         // Track kill cooldown before CustomMurder for Time Lord rewind
@@ -732,7 +766,8 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            source.isKilling = false;
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
@@ -811,7 +846,7 @@ public static class CustomTouMurderRpcs
     {
         if (LobbyBehaviour.Instance)
         {
-            MiscUtils.RunKillWarning(source);
+            MiscUtils.RunAnticheatWarning(source);
             return;
         }
 
