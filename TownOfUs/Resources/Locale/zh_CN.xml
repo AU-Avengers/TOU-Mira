@@ -10,7 +10,7 @@
   <string name="ShowSummaryMessage">显示游戏结算信息</string>
   <string name="ColorPlayerName">彩色玩家名称</string>
   <string name="UseCrewmateTeamColor">使用基础船员颜色</string>
-  <string name="ShowShieldHud">在HUD上显示护盾</string>
+  <string name="ShowShieldHud">在Hud上显示护盾</string>
   <string name="ButtonUIFactor">按钮缩放比例</string>
   <string name="OffsetButtons">无法使用通风口时偏移按钮</string>
   <string name="SortGuessingByAlignment">猜测列表按阵营排序</string>
@@ -1105,7 +1105,7 @@
   <string name="TouOptionTrapperMinAmountOfTimeInTrap">触发陷阱所需最短时间</string>
   <string name="TouOptionTrapperMaxNumberOfTraps">初始陷阱数量</string>
   <string name="TouOptionTrapperTrapSize">陷阱大小</string>
-  <string name="TouOptionTrapperTrapsRemovedAfterRound">每回合移除陷阱</string>
+  <string name="TouOptionTrapperTrapsRemovedAfterRound">每回合重置陷阱</string>
   <string name="TouOptionTrapperMinimumNumberOfRoles">触发陷阱所需最少职业数</string>
   <string name="TouRoleTrapperNoPlayers">没有玩家进入你的陷阱</string>
   <string name="TouRoleTrapperNotEnoughPLayers">触发你陷阱的玩家数量不足</string>
@@ -1910,7 +1910,7 @@
   <string name="SeparateChatBubbles">分离聊天气泡</string>
   <string name="RulesCommandDescription">/rules - 显示房主保存的房间规则。</string>
   <string name="RulesCommandList">规则</string>
-  <string name="RulesMessageTitle">系统</string>
+  <string name="RulesMessageTitle">大厅规则</string>
   <string name="RulesMissingError">房主尚未保存任何规则。</string>
   <string name="RulesShowHostError">你必须是房主才能使用 /rules 显示。</string>
   <string name="ShowRulesOnLobbyJoin">进入大厅时显示规则</string>
@@ -2062,7 +2062,7 @@
   <string name="TouRoleHerbalistExpose">暴露</string>
   <string name="TouRoleHerbalistExposeWikiDescription">将一名玩家暴露给所有伪装者，显示其职业，但该玩家将无法被猜测者猜中。</string>
   <string name="TouRoleHerbalistConfuse">迷乱</string>
-  <string name="TouRoleHerbalistConfuseWikiDescription">使用真菌孢子使一名玩家陷入混乱，使其无法识别其他玩家。</string>
+  <string name="TouRoleHerbalistConfuseWikiDescription">利用真菌孢子使一名玩家陷入混乱，期间无法识别其他玩家。</string>
   <string name="TouRoleHerbalistProtect">保护</string>
   <string name="TouRoleHerbalistProtectWikiDescription">像牧师一样暂时保护一名玩家，包括其他伪装者。</string>
 </resources>
