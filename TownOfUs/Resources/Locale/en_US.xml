@@ -834,6 +834,7 @@
   <string name="TouRoleInvestigatorTabDescription">You can see everyone's footprints.</string>
   <string name="TouRoleInvestigatorWikiDescription">The Investigator is a Crewmate Investigative role can see player's footprints throughout the game. Swooped players' footprints will not be visible to the Investigator.</string>
   <!-- Investigator Options -->
+  <string name="TouOptionInvestigatorFootprintSeperated">Footprints Added Based On</string>
   <string name="TouOptionInvestigatorFootprintSize">Footprint Size</string>
   <string name="TouOptionInvestigatorFootprintInterval">Footprint Interval</string>
   <string name="TouOptionInvestigatorFootprintDuration">Footprint Duration</string>
