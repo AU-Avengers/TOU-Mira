@@ -19,24 +19,24 @@ public sealed class RoleOptions : AbstractOptionGroup
         MiscUtils.GetParsedRoleBucket("CrewPower"),
         MiscUtils.GetParsedRoleBucket("CrewSupport"),
 
+        MiscUtils.GetParsedRoleBucket("CommonCrew"),
+        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
+        MiscUtils.GetParsedRoleBucket("RandomCrew"),
+
         MiscUtils.GetParsedRoleBucket("NeutralBenign"),
         MiscUtils.GetParsedRoleBucket("NeutralEvil"),
         MiscUtils.GetParsedRoleBucket("NeutralKilling"),
         MiscUtils.GetParsedRoleBucket("NeutralOutlier"),
 
-        MiscUtils.GetParsedRoleBucket("ImpConcealing"),
-        MiscUtils.GetParsedRoleBucket("ImpKilling"),
-        MiscUtils.GetParsedRoleBucket("ImpPower"),
-        MiscUtils.GetParsedRoleBucket("ImpSupport"),
-
-        MiscUtils.GetParsedRoleBucket("CommonCrew"),
-        MiscUtils.GetParsedRoleBucket("SpecialCrew"),
-        MiscUtils.GetParsedRoleBucket("RandomCrew"),
-
         MiscUtils.GetParsedRoleBucket("CommonNeutral"),
         MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
         MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
         MiscUtils.GetParsedRoleBucket("RandomNeutral"),
+
+        MiscUtils.GetParsedRoleBucket("ImpConcealing"),
+        MiscUtils.GetParsedRoleBucket("ImpKilling"),
+        MiscUtils.GetParsedRoleBucket("ImpPower"),
+        MiscUtils.GetParsedRoleBucket("ImpSupport"),
 
         MiscUtils.GetParsedRoleBucket("CommonImp"),
         MiscUtils.GetParsedRoleBucket("SpecialImp"),
@@ -319,21 +319,16 @@ public enum RoleListOption
     CrewPower,
     CrewSupport,
 
-    NeutBenign,
-    NeutEvil,
-    NeutKilling,
-    NeutOutlier,
-
-    ImpConceal,
-    ImpKilling,
-    ImpPower,
-    ImpSupport,
-
     CrewCommon, // Investigative / Protective / Support
     CrewSpecial, // Killing / Power
     // CrewUtility, // Investigative / Support
     // CrewBasic, // Vanilla Crewmate
     CrewRandom, // Any Crewmate role
+
+    NeutBenign,
+    NeutEvil,
+    NeutKilling,
+    NeutOutlier,
 
     NeutCommon, // Benign / Evil
     NeutSpecial, // Killing / Outlier
@@ -341,6 +336,11 @@ public enum RoleListOption
     // NeutChaos, // Evil / Outlier
     // NeutPassive, // Benign / Outlier, this name sucks btw - Atony
     NeutRandom, // Any Neutral role
+
+    ImpConceal,
+    ImpKilling,
+    ImpPower,
+    ImpSupport,
 
     ImpCommon, // Concealing / Support
     ImpSpecial, // Killing / Power

@@ -162,15 +162,16 @@ public static class LogicGameFlowPatches
         return false;
     }
 
-    /*[HarmonyPatch(typeof(GameManager), nameof(GameManager.StartGame))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.OnGameStart))]
     [HarmonyPostfix]
     public static void StartGamePostfix()
     {
-        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
+        /*if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
         {
             ShipStatus.Instance.BreakEmergencyButton();
-        }
-    }*/
+        }*/
+        GameTimerPatch.ResetTimer();
+    }
 
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     [HarmonyPrefix]
