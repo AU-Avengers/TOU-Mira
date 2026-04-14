@@ -83,10 +83,9 @@ public sealed class HerbalistConfusedModifier(PlayerControl herbalist) : TimedMo
                 player.cosmetics.ToggleNameVisible(false);
             }
 
-            var mushroom = UnityEngine.Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-            if (mushroom && mushroom.IsActive)
+            if (VanillaSystemCheckPatches.ShroomSabotageSystem && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
             {
-                MushroomMixUp(mushroom, player);
+                MushroomMixUp(VanillaSystemCheckPatches.ShroomSabotageSystem, player);
             }
         }
     }
