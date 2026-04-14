@@ -74,7 +74,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     {
         base.FixedUpdate();
 
-        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             Player.RawSetAppearance(this);
             Player.cosmetics.ToggleNameVisible(false);
@@ -102,7 +102,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
             Player.cosmetics.ToggleNameVisible(false);
         }
 
-        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             MushroomMixUp(VanillaSystemCheckPatches.ShroomSabotageSystem, Player);
         }
