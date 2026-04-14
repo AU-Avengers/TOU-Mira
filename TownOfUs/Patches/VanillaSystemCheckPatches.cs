@@ -11,7 +11,6 @@ public static class VanillaSystemCheckPatches
     public static VentilationSystem? VentSystem;
 
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
-    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Awake))]
     [HarmonyPostfix]
     public static void ShipStatusPostfix(ShipStatus __instance)
     {

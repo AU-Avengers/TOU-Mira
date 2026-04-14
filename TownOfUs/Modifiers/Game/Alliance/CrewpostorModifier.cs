@@ -22,6 +22,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 {
     public override string LocaleKey => "Crewpostor";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public string ShortName => TouLocale.Get($"TouModifier{LocaleKey}ShortName");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
 
     public override string GetDescription()

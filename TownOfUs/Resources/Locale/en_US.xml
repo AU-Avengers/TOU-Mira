@@ -2186,6 +2186,7 @@
   <!-- Crewpostor - Crewmate Alliance -->
   <!-- Crewpostor Wiki / Description -->
   <string name="TouModifierCrewpostor">Crewpostor</string>
+  <string name="TouModifierCrewpostorShortName">Imp</string>
   <string name="TouModifierCrewpostorIntroBlurb">Aid the \%color=#FF0000FF\%Impostors\%/color\%</string>
   <string name="TouModifierCrewpostorTabDescription">Betray the crewmates as an Impostor.</string>
   <string name="TouModifierCrewpostorWikiDescription">The Crewpostor is a Crewmate Alliance modifier, which forces a crewmate to work for the impostor faction. If all impostors are dead, you become a Traitor.</string>
@@ -2193,6 +2194,7 @@
   <!-- Egotist - Crewmate Alliance -->
   <!-- Egotist Wiki / Description -->
   <string name="TouModifierEgotist">Egotist</string>
+  <string name="TouModifierEgotistShortName">Ego</string>
   <string name="TouModifierEgotistIntroBlurb">Betray the crew to feed your ego</string>
   <string name="TouModifierEgotistTabDescription">Defy the crew, win with killers.</string>
   <string name="TouModifierEgotistWikiDescription">The Egotist is a Crewmate Alliance modifier (signified by \%symbol\%). As the Egotist, you can only win if Crewmates lose, even when dead. If no crewmates remain after a meeting ends, you will leave in victory, but the game will continue.</string>
