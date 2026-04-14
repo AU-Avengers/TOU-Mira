@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -43,35 +41,7 @@ public sealed class HypnotistHypnotizeButton : TownOfUsRoleButton<HypnotistRole,
             return;
         }
 
-        if (TutorialManager.InstanceExists)
-        {
-            Coroutines.Start(CoHysteria());
-        }
-        else
-        {
-            Target.RpcAddModifier<HypnotisedModifier>(PlayerControl.LocalPlayer);
-        }
-    }
-
-    public static IEnumerator CoHysteria()
-    {
-        if (!PlayerControl.LocalPlayer.HasModifier<HypnotisedModifier>())
-        {
-            PlayerControl.LocalPlayer.RpcAddModifier<HypnotisedModifier>(PlayerControl.LocalPlayer);
-        }
-        yield return null;
-        yield return null;
-        if (PlayerControl.LocalPlayer.TryGetModifier<HypnotisedModifier>(out var hystMod))
-        {
-            if (hystMod.HysteriaActive)
-            {
-                hystMod.UnHysteria();
-            }
-            else
-            {
-                hystMod.Hysteria();
-            }
-        }
+        Target.RpcAddModifier<HypnotisedModifier>(PlayerControl.LocalPlayer);
     }
 
     public override PlayerControl? GetTarget()

@@ -10,6 +10,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
@@ -25,11 +26,13 @@ public static class TouRoleUtils
         {
             return;
         }
+
         var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "NeutralRoleText");
         if (playerTask == null)
         {
             playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "ImpostorRole");
         }
+
         if (playerTask != null)
         {
             playerControl.myTasks.Remove(playerTask);
@@ -65,10 +68,12 @@ public static class TouRoleUtils
         {
             return TouRoleIcons.Impostor.LoadAsset();
         }
+
         if (basicText.Contains("Crewmate"))
         {
             return TouRoleIcons.Crewmate.LoadAsset();
         }
+
         return TouRoleIcons.Neutral.LoadAsset();
     }
 
@@ -78,10 +83,12 @@ public static class TouRoleUtils
         {
             return TouRoleIcons.Impostor.LoadAsset();
         }
+
         if (role.IsCrewmate())
         {
             return TouRoleIcons.Crewmate.LoadAsset();
         }
+
         return TouRoleIcons.Neutral.LoadAsset();
     }
 
@@ -104,10 +111,11 @@ public static class TouRoleUtils
     public static bool CanGetGhostRole(this PlayerControl player)
     {
         return !player.HasModifier<BasicGhostModifier>()
-            && player.Data.Role is not SpectatorRole
-            && player.Data.Role is not GuardianAngelRole
-            && player.Data.Role is not IGhostRole;
+               && player.Data.Role is not SpectatorRole
+               && player.Data.Role is not GuardianAngelRole
+               && player.Data.Role is not IGhostRole;
     }
+
     public static bool AreTeammates(PlayerControl player, PlayerControl other)
     {
         var playerRole = player.GetRoleWhenAlive();
@@ -120,10 +128,12 @@ public static class TouRoleUtils
 
     public static bool CanKill(PlayerControl player)
     {
-        var canBetray = PlayerControl.LocalPlayer.IsLover() && OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates;
+        var canBetray = PlayerControl.LocalPlayer.IsLover() &&
+                        OptionGroupSingleton<LoversOptions>.Instance.LoverKillTeammates;
 
         return !(AreTeammates(PlayerControl.LocalPlayer, player) && canBetray && !player.IsLover());
     }
+
     public static string GetRoleLocaleKey(this RoleBehaviour role)
     {
         var touRole = role as ITownOfUsRole;
@@ -139,9 +149,11 @@ public static class TouRoleUtils
 
         return role.GetRoleName().Replace(" ", "");
     }
+
     public static bool IsRevealed(this PlayerControl? player) =>
         player?.GetModifiers<BaseRevealModifier>().Any(x => x.Visible && x.RevealRole) == true ||
         player?.Data?.Role is MayorRole mayor && mayor.Revealed;
+
     public static StringBuilder SetTabText(ICustomRole role)
     {
         var alignment = MiscUtils.GetRoleAlignment(role);
@@ -201,6 +213,7 @@ public static class TouRoleUtils
                 playerControl.cache[collider2D] = collider2D.GetComponents<IUsable>().ToArray();
                 array = playerControl.cache[collider2D];
             }
+
             if (array != null && flag2)
             {
                 foreach (var usable2 in array.Where(x => x.TryCast<Vent>() != null).Select(x => x.TryCast<Vent>()!))
@@ -214,11 +227,12 @@ public static class TouRoleUtils
                 }
             }
         }
+
         var vent = (list.Count > 0) ? list.FirstOrDefault() : null;
 
         return vent;
     }
-    
+
 
     public static Vent? GetClosestUsableVent(bool forVenting)
     {
@@ -226,7 +240,8 @@ public static class TouRoleUtils
         var data = playerControl.Data;
         Vector2 truePosition = playerControl.GetTruePosition();
         var flag2 = (playerControl.CanMove || playerControl.inVent || !forVenting);
-        int num2 = Physics2D.OverlapCircleNonAlloc(truePosition, playerControl.MaxReportDistance, playerControl.hitBuffer, Constants.Usables);
+        int num2 = Physics2D.OverlapCircleNonAlloc(truePosition, playerControl.MaxReportDistance,
+            playerControl.hitBuffer, Constants.Usables);
         float num3 = float.MaxValue;
         List<Vent> list = new List<Vent>();
         for (int i = 0; i < num2; i++)
@@ -236,6 +251,7 @@ public static class TouRoleUtils
             {
                 array = playerControl.cache[collider2D];
             }
+
             if (array != null && flag2)
             {
                 foreach (var usable2 in array.Where(x => x.TryCast<Vent>() != null).Select(x => x.TryCast<Vent>()!))
@@ -249,10 +265,12 @@ public static class TouRoleUtils
                 }
             }
         }
+
         var vent = (list.Count > 0) ? list.FirstOrDefault() : null;
 
         return vent;
     }
+
     public static float CanUse(this Vent vent, NetworkedPlayerInfo pc, bool toVent, float distance, out bool couldUse)
     {
         float num = float.MaxValue;
@@ -266,24 +284,26 @@ public static class TouRoleUtils
         {
             return num;
         }
-        ISystemType systemType;
-        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out systemType))
+
+        if (VanillaSystemCheckPatches.VentSystem != null &&
+            VanillaSystemCheckPatches.VentSystem.IsVentCurrentlyBeingCleaned(vent.Id))
         {
-            var ventilationSystem = systemType.TryCast<VentilationSystem>();
-            if (ventilationSystem != null && ventilationSystem.IsVentCurrentlyBeingCleaned(vent.Id))
-            {
-                couldUse = false;
-            }
+            couldUse = false;
         }
+
         if (couldUse)
         {
             Vector3 center = @object.Collider.bounds.center;
             Vector3 position = vent.transform.position;
             num = Vector2.Distance(center, position);
-            couldUse &= (num <= distance && !PhysicsHelpers.AnythingBetween(@object.Collider, center, position, Constants.ShipOnlyMask, false));
+            couldUse &= (num <= distance &&
+                         !PhysicsHelpers.AnythingBetween(@object.Collider, center, position, Constants.ShipOnlyMask,
+                             false));
         }
+
         return num;
     }
+
     public static float CanUse(this Vent vent, NetworkedPlayerInfo pc, bool toVent, out bool couldUse)
     {
         float num = float.MaxValue;
@@ -298,22 +318,23 @@ public static class TouRoleUtils
             couldUse = false;
             return num;
         }
-        ISystemType systemType;
-        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out systemType))
+
+        if (VanillaSystemCheckPatches.VentSystem != null &&
+            VanillaSystemCheckPatches.VentSystem.IsVentCurrentlyBeingCleaned(vent.Id))
         {
-            var ventilationSystem = systemType.TryCast<VentilationSystem>();
-            if (ventilationSystem != null && ventilationSystem.IsVentCurrentlyBeingCleaned(vent.Id))
-            {
-                couldUse = false;
-            }
+            couldUse = false;
         }
+
         if (couldUse)
         {
             Vector3 center = @object.Collider.bounds.center;
             Vector3 position = vent.transform.position;
             num = Vector2.Distance(center, position);
-            couldUse &= (num <= vent.UsableDistance && !PhysicsHelpers.AnythingBetween(@object.Collider, center, position, Constants.ShipOnlyMask, false));
+            couldUse &= (num <= vent.UsableDistance &&
+                         !PhysicsHelpers.AnythingBetween(@object.Collider, center, position, Constants.ShipOnlyMask,
+                             false));
         }
+
         return num;
     }
 }

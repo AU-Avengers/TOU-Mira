@@ -3,6 +3,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using TownOfUs.Options;
+using TownOfUs.Patches;
 
 namespace TownOfUs.Events;
 
@@ -11,12 +12,11 @@ public static class VanillaTweakEvents
     [RegisterEvent(1000000)]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
-        var ventSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].TryCast<VentilationSystem>();
-        if (ventSystem != null)
+        if (VanillaSystemCheckPatches.VentSystem != null)
         {
             Warning($"Remedied vent bugs!");
             // This fixes an issue within vanilla where any players who were removed out of vents via a meeting can be "kicked" out of the vent they were previously in, even if they aren't in there.
-            ventSystem.PlayersInsideVents.Clear();
+            VanillaSystemCheckPatches.VentSystem.PlayersInsideVents.Clear();
         }
         if (!@event.TriggeredByIntro)
         {

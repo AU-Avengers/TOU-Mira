@@ -26,6 +26,7 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
+using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
@@ -1690,37 +1691,21 @@ public static class MiscUtils
             return true;
         }
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             return true;
         }
 
         if (TownOfUsMapOptions.IsCamoCommsOn())
         {
-            if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem) ||
-                commsSystem == null)
-            {
-                return false;
-            }
-
             var isActive = false;
-            if (ShipStatus.Instance.Type == ShipStatus.MapType.Hq ||
-                ShipStatus.Instance.Type == ShipStatus.MapType.Fungle)
+            if (VanillaSystemCheckPatches.HudCommsSystem != null)
             {
-                var hqSystem = commsSystem.Cast<HqHudSystemType>();
-                if (hqSystem != null)
-                {
-                    isActive = hqSystem.IsActive;
-                }
+                isActive = VanillaSystemCheckPatches.HudCommsSystem.IsActive;
             }
-            else
+            else if (VanillaSystemCheckPatches.HqCommsSystem != null)
             {
-                var hudSystem = commsSystem.Cast<HudOverrideSystemType>();
-                if (hudSystem != null)
-                {
-                    isActive = hudSystem.IsActive;
-                }
+                isActive = VanillaSystemCheckPatches.HqCommsSystem.IsActive;
             }
 
             return isActive;
@@ -1733,14 +1718,9 @@ public static class MiscUtils
     {
         var couldUse = (!player.MustCleanVent(vent.Id) || (player.inVent && Vent.currentVent == vent)) &&
                        !player.Data.IsDead && (player.CanMove || player.inVent);
-        ISystemType systemType;
-        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out systemType))
+        if (VanillaSystemCheckPatches.VentSystem != null && VanillaSystemCheckPatches.VentSystem.IsVentCurrentlyBeingCleaned(vent.Id))
         {
-            var ventilationSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
-            if (ventilationSystem != null && ventilationSystem.IsVentCurrentlyBeingCleaned(vent.Id))
-            {
-                couldUse = false;
-            }
+            couldUse = false;
         }
 
         if (couldUse)

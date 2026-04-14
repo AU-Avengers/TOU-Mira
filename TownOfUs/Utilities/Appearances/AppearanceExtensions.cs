@@ -5,6 +5,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Options.Maps;
+using TownOfUs.Patches;
 using UnityEngine;
 
 namespace TownOfUs.Utilities.Appearances;
@@ -17,14 +18,17 @@ public static class AppearanceExtensions
         if (TownOfUsMapOptions.IsCamoCommsOn() &&
             player.GetAppearanceType() == TownOfUsAppearances.Swooper)
         {
-            var c = ShipStatus.Instance.Systems[SystemTypes.Comms];
-            var active = c.TryCast<HudOverrideSystemType>()?.IsActive;
-            if (active == null)
+            var active = false;
+            if (VanillaSystemCheckPatches.HqCommsSystem != null)
             {
-                active = c.TryCast<HqHudSystemType>()?.IsActive;
+                active = VanillaSystemCheckPatches.HqCommsSystem.IsActive;
+            }
+            else if (VanillaSystemCheckPatches.HudCommsSystem != null)
+            {
+                active = VanillaSystemCheckPatches.HudCommsSystem.IsActive;
             }
 
-            if (active == true)
+            if (active)
             {
                 player.SetCamouflage();
                 return;
