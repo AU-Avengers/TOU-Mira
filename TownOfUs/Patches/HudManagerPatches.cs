@@ -210,29 +210,14 @@ public static class HudManagerPatches
             return false;
         }
 
-        if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem) ||
-            commsSystem == null)
-        {
-            return false;
-        }
-
         var isActive = false;
-
-        if (ShipStatus.Instance.Type == ShipStatus.MapType.Hq || ShipStatus.Instance.Type == ShipStatus.MapType.Fungle)
+        if (VanillaSystemCheckPatches.HudCommsSystem != null)
         {
-            var hqSystem = commsSystem.Cast<HqHudSystemType>();
-            if (hqSystem != null)
-            {
-                isActive = hqSystem.IsActive;
-            }
+            isActive = VanillaSystemCheckPatches.HudCommsSystem.IsActive;
         }
-        else
+        else if (VanillaSystemCheckPatches.HqCommsSystem != null)
         {
-            var hudSystem = commsSystem.Cast<HudOverrideSystemType>();
-            if (hudSystem != null)
-            {
-                isActive = hudSystem.IsActive;
-            }
+            isActive = VanillaSystemCheckPatches.HqCommsSystem.IsActive;
         }
 
         return isActive;

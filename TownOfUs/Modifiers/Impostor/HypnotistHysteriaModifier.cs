@@ -93,8 +93,7 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
     {
         base.FixedUpdate();
 
-        var mushroom = UnityEngine.Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             Player.RawSetAppearance(this);
             Player.cosmetics.ToggleNameVisible(false);
@@ -105,10 +104,9 @@ public sealed class HypnotistHysteriaModifier(PlayerBodyTypes bodyType, int appe
     {
         Player.MyPhysics.SetForcedBodyType(PlayerBodyTypes.Normal);
 
-        var mushroom = UnityEngine.Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
-            MushroomMixUp(mushroom, Player);
+            MushroomMixUp(VanillaSystemCheckPatches.ShroomSabotageSystem, Player);
         }
         if (HudManagerPatches.CamouflageCommsEnabled)
         {

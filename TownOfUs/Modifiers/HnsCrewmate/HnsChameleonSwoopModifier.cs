@@ -9,7 +9,6 @@ using TownOfUs.Options.Roles.HnsCrewmate;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modifiers.HnsCrewmate;
 
@@ -74,8 +73,7 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
     {
         base.FixedUpdate();
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             Player.RawSetAppearance(this);
             Player.cosmetics.ToggleNameVisible(false);
@@ -103,10 +101,9 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
             Player.cosmetics.ToggleNameVisible(false);
         }
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
-            MushroomMixUp(mushroom, Player);
+            MushroomMixUp(VanillaSystemCheckPatches.ShroomSabotageSystem, Player);
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperUnswoop, Player);

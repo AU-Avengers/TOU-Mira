@@ -11,7 +11,6 @@ using TownOfUs.Modules.Anims;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modifiers.Impostor;
 
@@ -245,8 +244,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
     {
         base.FixedUpdate();
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             Player.RawSetAppearance(this);
             Player.cosmetics.ToggleNameVisible(false);
@@ -284,10 +282,9 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
             Player.cosmetics.ToggleNameVisible(false);
         }
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem != null && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
-            MushroomMixUp(mushroom, Player);
+            MushroomMixUp(VanillaSystemCheckPatches.ShroomSabotageSystem, Player);
         }
     }
 
