@@ -2064,4 +2064,14 @@
   <string name="TouRoleHerbalistConfuseWikiDescription">利用真菌孢子使一名玩家陷入混亂,期間無法識別其他玩家。</string>
   <string name="TouRoleHerbalistProtect">保護</string>
   <string name="TouRoleHerbalistProtectWikiDescription">像牧師一樣暫時保護一名玩家,包括其他偽裝者。</string>
+  <string name="AutoRejoinDelay">自動重連延遲</string>
+  <string name="AutoRejoinSelection">自動重連</string>
+  <string name="EndRejoinAlways">始終</string>
+  <string name="EndRejoinHost">作為房主</string>
+  <string name="EndRejoinClient">作為玩家</string>
+  <string name="EndRejoinNever">從不</string>
+  <string name="EndSummaryVisibility">結算介面顯示方式</string>
+  <string name="EndSumLeftSide">左側顯示</string>
+  <string name="EndSumSplit">分欄顯示</string>
+  <string name="EndSumHidden">隱藏</string>
 </resources>
