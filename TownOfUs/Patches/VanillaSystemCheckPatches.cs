@@ -20,10 +20,10 @@ public static class VanillaSystemCheckPatches
             VentSystem = ventilationSystem!;
         }
 
-        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem))
+        if (__instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem))
         {
-            if (ShipStatus.Instance.Type == ShipStatus.MapType.Hq ||
-                ShipStatus.Instance.Type == ShipStatus.MapType.Fungle)
+            if (__instance.Type == ShipStatus.MapType.Hq ||
+                __instance.Type == ShipStatus.MapType.Fungle)
             {
                 var hqSystem = commsSystem.Cast<HqHudSystemType>();
                 HqCommsSystem = hqSystem;
