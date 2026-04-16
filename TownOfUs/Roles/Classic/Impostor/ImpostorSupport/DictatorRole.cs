@@ -82,7 +82,24 @@ public sealed class DictatorRole(IntPtr cppPtr)
         }
 
         return ModifierUtils.GetActiveModifiers<DictatorInfluencedModifier>(x =>
-            x.DictatorId == Player.PlayerId && !x.Player.HasDied() && !x.Player.Data.Disconnected && x.Player.IsCrewmate()).Count();
+            x.DictatorId == Player.PlayerId && IsValidInfluenceTarget(x.Player)).Count();
+    }
+
+    public bool IsValidInfluenceTarget(PlayerControl? player)
+    {
+        if (player == null || player == Player || player.HasDied() || player.Data.Disconnected)
+        {
+            return false;
+        }
+
+        if (player.IsCrewmate() || player.IsNeutral())
+        {
+            return true;
+        }
+
+        return TutorialManager.InstanceExists &&
+               player.GetComponent<DummyBehaviour>() != null &&
+               !player.IsImpostorAligned();
     }
 
     public override void Initialize(PlayerControl player)

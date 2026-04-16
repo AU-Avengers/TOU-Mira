@@ -92,7 +92,7 @@ public static class DictatorEvents
         foreach (var influenced in ModifierUtils.GetActiveModifiers<DictatorInfluencedModifier>(x => x.DictatorId == dictator.Player.PlayerId).ToList())
         {
             var voter = influenced.Player;
-            if (voter == null || voter.HasDied() || voter.Data.Disconnected || !voter.IsCrewmate())
+            if (!dictator.IsValidInfluenceTarget(voter))
             {
                 continue;
             }

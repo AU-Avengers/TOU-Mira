@@ -58,9 +58,7 @@ public sealed class DictatorInfluenceButton : TownOfUsRoleButton<DictatorRole, P
         }
 
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(false, Distance, false,
-            player => player != PlayerControl.LocalPlayer &&
-                      player.IsCrewmate() &&
-                      !player.Data.Disconnected &&
+            player => Role.IsValidInfluenceTarget(player) &&
                       !player.HasModifier<DictatorInfluencedModifier>(modifier =>
                           modifier.DictatorId == PlayerControl.LocalPlayer.PlayerId));
     }
