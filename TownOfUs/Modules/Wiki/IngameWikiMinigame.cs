@@ -1074,6 +1074,11 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     chance = roleOptions.GetChancePerGame(role.Role);
                     var roleEntry = SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!;
                     roleEntry.EntryName = TranslationController.Instance.GetString(role.StringName);
+                    if (roleEntry.EntryName.Contains("STRMISS"))
+                    {
+                        roleEntry.EntryName = role.GetRoleName();
+                    }
+
                     roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(role.BlurbNameLong);
                     if (roleEntry.GetAdvancedDescription.Contains("STRMISS"))
                     {

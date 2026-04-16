@@ -68,6 +68,7 @@ public enum TownOfUsRpc : uint
     SetExeTarget,
     AddInquisTarget,
     Hysteria,
+    Coerce,
     WardenFortify,
     ClearWardenFortify,
     WardenNotify,

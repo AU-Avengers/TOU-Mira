@@ -300,6 +300,10 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Hypnotist { get; } =
         new LoadableBundleAsset<Sprite>("Hypnotist", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Dictator { get; } =
+        new LoadableResourceAsset("TownOfUs.Resources.RoleIcons.Dictator.png");
+
+
     public static LoadableAsset<Sprite> Janitor { get; } =
         new LoadableBundleAsset<Sprite>("Janitor", TouAssets.MainBundle);
 

@@ -5,8 +5,10 @@ using BepInEx;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
+using Reactor.Localization;
 using Reactor.Localization.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Roles;
 using TownOfUs.Utilities;
 using UnityEngine;
 
@@ -17,6 +19,7 @@ public static class LogoPatch
 {
     public const string BepInVersionPrefix = "6.0.0-be.";
     public const int BepInVersionMinimum = 738;
+    private static readonly Dictionary<string, StringNames> RoleStringNameCache = [];
 #pragma warning disable S1075 // URIs should not be hardcoded
     public const string BepInExDownloadUrl32 = "https://builds.bepinex.dev/projects/bepinex_be/752/BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.752%2Bdd0655f.zip";
     public const string BepInExDownloadUrl64 = "https://builds.bepinex.dev/projects/bepinex_be/752/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.752%2Bdd0655f.zip";
@@ -30,7 +33,10 @@ public static class LogoPatch
         RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).StringName =
             CustomStringName.CreateAndRegister("Impostor Ghost");
 
-        var roles = MiscUtils.AllRoles.Where(x =>
+        var allRoles = MiscUtils.AllRoles.ToArray();
+        RefreshLocalizedRoleStringNames(allRoles);
+
+        var roles = allRoles.Where(x =>
                 x is not IWikiDiscoverable or ICustomRole { Configuration.HideSettings: false })
             .ToArray();
 
@@ -108,6 +114,58 @@ public static class LogoPatch
         {
             System.Console.WriteLine(e);
         }
+    }
+
+    private static void RefreshLocalizedRoleStringNames(IEnumerable<RoleBehaviour> roles)
+    {
+        foreach (var role in roles)
+        {
+            if (role is not ITownOfUsRole)
+            {
+                continue;
+            }
+
+            role.StringName = GetOrCreateRoleStringName(GetRoleLocaleStringKey(role));
+        }
+    }
+
+    private static StringNames GetOrCreateRoleStringName(string key)
+    {
+        if (!RoleStringNameCache.TryGetValue(key, out var stringName))
+        {
+            stringName = CustomStringName.CreateAndRegister(key);
+            RoleStringNameCache[key] = stringName;
+        }
+
+        return stringName;
+    }
+
+    private static string GetRoleLocaleStringKey(RoleBehaviour role)
+    {
+        if (role is not ITownOfUsRole touRole)
+        {
+            return role.StringName.ToString();
+        }
+
+        var candidates = new[]
+        {
+            $"TouRole{touRole.LocaleKey}",
+            $"HnsRole{touRole.LocaleKey}",
+            touRole.LocaleKey
+        };
+
+        if (TouLocale.TouLocalization.TryGetValue(SupportedLangs.English, out var englishStrings))
+        {
+            foreach (var candidate in candidates)
+            {
+                if (englishStrings.ContainsKey(candidate))
+                {
+                    return candidate;
+                }
+            }
+        }
+
+        return candidates[0];
     }
 
     [HideFromIl2Cpp]

@@ -64,6 +64,9 @@ public static class PlayerRoleTextExtensions
     private static Func<HypnotisedModifier, bool> HypnotisedPredicate { get; } =
         hModifier => hModifier.Hypnotist.AmOwner;
 
+    private static Func<DictatorInfluencedModifier, bool> DictatorInfluencedPredicate { get; } =
+        dModifier => dModifier.DictatorId == PlayerControl.LocalPlayer.PlayerId;
+
     private static Func<SpellslingerHexedModifier, bool> SpellslingerHexedPredicate { get; } =
         shModifier => shModifier.Spellslinger.AmOwner;
 
@@ -290,6 +293,13 @@ public static class PlayerRoleTextExtensions
             || (player.HasModifier<HypnotisedModifier>() && (isDead || isImp)))
         {
             name += "<color=#D53F42> @</color>";
+        }
+
+        if ((player.HasModifier(DictatorInfluencedPredicate) &&
+             PlayerControl.LocalPlayer.IsRole<DictatorRole>())
+            || (player.HasModifier<DictatorInfluencedModifier>() && (isDead || isImp)))
+        {
+            name += "<color=#D53F42> !</color>";
         }
 
         if (player.HasModifier(SpellslingerHexedPredicate) &&

@@ -10,5 +10,5 @@ riderModule.iml
 .qodo
 TownOfUs/Properties/
 *.DS_Store
-
+.dotnet
 .fake

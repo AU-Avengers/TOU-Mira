@@ -1527,6 +1527,23 @@
   <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">Blackmail Same Person Twice In A Row</string>
   <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">Only Target Sees Blackmail</string>
   <string name="TouOptionBlackmailerCanKillWithTeammate">Blackmailer Can Kill With Teammate</string>
+  <!-- Dictator Wiki / Abilities -->
+  <string name="TouRoleDictator">Dictator</string>
+  <string name="TouRoleDictatorIntroBlurb">Control the game by stealing other crewmates' votes during meetings</string>
+  <string name="TouRoleDictatorTabDescription">Tag crewmates during the round to steal their votes in meetings</string>
+  <string name="TouRoleDictatorWikiDescription">The Dictator is an Impostor Support role that can force crewmates to vote for a specific player during meetings. This ability can only be used once per game by pressing the Coerce button. All tagged players will have their votes reassigned to the player chosen by the Dictator.</string>
+  <string name="TouRoleDictatorCoerce">Coerce</string>
+  <string name="TouRoleDictatorCoerceWikiDescription">Causes the Dictator to steal votes from influenced crewmates during meetings.</string>
+  <string name="TouRoleDictatorCoerceNotif">Coerced influenced votes onto <player>.</string>
+  <string name="TouRoleDictatorCoerceActiveNotif">Coerce activated. Influenced votes will follow your vote.</string>
+  <string name="TouRoleDictatorInfluence">Influence</string>
+  <string name="TouRoleDictatorInfluenceWikiDescription">Tag crewmates to influence their voting behavior during meetings.</string>
+  <string name="TouRoleDictatorInfluenceNotif"><player> has been influenced.</string>
+  <!-- Dictator Options -->
+  <string name="TouOptionDictatorInfluenceCooldown">Influence Cooldown</string>
+  <string name="TouOptionDictatorCanStealMayorVotes">Can Steal Mayor Votes</string>
+  <string name="TouOptionDictatorMinNumberOfPlayersToInfluence">Min Number Of Players To Influence Before Coercing</string>
+  <string name="TouOptionDictatorMaxNumberOfPlayersToInfluence">Max Number Of Players To Influence</string>
   <!-- Bomber Wiki / Abilities -->
   <string name="TouRoleBomber">Bomber</string>
   <string name="TouRoleBomberIntroBlurb">Drop bombs to multi-kill Crewmates.</string>

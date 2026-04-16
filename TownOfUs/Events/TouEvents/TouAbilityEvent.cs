@@ -81,6 +81,8 @@ public enum AbilityType
     WardenFortify,
     BlackmailerBlackmail,
     BomberPlant,
+    DictatorInfluence,
+    DictatorCoerce,
     EclipsalBlind,
     EscapistMark,
     EscapistRecall,

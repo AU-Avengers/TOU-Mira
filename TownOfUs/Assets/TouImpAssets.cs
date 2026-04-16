@@ -84,6 +84,13 @@ public static class TouImpAssets
     public static LoadableAsset<Sprite> HypnotiseButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("HypnotiseButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> DictatorCoerceButtonSprite { get; } =
+        new LoadableResourceAsset("TownOfUs.Resources.Buttons.DictatorCoerceButton.png");
+
+    public static LoadableAsset<Sprite> DictatorInfluenceButtonSprite { get; } =
+        new LoadableResourceAsset("TownOfUs.Resources.Buttons.DictatorInfluenceButton.png");
+
+
     public static LoadableAsset<Sprite> CleanButtonSprite { get; } =
         new LoadableBundleAsset<Sprite>("CleanButton", TouAssets.MainBundle);
 
