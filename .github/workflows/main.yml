@@ -33,6 +33,7 @@ jobs:
         with:
           name: TownOfUsMira.dll
           path: TownOfUs/bin/Release/TownOfUsMira.dll
+          retention-days: 7
 
       - uses: actions/upload-artifact@v4
         with:
