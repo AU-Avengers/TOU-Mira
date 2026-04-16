@@ -291,9 +291,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             return;
         }
 
-        var role = player.GetRole<FairyRole>();
-
-        if (role == null)
+        if (player.Data.Role is not FairyRole role)
         {
             return;
         }

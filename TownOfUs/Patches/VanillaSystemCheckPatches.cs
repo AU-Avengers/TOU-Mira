@@ -1,0 +1,56 @@
+﻿using HarmonyLib;
+
+namespace TownOfUs.Patches;
+
+[HarmonyPatch]
+public static class VanillaSystemCheckPatches
+{
+    public static MushroomMixupSabotageSystem ShroomSabotageSystem;
+    public static HqHudSystemType? HqCommsSystem;
+    public static HudOverrideSystemType? HudCommsSystem;
+    public static VentilationSystem? VentSystem;
+
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
+    [HarmonyPostfix]
+    public static void ShipStatusPostfix(ShipStatus __instance)
+    {
+        if (__instance.Systems.TryGetValue(SystemTypes.Ventilation, out var comms))
+        {
+            var ventilationSystem = comms.TryCast<VentilationSystem>();
+            VentSystem = ventilationSystem!;
+        }
+
+        if (__instance.Systems.TryGetValue(SystemTypes.Comms, out var commsSystem))
+        {
+            if (__instance.Type == ShipStatus.MapType.Hq ||
+                __instance.Type == ShipStatus.MapType.Fungle)
+            {
+                var hqSystem = commsSystem.Cast<HqHudSystemType>();
+                HqCommsSystem = hqSystem;
+            }
+            else
+            {
+                var hudSystem = commsSystem.Cast<HudOverrideSystemType>();
+                HudCommsSystem = hudSystem;
+            }
+        }
+
+        ShroomSabotageSystem = UnityEngine.Object.FindObjectOfType<MushroomMixupSabotageSystem>();
+        var foundVentSys = VentSystem != null;
+        var foundHqSys = HqCommsSystem != null;
+        var foundHudSys = HudCommsSystem != null;
+        var foundMixUpSys = ShroomSabotageSystem != null;
+        Warning(
+            $"Found: {(foundMixUpSys ? "Mix-Up System" : "No Mix-Up System")}, {(foundVentSys ? "Vent System" : "No Vent System")}, {(foundHqSys ? "Hq Comms System" : "No Hq Comms System")}, {(foundHudSys ? "Hud Comms System" : "No Hud Comms System")}");
+    }
+
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.OnDestroy))]
+    [HarmonyPostfix]
+    public static void ShipStatusDestroyPostfix(ShipStatus __instance)
+    {
+        VentSystem = null!;
+        HqCommsSystem = null!;
+        HudCommsSystem = null!;
+        ShroomSabotageSystem = null!;
+    }
+}

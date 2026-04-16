@@ -123,6 +123,13 @@ public static class GameTimerPatch
         GameManager.Instance.ShouldCheckForGameEnd = true;
     }
 
+    public static void ResetTimer()
+    {
+        GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.GetFloatData() * 60f;
+        TriggerEndGame = false;
+        Enabled = false;
+    }
+
     public static void BeginTimer()
     {
         GameTimer = OptionGroupSingleton<GameTimerOptions>.Instance.GameTimeLimit.GetFloatData() * 60f;
