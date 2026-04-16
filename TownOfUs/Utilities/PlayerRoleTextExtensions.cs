@@ -267,12 +267,12 @@ public static class PlayerRoleTextExtensions
                 (EgotistModifier.EgoVisibilityFlag(player) &&
                  (player.GetModifiers<BaseRevealModifier>().Any(RevealVisibleRolePredicate))) || isDead))
         {
-            name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ModifierName}</color>)</color>";
+            name += $"<color=#FFFFFF> (<color=#669966>{egoMod.ShortName}</color>)</color>";
         }
 
         if (player.IsCrewmate() && player.TryGetModifier<CrewpostorModifier>(out var postorMod) && (CrewpostorModifier.CrewpostorVisibilityFlag(player) || isDead))
         {
-            name += $"<color=#FFFFFF> (<color=#D64042>{postorMod.ModifierName}</color>)</color>";
+            name += $"<color=#FFFFFF> (<color=#D64042>{postorMod.ShortName}</color>)</color>";
         }
 
         return name;

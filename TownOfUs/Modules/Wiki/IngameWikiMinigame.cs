@@ -28,6 +28,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 {
     public GameObject SearchIcon;
     private List<Transform> _activeItems = [];
+    private List<RoleBehaviour> _roleList = [];
 
     private WikiPage _currentPage = WikiPage.Homepage;
     private bool _modifiersSelected;
@@ -52,7 +53,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     public Il2CppReferenceField<PassiveButton> HomepageTermsBtn;
     public Il2CppReferenceField<PassiveButton> HomepageSettingsBtn;
     public Il2CppReferenceField<PassiveButton> OutsideCloseButton;
-    public Il2CppReferenceField<Transform> SearchItemTemplate;
+    public Il2CppReferenceField<InGameWikiEntry> SearchItemTemplate;
     public Il2CppReferenceField<SpriteRenderer> SearchPageIcon;
     public Il2CppReferenceField<TextMeshPro> SearchPageText;
 
@@ -925,30 +926,12 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     }
                 }
 
-                var newItem = CreateNewItem(modifier.ModifierName, modifier.ModifierIcon?.LoadAsset(), color);
-                newItem.transform.GetChild(2).gameObject.SetActive(false);
-
                 var txt = amount != 0
                     ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
                     : $"{TouLocale.Get("Amount", "Amount")}: 0";
+                var modInfoTxt = RemoveNonCaps(modifier.ParentMod.MiraPlugin.OptionsTitleText);
 
-                var amountTxt = newItem.transform.FindChild("AmountTxt").gameObject.GetComponent<TextMeshPro>();
-                amountTxt.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{txt}</font>";
-                amountTxt.fontSizeMin = 1.66f;
-                amountTxt.fontSizeMax = 1.85f;
-                amountTxt.m_maxWidth = amountTxt.maxWidth + 0.1f;
-                amountTxt.m_enableWordWrapping = false;
-                newItem.GetChild(1).GetComponent<TextMeshPro>().transform.localPosition += new Vector3(0f, 0.12f);
-
-                var team = newItem.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>();
-                team.fontSizeMax = 2.65f;
-                team.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Masked\">{alignment}</font>";
-                team.gameObject.SetActive(true);
-                team.SetOutlineColor(Color.black);
-                team.SetOutlineThickness(0.35f);
-
+                var newItem = CreateNewItem(modifier.ModifierIcon?.LoadAsset(), modifier.ModifierName, alignment, color, txt, modInfoTxt);
                 if (modifier is IWikiDiscoverable wikiDiscoverable)
                 {
                     SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(), wikiDiscoverable);
@@ -989,12 +972,14 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
 
             var comparer = new RoleComparer(roleList);
-            var allRoles = MiscUtils.AllRegisteredRoles.Excluding(role =>
-                !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
-                role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
+            if (!_roleList.HasAny())
+            {
+                _roleList = MiscUtils.AllRegisteredRoles.Excluding(role =>
+                    !SoftWikiEntries.RoleEntries.ContainsKey(role) && role is not IWikiDiscoverable ||
+                    role is IWikiDiscoverable wikiMod && wikiMod.IsHiddenFromList).ToList();
+            }
 
-            // Warning($"Roles: {allRoles.Count}");
-            var roles = allRoles.OrderBy(x => x, comparer);
+            var roles = _roleList.OrderBy(x => x, comparer);
 
             foreach (var role in roles)
             {
@@ -1033,17 +1018,6 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 {
                     roleImg = role.RoleIconSolid;
                 }
-
-                var newItem = CreateNewItem(role.GetRoleName(), roleImg, color);
-                var team = newItem.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>();
-                team.fontSizeMax = 2.65f;
-                team.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Masked\">{teamName}</font>";
-                team.gameObject.SetActive(true);
-                team.SetOutlineColor(Color.black);
-                team.SetOutlineThickness(0.35f);
-                var modInfo = Instantiate(newItem.transform.GetChild(2), newItem.transform).gameObject.GetComponent<TextMeshPro>();
-                modInfo.gameObject.name = "RoleOrigin";
                 var modInfoTxt = "AU";
 
                 var amount = 0;
@@ -1083,30 +1057,10 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         }
                     }
                 }
-
-                modInfo.alignment = TextAlignmentOptions.Center;
-                modInfo.text = 
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{modInfoTxt}</font>";
-                modInfo.fontSizeMin = 1.66f;
-                modInfo.fontSizeMax = 1.85f;
-                modInfo.fontSize = 1.85f;
-                modInfo.transform.localPosition += new Vector3(0.9f, 0f);
-                modInfo.color = Color.white;
-
-                modInfo.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
-
-                var amountTxt = newItem.transform.FindChild("AmountTxt").gameObject.GetComponent<TextMeshPro>();
                 var txt = amount != 0
                     ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
                     : $"{TouLocale.Get("Amount", "Amount")}: 0";
-                amountTxt.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{txt}</font>";
-                amountTxt.fontSizeMin = 1.66f;
-                amountTxt.fontSizeMax = 1.85f;
-                amountTxt.fontSize = 1.85f;
-                amountTxt.m_maxWidth = amountTxt.maxWidth + 0.1f;
-                amountTxt.m_enableWordWrapping = false;
-                newItem.GetChild(1).GetComponent<TextMeshPro>().transform.localPosition += new Vector3(0f, 0.12f);
+                var newItem = CreateNewItem(roleImg, role.GetRoleName(), teamName, color, txt, modInfoTxt);
 
                 if (role is IWikiDiscoverable wikiDiscoverable)
                 {
@@ -1152,31 +1106,15 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }));
     }
 
-    private Transform CreateNewItem(string itemName, Sprite? sprite, Color color)
+    private Transform CreateNewItem(Sprite? sprite, string title, string team, Color color, string amount, string source)
     {
         var newItem = Instantiate(SearchItemTemplate.Value, SearchScroller.Value.Inner);
-        var icon = newItem.GetChild(0).GetComponent<SpriteRenderer>();
-        var itemText = newItem.GetChild(1).GetComponent<TextMeshPro>();
-        var bgColor = newItem.GetChild(3).GetComponent<SpriteRenderer>();
-
-        var bgSprite = bgColor.GetComponent<SpriteRenderer>();
-        bgSprite.color = color;
-        newItem.GetChild(3).localPosition += Vector3.up * 0.015f;
-
-        var amountTextObj =
-            Instantiate(newItem.GetChild(1), newItem.GetChild(1).gameObject.transform.parent);
-        amountTextObj.name = "AmountTxt";
-        amountTextObj.transform.localPosition -= new Vector3(0f, 0.22f);
-
-        newItem.name = itemName.ToLowerInvariant();
-        icon.sprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
-        icon.SetSizeLimit(0.75f);
-        amountTextObj.GetComponent<TextMeshPro>().text = string.Empty;
-        itemText.text =
-            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{itemName}</font>";
         newItem.gameObject.SetActive(true);
-        _activeItems.Add(newItem);
-        return newItem;
+        var newSprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
+
+        newItem.SetData(newSprite, title, team, color, amount, source);
+        _activeItems.Add(newItem.transform);
+        return newItem.transform;
     }
 
     public static IngameWikiMinigame Create()
