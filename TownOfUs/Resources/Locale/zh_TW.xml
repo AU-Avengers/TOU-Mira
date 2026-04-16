@@ -2074,4 +2074,20 @@
   <string name="EndSumLeftSide">左側顯示</string>
   <string name="EndSumSplit">分欄顯示</string>
   <string name="EndSumHidden">隱藏</string>
+  <string name="AnticheatIllegalRpcMessage">\%player\%使用了非大廳允許的功能/能力,可能存在作弊或利用漏洞行為。</string>
+  <string name="InfoCommandList">信息</string>
+  <string name="InfoCommandDescription">/info - 重新顯示你最近收到的職業信息</string>
+  <string name="InfoCommandNoInfo">你當前沒有可重新查看的職業信息。</string>
+  <string name="DisconnectedData">斷開連接 第\%round\%輪 </string>
+  <string name="DisconnectedDataFull">\%cod\% | 斷開連接 第\%round\%輪 </string>
+  <string name="DiedToOfficer">被創傷</string>
+  <string name="DiedToSwapper">被交換</string>
+  <string name="DiedToMarshal">被仲裁</string>
+  <string name="TouRoleOfficer">執法者</string>
+  <string name="TouRoleOfficerIntroBlurb">裝填子彈並射殺\%color=#FF0000FF\%殺手\%/color\%</string>
+  <string name="TouRoleOfficerTabAdditionCount">距離再次射擊還需回合數目: \%count\%</string>
+  <string name="TouRoleOfficerTabAdditionNext">下一回合你可以再次射擊。</string>
+  <string name="TouRoleOfficerTabAdditionMajorityInno">只能射擊偽裝者和中立殺手。</string>
+  <string name="TouRoleOfficerTabAdditionCrewmatesInno">只能射擊偽裝者和中立陣營。</string>
+  <string name="TouRoleOfficerTabAdditionKillBasedInno">只能射擊已經殺過人的玩家。</string>
 </resources>
