@@ -113,6 +113,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <img src="./Images/Groups/ImpSupport.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Blackmailer"><img width="10%" src="./Images/Icons/Blackmailer.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Hypnotist"><img width="10%" src="./Images/Icons/Hypnotist.png" /></a>
+   <a href="#"><img width="10%" src="./Images/Icons/Dictator.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Janitor"><img width="10%" src="./Images/Icons/Janitor.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Miner"><img width="10%" src="./Images/Icons/Miner.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/support/Undertaker"><img width="10%" src="./Images/Icons/Undertaker.png" /></a>
