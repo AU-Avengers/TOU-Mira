@@ -2090,4 +2090,9 @@
   <string name="TouRoleOfficerTabAdditionMajorityInno">只能射擊偽裝者和中立殺手。</string>
   <string name="TouRoleOfficerTabAdditionCrewmatesInno">只能射擊偽裝者和中立陣營。</string>
   <string name="TouRoleOfficerTabAdditionKillBasedInno">只能射擊已經殺過人的玩家。</string>
+  <string name="TouRoleOfficerTabDescription">合理裝填子彈,避免浪費。\%nl\%已裝填超過10秒的子彈將在下一回合重置。</string>
+  <string name="TouRoleOfficerWikiDescription">執法者是一名船員擊殺型職業,擁有有限的子彈射擊玩家。必須先裝填子彈,子彈僅持續一回合,除非在10秒內補充。</string>
+  <string name="TouRoleOfficerLoad">裝填</string>
+  <string name="TouRoleOfficerShoot">射擊</string>
+  <string name="TouRoleOfficerShootWikiDescription">射擊一名玩家將其擊殺。如果該玩家被判定為“無辜”,你的武器將被暫時收起。</string>
 </resources>

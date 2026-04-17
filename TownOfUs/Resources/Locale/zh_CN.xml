@@ -2095,7 +2095,7 @@
   <string name="TouRoleOfficerTabAdditionCrewmatesInno">只能射击伪装者和中立阵营。</string>
   <string name="TouRoleOfficerTabAdditionKillBasedInno">只能射击已经杀过人的玩家。</string>
   <string name="TouRoleOfficerTabDescription">合理装填子弹，避免浪费。\%nl\%已装填超过10秒的子弹将在下一回合重置。</string>
-  <string name="TouRoleOfficerWikiDescription">执法者是船员阵营的击杀型职业，拥有有限子弹可射击玩家。必须先装填子弹，子弹仅持续一回合，除非在10秒内补充。</string>
+  <string name="TouRoleOfficerWikiDescription">执法者是一名船员击杀型职业，拥有有限的子弹射击玩家。必须先装填子弹，子弹仅持续一回合，除非在10秒内补充。</string>
   <string name="TouRoleOfficerLoad">装填</string>
   <string name="TouRoleOfficerLoadWikiDescription">向武器中装填一发子弹，使你可以进行射击。</string>
   <string name="TouRoleOfficerShoot">射击</string>
