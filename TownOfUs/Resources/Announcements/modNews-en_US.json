@@ -844,7 +844,6 @@
         "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0>TOU Mira v1.6.0 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
 
         "\n\n\r<size=105%>Known Bugs:</size>",
-        "\n- When Crewpostor replaces a real Impostor, the player being replaced becomes basic Crewmate.",
         "\n- Private chats are invisible to players killed mid-meeting.",
         "\n- Private chats for living players get deleted when a new public chat message is added.",
         "\n- Controlled players (via Parasite/Puppeteer) appear to be stuck in a walk cycle when they are walking onto a wall, showing they are under control.",
@@ -879,6 +878,7 @@
         "\n- Fairy can no longer target Neutral Outliers.",
 
         "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- When Crewpostor replaces a real Impostor, the player being replaced gets a proper role.",
         "\n- Spectators that join without running /spec are no longer half-dead.",
 
         "\n\n\r<size=105%>Changes:</size>",
