@@ -10,7 +10,7 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <VersionPrefix>1.5.9</VersionPrefix>
+        <VersionPrefix>1.6.0</VersionPrefix>
         <VersionSuffix>dev</VersionSuffix>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, Nix, Satire, xerminator, XtraCube, whichtwix, Zeo</Authors>
