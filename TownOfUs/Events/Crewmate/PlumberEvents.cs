@@ -52,7 +52,7 @@ public static class PlumberEvents
             return;
         }
 
-        if (PlumberRole.VentsBlocked.Select(x => x.Key).Contains(vent.Id))
+        if (PlumberRole.VentBlockList.Contains(vent.Id) || PlumberRole.VentFlushList.Contains(vent.Id))
         {
             @event.Cancel();
         }
@@ -97,6 +97,9 @@ public static class PlumberEvents
 
             PlumberRole.VentsBlocked.Clear();
             PlumberRole.VentsBlocked = ventList;
+            PlumberRole.VentBlockList.Clear();
+            PlumberRole.VentBlockList = ventList.Select(x => x.Key).ToList();
+            PlumberRole.VentFlushList.Clear();
         }
 
         foreach (var plumber in CustomRoleUtils.GetActiveRolesOfType<PlumberRole>())

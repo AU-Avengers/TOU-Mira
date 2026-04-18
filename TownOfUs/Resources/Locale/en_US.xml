@@ -1060,12 +1060,13 @@
   <string name="TouNotifPlumberBlock">This vent will be blocked at the beginning of next round.</string>
   <string name="TouRolePlumberWikiDescription">The Plumber is a Crewmate Support role that can place Barricades on vents and Flush anyone out of vents.</string>
   <string name="TouRolePlumberFlush">Flush</string>
-  <string name="TouRolePlumberFlushWikiDescription">Flushing the vents makes every vent open and close, kicking out anyone actively in a vent. The Plumber also gets an arrow pointing to every flushed player for one second.</string>
+  <string name="TouRolePlumberFlushWikiDescription">Flushing the vents kicks out anyone actively in a vent, and prevents them from being used temporarily. The Plumber also gets an arrow pointing to every flushed player for one second.</string>
   <string name="TouRolePlumberBlock">Block</string>
   <string name="TouRolePlumberBlockWikiDescription">Block a vent by placing a barricade on it for the next round, preventing players from using it.</string>
   <string name="TouRolePlumberBlockNotif">This vent will be blocked at the beginning of the next round.</string>
   <!-- Plumber Options -->
   <string name="TouOptionPlumberFlushCooldown">Flush Cooldown</string>
+  <string name="TouOptionPlumberFlushDuration">Flush Duration</string>
   <string name="TouOptionPlumberBlockCooldown">Block Cooldown</string>
   <string name="TouOptionPlumberMaxNumberOfBarricades">Initial Number Of Barricades</string>
   <string name="TouOptionPlumberAmountOfRoundsBarricadesLast">Amount Of Rounds Barricades Last</string>

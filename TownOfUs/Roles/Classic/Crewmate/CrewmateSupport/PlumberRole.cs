@@ -26,6 +26,8 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     // Blocked vent, remaining rounds
     [HideFromIl2Cpp] public static List<KeyValuePair<int, int>> VentsBlocked { get; set; } = [];
+    [HideFromIl2Cpp] public static List<int> VentBlockList { get; set; } = [];
+    [HideFromIl2Cpp] public static List<int> VentFlushList { get; set; } = [];
 
 
     // Barricade object, remaining rounds
@@ -187,6 +189,8 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         VentsBlocked.Clear();
         Barricades.Clear();
+        VentBlockList.Clear();
+        VentFlushList.Clear();
     }
 
     public void SetupBarricades()
@@ -279,6 +283,16 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
     }
 
+    public static IEnumerator SetupFlush(int id)
+    {
+        var delay = OptionGroupSingleton<PlumberOptions>.Instance.FlushDuration;
+        VentFlushList.Add(id);
+
+        yield return new WaitForSeconds(delay);
+
+        VentFlushList.Remove(id);
+    }
+
     [MethodRpc((uint)TownOfUsRpc.PlumberFlush)]
     public static void RpcPlumberFlush(PlayerControl player)
     {
@@ -296,27 +310,38 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlumberFlush, player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
-        if (PlayerControl.LocalPlayer.inVent)
-        {
-            PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
-            PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
-
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plumber));
-        }
-
-        if (!player.AmOwner)
-        {
-            return;
-        }
-
         var someoneInVent = PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent);
         if (!someoneInVent)
         {
             return;
         }
 
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plumber));
-        Coroutines.Start(SeeVenter(player));
+        if (player.AmOwner)
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plumber));
+            Coroutines.Start(SeeVenter(player));
+        }
+
+        if (PlayerControl.LocalPlayer.inVent)
+        {
+            RpcPlumberSendFlush(PlayerControl.LocalPlayer, Vent.currentVent.Id);
+            PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+            PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
+
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plumber));
+        }
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.PlumberSendFlush)]
+    public static void RpcPlumberSendFlush(PlayerControl player, int ventId)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
+
+        Coroutines.Start(SetupFlush(ventId));
     }
 
     [MethodRpc((uint)TownOfUsRpc.PlumberBlockVent)]
