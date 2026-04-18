@@ -931,7 +931,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     : $"{TouLocale.Get("Amount", "Amount")}: 0";
                 var modInfoTxt = RemoveNonCaps(modifier.ParentMod.MiraPlugin.OptionsTitleText);
 
-                var newItem = CreateNewItem(modifier.ModifierIcon?.LoadAsset(), modifier.ModifierName, alignment, color, txt, modInfoTxt);
+                var newItem = CreateNewItem(modifier.ModifierIcon?.LoadAsset(), modifier.ModifierName, alignment, color, txt, modInfoTxt, amount != 0);
                 if (modifier is IWikiDiscoverable wikiDiscoverable)
                 {
                     SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(), wikiDiscoverable);
@@ -1060,7 +1060,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 var txt = amount != 0
                     ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
                     : $"{TouLocale.Get("Amount", "Amount")}: 0";
-                var newItem = CreateNewItem(roleImg, role.GetRoleName(), teamName, color, txt, modInfoTxt);
+                var newItem = CreateNewItem(roleImg, role.GetRoleName(), teamName, color, txt, modInfoTxt, amount != 0);
 
                 if (role is IWikiDiscoverable wikiDiscoverable)
                 {
@@ -1106,13 +1106,13 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }));
     }
 
-    private Transform CreateNewItem(Sprite? sprite, string title, string team, Color color, string amount, string source)
+    private Transform CreateNewItem(Sprite? sprite, string title, string team, Color color, string amount, string source, bool enabled)
     {
         var newItem = Instantiate(SearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
         var newSprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
 
-        newItem.SetData(newSprite, title, team, color, amount, source);
+        newItem.SetData(newSprite, title, team, color, amount, source, enabled);
         _activeItems.Add(newItem.transform);
         return newItem.transform;
     }
