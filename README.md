@@ -297,14 +297,17 @@ If a mod is missing here and is a role/modifiers mod, it likely won't work unles
 | [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) |   ⚠️    | Launchpad's Gambler role is broken with TOU Mira.<br/>Wiki is not fully implemented.             |
 |     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      |   ⚠️    | Mod is non-functional on new Among Us releases at the moment.<br/>Wiki is not fully implemented. |
 
-The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers!
+The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers or extra functionality!
 
 |                              Extension Mod                              |     Mod Type      | Description                                                                                                                                                                           |
 |:-----------------------------------------------------------------------:|:-----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |         [ChaosTokens](https://github.com/xChipseq/ChaosTokens)          |   Game Feature    | A mod that adds gambling to TOU! Each round, players can get one, two, or no tokens, which enhances the chaos in the game. Each roll may give a positive, negative, or benign effect. |
-|     [DraftModeTOUM](https://github.com/Cinnamonpuma/DraftModeTOUM)      |   Game Feature    | A mod that adds a draft mode for the game, set up through the chat before the lobby begins.                                                                                           |
+|       [DraftModeTOUM](https://github.com/ninja-au/DraftModeTOUM)        |   Game Feature    | A mod that adds a draft mode for the game, set up through the chat before the lobby begins.                                                                                           |
 | [Roles Extension](https://github.com/rewalo/TownOfUsMiraRolesExtension) | Roles / Modifiers | A mod that adds new roles and modifiers, including some TOU role renames.                                                                                                             |
+|         [Mira-NotePad](https://github.com/Maxi0fc/Mira-NotePad)         |   Miscellaneous   | A client-side mod that adds a notepad that can be used in-game at any time.                                                                                                           |
 |           [AUSummary](https://github.com/notnico22/AUSummary)           |   Miscellaneous   | A client-side mod that directly connects with a custom application to display your previous matches.                                                                                  |
+|           [NameFilter](https://github.com/Maxi0fc/NameFliter)           |   Miscellaneous   | A host-side mod that filter out slurs, offensive terms, and more from player names.                                                                                                   |
+|      [Mira Randomizer](https://github.com/VoidicChaos/Randomiser)       |   Miscellaneous   | A host-side mod that allows full randomization of the current preset!                                                                                                                 |
 |    [TOU Mira: Legacy](https://github.com/AU-Avengers/TouMiraLegacy)     |     UI Tweaks     | A client-side mod that replaces the assets of Among Us and TOU Mira to that of pre-2021 AU and TOU/TOUR.                                                                              |
 
 -----------------------
