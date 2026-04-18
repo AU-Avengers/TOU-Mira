@@ -762,7 +762,7 @@
     {
       "Date": "2026-03-21T12:51:00Z",
       "Number": "100039",
-      "ShortTitle": "TOU: Mira v1.5.9 (Prerelease)",
+      "ShortTitle": "TOU: Mira v1.5.9 Beta 1",
       "Title": "A new Mira update? This can't be!",
       "SubTitle": "- Shakespeare, probably.",
       "Text": [
@@ -830,6 +830,74 @@
         "\n\n\r<size=105%>Other Improvements:</size>",
         "\n- More roles have role banners in the game options pane.",
         "\n- More role and modifier icons have been redrawn in a higher quality."
+      ]
+    },
+    {
+      "Date": "2026-04-17T12:51:00Z",
+      "Number": "100040",
+      "ShortTitle": "TOU: Mira v1.5.9 Beta 2",
+      "Title": "It wasn't me Officer, I swear!",
+      "SubTitle": "        - Said the Egotist",
+      "Text": [
+        "<b>This is yet another holdover release, as progress behind the scenes has slowed down quite a bit. For the time being, Beta 2 has been released to get as many issues out of the way, before everything is finalized for v1.6.0.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9-beta2>TOU Mira v1.5.9-B2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Known Bugs:</size>",
+        "\n- Private chats are invisible to players killed mid-meeting.",
+        "\n- Private chats for living players get deleted when a new public chat message is added.",
+        "\n- Controlled players (via Parasite/Puppeteer) appear to be stuck in a walk cycle when they are walking onto a wall, showing they are under control.",
+        "\n- Neutral Wildcard may duplicate the amount of each neutral present if any selected slots are wildcards.",
+        "\n- Ghostwalkers are sometimes unable to use the Zipline, Platform, or Ladders.",
+        "\n- When Haunter finishes their tasks, sometimes the Impostors will not get an arrow to the Haunter, essentially screwing them over.",
+
+        "\n\n\r<size=105%>Known Hide and Seek Bugs:</size>",
+        "\n- The Seeker is missing animations for the hiders",
+        "\n- Hiders ignore their vent uses",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Medic can no longer hand out shields again when settings forbid them.",
+        "\n- Medic shields are destroyed properly if the setting is set.",
+        "\n- Re-applying Magic Mirrors immediately no longer breaks.",
+        "\n- Guardian Angel's protection is properly checked.",
+        "\n- Engineer can no longer bypass Plumber's Barricades.",
+        "\n- Operative and Sentry's Portable cameras are now functioning on Android.",
+        "\n- Medium properly hides pets when anonymous players are enabled.",
+        "\n- Monarch can properly knight regardless of the First Round Use setting.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Shapeshifter's name is properly changed.",
+        "\n- Parasite victims properly die when the time runs out.",
+        "\n- Hypnotist's Hysteria can no longer softlock the player upon death.",
+        "\n- Warlock's Burst Kill works again.",
+        "\n- Herbalist's herbs reset properly across rounds.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- First-Round settings no longer interfere with Amnesiac",
+        "\n- Fairy can no longer target Neutral Outliers.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Spectators that join without running /spec are no longer half-dead.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Current Region is now displayed in the lobby.",
+        "\n- Trapper's feedback now includes Hyperlinks.",
+        "\n- Many game settings are re-organized",
+        "\n- April Fools mode is temporarily removed from the main menu for the sake of stability.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Egotist and Crewpostor labels are shortened on player names.",
+        "\n- The Wiki now allows searching by faction / alignment.",
+        "\n- Disconnected players are properly kept displayed in the meeting and in the end game summary.",
+        "\n- Camo Comms, Mix-Up, and Vent System checks are far more optimized now, reducing lagspikes and general instability.",
+        "\n- Plumber now has a Flush duration, blocking any vents in use for a set duration.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Cleaned bodies can now be set to display as Missing, Disconnected, or Dead, applicable to Viper, Rotting, Chef, and Janitor.",
+        "\n- Kill Animation background can now optionally be colored based on the killer's Faction or Role Color.",
+        "\n- Added Role List Bucket tooltips while hovering (PR #156 by Maxi0fc)",
+        "\n- Investigator footprints can now be set to be based on Distance or Time.",
+        "\n- New Crewmate Killing role has been added: Officer."
       ]
     }
   ]
