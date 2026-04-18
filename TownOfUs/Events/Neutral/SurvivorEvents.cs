@@ -7,7 +7,6 @@ using MiraAPI.Modifiers;
 using TownOfUs.Buttons;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Neutral;
 
@@ -79,15 +78,14 @@ public static class SurvivorEvents
 
     private static void ResetButtonTimer(PlayerControl source, CustomActionButton<PlayerControl>? button = null)
     {
-        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
-
-        button?.SetTimer(reset);
-
-        // Reset impostor kill cooldown if they attack a shielded player
-        if (!source.AmOwner || !source.IsImpostor())
+        if (!source.AmOwner)
         {
             return;
         }
+
+        var reset = OptionGroupSingleton<GeneralOptions>.Instance.TempSaveCdReset;
+
+        button?.SetTimer(reset);
 
         source.SetKillTimer(reset);
     }

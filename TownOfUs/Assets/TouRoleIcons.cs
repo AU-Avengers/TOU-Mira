@@ -61,6 +61,9 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Hunter { get; } =
         new LoadableBundleAsset<Sprite>("Hunter", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Officer { get; } =
+        new LoadableBundleAsset<Sprite>("Officer", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> Sheriff { get; } =
         new LoadableBundleAsset<Sprite>("Sheriff", TouAssets.MainBundle);
 

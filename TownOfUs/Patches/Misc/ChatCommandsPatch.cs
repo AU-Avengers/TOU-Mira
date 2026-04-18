@@ -11,7 +11,6 @@ using TownOfUs.Patches.Options;
 using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -711,11 +710,7 @@ public static class ChatPatches
 
     public static void SetSpectatorList(Dictionary<byte, string> list)
     {
-        var oldList = SpectatorRole.TrackedSpectators;
-        foreach (var name in oldList)
-        {
-            SpectatorRole.TrackedSpectators.Remove(name);
-        }
+        SpectatorRole.TrackedSpectators.Clear();
 
         foreach (var name in list.Select(x => x.Value))
         {
@@ -725,11 +720,7 @@ public static class ChatPatches
 
     public static void ClearSpectatorList()
     {
-        var oldList = SpectatorRole.TrackedSpectators;
-        foreach (var name in oldList)
-        {
-            SpectatorRole.TrackedSpectators.Remove(name);
-        }
+        SpectatorRole.TrackedSpectators.Clear();
     }
 
     [MethodRpc((uint)TownOfUsRpc.RemoveSpectator)]

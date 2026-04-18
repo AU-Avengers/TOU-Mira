@@ -2,7 +2,6 @@
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options.Modifiers;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 

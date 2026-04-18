@@ -66,6 +66,12 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> HunterKillSprite { get; } =
         new LoadableBundleAsset<Sprite>("HunterKillButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> OfficerShootSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OfficerShootButton", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> OfficerLoadSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OfficerLoadButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> SheriffShootSprite { get; } =
         new LoadableBundleAsset<Sprite>("SheriffShootButton", TouAssets.MainBundle);
 

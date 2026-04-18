@@ -8,7 +8,6 @@ using MiraAPI.Utilities;
 using UnityEngine;
 using TMPro;
 using TownOfUs.Modules.Components;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
 

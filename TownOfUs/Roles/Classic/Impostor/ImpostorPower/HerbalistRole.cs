@@ -7,7 +7,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -67,6 +66,14 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             }
         }
     }
+
+    public void LobbyStart()
+    {
+        var herbs = CustomButtonSingleton<HerbalistAbilityHerbButton>.Instance;
+        herbs.ExposeUsesLeft = -2;
+        herbs.ConfuseUsesLeft = -2;
+        herbs.ProtectUsesLeft = -2;
+    }
     public string GetAdvancedDescription()
     {
         return TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
@@ -79,7 +86,8 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public CustomRoleConfiguration Configuration => new(this)
     {
         UseVanillaKillButton = false,
-        OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
+        MaxRoleCount = 1,
         Icon = TouRoleIcons.Herbalist,
     };
 

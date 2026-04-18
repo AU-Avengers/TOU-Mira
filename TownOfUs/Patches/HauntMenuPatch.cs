@@ -10,7 +10,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches;

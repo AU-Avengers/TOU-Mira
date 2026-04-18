@@ -16,7 +16,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -47,6 +46,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Ambusher,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<AmbusherOptions>.Instance.CanVent
     };
 

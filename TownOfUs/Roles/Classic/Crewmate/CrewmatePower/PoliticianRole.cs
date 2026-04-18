@@ -10,7 +10,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -66,6 +65,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Politician,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.PoliticianIntroSound,
         MaxRoleCount = 1
     };

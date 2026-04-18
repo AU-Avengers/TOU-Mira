@@ -6,7 +6,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Modifiers.Crewmate;
 

@@ -8,7 +8,7 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
-using TownOfUs.Utilities;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
@@ -17,6 +17,12 @@ public sealed class FootstepsModifier : BaseModifier
 {
     public Dictionary<GameObject, SpriteRenderer>? _currentSteps;
     public bool AnonymousPrints;
+    public bool PrintOnVents;
+    public float PrintSize;
+    public float PrintDuration;
+    public float PrintInterval;
+    public bool CheckDistance;
+    private Vector3 _lastPos;
     private float _footstepInterval;
     public override string ModifierName => "Footsteps";
     public override bool HideOnUi => true;
@@ -25,7 +31,13 @@ public sealed class FootstepsModifier : BaseModifier
     {
         _currentSteps = [];
 
-        AnonymousPrints = OptionGroupSingleton<InvestigatorOptions>.Instance.ShowAnonymousFootprints;
+        var opts = OptionGroupSingleton<InvestigatorOptions>.Instance;
+        AnonymousPrints = opts.ShowAnonymousFootprints;
+        PrintSize = opts.FootprintSize;
+        PrintInterval = opts.FootprintInterval;
+        CheckDistance = (PrintMode)opts.FootprintMode.Value is PrintMode.Distance;
+        PrintDuration = opts.FootprintDuration;
+        PrintOnVents = opts.ShowFootprintVent;
     }
 
     public override void OnDeactivate()
@@ -41,54 +53,104 @@ public sealed class FootstepsModifier : BaseModifier
 
     public override void FixedUpdate()
     {
-        if (_currentSteps == null || Player.AmOwner ||
-            PlayerControl.LocalPlayer.GetModifiers<HypnotisedModifier>().Any(x => x.HysteriaActive) ||
-            Player.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) ||
-            (Player.TryGetModifier<DisabledModifier>(out var mod) && !mod.IsConsideredAlive) || _footstepInterval <
-            OptionGroupSingleton<InvestigatorOptions>.Instance.FootprintInterval)
+        var cantContinue = _currentSteps == null || Player.AmOwner ||
+                           PlayerControl.LocalPlayer.GetModifiers<HypnotisedModifier>().Any(x => x.HysteriaActive) ||
+                           !Player.IsVisibleToOthers();
+        if (CheckDistance)
         {
-            _footstepInterval += Time.fixedDeltaTime;
-            return;
-        }
-
-        if (!OptionGroupSingleton<InvestigatorOptions>.Instance.ShowFootprintVent && ShipStatus.Instance?.AllVents
-                .Any(vent => Vector2.Distance(vent.gameObject.transform.position, Player.GetTruePosition()) < 1f) ==
-            true)
-        {
-            return;
-        }
-
-        var angle = Mathf.Atan2(Player.MyPhysics.Velocity.y, Player.MyPhysics.Velocity.x) * Mathf.Rad2Deg;
-
-        var footstep = new GameObject("Footstep")
-        {
-            transform =
+            if (cantContinue ||
+                Vector3.Distance(_lastPos, Player.transform.position) <
+                PrintInterval)
             {
-                parent = ShipStatus.Instance?.transform,
-                position = Player.transform.position,
-                rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward)
+                return;
             }
-        };
 
-        if (ModCompatibility.IsSubmerged())
-        {
-            footstep.AddSubmergedComponent("ElevatorMover");
+            if (!PrintOnVents && ShipStatus.Instance?.AllVents
+                    .Any(vent => Vector2.Distance(vent.gameObject.transform.position, Player.GetTruePosition()) < 1f) ==
+                true)
+            {
+                return;
+            }
+
+            var angle = Mathf.Atan2(Player.MyPhysics.Velocity.y, Player.MyPhysics.Velocity.x) * Mathf.Rad2Deg;
+
+            var footstep = new GameObject("Footstep")
+            {
+                transform =
+                {
+                    parent = ShipStatus.Instance?.transform,
+                    position = new Vector3(Player.transform.position.x, Player.transform.position.y, 2.5708f),
+                    rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward)
+                }
+            };
+
+            if (ModCompatibility.IsSubmerged())
+            {
+                footstep.AddSubmergedComponent("ElevatorMover");
+            }
+
+            var sprite = footstep.AddComponent<SpriteRenderer>();
+            sprite.sprite = TouAssets.FootprintSprite.LoadAsset();
+            sprite.color = (AnonymousPrints || HudManagerPatches.CommsSaboActive())
+                ? new Color(0.2f, 0.2f, 0.2f, 1f)
+                : Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
+            footstep.layer = LayerMask.NameToLayer("Players");
+
+            footstep.transform.localScale *= new Vector2(1.2f, 1f) *
+                                             (PrintSize / 10);
+
+            _currentSteps!.Add(footstep, sprite);
+            _lastPos = Player.transform.position;
+            Coroutines.Start(FootstepDisappear(footstep, sprite, PrintDuration));
         }
+        else
+        {
+            if (cantContinue || _footstepInterval <
+                PrintInterval)
+            {
+                _footstepInterval += Time.fixedDeltaTime;
+                return;
+            }
 
-        var sprite = footstep.AddComponent<SpriteRenderer>();
-        sprite.sprite = TouAssets.FootprintSprite.LoadAsset();
-        sprite.color = (AnonymousPrints || HudManagerPatches.CommsSaboActive())
-            ? new Color(0.2f, 0.2f, 0.2f, 1f)
-            : Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
-        footstep.layer = LayerMask.NameToLayer("Players");
+            if (!PrintOnVents && ShipStatus.Instance?.AllVents
+                    .Any(vent => Vector2.Distance(vent.gameObject.transform.position, Player.GetTruePosition()) < 1f) ==
+                true)
+            {
+                return;
+            }
 
-        footstep.transform.localScale *= new Vector2(1.2f, 1f) *
-                                         (OptionGroupSingleton<InvestigatorOptions>.Instance.FootprintSize / 10);
+            var angle = Mathf.Atan2(Player.MyPhysics.Velocity.y, Player.MyPhysics.Velocity.x) * Mathf.Rad2Deg;
 
-        _currentSteps.Add(footstep, sprite);
-        Coroutines.Start(FootstepDisappear(footstep, sprite));
+            var footstep = new GameObject("Footstep")
+            {
+                transform =
+                {
+                    parent = ShipStatus.Instance?.transform,
+                    position = Player.transform.position,
+                    rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward)
+                }
+            };
 
-        _footstepInterval = 0;
+            if (ModCompatibility.IsSubmerged())
+            {
+                footstep.AddSubmergedComponent("ElevatorMover");
+            }
+
+            var sprite = footstep.AddComponent<SpriteRenderer>();
+            sprite.sprite = TouAssets.FootprintSprite.LoadAsset();
+            sprite.color = (AnonymousPrints || HudManagerPatches.CommsSaboActive())
+                ? new Color(0.2f, 0.2f, 0.2f, 1f)
+                : Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
+            footstep.layer = LayerMask.NameToLayer("Players");
+
+            footstep.transform.localScale *= new Vector2(1.2f, 1f) *
+                                             (PrintSize / 10);
+
+            _currentSteps!.Add(footstep, sprite);
+            Coroutines.Start(FootstepDisappear(footstep, sprite, PrintDuration));
+
+            _footstepInterval = 0;
+        }
     }
 
     public override void OnDeath(DeathReason reason)
@@ -102,9 +164,9 @@ public sealed class FootstepsModifier : BaseModifier
         obj.DestroyImmediate();
     }
 
-    public static IEnumerator FootstepDisappear(GameObject obj, SpriteRenderer rend)
+    public static IEnumerator FootstepDisappear(GameObject obj, SpriteRenderer rend, float duration)
     {
-        yield return new WaitForSeconds(OptionGroupSingleton<InvestigatorOptions>.Instance.FootprintDuration);
+        yield return new WaitForSeconds(duration);
         yield return FootstepFadeout(obj, rend);
     }
 }

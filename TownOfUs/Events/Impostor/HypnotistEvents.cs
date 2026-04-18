@@ -5,7 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Impostor;
 

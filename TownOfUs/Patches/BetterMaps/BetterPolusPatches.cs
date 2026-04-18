@@ -1,7 +1,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using TownOfUs.Options.Maps;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

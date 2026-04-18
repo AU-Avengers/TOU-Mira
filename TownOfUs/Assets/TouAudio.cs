@@ -154,6 +154,9 @@ public static class TouAudio
 
     public static LoadableAsset<AudioClip> TribunalSound { get; } =
         new LoadableBundleAsset<AudioClip>("MarshalTribunal", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> LaserKillSound { get; } =
+        new LoadableBundleAsset<AudioClip>("ShootLaserMeeting", TouAssets.MainBundle);
     public static LoadableAsset<AudioClip> SentryPlaceSound { get; } =
         new LoadableBundleAsset<AudioClip>("SentryPlace", TouAssets.MainBundle);
 

@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using PowerTools;
 using TownOfUs.Modifiers.Game.Universal;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

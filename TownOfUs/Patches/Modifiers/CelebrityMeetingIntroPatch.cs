@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Modifiers;

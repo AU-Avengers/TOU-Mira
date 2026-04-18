@@ -14,7 +14,6 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches;
 
@@ -64,7 +63,7 @@ public static class LogicGameFlowPatches
 
     public static bool CheckEndGameViaHexBomb(LogicGameFlowNormal instance)
     {
-        if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().Any())
+        if (HexBombSabotageSystem.BombFinished && SpellslingerRole.EveryoneHexed() && CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().HasAny())
         {
             instance.Manager.RpcEndGame(GameOverReason.ImpostorsBySabotage, false);
             return true;
@@ -163,15 +162,16 @@ public static class LogicGameFlowPatches
         return false;
     }
 
-    /*[HarmonyPatch(typeof(GameManager), nameof(GameManager.StartGame))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.OnGameStart))]
     [HarmonyPostfix]
     public static void StartGamePostfix()
     {
-        if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
+        /*if (OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.AllKillers)
         {
             ShipStatus.Instance.BreakEmergencyButton();
-        }
-    }*/
+        }*/
+        GameTimerPatch.ResetTimer();
+    }
 
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     [HarmonyPrefix]

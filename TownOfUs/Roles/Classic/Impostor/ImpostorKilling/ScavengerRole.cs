@@ -13,7 +13,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -110,6 +109,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Scavenger,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.WarlockIntroSound
     };
 

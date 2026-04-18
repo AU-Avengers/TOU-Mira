@@ -4,7 +4,6 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Networking;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
@@ -23,7 +22,7 @@ public sealed class JesterHauntButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return Show && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
+        return Show && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny();
     }
 
     protected override void OnClick()
@@ -45,7 +44,7 @@ public sealed class JesterHauntButton : TownOfUsButton
             {
                 playerMenu.ForceClose();
 
-                if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any())
+                if (plr != null && ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny())
                 {
                     PlayerControl.LocalPlayer.RpcGhostRoleMurder(plr);
                     foreach (var mod in ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>())
@@ -65,6 +64,6 @@ public sealed class JesterHauntButton : TownOfUsButton
             return false;
         }
 
-        return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().Any();
+        return ModifierUtils.GetActiveModifiers<MisfortuneTargetModifier>().HasAny();
     }
 }

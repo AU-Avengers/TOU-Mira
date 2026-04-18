@@ -6,7 +6,6 @@ using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
@@ -41,7 +40,7 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
             return;
         }
 
-        if (ModifierUtils.GetActiveModifiers<InquisitorInquiredModifier>().Any())
+        if (ModifierUtils.GetActiveModifiers<InquisitorInquiredModifier>().HasAny())
         {
             ++UsesLeft;
             SetUses(UsesLeft);

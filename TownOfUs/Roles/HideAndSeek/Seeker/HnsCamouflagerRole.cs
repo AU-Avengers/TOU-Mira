@@ -3,7 +3,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.HideAndSeek.Seeker;

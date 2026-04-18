@@ -7,7 +7,6 @@ using MiraAPI.Roles;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -71,6 +70,7 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     {
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Survivor,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 

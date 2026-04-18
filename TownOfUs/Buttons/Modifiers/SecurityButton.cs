@@ -6,7 +6,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -67,11 +66,11 @@ public sealed class SecurityButton : TownOfUsButton
     {
         if (AvailableCharge > 0f && !PlayerControl.LocalPlayer.AreCommsAffected())
         {
-            DestroyableSingleton<HudManager>.Instance.AbilityButton.SetEnabled();
+            HudManager.Instance.AbilityButton.SetEnabled();
             return;
         }
 
-        DestroyableSingleton<HudManager>.Instance.AbilityButton.SetDisabled();
+        HudManager.Instance.AbilityButton.SetDisabled();
     }
 
     protected override void FixedUpdate(PlayerControl playerControl)
@@ -151,39 +150,27 @@ public sealed class SecurityButton : TownOfUsButton
     protected override void OnClick()
     {
         // Warning($"Checking Base Conditions");
-        var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+        /*var mapId = (ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
         if (TutorialManager.InstanceExists)
         {
             mapId = (ExpandedMapNames)AmongUsClient.Instance.TutorialMapId;
-        }
+        }*/
 
         var securityType = GameUtility.Cams;
 
         canMoveWithMinigame = true;
         var basicCams = Object.FindObjectsOfType<SystemConsole>().FirstOrDefault(x =>
-            x.gameObject.name.Contains("Surv_Panel") || x.name.Contains("Cam") ||
-            x.name.Contains("BinocularsSecurityConsole"));
-        if (mapId is ExpandedMapNames.Airship)
+            x.MinigamePrefab.TryCast<SurveillanceMinigame>() || x.MinigamePrefab.TryCast<PlanetSurveillanceMinigame>() ||
+            x.MinigamePrefab.TryCast<FungleSurveillanceMinigame>() || x.UseIcon is ImageNames.CamsButton);
+        if (basicCams != null)
         {
-            // Warning($"Checking Airship Conditions");
-            basicCams = Object.FindObjectsOfType<SystemConsole>()
-                .FirstOrDefault(x => x.gameObject.name.Contains("task_cams"));
             PlayerControl.LocalPlayer.NetTransform.Halt();
             canMoveWithMinigame = false;
         }
-        else if (mapId is ExpandedMapNames.Skeld or ExpandedMapNames.Dleks)
+        else
         {
-            // Warning($"Checking Skeld Conditions");
             basicCams = Object.FindObjectsOfType<SystemConsole>()
-                .FirstOrDefault(x => x.gameObject.name.Contains("SurvConsole"));
-            PlayerControl.LocalPlayer.NetTransform.Halt();
-            canMoveWithMinigame = false;
-        }
-        else if (mapId is ExpandedMapNames.MiraHq)
-        {
-            // Warning($"Checking Mira HQ Conditions");
-            basicCams = Object.FindObjectsOfType<SystemConsole>()
-                .FirstOrDefault(x => x.gameObject.name.Contains("SurvLogConsole"));
+                .FirstOrDefault(x => x.UseIcon is ImageNames.DoorLogsButton);
             if (!OptionGroupSingleton<OperativeOptions>.Instance.MoveOnMira)
             {
                 PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -192,20 +179,6 @@ public sealed class SecurityButton : TownOfUsButton
 
             securityType = GameUtility.Doorlog;
         }
-        else if (mapId is ExpandedMapNames.Fungle)
-        {
-            // Warning($"Checking Fungle Conditions");
-            PlayerControl.LocalPlayer.NetTransform.Halt();
-            canMoveWithMinigame = false;
-        }
-        else if (mapId is ExpandedMapNames.Submerged)
-        {
-            // Warning($"Checking Submerged Conditions");
-            basicCams = Object.FindObjectsOfType<SystemConsole>()
-                .FirstOrDefault(x => x.gameObject.name.Contains("SecurityConsole"));
-            PlayerControl.LocalPlayer.NetTransform.Halt();
-            canMoveWithMinigame = false;
-        }
 
         if (basicCams == null)
         {
@@ -213,15 +186,35 @@ public sealed class SecurityButton : TownOfUsButton
             return;
         }
 
-        if (!MiscUtils.CanUseUtility(securityType, true))
+        var cam = Camera.main;
+
+        if (!MiscUtils.CanUseUtility(securityType, true) || cam == null)
         {
             return;
         }
-
-        securityMinigame = Object.Instantiate(basicCams.MinigamePrefab, Camera.main.transform, false);
-        securityMinigame.transform.SetParent(Camera.main.transform, false);
+        PlayerControl.LocalPlayer.NetTransform.Halt();
+        securityMinigame = Object.Instantiate(basicCams.MinigamePrefab, cam.transform, false);
         securityMinigame.transform.localPosition = new Vector3(0f, 0f, -50f);
-        securityMinigame.Begin(null);
+        var fungleGame = securityMinigame.TryCast<FungleSurveillanceMinigame>();
+        var planetGame = securityMinigame.TryCast<PlanetSurveillanceMinigame>();
+        var camsGame = securityMinigame.TryCast<SurveillanceMinigame>();
+        // NOTE: The reason for checking the minigame itself is that Android shits the bed and refuses to show a camera feed. According to xtra, these are I2LCPP shenanigans.
+        if (fungleGame != null)
+        {
+            fungleGame.Begin(null);
+        }
+        else if (planetGame != null)
+        {
+            planetGame.Begin(null);
+        }
+        else if (camsGame != null)
+        {
+            camsGame.Begin(null);
+        }
+        else
+        {
+            securityMinigame.Begin(null);
+        }
     }
 
     public override void OnEffectEnd()

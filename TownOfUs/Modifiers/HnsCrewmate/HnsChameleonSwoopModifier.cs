@@ -7,10 +7,8 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.HnsCrewmate;
 using TownOfUs.Patches;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modifiers.HnsCrewmate;
 
@@ -32,11 +30,11 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
 
         return new VisualAppearance(Player.GetDefaultModifiedAppearance(), TownOfUsAppearances.Swooper)
         {
-            HatId = string.Empty,
-            SkinId = string.Empty,
-            VisorId = string.Empty,
+            HatId = "hat_NoHat",
+            SkinId = "skin_None",
+            VisorId = "visor_EmptyVisor",
             PlayerName = string.Empty,
-            PetId = string.Empty,
+            PetId = "pet_EmptyPet",
             RendererColor = playerColor,
             NameColor = Color.clear,
             ColorBlindTextColor = Color.clear
@@ -75,8 +73,7 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
     {
         base.FixedUpdate();
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
             Player.RawSetAppearance(this);
             Player.cosmetics.ToggleNameVisible(false);
@@ -104,10 +101,9 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
             Player.cosmetics.ToggleNameVisible(false);
         }
 
-        var mushroom = Object.FindObjectOfType<MushroomMixupSabotageSystem>();
-        if (mushroom && mushroom.IsActive)
+        if (VanillaSystemCheckPatches.ShroomSabotageSystem && VanillaSystemCheckPatches.ShroomSabotageSystem.IsActive)
         {
-            MushroomMixUp(mushroom, Player);
+            MushroomMixUp(VanillaSystemCheckPatches.ShroomSabotageSystem, Player);
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperUnswoop, Player);

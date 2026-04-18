@@ -16,7 +16,6 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -48,6 +47,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Vigilante,
+        OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound
     };
 

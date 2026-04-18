@@ -1,10 +1,7 @@
 using HarmonyLib;
-using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events;
-using TownOfUs.Options;
-using TownOfUs.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -55,7 +52,7 @@ public static class AprilFoolsPatches
         }
         if (__instance.newsButton != null)
         {
-            var aprilfoolstoggle = __instance.newsButton.CloneMenuItem("AprilFoolsButton", new Vector2(0.815f, 0.775f), TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset(), "FoolsMode", "Fools Mode");
+            /*var aprilfoolstoggle = __instance.newsButton.CloneMenuItem("AprilFoolsButton", new Vector2(0.815f, 0.775f), TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset(), "FoolsMode", "Fools Mode");
 
             var foolsHighlightObj = aprilfoolstoggle.transform.GetChild(1).gameObject;
             var foolsBaseObj = aprilfoolstoggle.transform.GetChild(2).gameObject;
@@ -73,7 +70,7 @@ public static class AprilFoolsPatches
                 CurrentMode = num > 3 ? 0 : num;
                 foolsSprite.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
                 foolsSprite2.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
-            }));
+            }));*/
 
             var discordButton = __instance.newsButton.CloneMenuItem("DiscordJoinButton", new Vector2(0.815f, 0.69f), TouAssets.DiscordServer.LoadAsset(), "DiscordServer", "Discord Server");
 
@@ -82,7 +79,7 @@ public static class AprilFoolsPatches
 
             discordPassive.OnClick.AddListener((Action)(() =>
             {
-                Application.OpenURL(DiscordServerUrl);
+                Constants.OpenURL(DiscordServerUrl);
             }));
 
             var githubButton = __instance.newsButton.CloneMenuItem("GithubCodeButton", new Vector2(0.815f, 0.605f), TouAssets.SourceCode.LoadAsset(), "SourceCode", "Source Code");
@@ -92,7 +89,7 @@ public static class AprilFoolsPatches
 
             githubPassive.OnClick.AddListener((Action)(() =>
             {
-                Application.OpenURL(SourceCodeUrl);
+                Constants.OpenURL(SourceCodeUrl);
             }));
 
             var uiList = new Il2CppSystem.Collections.Generic.List<PassiveButton>();
@@ -100,7 +97,7 @@ public static class AprilFoolsPatches
             uiList.Add(__instance.inventoryButton);
             uiList.Add(__instance.shopButton);
             uiList.Add(__instance.newsButton);
-            uiList.Add(aprilfoolstoggle);
+            // uiList.Add(aprilfoolstoggle);
             uiList.Add(discordPassive);
             uiList.Add(githubButton);
 
@@ -120,7 +117,7 @@ public static class AprilFoolsPatches
         }
     }
 
-    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetBodyType))]
+    /*[HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetBodyType))]
     [HarmonyPrefix]
     public static void Prefix(ref PlayerBodyTypes bodyType)
     {
@@ -166,7 +163,7 @@ public static class AprilFoolsPatches
             default:
                 return true;
         }
-    }
+    }*/
 
     public static PassiveButton CloneMenuItem(this PassiveButton newsButton, string objName, Vector2 pos, Sprite image, string localeKey, string? defaultText)
     {

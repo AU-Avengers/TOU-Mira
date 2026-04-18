@@ -12,7 +12,6 @@ using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -90,6 +89,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     {
         CanUseVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent,
         IntroSound = TouAudio.ArsoIgniteSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Arsonist,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
@@ -103,7 +103,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         var allDoused = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x.GetModifier<ArsonistDousedModifier>()?.ArsonistId == Player.PlayerId);
 
-        if (allDoused.Any())
+        if (allDoused.HasAny())
         {
             stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleArsonistTabDousedInfo")}</b>");
             foreach (var plr in allDoused)

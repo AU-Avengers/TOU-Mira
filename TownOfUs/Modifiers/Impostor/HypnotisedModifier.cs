@@ -1,9 +1,10 @@
-﻿using HarmonyLib;
+﻿using System.Collections;
+using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -80,6 +81,11 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         {
             bodyShape = PlayerBodyTypes.Seeker;
         }
+        else if (bodyType == 5)
+        {
+            localBodyShape = PlayerBodyTypes.Classic;
+            bodyShape = PlayerBodyTypes.Classic;
+        }
 
         PlayerControl.LocalPlayer.MyPhysics.SetForcedBodyType(localBodyShape);
 
@@ -115,6 +121,13 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         }
 
         // Message($"HypnotisedModifier.UnHysteria - {Player.Data.PlayerName}");
+        Coroutines.Start(CoUnHysteria());
+    }
+
+    public IEnumerator CoUnHysteria()
+    {
+        yield return new WaitForSeconds(1f);
+
         ModifierUtils.GetActiveModifiers<HypnotistHysteriaModifier>().Do(x => x.Player.RemoveModifier(x));
 
         HysteriaActive = false;

@@ -71,7 +71,7 @@ public static class MapPatches
 
         if ((int)totalWeight == 0)
         {
-            return GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+            return GameOptionsManager.Instance.currentGameOptions.MapId;
         }
 
         float randomNumber = rnd.Next(0, (int)totalWeight);
@@ -133,6 +133,6 @@ public static class MapPatches
             return 7;
         }
 
-        return GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+        return GameOptionsManager.Instance.currentGameOptions.MapId;
     }
 }

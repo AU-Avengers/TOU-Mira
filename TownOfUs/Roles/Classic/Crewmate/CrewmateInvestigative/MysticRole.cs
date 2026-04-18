@@ -1,5 +1,4 @@
 ﻿using MiraAPI.Roles;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;

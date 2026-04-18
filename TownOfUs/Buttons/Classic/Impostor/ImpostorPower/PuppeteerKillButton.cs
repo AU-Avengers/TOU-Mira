@@ -3,7 +3,6 @@ using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;

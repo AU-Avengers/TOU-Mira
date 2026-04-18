@@ -5,7 +5,6 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Crewmate;
@@ -47,7 +46,7 @@ public sealed class TaskmasterModifier : TouGameModifier, IWikiDiscoverable
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return base.IsModifierValidOn(role) && role.IsCrewmate() && role is not SnitchRole &&
-               !(GameOptionsManager.Instance.currentNormalGameOptions.MapId is 4 or 6);
+               !(GameOptionsManager.Instance.currentGameOptions.MapId is 4 or 6);
     }
 
     public void OnRoundStart()

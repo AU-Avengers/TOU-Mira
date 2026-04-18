@@ -6,7 +6,6 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.ControlSystem;

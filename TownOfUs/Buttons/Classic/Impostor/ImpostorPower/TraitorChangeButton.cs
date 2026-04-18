@@ -9,7 +9,6 @@ using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;

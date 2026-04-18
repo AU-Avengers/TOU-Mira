@@ -4,7 +4,6 @@ using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Options.Maps;
 

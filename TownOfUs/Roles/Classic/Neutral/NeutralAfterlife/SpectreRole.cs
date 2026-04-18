@@ -14,7 +14,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using UnityEngine.UI;
@@ -351,7 +350,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
             var allVictims = PlayerControl.AllPlayerControls.ToArray()
                 .Where(x => !x.AmOwner);
 
-            if (allVictims.Any())
+            if (allVictims.HasAny())
             {
                 foreach (var player in allVictims)
                 {

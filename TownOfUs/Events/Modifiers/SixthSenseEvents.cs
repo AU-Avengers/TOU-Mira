@@ -7,7 +7,6 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Modifiers;
 

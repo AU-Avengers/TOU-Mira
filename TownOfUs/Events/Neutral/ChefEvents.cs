@@ -11,7 +11,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
@@ -21,7 +20,7 @@ public static class ChefEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (!CustomRoleUtils.GetActiveRolesOfType<ChefRole>().Any())
+        if (!CustomRoleUtils.GetActiveRolesOfType<ChefRole>().HasAny())
         {
             return;
         }

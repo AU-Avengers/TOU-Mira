@@ -76,6 +76,7 @@ public enum TownOfUsRpc : uint
     Guarded,
     PlumberFlush,
     PlumberBlockVent,
+    PlumberSendFlush,
     OracleConfess,
     OracleBless,
     InquisitorWin,
@@ -133,6 +134,9 @@ public enum TownOfUsRpc : uint
     HostStartMeeting,
     HostEndMeeting,
     HerbalistBarrierAttacked,
+    OfficerMisfire,
+    OfficerSyncBullets,
+    SetUpCrewpostor,
 }
 
 internal enum TownOfUsInternalRpc : uint

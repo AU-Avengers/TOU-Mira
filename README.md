@@ -191,25 +191,26 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 **Note: Due to differing releases on PC and Android, any version that has an x in its version means that it works for that minor release for both platforms.**
 
 | Among Us        | Mod Version | Download Link                                                           |
-|-----------------|-------|-------------------------------------------------------------------------|
-| 17.2.x          | 1.5.9 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
-| 17.1 and 17.2.1 | 1.5.4 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
-| 17.1.x          | 1.5.3 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3)  |
-| 17.1.x          | 1.5.2 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
-| 17.1.x          | 1.5.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
-| 17.1.x          | 1.5.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
-| 17.1.x          | 1.4.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
-| 17.1.x          | 1.4.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
-| 17.0.1          | 1.3.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
-| 17.0.0          | 1.3.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
-| 17.0.0          | 1.2.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
-| 17.0.0          | 1.2.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
-| 16.0.5          | 1.1.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
-| 16.0.5          | 1.1.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
-| 16.0.5          | 1.0.5 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
-| 16.0.5          | 1.0.2 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
-| 16.0.5          | 1.0.1 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
-| 16.0.5          | 1.0.0 | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
+|-----------------|-------------|-------------------------------------------------------------------------|
+| 17.3.x          | 1.6.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0)  |
+| 17.2.x          | 1.5.9       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
+| 17.1 and 17.2.1 | 1.5.4       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
+| 17.1.x          | 1.5.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.3)  |
+| 17.1.x          | 1.5.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.2)  |
+| 17.1.x          | 1.5.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.1)  |
+| 17.1.x          | 1.5.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.0)  |
+| 17.1.x          | 1.4.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.4.1)  |
+| 17.1.x          | 1.4.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.4.0) |
+| 17.0.1          | 1.3.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.1) |
+| 17.0.0          | 1.3.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.3.0) |
+| 17.0.0          | 1.2.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.1) |
+| 17.0.0          | 1.2.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.2.0) |
+| 16.0.5          | 1.1.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.1) |
+| 16.0.5          | 1.1.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.1.0) |
+| 16.0.5          | 1.0.5       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.5) |
+| 16.0.5          | 1.0.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.2) |
+| 16.0.5          | 1.0.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.1) |
+| 16.0.5          | 1.0.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/v1.0.0) |
 
 -----------------------
 
@@ -251,12 +252,13 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 [xChipseq](https://github.com/xChipseq) - For implementing the wiki hyperlinks feature for chat.\
 [Amber](https://github.com/Nix-main) - For helping on the translation system.\
 [IdkImNeil](https://github.com/neilmjain) - For implementing the /rules system.\
-[rewalo](https://github.com/rewalo) - FOr implementing host keybinds, improving anticheat, as well as adding Time Lord, Sentry and Parasite.\
-[ItzLoonie](https://github.com/ItzLoonie) - For the original implementations of the reworked Seer, Monarch, and Spellslinger roles. Also implemented Deadly Quota and Circumvent modifiers.\
-[Unlock dlekS](https://github.com/Tommy-XL/Unlock-dlekS-ehT) - For the dlekS reimplementation.\
+[rewalo](https://github.com/rewalo) - For implementing host keybinds, improving anticheat, as well as adding Time Lord, Sentry and Parasite.\
+[ItzLoonie](https://github.com/ItzLoonie) - For the original implementations of the reworked Seer, Monarch, and Spellslinger roles. Also ported Deadly Quota and Circumvent modifiers.\
+[Endless Host Roles](https://github.com/Gurge44/EndlessHostRoles) - For the original Deadly Quota and Circumvent modifiers.\
+[Tommy-XL](https://github.com/Tommy-XL) - For the dlekS reimplementation from [Unlock dlekS](https://github.com/Tommy-XL/Unlock-dlekS-ehT).\
 [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) - For the original Discord Status patch.\
-[Better Among Us](https://github.com/D1GQ/BetterAmongUs) - For the original Splash Intro patch.\
-[AutoRejoin](https://github.com/Maxi0fc/AutoRejoin) - For the original implementation of Auto Rejoin.
+[D1GQ](https://github.com/D1GQ) - For the original Splash Intro patch used in [Bette**r** Among Us](https://github.com/D1GQ/BetterAmongUs).\
+[Maxi0fc](https://github.com/Maxi0fc) - For the original implementation of [AutoRejoin](https://github.com/Maxi0fc/AutoRejoin) and also the Role List hover feature.
 
 > [!NOTE]
 > The following credits originate from the original TOU/TOUR repositories.
@@ -296,14 +298,17 @@ If a mod is missing here and is a role/modifiers mod, it likely won't work unles
 | [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) |   ⚠️    | Launchpad's Gambler role is broken with TOU Mira.<br/>Wiki is not fully implemented.             |
 |     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      |   ⚠️    | Mod is non-functional on new Among Us releases at the moment.<br/>Wiki is not fully implemented. |
 
-The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers!
+The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers or extra functionality!
 
 |                              Extension Mod                              |     Mod Type      | Description                                                                                                                                                                           |
 |:-----------------------------------------------------------------------:|:-----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |         [ChaosTokens](https://github.com/xChipseq/ChaosTokens)          |   Game Feature    | A mod that adds gambling to TOU! Each round, players can get one, two, or no tokens, which enhances the chaos in the game. Each roll may give a positive, negative, or benign effect. |
-|     [DraftModeTOUM](https://github.com/Cinnamonpuma/DraftModeTOUM)      |   Game Feature    | A mod that adds a draft mode for the game, set up through the chat before the lobby begins.                                                                                           |
+|       [DraftModeTOUM](https://github.com/ninja-au/DraftModeTOUM)        |   Game Feature    | A mod that adds a draft mode for the game, set up through the chat before the lobby begins.                                                                                           |
 | [Roles Extension](https://github.com/rewalo/TownOfUsMiraRolesExtension) | Roles / Modifiers | A mod that adds new roles and modifiers, including some TOU role renames.                                                                                                             |
+|         [Mira-NotePad](https://github.com/Maxi0fc/Mira-NotePad)         |   Miscellaneous   | A client-side mod that adds a notepad that can be used in-game at any time.                                                                                                           |
 |           [AUSummary](https://github.com/notnico22/AUSummary)           |   Miscellaneous   | A client-side mod that directly connects with a custom application to display your previous matches.                                                                                  |
+|           [NameFilter](https://github.com/Maxi0fc/NameFliter)           |   Miscellaneous   | A host-side mod that filter out slurs, offensive terms, and more from player names.                                                                                                   |
+|      [Mira Randomizer](https://github.com/VoidicChaos/Randomiser)       |   Miscellaneous   | A host-side mod that allows full randomization of the current preset!                                                                                                                 |
 |    [TOU Mira: Legacy](https://github.com/AU-Avengers/TouMiraLegacy)     |     UI Tweaks     | A client-side mod that replaces the assets of Among Us and TOU Mira to that of pre-2021 AU and TOU/TOUR.                                                                              |
 
 -----------------------

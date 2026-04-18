@@ -371,6 +371,8 @@
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
   <string name="Alive">Alive</string>
+  <string name="DisconnectedData">D/C R\%round\% </string>
+  <string name="DisconnectedDataFull">\%cod\% | D/C R\%round\% </string>
   <string name="DiedToDisconnect">Disconnected</string>
   <string name="DiedToEjection">Ejected</string>
   <string name="DiedToKiller">Killed</string>
@@ -384,7 +386,10 @@
   <string name="DiedToGuess">Guessed</string>
   <string name="DiedToHeartbreak">Heartbroken</string>
   <string name="DiedToSheriff">Shot</string>
+  <string name="DiedToOfficer">Wounded</string>
   <string name="DiedToDeputy">Blasted</string>
+  <string name="DiedToSwapper">Swapped</string>
+  <string name="DiedToMarshal">Tribunal</string>
   <string name="DiedToVeteran">Attacked</string>
   <string name="DiedToJailor">Executed</string>
   <string name="DiedToProsecutor">Prosecuted</string>
@@ -829,6 +834,7 @@
   <string name="TouRoleInvestigatorTabDescription">You can see everyone's footprints.</string>
   <string name="TouRoleInvestigatorWikiDescription">The Investigator is a Crewmate Investigative role can see player's footprints throughout the game. Swooped players' footprints will not be visible to the Investigator.</string>
   <!-- Investigator Options -->
+  <string name="TouOptionInvestigatorFootprintSeperated">Footprints Added Based On</string>
   <string name="TouOptionInvestigatorFootprintSize">Footprint Size</string>
   <string name="TouOptionInvestigatorFootprintInterval">Footprint Interval</string>
   <string name="TouOptionInvestigatorFootprintDuration">Footprint Duration</string>
@@ -1054,12 +1060,13 @@
   <string name="TouNotifPlumberBlock">This vent will be blocked at the beginning of next round.</string>
   <string name="TouRolePlumberWikiDescription">The Plumber is a Crewmate Support role that can place Barricades on vents and Flush anyone out of vents.</string>
   <string name="TouRolePlumberFlush">Flush</string>
-  <string name="TouRolePlumberFlushWikiDescription">Flushing the vents makes every vent open and close, kicking out anyone actively in a vent. The Plumber also gets an arrow pointing to every flushed player for one second.</string>
+  <string name="TouRolePlumberFlushWikiDescription">Flushing the vents kicks out anyone actively in a vent, and prevents them from being used temporarily. The Plumber also gets an arrow pointing to every flushed player for one second.</string>
   <string name="TouRolePlumberBlock">Block</string>
   <string name="TouRolePlumberBlockWikiDescription">Block a vent by placing a barricade on it for the next round, preventing players from using it.</string>
   <string name="TouRolePlumberBlockNotif">This vent will be blocked at the beginning of the next round.</string>
   <!-- Plumber Options -->
   <string name="TouOptionPlumberFlushCooldown">Flush Cooldown</string>
+  <string name="TouOptionPlumberFlushDuration">Flush Duration</string>
   <string name="TouOptionPlumberBlockCooldown">Block Cooldown</string>
   <string name="TouOptionPlumberMaxNumberOfBarricades">Initial Number Of Barricades</string>
   <string name="TouOptionPlumberAmountOfRoundsBarricadesLast">Amount Of Rounds Barricades Last</string>
@@ -1235,13 +1242,44 @@
   <string name="TouSystemType_MushroomMixupSabotage">Mushroom Mixup</string>
   <string name="TouSystemType_HeliSabotage">Heli Sabotage</string>
 
+  <!-- Officer - Crewmate Killing -->
+  <!-- Officer Wiki / Abilities -->
+  <string name="TouRoleOfficer">Officer</string>
+  <string name="TouRoleOfficerIntroBlurb">Reload and shoot the \%color=#FF0000FF\%Killers\%/color\%</string>
+  <string name="TouRoleOfficerTabAdditionCount">Rounds left to shoot again: \%count\%</string>
+  <string name="TouRoleOfficerTabAdditionNext">Next round, you may shoot again.</string>
+  <string name="TouRoleOfficerTabAdditionMajorityInno">Only shoot Impostors and Neutral Killers.</string>
+  <string name="TouRoleOfficerTabAdditionCrewmatesInno">Only shoot Impostors and Neutrals.</string>
+  <string name="TouRoleOfficerTabAdditionKillBasedInno">Only shoot anyone who's killed already.</string>
+  <string name="TouRoleOfficerTabDescription">Load bullets strategically without wasting them.\%nl\%Loaded bullets older than 10s are reset next round.</string>
+  <string name="TouRoleOfficerWikiDescription">The Officer is a Crewmate Killing role that can shoot players with limited ammo. They must load bullets, which only last one round unless they are added within 10 seconds.</string>
+  <string name="TouRoleOfficerLoad">Load</string>
+  <string name="TouRoleOfficerLoadWikiDescription">Load a bullet into your gun, allowing you to shoot.</string>
+  <string name="TouRoleOfficerShoot">Shoot</string>
+  <string name="TouRoleOfficerShootWikiDescription">Shoot a player to kill them. If the player is considered "innocent," then you will put away your gun temporarily.</string>
+  <!-- Officer Feedback -->
+  <string name="TouRoleOfficerBadKillFeedback">You've shot an innocent player! Your gun has been confiscated for now.</string>
+  <!-- Officer Options -->
+  <string name="TouOptionOfficerShootCooldown">Shoot Cooldown</string>
+  <string name="TouOptionOfficerLoadCooldown">Load Cooldown</string>
+  <string name="TouOptionOfficerCanSelfReport">Can Self Report</string>
+  <string name="TouOptionOfficerCanOnlyShootActiveKillers">Officer Can Only Shoot Players That Have Killed</string>
+  <string name="TouOptionOfficerCrewKillingAreInnocent">Crewmate Killing Roles are Innocent</string>
+  <string name="TouOptionOfficerNonKillingNeutralsAreInnocent">Non-Killing Neutrals are Innocent</string>
+  <string name="TouOptionOfficerFirstRound">Allow Shooting in First Round</string>
+  <string name="TouOptionOfficerMaxBulletsTotal">Maximum Bullets in Total</string>
+  <string name="TouOptionOfficerMaxBulletsAtOnce">Maximum Bullets at Once</string>
+  <string name="TouOptionOfficerCooldownSummary">Shoot Cooldown: \%shoot\%s | Load Cooldown: \%load\%s</string>
+  <string name="TouOptionOfficerBulletsSummary">Bullets at Once: \%once\% | Bullets Total: \%total\%</string>
+  <string name="TouOptionOfficerRoundPunishment"># of Rounds to Shoot Again After Misfire</string>
+
   <!-- Sheriff - Crewmate Killing -->
   <!-- Sheriff Wiki / Abilities -->
   <string name="TouRoleSheriff">Sheriff</string>
   <string name="TouRoleSheriffIntroBlurb">Shoot the \%color=#FF0000FF\%Evildoers\%/color\%</string>
   <string name="TouRoleSheriffTabDescription">Kill off the impostors but don't kill crewmates</string>
   <string name="TouRoleSheriffTabDescriptionEgo">Kill off whoever you wish in hopes of crew losing</string>
-  <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
+  <string name="TouRoleSheriffWikiDescription">The Sheriff is a Crewmate Killing role that can shoot a player to attempt to kill them. If Sheriff doesn't die to misfire, they will lose the ability to shoot.</string>
   <string name="TouRoleSheriffShoot">Shoot</string>
   <string name="TouRoleSheriffShootWikiDescription">Shoot a player to kill them, misfiring if they aren't an Impostor or one of the other selected shootable factions</string>
   <!-- Sheriff Misfire Text -->
@@ -2149,6 +2187,7 @@
   <!-- Crewpostor - Crewmate Alliance -->
   <!-- Crewpostor Wiki / Description -->
   <string name="TouModifierCrewpostor">Crewpostor</string>
+  <string name="TouModifierCrewpostorShortName">Imp</string>
   <string name="TouModifierCrewpostorIntroBlurb">Aid the \%color=#FF0000FF\%Impostors\%/color\%</string>
   <string name="TouModifierCrewpostorTabDescription">Betray the crewmates as an Impostor.</string>
   <string name="TouModifierCrewpostorWikiDescription">The Crewpostor is a Crewmate Alliance modifier, which forces a crewmate to work for the impostor faction. If all impostors are dead, you become a Traitor.</string>
@@ -2156,6 +2195,7 @@
   <!-- Egotist - Crewmate Alliance -->
   <!-- Egotist Wiki / Description -->
   <string name="TouModifierEgotist">Egotist</string>
+  <string name="TouModifierEgotistShortName">Ego</string>
   <string name="TouModifierEgotistIntroBlurb">Betray the crew to feed your ego</string>
   <string name="TouModifierEgotistTabDescription">Defy the crew, win with killers.</string>
   <string name="TouModifierEgotistWikiDescription">The Egotist is a Crewmate Alliance modifier (signified by \%symbol\%). As the Egotist, you can only win if Crewmates lose, even when dead. If no crewmates remain after a meeting ends, you will leave in victory, but the game will continue.</string>

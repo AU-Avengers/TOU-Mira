@@ -7,7 +7,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -18,7 +17,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
     public override float Duration => OptionGroupSingleton<FairyOptions>.Instance.ProtectDuration;
     public override string ModifierName => "Protected";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Fairy;
-    public override string ShieldDescription => "You are protected by your Guardian Angel!\nYou cannot be killed.";
+    public override string ShieldDescription => "You are protected by your Fairy!\nYou cannot be killed.";
     public override bool AutoStart => true;
     public PlayerControl Guardian => guardianAngel;
 
@@ -35,7 +34,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
 
     public override void OnActivate()
     {
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.GuardianAngelProtect, Guardian, Player);
+        var touAbilityEvent = new TouAbilityEvent(AbilityType.FairyProtect, Guardian, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
@@ -58,7 +57,7 @@ public sealed class GuardianAngelProtectModifier(PlayerControl guardianAngel) : 
                                                                         genOpt.TheDeadKnow && !body &&
                                                                         !fakePlayer?.body))
         {
-            var roleEffectAnimation = Object.Instantiate(DestroyableSingleton<RoleManager>.Instance.protectLoopAnim,
+            var roleEffectAnimation = Object.Instantiate(RoleManager.Instance.protectLoopAnim,
                 Player.gameObject.transform);
             roleEffectAnimation
                 .SetMaterialColor(7); // This is white, if it's not, make sure it is set to white from the int

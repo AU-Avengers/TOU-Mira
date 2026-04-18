@@ -8,7 +8,6 @@ using MiraAPI.Roles;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Modifiers;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -57,6 +56,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         MaxRoleCount = 1,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Traitor
     };
 

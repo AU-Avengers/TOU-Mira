@@ -6,7 +6,6 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.TimeLord;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modules;

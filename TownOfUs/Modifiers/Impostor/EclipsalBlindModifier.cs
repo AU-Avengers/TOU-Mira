@@ -1,13 +1,12 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
-using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Impostor;
@@ -87,17 +86,8 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
                                                         OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow)) &&
             EclipseBack?.gameObject != null)
         {
-            var visible = true;
-
-            if (Player.GetModifiers<ConcealedModifier>().Any(x => !x.VisibleToOthers) || !Player.Visible ||
-                (Player.TryGetModifier<DisabledModifier>(out var mod) && !mod.IsConsideredAlive) ||
-                Player.inVent)
-            {
-                visible = false;
-            }
-
             Player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, Color.black);
-            EclipseBack?.SetActive(visible);
+            EclipseBack?.SetActive(!Player.IsVisibleToOthers());
         }
     }
 

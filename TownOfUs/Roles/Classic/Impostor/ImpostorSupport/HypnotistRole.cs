@@ -9,7 +9,6 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -57,6 +56,7 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         UseVanillaKillButton = true,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Hypnotist
     };
 

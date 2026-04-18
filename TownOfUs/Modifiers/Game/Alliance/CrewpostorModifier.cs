@@ -3,6 +3,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -14,7 +15,6 @@ using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Alliance;
@@ -23,6 +23,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 {
     public override string LocaleKey => "Crewpostor";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public string ShortName => TouLocale.Get($"TouModifier{LocaleKey}ShortName");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
 
     public override string GetDescription()
@@ -79,7 +80,6 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
 
             var randomTarget = filtered[rnd.Next(0, filtered.Count)];
 
-            randomTarget.RpcAddModifier<CrewpostorModifier>();
             var imps = Helpers.GetAlivePlayers().Where(x => x.IsImpostor()).ToList();
             if (OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value && imps.Count > 1)
             {
@@ -111,30 +111,86 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
                     curAlignment = crewAlignment;
                 }
 
-                var roles = MiscUtils.GetPotentialRoles().Where(x => x.GetRoleAlignment() == curAlignment && !x.IsDead && Helpers.GetAlivePlayers().All(y => y.Data.Role.Role == x.Role)).ToList();
+                var roles = MiscUtils.GetPotentialRoles().Where(x =>
+                    x.GetRoleAlignment() == curAlignment &&
+                    !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                if (roles.Count < 2)
+                {
+                    roles = MiscUtils.GetPotentialRoles().Where(x =>
+                        x.GetRoleAlignment() is RoleAlignment.CrewmateSupport or RoleAlignment.CrewmateProtective
+                            or RoleAlignment.NeutralBenign &&
+                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                }
 
-                var checktext = $"Forcing {randomTarget.Data.PlayerName} into a crewmate/neutral role.";
+                if (roles.Count < 2)
+                {
+                    roles = MiscUtils.GetPotentialRoles().Where(x =>
+                        x.GetRoleAlignment() is RoleAlignment.CrewmateInvestigative or RoleAlignment.NeutralEvil &&
+                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                }
+
+                if (roles.Count < 2)
+                {
+                    roles = MiscUtils.GetPotentialRoles().Where(x =>
+                        x.GetRoleAlignment() is RoleAlignment.CrewmateKilling or RoleAlignment.NeutralKilling &&
+                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                }
+
+                if (roles.Count < 2)
+                {
+                    roles = MiscUtils.GetPotentialRoles().Where(x =>
+                        x.GetRoleAlignment() is RoleAlignment.CrewmatePower or RoleAlignment.NeutralOutlier &&
+                        !Helpers.GetAlivePlayers().Any(y => y.Data.Role.Role == x.Role)).ToList();
+                }
+
+                var checktext = $"Forcing {discardedImp.Data.PlayerName} into a crewmate/neutral role.";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, checktext);
+                var newRole = RoleTypes.Crewmate;
                 if (roles.Count == 0)
                 {
-                    discardedImp.RpcSetRole(RoleTypes.Crewmate, true);
-                    var newtext = $"Forcing {randomTarget.Data.PlayerName} into Crewmate.";
+                    var newtext = $"Forcing {discardedImp.Data.PlayerName} into Crewmate.";
                     MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, newtext);
                 }
                 else
                 {
                     var chosenRole = roles.Random()!;
+                    newRole = chosenRole.Role;
 
-                    discardedImp.RpcSetRole(chosenRole.Role, true);
-                    var newtext = $"Forcing {randomTarget.Data.PlayerName} into {chosenRole.GetRoleName()}.";
+                    var newtext = $"Forcing {discardedImp.Data.PlayerName} into {chosenRole.GetRoleName()}.";
                     MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, newtext);
                 }
+                RpcSetUpCrewpostor(randomTarget, discardedImp, newRole);
             }
             else
             {
-                var textlognotfound = $"Could not replace an impostor with a crewmate. | Can Replace: {OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value}, Enough Impostors: {imps.Count > 1}";
+                var textlognotfound =
+                    $"Could not replace an impostor with a crewmate. | Can Replace: {OptionGroupSingleton<CrewpostorOptions>.Instance.CrewpostorReplacesImpostor.Value}, Enough Impostors: {imps.Count > 1}";
                 MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, textlognotfound);
+                RpcSetUpCrewpostor(randomTarget, randomTarget, RoleTypes.Crewmate);
             }
+        }
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.SetUpCrewpostor)]
+    public static void RpcSetUpCrewpostor(PlayerControl newCrewpostor, PlayerControl discardedImp, RoleTypes newRole)
+    {
+        newCrewpostor.AddModifier<CrewpostorModifier>();
+        if (newCrewpostor.PlayerId == discardedImp.PlayerId)
+        {
+            return;
+        }
+        foreach (var mod in discardedImp.GetModifiers<TouGameModifier>())
+        {
+            var faction = mod.FactionType.ToString();
+            if (faction.Contains("Impostor") && !faction.Contains("Non"))
+            {
+                discardedImp.RemoveModifier(mod);
+            }
+        }
+
+        if (AmongUsClient.Instance.AmHost)
+        {
+            discardedImp.RpcSetRole(newRole, true);
         }
     }
 
@@ -151,6 +207,11 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
     public override void OnActivate()
     {
         base.OnActivate();
+        if (Player.AmOwner)
+        {
+            // player is meant to be crewmate, and crewmates don't have a task header!
+            TouRoleUtils.ClearTaskHeader(PlayerControl.LocalPlayer);
+        }
         if (!Player.HasModifier<BasicGhostModifier>())
         {
             Player.AddModifier<BasicGhostModifier>();

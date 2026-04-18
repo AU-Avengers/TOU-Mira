@@ -8,7 +8,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modules;

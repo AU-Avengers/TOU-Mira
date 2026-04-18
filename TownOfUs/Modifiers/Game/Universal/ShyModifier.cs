@@ -9,7 +9,6 @@ using TownOfUs.Options.Modifiers.Universal;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 

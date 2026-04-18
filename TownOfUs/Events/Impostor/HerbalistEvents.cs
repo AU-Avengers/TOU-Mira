@@ -8,7 +8,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Options;
 using TownOfUs.Roles.Impostor;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Events.Impostor;
 

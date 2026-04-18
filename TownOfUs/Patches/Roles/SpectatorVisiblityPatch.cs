@@ -2,7 +2,6 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using MiraAPI.Roles;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Roles;
 

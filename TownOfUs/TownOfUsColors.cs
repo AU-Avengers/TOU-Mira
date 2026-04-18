@@ -34,6 +34,7 @@ public static class TownOfUsColors
 
     public static Color Deputy => UseBasic ? Palette.CrewmateBlue : new Color32(255, 204, 0, 255);
     public static Color Hunter => UseBasic ? Palette.CrewmateBlue : new Color32(41, 171, 135, 255);
+    public static Color Officer => UseBasic ? Palette.CrewmateBlue : new Color32(55, 101, 219, 255);
     public static Color Sheriff => UseBasic ? Palette.CrewmateBlue : new Color32(255, 255, 0, 255);
     public static Color Veteran => UseBasic ? Palette.CrewmateBlue : new Color32(153, 128, 64, 255);
     public static Color Vigilante => UseBasic ? Palette.CrewmateBlue : new Color32(255, 255, 153, 255);

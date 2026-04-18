@@ -12,7 +12,6 @@ using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -322,10 +321,9 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         Coroutines.Start(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
     }
 
-    public static void OnRoundStart()
+    public void LobbyStart()
     {
-        CustomButtonSingleton<MedicShieldButton>.Instance.CanChangeTarget =
-            OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget;
+        CustomButtonSingleton<MedicShieldButton>.Instance.CanChangeTarget = true;
     }
 
     [MethodRpc((uint)TownOfUsRpc.MedicShield)]
@@ -416,11 +414,6 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (shieldBreaks)
         {
-            if (source.AmOwner)
-            {
-                source.SetKillTimer(source.GetKillCooldown());
-            }
-
             var role = medic.GetRole<MedicRole>();
             role?.SetShieldedPlayer(null);
         }

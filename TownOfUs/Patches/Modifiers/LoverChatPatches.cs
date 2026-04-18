@@ -4,7 +4,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Patches.Options;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Modifiers;
 

@@ -4,7 +4,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Modules.Components;

@@ -13,7 +13,6 @@ using TownOfUs.Modifiers.Game.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -71,6 +70,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
     {
         CanUseVent = OptionGroupSingleton<VampireOptions>.Instance.CanVent,
         IntroSound = TouAudio.VampIntroSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Vampire,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
         MaxRoleCount = 1

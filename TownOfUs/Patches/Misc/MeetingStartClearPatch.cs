@@ -1,5 +1,4 @@
 using HarmonyLib;
-using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches.Misc;
 

@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -13,7 +12,6 @@ using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -63,6 +61,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     public CustomRoleConfiguration Configuration => new(this)
     {
         UseVanillaKillButton = false,
+        OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Parasite,
         CanUseVent = OptionGroupSingleton<ParasiteOptions>.Instance.CanVent
     };
@@ -574,7 +573,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
         local.RpcSpecialMurder(
             target,
-            MeetingCheck.ForMeeting,
             teleportMurderer: false,
             showKillAnim: false,
             causeOfDeath: "Parasite");

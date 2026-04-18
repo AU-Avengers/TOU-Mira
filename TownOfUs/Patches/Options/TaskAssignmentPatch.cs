@@ -1,3 +1,4 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
 using TownOfUs.Options.Maps;
 using TaskLength = NormalPlayerTask.TaskLength;
@@ -34,9 +35,19 @@ public static class TaskAssignmentPatch
     [HarmonyPrefix]
     public static void Prefix()
     {
-        var options = GameOptionsManager.Instance.currentNormalGameOptions;
-        options.NumCommonTasks = Math.Clamp(options.NumCommonTasks, 0, 4);
-        options.NumShortTasks = Math.Clamp(options.NumShortTasks, 0, 8);
-        options.NumLongTasks = Math.Clamp(options.NumLongTasks, 0, 4);
+        if (GameOptionsManager.Instance.currentGameOptions.GameMode is GameModes.HideNSeek)
+        {
+            var options = GameOptionsManager.Instance.currentHideNSeekGameOptions;
+            options.NumCommonTasks = Math.Clamp(options.NumCommonTasks, 0, 4);
+            options.NumShortTasks = Math.Clamp(options.NumShortTasks, 0, 8);
+            options.NumLongTasks = Math.Clamp(options.NumLongTasks, 0, 4);
+        }
+        else
+        {
+            var options = GameOptionsManager.Instance.currentNormalGameOptions;
+            options.NumCommonTasks = Math.Clamp(options.NumCommonTasks, 0, 4);
+            options.NumShortTasks = Math.Clamp(options.NumShortTasks, 0, 8);
+            options.NumLongTasks = Math.Clamp(options.NumLongTasks, 0, 4);
+        }
     }
 }

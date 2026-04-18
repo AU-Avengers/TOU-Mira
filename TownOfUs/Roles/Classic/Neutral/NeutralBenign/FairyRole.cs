@@ -19,7 +19,6 @@ using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
-using TownOfUs.Utilities;
 using UnityEngine;
 using Random = System.Random;
 
@@ -61,7 +60,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         foreach (var ga in gas)
         {
             var filtered = PlayerControl.AllPlayerControls.ToArray()
-                .Where(x => !x.IsRole<FairyRole>() && !x.HasDied() &&
+                .Where(x => !x.IsRole<FairyRole>() && !x.Is(RoleAlignment.NeutralOutlier) && !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName))
                 .ToList();
@@ -130,6 +129,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     {
         Icon = TouRoleIcons.Fairy,
         IntroSound = TouAudio.GuardianAngelSound,
+        OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
@@ -291,9 +291,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             return;
         }
 
-        var role = player.GetRole<FairyRole>();
-
-        if (role == null)
+        if (player.Data.Role is not FairyRole role)
         {
             return;
         }

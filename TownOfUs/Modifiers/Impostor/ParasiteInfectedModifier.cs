@@ -2,7 +2,6 @@
 using TMPro;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Roles.Impostor;
-using TownOfUs.Utilities;
 using TownOfUs.Utilities.ControlSystem;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
