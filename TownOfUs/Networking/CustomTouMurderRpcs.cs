@@ -862,7 +862,7 @@ public static class CustomTouMurderRpcs
         }
 
         var touRole = role as ITownOfUsRole;
-        if (touRole == null || touRole.RoleAlignment is not RoleAlignment.NeutralEvil)
+        if (touRole == null || touRole.RoleAlignment is not RoleAlignment.NeutralAfterlife)
         {
             return;
         }

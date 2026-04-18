@@ -23,8 +23,7 @@ public sealed class PlumberBlockButton : TownOfUsRoleButton<PlumberRole, Vent>
 
     public override bool IsTargetValid(Vent? target)
     {
-        return base.IsTargetValid(target) && !PlumberRole.VentsBlocked.Select(x => x.Key).Contains(target!.Id) &&
-               !Role.FutureBlocks.Contains(target.Id);
+        return base.IsTargetValid(target) && !Role.FutureBlocks.Contains(target!.Id);
     }
 
     public override Vent? GetTarget()

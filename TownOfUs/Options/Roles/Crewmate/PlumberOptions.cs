@@ -12,6 +12,9 @@ public sealed class PlumberOptions : AbstractOptionGroup<PlumberRole>
     [ModdedNumberOption("TouOptionPlumberFlushCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float FlushCooldown { get; set; } = 25f;
 
+    [ModdedNumberOption("TouOptionPlumberFlushDuration", 1f, 20f, 1f, MiraNumberSuffixes.Seconds, "0.0")]
+    public float FlushDuration { get; set; } = 3f;
+
     [ModdedNumberOption("TouOptionPlumberBlockCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")]
     public float BlockCooldown { get; set; } = 25f;
 

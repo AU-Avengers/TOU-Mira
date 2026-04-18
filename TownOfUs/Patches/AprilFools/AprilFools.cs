@@ -79,7 +79,7 @@ public static class AprilFoolsPatches
 
             discordPassive.OnClick.AddListener((Action)(() =>
             {
-                Application.OpenURL(DiscordServerUrl);
+                Constants.OpenURL(DiscordServerUrl);
             }));
 
             var githubButton = __instance.newsButton.CloneMenuItem("GithubCodeButton", new Vector2(0.815f, 0.605f), TouAssets.SourceCode.LoadAsset(), "SourceCode", "Source Code");
@@ -89,7 +89,7 @@ public static class AprilFoolsPatches
 
             githubPassive.OnClick.AddListener((Action)(() =>
             {
-                Application.OpenURL(SourceCodeUrl);
+                Constants.OpenURL(SourceCodeUrl);
             }));
 
             var uiList = new Il2CppSystem.Collections.Generic.List<PassiveButton>();
