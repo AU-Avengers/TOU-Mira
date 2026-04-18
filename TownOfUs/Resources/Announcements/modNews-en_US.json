@@ -875,6 +875,7 @@
 
         "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
         "\n- First-Round settings no longer interfere with Amnesiac",
+        "\n- Spectre can spook properly again.",
         "\n- Fairy can no longer target Neutral Outliers.",
 
         "\n\n\r<size=105%>Other Bugfixes:</size>",
