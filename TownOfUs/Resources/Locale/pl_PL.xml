@@ -1,7 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="FoolsMode">Tryb Prima Aprilis</string>
-  <string name="SeparateChatBubbles">Rozdzielaj dymki czatu</string>
+  <string name="SeparateChatBubbles">Rozdzielone Dymki Czatu</string>
   <string name="ColorPlayerName">Kolorowa Nazwa Gracza</string>
   <string name="UseSeparateRedChat">Pokaż oddzielny prywatny czat</string>
+  <string name="ModifierAbility">Umiejętność Modyfikatora</string>
+  <string name="ClientTabGameplay">Rozgrywka</string>
+  <string name="ShowVanillaWikiEntries">Pokaż Wpisy Ról z Vanilly</string>
+  <string name="ArrowDefault">Domyślne</string>
+  <string name="ArrowDarkGlow">Ciemny Połysk</string>
+  <string name="ArrowColorGlow">Połysk W Kolorze</string>
+  <string name="SummaryMsgBreakdown">Wygląd Wiadomości Z Podsumowaniem</string>
+  <string name="ShowRoleIconOnRoleTab">Ikona W Zakładce Roli</string>
+  <string name="RainbowColorAsFortegreen">Tęczowy Kolor Jako Fortegreen</string>
+  <string name="ButtonUIFactor">Skala Przycisków</string>
+  <string name="OffsetButtons">Przesunięte Przyciski Gdy Nie Możesz Ventować</string>
+  <string name="SortGuessingByAlignment">Sortuj Menu Zgadywania Przez Przynależność</string>
+  <string name="EndSummaryVisibility">Widok Podsumowania</string>
+  <string name="ParasitePiPLocation">Lokalizacja Podglądu Parasite'a</string>
+  <string name="ParasitePiPSize">Rozmiar Podglądu Parasite'a</string>
+  <string name="Plum">Śliwkowy</string>
+  <string name="Jungle">Dżunglowy</string>
+  <string name="Mint">Miętowy</string>
+  <string name="Gold">Złoty</string>
+  <string name="Snow">Śnieg</string>
+  <string name="Turquoise">Turkusowy</string>
+  <string name="Blood">Krwawy</string>
+  <string name="Grass">Trawa</string>
 </resources>
