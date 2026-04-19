@@ -72,6 +72,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         config.Bind("UI/Visuals", "PreciseCooldowns", false);
 
     [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ExtraUiButtonsInSecondRow { get; private set; } =
+        config.Bind("UI/Visuals", "ExtraUiButtonsInSecondRow", false);
+
+    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
         config.Bind("UI/Visuals", "OffsetButtons", false);
 

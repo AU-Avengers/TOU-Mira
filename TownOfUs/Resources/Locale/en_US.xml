@@ -31,6 +31,7 @@
   <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
+  <string name="ExtraUiButtonsInSecondRow">Top-Right UI Has a 2nd Row</string>
   <string name="SortGuessingByAlignment">Sort Guessing By Alignment</string>
   <string name="PreciseCooldowns">Button Cooldowns Are In Decimal Under 10s</string>
   <string name="ArrowStyle">Arrow Style</string>
