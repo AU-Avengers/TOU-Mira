@@ -9,6 +9,7 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -39,9 +40,10 @@ namespace TownOfUs.Patches;
 public static class HudManagerPatches
 {
     public static GameObject ZoomButton;
-    public static AspectPosition ZoomAspectPos;
     public static GameObject WikiButton;
-    public static AspectPosition WikiAspectPos;
+    public static GameObject ExtraUiTopRight;
+    public static GridArrange ExtraUiGrid;
+    public static AspectPosition ExtraUiAspectPos;
     public static GameObject RoleList;
     public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
@@ -923,11 +925,9 @@ public static class HudManagerPatches
 
     public static void CreateZoomButton(HudManager instance)
     {
-        var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
-
         if (!ZoomButton)
         {
-            ZoomButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
+            ZoomButton = Object.Instantiate(instance.MapButton.gameObject, ExtraUiTopRight.transform);
             ZoomButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
             ZoomButton.name = "ZoomButton";
@@ -936,16 +936,7 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinus.LoadAsset();
             ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinusActive.LoadAsset();
-            ZoomAspectPos = ZoomButton.GetComponentInChildren<AspectPosition>();
-        }
-
-        if (ZoomButton)
-        {
-            var distanceFromEdge = ZoomAspectPos.DistanceFromEdge;
-            distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
-            distanceFromEdge.y = 0.485f;
-            ZoomAspectPos.DistanceFromEdge = distanceFromEdge;
-            ZoomAspectPos.AdjustPosition();
+            ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
         }
     }
 
@@ -959,6 +950,7 @@ public static class HudManagerPatches
                 if (transform != null)
                 {
                     SubmergedFloorButton = transform.gameObject;
+                    SubmergedFloorButton.transform.SetParent(ExtraUiTopRight.transform, false);
                 }
             }
             if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
@@ -968,13 +960,47 @@ public static class HudManagerPatches
         }
     }
 
+    public static Vector2 BelowOptionPos = new Vector2(0.435f, 1.25f);
+    public static Vector2 WithOptionsPos = new Vector2(2.125f, 0.475f);
+    public static Vector2 WithChatPos = new Vector2(2.7f, 0.475f);
+    public static void CreateNewUiRow(HudManager instance)
+    {
+        if (!ExtraUiTopRight)
+        {
+            ExtraUiTopRight = new GameObject("ExtraUiTopRight");
+            ExtraUiTopRight.transform.SetParent(instance.MapButton.transform.parent.parent, false);
+
+            ExtraUiGrid = ExtraUiTopRight.AddComponent<GridArrange>();
+            ExtraUiAspectPos = ExtraUiTopRight.AddComponent<AspectPosition>();
+
+            ExtraUiGrid.Alignment = GridArrange.StartAlign.Left;
+            ExtraUiGrid.CellSize = new Vector2(0.85f, 0.85f);
+            ExtraUiAspectPos.Alignment = AspectPosition.EdgeAlignments.RightTop;
+            ExtraUiGrid.Start();
+            ExtraUiAspectPos.updateAlways = true;
+        }
+
+        if (ExtraUiTopRight)
+        {
+            var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
+            var belowUi = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ExtraUiButtonsInSecondRow.Value;
+            if (belowUi)
+            {
+                ExtraUiAspectPos.DistanceFromEdge = BelowOptionPos;
+            }
+            else
+            {
+                ExtraUiAspectPos.DistanceFromEdge = isChatButtonVisible ? WithChatPos : WithOptionsPos;
+            }
+            ExtraUiGrid.ArrangeChilds();
+        }
+    }
+
     public static void CreateWikiButton(HudManager instance)
     {
-        var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
-
         if (!WikiButton)
         {
-            WikiButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
+            WikiButton = Object.Instantiate(instance.MapButton.gameObject, ExtraUiTopRight.transform);
             WikiButton.name = "WikiButton";
             WikiButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             WikiButton.GetComponent<PassiveButton>().OnClick.AddListener((UnityAction)(() =>
@@ -992,25 +1018,12 @@ public static class HudManagerPatches
                 TouAssets.WikiButton.LoadAsset();
             WikiButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButtonActive.LoadAsset();
-            WikiAspectPos = WikiButton.GetComponentInChildren<AspectPosition>();
+            WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
         }
 
         if (WikiButton)
         {
-            var distanceFromEdge = WikiAspectPos.DistanceFromEdge;
-            distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
-
-            if ((ModCompatibility.IsWikiButtonOffset || ZoomButton.active) &&
-                !MeetingHud.Instance &&
-                (PlayerJoinPatch.SentOnce || TutorialManager.InstanceExists))
-            {
-                distanceFromEdge.x += 0.84f;
-            }
-
-            distanceFromEdge.y = 0.485f;
             WikiButton.SetActive(true);
-            WikiAspectPos.DistanceFromEdge = distanceFromEdge;
-            WikiAspectPos.AdjustPosition();
         }
     }
 
@@ -1022,9 +1035,10 @@ public static class HudManagerPatches
         {
             return;
         }
+        CreateNewUiRow(__instance);
 
-        CreateZoomButton(__instance);
         CreateWikiButton(__instance);
+        CreateZoomButton(__instance);
 
         UpdateRoleList(__instance);
         UpdateTeamChat();
