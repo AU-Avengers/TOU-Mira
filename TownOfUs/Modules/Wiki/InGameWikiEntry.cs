@@ -1,3 +1,4 @@
+using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Reactor.Utilities.Attributes;
 using TMPro;
@@ -14,9 +15,26 @@ public sealed class InGameWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public Il2CppReferenceField<SpriteRenderer> EntryColorRenderer;
     public Il2CppReferenceField<TextMeshPro> EntryAmountTmp;
     public Il2CppReferenceField<TextMeshPro> EntrySourceTmp;
+    [HideFromIl2Cpp] public string EntryTitle { get; set; }
+    [HideFromIl2Cpp] public string EntryTeam { get; set; }
+    [HideFromIl2Cpp] public string EntrySource { get; set; }
 
-    public void SetData(Sprite sprite, string title, string team, Color color, string amount, string source)
+    public void SetData(Sprite sprite, string title, string team, Color color, string amount, string source, bool enabled)
     {
+        if (!enabled)
+        {
+            var handler = GetComponent<ButtonRolloverHandler>();
+            var renderer = GetComponent<SpriteRenderer>();
+            var baseColor = new Color32(210, 210, 210, 255);
+            renderer.color = baseColor;
+            handler.OutColor = baseColor;
+            handler.UnselectedColor = baseColor;
+            handler.OverColor = new Color32(196, 196, 196, 255);
+        }
+        EntryTitle = title;
+        EntryTeam = team;
+        EntrySource = source;
+        gameObject.name = $"{title.ToLower(TownOfUsPlugin.Culture)} - {team.ToLower(TownOfUsPlugin.Culture)} - {source.ToLower(TownOfUsPlugin.Culture)}";
         EntryIconRenderer.Value.sprite = sprite;
         EntryIconRenderer.Value.SetSizeLimit(0.75f);
         EntryNameTmp.Value.text = $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{title}</font>";

@@ -16,6 +16,7 @@ public sealed class PlumberFlushButton : TownOfUsRoleButton<PlumberRole, Vent>
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlumberOptions>.Instance.FlushCooldown + MapCooldown, 5f, 120f);
+    public override float EffectDuration => PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent) ? OptionGroupSingleton<PlumberOptions>.Instance.FlushDuration : 0.001f;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.FlushSprite;
 
     public override Vent? GetTarget()
@@ -36,6 +37,11 @@ public sealed class PlumberFlushButton : TownOfUsRoleButton<PlumberRole, Vent>
         var block = CustomButtonSingleton<PlumberBlockButton>.Instance;
 
         block?.SetTimer(block.Cooldown);
+    }
+
+    public override void OnEffectEnd()
+    {
+        // ignored!
     }
 
     public override bool CanUse()

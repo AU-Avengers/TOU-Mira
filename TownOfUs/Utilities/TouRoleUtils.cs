@@ -249,10 +249,10 @@ public static class TouRoleUtils
             Collider2D collider2D = playerControl.hitBuffer[i];
             if (!playerControl.cache.TryGetValue(collider2D, out var array))
             {
-                array = playerControl.cache[collider2D];
+                continue;
             }
 
-            if (array != null && flag2)
+            if (flag2)
             {
                 foreach (var usable2 in array.Where(x => x.TryCast<Vent>() != null).Select(x => x.TryCast<Vent>()!))
                 {
