@@ -102,4 +102,31 @@
   <string name="NeutralBasicDeadTaskHeader">Nie żyjesz. Wyluzuj i ciesz się chaosem.</string>
   <string name="NeutralBenignTaskHeader">Sam z siebie nie wygrasz.\%nl\%Opcjonalne zadania:</string>
   <string name="NeutralEvilTaskHeader">Musisz dokonać swego celu za wszelką cenę.\%nl\%Fałszywe Zadania:</string>
+  <string name="Alignment">Przynależność</string>
+  <string name="WikiDescriptionTab">Opis</string>
+  <string name="WikiAbilitiesTab">Umiejętności</string>
+  <string name="WikiRoleGuideTab">Poradnik Do Ról</string>
+  <string name="SearchboxHeadsUp">Wyszukaj Tutaj</string>
+  <string name="Roles">Role</string>
+  <string name="Modifier">Modyfikator</string>
+  <string name="Modifiers">Modyfikatory</string>
+  <string name="Terminology">Terminologia</string>
+  <string name="GameSettings">Ustawienia Gry</string>
+  <string name="TermsPageCount">Sekcja \%so\%/\%st\% | Strona\%po\%/\%pt\%</string>
+  <string name="Amount">Ilość</string>
+  <string name="Chance">Szansa</string>
+  <string name="Options">Opcje</string>
+  <string name="PlayerHasNoModifiers">Brak Modyfikatorów</string>
+  <string name="WikiSettingsAmongUsGameSettingsTitle">Ustawienia Gry Among Us</string>
+  <string name="WikiSettingsTouMiraGameSettingsTitle">Ustawienia Gry TOU Mira</string>
+  <string name="WikiSettingsMapsSabotageSettingsTitle">Ustawienia Map/Sabotaży</string>
+  <string name="WikiSettingsBetterMapsSettingsTitle">Ustawienia Polepszeń Map</string>
+  <string name="TermsTargetSymbolsTitle">Symbole Celów</string>
+  <string name="TermsTargetSymbolsInfo">Symbole Celów pojawiają się przy nazwie gracza na spotkaniach oraz podczas gry i są one przeważnie widoczne tylko dla ról które je dotyczą oraz/bądź martwych. • Cel Kata jest zaznaczony za pomocą \%color=#643B1F\%X\%/color\% • Heretycy Inkwizytora są zaznaczeni za pomocą \%color=#D94291\%$\%/color\% dla martwych. • Cel Wróżki jest zaznaczony za pomocą \%color=#B3FFFF\%★\%/color\%</string>
+  <string name="TertiaryAbility">Umiejętność Trzecia (Umiejętność Hakowania)</string>
+  <string name="UseCrewmateTeamColor">Używaj Podstawowego Koloru Dla Ról Załogi</string>
+  <string name="ShowShieldHud">Pokazuj Tarcze w Hudzie Modyfikatorów</string>
+  <string name="BackButtonText">W tył</string>
+  <string name="PreviousButtonText">Poprzednie</string>
+  <string name="NextButtonText">Następne</string>
 </resources>
