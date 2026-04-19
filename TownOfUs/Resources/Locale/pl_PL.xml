@@ -1,4 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-
+  <string name="FoolsMode">Tryb Prima Aprilis</string>
+  <string name="SeparateChatBubbles">Rozdzielaj dymki czatu</string>
+  <string name="ColorPlayerName">Kolorowa Nazwa Gracza</string>
+  <string name="UseSeparateRedChat">Pokaż oddzielny prywatny czat</string>
 </resources>
