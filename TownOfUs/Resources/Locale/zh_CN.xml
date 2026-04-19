@@ -2075,9 +2075,9 @@
   <string name="EndSumLeftSide">左侧显示</string>
   <string name="EndSumSplit">分栏显示</string>
   <string name="EndSumHidden">隐藏</string>
-  <string name="CrewmateAfterlife">船员死亡后状态</string>
-  <string name="NeutralAfterlife">中立阵营死亡后状态</string>
-  <string name="ImpostorAfterlife">伪装者死亡后状态</string>
+  <string name="CrewmateAfterlife">船员后生型</string>
+  <string name="NeutralAfterlife">中立后生型</string>
+  <string name="ImpostorAfterlife">伪装者后生型</string>
   <string name="AnticheatIllegalRpcMessage">\%player\%使用了非大厅允许的功能/能力，可能存在作弊或利用漏洞行为。</string>
   <string name="InfoCommandList">信息</string>
   <string name="InfoCommandDescription">/info - 重新显示你最近收到的职业信息</string>

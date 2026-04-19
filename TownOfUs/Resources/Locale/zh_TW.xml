@@ -2095,4 +2095,19 @@
   <string name="TouRoleOfficerLoad">裝填</string>
   <string name="TouRoleOfficerShoot">射擊</string>
   <string name="TouRoleOfficerShootWikiDescription">射擊一名玩家將其擊殺。如果該玩家被判定為“無辜”,你的武器將被暫時收起。</string>
+  <string name="TouRoleOfficerLoadWikiDescription">向武器中裝填一發子彈,使你可以進行射擊。</string>
+  <string name="TouRoleOfficerBadKillFeedback">你誤殺了無辜玩家! 你的武器已被暫時沒收。</string>
+  <string name="TouOptionOfficerShootCooldown">射擊冷卻</string>
+  <string name="TouOptionOfficerLoadCooldown">裝填冷卻</string>
+  <string name="TouOptionOfficerCanSelfReport">執法者可自報屍體</string>
+  <string name="TouOptionOfficerCanOnlyShootActiveKillers">執法者只能射擊已擊殺過人的玩家</string>
+  <string name="TouOptionOfficerCrewKillingAreInnocent">船員擊殺型職業視為無辜</string>
+  <string name="TouOptionOfficerNonKillingNeutralsAreInnocent">非擊殺型中立職業視為無辜</string>
+  <string name="TouOptionOfficerFirstRound">首回合允許射擊</string>
+  <string name="TouOptionOfficerMaxBulletsTotal">最大總子彈數量</string>
+  <string name="TouOptionOfficerMaxBulletsAtOnce">同時可裝填的最大子彈數量</string>
+  <string name="TouOptionOfficerCooldownSummary">射擊冷卻: \%shoot\%秒 | 裝填冷卻: \%load\%秒</string>
+  <string name="CrewmateAfterlife">船員後生型</string>
+  <string name="NeutralAfterlife">中立後生型</string>
+  <string name="ImpostorAfterlife">偽裝者後生型</string>
 </resources>
