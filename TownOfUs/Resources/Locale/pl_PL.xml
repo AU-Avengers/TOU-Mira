@@ -7,7 +7,7 @@
   <string name="ModifierAbility">Umiejętność Modyfikatora</string>
   <string name="ClientTabGameplay">Rozgrywka</string>
   <string name="ShowVanillaWikiEntries">Pokaż Wpisy Ról z Vanilly</string>
-  <string name="ArrowDefault">Domyślne</string>
+  <string name="ArrowDefault">Domyślny</string>
   <string name="ArrowDarkGlow">Ciemny Połysk</string>
   <string name="ArrowColorGlow">Połysk W Kolorze</string>
   <string name="SummaryMsgBreakdown">Wygląd Wiadomości Z Podsumowaniem</string>
@@ -74,7 +74,7 @@
   <string name="Chocolate">Czekoladowy</string>
   <string name="SkyBlue">Błękitny</string>
   <string name="Beige">Beżowy</string>
-  <string name="Magenta">Karmazynowy</string>
+  <string name="Magenta">Magenta</string>
   <string name="SeaGreen">Morski zielony</string>
   <string name="Lilac">Liliowy</string>
   <string name="Olive">Oliwkowy</string>
