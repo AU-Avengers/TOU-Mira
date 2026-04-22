@@ -11,6 +11,7 @@ using TownOfUs.Patches.Options;
 using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
+using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -33,7 +34,7 @@ public static class ChatPatches
             return string.Empty;
         }
     }
-        
+
     [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
     public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
     {
@@ -41,9 +42,28 @@ public static class ChatPatches
         {
             return;
         }
+
         var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
         MiscUtils.AddSystemChat(host.Data, systemName,
             TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
+    public static void TogglePrefix(ChatController __instance)
+	{
+        __instance.chatButton.transform.localPosition = HudManagerPatches.ClonedChatButton.transform.localPosition + new Vector3(-0.3f, 0);
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatNote))]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
+    public static void ChatBubbleUpdatePrefix(ChatController __instance)
+    {
+        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.24f, -0.273f, -1f);
     }
 
     [HarmonyPrefix]
