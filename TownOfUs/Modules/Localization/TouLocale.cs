@@ -36,7 +36,7 @@ public static class TouLocale
         { ExtendedLangs.Turkish, "tr_TR.xml" }, // Custom
         { ExtendedLangs.Swedish, "sv_SE.xml" }, // Custom
         { ExtendedLangs.Lithuanian, "lt_LT.xml" }, // Custom
-        { ExtendedLangs.Czech, "cz_CZ.xml" }, // Custom
+        { ExtendedLangs.Czech, "cs_CZ.xml" }, // Custom
     };
     public static Dictionary<ExtendedLangs, string> LangCultureList { get; } = new()
     {
@@ -60,7 +60,7 @@ public static class TouLocale
         { ExtendedLangs.Turkish, "tr-TR" }, // Custom
         { ExtendedLangs.Swedish, "sv-SE" }, // Custom
         { ExtendedLangs.Lithuanian, "lt-LT" }, // Custom
-        { ExtendedLangs.Czech, "cz-CZ" }, // Custom
+        { ExtendedLangs.Czech, "cs-CZ" }, // Custom
     };
 
     public static string BepinexLocaleDirectory =>

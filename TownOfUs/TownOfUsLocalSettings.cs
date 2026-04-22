@@ -4,6 +4,7 @@ using MiraAPI.Hud;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 
 namespace TownOfUs;
@@ -31,6 +32,39 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         }
     }
 
+    public static void SetUpButtonPositions()
+    {
+        var topUi = HudManagerPatches.UiTopRight;
+        var extraTopUi = HudManagerPatches.ExtraUiTopRight;
+        var wikiButton = HudManagerPatches.WikiButton;
+        var zoomButton = HudManagerPatches.ZoomButton;
+        var subButton = HudManagerPatches.SubmergedFloorButton;
+        ResetButtonPositions();
+        if (topUi && extraTopUi)
+        {
+            var opts = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance;
+            wikiButton?.transform.SetParent(opts.WikiOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
+            zoomButton?.transform.SetParent(opts.ZoomOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
+            zoomButton?.transform.SetParent(opts.ZoomOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
+            subButton?.transform.SetParent(extraTopUi.transform);
+        }
+    }
+
+    public static void ResetButtonPositions()
+    {
+        var topUi = HudManagerPatches.UiTopRight;
+        var extraTopUi = HudManagerPatches.ExtraUiTopRight;
+        var subButton = HudManagerPatches.SubmergedFloorButton;
+        if (topUi && extraTopUi)
+        {
+            var wikiButton = HudManagerPatches.WikiButton;
+            var zoomButton = HudManagerPatches.ZoomButton;
+            wikiButton?.transform.SetParent(null);
+            zoomButton?.transform.SetParent(null);
+            subButton?.transform.SetParent(null);
+        }
+    }
+
     public override void OnOptionChanged(ConfigEntryBase configEntry)
     {
         base.OnOptionChanged(configEntry);
@@ -54,6 +88,11 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
             touRole.OffsetButtons();
         }
+
+        if (configEntry == WikiOnBottomRow || configEntry == ZoomOnBottomRow)
+        {
+            SetUpButtonPositions();
+        }
     }
 
     public override LocalSettingTabAppearance TabAppearance => new()
@@ -68,12 +107,16 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Gameplay", "ShowVents", true);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
-        config.Bind("UI/Visuals", "PreciseCooldowns", false);
+    public ConfigEntry<bool> WikiOnBottomRow { get; private set; } =
+        config.Bind("UI/Visuals", "WikiOnBottomRow", true);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ExtraUiButtonsInSecondRow { get; private set; } =
-        config.Bind("UI/Visuals", "ExtraUiButtonsInSecondRow", false);
+    public ConfigEntry<bool> ZoomOnBottomRow { get; private set; } =
+        config.Bind("UI/Visuals", "ZoomOnBottomRow", false);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
+        config.Bind("UI/Visuals", "PreciseCooldowns", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
