@@ -935,10 +935,14 @@ public static class HudManagerPatches
             ZoomButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
             ZoomButton.name = "ZoomButton";
-            ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            var inactive = ZoomButton.transform.Find("Inactive");
+                inactive.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinus.LoadAsset();
-            ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+                inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
+                var active = ZoomButton.transform.Find("Active");
+                active.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinusActive.LoadAsset();
+                active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
             TownOfUsLocalSettings.SetUpButtonPositions();
         }
@@ -1010,12 +1014,11 @@ public static class HudManagerPatches
             collider.offset = new Vector2(0.0025f, 0.0254f);
             if (FriendsListManager.InstanceExists)
             {
-                var listButton = FriendsListManager.Instance.FriendsListButton;
+                var listButton = FriendsListManager.Instance.FriendsListButton.transform.GetChild(0);
                 listButton.transform.SetParent(UiTopRight.transform, false);
                 FriendsListManager.Instance.FriendsListButton = listButton.GetComponent<FriendsListButton>();
-                var subButton = listButton.transform.GetChild(0);
-                subButton.GetComponent<AspectPosition>().Destroy();
-                subButton.localPosition = new Vector3(0, 0, 0);
+                listButton.GetComponent<AspectPosition>().Destroy();
+                listButton.localPosition = new Vector3(0, 0, 0);
             }
             settingsButton.transform.SetAsLastSibling();
             chatButton.transform.SetParent(UiTopRight.transform, false);
@@ -1071,10 +1074,15 @@ public static class HudManagerPatches
                 IngameWikiMinigame.Create().Begin(null);
             }));
 
-            WikiButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            var inactive = WikiButton.transform.Find("Inactive");
+            inactive.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButton.LoadAsset();
-            WikiButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+            inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
+            var active = WikiButton.transform.Find("Active");
+            active.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButtonActive.LoadAsset();
+            active.localPosition = new Vector3(0, 0.021f, -0.1f);
+
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
         }
 
