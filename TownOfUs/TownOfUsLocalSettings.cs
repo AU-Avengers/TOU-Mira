@@ -39,14 +39,15 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         var wikiButton = HudManagerPatches.WikiButton;
         var zoomButton = HudManagerPatches.ZoomButton;
         var subButton = HudManagerPatches.SubmergedFloorButton;
+        var modDisplay = HudManagerPatches.ModifierDisplayOnRight ? HudManagerPatches.ModifierDisplayObject : null;
         ResetButtonPositions();
         if (topUi && extraTopUi)
         {
             var opts = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance;
             wikiButton?.transform.SetParent(opts.WikiOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
             zoomButton?.transform.SetParent(opts.ZoomOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
-            zoomButton?.transform.SetParent(opts.ZoomOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
             subButton?.transform.SetParent(extraTopUi.transform);
+            modDisplay?.transform.SetParent(extraTopUi.transform);
         }
     }
 
@@ -55,6 +56,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         var topUi = HudManagerPatches.UiTopRight;
         var extraTopUi = HudManagerPatches.ExtraUiTopRight;
         var subButton = HudManagerPatches.SubmergedFloorButton;
+        var modDisplay = HudManagerPatches.ModifierDisplayOnRight ? HudManagerPatches.ModifierDisplayObject : null;
         if (topUi && extraTopUi)
         {
             var wikiButton = HudManagerPatches.WikiButton;
@@ -62,6 +64,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             wikiButton?.transform.SetParent(null);
             zoomButton?.transform.SetParent(null);
             subButton?.transform.SetParent(null);
+            modDisplay?.transform.SetParent(null);
         }
     }
 

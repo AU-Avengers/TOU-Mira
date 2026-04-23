@@ -5,6 +5,7 @@ using InnerNet;
 using MiraAPI;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.ModifierDisplay;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
@@ -41,6 +42,8 @@ public static class HudManagerPatches
 {
     public static GameObject ZoomButton;
     public static GameObject WikiButton;
+    public static GameObject ModifierDisplayObject;
+    public static bool ModifierDisplayOnRight;
     public static GameObject ClonedChatButton;
     public static GameObject ExtraUiTopRight;
     public static GridArrange ExtraUiGrid;
@@ -1092,6 +1095,22 @@ public static class HudManagerPatches
         }
     }
 
+    public static void AdjustModifierTab(HudManager instance)
+    {
+        if (!ModifierDisplayObject)
+        {
+            ModifierDisplayObject = ModifierDisplayComponent.Instance!.gameObject;
+            ModifierDisplayOnRight = !LocalSettingsTabSingleton<MiraApiSettings>.Instance.ModifiersHudLeftSide.Value;
+            if (ModifierDisplayOnRight)
+            {
+                ModifierDisplayObject.transform.SetParent(ExtraUiTopRight.transform, false);
+                ModifierDisplayObject.GetComponentInChildren<AspectPosition>().Destroy();
+                ModifierDisplayObject.transform.GetChild(0).localPosition = new Vector3(-1.1757f, -2.1633f, 0);
+                ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, 0);
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     [HarmonyPostfix]
     public static void HudManagerUpdatePatch(HudManager __instance)
@@ -1106,6 +1125,7 @@ public static class HudManagerPatches
 
         CreateWikiButton(__instance);
         CreateZoomButton(__instance);
+        AdjustModifierTab(__instance);
 
         UpdateRoleList(__instance);
         UpdateTeamChat();
