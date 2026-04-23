@@ -50,6 +50,15 @@ public static class ChatPatches
 
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [HarmonyPatch(typeof(FriendsListManager), nameof(FriendsListManager.SetFriendButtonColor))]
+    public static bool SetFriendButtonColor(FriendsListManager __instance, bool isGrayedOut)
+    {
+        __instance.FriendsListButton?.SetGlyphColor(isGrayedOut);
+        return false;
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
     public static void TogglePrefix(ChatController __instance)
 	{

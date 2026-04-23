@@ -947,7 +947,6 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinusActive.LoadAsset();
                 active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
-            TownOfUsLocalSettings.SetUpButtonPositions();
         }
     }
 
@@ -1099,7 +1098,7 @@ public static class HudManagerPatches
     {
         if (!ModifierDisplayObject)
         {
-            ModifierDisplayObject = ModifierDisplayComponent.Instance!.gameObject;
+            ModifierDisplayObject = ModifierDisplayComponent.Instance?.gameObject ?? null!;
             ModifierDisplayOnRight = !LocalSettingsTabSingleton<MiraApiSettings>.Instance.ModifiersHudLeftSide.Value;
             if (ModifierDisplayOnRight)
             {
@@ -1108,6 +1107,7 @@ public static class HudManagerPatches
                 ModifierDisplayObject.transform.GetChild(0).localPosition = new Vector3(-1.1757f, -2.1633f, 0);
                 ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, 0);
             }
+            TownOfUsLocalSettings.SetUpButtonPositions();
         }
     }
 
