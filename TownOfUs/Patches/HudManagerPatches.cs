@@ -41,9 +41,13 @@ public static class HudManagerPatches
 {
     public static GameObject ZoomButton;
     public static GameObject WikiButton;
+    public static GameObject ClonedChatButton;
     public static GameObject ExtraUiTopRight;
     public static GridArrange ExtraUiGrid;
     public static AspectPosition ExtraUiAspectPos;
+    public static GameObject UiTopRight;
+    public static GridArrange UiGrid;
+    public static AspectPosition UiAspectPos;
     public static GameObject RoleList;
     public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
@@ -931,12 +935,16 @@ public static class HudManagerPatches
             ZoomButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
             ZoomButton.name = "ZoomButton";
-            ZoomButton.transform.Find("Background").localPosition = Vector3.zero;
-            ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            var inactive = ZoomButton.transform.Find("Inactive");
+                inactive.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinus.LoadAsset();
-            ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+                inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
+                var active = ZoomButton.transform.Find("Active");
+                active.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinusActive.LoadAsset();
+                active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
+            TownOfUsLocalSettings.SetUpButtonPositions();
         }
     }
 
@@ -951,6 +959,7 @@ public static class HudManagerPatches
                 {
                     SubmergedFloorButton = transform.gameObject;
                     SubmergedFloorButton.transform.SetParent(ExtraUiTopRight.transform, false);
+                    TownOfUsLocalSettings.SetUpButtonPositions();
                 }
             }
             if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
@@ -963,6 +972,65 @@ public static class HudManagerPatches
     public static Vector2 BelowOptionPos = new Vector2(0.435f, 1.25f);
     public static Vector2 WithOptionsPos = new Vector2(2.125f, 0.475f);
     public static Vector2 WithChatPos = new Vector2(2.7f, 0.475f);
+    public static Vector2 FullTopPos = new Vector2(0.435f, 0.475f);
+    public static void CreateUiRow(HudManager instance)
+    {
+        if (!UiTopRight)
+        {
+            UiTopRight = instance.MapButton.transform.parent.gameObject;
+
+            UiGrid = UiTopRight.AddComponent<GridArrange>();
+            UiAspectPos = UiTopRight.AddComponent<AspectPosition>();
+
+            UiGrid.Alignment = GridArrange.StartAlign.Left;
+            UiGrid.CellSize = new Vector2(0.85f, 0.85f);
+            UiGrid.MaxColumns = 6;
+            UiAspectPos.Alignment = AspectPosition.EdgeAlignments.RightTop;
+            UiGrid.Start();
+            UiAspectPos.DistanceFromEdge = FullTopPos;
+            var mapButton = instance.MapButton.gameObject;
+            mapButton.GetComponent<AspectPosition>().Destroy();
+            var settingsButton = instance.SettingsButton;
+            settingsButton.GetComponent<AspectPosition>().Destroy();
+            var chatButton = instance.Chat.chatButton.gameObject;
+            ClonedChatButton = Object.Instantiate(chatButton, chatButton.transform.parent);
+            ClonedChatButton.SetActive(false);
+            instance.Chat.chatButtonAspectPosition = ClonedChatButton.GetComponent<AspectPosition>();
+            chatButton.GetComponent<AspectPosition>().Destroy();
+            var inactivePos = settingsButton.transform.GetChild(1).transform.localPosition;
+            var bg = settingsButton.transform.GetChild(2).gameObject;
+            var bgPos = bg.transform.localPosition;
+            var bgSprite = bg.GetComponent<SpriteRenderer>().sprite;
+            var activePos = settingsButton.transform.GetChild(3).transform.localPosition;
+            var selectedPos = settingsButton.transform.GetChild(4).transform.localPosition;
+            chatButton.transform.GetChild(2).transform.localPosition = inactivePos;
+            var chatBg = chatButton.transform.GetChild(3);
+            chatBg.transform.localPosition = bgPos;
+            chatBg.GetComponent<SpriteRenderer>().sprite = bgSprite;
+            chatButton.transform.GetChild(4).transform.localPosition = activePos;
+            chatButton.transform.GetChild(5).transform.localPosition = selectedPos;
+            var collider = chatButton.GetComponent<BoxCollider2D>();
+            collider.size = new Vector2(0.4354f, 0.4003f);
+            collider.offset = new Vector2(0.0025f, 0.0254f);
+            if (FriendsListManager.InstanceExists)
+            {
+                var listButton = FriendsListManager.Instance.FriendsListButton.transform.GetChild(0);
+                listButton.transform.SetParent(UiTopRight.transform, false);
+                FriendsListManager.Instance.FriendsListButton = listButton.GetComponent<FriendsListButton>();
+                listButton.GetComponent<AspectPosition>().Destroy();
+                listButton.localPosition = new Vector3(0, 0, 0);
+            }
+            settingsButton.transform.SetAsLastSibling();
+            chatButton.transform.SetParent(UiTopRight.transform, false);
+            HudManager.Instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
+            UiAspectPos.updateAlways = true;
+        }
+
+        if (UiTopRight)
+        {
+            UiGrid.ArrangeChilds();
+        }
+    }
     public static void CreateNewUiRow(HudManager instance)
     {
         if (!ExtraUiTopRight)
@@ -976,6 +1044,7 @@ public static class HudManagerPatches
             ExtraUiGrid.Alignment = GridArrange.StartAlign.Left;
             ExtraUiGrid.CellSize = new Vector2(0.85f, 0.85f);
             ExtraUiAspectPos.Alignment = AspectPosition.EdgeAlignments.RightTop;
+            ExtraUiAspectPos.DistanceFromEdge = BelowOptionPos;
             ExtraUiGrid.Start();
             ExtraUiAspectPos.updateAlways = true;
         }
@@ -983,15 +1052,7 @@ public static class HudManagerPatches
         if (ExtraUiTopRight)
         {
             var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
-            var belowUi = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ExtraUiButtonsInSecondRow.Value;
-            if (belowUi)
-            {
-                ExtraUiAspectPos.DistanceFromEdge = BelowOptionPos;
-            }
-            else
-            {
-                ExtraUiAspectPos.DistanceFromEdge = isChatButtonVisible ? WithChatPos : WithOptionsPos;
-            }
+            instance.Chat.chatButton.gameObject.SetActive(isChatButtonVisible);
             ExtraUiGrid.ArrangeChilds();
         }
     }
@@ -1013,11 +1074,15 @@ public static class HudManagerPatches
                 IngameWikiMinigame.Create().Begin(null);
             }));
 
-            WikiButton.transform.Find("Background").localPosition = Vector3.zero;
-            WikiButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            var inactive = WikiButton.transform.Find("Inactive");
+            inactive.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButton.LoadAsset();
-            WikiButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+            inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
+            var active = WikiButton.transform.Find("Active");
+            active.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButtonActive.LoadAsset();
+            active.localPosition = new Vector3(0, 0.021f, -0.1f);
+
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
         }
 
@@ -1035,6 +1100,8 @@ public static class HudManagerPatches
         {
             return;
         }
+
+        CreateUiRow(__instance);
         CreateNewUiRow(__instance);
 
         CreateWikiButton(__instance);
