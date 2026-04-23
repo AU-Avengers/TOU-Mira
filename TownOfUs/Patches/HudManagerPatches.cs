@@ -971,7 +971,7 @@ public static class HudManagerPatches
         }
     }
 
-    public static Vector2 BelowOptionPos = new Vector2(0.435f, 1.25f);
+    public static Vector3 BelowOptionPos = new Vector3(0.435f, 1.25f, 65);
     public static Vector2 WithOptionsPos = new Vector2(2.125f, 0.475f);
     public static Vector2 WithChatPos = new Vector2(2.7f, 0.475f);
     public static Vector2 FullTopPos = new Vector2(0.435f, 0.475f);
@@ -1103,7 +1103,7 @@ public static class HudManagerPatches
             if (ModifierDisplayOnRight)
             {
                 ModifierDisplayObject.transform.SetParent(ExtraUiTopRight.transform, false);
-                ModifierDisplayObject.GetComponentInChildren<AspectPosition>().Destroy();
+                ModifierDisplayObject.GetComponent<AspectPosition>().Destroy();
                 ModifierDisplayObject.transform.GetChild(0).localPosition = new Vector3(-1.1757f, -2.1633f, 0);
                 ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, 0);
             }
