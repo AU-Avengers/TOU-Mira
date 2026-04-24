@@ -126,10 +126,10 @@
   <string name="TertiaryAbility">Umiejętność Trzecia (Umiejętność Hakowania)</string>
   <string name="UseCrewmateTeamColor">Używaj Podstawowego Koloru Dla Ról Załogi</string>
   <string name="ShowShieldHud">Pokazuj Tarcze w Hudzie Modyfikatorów</string>
-  <string name="BackButtonText">W tył</string>
-  <string name="PreviousButtonText">Poprzednie</string>
-  <string name="NextButtonText">Następne</string>
-  <string name="TermsProtectionSymbolsInfo">Symbole ochronne pojawiają się przy nazwach graczy podczas spotkań oraz/lub w trakcie gry, pokazując że są odporni na większość ataków. Są one zwykle widoczne jedynie dla ról do których należą, dla ich celu, oraz/lub dla martwych. • Tarcze Medyka zaznaczone są \%color=#006600\%+\%/color\% • Bariery Kleryka zaznaczone są \%color=#00FFB3\%Ω\%/color\% • Fortyfikacja Opiekuna zaznaczona jest \%color=#9900FF\%π\%/color\% • Odbicia Zaklinacza Luster zaznaczone są\%color=#90A2C3\%〚〛\%/color\% • Ochrony Wróżki zaznaczone są \%color=#FFD900\%★\%/color\% • Ochrona Anioła Stróża zaznaczona jest \%color=#66AAF3\%☀\%/color\% • błogosławieństwo Wyroczni zaznaczone jest \%color=#BF00BF\%†\%/color\%</string>
+  <string name="BackButtonText">Wróć</string>
+  <string name="PreviousButtonText">Wstecz</string>
+  <string name="NextButtonText">Dalej</string>
+  <string name="TermsProtectionSymbolsInfo">Symbole ochron pojawiają się przy nazwach graczy podczas spotkań oraz/lub w trakcie gry, pokazując że są odporni na większość ataków. Są one zwykle widoczne jedynie dla ról do których należą, dla ich celu, oraz/lub dla martwych. • Tarcze Medyka zaznaczone są \%color=#006600\%+\%/color\% • Bariery Kleryka zaznaczone są \%color=#00FFB3\%Ω\%/color\% • Fortyfikacja Opiekuna zaznaczona jest \%color=#9900FF\%π\%/color\% • Odbicia Zaklinacza Luster zaznaczone są\%color=#90A2C3\%〚〛\%/color\% • Ochrony Wróżki zaznaczone są \%color=#FFD900\%★\%/color\% • Ochrona Anioła Stróża zaznaczona jest \%color=#66AAF3\%☀\%/color\% • błogosławieństwo Wyroczni zaznaczone jest \%color=#BF00BF\%†\%/color\%</string>
   <string name="TermsStatusEffectSymbolsTitle">Symbole Efektów</string>
   <string name="TermsStatusEffectInfo">Symbole Efektów pojawiają się przy nazwach graczy podczas spotkań oraz/lub w trakcie gry, są one zwykle widoczne jedynie dla ról do których należą, dla ich celu, oraz/lub dla martwych. • Oblania Piromana zaznaczone są \%color=#FF4D00\%Δ\%/color\% • Plaga Zarazy zaznaczona jest \%color=#E6FFB3\%¥\%/color\% • Kontrolowani gracze oznaczeni są \%color=#FF2660\%⦿\%/color\% • Szantażowani gracze oznaczeni są \%color=#2A1119\%M\%/color\% • Hipnozja zaznaczona jest \%color=#D53F42\%@\%/color\% • Klątwa Szamana zaznaczona jest \%color=#FF0000\%乂\%/color\% • Rycerze Monarchy zaznaczeni są \%color=#EA535B\%♠\%/color\%</string>
   <string name="NeutralKillingTaskHeader">Pozbądź się pozostałych drużyn w jakikolwiek sposób.\%nl\%Fałszywe Zadania:</string>
