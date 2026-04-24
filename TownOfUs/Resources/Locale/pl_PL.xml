@@ -122,7 +122,7 @@
   <string name="WikiSettingsMapsSabotageSettingsTitle">Ustawienia Map/Sabotaży</string>
   <string name="WikiSettingsBetterMapsSettingsTitle">Ustawienia Polepszeń Map</string>
   <string name="TermsTargetSymbolsTitle">Symbole Celów</string>
-  <string name="TermsTargetSymbolsInfo">Symbole Celów pojawiają się przy nazwie gracza na spotkaniach oraz podczas gry i są one przeważnie widoczne tylko dla ról które do których należą oraz/bądź martwych. • Cel Kata jest zaznaczony za pomocą \%color=#643B1F\%X\%/color\% • Heretycy Inkwizytora są zaznaczeni za pomocą \%color=#D94291\%$\%/color\% dla martwych. • Cel Wróżki jest zaznaczony za pomocą \%color=#B3FFFF\%★\%/color\%</string>
+  <string name="TermsTargetSymbolsInfo">Symbole Celów pojawiają się przy nazwie gracza na spotkaniach oraz podczas gry i są one przeważnie widoczne tylko dla ról do których należą oraz/bądź martwych. • Cel Kata jest zaznaczony za pomocą \%color=#643B1F\%X\%/color\% • Heretycy Inkwizytora są zaznaczeni za pomocą \%color=#D94291\%$\%/color\% dla martwych. • Cel Wróżki jest zaznaczony za pomocą \%color=#B3FFFF\%★\%/color\%</string>
   <string name="TertiaryAbility">Umiejętność Trzecia (Umiejętność Hakowania)</string>
   <string name="UseCrewmateTeamColor">Używaj Podstawowego Koloru Dla Ról Załogi</string>
   <string name="ShowShieldHud">Pokazuj Tarcze w Hudzie Modyfikatorów</string>
@@ -143,7 +143,7 @@
   <string name="NeutralKillers">Neutralni Zabijający</string>
   <string name="MinimumShort">Min</string>
   <string name="MaximumShort">Maks</string>
-  <string name="TermsCrewRoleAlignmentsInfo">• \%color=#8CFFFF\%Śledcze\%/color\% role mogą zbierać informacje o innych graczach. Mogą później użyć tej informacji aby dowiedzieć się kto jest z załogą, a kto nie. • \%color=#8CFFFF\%Zabijające\%/color\% role mogą \%color=#FF8B95\%zabić\%/color\% innych, ale \%color=#FF8B95\%zabicie\%/color\% \%color=#8CFFFF\%Załogantów\%/color\% może mieć konsekwencje. • \%color=#8CFFFF\%Ochronne\%/color\% role mają umiejętności, aby chronić innych graczy oraz czasami samych siebie. • \%color=#8CFFFF\%Wpływowe\%/color\% role mogą wpływać na głosy albo mają mocniejsze umiejętności w porównaniu do reszty \%color=#8CFFFF\%Załogi\%/color\%. • Role \%color=#8CFFFF\%wsparcia\%/color\% mają możliwość aby pomóc reszcie \%color=#8CFFFF\%Załogi\%/color\%, albo mogą wesprzeć samych siebie.</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• Role \%color=#8CFFFF\%śledcze\%/color\% mogą zbierać informacje o innych graczach. Mogą później użyć tej informacji aby dowiedzieć się kto jest z załogą, a kto nie. • Role \%color=#8CFFFF\%zabijające\%/color\% mogą \%color=#FF8B95\%zabić\%/color\% innych, ale \%color=#FF8B95\%zabicie\%/color\% \%color=#8CFFFF\%Załoganta\%/color\% może mieć konsekwencje. • Role \%color=#8CFFFF\%ochronne\%/color\% mają umiejętności, aby chronić innych graczy oraz czasami samych siebie. • Role \%color=#8CFFFF\%wpływowe\%/color\% mogą wpływać na głosowanie podczas spotkania albo mają znacznie mocniejsze umiejętności w porównaniu do reszty \%color=#8CFFFF\%Załogi\%/color\%. • Role \%color=#8CFFFF\%wsparcia\%/color\% mają możliwość aby pomóc reszcie \%color=#8CFFFF\%Załogi\%/color\%, albo mogą wesprzeć samych siebie.</string>
   <string name="CrewmateInvestigative">Załogant Śledczy</string>
   <string name="CrewmateKilling">Załogant Zabijający</string>
   <string name="CrewmatePower">Załogant Wpływowy</string>
@@ -179,4 +179,5 @@
   <string name="AnticheatMessage">\%player\% dołączył do gry z następującymi dodatkowymi modami:</string>
   <string name="AnticheatKickMissingMessage">\%player\% nie posiada następujących modów:</string>
   <string name="AnticheatKickChatMessage">\%player\% został wyrzucony za używanie cheatów:</string>
+  <string name="TermsCrewRoleAlignmentsTitle">Przynależności \%color=#8CFFFF\%Załogi\%/color\%</string>
 </resources>
