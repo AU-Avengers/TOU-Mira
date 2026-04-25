@@ -260,7 +260,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         var alignment = role.GetRoleAlignment();
 
         // If Vigilante is Egotist, then guessing investigative roles is based off assassin settings
-        if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessInvest &&
+        if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessInvest.Value &&
             alignment == RoleAlignment.CrewmateInvestigative)
         {
             return false;

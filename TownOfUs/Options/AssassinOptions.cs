@@ -1,81 +1,238 @@
+using HarmonyLib;
 using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
+using TownOfUs.Interfaces;
+using TownOfUs.Modifiers.Game;
 
 namespace TownOfUs.Options;
 
-public sealed class AssassinOptions : AbstractOptionGroup
+public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => "Assassin Options";
     public override uint GroupPriority => 7;
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
 
-    [ModdedNumberOption("Number Of Impostor Assassins", 0, 4, 1, MiraNumberSuffixes.None, "0")]
-    public float NumberOfImpostorAssassins { get; set; } = 1;
+    public ModdedNumberOption NumberOfImpostorAssassins { get; } =
+        new("Number Of Impostor Assassins", 1, 0, 4, 1, MiraNumberSuffixes.None, "0");
 
     public ModdedNumberOption ImpAssassinChance { get; } =
         new("Impostor Assassin Chance", 100f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
         {
-            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins > 0
+            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins.Value > 0
         };
 
-    [ModdedNumberOption("Number Of Neutral Assassins", 0, 5, 1, MiraNumberSuffixes.None, "0")]
-    public float NumberOfNeutralAssassins { get; set; } = 1;
+    public ModdedNumberOption NumberOfNeutralAssassins { get; } =
+        new("Number Of Neutral Assassins", 1, 0, 4, 1, MiraNumberSuffixes.None, "0");
 
     public ModdedNumberOption NeutAssassinChance { get; } =
         new("Neutral Assassin Chance", 100f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
         {
-            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins > 0
+            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins.Value > 0
         };
 
-    public ModdedToggleOption AmneTurnImpAssassin { get; } = new($"Amnesiac Turned Impostor Gets Ability", true);
+    public ModdedNumberOption AssassinKills { get; } =
+        new("Number Of Assassin Kills", 5, 1, 15, 1, MiraNumberSuffixes.None, "0");
 
-    public ModdedToggleOption AmneTurnNeutAssassin { get; } =
-        new($"Amnesiac Turned Neutral Killing Gets Ability", true);
+    public ModdedToggleOption AssassinMultiKill { get; } =
+        new("Assassin Can Kill More Than Once Per Meeting", true)
+    {
+        Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills.Value > 1
+    };
 
-    [ModdedToggleOption("Traitor Gets Ability")]
-    public bool TraitorCanAssassin { get; set; } = true;
+    /*
+    public ModdedToggleOption GuessVanillaRoles { get; } =
+        new("Non-Basic Vanilla Roles Are Guessable", true);*/
 
-    [ModdedNumberOption("Number Of Assassin Kills", 1, 15, 1, MiraNumberSuffixes.None, "0")]
-    public float AssassinKills { get; set; } = 5;
+    public ModdedToggleOption AssassinCrewmateGuess { get; } =
+        new("Assassin Can Guess \"Crewmate\"", false);
 
-    [ModdedToggleOption("Assassin Can Kill More Than Once Per Meeting")]
-    public bool AssassinMultiKill { get; set; } = true;
+    public ModdedToggleOption AssassinGuessInvest { get; } =
+        new("Assassin Can Guess Crew Investigative Roles", false);
 
-    [ModdedToggleOption("Non-Basic Vanilla Roles Are Guessable")]
-    public bool GuessVanillaRoles { get; set; } = true;
+    public ModdedToggleOption AssassinGuessNeutralBenign { get; } =
+        new("Assassin Can Guess Neutral Benign Roles", true);
 
-    [ModdedToggleOption("Assassin Can Guess \"Crewmate\"")]
-    public bool AssassinCrewmateGuess { get; set; } = false;
+    public ModdedToggleOption AssassinGuessNeutralEvil { get; } =
+        new("Assassin Can Guess Neutral Evil Roles", true);
 
-    [ModdedToggleOption("Assassin Can Guess Crew Investigative Roles")]
-    public bool AssassinGuessInvest { get; set; } = false;
+    public ModdedToggleOption AssassinGuessNeutralKilling { get; } =
+        new("Assassin Can Guess Neutral Killing Roles", true);
 
-    [ModdedToggleOption("Assassin Can Guess Neutral Benign Roles")]
-    public bool AssassinGuessNeutralBenign { get; set; } = true;
+    public ModdedToggleOption AssassinGuessNeutralOutlier { get; } =
+        new("Assassin Can Guess Neutral Outlier Roles", true);
 
-    [ModdedToggleOption("Assassin Can Guess Neutral Evil Roles")]
-    public bool AssassinGuessNeutralEvil { get; set; } = true;
+    public ModdedToggleOption AssassinGuessImpostors { get; } =
+        new("Assassin Can Guess Impostor Roles", true);
 
-    [ModdedToggleOption("Assassin Can Guess Neutral Killing Roles")]
-    public bool AssassinGuessNeutralKilling { get; set; } = true;
-
-    [ModdedToggleOption("Assassin Can Guess Neutral Outlier Roles")]
-    public bool AssassinGuessNeutralOutlier { get; set; } = true;
-
-    [ModdedToggleOption("Assassin Can Guess Impostor Roles")]
-    public bool AssassinGuessImpostors { get; set; } = true;
-
-    [ModdedToggleOption("Assassin Can Guess Crewmate Modifiers")]
-    public bool AssassinGuessCrewModifiers { get; set; } = true;
+    public ModdedToggleOption AssassinGuessCrewModifiers { get; } =
+        new("Assassin Can Guess Crewmate Modifiers", true);
 
     public ModdedToggleOption AssassinGuessUtilityModifiers { get; } =
         new("Assassin Can Guess Crew Utility Modifiers", false)
         {
-            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers
+            Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers.Value
         };
 
-    [ModdedToggleOption("Assassin Can Guess Alliances")]
-    public bool AssassinGuessAlliances { get; set; } = true;
+    public ModdedToggleOption AssassinGuessNonCrewModifiers { get; } =
+        new("Assassin Can Guess Other Faction Modifiers", true);
+
+    public ModdedToggleOption AssassinGuessAlliances { get; } =
+        new("Assassin Can Guess Alliances", true);
+
+    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+        new HashSet<StringNames>
+        {
+            NumberOfImpostorAssassins.StringName,
+            ImpAssassinChance.StringName,
+            NumberOfNeutralAssassins.StringName,
+            NeutAssassinChance.StringName,
+
+            AssassinKills.StringName,
+            AssassinMultiKill.StringName,
+
+            // GuessVanillaRoles.StringName,
+            AssassinCrewmateGuess.StringName,
+            AssassinGuessInvest.StringName,
+
+            AssassinGuessNeutralBenign.StringName,
+            AssassinGuessNeutralEvil.StringName,
+            AssassinGuessNeutralKilling.StringName,
+            AssassinGuessNeutralOutlier.StringName,
+
+            AssassinGuessImpostors.StringName,
+
+            AssassinGuessCrewModifiers.StringName,
+            AssassinGuessNonCrewModifiers.StringName,
+            AssassinGuessUtilityModifiers.StringName,
+            AssassinGuessAlliances.StringName,
+        };
+
+    public IEnumerable<string> GetWikiOptionSummaryLines()
+    {
+        var all = TouLocale.Get("TouOptionAssassinAll");
+        var none = TouLocale.Get("TouOptionAssassinNone");
+        var cult = TownOfUsPlugin.Culture;
+        var impCount = (int)NumberOfImpostorAssassins.Value;
+        var impChance = (int)ImpAssassinChance.Value;
+        var impText = TouLocale.Get("TouOptionAssassinImpAssassinTitle") +
+                      (impCount > 0 && impChance > 0
+                          ? TouLocale.GetParsed("TouOptionAssassinSetAssassins").Replace("<amount>",
+                              impCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
+                              impChance.ToString(TownOfUsPlugin.Culture))
+                          : TouLocale.Get("TouOptionAssassinNoAssassins"));
+        var neutCount = (int)NumberOfNeutralAssassins.Value;
+        var neutChance = (int)NeutAssassinChance.Value;
+        var neutText = TouLocale.Get("TouOptionAssassinNeutAssassinTitle") +
+                       (neutCount > 0 && neutChance > 0
+                           ? TouLocale.GetParsed("TouOptionAssassinSetAssassins").Replace("<amount>",
+                               neutCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
+                               neutChance.ToString(TownOfUsPlugin.Culture))
+                           : TouLocale.Get("TouOptionAssassinNoAssassins"));
+        var assassinShots = $"{((int)AssassinKills.Value).ToString(cult)}";
+        if ((int)AssassinKills.Value > 1)
+        {
+            assassinShots += AssassinMultiKill.Value ? " (Any Per Meeting)" : " (1 Per Meeting)";
+        }
+
+        var crewRoles = none;
+        var neutRoles = none;
+        var impRoles = AssassinGuessImpostors.Value ? all : none;
+        var modifiers = all;
+
+        if (!AssassinGuessInvest.Value && !AssassinCrewmateGuess.Value)
+        {
+            crewRoles = TouLocale.Get("TouOptionAssassinBasicCrew") + ", " + TouLocale.Get("TouOptionAssassinInvestCrew");
+        }
+        else if (!AssassinCrewmateGuess.Value)
+        {
+            crewRoles = TouLocale.Get("TouOptionAssassinBasicCrew");
+        }
+        else if (!AssassinGuessInvest.Value)
+        {
+            crewRoles = TouLocale.Get("TouOptionAssassinInvestCrew");
+        }
+
+        if (AssassinGuessNeutralBenign.Value || AssassinGuessNeutralEvil.Value || AssassinGuessNeutralKilling.Value || AssassinGuessNeutralOutlier.Value)
+        {
+            if (AssassinGuessNeutralBenign.Value && AssassinGuessNeutralEvil.Value &&
+                AssassinGuessNeutralKilling.Value && AssassinGuessNeutralOutlier.Value)
+            {
+                neutRoles = none;
+            }
+            else
+            {
+                string[] neutArray = Array.Empty<string>();
+
+                if (!AssassinGuessNeutralBenign.Value)
+                {
+                    neutArray = neutArray.AddToArray(TouLocale.Get("TouOptionAssassinNeutBenign"));
+                }
+
+                if (!AssassinGuessNeutralEvil.Value)
+                {
+                    neutArray = neutArray.AddToArray(TouLocale.Get("TouOptionAssassinNeutEvil"));
+                }
+
+                if (!AssassinGuessNeutralKilling.Value)
+                {
+                    neutArray = neutArray.AddToArray(TouLocale.Get("TouOptionAssassinNeutKilling"));
+                }
+
+                if (!AssassinGuessNeutralOutlier.Value)
+                {
+                    neutArray = neutArray.AddToArray(TouLocale.Get("TouOptionAssassinNeutOutlier"));
+                }
+
+                neutRoles = string.Join(", ", neutArray);
+            }
+        }
+
+        if (AssassinGuessCrewModifiers.Value || AssassinGuessNonCrewModifiers.Value || AssassinGuessAlliances.Value)
+        {
+            if (AssassinGuessCrewModifiers.Value && AssassinGuessUtilityModifiers.Value &&
+                AssassinGuessNonCrewModifiers.Value && AssassinGuessAlliances.Value)
+            {
+                modifiers = TouLocale.Get("TouOptionAssassinUniversalMods");
+            }
+            else
+            {
+                var modArray = new[]
+                {
+                    TouLocale.Get("TouOptionAssassinUniversalMods")
+                };
+                if (!AssassinGuessCrewModifiers.Value)
+                {
+                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinCrewMods"));
+                }
+                else if (!AssassinGuessUtilityModifiers.Value)
+                {
+                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinUtilityCrewMods"));
+                }
+
+                if (!AssassinGuessNonCrewModifiers.Value)
+                {
+                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinNonCrewMods"));
+                }
+
+                if (!AssassinGuessAlliances.Value)
+                {
+                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinAllianceMods"));
+                }
+
+                modifiers = string.Join(", ", modArray);
+            }
+        }
+        var newArray = new[]
+        {
+            impText,
+            neutText,
+            "Assassin Shots: " + assassinShots,
+            TouLocale.Get("TouOptionAssassinGuessableCrewRolesTitle") + crewRoles,
+            TouLocale.Get("TouOptionAssassinGuessableNeutRolesTitle") + neutRoles,
+            TouLocale.Get("TouOptionAssassinGuessableImpRolesTitle") + impRoles,
+            TouLocale.Get("TouOptionAssassinGuessableModifiersTitle") + modifiers,
+        };
+        return newArray;
+    }
 }

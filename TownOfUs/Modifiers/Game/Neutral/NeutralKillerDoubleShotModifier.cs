@@ -34,7 +34,7 @@ public sealed class NeutralKillerDoubleShotModifier : DoubleShotModifier, IWikiD
         if (
             role is ITownOfUsRole { RoleAlignment: RoleAlignment.NeutralKilling }
             && role.Player.GetModifierComponent().HasModifier<NeutralKillerAssassinModifier>(true)
-            && !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true)
+            && !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true, x => x.PreventsOtherModifiers)
         )
         {
             return true;

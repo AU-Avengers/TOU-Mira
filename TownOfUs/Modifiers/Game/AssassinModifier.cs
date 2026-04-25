@@ -2,9 +2,9 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
-using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.HnsGame;
@@ -20,20 +20,43 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game;
 
-[MiraIgnore]
-public abstract class AssassinModifier : ExcludedGameModifier
+public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 {
     public int maxKills;
     private MeetingMenu meetingMenu;
-    public override string ModifierName => "Assassin";
+    public override string LocaleKey => "Assassin";
+    public static bool HasDoubleShot => PlayerControl.LocalPlayer.HasModifier<DoubleShotModifier>();
+    public static string LocaleKeyAlt => HasDoubleShot ? "DoubleShot" : "Assassin";
+    public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKeyAlt}IntroBlurb");
+    public override bool PreventsOtherModifiers => false;
+    public override bool AppearsInSummary => false;
+
+    public override string GetDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}TabDescription");
+    }
+
+    public string GetAdvancedDescription()
+    {
+        return TouLocale.GetParsed($"TouModifier{LocaleKey}WikiDescription") + MiscUtils.AppendOptionsText(GetType());
+    }
+
+    public List<CustomButtonWikiDescription> Abilities { get; } = [];
+
+    public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Assassin;
+    public override ModifierFaction FactionType => ModifierFaction.AssailantUtility;
+
+    // YES this is scuffed, a better solution will be used at a later time
+    public override bool ShowInFreeplay => false;
     public string LastGuessedItem { get; set; }
     public PlayerControl? LastAttemptedVictim { get; set; }
 
-    public override bool HideOnUi => true;
+    public override bool HideOnUi => HasDoubleShot;
 
     public override int GetAssignmentChance()
     {
-        return 100;
+        return 0;
     }
 
     public override int GetAmountPerGame()
@@ -46,6 +69,35 @@ public abstract class AssassinModifier : ExcludedGameModifier
         return 0;
     }
 
+    public override int CustomAmount =>
+        (int)OptionGroupSingleton<AssassinOptions>.Instance.NumberOfImpostorAssassins.Value +
+        (int)OptionGroupSingleton<AssassinOptions>.Instance.NumberOfNeutralAssassins.Value;
+
+    public override int CustomChance
+    {
+        get
+        {
+            var opt = OptionGroupSingleton<AssassinOptions>.Instance;
+            var impChance = (int)opt.ImpAssassinChance.Value;
+            var neutChance = (int)opt.NeutAssassinChance.Value;
+            if ((int)opt.NumberOfImpostorAssassins.Value > 0 && (int)opt.NumberOfNeutralAssassins.Value > 0)
+            {
+                return (impChance + neutChance) / 2;
+            }
+
+            if ((int)opt.NumberOfImpostorAssassins.Value > 0)
+            {
+                return impChance;
+            }
+            else if ((int)opt.NumberOfNeutralAssassins.Value > 0)
+            {
+                return neutChance;
+            }
+
+            return 0;
+        }
+    }
+
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
         return role is not SpectatorRole;
@@ -55,7 +107,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
     {
         base.OnActivate();
 
-        maxKills = (int)OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills;
+        maxKills = (int)OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills.Value;
 
         //Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
         if (Player.AmOwner)
@@ -209,7 +261,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
             maxKills--;
 
-            if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinMultiKill || maxKills == 0 || victim == Player)
+            if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinMultiKill.Value || maxKills == 0 || victim == Player)
             {
                 meetingMenu?.HideButtons();
             }
@@ -261,7 +313,7 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
         if (alignment == RoleAlignment.CrewmateInvestigative)
         {
-            return options.AssassinGuessInvest;
+            return options.AssassinGuessInvest.Value;
         }
 
         if (role.IsCrewmate() && role is ICustomRole)
@@ -269,14 +321,14 @@ public abstract class AssassinModifier : ExcludedGameModifier
             return true;
         }
 
-        if (role.IsCrewmate() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinCrewmateGuess)
+        if (role.IsCrewmate() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinCrewmateGuess.Value)
         {
             return true;
         }
 
         var assassinAlignment = Player.Data.Role.GetRoleAlignment();
 
-        if (role.IsImpostor() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostors &&
+        if (role.IsImpostor() && OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostors.Value &&
             assassinAlignment is RoleAlignment.NeutralKilling or RoleAlignment.NeutralEvil)
         {
             return true;
@@ -284,22 +336,22 @@ public abstract class AssassinModifier : ExcludedGameModifier
 
         if (alignment == RoleAlignment.NeutralBenign)
         {
-            return options.AssassinGuessNeutralBenign;
+            return options.AssassinGuessNeutralBenign.Value;
         }
 
         if (alignment == RoleAlignment.NeutralEvil)
         {
-            return options.AssassinGuessNeutralEvil;
+            return options.AssassinGuessNeutralEvil.Value;
         }
 
         if (alignment == RoleAlignment.NeutralKilling)
         {
-            return options.AssassinGuessNeutralKilling;
+            return options.AssassinGuessNeutralKilling.Value;
         }
 
         if (alignment == RoleAlignment.NeutralOutlier)
         {
-            return options.AssassinGuessNeutralOutlier;
+            return options.AssassinGuessNeutralOutlier.Value;
         }
 
         return false;
@@ -322,26 +374,29 @@ public abstract class AssassinModifier : ExcludedGameModifier
             return false;
         }
 
-        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessAlliances &&
+        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessAlliances.Value &&
             modifier is AllianceGameModifier)
         {
             return true;
         }
 
-        if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers)
+        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers.Value)
         {
-            return false;
+            if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessUtilityModifiers.Value &&
+                modifier is TouGameModifier touMod2 && touMod2.FactionType == ModifierFaction.CrewmateUtility)
+            {
+                return false;
+            }
+
+            var crewMod = modifier as TouGameModifier;
+            if (crewMod != null && crewMod.FactionType.ToDisplayString().Contains("Crew") &&
+                !crewMod.FactionType.ToDisplayString().Contains("Non"))
+            {
+                return true;
+            }
         }
 
-        if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessUtilityModifiers &&
-            modifier is TouGameModifier touMod2 && touMod2.FactionType == ModifierFaction.CrewmateUtility)
-        {
-            return false;
-        }
-
-        var crewMod = modifier as TouGameModifier;
-        if (crewMod != null && crewMod.FactionType.ToDisplayString().Contains("Crew") &&
-            !crewMod.FactionType.ToDisplayString().Contains("Non"))
+        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessNonCrewModifiers.Value && modifier is TouGameModifier)
         {
             return true;
         }
