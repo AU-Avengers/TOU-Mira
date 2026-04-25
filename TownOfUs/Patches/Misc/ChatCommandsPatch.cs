@@ -72,7 +72,7 @@ public static class ChatPatches
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
     public static void ChatBubbleUpdatePrefix(ChatController __instance)
     {
-        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.24f, -0.273f, -1f);
+        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.24f, 0.277f, -1f);
     }
 
     [HarmonyPrefix]
