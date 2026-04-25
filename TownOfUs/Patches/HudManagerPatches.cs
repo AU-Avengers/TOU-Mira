@@ -1025,6 +1025,7 @@ public static class HudManagerPatches
             settingsButton.transform.SetAsLastSibling();
             chatButton.transform.SetParent(UiTopRight.transform, false);
             HudManager.Instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
+            chatButton.transform.GetChild(1).localPosition = new Vector3(-0.24f, 0.277f, -1f);
             UiAspectPos.updateAlways = true;
         }
 
