@@ -984,7 +984,7 @@ public static class EndGamePatches
 
                 if (!string.IsNullOrEmpty(roleName))
                 {
-                    playerNameColored = $"{roleName}\n{color.ToTextColor()}<size=92%>{playerNameColored}</size></color>";
+                    playerNameColored = $"{roleName}\n{playerColor.ToTextColor()}<size=92%>{playerNameColored}</size></color>";
                     playerName = $"{roleName}\n<size=92%>{playerName}</size>";
                 }
 
