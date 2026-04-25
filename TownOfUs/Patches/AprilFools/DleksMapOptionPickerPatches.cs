@@ -1,5 +1,7 @@
 using HarmonyLib;
 using Reactor.Localization.Utilities;
+using Reactor.Utilities.Extensions;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -45,6 +47,34 @@ public static class DleksMapOptionPickerPatches
             Name = MapNames.Dleks,
             MapIcon = TouAssets.DleksTextAlt.LoadAsset(),
         });
+    }
+
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
+    [HarmonyPostfix]
+    public static void GameManagerScalePatch(GameStartManager __instance)
+    {
+        var aspect = __instance.LobbyInfoPane.transform.GetChild(0);
+        aspect.GetChild(1).localScale = new Vector3(1.0209f, 0.8609f, 1.0209f);
+        aspect.GetChild(2).localPosition = new Vector3(-3.0475f, -1.4414f, -1f);
+        aspect.GetChild(3).localPosition = new Vector3(-2.0085f, -2.17f, -2f);
+        aspect.GetChild(4).gameObject.SetActive(false);
+        var mapLogo = aspect.GetChild(5);
+        mapLogo.localPosition = new Vector3(-1.5224f, -2.6892f, -2f);
+        mapLogo.localScale = new Vector3(1.2074f, 1.2074f, 0.9799f);
+        var gameSettings = aspect.GetChild(11);
+        gameSettings.GetChild(0).gameObject.SetActive(false);
+        gameSettings.GetChild(3).localPosition = new Vector3(0, 0.4f, 0);
+        gameSettings.GetChild(4).localPosition = new Vector3(0, 0.4f, 0);
+        var mapLabel = UnityEngine.Object.Instantiate(aspect.GetChild(8).gameObject, aspect);
+        mapLabel.name = "MapLabel";
+        mapLabel.transform.localPosition = new Vector3(-3.378f, -2.7074f, -2f);
+        var labelBg = mapLabel.transform.GetChild(0);
+        labelBg.localPosition = new Vector3(0.0215f, -0.0071f, 0);
+        labelBg.localScale = new Vector3(0.7f, 1, 1);
+        var labelText = mapLabel.transform.GetChild(1);
+        labelText.GetComponent<TextTranslatorTMP>().Destroy();
+        var tmpLabel = labelText.GetComponent<TextMeshPro>();
+        tmpLabel.text = "Map";
     }
 
     [HarmonyPriority(Priority.VeryLow)]
