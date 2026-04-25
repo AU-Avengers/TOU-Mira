@@ -1142,7 +1142,7 @@
   <string name="TouOptionSeerNeutralEvilRolesAreRed">中立邪恶职业显示为红色</string>
   <string name="TouOptionSeerNeutralKillingRolesAreRed">中立杀手职业显示为红色</string>
   <string name="TouOptionSeerTraitorSwapsColors">背叛者转换颜色</string>
-  <string name="TouRolePlumberFlushWikiDescription">冲洗通风口会让所有通风口开关一次，将所有正在通风口中的玩家踢出。水管工还会获得指向每个被冲出的玩家的箭头，持续一秒。</string>
+  <string name="TouRolePlumberFlushWikiDescription">冲洗通风管道会将所有正在通风口中的玩家强制弹出，并在短时间内禁止使用通风口。水管工还会获得指向每位被冲出玩家的箭头，持续1秒。</string>
   <string name="TouRolePlumberBlock">路障</string>
   <string name="TouRolePlumberBlockWikiDescription">在选定的通风口设置路障，下回合阻止玩家使用该通风口。</string>
   <string name="TouOptionPlumberFlushCooldown">冲洗冷却</string>
@@ -2116,4 +2116,7 @@
   <string name="TouOptionInvestigatorFootprintSeperated">足迹生成依据</string>
   <string name="TouModifierCrewpostorShortName">伪</string>
   <string name="TouModifierEgotistShortName">狂</string>
+  <string name="WikiOnBottomRow">Wiki 按钮显示在主界面下方</string>
+  <string name="ZoomOnBottomRow">缩放按钮显示在主界面下方</string>
+  <string name="TouOptionPlumberFlushDuration">冲洗持续时间</string>
 </resources>
