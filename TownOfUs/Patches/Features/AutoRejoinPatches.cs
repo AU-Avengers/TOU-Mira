@@ -14,7 +14,7 @@ public static class AutoRejoinPatches
     [HarmonyPostfix]
     public static void EndGameStartPostfix(EndGameManager __instance)
     {
-        if (AmongUsClient.Instance == null) return;
+        if (AmongUsClient.Instance == null || TutorialManager.InstanceExists) return;
         var rejoinSelection = LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.AutoRejoinMode.Value;
         var willRejoin = rejoinSelection is AutoRejoinSelection.Always;
         if (rejoinSelection is AutoRejoinSelection.Never)
