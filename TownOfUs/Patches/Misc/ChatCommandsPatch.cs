@@ -60,6 +60,7 @@ public static class ChatPatches
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
     public static void TogglePrefix(ChatController __instance)
 	{
         __instance.chatButton.transform.localPosition = HudManagerPatches.ClonedChatButton.transform.localPosition + new Vector3(-0.3f, 0);
@@ -72,7 +73,7 @@ public static class ChatPatches
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
     public static void ChatBubbleUpdatePrefix(ChatController __instance)
     {
-        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.24f, 0.277f, -1f);
+        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.34f, 0.373f, -1f);
     }
 
     [HarmonyPrefix]

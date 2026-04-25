@@ -23,6 +23,10 @@ public static class SummaryDisconnectFixPatch
     [HarmonyPatch(nameof(GameData.HandleDisconnect), typeof(PlayerControl), typeof(DisconnectReasons))]
     public static void Prefix([HarmonyArgument(0)] PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            return;
+        }
         var playerRoleString = new StringBuilder();
         var playerRoleStringShort = new StringBuilder();
 

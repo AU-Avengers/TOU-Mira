@@ -1,3 +1,4 @@
+using AmongUs.Data;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -18,6 +19,7 @@ using TownOfUs.Modifiers;
 
 namespace TownOfUs.Patches.Options;
 
+[HarmonyPatch]
 public static class TeamChatPatches
 {
     public static bool SplitChats =>
@@ -31,6 +33,7 @@ public static class TeamChatPatches
     public static List<PoolableBehavior> storedBubbles = new List<PoolableBehavior>();
     public static bool calledByChatUpdate;
     public static GameObject? PrivateChatDot;
+    public static SpriteRenderer PublicChatDot;
 
     internal const string PrivateBubblePrefix = "TOU_TeamChatBubble_";
     internal const string PublicBubblePrefix = "TOU_PublicChatBubble_";
@@ -851,7 +854,7 @@ public static class TeamChatPatches
     {
         var obj = HudManager.Instance.Chat.chatNotifyDot.gameObject;
         PrivateChatDot = Object.Instantiate(obj, obj.transform.parent);
-        PrivateChatDot.transform.localPosition -= new Vector3(0f, 0.325f, 0f);
+        PrivateChatDot.transform.localPosition -= new Vector3(0f, 0.425f, 0f);
         PrivateChatDot.transform.localScale -= new Vector3(0.2f, 0.2f, 0f);
     }
 
@@ -1170,6 +1173,102 @@ public static class TeamChatPatches
             }
         }
     }
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatNote))]
+	public static void AddChatNote(ChatController __instance, NetworkedPlayerInfo srcPlayer, ChatNoteTypes noteType)
+	{
+		if (srcPlayer == null)
+		{
+			return;
+		}
+        if (__instance is { IsOpenOrOpening: false })
+        {
+            __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
+        }
+	}
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+	public static bool AddChat(ChatController __instance, PlayerControl sourcePlayer, string chatText, bool censor = true)
+	{
+		if (!sourcePlayer || !PlayerControl.LocalPlayer)
+		{
+            return false;
+		}
+		NetworkedPlayerInfo data = PlayerControl.LocalPlayer.Data;
+		NetworkedPlayerInfo data2 = sourcePlayer.Data;
+		if (data2 == null || data == null || (data2.IsDead && !data.IsDead))
+		{
+			return false;
+		}
+		ChatBubble pooledBubble = __instance.GetPooledBubble();
+		try
+		{
+			pooledBubble.transform.SetParent(__instance.scroller.Inner);
+			pooledBubble.transform.localScale = Vector3.one;
+			bool flag = sourcePlayer == PlayerControl.LocalPlayer;
+			if (flag)
+			{
+				pooledBubble.SetRight();
+			}
+			else
+			{
+				pooledBubble.SetLeft();
+			}
+			bool didVote = MeetingHud.Instance && MeetingHud.Instance.DidVote(sourcePlayer.PlayerId);
+			pooledBubble.SetCosmetics(data2);
+            __instance.SetChatBubbleName(pooledBubble, data2, data2.IsDead, didVote, PlayerNameColor.Get(data2), null);
+			if (censor && DataManager.Settings.Multiplayer.CensorChat)
+			{
+				chatText = BlockedWords.CensorWords(chatText, false);
+			}
+			pooledBubble.SetText(chatText);
+			pooledBubble.AlignChildren();
+            __instance.AlignAllBubbles();
+            if (__instance is { IsOpenOrOpening: false })
+            {
+                __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
+            }
+			if (!flag && !__instance.IsOpenOrOpening)
+			{
+				SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + (float)sourcePlayer.PlayerId / 15f;
+                __instance.chatNotification.SetUp(sourcePlayer, chatText);
+			}
+		}
+		catch (Exception message)
+		{
+			ChatController.Logger.Error(message.ToString());
+            __instance.chatBubblePool.Reclaim(pooledBubble);
+		}
+        return false;
+	}
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
+	public static bool AddChatWarning(ChatController __instance, string warningText)
+	{
+		ChatBubble pooledBubble = __instance.GetPooledBubble();
+		try
+		{
+			pooledBubble.transform.SetParent(__instance.scroller.Inner);
+			pooledBubble.transform.localScale = Vector3.one;
+			pooledBubble.SetRight();
+			pooledBubble.SetWarning(warningText);
+			pooledBubble.AlignChildren();
+            __instance.AlignAllBubbles();
+            if (__instance is { IsOpenOrOpening: false })
+            {
+                __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
+            }
+			SoundManager.Instance.PlaySound(__instance.warningSound, false, 1f, null);
+		}
+		catch (Exception message)
+		{
+			ChatController.Logger.Error(message.ToString());
+            __instance.chatBubblePool.Reclaim(pooledBubble);
+		}
+        return false;
+	}
 
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
     public static class AddChatPatch
