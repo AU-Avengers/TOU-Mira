@@ -67,16 +67,6 @@ public static class ChatPatches
 
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatNote))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
-    public static void ChatBubbleUpdatePrefix(ChatController __instance)
-    {
-        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.24f, 0.277f, -1f);
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
     public static bool FirstPrefix(ChatController __instance)
     {
