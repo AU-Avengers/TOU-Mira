@@ -133,7 +133,7 @@ public static class EndGamePatches
             }
 
             var modifiers = playerControl.GetModifiers<GameModifier>()
-                .Where(x => x is TouGameModifier || x is UniversalGameModifier);
+                .Where(x => x is TouGameModifier touMod && touMod.AppearsInSummary || x is UniversalGameModifier);
             var modifierCount = modifiers.Count();
             var modifierNames = modifiers.Select(modifier => modifier.ModifierName);
             if (modifierCount != 0)
@@ -163,7 +163,7 @@ public static class EndGamePatches
             }
             var modifierHolder = new StringBuilder();
             var modifiersAlt = playerControl.GetModifiers<GameModifier>()
-                .Where(x => x is TouGameModifier || x is UniversalGameModifier || x is AllianceGameModifier);
+                .Where(x => x is TouGameModifier touMod && touMod.AppearsInSummary || x is UniversalGameModifier || x is AllianceGameModifier);
             var modifierCountAlt = modifiersAlt.Count();
             var modifierNamesAlt = modifiersAlt.Select(modifier => modifier.ModifierName);
             if (modifierCountAlt != 0)
