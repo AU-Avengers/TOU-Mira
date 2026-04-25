@@ -1024,11 +1024,14 @@ public static class HudManagerPatches
             }
             settingsButton.transform.SetAsLastSibling();
             chatButton.transform.SetParent(UiTopRight.transform, false);
-            HudManager.Instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
+            instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
             var iconContainer = new GameObject("iconContainer");
+            iconContainer.layer = LayerMask.NameToLayer("UI");
             iconContainer.transform.SetParent(chatButton.transform, false);
             iconContainer.transform.localPosition = new Vector3(0.1f, -0.1f, 0);
-            HudManager.Instance.Chat.chatNotifyDot.transform.SetParent(iconContainer.transform, false);
+            instance.Chat.chatNotifyDot.transform.SetParent(iconContainer.transform, false);
+            instance.Chat.chatNotifyDot = iconContainer.transform.GetChild(0).GetComponent<SpriteRenderer>();
+            TeamChatPatches.PublicChatDot = instance.Chat.chatNotifyDot;
             UiAspectPos.updateAlways = true;
         }
 
