@@ -1111,8 +1111,8 @@ public static class HudManagerPatches
             {
                 ModifierDisplayObject.transform.SetParent(ExtraUiTopRight.transform, false);
                 ModifierDisplayObject.GetComponent<AspectPosition>().Destroy();
-                ModifierDisplayObject.transform.GetChild(0).localPosition = new Vector3(-1.1757f, -2.1633f, 0);
-                ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, 0);
+                ModifierDisplayObject.transform.GetChild(0).localPosition = new Vector3(-1.1757f, -2.1633f, -80f);
+                ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, -80f);
             }
             TownOfUsLocalSettings.SetUpButtonPositions();
         }

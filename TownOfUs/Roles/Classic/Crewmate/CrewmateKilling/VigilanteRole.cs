@@ -313,6 +313,11 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
+        if (modifier is TouGameModifier touMod3 && touMod3.HideFromGuessing)
+        {
+            return false;
+        }
+
         if (OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteGuessAlliances &&
             modifier is AllianceGameModifier)
         {

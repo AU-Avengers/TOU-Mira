@@ -12,6 +12,7 @@ public sealed class ImpostorDoubleShotModifier : DoubleShotModifier, IWikiDiscov
     public override Color FreeplayFileColor => new Color32(255, 25, 25, 255);
 
     public override bool ShowInFreeplay => true;
+    public override bool HideFromGuessing => true;
 
     [HideFromIl2Cpp] public bool IsHiddenFromList => true;
 
