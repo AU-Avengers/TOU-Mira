@@ -213,7 +213,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         var modifiers = target.GetModifiers<TouGameModifier>().ToList();
         if (opts.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().HasAny())
         {
-            player.AddModifier(modifiers.FirstOrDefault()!.GetType());
+            player.AddModifier(modifiers.FirstOrDefault(x => x is not AssassinModifier)!.GetType());
         }
 
         if (player.AmOwner)
