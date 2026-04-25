@@ -62,6 +62,9 @@ public static class TouModifierIcons
     public static LoadableAsset<Sprite> Disperser { get; } =
         new LoadableBundleAsset<Sprite>("Disperser", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Assassin { get; } =
+        new LoadableBundleAsset<Sprite>("Assassin", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> DoubleShot { get; } =
         new LoadableBundleAsset<Sprite>("DoubleShot", TouAssets.MainBundle);
 
