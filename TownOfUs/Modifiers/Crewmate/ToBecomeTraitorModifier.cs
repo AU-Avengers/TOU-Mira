@@ -103,7 +103,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
             player.RemoveModifier<ToBecomeTraitorModifier>();
         }
 
-        if (OptionGroupSingleton<AssassinOptions>.Instance.TraitorCanAssassin)
+        if (OptionGroupSingleton<TraitorOptions>.Instance.TraitorCanAssassin.Value)
         {
             player.AddModifier<ImpostorAssassinModifier>();
         }
