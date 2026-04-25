@@ -16,6 +16,7 @@ public abstract class TouGameModifier : GameModifier
     public virtual int CustomChance => GetAssignmentChance();
     public virtual bool PreventsOtherModifiers => true;
     public virtual bool AppearsInSummary => true;
+    public virtual bool HideFromGuessing => false;
 
     public override bool HideOnUi => false;
 

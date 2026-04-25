@@ -10,6 +10,7 @@ public sealed class NeutralKillerDoubleShotModifier : DoubleShotModifier, IWikiD
 {
     public override string ModifierName => TouLocale.Get("TouModifierDoubleShot", "Double Shot");
     public override bool ShowInFreeplay => true;
+    public override bool HideFromGuessing => true;
 
     [HideFromIl2Cpp] public bool IsHiddenFromList => true;
 

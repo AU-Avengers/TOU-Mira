@@ -31,6 +31,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKeyAlt}IntroBlurb");
     public override bool PreventsOtherModifiers => false;
     public override bool AppearsInSummary => false;
+    public override bool HideFromGuessing => true;
 
     public override string GetDescription()
     {
@@ -370,6 +371,11 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         }
 
         if (!isValid)
+        {
+            return false;
+        }
+
+        if (modifier is TouGameModifier touMod3 && touMod3.HideFromGuessing)
         {
             return false;
         }
