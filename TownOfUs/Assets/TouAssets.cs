@@ -399,6 +399,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> TerminologySprite { get; } =
         new LoadableBundleAsset<Sprite>("Terminology", MainBundle);
 
+    public static LoadableAsset<Sprite> ActionSprite { get; } =
+        new LoadableBundleAsset<Sprite>("Action", MainBundle);
+
     public static void Initialize()
     {
         AuAvengersAnims.Initialize();
