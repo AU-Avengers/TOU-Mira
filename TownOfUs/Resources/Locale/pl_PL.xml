@@ -12,7 +12,7 @@
   <string name="ArrowColorGlow">Połysk W Kolorze</string>
   <string name="SummaryMsgBreakdown">Wygląd Wiadomości Z Podsumowaniem</string>
   <string name="ShowRoleIconOnRoleTab">Ikona W Zakładce Roli</string>
-  <string name="RainbowColorAsFortegreen">Tęczowy Kolor Jako Fortegreen</string>
+  <string name="RainbowColorAsFortegreen">Kolor Tęczowy Jako Fortegreen</string>
   <string name="ButtonUIFactor">Skala Przycisków</string>
   <string name="OffsetButtons">Przesunięte Przyciski Gdy Nie Możesz Ventować</string>
   <string name="SortGuessingByAlignment">Sortuj Menu Zgadywania Przez Przynależność</string>
@@ -180,4 +180,6 @@
   <string name="AnticheatKickMissingMessage">\%player\% nie posiada następujących modów:</string>
   <string name="AnticheatKickChatMessage">\%player\% został wyrzucony za używanie cheatów:</string>
   <string name="TermsCrewRoleAlignmentsTitle">Przynależności \%color=#8CFFFF\%Załogi\%/color\%</string>
+  <string name="WikiOnBottomRow">Przycisk Wiki Poniżej Głównego UI</string>
+  <string name="ZoomOnBottomRow">Przycisk Przybliżenia Poniżej Głównego UI</string>
 </resources>
