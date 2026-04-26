@@ -1,13 +1,11 @@
 using AmongUs.Data;
 using HarmonyLib;
 using MiraAPI.GameOptions;
-using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
-using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles.Crewmate;
@@ -28,12 +26,15 @@ public static class TeamChatPatches
     private static TextMeshPro? _teamText;
     public static bool TeamChatActive; // True if any team chat is active
     public static int CurrentChatIndex = -1; // Index of currently selected chat (-1 = normal chat)
-    public static bool ForceReset;
 #pragma warning disable S2386
-    public static List<PoolableBehavior> storedBubbles = new List<PoolableBehavior>();
-    public static bool calledByChatUpdate;
     public static GameObject? PrivateChatDot;
     public static SpriteRenderer PublicChatDot;
+    public static Transform PublicChatItems;
+    public static Transform PrivateChatItems;
+    public static Transform MergedChatItems;
+    public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PublicChatPool = new();
+    public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PrivateChatPool = new();
+    public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> MergedChatPool = new();
 
     internal const string PrivateBubblePrefix = "TOU_TeamChatBubble_";
     internal const string PublicBubblePrefix = "TOU_PublicChatBubble_";
@@ -491,89 +492,6 @@ public static class TeamChatPatches
         public bool IsForced { get; set; }
     }
 
-    private static bool IsPrivateBubble(GameObject bubbleGo)
-    {
-        return bubbleGo != null && !DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && bubbleGo.name.StartsWith(PrivateBubblePrefix, StringComparison.OrdinalIgnoreCase);
-    }
-
-    private static void PruneStoredBubbles()
-    {
-        for (var i = storedBubbles.Count - 1; i >= 0; i--)
-        {
-            var b = storedBubbles[i];
-            if (b == null || !b || b.gameObject == null)
-            {
-                storedBubbles.RemoveAt(i);
-            }
-        }
-    }
-
-    private static void RestoreStoredBubbles(ChatController chat)
-    {
-        if (chat == null || chat.chatBubblePool == null)
-        {
-            storedBubbles.Clear();
-            return;
-        }
-
-        PruneStoredBubbles();
-        if (storedBubbles.Count == 0)
-        {
-            return;
-        }
-
-        storedBubbles.Reverse();
-        foreach (var bubble in storedBubbles)
-        {
-            if (bubble == null || !bubble || bubble.gameObject == null)
-            {
-                continue;
-            }
-
-            if (!chat.chatBubblePool.activeChildren.Contains(bubble))
-            {
-                chat.chatBubblePool.activeChildren.Add(bubble);
-            }
-
-            bubble.gameObject.SetActive(true);
-        }
-
-        SortActiveChildrenByHierarchy(chat);
-        storedBubbles.Clear();
-    }
-
-    private static void SortActiveChildrenByHierarchy(ChatController chat)
-    {
-        // We sometimes remove/re-add bubbles from the pool list to hide/show different chat "channels".
-        // If we don't re-sort, the pool list order can drift from the actual UI hierarchy order,
-        // causing messages to appear in the wrong order.
-        if (chat == null || chat.chatBubblePool == null)
-        {
-            return;
-        }
-
-        var active = chat.chatBubblePool.activeChildren;
-        if (active == null || active.Count <= 1)
-        {
-            return;
-        }
-
-        // Copy -> order -> rewrite list.
-        var ordered = active.ToArray()
-            .OrderBy(x => (x == null || !x || x.transform == null) ? int.MaxValue : x.transform.GetSiblingIndex())
-            .ToArray();
-
-        active.Clear();
-        foreach (var item in ordered)
-        {
-            if (item == null || !item || item.gameObject == null)
-            {
-                continue;
-            }
-            active.Add(item);
-        }
-    }
-
     public static class CustomChatData
     {
         public static List<ChatHolder> CustomChatHolders { get; set; } = [];
@@ -623,6 +541,24 @@ public static class TeamChatPatches
         }
     }
 
+    public static void CheckChatScrollers()
+    {
+        if (!PublicChatItems)
+        {
+            PublicChatItems = HudManager.Instance.Chat.scroller.Inner;
+        }
+        if (!PrivateChatItems)
+        {
+            PrivateChatItems = Object.Instantiate(PublicChatItems, PublicChatItems.parent);
+            PrivateChatItems.name = "PrivateItems";
+        }
+        if (!MergedChatItems)
+        {
+            MergedChatItems = Object.Instantiate(PublicChatItems, PublicChatItems.parent);
+            MergedChatItems.name = "MergedItems";
+        }
+    }
+
     public static void ToggleTeamChat() // Also used to hide the custom chat when dying
     {
         // Ensure built-in chats are registered
@@ -651,26 +587,37 @@ public static class TeamChatPatches
             TeamChatManager.CycleToNextChat();
         }
 
-        SoundManager.Instance.PlaySound(HudManager.Instance.Chat.quickChatButton.ClickSound, false, 1f, null);
+        var chat = HudManager.Instance.Chat;
+        SoundManager.Instance.PlaySound(chat.quickChatButton.ClickSound, false, 1f, null);
         UpdateChat();
 
-        if (!HudManager.Instance.Chat.IsOpenOrOpening)
+        if (!chat.IsOpenOrOpening)
         {
-            HudManager.Instance.Chat.Toggle();
+            chat.Toggle();
             UpdateChat();
+        }
+        else
+        {
+            // this reselects the text field
+            chat.CheckKeyboardButton();
+            chat.quickChatMenu.Clear();
+            chat.quickChatMenu.Close();
+            ConsoleJoystick.SetMode_QuickChat();
+            ControllerManager.Instance.OpenOverlayMenu(chat.name, chat.backButton, chat.defaultButtonSelected, chat.controllerSelectable);
+            if (Controller.currentTouchType != Controller.TouchType.Joystick)
+            {
+                chat.freeChatField.Focus();
+            }
         }
     }
 
     public static void ForceNormalChat()
     {
-        ForceReset = true;
         TeamChatActive = false;
         CurrentChatIndex = -1;
 
         if (HudManager.InstanceExists && HudManager.Instance.Chat != null)
         {
-            RestoreStoredBubbles(HudManager.Instance.Chat);
-
             Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
             if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
             {
@@ -694,10 +641,6 @@ public static class TeamChatPatches
         {
             return;
         }
-
-
-        // Keep pool/stored list clean before manipulating bubble visibility.
-        RestoreStoredBubbles(chat);
         if (_teamText == null)
         {
             _teamText = Object.Instantiate(chat.sendRateMessageText,
@@ -718,22 +661,12 @@ public static class TeamChatPatches
             _teamText.color = Color.white;
         }
 
+        CheckCurrentChats(chat);
         var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
-        // var FreeChat = GameObject.Find("FreeChatInputField");
-        var Background = ChatScreenContainer.transform.FindChild("Background");
-        var bubbleItems = GameObject.Find("Items");
-        // var typeBg = FreeChat.transform.FindChild("Background");
-        // var typeText = FreeChat.transform.FindChild("Text");
+        var Background = ChatScreenContainer?.transform.FindChild("Background");
 
         if (TeamChatActive)
         {
-            if (PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && !jailMod.HasOpenedQuickChat)
-            {
-                if (!chat.quickChatMenu.IsOpen) chat.OpenQuickChat();
-                chat.quickChatMenu.Close();
-                jailMod.HasOpenedQuickChat = true;
-            }
-
             // Ensure built-in chats are registered
             TeamChatManager.RegisterBuiltInChats();
 
@@ -742,8 +675,11 @@ public static class TeamChatPatches
             var availableChats = TeamChatManager.GetAllAvailableChats();
 
             // Set background color based on current chat's custom color, or use default
-            var backgroundColor = currentChat?.BackgroundColor ?? new Color(0.2f, 0.1f, 0.1f, 0.8f);
-            Background.GetComponent<SpriteRenderer>().color = backgroundColor;
+            if (Background != null)
+            {
+                var backgroundColor = currentChat?.BackgroundColor ?? new Color(0.2f, 0.1f, 0.1f, 0.8f);
+                Background.GetComponent<SpriteRenderer>().color = backgroundColor;
+            }
 
             HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatIdle.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.TeamChatHover.LoadAsset();
@@ -786,17 +722,6 @@ public static class TeamChatPatches
                     _teamText.text = string.Empty;
                 }
             }
-            foreach (var bubble in bubbleItems.GetAllChildren())
-            {
-                bubble.gameObject.SetActive(true);
-                if (SplitChats && !IsPrivateBubble(bubble.gameObject))
-                {
-                    bubble.gameObject.SetActive(false);
-                }
-            }
-            calledByChatUpdate = true;
-            chat.AlignAllBubbles();
-
             if (PrivateChatDot != null)
             {
                 var sprite = PrivateChatDot.GetComponent<SpriteRenderer>();
@@ -805,29 +730,13 @@ public static class TeamChatPatches
         }
         else
         {
-            foreach (var bubble in bubbleItems.GetAllChildren())
+            if (Background != null)
             {
-                bubble.gameObject.SetActive(true);
-                if (SplitChats && IsPrivateBubble(bubble.gameObject))
-                {
-                    bubble.gameObject.SetActive(false);
-                }
+                Background.GetComponent<SpriteRenderer>().color = Color.white;
             }
-            calledByChatUpdate = true;
-            chat.AlignAllBubbles();
-            Background.GetComponent<SpriteRenderer>().color = Color.white;
             HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatIdle.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatHover.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatOpen.LoadAsset();
-            /* typeBg.GetComponent<SpriteRenderer>().color = Color.white;
-            typeBg.GetComponent<ButtonRolloverHandler>().ChangeOutColor(Color.white);
-            typeBg.GetComponent<ButtonRolloverHandler>().OverColor = new Color(0f, 1f, 0f, 1f);
-            if (typeText.TryGetComponent<TextMeshPro>(out var txt))
-            {
-                txt.color = new Color(0.6706f, 0.8902f, 0.8667f, 1f);
-                txt.SetFaceColor(new Color(0.6706f, 0.8902f, 0.8667f, 1f));
-            }
-            typeText.GetComponent<TextMeshPro>().color = new Color(0.6706f, 0.8902f, 0.8667f, 1f); */
         }
     }
 
@@ -869,7 +778,7 @@ public static class TeamChatPatches
             }
 
             // Ensure that opening chat reflects the currently-selected custom chat mode.
-            if (TeamChatActive && !ForceReset)
+            if (TeamChatActive)
             {
                 UpdateChat();
             }
@@ -881,26 +790,6 @@ public static class TeamChatPatches
                 sprite.enabled = false;
             }
 
-            if (!TeamChatActive || ForceReset)
-            {
-                ForceReset = false;
-                var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
-                var Background = ChatScreenContainer.transform.FindChild("Background");
-                var bubbleItems = GameObject.Find("Items");
-                foreach (var bubble in bubbleItems.GetAllChildren())
-                {
-                    bubble.gameObject.SetActive(true);
-                    if (SplitChats && IsPrivateBubble(bubble.gameObject))
-                    {
-                        bubble.gameObject.SetActive(false);
-                    }
-                }
-                var chat = HudManager.Instance.Chat;
-                calledByChatUpdate = true;
-                chat.AlignAllBubbles();
-                Background.GetComponent<SpriteRenderer>().color = Color.white;
-            }
-
             if (TeamChatButton)
             {
                 return;
@@ -910,89 +799,34 @@ public static class TeamChatPatches
         }
     }
 
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AlignAllBubbles))]
-    public static class AlignBubblesPatch
+    public static void CheckCurrentChats(ChatController instance)
     {
-        public static void Prefix(ChatController __instance)
+        if (!LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SeparateChatBubbles.Value)
         {
-            var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-
-            var isValid = MeetingHud.Instance &&
-                          ((PlayerControl.LocalPlayer.IsJailed() || PlayerControl.LocalPlayer.Data.Role is JailorRole ||
-                            (PlayerControl.LocalPlayer.IsImpostorAligned() && genOpt is
-                                { FFAImpostorMode: false, ImpostorChat.Value: true }) ||
-                            (PlayerControl.LocalPlayer.Data.Role is VampireRole && genOpt.VampireChat))
-                           || !MeetingHud.Instance && PlayerControl.LocalPlayer.IsLover()) && calledByChatUpdate;
-
-            // Check extension team chats
-            if (!isValid && MeetingHud.Instance && calledByChatUpdate)
-            {
-                isValid = ExtensionTeamChatRegistry.IsAnyExtensionChatAvailable();
-            }
-
-            if (!isValid)
-            {
-                return;
-            }
-
-            var bubbleItems = GameObject.Find("Items");
-            var chat = HudManager.Instance.Chat;
-            //float num = 0f;
-            if (bubbleItems == null || bubbleItems.transform.GetChildCount() == 0) return;
-            RestoreStoredBubbles(chat);
-            if (TeamChatActive)
-            {
-                var children = chat.chatBubblePool.activeChildren.ToArray().ToList();
-                foreach (var bubble in bubbleItems.GetAllChildren())
-                {
-                    bubble.gameObject.SetActive(true);
-                    if (SplitChats && !IsPrivateBubble(bubble.gameObject))
-                    {
-                        bubble.gameObject.SetActive(false);
-                    }
-                }
-                //var topPos = bubbleItems.transform.GetChild(0).transform.localPosition;
-                for (int i = children.Count - 1; i >= 0; i--)
-                {
-                    var chatBubbleObj = children[i].Cast<ChatBubble>();
-                    if (chatBubbleObj == null) continue;
-                    ChatBubble chatBubble = chatBubbleObj!;
-                    if (SplitChats && !IsPrivateBubble(chatBubble.gameObject))
-                    {
-                        storedBubbles.Add(chatBubble);
-                        chat.chatBubblePool.activeChildren.Remove(chatBubble);
-                        chatBubble.gameObject.SetActive(false);
-                    }
-                }
-            }
-            else
-            {
-                var children = chat.chatBubblePool.activeChildren.ToArray().ToList();
-                foreach (var bubble in bubbleItems.GetAllChildren())
-                {
-                    bubble.gameObject.SetActive(true);
-                    if (SplitChats && IsPrivateBubble(bubble.gameObject))
-                    {
-                        bubble.gameObject.SetActive(false);
-                    }
-                }
-                //var topPos = bubbleItems.transform.GetChild(0).transform.localPosition;
-                for (int i = children.Count - 1; i >= 0; i--)
-                {
-                    var chatBubbleObj = children[i].Cast<ChatBubble>();
-                    if (chatBubbleObj == null) continue;
-                    ChatBubble chatBubble = chatBubbleObj!;
-                    if (SplitChats && IsPrivateBubble(chatBubble.gameObject))
-                    {
-                        storedBubbles.Add(chatBubble);
-                        chat.chatBubblePool.activeChildren.Remove(chatBubble);
-                        chatBubble.gameObject.SetActive(false);
-                    }
-                }
-            }
-            calledByChatUpdate = false;
-            //float num2 = -0.3f;
-            //__instance.scroller.SetYBoundsMin(Mathf.Min(0f, -num + __instance.scroller.Hitbox.bounds.size.y + num2));
+            PrivateChatItems.gameObject.SetActive(false);
+            PublicChatItems.gameObject.SetActive(false);
+            MergedChatItems.gameObject.SetActive(true);
+            instance.scroller.Inner = MergedChatItems;
+            instance.chatBubblePool.activeChildren = MergedChatPool;
+            instance.scroller.SetYBoundsMin(MergedBoundsY);
+        }
+        else if (TeamChatActive)
+        {
+            MergedChatItems.gameObject.SetActive(false);
+            PublicChatItems.gameObject.SetActive(false);
+            PrivateChatItems.gameObject.SetActive(true);
+            instance.scroller.Inner = PrivateChatItems;
+            instance.chatBubblePool.activeChildren = PrivateChatPool;
+            instance.scroller.SetYBoundsMin(PrivateBoundsY);
+        }
+        else
+        {
+            PublicChatItems.gameObject.SetActive(true);
+            MergedChatItems.gameObject.SetActive(false);
+            PrivateChatItems.gameObject.SetActive(false);
+            instance.scroller.Inner = PublicChatItems;
+            instance.chatBubblePool.activeChildren = PublicChatPool;
+            instance.scroller.SetYBoundsMin(PublicBoundsY);
         }
     }
 
@@ -1173,19 +1007,141 @@ public static class TeamChatPatches
             }
         }
     }
-    [HarmonyPostfix]
+    private static void SetChatBubbleName(ChatBubble bubble, bool isDead, bool didVote, Color nameColor, string text)
+    {
+        bubble.SetName(text, isDead, didVote, nameColor);
+    }
+
+    public static float PublicBoundsY;
+    public static float PrivateBoundsY;
+    public static float MergedBoundsY;
+    public static void AlignAllChatBubbles(ChatController instance)
+    {
+        float num = 0f;
+        PublicChatItems.gameObject.SetActive(true);
+        var activeChildren = PublicChatItems.GetComponentsInChildren<ChatBubble>();
+        for (int i = activeChildren.Count - 1; i >= 0; i--)
+        {
+            var chatBubble = activeChildren[i].TryCast<ChatBubble>();
+            num += chatBubble!.Background.size.y;
+            Vector3 localPosition = chatBubble.transform.localPosition;
+            localPosition.y = -1.85f + num;
+            chatBubble.transform.localPosition = localPosition;
+            num += 0.15f;
+        }
+        PublicBoundsY = Mathf.Min(0f, -num + instance.scroller.Hitbox.bounds.size.y + -0.3f);
+
+        num = 0f;
+        PrivateChatItems.gameObject.SetActive(true);
+        activeChildren = PrivateChatItems.GetComponentsInChildren<ChatBubble>();
+        for (int i = activeChildren.Count - 1; i >= 0; i--)
+        {
+            var chatBubble = activeChildren[i].TryCast<ChatBubble>();
+            num += chatBubble!.Background.size.y;
+            Vector3 localPosition = chatBubble.transform.localPosition;
+            localPosition.y = -1.85f + num;
+            chatBubble.transform.localPosition = localPosition;
+            num += 0.15f;
+        }
+        PrivateBoundsY = Mathf.Min(0f, -num + instance.scroller.Hitbox.bounds.size.y + -0.3f);
+
+        num = 0f;
+        MergedChatItems.gameObject.SetActive(true);
+        activeChildren = MergedChatItems.GetComponentsInChildren<ChatBubble>();
+        for (int i = activeChildren.Count - 1; i >= 0; i--)
+        {
+            var chatBubble = activeChildren[i].TryCast<ChatBubble>();
+            num += chatBubble!.Background.size.y;
+            Vector3 localPosition = chatBubble.transform.localPosition;
+            localPosition.y = -1.85f + num;
+            chatBubble.transform.localPosition = localPosition;
+            num += 0.15f;
+        }
+        MergedBoundsY = Mathf.Min(0f, -num + instance.scroller.Hitbox.bounds.size.y + -0.3f);
+
+        var list = new Il2CppSystem.Collections.Generic.List<PoolableBehavior>();
+        PublicChatItems.GetComponentsInChildren<PoolableBehavior>().Do(x => list.Add(x));
+        PublicChatPool = list;
+
+        list.Clear();
+        PrivateChatItems.GetComponentsInChildren<PoolableBehavior>().Do(x => list.Add(x));
+        PrivateChatPool = list;
+
+        list.Clear();
+        MergedChatItems.GetComponentsInChildren<PoolableBehavior>().Do(x => list.Add(x));
+        MergedChatPool = list;
+
+        if (!LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SeparateChatBubbles.Value)
+        {
+            PrivateChatItems.gameObject.SetActive(false);
+            PublicChatItems.gameObject.SetActive(false);
+            MergedChatItems.gameObject.SetActive(true);
+            instance.scroller.Inner = MergedChatItems;
+            instance.chatBubblePool.activeChildren = MergedChatPool;
+            instance.scroller.SetYBoundsMin(MergedBoundsY);
+        }
+        else if (TeamChatActive)
+        {
+            MergedChatItems.gameObject.SetActive(false);
+            PublicChatItems.gameObject.SetActive(false);
+            PrivateChatItems.gameObject.SetActive(true);
+            instance.scroller.Inner = PrivateChatItems;
+            instance.chatBubblePool.activeChildren = PrivateChatPool;
+            instance.scroller.SetYBoundsMin(PrivateBoundsY);
+        }
+        else
+        {
+            PublicChatItems.gameObject.SetActive(true);
+            MergedChatItems.gameObject.SetActive(false);
+            PrivateChatItems.gameObject.SetActive(false);
+            instance.scroller.Inner = PublicChatItems;
+            instance.chatBubblePool.activeChildren = PublicChatPool;
+            instance.scroller.SetYBoundsMin(PublicBoundsY);
+        }
+    }
+
+    [HarmonyPrefix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatNote))]
-	public static void AddChatNote(ChatController __instance, NetworkedPlayerInfo srcPlayer, ChatNoteTypes noteType)
-	{
-		if (srcPlayer == null)
-		{
-			return;
-		}
+    public static bool AddChatNote(ChatController __instance, NetworkedPlayerInfo srcPlayer, ChatNoteTypes noteType)
+    {
+        if (srcPlayer == null)
+        {
+            return false;
+        }
+        ChatBubble pooledBubble = __instance.GetPooledBubble();
+        var clonedBubble = __instance.GetPooledBubble();
+        pooledBubble.SetCosmetics(srcPlayer);
+        pooledBubble.transform.SetParent(PublicChatItems);
+        pooledBubble.transform.localScale = Vector3.one;
+        pooledBubble.SetNotification();
+        clonedBubble.SetCosmetics(srcPlayer);
+        clonedBubble.transform.SetParent(MergedChatItems);
+        clonedBubble.transform.localScale = Vector3.one;
+        clonedBubble.SetNotification();
+        if (noteType == ChatNoteTypes.DidVote)
+        {
+            int rem = MeetingHud.Instance.GetVotesRemaining();
+            var text = TranslationController.Instance.GetString(StringNames.MeetingHasVoted)
+                .Replace("{0}", srcPlayer.PlayerName).Replace("{1}", rem.ToString(TownOfUsPlugin.Culture));
+            SetChatBubbleName(pooledBubble, false, true, Color.green, text);
+            SetChatBubbleName(clonedBubble, false, true, Color.green, text);
+        }
+        pooledBubble.SetText(string.Empty);
+        clonedBubble.SetText(string.Empty);
+        pooledBubble.AlignChildren();
+        clonedBubble.AlignChildren();
+        AlignAllChatBubbles(__instance);
         if (__instance is { IsOpenOrOpening: false })
         {
             __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
         }
-	}
+        if (srcPlayer.Object != PlayerControl.LocalPlayer)
+        {
+            SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + (float)srcPlayer.PlayerId / 15f;
+        }
+
+        return false;
+    }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
@@ -1202,29 +1158,38 @@ public static class TeamChatPatches
 			return false;
 		}
 		ChatBubble pooledBubble = __instance.GetPooledBubble();
+        var clonedBubble = __instance.GetPooledBubble();
 		try
 		{
-			pooledBubble.transform.SetParent(__instance.scroller.Inner);
+			pooledBubble.transform.SetParent(PublicChatItems);
+            clonedBubble.transform.SetParent(MergedChatItems);
 			pooledBubble.transform.localScale = Vector3.one;
+            clonedBubble.transform.localScale = Vector3.one;
 			bool flag = sourcePlayer == PlayerControl.LocalPlayer;
 			if (flag)
 			{
 				pooledBubble.SetRight();
+                clonedBubble.SetRight();
 			}
 			else
 			{
 				pooledBubble.SetLeft();
+                clonedBubble.SetLeft();
 			}
 			bool didVote = MeetingHud.Instance && MeetingHud.Instance.DidVote(sourcePlayer.PlayerId);
 			pooledBubble.SetCosmetics(data2);
             __instance.SetChatBubbleName(pooledBubble, data2, data2.IsDead, didVote, PlayerNameColor.Get(data2), null);
+            clonedBubble.SetCosmetics(data2);
+            __instance.SetChatBubbleName(clonedBubble, data2, data2.IsDead, didVote, PlayerNameColor.Get(data2), null);
 			if (censor && DataManager.Settings.Multiplayer.CensorChat)
 			{
 				chatText = BlockedWords.CensorWords(chatText, false);
 			}
 			pooledBubble.SetText(chatText);
+            clonedBubble.SetText(chatText);
 			pooledBubble.AlignChildren();
-            __instance.AlignAllBubbles();
+            clonedBubble.AlignChildren();
+            AlignAllChatBubbles(__instance);
             if (__instance is { IsOpenOrOpening: false })
             {
                 __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
@@ -1248,14 +1213,20 @@ public static class TeamChatPatches
 	public static bool AddChatWarning(ChatController __instance, string warningText)
 	{
 		ChatBubble pooledBubble = __instance.GetPooledBubble();
+        var clonedBubble = __instance.GetPooledBubble();
 		try
 		{
-			pooledBubble.transform.SetParent(__instance.scroller.Inner);
+			pooledBubble.transform.SetParent(PublicChatItems);
+            clonedBubble.transform.SetParent(MergedChatItems);
 			pooledBubble.transform.localScale = Vector3.one;
+            clonedBubble.transform.localScale = Vector3.one;
 			pooledBubble.SetRight();
 			pooledBubble.SetWarning(warningText);
+            clonedBubble.SetRight();
+            clonedBubble.SetWarning(warningText);
 			pooledBubble.AlignChildren();
-            __instance.AlignAllBubbles();
+            clonedBubble.AlignChildren();
+            AlignAllChatBubbles(__instance);
             if (__instance is { IsOpenOrOpening: false })
             {
                 __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
@@ -1270,113 +1241,10 @@ public static class TeamChatPatches
         return false;
 	}
 
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-    public static class AddChatPatch
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Awake))]
+    public static void SetUpScrollers(ChatController __instance)
     {
-        [HarmonyPostfix]
-        public static void AddChatPostfix(ChatController __instance, [HarmonyArgument(0)] PlayerControl sourcePlayer,
-            [HarmonyArgument(1)] string chatText, [HarmonyArgument(2)] bool censor)
-        {
-            // "Do better" approach:
-            // Don't reimplement the whole vanilla AddChat logic (brittle + can break with updates/other mods).
-            // Let vanilla create the bubble, then selectively hide/store it if the user is viewing team chat
-            // and re-sort the pool afterwards.
-            try
-            {
-                if (__instance == null || __instance.chatBubblePool == null || !PlayerControl.LocalPlayer)
-                {
-                    return;
-                }
-
-                if (!TeamChatActive || PlayerControl.LocalPlayer.Data == null || PlayerControl.LocalPlayer.Data.IsDead)
-                {
-                    return;
-                }
-
-                var active = __instance.chatBubblePool.activeChildren;
-                if (active == null || active.Count == 0)
-                {
-                    return;
-                }
-
-                var newest = active[active.Count - 1];
-                var newestBubble = newest.TryCast<ChatBubble>();
-                if (newestBubble == null || !newestBubble || newestBubble.gameObject == null)
-                {
-                    return;
-                }
-
-                // Ensure public bubbles aren't "sticky" as private due to pooling reuse.
-                newestBubble.gameObject.name = PublicBubblePrefix;
-
-                // While in team chat view, hide/store public chat messages so only private/team bubbles show.
-                storedBubbles.Insert(0, newestBubble);
-                newestBubble.gameObject.SetActive(false);
-                active.Remove(newestBubble);
-                SortActiveChildrenByHierarchy(__instance);
-            }
-            catch
-            {
-                // Swallow to avoid crashing a chat update path.
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.GetPooledBubble))]
-    public static class GetPooledBubblePatch
-    {
-        [HarmonyPrefix]
-        public static void Prefix(ChatController __instance)
-        {
-            try
-            {
-                if (__instance == null || __instance.chatBubblePool == null)
-                {
-                    return;
-                }
-
-                // Remove invalid entries from the active list so ReclaimOldest() can't NRE.
-                var active = __instance.chatBubblePool.activeChildren;
-                for (var i = active.Count - 1; i >= 0; i--)
-                {
-                    var b = active[i];
-                    if (b == null || !b || b.gameObject == null)
-                    {
-                        active.RemoveAt(i);
-                    }
-                }
-
-                PruneStoredBubbles();
-            }
-            catch
-            {
-                // Swallow to avoid crashing a chat update path.
-            }
-        }
-
-        [HarmonyPostfix]
-        public static void Postfix(ChatBubble __result)
-        {
-            // IMPORTANT: Chat bubbles are pooled/reused. If a bubble was previously used for a private/team chat
-            // message, it may still be tagged as private. Vanilla meeting/system messages (votes/notes/celebrity/etc)
-            // can then incorrectly appear inside the team chat view.
-            //
-            // Default every freshly-pooled bubble to "public", and let our private chat paths re-tag explicitly.
-            try
-            {
-                if (__result == null || !__result || __result.gameObject == null)
-                {
-                    return;
-                }
-
-                __result.gameObject.name = PublicBubblePrefix;
-            }
-            catch
-            {
-                // Just avoid crashing the chat path lmao you get the idea
-                // these are literally just here so the compiler stops yelling
-                // at me about a catch with nothing in it
-            }
-        }
+        CheckChatScrollers();
     }
 }

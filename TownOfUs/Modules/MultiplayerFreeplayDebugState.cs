@@ -57,7 +57,6 @@ public static class MultiplayerFreeplayDebugState
         FirstDeadPatch.FirstRoundPlayerNames = [];
 
         TeamChatPatches.TeamChatActive = false;
-        TeamChatPatches.ForceReset = true;
         TeamChatPatches.ForceNormalChat();
 
         // Remove any lingering bodies.

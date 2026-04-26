@@ -65,14 +65,14 @@ public static class PlayerJoinPatch
 
         while (!PlayerControl.LocalPlayer)
         {
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
 
         var player = PlayerControl.LocalPlayer;
 
         while (!player)
         {
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
 
         if (!player.AmOwner)
