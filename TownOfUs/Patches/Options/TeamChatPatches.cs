@@ -1099,6 +1099,88 @@ public static class TeamChatPatches
             instance.scroller.SetYBoundsMin(PublicBoundsY);
         }
     }
+    /*public static void ReclaimOldest(this ObjectPoolBehavior instance)
+    {
+        if (instance.activeChildren.Count > 0)
+        {
+            instance.Reclaim(instance.activeChildren[0]);
+            return;
+        }
+        instance.InitPool(instance.Prefab);
+    }
+    public static ChatBubble GetChatBubble(this ObjectPoolBehavior instance)
+    {
+        List<PoolableBehavior> obj = instance.inactiveChildren;
+        PoolableBehavior poolableBehavior;
+        lock (obj)
+        {
+            if (instance.inactiveChildren.Count == 0)
+            {
+                if (instance.activeChildren.Count == 0)
+                {
+                    instance.InitPool(instance.Prefab);
+                }
+                else
+                {
+                    instance.CreateOneInactive(instance.Prefab);
+                }
+            }
+            poolableBehavior = instance.inactiveChildren[instance.inactiveChildren.Count - 1];
+            instance.inactiveChildren.RemoveAt(instance.inactiveChildren.Count - 1);
+            instance.activeChildren.Add(poolableBehavior);
+            PoolableBehavior poolableBehavior2 = poolableBehavior;
+            int num = instance.childIndex;
+            instance.childIndex = num + 1;
+            poolableBehavior2.PoolIndex = num;
+            if (instance.childIndex > instance.poolSize)
+            {
+                instance.childIndex = 0;
+            }
+        }
+        if (instance.DetachOnGet)
+        {
+            poolableBehavior.transform.SetParent(null, false);
+        }
+        poolableBehavior.gameObject.SetActive(true);
+        poolableBehavior.Reset();
+        return poolableBehavior.Cast<ChatBubble>();
+    }
+    public static void Reclaim(this ObjectPoolBehavior instance, PoolableBehavior obj)
+    {
+        if (!instance)
+        {
+            DefaultPool.Instance.Reclaim(obj);
+            return;
+        }
+        obj.gameObject.SetActive(false);
+        obj.transform.SetParent(instance.transform);
+        var obj2 = instance.inactiveChildren;
+        lock (obj2)
+        {
+            if (instance.activeChildren.Remove(obj))
+            {
+                instance.inactiveChildren.Add(obj);
+            }
+            else if (instance.inactiveChildren.Contains(obj))
+            {
+                Debug("ObjectPoolBehavior: :| Something was reclaimed without being gotten");
+            }
+            else
+            {
+                Debug("ObjectPoolBehavior: Destroying this thing I don't own");
+                Object.Destroy(obj.gameObject);
+            }
+        }
+    }*/
+
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.GetPooledBubble))]
+    public static bool GetPooledBubble(ChatController __instance, ref ChatBubble __result)
+    {
+        __result = __instance.chatBubblePool.Get<ChatBubble>();
+        return false;
+    }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatNote))]
@@ -1204,6 +1286,7 @@ public static class TeamChatPatches
 		{
 			ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
+            __instance.chatBubblePool.Reclaim(clonedBubble);
 		}
         return false;
 	}
@@ -1237,6 +1320,7 @@ public static class TeamChatPatches
 		{
 			ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
+            __instance.chatBubblePool.Reclaim(clonedBubble);
 		}
         return false;
 	}
