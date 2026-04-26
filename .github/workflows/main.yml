@@ -47,6 +47,12 @@ jobs:
           draft: true
           files: TownOfUs/bin/Release/TownOfUsMira.dll
           
-      - name: Push NuGet package
+      - name: Push NuGet CI
+        if: github.ref == 'refs/heads/dev'
         run: |
-          dotnet nuget push TownOfUs/bin/Release/TownOfUs.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+          dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          
+      - name: Push NuGet Release
+        if: github.ref_type == 'tag'
+        run: |
+          dotnet nuget push TownOfUs/bin/Release/TownOfUsMira.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
