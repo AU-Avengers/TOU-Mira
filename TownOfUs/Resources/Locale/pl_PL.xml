@@ -96,7 +96,7 @@
   <string name="Denim">Dżinsowy</string>
   <string name="CottonCandy">Cukierkowy</string>
   <string name="Rainbow">Tęczowy</string>
-  <string name="WikiSettingsAssassinSettingsTitle">Ustawienia asasynów</string>
+  <string name="WikiSettingsAssassinSettingsTitle">Ustawienia Asasynów</string>
   <string name="TermsProtectionSymbolsTitle">Symbole Ochron</string>
   <string name="NeutralBasicTaskHeader">Wykonaj swój cel.</string>
   <string name="NeutralBasicDeadTaskHeader">Nie żyjesz. Wyluzuj i ciesz się chaosem.</string>
@@ -143,7 +143,7 @@
   <string name="NeutralKillers">Neutralni Zabijający</string>
   <string name="MinimumShort">Min</string>
   <string name="MaximumShort">Maks</string>
-  <string name="TermsCrewRoleAlignmentsInfo">• Role \%color=#8CFFFF\%śledcze\%/color\% mogą zbierać informacje o innych graczach. Mogą później użyć tej informacji aby dowiedzieć się kto jest z załogą, a kto nie. • Role \%color=#8CFFFF\%zabijające\%/color\% mogą \%color=#FF8B95\%zabić\%/color\% innych, ale \%color=#FF8B95\%zabicie\%/color\% \%color=#8CFFFF\%Załoganta\%/color\% może mieć konsekwencje. • Role \%color=#8CFFFF\%ochronne\%/color\% mają umiejętności, aby chronić innych graczy oraz czasami samych siebie. • Role \%color=#8CFFFF\%wpływowe\%/color\% mogą wpływać na głosowanie podczas spotkania albo mają znacznie mocniejsze umiejętności w porównaniu do reszty \%color=#8CFFFF\%Załogi\%/color\%. • Role \%color=#8CFFFF\%wsparcia\%/color\% mają możliwość aby pomóc reszcie \%color=#8CFFFF\%Załogi\%/color\%, albo mogą wesprzeć samych siebie.</string>
+  <string name="TermsCrewRoleAlignmentsInfo">• Role \%color=#8CFFFF\%śledcze\%/color\% są w stanie zbierać informacje o innych graczach. Mogą później użyć tej informacji aby dowiedzieć się kto jest z załogą, a kto nie. • Role \%color=#8CFFFF\%zabijające\%/color\% mogą \%color=#FF8B95\%zabić\%/color\% innych, ale \%color=#FF8B95\%zabicie\%/color\% \%color=#8CFFFF\%Załoganta\%/color\% może mieć konsekwencje. • Role \%color=#8CFFFF\%ochronne\%/color\% mają umiejętności, aby chronić innych graczy oraz czasami samych siebie. • Role \%color=#8CFFFF\%wpływowe\%/color\% mogą wpływać na głosowanie podczas spotkania albo mają znacznie mocniejsze umiejętności w porównaniu do reszty \%color=#8CFFFF\%Załogi\%/color\%. • Role \%color=#8CFFFF\%wsparcia\%/color\% mają możliwość aby pomóc reszcie \%color=#8CFFFF\%Załogi\%/color\%, albo mogą wesprzeć samych siebie.</string>
   <string name="CrewmateInvestigative">Załogant Śledczy</string>
   <string name="CrewmateKilling">Załogant Zabijający</string>
   <string name="CrewmatePower">Załogant Wpływowy</string>
@@ -182,4 +182,5 @@
   <string name="TermsCrewRoleAlignmentsTitle">Przynależności \%color=#8CFFFF\%Załogi\%/color\%</string>
   <string name="WikiOnBottomRow">Przycisk Wiki Poniżej Głównego UI</string>
   <string name="ZoomOnBottomRow">Przycisk Przybliżenia Poniżej Głównego UI</string>
+  <string name="TermsNeutRoleAlignmentsTitle">Przynależności \%color=#8A8A8A\%Neutralnych\%/color\%</string>
 </resources>
