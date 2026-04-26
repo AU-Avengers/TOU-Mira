@@ -7,6 +7,9 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>true</ImplicitUsings>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 

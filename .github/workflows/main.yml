@@ -46,3 +46,8 @@ jobs:
         with:
           draft: true
           files: TownOfUs/bin/Release/TownOfUsMira.dll
+          
+      - name: Push NuGet package
+          if: github.ref_type == 'tag'
+          run: |
+            dotnet nuget push MiraAPI/bin/Release/AllOfUs.MiraAPI.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
