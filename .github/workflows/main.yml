@@ -49,4 +49,4 @@ jobs:
           
       - name: Push NuGet package
         run: |
-          dotnet nuget push MiraAPI/bin/Release/AllOfUs.MiraAPI.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+          dotnet nuget push TownOfUs/bin/Release/TownOfUs.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
