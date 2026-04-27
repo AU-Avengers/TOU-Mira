@@ -70,7 +70,7 @@ public sealed class ScreenFlash : IDisposable
 
     private void Dispose(bool disposing)
     {
-        if (disposing && _renderer.gameObject != null)
+        if (disposing && _renderer && _renderer.gameObject != null)
         {
             Object.Destroy(_renderer.gameObject);
         }
