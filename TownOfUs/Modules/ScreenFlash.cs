@@ -9,18 +9,12 @@ public sealed class ScreenFlash : IDisposable
 {
     private static readonly List<ScreenFlash> _screenFlashes = new();
 
-    private readonly KillOverlay _overlay;
     private readonly SpriteRenderer _renderer;
 
     public ScreenFlash()
     {
-        _overlay = Object.Instantiate(HudManager.Instance.KillOverlay, HudManager.Instance.transform);
-        _overlay.background.color = Color.clear;
-
-        var transform = _overlay.flameParent.transform;
-        var flame = transform.GetChild(0).gameObject;
-
-        _renderer = flame.GetComponent<SpriteRenderer>();
+        _renderer = Object.Instantiate(HudManager.Instance.FullScreen, HudManager.Instance.FullScreen.transform.parent);
+        _renderer.transform.localPosition = new Vector3(0, 0, -90f);
         _renderer.sprite = TouAssets.ScreenFlash.LoadAsset();
         _renderer.color = Color.white;
 
@@ -43,36 +37,22 @@ public sealed class ScreenFlash : IDisposable
 
     public bool IsActive()
     {
-        if (_overlay != null && _overlay.flameParent != null)
-        {
-            return _overlay.flameParent.active;
-        }
-
-        return false;
+        return _renderer.gameObject.activeSelf;
     }
 
     public void SetActive(bool isActive)
     {
-        if (_overlay != null && _overlay.flameParent != null)
-        {
-            _overlay.flameParent.SetActive(isActive);
-        }
+        _renderer.gameObject.SetActive(isActive);
     }
 
     public void SetPosition(Vector3 pos)
     {
-        if (_overlay != null && _overlay.flameParent != null)
-        {
-            _overlay.flameParent.transform.localPosition = pos;
-        }
+        _renderer.transform.localPosition = pos;
     }
 
     public void SetScale(Vector3 scale)
     {
-        if (_overlay != null && _overlay.flameParent != null)
-        {
-            _overlay.flameParent.transform.localScale = scale;
-        }
+        _renderer.transform.localScale = scale;
     }
 
     public void SetColour(Color color)
@@ -90,17 +70,9 @@ public sealed class ScreenFlash : IDisposable
 
     private void Dispose(bool disposing)
     {
-        if (disposing)
+        if (disposing && _renderer.gameObject != null)
         {
-            if (_overlay != null)
-            {
-                Object.Destroy(_overlay);
-            }
-
-            if (_renderer != null)
-            {
-                Object.Destroy(_renderer);
-            }
+            Object.Destroy(_renderer.gameObject);
         }
     }
 }
