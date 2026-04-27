@@ -11,6 +11,7 @@ using TownOfUs.Patches.Options;
 using TownOfUs.Patches.Roles;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Other;
+using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -33,7 +34,7 @@ public static class ChatPatches
             return string.Empty;
         }
     }
-        
+
     [MethodRpc((uint)TownOfUsRpc.ForcePlayerRole)]
     public static void RpcForcePlayerRole(PlayerControl host, PlayerControl player)
     {
@@ -41,9 +42,38 @@ public static class ChatPatches
         {
             return;
         }
+
         var systemName = $"<color=#8BFDFD>{TouLocale.GetParsed("SystemChatTitle")}</color>";
         MiscUtils.AddSystemChat(host.Data, systemName,
             TouLocale.GetParsed("UpCommandSuccessGlobal").Replace("<player>", player.Data.PlayerName));
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    [HarmonyPatch(typeof(FriendsListManager), nameof(FriendsListManager.SetFriendButtonColor))]
+    public static bool SetFriendButtonColor(FriendsListManager __instance, bool isGrayedOut)
+    {
+        __instance.FriendsListButton?.SetGlyphColor(isGrayedOut);
+        return false;
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
+    public static void TogglePrefix(ChatController __instance)
+	{
+        __instance.chatButton.transform.localPosition = HudManagerPatches.ClonedChatButton.transform.localPosition + new Vector3(-0.3f, 0);
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatNote))]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChatWarning))]
+    public static void ChatBubbleUpdatePrefix(ChatController __instance)
+    {
+        __instance.chatNotifyDot.transform.localPosition = new Vector3(-0.34f, 0.373f, -1f);
     }
 
     [HarmonyPrefix]
@@ -165,6 +195,140 @@ public static class ChatPatches
             return false;
         }
 
+        // Adds /kick
+        if (textRegular.StartsWith("/kick ", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!AmongUsClient.Instance.AmHost)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF6060>Only the host can use this command.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            string targetName = textRegular.Substring(6).Trim();
+            var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
+    
+            if (target == null)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    $"<color=#FF0000>Player \"{targetName}\" not found.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            if (target.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>You cannot kick yourself.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            var clientId = GetClientId(target);
+            if (clientId == -1)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>Could not find player.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            AmongUsClient.Instance.KickPlayer(clientId, false);
+    
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                $"Kicked <color=#FFA500>{target.Data.PlayerName}</color>.");
+    
+            ClearChat(__instance);
+            return false;
+        }
+
+        // Adds /ban
+        if (textRegular.StartsWith("/ban ", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!AmongUsClient.Instance.AmHost)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>Only the host can use this command.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            string targetName = textRegular.Substring(5).Trim();
+            var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
+    
+            if (target == null)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    $"<color=#FF0000>Player \"{targetName}\" not found.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            if (target.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>You cannot ban yourself.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            var clientId = GetClientId(target);
+            if (clientId == -1)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>Could not find player.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            AmongUsClient.Instance.KickPlayer(clientId, true);
+    
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                $"Banned <color=#FFA500>{target.Data.PlayerName}</color>.");
+    
+            ClearChat(__instance);
+            return false;
+        }
+
+        if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase)
+            && summaryCommandList.Any(x => spaceLess.Contains(x, StringComparison.OrdinalIgnoreCase)))
+        {
+            systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
+            var title = systemName;
+            var msg = TouLocale.GetParsed("SummaryMissingError");
+            var summary = GameHistory.EndGameSummary;
+            switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SummaryMessageAppearance.Value)
+            {
+                case GameSummaryAppearance.Advanced:
+                    summary = GameHistory.EndGameSummaryAdvanced;
+                    break;
+                case GameSummaryAppearance.Simplified:
+                    summary = GameHistory.EndGameSummarySimple;
+                    break;
+            }
+            if (summary != string.Empty)
+            {
+                var factionText = string.Empty;
+                if (GameHistory.WinningFaction != string.Empty)
+                {
+                    factionText =
+                        $"<size=80%>{TouLocale.GetParsed("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
+                }
+
+                title = $"{systemName}\n<size=62%>{factionText}{summary}</size>";
+                msg = string.Empty;
+            }
+
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
+
+            __instance.freeChatField.Clear();
+            __instance.quickChatMenu.Clear();
+            __instance.quickChatField.Clear();
+            __instance.UpdateChatMode();
+            return false;
+        }
+        
         if (rulesCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
             if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
@@ -730,5 +894,32 @@ public static class ChatPatches
         {
             SpectatorRole.TrackedSpectators.Remove(player.Data.PlayerName);
         }
+    }
+
+    private static void ClearChat(ChatController chat)
+    {
+        chat.freeChatField.Clear();
+        chat.quickChatMenu.Clear();
+        chat.quickChatField.Clear();
+        chat.UpdateChatMode();
+    }
+
+    private static int GetClientId(PlayerControl player)
+    {
+        foreach (var client in AmongUsClient.Instance.allClients.ToArray())
+        {
+            try
+            {
+                var charProp = client.GetType().GetProperty("Character") ?? client.GetType().GetProperty("character");
+                if (charProp?.GetValue(client) is PlayerControl pc && pc.PlayerId == player.PlayerId)
+                {
+                    var idProp = client.GetType().GetProperty("Id") ?? client.GetType().GetProperty("id");
+                    if (idProp?.GetValue(client) is int id)
+                        return id;
+                }
+            }
+            catch { }
+        }
+        return -1;
     }
 }
