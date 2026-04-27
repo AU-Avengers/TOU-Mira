@@ -157,44 +157,6 @@ public static class ChatPatches
             return false;
         }
 
-        if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase)
-            && summaryCommandList.Any(x => spaceLess.Contains(x, StringComparison.OrdinalIgnoreCase)))
-        {
-            systemName = $"<color=#8BFDFD>{TouLocale.Get("EndGameSummary")}</color>";
-            var title = systemName;
-            var msg = TouLocale.GetParsed("SummaryMissingError");
-            var summary = GameHistory.EndGameSummary;
-            switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SummaryMessageAppearance.Value)
-            {
-                case GameSummaryAppearance.Advanced:
-                    summary = GameHistory.EndGameSummaryAdvanced;
-                    break;
-                case GameSummaryAppearance.Simplified:
-                    summary = GameHistory.EndGameSummarySimple;
-                    break;
-            }
-            if (summary != string.Empty)
-            {
-                var factionText = string.Empty;
-                if (GameHistory.WinningFaction != string.Empty)
-                {
-                    factionText =
-                        $"<size=80%>{TouLocale.GetParsed("EndResult").Replace("<victoryType>", GameHistory.WinningFaction)}</size>\n";
-                }
-
-                title = $"{systemName}\n<size=62%>{factionText}{summary}</size>";
-                msg = string.Empty;
-            }
-
-            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, title, msg);
-
-            __instance.freeChatField.Clear();
-            __instance.quickChatMenu.Clear();
-            __instance.quickChatField.Clear();
-            __instance.UpdateChatMode();
-            return false;
-        }
-
         // Adds /kick
         if (textRegular.StartsWith("/kick ", StringComparison.OrdinalIgnoreCase))
         {
@@ -242,7 +204,7 @@ public static class ChatPatches
             ClearChat(__instance);
             return false;
         }
-
+    
         // Adds /ban
         if (textRegular.StartsWith("/ban ", StringComparison.OrdinalIgnoreCase))
         {
@@ -328,7 +290,7 @@ public static class ChatPatches
             __instance.UpdateChatMode();
             return false;
         }
-        
+
         if (rulesCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
             if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
@@ -895,7 +857,7 @@ public static class ChatPatches
             SpectatorRole.TrackedSpectators.Remove(player.Data.PlayerName);
         }
     }
-
+    
     private static void ClearChat(ChatController chat)
     {
         chat.freeChatField.Clear();
