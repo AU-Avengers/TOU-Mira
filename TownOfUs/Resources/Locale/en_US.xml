@@ -812,6 +812,7 @@
   <!-- Imitator - Crewmate Support -->
   <!-- Imitator Wiki / Abilities -->
   <string name="TouRoleImitator">Imitator</string>
+  <string name="TouRoleImitatorShortName">Imi</string>
   <string name="TouRoleImitatorIntroBlurb">Use the dead to benefit the Crew</string>
   <string name="TouRoleImitatorTabDescription">Use dead players to benefit the crew via imitation in meetings</string>
   <string name="TouRoleImitatorWikiDescription">The Imitator is a Crewmate Support role that can select a dead crewmate to imitate their role until they change targets. Certain roles are inaccessible if there are multiple living imitators.</string>
