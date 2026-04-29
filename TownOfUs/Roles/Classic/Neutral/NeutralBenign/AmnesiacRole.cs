@@ -262,23 +262,28 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             }
         }
 
-        var playerIsAssassin = player.HasModifier<AssassinModifier>();
+        var playerIsAssassin = target.HasModifier<AssassinModifier>();
         var assassinModeImp = (AssassinRemember)opts.AmneTurnImpAssassin.Value;
         var assassinModeNeut = (AssassinRemember)opts.AmneTurnNeutAssassin.Value;
+        var amneIsAssassin = false;
 
         if (player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||
                                     assassinModeImp is AssassinRemember.IfAssassin && playerIsAssassin))
         {
+            amneIsAssassin = true;
             player.AddModifier<ImpostorAssassinModifier>();
         }
         else if (player.IsNeutral() && player.Is(RoleAlignment.NeutralKilling) &&
                  (assassinModeNeut is AssassinRemember.Always ||
                   assassinModeNeut is AssassinRemember.IfAssassin && playerIsAssassin))
         {
+            amneIsAssassin = true;
             player.AddModifier<NeutralKillerAssassinModifier>();
         }
 
-        var modifier = target.GetModifiers<TouGameModifier>().FirstOrDefault(x => x is not AssassinModifier);
+        // Doesn't give Double Shot if Assassin isn't available
+        var modifier = target.GetModifiers<TouGameModifier>().FirstOrDefault(x => x is not AssassinModifier &&
+            (x is not DoubleShotModifier || amneIsAssassin));
         if (opts.InheritFactionModifier && modifier != null)
         {
             player.AddModifier(modifier.GetType());

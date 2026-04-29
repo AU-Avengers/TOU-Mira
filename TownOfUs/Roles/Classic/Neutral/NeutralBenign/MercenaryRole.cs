@@ -108,15 +108,32 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
         return stringB;
     }
-    
+
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
 
-        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils.GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).HasAny())
+        if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils
+                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).HasAny())
         {
             Player.AddModifier<BasicGhostModifier>();
+        }
+
+        var guardedMods = ModifierUtils.GetActiveModifiers<MercenaryGuardModifier>().ToList();
+        if (!guardedMods.HasAny())
+        {
+            return;
+        }
+
+        foreach (var guarded in guardedMods)
+        {
+            if (guarded.Mercenary != Player)
+            {
+                continue;
+            }
+
+            guarded.Player.RemoveModifier(guarded);
         }
     }
 
