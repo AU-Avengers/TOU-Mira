@@ -210,12 +210,6 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             }
         }
 
-        var modifiers = target.GetModifiers<TouGameModifier>().ToList();
-        if (opts.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().HasAny())
-        {
-            player.AddModifier(modifiers.FirstOrDefault(x => x is not AssassinModifier)!.GetType());
-        }
-
         if (player.AmOwner)
         {
             var text = TouLocale.GetParsed("TouRoleAmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
@@ -282,6 +276,12 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                   assassinModeNeut is AssassinRemember.IfAssassin && playerIsAssassin))
         {
             player.AddModifier<NeutralKillerAssassinModifier>();
+        }
+
+        var modifier = target.GetModifiers<TouGameModifier>().FirstOrDefault(x => x is not AssassinModifier);
+        if (opts.InheritFactionModifier && modifier != null)
+        {
+            player.AddModifier(modifier.GetType());
         }
 
         var touAbilityEvent2 = new TouAbilityEvent(AbilityType.AmnesiacPostRemember, player, target);
