@@ -792,9 +792,11 @@ public static class EndGamePatches
                     if (cachedMod is ICachedRole cache && cache.Visible &&
                         player.Data.Role.GetType() != cache.CachedRole.GetType())
                     {
+                        var cachedName = cache.CachedRoleName == "" ? cache.CachedRole.GetRoleName() : cache
+                            .CachedRoleName;
                         roleName = cache.ShowCurrentRoleFirst
-                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color>)</size>"
-                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
@@ -864,9 +866,11 @@ public static class EndGamePatches
                     if (cachedMod2 is ICachedRole cache2 && cache2.Visible &&
                         player.Data.Role.GetType() != cache2.CachedRole.GetType())
                     {
-                        roleNameFull = cache2.ShowCurrentRoleFirst
-                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache2.CachedRole.TeamColor.ToTextColor()}{cache2.CachedRole.GetRoleName()}</color>)</size>"
-                            : $"<size=80%>{cache2.CachedRole.TeamColor.ToTextColor()}{cache2.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                        var cachedName = cache2.CachedRoleName == "" ? cache2.CachedRole.GetRoleName() : cache2
+                            .CachedRoleName;
+                        roleName = cache2.ShowCurrentRoleFirst
+                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache2.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size=80%>{cache2.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole2)

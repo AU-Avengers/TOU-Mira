@@ -110,6 +110,18 @@ public static class ModCompatibility
     public static BasePlugin AleLuduPlugin { get; private set; }
     public static Assembly AleLuduAssembly { get; private set; }
     
+    /*public const string CorsacGuid = "CorsacCosmetics";
+    public static Version CorsacVersion { get; private set; }
+    public static bool CorsacLoaded { get; private set; }
+    public static BasePlugin CorsacPlugin { get; private set; }
+    public static Assembly CorsacAssembly { get; private set; }
+    public static Type[] CorsacTypes { get; private set; }
+    private static readonly Dictionary<Assembly, string> ResourceBundles = new();
+    public static void AddCorsacResourceBundle(Assembly assembly, string resourcePath)
+    {
+        ResourceBundles.Add(assembly, resourcePath);
+    }*/
+    
     public static void Initialize()
     {
         InitBetterAmongUs();
@@ -118,6 +130,7 @@ public static class ModCompatibility
         InitCrowded();
         InitAleLudu();
         InitLaunchpad();
+        // InitCorsac();
 
         var sBuilder = new StringBuilder();
 
@@ -198,6 +211,30 @@ public static class ModCompatibility
         harmony.Patch(detConstruct, new HarmonyMethod(AccessTools.Method(compatType, nameof(AdjustRoleBehaviour))));
     }
 #pragma warning restore S3011
+    /*public static void InitCorsac()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(CorsacGuid, out var plugin))
+        {
+            return;
+        }
+
+        CorsacPlugin = (plugin!.Instance as BasePlugin)!;
+        CorsacVersion = plugin.Metadata.Version;
+
+        CorsacAssembly = CorsacPlugin.GetType().Assembly;
+        CorsacTypes = AccessTools.GetTypesFromAssembly(CorsacAssembly);
+        var bundleLoader = CorsacTypes.First(t => t.Name == "BundleLoader");
+        var addResourceHandler = AccessTools.Method(bundleLoader, "AddResourceBundle", [typeof(Assembly), typeof(string)]);
+        if (ResourceBundles.HasAny())
+        {
+            foreach (var pair in ResourceBundles)
+            {
+                addResourceHandler.Invoke(null, [pair.Key, pair.Value]);
+            }
+        }
+        CorsacLoaded = true;
+        Message("Corsac Cosmetics was detected");
+    }*/
 
     public static void InitSubmerged()
     {
