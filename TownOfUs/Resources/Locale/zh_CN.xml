@@ -1365,9 +1365,9 @@
   <string name="FreeplayRestartButton">重置游戏</string>
   <string name="FreeplayRestartPopup">所有死亡玩家已被复活，任务已重置！</string>
   <string name="TouOptionAltruistReviveType">复活类型</string>
-  <string name="TouOptionAltruistReviveEnumSacrifice">牺牲</string>
-  <string name="TouOptionAltruistReviveEnumGroupSacrifice">群体牺牲</string>
-  <string name="TouOptionAltruistReviveEnumGroupRevive">群体复活</string>
+  <string name="TouOptionAltruistReviveEnumSacrifice">复活个体后牺牲</string>
+  <string name="TouOptionAltruistReviveEnumGroupSacrifice">复活群体后牺牲</string>
+  <string name="TouOptionAltruistReviveEnumGroupRevive">复活群体后存活</string>
   <string name="TouOptionAltruistKillersAlertedAtStart">复活前通知杀手</string>
   <string name="TouOptionAltruistKillersAlertedAtEnd">复活后通知杀手</string>
   <string name="TouOptionAltruistKillerEnumNobody">无人</string>
@@ -1841,7 +1841,7 @@
   <string name="TouOptionTimeLordCanUseVitals">时间领主可使用生命监测</string>
   <string name="TouOptionTimeLordReviveOnRewind">倒转时复活玩家</string>
   <string name="TouOptionTimeLordUndoTasksOnRewind">倒转时重置任务</string>
-  <string name="TouOptionTimeLordUncleanBodiesOnRewind">倒转时尸体不消失</string>
+  <string name="TouOptionTimeLordUncleanBodiesOnRewind">倒转时复原被清理的尸体</string>
   <string name="TouOptionTimeLordNotifyOnRevive">复活时通知时间领主</string>
   <string name="TouOptionVigilanteGuessableNeutrals">可被猜测的中立阵营</string>
   <string name="TouOptionVigilanteGuessableBenign">善良型</string>
