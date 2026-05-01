@@ -171,7 +171,7 @@
   <string name="RandomImp">Losowy Intruz</string>
   <string name="Any">Losowe</string>
   <string name="Random">Losowe</string>
-  <string name="CrewInvestigative"/>
+  <string name="CrewInvestigative">Załogant Śledczy</string>
   <string name="LoverChatTitle">\%player\% (Czat Kochanków)</string>
   <string name="ImpostorChatTitle">\%player\% (Czat Intruzów)</string>
   <string name="VampireChatTitle">\%player\% (Czat Wampirów)</string>
@@ -183,4 +183,18 @@
   <string name="WikiOnBottomRow">Przycisk Wiki Poniżej Głównego UI</string>
   <string name="ZoomOnBottomRow">Przycisk Przybliżenia Poniżej Głównego UI</string>
   <string name="TermsNeutRoleAlignmentsTitle">Przynależności \%color=#8A8A8A\%Neutralnych\%/color\%</string>
+  <string name="CrewmateKeyword">Załogant</string>
+  <string name="CrewKeyword">Załogant</string>
+  <string name="NeutralKeyword">Neutralny</string>
+  <string name="NeutKeyword">Neutralny</string>
+  <string name="ImpostorKeyword">Intruz</string>
+  <string name="ImpKeyword">Intruz</string>
+  <string name="GhostKeyword">Duch</string>
+  <string name="Alliance">Sojusz</string>
+  <string name="Universal">Uniwersalny</string>
+  <string name="CrewmateAlliance">Sojusz Załoganta</string>
+  <string name="CrewmateUtility">Załogant Użytkowy</string>
+  <string name="CrewmateVisibility">Załogant Widoczny</string>
+  <string name="CrewmatePostmortem">Załogant Pośmiertny</string>
+  <string name="CrewmatePassive">Załogant Pasywny</string>
 </resources>
