@@ -255,13 +255,18 @@ public static class EndGamePatches
 
             if (playerControl.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
             {
+                var hasExtendedCauseOfDeath = !string.IsNullOrEmpty(deathHandler.ExtendedCauseOfDeath);
+                var causeOfDeath = hasExtendedCauseOfDeath
+                    ? deathHandler.ExtendedCauseOfDeath
+                    : deathHandler.CauseOfDeath;
+
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
+                    $" | {Color.yellow.ToTextColor()}{causeOfDeath}</color>");
                 playerRoleStringShort.Append(TownOfUsPlugin.Culture,
                     $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
                 summaryCod.Append(TownOfUsPlugin.Culture,
-                    $"{Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
-                if (deathHandler.KilledBy != string.Empty)
+                    $"{Color.yellow.ToTextColor()}{causeOfDeath}</color>");
+                if (!hasExtendedCauseOfDeath && deathHandler.KilledBy != string.Empty)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" {deathHandler.KilledBy}");

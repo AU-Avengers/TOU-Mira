@@ -2366,6 +2366,7 @@
   <string name="TouModifierAssassinIntroBlurb">Guess players in the meeting.</string>
   <string name="TouModifierAssassinWikiDescription">You have the ability to guess a player in a meeting.</string>
   <string name="TouModifierAssassinTabDescription">Guess players out of the meeting.</string>
+  <string name="MisguessSummary">Misguessed \%player\% as \%role\%</string>
   <!-- Assassin Options -->
   <string name="TouOptionAssassinNeutAssassinTitle">Neut Assassins: </string>
   <string name="TouOptionAssassinImpAssassinTitle">Imp Assassins: </string>
