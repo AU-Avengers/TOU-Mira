@@ -50,7 +50,6 @@ public static class FreeplayDebugState
 
         // Ensure chat UI is not left in a custom state.
         TeamChatPatches.TeamChatActive = false;
-        TeamChatPatches.ForceReset = true;
         TeamChatPatches.ForceNormalChat();
 
         foreach (var player in PlayerControl.AllPlayerControls.ToArray())

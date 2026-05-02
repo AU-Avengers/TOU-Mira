@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="ReverseSkeldMapName">dlekS</string>
+  <string name="ReverseSkeldMapTooltip">ehT dlekS: the medium-sized ship you know and (maybe) love, but flipped!</string>
   <string name="DiscordServer">Discord Server</string>
   <string name="SourceCode">Source Code</string>
   <string name="FoolsMode">Fools Mode</string>
@@ -812,6 +814,7 @@
   <!-- Imitator - Crewmate Support -->
   <!-- Imitator Wiki / Abilities -->
   <string name="TouRoleImitator">Imitator</string>
+  <string name="TouRoleImitatorShortName">Imi</string>
   <string name="TouRoleImitatorIntroBlurb">Use the dead to benefit the Crew</string>
   <string name="TouRoleImitatorTabDescription">Use dead players to benefit the crew via imitation in meetings</string>
   <string name="TouRoleImitatorWikiDescription">The Imitator is a Crewmate Support role that can select a dead crewmate to imitate their role until they change targets. Certain roles are inaccessible if there are multiple living imitators.</string>
@@ -1858,6 +1861,12 @@
   <string name="TouOptionAmnesiacInheritFactionModifier">Inherit Faction Modifiers</string>
   <string name="TouOptionAmnesiacShowArrows">Show Arrows Pointing To Dead Bodies</string>
   <string name="TouOptionAmnesiacArrowDelay">Time After Death Arrow Appears</string>
+  <string name="TouOptionAmnesiacAssassinImpostor">Can be Impostor Assassin</string>
+  <string name="TouOptionAmnesiacAssassinNeutral">Can be Neutral Killing Assassin</string>
+  <string name="TouOptionAmnesiacAssassinEnumNever">Never</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentNeut">If NK is Assassin</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentImp">If Imp is Assassin</string>
+  <string name="TouOptionAmnesiacAssassinEnumAlways">Always</string>
   <!-- Arsonist -->
   <!-- Arsonist Wiki / Abilities -->
   <string name="TouRoleArsonist">Arsonist</string>
@@ -2354,6 +2363,32 @@
   <string name="TouOptionIncreasedWhen2">Increased Kill Cooldown When 2+ Imps</string>
   <!-- Assailant (NKs/Imp) Modifiers -->
   <string name="TouModifierAssassin">Assassin</string>
+  <string name="TouModifierAssassinIntroBlurb">Guess players in the meeting.</string>
+  <string name="TouModifierAssassinWikiDescription">You have the ability to guess a player in a meeting.</string>
+  <string name="TouModifierAssassinTabDescription">Guess players out of the meeting.</string>
+  <!-- Assassin Options -->
+  <string name="TouOptionAssassinNeutAssassinTitle">Neut Assassins: </string>
+  <string name="TouOptionAssassinImpAssassinTitle">Imp Assassins: </string>
+  <string name="TouOptionAssassinGuessableCrewRolesTitle">Unguessable Crewmate Roles: </string>
+  <string name="TouOptionAssassinGuessableNeutRolesTitle">Unguessable Neutral Roles: </string>
+  <string name="TouOptionAssassinGuessableImpRolesTitle">Unguessable Impostor Roles: </string>
+  <string name="TouOptionAssassinGuessableModifiersTitle">Unguessable Modifiers: </string>
+  <string name="TouOptionAssassinNoAssassins">Amount: 0</string>
+  <string name="TouOptionAssassinSetAssassins">Amount: \%amount\% - Chance: \%chance\%%</string>
+  <string name="TouOptionAssassinNone">None</string>
+  <string name="TouOptionAssassinAll">All</string>
+  <string name="TouOptionAssassinNeutBenign">Benign</string>
+  <string name="TouOptionAssassinNeutEvil">Evil</string>
+  <string name="TouOptionAssassinNeutKilling">Killing</string>
+  <string name="TouOptionAssassinNeutOutlier">Outlier</string>
+  <string name="TouOptionAssassinVanillaCrew">Unmodded</string>
+  <string name="TouOptionAssassinBasicCrew">Basic Crew</string>
+  <string name="TouOptionAssassinInvestCrew">Investigative</string>
+  <string name="TouOptionAssassinCrewMods">Crewmate</string>
+  <string name="TouOptionAssassinUtilityCrewMods">Crew Utility</string>
+  <string name="TouOptionAssassinAllianceMods">Alliance</string>
+  <string name="TouOptionAssassinNonCrewMods">Non-Crew</string>
+  <string name="TouOptionAssassinUniversalMods">Universal</string>
   <!-- Double Shot -->
   <!-- Double Shot Wiki / Description -->
   <string name="TouModifierDoubleShot">Double Shot</string>

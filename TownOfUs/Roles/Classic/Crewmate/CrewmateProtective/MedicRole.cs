@@ -377,7 +377,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
-        if (medic.Data.Role is not MedicRole)
+        if (medic.Data.Role is not MedicRole role)
         {
             Error("RpcMedicShieldAttacked - Invalid medic");
             return;
@@ -414,8 +414,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
         if (shieldBreaks)
         {
-            var role = medic.GetRole<MedicRole>();
-            role?.SetShieldedPlayer(null);
+            role.SetShieldedPlayer(null);
         }
     }
 }

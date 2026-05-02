@@ -7,6 +7,7 @@ public interface ICachedRole
     bool Visible { get; }
     CacheRoleGuess GuessMode { get; }
     RoleBehaviour CachedRole { get; }
+    string CachedRoleName => "";
 }
 
 public enum CacheRoleGuess

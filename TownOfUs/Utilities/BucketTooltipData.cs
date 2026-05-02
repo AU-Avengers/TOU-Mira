@@ -97,12 +97,10 @@ public static class BucketTooltipData
         if (_groupBuckets.TryGetValue(bucket, out var grouped))
         {
             buckets = grouped;
-            Warning($"Groups Buckets contain data!");
         }
         else if (_allRoles.ContainsKey(bucket))
         {
             buckets = [ bucket ];
-            Warning($"All Roles contains the bucket!");
         }
         else
         {
@@ -128,7 +126,6 @@ public static class BucketTooltipData
             foreach (var role in allRoles)
             {
                 var entry = entries.FirstOrDefault(x => x.RoleId == role.Role);
-                Info($"Found {role.GetRoleName()}!");
                 if (entry == null)
                 {
                     Error("Missing entry...");
@@ -141,7 +138,6 @@ public static class BucketTooltipData
                     (int)customRole.GetChance()! > 0)
                 {
                     result.Add(entry);
-                    Warning($"Added {entry.DisplayName} as custom role!");
                 }
                 else
                 {
@@ -151,7 +147,6 @@ public static class BucketTooltipData
                     if (roleOptions.GetNumPerGame(role.Role) > 0 && roleOptions.GetChancePerGame(role.Role) > 0)
                     {
                         result.Add(entry);
-                        Warning($"Added {entry.DisplayName} as vanilla role!");
                     }
                 }
             }

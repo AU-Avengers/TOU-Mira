@@ -133,7 +133,7 @@ public static class EndGamePatches
             }
 
             var modifiers = playerControl.GetModifiers<GameModifier>()
-                .Where(x => x is TouGameModifier || x is UniversalGameModifier);
+                .Where(x => x is TouGameModifier touMod && touMod.AppearsInSummary || x is UniversalGameModifier);
             var modifierCount = modifiers.Count();
             var modifierNames = modifiers.Select(modifier => modifier.ModifierName);
             if (modifierCount != 0)
@@ -163,7 +163,7 @@ public static class EndGamePatches
             }
             var modifierHolder = new StringBuilder();
             var modifiersAlt = playerControl.GetModifiers<GameModifier>()
-                .Where(x => x is TouGameModifier || x is UniversalGameModifier || x is AllianceGameModifier);
+                .Where(x => x is TouGameModifier touMod && touMod.AppearsInSummary || x is UniversalGameModifier || x is AllianceGameModifier);
             var modifierCountAlt = modifiersAlt.Count();
             var modifierNamesAlt = modifiersAlt.Select(modifier => modifier.ModifierName);
             if (modifierCountAlt != 0)
@@ -747,6 +747,7 @@ public static class EndGamePatches
                 playerNameColoredFull = playerNameColoredFull.UpdateStatusSymbols(player, DataVisibility.Show);
 
                 var role = player.Data.Role;
+                var customRole = player.Data.Role as ICustomRole;
 
                 var color = role.TeamColor;
 
@@ -764,7 +765,7 @@ public static class EndGamePatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth)
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
@@ -792,9 +793,11 @@ public static class EndGamePatches
                     if (cachedMod is ICachedRole cache && cache.Visible &&
                         player.Data.Role.GetType() != cache.CachedRole.GetType())
                     {
+                        var cachedName = cache.CachedRoleName == "" ? cache.CachedRole.GetRoleName() : cache
+                            .CachedRoleName;
                         roleName = cache.ShowCurrentRoleFirst
-                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color>)</size>"
-                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
@@ -864,9 +867,11 @@ public static class EndGamePatches
                     if (cachedMod2 is ICachedRole cache2 && cache2.Visible &&
                         player.Data.Role.GetType() != cache2.CachedRole.GetType())
                     {
-                        roleNameFull = cache2.ShowCurrentRoleFirst
-                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache2.CachedRole.TeamColor.ToTextColor()}{cache2.CachedRole.GetRoleName()}</color>)</size>"
-                            : $"<size=80%>{cache2.CachedRole.TeamColor.ToTextColor()}{cache2.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                        var cachedName = cache2.CachedRoleName == "" ? cache2.CachedRole.GetRoleName() : cache2
+                            .CachedRoleName;
+                        roleName = cache2.ShowCurrentRoleFirst
+                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache2.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size=80%>{cache2.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole2)
@@ -984,7 +989,7 @@ public static class EndGamePatches
 
                 if (!string.IsNullOrEmpty(roleName))
                 {
-                    playerNameColored = $"{roleName}\n{color.ToTextColor()}<size=92%>{playerNameColored}</size></color>";
+                    playerNameColored = $"{roleName}\n{playerColor.ToTextColor()}<size=92%>{playerNameColored}</size></color>";
                     playerName = $"{roleName}\n<size=92%>{playerName}</size>";
                 }
 

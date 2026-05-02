@@ -7,10 +7,13 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>true</ImplicitUsings>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <VersionPrefix>1.6.0</VersionPrefix>
+        <VersionPrefix>1.6.1</VersionPrefix>
         <VersionSuffix>dev</VersionSuffix>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, Nix, Satire, xerminator, XtraCube, whichtwix, Zeo</Authors>

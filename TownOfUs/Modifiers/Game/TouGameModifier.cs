@@ -14,6 +14,9 @@ public abstract class TouGameModifier : GameModifier
     public virtual ModifierFaction FactionType => ModifierFaction.Universal;
     public virtual int CustomAmount => GetAmountPerGame();
     public virtual int CustomChance => GetAssignmentChance();
+    public virtual bool PreventsOtherModifiers => true;
+    public virtual bool AppearsInSummary => true;
+    public virtual bool HideFromGuessing => false;
 
     public override bool HideOnUi => false;
 
@@ -24,7 +27,7 @@ public abstract class TouGameModifier : GameModifier
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
-        return !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true) && role is not SpectatorRole;
+        return !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true, x => x.PreventsOtherModifiers) && role is not SpectatorRole;
     }
 }
 

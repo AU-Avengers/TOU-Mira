@@ -288,7 +288,6 @@ public static class MiscUtils
 
         if (role.IsDead)
         {
-            // TODO: Add support in MiraAPI for automatic ghost roles, similar to Spectator. Then, we can rely on that for better checks.
             if (role.IsNeutral())
             {
                 return RoleAlignment.NeutralAfterlife;
@@ -907,16 +906,21 @@ public static class MiscUtils
         var chat = HudManager.Instance.Chat;
 
         var pooledBubble = chat.GetPooledBubble();
+        var clonedBubble = chat.GetPooledBubble();
 
-        pooledBubble.transform.SetParent(chat.scroller.Inner);
+        pooledBubble.transform.SetParent(TeamChatPatches.PublicChatItems);
+        clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
         pooledBubble.transform.localScale = Vector3.one;
+        clonedBubble.transform.localScale = Vector3.one;
         if (onLeft)
         {
             pooledBubble.SetLeft();
+            clonedBubble.SetLeft();
         }
         else
         {
             pooledBubble.SetRight();
+            clonedBubble.SetRight();
         }
 
         pooledBubble.SetCosmetics(basePlayer);
@@ -931,16 +935,30 @@ public static class MiscUtils
         pooledBubble.Background.size = new Vector2(5.52f,
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
+
+        clonedBubble.SetCosmetics(basePlayer);
+        clonedBubble.NameText.text = nameText;
+        clonedBubble.NameText.color = Color.white;
+        clonedBubble.NameText.ForceMeshUpdate(true, true);
+        clonedBubble.votedMark.enabled = false;
+        clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
+        clonedBubble.TextArea.ForceMeshUpdate(true, true);
+        clonedBubble.Background.size = new Vector2(5.52f,
+            0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
+        clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
         if (altColors)
         {
             pooledBubble.Background.color = Color.black;
             pooledBubble.TextArea.color = Color.white;
+            clonedBubble.Background.color = Color.black;
+            clonedBubble.TextArea.color = Color.white;
         }
 
         pooledBubble.AlignChildren();
-        var pos = pooledBubble.NameText.transform.localPosition;
-        pooledBubble.NameText.transform.localPosition = pos;
-        chat.AlignAllBubbles();
+        clonedBubble.AlignChildren();
+        TeamChatPatches.AlignAllChatBubbles(chat);
         if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
         {
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
@@ -960,16 +978,21 @@ public static class MiscUtils
         var chat = HudManager.Instance.Chat;
 
         var pooledBubble = chat.GetPooledBubble();
+        var clonedBubble = chat.GetPooledBubble();
 
-        pooledBubble.transform.SetParent(chat.scroller.Inner);
+        pooledBubble.transform.SetParent(TeamChatPatches.PublicChatItems);
+        clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
         pooledBubble.transform.localScale = Vector3.one;
+        clonedBubble.transform.localScale = Vector3.one;
         if (onLeft)
         {
             pooledBubble.SetLeft();
+            clonedBubble.SetLeft();
         }
         else
         {
             pooledBubble.SetRight();
+            clonedBubble.SetRight();
         }
 
         pooledBubble.SetCosmetics(basePlayer);
@@ -984,16 +1007,31 @@ public static class MiscUtils
         pooledBubble.Background.size = new Vector2(5.52f,
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
+
+        clonedBubble.SetCosmetics(basePlayer);
+        clonedBubble.NameText.text = nameText;
+        clonedBubble.NameText.color = Color.white;
+        clonedBubble.NameText.ForceMeshUpdate(true, true);
+        clonedBubble.votedMark.enabled = false;
+        clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
+        clonedBubble.TextArea.ForceMeshUpdate(true, true);
+        clonedBubble.Background.size = new Vector2(5.52f,
+            0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
+        clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
+
         if (altColors)
         {
             pooledBubble.Background.color = Color.black;
             pooledBubble.TextArea.color = Color.white;
+            clonedBubble.Background.color = Color.black;
+            clonedBubble.TextArea.color = Color.white;
         }
 
         pooledBubble.AlignChildren();
-        var pos = pooledBubble.NameText.transform.localPosition;
-        pooledBubble.NameText.transform.localPosition = pos;
-        chat.AlignAllBubbles();
+        clonedBubble.AlignChildren();
+        TeamChatPatches.AlignAllChatBubbles(chat);
         if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
         {
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
@@ -1013,16 +1051,23 @@ public static class MiscUtils
         var chat = HudManager.Instance.Chat;
 
         var pooledBubble = chat.GetPooledBubble();
+        var clonedBubble = chat.GetPooledBubble();
 
-        pooledBubble.transform.SetParent(chat.scroller.Inner);
+        pooledBubble.transform.SetParent(blackoutText
+            ? TeamChatPatches.PrivateChatItems
+            : TeamChatPatches.PublicChatItems);
+        clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
         pooledBubble.transform.localScale = Vector3.one;
+        clonedBubble.transform.localScale = Vector3.one;
         if (onLeft)
         {
             pooledBubble.SetLeft();
+            clonedBubble.SetLeft();
         }
         else
         {
             pooledBubble.SetRight();
+            clonedBubble.SetRight();
         }
 
         pooledBubble.SetCosmetics(basePlayer);
@@ -1036,11 +1081,25 @@ public static class MiscUtils
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
 
+        clonedBubble.SetCosmetics(basePlayer);
+        clonedBubble.NameText.text = nameText;
+        clonedBubble.NameText.ForceMeshUpdate(true, true);
+        clonedBubble.votedMark.enabled = false;
+        clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.text = message;
+        clonedBubble.TextArea.ForceMeshUpdate(true, true);
+        clonedBubble.Background.size = new Vector2(5.52f,
+            0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
+        clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
+
         if (blackoutText)
         {
             pooledBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
             pooledBubble.NameText.color = Color.white;
             pooledBubble.TextArea.color = Color.white;
+            clonedBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
+            clonedBubble.NameText.color = Color.white;
+            clonedBubble.TextArea.color = Color.white;
         }
 
         // Tag *team/private* chat bubbles so the UI can reliably show/hide them.
@@ -1049,25 +1108,13 @@ public static class MiscUtils
         if (blackoutText && bubbleType != BubbleType.None)
         {
             pooledBubble.gameObject.name = $"{TeamChatPatches.PrivateBubblePrefix}{bubbleType}";
+            clonedBubble.gameObject.name = $"{TeamChatPatches.PrivateBubblePrefix}{bubbleType}";
         }
 
         pooledBubble.AlignChildren();
-        var pos = pooledBubble.NameText.transform.localPosition;
-        pooledBubble.NameText.transform.localPosition = pos;
-        // Only hide/store *team/private* bubbles when the user is currently viewing public chat.
-        // (System/feedback messages should remain in public chat even if they are "black tinted".)
-        if (!PlayerControl.LocalPlayer.Data.IsDead && !TeamChatPatches.TeamChatActive && blackoutText &&
-            bubbleType != BubbleType.None)
-        {
-            TeamChatPatches.storedBubbles.Insert(0, pooledBubble);
-            pooledBubble.gameObject.SetActive(false);
-            if (chat.chatBubblePool.activeChildren.Contains(pooledBubble))
-            {
-                chat.chatBubblePool.activeChildren.Remove(pooledBubble);
-            }
-        }
+        clonedBubble.AlignChildren();
 
-        chat.AlignAllBubbles();
+        TeamChatPatches.AlignAllChatBubbles(chat);
         // Only show the for incoming messages
         // Otherwise you get a notification when you message yourself (e.g. Lovers chat).
         // (I think this is the right way to do that...)

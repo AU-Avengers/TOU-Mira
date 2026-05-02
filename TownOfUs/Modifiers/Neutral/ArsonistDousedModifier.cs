@@ -17,6 +17,7 @@ public sealed class ArsonistDousedModifier(byte arsonistId) : BaseModifier
         var arso = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == ArsonistId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ArsonistDouse, arso!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+        ArsonistRole.SetDouseUses();
     }
 
     public override void OnDeath(DeathReason reason)

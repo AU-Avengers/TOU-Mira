@@ -41,7 +41,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
         if (button.LimitedUses)
         {
             var dousedCount = ModifierUtils.GetPlayersWithModifier<ArsonistDousedModifier>().Count(x => !x.HasDied());
-            var newUses = Math.Clamp(0, button.MaxUses - dousedCount, button.MaxUses);
+            var newUses = Math.Clamp(button.MaxUses - dousedCount, 0, button.MaxUses);
             button.SetUses(newUses);
         }
     }

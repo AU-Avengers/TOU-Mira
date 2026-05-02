@@ -4,6 +4,8 @@ using Il2CppInterop.Runtime;
 using Reactor.Utilities;
 using TownOfUs.Modules;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace TownOfUs.Patches.PrefabChanging;
 
@@ -109,19 +111,30 @@ public class PrefabLoader
 
     private static IEnumerator LoadMap<T>(MapNames map, Out<T> shipStatus) where T : ShipStatus
     {
-        var reference = AmongUsClient.Instance.ShipPrefabs._items[(int)map];
+        AssetReference reference = AmongUsClient.Instance.ShipPrefabs._items[(int)map];
 
-        if (reference.IsValid())
+        AsyncOperationHandle<GameObject> handle;
+
+        if (reference.OperationHandle.IsValid())
         {
-            // TODO: find out why this errors if asset is already loaded by another mod
-            shipStatus.Value = reference.OperationHandle.Result.Cast<GameObject>().GetComponent<T>();
+            handle = reference.OperationHandle.Convert<GameObject>();
+
+            if (!handle.IsDone)
+                yield return handle;
         }
         else
         {
-            var asset = reference.LoadAsset<GameObject>();
-            yield return asset;
+            handle = reference.LoadAsset<GameObject>();
+            yield return handle;
+        }
 
-            shipStatus.Value = asset.Result.GetComponent<T>();
+        if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        {
+            shipStatus.Value = handle.Result.GetComponent<T>();
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("Failed to load map asset");
         }
     }
 

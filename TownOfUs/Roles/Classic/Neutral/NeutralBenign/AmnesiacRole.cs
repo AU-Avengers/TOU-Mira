@@ -16,7 +16,6 @@ using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modifiers.Game.Neutral;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
-using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -119,6 +118,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             return;
         }
 
+        var opts = OptionGroupSingleton<AmnesiacOptions>.Instance;
         var roleWhenAlive = target.GetRoleWhenAlive();
 
         if (roleWhenAlive is AmnesiacRole)
@@ -210,12 +210,6 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             }
         }
 
-        var modifiers = target.GetModifiers<TouGameModifier>().ToList();
-        if (OptionGroupSingleton<AmnesiacOptions>.Instance.InheritFactionModifier && modifiers.Count > 0 && !player.GetModifiers<TouGameModifier>().HasAny())
-        {
-            player.AddModifier(modifiers.FirstOrDefault()!.GetType());
-        }
-
         if (player.AmOwner)
         {
             var text = TouLocale.GetParsed("TouRoleAmnesiacRememberNotif").Replace("<player>", target.Data.PlayerName);
@@ -268,14 +262,31 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             }
         }
 
-        if (player.IsImpostor() && OptionGroupSingleton<AssassinOptions>.Instance.AmneTurnImpAssassin)
+        var playerIsAssassin = target.HasModifier<AssassinModifier>();
+        var assassinModeImp = (AssassinRemember)opts.AmneTurnImpAssassin.Value;
+        var assassinModeNeut = (AssassinRemember)opts.AmneTurnNeutAssassin.Value;
+        var amneIsAssassin = false;
+
+        if (player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||
+                                    assassinModeImp is AssassinRemember.IfAssassin && playerIsAssassin))
         {
+            amneIsAssassin = true;
             player.AddModifier<ImpostorAssassinModifier>();
         }
         else if (player.IsNeutral() && player.Is(RoleAlignment.NeutralKilling) &&
-                 OptionGroupSingleton<AssassinOptions>.Instance.AmneTurnNeutAssassin)
+                 (assassinModeNeut is AssassinRemember.Always ||
+                  assassinModeNeut is AssassinRemember.IfAssassin && playerIsAssassin))
         {
+            amneIsAssassin = true;
             player.AddModifier<NeutralKillerAssassinModifier>();
+        }
+
+        // Doesn't give Double Shot if Assassin isn't available
+        var modifier = target.GetModifiers<TouGameModifier>().FirstOrDefault(x => x is not AssassinModifier &&
+            (x is not DoubleShotModifier || amneIsAssassin));
+        if (opts.InheritFactionModifier && modifier != null)
+        {
+            player.AddModifier(modifier.GetType());
         }
 
         var touAbilityEvent2 = new TouAbilityEvent(AbilityType.AmnesiacPostRemember, player, target);

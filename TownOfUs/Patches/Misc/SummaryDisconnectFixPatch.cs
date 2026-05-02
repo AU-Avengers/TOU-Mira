@@ -23,6 +23,10 @@ public static class SummaryDisconnectFixPatch
     [HarmonyPatch(nameof(GameData.HandleDisconnect), typeof(PlayerControl), typeof(DisconnectReasons))]
     public static void Prefix([HarmonyArgument(0)] PlayerControl player)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            return;
+        }
         var playerRoleString = new StringBuilder();
         var playerRoleStringShort = new StringBuilder();
 
@@ -110,7 +114,7 @@ public static class SummaryDisconnectFixPatch
         }
 
         var modifiers = player.GetModifiers<GameModifier>()
-            .Where(x => x is TouGameModifier || x is UniversalGameModifier);
+            .Where(x => x is TouGameModifier touMod && touMod.AppearsInSummary || x is UniversalGameModifier);
         var modifierCount = modifiers.Count();
         var modifierNames = modifiers.Select(modifier => modifier.ModifierName);
         if (modifierCount != 0)
@@ -141,7 +145,7 @@ public static class SummaryDisconnectFixPatch
 
         var modifierHolder = new StringBuilder();
         var modifiersAlt = player.GetModifiers<GameModifier>()
-            .Where(x => x is TouGameModifier || x is UniversalGameModifier || x is AllianceGameModifier);
+            .Where(x => x is TouGameModifier touMod && touMod.AppearsInSummary || x is UniversalGameModifier || x is AllianceGameModifier);
         var modifierCountAlt = modifiersAlt.Count();
         var modifierNamesAlt = modifiersAlt.Select(modifier => modifier.ModifierName);
         if (modifierCountAlt != 0)
