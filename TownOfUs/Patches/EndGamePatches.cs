@@ -747,6 +747,7 @@ public static class EndGamePatches
                 playerNameColoredFull = playerNameColoredFull.UpdateStatusSymbols(player, DataVisibility.Show);
 
                 var role = player.Data.Role;
+                var customRole = player.Data.Role as ICustomRole;
 
                 var color = role.TeamColor;
 
@@ -764,7 +765,7 @@ public static class EndGamePatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth)
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";

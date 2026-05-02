@@ -359,6 +359,7 @@ public static class HudManagerPatches
                 playerName = playerName.UpdateStatusSymbols(player);
 
                 var role = player.Data.Role;
+                var customRole = player.Data.Role as ICustomRole;
 
                 if (role == null)
                 {
@@ -381,7 +382,7 @@ public static class HudManagerPatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth)
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
@@ -561,6 +562,7 @@ public static class HudManagerPatches
                 playerName = playerName.UpdateStatusSymbols(player, !isVisible);
 
                 var role = player.Data.Role;
+                var customRole = player.Data.Role as ICustomRole;
                 var color = Color.white;
 
                 if (role == null)
@@ -575,7 +577,7 @@ public static class HudManagerPatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth)
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
