@@ -10,9 +10,8 @@ namespace TownOfUs.Patches.AprilFools;
 [HarmonyPatch]
 public static class DleksMapOptionPickerPatches
 {
-    public static StringNames DleksName => CustomStringName.CreateAndRegister("dlekS");
-    // TODO: localize this, probably by stealing from the sloth translations
-    public static StringNames DleksTooltip => CustomStringName.CreateAndRegister(".sepor eht gninrael rof taerG .srodirroc dna smoor elpitlum htiw pihs dezis-muidem a :dlekS ehT");
+    public static StringNames DleksName => CustomStringName.CreateAndRegister("ReverseSkeldMapName");
+    public static StringNames DleksTooltip => CustomStringName.CreateAndRegister("ReverseSkeldMapTooltip");
     
     [HarmonyPatch(typeof(GameOptionsMapPicker), nameof(GameOptionsMapPicker.SetupMapButtons))]
     [HarmonyPrefix]
