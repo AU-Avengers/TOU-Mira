@@ -288,7 +288,6 @@ public static class MiscUtils
 
         if (role.IsDead)
         {
-            // TODO: Add support in MiraAPI for automatic ghost roles, similar to Spectator. Then, we can rely on that for better checks.
             if (role.IsNeutral())
             {
                 return RoleAlignment.NeutralAfterlife;
