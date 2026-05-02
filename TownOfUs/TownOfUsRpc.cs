@@ -137,6 +137,7 @@ public enum TownOfUsRpc : uint
     OfficerMisfire,
     OfficerSyncBullets,
     SetUpCrewpostor,
+    AssassinMisguessSummary,
 }
 
 internal enum TownOfUsInternalRpc : uint

@@ -1,10 +1,13 @@
-﻿using HarmonyLib;
+﻿using System.Collections;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.HnsGame;
@@ -194,9 +197,13 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             }
             var victim = pickVictim ? player : Player;
 
-            ClickHandler(victim);
             LastAttemptedVictim = player;
             LastGuessedItem = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
+
+            if (ClickHandler(victim) && victim == Player)
+            {
+                RpcAssassinMisguessSummary(Player, player.PlayerId, LastGuessedItem);
+            }
         }
 
         void ClickModifierHandle(BaseModifier modifier)
@@ -204,17 +211,21 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             var pickVictim = player.HasModifier(modifier.TypeId);
             var victim = pickVictim ? player : Player;
 
-            ClickHandler(victim);
             LastAttemptedVictim = player;
             LastGuessedItem =
                 $"{MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty)).ToTextColor()}{modifier.ModifierName}</color>";
+
+            if (ClickHandler(victim) && victim == Player)
+            {
+                RpcAssassinMisguessSummary(Player, player.PlayerId, LastGuessedItem);
+            }
         }
 
-        void ClickHandler(PlayerControl victim)
+        bool ClickHandler(PlayerControl victim)
         {
             if (victim.HasDied() || Player.HasDied())
             {
-                return;
+                return false;
             }
 
             if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
@@ -227,7 +238,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
 
-                return;
+                return false;
             }
 
             if (victim == Player && Player.TryGetModifier<DoubleShotModifier>(out var modifier) && !modifier.Used)
@@ -246,7 +257,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
 
-                return;
+                return false;
             }
             Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                 showKillAnim: false,
@@ -268,6 +279,33 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             }
 
             shapeMenu.Close();
+            return true;
+        }
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.AssassinMisguessSummary, LocalHandling = RpcLocalHandling.After)]
+    public static void RpcAssassinMisguessSummary(PlayerControl assassin, byte victimId, string roleText)
+    {
+        var name = GameData.Instance?.GetPlayerById(victimId)?.Object?.Data?.PlayerName ?? "?";
+        var summary = TouLocale.GetParsed("TouModifierAssassinMisguessSummary")
+            .Replace("<player>", name)
+            .Replace("<role>", roleText);
+
+        Coroutines.Start(CoSetExtended(assassin, summary));
+    }
+
+    private static IEnumerator CoSetExtended(PlayerControl player, string summary)
+    {
+        var timeout = 5f;
+        while (timeout > 0f && player && !player.HasModifier<DeathHandlerModifier>())
+        {
+            timeout -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (player && player.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
+        {
+            deathHandler.ExtendedCauseOfDeath = summary;
         }
     }
 

@@ -37,6 +37,10 @@ public sealed class DeathHandlerModifier : BaseModifier
     // This will specify how the player died such as; Suicide, Prosecuted, Ejected, Rampaged, Reaped, etc.
     public string CauseOfDeath { get; set; } = "Suicide";
 
+    // Optional verbose cause of death used only by the extended end-game summary.
+    // The HUD and short summary keep showing the concise CauseOfDeath.
+    public string ExtendedCauseOfDeath { get; set; } = string.Empty;
+
     // This is set up by the game itself and will display in the lobby
     public int RoundOfDeath { get; set; } = -1;
 
