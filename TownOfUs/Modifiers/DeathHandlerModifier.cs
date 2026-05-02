@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
+using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using TownOfUs.Events;
 using UnityEngine;
@@ -69,6 +70,17 @@ public sealed class DeathHandlerModifier : BaseModifier
         var localizedCod = TouLocale.Get(causeOfDeath).Contains("STRMISS") ? "null" : TouLocale.Get(causeOfDeath);
         var localizedKilledBy = (TouLocale.GetParsed(killedByString).Contains("STRMISS") || killedBy == null) ? "null" : TouLocale.GetParsed(killedByString).Replace("<player>", killedBy.Data.PlayerName);
         UpdateDeathHandler(player, localizedCod, roundOfDeath, diedThisRound, localizedKilledBy, lockInfo);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.MisguessSummary, LocalHandling = RpcLocalHandling.After)]
+    public static void RpcSetMisguessSummary(PlayerControl player, byte victimId, string roleText)
+    {
+        var name = GameData.Instance?.GetPlayerById(victimId)?.Object?.Data?.PlayerName ?? "?";
+        var summary = TouLocale.GetParsed("MisguessSummary")
+            .Replace("<player>", name)
+            .Replace("<role>", roleText);
+
+        Coroutines.Start(CoSetExtended(player, summary));
     }
 
     public static void UpdateDeathHandler(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,
@@ -192,6 +204,21 @@ public sealed class DeathHandlerModifier : BaseModifier
         }
 
         IsAltCoroutineRunning = false;
+    }
+
+    private static IEnumerator CoSetExtended(PlayerControl player, string summary)
+    {
+        var timeout = 5f;
+        while (timeout > 0f && player && !player.HasModifier<DeathHandlerModifier>())
+        {
+            timeout -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (player && player.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
+        {
+            deathHandler.ExtendedCauseOfDeath = summary;
+        }
     }
 }
 

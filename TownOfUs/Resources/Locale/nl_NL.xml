@@ -524,5 +524,5 @@
   <string name="PiPSizeLarge">Groot</string>
   <string name="PlayerColorDarker">Donkerder</string>
   <string name="PlayerColorLighter">Lichter</string>
-  <string name="TouModifierAssassinMisguessSummary">Heeft \%player\% verkeerd geraden als \%role\%</string>
+  <string name="MisguessSummary">Heeft \%player\% verkeerd geraden als \%role\%</string>
 </resources>
