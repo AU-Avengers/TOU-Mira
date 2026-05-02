@@ -51,6 +51,8 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     // YES this is scuffed, a better solution will be used at a later time
     public override bool ShowInFreeplay => false;
     public string LastGuessedItem { get; set; }
+    public uint LastGuessedItemId { get; set; }
+    public bool LastGuessedIsRole { get; set; }
     public PlayerControl? LastAttemptedVictim { get; set; }
 
     public override bool HideOnUi => HasDoubleShot;
@@ -196,10 +198,12 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             LastAttemptedVictim = player;
             LastGuessedItem = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
+            LastGuessedIsRole = true;
+            LastGuessedItemId = (ushort)role.Role;
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItem);
+                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
             }
         }
 
@@ -211,10 +215,12 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             LastAttemptedVictim = player;
             LastGuessedItem =
                 $"{MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty)).ToTextColor()}{modifier.ModifierName}</color>";
+            LastGuessedIsRole = false;
+            LastGuessedItemId = modifier.TypeId;
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItem);
+                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
             }
         }
 

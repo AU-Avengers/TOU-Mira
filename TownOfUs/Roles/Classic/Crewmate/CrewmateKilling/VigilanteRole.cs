@@ -170,11 +170,10 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
                 }
             }
             var victim = pickVictim ? player : Player;
-            var roleText = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, roleText);
+                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, (ushort)role.Role, true);
             }
         }
 
@@ -182,12 +181,10 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         {
             var pickVictim = player.HasModifier(modifier.TypeId);
             var victim = pickVictim ? player : Player;
-            var modifierText =
-                $"{MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty)).ToTextColor()}{modifier.ModifierName}</color>";
 
             if (ClickHandler(victim) && victim == Player)
             {
-                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, modifierText);
+                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, modifier.TypeId, false);
             }
         }
 

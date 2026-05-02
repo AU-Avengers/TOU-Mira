@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using AmongUs.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
@@ -73,12 +75,25 @@ public sealed class DeathHandlerModifier : BaseModifier
     }
 
     [MethodRpc((uint)TownOfUsRpc.MisguessSummary, LocalHandling = RpcLocalHandling.After)]
-    public static void RpcSetMisguessSummary(PlayerControl player, byte victimId, string roleText)
+    public static void RpcSetMisguessSummary(PlayerControl player, byte victimId, uint guessId, bool isRole)
     {
+        var text = string.Empty;
+        if (isRole)
+        {
+            var role = RoleManager.Instance.GetRole((RoleTypes)guessId);
+            text = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
+        }
+        else
+        {
+            var modifier = ModifierManager.Modifiers.FirstOrDefault(x => x.TypeId == guessId)!;
+            text =
+                $"{MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty)).ToTextColor()}{modifier.ModifierName}</color>";
+        }
+
         var name = GameData.Instance?.GetPlayerById(victimId)?.Object?.Data?.PlayerName ?? "?";
         var summary = TouLocale.GetParsed("MisguessSummary")
             .Replace("<player>", name)
-            .Replace("<role>", roleText);
+            .Replace("<role>", text);
 
         Coroutines.Start(CoSetExtended(player, summary));
     }
