@@ -14,6 +14,7 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -290,6 +291,9 @@ public static class ModCompatibility
 
         SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame")!;
         SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem")!;
+        
+        var floorButtonPatch = SubTypes.First(t => t.Name == "ChangeFloorButtonPatches");
+        var floorButtonStyleMethod = AccessTools.Method(floorButtonPatch, "SetButtonStyle", [typeof(bool)]);
 
         var types = new[] { typeof(float) };
         var oxyConstruct = submarineOxygenSystem.GetConstructor(
@@ -313,10 +317,33 @@ public static class ModCompatibility
         harmony.Patch(oxyConstruct, null,
             new HarmonyMethod(AccessTools.Method(compatType, nameof(SetOxygenDuration))));
         harmony.Patch(canUse, null, null,
-            new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
+            new HarmonyMethod(compatType, nameof(SubmergedElevatorTranspilerPatch)));
+        harmony.Patch(floorButtonStyleMethod,
+            new HarmonyMethod(AccessTools.Method(compatType, nameof(FloorStylePrefix))));
 
         SubLoaded = true;
         Message("Submerged was detected");
+    }
+
+    public static bool FloorStylePrefix(bool isMovingUp)
+    {
+        var hoverRend = HudManagerPatches.SubmergedFloorButtonRendererHover;
+        var basicRend = HudManagerPatches.SubmergedFloorButtonRenderer;
+        if (basicRend && hoverRend)
+        {
+            if (isMovingUp)
+            {
+                basicRend.sprite = TouAssets.SubmergedFloorUp.LoadAsset();
+                hoverRend.sprite = TouAssets.SubmergedFloorUpHover.LoadAsset();
+            }
+            else
+            {
+                basicRend.sprite = TouAssets.SubmergedFloorDown.LoadAsset();
+                hoverRend.sprite = TouAssets.SubmergedFloorDownHover.LoadAsset();
+            }
+        }
+
+        return false;
     }
 
     public static IEnumerable<CodeInstruction> SubmergedElevatorTranspilerPatch(

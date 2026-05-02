@@ -880,7 +880,10 @@ public static class ChatPatches
                         return id;
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
         return -1;
     }

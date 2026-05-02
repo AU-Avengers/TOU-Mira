@@ -8,6 +8,7 @@ public static class TouAssets
 {
     private const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
+    private const string SubmergedPath = "TownOfUs.Resources.Submerged";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
@@ -401,6 +402,18 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> ActionSprite { get; } =
         new LoadableBundleAsset<Sprite>("Action", MainBundle);
+
+    public static LoadableAsset<Sprite> SubmergedFloorDown { get; } =
+        new LoadableResourceAsset($"{SubmergedPath}.FloorDown.png");
+
+    public static LoadableAsset<Sprite> SubmergedFloorDownHover { get; } =
+        new LoadableResourceAsset($"{SubmergedPath}.FloorDownHover.png");
+
+    public static LoadableAsset<Sprite> SubmergedFloorUp { get; } =
+        new LoadableResourceAsset($"{SubmergedPath}.FloorUp.png");
+
+    public static LoadableAsset<Sprite> SubmergedFloorUpHover { get; } =
+        new LoadableResourceAsset($"{SubmergedPath}.FloorUpHover.png");
 
     public static void Initialize()
     {
