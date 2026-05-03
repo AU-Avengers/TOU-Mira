@@ -901,6 +901,67 @@
         "\n- Investigator footprints can now be set to be based on Distance or Time.",
         "\n- New Crewmate Killing role has been added: Officer."
       ]
+    },
+    {
+      "Date": "2026-05-02T12:51:00Z",
+      "Number": "100041",
+      "ShortTitle": "TOU: Mira v1.6.1",
+      "Title": "I vote, therefore I Mayor",
+      "SubTitle": "The Mayor is jubilant as ever, look at him go!",
+      "Text": [
+        "<b>Finally, Mira is updated to v1.6.1! This build fixes quite a few issues, so we hope you enjoy. Many remaining bugs will be fixed in v1.7.0, as there will be a complete overhaul to systems in the background.</b>",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1>TOU Mira v1.6.1 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Known Bugs:</size>",
+        "\n- Controlled players (via Parasite/Puppeteer) appear to be stuck in a walk cycle when they are walking onto a wall, showing they are under control.",
+        "\n- Neutral Wildcard may duplicate the amount of each neutral present if any selected slots are wildcards.",
+        "\n- Ghostwalkers are sometimes unable to use the Zipline, Platform, or Ladders.",
+        "\n- When Haunter finishes their tasks, sometimes the Impostors will not get an arrow to the Haunter, essentially screwing them over.",
+        "\n- Pets aren't removed based on settings properly.",
+        "\n- Medic Shield still doesn't get shattered properly with the settings.",
+
+        "\n\n\r<size=105%>Known Hide and Seek Bugs:</size>",
+        "\n- The Seeker is missing animations for the hiders",
+        "\n- Hiders ignore their vent uses",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Officer no longer breaks across game sessions.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Executioner Torment kills players again.",
+        "\n- Jester Haunt kills players again.",
+        "\n- Mercenary protection is removed upon their death.",
+        "\n- Arsonist interactions contribute towards the douse limit.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Grenadier flash no longer breaks kill screens and meetings.",
+        "\n- Dragging Viper / Rotting bodies no longer breaks Undertaker.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Impostor replaced by a Crewpostor can no longer see their previous task text.",
+        "\n- Camo Comms no longer shows other player names when revived.",
+        "\n- Doors can be set to Skeld doors or be flat out removed properly on Submerged.",
+        "\n- Private Chat is no longer broken.",
+        "\n- Players disconnecting from the lobby no longer breaks the player count.",
+        "\n- Disconnected players no longer leak their role color.",
+        "\n- Submerged and Level Impostor no longer break when loading base game map assets.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- dlekS tooltip in the Create Game Menu is legible now.",
+        "\n- Imitator now shows (Imi) next to their name while imitating roles.",
+        "\n- Zoom and Wiki buttons can be changed to be below or next to the Settings / Chat button.",
+        "\n- Amnesiac's Assassin configuration is improved.",
+        "\n- Lobby view pane has been adjusted to be smaller.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Keybind Actions are now available under the local settings, primarily for Android players.",
+        "\n- The host can now run /kick and /ban mid-game (PR #170 by VoidicChaos)",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Assassin is now shown as a modifier, unless Double Shot is present, with a better wiki description.",
+        "\n- Misguessing now shows who/what was attempted to be guessed in the end game summary (PR #173 by DivaniNL)"
+      ]
     }
   ]
 }

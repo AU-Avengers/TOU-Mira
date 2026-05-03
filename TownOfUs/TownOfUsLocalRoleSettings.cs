@@ -59,12 +59,16 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
         config.Bind("Gameplay", "UseCrewmateTeamColor", false);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowRoleIconOnRoleTab { get; private set; } =
-        config.Bind("Gameplay", "ShowRoleIconOnRoleTab", true);
-
-    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowShieldHudToggle { get; private set; } =
         config.Bind("Gameplay", "ShowShieldHud", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowBasicAssassinOnHud { get; private set; } =
+        config.Bind("Gameplay", "ShowBasicAssassinOnHud", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> ShowRoleIconOnRoleTab { get; private set; } =
+        config.Bind("Gameplay", "ShowRoleIconOnRoleTab", true);
 
     [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
     public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =

@@ -29,6 +29,7 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modifiers.Impostor.Venerer;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
@@ -46,6 +47,7 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Other;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -155,7 +157,7 @@ public static class TownOfUsEventHandlers
             instance.RoleBlurbText.text = custom.RoleDescription;
         }
 
-        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
+        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
         if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
         {
             var color = MiscUtils.GetModifierColour(teamModifier);
@@ -190,7 +192,7 @@ public static class TownOfUsEventHandlers
             cutscene.RoleBlurbText.text = custom.RoleDescription;
         }
 
-        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
+        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
         if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
         {
             var color = MiscUtils.GetModifierColour(teamModifier);
@@ -548,6 +550,28 @@ public static class TownOfUsEventHandlers
     {
         var player = reviveEvent.Player;
         VitalsBodyPatches.RemoveMissingPlayer(player.Data);
+
+        if (!player.AmOwner)
+        {
+            return;
+        }
+
+        foreach (var plr in PlayerControl.AllPlayerControls)
+        {
+            // this forces camo comms to reset for the revived player
+            var appearanceType = plr.GetAppearanceType();
+            if (appearanceType == TownOfUsAppearances.Swooper)
+            {
+                continue;
+            }
+
+            plr.SetCamouflage(false);
+
+            if (HudManagerPatches.CommsSaboActive() || plr.HasModifier<VenererCamouflageModifier>())
+            {
+                plr.SetCamouflage();
+            }
+        }
     }
 
     [RegisterEvent]

@@ -3,8 +3,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -18,7 +16,7 @@ public sealed class NeutralGameOver : CustomGameOver
 
     public override bool VerifyCondition(PlayerControl playerControl, NetworkedPlayerInfo[] winners)
     {
-        if (winners is not [{ Role: RoleBehaviour role and ITownOfUsRole tRole }])
+        if (winners is not [{ Role: var role and ITownOfUsRole tRole }])
         {
             return false;
         }
@@ -28,7 +26,7 @@ public sealed class NeutralGameOver : CustomGameOver
         Error(
             $"VerifyCondition - mainRole: '{mainRole.GetRoleName()}', IsDead: '{role.IsDead}'");
 
-        if (role.IsDead && role is not SpectreRole or HaunterRole)
+        if (role.IsDead && role is not IGhostRole)
         {
             mainRole = role.Player.GetRoleWhenAlive();
 
