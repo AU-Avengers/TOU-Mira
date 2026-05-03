@@ -192,6 +192,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us        | Mod Version | Download Link                                                           |
 |-----------------|-------------|-------------------------------------------------------------------------|
+| 17.3.x          | 1.6.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
 | 17.3.x          | 1.6.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0)  |
 | 17.2.x          | 1.5.9       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
 | 17.1 and 17.2.1 | 1.5.4       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.4)  |
@@ -290,23 +291,31 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 
 If a mod is missing here and is a role/modifiers mod, it likely won't work unless it is built with [MiraAPI](https://github.com/All-Of-Us-Mods/MiraAPI)!
 
-|                                    Mod                                    | Support | Notes                                                                                            |
-|:-------------------------------------------------------------------------:|:-------:|:-------------------------------------------------------------------------------------------------|
-|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         |    ✅    | Custom Door Types cannot be adjusted fully.                                                      |
-|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        |    ✅    | Custom Door Types cannot be changed.                                                             |
-|             [NewMod](https://github.com/CallOfCreator/NewMod)             |    ✅    | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented.                 |
-| [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) |   ⚠️    | Launchpad's Gambler role is broken with TOU Mira.<br/>Wiki is not fully implemented.             |
-|     [Reach for Stars](https://pixmakesgames.itch.io/reach-for-stars)      |   ⚠️    | Mod is non-functional on new Among Us releases at the moment.<br/>Wiki is not fully implemented. |
+|                                    Mod                                    | Support | Notes                                                                            |
+|:-------------------------------------------------------------------------:|:-------:|:---------------------------------------------------------------------------------|
+|         [Localize Us!](https://github.com/AU-Avengers/LocalizeUs)         |    ✅    | TOU Mira only has a few extra translations for this.                             |
+|        [Submerged](https://github.com/SubmergedAmongUs/Submerged)         |    ✅    |                                                                                  |
+|       [Level Impostor](https://github.com/DigiWorm0/LevelImposter)        |    ✅    | Custom Door Types cannot be changed.                                             |
+|             [NewMod](https://github.com/CallOfCreator/NewMod)             |    ✅    | Runs fine, but NewMod role icons are missing.<br/>Wiki is not fully implemented. |
+| [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) |   ⚠️    | Wiki is not fully implemented.                                                   |
+
+The mods below have **not** been completed/ported just yet, but will work with TOU Mira in mind.
+
+|                                       Mod                                        |     Mod Type      | Description                                                                                      |
+|:--------------------------------------------------------------------------------:|:-----------------:|:-------------------------------------------------------------------------------------------------|
+| [Town of Us Edited: Mira](https://github.com/lekillerdesgames/Town-Of-Us-Edited) | Roles / Modifiers | The TOU-Edited mod, but improved and ported to Mira, adding new roles, modifiers, and mechanics! |
+|            [Localize Us!](https://github.com/AU-Avengers/LocalizeUs)             |   Miscellaneous   | A mod that adds extra languages to the game, such as Polish, Swedish, and Turkish!               |
 
 The mods below are designed to fully work with TOU Mira, often adding new roles and modifiers or extra functionality!
 
 |                              Extension Mod                              |     Mod Type      | Description                                                                                                                                                                           |
 |:-----------------------------------------------------------------------:|:-----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|         [ChaosTokens](https://github.com/xChipseq/ChaosTokens)          |   Game Feature    | A mod that adds gambling to TOU! Each round, players can get one, two, or no tokens, which enhances the chaos in the game. Each roll may give a positive, negative, or benign effect. |
-|       [DraftModeTOUM](https://github.com/ninja-au/DraftModeTOUM)        |   Game Feature    | A mod that adds a draft mode for the game, set up through the chat before the lobby begins.                                                                                           |
+|         [Chaos Tokens](https://github.com/xChipseq/ChaosTokens)         |   Game Feature    | A mod that adds gambling to TOU! Each round, players can get one, two, or no tokens, which enhances the chaos in the game. Each roll may give a positive, negative, or benign effect. |
+|          [Game Tweaks](https://github.com/xChipseq/GameTweaks)          |   Game Feature    | A mod that adds new gimmicks to your TOU games, ranging from gameplay changes to absolute insanity. Yes, they can be randomized too.                                                  |
+|      [DraftModeTOUM](https://github.com/idkimneil/DraftMode-TOUM)       |   Game Feature    | A mod that adds a draft mode for the game, allowing players to select their roles.                                                                                                    |
 | [Roles Extension](https://github.com/rewalo/TownOfUsMiraRolesExtension) | Roles / Modifiers | A mod that adds new roles and modifiers, including some TOU role renames.                                                                                                             |
+| [Divani Mods](https://github.com/DivaniNL/TownOfUsMiraDivaniModsAddOn)  | Roles / Modifiers | A mod that adds new roles and modifiers.                                                                                                                                              |
 |         [Mira-NotePad](https://github.com/Maxi0fc/Mira-NotePad)         |   Miscellaneous   | A client-side mod that adds a notepad that can be used in-game at any time.                                                                                                           |
-|           [AUSummary](https://github.com/notnico22/AUSummary)           |   Miscellaneous   | A client-side mod that directly connects with a custom application to display your previous matches.                                                                                  |
 |           [NameFilter](https://github.com/Maxi0fc/NameFliter)           |   Miscellaneous   | A host-side mod that filter out slurs, offensive terms, and more from player names.                                                                                                   |
 |      [Mira Randomizer](https://github.com/VoidicChaos/Randomiser)       |   Miscellaneous   | A host-side mod that allows full randomization of the current preset!                                                                                                                 |
 |    [TOU Mira: Legacy](https://github.com/AU-Avengers/TouMiraLegacy)     |     UI Tweaks     | A client-side mod that replaces the assets of Among Us and TOU Mira to that of pre-2021 AU and TOU/TOUR.                                                                              |
