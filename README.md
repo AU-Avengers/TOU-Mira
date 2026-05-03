@@ -253,6 +253,8 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 [xChipseq](https://github.com/xChipseq) - For implementing the wiki hyperlinks feature for chat.\
 [Amber](https://github.com/Nix-main) - For helping on the translation system.\
 [IdkImNeil](https://github.com/neilmjain) - For implementing the /rules system.\
+[VoidicChaos](https://github.com/VoidicChaos) - For implementing the /kick and /ban commands.\
+[DivaniNL](https://github.com/DivaniNL) - For implementing extended details for misguesses.\
 [rewalo](https://github.com/rewalo) - For implementing host keybinds, improving anticheat, as well as adding Time Lord, Sentry and Parasite.\
 [ItzLoonie](https://github.com/ItzLoonie) - For the original implementations of the reworked Seer, Monarch, and Spellslinger roles. Also ported Deadly Quota and Circumvent modifiers.\
 [Endless Host Roles](https://github.com/Gurge44/EndlessHostRoles) - For the original Deadly Quota and Circumvent modifiers.\
