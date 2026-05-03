@@ -26,11 +26,11 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     private MeetingMenu meetingMenu;
     public override string LocaleKey => "Assassin";
     public static bool HasDoubleShot => PlayerControl.LocalPlayer.HasModifier<DoubleShotModifier>();
-    public static string LocaleKeyAlt => HasDoubleShot ? "DoubleShot" : "Assassin";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKeyAlt}IntroBlurb");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
     public override bool PreventsOtherModifiers => false;
     public override bool AppearsInSummary => false;
+    public override bool AppearsInIntro => !PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().Any(x => x != this && x.AppearsInIntro);
     public override bool HideFromGuessing => true;
 
     public override string GetDescription()
