@@ -55,7 +55,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public bool LastGuessedIsRole { get; set; }
     public PlayerControl? LastAttemptedVictim { get; set; }
 
-    public override bool HideOnUi => HasDoubleShot;
+    public override bool HideOnUi => !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowBasicAssassinOnHud.Value || HasDoubleShot;
 
     public override int GetAssignmentChance()
     {

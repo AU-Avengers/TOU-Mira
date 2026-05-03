@@ -30,6 +30,7 @@
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
+  <string name="ShowBasicAssassinOnHud">Show Assassin On Hud</string>
   <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
