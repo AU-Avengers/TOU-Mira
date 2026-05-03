@@ -84,6 +84,18 @@ public static class LogoPatch
             tint.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.1f);
             tint.transform.localScale = new Vector3(7.5f, 7.5f, 1f);
         }
+        var bgFill = GameObject.Find("AccountManager/BackgroundFill");
+        var loading = bgFill.transform.GetChild(0).gameObject;
+        var loadRend = loading.GetComponent<SpriteRenderer>();
+        loadRend.sprite = TouAssets.MayorPet.LoadAsset();
+        loadRend.flipX = false;
+        loadRend.SetMaterial(newLogo!.GetComponent<SpriteRenderer>().GetMaterial());
+        loadRend.color = Color.white;
+        var loading2 = GameObject.Find("AccountManager/Loading").transform.GetChild(1).GetChild(0);
+        var logo2 = loading2.GetComponent<SpriteRenderer>();
+        logo2.sprite = TouAssets.BannerDark.LoadAsset();
+        logo2.transform.localScale = new Vector3(0.15f, 0.15f, 1);
+        logo2.transform.localPosition = new Vector3(1.21f, 0.7556f, 1);
 
         if (TownOfUsPlugin.IsMobile)
         {

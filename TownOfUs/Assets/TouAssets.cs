@@ -14,6 +14,7 @@ public static class TouAssets
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
     public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
+    public static LoadableAsset<Sprite> BannerDark { get; } = new LoadableResourceAsset($"{ShortPath}.BannerDark.png");
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
         new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 600);
@@ -402,6 +403,9 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> ActionSprite { get; } =
         new LoadableBundleAsset<Sprite>("Action", MainBundle);
+
+    public static LoadableAsset<Sprite> MayorPet { get; } =
+        new LoadableResourceAsset($"{ShortPath}.MayorPet.png", 500f);
 
     public static LoadableAsset<Sprite> SubmergedFloorDown { get; } =
         new LoadableResourceAsset($"{SubmergedPath}.FloorDown.png");
