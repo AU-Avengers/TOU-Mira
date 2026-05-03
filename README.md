@@ -1,6 +1,6 @@
 > [!NOTE]
 > This repo is a rewrite of [Town of Us Reactivated](https://github.com/eDonnes124/Town-Of-Us-R) and is under constant development, expect bugs.\
-> This mod is NOT for console versions of Among Us and is NOT host only either, please do not ask for a port or a rewrite.
+> This mod is ONLY available on PC and Android Among Us and is NOT host only either, please do not ask for a port or a rewrite.
 
 -----------------------
 
@@ -31,7 +31,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 -----------------------
 
 > [!TIP]
-> Join the Reactivated [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or want to find people to play with!\
+> Join the Town of Us [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or want to find people to play with!\
 > Check out the mod's [wiki](https://au-avengers.github.io/docs.toum.gg) for info!
 
 -----------------------
