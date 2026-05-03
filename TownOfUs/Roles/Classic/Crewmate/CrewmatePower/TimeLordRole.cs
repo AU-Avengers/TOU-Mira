@@ -88,7 +88,8 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
         }
 
-        const float duration = 3.5f; var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
+        const float duration = 3.5f;
+        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);
 
         if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost &&
 OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
