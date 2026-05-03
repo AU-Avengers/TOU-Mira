@@ -7,7 +7,6 @@ namespace TownOfUs.Options;
 
 public sealed class RoleOptions : AbstractOptionGroup
 {
-    // TODO: Once hide and seek is possibly implemented as a selectable mode, then this code should be removed.
     public override Func<bool> GroupVisible => () =>
         !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
             or GameModes.SeekFools);

@@ -13,6 +13,7 @@ public interface ITownOfUsRole : ICustomRole
     bool HasImpostorVision => false;
     public virtual bool MetWinCon => false;
     public virtual string LocaleKey => "KEY_MISS";
+    public virtual string ShortName => "";
     public static Dictionary<string, string> LocaleList => [];
 
     [HideFromIl2Cpp]

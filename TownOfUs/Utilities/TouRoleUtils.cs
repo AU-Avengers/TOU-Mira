@@ -27,11 +27,7 @@ public static class TouRoleUtils
             return;
         }
 
-        var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "NeutralRoleText");
-        if (playerTask == null)
-        {
-            playerTask = playerControl.myTasks.ToArray().FirstOrDefault(t => t.name == "ImpostorRole");
-        }
+        var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(x => x is ImportantTextTask);
 
         if (playerTask != null)
         {

@@ -14,6 +14,7 @@ using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Maps;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -110,6 +111,18 @@ public static class ModCompatibility
     public static BasePlugin AleLuduPlugin { get; private set; }
     public static Assembly AleLuduAssembly { get; private set; }
     
+    /*public const string CorsacGuid = "CorsacCosmetics";
+    public static Version CorsacVersion { get; private set; }
+    public static bool CorsacLoaded { get; private set; }
+    public static BasePlugin CorsacPlugin { get; private set; }
+    public static Assembly CorsacAssembly { get; private set; }
+    public static Type[] CorsacTypes { get; private set; }
+    private static readonly Dictionary<Assembly, string> ResourceBundles = new();
+    public static void AddCorsacResourceBundle(Assembly assembly, string resourcePath)
+    {
+        ResourceBundles.Add(assembly, resourcePath);
+    }*/
+    
     public static void Initialize()
     {
         InitBetterAmongUs();
@@ -118,6 +131,7 @@ public static class ModCompatibility
         InitCrowded();
         InitAleLudu();
         InitLaunchpad();
+        // InitCorsac();
 
         var sBuilder = new StringBuilder();
 
@@ -198,6 +212,30 @@ public static class ModCompatibility
         harmony.Patch(detConstruct, new HarmonyMethod(AccessTools.Method(compatType, nameof(AdjustRoleBehaviour))));
     }
 #pragma warning restore S3011
+    /*public static void InitCorsac()
+    {
+        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(CorsacGuid, out var plugin))
+        {
+            return;
+        }
+
+        CorsacPlugin = (plugin!.Instance as BasePlugin)!;
+        CorsacVersion = plugin.Metadata.Version;
+
+        CorsacAssembly = CorsacPlugin.GetType().Assembly;
+        CorsacTypes = AccessTools.GetTypesFromAssembly(CorsacAssembly);
+        var bundleLoader = CorsacTypes.First(t => t.Name == "BundleLoader");
+        var addResourceHandler = AccessTools.Method(bundleLoader, "AddResourceBundle", [typeof(Assembly), typeof(string)]);
+        if (ResourceBundles.HasAny())
+        {
+            foreach (var pair in ResourceBundles)
+            {
+                addResourceHandler.Invoke(null, [pair.Key, pair.Value]);
+            }
+        }
+        CorsacLoaded = true;
+        Message("Corsac Cosmetics was detected");
+    }*/
 
     public static void InitSubmerged()
     {
@@ -253,6 +291,9 @@ public static class ModCompatibility
 
         SubmarineSurvillanceMinigameType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSurvillanceMinigame")!;
         SubmarineSecuritySabotageSystemType = SubTypes.FirstOrDefault(t => t.Name == "SubmarineSecuritySabotageSystem")!;
+        
+        var floorButtonPatch = SubTypes.First(t => t.Name == "ChangeFloorButtonPatches");
+        var floorButtonStyleMethod = AccessTools.Method(floorButtonPatch, "SetButtonStyle", [typeof(bool)]);
 
         var types = new[] { typeof(float) };
         var oxyConstruct = submarineOxygenSystem.GetConstructor(
@@ -276,10 +317,33 @@ public static class ModCompatibility
         harmony.Patch(oxyConstruct, null,
             new HarmonyMethod(AccessTools.Method(compatType, nameof(SetOxygenDuration))));
         harmony.Patch(canUse, null, null,
-            new HarmonyMethod(typeof(ModCompatibility), nameof(SubmergedElevatorTranspilerPatch)));
+            new HarmonyMethod(compatType, nameof(SubmergedElevatorTranspilerPatch)));
+        harmony.Patch(floorButtonStyleMethod,
+            new HarmonyMethod(AccessTools.Method(compatType, nameof(FloorStylePrefix))));
 
         SubLoaded = true;
         Message("Submerged was detected");
+    }
+
+    public static bool FloorStylePrefix(bool isMovingUp)
+    {
+        var hoverRend = HudManagerPatches.SubmergedFloorButtonRendererHover;
+        var basicRend = HudManagerPatches.SubmergedFloorButtonRenderer;
+        if (basicRend && hoverRend)
+        {
+            if (isMovingUp)
+            {
+                basicRend.sprite = TouAssets.SubmergedFloorUp.LoadAsset();
+                hoverRend.sprite = TouAssets.SubmergedFloorUpHover.LoadAsset();
+            }
+            else
+            {
+                basicRend.sprite = TouAssets.SubmergedFloorDown.LoadAsset();
+                hoverRend.sprite = TouAssets.SubmergedFloorDownHover.LoadAsset();
+            }
+        }
+
+        return false;
     }
 
     public static IEnumerable<CodeInstruction> SubmergedElevatorTranspilerPatch(

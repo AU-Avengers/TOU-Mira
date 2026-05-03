@@ -2,6 +2,7 @@ using BepInEx.Configuration;
 using MiraAPI.Utilities;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
+using TownOfUs.Patches.Options;
 
 namespace TownOfUs;
 
@@ -25,6 +26,19 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
             var sliderObject = entry.Key;
             sliderObject.SliderObject.Title.text =
                 LocalizedLocalSliderSetting.GetLocalizedValueText(sliderObject, sliderObject.LocaleKey);
+        }
+    }
+
+    public override void OnOptionChanged(ConfigEntryBase configEntry)
+    {
+        base.OnOptionChanged(configEntry);
+        if (configEntry == SeparateChatBubbles)
+        {
+            if (!HudManager.InstanceExists)
+            {
+                return;
+            }
+            TeamChatPatches.UpdateChat();
         }
     }
 

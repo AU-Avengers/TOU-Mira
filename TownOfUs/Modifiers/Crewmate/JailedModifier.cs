@@ -17,7 +17,6 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
     public override string ModifierName => "Jailed";
     public override bool HideOnUi => true;
     public byte JailorId { get; } = jailorId;
-    public bool HasOpenedQuickChat { get; set; }
 
     public bool IsJailorValid => !GameData.Instance.GetPlayerById(JailorId).Object.HasDied() &&
                                  GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is JailorRole;

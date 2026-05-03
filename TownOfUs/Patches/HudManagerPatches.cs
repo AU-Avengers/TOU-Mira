@@ -5,10 +5,12 @@ using InnerNet;
 using MiraAPI;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.ModifierDisplay;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -39,13 +41,22 @@ namespace TownOfUs.Patches;
 public static class HudManagerPatches
 {
     public static GameObject ZoomButton;
-    public static AspectPosition ZoomAspectPos;
     public static GameObject WikiButton;
-    public static AspectPosition WikiAspectPos;
+    public static GameObject ModifierDisplayObject;
+    public static bool ModifierDisplayOnRight;
+    public static GameObject ClonedChatButton;
+    public static GameObject ExtraUiTopRight;
+    public static GridArrange ExtraUiGrid;
+    public static AspectPosition ExtraUiAspectPos;
+    public static GameObject UiTopRight;
+    public static GridArrange UiGrid;
+    public static AspectPosition UiAspectPos;
     public static GameObject RoleList;
     public static string RoleListPrefixText = string.Empty;
     public static TextMeshPro RoleListTextComp;
     public static GameObject SubmergedFloorButton;
+    public static SpriteRenderer SubmergedFloorButtonRenderer;
+    public static SpriteRenderer SubmergedFloorButtonRendererHover;
     public static bool IsHoveringRoleList;
 
     public static bool Zooming;
@@ -350,6 +361,7 @@ public static class HudManagerPatches
                 playerName = playerName.UpdateStatusSymbols(player);
 
                 var role = player.Data.Role;
+                var customRole = player.Data.Role as ICustomRole;
 
                 if (role == null)
                 {
@@ -372,7 +384,7 @@ public static class HudManagerPatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth)
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
@@ -399,9 +411,11 @@ public static class HudManagerPatches
                     if (cachedMod is ICachedRole cache && cache.Visible &&
                         player.Data.Role.GetType() != cache.CachedRole.GetType())
                     {
+                        var cachedName = cache.CachedRoleName == "" ? cache.CachedRole.GetRoleName() : cache
+                            .CachedRoleName;
                         roleName = cache.ShowCurrentRoleFirst
-                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color>)</size>"
-                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
@@ -550,6 +564,7 @@ public static class HudManagerPatches
                 playerName = playerName.UpdateStatusSymbols(player, !isVisible);
 
                 var role = player.Data.Role;
+                var customRole = player.Data.Role as ICustomRole;
                 var color = Color.white;
 
                 if (role == null)
@@ -564,7 +579,7 @@ public static class HudManagerPatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth)
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
@@ -591,9 +606,11 @@ public static class HudManagerPatches
                     if (cachedMod is ICachedRole cache && cache.Visible &&
                         player.Data.Role.GetType() != cache.CachedRole.GetType())
                     {
+                        var cachedName = cache.CachedRoleName == "" ? cache.CachedRole.GetRoleName() : cache
+                            .CachedRoleName;
                         roleName = cache.ShowCurrentRoleFirst
-                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color>)</size>"
-                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cache.CachedRole.GetRoleName()}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
@@ -923,29 +940,21 @@ public static class HudManagerPatches
 
     public static void CreateZoomButton(HudManager instance)
     {
-        var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
-
-        if (!ZoomButton)
+        if (!ZoomButton && UiTopRight && ExtraUiTopRight)
         {
-            ZoomButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
+            ZoomButton = Object.Instantiate(instance.MapButton.gameObject, ExtraUiTopRight.transform);
             ZoomButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
             ZoomButton.name = "ZoomButton";
-            ZoomButton.transform.Find("Background").localPosition = Vector3.zero;
-            ZoomButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            var inactive = ZoomButton.transform.Find("Inactive");
+                inactive.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinus.LoadAsset();
-            ZoomButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+                inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
+                var active = ZoomButton.transform.Find("Active");
+                active.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.ZoomMinusActive.LoadAsset();
-            ZoomAspectPos = ZoomButton.GetComponentInChildren<AspectPosition>();
-        }
-
-        if (ZoomButton)
-        {
-            var distanceFromEdge = ZoomAspectPos.DistanceFromEdge;
-            distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
-            distanceFromEdge.y = 0.485f;
-            ZoomAspectPos.DistanceFromEdge = distanceFromEdge;
-            ZoomAspectPos.AdjustPosition();
+                active.localPosition = new Vector3(0, 0.021f, -0.1f);
+            ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
         }
     }
 
@@ -953,12 +962,24 @@ public static class HudManagerPatches
     {
         if (ModCompatibility.IsSubmerged())
         {
-            if (!SubmergedFloorButton)
+            if (!SubmergedFloorButton && ExtraUiTopRight)
             {
                 var transform = instance.MapButton.transform.parent.Find(instance.MapButton.name + "(Clone)");
                 if (transform != null)
                 {
                     SubmergedFloorButton = transform.gameObject;
+                    SubmergedFloorButton.transform.SetParent(ExtraUiTopRight.transform, false);
+
+                    SubmergedFloorButtonRenderer =
+                        SubmergedFloorButton.transform.Find("Inactive").GetComponent<SpriteRenderer>();
+                    SubmergedFloorButtonRendererHover =
+                        SubmergedFloorButton.transform.Find("Active").GetComponent<SpriteRenderer>();
+                    PassiveButton buttonBehavior = SubmergedFloorButton.GetComponent<PassiveButton>();
+                    buttonBehavior.OnClick.RemoveAllListeners();
+                    buttonBehavior.OnClick = new Button.ButtonClickedEvent();
+                    buttonBehavior.OnClick.AddListener(new Action(ChangeSubFloor));
+
+                    TownOfUsLocalSettings.SetUpButtonPositions();
                 }
             }
             if (SubmergedFloorButton && PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost)
@@ -968,13 +989,111 @@ public static class HudManagerPatches
         }
     }
 
+    private static void ChangeSubFloor()
+    {
+        ModCompatibility.ChangeFloor(PlayerControl.LocalPlayer.transform.position.y <= -5);
+    }
+
+    public static Vector3 BelowOptionPos = new Vector3(0.435f, 1.25f, 65);
+    public static Vector2 WithOptionsPos = new Vector2(2.125f, 0.475f);
+    public static Vector2 WithChatPos = new Vector2(2.7f, 0.475f);
+    public static Vector2 FullTopPos = new Vector2(0.435f, 0.475f);
+    public static void CreateUiRow(HudManager instance)
+    {
+        if (!UiTopRight)
+        {
+            UiTopRight = instance.MapButton.transform.parent.gameObject;
+
+            UiGrid = UiTopRight.AddComponent<GridArrange>();
+            UiAspectPos = UiTopRight.AddComponent<AspectPosition>();
+
+            UiGrid.Alignment = GridArrange.StartAlign.Left;
+            UiGrid.CellSize = new Vector2(0.85f, 0.85f);
+            UiGrid.MaxColumns = 6;
+            UiAspectPos.Alignment = AspectPosition.EdgeAlignments.RightTop;
+            UiGrid.Start();
+            UiAspectPos.DistanceFromEdge = FullTopPos;
+            var mapButton = instance.MapButton.gameObject;
+            mapButton.GetComponent<AspectPosition>().Destroy();
+            var settingsButton = instance.SettingsButton;
+            settingsButton.GetComponent<AspectPosition>().Destroy();
+            var chatButton = instance.Chat.chatButton.gameObject;
+            ClonedChatButton = Object.Instantiate(chatButton, chatButton.transform.parent);
+            ClonedChatButton.SetActive(false);
+            instance.Chat.chatButtonAspectPosition = ClonedChatButton.GetComponent<AspectPosition>();
+            chatButton.GetComponent<AspectPosition>().Destroy();
+            var inactivePos = settingsButton.transform.GetChild(1).transform.localPosition;
+            var bg = settingsButton.transform.GetChild(2).gameObject;
+            var bgPos = bg.transform.localPosition;
+            var bgSprite = bg.GetComponent<SpriteRenderer>().sprite;
+            var activePos = settingsButton.transform.GetChild(3).transform.localPosition;
+            var selectedPos = settingsButton.transform.GetChild(4).transform.localPosition;
+            chatButton.transform.GetChild(2).transform.localPosition = inactivePos;
+            var chatBg = chatButton.transform.GetChild(3);
+            chatBg.transform.localPosition = bgPos;
+            chatBg.GetComponent<SpriteRenderer>().sprite = bgSprite;
+            chatButton.transform.GetChild(4).transform.localPosition = activePos;
+            chatButton.transform.GetChild(5).transform.localPosition = selectedPos;
+            var collider = chatButton.GetComponent<BoxCollider2D>();
+            collider.size = new Vector2(0.4354f, 0.4003f);
+            collider.offset = new Vector2(0.0025f, 0.0254f);
+            if (FriendsListManager.InstanceExists && !TutorialManager.InstanceExists)
+            {
+                var listButton = FriendsListManager.Instance.FriendsListButton.transform.GetChild(0);
+                listButton.transform.SetParent(UiTopRight.transform, false);
+                FriendsListManager.Instance.FriendsListButton = listButton.GetComponent<FriendsListButton>();
+                listButton.GetComponent<AspectPosition>().Destroy();
+                listButton.localPosition = new Vector3(0, 0, 0);
+            }
+            settingsButton.transform.SetAsLastSibling();
+            chatButton.transform.SetParent(UiTopRight.transform, false);
+            instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
+            var iconContainer = new GameObject("iconContainer");
+            iconContainer.layer = LayerMask.NameToLayer("UI");
+            iconContainer.transform.SetParent(chatButton.transform, false);
+            iconContainer.transform.localPosition = new Vector3(0.1f, -0.1f, 0);
+            instance.Chat.chatNotifyDot.transform.SetParent(iconContainer.transform, false);
+            instance.Chat.chatNotifyDot = iconContainer.transform.GetChild(0).GetComponent<SpriteRenderer>();
+            TeamChatPatches.PublicChatDot = instance.Chat.chatNotifyDot;
+            UiAspectPos.updateAlways = true;
+        }
+
+        if (UiTopRight && UiGrid)
+        {
+            UiGrid.ArrangeChilds();
+        }
+    }
+    public static void CreateNewUiRow(HudManager instance)
+    {
+        if (!ExtraUiTopRight && UiTopRight)
+        {
+            ExtraUiTopRight = new GameObject("ExtraUiTopRight");
+            ExtraUiTopRight.transform.SetParent(instance.MapButton.transform.parent.parent, false);
+
+            ExtraUiGrid = ExtraUiTopRight.AddComponent<GridArrange>();
+            ExtraUiAspectPos = ExtraUiTopRight.AddComponent<AspectPosition>();
+
+            ExtraUiGrid.Alignment = GridArrange.StartAlign.Left;
+            ExtraUiGrid.CellSize = new Vector2(0.85f, 0.85f);
+            ExtraUiAspectPos.Alignment = AspectPosition.EdgeAlignments.RightTop;
+            ExtraUiAspectPos.DistanceFromEdge = BelowOptionPos;
+            ExtraUiGrid.Start();
+            ExtraUiAspectPos.updateAlways = true;
+        }
+
+        if (ExtraUiTopRight && ExtraUiGrid)
+        {
+            var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
+            instance.Chat.chatButton.gameObject.SetActive(isChatButtonVisible);
+            ExtraUiGrid.ArrangeChilds();
+        }
+    }
+
     public static void CreateWikiButton(HudManager instance)
     {
-        var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
-
-        if (!WikiButton)
+        if (!WikiButton && UiTopRight && ExtraUiTopRight)
         {
-            WikiButton = Object.Instantiate(instance.MapButton.gameObject, instance.MapButton.transform.parent);
+            WikiButton = Object.Instantiate(instance.MapButton.gameObject, ExtraUiTopRight.transform);
             WikiButton.name = "WikiButton";
             WikiButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             WikiButton.GetComponent<PassiveButton>().OnClick.AddListener((UnityAction)(() =>
@@ -987,30 +1106,38 @@ public static class HudManagerPatches
                 IngameWikiMinigame.Create().Begin(null);
             }));
 
-            WikiButton.transform.Find("Background").localPosition = Vector3.zero;
-            WikiButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite =
+            var inactive = WikiButton.transform.Find("Inactive");
+            inactive.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButton.LoadAsset();
-            WikiButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite =
+            inactive.localPosition = new Vector3(0, 0.021f, -0.1f);
+            var active = WikiButton.transform.Find("Active");
+            active.GetComponent<SpriteRenderer>().sprite =
                 TouAssets.WikiButtonActive.LoadAsset();
-            WikiAspectPos = WikiButton.GetComponentInChildren<AspectPosition>();
+            active.localPosition = new Vector3(0, 0.021f, -0.1f);
+
+            WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
         }
 
         if (WikiButton)
         {
-            var distanceFromEdge = WikiAspectPos.DistanceFromEdge;
-            distanceFromEdge.x = isChatButtonVisible ? 2.73f : 2.15f;
-
-            if ((ModCompatibility.IsWikiButtonOffset || ZoomButton.active) &&
-                !MeetingHud.Instance &&
-                (PlayerJoinPatch.SentOnce || TutorialManager.InstanceExists))
-            {
-                distanceFromEdge.x += 0.84f;
-            }
-
-            distanceFromEdge.y = 0.485f;
             WikiButton.SetActive(true);
-            WikiAspectPos.DistanceFromEdge = distanceFromEdge;
-            WikiAspectPos.AdjustPosition();
+        }
+    }
+
+    public static void AdjustModifierTab(HudManager instance)
+    {
+        if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance != null)
+        {
+            ModifierDisplayObject = ModifierDisplayComponent.Instance?.gameObject ?? null!;
+            ModifierDisplayOnRight = !LocalSettingsTabSingleton<MiraApiSettings>.Instance.ModifiersHudLeftSide.Value;
+            if (ModifierDisplayOnRight)
+            {
+                ModifierDisplayObject.transform.SetParent(ExtraUiTopRight.transform, false);
+                ModifierDisplayObject.GetComponent<AspectPosition>().Destroy();
+                ModifierDisplayObject.transform.GetChild(0).localPosition = new Vector3(-1.1757f, -2.1633f, -80f);
+                ModifierDisplayObject.transform.GetChild(1).localPosition = new Vector3(-0.45f, 0.3f, -80f);
+            }
+            TownOfUsLocalSettings.SetUpButtonPositions();
         }
     }
 
@@ -1023,8 +1150,12 @@ public static class HudManagerPatches
             return;
         }
 
-        CreateZoomButton(__instance);
+        CreateUiRow(__instance);
+        CreateNewUiRow(__instance);
+
         CreateWikiButton(__instance);
+        CreateZoomButton(__instance);
+        AdjustModifierTab(__instance);
 
         UpdateRoleList(__instance);
         UpdateTeamChat();
