@@ -23,7 +23,7 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
 
     public override bool? CanVent()
     {
-        return OptionGroupSingleton<UndertakerOptions>.Instance.CanVentWithBody.Value;
+        return OptionGroupSingleton<UndertakerOptions>.Instance.CanVentWithBody.Value ? null : false;
     }
 
     public override void OnActivate()
@@ -46,31 +46,14 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
         }
     }
 
-    public override void OnMeetingStart()
+    public override void OnDeactivate()
     {
-        ModifierComponent?.RemoveModifier(this);
         if (Player.AmOwner)
         {
             CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
         }
         var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, Player, DeadBody);
         MiraEventManager.InvokeEvent(touAbilityEvent);
-
-        Player.GetModifierComponent()?.RemoveModifier(this);
-    }
-
-    public override void OnDeath(DeathReason reason)
-    {
-        ModifierComponent?.RemoveModifier(this);
-        if (Player.AmOwner)
-        {
-            if (Player.AmOwner)
-            {
-                CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
-            }
-
-            Player.GetModifierComponent()?.RemoveModifier(this);
-        }
 
         if (DeadBody == null)
         {
@@ -80,23 +63,23 @@ public sealed class DragModifier(byte bodyId) : BaseModifier
         var dropPos = DeadBody.transform.position;
         dropPos.z = dropPos.y / 1000f;
         DeadBody.transform.position = dropPos;
+    }
 
-        var touAbilityEvent = new TouAbilityEvent(AbilityType.UndertakerDrop, Player, DeadBody);
-        MiraEventManager.InvokeEvent(touAbilityEvent);
+    public override void OnMeetingStart()
+    {
+        Player.RemoveModifier(this);
+    }
+
+    public override void OnDeath(DeathReason reason)
+    {
+        Player.RemoveModifier(this);
     }
 
     public override void Update()
     {
-        if (DeadBody == null)
+        if (DeadBody == null || !DeadBody.myCollider.enabled)
         {
-            var touAbilityEvent2 = new TouAbilityEvent(AbilityType.UndertakerDrop, Player, DeadBody);
-            MiraEventManager.InvokeEvent(touAbilityEvent2);
-            if (Player.AmOwner)
-            {
-                CustomButtonSingleton<UndertakerDragDropButton>.Instance.SetDrag();
-            }
-
-            Player.GetModifierComponent()?.RemoveModifier(this);
+            Player.RemoveModifier(this);
             return;
         }
 
