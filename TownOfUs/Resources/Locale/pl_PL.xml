@@ -197,4 +197,6 @@
   <string name="CrewmateVisibility">Załogant Widoczny</string>
   <string name="CrewmatePostmortem">Załogant Pośmiertny</string>
   <string name="CrewmatePassive">Załogant Pasywny</string>
+  <string name="ReverseSkeldMapName">dlekS</string>
+  <string name="ReverseSkeldMapTooltip">ehT dlekS: rozmiarowo średni statek który znasz i (może) uwielbiasz, ale odwrócony!</string>
 </resources>
