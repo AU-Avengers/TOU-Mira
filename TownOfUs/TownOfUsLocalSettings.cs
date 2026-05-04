@@ -102,6 +102,11 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
                 {
                     continue;
                 }
+                if (button.transform.name.Contains("Friends List Button"))
+                {
+                    button.gameObject.transform.localScale = new Vector3(0.25f * actualScaleVal, 0.25f * actualScaleVal, 1);
+                    continue;
+                }
 
                 button.gameObject.transform.localScale = actualScale;
             }

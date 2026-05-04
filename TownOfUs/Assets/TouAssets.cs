@@ -419,6 +419,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> SubmergedFloorUpHover { get; } =
         new LoadableResourceAsset($"{SubmergedPath}.FloorUpHover.png");
 
+    public static readonly LoadableAsset<GameObject> TortelliniPet =
+        new LoadableBundleAsset<GameObject>("TortelliniPet", MainBundle);
+
     public static void Initialize()
     {
         AuAvengersAnims.Initialize();
