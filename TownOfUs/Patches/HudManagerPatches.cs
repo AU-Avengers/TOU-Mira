@@ -10,6 +10,7 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers;
@@ -994,9 +995,7 @@ public static class HudManagerPatches
         ModCompatibility.ChangeFloor(PlayerControl.LocalPlayer.transform.position.y <= -5);
     }
 
-    public static Vector3 BelowOptionPos = new Vector3(0.435f, 1.25f, 65);
-    public static Vector2 WithOptionsPos = new Vector2(2.125f, 0.475f);
-    public static Vector2 WithChatPos = new Vector2(2.7f, 0.475f);
+    public static Vector3 BelowOptionPos = new Vector3(0.435f, 1.25f, 65f);
     public static Vector2 FullTopPos = new Vector2(0.435f, 0.475f);
     public static void CreateUiRow(HudManager instance)
     {
@@ -1324,6 +1323,10 @@ public static class HudManagerPatches
 
         TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
             .UseCrewmateTeamColorToggle.Value;
+        
+        TownOfUsLocalSettings.OldButtonScaleFactor =
+            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value;
+        Coroutines.Start(TownOfUsLocalSettings.CoResizeSettingsUI());
     }
 
     internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()

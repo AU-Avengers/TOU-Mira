@@ -34,6 +34,7 @@
   <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
+  <string name="TopRightUiScale">Top-Right UI Scale Factor</string>
   <string name="WikiOnBottomRow">Wiki Button Below Main UI</string>
   <string name="ZoomOnBottomRow">Zoom Button Below Main UI</string>
   <string name="SortGuessingByAlignment">Sort Guessing By Alignment</string>
