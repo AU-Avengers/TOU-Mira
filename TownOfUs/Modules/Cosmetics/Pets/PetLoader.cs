@@ -79,6 +79,8 @@ public class PetLoader : BaseLoader
         }
     }
 
+    private static GameObject PetHolder;
+
     private static Dictionary<string, StringNames> _storeNames = new();/*
     private static Dictionary<GameObject, PetMetadata> _petsToLoad = new();
 
@@ -92,9 +94,15 @@ public class PetLoader : BaseLoader
     }*/
     public void LoadPetPrefab(GameObject petPrefab, string name, string storeName, bool matchPlayerColor)
     {
+        if (!PetHolder)
+        {
+            PetHolder = new GameObject("PetHolder");
+            PetHolder.DontUnload().DontDestroy();
+            PetHolder.gameObject.SetActive(false);
+        }
         var fullId = Names.Normalize(name, "pet", storeName);
 
-        var newPet = Object.Instantiate(petPrefab);
+        var newPet = Object.Instantiate(petPrefab, PetHolder.transform);
         newPet.DontUnload().DontDestroy();
         var petViewData = newPet.GetComponent<PetBehaviour>();
         petViewData.DontUnload().DontDestroy();
