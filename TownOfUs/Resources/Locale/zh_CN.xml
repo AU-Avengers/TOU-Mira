@@ -2119,4 +2119,21 @@
   <string name="WikiOnBottomRow">Wiki 按钮显示在主界面下方</string>
   <string name="ZoomOnBottomRow">缩放按钮显示在主界面下方</string>
   <string name="TouOptionPlumberFlushDuration">冲洗持续时间</string>
+  <string name="ReverseSkeldMapTooltip">ehT dlekS：那艘你再熟悉不过的飞船，不过这次是倒过来的！</string>
+  <string name="TouRoleImitatorShortName">颦</string>
+  <string name="TouOptionAmnesiacAssassinImpostor">可以成为伪装者刺客</string>
+  <string name="TouOptionAmnesiacAssassinNeutral">可以成为中立击杀型刺客</string>
+  <string name="TouOptionAmnesiacAssassinEnumNever">永不</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentNeut">如果中立击杀型职业为刺客</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentImp">如果伪装者为刺客</string>
+  <string name="TouOptionAmnesiacAssassinEnumAlways">总是</string>
+  <string name="TouModifierAssassinIntroBlurb">在会议上猜测玩家的职业。</string>
+  <string name="TouModifierAssassinWikiDescription">你拥有在会议上猜测玩家职业的能力。</string>
+  <string name="TouOptionAssassinInvestCrew">调查型</string>
+  <string name="TouOptionAssassinCrewMods">船员职业</string>
+  <string name="TouOptionAssassinUtilityCrewMods">船员通用型</string>
+  <string name="TouOptionAssassinAllianceMods">同盟</string>
+  <string name="TouOptionAssassinUniversalMods">通用</string>
+  <string name="TouOptionAssassinVanillaCrew">原版船员</string>
+  <string name="TouOptionAssassinBasicCrew">基础船员</string>
 </resources>
