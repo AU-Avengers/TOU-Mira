@@ -31,9 +31,9 @@ public static class PetsTabPatches
     {
         if (!_pagination) return true;
         
-        if (_pagination.CurrentTab == 0) return !id.StartsWith("toum");
+        if (_pagination.CurrentTab == 0) return !id.StartsWith("toum", StringComparison.InvariantCulture);
 
-        if (!id.StartsWith("toum")) return false;
+        if (!id.StartsWith("toum", StringComparison.InvariantCulture)) return false;
         
         var group = Names.GetGroup(id);
         var currentGroup = CosmeticsLoader.Instance.PetGroups.GetGroupIdByIndex(_pagination.CurrentTab - 1);

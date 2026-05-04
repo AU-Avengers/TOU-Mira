@@ -23,7 +23,7 @@ public class HatLocator : Il2CppSystem.Object
         Addressables.AddResourceLocator(_locator);
     }
 
-    public HatLocator(IntPtr ptr) : base(ptr)
+    public HatLocator(IntPtr iPtr) : base(iPtr)
     {
     }
     
@@ -34,7 +34,7 @@ public class HatLocator : Il2CppSystem.Object
 
     public string LocatorId => GetType().FullName!;
 
-    public Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object>
+    public static Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object>
         Keys => CosmeticsLoader.Instance.EmptyKeys;
 
     private string ProviderId { get; } = typeof(HatProvider).FullName!;
@@ -49,7 +49,7 @@ public class HatLocator : Il2CppSystem.Object
             return false;
         }
 
-        if (!keyString.StartsWith("toum."))
+        if (!keyString.StartsWith("toum.", StringComparison.InvariantCulture))
         {
             return false;
         }

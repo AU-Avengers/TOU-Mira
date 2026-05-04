@@ -13,8 +13,6 @@ using Reactor.Localization;
 using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using TownOfUs.Modules.Cosmetics;
-using TownOfUs.Modules.Cosmetics.Pets;
 using TownOfUs.Modules.Cosmetics.Unity;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;

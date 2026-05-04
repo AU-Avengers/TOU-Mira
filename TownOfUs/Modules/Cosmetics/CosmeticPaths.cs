@@ -1,4 +1,4 @@
-using BepInEx;
+/*using BepInEx;
 
 namespace TownOfUs.Modules.Cosmetics;
 
@@ -18,4 +18,4 @@ public static class CosmeticPaths
         Directory.CreateDirectory(BasePath);
         Directory.CreateDirectory(PetPath);
     }
-}
+}*/

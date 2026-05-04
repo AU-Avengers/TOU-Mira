@@ -16,12 +16,12 @@ public class CustomPet
         PetData = petData;
         PetBehaviour = petBehaviour;
         PreviewData = previewData;
-        Object = obj;
+        Obj = obj;
     }
 
     public string Id { get; }
     public PetData PetData { get; }
     public PetBehaviour PetBehaviour { get; }
-    public GameObject Object { get; }
+    public GameObject Obj { get; }
     public PreviewViewData PreviewData { get; }
 }

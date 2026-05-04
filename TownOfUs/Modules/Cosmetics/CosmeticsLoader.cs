@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Il2CppInterop.Runtime;
 using TownOfUs.Modules.Cosmetics.Pets;
 using TownOfUs.Modules.Cosmetics.Unity;
@@ -29,7 +30,7 @@ public class CosmeticsLoader
     {
         EmptyKeys = new Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object>(_emptyKeys.Pointer);
         CosmeticGroup = ScriptableObject.CreateInstance<CosmeticReleaseGroup>();
-        CosmeticGroup.date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        CosmeticGroup.date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
         CustomGroups = [];
         CustomGroups.Add("default", "Custom Cosmetics");

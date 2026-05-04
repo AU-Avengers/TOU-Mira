@@ -8,7 +8,7 @@ public static class PreviewDataRuntimeKeyPatch
 {
     public static bool Prefix(AssetReference __instance, ref bool __result)
     {
-        if (__instance.AssetGUID.StartsWith("toum."))
+        if (__instance.AssetGUID.StartsWith("toum.", StringComparison.InvariantCulture))
         {
             __result = true;
             return false;

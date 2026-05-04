@@ -18,7 +18,7 @@ public class HatProvider : ResourceProviderBase
         Addressables.ResourceManager.ResourceProviders.Insert(0, _provider);
     }
 
-    public HatProvider(IntPtr intPtr) : base(intPtr) { }
+    public HatProvider(IntPtr iPtr) : base(iPtr) { }
 
     public HatProvider() : base(ClassInjector.DerivedConstructorPointer<HatProvider>())
     {
@@ -27,7 +27,7 @@ public class HatProvider : ResourceProviderBase
 
     public override bool CanProvide(Il2CppSystem.Type t, IResourceLocation location)
     {
-        return location.InternalId.StartsWith("toum.");
+        return location.InternalId.StartsWith("toum.", StringComparison.InvariantCulture);
     }
 
     public override Il2CppSystem.Type GetDefaultType(IResourceLocation location)
@@ -40,7 +40,7 @@ public class HatProvider : ResourceProviderBase
         string internalId = provideHandle.Location.InternalId;
         Debug($"Processing {internalId}");
 
-        if (!internalId.StartsWith("toum"))
+        if (!internalId.StartsWith("toum", StringComparison.InvariantCulture))
         {
             Error($"{internalId} is not a TOU Mira cosmetic");
             provideHandle.Complete<UnityEngine.Object>(null!, false, new Il2CppSystem.Exception("Not a TOU Mira cosmetic"));

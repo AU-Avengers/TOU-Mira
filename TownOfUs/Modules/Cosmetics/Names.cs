@@ -1,4 +1,6 @@
-﻿namespace TownOfUs.Modules.Cosmetics;
+﻿using System.Globalization;
+
+namespace TownOfUs.Modules.Cosmetics;
 
 public static class Names
 {
@@ -8,7 +10,7 @@ public static class Names
         string group = "default"
     )
     {
-        return $"toum.{group}.{type}.{name.ToLower().Replace(" ", "_")}";
+        return $"toum.{group}.{type}.{name.ToLower(CultureInfo.InvariantCulture).Replace(" ", "_")}";
     }
 
     public static string GetGroup(string id)

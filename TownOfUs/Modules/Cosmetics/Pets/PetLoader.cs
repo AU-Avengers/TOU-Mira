@@ -66,12 +66,12 @@ public class PetLoader : BaseLoader
                 return true;
             case ReferenceType.PetViewData:
                 Debug($"Found pet view data for {id}");
-                handle.Complete(pet.Object, true, null);
+                handle.Complete(pet.Obj, true, null);
                 // For some reason, this works??!?!?!?!
                 return true;
             case ReferenceType.GameObject:
                 Debug($"Found pet object for {id}");
-                handle.Complete(pet.Object, true, null);
+                handle.Complete(pet.Obj, true, null);
                 return true;
             default:
                 Error("Unknown pet type");
