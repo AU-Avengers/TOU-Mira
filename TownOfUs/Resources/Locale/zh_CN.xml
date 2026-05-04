@@ -2120,7 +2120,7 @@
   <string name="ZoomOnBottomRow">缩放按钮显示在主界面下方</string>
   <string name="TouOptionPlumberFlushDuration">冲洗持续时间</string>
   <string name="ReverseSkeldMapTooltip">ehT dlekS：那艘你再熟悉不过的飞船，不过这次是倒过来的！</string>
-  <string name="TouRoleImitatorShortName">颦</string>
+  <string name="TouRoleImitatorShortName">效颦</string>
   <string name="TouOptionAmnesiacAssassinImpostor">可以成为伪装者刺客</string>
   <string name="TouOptionAmnesiacAssassinNeutral">可以成为中立击杀型刺客</string>
   <string name="TouOptionAmnesiacAssassinEnumNever">永不</string>
@@ -2136,4 +2136,21 @@
   <string name="TouOptionAssassinUniversalMods">通用</string>
   <string name="TouOptionAssassinVanillaCrew">原版船员</string>
   <string name="TouOptionAssassinBasicCrew">基础船员</string>
+  <string name="ReverseSkeldMapName">dlekS船空太</string>
+  <string name="TouModifierAssassinTabDescription">在会议中通过猜测淘汰玩家。</string>
+  <string name="TouOptionAssassinNeutAssassinTitle">中立刺客： </string>
+  <string name="TouOptionAssassinImpAssassinTitle">伪装者刺客： </string>
+  <string name="TouOptionAssassinGuessableCrewRolesTitle">不可被猜测的船员职业： </string>
+  <string name="TouOptionAssassinGuessableNeutRolesTitle">不可被猜测的中立职业： </string>
+  <string name="TouOptionAssassinGuessableImpRolesTitle">不可被猜测的伪装者职业： </string>
+  <string name="TouOptionAssassinGuessableModifiersTitle">不可被猜测的附加属性： </string>
+  <string name="TouOptionAssassinNoAssassins">数量：0</string>
+  <string name="TouOptionAssassinSetAssassins">数量：\%amount\%- 概率：\%chance\%%</string>
+  <string name="TouOptionAssassinNone">无</string>
+  <string name="TouOptionAssassinAll">全部</string>
+  <string name="TouOptionAssassinNeutBenign">善良型</string>
+  <string name="TouOptionAssassinNeutEvil">邪恶型</string>
+  <string name="TouOptionAssassinNeutKilling">击杀型</string>
+  <string name="TouOptionAssassinNeutOutlier">外来者型</string>
+  <string name="TouOptionAssassinNonCrewMods">非船员</string>
 </resources>
