@@ -86,10 +86,10 @@
   <string name="Mandarin">Mandarynkowy</string>
   <string name="Glass">Szklany</string>
   <string name="Ash">Popielaty</string>
-  <string name="Midnight">Północny</string>
+  <string name="Midnight">Mroczny</string>
   <string name="Steel">Stalowy</string>
   <string name="Silver">Srebrny</string>
-  <string name="Shimmer">Błyskotliwy</string>
+  <string name="Shimmer">Błyszczący</string>
   <string name="Crimson">Karmazynowy</string>
   <string name="Charcoal">Węglowy</string>
   <string name="Violet">Fiołkowy</string>
@@ -199,4 +199,7 @@
   <string name="CrewmatePassive">Załogant Pasywny</string>
   <string name="ReverseSkeldMapName">dlekS</string>
   <string name="ReverseSkeldMapTooltip">ehT dlekS: rozmiarowo średni statek który znasz i (może) uwielbiasz, ale odwrócony!</string>
+  <string name="TouRoleCleric">Kleryk</string>
+  <string name="TouRoleClericIntroBlurb">Chroń Załogantów</string>
+  <string name="TouRoleClericTabProtecting">Chroniony Gracz: %player\%</string>
 </resources>
