@@ -202,4 +202,5 @@
   <string name="TouRoleCleric">Kleryk</string>
   <string name="TouRoleClericIntroBlurb">Chroń Załogantów</string>
   <string name="TouRoleClericTabProtecting">Chroniony Gracz: %player\%</string>
+  <string name="TouTabOptionBetterMaps">Lepsze Mapy/Sabotaże</string>
 </resources>
