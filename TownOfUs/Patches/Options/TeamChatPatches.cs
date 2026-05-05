@@ -1247,7 +1247,7 @@ public static class TeamChatPatches
             clonedBubble.transform.SetParent(MergedChatItems);
 			pooledBubble.transform.localScale = Vector3.one;
             clonedBubble.transform.localScale = Vector3.one;
-			bool flag = sourcePlayer == PlayerControl.LocalPlayer;
+			bool flag = sourcePlayer.AmOwner;
 			if (flag)
 			{
 				pooledBubble.SetRight();

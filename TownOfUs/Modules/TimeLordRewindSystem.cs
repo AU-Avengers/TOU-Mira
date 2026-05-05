@@ -2699,7 +2699,7 @@ return true;*/
             reviverOwnerNotificationText: successText,
             notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
 
-        if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+        if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.AmOwner)
         {
             TryUnstuckLocalPlayer(revived);
         }

@@ -179,7 +179,7 @@ public static class ChatPatches
                 return false;
             }
     
-            if (target.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+            if (target.AmOwner)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                     "<color=#FF0000>You cannot kick yourself.</color>");
@@ -227,7 +227,7 @@ public static class ChatPatches
                 return false;
             }
     
-            if (target.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+            if (target.AmOwner)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                     "<color=#FF0000>You cannot ban yourself.</color>");
