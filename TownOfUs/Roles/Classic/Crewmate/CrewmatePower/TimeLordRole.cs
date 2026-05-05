@@ -7,6 +7,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
@@ -16,9 +17,10 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IRewindImmune
 {
     public override bool IsAffectedByComms => false;
+    public bool IgnoredByRewind => false;
     public DoomableType DoomHintType => DoomableType.Perception;
 
     public string LocaleKey => "TimeLord";

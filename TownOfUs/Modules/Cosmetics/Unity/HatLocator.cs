@@ -8,9 +8,6 @@ namespace TownOfUs.Modules.Cosmetics.Unity;
 public class HatLocator : Il2CppSystem.Object
 {
 
-    private static HatLocator? _instance;
-    private static IResourceLocator? _locator;
-
     public static string GetGuid(string hatId, string type)
     {
         return $"{hatId}/{type}";
@@ -18,9 +15,9 @@ public class HatLocator : Il2CppSystem.Object
 
     public static void Initialize()
     {
-        _instance = new HatLocator();
-        _locator = new IResourceLocator(_instance.Pointer);
-        Addressables.AddResourceLocator(_locator);
+        var instance = new HatLocator();
+        var locator = new IResourceLocator(instance.Pointer);
+        Addressables.AddResourceLocator(locator);
     }
 
     public HatLocator(IntPtr iPtr) : base(iPtr)

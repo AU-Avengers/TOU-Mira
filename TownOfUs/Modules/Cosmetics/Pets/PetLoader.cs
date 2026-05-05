@@ -10,11 +10,11 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Cosmetics.Pets;
 
-public class PetLoader : BaseLoader
+public class PetLoader : IBaseLoader
 {
     public Dictionary<string, CustomPet> CustomPets { get; } = [];
 
-    public override void InstallCosmetics(ReferenceData refData)
+    public void InstallCosmetics(ReferenceData refData)
     {
         foreach (var (id, customPet) in CustomPets)
         {
@@ -30,7 +30,7 @@ public class PetLoader : BaseLoader
         }
     }
 
-    public override void LoadCosmetics(string directory)
+    public void LoadCosmetics(string directory)
     {
         /*foreach (var pet in _petsToLoad)
         {
@@ -39,7 +39,7 @@ public class PetLoader : BaseLoader
         }*/
     }
 
-    public override bool LocateCosmetic(string id, string type, [NotNullWhen(true)] out Il2CppSystem.Type? il2CPPType)
+    public bool LocateCosmetic(string id, string type, [NotNullWhen(true)] out Il2CppSystem.Type? il2CPPType)
     {
         il2CPPType = null;
         if (!CustomPets.ContainsKey(id))
@@ -51,7 +51,7 @@ public class PetLoader : BaseLoader
         return il2CPPType != null;
     }
 
-    public override bool ProvideCosmetic(ProvideHandle handle, string id, string type)
+    public bool ProvideCosmetic(ProvideHandle handle, string id, string type)
     {
         if (!CustomPets.TryGetValue(id, out var pet))
         {

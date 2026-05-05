@@ -17,6 +17,7 @@ using TownOfUs.Roles.Impostor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Runtime.CompilerServices;
+using TownOfUs.Interfaces;
 
 namespace TownOfUs.Modules;
 
@@ -1204,7 +1205,8 @@ public static class TimeLordRewindSystem
 
         // Exempt ghosts and ghost roles from Time Lord effects
         var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
-                      PlayerControl.LocalPlayer.Data.Role is IGhostRole;
+                      PlayerControl.LocalPlayer.Data.Role is IGhostRole || 
+                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
         
         if (!isGhost)
         {
@@ -1568,7 +1570,8 @@ public static class TimeLordRewindSystem
 
         // Exempt ghosts and ghost roles from Time Lord effects - they can move freely
         var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
-                      PlayerControl.LocalPlayer.Data.Role is IGhostRole;
+                      PlayerControl.LocalPlayer.Data.Role is IGhostRole || 
+                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
         
         if (isGhost)
         {
@@ -2696,7 +2699,7 @@ return true;*/
             reviverOwnerNotificationText: successText,
             notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
 
-        if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+        if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.AmOwner)
         {
             TryUnstuckLocalPlayer(revived);
         }

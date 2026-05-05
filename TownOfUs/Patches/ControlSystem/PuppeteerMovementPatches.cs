@@ -76,14 +76,14 @@ public static class PuppeteerMovementPatches
             {
                 return true;
             }
-            if (player == PlayerControl.LocalPlayer)
+            if (player.AmOwner)
             {
                 return true;
             }
         }
 
 
-        if (player == PlayerControl.LocalPlayer &&
+        if (player.AmOwner &&
             PlayerControl.LocalPlayer != null &&
             PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole puppeteer &&
             puppeteer.Controlled != null)

@@ -6,7 +6,7 @@ namespace TownOfUs.Patches.Cosmetics;
 [HarmonyPatch(typeof(ReferenceDataManager._Initialize_d__7), "MoveNext")]
 public static class InstallCosmeticsPatch
 {
-    private static bool _didRun = false;
+    private static bool _didRun;
 
     public static void Postfix(ReferenceDataManager._Initialize_d__7 __instance)
     {
