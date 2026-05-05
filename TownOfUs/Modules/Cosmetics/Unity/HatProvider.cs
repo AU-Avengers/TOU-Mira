@@ -7,15 +7,13 @@ namespace TownOfUs.Modules.Cosmetics.Unity;
 
 public class HatProvider : ResourceProviderBase
 {
-    private static HatProvider? _instance;
-    private static IResourceProvider? _provider;
     
     public static void Initialize()
     {
-        _instance = new HatProvider();
+        var instance = new HatProvider();
         // interfaces r broken in il2cpp so we have to use pointer magic
-        _provider = new IResourceProvider(_instance.Pointer);
-        Addressables.ResourceManager.ResourceProviders.Insert(0, _provider);
+        var provider = new IResourceProvider(instance.Pointer);
+        Addressables.ResourceManager.ResourceProviders.Insert(0, provider);
     }
 
     public HatProvider(IntPtr iPtr) : base(iPtr) { }

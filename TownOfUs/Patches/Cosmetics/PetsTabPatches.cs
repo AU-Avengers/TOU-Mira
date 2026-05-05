@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 namespace TownOfUs.Patches.Cosmetics;
 
+#pragma warning disable S3398
 public static class PetsTabPatches
 {
     private static InventoryTabPaginationBehaviour _pagination = null!;
@@ -121,3 +122,4 @@ public static class PetsTabPatches
         }
     }
 }
+#pragma warning restore S3398

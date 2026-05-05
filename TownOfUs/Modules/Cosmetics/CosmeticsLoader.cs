@@ -101,7 +101,7 @@ public class CosmeticsLoader
             var result = 
                 _petLoader.ProvideCosmetic(provideHandle, id, type);
 
-            return result ? true : throw new Exception($"No cosmetic found for {id} and type {type}");
+            return result ? true : throw new InvalidOperationException($"No cosmetic found for {id} and type {type}");
         }
         catch (Exception e)
         {
