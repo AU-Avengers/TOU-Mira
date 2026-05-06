@@ -92,7 +92,7 @@ public class PetLoader : IBaseLoader
         data.MatchPlayerColor = matchPlayerColor;
         _petsToLoad.Add(petPrefab, data);
     }*/
-    public void LoadPetPrefab(GameObject petPrefab, string name, string storeName, bool matchPlayerColor)
+    public void LoadPetPrefab(GameObject petPrefab, string name, string storeName, bool matchPlayerColor = false)
     {
         if (!PetHolder)
         {

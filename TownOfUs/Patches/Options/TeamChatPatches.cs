@@ -36,8 +36,8 @@ public static class TeamChatPatches
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PrivateChatPool = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> MergedChatPool = new();
 
-    internal const string PrivateBubblePrefix = "TOU_TeamChatBubble_";
-    internal const string PublicBubblePrefix = "TOU_PublicChatBubble_";
+    internal const string PrivateBubbleName = "Private_ChatBubble";
+    internal const string PublicBubbleName = "Public_ChatBubble";
 
     /// <summary>
     /// Registration system for extension team chats. Extensions can register their own team chat handlers.
@@ -1019,6 +1019,16 @@ public static class TeamChatPatches
     {
         float num = 0f;
         PublicChatItems.gameObject.SetActive(true);
+        if (PublicChatItems.childCount > 20)
+        {
+            PublicChatItems.transform.GetChild(0).gameObject.Destroy();
+            MergedChatItems.transform.FindChild(PublicBubbleName).gameObject.Destroy();
+        }
+        if (PrivateChatItems.childCount > 20)
+        {
+            PrivateChatItems.transform.GetChild(0).gameObject.Destroy();
+            MergedChatItems.transform.FindChild(PrivateBubbleName).gameObject.Destroy();
+        }
         var activeChildren = PublicChatItems.GetComponentsInChildren<ChatBubble>();
         for (int i = activeChildren.Count - 1; i >= 0; i--)
         {
@@ -1192,6 +1202,7 @@ public static class TeamChatPatches
         }
         ChatBubble pooledBubble = __instance.GetPooledBubble();
         var clonedBubble = __instance.GetPooledBubble();
+        clonedBubble.gameObject.name = PublicBubbleName;
         pooledBubble.SetCosmetics(srcPlayer);
         pooledBubble.transform.SetParent(PublicChatItems);
         pooledBubble.transform.localScale = Vector3.one;
@@ -1241,6 +1252,7 @@ public static class TeamChatPatches
 		}
 		ChatBubble pooledBubble = __instance.GetPooledBubble();
         var clonedBubble = __instance.GetPooledBubble();
+        clonedBubble.gameObject.name = PublicBubbleName;
 		try
 		{
 			pooledBubble.transform.SetParent(PublicChatItems);
@@ -1286,7 +1298,7 @@ public static class TeamChatPatches
 		{
 			ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
-            __instance.chatBubblePool.Reclaim(clonedBubble);
+            clonedBubble.gameObject.Destroy();
 		}
         return false;
 	}
@@ -1297,6 +1309,7 @@ public static class TeamChatPatches
 	{
 		ChatBubble pooledBubble = __instance.GetPooledBubble();
         var clonedBubble = __instance.GetPooledBubble();
+        clonedBubble.gameObject.name = PublicBubbleName;
 		try
 		{
 			pooledBubble.transform.SetParent(PublicChatItems);
@@ -1320,7 +1333,7 @@ public static class TeamChatPatches
 		{
 			ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
-            __instance.chatBubblePool.Reclaim(clonedBubble);
+            clonedBubble.gameObject.Destroy();
 		}
         return false;
 	}

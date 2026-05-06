@@ -719,6 +719,8 @@ public static class EndGamePatches
                            genOpt is
                                { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
             var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
+            var useMiraApiChecks =
+                !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
             if (player.Data.Role != null)
             {
                 var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
@@ -770,7 +772,7 @@ public static class EndGamePatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";

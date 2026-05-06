@@ -64,7 +64,6 @@ public static class PetsTabPatches
             InventoryTabReversePatch.OnEnable(__instance);
 
             PetData[] unlockedPets = HatManager.Instance.GetUnlockedPets();
-            __instance.petId = DataManager.Player.Customization.Pet;
 
             var num = 0;
             foreach (var hat in unlockedPets)
@@ -79,10 +78,9 @@ public static class PetsTabPatches
                 colorChip.SelectionHighlight.gameObject.SetActive(false);
                 if (ActiveInputManager.currentControlType == ActiveInputManager.InputType.Keyboard)
                 {
-                    var hat1 = hat;
                     colorChip.Button.OnMouseOver.AddListener((UnityAction)(()=>
                     {
-                        __instance.SelectPet(colorChip, hat1);
+                        __instance.SelectPet(colorChip, hat);
                     }));
                     colorChip.Button.OnMouseOut.AddListener((UnityAction)(()=>
                     {
@@ -102,8 +100,8 @@ public static class PetsTabPatches
                 }
                 colorChip.Button.ClickMask = __instance.scroller.Hitbox;
                 colorChip.Tag = hat;
+                UpdateMaterials(colorChip.Inner.FrontLayer, hat);
                 hat.SetPreview(colorChip.Inner.FrontLayer, __instance.GetDisplayColor());
-                __instance.UpdateMaterials(colorChip.Inner.FrontLayer, hat);
                 colorChip.Inner.SetMaskType(PlayerMaterial.MaskType.SimpleUI);
                 colorChip.SelectionHighlight.gameObject.SetActive(false);
                 __instance.ColorChips.Add(colorChip);
@@ -120,6 +118,15 @@ public static class PetsTabPatches
             __instance.initialized = true;
             return false;
         }
+    }
+    private static void UpdateMaterials(SpriteRenderer spriteRenderer, PetData data)
+    {
+        if (!data.PreviewCrewmateColor)
+        {
+            spriteRenderer.sharedMaterial = HatManager.Instance.DefaultShader;
+            return;
+        }
+        spriteRenderer.sharedMaterial = new Material(HatManager.Instance.PlayerMaterial);
     }
 }
 #pragma warning restore S3398
