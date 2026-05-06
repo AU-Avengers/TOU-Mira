@@ -422,6 +422,9 @@ public static class TouAssets
     public static readonly LoadableAsset<GameObject> TortelliniPet =
         new LoadableBundleAsset<GameObject>("TortelliniPet", MainBundle);
 
+    public static readonly LoadableAsset<GameObject> BlackMinipostorPet =
+        new LoadableBundleAsset<GameObject>("BlackMinipostorPet", MainBundle);
+
     public static void Initialize()
     {
         AuAvengersAnims.Initialize();
