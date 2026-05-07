@@ -21,6 +21,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 {
     public override bool IsAffectedByComms => false;
     public bool IgnoredByRewind => false;
+    public bool IgnoredByRecording => false;
     public DoomableType DoomHintType => DoomableType.Perception;
 
     public string LocaleKey => "TimeLord";
