@@ -2,6 +2,7 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 
@@ -66,17 +67,13 @@ public static class VanillaTweakEvents
             return;
         }
 
-        if (forced != null)
-        {
-            player.cosmetics.TogglePet(false);
-        }
         if (petMode is PetVisiblity.ClientSide)
         {
             player.cosmetics.TogglePet(false);
         }
         else if (petMode is PetVisiblity.WhenAlive)
         {
-            player.cosmetics.TogglePet(!player.HasDied());
+            player.cosmetics.TogglePet(forced != null ? forced.GetValueOrDefault() : !player.HasDied());
         }
     }
 
@@ -142,5 +139,15 @@ public static class VanillaTweakEvents
             return;
         }
         AdjustPetVisibility(@event.Player, false);
+    }
+
+    [RegisterEvent(1000000)]
+    public static void OnReviveEvent(PlayerReviveEvent @event)
+    {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
+        {
+            return;
+        }
+        AdjustPetVisibility(@event.Player, true);
     }
 }
