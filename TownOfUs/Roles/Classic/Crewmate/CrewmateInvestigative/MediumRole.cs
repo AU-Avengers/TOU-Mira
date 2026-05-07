@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules.MedSpirit;
 using TownOfUs.Options.Roles.Crewmate;
@@ -14,9 +15,11 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IRewindImmune
 {
     public override bool IsAffectedByComms => false;
+    public bool IgnoredByRewind => false;
+    public bool IgnoredByRecording => Spirit != null;
 
     [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = new();
 

@@ -651,7 +651,7 @@ public static class TimeLordRewindSystem
         var lp = PlayerControl.LocalPlayer;
         
         // Only record snapshots when player is alive (not dead/ghost)
-        if (lp.Data.IsDead)
+        if (lp.Data.IsDead || lp.Data.Role is IRewindImmune immune && immune.IgnoredByRecording)
         {
             return;
         }

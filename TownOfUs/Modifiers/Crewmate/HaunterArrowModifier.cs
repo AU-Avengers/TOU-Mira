@@ -39,6 +39,6 @@ public sealed class HaunterArrowModifier(PlayerControl owner, Color color) : Arr
             return false;
         }
 
-        return PlayerControl.LocalPlayer.PlayerId == Owner.PlayerId;
+        return Owner.AmOwner;
     }
 }
