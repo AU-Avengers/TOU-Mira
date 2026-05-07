@@ -2110,4 +2110,10 @@
   <string name="CrewmateAfterlife">船員後生型</string>
   <string name="NeutralAfterlife">中立後生型</string>
   <string name="ImpostorAfterlife">偽裝者後生型</string>
+  <string name="ReverseSkeldMapName">dlekS船空太</string>
+  <string name="ReverseSkeldMapTooltip">ehT dlekS: 那艘你再熟悉不過的飛船,不過這次是倒過來的!</string>
+  <string name="WikiOnBottomRow">維基按鈕顯示在主界面下方</string>
+  <string name="ZoomOnBottomRow">縮放按鈕顯示在主界面下方</string>
+  <string name="TouRoleImitatorShortName">效顰</string>
+  <string name="TouOptionInvestigatorFootprintSeperated">足跡生成依據</string>
 </resources>
