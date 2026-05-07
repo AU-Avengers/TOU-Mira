@@ -1,6 +1,7 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
@@ -194,6 +195,8 @@ public static class AppearanceExtensions
         {
             player.Data.SetOutfit(player.CurrentOutfitType, appearance);
         }
+
+        VanillaTweakEvents.AdjustPetVisibility(player);
     }
 
     public static TownOfUsAppearances GetAppearanceType(this PlayerControl player)

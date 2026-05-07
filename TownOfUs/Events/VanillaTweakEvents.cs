@@ -1,7 +1,7 @@
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 
@@ -9,6 +9,77 @@ namespace TownOfUs.Events;
 
 public static class VanillaTweakEvents
 {
+    public static void AdjustAllPetVisibility()
+    {
+        var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
+        if (petMode is PetVisiblity.AlwaysVisible)
+        {
+            return;
+        }
+
+        if (petMode is PetVisiblity.ClientSide)
+        {
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (player.AmOwner)
+                {
+                    continue;
+                }
+                var pet = player.cosmetics.currentPet;
+                if (!pet)
+                {
+                    continue;
+                }
+
+                player.cosmetics.TogglePet(false);
+            }
+        }
+        else if (petMode is PetVisiblity.WhenAlive)
+        {
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (player.AmOwner)
+                {
+                    continue;
+                }
+                var pet = player.cosmetics.currentPet;
+                if (!pet)
+                {
+                    continue;
+                }
+
+                player.cosmetics.TogglePet(!player.HasDied());
+            }
+        }
+    }
+
+    public static void AdjustPetVisibility(PlayerControl player, bool? forced = null)
+    {
+        var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
+        if (petMode is PetVisiblity.AlwaysVisible || player.AmOwner)
+        {
+            return;
+        }
+        var pet = player.cosmetics.currentPet;
+        if (!pet)
+        {
+            return;
+        }
+
+        if (forced != null)
+        {
+            player.cosmetics.TogglePet(false);
+        }
+        if (petMode is PetVisiblity.ClientSide)
+        {
+            player.cosmetics.TogglePet(false);
+        }
+        else if (petMode is PetVisiblity.WhenAlive)
+        {
+            player.cosmetics.TogglePet(!player.HasDied());
+        }
+    }
+
     [RegisterEvent(1000000)]
     public static void RoundStartEventHandler(RoundStartEvent @event)
     {
@@ -49,25 +120,10 @@ public static class VanillaTweakEvents
             // This fixes an issue within vanilla where any players who were removed out of vents via a meeting can be "kicked" out of the vent they were previously in, even if they aren't in there.
             VanillaSystemCheckPatches.VentSystem.PlayersInsideVents.Clear();
         }
-        if (!@event.TriggeredByIntro)
-        {
-            return;
-        }
-        var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
-        if (petMode is PetVisiblity.AlwaysVisible)
-        {
-            return;
-        }
 
-        if (petMode is PetVisiblity.ClientSide)
-        {
-            // Hides pets for everyone except the local player
-            foreach (var player in Helpers.GetAlivePlayers().Where(x => !x.AmOwner))
-            {
-                MiscUtils.RemovePet(player);
-            }
-        }
+        AdjustAllPetVisibility();
     }
+
     [RegisterEvent(1000000)]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
@@ -75,17 +131,16 @@ public static class VanillaTweakEvents
         {
             return;
         }
-        var petMode = (PetVisiblity)OptionGroupSingleton<VanillaTweakOptions>.Instance.ShowPetsMode.Value;
-        if (petMode is PetVisiblity.AlwaysVisible)
+        AdjustPetVisibility(@event.Target, false);
+    }
+
+    [RegisterEvent(1000000)]
+    public static void AfterDeathEventHandler(PlayerDeathEvent @event)
+    {
+        if (MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek)
         {
             return;
         }
-
-        var target = @event.Target;
-
-        if (petMode is PetVisiblity.WhenAlive && !target.AmOwner)
-        {
-            MiscUtils.RemovePet(target);
-        }
+        AdjustPetVisibility(@event.Player, false);
     }
 }
