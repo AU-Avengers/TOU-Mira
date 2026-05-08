@@ -156,7 +156,7 @@ public static class TeamChatPatches
             {
                 Priority = 10,
                 IsForced = true,
-                IsChatAvailable = () => MeetingHud.Instance != null && PlayerControl.LocalPlayer.Data.Role is JailorRole,
+                IsChatAvailable = () => MeetingHud.Instance && PlayerControl.LocalPlayer.Data.Role is JailorRole,
                 SendMessage = (sender, msg) => RpcSendJailorChat(sender, msg),
                 GetDisplayText = () => "Jail Chat",
                 DisplayTextColor = TownOfUsColors.Jailor
@@ -168,7 +168,7 @@ public static class TeamChatPatches
             {
                 Priority = 20,
                 IsForced = true,
-                IsChatAvailable = () => MeetingHud.Instance != null && PlayerControl.LocalPlayer.IsJailed(),
+                IsChatAvailable = () => MeetingHud.Instance && PlayerControl.LocalPlayer.IsJailed(),
                 SendMessage = (sender, msg) => RpcSendJaileeChat(sender, msg),
                 GetDisplayText = () => "Jail Chat",
                 DisplayTextColor = TownOfUsColors.Jailor
@@ -183,7 +183,7 @@ public static class TeamChatPatches
                 IsChatAvailable = () =>
                 {
                     var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-                    return MeetingHud.Instance != null &&
+                    return MeetingHud.Instance &&
                            PlayerControl.LocalPlayer.IsImpostorAligned() &&
                            genOpt is { FFAImpostorMode: false, ImpostorChat.Value: true };
                 },
@@ -201,7 +201,7 @@ public static class TeamChatPatches
                 IsChatAvailable = () =>
                 {
                     var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-                    return MeetingHud.Instance != null &&
+                    return MeetingHud.Instance &&
                            PlayerControl.LocalPlayer.Data.Role is VampireRole &&
                            genOpt.VampireChat;
                 },
@@ -619,7 +619,7 @@ public static class TeamChatPatches
         if (HudManager.InstanceExists && HudManager.Instance.Chat != null)
         {
             Sprite[] buttonArray = [ TouChatAssets.NormalChatIdle.LoadAsset(), TouChatAssets.NormalChatHover.LoadAsset(), TouChatAssets.NormalChatOpen.LoadAsset()];
-            if (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null)
+            if (PlayerControl.LocalPlayer.IsLover() && !MeetingHud.Instance)
             {
                 buttonArray = 
                     [ TouChatAssets.LoveChatIdle.LoadAsset(), TouChatAssets.LoveChatHover.LoadAsset(), TouChatAssets.LoveChatOpen.LoadAsset()];
@@ -783,7 +783,7 @@ public static class TeamChatPatches
             }
 
             if (PrivateChatDot &&
-                (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null || TeamChatActive))
+                (PlayerControl.LocalPlayer.IsLover() && !MeetingHud.Instance || TeamChatActive))
             {
                 PrivateChatDot.enabled = false;
             }
@@ -853,7 +853,7 @@ public static class TeamChatPatches
         }
 
         // Mark as unread if message was received and chat is not currently active
-        if (shouldMarkUnread && MeetingHud.Instance != null)
+        if (shouldMarkUnread && MeetingHud.Instance)
         {
             var chats = TeamChatManager.GetAllAvailableChats();
             var hasForcedChat = chats.Any(c => c.IsForced);
@@ -886,7 +886,7 @@ public static class TeamChatPatches
         }
 
         // Mark as unread if message was received and chat is not currently active
-        if (shouldMarkUnread && MeetingHud.Instance != null)
+        if (shouldMarkUnread && MeetingHud.Instance)
         {
             var chats = TeamChatManager.GetAllAvailableChats();
             var hasForcedChat = chats.Any(c => c.IsForced);
@@ -918,7 +918,7 @@ public static class TeamChatPatches
         }
 
         // Mark as unread if message was received and chat is not currently active
-        if (shouldMarkUnread && MeetingHud.Instance != null)
+        if (shouldMarkUnread && MeetingHud.Instance)
         {
             var chats = TeamChatManager.GetAllAvailableChats();
             var hasForcedChat = chats.Any(c => c.IsForced);
@@ -950,7 +950,7 @@ public static class TeamChatPatches
         }
 
         // Mark as unread if message was received and chat is not currently active
-        if (shouldMarkUnread && MeetingHud.Instance != null)
+        if (shouldMarkUnread && MeetingHud.Instance)
         {
             var chats = TeamChatManager.GetAllAvailableChats();
             var hasForcedChat = chats.Any(c => c.IsForced);

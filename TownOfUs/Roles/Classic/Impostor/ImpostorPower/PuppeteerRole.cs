@@ -449,7 +449,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -460,7 +460,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -488,7 +488,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -505,7 +505,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         }
         else if (interactable.TryCast<DeconControl>() is { } deconControl)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }

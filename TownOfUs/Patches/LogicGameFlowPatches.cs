@@ -80,7 +80,7 @@ public static class LogicGameFlowPatches
             return true;
         }
 
-        if (__instance == null || GameOptionsManager.Instance == null || GameManager.Instance == null)
+        if (__instance == null || GameOptionsManager.Instance == null || !GameManager.Instance)
         {
             return true;
         }

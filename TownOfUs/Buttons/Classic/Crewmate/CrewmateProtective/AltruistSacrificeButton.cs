@@ -163,7 +163,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
     public static IEnumerator CoSacrifite(PlayerControl player)
     {
         yield return new WaitForSeconds(0.01f);
-        if (MeetingHud.Instance == null && ExileController.Instance == null && !player.HasDied())
+        if (!MeetingHud.Instance && !ExileController.Instance && !player.HasDied())
         {
             player.RpcCustomMurder(player, MeetingCheck.OutsideMeeting, showKillAnim: false, createDeadBody: false);
         }

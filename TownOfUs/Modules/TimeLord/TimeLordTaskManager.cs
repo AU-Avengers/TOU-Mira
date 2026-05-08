@@ -45,7 +45,7 @@ internal static class TimeLordTaskManager
 
     public static void RecordHostTaskCompletion(PlayerControl player, PlayerTask task)
     {
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             return;
         }
@@ -95,7 +95,7 @@ internal static class TimeLordTaskManager
 
     public static void ConfigureHostTaskUndosFromHistory(float durationSeconds, float historySeconds)
     {
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             _hostTaskUndos = null;
             return;

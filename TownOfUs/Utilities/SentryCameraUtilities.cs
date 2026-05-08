@@ -97,7 +97,7 @@ public static class SentryCameraUtilities
     
     public static bool IsMapWithoutCameras(ExpandedMapNames mapId)
     {
-        if (ModCompatibility.IsSubmerged() && ShipStatus.Instance != null)
+        if (ModCompatibility.IsSubmerged() && ShipStatus.Instance)
         {
             try
             {
@@ -115,7 +115,7 @@ public static class SentryCameraUtilities
             }
         }
 
-        if (ShipStatus.Instance == null)
+        if (!ShipStatus.Instance)
         {
             return mapId is ExpandedMapNames.MiraHq or ExpandedMapNames.Fungle;
         }
@@ -302,7 +302,7 @@ public static class SentryCameraUtilities
             camera.gameObject.SetActive(true);
         }
 
-        if (ShipStatus.Instance == null)
+        if (!ShipStatus.Instance)
         {
             Logger.LogError("RpcRevealCamera - ShipStatus.Instance is null");
             return null;

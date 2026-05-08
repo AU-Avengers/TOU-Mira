@@ -93,7 +93,7 @@ public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
     {
         if (Player.AmOwner)
         {
-            if (MeetingHud.Instance == null)
+            if (!MeetingHud.Instance)
             {
                 TouAudio.PlaySound(TouAudio.UnhackedSound);
             }

@@ -59,7 +59,7 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 
         yield return new WaitForSeconds(Random.RandomRange(MinDelay, MaxDelay));
 
-        if (MeetingHud.Instance != null)
+        if (MeetingHud.Instance)
         {
             yield break;
         }

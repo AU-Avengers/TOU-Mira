@@ -217,7 +217,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         if (_securityMinigame != null)
         {
             var closed =
-                Minigame.Instance == null ||
+                !Minigame.Instance ||
                 Minigame.Instance != _securityMinigame ||
                 _securityMinigame.gameObject == null ||
                 !_securityMinigame.gameObject.activeInHierarchy;
@@ -313,7 +313,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             return false;
         }
 
-        var allCams = ShipStatus.Instance != null ? ShipStatus.Instance.AllCameras : null;
+        var allCams = ShipStatus.Instance ? ShipStatus.Instance.AllCameras : null;
         if (allCams == null || allCams.Length == 0)
         {
             return false;

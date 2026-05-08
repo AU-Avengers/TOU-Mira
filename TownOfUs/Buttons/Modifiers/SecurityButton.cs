@@ -124,7 +124,7 @@ public sealed class SecurityButton : TownOfUsButton
 
     public override void ClickHandler()
     {
-        if (!CanUse() || Minigame.Instance != null)
+        if (!CanUse() || Minigame.Instance)
         {
             return;
         }

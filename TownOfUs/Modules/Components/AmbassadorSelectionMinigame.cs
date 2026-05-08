@@ -96,7 +96,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
 
     private static IEnumerator CoOpen(AmbassadorSelectionMinigame minigame)
     {
-        while (ExileController.Instance != null)
+        while (ExileController.Instance)
         {
             yield return new WaitForSeconds(0.65f);
         }

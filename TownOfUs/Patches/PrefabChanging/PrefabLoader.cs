@@ -30,7 +30,7 @@ public class PrefabLoader
 
             if (_submarineStatus == null || _submarineStatus.WasCollected || !_submarineStatus || _submarineStatus == null)
             {
-                if (ShipStatus.Instance is null || ShipStatus.Instance.WasCollected || !ShipStatus.Instance || ShipStatus.Instance == null)
+                if (ShipStatus.Instance is null || ShipStatus.Instance.WasCollected || !ShipStatus.Instance || !ShipStatus.Instance)
                 {
                     return _submarineStatus = null!;
                 }
@@ -65,7 +65,7 @@ public class PrefabLoader
 
     public static IEnumerator LoadMaps()
     {
-        while (AmongUsClient.Instance == null)
+        while (!AmongUsClient.Instance)
         {
             yield return null;
         }

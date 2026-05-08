@@ -282,7 +282,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             }
         }
 
-        if (Minigame.Instance == null)
+        if (!Minigame.Instance)
         {
             var trainMenu = AmbassadorSelectionMinigame.Create();
             trainMenu.Open(

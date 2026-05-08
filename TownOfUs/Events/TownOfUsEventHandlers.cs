@@ -319,7 +319,7 @@ public static class TownOfUsEventHandlers
         var killer = @event.Source;
         var victim = @event.Target;
         var text =
-            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance}";
 
 
         MiscUtils.LogInfo(LogLevel.Error, text);
@@ -331,7 +331,7 @@ public static class TownOfUsEventHandlers
         var killer = @event.Source;
         var victim = @event.Target;
         var text =
-            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance}";
 
         MiscUtils.LogInfo(LogLevel.Error, text);
     }
@@ -713,13 +713,13 @@ public static class TownOfUsEventHandlers
 
             if (target.AmOwner)
             {
-                if (Minigame.Instance != null)
+                if (Minigame.Instance)
                 {
                     Minigame.Instance.Close();
                     Minigame.Instance.Close();
                 }
 
-                if (MapBehaviour.Instance != null)
+                if (MapBehaviour.Instance)
                 {
                     MapBehaviour.Instance.Close();
                     MapBehaviour.Instance.Close();
@@ -796,7 +796,7 @@ public static class TownOfUsEventHandlers
 
     internal static IEnumerator CoSendSpecData(ClientData clientData)
     {
-        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
+        while (!AmongUsClient.Instance)
         {
             yield return null;
         }
@@ -837,7 +837,7 @@ public static class TownOfUsEventHandlers
 
     internal static IEnumerator CoSendRulesToPlayer(ClientData clientData)
     {
-        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
+        while (!AmongUsClient.Instance)
         {
             yield return null;
         }
@@ -1065,7 +1065,7 @@ public static class TownOfUsEventHandlers
         targetVoteArea.XMark.gameObject.SetActive(false);
         targetVoteArea.XMark.transform.localScale = Vector3.one;
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             Minigame.Instance.Close();
             Minigame.Instance.Close();

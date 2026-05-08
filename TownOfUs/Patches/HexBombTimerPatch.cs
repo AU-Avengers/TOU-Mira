@@ -56,7 +56,7 @@ public static class HexBombTimerPatch
             return;
         }
 
-        if (MeetingHud.Instance == null && ExileController.Instance == null)
+        if (!MeetingHud.Instance && !ExileController.Instance)
         {
             GameTimerObj.SetActive(false);
             return;

@@ -205,7 +205,7 @@ public static class SentryCameraMinigameUtilities
     {
         if (minigame == null) return;
         if (IsLocalSentry()) return;
-        if (ShipStatus.Instance == null) return;
+        if (!ShipStatus.Instance) return;
         if (ShipStatus.Instance.AllCameras == null) return;
 
         var id = minigame.GetInstanceID();
@@ -240,7 +240,7 @@ public static class SentryCameraMinigameUtilities
     public static void RestoreAllCameras(Minigame minigame)
     {
         if (minigame == null) return;
-        if (ShipStatus.Instance == null) return;
+        if (!ShipStatus.Instance) return;
 
         var id = minigame.GetInstanceID();
         if (!OriginalAllCamerasByMinigameId.TryGetValue(id, out var original)) return;

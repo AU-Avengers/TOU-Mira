@@ -30,7 +30,7 @@ public static class TimeLordEvents
 
         ActiveRewindTaskCount = 0;
         LastRewindUseTaskId = uint.MaxValue;
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             TimeLordRewindSystem.ClearHostTaskHistory();
         }
@@ -61,7 +61,7 @@ public static class TimeLordEvents
             TimeLordEventHandlers.RecordTaskComplete(@event.Player, @event.Task);
         }
 
-        if (AmongUsClient.Instance != null &&
+        if (AmongUsClient.Instance &&
             AmongUsClient.Instance.AmHost &&
             @event.Task != null &&
             @event.Player != null &&

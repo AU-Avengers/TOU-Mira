@@ -19,7 +19,7 @@ public static class TimeLordPatches
             TimeLordRewindSystem.RecordLocalSnapshot(__instance);
             _lastTaskSnapshotTime = Time.time;
 
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
             {
                 TimeLordRewindSystem.RecordHostBodyPositions();
             }
@@ -35,7 +35,7 @@ public static class TimeLordPatches
             return;
         }
 
-        var inMinigame = Minigame.Instance != null || SpawnInMinigame.Instance != null;
+        var inMinigame = Minigame.Instance || SpawnInMinigame.Instance;
         if (!inMinigame)
         {
             return;

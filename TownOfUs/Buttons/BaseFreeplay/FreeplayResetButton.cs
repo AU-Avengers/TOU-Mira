@@ -48,7 +48,7 @@ public sealed class FreeplayResetButton : TownOfUsButton
 
         HudManager.Instance.ShowPopUp(TouLocale.GetParsed("FreeplayRestartPopup"));
         ShipStatus.Instance.Begin();
-        if (GameManager.Instance != null)
+        if (GameManager.Instance)
         {
             GameManager.Instance.ReviveEveryoneFreeplay();
         }

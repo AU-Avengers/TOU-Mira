@@ -15,7 +15,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
     public readonly float duration;
 
     public bool IsActive => (TimeRemaining > 0 || Stage == HexBombStage.Finished);
-    public static bool InMeeting => MeetingHud.Instance != null || ExileController.Instance != null;
+    public static bool InMeeting => MeetingHud.Instance || ExileController.Instance;
     public bool IsDirty { get; private set; }
     public float TimeRemaining { get; private set; }
     public HexBombStage Stage { get; private set; }

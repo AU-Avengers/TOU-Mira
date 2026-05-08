@@ -101,7 +101,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
         if (Player.AmOwner && HudManager.InstanceExists)
         {
             var pingTracker = Object.FindObjectOfType<PingTracker>(true);
-            if (pingTracker != null && HudManager.Instance != null)
+            if (pingTracker != null && HudManager.InstanceExists)
             {
                 _overlayRoot = Object.Instantiate(pingTracker.gameObject, HudManager.Instance.transform);
                 _overlayRoot.name = "ParasiteInfectedOverlay";

@@ -199,7 +199,7 @@ public static class SentryEvents
 
                     if (cameraPair.Value <= 1)
                     {
-                        if (ShipStatus.Instance != null && ShipStatus.Instance.AllCameras != null)
+                        if (ShipStatus.Instance && ShipStatus.Instance.AllCameras != null)
                         {
                             var allCameras = ShipStatus.Instance.AllCameras.ToList();
                             if (allCameras.Contains(cameraPair.Key))

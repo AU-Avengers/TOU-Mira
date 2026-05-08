@@ -151,7 +151,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
 
     public override void ClickHandler()
     {
-        if (!CanUse() || Minigame.Instance != null || !MiscUtils.CanUseUtility(GameUtility.Admin, true))
+        if (!CanUse() || Minigame.Instance || !MiscUtils.CanUseUtility(GameUtility.Admin, true))
         {
             return;
         }

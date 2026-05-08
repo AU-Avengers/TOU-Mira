@@ -122,7 +122,7 @@ public sealed class ScientistButton : TownOfUsButton
 
     public override void ClickHandler()
     {
-        if (!CanUse() || Minigame.Instance != null || !MiscUtils.CanUseUtility(GameUtility.Vitals, true))
+        if (!CanUse() || Minigame.Instance || !MiscUtils.CanUseUtility(GameUtility.Vitals, true))
         {
             return;
         }

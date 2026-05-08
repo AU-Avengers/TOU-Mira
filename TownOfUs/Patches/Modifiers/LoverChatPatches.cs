@@ -14,7 +14,7 @@ public static class LoverChatPatches
     [HarmonyPrefix]
     public static bool SendChatPatch(ChatController __instance)
     {
-        if (MeetingHud.Instance || ExileController.Instance != null || PlayerControl.LocalPlayer.Data.IsDead)
+        if (MeetingHud.Instance || ExileController.Instance || PlayerControl.LocalPlayer.Data.IsDead)
         {
             return true;
         }

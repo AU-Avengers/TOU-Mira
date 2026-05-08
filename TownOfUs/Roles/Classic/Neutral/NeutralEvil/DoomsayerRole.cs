@@ -301,7 +301,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return;
         }
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }

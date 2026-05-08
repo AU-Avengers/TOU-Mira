@@ -40,7 +40,7 @@ public static class LoverEvents
                 loveMod.OtherLover.Exiled();
                 break;
             case DeathReason.Kill:
-                var showAnim = MeetingHud.Instance == null && ExileController.Instance == null;
+                var showAnim = !MeetingHud.Instance && !ExileController.Instance;
                 var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
 
                 DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),

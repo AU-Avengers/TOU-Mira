@@ -94,7 +94,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         const float duration = 3.5f;
         var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost &&
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
 OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
         {
             var now = DateTime.UtcNow;
@@ -118,7 +118,7 @@ OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
             TimeLordRewindSystem.ConfigureHostRevives(null);
         }
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost &&
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
 OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         {
             TimeLordRewindSystem.ConfigureHostTaskUndosFromHistory(duration, history);
@@ -128,7 +128,7 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
             TimeLordRewindSystem.ConfigureHostTaskUndos(null);
         }
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>().ToList())
             {

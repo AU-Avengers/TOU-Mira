@@ -68,7 +68,7 @@ public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
 
     private static IEnumerator CoOpen(TraitorSelectionMinigame minigame)
     {
-        while (ExileController.Instance != null)
+        while (ExileController.Instance)
         {
             yield return new WaitForSeconds(0.65f);
         }

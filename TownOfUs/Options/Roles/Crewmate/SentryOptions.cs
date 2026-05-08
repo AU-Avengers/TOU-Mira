@@ -139,7 +139,7 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
     public IEnumerable<string> GetWikiOptionSummaryLines()
     {
         var count = (int)BlindspotsCount.Value;
-        var title = TranslationController.Instance != null
+        var title = TranslationController.Instance
             ? TranslationController.Instance.GetString(BlindspotsCount.StringName)
             : BlindspotsCount.StringName.ToString();
 

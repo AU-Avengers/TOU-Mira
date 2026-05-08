@@ -70,7 +70,7 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
         var playSound = false;
         while (_sabotage.TimeRemaining > 0)
         {
-            var disableBlare = (MeetingHud.Instance != null || ExileController.Instance != null);
+            var disableBlare = (MeetingHud.Instance || ExileController.Instance);
             if (_sabotage.Stage == HexBombStage.Countdown)
             {
                 HudManager.Instance.FullScreen.color = new Color(0.38f, 0.2f, 0f, playSound ? 0.18f : 0.34f);

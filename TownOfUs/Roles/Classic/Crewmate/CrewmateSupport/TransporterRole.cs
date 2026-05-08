@@ -278,7 +278,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
             notif1.AdjustNotification();
 
-            if (Minigame.Instance != null)
+            if (Minigame.Instance)
             {
                 Minigame.Instance.Close();
                 Minigame.Instance.Close();

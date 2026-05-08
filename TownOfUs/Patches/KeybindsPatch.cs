@@ -193,7 +193,7 @@ public static class Bindings
             return;
         }
 
-        if (GameManager.Instance == null)
+        if (!GameManager.Instance)
         {
             return;
         }

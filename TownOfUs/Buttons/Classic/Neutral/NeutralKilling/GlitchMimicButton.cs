@@ -131,7 +131,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
         {
             PlayerControl.LocalPlayer.RpcRemoveModifier<GlitchMimicModifier>();
             OverrideName(TouLocale.Get("TouRoleGlitchMimic", "Mimic"));
-            if (MeetingHud.Instance == null)
+            if (!MeetingHud.Instance)
             {
                 TouAudio.PlaySound(TouAudio.UnmimicSound);
             }
@@ -140,7 +140,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
 
     public override void OnEffectEnd()
     {
-        if (MeetingHud.Instance == null)
+        if (!MeetingHud.Instance)
         {
             TouAudio.PlaySound(TouAudio.UnmimicSound);
         }

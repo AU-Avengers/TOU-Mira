@@ -97,7 +97,7 @@ public static class MiraApiPatches
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
-        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) || (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
         {
             beforeMurderEvent.Cancel();

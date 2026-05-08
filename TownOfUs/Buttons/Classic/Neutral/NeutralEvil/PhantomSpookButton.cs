@@ -27,7 +27,7 @@ public sealed class PhantomSpookButton : TownOfUsButton
 
     protected override void OnClick()
     {
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }
