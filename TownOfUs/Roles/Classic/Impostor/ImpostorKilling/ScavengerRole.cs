@@ -71,7 +71,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
                     x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
             }
 
-            Target.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
+            Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
         }
 
         if (TimeRemaining > 0)
@@ -169,7 +169,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
                     x => !x.HasModifier<FirstDeadShield>() && !x.HasModifier<LoverModifier>())!;
             }
 
-            scav.Target.AddModifier<ScavengerArrowModifier>(player, TownOfUsColors.Impostor);
+            scav.Target?.AddModifier<ScavengerArrowModifier>(player, TownOfUsColors.Impostor);
         }
     }
 
@@ -219,7 +219,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
             }
 
             // update arrow to point to new target
-            Target.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
+            Target?.AddModifier<ScavengerArrowModifier>(Player, TownOfUsColors.Impostor);
         }
         else
         {
