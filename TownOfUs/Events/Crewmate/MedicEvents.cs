@@ -56,7 +56,8 @@ public static class MedicEvents
         }
     }
 
-    [RegisterEvent]
+    
+    [RegisterEvent(-900)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {
         var source = @event.Source;
@@ -68,7 +69,7 @@ public static class MedicEvents
         }
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-900)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         var source = PlayerControl.LocalPlayer;
