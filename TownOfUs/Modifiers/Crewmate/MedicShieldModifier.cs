@@ -15,13 +15,14 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
 {
     public override string ModifierName => TouLocale.Get("TouMedicShield", "Medic");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Medic;
-    public override float Duration => 2.5f;
+    public override float Duration => 0.001f;
 
     public override string ShieldDescription =>
         $"You are shielded by a {TouLocale.Get("TouRoleMedic", "Medic")} !\nYou may not die to other players";
 
     public PlayerControl Medic { get; } = medic;
-    public GameObject? MedicShield { get; set; }
+    public List<PlayerControl> AllMedics { get; } = new();
+    public GameObject MedicShield { get; set; }
     public bool ShowShield { get; set; }
 
     public override bool HideOnUi
@@ -40,7 +41,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
         {
             var showShielded = OptionGroupSingleton<MedicOptions>.Instance.ShowShielded;
             var showShieldedEveryone = showShielded == MedicOption.Everyone;
-            var showShieldedSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId &&
+            var showShieldedSelf = Player.AmOwner &&
                                    showShielded is MedicOption.Shielded or MedicOption.ShieldedAndMedic;
             return showShieldedSelf || showShieldedEveryone;
         }
@@ -50,14 +51,15 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     {
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MedicShield, Medic, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
+        AllMedics.Add(Medic);
 
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var showShielded = OptionGroupSingleton<MedicOptions>.Instance.ShowShielded;
 
         var showShieldedEveryone = showShielded == MedicOption.Everyone;
-        var showShieldedSelf = PlayerControl.LocalPlayer.PlayerId == Player.PlayerId &&
+        var showShieldedSelf = Player.AmOwner &&
                                showShielded is MedicOption.Shielded or MedicOption.ShieldedAndMedic;
-        var showShieldedMedic = PlayerControl.LocalPlayer.PlayerId == Medic.PlayerId &&
+        var showShieldedMedic = AllMedics.Contains(PlayerControl.LocalPlayer) &&
                                 showShielded is MedicOption.Medic or MedicOption.ShieldedAndMedic;
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
@@ -73,24 +75,24 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
 
     public override void OnDeactivate()
     {
-        if (MedicShield?.gameObject != null)
+        if (MedicShield)
         {
-            MedicShield.gameObject.Destroy();
+            MedicShield.Destroy();
         }
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (Player == null || Medic == null)
+        if (!Player || !AllMedics.HasAny())
         {
             ModifierComponent?.RemoveModifier(this);
             return;
         }
 
-        if (!MeetingHud.Instance && MedicShield?.gameObject != null)
+        if (!MeetingHud.Instance && MedicShield)
         {
-            MedicShield?.SetActive(!Player.IsConcealed() && IsVisible && ShowShield);
+            MedicShield.SetActive(!Player.IsConcealed() && IsVisible && ShowShield);
         }
     }
 }

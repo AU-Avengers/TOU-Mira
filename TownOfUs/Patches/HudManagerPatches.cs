@@ -198,7 +198,7 @@ public static class HudManagerPatches
         TeamChatPatches.TeamChatManager.RegisterBuiltInChats();
 
         var availableChats = TeamChatPatches.TeamChatManager.GetAllAvailableChats();
-        var isValid = MeetingHud.Instance != null && availableChats.Count > 0;
+        var isValid = MeetingHud.Instance && availableChats.Count > 0;
 
         if (!TeamChatPatches.TeamChatButton)
         {
@@ -1127,7 +1127,7 @@ public static class HudManagerPatches
 
     public static void AdjustModifierTab(HudManager instance)
     {
-        if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance != null)
+        if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance)
         {
             ModifierDisplayObject = ModifierDisplayComponent.Instance?.gameObject ?? null!;
             ModifierDisplayOnRight = !LocalSettingsTabSingleton<MiraApiSettings>.Instance.ModifiersHudLeftSide.Value;
@@ -1146,7 +1146,7 @@ public static class HudManagerPatches
     [HarmonyPostfix]
     public static void HudManagerUpdatePatch(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
         }

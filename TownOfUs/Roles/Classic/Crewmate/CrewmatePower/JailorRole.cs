@@ -29,8 +29,8 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public bool CanBeEgotist => true;
     public bool CanBeOtherEvil => true;
 
-    private GameObject? executeButton;
-    private TMP_Text? usesText;
+    private GameObject executeButton;
+    private TMP_Text usesText;
     public override bool IsAffectedByComms => false;
 
     public int Executes { get; set; } = (int)OptionGroupSingleton<JailorOptions>.Instance.MaxExecutes;
@@ -42,7 +42,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public string LocaleKey => "Jailor";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEvil") : TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string RoleLongDescription => PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEvil") : TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
     public string GetAdvancedDescription()
     {
@@ -159,7 +159,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     private void AddMeetingButtons(MeetingHud __instance)
     {
-        if (Jailed == null || Jailed?.HasDied() == true)
+        if (Jailed == null || Jailed.HasDied())
         {
             return;
         }
@@ -169,7 +169,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             return;
         }
 
-        if (Executes <= 0 || Jailed?.HasDied() == true)
+        if (Executes <= 0)
         {
             return;
         }

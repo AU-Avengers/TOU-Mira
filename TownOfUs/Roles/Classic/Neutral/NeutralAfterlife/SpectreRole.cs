@@ -25,7 +25,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -108,7 +108,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not SpectreRole || MeetingHud.Instance)
+        if (!Player || Player.Data.Role is not SpectreRole || MeetingHud.Instance)
         {
             return;
         }
@@ -265,7 +265,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
     private void UpdateTaskStage(bool silent, bool forceRecalculate)
     {
-        if (Caught || Player == null)
+        if (Caught || !Player)
         {
             return;
         }

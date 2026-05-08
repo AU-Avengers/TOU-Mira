@@ -1,5 +1,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Utilities.Appearances;
@@ -23,7 +24,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
 
     public PlayerControl Target { get; } = target;
 
-    private GameObject? _shield;
+    private GameObject _shield;
 
     public void SetVisible()
     {
@@ -33,7 +34,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
     {
         _shield = AnimStore.SpawnAnimBody(Player, TouAssets.FirstRoundShield.LoadAsset(), false, -1.1f, -0.225f, 1.5f)!;
         
-        if (_shield != null && Target != null)
+        if (_shield && Target != null)
         {
             var currentScale = _shield.transform.localScale;
             
@@ -67,21 +68,21 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
 
     public override void OnDeactivate()
     {
-         if (_shield != null)
+        if (_shield)
         {
-             UnityEngine.Object.Destroy(_shield);
+            _shield.Destroy();
         }
     }
 
     public override void Update()
     {
-        if (Player == null || Target == null)
+        if (!Player || Target == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;
         }
 
-        if (!MeetingHud.Instance && _shield?.gameObject != null)
+        if (!MeetingHud.Instance && _shield)
         {
              // Show only while the target *actually* has the shield.
              // Morph/Mimic are implemented as ConcealedModifier, but they are still visible to others.
@@ -90,7 +91,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
         }
         else if (MeetingHud.Instance)
         {
-            if (_shield?.gameObject != null)
+            if (_shield)
             {
                 _shield.SetActive(false);
             }

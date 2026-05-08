@@ -15,7 +15,7 @@ public static class MeetingShhPatches
 {
     public static void Postfix(MeetingHud __instance)
     {
-        if (PlayerControl.LocalPlayer != null && !PlayerControl.LocalPlayer.Data.IsDead &&
+        if (PlayerControl.LocalPlayer && !PlayerControl.LocalPlayer.Data.IsDead &&
             (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>() ||
              PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && jailMod.IsJailorValid))
         {

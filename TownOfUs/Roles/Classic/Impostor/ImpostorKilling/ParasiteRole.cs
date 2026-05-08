@@ -24,8 +24,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private bool _killPendingFromTimer;
 
     private Camera? parasiteCam;
-    private GameObject? parasiteBorderObj;
-    private SpriteRenderer? parasiteBorderRenderer;
+    private GameObject parasiteBorderObj;
+    private SpriteRenderer parasiteBorderRenderer;
     private bool _pipDragging;
     private bool _pipManualMovedThisSession;
     private Vector2 _pipDragOffsetViewport;
@@ -143,7 +143,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data == null || Player.HasDied() || !Player.AmOwner)
+        if (!Player || Player.Data == null || Player.HasDied() || !Player.AmOwner)
         {
             return;
         }
@@ -181,7 +181,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             !target.walkingToVent)
         {
             _killPendingFromTimer = false;
-            if (PlayerControl.LocalPlayer != null)
+            if (PlayerControl.LocalPlayer)
             {
                 PlayerControl.LocalPlayer.RpcSpecialMurder(
                     target,
@@ -190,7 +190,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                     causeOfDeath: "Parasite");
             }
 
-            if (PlayerControl.LocalPlayer != null)
+            if (PlayerControl.LocalPlayer)
             {
                 RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
             }
@@ -199,7 +199,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void LateUpdate()
     {
-        if (Player == null || !Player.AmOwner || Controlled == null || parasiteCam == null)
+        if (!Player || !Player.AmOwner || Controlled == null || parasiteCam == null)
         {
             return;
         }
@@ -219,8 +219,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     /// </summary>
     public void TickPiP()
     {
-        if (Player == null || !Player.AmOwner || Controlled == null ||
-            parasiteCam == null || parasiteBorderObj == null || parasiteBorderRenderer == null || Camera.main == null)
+        if (!Player || !Player.AmOwner || Controlled == null ||
+            parasiteCam == null || !parasiteBorderObj || !parasiteBorderRenderer || Camera.main == null)
         {
             return;
         }
@@ -245,7 +245,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     /// </summary>
     public void UpdateCameraBorderLayout()
     {
-        if (parasiteCam == null || parasiteBorderObj == null || parasiteBorderRenderer == null || Camera.main == null)
+        if (parasiteCam == null || !parasiteBorderObj || !parasiteBorderRenderer || Camera.main == null)
         {
             return;
         }
@@ -307,7 +307,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void EnsureBorderCollider()
     {
-        if (parasiteBorderObj == null || parasiteBorderRenderer == null)
+        if (!parasiteBorderObj || !parasiteBorderRenderer)
         {
             return;
         }
@@ -482,7 +482,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void HandleDragInput()
     {
-        if (parasiteCam == null || parasiteBorderObj == null || Camera.main == null)
+        if (parasiteCam == null || !parasiteBorderObj || Camera.main == null)
         {
             return;
         }
@@ -620,11 +620,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             parasiteCam = null;
         }
 
-        if (parasiteBorderObj != null)
+        if (parasiteBorderObj)
         {
             parasiteBorderObj.Destroy();
-            parasiteBorderObj = null;
-            parasiteBorderRenderer = null;
+            parasiteBorderObj = null!;
+            parasiteBorderRenderer = null!;
         }
     }
 
@@ -654,7 +654,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void CreateNotification()
     {
-        if (Controlled == null || PlayerControl.LocalPlayer == null || !Player.AmOwner)
+        if (Controlled == null || !PlayerControl.LocalPlayer || !Player.AmOwner)
         {
             return;
         }
@@ -976,7 +976,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -987,7 +987,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -1015,7 +1015,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }
@@ -1032,7 +1032,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         }
         else if (interactable.TryCast<DeconControl>() is { } deconControl)
         {
-            if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
                 return;
             }

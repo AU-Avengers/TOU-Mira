@@ -130,7 +130,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
 
     public void Update()
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.Data.Role is not SpectatorRole || LobbyBehaviour.Instance ||
             MeetingHud.Instance || ExileController.Instance ||
             !HudManager.Instance || HudManager.Instance.Chat.IsOpenOrOpening)

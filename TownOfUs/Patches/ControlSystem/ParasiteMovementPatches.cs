@@ -31,7 +31,7 @@ public static class ParasiteMovementPatches
     
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
@@ -90,7 +90,7 @@ public static class ParasiteMovementPatches
 
 
         if (player.AmOwner &&
-            PlayerControl.LocalPlayer != null &&
+            PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.Data?.Role is ParasiteRole parasite &&
             parasite.Controlled != null)
         {
@@ -106,7 +106,7 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            var shouldMove = Minigame.Instance == null && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
+            var shouldMove = !Minigame.Instance && !player.inVent && !player.inMovingPlat && !player.onLadder && !player.walkingToVent;
             var canMoveIndependently = OptionGroupSingleton<ParasiteOptions>.Instance.CanMoveIndependently;
 
             var victimId = victim.PlayerId;

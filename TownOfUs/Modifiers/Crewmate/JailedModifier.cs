@@ -13,7 +13,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class JailedModifier(byte jailorId) : BaseModifier
 {
-    private GameObject? jailCell;
+    private GameObject jailCell;
     public override string ModifierName => "Jailed";
     public override bool HideOnUi => true;
     public byte JailorId { get; } = jailorId;
@@ -76,7 +76,10 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
 
     public void Clear()
     {
-        jailCell?.Destroy();
+        if (jailCell)
+        {
+            jailCell.Destroy();
+        }
     }
 
     private void GenCell(PlayerVoteArea voteArea)

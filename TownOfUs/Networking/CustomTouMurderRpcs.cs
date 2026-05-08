@@ -176,7 +176,7 @@ public static class CustomTouMurderRpcs
         {
             var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
             MiraEventManager.InvokeEvent(beforeMurderEvent);
-            var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+            var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
             if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) ||
                 (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive) ||
                 target.ProtectedByGa())
@@ -305,7 +305,7 @@ public static class CustomTouMurderRpcs
         {
             DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
                 DeathEventHandlers.CurrentRound,
-                (MeetingHud.Instance == null && ExileController.Instance == null)
+                (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
@@ -390,7 +390,7 @@ public static class CustomTouMurderRpcs
             {
                 DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
                     DeathEventHandlers.CurrentRound,
-                    (MeetingHud.Instance == null && ExileController.Instance == null)
+                    (!MeetingHud.Instance && !ExileController.Instance)
                         ? DeathHandlerOverride.SetTrue
                         : DeathHandlerOverride.SetFalse,
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
@@ -473,7 +473,7 @@ public static class CustomTouMurderRpcs
         var beforeMurderEvent = new BeforeMurderEvent(source, target, MeetingCheck.OutsideMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
 
-        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if (isMeetingActive)
         {
             beforeMurderEvent.Cancel();
@@ -563,7 +563,7 @@ public static class CustomTouMurderRpcs
         {
             DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
                 DeathEventHandlers.CurrentRound,
-                (MeetingHud.Instance == null && ExileController.Instance == null)
+                (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),
@@ -700,7 +700,7 @@ public static class CustomTouMurderRpcs
 
         var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
         MiraEventManager.InvokeEvent(beforeMurderEvent);
-        var isMeetingActive = MeetingHud.Instance != null || ExileController.Instance != null;
+        var isMeetingActive = MeetingHud.Instance || ExileController.Instance;
         if ((inMeeting is MeetingCheck.ForMeeting && !isMeetingActive) ||
             (inMeeting is MeetingCheck.OutsideMeeting && isMeetingActive))
         {
@@ -795,7 +795,7 @@ public static class CustomTouMurderRpcs
         {
             DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
                 DeathEventHandlers.CurrentRound,
-                (MeetingHud.Instance == null && ExileController.Instance == null)
+                (!MeetingHud.Instance && !ExileController.Instance)
                     ? DeathHandlerOverride.SetTrue
                     : DeathHandlerOverride.SetFalse,
                 TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName),

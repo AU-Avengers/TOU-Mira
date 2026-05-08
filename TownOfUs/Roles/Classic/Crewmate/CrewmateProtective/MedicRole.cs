@@ -25,7 +25,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not MedicRole)
+        if (!Player || Player.Data.Role is not MedicRole)
         {
             return;
         }
@@ -192,6 +192,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (Shielded?.TryGetModifier<MedicShieldModifier>(out var mod) == true)
         {
+            Error("Medic Shield is being removed...");
             // This should prevent any issues with murder attempts
             mod.StartTimer();
         }

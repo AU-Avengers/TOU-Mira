@@ -49,7 +49,7 @@ public static class ReviveMeetingEventHandlers
         try { voteArea.PlayerIcon.gameObject.SetActive(true); } catch { /* ignored */ }
 
         meeting.SetDirtyBit(1U);
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             meeting.CheckForEndVoting();
         }

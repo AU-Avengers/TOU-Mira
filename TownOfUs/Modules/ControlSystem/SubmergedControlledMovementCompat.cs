@@ -22,12 +22,12 @@ public static class SubmergedControlledMovementCompat
     /// </summary>
     public static void UpdateLocalFloor(PlayerControl player)
     {
-        if (player == null || PlayerControl.LocalPlayer == null)
+        if (player == null || !PlayerControl.LocalPlayer)
         {
             return;
         }
 
-        if (player != PlayerControl.LocalPlayer)
+        if (!player.AmOwner)
         {
             return;
         }

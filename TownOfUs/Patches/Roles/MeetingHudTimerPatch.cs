@@ -21,7 +21,7 @@ public static class MeetingHudTimerPatch
     public static void TimerUpdatePostfix(MeetingHud __instance)
     {
         var newText = string.Empty;
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.HasDied())
         {
             return;

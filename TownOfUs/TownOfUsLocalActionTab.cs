@@ -68,7 +68,7 @@ public class TownOfUsLocalActionTab(ConfigFile config) : LocalSettingsTab(config
 
     private static void DoActionType(BindActionType type)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }

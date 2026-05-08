@@ -56,7 +56,7 @@ public static class SentryCameraMinigamePatch
         Logger.LogInfo($"Minigame Instance: {Minigame.Instance?.GetType().FullName ?? "NULL"}");
         Logger.LogInfo($"Minigame Instance == __instance: {Minigame.Instance == __instance}");
 
-        if (PlayerControl.LocalPlayer != null)
+        if (PlayerControl.LocalPlayer)
         {
             Logger.LogInfo($"Player task count: {PlayerControl.LocalPlayer.myTasks.Count}");
             for (int i = 0; i < PlayerControl.LocalPlayer.myTasks.Count; i++)

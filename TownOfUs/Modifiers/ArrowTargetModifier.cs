@@ -50,7 +50,7 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (Player == null)
+        if (!Player)
         {
             ModifierComponent!.RemoveModifier(this);
             return;

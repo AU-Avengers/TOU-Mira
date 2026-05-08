@@ -26,7 +26,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
 
     public override void ClickHandler()
     {
-        if (!CanClick() || Minigame.Instance != null || PlayerControl.LocalPlayer.HasDied())
+        if (!CanClick() || Minigame.Instance || PlayerControl.LocalPlayer.HasDied())
         {
             return;
         }
@@ -99,7 +99,7 @@ public sealed class TraitorChangeButton : TownOfUsRoleButton<TraitorRole>
             Role.RandomRole = random;
         }
 
-        if (Minigame.Instance == null)
+        if (!Minigame.Instance)
         {
             var traitorMenu = TraitorSelectionMinigame.Create();
             traitorMenu.Open(

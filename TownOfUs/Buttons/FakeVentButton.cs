@@ -38,7 +38,7 @@ public sealed class FakeVentButton : CustomActionButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null && role != null &&
+        return PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && role != null &&
                LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value && Show &&
                HudManager.InstanceExists && !MeetingHud.Instance &&
                !role.IsImpostor && (!role.CanVent || (role is ICustomRole customRole && !customRole.Configuration.CanUseVent));

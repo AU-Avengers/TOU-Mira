@@ -91,7 +91,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<SpyModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead &&
                OptionGroupSingleton<SpyOptions>.Instance.HasPortableAdmin is PortableAdmin.Modifier
@@ -151,7 +151,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
 
     public override void ClickHandler()
     {
-        if (!CanUse() || Minigame.Instance != null || !MiscUtils.CanUseUtility(GameUtility.Admin, true))
+        if (!CanUse() || Minigame.Instance || !MiscUtils.CanUseUtility(GameUtility.Admin, true))
         {
             return;
         }

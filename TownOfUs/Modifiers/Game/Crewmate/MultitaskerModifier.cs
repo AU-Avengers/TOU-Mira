@@ -47,7 +47,7 @@ public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        if (Minigame.Instance == null || IsExemptTask())
+        if (!Minigame.Instance || IsExemptTask())
         {
             return;
         }

@@ -104,7 +104,7 @@ public static class ReviveUtilities
             }
         }
 
-        if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer != null &&
+        if (ModCompatibility.IsSubmerged() && PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.PlayerId == revived.PlayerId)
         {
             ModCompatibility.ChangeFloor(revived.transform.position.y > -7);

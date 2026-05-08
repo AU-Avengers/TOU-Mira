@@ -80,7 +80,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 lockInfo: DeathHandlerOverride.SetTrue);
 
             var bodyPos = body.transform.position;
-            if (MeetingHud.Instance == null && Player.AmOwner)
+            if (!MeetingHud.Instance && Player.AmOwner)
             {
                 Player.moveable = false;
                 Player.MyPhysics.ResetMoveState();
@@ -203,7 +203,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
             ambushAnim.gameObject.Destroy();
 
-            if (MeetingHud.Instance == null && Target.HasDied())
+            if (!MeetingHud.Instance && Target.HasDied())
             {
                 if (Player.AmOwner)
                 {

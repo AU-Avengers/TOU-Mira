@@ -293,7 +293,7 @@ public static class ChatPatches
 
         if (rulesCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
             {
                 var stringToCheck =
                     rulesCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
@@ -420,7 +420,7 @@ public static class ChatPatches
                 else if (PlayerControl.AllPlayerControls.ToArray().Any(x =>
                              x.Data.PlayerName.ToLower(TownOfUsPlugin.Culture).Trim() ==
                              textRegular.ToLower(TownOfUsPlugin.Culture).Trim() &&
-                             x.Data.PlayerId != PlayerControl.LocalPlayer.PlayerId))
+                             !x.AmOwner))
                 {
                     msg = TouLocale.GetParsed("SetNameSimilarError").Replace("<name>", textRegular);
                 }
@@ -442,7 +442,7 @@ public static class ChatPatches
 
         if (upCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            if (AmongUsClient.Instance != null && !AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance && !AmongUsClient.Instance.AmHost)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandHostError"));
@@ -661,7 +661,7 @@ public static class ChatPatches
                       $"{TouLocale.GetParsed("InfoCommandDescription")}\n";
 
             // Only show /up command in help if host + dev build (not beta)
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild)
+            if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild)
             {
                 msg += $"{TouLocale.GetParsed("UpCommandDescription")}\n";
             }

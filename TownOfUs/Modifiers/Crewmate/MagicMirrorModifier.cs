@@ -20,7 +20,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
         $"You are protected by the Mirrorcaster!\nYou may not die to other players";
 
     public PlayerControl Mirrorcaster { get; } = mirrorcaster;
-    public GameObject? MedicShield { get; set; }
+    public GameObject MedicShield { get; set; }
     public bool ShowShield { get; set; }
 
     public override bool HideOnUi => true;
@@ -47,23 +47,23 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
 
     public override void OnDeactivate()
     {
-        if (MedicShield?.gameObject != null)
+        if (MedicShield)
         {
-            MedicShield.gameObject.Destroy();
+            MedicShield.Destroy();
         }
     }
 
     public override void Update()
     {
-        if (Player == null || Mirrorcaster == null)
+        if (!Player || Mirrorcaster == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;
         }
 
-        if (!MeetingHud.Instance && MedicShield?.gameObject != null)
+        if (!MeetingHud.Instance && MedicShield)
         {
-            MedicShield?.SetActive(!Player.IsConcealed() && IsVisible && ShowShield);
+            MedicShield.SetActive(!Player.IsConcealed() && IsVisible && ShowShield);
         }
     }
 

@@ -31,7 +31,7 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not ProsecutorRole)
+        if (!Player || Player.Data.Role is not ProsecutorRole)
         {
             return;
         }

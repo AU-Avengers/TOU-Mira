@@ -27,7 +27,7 @@ public sealed class ExeTormentButton : TownOfUsButton
 
     protected override void OnClick()
     {
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }
@@ -39,7 +39,7 @@ public sealed class ExeTormentButton : TownOfUsButton
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.Begin(
             plr => !plr.HasDied() && plr.HasModifier<MisfortuneTargetModifier>() &&
-                   !plr.HasModifier<InvulnerabilityModifier>() && plr != PlayerControl.LocalPlayer,
+                   !plr.HasModifier<InvulnerabilityModifier>() && !plr.AmOwner,
             plr =>
             {
                 playerMenu.ForceClose();

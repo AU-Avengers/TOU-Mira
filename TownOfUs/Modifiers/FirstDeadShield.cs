@@ -23,7 +23,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override Color FreeplayFileColor => new Color32(100, 220, 100, 255);
 
-    public GameObject? FirstRoundShield { get; set; }
+    public GameObject FirstRoundShield { get; set; }
     public bool IsVisible { get; set; } = true;
 
     public void SetVisible()
@@ -97,7 +97,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override void OnDeactivate()
     {
-        if (FirstRoundShield?.gameObject != null)
+        if (FirstRoundShield)
         {
             FirstRoundShield.Destroy();
         }
@@ -105,7 +105,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
 
     public override void Update()
     {
-        if (!MeetingHud.Instance && FirstRoundShield?.gameObject != null)
+        if (!MeetingHud.Instance && FirstRoundShield)
         {
             // When morphed/mimicked, match ONLY the visual to the disguise target's First Death Shield state.
             // This prevents leaking the real player's metadata while keeping the shield effect unchanged.

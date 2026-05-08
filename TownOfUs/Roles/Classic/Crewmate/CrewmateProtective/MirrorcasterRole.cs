@@ -28,7 +28,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not MirrorcasterRole)
+        if (!Player || Player.Data.Role is not MirrorcasterRole)
         {
             return;
         }

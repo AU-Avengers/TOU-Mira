@@ -378,7 +378,7 @@ public static class TaskTextUpdates
 {
     public static void Prefix(HudManager __instance)
     {
-        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.myTasks == null ||
             PlayerControl.LocalPlayer.myTasks.Count == 0)
         {

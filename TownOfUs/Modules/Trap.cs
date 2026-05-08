@@ -41,8 +41,8 @@ public sealed class Trap : IDisposable
     public void Update()
     {
         if (_transform == null ||
-            PlayerControl.LocalPlayer == null ||
-            PlayerControl.LocalPlayer.Data == null ||
+            !PlayerControl.LocalPlayer ||
+            !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.Data.Role == null ||
             !ShipStatus.Instance ||
             (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started && !TutorialManager.InstanceExists))

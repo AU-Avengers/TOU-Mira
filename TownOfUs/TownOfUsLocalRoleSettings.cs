@@ -32,7 +32,7 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
     {
         base.OnOptionChanged(configEntry);
         if ((configEntry == ParasitePiPLocation || configEntry == ParasitePiPSize) &&
-                 PlayerControl.LocalPlayer != null &&
+                 PlayerControl.LocalPlayer &&
                  PlayerControl.LocalPlayer.Data?.Role is Roles.Impostor.ParasiteRole parasiteRole)
         {
             // Apply PiP changes to the Parasite (controller) side.

@@ -25,7 +25,7 @@ public static class PuppeteerMovementPatches
 
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
@@ -84,7 +84,7 @@ public static class PuppeteerMovementPatches
 
 
         if (player.AmOwner &&
-            PlayerControl.LocalPlayer != null &&
+            PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.Data?.Role is PuppeteerRole puppeteer &&
             puppeteer.Controlled != null)
         {

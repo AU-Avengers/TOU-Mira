@@ -10,7 +10,7 @@ public static class MeetingDisconnectPatch
     [HarmonyPatch(nameof(GameData.HandleDisconnect), typeof(PlayerControl), typeof(DisconnectReasons))]
     public static void Prefix([HarmonyArgument(0)] PlayerControl player)
     {
-        if (MeetingHud.Instance != null)
+        if (MeetingHud.Instance)
         {
             foreach (var pva in MeetingHud.Instance.playerStates)
             {

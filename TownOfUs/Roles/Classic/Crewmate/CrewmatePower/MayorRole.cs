@@ -188,7 +188,7 @@ public sealed class MayorRole(IntPtr cppPtr)
 
     private static IEnumerator CoAnimateReveal(PlayerVoteArea voteArea)
     {
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             Minigame.Instance.Close();
             Minigame.Instance.Close();

@@ -16,7 +16,7 @@ namespace TownOfUs.Modules;
 public sealed class Bomb : IDisposable
 {
     private PlayerControl? _bomber;
-    private GameObject? _obj;
+    private GameObject _obj;
 
     public void Dispose()
     {
@@ -33,9 +33,13 @@ public sealed class Bomb : IDisposable
     {
         yield return new WaitForSeconds(0.1f);
 
+        if (!_obj)
+        {
+            yield break;
+        }
         var radius = OptionGroupSingleton<BomberOptions>.Instance.DetonateRadius * ShipStatus.Instance.MaxLightRadius;
 
-        var affected = Helpers.GetClosestPlayers(_obj!.transform.position, radius);
+        var affected = Helpers.GetClosestPlayers(_obj.transform.position, radius);
 
         affected.Shuffle();
 
@@ -89,7 +93,7 @@ public sealed class Bomb : IDisposable
 
     private void Dispose(bool disposing)
     {
-        if (disposing && _obj != null)
+        if (disposing && _obj)
         {
             _obj.Destroy();
         }
