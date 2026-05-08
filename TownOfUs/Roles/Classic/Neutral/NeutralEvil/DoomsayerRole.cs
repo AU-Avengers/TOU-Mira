@@ -184,7 +184,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
         var reportBuilder = new StringBuilder();
 
-        if (Player == null)
+        if (!Player)
         {
             return;
         }

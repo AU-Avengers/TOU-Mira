@@ -132,7 +132,7 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         {
             foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>().ToList())
             {
-                if (drag?.Player == null || drag.DeadBody == null)
+                if (!drag.Player || drag.DeadBody == null)
                 {
                     continue;
                 }

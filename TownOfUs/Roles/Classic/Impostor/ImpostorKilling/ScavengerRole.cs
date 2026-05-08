@@ -27,7 +27,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not ScavengerRole)
+        if (!Player || Player.Data.Role is not ScavengerRole)
         {
             return;
         }

@@ -84,7 +84,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (Player == null || !AllMedics.HasAny())
+        if (!Player || !AllMedics.HasAny())
         {
             ModifierComponent?.RemoveModifier(this);
             return;

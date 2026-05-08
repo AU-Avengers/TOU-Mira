@@ -23,7 +23,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not EscapistRole || Player.HasDied())
+        if (!Player || Player.Data.Role is not EscapistRole || Player.HasDied())
         {
             return;
         }

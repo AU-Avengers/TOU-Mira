@@ -143,7 +143,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data == null || Player.HasDied() || !Player.AmOwner)
+        if (!Player || Player.Data == null || Player.HasDied() || !Player.AmOwner)
         {
             return;
         }
@@ -199,7 +199,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public void LateUpdate()
     {
-        if (Player == null || !Player.AmOwner || Controlled == null || parasiteCam == null)
+        if (!Player || !Player.AmOwner || Controlled == null || parasiteCam == null)
         {
             return;
         }
@@ -219,7 +219,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     /// </summary>
     public void TickPiP()
     {
-        if (Player == null || !Player.AmOwner || Controlled == null ||
+        if (!Player || !Player.AmOwner || Controlled == null ||
             parasiteCam == null || !parasiteBorderObj || !parasiteBorderRenderer || Camera.main == null)
         {
             return;

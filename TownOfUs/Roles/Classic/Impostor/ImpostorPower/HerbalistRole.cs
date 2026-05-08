@@ -21,7 +21,7 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not HerbalistRole || Player.HasDied() || !Player.AmOwner ||
+        if (!Player || Player.Data.Role is not HerbalistRole || Player.HasDied() || !Player.AmOwner ||
             MeetingHud.Instance || (!HudManager.Instance.UseButton.isActiveAndEnabled &&
                                     !HudManager.Instance.PetButton.isActiveAndEnabled))
         {

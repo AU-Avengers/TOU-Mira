@@ -120,7 +120,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not HaunterRole || MeetingHud.Instance)
+        if (!Player || Player.Data.Role is not HaunterRole || MeetingHud.Instance)
         {
             return;
         }
@@ -218,7 +218,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     /* public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not HaunterRole || !Player.AmOwner) return;
+        if (!Player || Player.Data.Role is not HaunterRole || !Player.AmOwner) return;
 
         float num = float.MaxValue;
         var dangerLevel1 = 0f;
@@ -291,7 +291,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     private void UpdateTaskStage(bool silent, bool forceRecalculate)
     {
-        if (Caught || Player == null)
+        if (Caught || !Player)
         {
             return;
         }

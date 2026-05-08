@@ -56,27 +56,27 @@ public static class TimeLordEvents
     [RegisterEvent]
     public static void CompleteTaskEvent(CompleteTaskEvent @event)
     {
-        if (@event.Task != null && @event.Player != null)
+        if (@event.Task && @event.Player)
         {
             TimeLordEventHandlers.RecordTaskComplete(@event.Player, @event.Task);
         }
 
         if (AmongUsClient.Instance &&
             AmongUsClient.Instance.AmHost &&
-            @event.Task != null &&
-            @event.Player != null &&
+            @event.Task &&
+            @event.Player &&
             OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind &&
             TimeLordRewindSystem.MatchHasTimeLord())
         {
             TimeLordRewindSystem.RecordHostTaskCompletion(@event.Player, @event.Task);
         }
 
-        if (@event.Player == null || !@event.Player.AmOwner)
+        if (!@event.Player || !@event.Player.AmOwner || !@event.Player.Data)
         {
             return;
         }
 
-        if (@event.Player.Data?.Role is not TimeLordRole)
+        if (@event.Player.Data.Role is not TimeLordRole)
         {
             return;
         }

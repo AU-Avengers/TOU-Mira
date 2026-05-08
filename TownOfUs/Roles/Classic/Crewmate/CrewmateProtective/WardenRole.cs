@@ -18,7 +18,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not WardenRole)
+        if (!Player || Player.Data.Role is not WardenRole)
         {
             return;
         }

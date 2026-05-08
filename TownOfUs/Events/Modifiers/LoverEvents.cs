@@ -19,7 +19,7 @@ public static class LoverEvents
     [RegisterEvent(400)]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
-        if (@event.Player == null)
+        if (!@event.Player)
         {
             return;
         }

@@ -35,7 +35,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not PlaguebearerRole || Player.HasDied() || !Player.AmOwner)
+        if (!Player || Player.Data.Role is not PlaguebearerRole || Player.HasDied() || !Player.AmOwner)
         {
             return;
         }

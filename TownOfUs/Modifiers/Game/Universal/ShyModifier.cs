@@ -68,7 +68,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
 
     public override void OnDeactivate()
     {
-        if (Player == null)
+        if (!Player)
         {
             return;
         }
@@ -94,7 +94,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
             return;
         }
 
-        if (Player == null)
+        if (!Player)
         {
             return;
         }

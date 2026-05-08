@@ -82,7 +82,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 
     public override void Update()
     {
-        if (Player == null || Warden == null)
+        if (!Player || Warden == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;

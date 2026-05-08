@@ -160,7 +160,7 @@ public sealed class ParasiteInfectedModifier(PlayerControl controller) : Disable
 
     private void CreateNotification()
     {
-        if (Player == null || !Player.AmOwner || !PlayerControl.LocalPlayer)
+        if (!Player || !Player.AmOwner || !PlayerControl.LocalPlayer)
         {
             return;
         }

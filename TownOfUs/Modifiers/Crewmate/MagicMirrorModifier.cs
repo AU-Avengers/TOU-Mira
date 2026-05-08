@@ -55,7 +55,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
 
     public override void Update()
     {
-        if (Player == null || Mirrorcaster == null)
+        if (!Player || Mirrorcaster == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;

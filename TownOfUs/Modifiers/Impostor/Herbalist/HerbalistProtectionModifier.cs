@@ -62,7 +62,7 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
 
     public override void Update()
     {
-        if (Player == null || Herbalist == null)
+        if (!Player || Herbalist == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;

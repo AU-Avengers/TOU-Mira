@@ -76,7 +76,7 @@ public sealed class FirstDeadShieldDisguiseVisual(PlayerControl target) : TimedM
 
     public override void Update()
     {
-        if (Player == null || Target == null)
+        if (!Player || Target == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;

@@ -67,7 +67,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
 
     public override void Update()
     {
-        if (Player == null || Cleric == null)
+        if (!Player || Cleric == null)
         {
             ModifierComponent?.RemoveModifier(this);
             return;
