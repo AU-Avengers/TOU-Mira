@@ -27,7 +27,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -120,7 +120,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public bool SetupIntroTeam(IntroCutscene instance,
         ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
     {
-        if (Player != PlayerControl.LocalPlayer)
+        if (!Player.AmOwner)
         {
             return true;
         }

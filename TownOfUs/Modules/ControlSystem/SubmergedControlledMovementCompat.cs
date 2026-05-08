@@ -27,7 +27,7 @@ public static class SubmergedControlledMovementCompat
             return;
         }
 
-        if (player != PlayerControl.LocalPlayer)
+        if (!player.AmOwner)
         {
             return;
         }

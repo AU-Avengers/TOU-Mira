@@ -61,7 +61,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
             var player = PlayerControl.AllPlayerControls.ToArray().Where(plr => (!plr.HasDied() ||
                 Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
                 FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {plr.gameObject.name}")
-                    ?.body && plr != PlayerControl.LocalPlayer)).Random();
+                    ?.body && !plr.AmOwner)).Random();
             if (player != null)
             {
                 TouAudio.PlaySound(TouAudio.MimicSound);
@@ -98,7 +98,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
                 plr => (!plr.HasDied() ||
                         Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
                         FakePlayer.FakePlayers.FirstOrDefault(x => x?.body?.name == $"Fake {plr.gameObject.name}")
-                            ?.body) && plr != PlayerControl.LocalPlayer,
+                            ?.body) && !plr.AmOwner,
                 plr =>
                 {
                     playerMenu.ForceClose();

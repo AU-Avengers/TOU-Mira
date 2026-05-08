@@ -420,7 +420,7 @@ public static class ChatPatches
                 else if (PlayerControl.AllPlayerControls.ToArray().Any(x =>
                              x.Data.PlayerName.ToLower(TownOfUsPlugin.Culture).Trim() ==
                              textRegular.ToLower(TownOfUsPlugin.Culture).Trim() &&
-                             x.Data.PlayerId != PlayerControl.LocalPlayer.PlayerId))
+                             !x.AmOwner))
                 {
                     msg = TouLocale.GetParsed("SetNameSimilarError").Replace("<name>", textRegular);
                 }

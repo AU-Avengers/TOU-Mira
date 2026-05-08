@@ -75,7 +75,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
             plr => (!plr.HasDied() ||
                     Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
                     FakePlayer.FakePlayers.FirstOrDefault(x => x?.body?.name == $"Fake {plr.gameObject.name}")
-                        ?.body) && plr != PlayerControl.LocalPlayer,
+                        ?.body) && !plr.AmOwner,
             plr =>
             {
                 playerMenu.ForceClose();

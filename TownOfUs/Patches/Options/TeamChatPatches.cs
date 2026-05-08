@@ -1226,7 +1226,7 @@ public static class TeamChatPatches
         {
             __instance.notificationRoutine = __instance.StartCoroutine(__instance.BounceDot());
         }
-        if (srcPlayer.Object != PlayerControl.LocalPlayer)
+        if (!srcPlayer.Object.AmOwner)
         {
             SoundManager.Instance.PlaySound(__instance.messageSound, false, 1f, null).pitch = 0.5f + (float)srcPlayer.PlayerId / 15f;
         }

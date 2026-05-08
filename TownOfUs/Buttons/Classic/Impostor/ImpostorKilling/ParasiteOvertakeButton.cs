@@ -224,7 +224,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             Distance,
             predicate: plr =>
                 plr != null &&
-                plr != PlayerControl.LocalPlayer &&
+                !plr.AmOwner &&
                 !plr.HasDied() &&
                 !plr.IsImpostorAligned() &&
                 !plr.IsInTargetingAnimState() &&
