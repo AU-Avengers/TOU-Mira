@@ -276,7 +276,7 @@ public static class SentryCameraSurveillancePatch
     {
         public static void Postfix(PassiveButton __instance)
         {
-            if (__instance == null) return;
+            if (!__instance) return;
             var name = __instance.gameObject?.name ?? "NULL";
             if (name.Contains("SentryRightArrow") || name.Contains("SentryLeftArrow"))
             {

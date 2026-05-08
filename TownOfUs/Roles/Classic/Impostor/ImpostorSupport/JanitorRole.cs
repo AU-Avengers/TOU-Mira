@@ -104,7 +104,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
             body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
         }
 
-        TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Body found: body={body != null}, active={body?.gameObject?.activeSelf ?? false}, position={body?.transform?.position}");
+        TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Body found: body={body != null}, active={body?.gameObject.activeSelf ?? false}, position={body?.transform?.position}");
 
         if (body != null)
         {

@@ -27,7 +27,7 @@ public static class TeamChatPatches
     public static bool TeamChatActive; // True if any team chat is active
     public static int CurrentChatIndex = -1; // Index of currently selected chat (-1 = normal chat)
 #pragma warning disable S2386
-    public static GameObject? PrivateChatDot;
+    public static SpriteRenderer PrivateChatDot;
     public static SpriteRenderer PublicChatDot;
     public static Transform PublicChatItems;
     public static Transform PrivateChatItems;
@@ -722,10 +722,9 @@ public static class TeamChatPatches
                     _teamText.text = string.Empty;
                 }
             }
-            if (PrivateChatDot != null)
+            if (PrivateChatDot)
             {
-                var sprite = PrivateChatDot.GetComponent<SpriteRenderer>();
-                sprite.enabled = false;
+                PrivateChatDot.enabled = false;
             }
         }
         else
@@ -761,7 +760,7 @@ public static class TeamChatPatches
 
     public static void CreateTeamChatBubble()
     {
-        var obj = HudManager.Instance.Chat.chatNotifyDot.gameObject;
+        var obj = HudManager.Instance.Chat.chatNotifyDot;
         PrivateChatDot = Object.Instantiate(obj, obj.transform.parent);
         PrivateChatDot.transform.localPosition -= new Vector3(0f, 0.425f, 0f);
         PrivateChatDot.transform.localScale -= new Vector3(0.2f, 0.2f, 0f);
@@ -783,11 +782,10 @@ public static class TeamChatPatches
                 UpdateChat();
             }
 
-            if (PrivateChatDot != null &&
+            if (PrivateChatDot &&
                 (PlayerControl.LocalPlayer.IsLover() && MeetingHud.Instance == null || TeamChatActive))
             {
-                var sprite = PrivateChatDot.GetComponent<SpriteRenderer>();
-                sprite.enabled = false;
+                PrivateChatDot.enabled = false;
             }
 
             if (TeamChatButton)

@@ -29,8 +29,8 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public bool CanBeEgotist => true;
     public bool CanBeOtherEvil => true;
 
-    private GameObject? executeButton;
-    private TMP_Text? usesText;
+    private GameObject executeButton;
+    private TMP_Text usesText;
     public override bool IsAffectedByComms => false;
 
     public int Executes { get; set; } = (int)OptionGroupSingleton<JailorOptions>.Instance.MaxExecutes;
@@ -159,7 +159,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     private void AddMeetingButtons(MeetingHud __instance)
     {
-        if (Jailed == null || Jailed?.HasDied() == true)
+        if (Jailed == null || Jailed.HasDied())
         {
             return;
         }
@@ -169,7 +169,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             return;
         }
 
-        if (Executes <= 0 || Jailed?.HasDied() == true)
+        if (Executes <= 0)
         {
             return;
         }

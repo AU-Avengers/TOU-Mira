@@ -13,7 +13,7 @@ public class ScatterModifier(float time) : TimedModifier
     private readonly List<Vector3> _locations = [];
     private Image? scatterBar;
     private TextMeshProUGUI? scatterText;
-    private GameObject? scatterUI;
+    private GameObject scatterUI;
     private float soundTimer = 1f;
     public override string ModifierName => TouLocale.Get("Scatter", "Scatter");
     public override float Duration => time;
@@ -80,7 +80,7 @@ public class ScatterModifier(float time) : TimedModifier
             soundTimer = 1f;
             TimeRemaining = Duration;
 
-            scatterUI!.SetActive(false);
+            scatterUI.SetActive(false);
             scatterText!.gameObject.SetActive(false);
 
             return;
@@ -121,7 +121,7 @@ public class ScatterModifier(float time) : TimedModifier
             }
         }
 
-        scatterUI!.SetActive(true);
+        scatterUI.SetActive(true);
         scatterText!.gameObject.SetActive(true);
 
         foreach (var location in _locations)
@@ -149,12 +149,12 @@ public class ScatterModifier(float time) : TimedModifier
         soundTimer = 1f;
         TimeRemaining = Duration;
 
-        scatterUI!.SetActive(false);
         scatterText!.gameObject.SetActive(false);
 
-        if (scatterUI?.gameObject != null)
+        if (scatterUI)
         {
-            scatterUI.gameObject.Destroy();
+            scatterUI.SetActive(false);
+            scatterUI.Destroy();
         }
     }
 

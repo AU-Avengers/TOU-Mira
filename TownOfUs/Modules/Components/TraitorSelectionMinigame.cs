@@ -20,9 +20,9 @@ namespace TownOfUs.Modules.Components;
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Unity")]
 public sealed class TraitorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
 {
-    public Transform? RolesHolder;
-    public GameObject? RolePrefab;
-    public TextMeshPro? StatusText;
+    public Transform RolesHolder;
+    public GameObject RolePrefab;
+    public TextMeshPro StatusText;
 
     private readonly Color _bgColor = new Color32(6, 0, 0, 215);
     private RoleTypes? _selectedRole;

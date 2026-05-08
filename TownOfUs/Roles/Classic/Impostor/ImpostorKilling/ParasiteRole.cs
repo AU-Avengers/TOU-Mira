@@ -24,8 +24,8 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     private bool _killPendingFromTimer;
 
     private Camera? parasiteCam;
-    private GameObject? parasiteBorderObj;
-    private SpriteRenderer? parasiteBorderRenderer;
+    private GameObject parasiteBorderObj;
+    private SpriteRenderer parasiteBorderRenderer;
     private bool _pipDragging;
     private bool _pipManualMovedThisSession;
     private Vector2 _pipDragOffsetViewport;
@@ -220,7 +220,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     public void TickPiP()
     {
         if (Player == null || !Player.AmOwner || Controlled == null ||
-            parasiteCam == null || parasiteBorderObj == null || parasiteBorderRenderer == null || Camera.main == null)
+            parasiteCam == null || !parasiteBorderObj || !parasiteBorderRenderer || Camera.main == null)
         {
             return;
         }
@@ -245,7 +245,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     /// </summary>
     public void UpdateCameraBorderLayout()
     {
-        if (parasiteCam == null || parasiteBorderObj == null || parasiteBorderRenderer == null || Camera.main == null)
+        if (parasiteCam == null || !parasiteBorderObj || !parasiteBorderRenderer || Camera.main == null)
         {
             return;
         }
@@ -307,7 +307,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void EnsureBorderCollider()
     {
-        if (parasiteBorderObj == null || parasiteBorderRenderer == null)
+        if (!parasiteBorderObj || !parasiteBorderRenderer)
         {
             return;
         }
@@ -482,7 +482,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void HandleDragInput()
     {
-        if (parasiteCam == null || parasiteBorderObj == null || Camera.main == null)
+        if (parasiteCam == null || !parasiteBorderObj || Camera.main == null)
         {
             return;
         }
@@ -620,11 +620,11 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             parasiteCam = null;
         }
 
-        if (parasiteBorderObj != null)
+        if (parasiteBorderObj)
         {
             parasiteBorderObj.Destroy();
-            parasiteBorderObj = null;
-            parasiteBorderRenderer = null;
+            parasiteBorderObj = null!;
+            parasiteBorderRenderer = null!;
         }
     }
 

@@ -17,7 +17,7 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
     public override string ModifierName => "Fortified";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Warden;
     public override string ShieldDescription => "You are fortified by a Warden!\nNo one can interact with you.";
-    public GameObject? WardenFort { get; set; }
+    public GameObject WardenFort { get; set; }
     public bool ShowFort { get; set; }
 
     public override bool HideOnUi
@@ -74,9 +74,9 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
 
     public override void OnDeactivate()
     {
-        if (WardenFort?.gameObject != null)
+        if (WardenFort)
         {
-            WardenFort.gameObject.Destroy();
+            WardenFort.Destroy();
         }
     }
 
@@ -88,9 +88,9 @@ public sealed class WardenFortifiedModifier(PlayerControl warden) : BaseShieldMo
             return;
         }
 
-        if (!MeetingHud.Instance && WardenFort?.gameObject != null)
+        if (!MeetingHud.Instance && WardenFort)
         {
-            WardenFort?.SetActive(!Player.IsConcealed() && IsVisible && ShowFort);
+            WardenFort.SetActive(!Player.IsConcealed() && IsVisible && ShowFort);
         }
     }
 }

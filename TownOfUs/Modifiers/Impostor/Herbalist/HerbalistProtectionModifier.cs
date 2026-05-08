@@ -38,7 +38,7 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
     }
 
     public PlayerControl Herbalist { get; } = herbalist;
-    public GameObject? ClericBarrier { get; set; }
+    public GameObject ClericBarrier { get; set; }
 
 
     public override void OnActivate()
@@ -68,9 +68,9 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
             return;
         }
 
-        if (!MeetingHud.Instance && ClericBarrier?.gameObject != null)
+        if (!MeetingHud.Instance && ClericBarrier)
         {
-            ClericBarrier?.SetActive(!Player.IsConcealed() && IsVisible && ShowBarrier);
+            ClericBarrier.SetActive(!Player.IsConcealed() && IsVisible && ShowBarrier);
         }
     }
 
@@ -86,9 +86,9 @@ public sealed class HerbalistProtectionModifier(PlayerControl herbalist) : BaseS
 
     public override void OnDeactivate()
     {
-        if (ClericBarrier?.gameObject != null)
+        if (ClericBarrier)
         {
-            ClericBarrier.gameObject.Destroy();
+            ClericBarrier.Destroy();
         }
     }
 }

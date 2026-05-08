@@ -40,7 +40,7 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
     }
 
     public PlayerControl Cleric { get; } = cleric;
-    public GameObject? ClericBarrier { get; set; }
+    public GameObject ClericBarrier { get; set; }
 
 
     public override void OnActivate()
@@ -73,9 +73,9 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
             return;
         }
 
-        if (!MeetingHud.Instance && ClericBarrier?.gameObject != null)
+        if (!MeetingHud.Instance && ClericBarrier)
         {
-            ClericBarrier?.SetActive(!Player.IsConcealed() && IsVisible && ShowBarrier);
+            ClericBarrier.SetActive(!Player.IsConcealed() && IsVisible && ShowBarrier);
         }
     }
 
@@ -91,9 +91,9 @@ public sealed class ClericBarrierModifier(PlayerControl cleric) : BaseShieldModi
 
     public override void OnDeactivate()
     {
-        if (ClericBarrier?.gameObject != null)
+        if (ClericBarrier)
         {
-            ClericBarrier.gameObject.Destroy();
+            ClericBarrier.Destroy();
         }
     }
 }
