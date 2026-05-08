@@ -137,7 +137,7 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
 
         var crewRoles = none;
         var neutRoles = none;
-        var impRoles = AssassinGuessImpostors.Value ? all : none;
+        var impRoles = AssassinGuessImpostors.Value ? none : all;
         var modifiers = all;
 
         if (!AssassinGuessInvest.Value && !AssassinCrewmateGuess.Value)
