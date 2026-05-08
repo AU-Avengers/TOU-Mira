@@ -19,7 +19,7 @@ public static class MinigameCanMovePatch
     [HarmonyPrefix]
     public static bool PlayerControlCanMovePatch(PlayerControl __instance, ref bool __result)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return true;
         }

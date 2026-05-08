@@ -99,7 +99,7 @@ public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }

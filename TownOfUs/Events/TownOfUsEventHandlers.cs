@@ -806,7 +806,7 @@ public static class TownOfUsEventHandlers
             yield return null;
         }
 
-        while (PlayerControl.LocalPlayer.Data == null)
+        while (!PlayerControl.LocalPlayer.Data)
         {
             yield return null;
         }
@@ -847,7 +847,7 @@ public static class TownOfUsEventHandlers
             yield return null;
         }
 
-        while (PlayerControl.LocalPlayer.Data == null)
+        while (!PlayerControl.LocalPlayer.Data)
         {
             yield return null;
         }

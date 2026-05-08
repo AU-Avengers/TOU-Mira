@@ -183,12 +183,12 @@ public static class Bindings
 
     public static void Postfix(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer.Data)
         {
             return;
         }

@@ -617,7 +617,7 @@ public static class TimeLordRewindSystem
 
     public static void RecordLocalSnapshot(PlayerPhysics? physics)
     {
-        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
         }
@@ -1521,7 +1521,7 @@ public static class TimeLordRewindSystem
             }
         }
 
-        if (_hostBodyPlacements != null && _hostBodyPlacements.Count > 0 && PlayerControl.LocalPlayer != null)
+        if (_hostBodyPlacements != null && _hostBodyPlacements.Count > 0 && PlayerControl.LocalPlayer)
         {
             for (var i = 0; i < _hostBodyPlacements.Count; i++)
             {
@@ -1539,7 +1539,7 @@ public static class TimeLordRewindSystem
             }
         }
 
-        if (_hostTaskUndos != null && _hostTaskUndos.Count > 0 && PlayerControl.LocalPlayer != null)
+        if (_hostTaskUndos != null && _hostTaskUndos.Count > 0 && PlayerControl.LocalPlayer)
         {
             for (var i = 0; i < _hostTaskUndos.Count; i++)
             {
@@ -1560,7 +1560,7 @@ public static class TimeLordRewindSystem
 
     public static bool TryHandleRewindPhysics(PlayerPhysics physics)
     {
-        if (!IsRewinding || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
+        if (!IsRewinding || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return false;
         }
@@ -2699,7 +2699,7 @@ return true;*/
             reviverOwnerNotificationText: successText,
             notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
 
-        if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.AmOwner)
+        if (revived.AmOwner && PlayerControl.LocalPlayer && revived.AmOwner)
         {
             TryUnstuckLocalPlayer(revived);
         }

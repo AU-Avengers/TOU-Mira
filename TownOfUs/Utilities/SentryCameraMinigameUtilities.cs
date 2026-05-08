@@ -36,7 +36,7 @@ public static class SentryCameraMinigameUtilities
         }
 
         var isLocalSentry = IsLocalSentry();
-        var isLocalDead = PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null && PlayerControl.LocalPlayer.Data.IsDead;
+        var isLocalDead = PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && PlayerControl.LocalPlayer.Data.IsDead;
 
         int sentryStartIndex = -1;
         for (int i = 0; i < ship.AllCameras.Length; i++)
@@ -123,7 +123,7 @@ public static class SentryCameraMinigameUtilities
         }
 
         var isLocalSentry = IsLocalSentry();
-        var isLocalDead = PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null && PlayerControl.LocalPlayer.Data.IsDead;
+        var isLocalDead = PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && PlayerControl.LocalPlayer.Data.IsDead;
 
         int sentryStartIndex = -1;
         for (int i = 0; i < ship.AllCameras.Length; i++)
@@ -212,7 +212,7 @@ public static class SentryCameraMinigameUtilities
         if (OriginalAllCamerasByMinigameId.ContainsKey(id)) return;
 
         var original = ShipStatus.Instance.AllCameras;
-        var isLocalDead = PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null && PlayerControl.LocalPlayer.Data.IsDead;
+        var isLocalDead = PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && PlayerControl.LocalPlayer.Data.IsDead;
         
         var sentryCameraIds = new HashSet<int>();
         foreach (var cameraPair in SentryRole.Cameras)

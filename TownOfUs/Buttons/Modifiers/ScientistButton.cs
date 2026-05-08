@@ -44,7 +44,7 @@ public sealed class ScientistButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<ScientistModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }

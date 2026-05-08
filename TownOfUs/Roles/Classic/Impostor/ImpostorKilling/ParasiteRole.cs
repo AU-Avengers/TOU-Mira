@@ -181,7 +181,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             !target.walkingToVent)
         {
             _killPendingFromTimer = false;
-            if (PlayerControl.LocalPlayer != null)
+            if (PlayerControl.LocalPlayer)
             {
                 PlayerControl.LocalPlayer.RpcSpecialMurder(
                     target,
@@ -190,7 +190,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
                     causeOfDeath: "Parasite");
             }
 
-            if (PlayerControl.LocalPlayer != null)
+            if (PlayerControl.LocalPlayer)
             {
                 RpcParasiteEndControl(PlayerControl.LocalPlayer, target);
             }
@@ -654,7 +654,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     private void CreateNotification()
     {
-        if (Controlled == null || PlayerControl.LocalPlayer == null || !Player.AmOwner)
+        if (Controlled == null || !PlayerControl.LocalPlayer || !Player.AmOwner)
         {
             return;
         }

@@ -22,7 +22,7 @@ public static class GhostRolePatches
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
         }
@@ -103,8 +103,8 @@ public static class GhostRolePatches
     [HarmonyPostfix]
     public static void HudManagerVentPatch(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer == null ||
-            PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer ||
+            !PlayerControl.LocalPlayer.Data ||
             __instance.ImpostorVentButton == null ||
             __instance.ImpostorVentButton.gameObject == null ||
             __instance.ImpostorVentButton.IsNullOrDestroyed())

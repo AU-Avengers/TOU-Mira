@@ -25,7 +25,7 @@ public sealed class BarryButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<ButtonBarryModifier>() &&
                PlayerControl.LocalPlayer.RemainingEmergencies > 0 &&
                !PlayerControl.LocalPlayer.Data.IsDead;

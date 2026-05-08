@@ -65,7 +65,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
             return false;
         }
 
-        return PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.GetRoleWhenAlive() is AltruistRole;
+        return PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.GetRoleWhenAlive() is AltruistRole;
     }
 
     public override void CreateButton(Transform parent)
@@ -101,7 +101,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return false;
         }
@@ -127,7 +127,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
 
     public override void ClickHandler()
     {
-        if (PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.HasDied())
+        if (PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.HasDied())
         {
             return;
         }

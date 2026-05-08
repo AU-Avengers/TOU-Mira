@@ -168,7 +168,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         if (configEntry == OffsetButtonsToggle)
         {
             if ((AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started &&
-                 !TutorialManager.InstanceExists) || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null ||
+                 !TutorialManager.InstanceExists) || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data ||
                 PlayerControl.LocalPlayer.Data.Role == null || !ShipStatus.Instance)
             {
                 return;

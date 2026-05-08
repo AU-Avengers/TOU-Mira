@@ -20,7 +20,7 @@ public sealed class DisperseButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<DisperserModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }

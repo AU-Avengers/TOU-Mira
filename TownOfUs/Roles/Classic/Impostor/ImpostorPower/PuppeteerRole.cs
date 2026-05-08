@@ -142,7 +142,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     private void CreateNotification()
     {
-        if (Controlled == null || PlayerControl.LocalPlayer == null || !Player.AmOwner)
+        if (Controlled == null || !PlayerControl.LocalPlayer || !Player.AmOwner)
         {
             return;
         }
