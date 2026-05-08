@@ -35,16 +35,15 @@ public static class MedicEvents
         {
             return;
         }
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var showShielded = OptionGroupSingleton<MedicOptions>.Instance.ShowShielded;
 
         foreach (var mod in medicShields)
         {
-            var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            var showShielded = OptionGroupSingleton<MedicOptions>.Instance.ShowShielded;
-
             var showShieldedEveryone = showShielded == MedicOption.Everyone;
-            var showShieldedSelf = PlayerControl.LocalPlayer.PlayerId == mod.Player.PlayerId &&
+            var showShieldedSelf = mod.Player.AmOwner &&
                                    showShielded is MedicOption.Shielded or MedicOption.ShieldedAndMedic;
-            var showShieldedMedic = PlayerControl.LocalPlayer.PlayerId == mod.Medic.PlayerId &&
+            var showShieldedMedic = mod.AllMedics.Contains(PlayerControl.LocalPlayer) &&
                                     showShielded is MedicOption.Medic or MedicOption.ShieldedAndMedic;
 
             var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
@@ -53,7 +52,7 @@ public static class MedicEvents
                 x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
 
             mod.ShowShield = showShieldedEveryone || showShieldedSelf || showShieldedMedic ||
-                             (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
+                         (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
         }
     }
 
