@@ -11,6 +11,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -325,6 +326,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         Coroutines.Start(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
     }
 
+    public static void DangerAnimNonMedic()
+    {
+        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki :new Color(0f, 0.5f, 0f, 1f)));
+    }
+
     public void LobbyStart()
     {
         CustomButtonSingleton<MedicShieldButton>.Instance.CanChangeTarget = true;
@@ -405,13 +411,13 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         if (source.AmOwner)
-        {
-            DangerAnim();
+        { 
+            DangerAnimNonMedic();
         }
 
         if (shieldNotify == MedicOption.Everyone && !source.AmOwner)
         {
-            DangerAnim();
+            DangerAnimNonMedic();
         }
 
         var shieldBreaks = OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks;

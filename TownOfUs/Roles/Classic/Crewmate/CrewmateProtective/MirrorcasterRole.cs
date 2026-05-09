@@ -11,6 +11,7 @@ using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -151,9 +152,9 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         Protected?.AddModifier<MagicMirrorModifier>(Player);
     }
 
-    public static void DangerAnim()
+    public static void DangerAnim(bool localMirrorcaster = false)
     {
-        Coroutines.Start(MiscUtils.CoFlash(new Color32(144, 162, 195, 255)));
+        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !localMirrorcaster ? TownOfUsColors.NeutralWiki : new Color32(144, 162, 195, 255)));
     }
 
     [MethodRpc((uint)TownOfUsRpc.MagicMirror)]
@@ -250,7 +251,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         {
             CustomButtonSingleton<MirrorcasterMagicMirrorButton>.Instance.ResetCooldownAndOrEffect();
             CustomButtonSingleton<MirrorcasterUnleashButton>.Instance.ResetCooldownAndOrEffect();
-            DangerAnim();
+            DangerAnim(true);
             var text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithoutType")
                 .Replace("<player>", protectedPlayer.Data.PlayerName);
             switch (attackInfo)
