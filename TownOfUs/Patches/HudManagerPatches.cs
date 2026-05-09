@@ -315,9 +315,12 @@ public static class HudManagerPatches
             return mod?.ExtraNameText ?? string.Empty;
         }
 
+        var hauntMode = (GhostModeInGame)OptionGroupSingleton<PostmortemOptions>.Instance.DeadCanHaunt.Value;
+        var shouldSeeHauntInfo = hauntMode is GhostModeInGame.Always || (hauntMode is GhostModeInGame.DisabledUponDeath && DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer));
+        
         var colorPlayerNames = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
-        var localGhost = DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow;
+        var localGhost = localDead && genOpt.TheDeadKnow && shouldSeeHauntInfo;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
                            { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
