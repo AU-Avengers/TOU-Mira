@@ -7,7 +7,6 @@ using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 

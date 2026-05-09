@@ -11,6 +11,7 @@ public sealed class VenererFreezeModifier(PlayerControl venerer) : TimedModifier
 {
     public override string ModifierName => "Freeze";
     public override bool AutoStart => true;
+    public override bool HideOnUi => true;
     public override float Duration => OptionGroupSingleton<VenererOptions>.Instance.AbilityDuration;
 
     public PlayerControl Venerer { get; set; } = venerer;

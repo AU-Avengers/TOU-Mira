@@ -13,6 +13,7 @@ public sealed class VenererCamouflageModifier : ConcealedModifier, IVenererModif
     public override float Duration => OptionGroupSingleton<VenererOptions>.Instance.AbilityDuration;
     public override bool AutoStart => true;
     public bool VisualPriority => true;
+    public override bool HideOnUi => true;
     public override bool VisibleToOthers => true;
 
     public VisualAppearance GetVisualAppearance()
