@@ -1,7 +1,6 @@
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -10,8 +9,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using MiraAPI.Patches.Stubs;
-using Reactor.Utilities.Extensions;
-using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -24,24 +21,6 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
-    public RealFlash currentFlashType = RealFlash.Medic;
-
-    [HideFromIl2Cpp]
-    public Color? GetFlashColor()
-    {
-        switch (currentFlashType)
-        {
-            case RealFlash.Cleric:
-                return TownOfUsColors.Cleric;
-            case RealFlash.Medic:
-                return TownOfUsColors.Medic;
-            case RealFlash.Mercenary:
-                return TownOfUsColors.Mercenary;
-            case RealFlash.Warden:
-                return TownOfUsColors.Warden;
-        }
-        return null;
-    }
 
     public string GetAdvancedDescription()
     {
@@ -65,34 +44,6 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         DefenseEgoString = TouLocale.GetParsed("TouRoleMonarchTabDefenseInfoEgo");
         DefenseString = TouLocale.GetParsed("TouRoleMonarchTabDefenseInfo");
         DeathInfoString = TouLocale.GetParsed("TouRoleMonarchTabDeathInfo");
-        var monOpts = OptionGroupSingleton<MonarchOptions>.Instance;
-        if (monOpts.CrewKnightsGrantKillImmunity)
-        {
-            var flashColor = (ProtectionFlash)monOpts.ProtectionFlashColor.Value;
-            switch (flashColor)
-            {
-                case ProtectionFlash.NoFlash:
-                    currentFlashType = RealFlash.NoFlash;
-                    break;
-                case ProtectionFlash.Cleric:
-                    currentFlashType = RealFlash.Cleric;
-                    break;
-                case ProtectionFlash.Medic:
-                    currentFlashType = RealFlash.Medic;
-                    break;
-                case ProtectionFlash.Mercenary:
-                    currentFlashType = RealFlash.Mercenary;
-                    break;
-                case ProtectionFlash.Warden:
-                    currentFlashType = RealFlash.Warden;
-                    break;
-            }
-
-            if (Player.AmOwner)
-            {
-                CustomButtonSingleton<MonarchProtectionFlashButton>.Instance.SetShieldType(currentFlashType);
-            }
-        }
     }
 
     public CustomRoleConfiguration Configuration => new(this)
@@ -140,10 +91,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Knight", "Knight"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}KnightDescription").Replace("<amount>",
                         ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
-                    TouCrewAssets.KnightSprite),
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}ChangeFlash", "Change Flash"),
-                TouLocale.GetParsed($"TouRole{LocaleKey}ChangeFlashDescription"),
-                MonarchProtectionFlashButton.ProtectionButtons.AsEnumerable().Random()!)
+                    TouCrewAssets.KnightSprite)
             };
         }
     }
@@ -192,44 +140,4 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             notif.Text.SetOutlineThickness(0.35f);
         }
     }
-
-    [MethodRpc((uint)TownOfUsRpc.UpdateMonShield)]
-    public static void RpcUpdateMonShield(PlayerControl monarch, int shieldId)
-    {
-        if (LobbyBehaviour.Instance)
-        {
-            MiscUtils.RunAnticheatWarning(monarch);
-            return;
-        }
-        if (monarch.Data.Role is not MonarchRole role)
-        {
-            Error("RpcUpdateMonShield - Invalid monarch");
-            return;
-        }
-
-        var newFlash = (RealFlash)shieldId;
-        if (Enum.IsDefined(newFlash))
-        {
-            role.currentFlashType = newFlash;
-        }
-        else
-        {
-            Error("RpcUpdateMonShield - Invalid shield type!");
-        }
-
-        if (monarch.AmOwner)
-        {
-            CustomButtonSingleton<MonarchProtectionFlashButton>.Instance.SetShieldType(role.currentFlashType);
-        }
-    }
-
-}
-
-public enum RealFlash
-{
-    NoFlash,
-    Cleric,
-    Medic,
-    Mercenary,
-    Warden
 }

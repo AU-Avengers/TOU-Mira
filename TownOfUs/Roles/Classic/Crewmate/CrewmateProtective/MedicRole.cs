@@ -192,14 +192,17 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (Shielded?.TryGetModifier<MedicShieldModifier>(out var mod) == true)
         {
-            Error("Medic Shield is being removed...");
-            // This should prevent any issues with murder attempts
-            mod.StartTimer();
+            mod.RemoveMedic(Player);
         }
-
         Shielded = player;
-
-        Shielded?.AddModifier<MedicShieldModifier>(Player);
+        if (player?.TryGetModifier<MedicShieldModifier>(out var mod2) == true)
+        {
+            mod2.SetNewMedic(Player);
+        }
+        else if (Shielded != null)
+        {
+            Shielded.AddModifier<MedicShieldModifier>(Player);
+        }
     }
 
     public void Report(byte deadPlayerId)
@@ -416,6 +419,10 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         if (shieldBreaks)
         {
             role.SetShieldedPlayer(null);
+        }
+        else if (shielded.TryGetModifier<MedicShieldModifier>(out var mod))
+        {
+            mod.ShiftNextMedic(medic);
         }
     }
 }

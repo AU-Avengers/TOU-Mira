@@ -15,15 +15,48 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
 {
     public override string ModifierName => TouLocale.Get("TouMedicShield", "Medic");
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Medic;
-    public override float Duration => 0.001f;
 
     public override string ShieldDescription =>
         $"You are shielded by a {TouLocale.Get("TouRoleMedic", "Medic")} !\nYou may not die to other players";
 
-    public PlayerControl Medic { get; } = medic;
+    public PlayerControl Medic { get; private set; } = medic;
     public List<PlayerControl> AllMedics { get; } = new();
     public GameObject MedicShield { get; set; }
     public bool ShowShield { get; set; }
+
+    public void ShiftNextMedic(PlayerControl? shielded)
+    {
+        var count = AllMedics.Count;
+        if (count > 1)
+        {
+            var currentIndex = AllMedics.IndexOf(shielded ?? Medic);
+            if (currentIndex + 1 < count)
+            {
+                SetNewMedic(AllMedics[currentIndex + 1]);
+            }
+            else
+            {
+                SetNewMedic(AllMedics[0]);
+            }
+        }
+    }
+    public void SetNewMedic(PlayerControl newMedic)
+    {
+        Medic = newMedic;
+        if (!AllMedics.Contains(newMedic))
+        {
+            AllMedics.Add(newMedic);
+        }
+    }
+
+    public void RemoveMedic(PlayerControl med)
+    {
+        AllMedics.Remove(med);
+        if (Medic == med && AllMedics.HasAny())
+        {
+            SetNewMedic(AllMedics[0]);
+        }
+    }
 
     public override bool HideOnUi
     {

@@ -10,6 +10,7 @@ using TownOfUs.Options;
 using UnityEngine;
 using TownOfUs.Options.Modifiers.Impostor;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 
 namespace TownOfUs.Events.Modifiers;
 
@@ -139,6 +140,7 @@ public static class DeadlyQuotaEvents
 
         button?.SetTimer(reset);
         source.SetKillTimer(reset);
+        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.NeutralWiki, alpha: 0.5f));
     }
 
 }

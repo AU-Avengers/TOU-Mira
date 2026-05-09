@@ -119,7 +119,6 @@ public enum TownOfUsRpc : uint
     SentryRevealCamera,
     SentryPortableCamsInUse,
     Knight,
-    UpdateMonShield,
     SetDeadlyQuota,
     RequestLobbyRules,
     SendLobbyRules,

@@ -6,6 +6,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -104,5 +105,6 @@ public static class GuardianAngelEvents
 
         button?.SetTimer(reset);
         source.SetKillTimer(reset);
+        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.NeutralWiki, alpha: 0.5f));
     }
 }

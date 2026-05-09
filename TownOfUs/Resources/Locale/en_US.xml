@@ -1006,8 +1006,6 @@
   <string name="TouRoleMonarchWikiDescription">The Monarch is a Crewmate Power role that can hand out additional votes to other players.</string>
   <string name="TouRoleMonarchKnight">Knight</string>
   <string name="TouRoleMonarchKnightDescription">Knight a player, giving them \%amount\% vote(s)</string>
-  <string name="TouRoleMonarchChangeFlash">Change Flash</string>
-  <string name="TouRoleMonarchChangeFlashDescription">If configurable, the Monarch can change how their defense appears to other attackers. The color can flash like a Cleric, Medic, Mercenary, Warden, or not flash at all!</string>
   <string name="TouRoleMonarchKnightTargetDied">\%player\% died before you could knight them.</string>
   <string name="TouRoleMonarchKnightSuccess">\%player\% was knighted!</string>
   <string name="TouRoleMonarchKnightedFeedback">You were knighted by a \%role\%. You gained \%votes\% vote(s)!</string>
