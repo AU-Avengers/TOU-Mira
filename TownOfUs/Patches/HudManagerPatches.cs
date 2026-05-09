@@ -317,7 +317,7 @@ public static class HudManagerPatches
 
         var colorPlayerNames = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ColorPlayerNameToggle.Value;
         var localDead = PlayerControl.LocalPlayer.HasDied();
-        var localGhost = localDead && genOpt.TheDeadKnow;
+        var localGhost = DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow;
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
                        genOpt is
                            { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
