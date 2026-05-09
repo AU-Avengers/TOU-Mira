@@ -2111,7 +2111,7 @@
   <string name="TouOptionOfficerMaxBulletsTotal">最大总子弹数</string>
   <string name="TouOptionOfficerMaxBulletsAtOnce">同时可装填的最大子弹数</string>
   <string name="TouOptionOfficerCooldownSummary">射击冷却：\%shoot\%秒 | 装填冷却：\%load\%秒</string>
-  <string name="TouOptionOfficerBulletsSummary">当前装填：\%once\%| 总子弹数：\%total\%</string>
+  <string name="TouOptionOfficerBulletsSummary">最大装填数：\%once\%| 总子弹数：\%total\%</string>
   <string name="TouOptionOfficerRoundPunishment">误射后需等待的回合数</string>
   <string name="TouOptionInvestigatorFootprintSeperated">足迹生成依据</string>
   <string name="TouModifierCrewpostorShortName">伪</string>
@@ -2130,7 +2130,7 @@
   <string name="TouModifierAssassinIntroBlurb">在会议上猜测玩家的职业。</string>
   <string name="TouModifierAssassinWikiDescription">你拥有在会议上猜测玩家职业的能力。</string>
   <string name="TouOptionAssassinInvestCrew">调查型</string>
-  <string name="TouOptionAssassinCrewMods">船员职业</string>
+  <string name="TouOptionAssassinCrewMods">船员</string>
   <string name="TouOptionAssassinUtilityCrewMods">船员通用型</string>
   <string name="TouOptionAssassinAllianceMods">同盟</string>
   <string name="TouOptionAssassinUniversalMods">通用</string>
