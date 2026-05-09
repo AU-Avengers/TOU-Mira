@@ -5,6 +5,7 @@ using MiraAPI.Utilities;
 using TownOfUs.GameOver;
 using TownOfUs.LocalSettings.SettingTypes;
 using MiraAPI.LocalSettings.Attributes;
+using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.Patches;
 
 namespace TownOfUs;
@@ -65,6 +66,22 @@ public class TownOfUsLocalActionTab(ConfigFile config) : LocalSettingsTab(config
     {
         DoActionType(BindActionType.EndMeeting);
     }
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> SelfKillBindToggle { get; private set; } =
+        config.Bind("Keybind Toggles", "SelfKillBindToggle", false);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> AbortGameBindToggle { get; private set; } =
+        config.Bind("Keybind Toggles", "AbortGameBindToggle", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> StartMeetingBindToggle { get; private set; } =
+        config.Bind("Keybind Toggles", "StartMeetingBindToggle", true);
+
+    [LocalizedLocalToggleSetting]
+    public ConfigEntry<bool> EndMeetingBindToggle { get; private set; } =
+        config.Bind("Keybind Toggles", "EndMeetingBindToggle", true);
 
     private static void DoActionType(BindActionType type)
     {

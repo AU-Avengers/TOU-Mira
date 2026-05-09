@@ -206,6 +206,7 @@ public static class Bindings
         }
 
         var isHost = PlayerControl.LocalPlayer.IsHost();
+        var settings = LocalSettingsTabSingleton<TownOfUsLocalActionTab>.Instance;
 
         //  Full List of binds:
         //      Suicide Keybind (ENTER + T + Left Shift)
@@ -220,13 +221,13 @@ public static class Bindings
             if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined || freeplay)
             {
                 // Suicide Keybind (ENTER + T + Left Shift)
-                if (!PlayerControl.LocalPlayer.HasDied() && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))
+                if (settings.SelfKillBindToggle.Value && !PlayerControl.LocalPlayer.HasDied() && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.LeftShift))
                 {
                     PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
                 }
 
                 // End Game Keybind (ENTER + L + Left Shift)
-                if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift))
+                if (settings.AbortGameBindToggle.Value && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift))
                 {
                     var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
                     if (gameFlow != null)
@@ -236,7 +237,7 @@ public static class Bindings
                 }
 
                 // Start Meeting (ENTER + K + Left Shift)
-                if (!MeetingHud.Instance &&
+                if (settings.StartMeetingBindToggle.Value && !MeetingHud.Instance &&
                     !ExileController.Instance && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.K) &&
                     Input.GetKey(KeyCode.LeftShift))
                 {
@@ -245,7 +246,7 @@ public static class Bindings
             }
 
             // End Meeting Keybind (F6)
-            if (Input.GetKeyDown(KeyCode.F6) && MeetingHud.Instance)
+            if (settings.EndMeetingBindToggle.Value && Input.GetKeyDown(KeyCode.F6) && MeetingHud.Instance)
             {
                 RpcHostEndMeeting(PlayerControl.LocalPlayer);
             }
