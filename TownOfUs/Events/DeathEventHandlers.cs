@@ -155,34 +155,21 @@ public static class DeathEventHandlers
             {
                 var role = source.GetRoleWhenAlive();
                 var cod = "Killer";
-                switch (role)
+            
+                var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
+                var localeKey = roleToCheck.GetRoleLocaleKey();
+                if (localeKey != "KEY_MISS" &&
+                    !TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
                 {
-                    case MirrorcasterRole mirror:
-                        cod = mirror.UnleashString != string.Empty
-                            ? mirror.UnleashString
-                            : TouLocale.Get("DiedToKiller");
-                        mirror.UnleashString = string.Empty;
-                        mirror.ContainedRole = null;
-                        break;
-                    default:
-                        var localeKey = role.GetRoleLocaleKey();
-                        if (localeKey == "KEY_MISS" ||
-                            TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
-                        {
-                            break;
-                        }
-
-                        cod = localeKey;
-                        break;
+                    cod = localeKey;
                 }
 
-                if (source.Data.Role is SpectreRole phantomTouRole)
+                if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
                 {
-                    role = source.Data.Role;
-                    cod = phantomTouRole.LocaleKey;
+                    cod = touRole.LocaleKey;
                 }
 
-                deathHandler.CauseOfDeath = role is MirrorcasterRole ? cod : TouLocale.Get($"DiedTo{cod}");
+                deathHandler.CauseOfDeath = TouLocale.Get($"DiedTo{cod}");
                 deathHandler.KilledBy =
                     TouLocale.GetParsed("DiedByStringBasic").Replace("<player>", source.Data.PlayerName);
                 deathHandler.DiedThisRound = !MeetingHud.Instance && !ExileController.Instance;
@@ -213,34 +200,21 @@ public static class DeathEventHandlers
             {
                 var role = source.GetRoleWhenAlive();
                 var cod = "Killer";
-                switch (role)
+            
+                var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
+                var localeKey = roleToCheck.GetRoleLocaleKey();
+                if (localeKey != "KEY_MISS" &&
+                    !TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
                 {
-                    case MirrorcasterRole mirror:
-                        cod = mirror.UnleashString != string.Empty
-                            ? mirror.UnleashString
-                            : TouLocale.Get("DiedToKiller");
-                        mirror.UnleashString = string.Empty;
-                        mirror.ContainedRole = null;
-                        break;
-                    default:
-                        var localeKey = role.GetRoleLocaleKey();
-                        if (localeKey == "KEY_MISS" ||
-                            TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
-                        {
-                            break;
-                        }
-
-                        cod = localeKey;
-                        break;
+                    cod = localeKey;
                 }
 
-                if (source.Data.Role is SpectreRole phantomTouRole)
+                if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
                 {
-                    role = source.Data.Role;
-                    cod = phantomTouRole.LocaleKey;
+                    cod = touRole.LocaleKey;
                 }
                 
-                DeathHandlerModifier.UpdateDeathHandler(target, role is MirrorcasterRole ? cod : TouLocale.Get($"DiedTo{cod}"), CurrentRound,
+                DeathHandlerModifier.UpdateDeathHandler(target, TouLocale.Get($"DiedTo{cod}"), CurrentRound,
                     !MeetingHud.Instance && !ExileController.Instance
                         ? DeathHandlerOverride.SetTrue
                         : DeathHandlerOverride.SetFalse,

@@ -5,7 +5,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;

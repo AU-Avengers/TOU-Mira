@@ -1,7 +1,6 @@
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -10,8 +9,6 @@ using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using MiraAPI.Patches.Stubs;
-using Reactor.Utilities.Extensions;
-using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
 
 namespace TownOfUs.Roles.Crewmate;
