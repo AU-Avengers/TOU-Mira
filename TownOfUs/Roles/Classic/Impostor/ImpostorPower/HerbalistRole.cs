@@ -6,6 +6,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Impostor;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
 
@@ -126,7 +127,7 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             (PlayerControl.LocalPlayer.PlayerId == cleric.PlayerId &&
              OptionGroupSingleton<HerbalistOptions>.Instance.AttackNotif))
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Cleric));
+            Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
         }
     }
 }

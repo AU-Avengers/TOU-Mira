@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -97,7 +98,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             (PlayerControl.LocalPlayer.PlayerId == cleric.PlayerId &&
              OptionGroupSingleton<ClericOptions>.Instance.AttackNotif))
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Cleric));
+            Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
         }
     }
 }
