@@ -51,6 +51,8 @@ public class PetLoader : IBaseLoader
         return il2CPPType != null;
     }
 
+    private static List<string> _checkedPets = new();
+
     public bool ProvideCosmetic(ProvideHandle handle, string id, string type)
     {
         if (!CustomPets.TryGetValue(id, out var pet))
@@ -66,8 +68,16 @@ public class PetLoader : IBaseLoader
                 return true;
             case ReferenceType.PetViewData:
                 Debug($"Found pet view data for {id}");
-                handle.Complete(pet.Obj, true, null);
                 // For some reason, this works??!?!?!?!
+                if (_checkedPets.Contains(id))
+                {
+                    handle.Complete(pet.Obj, true, null);
+                }
+                else
+                {
+                    _checkedPets.Add(id);
+                    handle.Complete(pet.PetBehaviour, true, null);
+                }
                 return true;
             case ReferenceType.GameObject:
                 Debug($"Found pet object for {id}");
