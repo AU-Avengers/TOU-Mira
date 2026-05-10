@@ -107,6 +107,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/killing/Warlock"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Warlock.png" /></a>
   <img src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Groups/ImpPower.png" />
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Ambassador"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Ambassador.png" /></a>
+  <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Herbalist"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Herbalist.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Puppeteer"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Puppeteer.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Spellslinger"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Spellslinger.png" /></a>
   <a href="https://au-avengers.github.io/docs.toum.gg/docs/roles/impostor/power/Traitor"><img width="10%" src="https://raw.githubusercontent.com/AU-Avengers/TOU-Mira/main/Images/Icons/Traitor.png" /></a>
@@ -192,6 +193,7 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us        | Mod Version | Download Link                                                           |
 |-----------------|-------------|-------------------------------------------------------------------------|
+| 17.3.x          | 1.6.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
 | 17.3.x          | 1.6.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
 | 17.3.x          | 1.6.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0)  |
 | 17.2.x          | 1.5.9       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
