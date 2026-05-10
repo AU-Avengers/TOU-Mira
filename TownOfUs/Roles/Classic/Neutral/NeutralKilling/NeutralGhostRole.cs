@@ -15,7 +15,7 @@ public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsR
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }

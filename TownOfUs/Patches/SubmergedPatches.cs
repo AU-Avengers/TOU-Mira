@@ -37,7 +37,7 @@ public static class SubmergedHudPatch
 {
     public static void Postfix(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
         }

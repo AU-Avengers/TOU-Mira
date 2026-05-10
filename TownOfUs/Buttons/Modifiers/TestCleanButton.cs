@@ -86,7 +86,7 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<TestCleanModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }

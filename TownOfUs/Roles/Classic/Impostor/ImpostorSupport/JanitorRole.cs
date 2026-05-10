@@ -26,7 +26,7 @@ public sealed class JanitorRole(IntPtr cppPtr)
 {
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not JanitorRole || Player.HasDied() || !Player.AmOwner ||
+        if (!Player || Player.Data.Role is not JanitorRole || Player.HasDied() || !Player.AmOwner ||
             MeetingHud.Instance || (!HudManager.Instance.UseButton.isActiveAndEnabled &&
                                     !HudManager.Instance.PetButton.isActiveAndEnabled))
         {
@@ -104,14 +104,14 @@ public sealed class JanitorRole(IntPtr cppPtr)
             body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
         }
 
-        TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Body found: body={body != null}, active={body?.gameObject?.activeSelf ?? false}, position={body?.transform?.position}");
+        TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Body found: body={body != null}, active={body?.gameObject.activeSelf ?? false}, position={body?.transform?.position}");
 
         if (body != null)
         {
             var touAbilityEvent = new TouAbilityEvent(AbilityType.JanitorClean, player, body);
             MiraEventManager.InvokeEvent(touAbilityEvent);
 
-            var isHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
+            var isHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
             var optionEnabled = OptionGroupSingleton<TimeLordOptions>.Instance.UncleanBodiesOnRewind;
             var destroyBody = (BodyVitalsMode)OptionGroupSingleton<GameMechanicOptions>.Instance.CleanedBodiesAppearance.Value;
 

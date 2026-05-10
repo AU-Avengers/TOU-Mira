@@ -23,7 +23,7 @@ public static class PlayerRoleTextExtensions
         gaModifier => gaModifier.OwnerId == PlayerControl.LocalPlayer.PlayerId;
     
     private static Func<MedicShieldModifier, bool> MedicShieldPredicate { get; } =
-        msModifier => msModifier.Medic.AmOwner;
+        msModifier => msModifier.AllMedics.Contains(PlayerControl.LocalPlayer);
 
     private static Func<OracleBlessedModifier, bool> OracleBlessPredicate { get; } =
         msModifier => msModifier.Oracle.AmOwner;

@@ -16,6 +16,9 @@ public sealed class GameMechanicOptions : AbstractOptionGroup
     [ModdedToggleOption("Powerful Crew Continue The Game")]
     public bool CrewKillersContinue { get; set; } = true;
 
+    [ModdedToggleOption("All Shields Flash Grey on Trigger")]
+    public bool AnonymousShields { get; set; } = false;
+
     public ModdedEnumOption CleanedBodiesAppearance { get; set; } = new("Cleaned/Dissolved Bodies Appear as", (int)BodyVitalsMode.Missing,
         typeof(BodyVitalsMode), ["Missing (MIS)", "Dead (DED)", "Disconnected (D/C)"]);
 

@@ -120,7 +120,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not HaunterRole || MeetingHud.Instance)
+        if (!Player || Player.Data.Role is not HaunterRole || MeetingHud.Instance)
         {
             return;
         }
@@ -218,7 +218,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     /* public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not HaunterRole || !Player.AmOwner) return;
+        if (!Player || Player.Data.Role is not HaunterRole || !Player.AmOwner) return;
 
         float num = float.MaxValue;
         var dangerLevel1 = 0f;
@@ -291,7 +291,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     private void UpdateTaskStage(bool silent, bool forceRecalculate)
     {
-        if (Caught || Player == null)
+        if (Caught || !Player)
         {
             return;
         }
@@ -323,7 +323,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
         if (!forceRecalculate)
         {
-            if (TaskStage is GhostTaskStage.Unclickable && newStage is GhostTaskStage.Clickable || !Revealed && newStage is GhostTaskStage.Revealed || !CompletedAllTasks && newStage is GhostTaskStage.CompletedTasks)
+            if (TaskStage is not GhostTaskStage.Clickable && newStage is GhostTaskStage.Clickable || !Revealed && newStage is GhostTaskStage.Revealed || !CompletedAllTasks && newStage is GhostTaskStage.CompletedTasks)
             {
                 TaskStage = newStage;
                 HandleStageChange(newStage, silent);
@@ -348,9 +348,9 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                     var modifiers = p.GetModifiers<HaunterArrowModifier>().ToList();
                     foreach (var mod in modifiers)
                     {
-                        if (mod.Owner == Player)
+                        if (mod.Owner == Player || mod.Player == Player)
                         {
-                            p.GetModifierComponent()?.RemoveModifier(mod);
+                            p.RemoveModifier(mod);
                         }
                     }
                 }
@@ -381,14 +381,14 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (player == null || player.AmOwner)
+                if (player == null)
                 {
                     continue;
                 }
 
-                if (IsTargetOfHaunter(player))
+                if (Player.AmOwner && IsTargetOfHaunter(player) && !player.HasModifier<HaunterArrowModifier>())
                 {
-                    Player.AddModifier<HaunterArrowModifier>(player, RoleColor);
+                    player.AddModifier<HaunterArrowModifier>(Player, RoleColor);
                 }
             }
 
@@ -413,14 +413,21 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (player == null || player.AmOwner)
+                if (player == null)
                 {
                     continue;
                 }
 
                 if (IsTargetOfHaunter(player))
                 {
-                    Player.AddModifier<HaunterArrowModifier>(player, RoleColor);
+                    if (player.AmOwner && !Player.HasModifier<HaunterArrowModifier>())
+                    {
+                        Player.AddModifier<HaunterArrowModifier>(player, RoleColor);
+                    }
+                    if (Player.AmOwner && !player.HasModifier<HaunterArrowModifier>())
+                    {
+                        player.AddModifier<HaunterArrowModifier>(Player, RoleColor);
+                    }
                 }
             }
 

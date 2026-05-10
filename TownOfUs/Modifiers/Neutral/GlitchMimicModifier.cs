@@ -48,8 +48,11 @@ public sealed class GlitchMimicModifier(PlayerControl target) : ConcealedModifie
 
     public override void OnDeactivate()
     {
-        CustomButtonSingleton<GlitchMimicButton>.Instance.SetTimer(OptionGroupSingleton<GlitchOptions>.Instance
-            .MimicCooldown);
+        if (Player.AmOwner)
+        {
+            CustomButtonSingleton<GlitchMimicButton>.Instance.SetTimer(OptionGroupSingleton<GlitchOptions>.Instance
+                .MimicCooldown);
+        }
 
         if (Player.HasModifier<FirstDeadShieldDisguiseVisual>())
         {

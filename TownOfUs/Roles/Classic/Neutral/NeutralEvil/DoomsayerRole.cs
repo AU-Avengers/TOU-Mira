@@ -29,7 +29,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }
@@ -184,7 +184,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
         var reportBuilder = new StringBuilder();
 
-        if (Player == null)
+        if (!Player)
         {
             return;
         }
@@ -301,7 +301,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             return;
         }
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }

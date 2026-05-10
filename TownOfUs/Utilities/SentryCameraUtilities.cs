@@ -97,7 +97,7 @@ public static class SentryCameraUtilities
     
     public static bool IsMapWithoutCameras(ExpandedMapNames mapId)
     {
-        if (ModCompatibility.IsSubmerged() && ShipStatus.Instance != null)
+        if (ModCompatibility.IsSubmerged() && ShipStatus.Instance)
         {
             try
             {
@@ -115,7 +115,7 @@ public static class SentryCameraUtilities
             }
         }
 
-        if (ShipStatus.Instance == null)
+        if (!ShipStatus.Instance)
         {
             return mapId is ExpandedMapNames.MiraHq or ExpandedMapNames.Fungle;
         }
@@ -280,10 +280,10 @@ public static class SentryCameraUtilities
 
         var spriteRenderer = camera.gameObject.GetComponent<SpriteRenderer>();
         var legacy = OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting;
-        var isLocalDead = PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null && PlayerControl.LocalPlayer.Data.IsDead;
+        var isLocalDead = PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data && PlayerControl.LocalPlayer.Data.IsDead;
         if (legacy)
         {
-            var isPlacerClient = PlayerControl.LocalPlayer != null && placer != null &&
+            var isPlacerClient = PlayerControl.LocalPlayer && placer != null &&
                                  PlayerControl.LocalPlayer.PlayerId == placer.PlayerId;
             // Ghosts can see sentry cameras even in legacy mode
             var shouldBeVisible = isPlacerClient || isLocalDead;
@@ -302,7 +302,7 @@ public static class SentryCameraUtilities
             camera.gameObject.SetActive(true);
         }
 
-        if (ShipStatus.Instance == null)
+        if (!ShipStatus.Instance)
         {
             Logger.LogError("RpcRevealCamera - ShipStatus.Instance is null");
             return null;

@@ -33,7 +33,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     private void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not SnitchRole)
+        if (!Player || Player.Data.Role is not SnitchRole)
         {
             return;
         }
@@ -113,7 +113,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     private void UpdateTaskStage(bool silent, bool forceRecalculate)
     {
-        if (Player == null)
+        if (!Player)
         {
             return;
         }

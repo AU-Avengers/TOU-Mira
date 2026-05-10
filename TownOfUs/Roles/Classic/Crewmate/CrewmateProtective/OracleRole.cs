@@ -98,7 +98,7 @@ public sealed class OracleRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         var allPlayers = PlayerControl.AllPlayerControls.ToArray()
-            .Where(x => !x.HasDied() && x != PlayerControl.LocalPlayer && x != player).ToList();
+            .Where(x => !x.HasDied() && !x.AmOwner && x != player).ToList();
         if (allPlayers.Count < 2)
         {
             return TouLocale.GetParsed("TouRoleOracleTooFew");

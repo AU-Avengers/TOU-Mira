@@ -122,7 +122,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             if (Input.GetMouseButtonDown(0))
             {
                 // If wiki is already open, let it close first
-                if (Minigame.Instance != null)
+                if (Minigame.Instance)
                     return;
                 WikiHyperlink.OpenHyperlink(linkInfo);
             }

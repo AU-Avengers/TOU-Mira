@@ -90,7 +90,7 @@ public sealed class HnsChameleonSwoopModifier : ConcealedModifier, IVisualAppear
             var button = CustomButtonSingleton<ChameleonSwoopButton>.Instance;
             button.OverrideSprite(TouCrewAssets.CrewSwoopSprite.LoadAsset());
             button.OverrideName(TouLocale.GetParsed("HnsRoleChameleonSwoop", "Swoop"));
-            if (MeetingHud.Instance == null)
+            if (!MeetingHud.Instance)
             {
                 TouAudio.PlaySound(TouAudio.SwooperDeactivateSound);
             }

@@ -15,7 +15,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
-        if (playerControl != PlayerControl.LocalPlayer)
+        if (!playerControl.AmOwner)
         {
             return;
         }

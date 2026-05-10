@@ -159,7 +159,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }

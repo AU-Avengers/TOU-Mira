@@ -19,24 +19,24 @@ public sealed class EscapistRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     [HideFromIl2Cpp] public Vector2? MarkedLocation { get; set; }
-    [HideFromIl2Cpp] public GameObject? EscapeMark { get; set; }
+    [HideFromIl2Cpp] public GameObject EscapeMark { get; set; }
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not EscapistRole || Player.HasDied())
+        if (!Player || Player.Data.Role is not EscapistRole || Player.HasDied())
         {
             return;
         }
 
-        if (EscapeMark != null)
+        if (EscapeMark)
         {
             EscapeMark.SetActive(PlayerControl.LocalPlayer.IsImpostorAligned() || (PlayerControl.LocalPlayer.HasDied() &&
                                                                             OptionGroupSingleton<GeneralOptions>
                                                                                 .Instance.TheDeadKnow));
             if (MarkedLocation == null)
             {
-                EscapeMark.gameObject.Destroy();
-                EscapeMark = null;
+                EscapeMark.Destroy();
+                EscapeMark = null!;
             }
         }
     }

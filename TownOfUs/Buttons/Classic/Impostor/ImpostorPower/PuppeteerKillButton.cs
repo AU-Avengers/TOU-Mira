@@ -54,7 +54,7 @@ public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, 
                 Distance,
                 predicate: plr =>
                     plr != null &&
-                    plr != PlayerControl.LocalPlayer &&
+                    !plr.AmOwner &&
                     !plr.HasDied() &&
                     !plr.IsInTargetingAnimState() &&
                     !plr.IsImpostorAligned());

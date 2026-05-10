@@ -180,7 +180,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
 
     private static SystemTypes GetRoomId(Vector3 position)
     {
-        if (ShipStatus.Instance == null)
+        if (!ShipStatus.Instance)
         {
             return SystemTypes.Outside;
         }

@@ -1,7 +1,9 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
+using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -31,7 +33,7 @@ public sealed class SeerGazeButton : TownOfUsRoleButton<SeerRole, PlayerControl>
     public override PlayerControl? GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
-            predicate: x => Role.GazeTarget != x && Role.IntuitTarget != x);
+            predicate: x => Role.GazeTarget != x && Role.IntuitTarget != x && !x.HasModifier<BaseRevealModifier>(y => y.RevealRole && y.Visible));
     }
 
     protected override void OnClick()

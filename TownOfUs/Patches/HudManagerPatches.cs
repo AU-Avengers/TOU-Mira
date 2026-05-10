@@ -10,6 +10,7 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers;
@@ -197,7 +198,7 @@ public static class HudManagerPatches
         TeamChatPatches.TeamChatManager.RegisterBuiltInChats();
 
         var availableChats = TeamChatPatches.TeamChatManager.GetAllAvailableChats();
-        var isValid = MeetingHud.Instance != null && availableChats.Count > 0;
+        var isValid = MeetingHud.Instance && availableChats.Count > 0;
 
         if (!TeamChatPatches.TeamChatButton)
         {
@@ -321,6 +322,8 @@ public static class HudManagerPatches
                        genOpt is
                            { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
         var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
+        var useMiraApiChecks =
+            !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
 
         if (MeetingHud.Instance)
         {
@@ -384,7 +387,7 @@ public static class HudManagerPatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
@@ -579,7 +582,7 @@ public static class HudManagerPatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
@@ -994,9 +997,7 @@ public static class HudManagerPatches
         ModCompatibility.ChangeFloor(PlayerControl.LocalPlayer.transform.position.y <= -5);
     }
 
-    public static Vector3 BelowOptionPos = new Vector3(0.435f, 1.25f, 65);
-    public static Vector2 WithOptionsPos = new Vector2(2.125f, 0.475f);
-    public static Vector2 WithChatPos = new Vector2(2.7f, 0.475f);
+    public static Vector3 BelowOptionPos = new Vector3(0.435f, 1.25f, 65f);
     public static Vector2 FullTopPos = new Vector2(0.435f, 0.475f);
     public static void CreateUiRow(HudManager instance)
     {
@@ -1120,13 +1121,13 @@ public static class HudManagerPatches
 
         if (WikiButton)
         {
-            WikiButton.SetActive(true);
+            WikiButton.SetActive(!Minigame.Instance || Minigame.Instance is IngameWikiMinigame);
         }
     }
 
     public static void AdjustModifierTab(HudManager instance)
     {
-        if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance != null)
+        if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance)
         {
             ModifierDisplayObject = ModifierDisplayComponent.Instance?.gameObject ?? null!;
             ModifierDisplayOnRight = !LocalSettingsTabSingleton<MiraApiSettings>.Instance.ModifiersHudLeftSide.Value;
@@ -1145,7 +1146,7 @@ public static class HudManagerPatches
     [HarmonyPostfix]
     public static void HudManagerUpdatePatch(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
         }
@@ -1324,6 +1325,10 @@ public static class HudManagerPatches
 
         TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
             .UseCrewmateTeamColorToggle.Value;
+        
+        TownOfUsLocalSettings.OldButtonScaleFactor =
+            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value;
+        Coroutines.Start(TownOfUsLocalSettings.CoResizeSettingsUI());
     }
 
     internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()

@@ -132,7 +132,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
                 PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
             playerMenu.Begin(
-                plr => !plr.HasDied() && plr.PlayerId != PlayerControl.LocalPlayer.PlayerId &&
+                plr => !plr.HasDied() && !plr.AmOwner &&
                        !plr.IsInTargetingAnimState() &&
                        !plr.GetModifiers<BaseModifier>().Any(x => x is IUncontrollable) &&
                        ((plr.TryGetModifier<DisabledModifier>(out var mod) && mod.CanBeInteractedWith &&

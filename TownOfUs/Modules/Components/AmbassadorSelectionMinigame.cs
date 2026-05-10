@@ -19,14 +19,14 @@ namespace TownOfUs.Modules.Components;
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Unity")]
 public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
 {
-    public Transform? RolesHolder;
-    public GameObject? RolePrefab;
-    public TextMeshPro? StatusText;
-    public TextMeshPro? RoleName;
-    public SpriteRenderer? RoleIcon;
-    public TextMeshPro? RoleTeam;
-    public GameObject? RedRing;
-    public GameObject? WarpRing;
+    public Transform RolesHolder;
+    public GameObject RolePrefab;
+    public TextMeshPro StatusText;
+    public TextMeshPro RoleName;
+    public SpriteRenderer RoleIcon;
+    public TextMeshPro RoleTeam;
+    public GameObject RedRing;
+    public GameObject WarpRing;
 
     private readonly Color _bgColor = new Color32(24, 0, 0, 215);
     private RoleTypes? _selectedRole;
@@ -96,7 +96,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
 
     private static IEnumerator CoOpen(AmbassadorSelectionMinigame minigame)
     {
-        while (ExileController.Instance != null)
+        while (ExileController.Instance)
         {
             yield return new WaitForSeconds(0.65f);
         }
@@ -117,13 +117,13 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
     {
         HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, _bgColor));
 
-        StatusText!.gameObject.SetActive(true);
-        RoleName!.gameObject.SetActive(true);
-        RoleTeam!.gameObject.SetActive(true);
-        RoleIcon!.gameObject.SetActive(true);
-        RedRing!.SetActive(true);
-        WarpRing!.SetActive(true);
-        RoleIcon!.SetSizeLimit(2.8f);
+        StatusText.gameObject.SetActive(true);
+        RoleName.gameObject.SetActive(true);
+        RoleTeam.gameObject.SetActive(true);
+        RoleIcon.gameObject.SetActive(true);
+        RedRing.SetActive(true);
+        WarpRing.SetActive(true);
+        RoleIcon.SetSizeLimit(2.8f);
 
         foreach (var role in availableRoles)
         {
@@ -181,10 +181,10 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
             RoleTeam!.text = teamName;
             if (sprite != null)
             {
-                RoleIcon!.sprite = sprite;
+                RoleIcon.sprite = sprite;
             }
 
-            RoleIcon!.SetSizeLimit(2.8f);
+            RoleIcon.SetSizeLimit(2.8f);
         }));
         passiveButton.OnMouseOut.AddListener((UnityAction)(() => { selection.SetActive(false); }));
 

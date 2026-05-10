@@ -19,14 +19,14 @@ public sealed class FakePlayer : IDisposable
     private const string NameTextObjName = "NameText_TMP";
     private const string ColorBindTextName = "ColorblindName_TMP";
     public static readonly List<FakePlayer> FakePlayers = [];
-    private readonly CosmeticsLayer? _cosmeticsLayer;
+    private readonly CosmeticsLayer _cosmeticsLayer;
 
     private readonly PlayerCosmicInfo _cosmicInfo;
-    private readonly SpriteRenderer? _rend;
+    private readonly SpriteRenderer _rend;
 
-    public readonly GameObject? body;
+    public readonly GameObject body;
     private TextMeshPro _colorBindText;
-    private GameObject? _colorBindTextObj;
+    private GameObject _colorBindTextObj;
     private TextMeshPro _nameTextMaster;
     public int PlayerId;
 
@@ -142,7 +142,7 @@ public sealed class FakePlayer : IDisposable
 
     public void Camo()
     {
-        if (_cosmeticsLayer == null) return;
+        if (!_cosmeticsLayer) return;
 
         _cosmeticsLayer.SetHat(string.Empty, _cosmicInfo.ColorInfo);
         _cosmeticsLayer.SetVisor(string.Empty, _cosmicInfo.ColorInfo);
@@ -156,7 +156,7 @@ public sealed class FakePlayer : IDisposable
 
     public void UnCamo()
     {
-        if (_cosmeticsLayer == null) return;
+        if (!_cosmeticsLayer) return;
 
         _cosmeticsLayer.SetHat(_cosmicInfo.OutfitInfo.HatId, _cosmicInfo.ColorInfo);
         _cosmeticsLayer.SetVisor(_cosmicInfo.OutfitInfo.VisorId, _cosmicInfo.ColorInfo);
@@ -324,7 +324,7 @@ public sealed class FakePlayer : IDisposable
             }
         }
 
-        if (_colorBindText != null && baseColorBindText != null)
+        if (_colorBindText && baseColorBindText != null)
         {
             UpdateColorName(_colorBindText, baseColorBindText, info.ColorInfo);
             if (player.HasModifier<ShyModifier>())
@@ -421,17 +421,17 @@ public sealed class FakePlayer : IDisposable
     {
         if (disposing)
         {
-            if (body != null)
+            if (body)
             {
                 Object.Destroy(body);
             }
 
-            if (_colorBindTextObj != null)
+            if (_colorBindTextObj)
             {
                 Object.Destroy(_colorBindTextObj);
             }
 
-            if (_rend != null)
+            if (_rend)
             {
                 Object.Destroy(_rend);
             }

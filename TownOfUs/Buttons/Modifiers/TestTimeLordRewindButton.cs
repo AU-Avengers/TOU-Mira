@@ -39,7 +39,7 @@ public sealed class TestTimeLordRewindButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<TestTimeLordModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }

@@ -82,7 +82,7 @@ public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITow
     {
         var reportBuilder = new StringBuilder();
 
-        if (Player == null)
+        if (!Player)
         {
             return;
         }

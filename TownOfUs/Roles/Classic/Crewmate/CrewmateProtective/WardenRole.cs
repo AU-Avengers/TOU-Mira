@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Options;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -18,7 +20,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not WardenRole)
+        if (!Player || Player.Data.Role is not WardenRole)
         {
             return;
         }
@@ -167,14 +169,9 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
 
         // Error("RpcWardenNotify");
-        if (player.AmOwner)
+        if (source.AmOwner || player.AmOwner)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Warden));
-        }
-
-        if (source.AmOwner)
-        {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Warden));
+            Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !player.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Warden));
         }
     }
 }

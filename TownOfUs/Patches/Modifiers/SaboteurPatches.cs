@@ -13,12 +13,12 @@ public static class SaboteurPatches
     [HarmonyPostfix]
     public static void HudManagerUpdatePostfix(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer.Data)
         {
             return;
         }
@@ -56,12 +56,12 @@ public static class SaboteurPatches
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer.Data)
         {
             return;
         }
@@ -88,12 +88,12 @@ public static class SaboteurPatches
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer.Data)
         {
             return;
         }
@@ -123,12 +123,12 @@ public static class SaboteurPatches
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer.Data)
         {
             return;
         }
