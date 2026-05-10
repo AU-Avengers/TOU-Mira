@@ -962,6 +962,58 @@
         "\n- Assassin is now shown as a modifier, unless Double Shot is present, with a better wiki description.",
         "\n- Misguessing now shows who/what was attempted to be guessed in the end game summary (PR #173 by DivaniNL)"
       ]
+    },
+    {
+      "Date": "2026-05-10T12:51:00Z",
+      "Number": "100042",
+      "ShortTitle": "TOU: Mira v1.6.2",
+      "Title": "Chat and Yap all your want",
+      "SubTitle": "With more stability to go with it!",
+      "Text": [
+        "<b>Mira has now been updated once again, fixing crucial bugs and clearing up even more new-found bugs!</b>",
+        "\nAs a way to thank you all for sticking with us, maybe check out the goodies in the Pets tag, we're sure you'll enjoy it.",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.2>TOU Mira v1.6.2 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Known Bugs:</size>",
+        "\n- Neutral Wildcard may duplicate the amount of each neutral present if any selected slots are wildcards.",
+        "\n- Ghostwalkers are sometimes unable to use the Zipline, Platform, or Ladders.",
+
+        "\n\n\r<size=105%>Known Hide n Seek Bugs:</size>",
+        "\n- The Seeker is missing animations for the hiders.",
+        "\n- Hiders ignore their vent uses.",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Medium's Spirit movement no longer carries over from Time Lord rewinds.",
+        "\n- Killers now get arrows that point to the Haunter when they complete their tasks.",
+        "\n- Medic no longer breaks when a player is protected by multiple Medics. Only one Medic will be flashed at a time.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Glitch no longer resets mimic cooldowns for other Glitches.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Venerer no longer displays its effects as \"Visual\" modifiers.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Changing the UI scale mid-game no longer breaks the UI at the top right.",
+        "\n- Chat messages are now capped to a maximum of 20 public and 20 private chat messages to prevent crashing.",
+        "\n- Roles are no longer revealed immediately upon death.",
+        "\n- Pets are removed based on settings properly.",
+        "\n- Celebrity's cause of death now displays all causes of death.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Monarch will no longer be able to change their shield appearance, and is now always Grey. A future patch will allow further configuration, but not to the same degree as before with Warden / Cleric flashing.",
+        "\n- Seer can no longer compare revealed players.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- It is now possible to disable any host keybind if you tend to misclick.",
+        "\n- Survivor, Fairy, and 1st Round Shield protection will flash grey, as a way to not appear unresponsive.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- Two custom pets have been added",
+        "\n- Game Mechanic Option: All Shields Flash Anonymously.",
+        "\n- Top-Right UI can now be scaled up and down."
+      ]
     }
   ]
 }

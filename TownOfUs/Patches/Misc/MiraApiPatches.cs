@@ -1,6 +1,7 @@
 using AmongUs.GameOptions;
 using MiraAPI.Patches.Freeplay;
 using HarmonyLib;
+using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Networking;
@@ -9,6 +10,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Networking;
+using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -208,5 +210,145 @@ public static class MiraApiPatches
     public static void ClosePatch()
     {
         HudManager.Instance.PlayerCam.OverrideScreenShakeEnabled = true;
+    }
+
+    [HarmonyPatch(typeof(MiraAPI.Patches.HudManagerPatches), nameof(MiraAPI.Patches.HudManagerPatches.ResizeUI))]
+    [HarmonyPrefix]
+    public static bool ResizeUI(float scaleFactor)
+    {
+        if (MiraApiPlugin.IsDevBuild)
+        {
+            // This is simply a fix for public release, no api update needed.
+            return true;
+        }
+        var baseButtons = HudManager.Instance.transform.FindChild("Buttons");
+        if (baseButtons != null)
+        {
+            foreach (var aspect in baseButtons.GetComponentsInChildren<AspectPosition>(true))
+            {
+                if (aspect.gameObject == null)
+                {
+                    continue;
+                }
+
+                if (aspect.gameObject.name.Contains("TopRight"))
+                {
+                    continue;
+                }
+
+                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
+                aspect.DistanceFromEdge *= new Vector2(scaleFactor, scaleFactor);
+                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
+            }
+        }
+
+        foreach (var button in HudManager.Instance.GetComponentsInChildren<ActionButton>(true))
+        {
+            if (button.gameObject == null)
+            {
+                continue;
+            }
+
+            button.gameObject.SetActive(!button.isActiveAndEnabled);
+            button.gameObject.transform.localScale *= scaleFactor;
+            button.gameObject.SetActive(!button.isActiveAndEnabled);
+        }
+
+        if (baseButtons != null)
+        {
+            foreach (var arrange in baseButtons.GetComponentsInChildren<GridArrange>(true))
+            {
+                if (!arrange.gameObject || !arrange.transform)
+                {
+                    continue;
+                }
+
+                if (arrange.gameObject.name.Contains("TopRight"))
+                {
+                    continue;
+                }
+
+                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
+                arrange.CellSize = new Vector2(scaleFactor, scaleFactor);
+                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
+                if (arrange.isActiveAndEnabled && arrange.gameObject.transform.childCount != 0)
+                {
+                    try
+                    {
+                        arrange.ArrangeChilds();
+                    }
+                    catch
+                    {
+                        // Error($"Error arranging child objects in GridArrange: {e}");
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    [HarmonyPatch(typeof(HowToPlayScene), nameof(HowToPlayScene.OpenRolesSelectionMenu))]
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    public static bool HowToPlayPrefix(HowToPlayScene __instance)
+    {
+        if (MiraApiPlugin.IsDevBuild)
+        {
+            // This is simply a fix for public release, no api update needed.
+            return true;
+        }
+
+        __instance.sceneIndex = 0;
+        __instance.category = HowToPlayScene.HowToPlayCategory.RolesSelection;
+        __instance.startPage.SetActive(false);
+        if (__instance.roleButtonsParent.childCount == 0)
+        {
+            foreach (var role in RoleManager.Instance.AllRoles.ToArray().Where(x => !x.IsCustomRole()))
+            {
+                if (!role.IsSimpleRole && role.Role != RoleTypes.CrewmateGhost && role.Role != RoleTypes.ImpostorGhost)
+                {
+                    HowToPlayRoleButton component = UnityEngine.Object
+                        .Instantiate(__instance.roleButtonPrefab, __instance.roleButtonsParent)
+                        .GetComponent<HowToPlayRoleButton>();
+                    Sprite roleIcon = __instance.rolesScenes.ToArray().First(r => r.role == role.Role).roleIcon;
+                    component.SetRoleInfo(role, roleIcon);
+                    component.SetButtonAction((Il2CppSystem.Action)(() => { OpenRolePage(__instance, role.Role); }));
+                    __instance.controllerSelectables.Add(component.GetComponent<PassiveButton>());
+                }
+            }
+
+            foreach (UiElement uiElement in __instance.controllerSelectables)
+            {
+                uiElement.ReceiveMouseOut();
+            }
+
+            ControllerManager.Instance.NewScene(__instance.name, __instance.closeButton,
+                __instance.defaultButtonSelected, __instance.controllerSelectables, false);
+        }
+
+        __instance.DisableAllScenes();
+        __instance.roleSelectionScene.SetActive(true);
+        ControllerManager.Instance.SetDefaultSelection(__instance.defaultButtonSelected, null);
+        return false;
+    }
+
+    public static void OpenRolePage(HowToPlayScene instance, RoleTypes roleType)
+    {
+        instance.category = HowToPlayScene.HowToPlayCategory.Roles;
+        var newList = instance.rolesScenes.ToArray().ToList();
+        var buttonList = instance.roleButtons;
+        instance.sceneIndex = newList.FindIndex(r => r.role == roleType);
+        if (roleType != RoleTypes.Crewmate)
+        {
+            foreach (var button in buttonList)
+            {
+                if (button.GetRole().Role == roleType)
+                {
+                    instance.previouslySelectedRoleButton = button.GetComponent<PassiveButton>();
+                }
+            }
+        }
+        instance.SetupDots(instance.rolesScenes[instance.sceneIndex].rolePages.Count);
+        instance.ChangeScene(0);
     }
 }
