@@ -1121,7 +1121,7 @@ public static class HudManagerPatches
 
         if (WikiButton)
         {
-            WikiButton.SetActive(true);
+            WikiButton.SetActive(!Minigame.Instance || Minigame.Instance is IngameWikiMinigame);
         }
     }
 
