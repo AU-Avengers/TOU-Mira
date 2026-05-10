@@ -44,7 +44,7 @@ public sealed class SecurityButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<OperativeModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }
@@ -124,7 +124,7 @@ public sealed class SecurityButton : TownOfUsButton
 
     public override void ClickHandler()
     {
-        if (!CanUse() || Minigame.Instance != null)
+        if (!CanUse() || Minigame.Instance)
         {
             return;
         }

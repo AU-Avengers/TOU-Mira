@@ -28,7 +28,7 @@ public sealed class SatelliteButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<SatelliteModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }

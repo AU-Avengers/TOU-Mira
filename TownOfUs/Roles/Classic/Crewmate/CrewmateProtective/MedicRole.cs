@@ -11,6 +11,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not MedicRole)
+        if (!Player || Player.Data.Role is not MedicRole)
         {
             return;
         }
@@ -192,13 +193,17 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         if (Shielded?.TryGetModifier<MedicShieldModifier>(out var mod) == true)
         {
-            // This should prevent any issues with murder attempts
-            mod.StartTimer();
+            mod.RemoveMedic(Player);
         }
-
         Shielded = player;
-
-        Shielded?.AddModifier<MedicShieldModifier>(Player);
+        if (player?.TryGetModifier<MedicShieldModifier>(out var mod2) == true)
+        {
+            mod2.SetNewMedic(Player);
+        }
+        else if (Shielded != null)
+        {
+            Shielded.AddModifier<MedicShieldModifier>(Player);
+        }
     }
 
     public void Report(byte deadPlayerId)
@@ -321,6 +326,11 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         Coroutines.Start(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
     }
 
+    public static void DangerAnimNonMedic()
+    {
+        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki :new Color(0f, 0.5f, 0f, 1f)));
+    }
+
     public void LobbyStart()
     {
         CustomButtonSingleton<MedicShieldButton>.Instance.CanChangeTarget = true;
@@ -401,13 +411,13 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         if (source.AmOwner)
-        {
-            DangerAnim();
+        { 
+            DangerAnimNonMedic();
         }
 
         if (shieldNotify == MedicOption.Everyone && !source.AmOwner)
         {
-            DangerAnim();
+            DangerAnimNonMedic();
         }
 
         var shieldBreaks = OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks;
@@ -415,6 +425,10 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         if (shieldBreaks)
         {
             role.SetShieldedPlayer(null);
+        }
+        else if (shielded.TryGetModifier<MedicShieldModifier>(out var mod))
+        {
+            mod.ShiftNextMedic(medic);
         }
     }
 }

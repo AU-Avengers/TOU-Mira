@@ -47,7 +47,7 @@ public static class WardenEvents
         }
     }
 
-    [RegisterEvent(-1)]
+    [RegisterEvent(-800)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         // Error("WardenEvents KillButtonClickHandler");
@@ -63,7 +63,7 @@ public static class WardenEvents
         CheckForWardenFortify(@event, source, target);
     }
 
-    [RegisterEvent(-1)]
+    [RegisterEvent(-800)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {
         var source = @event.Source;

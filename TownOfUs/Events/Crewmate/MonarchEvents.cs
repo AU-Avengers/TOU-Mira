@@ -5,7 +5,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -83,16 +82,6 @@ public static class MonarchEvents
         if (CheckForMonarchImmunity(@event, target))
         {
             ResetButtonTimer(source);
-
-            if (target.Data?.Role is MonarchRole monarch && source.AmOwner)
-            {
-                var flash = monarch.GetFlashColor();
-                if (flash == null)
-                {
-                    return;
-                }
-                Coroutines.Start(MiscUtils.CoFlash((Color)flash));
-            }
         }
     }
 

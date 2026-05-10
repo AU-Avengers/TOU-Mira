@@ -10,12 +10,11 @@ public static class ScavengerEvents
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
         var source = @event.Source;
-        if (!source.AmOwner || !source.IsRole<ScavengerRole>())
+        if (!source.AmOwner || source.Data.Role is not ScavengerRole scavenger)
         {
             return;
         }
 
-        var scavenger = source.GetRole<ScavengerRole>();
-        scavenger?.OnPlayerKilled(@event.Target);
+        scavenger.OnPlayerKilled(@event.Target);
     }
 }

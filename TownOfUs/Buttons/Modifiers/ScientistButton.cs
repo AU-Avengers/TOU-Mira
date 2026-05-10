@@ -44,7 +44,7 @@ public sealed class ScientistButton : TownOfUsButton
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return PlayerControl.LocalPlayer != null &&
+        return PlayerControl.LocalPlayer &&
                PlayerControl.LocalPlayer.HasModifier<ScientistModifier>() &&
                !PlayerControl.LocalPlayer.Data.IsDead;
     }
@@ -122,7 +122,7 @@ public sealed class ScientistButton : TownOfUsButton
 
     public override void ClickHandler()
     {
-        if (!CanUse() || Minigame.Instance != null || !MiscUtils.CanUseUtility(GameUtility.Vitals, true))
+        if (!CanUse() || Minigame.Instance || !MiscUtils.CanUseUtility(GameUtility.Vitals, true))
         {
             return;
         }

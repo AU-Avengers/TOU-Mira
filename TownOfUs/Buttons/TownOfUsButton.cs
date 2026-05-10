@@ -154,7 +154,7 @@ public abstract class TownOfUsButton : CustomActionButton
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return false;
         }

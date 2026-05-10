@@ -5,8 +5,8 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
@@ -97,36 +97,21 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
         {
             var role = source.GetRoleWhenAlive();
             var cod = "Killer";
-            switch (role)
+            
+            var roleToCheck = role is MirrorcasterRole mirror ? mirror.ContainedRole ?? mirror : role;
+            var localeKey = roleToCheck.GetRoleLocaleKey();
+            if (localeKey != "KEY_MISS" &&
+                !TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
             {
-                case MirrorcasterRole mirror:
-                    cod = mirror.UnleashString != string.Empty
-                        ? mirror.UnleashString
-                        : TouLocale.Get("DiedToKiller");
-                    mirror.UnleashString = string.Empty;
-                    mirror.ContainedRole = null;
-                    break;
-                default:
-                    var localeKey = role.GetRoleLocaleKey();
-                    if (localeKey == "KEY_MISS" ||
-                        TouLocale.Get($"DiedTo{localeKey}").Contains("STRMISS"))
-                    {
-                        break;
-                    }
-
-                    cod = localeKey;
-                    break;
+                cod = localeKey;
             }
 
-            if (source.Data.Role is SpectreRole phantomTouRole)
+            if (source.Data.Role is IGhostRole && source.Data.Role is ITownOfUsRole touRole)
             {
-                role = source.Data.Role;
-                cod = phantomTouRole.LocaleKey;
+                cod = touRole.LocaleKey;
             }
 
-            var text = role is MirrorcasterRole
-                ? cod.ToLowerInvariant()
-                : TouLocale.Get($"DiedTo{cod}").ToLowerInvariant();
+            var text = TouLocale.Get($"DiedTo{cod}").ToLowerInvariant();
             celeb.DeathMessage = TouLocale.GetParsed("TouModifierCelebrityDetailsKilled").Replace("<killed>", text);
             celeb.DeathMessage =
                 celeb.DeathMessage.Replace("<role>", $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")}");

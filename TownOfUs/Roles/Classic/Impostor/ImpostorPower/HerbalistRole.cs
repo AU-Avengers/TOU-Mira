@@ -6,6 +6,7 @@ using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Buttons.Impostor;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not HerbalistRole || Player.HasDied() || !Player.AmOwner ||
+        if (!Player || Player.Data.Role is not HerbalistRole || Player.HasDied() || !Player.AmOwner ||
             MeetingHud.Instance || (!HudManager.Instance.UseButton.isActiveAndEnabled &&
                                     !HudManager.Instance.PetButton.isActiveAndEnabled))
         {
@@ -126,7 +127,7 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             (PlayerControl.LocalPlayer.PlayerId == cleric.PlayerId &&
              OptionGroupSingleton<HerbalistOptions>.Instance.AttackNotif))
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Cleric));
+            Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
         }
     }
 }

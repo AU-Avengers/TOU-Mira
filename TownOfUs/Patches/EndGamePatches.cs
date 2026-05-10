@@ -255,13 +255,18 @@ public static class EndGamePatches
 
             if (playerControl.TryGetModifier<DeathHandlerModifier>(out var deathHandler))
             {
+                var hasExtendedCauseOfDeath = !string.IsNullOrEmpty(deathHandler.ExtendedCauseOfDeath);
+                var causeOfDeath = hasExtendedCauseOfDeath
+                    ? deathHandler.ExtendedCauseOfDeath
+                    : deathHandler.CauseOfDeath;
+
                 playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
+                    $" | {Color.yellow.ToTextColor()}{causeOfDeath}</color>");
                 playerRoleStringShort.Append(TownOfUsPlugin.Culture,
                     $" | {Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
                 summaryCod.Append(TownOfUsPlugin.Culture,
-                    $"{Color.yellow.ToTextColor()}{deathHandler.CauseOfDeath}</color>");
-                if (deathHandler.KilledBy != string.Empty)
+                    $"{Color.yellow.ToTextColor()}{causeOfDeath}</color>");
+                if (!hasExtendedCauseOfDeath && deathHandler.KilledBy != string.Empty)
                 {
                     playerRoleString.Append(TownOfUsPlugin.Culture,
                         $" {deathHandler.KilledBy}");
@@ -714,6 +719,8 @@ public static class EndGamePatches
                            genOpt is
                                { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
             var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
+            var useMiraApiChecks =
+                !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
             if (player.Data.Role != null)
             {
                 var revealMods = player.GetModifiers<BaseRevealModifier>().ToList();
@@ -765,7 +772,7 @@ public static class EndGamePatches
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || customRole != null && customRole.CanLocalPlayerSeeRole(player))
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";

@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TownOfUs.Interfaces;
 using TownOfUs.Modules;
 using UnityEngine;
 
@@ -13,12 +14,12 @@ public static class TimeLordPatches
     [HarmonyPostfix]
     public static void RecordSnapshotsPostfix(PlayerPhysics __instance)
     {
-        if (__instance != null && __instance.myPlayer == PlayerControl.LocalPlayer)
+        if (__instance != null && __instance.myPlayer.AmOwner)
         {
             TimeLordRewindSystem.RecordLocalSnapshot(__instance);
             _lastTaskSnapshotTime = Time.time;
 
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
             {
                 TimeLordRewindSystem.RecordHostBodyPositions();
             }
@@ -29,12 +30,12 @@ public static class TimeLordPatches
     [HarmonyPostfix]
     public static void HudManagerUpdatePostfix(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
         }
 
-        var inMinigame = Minigame.Instance != null || SpawnInMinigame.Instance != null;
+        var inMinigame = Minigame.Instance || SpawnInMinigame.Instance;
         if (!inMinigame)
         {
             return;
@@ -67,7 +68,7 @@ public static class TimeLordPatches
         var player = __instance.myPlayer;
         
         // Handle rewind for local player (including infected players - they're already recorded in normal snapshots)
-        if (PlayerControl.LocalPlayer != null && player == PlayerControl.LocalPlayer &&
+        if (PlayerControl.LocalPlayer && player.AmOwner &&
             TimeLordRewindSystem.IsRewinding)
         {
             return !TimeLordRewindSystem.TryHandleRewindPhysics(__instance);
@@ -83,7 +84,8 @@ public static class TimeLordPatches
         if (TimeLordRewindSystem.IsRewinding &&
     __instance != null &&
     __instance.myPlayer != null &&
-    __instance.myPlayer == PlayerControl.LocalPlayer)
+    __instance.myPlayer.AmOwner &&
+    (PlayerControl.LocalPlayer.Data.Role is not IRewindImmune immune || !immune.IgnoredByRewind))
         {
             value = !value;
         }

@@ -8,6 +8,7 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.HnsGame;
@@ -133,7 +134,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return;
         }
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }
@@ -170,7 +171,10 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             }
             var victim = pickVictim ? player : Player;
 
-            ClickHandler(victim);
+            if (ClickHandler(victim) && victim == Player)
+            {
+                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, (ushort)role.Role, true);
+            }
         }
 
         void ClickModifierHandle(BaseModifier modifier)
@@ -178,10 +182,13 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             var pickVictim = player.HasModifier(modifier.TypeId);
             var victim = pickVictim ? player : Player;
 
-            ClickHandler(victim);
+            if (ClickHandler(victim) && victim == Player)
+            {
+                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, modifier.TypeId, false);
+            }
         }
 
-        void ClickHandler(PlayerControl victim)
+        bool ClickHandler(PlayerControl victim)
         {
             if (!OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteMultiKill || MaxKills == 0 ||
                 victim == Player)
@@ -197,7 +204,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 shapeMenu.Close();
 
-                return;
+                return false;
             }
 
             if (victim == Player && SafeShotsLeft != 0)
@@ -213,7 +220,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
                 shapeMenu.Close();
 
-                return;
+                return false;
             }
             Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                 showKillAnim: false,
@@ -226,6 +233,7 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             }
 
             shapeMenu.Close();
+            return true;
         }
     }
 

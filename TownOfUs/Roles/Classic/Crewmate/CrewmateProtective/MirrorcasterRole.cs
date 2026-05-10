@@ -11,8 +11,8 @@ using Reactor.Utilities;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -23,12 +23,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     [HideFromIl2Cpp] public PlayerControl? Protected { get; set; }
     public int UnleashesAvailable { get; set; }
-    public string UnleashString { get; set; }
     [HideFromIl2Cpp] public RoleBehaviour? ContainedRole { get; set; }
 
     public void FixedUpdate()
     {
-        if (Player == null || Player.Data.Role is not MirrorcasterRole)
+        if (!Player || Player.Data.Role is not MirrorcasterRole)
         {
             return;
         }
@@ -153,9 +152,9 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         Protected?.AddModifier<MagicMirrorModifier>(Player);
     }
 
-    public static void DangerAnim()
+    public static void DangerAnim(bool localMirrorcaster = false)
     {
-        Coroutines.Start(MiscUtils.CoFlash(new Color32(144, 162, 195, 255)));
+        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !localMirrorcaster ? TownOfUsColors.NeutralWiki : new Color32(144, 162, 195, 255)));
     }
 
     [MethodRpc((uint)TownOfUsRpc.MagicMirror)]
@@ -232,49 +231,19 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         role.SetProtectedPlayer(null);
         role.UnleashesAvailable++;
 
-        var cod = "Killed";
         var killerRole = source.GetRoleWhenAlive();
-        var checkForCod = true;
         if (killerRole is MirrorcasterRole mirrorcaster2)
         {
             role.ContainedRole = mirrorcaster2.ContainedRole;
-            cod = mirrorcaster2.UnleashString;
-            checkForCod = cod == string.Empty || mirrorcaster2.ContainedRole == null;
             mirrorcaster2.ContainedRole = null;
-            mirrorcaster2.UnleashString = string.Empty;
         }
 
-        if (checkForCod)
+        if (source.Data.Role is IGhostRole)
         {
-            switch (killerRole)
-            {
-                case SheriffRole:
-                    cod = "Shot";
-                    break;
-                case DeputyRole:
-                    cod = "Blasted";
-                    break;
-                case GlitchRole:
-                    cod = "Bugged";
-                    break;
-                case JuggernautRole:
-                    cod = "Destroyed";
-                    break;
-                case SoulCollectorRole:
-                    cod = "Reaped";
-                    break;
-                case VampireRole:
-                    cod = "Bitten";
-                    break;
-                case WerewolfRole:
-                    cod = "Rampaged";
-                    break;
-            }
-
-            role.ContainedRole = killerRole;
+            killerRole = source.Data.Role;
         }
 
-        role.UnleashString = cod;
+        role.ContainedRole = killerRole;
 
         var opt = OptionGroupSingleton<MirrorcasterOptions>.Instance;
         var attackInfo = (MirrorAttackInfo)opt.AttackInformationGiven.Value;
@@ -282,7 +251,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         {
             CustomButtonSingleton<MirrorcasterMagicMirrorButton>.Instance.ResetCooldownAndOrEffect();
             CustomButtonSingleton<MirrorcasterUnleashButton>.Instance.ResetCooldownAndOrEffect();
-            DangerAnim();
+            DangerAnim(true);
             var text = TouLocale.GetParsed("TouRoleMirrorcasterAttackedMessageWithoutType")
                 .Replace("<player>", protectedPlayer.Data.PlayerName);
             switch (attackInfo)

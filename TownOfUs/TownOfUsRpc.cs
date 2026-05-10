@@ -119,7 +119,6 @@ public enum TownOfUsRpc : uint
     SentryRevealCamera,
     SentryPortableCamsInUse,
     Knight,
-    UpdateMonShield,
     SetDeadlyQuota,
     RequestLobbyRules,
     SendLobbyRules,
@@ -137,6 +136,7 @@ public enum TownOfUsRpc : uint
     OfficerMisfire,
     OfficerSyncBullets,
     SetUpCrewpostor,
+    MisguessSummary,
 }
 
 internal enum TownOfUsInternalRpc : uint

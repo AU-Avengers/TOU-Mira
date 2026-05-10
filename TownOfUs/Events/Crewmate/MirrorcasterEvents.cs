@@ -16,7 +16,7 @@ namespace TownOfUs.Events.Crewmate;
 
 public static class MirrorcasterEvents
 {
-    [RegisterEvent]
+    [RegisterEvent(-1000)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {
         var source = @event.Source;
@@ -28,7 +28,7 @@ public static class MirrorcasterEvents
         }
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-1000)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         var source = PlayerControl.LocalPlayer;

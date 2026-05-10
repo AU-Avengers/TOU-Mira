@@ -193,7 +193,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         if (_selectedPlr == null || !_selectedPlr.IsDead || _selectedPlr.Disconnected || _selectedPlr.Object == null)
         {
             _selectedPlr = null;
-            if (Player == null || Player.IsRole<ImitatorRole>())
+            if (!Player || Player.IsRole<ImitatorRole>())
             {
                 return;
             }

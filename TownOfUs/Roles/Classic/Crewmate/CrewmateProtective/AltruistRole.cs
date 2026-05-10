@@ -209,7 +209,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                     Player.RemoveModifier<AltruistArrowModifier>();
                 }
 
-                if (!dead.HasModifier<AltruistArrowModifier>() && dead != PlayerControl.LocalPlayer)
+                if (!dead.HasModifier<AltruistArrowModifier>() && !dead.AmOwner)
                 {
                     dead.AddModifier<AltruistArrowModifier>(PlayerControl.LocalPlayer, Color.white);
                 }

@@ -8,6 +8,10 @@
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
   <!-- Client Options -->
+  <string name="SelfKillBindToggle">LSHIFT + T + ENTER Triggers Self-Kill</string>
+  <string name="AbortGameBindToggle">LSHIFT + L + ENTER Triggers Abort Game</string>
+  <string name="StartMeetingBindToggle">LSHIFT + K + ENTER Triggers Meeting Start</string>
+  <string name="EndMeetingBindToggle">F6 Triggers Meeting End</string>
   <string name="ClientTabGameplay">Gameplay</string>
   <string name="ClientOptionsButton">Tou Client Options</string>
   <string name="ShowVanillaWikiEntries">Show Vanilla Wiki Entries</string>
@@ -30,9 +34,11 @@
   <string name="ColorPlayerName">Colored Player Name</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
+  <string name="ShowBasicAssassinOnHud">Show Assassin On Hud</string>
   <string name="UseSeparateRedChat">Show Separate Private Chat</string>
   <string name="ButtonUIFactor">Button Scale Factor</string>
   <string name="OffsetButtons">Offset Buttons If You Can't Vent</string>
+  <string name="TopRightUiScale">Top-Right UI Scale Factor</string>
   <string name="WikiOnBottomRow">Wiki Button Below Main UI</string>
   <string name="ZoomOnBottomRow">Zoom Button Below Main UI</string>
   <string name="SortGuessingByAlignment">Sort Guessing By Alignment</string>
@@ -1004,8 +1010,6 @@
   <string name="TouRoleMonarchWikiDescription">The Monarch is a Crewmate Power role that can hand out additional votes to other players.</string>
   <string name="TouRoleMonarchKnight">Knight</string>
   <string name="TouRoleMonarchKnightDescription">Knight a player, giving them \%amount\% vote(s)</string>
-  <string name="TouRoleMonarchChangeFlash">Change Flash</string>
-  <string name="TouRoleMonarchChangeFlashDescription">If configurable, the Monarch can change how their defense appears to other attackers. The color can flash like a Cleric, Medic, Mercenary, Warden, or not flash at all!</string>
   <string name="TouRoleMonarchKnightTargetDied">\%player\% died before you could knight them.</string>
   <string name="TouRoleMonarchKnightSuccess">\%player\% was knighted!</string>
   <string name="TouRoleMonarchKnightedFeedback">You were knighted by a \%role\%. You gained \%votes\% vote(s)!</string>
@@ -2366,6 +2370,7 @@
   <string name="TouModifierAssassinIntroBlurb">Guess players in the meeting.</string>
   <string name="TouModifierAssassinWikiDescription">You have the ability to guess a player in a meeting.</string>
   <string name="TouModifierAssassinTabDescription">Guess players out of the meeting.</string>
+  <string name="MisguessSummary">Misguessed \%player\% as \%role\%</string>
   <!-- Assassin Options -->
   <string name="TouOptionAssassinNeutAssassinTitle">Neut Assassins: </string>
   <string name="TouOptionAssassinImpAssassinTitle">Imp Assassins: </string>

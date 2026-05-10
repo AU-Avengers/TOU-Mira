@@ -143,7 +143,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
 
     private void RefreshControllerOverlay(Il2CppSystem.Collections.Generic.List<UiElement> list)
     {
-        if (ControllerManager.Instance != null && backButton != null)
+        if (ControllerManager.Instance && backButton != null)
         {
             ControllerManager.Instance.OpenOverlayMenu(name, backButton, defaultButtonSelected, list);
         }
@@ -477,7 +477,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
 
         ControllerManager.Instance.OpenOverlayMenu(name, backButton, defaultButtonSelected, list2);
 
-        if (MeetingHud.Instance != null)
+        if (MeetingHud.Instance)
         {
             MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(false));
         }
@@ -487,7 +487,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
     {
         MinigameStubs.Close(this);
 
-        if (MeetingHud.Instance != null)
+        if (MeetingHud.Instance)
         {
             MeetingHud.Instance.playerStates.Do(x => x.gameObject.SetActive(true));
         }

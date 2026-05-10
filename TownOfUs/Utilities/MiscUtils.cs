@@ -907,6 +907,7 @@ public static class MiscUtils
 
         var pooledBubble = chat.GetPooledBubble();
         var clonedBubble = chat.GetPooledBubble();
+        clonedBubble.gameObject.name = TeamChatPatches.PublicBubbleName;
 
         pooledBubble.transform.SetParent(TeamChatPatches.PublicChatItems);
         clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
@@ -979,6 +980,7 @@ public static class MiscUtils
 
         var pooledBubble = chat.GetPooledBubble();
         var clonedBubble = chat.GetPooledBubble();
+        clonedBubble.gameObject.name = TeamChatPatches.PublicBubbleName;
 
         pooledBubble.transform.SetParent(TeamChatPatches.PublicChatItems);
         clonedBubble.transform.SetParent(TeamChatPatches.MergedChatItems);
@@ -1107,8 +1109,11 @@ public static class MiscUtils
         // Note: Lovers chat intentionally uses `blackoutText: false` and should behave like regular chat.
         if (blackoutText && bubbleType != BubbleType.None)
         {
-            pooledBubble.gameObject.name = $"{TeamChatPatches.PrivateBubblePrefix}{bubbleType}";
-            clonedBubble.gameObject.name = $"{TeamChatPatches.PrivateBubblePrefix}{bubbleType}";
+            clonedBubble.gameObject.name = TeamChatPatches.PrivateBubbleName;
+        }
+        else
+        {
+            clonedBubble.name = TeamChatPatches.PublicBubbleName;
         }
 
         pooledBubble.AlignChildren();

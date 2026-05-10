@@ -29,6 +29,7 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.HnsGame.Crewmate;
 using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Modifiers.Impostor.Venerer;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
@@ -46,6 +47,7 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Other;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -155,7 +157,7 @@ public static class TownOfUsEventHandlers
             instance.RoleBlurbText.text = custom.RoleDescription;
         }
 
-        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
+        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
         if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
         {
             var color = MiscUtils.GetModifierColour(teamModifier);
@@ -190,7 +192,7 @@ public static class TownOfUsEventHandlers
             cutscene.RoleBlurbText.text = custom.RoleDescription;
         }
 
-        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault();
+        var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
         if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
         {
             var color = MiscUtils.GetModifierColour(teamModifier);
@@ -317,7 +319,7 @@ public static class TownOfUsEventHandlers
         var killer = @event.Source;
         var victim = @event.Target;
         var text =
-            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) is attempting to kill {victim.Data.PlayerName} ({victim.Data.Role.GetRoleName()}) | Meeting: {MeetingHud.Instance}";
 
 
         MiscUtils.LogInfo(LogLevel.Error, text);
@@ -329,7 +331,7 @@ public static class TownOfUsEventHandlers
         var killer = @event.Source;
         var victim = @event.Target;
         var text =
-            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance != null}";
+            $"{killer.Data.PlayerName} ({killer.Data.Role.GetRoleName()}) successfully killed {victim.Data.PlayerName} ({victim.GetRoleWhenAlive().GetRoleName()}) | Meeting: {MeetingHud.Instance}";
 
         MiscUtils.LogInfo(LogLevel.Error, text);
     }
@@ -548,6 +550,28 @@ public static class TownOfUsEventHandlers
     {
         var player = reviveEvent.Player;
         VitalsBodyPatches.RemoveMissingPlayer(player.Data);
+
+        if (!player.AmOwner)
+        {
+            return;
+        }
+
+        foreach (var plr in PlayerControl.AllPlayerControls)
+        {
+            // this forces camo comms to reset for the revived player
+            var appearanceType = plr.GetAppearanceType();
+            if (appearanceType == TownOfUsAppearances.Swooper)
+            {
+                continue;
+            }
+
+            plr.SetCamouflage(false);
+
+            if (HudManagerPatches.CommsSaboActive() || plr.HasModifier<VenererCamouflageModifier>())
+            {
+                plr.SetCamouflage();
+            }
+        }
     }
 
     [RegisterEvent]
@@ -689,13 +713,13 @@ public static class TownOfUsEventHandlers
 
             if (target.AmOwner)
             {
-                if (Minigame.Instance != null)
+                if (Minigame.Instance)
                 {
                     Minigame.Instance.Close();
                     Minigame.Instance.Close();
                 }
 
-                if (MapBehaviour.Instance != null)
+                if (MapBehaviour.Instance)
                 {
                     MapBehaviour.Instance.Close();
                     MapBehaviour.Instance.Close();
@@ -772,7 +796,7 @@ public static class TownOfUsEventHandlers
 
     internal static IEnumerator CoSendSpecData(ClientData clientData)
     {
-        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
+        while (!AmongUsClient.Instance)
         {
             yield return null;
         }
@@ -782,7 +806,7 @@ public static class TownOfUsEventHandlers
             yield return null;
         }
 
-        while (PlayerControl.LocalPlayer.Data == null)
+        while (!PlayerControl.LocalPlayer.Data)
         {
             yield return null;
         }
@@ -813,7 +837,7 @@ public static class TownOfUsEventHandlers
 
     internal static IEnumerator CoSendRulesToPlayer(ClientData clientData)
     {
-        while (AmongUsClient.Instance == null || !AmongUsClient.Instance)
+        while (!AmongUsClient.Instance)
         {
             yield return null;
         }
@@ -823,7 +847,7 @@ public static class TownOfUsEventHandlers
             yield return null;
         }
 
-        while (PlayerControl.LocalPlayer.Data == null)
+        while (!PlayerControl.LocalPlayer.Data)
         {
             yield return null;
         }
@@ -1041,7 +1065,7 @@ public static class TownOfUsEventHandlers
         targetVoteArea.XMark.gameObject.SetActive(false);
         targetVoteArea.XMark.transform.localScale = Vector3.one;
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             Minigame.Instance.Close();
             Minigame.Instance.Close();

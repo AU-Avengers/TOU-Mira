@@ -126,7 +126,7 @@ internal static class TimeLordVentUtilities
 
     public static Vent? GetVentById(int id)
     {
-        if (id < 0 || ShipStatus.Instance == null || ShipStatus.Instance.AllVents == null)
+        if (id < 0 || !ShipStatus.Instance || ShipStatus.Instance.AllVents == null)
         {
             return null;
         }

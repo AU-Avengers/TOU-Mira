@@ -19,11 +19,11 @@ public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
     public byte GlitchId { get; } = glitchId;
 
     public bool ShouldHideHacked { get; set; } = true;
-    private GameObject? ReportButtonHackedSprite { get; set; }
-    private GameObject? KillButtonHackedSprite { get; set; }
-    private GameObject? VentButtonHackedSprite { get; set; }
-    private GameObject? UseButtonHackedSprite { get; set; }
-    private GameObject? SabotageButtonHackedSprite { get; set; }
+    private GameObject ReportButtonHackedSprite { get; set; }
+    private GameObject KillButtonHackedSprite { get; set; }
+    private GameObject VentButtonHackedSprite { get; set; }
+    private GameObject UseButtonHackedSprite { get; set; }
+    private GameObject SabotageButtonHackedSprite { get; set; }
     private List<GameObject> CustomButtonHackedSprites { get; } = [];
 
     public override void OnActivate()
@@ -93,7 +93,7 @@ public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
     {
         if (Player.AmOwner)
         {
-            if (MeetingHud.Instance == null)
+            if (!MeetingHud.Instance)
             {
                 TouAudio.PlaySound(TouAudio.UnhackedSound);
             }

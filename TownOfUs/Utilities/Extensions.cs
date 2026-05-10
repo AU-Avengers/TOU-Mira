@@ -510,7 +510,7 @@ public static class Extensions
         var maxDistance = ShipStatus.Instance.MaxLightRadius *
                           GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod;
 
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }

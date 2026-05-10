@@ -31,8 +31,8 @@ public static class PuppeteerOverlayPatch
         if (hasModifier)
         {
             var shouldClear =
-                MeetingHud.Instance != null ||
-                ExileController.Instance != null ||
+                MeetingHud.Instance ||
+                ExileController.Instance ||
                 local.Data == null ||
                 local.Data.Disconnected ||
                 local.Data.IsDead;

@@ -35,7 +35,7 @@ public static class DoomsayerEvents
             }
         }
         else if (source.GetRoleWhenAlive() is DoomsayerRole &&
-                 (MeetingHud.Instance != null || ExileController.Instance != null) &&
+                 (MeetingHud.Instance || ExileController.Instance) &&
                  GameHistory.PlayerStats.TryGetValue(source.PlayerId, out var stats))
         {
             // This should fix doomsayer's guesses appearing as regular postmortem kills

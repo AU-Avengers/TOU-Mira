@@ -17,6 +17,7 @@ using TownOfUs.Roles.Impostor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Runtime.CompilerServices;
+using TownOfUs.Interfaces;
 
 namespace TownOfUs.Modules;
 
@@ -440,7 +441,7 @@ public static class TimeLordRewindSystem
 
     public static void RecordHostTaskCompletion(PlayerControl player, PlayerTask task)
     {
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             return;
         }
@@ -555,7 +556,7 @@ public static class TimeLordRewindSystem
 
     public static void ConfigureHostTaskUndosFromHistory(float durationSeconds, float historySeconds)
     {
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             _hostTaskUndos = null;
             return;
@@ -616,7 +617,7 @@ public static class TimeLordRewindSystem
 
     public static void RecordLocalSnapshot(PlayerPhysics? physics)
     {
-        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return;
         }
@@ -631,7 +632,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (IntroCutscene.Instance != null)
+        if (IntroCutscene.Instance)
         {
             return;
         }
@@ -650,7 +651,7 @@ public static class TimeLordRewindSystem
         var lp = PlayerControl.LocalPlayer;
         
         // Only record snapshots when player is alive (not dead/ghost)
-        if (lp.Data.IsDead)
+        if (lp.Data.IsDead || lp.Data.Role is IRewindImmune immune && immune.IgnoredByRecording)
         {
             return;
         }
@@ -708,7 +709,7 @@ public static class TimeLordRewindSystem
             flags |= SnapshotState.InvisibleAnim;
         }
 
-        var inMinigame = Minigame.Instance != null || SpawnInMinigame.Instance != null;
+        var inMinigame = Minigame.Instance || SpawnInMinigame.Instance;
         if (inMinigame)
         {
             flags |= SnapshotState.InMinigame;
@@ -1176,7 +1177,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             try
             {
@@ -1189,7 +1190,7 @@ public static class TimeLordRewindSystem
             }
         }
 
-        if (MapBehaviour.Instance != null)
+        if (MapBehaviour.Instance)
         {
             try
             {
@@ -1204,7 +1205,8 @@ public static class TimeLordRewindSystem
 
         // Exempt ghosts and ghost roles from Time Lord effects
         var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
-                      PlayerControl.LocalPlayer.Data.Role is IGhostRole;
+                      PlayerControl.LocalPlayer.Data.Role is IGhostRole || 
+                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
         
         if (!isGhost)
         {
@@ -1245,7 +1247,7 @@ public static class TimeLordRewindSystem
         var historySeconds = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
         _scheduledEventUndos = eventQueue.GetUndoSchedule(Time.time, duration, historySeconds);
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             ConfigureHostBodyPlacements(duration);
         }
@@ -1263,7 +1265,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             return;
         }
@@ -1284,7 +1286,7 @@ public static class TimeLordRewindSystem
 
     public static void RecordHostBodyPositions()
     {
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             return;
         }
@@ -1404,7 +1406,7 @@ public static class TimeLordRewindSystem
 
     private static Vent? GetVentById(int id)
     {
-        if (id < 0 || ShipStatus.Instance == null || ShipStatus.Instance.AllVents == null)
+        if (id < 0 || !ShipStatus.Instance || ShipStatus.Instance.AllVents == null)
         {
             return null;
         }
@@ -1482,7 +1484,7 @@ public static class TimeLordRewindSystem
     /// </summary>
     private static void ProcessHostScheduledRewindActions()
     {
-        if (AmongUsClient.Instance == null || !AmongUsClient.Instance.AmHost)
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
         {
             return;
         }
@@ -1519,7 +1521,7 @@ public static class TimeLordRewindSystem
             }
         }
 
-        if (_hostBodyPlacements != null && _hostBodyPlacements.Count > 0 && PlayerControl.LocalPlayer != null)
+        if (_hostBodyPlacements != null && _hostBodyPlacements.Count > 0 && PlayerControl.LocalPlayer)
         {
             for (var i = 0; i < _hostBodyPlacements.Count; i++)
             {
@@ -1537,7 +1539,7 @@ public static class TimeLordRewindSystem
             }
         }
 
-        if (_hostTaskUndos != null && _hostTaskUndos.Count > 0 && PlayerControl.LocalPlayer != null)
+        if (_hostTaskUndos != null && _hostTaskUndos.Count > 0 && PlayerControl.LocalPlayer)
         {
             for (var i = 0; i < _hostTaskUndos.Count; i++)
             {
@@ -1558,7 +1560,7 @@ public static class TimeLordRewindSystem
 
     public static bool TryHandleRewindPhysics(PlayerPhysics physics)
     {
-        if (!IsRewinding || PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null)
+        if (!IsRewinding || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {
             return false;
         }
@@ -1568,7 +1570,8 @@ public static class TimeLordRewindSystem
 
         // Exempt ghosts and ghost roles from Time Lord effects - they can move freely
         var isGhost = PlayerControl.LocalPlayer.Data.IsDead || 
-                      PlayerControl.LocalPlayer.Data.Role is IGhostRole;
+                      PlayerControl.LocalPlayer.Data.Role is IGhostRole || 
+                      PlayerControl.LocalPlayer.Data.Role is IRewindImmune immune && immune.IgnoredByRewind;
         
         if (isGhost)
         {
@@ -1875,7 +1878,7 @@ return true;*/
 
     public static void StopRewind()
     {
-        var wasHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
+        var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = Array.Empty<byte>();
         if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
         {
@@ -1960,7 +1963,7 @@ return true;*/
 
         // Only apply final snap position if we're still in a valid game state and the position is valid
         if (_hasFinalSnapPos && !endedInVent && 
-            AmongUsClient.Instance != null && 
+            AmongUsClient.Instance && 
             (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started || 
              AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) &&
             IsValidSnapshotPos(lp, _finalSnapPos))
@@ -2073,7 +2076,7 @@ return true;*/
             return;
         }
 
-        var wasHost = AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost;
+        var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
         byte[] pendingHostRevives = Array.Empty<byte>();
         if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
         {
@@ -2176,7 +2179,7 @@ return true;*/
 
     private static void ApplyLocalTaskSteps(PlayerControl lp, TimeLord.TaskStepSnapshot snap)
     {
-        if (lp.AmOwner && Minigame.Instance != null)
+        if (lp.AmOwner && Minigame.Instance)
         {
             return;
         }
@@ -2315,7 +2318,7 @@ return true;*/
                 : maxKillCooldown;
             
             player.killTimer = Mathf.Clamp(expectedCooldown, 0, maxvalue);
-            if (HudManager.Instance != null && HudManager.Instance.KillButton != null)
+            if (HudManager.InstanceExists && HudManager.Instance.KillButton != null)
             {
                 HudManager.Instance.KillButton.SetCoolDown(player.killTimer, maxvalue);
             }
@@ -2392,7 +2395,7 @@ return true;*/
 
         try
         {
-            if (_finalSnapVentId >= 0 && ShipStatus.Instance != null && ShipStatus.Instance.AllVents != null)
+            if (_finalSnapVentId >= 0 && ShipStatus.Instance && ShipStatus.Instance.AllVents != null)
             {
                 var v = ShipStatus.Instance.AllVents.FirstOrDefault(x => x != null && x.Id == _finalSnapVentId);
                 if (v != null)
@@ -2426,7 +2429,7 @@ return true;*/
             return;
         }
 
-        if (player.AmOwner && Minigame.Instance != null)
+        if (player.AmOwner && Minigame.Instance)
         {
             try
             {
@@ -2696,7 +2699,7 @@ return true;*/
             reviverOwnerNotificationText: successText,
             notificationIcon: TouRoleIcons.TimeLord.LoadAsset());
 
-        if (revived.AmOwner && PlayerControl.LocalPlayer != null && revived.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+        if (revived.AmOwner && PlayerControl.LocalPlayer && revived.AmOwner)
         {
             TryUnstuckLocalPlayer(revived);
         }

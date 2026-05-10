@@ -151,8 +151,8 @@ public static class GameTimerPatch
     [HarmonyPostfix]
     public static void HudManagerUpdatePatch(HudManager __instance)
     {
-        if (PlayerControl.LocalPlayer == null ||
-            PlayerControl.LocalPlayer.Data == null ||
+        if (!PlayerControl.LocalPlayer ||
+            !PlayerControl.LocalPlayer.Data ||
             PlayerControl.LocalPlayer.Data.Role == null ||
             !ShipStatus.Instance ||
             TutorialManager.InstanceExists ||

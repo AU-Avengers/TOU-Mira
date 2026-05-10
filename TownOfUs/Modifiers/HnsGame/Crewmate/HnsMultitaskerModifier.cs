@@ -37,7 +37,7 @@ public sealed class HnsMultitaskerModifier : HnsGameModifier
             return;
         }
 
-        if (Minigame.Instance == null || IsExemptTask())
+        if (!Minigame.Instance || IsExemptTask())
         {
             return;
         }

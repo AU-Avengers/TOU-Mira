@@ -26,11 +26,11 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     private MeetingMenu meetingMenu;
     public override string LocaleKey => "Assassin";
     public static bool HasDoubleShot => PlayerControl.LocalPlayer.HasModifier<DoubleShotModifier>();
-    public static string LocaleKeyAlt => HasDoubleShot ? "DoubleShot" : "Assassin";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
-    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKeyAlt}IntroBlurb");
+    public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");
     public override bool PreventsOtherModifiers => false;
     public override bool AppearsInSummary => false;
+    public override bool AppearsInIntro => !PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().Any(x => x != this && x.AppearsInIntro);
     public override bool HideFromGuessing => true;
 
     public override string GetDescription()
@@ -51,9 +51,11 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     // YES this is scuffed, a better solution will be used at a later time
     public override bool ShowInFreeplay => false;
     public string LastGuessedItem { get; set; }
+    public uint LastGuessedItemId { get; set; }
+    public bool LastGuessedIsRole { get; set; }
     public PlayerControl? LastAttemptedVictim { get; set; }
 
-    public override bool HideOnUi => HasDoubleShot;
+    public override bool HideOnUi => !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowBasicAssassinOnHud.Value || HasDoubleShot;
 
     public override int GetAssignmentChance()
     {
@@ -157,7 +159,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return;
         }
 
-        if (Minigame.Instance != null)
+        if (Minigame.Instance)
         {
             return;
         }
@@ -194,9 +196,15 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             }
             var victim = pickVictim ? player : Player;
 
-            ClickHandler(victim);
             LastAttemptedVictim = player;
             LastGuessedItem = $"{role.TeamColor.ToTextColor()}{role.GetRoleName()}</color>";
+            LastGuessedIsRole = true;
+            LastGuessedItemId = (ushort)role.Role;
+
+            if (ClickHandler(victim) && victim == Player)
+            {
+                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
+            }
         }
 
         void ClickModifierHandle(BaseModifier modifier)
@@ -204,17 +212,23 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             var pickVictim = player.HasModifier(modifier.TypeId);
             var victim = pickVictim ? player : Player;
 
-            ClickHandler(victim);
             LastAttemptedVictim = player;
             LastGuessedItem =
                 $"{MiscUtils.GetRoleColour(modifier.ModifierName.Replace(" ", string.Empty)).ToTextColor()}{modifier.ModifierName}</color>";
+            LastGuessedIsRole = false;
+            LastGuessedItemId = modifier.TypeId;
+
+            if (ClickHandler(victim) && victim == Player)
+            {
+                DeathHandlerModifier.RpcSetMisguessSummary(Player, player.PlayerId, LastGuessedItemId, LastGuessedIsRole);
+            }
         }
 
-        void ClickHandler(PlayerControl victim)
+        bool ClickHandler(PlayerControl victim)
         {
             if (victim.HasDied() || Player.HasDied())
             {
-                return;
+                return false;
             }
 
             if (victim != Player && victim.TryGetModifier<OracleBlessedModifier>(out var oracleMod))
@@ -227,7 +241,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
 
-                return;
+                return false;
             }
 
             if (victim == Player && Player.TryGetModifier<DoubleShotModifier>(out var modifier) && !modifier.Used)
@@ -246,7 +260,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
 
-                return;
+                return false;
             }
             Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
                 showKillAnim: false,
@@ -268,6 +282,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             }
 
             shapeMenu.Close();
+            return true;
         }
     }
 

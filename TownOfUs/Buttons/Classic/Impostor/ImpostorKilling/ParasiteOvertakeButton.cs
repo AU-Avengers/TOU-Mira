@@ -36,7 +36,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
     public override float Cooldown =>
         Math.Clamp(OptionGroupSingleton<ParasiteOptions>.Instance.OvertakeCooldown + MapCooldown + GetKillCooldownDelta(), 5f, 120f);
     public override float InitialCooldown =>
-        PlayerControl.LocalPlayer != null ? PlayerControl.LocalPlayer.GetKillCooldown() : 10f;
+        PlayerControl.LocalPlayer ? PlayerControl.LocalPlayer.GetKillCooldown() : 10f;
     public override bool ZeroIsInfinite { get; set; } = true;
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.OvertakeSprite;
 
@@ -137,7 +137,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
     private static bool CanUseWhileControlling()
     {
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return false;
         }
@@ -224,7 +224,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             Distance,
             predicate: plr =>
                 plr != null &&
-                plr != PlayerControl.LocalPlayer &&
+                !plr.AmOwner &&
                 !plr.HasDied() &&
                 !plr.IsImpostorAligned() &&
                 !plr.IsInTargetingAnimState() &&

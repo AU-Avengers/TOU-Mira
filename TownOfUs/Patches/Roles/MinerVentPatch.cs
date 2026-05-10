@@ -17,12 +17,12 @@ public static class MinerVentPatch
             return;
         }
 
-        if (PlayerControl.LocalPlayer == null)
+        if (!PlayerControl.LocalPlayer)
         {
             return;
         }
 
-        if (PlayerControl.LocalPlayer.Data == null)
+        if (!PlayerControl.LocalPlayer.Data)
         {
             return;
         }

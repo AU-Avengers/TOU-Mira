@@ -7,6 +7,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
@@ -16,9 +17,11 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IRewindImmune
 {
     public override bool IsAffectedByComms => false;
+    public bool IgnoredByRewind => false;
+    public bool IgnoredByRecording => false;
     public DoomableType DoomHintType => DoomableType.Perception;
 
     public string LocaleKey => "TimeLord";
@@ -73,7 +76,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             return;
         }
 
-        if (PlayerControl.LocalPlayer != null)
+        if (PlayerControl.LocalPlayer)
         {
             try
             {
@@ -88,9 +91,10 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             }
         }
 
-        const float duration = 3.5f; var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 0.25f, 120f);
+        const float duration = 3.5f;
+        var history = Math.Clamp(OptionGroupSingleton<TimeLordOptions>.Instance.RewindHistorySeconds, 1f, 15f);
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost &&
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
 OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
         {
             var now = DateTime.UtcNow;
@@ -114,7 +118,7 @@ OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
             TimeLordRewindSystem.ConfigureHostRevives(null);
         }
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost &&
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost &&
 OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
         {
             TimeLordRewindSystem.ConfigureHostTaskUndosFromHistory(duration, history);
@@ -124,11 +128,11 @@ OptionGroupSingleton<TimeLordOptions>.Instance.UndoTasksOnRewind)
             TimeLordRewindSystem.ConfigureHostTaskUndos(null);
         }
 
-        if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+        if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
         {
             foreach (var drag in ModifierUtils.GetActiveModifiers<DragModifier>().ToList())
             {
-                if (drag?.Player == null || drag.DeadBody == null)
+                if (!drag.Player || drag.DeadBody == null)
                 {
                     continue;
                 }

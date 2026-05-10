@@ -22,7 +22,7 @@ public static class ClericEvents
             .Do(x => x.RemoveModifier<ClericCleanseModifier>());
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-800)]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
     {
         var button = @event.Button as CustomActionButton<PlayerControl>;
@@ -36,7 +36,7 @@ public static class ClericEvents
         CheckForClericBarrier(@event, target, PlayerControl.LocalPlayer);
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-800)]
     public static void MiraButtonCancelledEventHandler(MiraButtonCancelledEvent @event)
     {
         var source = PlayerControl.LocalPlayer;
@@ -51,7 +51,7 @@ public static class ClericEvents
         ResetButtonTimer(source, button);
     }
 
-    [RegisterEvent]
+    [RegisterEvent(-800)]
     public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
     {
         var source = @event.Source;

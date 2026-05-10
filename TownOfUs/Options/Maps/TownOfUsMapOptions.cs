@@ -251,7 +251,7 @@ public sealed class TownOfUsMapOptions : AbstractOptionGroup
 
     public static bool AreLadderCooldownsDisabled()
     {
-        if (GameOptionsManager.Instance == null || AmongUsClient.Instance == null || PlayerControl.LocalPlayer == null)
+        if (GameOptionsManager.Instance == null || !AmongUsClient.Instance || !PlayerControl.LocalPlayer)
         {
             return false;
         }

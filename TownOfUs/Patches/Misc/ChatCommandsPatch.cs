@@ -157,6 +157,102 @@ public static class ChatPatches
             return false;
         }
 
+        // Adds /kick
+        if (textRegular.StartsWith("/kick ", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!AmongUsClient.Instance.AmHost)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF6060>Only the host can use this command.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            string targetName = textRegular.Substring(6).Trim();
+            var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
+    
+            if (target == null)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    $"<color=#FF0000>Player \"{targetName}\" not found.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            if (target.AmOwner)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>You cannot kick yourself.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            var clientId = GetClientId(target);
+            if (clientId == -1)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>Could not find player.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            AmongUsClient.Instance.KickPlayer(clientId, false);
+    
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                $"Kicked <color=#FFA500>{target.Data.PlayerName}</color>.");
+    
+            ClearChat(__instance);
+            return false;
+        }
+    
+        // Adds /ban
+        if (textRegular.StartsWith("/ban ", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!AmongUsClient.Instance.AmHost)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>Only the host can use this command.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            string targetName = textRegular.Substring(5).Trim();
+            var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
+    
+            if (target == null)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    $"<color=#FF0000>Player \"{targetName}\" not found.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            if (target.AmOwner)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>You cannot ban yourself.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            var clientId = GetClientId(target);
+            if (clientId == -1)
+            {
+                MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                    "<color=#FF0000>Could not find player.</color>");
+                ClearChat(__instance);
+                return false;
+            }
+    
+            AmongUsClient.Instance.KickPlayer(clientId, true);
+    
+            MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
+                $"Banned <color=#FFA500>{target.Data.PlayerName}</color>.");
+    
+            ClearChat(__instance);
+            return false;
+        }
+
         if (spaceLess.StartsWith("/", StringComparison.OrdinalIgnoreCase)
             && summaryCommandList.Any(x => spaceLess.Contains(x, StringComparison.OrdinalIgnoreCase)))
         {
@@ -197,7 +293,7 @@ public static class ChatPatches
 
         if (rulesCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost)
             {
                 var stringToCheck =
                     rulesCommandList.FirstOrDefault(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase))!;
@@ -324,7 +420,7 @@ public static class ChatPatches
                 else if (PlayerControl.AllPlayerControls.ToArray().Any(x =>
                              x.Data.PlayerName.ToLower(TownOfUsPlugin.Culture).Trim() ==
                              textRegular.ToLower(TownOfUsPlugin.Culture).Trim() &&
-                             x.Data.PlayerId != PlayerControl.LocalPlayer.PlayerId))
+                             !x.AmOwner))
                 {
                     msg = TouLocale.GetParsed("SetNameSimilarError").Replace("<name>", textRegular);
                 }
@@ -346,7 +442,7 @@ public static class ChatPatches
 
         if (upCommandList.Any(x => spaceLess.StartsWith($"/{x}", StringComparison.OrdinalIgnoreCase)))
         {
-            if (AmongUsClient.Instance != null && !AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance && !AmongUsClient.Instance.AmHost)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
                     TouLocale.GetParsed("UpCommandHostError"));
@@ -565,7 +661,7 @@ public static class ChatPatches
                       $"{TouLocale.GetParsed("InfoCommandDescription")}\n";
 
             // Only show /up command in help if host + dev build (not beta)
-            if (AmongUsClient.Instance != null && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild)
+            if (AmongUsClient.Instance && AmongUsClient.Instance.AmHost && TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.IsBetaBuild)
             {
                 msg += $"{TouLocale.GetParsed("UpCommandDescription")}\n";
             }
@@ -760,5 +856,35 @@ public static class ChatPatches
         {
             SpectatorRole.TrackedSpectators.Remove(player.Data.PlayerName);
         }
+    }
+    
+    private static void ClearChat(ChatController chat)
+    {
+        chat.freeChatField.Clear();
+        chat.quickChatMenu.Clear();
+        chat.quickChatField.Clear();
+        chat.UpdateChatMode();
+    }
+
+    private static int GetClientId(PlayerControl player)
+    {
+        foreach (var client in AmongUsClient.Instance.allClients.ToArray())
+        {
+            try
+            {
+                var charProp = client.GetType().GetProperty("Character") ?? client.GetType().GetProperty("character");
+                if (charProp?.GetValue(client) is PlayerControl pc && pc.PlayerId == player.PlayerId)
+                {
+                    var idProp = client.GetType().GetProperty("Id") ?? client.GetType().GetProperty("id");
+                    if (idProp?.GetValue(client) is int id)
+                        return id;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+        return -1;
     }
 }

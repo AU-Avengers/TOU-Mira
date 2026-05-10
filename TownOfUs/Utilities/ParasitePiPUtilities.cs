@@ -25,7 +25,7 @@ public static class ParasitePiPUtilities
     /// </summary>
     public static bool HasLeftSideModifierButtons()
     {
-        if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data?.Role == null)
+        if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data?.Role == null)
         {
             return false;
         }

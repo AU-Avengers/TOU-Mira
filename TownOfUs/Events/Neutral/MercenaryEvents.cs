@@ -10,6 +10,7 @@ using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 
@@ -101,7 +102,7 @@ public static class MercenaryEvents
             if (source.AmOwner)
             {
                 ResetButtonTimer(source, button);
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Mercenary, alpha: 0.5f));
+                Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki : TownOfUsColors.Mercenary, alpha: 0.5f));
             }
         }
 
