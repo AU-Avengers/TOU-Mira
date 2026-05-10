@@ -1720,8 +1720,6 @@
   <string name="TouRoleMonarchWikiDescription">君主是一名船员强力型职业，可以赋予其他玩家额外的投票数。</string>
   <string name="TouRoleMonarchKnight">册封骑士</string>
   <string name="TouRoleMonarchKnightDescription">册封一名玩家，使其获得 \%amount\% 票</string>
-  <string name="TouRoleMonarchChangeFlash">更改闪光效果</string>
-  <string name="TouRoleMonarchChangeFlashDescription">若设置允许，君主可以更改其防御在攻击者眼中的表现方式。闪光颜色可模拟牧师、法医、雇佣兵、护卫者，或完全不闪光！</string>
   <string name="TouOptionMysticHnsPopUp">显示死亡弹窗</string>
   <string name="TouOptionOracleNeutralsThatShowEvil">显示为邪恶的中立阵营有</string>
   <string name="TouOptionOracleNeutBadBenign">善良型</string>

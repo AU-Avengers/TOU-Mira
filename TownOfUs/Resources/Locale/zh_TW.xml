@@ -756,7 +756,6 @@
   <string name="TouRoleMonarchTabDeathInfo">如果有被冊封的玩家死亡,你將會收到通知。</string>
   <string name="TouRoleMonarchKnight">冊封騎士</string>
   <string name="TouRoleMonarchKnightDescription">冊封一名玩家,使其獲得\%amount\%票</string>
-  <string name="TouRoleMonarchChangeFlash">更改閃光效果</string>
   <string name="TouRoleMystic">靈媒</string>
   <string name="TouRoleMysticIntroBlurb">知曉撃殺發生的時間與地點</string>
   <string name="TouRoleMysticTabDescription">感知撃殺發生的時間與地點</string>
@@ -765,7 +764,6 @@
   <string name="TouOptionMysticHnsPopUp">顯示死亡彈窗</string>
   <string name="TouRoleOracle">神諭者</string>
   <string name="TouRoleOracleIntroBlurb">讓其他玩家坦白他們的身份</string>s
-  <string name="TouRoleMonarchChangeFlashDescription">若設置允許,君主可以更改其防禦在攻擊者眼中的表現方式。閃光顏色可模擬牧師、法醫、僱傭兵、護衛者,或完全不閃光!</string>
   <string name="TouRoleOracleTabDescription">佑護船員以在會議中保護他們,\%nl\%並讓他們在會議中坦白</string>
   <string name="TouRoleOracleWikiDescription">神諭者是一名船員保護型職業,可以讓一名玩家坦白(當神諭者死亡時,以\%revealAccuracy\%的準確率揭示其陣營),也可以保護一名玩家免受會議技能影響。</string>
   <string name="TouRoleOracleBless">佑護</string>
