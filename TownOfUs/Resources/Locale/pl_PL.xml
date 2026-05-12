@@ -203,4 +203,11 @@
   <string name="TouRoleClericIntroBlurb">Chroń Załogantów</string>
   <string name="TouRoleClericTabProtecting">Chroniony Gracz: %player\%</string>
   <string name="TouTabOptionBetterMaps">Lepsze Mapy/Sabotaże</string>
+  <string name="AbortGameBindToggle">LSHIFT + L + ENTER powoduje Koniec Gry</string>
+  <string name="StartMeetingBindToggle">LSHIFT + K + ENTER powoduje Start Spotkania</string>
+  <string name="EndMeetingBindToggle">F6 Powoduje Koniec Spotkania</string>
+  <string name="SelfKillBindToggle">LSHIFT + T + ENTER Powoduje Samobójstwo</string>
+  <string name="ShowBasicAssassinOnHud">Pokazuj Asasyna w Hudzie Modyfikatorów</string>
+  <string name="TermsNeutRoleAlignmentsInfo">• \%color=#8A8A8A\%Nieszkodliwe\%/color\% role nie mogą wygrać same, jedynie pomagają innym lub próbują utrzymać się przy życiu jak najdłużej. • \%color=#8A8A8A\%Szkodliwe\%/color\% role wykonują swój cel, pozostając mistrzami, odchodząc wygranym, lub nagle kończąc grę. • \%color=#8A8A8A\%Zabijające\%/color\% role muszą pozostać jedynymi \%color=#FF8B95\%zabijającymi\%/color\% za wszelką cenę. • \%color=#8A8A8A\%Odrzutkowe\%/color\% role wypełniają własne cele, lecz każda z nich wpływa na grę inaczej, czasami zachowując się jak połączenie \%color=#8A8A8A\%Nieszkodliwych\%/color\%, \%color=#8A8A8A\%Szkodliwych\%/color\%, i \%color=#8A8A8A\%Zabijających\%/color\% ról.</string>
+  <string name="TermsImpRoleAlignmentsTitle">Przynależności \%color=#FF0000\%Intruzów\%/color\% Subalignments</string>
 </resources>
