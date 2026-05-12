@@ -214,7 +214,7 @@ public static class SentryCameraUtilities
         return referenceCamera;
     }
 
-    public static SurvCamera? CreateCameraAtPosition(Vector2 position, float zAxis, PlayerControl placer)
+    public static SurvCamera? CreateCameraAtPosition(Vector3 position, PlayerControl placer)
     {
         var referenceCamera = FindCameraTemplate();
         if (referenceCamera == null)
@@ -242,20 +242,16 @@ public static class SentryCameraUtilities
             camRenderer.sharedMaterial = ventRenderer.sharedMaterial;
         }
 
-        camera.transform.position = new Vector3(
-            position.x,
-            position.y,
-            vent.transform.position.z
-        );
+        camera.transform.position = position;
 
         camera.transform.localRotation = Quaternion.identity;
 
         camera.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
 
-        camera.Offset = new Vector3(0f, 0f, camera.Offset.z);
+        camera.Offset = new Vector3(0f, 0f, 0f);
 
         camera.NewName = StringNames.None;
-        var detectedRoomName = MiscUtils.GetRoomName(new Vector3(position.x, position.y, zAxis));
+        var detectedRoomName = MiscUtils.GetRoomName(position);
         camera.CamName = detectedRoomName;
 
         try
