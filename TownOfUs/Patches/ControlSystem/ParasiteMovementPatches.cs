@@ -130,7 +130,11 @@ public static class ParasiteMovementPatches
 
             if (victim.MyPhysics != null)
             {
-                if (targetDir == Vector2.zero)
+                if (victimInAnim)
+                {
+                    victim.MyPhysics.HandleAnimation(false);
+                }
+                else if (targetDir == Vector2.zero)
                 {
                     var cachedDir = _localDesiredDir.TryGetValue(victimId, out var cached) ? cached : Vector2.zero;
                     if (cachedDir != Vector2.zero)
