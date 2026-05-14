@@ -116,16 +116,7 @@ public static class ParasiteMovementPatches
                                victim.onLadder ||
                                victim.walkingToVent;
 
-            Vector2 targetDir;
-
-            if (victimInAnim)
-            {
-                targetDir = Vector2.zero;
-            }
-            else
-            {
-                targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
-            }
+            Vector2 targetDir = canMoveIndependently ? GetSecondaryDirection() : GetNormalDirection();
             _localDesiredDir[victimId] = targetDir;
 
             if (victim.MyPhysics != null)

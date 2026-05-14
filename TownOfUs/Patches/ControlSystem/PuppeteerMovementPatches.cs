@@ -107,7 +107,7 @@ public static class PuppeteerMovementPatches
                                victim.onLadder ||
                                victim.walkingToVent;
 
-            var dir = victimInAnim ? Vector2.zero : GetNormalDirection();
+            var dir = GetNormalDirection();
             _localDesiredDir[victimId] = dir;
 
             if (victim.MyPhysics != null)
