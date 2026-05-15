@@ -10,7 +10,6 @@ using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Modifiers;
@@ -958,6 +957,7 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinusActive.LoadAsset();
                 active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
+            TownOfUsLocalSettings.SetUpButtonPositions();
         }
     }
 
@@ -999,6 +999,7 @@ public static class HudManagerPatches
 
     public static Vector3 BelowOptionPos = new Vector3(0.435f, 1.25f, 65f);
     public static Vector2 FullTopPos = new Vector2(0.435f, 0.475f);
+
     public static void CreateUiRow(HudManager instance)
     {
         if (!UiTopRight)
@@ -1046,6 +1047,7 @@ public static class HudManagerPatches
                 listButton.GetComponent<AspectPosition>().Destroy();
                 listButton.localPosition = new Vector3(0, 0, 0);
             }
+
             settingsButton.transform.SetAsLastSibling();
             chatButton.transform.SetParent(UiTopRight.transform, false);
             instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
@@ -1061,9 +1063,11 @@ public static class HudManagerPatches
 
         if (UiTopRight && UiGrid)
         {
-            UiGrid.ArrangeChilds();
+            var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
+            instance.Chat.chatButton.gameObject.SetActive(isChatButtonVisible);
         }
     }
+
     public static void CreateNewUiRow(HudManager instance)
     {
         if (!ExtraUiTopRight && UiTopRight)
@@ -1080,13 +1084,6 @@ public static class HudManagerPatches
             ExtraUiAspectPos.DistanceFromEdge = BelowOptionPos;
             ExtraUiGrid.Start();
             ExtraUiAspectPos.updateAlways = true;
-        }
-
-        if (ExtraUiTopRight && ExtraUiGrid)
-        {
-            var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
-            instance.Chat.chatButton.gameObject.SetActive(isChatButtonVisible);
-            ExtraUiGrid.ArrangeChilds();
         }
     }
 
@@ -1117,6 +1114,7 @@ public static class HudManagerPatches
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
+            TownOfUsLocalSettings.SetUpButtonPositions();
         }
 
         if (WikiButton)
@@ -1325,10 +1323,6 @@ public static class HudManagerPatches
 
         TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
             .UseCrewmateTeamColorToggle.Value;
-        
-        TownOfUsLocalSettings.OldButtonScaleFactor =
-            LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value;
-        Coroutines.Start(TownOfUsLocalSettings.CoResizeSettingsUI());
     }
 
     internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()

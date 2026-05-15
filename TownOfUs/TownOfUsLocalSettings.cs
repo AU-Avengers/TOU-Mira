@@ -1,8 +1,6 @@
-using System.Collections;
 using BepInEx.Configuration;
 using InnerNet;
 using MiraAPI.Hud;
-using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
@@ -21,7 +19,6 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public override void Open()
     {
         base.Open();
-        OldButtonScaleFactor = ButtonUIFactorSlider.Value;
 
         foreach (var entry in TouLocale.LocalizedToggles)
         {
@@ -48,12 +45,13 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         ResetButtonPositions();
         if (topUi && extraTopUi)
         {
-            var opts = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance;
-            wikiButton?.transform.SetParent(opts.WikiOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
-            zoomButton?.transform.SetParent(opts.ZoomOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
+            wikiButton?.transform.SetParent(topUi.transform);
+            zoomButton?.transform.SetParent(topUi.transform);
             subButton?.transform.SetParent(extraTopUi.transform);
             modDisplay?.transform.SetParent(extraTopUi.transform);
         }
+        HudManagerPatches.UiGrid.ArrangeChilds();
+        HudManagerPatches.ExtraUiGrid.ArrangeChilds();
     }
 
     public static void ResetButtonPositions()
@@ -71,17 +69,6 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             subButton?.transform.SetParent(null);
             modDisplay?.transform.SetParent(null);
         }
-    }
-
-    public static IEnumerator CoResizeSettingsUI()
-    {
-        while (!HudManager.Instance || !HudManagerPatches.UiGrid || !HudManagerPatches.ExtraUiGrid)
-        {
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(0.01f);
-        ResizeUI(LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value);
     }
 
     public static void ResizeUI(float scaleFactor)
@@ -185,20 +172,6 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
             touRole.OffsetButtons();
         }
-
-        if (configEntry == ButtonUIFactorSlider)
-        {
-            if (HudManager.InstanceExists)
-            {
-                ResizeUI(ButtonUIFactorSlider.Value);
-            }
-            OldButtonScaleFactor = ButtonUIFactorSlider.Value;
-        }
-
-        if (configEntry == WikiOnBottomRow || configEntry == ZoomOnBottomRow)
-        {
-            SetUpButtonPositions();
-        }
     }
 
     public override LocalSettingTabAppearance TabAppearance => new()
@@ -211,18 +184,6 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowVentsToggle { get; private set; } = config.Bind("Gameplay", "ShowVents", true);
-    
-    [LocalizedLocalSliderSetting(min: 0.3f, max: 2f, suffixType: MiraNumberSuffixes.Multiplier, formatString: "0.00", displayValue: true)]
-    public ConfigEntry<float> ButtonUIFactorSlider { get; private set; } =
-        config.Bind("UI/Visuals", "TopRightUiScale", 1f);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> WikiOnBottomRow { get; private set; } =
-        config.Bind("UI/Visuals", "WikiOnBottomRow", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomOnBottomRow { get; private set; } =
-        config.Bind("UI/Visuals", "ZoomOnBottomRow", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
