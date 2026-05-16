@@ -54,6 +54,8 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             subButton?.transform.SetParent(extraTopUi.transform);
             modDisplay?.transform.SetParent(extraTopUi.transform);
         }
+        HudManagerPatches.UiGrid.ArrangeChilds();
+        HudManagerPatches.ExtraUiGrid.ArrangeChilds();
     }
 
     public static void ResetButtonPositions()
@@ -114,14 +116,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             baseGrid.CellSize = new Vector2(alteredScale, alteredScale);
             if (baseGrid.gameObject.transform.childCount != 0)
             {
-                try
-                {
-                    baseGrid.ArrangeChilds();
-                }
-                catch
-                {
-                    // Error($"Error arranging child objects in GridArrange: {e}");
-                }
+                baseGrid.ArrangeChilds();
             }
         }
 
@@ -150,14 +145,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             extraGrid.CellSize = new Vector2(alteredScale, alteredScale);
             if (extraGrid.gameObject.transform.childCount != 0)
             {
-                try
-                {
-                    extraGrid.ArrangeChilds();
-                }
-                catch
-                {
-                    // Error($"Error arranging child objects in GridArrange: {e}");
-                }
+                extraGrid.ArrangeChilds();
             }
         }
     }
