@@ -55,6 +55,11 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
     {
         base.OnMeetingStart();
         var meetingInstance = MeetingHud.Instance;
+        if (meetingInstance == null)
+        {
+            return;
+        }
+
         VoteArea = meetingInstance.playerStates.FirstOrDefault(x => x.TargetPlayerId == Player.PlayerId)!;
 
         var amOwner = Player.AmOwner;
@@ -103,7 +108,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
 
             if (Player.AmOwner)
             {
-                MeetingHud.Instance.Confirm(252);
+                meetingInstance.Confirm(252);
             }
         }
     }

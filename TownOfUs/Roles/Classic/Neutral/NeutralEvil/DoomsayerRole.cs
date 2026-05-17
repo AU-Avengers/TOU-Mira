@@ -138,9 +138,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             NumberOfGuesses = 0;
         }
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
 
             IncorrectGuesses = 0;
