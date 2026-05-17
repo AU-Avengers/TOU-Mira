@@ -1,6 +1,5 @@
 using AmongUs.Data;
 using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -33,12 +32,25 @@ public static class TeamChatPatches
     public static Transform PublicChatItems;
     public static Transform PrivateChatItems;
     public static Transform MergedChatItems;
+    public static List<ChatBubble> PublicChatBubbles = new();
+    public static List<ChatBubble> PrivateChatBubbles = new();
+    public static List<MergedBubble> MergedChatBubbles = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PublicChatPool = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PrivateChatPool = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> MergedChatPool = new();
 
     internal const string PrivateBubbleName = "Private_ChatBubble";
     internal const string PublicBubbleName = "Public_ChatBubble";
+
+    public static void CleanUpChats()
+    {
+        PublicChatBubbles.Clear();
+        PrivateChatBubbles.Clear();
+        MergedChatBubbles.Clear();
+        PublicChatPool.Clear();
+        PrivateChatPool.Clear();
+        MergedChatPool.Clear();
+    }
 
     /// <summary>
     /// Registration system for extension team chats. Extensions can register their own team chat handlers.
@@ -1014,25 +1026,36 @@ public static class TeamChatPatches
     public static float PublicBoundsY;
     public static float PrivateBoundsY;
     public static float MergedBoundsY;
+    public sealed class MergedBubble
+    {
+        public MergedBubble(ChatBubble bubble, bool isPublic)
+        {
+            Bubble = bubble;
+            IsPublic = bubble;
+        }
+        public ChatBubble Bubble { get; set; }
+        public bool IsPublic { get; set; }
+    }
     public static void AlignAllChatBubbles(ChatController instance, ChatToCheck chatToUpdate = ChatToCheck.PublicAndPrivate)
     {
         float num = 0f;
         MergedChatItems.gameObject.SetActive(true);
         var updatePublic = chatToUpdate is ChatToCheck.PublicAndPrivate or ChatToCheck.Public;
         var updatePrivate = chatToUpdate is ChatToCheck.PublicAndPrivate or ChatToCheck.Private;
-        ChatBubble[] activeChildren = Array.Empty<ChatBubble>();
         if (updatePublic)
         {
             PublicChatItems.gameObject.SetActive(true);
             if (PublicChatItems.childCount > 20)
             {
+                PublicChatBubbles.RemoveAt(0);
+                var mergedBubble = MergedChatBubbles.FirstOrDefault(x => x.IsPublic)!;
+                MergedChatBubbles.Remove(mergedBubble);
                 PublicChatItems.transform.GetChild(0).gameObject.Destroy();
-                MergedChatItems.transform.FindChild(PublicBubbleName).gameObject.Destroy();
+                MergedChatItems.transform.FindChild(PublicBubbleName).gameObject.DestroyImmediate();
             }
-            activeChildren = PublicChatItems.GetComponentsInChildren<ChatBubble>();
-            for (int i = activeChildren.Length - 1; i >= 0; i--)
+            for (int i = PublicChatBubbles.Count - 1; i >= 0; i--)
             {
-                var chatBubble = activeChildren[i].TryCast<ChatBubble>();
+                var chatBubble = PublicChatBubbles[i];
                 num += chatBubble!.Background.size.y;
                 Vector3 localPosition = chatBubble.transform.localPosition;
                 localPosition.y = -1.85f + num;
@@ -1046,16 +1069,18 @@ public static class TeamChatPatches
             PrivateChatItems.gameObject.SetActive(true);
             if (PrivateChatItems.childCount > 20)
             {
+                PrivateChatBubbles.RemoveAt(0);
+                var mergedBubble = MergedChatBubbles.FirstOrDefault(x => !x.IsPublic)!;
+                MergedChatBubbles.Remove(mergedBubble);
                 PrivateChatItems.transform.GetChild(0).gameObject.Destroy();
-                MergedChatItems.transform.FindChild(PrivateBubbleName).gameObject.Destroy();
+                MergedChatItems.transform.FindChild(PrivateBubbleName).gameObject.DestroyImmediate();
             }
 
             num = 0f;
             PrivateChatItems.gameObject.SetActive(true);
-            activeChildren = PrivateChatItems.GetComponentsInChildren<ChatBubble>();
-            for (int i = activeChildren.Length - 1; i >= 0; i--)
+            for (int i = PrivateChatBubbles.Count - 1; i >= 0; i--)
             {
-                var chatBubble = activeChildren[i].TryCast<ChatBubble>();
+                var chatBubble = PrivateChatBubbles[i];
                 num += chatBubble!.Background.size.y;
                 Vector3 localPosition = chatBubble.transform.localPosition;
                 localPosition.y = -1.85f + num;
@@ -1066,11 +1091,14 @@ public static class TeamChatPatches
         }
 
         num = 0f;
-        activeChildren = MergedChatItems.GetComponentsInChildren<ChatBubble>();
-        for (int i = activeChildren.Length - 1; i >= 0; i--)
+        for (int i = MergedChatBubbles.Count - 1; i >= 0; i--)
         {
-            var chatBubble = activeChildren[i].TryCast<ChatBubble>();
-            num += chatBubble!.Background.size.y;
+            var chatBubble = MergedChatBubbles[i]?.Bubble ?? null;
+            if (chatBubble == null)
+            {
+                continue;
+            }
+            num += chatBubble.Background.size.y;
             Vector3 localPosition = chatBubble.transform.localPosition;
             localPosition.y = -1.85f + num;
             chatBubble.transform.localPosition = localPosition;
@@ -1081,19 +1109,19 @@ public static class TeamChatPatches
         var list = new Il2CppSystem.Collections.Generic.List<PoolableBehavior>();
         if (updatePublic)
         {
-            PublicChatItems.GetComponentsInChildren<PoolableBehavior>().Do(x => list.Add(x));
+            PublicChatBubbles.Do(x => list.Add(x));
             PublicChatPool = list;
         }
 
         list.Clear();
         if (updatePrivate)
         {
-            PrivateChatItems.GetComponentsInChildren<PoolableBehavior>().Do(x => list.Add(x));
+            PrivateChatBubbles.Do(x => list.Add(x));
             PrivateChatPool = list;
         }
 
         list.Clear();
-        MergedChatItems.GetComponentsInChildren<PoolableBehavior>().Do(x => list.Add(x));
+        MergedChatBubbles.Select(x => x.Bubble).Do(x => list.Add(x));
         MergedChatPool = list;
 
         if (!LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.SeparateChatBubbles.Value)
@@ -1238,6 +1266,8 @@ public static class TeamChatPatches
         clonedBubble.SetText(string.Empty);
         pooledBubble.AlignChildren();
         clonedBubble.AlignChildren();
+        PublicChatBubbles.Add(pooledBubble);
+        MergedChatBubbles.Add(new MergedBubble(clonedBubble, true));
         AlignAllChatBubbles(__instance, ChatToCheck.Public);
         if (__instance is { IsOpenOrOpening: false })
         {
@@ -1298,6 +1328,8 @@ public static class TeamChatPatches
             clonedBubble.SetText(chatText);
 			pooledBubble.AlignChildren();
             clonedBubble.AlignChildren();
+            PublicChatBubbles.Add(pooledBubble);
+            MergedChatBubbles.Add(new MergedBubble(clonedBubble, true));
             AlignAllChatBubbles(__instance, ChatToCheck.Public);
             if (__instance is { IsOpenOrOpening: false })
             {
@@ -1337,6 +1369,8 @@ public static class TeamChatPatches
             clonedBubble.SetWarning(warningText);
 			pooledBubble.AlignChildren();
             clonedBubble.AlignChildren();
+            PublicChatBubbles.Add(pooledBubble);
+            MergedChatBubbles.Add(new MergedBubble(clonedBubble, true));
             AlignAllChatBubbles(__instance, ChatToCheck.Public);
             if (__instance is { IsOpenOrOpening: false })
             {
