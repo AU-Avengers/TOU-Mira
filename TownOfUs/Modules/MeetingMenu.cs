@@ -163,6 +163,11 @@ public sealed class MeetingMenu : IDisposable
 
     public void GenButtons(MeetingHud meeting, bool usable)
     {
+        if (meeting == null)
+        {
+            return;
+        }
+
         HideButtons();
 
         // Message($"MeetingMenu.GenButtons '{Owner.Player.Data.PlayerName}' AmOwner: {Owner.Player.AmOwner}");

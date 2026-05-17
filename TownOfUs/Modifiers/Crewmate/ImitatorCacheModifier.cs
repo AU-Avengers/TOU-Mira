@@ -70,10 +70,11 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
             return;
         }
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
             // _selectedPlr = null;
-            _meetingMenu!.GenButtons(MeetingHud.Instance,
+            _meetingMenu!.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
             if (_selectedPlr != null)
             {

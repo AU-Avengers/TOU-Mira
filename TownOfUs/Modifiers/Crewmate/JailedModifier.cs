@@ -32,9 +32,10 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
     public override void OnMeetingStart()
     {
         Clear();
+        var meeting = MeetingHud.Instance;
         if (GameData.Instance.GetPlayerById(JailorId).Object.HasDied() ||
             GameData.Instance.GetPlayerById(JailorId).Object.Data.Role is not JailorRole || Player.HasDied() ||
-            !MeetingHud.Instance)
+            meeting == null)
         {
             ModifierComponent!.RemoveModifier(this);
             return;
@@ -65,7 +66,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
             notif1.AdjustNotification();
         }
 
-        foreach (var voteArea in MeetingHud.Instance.playerStates)
+        foreach (var voteArea in meeting.playerStates)
         {
             if (Player.PlayerId == voteArea.TargetPlayerId)
             {
