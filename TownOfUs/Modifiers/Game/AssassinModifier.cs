@@ -128,9 +128,10 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public override void OnMeetingStart()
     {
         //Error($"AssassinModifier.OnMeetingStart maxKills: {maxKills}");
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && maxKills > 0 && !Player.HasModifier<JailedModifier>());
         }
     }
