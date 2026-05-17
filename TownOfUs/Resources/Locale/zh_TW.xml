@@ -2150,4 +2150,11 @@
   <string name="TouOptionAssassinAllianceMods">同盟</string>
   <string name="TouOptionAssassinNonCrewMods">非船員</string>
   <string name="TouOptionAssassinUniversalMods">通用</string>
+  <string name="SelfKillBindToggle">左SHIFT + T + ENTER 觸發自殺</string>
+  <string name="AbortGameBindToggle">左SHIFT + L + ENTER 觸發終止遊戲</string>
+  <string name="StartMeetingBindToggle">左SHIFT + K + ENTER 觸發開始會議</string>
+  <string name="EndMeetingBindToggle">F6 觸發結束會議</string>
+  <string name="ShowBasicAssassinOnHud">在Hud上顯示刺客身份</string>
+  <string name="TopRightUiScale">右上角 UI 縮放比例</string>
+  <string name="MisguessSummary">錯誤地將 \%player\% 猜成了 \%role\%</string>
 </resources>
