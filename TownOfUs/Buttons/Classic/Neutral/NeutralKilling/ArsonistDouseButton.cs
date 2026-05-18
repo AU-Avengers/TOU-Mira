@@ -1,7 +1,9 @@
+using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
@@ -32,6 +34,14 @@ public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, Playe
 
         CustomButtonSingleton<ArsonistIgniteButton>.Instance.SetTimer(CustomButtonSingleton<ArsonistIgniteButton>
             .Instance.Cooldown);
+        Coroutines.Start(CoSetDouses());
+    }
+
+    public static IEnumerator CoSetDouses()
+    {
+        yield return new WaitForSeconds(0.01f);
+        
+        ArsonistRole.SetDouseUses();
     }
 
     public override bool IsTargetValid(PlayerControl? target)
