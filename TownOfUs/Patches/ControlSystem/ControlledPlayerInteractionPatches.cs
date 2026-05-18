@@ -31,6 +31,40 @@ public static class ControlledPlayerInteractionPatches
         }
         _lastCacheRefresh = Time.time;
     }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CanPet))]
+    [HarmonyPrefix]
+    public static bool PetButtonCanPetPrefix(PlayerControl __instance, ref bool __result)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            return true;
+        }
+        if (__instance.Data?.Role is PuppeteerRole puppeteerRole && puppeteerRole.Controlled != null)
+        {
+            var controlled = puppeteerRole.Controlled;
+            if (controlled != null && !controlled.HasDied() && 
+                PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+            {
+                __result = false;
+                return false;
+            }
+        }
+
+        if (__instance.Data?.Role is ParasiteRole parasiteRole && parasiteRole.Controlled != null)
+        {
+            var controlled = parasiteRole.Controlled;
+            if (controlled != null && !controlled.HasDied() && 
+                ParasiteControlState.IsControlled(controlled.PlayerId, out _))
+            {
+                __result = false;
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /// <summary>
     /// Allow UseButton to work for puppeteer/parasite when controlling someone
     /// </summary>
