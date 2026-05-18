@@ -55,7 +55,12 @@ public sealed class ImitatedRevealedModifier(RoleBehaviour role)
         {
             return;
         }
-        foreach (var voteArea in MeetingHud.Instance.playerStates)
+        var meeting = MeetingHud.Instance;
+        if (meeting == null)
+        {
+            return;
+        }
+        foreach (var voteArea in meeting.playerStates)
         {
             if (Player.PlayerId == voteArea.TargetPlayerId)
             {

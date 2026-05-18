@@ -959,7 +959,9 @@ public static class MiscUtils
 
         pooledBubble.AlignChildren();
         clonedBubble.AlignChildren();
-        TeamChatPatches.AlignAllChatBubbles(chat);
+        TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, true));
+        TeamChatPatches.AlignAllChatBubbles(chat, ChatToCheck.Public);
         if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
         {
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
@@ -1033,7 +1035,9 @@ public static class MiscUtils
 
         pooledBubble.AlignChildren();
         clonedBubble.AlignChildren();
-        TeamChatPatches.AlignAllChatBubbles(chat);
+        TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, true));
+        TeamChatPatches.AlignAllChatBubbles(chat, ChatToCheck.Public);
         if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
         {
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
@@ -1118,8 +1122,19 @@ public static class MiscUtils
 
         pooledBubble.AlignChildren();
         clonedBubble.AlignChildren();
+        if (blackoutText)
+        {
+            TeamChatPatches.PrivateChatBubbles.Add(pooledBubble);
+        }
+        else
+        {
+            TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        }
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, !blackoutText));
 
-        TeamChatPatches.AlignAllChatBubbles(chat);
+        TeamChatPatches.AlignAllChatBubbles(chat, blackoutText
+            ? ChatToCheck.Private
+            : ChatToCheck.Public);
         // Only show the for incoming messages
         // Otherwise you get a notification when you message yourself (e.g. Lovers chat).
         // (I think this is the right way to do that...)

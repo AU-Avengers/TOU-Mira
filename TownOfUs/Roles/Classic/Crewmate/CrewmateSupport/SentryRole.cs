@@ -52,6 +52,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         Icon = TouRoleIcons.Sentry,
         OptionsScreenshot = TouBanners.SentryRoleBanner,
+        IntroSound = TouAudio.SentryIntro,
     };
 
     [HideFromIl2Cpp] public static List<KeyValuePair<SurvCamera, int>> Cameras { get; set; } = [];
@@ -281,7 +282,8 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         sentry.FutureCameras.Remove(position);
 
-        var camera = SentryCameraUtilities.CreateCameraAtPosition(position, zAxis, player);
+        var newPos = new Vector3(position.x, position.y, zAxis);
+        var camera = SentryCameraUtilities.CreateCameraAtPosition(newPos, player);
         if (camera == null)
         {
             return;

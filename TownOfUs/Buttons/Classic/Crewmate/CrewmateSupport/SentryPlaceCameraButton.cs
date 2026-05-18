@@ -225,16 +225,17 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
     private IEnumerator PlaceCameraCoroutine()
     {
         var startPos = SavedPos!.Value;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(EffectDuration);
 
         if (SavedPos.HasValue && _pendingPlacement)
         {
             var distance = Vector2.Distance(PlayerControl.LocalPlayer.transform.position, startPos);
             if (distance <= MaxPlacementDistance)
             {
-                var pos2D = new Vector2(SavedPos.Value.x, SavedPos.Value.y);
-                SentryRole.RpcPlaceCamera(PlayerControl.LocalPlayer, pos2D);
-                SentryRole.RpcRevealCamera(PlayerControl.LocalPlayer, pos2D, SavedPos.Value.z);
+                var newPos = SavedPos.GetValueOrDefault();
+                var vec2 = new Vector2(newPos.x, newPos.y);
+                SentryRole.RpcPlaceCamera(PlayerControl.LocalPlayer, vec2);
+                SentryRole.RpcRevealCamera(PlayerControl.LocalPlayer, vec2, newPos.z);
                 TouAudio.PlaySound(TouAudio.SentryPlaceSound);
                 RefreshPortableButtons();
             }
