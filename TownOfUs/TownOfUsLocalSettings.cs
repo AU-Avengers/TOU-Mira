@@ -53,9 +53,9 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             zoomButton?.transform.SetParent(opts.ZoomOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
             subButton?.transform.SetParent(extraTopUi.transform);
             modDisplay?.transform.SetParent(extraTopUi.transform);
+            HudManagerPatches.UiGrid.ArrangeChilds();
+            HudManagerPatches.ExtraUiGrid.ArrangeChilds();
         }
-        HudManagerPatches.UiGrid.ArrangeChilds();
-        HudManagerPatches.ExtraUiGrid.ArrangeChilds();
     }
 
     public static void ResetButtonPositions()

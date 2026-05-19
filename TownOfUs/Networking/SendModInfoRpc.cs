@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
+using HarmonyLib;
 using Hazel;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
@@ -76,25 +77,42 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             "ModExplorer", "Reactor", "Mini.RegionInstall", "TOU Mira Legacy", "GameNotifier", "Localize Us!",
             "AUSUMMARY - ", "BetterAmongUs", "CrowdedMod", "AleLuduMod"
         ];
+        string[] knownModArray = Array.Empty<string>();
+        string[] badModArray = Array.Empty<string>();
+        string[] otherModArray = Array.Empty<string>();
         var sbuilder = new StringBuilder();
         Error(
-            $"{client.Data.PlayerName} is joining with the following mods:");
+            $"{client.Data.PlayerName} is joining with the following plugins:");
         foreach (var mod in list)
         {
             if (blacklist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
             {
-                Error(
-                    $"{mod.Value} (Cheat Mod? / Incompatible Mod?)");
+                badModArray = badModArray.AddToArray(mod.Value);
                 continue;
             }
-            else if (whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
+
+            if (whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
             {
-                Info(
-                    $"{mod.Value} (Known Mod)");
+                knownModArray = knownModArray.AddToArray(mod.Value);
                 continue;
             }
+
+            otherModArray = otherModArray.AddToArray(mod.Value);
+        }
+        if (badModArray.HasAny())
+        {
+            Error(
+                $"Incompatible / Cheat Plugins: {string.Join(", ", badModArray)}");
+        }
+        if (knownModArray.HasAny())
+        {
+            Info(
+                $"Known Plugins: {string.Join(", ", knownModArray)}");
+        }
+        if (otherModArray.HasAny())
+        {
             Warning(
-                $"{mod.Value}");
+                $"Other Plugins: {string.Join(", ", otherModArray)}");
         }
 
         var throwNewMsg = true;
