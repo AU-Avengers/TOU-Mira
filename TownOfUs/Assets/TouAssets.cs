@@ -152,6 +152,9 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> MediumSpirit { get; } = new LoadableBundleAsset<GameObject>("MediumSpirit", MainBundle);
 
+    public static LoadableAsset<AnimationClip> HeartbeatAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("HeartbeatAnim", MainBundle);
+
     public static LoadableAsset<AnimationClip> SentryCamOffAnim { get; } =
         new LoadableBundleAsset<AnimationClip>("SentryCamOffAnimation", MainBundle);
 

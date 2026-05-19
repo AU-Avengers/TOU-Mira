@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using PowerTools;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -1498,6 +1499,30 @@ public static class MiscUtils
         renderer.color = color;
 
         var arrow = gameObject.AddComponent<ArrowBehaviour>();
+        arrow.image = renderer;
+        arrow.image.color = color;
+
+        return arrow;
+    }
+    public static PingBehaviour CreatePing(Transform parent, Color color)
+    {
+        var gameObject = new GameObject("Ping")
+        {
+            layer = 5,
+            transform =
+            {
+                parent = parent
+            }
+        };
+
+        var renderer = gameObject.AddComponent<SpriteRenderer>();
+        renderer.sprite = TouAssets.ArrowSprite.LoadAsset();
+        renderer.color = color;
+        gameObject.AddComponent<Animator>();
+        var spriteAnim = gameObject.AddComponent<SpriteAnim>();
+        spriteAnim.Play(TouAssets.HeartbeatAnim.LoadAsset());
+
+        var arrow = gameObject.AddComponent<PingBehaviour>();
         arrow.image = renderer;
         arrow.image.color = color;
 
