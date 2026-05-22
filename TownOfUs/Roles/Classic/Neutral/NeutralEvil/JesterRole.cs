@@ -26,6 +26,9 @@ public sealed class JesterRole(IntPtr cppPtr)
         orCreateTask.name = "NeutralRoleText";
     }
 
+    public string YouAreText => TouLocale.Get($"YouAre");
+    public string YouWereText => TouLocale.Get($"YouWere");
+
     public bool Voted { get; set; }
     public bool AboutToWin { get; set; }
     public bool SentWinMsg { get; set; }

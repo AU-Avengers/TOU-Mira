@@ -73,14 +73,13 @@ public static class AppearanceExtensions
         {
             player.RawSetAppearance(new VisualAppearance(player.GetDefaultAppearance(), TownOfUsAppearances.Camouflage)
             {
-                ColorId = player.Data.DefaultOutfit.ColorId,
-                HatId = "hat_NoHat",
+                ColorId = 7, // WHITE
+                HatId = "corsac.TownOfUs-15 Streamers.hat.chilled_shirt",
                 SkinId = "skin_None",
                 VisorId = "visor_EmptyVisor",
                 PlayerName = string.Empty,
-                PetId = "pet_EmptyPet",
+                PetId = "toum.Atony.pet.tortellini",
                 NameVisible = false,
-                PlayerMaterialColor = Color.grey,
                 Size = (OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSizeInCamo) ? new Vector3(0.7f, 0.7f, 1f) : player.GetAppearance().Size
             });
         }

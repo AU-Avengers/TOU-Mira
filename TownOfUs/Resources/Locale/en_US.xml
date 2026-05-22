@@ -2043,15 +2043,15 @@
   <string name="TouOptionChefArrowDuration">Dead Body Arrow Duration</string>
   <!-- Jester -->
   <!-- Jester Wiki / Description -->
-  <string name="TouRoleJester">Jester</string>
+  <string name="TouRoleJester">Chilled</string>
   <string name="TouRoleJesterIntroBlurb">Get yourself voted out!</string>
   <string name="TouRoleJesterTabDescription">Be as suspicious as possible, and get voted out!</string>
-  <string name="TouRoleJesterWikiDescription">The Jester is a Neutral Evil role that wins by getting themselves ejected.</string>
+  <string name="TouRoleJesterWikiDescription">Chilled is a Neutral Evil role that wins by getting themselves ejected.</string>
   <string name="TouRoleJesterHaunt">Haunt</string>
   <!-- Jester Messages -->
-  <string name="TouNotifJesterWinOwner">You have successfully won as the Jester, by getting voted out!</string>
+  <string name="TouNotifJesterWinOwner">You have successfully won as Chilled, by getting voted out!</string>
   <string name="TouNotifJesterHauntOwner">You have one round to haunt a player of your choice to death, choose wisely</string>
-  <string name="TouNotifJesterWinGlobal">The Jester, \%player\%, has successfully won, as they were voted out!</string>
+  <string name="TouNotifJesterWinGlobal">Chilled, aka \%player\%, has successfully won, as they were voted out!</string>
   <!-- Jester Options -->
   <string name="TouOptionJesterCanButton">Can Use Button</string>
   <string name="TouOptionJesterCanVent">Can Hide In Vents</string>
