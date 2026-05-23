@@ -299,10 +299,11 @@ public sealed class RoleOptions : AbstractOptionGroup
         Visible = () => IsDraft
     };
 
-    public ModdedToggleOption ShowRecap { get; set; } = new("Show Draft Recap", true)
-    {
-        Visible = () => IsDraft
-    };
+    public ModdedEnumOption DraftRecap { get; } =
+        new("Draft Recap Displays", (int)DraftRecapMode.Faction, typeof(DraftRecapMode))
+        {
+            Visible = () => IsDraft
+        };
 
     public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
     {
@@ -355,6 +356,14 @@ public enum RoleDistribution
     Cultist,
     // AllKillers,
     // Legacy
+}
+
+public enum DraftRecapMode
+{
+    Nothing,
+    Faction,
+    Alignment,
+    Role,
 }
 
 public enum RoleListOption
