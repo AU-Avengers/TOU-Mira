@@ -289,16 +289,6 @@ public sealed class RoleOptions : AbstractOptionGroup
     private static bool IsDraft =>
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
 
-    public ModdedToggleOption LockLobbyOnDraftStart { get; set; } = new("Lock Lobby On Draft Start", true)
-    {
-        Visible = () => IsDraft
-    };
-
-    public ModdedToggleOption AutoStartAfterDraft { get; set; } = new("Auto-Start After Draft", true)
-    {
-        Visible = () => IsDraft
-    };
-
     public ModdedEnumOption<DraftRecapMode> DraftRecap { get; } =
         new("Draft Recap Displays", DraftRecapMode.Faction)
         {
