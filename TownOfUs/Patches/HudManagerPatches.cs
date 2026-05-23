@@ -1279,7 +1279,7 @@ public static class HudManagerPatches
         StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
         StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");
         StoredRoleList = TouLocale.Get("SetRoleList");
-        StoredFactionList = TouLocale.Get("StoredDraftTitle");
+        StoredFactionList = TouLocale.Get("NeutralFactionList");
         StoredDraftTitle = TouLocale.Get("StoredDraftTitle");
         List<string> lists =
         [
