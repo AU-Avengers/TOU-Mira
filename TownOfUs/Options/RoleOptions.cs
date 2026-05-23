@@ -299,8 +299,8 @@ public sealed class RoleOptions : AbstractOptionGroup
         Visible = () => IsDraft
     };
 
-    public ModdedEnumOption DraftRecap { get; } =
-        new("Draft Recap Displays", (int)DraftRecapMode.Faction, typeof(DraftRecapMode))
+    public ModdedEnumOption<DraftRecapMode> DraftRecap { get; } =
+        new("Draft Recap Displays", DraftRecapMode.Faction)
         {
             Visible = () => IsDraft
         };
