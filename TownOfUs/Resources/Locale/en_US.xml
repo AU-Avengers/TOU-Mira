@@ -164,6 +164,7 @@
   <!-- Role List -->
   <string name="SetRoleList">Set Role List</string>
   <string name="NeutralFactionList">Neutral Faction List</string>
+  <string name="StoredDraftTitle">Draft Mode</string>
   <string name="NeutralBenigns">Neutral Benigns</string>
   <string name="NeutralEvils">Neutral Evils</string>
   <string name="NeutralOutliers">Neutral Outliers</string>
