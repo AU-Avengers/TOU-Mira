@@ -289,11 +289,6 @@ public sealed class RoleOptions : AbstractOptionGroup
     private static bool IsDraft =>
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft;
 
-    private static bool IsDraftCustom =>
-        IsDraft && !OptionGroupSingleton<RoleOptions>.Instance.UseRoleListForPool;
-    private static bool HasImps => IsDraftCustom && (int)OptionGroupSingleton<RoleOptions>.Instance.MaxImpostors.Value > 0;
-    private static bool HasNeuts => IsDraftCustom && (int)OptionGroupSingleton<RoleOptions>.Instance.MaxNeutrals.Value > 0;
-
     public ModdedToggleOption LockLobbyOnDraftStart { get; set; } = new("Lock Lobby On Draft Start", true)
     {
         Visible = () => IsDraft
@@ -312,56 +307,6 @@ public sealed class RoleOptions : AbstractOptionGroup
     public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
     {
         Visible = () => IsDraft
-    };
-
-    public ModdedNumberOption MaxImpostors { get; set; } = new("Max Impostors Total", 2f, 1f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraftCustom
-    };
-
-    public ModdedNumberOption MaxImpConcealing { get; set; } = new("Max Impostor Concealing Roles", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasImps
-    };
-
-    public ModdedNumberOption MaxImpKilling { get; set; } = new("Max Impostor Killing Roles", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasImps
-    };
-
-    public ModdedNumberOption MaxImpPower { get; set; } = new("Max Impostor Power Roles", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasImps
-    };
-
-    public ModdedNumberOption MaxImpSupport { get; set; } = new("Max Impostor Support Roles", 2f, 0f, 5f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasImps
-    };
-
-    public ModdedNumberOption MaxNeutrals { get; set; } = new("Max Neutral Roles", 3f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => IsDraftCustom
-    };
-
-    public ModdedNumberOption MaxNeutBenign { get; set; } = new("Max Neutral Benign Roles", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasNeuts
-    };
-
-    public ModdedNumberOption MaxNeutEvil { get; set; } = new("Max Neutral Evil Roles", 1f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasNeuts
-    };
-
-    public ModdedNumberOption MaxNeutKilling { get; set; } = new("Max Neutral Killing Roles", 1f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasNeuts
-    };
-
-    public ModdedNumberOption MaxNeutOutlier { get; set; } = new("Max Neutral Outlier Roles", 0f, 0f, 10f, 1f, MiraNumberSuffixes.None, "0")
-    {
-        Visible = () => HasNeuts
     };
 
     public ModdedNumberOption OfferedRolesCount { get; set; } = new("Offered Role Picks Per Turn", 3f, 1f, 9f, 1f, MiraNumberSuffixes.None, "0")

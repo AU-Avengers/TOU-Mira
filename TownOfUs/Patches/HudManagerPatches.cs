@@ -933,8 +933,36 @@ public static class HudManagerPatches
                     }
                     break;
                 case RoleDistribution.Draft:
+                    var draftOpts = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
                     rolelistBuilder.Append(StoredDraftTitle);
                     rolelistBuilder.Append(":</color>\n");
+                    if (list.UseRoleListForPool.Value)
+                    {
+                        for (var i = 0; i < maxSlots; i++)
+                        {
+                            var slotValue = i switch
+                            {
+                                0 => draftOpts.Slot1.Value,
+                                1 => draftOpts.Slot2.Value,
+                                2 => draftOpts.Slot3.Value,
+                                3 => draftOpts.Slot4.Value,
+                                4 => draftOpts.Slot5.Value,
+                                5 => draftOpts.Slot6.Value,
+                                6 => draftOpts.Slot7.Value,
+                                7 => draftOpts.Slot8.Value,
+                                8 => draftOpts.Slot9.Value,
+                                9 => draftOpts.Slot10.Value,
+                                10 => draftOpts.Slot11.Value,
+                                11 => draftOpts.Slot12.Value,
+                                12 => draftOpts.Slot13.Value,
+                                13 => draftOpts.Slot14.Value,
+                                14 => draftOpts.Slot15.Value,
+                                _ => (RoleListOption)(-1)
+                            };
+
+                            rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
+                        }
+                    }
                     break;
             }
 
