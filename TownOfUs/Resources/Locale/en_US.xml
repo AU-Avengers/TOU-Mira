@@ -180,6 +180,7 @@
   <string name="GameOutlier">Game Outlier</string>
   <string name="CrewmateInvestigative">Crewmate Investigative</string>
   <string name="CrewmateKilling">Crewmate Killing</string>
+  <string name="CrewmateOutlier">Crewmate Outlier</string>
   <string name="CrewmatePower">Crewmate Power</string>
   <string name="CrewmateProtective">Crewmate Protective</string>
   <string name="CrewmateSupport">Crewmate Support</string>

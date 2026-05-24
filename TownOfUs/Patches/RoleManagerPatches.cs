@@ -616,6 +616,7 @@ public static class TouRoleManagerPatches
 
     private static void AssignRolesFromRoleList(List<NetworkedPlayerInfo> infected)
     {
+        MiscUtils.ClearBuckets();
         var impostors = MiscUtils.GetImpostors(infected);
         var crewmates = MiscUtils.GetCrewmates(impostors);
 
@@ -627,20 +628,20 @@ public static class TouRoleManagerPatches
         // Define bucket categories
         List<RoleListOption> crewNkBuckets =
         [
-            RoleListOption.CrewInvest, RoleListOption.CrewKilling, RoleListOption.CrewPower,
+            RoleListOption.CrewInvest, RoleListOption.CrewKilling, RoleListOption.CrewOutlier, RoleListOption.CrewPower,
             RoleListOption.CrewProtective, RoleListOption.CrewSupport, RoleListOption.CrewCommon,
-            RoleListOption.CrewSpecial, RoleListOption.CrewRandom, RoleListOption.NeutKilling
+            RoleListOption.CrewSpecial, RoleListOption.CrewStrength, RoleListOption.CrewUnique,
+            RoleListOption.CrewUtility, RoleListOption.CrewBasic, RoleListOption.CrewRandom, RoleListOption.NeutKilling
         ];
         List<RoleListOption> impBuckets =
         [
             RoleListOption.ImpConceal, RoleListOption.ImpKilling, RoleListOption.ImpPower,
             RoleListOption.ImpSupport, RoleListOption.ImpCommon, RoleListOption.ImpSpecial,
-            RoleListOption.ImpRandom
+            RoleListOption.ImpUtility, RoleListOption.ImpBasic, RoleListOption.ImpRandom
         ];
 
         // Build and adjust role list buckets
         var buckets = BuildRoleListBuckets(players);
-        var wildcardActive = buckets.Any(x => x == RoleListOption.NeutWildcard);
         AdjustRoleListBucketsForImpostors(buckets, impBuckets, impostors.Count);
         EnsureCrewNeutralRoles(buckets, impBuckets, crewNkBuckets);
 
@@ -653,6 +654,7 @@ public static class TouRoleManagerPatches
 
         var crewInvestRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateInvestigative, exclusionFilter);
         var crewKillingRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateKilling, exclusionFilter);
+        var crewOutlierRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateOutlier, exclusionFilter);
         var crewProtectRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateProtective, exclusionFilter);
         var crewPowerRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmatePower, exclusionFilter);
         var crewSupportRoles = MiscUtils.GetRolesToAssign(RoleAlignment.CrewmateSupport, exclusionFilter);
@@ -719,6 +721,11 @@ public static class TouRoleManagerPatches
 
         var specialCrewRoles = crewKillingRoles;
 
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewOutlierRoles, RoleListOption.CrewOutlier,
+            RoleListOption.CrewSpecial));
+
+        specialCrewRoles.AddRange(crewOutlierRoles);
+
         crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewPowerRoles, RoleListOption.CrewPower,
             RoleListOption.CrewSpecial));
 
@@ -738,46 +745,58 @@ public static class TouRoleManagerPatches
 
         var randomNonImpRoles = randomCrewRoles;
 
-        List<(ushort RoleType, int Chance)> commonNeutRoles;
-        if (wildcardActive)
-        {
-            // neutral buckets
-            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
-                RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
+        List<(ushort RoleType, int Chance, int Total)> commonNeutRoles;
+        
+        // neutral buckets
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
+            RoleListOption.NeutCommon));
 
-            commonNeutRoles = neutBenignRoles;
+        commonNeutRoles = neutBenignRoles;
+            
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
+            RoleListOption.NeutWildcard));
 
-            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
-                RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
+        var wildNeutRoles = neutBenignRoles;
+            
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
+            RoleListOption.NeutPassive));
 
-            commonNeutRoles.AddRange(neutEvilRoles);
+        var passiveNeutRoles = neutBenignRoles;
 
-            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
-                RoleListOption.NeutSpecial, RoleListOption.NeutWildcard));
-        }
-        else
-        {
-            // neutral buckets
-            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
-                RoleListOption.NeutCommon));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
+            RoleListOption.NeutCommon));
 
-            commonNeutRoles = neutBenignRoles;
+        commonNeutRoles.AddRange(neutEvilRoles);
 
-            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
-                RoleListOption.NeutCommon));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
+            RoleListOption.NeutWildcard));
 
-            commonNeutRoles.AddRange(neutEvilRoles);
+        wildNeutRoles.AddRange(neutEvilRoles);
 
-            crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
-                RoleListOption.NeutSpecial));
-        }
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
+            RoleListOption.NeutChaos));
+
+        var chaosNeutRoles = neutEvilRoles;
+
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
+            RoleListOption.NeutSpecial));
+
         var specialNeutRoles = neutOutlierRoles;
 
-        var wildNeutRoles = new List<(ushort RoleType, int Chance)>();
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
+            RoleListOption.NeutWildcard));
 
         wildNeutRoles.AddRange(neutOutlierRoles);
 
-        wildNeutRoles.AddRange(commonNeutRoles);
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
+            RoleListOption.NeutChaos));
+
+        chaosNeutRoles.AddRange(neutOutlierRoles);
+
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
+            RoleListOption.NeutPassive));
+
+        passiveNeutRoles.AddRange(neutOutlierRoles);
 
         crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutKillingRoles, RoleListOption.NeutKilling,
             RoleListOption.NeutSpecial));
@@ -799,7 +818,15 @@ public static class TouRoleManagerPatches
 
         randomNeutRoles.AddRange(wildNeutRoles);
 
-        randomNeutRoles.AddRange(commonNeutRoles);
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, chaosNeutRoles, RoleListOption.NeutChaos,
+            RoleListOption.NeutRandom));
+
+        randomNeutRoles.AddRange(chaosNeutRoles);
+
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, passiveNeutRoles, RoleListOption.NeutPassive,
+            RoleListOption.NeutRandom));
+
+        randomNeutRoles.AddRange(passiveNeutRoles);
 
         crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomNeutRoles, RoleListOption.NeutRandom,
             RoleListOption.NonImp));
