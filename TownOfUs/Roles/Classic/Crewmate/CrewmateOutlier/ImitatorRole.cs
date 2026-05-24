@@ -44,7 +44,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public Color RoleColor => TownOfUsColors.Imitator;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;
+    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateOutlier;
 
     public CustomRoleConfiguration Configuration => new(this)
     {

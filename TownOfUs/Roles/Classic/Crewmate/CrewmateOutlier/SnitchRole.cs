@@ -64,7 +64,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public Color RoleColor => TownOfUsColors.Snitch;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateInvestigative;
+    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateOutlier;
 
     public CustomRoleConfiguration Configuration => new(this)
     {

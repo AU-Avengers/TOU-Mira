@@ -62,7 +62,7 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public Color RoleColor => TownOfUsColors.Altruist;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateProtective;
+    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateOutlier;
 
     public CustomRoleConfiguration Configuration => new(this)
     {

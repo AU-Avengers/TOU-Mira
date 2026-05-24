@@ -44,7 +44,7 @@ public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public Color RoleColor => TownOfUsColors.TimeLord;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public RoleAlignment RoleAlignment => RoleAlignment.CrewmatePower;
+    public RoleAlignment RoleAlignment => RoleAlignment.CrewmateOutlier;
 
     public CustomRoleConfiguration Configuration => new(this)
     {

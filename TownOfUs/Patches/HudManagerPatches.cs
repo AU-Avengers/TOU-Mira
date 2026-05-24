@@ -1206,12 +1206,17 @@ public static class HudManagerPatches
     [
         "CrewInvestigative",
         "CrewKilling",
+        "CrewOutlier",
         "CrewProtective",
         "CrewPower",
         "CrewSupport",
 
         "CommonCrew",
         "SpecialCrew",
+        "StrongCrew",
+        "UniqueCrew",
+        "UtilityCrew",
+        "BasicCrew",
         "RandomCrew",
 
         "NeutralBenign",
@@ -1222,6 +1227,8 @@ public static class HudManagerPatches
         "CommonNeutral",
         "SpecialNeutral",
         "WildcardNeutral",
+        "ChaoticNeutral",
+        "PassiveNeutral",
         "RandomNeutral",
 
         "ImpConcealing",
@@ -1231,6 +1238,8 @@ public static class HudManagerPatches
 
         "CommonImp",
         "SpecialImp",
+        "UtilityImp",
+        "BasicImp",
         "RandomImp",
 
         "NonImp",
@@ -1331,6 +1340,7 @@ public static class HudManagerPatches
     {
         { RoleListOption.CrewInvest, RoleAlignment.CrewmateInvestigative },
         { RoleListOption.CrewKilling, RoleAlignment.CrewmateKilling },
+        { RoleListOption.CrewOutlier, RoleAlignment.CrewmateOutlier },
         { RoleListOption.CrewProtective, RoleAlignment.CrewmateProtective },
         { RoleListOption.CrewPower, RoleAlignment.CrewmatePower },
         { RoleListOption.CrewSupport, RoleAlignment.CrewmateSupport },

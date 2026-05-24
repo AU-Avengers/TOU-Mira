@@ -31,11 +31,16 @@ public static class BucketTooltipData
     // Group buckets map to multiple specific buckets
     private static readonly Dictionary<RoleListOption, RoleListOption[]> _groupBuckets = new()
     {
+        {RoleListOption.CrewBasic, []},
+        {RoleListOption.ImpBasic, []},
         {
             RoleListOption.CrewCommon,
             [RoleListOption.CrewInvest, RoleListOption.CrewProtective, RoleListOption.CrewSupport]
         },
-        { RoleListOption.CrewSpecial, [RoleListOption.CrewKilling, RoleListOption.CrewPower] },
+        { RoleListOption.CrewSpecial, [RoleListOption.CrewKilling, RoleListOption.CrewPower, RoleListOption.CrewOutlier] },
+        { RoleListOption.CrewStrength, [RoleListOption.CrewPower, RoleListOption.CrewOutlier] },
+        { RoleListOption.CrewUnique, [RoleListOption.CrewPower, RoleListOption.CrewOutlier] },
+        { RoleListOption.CrewUtility, [RoleListOption.CrewInvest, RoleListOption.CrewSupport] },
         {
             RoleListOption.CrewRandom,
             [
@@ -50,11 +55,20 @@ public static class BucketTooltipData
             [RoleListOption.NeutBenign, RoleListOption.NeutEvil, RoleListOption.NeutOutlier]
         },
         {
+            RoleListOption.NeutChaos,
+            [RoleListOption.NeutEvil, RoleListOption.NeutOutlier]
+        },
+        {
+            RoleListOption.NeutPassive,
+            [RoleListOption.NeutBenign, RoleListOption.NeutOutlier]
+        },
+        {
             RoleListOption.NeutRandom,
             [RoleListOption.NeutBenign, RoleListOption.NeutEvil, RoleListOption.NeutKilling, RoleListOption.NeutOutlier]
         },
         { RoleListOption.ImpCommon, [RoleListOption.ImpConceal, RoleListOption.ImpSupport] },
         { RoleListOption.ImpSpecial, [RoleListOption.ImpKilling, RoleListOption.ImpPower] },
+        { RoleListOption.ImpUtility, [RoleListOption.ImpConceal, RoleListOption.ImpKilling, RoleListOption.ImpSupport] },
         {
             RoleListOption.ImpRandom,
             [RoleListOption.ImpConceal, RoleListOption.ImpKilling, RoleListOption.ImpPower, RoleListOption.ImpSupport]
@@ -62,7 +76,7 @@ public static class BucketTooltipData
         {
             RoleListOption.NonImp,
             [
-                RoleListOption.CrewInvest, RoleListOption.CrewKilling, RoleListOption.CrewProtective,
+                RoleListOption.CrewInvest, RoleListOption.CrewKilling, RoleListOption.CrewOutlier, RoleListOption.CrewProtective,
                 RoleListOption.CrewPower, RoleListOption.CrewSupport, RoleListOption.NeutBenign,
                 RoleListOption.NeutEvil, RoleListOption.NeutKilling, RoleListOption.NeutOutlier
             ]
@@ -70,7 +84,7 @@ public static class BucketTooltipData
         {
             RoleListOption.Any,
             [
-                RoleListOption.CrewInvest, RoleListOption.CrewKilling, RoleListOption.CrewProtective,
+                RoleListOption.CrewInvest, RoleListOption.CrewKilling, RoleListOption.CrewOutlier, RoleListOption.CrewProtective,
                 RoleListOption.CrewPower, RoleListOption.CrewSupport, RoleListOption.NeutBenign,
                 RoleListOption.NeutEvil, RoleListOption.NeutKilling, RoleListOption.NeutOutlier,
                 RoleListOption.ImpConceal, RoleListOption.ImpKilling, RoleListOption.ImpPower, RoleListOption.ImpSupport
@@ -105,50 +119,65 @@ public static class BucketTooltipData
         else
         {
             Error($"Bucket missing!");
-            return System.Array.Empty<RoleEntry>();
+            return Array.Empty<RoleEntry>();
         }
 
         var result = new List<RoleEntry>();
-        foreach (var b in buckets)
+        if (buckets.HasAny())
         {
-            if (!_allRoles.TryGetValue(b, out var entries))
+            foreach (var b in buckets)
             {
-                Error($"All Roles doesn't contain {b.ToDisplayString()}!");
-                continue;
-            }
-
-            if (!HudManagerPatches.TooltipAlignments.TryGetValue(b, out var alignment))
-            {
-                Error($"All Roles doesn't contain alignment: {b.ToDisplayString()}!");
-                continue;
-            }
-            var allRoles = MiscUtils.GetRegisteredRoles(alignment).ToList();
-            foreach (var role in allRoles)
-            {
-                var entry = entries.FirstOrDefault(x => x.RoleId == role.Role);
-                if (entry == null)
+                if (!_allRoles.TryGetValue(b, out var entries))
                 {
-                    Error("Missing entry...");
+                    Error($"All Roles doesn't contain {b.ToDisplayString()}!");
                     continue;
                 }
 
-                entry.DisplayName = role.GetRoleName();
-                entry.Col = role.TeamColor;
-                if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0 && (int)customRole.GetCount()! > 0 &&
-                    (int)customRole.GetChance()! > 0)
+                if (!HudManagerPatches.TooltipAlignments.TryGetValue(b, out var alignment))
                 {
-                    result.Add(entry);
+                    Error($"All Roles doesn't contain alignment: {b.ToDisplayString()}!");
+                    continue;
                 }
-                else
+                var allRoles = MiscUtils.GetRegisteredRoles(alignment).ToList();
+                foreach (var role in allRoles)
                 {
-                    var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
-                    var roleOptions = currentGameOptions.RoleOptions;
+                    var entry = entries.FirstOrDefault(x => x.RoleId == role.Role);
+                    if (entry == null)
+                    {
+                        continue;
+                    }
 
-                    if (roleOptions.GetNumPerGame(role.Role) > 0 && roleOptions.GetChancePerGame(role.Role) > 0)
+                    entry.DisplayName = role.GetRoleName();
+                    entry.Col = role.TeamColor;
+                    if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0 && (int)customRole.GetCount()! > 0 &&
+                        (int)customRole.GetChance()! > 0)
                     {
                         result.Add(entry);
                     }
+                    else
+                    {
+                        var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
+                        var roleOptions = currentGameOptions.RoleOptions;
+
+                        if (roleOptions.GetNumPerGame(role.Role) > 0 && roleOptions.GetChancePerGame(role.Role) > 0)
+                        {
+                            result.Add(entry);
+                        }
+                    }
                 }
+            }
+        }
+        else
+        {
+            if (bucket is RoleListOption.CrewBasic && _allRoles.TryGetValue(RoleListOption.CrewSupport, out var entries))
+            {
+                var entry = entries.First(x => x.RoleId == RoleTypes.Crewmate);
+                result.Add(entry);
+            }
+            else if (bucket is RoleListOption.ImpBasic && _allRoles.TryGetValue(RoleListOption.ImpSupport, out var entries2))
+            {
+                var entry = entries2.First(x => x.RoleId == RoleTypes.Impostor);
+                result.Add(entry);
             }
         }
 

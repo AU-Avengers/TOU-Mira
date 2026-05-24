@@ -112,6 +112,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
                 case RoleAlignment.CrewmateInvestigative:
                 case RoleAlignment.CrewmateKilling:
                 case RoleAlignment.CrewmateProtective:
+                case RoleAlignment.CrewmateOutlier:
                 case RoleAlignment.CrewmatePower:
                 case RoleAlignment.CrewmateSupport:
                     Misfire();

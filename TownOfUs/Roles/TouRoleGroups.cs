@@ -14,6 +14,7 @@ public static class TouRoleGroups
     public static RoleOptionsGroup ImpFollower { get; } = new("Impostor Followers (Cultist)", TownOfUsColors.ImpSoft, -4);
     public static RoleOptionsGroup CrewInvest { get; } = new("Crewmate Investigative Roles", TownOfUsColors.Crewmate);
     public static RoleOptionsGroup CrewKiller { get; } = new("Crewmate Killing Roles", TownOfUsColors.Crewmate);
+    public static RoleOptionsGroup CrewOutlier { get; } = new("Crewmate Outlier Roles", TownOfUsColors.Crewmate);
     public static RoleOptionsGroup CrewProc { get; } = new("Crewmate Protective Roles", TownOfUsColors.Crewmate);
     public static RoleOptionsGroup CrewPower { get; } = new("Crewmate Power Roles", TownOfUsColors.Crewmate);
     public static RoleOptionsGroup CrewSup { get; } = new("Crewmate Support Roles", TownOfUsColors.Crewmate);

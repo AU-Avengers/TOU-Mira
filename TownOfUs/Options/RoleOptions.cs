@@ -14,12 +14,17 @@ public sealed class RoleOptions : AbstractOptionGroup
     [
         MiscUtils.GetParsedRoleBucket("CrewInvestigative"),
         MiscUtils.GetParsedRoleBucket("CrewKilling"),
+        MiscUtils.GetParsedRoleBucket("CrewOutlier"),
         MiscUtils.GetParsedRoleBucket("CrewProtective"),
         MiscUtils.GetParsedRoleBucket("CrewPower"),
         MiscUtils.GetParsedRoleBucket("CrewSupport"),
 
         MiscUtils.GetParsedRoleBucket("CommonCrew"),
         MiscUtils.GetParsedRoleBucket("SpecialCrew"),
+        MiscUtils.GetParsedRoleBucket("StrongCrew"),
+        MiscUtils.GetParsedRoleBucket("UniqueCrew"),
+        MiscUtils.GetParsedRoleBucket("UtilityCrew"),
+        MiscUtils.GetParsedRoleBucket("BasicCrew"),
         MiscUtils.GetParsedRoleBucket("RandomCrew"),
 
         MiscUtils.GetParsedRoleBucket("NeutralBenign"),
@@ -30,6 +35,8 @@ public sealed class RoleOptions : AbstractOptionGroup
         MiscUtils.GetParsedRoleBucket("CommonNeutral"),
         MiscUtils.GetParsedRoleBucket("SpecialNeutral"),
         MiscUtils.GetParsedRoleBucket("WildcardNeutral"),
+        MiscUtils.GetParsedRoleBucket("ChaoticNeutral"),
+        MiscUtils.GetParsedRoleBucket("PassiveNeutral"),
         MiscUtils.GetParsedRoleBucket("RandomNeutral"),
 
         MiscUtils.GetParsedRoleBucket("ImpConcealing"),
@@ -39,6 +46,8 @@ public sealed class RoleOptions : AbstractOptionGroup
 
         MiscUtils.GetParsedRoleBucket("CommonImp"),
         MiscUtils.GetParsedRoleBucket("SpecialImp"),
+        MiscUtils.GetParsedRoleBucket("UtilityImp"),
+        MiscUtils.GetParsedRoleBucket("BasicImp"),
         MiscUtils.GetParsedRoleBucket("RandomImp"),
 
         MiscUtils.GetParsedRoleBucket("NonImp"),
@@ -314,14 +323,17 @@ public enum RoleListOption
 {
     CrewInvest,
     CrewKilling,
+    CrewOutlier,
     CrewProtective,
     CrewPower,
     CrewSupport,
 
     CrewCommon, // Investigative / Protective / Support
-    CrewSpecial, // Killing / Power
-    // CrewUtility, // Investigative / Support
-    // CrewBasic, // Vanilla Crewmate
+    CrewSpecial, // Killing / Power / Outlier
+    CrewStrength, // Killing / Power
+    CrewUnique, // Power / Outlier
+    CrewUtility, // Investigative / Support
+    CrewBasic, // Vanilla Crewmate
     CrewRandom, // Any Crewmate role
 
     NeutBenign,
@@ -332,8 +344,8 @@ public enum RoleListOption
     NeutCommon, // Benign / Evil
     NeutSpecial, // Killing / Outlier
     NeutWildcard, // Benign / Evil / Outlier
-    // NeutChaos, // Evil / Outlier
-    // NeutPassive, // Benign / Outlier, this name sucks btw - Atony
+    NeutChaos, // Evil / Outlier
+    NeutPassive, // Benign / Outlier, this name sucks btw - Atony
     NeutRandom, // Any Neutral role
 
     ImpConceal,
@@ -343,8 +355,8 @@ public enum RoleListOption
 
     ImpCommon, // Concealing / Support
     ImpSpecial, // Killing / Power
-    // ImpUtility, // Concealing / Killing / Support
-    // ImpBasic, // Vanilla Impostor
+    ImpUtility, // Concealing / Killing / Support
+    ImpBasic, // Vanilla Impostor
     ImpRandom, // Any Impostor role
 
     NonImp, // Crewmate / Neutral

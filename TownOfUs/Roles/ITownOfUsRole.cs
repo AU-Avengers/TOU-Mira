@@ -87,6 +87,11 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.CrewKiller;
             }
 
+            if (RoleAlignment == RoleAlignment.CrewmateOutlier)
+            {
+                return TouRoleGroups.CrewOutlier;
+            }
+
             if (RoleAlignment == RoleAlignment.CrewmateProtective)
             {
                 return TouRoleGroups.CrewProc;
@@ -247,6 +252,7 @@ public enum RoleAlignment
     // Base Town of Us Alignments
     CrewmateInvestigative,
     CrewmateKilling,
+    CrewmateOutlier,
     CrewmateProtective,
     CrewmatePower,
     CrewmateSupport,
