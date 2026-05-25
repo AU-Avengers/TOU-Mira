@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine;
 namespace TownOfUs.Modifiers.Crewmate;
 
 public sealed class TrackerArrowTargetModifier(PlayerControl owner, Color color, float update)
-    : PingTargetModifier(owner, color, update)
+    : ArrowTargetModifier(owner, color, update)
 {
     public override string ModifierName => "Sonar Arrow";
 
@@ -21,16 +20,7 @@ public sealed class TrackerArrowTargetModifier(PlayerControl owner, Color color,
         }
 
         var spr = Arrow.gameObject.GetComponent<SpriteRenderer>();
-        spr.color = Color.white;
-        var materialColor =
-            Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
-        spr.material = HatManager.Instance.PlayerMaterial;
-
-        PlayerMaterial.SetColors(materialColor, spr);
-        spr.material.SetColor(ShaderID.VisorColor, materialColor);
-        spr.material.SetColor(ShaderID.BackColor, materialColor);
-        spr.material.SetColor(ShaderID.BodyColor, materialColor);
-        var r = Arrow.gameObject.GetComponent<RainbowBehaviour>();
+        var r = Arrow.gameObject.AddComponent<BasicRainbowBehaviour>();
 
         r.AddRend(spr, Player.cosmetics.ColorId);
     }
