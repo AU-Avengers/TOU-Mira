@@ -1019,6 +1019,8 @@ public static class HudManagerPatches
             mapButton.GetComponent<AspectPosition>().Destroy();
             var settingsButton = instance.SettingsButton;
             settingsButton.GetComponent<AspectPosition>().Destroy();
+            var oldPos = settingsButton.transform.localPosition;
+            settingsButton.transform.localPosition = new Vector3(oldPos.x, oldPos.y, -100);
             var chatButton = instance.Chat.chatButton.gameObject;
             ClonedChatButton = Object.Instantiate(chatButton, chatButton.transform.parent);
             ClonedChatButton.SetActive(false);
