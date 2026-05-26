@@ -14,6 +14,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
+        GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)
         {
             if (!role || role is not ITownOfUsRole touRole)
