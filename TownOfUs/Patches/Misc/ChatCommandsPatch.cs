@@ -1,5 +1,6 @@
 using System.Reflection;
 using HarmonyLib;
+using BepInEx.Logging;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -921,9 +922,11 @@ public static class ChatPatches
                 }
                 catch
                 {
-                    // ignored
+                    Logger.LogError($"FindPlayerByClientId failed for ClientID {clientId}.");
                 }
             }
             return null;
         }
+
+    private static readonly ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("Town of Us Mira");
 }
