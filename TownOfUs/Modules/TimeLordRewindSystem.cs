@@ -730,6 +730,11 @@ public static class TimeLordRewindSystem
             pos = _lastRecordedPos;
         }
 
+        if (IsInExcludedRewindRecordRoom(pos))
+        {
+            return;
+        }
+
         if (!IsValidSnapshotPos(lp, pos))
         {
             return;
@@ -1325,7 +1330,13 @@ public static class TimeLordRewindSystem
             }
 
             buf.EnsureCapacity(cap);
-            buf.Add(body.transform.position);
+            var pos = (Vector2)body.transform.position;
+            if (IsInExcludedRewindRecordRoom(pos))
+            {
+                continue;
+            }
+
+            buf.Add(pos);
         }
 
         var keys = HostBodyPosHistory.Keys.ToList();
@@ -1336,6 +1347,12 @@ public static class TimeLordRewindSystem
                 HostBodyPosHistory.Remove(k);
             }
         }
+    }
+
+    private static bool IsInExcludedRewindRecordRoom(Vector2 pos)
+    {
+        var room = ShipStatus.Instance?.AllRooms?.FirstOrDefault(r => r.RoomId == (SystemTypes)84);
+        return room?.roomArea != null && room.roomArea.OverlapPoint(pos);
     }
 
 

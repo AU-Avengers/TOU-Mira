@@ -112,7 +112,13 @@ public sealed class MayorRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
+        var meeting = MeetingHud.Instance;
+        if (meeting == null)
+        {
+            return;
+        }
+
+        var targetVoteArea = meeting.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
         if (Revealed && !DisabledAnimation)
         {
             Coroutines.Start(CoAnimatePostReveal(targetVoteArea));
@@ -121,7 +127,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         if (Player.AmOwner && !Revealed)
             // Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
         }
     }

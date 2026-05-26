@@ -163,6 +163,15 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> DenySound { get; } =
         new LoadableBundleAsset<AudioClip>("Deny", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> SentryIntro { get; } =
+        new LoadableAudioResourceAsset("TownOfUs.Resources.SentryIntro.wav");
+
+    public static LoadableAsset<AudioClip> SinisterIntro { get; } =
+        new LoadableAudioResourceAsset("TownOfUs.Resources.SinisterIntro.wav");
+
+    public static LoadableAsset<AudioClip> PotionIntro { get; } =
+        new LoadableAudioResourceAsset("TownOfUs.Resources.PotionIntro.wav");
+
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {
         if (Constants.ShouldPlaySfx())

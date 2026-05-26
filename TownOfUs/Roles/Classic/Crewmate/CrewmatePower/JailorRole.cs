@@ -137,9 +137,10 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 true);
         }
 
-        if (MeetingHud.Instance)
+        var meeting = MeetingHud.Instance;
+        if (meeting != null)
         {
-            AddMeetingButtons(MeetingHud.Instance);
+            AddMeetingButtons(meeting);
         }
     }
 
@@ -184,13 +185,13 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             if (Jailed?.PlayerId == voteArea.TargetPlayerId)
                 // if (!(jailorRole.Jailed.IsLover() && PlayerControl.LocalPlayer.IsLover()))
             {
-                GenButton(voteArea);
+                GenButton(voteArea, __instance);
             }
         }
     }
 
 
-    private void GenButton(PlayerVoteArea voteArea)
+    private void GenButton(PlayerVoteArea voteArea, MeetingHud meeting)
     {
         var confirmButton = voteArea.Buttons.transform.GetChild(0).gameObject;
 
@@ -202,7 +203,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         newButtonObj.transform.parent = confirmButton.transform.parent.parent;
 
         var buttonText = Object.Instantiate(
-            MeetingHud.Instance.MeetingAbilityButton.buttonLabelText.gameObject,
+            meeting.MeetingAbilityButton.buttonLabelText.gameObject,
             newButtonObj.transform);
         buttonText.transform.localPosition = new Vector3(0, -0.2f, 0f);
         var tmpText = buttonText.GetComponent<TextMeshPro>();

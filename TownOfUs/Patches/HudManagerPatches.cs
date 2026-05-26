@@ -958,6 +958,7 @@ public static class HudManagerPatches
                 TouAssets.ZoomMinusActive.LoadAsset();
                 active.localPosition = new Vector3(0, 0.021f, -0.1f);
             ZoomButton.GetComponentInChildren<AspectPosition>().Destroy();
+            TownOfUsLocalSettings.SetUpButtonPositions();
         }
     }
 
@@ -1061,7 +1062,8 @@ public static class HudManagerPatches
 
         if (UiTopRight && UiGrid)
         {
-            UiGrid.ArrangeChilds();
+            var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
+            instance.Chat.chatButton.gameObject.SetActive(isChatButtonVisible);
         }
     }
     public static void CreateNewUiRow(HudManager instance)
@@ -1080,13 +1082,6 @@ public static class HudManagerPatches
             ExtraUiAspectPos.DistanceFromEdge = BelowOptionPos;
             ExtraUiGrid.Start();
             ExtraUiAspectPos.updateAlways = true;
-        }
-
-        if (ExtraUiTopRight && ExtraUiGrid)
-        {
-            var isChatButtonVisible = HudManager.Instance.Chat.isActiveAndEnabled;
-            instance.Chat.chatButton.gameObject.SetActive(isChatButtonVisible);
-            ExtraUiGrid.ArrangeChilds();
         }
     }
 
@@ -1117,6 +1112,7 @@ public static class HudManagerPatches
             active.localPosition = new Vector3(0, 0.021f, -0.1f);
 
             WikiButton.GetComponentInChildren<AspectPosition>().Destroy();
+            TownOfUsLocalSettings.SetUpButtonPositions();
         }
 
         if (WikiButton)

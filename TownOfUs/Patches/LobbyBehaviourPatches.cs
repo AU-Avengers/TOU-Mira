@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
+using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 
 namespace TownOfUs.Patches;
@@ -13,6 +14,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
+        GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)
         {
             if (!role || role is not ITownOfUsRole touRole)
@@ -23,6 +25,7 @@ public static class LobbyBehaviourPatches
             touRole.LobbyStart();
         }
 
+        TeamChatPatches.CleanUpChats();
         GameHistory.ClearAll();
         ScreenFlash.Clear();
         MeetingMenu.ClearAll();

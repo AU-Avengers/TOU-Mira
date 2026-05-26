@@ -1,7 +1,14 @@
 using BepInEx.Configuration;
+using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using TownOfUs.Events;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
+using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Roles.Crewmate;
+using TownOfUs.Utilities.Appearances;
+using UnityEngine;
 
 namespace TownOfUs;
 
@@ -31,9 +38,11 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
     public override void OnOptionChanged(ConfigEntryBase configEntry)
     {
         base.OnOptionChanged(configEntry);
+        var roleAvailable = PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Data &&
+                            PlayerControl.LocalPlayer.Data.Role;
         if ((configEntry == ParasitePiPLocation || configEntry == ParasitePiPSize) &&
-                 PlayerControl.LocalPlayer &&
-                 PlayerControl.LocalPlayer.Data?.Role is Roles.Impostor.ParasiteRole parasiteRole)
+            roleAvailable &&
+                 PlayerControl.LocalPlayer.Data.Role is Roles.Impostor.ParasiteRole parasiteRole)
         {
             // Apply PiP changes to the Parasite (controller) side.
             parasiteRole.MarkPiPSettingsDirty(resetManualThisSession: true);
@@ -42,6 +51,32 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
         else if (configEntry == ShowRoleIconOnRoleTab)
         {
             TownOfUsEventHandlers.TryGetRoleTab();
+        }
+        else if (configEntry == SonarTargetType && roleAvailable && PlayerControl.LocalPlayer.Data.Role is SonarRole)
+        {
+            var update = OptionGroupSingleton<SonarOptions>.Instance.UpdateInterval;
+            if (SonarTargetType.Value is SonarTargetStyle.Arrows)
+            {
+                var currentHeartbeats = ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>();
+                foreach (var plr in currentHeartbeats)
+                {
+                    plr.RemoveModifier<SonarHeartbeatTargetModifier>();
+
+                    Color color = Palette.PlayerColors[plr.GetDefaultAppearance().ColorId];
+                    plr.AddModifier<SonarArrowTargetModifier>(PlayerControl.LocalPlayer, color, update);
+                }
+            }
+            else
+            {
+                var currentArrows = ModifierUtils.GetPlayersWithModifier<SonarArrowTargetModifier>();
+                foreach (var plr in currentArrows)
+                {
+                    plr.RemoveModifier<SonarArrowTargetModifier>();
+
+                    Color color = Palette.PlayerColors[plr.GetDefaultAppearance().ColorId];
+                    plr.AddModifier<SonarHeartbeatTargetModifier>(PlayerControl.LocalPlayer, color, update);
+                }
+            }
         }
     }
 
@@ -85,6 +120,16 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
     [LocalizedLocalEnumSetting(names: ["FlashWhite", "FlashLightGray", "FlashGray", "FlashDarkGray"])]
     public ConfigEntry<GrenadeFlashColor> GrenadierFlashColor { get; private set; } =
         config.Bind("Role Visuals", "GrenadierFlashColor", GrenadeFlashColor.LightGray);
+
+    [LocalizedLocalEnumSetting(names: ["SonarHeartbeats", "SonarArrows"])]
+    public ConfigEntry<SonarTargetStyle> SonarTargetType { get; private set; } =
+        config.Bind("Role Visuals", "SonarTargetType", SonarTargetStyle.Heartbeats);
+}
+
+public enum SonarTargetStyle
+{
+    Heartbeats,
+    Arrows
 }
 
 public enum ArrowStyleType

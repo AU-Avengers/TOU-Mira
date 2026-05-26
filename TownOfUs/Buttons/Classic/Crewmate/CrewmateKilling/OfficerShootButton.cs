@@ -8,6 +8,7 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -125,6 +126,15 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
                         (stats.CorrectAssassinKills > 0 || stats.CorrectKills > 0 || stats.IncorrectKills > 0) ||
                         GameHistory.KilledPlayers.Any(x =>
                             x.KillerId == Target.PlayerId && x.VictimId != Target.PlayerId);
+
+        var targetRole = Target.Data.Role;
+        var hasProsecuted = targetRole is ProsecutorRole pros && pros.ProsecutionsCompleted > 0;
+
+        // Prosecutor Imitator *technically* already completed their prosecutes
+        if (hasProsecuted && !Target.HasModifier<ImitatorCacheModifier>())
+        {
+            hasKilled = true;
+        }
         var evilOfficer = (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) &&
                             !allyMod.GetsPunished);
 
