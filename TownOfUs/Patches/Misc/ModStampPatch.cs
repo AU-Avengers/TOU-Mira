@@ -6,6 +6,7 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
 public static class ModStampPatch
 {
+    public static ModStampLocation StampPlacement = ModStampLocation.TopLeft;
     [HarmonyPrefix]
     public static bool LateUpdate(ModManager __instance)
     {
@@ -20,8 +21,22 @@ public static class ModStampPatch
                 __instance.localCamera = Camera.main;
             }
         }
-        // __instance.ModStamp.transform.position = AspectPosition.ComputeWorldPosition(__instance.localCamera, AspectPosition.EdgeAlignments.RightTop, new Vector3(0.6f, 0.6f, __instance.localCamera!.nearClipPlane + 0.1f));
-        __instance.ModStamp.transform.position = AspectPosition.ComputeWorldPosition(__instance.localCamera, AspectPosition.EdgeAlignments.LeftTop, new Vector3(0.6f, 0.6f, __instance.localCamera!.nearClipPlane + 0.1f));
+
+        if (__instance.localCamera)
+        {
+            var position = StampPlacement switch
+            {
+                ModStampLocation.TopLeft => AspectPosition.ComputeWorldPosition(__instance.localCamera, AspectPosition.EdgeAlignments.LeftTop,
+                    new Vector3(0.6f, 0.6f, __instance.localCamera!.nearClipPlane + 0.1f)),
+                ModStampLocation.BottomLeft => AspectPosition.ComputeWorldPosition(__instance.localCamera, AspectPosition.EdgeAlignments.LeftBottom,
+                    new Vector3(0.6f, 0.6f, __instance.localCamera!.nearClipPlane + 0.1f)),
+                ModStampLocation.BottomRight => AspectPosition.ComputeWorldPosition(__instance.localCamera, AspectPosition.EdgeAlignments.RightBottom,
+                    new Vector3(0.6f, 0.6f, __instance.localCamera!.nearClipPlane + 0.1f)),
+                _ => AspectPosition.ComputeWorldPosition(__instance.localCamera, AspectPosition.EdgeAlignments.RightTop,
+                    new Vector3(0.6f, 0.6f, __instance.localCamera!.nearClipPlane + 0.1f))
+            };
+            __instance.ModStamp.transform.position = position;
+        }
         return false;
     }
 }

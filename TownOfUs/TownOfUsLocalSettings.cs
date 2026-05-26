@@ -7,6 +7,7 @@ using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.Patches;
+using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -197,8 +198,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
             touRole.OffsetButtons();
         }
-
-        if (configEntry == ButtonUIFactorSlider)
+        else if (configEntry == ButtonUIFactorSlider)
         {
             if (HudManager.InstanceExists)
             {
@@ -206,10 +206,13 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             }
             OldButtonScaleFactor = ButtonUIFactorSlider.Value;
         }
-
-        if (configEntry == WikiOnBottomRow || configEntry == ZoomOnBottomRow)
+        else if (configEntry == WikiOnBottomRow || configEntry == ZoomOnBottomRow)
         {
             SetUpButtonPositions();
+        }
+        else if (configEntry == ModStampPlacement)
+        {
+            ModStampPatch.StampPlacement = ModStampPlacement.Value;
         }
     }
 
@@ -247,4 +250,16 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ColorPlayerNameToggle { get; private set; } =
         config.Bind("UI/Visuals", "ColorPlayerName", false);
+
+    [LocalizedLocalEnumSetting(names: ["ModStampTopLeft", "ModStampTopRight", "ModStampBottomLeft", "ModStampBottomRight"])]
+    public ConfigEntry<ModStampLocation> ModStampPlacement { get; private set; } =
+        config.Bind("UI/Visuals", "ModStampPlacement", ModStampLocation.TopRight);
+}
+
+public enum ModStampLocation
+{
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight
 }
