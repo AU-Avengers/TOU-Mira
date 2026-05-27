@@ -8,7 +8,7 @@ using UnityEngine;
 namespace TownOfUs.Buttons.Impostor;
 
 public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     private string _ctrlKillName = "Control Kill";
     private string _killName = "Kill";
@@ -16,7 +16,7 @@ public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, 
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
-    public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouAssets.KillSprite;
     private static PuppeteerControlButton ControlButton => CustomButtonSingleton<PuppeteerControlButton>.Instance;
 
     public override bool ZeroIsInfinite { get; set; } = true;

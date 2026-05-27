@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Vent>
+public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Vent>, ILegacyCapable
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.VentLabel, "Vent");
     public override BaseKeybind Keybind => Keybinds.VentAction;
@@ -22,7 +22,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
 
     public override float EffectDuration => OptionGroupSingleton<EngineerOptions>.Instance.VentDuration;
     public override int MaxUses => (int)OptionGroupSingleton<EngineerOptions>.Instance.MaxVents;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.EngiVentSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.VentSprite : TouCrewAssets.EngiVentSprite;
     public override bool ShouldPauseInVent => false;
     public int ExtraUses { get; set; }
 

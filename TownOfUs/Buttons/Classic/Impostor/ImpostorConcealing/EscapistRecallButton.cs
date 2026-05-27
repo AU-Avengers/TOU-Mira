@@ -9,14 +9,14 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class EscapistRecallButton : TownOfUsRoleButton<EscapistRole>, IAftermathableButton
+public sealed class EscapistRecallButton : TownOfUsRoleButton<EscapistRole>, IAftermathableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleEscapistRecall", "Recall");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<EscapistOptions>.Instance.RecallCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<EscapistOptions>.Instance.MaxEscapes;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.RecallSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.RecallSprite : TouImpAssets.RecallSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 

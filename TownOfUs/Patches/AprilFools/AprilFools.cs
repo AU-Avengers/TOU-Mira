@@ -52,14 +52,33 @@ public static class AprilFoolsPatches
         }
         if (__instance.newsButton != null)
         {
+            var legacytoggle = __instance.newsButton.CloneMenuItem("LegacyModeButton", new Vector2(0.815f, 0.775f), TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset(), $"LegacyTheme{TownOfUsPlugin.LegacyMode.Value}", "Legacy Theming");
+
+            var legacyHighlightObj = legacytoggle.transform.GetChild(1).gameObject;
+            var legacyBaseObj = legacytoggle.transform.GetChild(2).gameObject;
+            var legacySprite = legacyHighlightObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
+            var legacySprite2 = legacyBaseObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
+
+            var legacyPassive = legacytoggle.GetComponent<PassiveButton>();
+            legacyPassive.OnClick = new Button.ButtonClickedEvent();
+            var translator = legacytoggle.transform.GetChild(0).GetChild(0).GetComponent<TmpMiraTranslator>();
+
+            legacyPassive.OnClick.AddListener((Action)(() =>
+            {
+                var next = TownOfUsPlugin.LegacyMode.Value + 1;
+                var value = !Enum.IsDefined(next) ? LegacyVisuals.Disabled : next;
+                TownOfUsPlugin.LegacyMode.Value = value;
+                legacySprite.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset();
+                legacySprite2.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset();
+                translator.stringName = $"LegacyTheme{TownOfUsPlugin.LegacyMode.Value}";
+                translator.ResetText();
+            }));
             /*var aprilfoolstoggle = __instance.newsButton.CloneMenuItem("AprilFoolsButton", new Vector2(0.815f, 0.775f), TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset(), "FoolsMode", "Fools Mode");
 
             var foolsHighlightObj = aprilfoolstoggle.transform.GetChild(1).gameObject;
             var foolsBaseObj = aprilfoolstoggle.transform.GetChild(2).gameObject;
             var foolsSprite = foolsHighlightObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
-            foolsSprite.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
             var foolsSprite2 = foolsBaseObj.transform.GetChild(0).GetComponent<SpriteRenderer>();
-            foolsSprite2.sprite = TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset();
 
             var foolsPassive = aprilfoolstoggle.GetComponent<PassiveButton>();
             foolsPassive.OnClick = new Button.ButtonClickedEvent();
@@ -117,53 +136,31 @@ public static class AprilFoolsPatches
         }
     }
 
-    /*[HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetBodyType))]
+    private static bool IsLegacyPlayer =>
+        TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Players or LegacyVisuals.Full;
+    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetBodyType))]
     [HarmonyPrefix]
-    public static void Prefix(ref PlayerBodyTypes bodyType)
+    public static void SetBodyPrefix(ref PlayerBodyTypes bodyType)
     {
-        if (GameManager.Instance && (GameManager.Instance.IsHideAndSeek() ||
-                                             !OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools))
+        if (!IsLegacyPlayer)
         {
             return;
         }
-        switch (CurrentMode)
-        {
-            case 1:
-                bodyType = PlayerBodyTypes.Horse;
-                break;
-            case 2:
-                bodyType = PlayerBodyTypes.Long;
-                break;
-            case 3:
-                bodyType = PlayerBodyTypes.LongSeeker;
-                break;
-        }
+
+        bodyType = PlayerBodyTypes.Classic;
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.BodyType), MethodType.Getter)]
     [HarmonyPrefix]
-    public static bool Prefix2(ref PlayerBodyTypes __result)
+    public static bool BodyPrefix(ref PlayerBodyTypes __result)
     {
-        if (GameManager.Instance && (GameManager.Instance.IsHideAndSeek() ||
-                                             !OptionGroupSingleton<HostSpecificOptions>.Instance.AllowAprilFools))
+        if (IsLegacyPlayer)
         {
-            return true;
+            __result = PlayerBodyTypes.Classic;
+            return false;
         }
-        switch (CurrentMode)
-        {
-            case 1:
-                __result = PlayerBodyTypes.Horse;
-                return false;
-            case 2:
-                __result = PlayerBodyTypes.Long;
-                return false;
-            case 3:
-                __result = PlayerBodyTypes.LongSeeker;
-                return false;
-            default:
-                return true;
-        }
-    }*/
+        return true;
+    }
 
     public static PassiveButton CloneMenuItem(this PassiveButton newsButton, string objName, Vector2 pos, Sprite image, string localeKey, string? defaultText)
     {

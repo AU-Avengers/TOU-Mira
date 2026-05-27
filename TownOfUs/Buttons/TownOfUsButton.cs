@@ -123,7 +123,7 @@ public abstract class TownOfUsButton : CustomActionButton
             return;
         }
 
-        Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
+        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBasicSprite.LoadAsset();
 
         TownOfUsColors.UseBasic = false;
         if (TextOutlineColor != Color.clear)
@@ -365,20 +365,27 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             return;
         }
 
-        switch (typeof(T))
+        if (this is ILegacyCapable && LegacyAssets.IsLegacy)
         {
-            case Type t when t == typeof(Vent):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
-                break;
-            case Type t when t == typeof(DeadBody):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
-                break;
-            case Type t when t == typeof(PlayerControl):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterPlayerSprite.LoadAsset();
-                break;
-            default:
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
-                break;
+            Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
+        }
+        else
+        {
+            switch (typeof(T))
+            {
+                case Type t when t == typeof(Vent):
+                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
+                    break;
+                case Type t when t == typeof(DeadBody):
+                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
+                    break;
+                case Type t when t == typeof(PlayerControl):
+                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterPlayerSprite.LoadAsset();
+                    break;
+                default:
+                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
+                    break;
+            }
         }
 
         TownOfUsColors.UseBasic = false;
@@ -541,6 +548,10 @@ public interface IDiseaseableButton
 }
 
 public interface IKillButton
+{
+}
+
+public interface ILegacyCapable
 {
 }
 

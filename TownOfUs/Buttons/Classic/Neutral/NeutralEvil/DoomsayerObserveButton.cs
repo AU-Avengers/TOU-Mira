@@ -10,13 +10,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class DoomsayerObserveButton : TownOfUsRoleButton<DoomsayerRole, PlayerControl>
+public sealed class DoomsayerObserveButton : TownOfUsRoleButton<DoomsayerRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleDoomsayerObserve", "Observe");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Doomsayer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<DoomsayerOptions>.Instance.ObserveCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.Observe;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.Observe : TouNeutAssets.Observe;
 
     public override bool Enabled(RoleBehaviour? role)
     {

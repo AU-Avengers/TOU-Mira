@@ -8,7 +8,7 @@ using UnityEngine;
 namespace TownOfUs.Buttons.Impostor;
 
 public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, DeadBody>, IAftermathableBodyButton,
-    IDiseaseableButton
+    IDiseaseableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleJanitorClean", "Clean");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -16,7 +16,7 @@ public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, Dea
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<JanitorOptions>.Instance.CleanCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<JanitorOptions>.Instance.CleanDelay + 0.001f;
     public override int MaxUses => (int)OptionGroupSingleton<JanitorOptions>.Instance.MaxClean;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.CleanButtonSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.CleanButtonSprite : TouImpAssets.CleanButtonSprite;
 
     public DeadBody? CleaningBody { get; set; }
 

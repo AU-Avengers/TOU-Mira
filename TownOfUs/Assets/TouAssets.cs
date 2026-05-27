@@ -6,7 +6,7 @@ namespace TownOfUs.Assets;
 
 public static class TouAssets
 {
-    private const string ShortPath = "TownOfUs.Resources";
+    internal const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
     private const string SubmergedPath = "TownOfUs.Resources.Submerged";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
@@ -37,6 +37,25 @@ public static class TouAssets
 
         return sprite;
     }
+
+    public static LoadableAsset<Sprite> LegacyMenuSprite(LegacyVisuals value)
+    {
+        var sprite = LegacyDisabled;
+        switch (value)
+        {
+            case LegacyVisuals.Players:
+                sprite = LegacyPlayers;
+                break;
+            case LegacyVisuals.Art:
+                sprite = LegacyArt;
+                break;
+            case LegacyVisuals.Full:
+                sprite = LegacyFull;
+                break;
+        }
+
+        return sprite;
+    }
     public static LoadableAsset<Sprite> DleksBanner { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.DleksBanner.png");
 
@@ -48,6 +67,18 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> DleksIcon { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.DleksIcon.png");
+
+    public static LoadableAsset<Sprite> LegacyDisabled { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyDisabled.png");
+
+    public static LoadableAsset<Sprite> LegacyPlayers { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyPlayers.png");
+
+    public static LoadableAsset<Sprite> LegacyArt { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyArt.png");
+
+    public static LoadableAsset<Sprite> LegacyFull { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyFull.png");
 
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.Normal.png");

@@ -57,14 +57,14 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         if (Player.AmOwner)
         {
             TouAudio.PlaySound(TouAudio.SwooperActivateSound);
+
+            var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
+            button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite.LoadAsset() : TouImpAssets.UnswoopSprite.LoadAsset());
+            button.OverrideName(TouLocale.Get("TouRoleSwooperUnswoop", "Unswoop"));
         }
 
         Player.RawSetAppearance(this);
         Player.cosmetics.ToggleNameVisible(false);
-
-        var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
-        button.OverrideSprite(TouImpAssets.UnswoopSprite.LoadAsset());
-        button.OverrideName(TouLocale.Get("TouRoleSwooperUnswoop", "Unswoop"));
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperSwoop, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
@@ -89,7 +89,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         if (Player.AmOwner)
         {
             var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
-            button.OverrideSprite(TouImpAssets.SwoopSprite.LoadAsset());
+            button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite.LoadAsset() : TouImpAssets.SwoopSprite.LoadAsset());
             button.OverrideName(TouLocale.Get("TouRoleSwooperSwoop", "Swoop"));
             if (!MeetingHud.Instance)
             {

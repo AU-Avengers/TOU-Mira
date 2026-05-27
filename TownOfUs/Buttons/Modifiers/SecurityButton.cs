@@ -11,7 +11,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Modifiers;
 
-public sealed class SecurityButton : TownOfUsButton
+public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
 {
     public Minigame? securityMinigame;
 
@@ -39,7 +39,7 @@ public sealed class SecurityButton : TownOfUsButton
     }
 
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.CameraSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.SecuritySprite : TouAssets.CameraSprite;
     public bool canMoveWithMinigame { get; set; }
 
     public override bool Enabled(RoleBehaviour? role)
