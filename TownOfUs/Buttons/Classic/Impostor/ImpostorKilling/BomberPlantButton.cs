@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAftermathableButton, IDiseaseableButton
+public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAftermathableButton, IDiseaseableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleBomberPlace", "Place");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -16,7 +16,7 @@ public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAft
     public override float EffectDuration => OptionGroupSingleton<BomberOptions>.Instance.DetonateDelay;
     public override int MaxUses => (int)OptionGroupSingleton<BomberOptions>.Instance.MaxBombs;
     public override bool ZeroIsInfinite => true;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.PlaceSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.PlantSprite : TouImpAssets.PlaceSprite;
 
     public static bool Usable => OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound ||
                          TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
@@ -37,7 +37,7 @@ public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAft
     }
     protected override void OnClick()
     {
-        OverrideSprite(TouImpAssets.DetonatingSprite.LoadAsset());
+        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DetonatingSprite.LoadAsset() : TouImpAssets.DetonatingSprite.LoadAsset());
         OverrideName(TouLocale.Get("TouRoleBomberDetonating", "Detonating"));
 
         PlayerControl.LocalPlayer.killTimer = EffectDuration + 1f;
@@ -47,7 +47,7 @@ public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAft
 
     public override void OnEffectEnd()
     {
-        OverrideSprite(TouImpAssets.PlaceSprite.LoadAsset());
+        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.PlantSprite.LoadAsset() : TouImpAssets.PlaceSprite.LoadAsset());
         OverrideName(TouLocale.Get("TouRoleBomberPlace", "Place"));
 
         PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.GetKillCooldown());

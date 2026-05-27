@@ -9,23 +9,18 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAftermathableButton
+public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAftermathableButton, ILegacyCapable
 {
     private VenererAbility _queuedAbility = VenererAbility.None;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.NoAbilitySprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.NoAbilitySprite : TouImpAssets.NoAbilitySprite;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<VenererOptions>.Instance.AbilityCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<VenererOptions>.Instance.AbilityDuration;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
     public VenererAbility ActiveAbility { get; private set; } = VenererAbility.None;
-
-    public override bool Enabled(RoleBehaviour? role)
-    {
-        return base.Enabled(role) && ActiveAbility != VenererAbility.None;
-    }
 
     public void UpdateAbility(VenererAbility ability)
     {
@@ -73,13 +68,13 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
         switch (ActiveAbility)
         {
             case VenererAbility.Camouflage:
-                SetAbility("Camouflage", TouImpAssets.CamouflageSprite.LoadAsset());
+                SetAbility("Camouflage", LegacyAssets.IsLegacy ? LegacyImpAssets.CamouflageSprite.LoadAsset() : TouImpAssets.CamouflageSprite.LoadAsset());
                 break;
             case VenererAbility.Sprint:
-                SetAbility("Sprint", TouImpAssets.SprintSprite.LoadAsset());
+                SetAbility("Sprint", LegacyAssets.IsLegacy ? LegacyImpAssets.SprintSprite.LoadAsset() : TouImpAssets.SprintSprite.LoadAsset());
                 break;
             case VenererAbility.Freeze:
-                SetAbility("Freeze", TouImpAssets.FreezeSprite.LoadAsset());
+                SetAbility("Freeze", LegacyAssets.IsLegacy ? LegacyImpAssets.FreezeSprite.LoadAsset() : TouImpAssets.FreezeSprite.LoadAsset());
                 break;
         }
 
@@ -102,15 +97,19 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
             PlayerControl.LocalPlayer.RpcRemoveModifier(mod.UniqueId);
         }
 
-        if (_queuedAbility == VenererAbility.None)
-        {
-            return;
-        }
-
         UpdateButton(_queuedAbility);
         _queuedAbility = VenererAbility.None;
     }
-    
+
+    public override void ClickHandler()
+    {
+        if (ActiveAbility == VenererAbility.None)
+        {
+            return;
+        }
+        base.ClickHandler();
+    }
+
     public void AftermathHandler()
     {
         ClickHandler();

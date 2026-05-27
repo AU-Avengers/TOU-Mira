@@ -11,13 +11,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerControl>
+public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleSeerReveal", "Reveal");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Seer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SeerOptions>.Instance.SeerCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SeerSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.SeerSprite : TouCrewAssets.SeerSprite;
 
     public override bool Enabled(RoleBehaviour? role)
     {

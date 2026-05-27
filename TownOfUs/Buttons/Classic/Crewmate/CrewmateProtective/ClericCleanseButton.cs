@@ -10,13 +10,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class ClericCleanseButton : TownOfUsRoleButton<ClericRole, PlayerControl>
+public sealed class ClericCleanseButton : TownOfUsRoleButton<ClericRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleClericCleanse", "Cleanse");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Cleric;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ClericOptions>.Instance.CleanseCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CleanseSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.CleanseSprite : TouCrewAssets.CleanseSprite;
 
     public override PlayerControl? GetTarget()
     {

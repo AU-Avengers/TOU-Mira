@@ -25,7 +25,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
     public override ButtonLocation Location => ButtonLocation.BottomRight;
     public override Color TextOutlineColor => TownOfUsColors.Sentry;
     public override float Cooldown => 0.001f;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.CameraSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.SecuritySprite : TouAssets.CameraSprite;
 
     protected static bool AllCamerasPlaced()
     {

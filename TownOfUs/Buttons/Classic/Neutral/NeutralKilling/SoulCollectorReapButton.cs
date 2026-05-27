@@ -10,13 +10,13 @@ using UnityEngine;
 namespace TownOfUs.Buttons.Neutral;
 
 public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollectorRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleSoulCollectorReap", "Reap");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.SoulCollector;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ReapSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouNeutAssets.ReapSprite;
 
     public override void CreateButton(Transform parent)
     {

@@ -10,13 +10,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class HerbalistAbilityKillButton : TownOfUsRoleButton<HerbalistRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class HerbalistAbilityKillButton : TownOfUsRoleButton<HerbalistRole, PlayerControl>, IDiseaseableButton, IKillButton, ILegacyCapable
 {
     public override string Name => "Kill";
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
-    public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouAssets.KillSprite;
     public static HerbalistAbilityHerbButton OtherHerbButton => CustomButtonSingleton<HerbalistAbilityHerbButton>.Instance;
 
     public void SetDiseasedTimer(float multiplier)

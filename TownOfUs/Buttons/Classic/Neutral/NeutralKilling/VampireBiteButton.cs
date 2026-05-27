@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, PlayerControl>, IDiseaseableButton, IKillButton
+public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, PlayerControl>, IDiseaseableButton, IKillButton, ILegacyCapable
 {
     private string _biteName = "Bite";
     private string _killName = "Kill";
@@ -23,7 +23,7 @@ public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, Play
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Vampire;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<VampireOptions>.Instance.BiteCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.BiteSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.BiteSprite : TouNeutAssets.BiteSprite;
 
     public void SetDiseasedTimer(float multiplier)
     {

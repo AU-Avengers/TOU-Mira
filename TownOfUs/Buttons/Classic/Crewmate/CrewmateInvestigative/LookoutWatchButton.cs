@@ -9,14 +9,14 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
+public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleLookoutWatch", "Watch");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Lookout;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<LookoutOptions>.Instance.WatchCooldown + MapCooldown, 1f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<LookoutOptions>.Instance.MaxWatches;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.WatchSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.WatchSprite : TouCrewAssets.WatchSprite;
     public int ExtraUses { get; set; }
 
     public override bool IsTargetValid(PlayerControl? target)

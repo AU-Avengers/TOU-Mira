@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterRole>
+public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleTransporterTransport", "Transport");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -18,7 +18,7 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
         Math.Clamp(OptionGroupSingleton<TransporterOptions>.Instance.TransporterCooldown + MapCooldown, 5f, 120f);
 
     public override int MaxUses => (int)OptionGroupSingleton<TransporterOptions>.Instance.MaxNumTransports;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.Transport;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.Transport : TouCrewAssets.Transport;
     public int ExtraUses { get; set; }
 
     public override void ClickHandler()

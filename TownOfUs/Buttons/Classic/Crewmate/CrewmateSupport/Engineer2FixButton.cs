@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>
+public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleEngineerFix", "Fix");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -18,7 +18,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>
     public override float Cooldown => Math.Clamp(MapCooldown, 0.01f, 120f);
     public override float EffectDuration => Math.Clamp(OptionGroupSingleton<EngineerOptions>.Instance.FixDelay.Value, 0.01f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.FixButtonSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.FixButtonSprite : TouCrewAssets.FixButtonSprite;
     public override bool ShouldPauseInVent => false;
     public int ExtraUses { get; set; }
 
