@@ -2,6 +2,7 @@ using HarmonyLib;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events;
+using TownOfUs.Patches.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -72,6 +73,7 @@ public static class AprilFoolsPatches
                 legacySprite2.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset();
                 translator.stringName = $"LegacyTheme{TownOfUsPlugin.LegacyMode.Value}";
                 translator.ResetText();
+                LogoPatch.GameLogo.sprite = TouAssets.Banner.LoadAsset();
             }));
             /*var aprilfoolstoggle = __instance.newsButton.CloneMenuItem("AprilFoolsButton", new Vector2(0.815f, 0.775f), TouAssets.FoolsMenuSprite(CurrentMode).LoadAsset(), "FoolsMode", "Fools Mode");
 

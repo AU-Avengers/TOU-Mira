@@ -29,7 +29,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
             ActiveAbility = VenererAbility.None;
             _queuedAbility = VenererAbility.None;
 
-            SetActive(false, PlayerControl.LocalPlayer.Data.Role);
+            SetActive(false, Role);
         }
 
         if (ActiveAbility == VenererAbility.Freeze)
@@ -37,7 +37,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
             return;
         }
 
-        if (ability != VenererAbility.None && PlayerControl.LocalPlayer.Data.Role is VenererRole)
+        if (ability != VenererAbility.None && Role)
         {
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You have unlocked the {ability.ToString()} ability for getting a kill. {(EffectActive ? "You must wait until your current ability is over." : string.Empty)}</color></b>",

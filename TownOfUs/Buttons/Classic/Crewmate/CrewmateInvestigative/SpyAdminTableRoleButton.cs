@@ -35,7 +35,7 @@ public sealed class SpyAdminTableRoleButton : TownOfUsRoleButton<SpyRole>
     }
 
     public override ButtonLocation Location => ButtonLocation.BottomRight;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.AdminSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.AdminMiraSprite : TouAssets.AdminSprite;
 
     private void RefreshAbilityButton()
     {

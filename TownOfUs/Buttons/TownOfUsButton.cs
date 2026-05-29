@@ -16,6 +16,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons;
 
+#pragma warning disable S3060
 [MiraIgnore]
 public abstract class TownOfUsButton : CustomActionButton
 {
@@ -470,7 +471,7 @@ public abstract class TownOfUsRoleButton<TRole> : TownOfUsButton where TRole : R
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return !Disabled && role is TRole;
+        return !Disabled && role is TRole && Role;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
@@ -487,7 +488,7 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return !Disabled && role is TRole;
+        return !Disabled && role is TRole && Role;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
@@ -581,3 +582,4 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
         return true;
     }
 }
+#pragma warning restore S3060

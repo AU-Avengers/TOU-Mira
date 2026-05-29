@@ -85,12 +85,13 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                TouLocale.GetParsed("TouRoleHypnotistMassHysteria"),
+                classic ? string.Empty : TouLocale.GetParsed("TouRoleHypnotistMassHysteria"),
                 MeetingAbilityType.Click,
-                TouAssets.HysteriaCleanSprite,
+                classic ? LegacyAssets.HysteriaSprite : TouAssets.HysteriaCleanSprite,
                 null!,
                 IsExempt)
             {

@@ -89,12 +89,13 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                TouLocale.GetParsed("TouRolePoliticianReveal"),
+                classic ? string.Empty : TouLocale.GetParsed("TouRolePoliticianReveal"),
                 MeetingAbilityType.Click,
-                TouAssets.RevealCleanSprite,
+                classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
                 null!,
                 IsExempt)
             {
