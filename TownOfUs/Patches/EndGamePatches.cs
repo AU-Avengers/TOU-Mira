@@ -713,6 +713,8 @@ public static class EndGamePatches
                 return mod?.ExtraNameText ?? string.Empty;
             }
 
+            var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
+            var roleOnTop = HudManagerPatches.RoleOnTop;
             var localDead = PlayerControl.LocalPlayer.HasDied();
             var localGhost = localDead && genOpt.TheDeadKnow;
             var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
@@ -775,25 +777,25 @@ public static class EndGamePatches
                 if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
-                    roleName = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
+                    roleName = $"<size={roleNameSize}>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
 
                     var revealedRole = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);
                     if (revealedRole != null)
                     {
                         color = revealedRole.ShownRole!.TeamColor;
                         roleName =
-                            $"<size=80%>{color.ToTextColor()}{revealedRole.ShownRole!.GetRoleName()}</color></size>";
+                            $"<size={roleNameSize}>{color.ToTextColor()}{revealedRole.ShownRole!.GetRoleName()}</color></size>";
                     }
 
                     if (!player.HasModifier<VampireBittenModifier>() && role is VampireRole &&
                         (vampBuddy || localGhost))
                     {
-                        roleName += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                        roleName += $"<size={roleNameSize}><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
                     }
 
                     if (player.HasModifier<AmbassadorRetrainedModifier>() && (impostorBuddy || localGhost))
                     {
-                        roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                        roleName += $"<size={roleNameSize}><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                     }
 
                     var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
@@ -803,14 +805,14 @@ public static class EndGamePatches
                         var cachedName = cache.CachedRoleName == "" ? cache.CachedRole.GetRoleName() : cache
                             .CachedRoleName;
                         roleName = cache.ShowCurrentRoleFirst
-                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
-                            : $"<size=80%>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                            ? $"<size={roleNameSize}>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole)
                     {
                         roleName =
-                            $"<size=80%>{gaRole.TeamColor.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
+                            $"<size={roleNameSize}>{gaRole.TeamColor.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
                     }
 
                     if (localSleuth || (player.Data.IsDead &&
@@ -820,16 +822,16 @@ public static class EndGamePatches
                         var roleWhenAlive = player.GetRoleWhenAlive();
                         color = roleWhenAlive.TeamColor;
 
-                        roleName = $"<size=80%>{color.ToTextColor()}{roleWhenAlive.GetRoleName()}</color></size>";
+                        roleName = $"<size={roleNameSize}>{color.ToTextColor()}{roleWhenAlive.GetRoleName()}</color></size>";
                         if (localDead && !player.HasModifier<VampireBittenModifier>() &&
                             roleWhenAlive is VampireRole)
                         {
-                            roleName += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                            roleName += $"<size={roleNameSize}><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
                         }
 
                         if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostorAligned())
                         {
-                            roleName += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                            roleName += $"<size={roleNameSize}><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                         }
                     }
 
@@ -850,24 +852,24 @@ public static class EndGamePatches
                 }
 
                 color = role.TeamColor;
-                    roleNameFull = $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
+                    roleNameFull = $"<size={roleNameSize}>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color></size>";
 
                     var revealedRole2 = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);
                     if (revealedRole2 != null)
                     {
                         color = revealedRole2.ShownRole!.TeamColor;
                         roleNameFull =
-                            $"<size=80%>{color.ToTextColor()}{revealedRole2.ShownRole!.GetRoleName()}</color></size>";
+                            $"<size={roleNameSize}>{color.ToTextColor()}{revealedRole2.ShownRole!.GetRoleName()}</color></size>";
                     }
 
                     if (!player.HasModifier<VampireBittenModifier>() && role is VampireRole)
                     {
-                        roleNameFull += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                        roleNameFull += $"<size={roleNameSize}><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
                     }
 
                     if (player.HasModifier<AmbassadorRetrainedModifier>())
                     {
-                        roleNameFull += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                        roleNameFull += $"<size={roleNameSize}><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                     }
 
                     var cachedMod2 = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole);
@@ -877,14 +879,14 @@ public static class EndGamePatches
                         var cachedName = cache2.CachedRoleName == "" ? cache2.CachedRole.GetRoleName() : cache2
                             .CachedRoleName;
                         roleName = cache2.ShowCurrentRoleFirst
-                            ? $"<size=80%>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache2.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
-                            : $"<size=80%>{cache2.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
+                            ? $"<size={roleNameSize}>{color.ToTextColor()}{player.Data.Role.GetRoleName()}</color> ({cache2.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size={roleNameSize}>{cache2.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{player.Data.Role.GetRoleName()}</color>)</size>";
                     }
 
                     if (player.Data.IsDead && role is GuardianAngelRole gaRole2)
                     {
                         roleNameFull =
-                            $"<size=80%>{gaRole2.TeamColor.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
+                            $"<size={roleNameSize}>{gaRole2.TeamColor.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
                     }
 
                     if (player.Data.IsDead &&
@@ -894,16 +896,16 @@ public static class EndGamePatches
                         var roleWhenAlive = player.GetRoleWhenAlive();
                         color = roleWhenAlive.TeamColor;
 
-                        roleNameFull = $"<size=80%>{color.ToTextColor()}{roleWhenAlive.GetRoleName()}</color></size>";
+                        roleNameFull = $"<size={roleNameSize}>{color.ToTextColor()}{roleWhenAlive.GetRoleName()}</color></size>";
                         if (localDead && !player.HasModifier<VampireBittenModifier>() &&
                             roleWhenAlive is VampireRole)
                         {
-                            roleNameFull += "<size=80%><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                            roleNameFull += $"<size={roleNameSize}><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
                         }
 
                         if (player.HasModifier<AmbassadorRetrainedModifier>() && player.IsImpostorAligned())
                         {
-                            roleNameFull += "<size=80%><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                            roleNameFull += $"<size={roleNameSize}><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
                         }
                     }
 
@@ -929,8 +931,8 @@ public static class EndGamePatches
                 var addedRoleNameText = revealMods.FirstOrDefault(x => x.Visible && x.ExtraRoleText != string.Empty);
                 if (addedRoleNameText != null)
                 {
-                    roleName += $"<size=80%>{addedRoleNameText.ExtraRoleText}</size>";
-                    roleNameFull += $"<size=80%>{addedRoleNameText.ExtraRoleText}</size>";
+                    roleName += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
+                    roleNameFull += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
                 }
 
                 if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
@@ -942,7 +944,7 @@ public static class EndGamePatches
                         roleName += " ";
                     }
 
-                    roleName += $"<size=80%>{player.TaskInfo()}</size>";
+                    roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
                 }
 
                 if (taskOpt.ShowTaskDead && (player.IsCrewmate() || player.Data.Role is SpectreRole))
@@ -952,7 +954,7 @@ public static class EndGamePatches
                         roleNameFull += " ";
                     }
 
-                    roleNameFull += $"<size=80%>{player.TaskInfo()}</size>";
+                    roleNameFull += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
                 }
 
                 if (player.TryGetModifier<OracleConfessModifier>(out var confess, x => x.ConfessToAll))
@@ -996,14 +998,30 @@ public static class EndGamePatches
 
                 if (!string.IsNullOrEmpty(roleName))
                 {
-                    playerNameColored = $"{roleName}\n{playerColor.ToTextColor()}<size=92%>{playerNameColored}</size></color>";
-                    playerName = $"{roleName}\n<size=92%>{playerName}</size>";
+                    if (roleOnTop)
+                    {
+                        playerNameColored = $"{roleName}\n{playerColor.ToTextColor()}<size=92%>{playerNameColored}</size></color>";
+                        playerName = $"{roleName}\n<size=92%>{playerName}</size>";
+                    }
+                    else
+                    {
+                        playerNameColored = $"{playerColor.ToTextColor()}<size=92%>{playerNameColored}</size></color>\n{roleName}";
+                        playerName = $"<size=92%>{playerName}</size>\n{roleName}";
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(roleNameFull))
                 {
-                    playerNameColoredFull = $"{roleNameFull}\n{color.ToTextColor()}<size=92%>{playerNameColoredFull}</size></color>";
-                    playerNameFull = $"{roleNameFull}\n<size=92%>{playerNameFull}</size>";
+                    if (roleOnTop)
+                    {
+                        playerNameColoredFull = $"{roleNameFull}\n{color.ToTextColor()}<size=92%>{playerNameColoredFull}</size></color>";
+                        playerNameFull = $"{roleNameFull}\n<size=92%>{playerNameFull}</size>";
+                    }
+                    else
+                    {
+                        playerNameColoredFull = $"{color.ToTextColor()}<size=92%>{playerNameColoredFull}</size></color>\n{roleNameFull}";
+                        playerNameFull = $"<size=92%>{playerNameFull}</size>\n{roleNameFull}";
+                    }
                 }
 
                 playerNameColoredFull = playerNameColoredFull.Replace("<cod>", causeOfDeathFull);
