@@ -1088,7 +1088,6 @@ public static class HudManagerPatches
             instance.Chat.chatNotifyDot.transform.SetParent(iconContainer.transform, false);
             instance.Chat.chatNotifyDot = iconContainer.transform.GetChild(0).GetComponent<SpriteRenderer>();
             TeamChatPatches.PublicChatDot = instance.Chat.chatNotifyDot;
-            UiAspectPos.updateAlways = true;
         }
 
         if (UiTopRight && UiGrid)
@@ -1113,7 +1112,6 @@ public static class HudManagerPatches
             ExtraUiAspectPos.Alignment = AspectPosition.EdgeAlignments.RightTop;
             ExtraUiAspectPos.DistanceFromEdge = BelowOptionPos;
             ExtraUiGrid.Start();
-            ExtraUiAspectPos.updateAlways = true;
         }
     }
 

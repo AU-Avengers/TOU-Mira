@@ -143,6 +143,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             {
                 baseGrid.ArrangeChilds();
             }
+            baseAspect.AdjustPosition();
         }
 
         var extraAspect = HudManagerPatches.ExtraUiAspectPos;
@@ -172,6 +173,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             {
                 extraGrid.ArrangeChilds();
             }
+            extraAspect.AdjustPosition();
         }
     }
 
