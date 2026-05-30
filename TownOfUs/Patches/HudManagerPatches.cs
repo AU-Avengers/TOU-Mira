@@ -372,14 +372,7 @@ public static class HudManagerPatches
                 var role = player.Data.Role;
                 var customRole = player.Data.Role as ICustomRole;
 
-                var color = role.TeamColor;
-
-                if (HaunterRole.HaunterVisibilityFlag(player))
-                {
-                    playerColor = color;
-                }
-
-                color = Color.white;
+                var color = Color.white;
 
                 var roleName = "";
                 var topText = "";
@@ -518,6 +511,12 @@ public static class HudManagerPatches
                     continue;
                 }
 
+                if (HaunterRole.HaunterVisibilityFlag(player))
+                {
+                    playerColor = TownOfUsColors.HaunterRevealed;
+                    color = TownOfUsColors.HaunterRevealed;
+                }
+
                 if (!string.IsNullOrEmpty(roleName))
                 {
                     if (roleOnTop)
@@ -562,6 +561,7 @@ public static class HudManagerPatches
                 {
                     playerVA.NameText.fontSize = 2f;
                 }
+
                 playerVA.NameText.color = playerColor;
             }
         }
@@ -748,18 +748,9 @@ public static class HudManagerPatches
                 }
                 else
                 {
-                    if (roleOnTop)
-                    {
-                        playerName = colorPlayerNames
-                            ? $"{color.ToTextColor()}{playerName}</color>"
-                            : $"{playerName}";
-                    }
-                    else
-                    {
-                        playerName = colorPlayerNames
-                            ? $"{color.ToTextColor()}{playerName}</color>"
-                            : $"{playerName}";
-                    }
+                    playerName = colorPlayerNames
+                        ? $"{color.ToTextColor()}{playerName}</color>"
+                        : $"{playerName}";
                 }
 
                 if (!string.IsNullOrEmpty(topText))
