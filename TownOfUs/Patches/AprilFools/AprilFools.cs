@@ -119,6 +119,7 @@ public static class AprilFoolsPatches
             uiList.Add(__instance.shopButton);
             uiList.Add(__instance.newsButton);
             // uiList.Add(aprilfoolstoggle);
+            uiList.Add(legacytoggle);
             uiList.Add(discordPassive);
             uiList.Add(githubButton);
 
@@ -140,25 +141,26 @@ public static class AprilFoolsPatches
 
     private static bool IsLegacyPlayer =>
         TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Players or LegacyVisuals.Full;
-    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetBodyType))]
-    [HarmonyPrefix]
-    public static void SetBodyPrefix(ref PlayerBodyTypes bodyType)
-    {
-        if (!IsLegacyPlayer)
-        {
-            return;
-        }
 
-        bodyType = PlayerBodyTypes.Classic;
-    }
-
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.BodyType), MethodType.Getter)]
+    [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldClassicMode))]
     [HarmonyPrefix]
-    public static bool BodyPrefix(ref PlayerBodyTypes __result)
+    public static bool ClassicPlayersPrefix(ref bool __result)
     {
         if (IsLegacyPlayer)
         {
-            __result = PlayerBodyTypes.Classic;
+            __result = true;
+            return false;
+        }
+        return true;
+    }
+
+    [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldClassicMainMenuMode))]
+    [HarmonyPrefix]
+    public static bool ClassicMenuPrefix(ref bool __result)
+    {
+        if (TownOfUsPlugin.LegacyMode != null && TownOfUsPlugin.LegacyMode.Value is not LegacyVisuals.Disabled)
+        {
+            __result = true;
             return false;
         }
         return true;
