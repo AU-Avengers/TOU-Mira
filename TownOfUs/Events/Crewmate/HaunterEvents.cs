@@ -22,7 +22,7 @@ public static class HaunterEvents
     public static void StartMeetingEventHandler(StartMeetingEvent @event)
     {
         var allHaunters = CustomRoleUtils.GetActiveRolesOfType<HaunterRole>();
-        if (!allHaunters.HasAny() || allHaunters.All(h => !h.CompletedAllTasks))
+        if (!allHaunters.HasAny() || allHaunters.All(h => !h.CompletedAllTasks || h.Caught))
         {
             return;
         }
@@ -34,6 +34,16 @@ public static class HaunterEvents
                 continue;
             }
             HaunterRole.AddRevealed(plr);
+        }
+
+        // Successful Haunters will simply.. become regular ghosts after the meeting
+        foreach (var haunter in allHaunters)
+        {
+            if (!haunter.CompletedAllTasks || haunter.Caught)
+            {
+                continue;
+            }
+            haunter.Clicked();
         }
     }
 }
