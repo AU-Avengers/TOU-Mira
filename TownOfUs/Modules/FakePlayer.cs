@@ -43,6 +43,13 @@ public sealed class FakePlayer : IDisposable
         };
 
         _cosmicInfo.Cosmetics.Visible = true;
+        var isClassic =
+            _cosmicInfo.Cosmetics.bodyType is PlayerBodyTypes.Classic;
+        if (isClassic)
+        {
+            _cosmicInfo.Cosmetics.SetSkin("skin_None", _cosmicInfo.ColorInfo);
+            _cosmicInfo.OutfitInfo.SkinId = "skin_None";
+        }
 
         body = new GameObject($"Fake {player.gameObject.name}");
         PlayerId = player.PlayerId;
@@ -66,6 +73,11 @@ public sealed class FakePlayer : IDisposable
             {
                 Object.Destroy(sync);
             }
+        }
+
+        if (isClassic)
+        {
+            _cosmeticsLayer.currentBodySprite.BodySprite.transform.localScale *= 2f;
         }
 
         var vector = player.transform.position;
