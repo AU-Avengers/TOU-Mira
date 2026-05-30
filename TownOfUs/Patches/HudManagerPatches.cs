@@ -66,8 +66,6 @@ public static class HudManagerPatches
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
 
-    private static readonly Dictionary<byte, Vector3> _colorBlindBasePos = new();
-
     private static void RefreshUIAnchors()
     {
         ResolutionManager.ResolutionChanged.Invoke(
@@ -604,7 +602,6 @@ public static class HudManagerPatches
                 var roleName = "";
                 var topText = "";
                 var bottomText = "";
-                var canSeeDeathReason = false;
                 var impostorBuddy = localImp && player.IsImpostorAligned();
                 var vampBuddy = localVamp && role is VampireRole;
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
@@ -673,7 +670,6 @@ public static class HudManagerPatches
                     {
                         topText +=
                             $"<size=75%>『{Color.yellow.ToTextColor()}{deathMod.CauseOfDeath}</color>』</size>\n";
-                        canSeeDeathReason = true;
                     }
                 }
 
@@ -721,11 +717,6 @@ public static class HudManagerPatches
                     bottomText += diedR1Text;
                 }
 
-                if (canSeeDeathReason)
-                {
-                    bottomText += $"\n<size=75%> </size>";
-                }
-
                 if (player.AmOwner && player.Data.Role is IGhostRole { GhostActive: true })
                 {
                     playerColor = Color.clear;
@@ -765,31 +756,7 @@ public static class HudManagerPatches
                 player.cosmetics.nameText.text = playerName;
                 player.cosmetics.nameText.color = playerColor;
 
-                player.cosmetics.nameText.transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
-
-                var cbId = player.PlayerId;
-                var cbCurrent = player.cosmetics.colorBlindText.transform.localPosition;
-                var cbOffset = Vector3.down * 0.12f;
-
-                if (!_colorBlindBasePos.TryGetValue(cbId, out var cbBase))
-                {
-                    cbBase = string.IsNullOrEmpty(diedR1Text) ? cbCurrent : cbCurrent - cbOffset;
-                    _colorBlindBasePos[cbId] = cbBase;
-                }
-                else if (string.IsNullOrEmpty(diedR1Text))
-                {
-                    var cbExpectedNoR1 = cbBase;
-                    var cbExpectedR1 = cbBase + cbOffset;
-                    if ((cbCurrent - cbExpectedNoR1).sqrMagnitude > 0.0001f &&
-                        (cbCurrent - cbExpectedR1).sqrMagnitude > 0.0001f)
-                    {
-                        cbBase = cbCurrent;
-                        _colorBlindBasePos[cbId] = cbBase;
-                    }
-                }
-
-                player.cosmetics.colorBlindText.transform.localPosition =
-                    string.IsNullOrEmpty(diedR1Text) ? cbBase : cbBase + cbOffset;
+                player.cosmetics.nameText.alignment = TextAlignmentOptions.Bottom;
             }
         }
 
@@ -892,7 +859,7 @@ public static class HudManagerPatches
 
             player.cosmetics.nameText.text = playerName;
             player.cosmetics.nameText.color = playerColor;
-            player.cosmetics.nameText.transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
+            player.cosmetics.nameText.alignment = TextAlignmentOptions.Bottom;
         }
 
         if (!RoleList)
