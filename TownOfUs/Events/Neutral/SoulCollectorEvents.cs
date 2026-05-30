@@ -39,12 +39,12 @@ public static class SoulCollectorEvents
     [RegisterEvent]
     public static void RoleChangeEventHandler(SetRoleEvent @event)
     {
-        FakePlayer.UpdateFakePlayerText();
+        FakePlayer.UpdateFakePlayerText(true);
     }
 
     [RegisterEvent]
     public static void ChangeRoleEventHandler(ChangeRoleEvent @event)
     {
-        FakePlayer.UpdateFakePlayerText();
+        FakePlayer.UpdateFakePlayerText(true);
     }
 }

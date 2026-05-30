@@ -157,13 +157,17 @@ public sealed class FakePlayer : IDisposable
         _colorBindTextObj?.SetActive(DataManager.Settings.Accessibility.ColorBlindMode);
     }
 
-    public static void UpdateFakePlayerText()
+    public static void UpdateFakePlayerText(bool waitForRole = false)
     {
-        Coroutines.Start(CyclePlayerNames());
+        Coroutines.Start(CyclePlayerNames(waitForRole));
     }
 
-    private static IEnumerator CyclePlayerNames()
+    private static IEnumerator CyclePlayerNames(bool waitForRole)
     {
+        if (waitForRole)
+        {
+            yield return new WaitForSeconds(0.05f);
+        }
         yield return new WaitForEndOfFrame();
         foreach (var fake in FakePlayers)
         {
