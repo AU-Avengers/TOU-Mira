@@ -1,5 +1,7 @@
 ﻿using MiraAPI.Events;
+using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
+using MiraAPI.Roles;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
@@ -15,5 +17,23 @@ public static class HaunterEvents
         }
 
         haunter.CheckTaskRequirements();
+    }
+    [RegisterEvent]
+    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    {
+        var allHaunters = CustomRoleUtils.GetActiveRolesOfType<HaunterRole>();
+        if (!allHaunters.HasAny() || allHaunters.All(h => !h.CompletedAllTasks))
+        {
+            return;
+        }
+
+        foreach (var plr in PlayerControl.AllPlayerControls)
+        {
+            if (!HaunterRole.IsTargetOfHaunter(plr) || HaunterRole.HaunterVisibilityFlag(plr))
+            {
+                continue;
+            }
+            HaunterRole.AddRevealed(plr);
+        }
     }
 }

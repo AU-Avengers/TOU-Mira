@@ -342,7 +342,7 @@ public static class HudManagerPatches
                 var player = MiscUtils.PlayerById(playerVA.TargetPlayerId);
                 playerVA.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
 
-                if (player == null || player.Data == null || player.Data.Role == null)
+                if (player == null || !player.Data || !player.Data.Role)
                 {
                     var data = EndGamePatches.ContainedMeetingData.PlayerMeetingRecords.FirstOrDefault(x => x.PlayerId == playerVA.TargetPlayerId);
                     if (data != null)
@@ -371,11 +371,6 @@ public static class HudManagerPatches
 
                 var role = player.Data.Role;
                 var customRole = player.Data.Role as ICustomRole;
-
-                if (role == null)
-                {
-                    continue;
-                }
 
                 var color = role.TeamColor;
 
@@ -435,8 +430,7 @@ public static class HudManagerPatches
                     }
 
                     if (localSleuth || (player.Data.IsDead &&
-                                        role.Role is RoleTypes.CrewmateGhost
-                                            or RoleTypes.ImpostorGhost))
+                                        role.IsSimpleRole))
                     {
                         var roleWhenAlive = player.GetRoleWhenAlive();
                         color = roleWhenAlive.TeamColor;
@@ -530,27 +524,44 @@ public static class HudManagerPatches
                     {
                         if (colorPlayerNames)
                         {
-                            playerName = $"{topText}{roleName}\n{color.ToTextColor()}<size=92%>{playerName}</size></color>{bottomText}";
+                            playerName = $"{roleName}\n{color.ToTextColor()}{playerName}</color>";
                         }
                         else
                         {
-                            playerName = $"{topText}{roleName}\n<size=92%>{playerName}</size>{bottomText}";
+                            playerName = $"{roleName}\n{playerName}";
                         }
                     }
                     else
                     {
                         if (colorPlayerNames)
                         {
-                            playerName = $"{topText}{color.ToTextColor()}<size=92%>{playerName}</size></color>\n{roleName}{bottomText}";
+                            playerName = $"{color.ToTextColor()}{playerName}</color>\n{roleName}";
                         }
                         else
                         {
-                            playerName = $"{topText}<size=92%>{playerName}</size>\n{roleName}{bottomText}";
+                            playerName = $"{playerName}\n{roleName}";
                         }
                     }
                 }
 
+                if (!string.IsNullOrEmpty(topText))
+                {
+                    playerName = $"{topText}{playerName}";
+                }
+                if (!string.IsNullOrEmpty(bottomText))
+                {
+                    playerName = $"{playerName}{bottomText}";
+                }
+
                 playerVA.NameText.text = playerName;
+                if (playerVA.NameText.m_lineNumber > 1)
+                {
+                    playerVA.NameText.fontSize = 2f - playerVA.NameText.m_lineNumber * 0.2f;
+                }
+                else
+                {
+                    playerVA.NameText.fontSize = 2f;
+                }
                 playerVA.NameText.color = playerColor;
             }
         }
@@ -564,7 +575,7 @@ public static class HudManagerPatches
             }
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (player == null || player.Data == null || player.Data.Role == null)
+                if (player == null || !player.Data || !player.Data.Role)
                 {
                     continue;
                 }
@@ -589,11 +600,6 @@ public static class HudManagerPatches
                 var role = player.Data.Role;
                 var customRole = player.Data.Role as ICustomRole;
                 var color = Color.white;
-
-                if (role == null)
-                {
-                    continue;
-                }
 
                 var roleName = "";
                 var topText = "";
@@ -706,7 +712,7 @@ public static class HudManagerPatches
                     x.Visible && x.ExtraNameText != string.Empty && x is not FirstRoundIndicator);
                 if (addedPlayerNameText != null)
                 {
-                    bottomText += addedPlayerNameText.ExtraNameText;
+                    playerName += addedPlayerNameText.ExtraNameText;
                 }
 
                 var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player);
@@ -730,15 +736,39 @@ public static class HudManagerPatches
                     if (roleOnTop)
                     {
                         playerName = colorPlayerNames
-                            ? $"{topText}{roleName}\n{color.ToTextColor()}{playerName}</color>{bottomText}"
-                            : $"{topText}{roleName}\n{playerName}{bottomText}";
+                            ? $"{roleName}\n{color.ToTextColor()}{playerName}</color>"
+                            : $"{roleName}\n{playerName}";
                     }
                     else
                     {
                         playerName = colorPlayerNames
-                            ? $"{topText}{color.ToTextColor()}{playerName}</color>\n{roleName}{bottomText}"
-                            : $"{topText}{playerName}\n{roleName}{bottomText}";
+                            ? $"{color.ToTextColor()}{playerName}</color>\n{roleName}"
+                            : $"{playerName}\n{roleName}";
                     }
+                }
+                else
+                {
+                    if (roleOnTop)
+                    {
+                        playerName = colorPlayerNames
+                            ? $"{color.ToTextColor()}{playerName}</color>"
+                            : $"{playerName}";
+                    }
+                    else
+                    {
+                        playerName = colorPlayerNames
+                            ? $"{color.ToTextColor()}{playerName}</color>"
+                            : $"{playerName}";
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(topText))
+                {
+                    playerName = $"{topText}{playerName}";
+                }
+                if (!string.IsNullOrEmpty(bottomText))
+                {
+                    playerName = $"{playerName}{bottomText}";
                 }
 
                 player.cosmetics.nameText.text = playerName;
