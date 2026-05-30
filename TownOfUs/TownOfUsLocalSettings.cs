@@ -6,6 +6,7 @@ using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
+using TownOfUs.Modules;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
@@ -218,7 +219,12 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         }
         else if (configEntry == RoleNameStyle)
         {
-            HudManagerPatches.RoleNameStyle =  RoleNameStyle.Value;
+            HudManagerPatches.RoleNameStyle = RoleNameStyle.Value;
+            FakePlayer.UpdateFakePlayerText();
+        }
+        else if (configEntry == ColorPlayerNameToggle)
+        {
+            FakePlayer.UpdateFakePlayerText();
         }
     }
 
