@@ -215,6 +215,7 @@
   <string name="CrewmateBeliever">Crewmate Believer</string>
   <string name="CrewmateObstinate">Crewmate Obstinate</string>
   <string name="NeutralObstinate">Neutral Obstinate</string>
+  <string name="FrenzyKiller">Frenzy Killer</string>
   <!-- Role Buckets with Role List -->
   <string name="CommonCrew">Common Crew</string>
   <string name="SpecialCrew">Special Crew</string>
@@ -580,6 +581,12 @@
   <string name="TouRoleSpectatorIntroBlurb">Watch the chaos from afar</string>
   <string name="TouRoleSpectatorTabDescription">Never participate, watch as the chaos unfolds in-game!</string>
   <string name="TouRoleSpectatorWikiDescription">You don't participate in-game nor interact with players. All you can do is watch.</string>
+  <!-- Outcast - Frenzy Killer -->
+  <!-- Outcast Wiki / Abilities -->
+  <string name="TouRoleOutcast">Outcast</string>
+  <string name="TouRoleOutcastIntroBlurb">Fight against the supernatural.</string>
+  <string name="TouRoleOutcastTabDescription">Use your vision and venting to your advantage.</string>
+  <string name="TouRoleOutcastWikiDescription">The Outcast is a basic killer, with the ability to vent and being able to see farther than any other killer.</string>
   <!-- Hide and Seek - Hiders -->
   <!-- Chameleon Wiki / Description -->
   <string name="HnsRoleChameleon">Chameleon</string>

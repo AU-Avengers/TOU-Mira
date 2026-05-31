@@ -1,5 +1,6 @@
 using System.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameModes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities;
@@ -46,6 +47,7 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
+        AssociatedGameMode = typeof(HideAndSeekMode),
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Hypnotist,
         RoleHintType = RoleHintType.TaskHint

@@ -137,6 +137,9 @@ public enum TownOfUsRpc : uint
     OfficerSyncBullets,
     SetUpCrewpostor,
     MisguessSummary,
+    FrenzyRecall,
+    FrenzyMarkLocation,
+    FrenzyPlantBomb,
 }
 
 internal enum TownOfUsInternalRpc : uint

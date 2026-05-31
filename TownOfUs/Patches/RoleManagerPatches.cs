@@ -921,7 +921,7 @@ public static class TouRoleManagerPatches
         GameManager.Instance.LogicOptions.SyncOptions();
         ModifierManager.MiraAssignsModifiers = false;
 
-        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
+        if (TutorialManager.InstanceExists || ReplaceRoleManager || MiscUtils.CurrentGamemode() is not TouGamemode.Classic || assignmentType is RoleSelectionMode.Vanilla)
         {
             return true;
         }
@@ -1170,7 +1170,7 @@ public static class TouRoleManagerPatches
     [HarmonyPrefix]
     public static bool GetAdjustedImposters(IGameOptions __instance, ref int __result)
     {
-        if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
+        if (MiscUtils.CurrentGamemode() is not TouGamemode.Classic)
         {
             return true;
         }

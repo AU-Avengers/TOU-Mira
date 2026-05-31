@@ -162,6 +162,11 @@ public interface ITownOfUsRole : ICustomRole
                 return TouRoleGroups.NeutralObstinate;
             }
 
+            if (RoleAlignment == RoleAlignment.FrenzyKiller)
+            {
+                return TouRoleGroups.FrenzyKiller;
+            }
+
             if (RoleAlignment == RoleAlignment.CrewmateAfterlife)
             {
                 return TouRoleGroups.CrewAfterlife;
@@ -274,4 +279,5 @@ public enum RoleAlignment
     CrewmateBeliever,
     CrewmateObstinate,
     NeutralObstinate,
+    FrenzyKiller,
 }

@@ -1,5 +1,4 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
+﻿using HarmonyLib;
 using InnerNet;
 using MiraAPI.GameOptions;
 using TMPro;
@@ -57,8 +56,7 @@ public static class GameTimerPatch
             GameTimerObj.SetActive(false);
         }
 
-        if (!timeOpt.GameTimerEnabled || GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
-                or GameModes.SeekFools)
+        if (!timeOpt.GameTimerEnabled || MiscUtils.CurrentGamemode() is not TouGamemode.Classic)
         {
             return;
         }

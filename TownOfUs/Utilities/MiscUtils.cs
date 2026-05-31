@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using MiraAPI.GameModes;
 using PowerTools;
 using TMPro;
 using TownOfUs.Events;
@@ -2090,9 +2091,14 @@ public static class MiscUtils
 
     public static TouGamemode CurrentGamemode()
     {
-        if (GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
-            return TouGamemode.HideAndSeek;
-        return TouGamemode.Normal;
+        switch (CustomGameModeManager.ActiveMode)
+        {
+            case HideAndSeekMode:
+                return TouGamemode.HideAndSeek;
+            case KillFrenzyMode:
+                return TouGamemode.KillFrenzy;
+        }
+        return TouGamemode.Classic;
     }
 
     public static void LogInfo(TownOfUsEventHandlers.LogLevel logLevel, string text)
@@ -2366,10 +2372,11 @@ public enum GameUtility
 
 public enum TouGamemode
 {
-    Normal,
+    Classic,
     HideAndSeek,
     Cultist,
-    // AllKillers,
+    KillFrenzy,
+    Other,
     // Legacy
 }
 public enum ExpandedMapNames

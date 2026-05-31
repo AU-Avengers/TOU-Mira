@@ -68,14 +68,7 @@ public static class VanillaSettingsPatch
         var commonTask = Math.Min(__instance.CommonTasks.Count, 4);
         var normalTask = Math.Min(__instance.ShortTasks.Count, 8);
         var longTask = Math.Min(__instance.LongTasks.Count, 4);
-        if (GameOptionsManager.Instance.currentGameOptions.GameMode is GameModes.HideNSeek)
-        {
-            var options = GameOptionsManager.Instance.currentHideNSeekGameOptions;
-            if (options.NumCommonTasks > commonTask) options.NumCommonTasks = commonTask;
-            if (options.NumShortTasks > normalTask) options.NumShortTasks = normalTask;
-            if (options.NumLongTasks > longTask) options.NumLongTasks = longTask;
-        }
-        else
+        if (GameOptionsManager.Instance.currentGameOptions.GameMode is AmongUs.GameOptions.GameModes.Normal or AmongUs.GameOptions.GameModes.NormalFools)
         {
             var options = GameOptionsManager.Instance.currentNormalGameOptions;
             if (options.NumCommonTasks > commonTask) options.NumCommonTasks = commonTask;

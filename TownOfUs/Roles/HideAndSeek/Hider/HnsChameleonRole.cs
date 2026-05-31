@@ -2,6 +2,7 @@
 using MiraAPI.Roles;
 using AmongUs.Data;
 using AmongUs.GameOptions;
+using MiraAPI.GameModes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Utilities;
 using UnityEngine;
@@ -46,6 +47,7 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        AssociatedGameMode = typeof(HideAndSeekMode),
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Chameleon,

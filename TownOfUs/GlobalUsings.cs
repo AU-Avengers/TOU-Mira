@@ -3,6 +3,7 @@ global using TownOfUs.Extensions;
 global using TownOfUs.Utilities;
 global using TownOfUs.Modules.Localization;
 global using TownOfUs.Modules.Wiki;
+global using TownOfUs.GameModes;
 global using MiraAPI.Keybinds;
 global using MiraAPI.LocalSettings;
 global using static Reactor.Utilities.Logger<TownOfUs.TownOfUsPlugin>;
