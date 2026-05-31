@@ -121,6 +121,9 @@ public sealed class MinerRole(IntPtr cppPtr)
             vent.myAnim.Destroy();
             vent.myAnim = null!;
         }
+
+        vent.numFramesUntilPlayerDisappearsOnEnter = 0;
+        vent.numFramesUntilPlayerReappearsOnExit = 0;
         vent.myRend.sprite = TouAssets.MinerVentSprite.LoadAsset();
         vent.name = $"MinerVent-{player.PlayerId}-{ventId}";
 
