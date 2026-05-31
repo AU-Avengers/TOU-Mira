@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
@@ -6,8 +7,11 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
+using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
+using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -103,12 +107,24 @@ public sealed class MinerRole(IntPtr cppPtr)
         //Error("RpcPlaceVent");
 
         var ventPrefab = ShipStatus.Instance.AllVents[0];
-        if (ModCompatibility.IsSubmerged())
-        {
-            // Cafeteria Vent for upper floor, Electrical Vent for lower floor
-            ventPrefab = (position.y > -7) ? ShipStatus.Instance.AllVents[5] : ShipStatus.Instance.AllVents[15];
-        }
         var vent = Instantiate(ventPrefab, ventPrefab.transform.parent);
+        vent.EnterVentAnim = null!;
+        vent.ExitVentAnim = null!;
+        if (vent.myAnim)
+        {
+            vent.transform.localScale = new Vector3(0.9f, 0.9f, 1);
+            var collider = vent.transform.GetComponent<BoxCollider2D>();
+            collider.size = new Vector2(0.75f, 0.34f);
+            collider.offset = new Vector2(-0.005f, 0);
+            vent.Offset = new Vector3(0, 0.15f, 0);
+            vent.myAnim.Stop();
+            vent.myAnim.Destroy();
+            vent.myAnim = null!;
+        }
+
+        vent.numFramesUntilPlayerDisappearsOnEnter = 0;
+        vent.numFramesUntilPlayerReappearsOnExit = 0;
+        vent.myRend.sprite = TouAssets.MinerVentSprite.LoadAsset();
         vent.name = $"MinerVent-{player.PlayerId}-{ventId}";
 
         Error($"RpcPlaceVent - vent: {vent.name} - {immediate}");
@@ -120,14 +136,14 @@ public sealed class MinerRole(IntPtr cppPtr)
         }
 
         vent.Id = ventId;
-        vent.transform.position = new Vector3(position.x, position.y, zAxis);
+        vent.transform.position = new Vector3(position.x, position.y, zAxis + 0.001f);
 
         if (miner == null)
         {
             return;
         }
 
-        if (miner.Vents.Count > 0)
+        if (miner.Vents.HasAny())
         {
             var leftVent = miner.Vents[^1];
             vent.Left = leftVent;
@@ -146,29 +162,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         ShipStatus.Instance.AllVents = allVents.ToArray();
 
         miner.Vents.Add(vent);
-
-        PlainShipRoom? plainShipRoom = null;
-
-        var allRooms2 = ShipStatus.Instance.FastRooms;
-        foreach (var plainShipRoom2 in allRooms2.Values)
-        {
-            if (plainShipRoom2.roomArea && plainShipRoom2.roomArea.OverlapPoint(vent.transform.position))
-            {
-                plainShipRoom = plainShipRoom2;
-            }
-        }
-
-        var mapId = (MapNames)GameOptionsManager.Instance.currentGameOptions.MapId;
-        if (TutorialManager.InstanceExists)
-        {
-            mapId = (MapNames)AmongUsClient.Instance.TutorialMapId;
-        }
-
-        if (mapId is MapNames.Polus && plainShipRoom?.RoomId is SystemTypes.Weapons)
-        {
-            vent.gameObject.transform.position = new Vector3(vent.gameObject.transform.position.x,
-                vent.gameObject.transform.position.y, -0.0209f);
-        }
+        Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
 
         if (ModCompatibility.SubLoaded)
         {
@@ -195,6 +189,15 @@ public sealed class MinerRole(IntPtr cppPtr)
             var touAbilityEvent2 = new TouAbilityEvent(AbilityType.MinerRevealVent, player, vent);
             MiraEventManager.InvokeEvent(touAbilityEvent2);
         }
+    }
+
+    public IEnumerator CoExplode(Vector3 position)
+    {
+        var explodeAnim =
+            AnimStore.SpawnAnimAtPlayer(Player, TouAssets.VentExplodePrefab.LoadAsset());
+        explodeAnim.transform.position = position;
+        yield return new WaitForSeconds(1.166f);
+        explodeAnim.Destroy();
     }
 
     [MethodRpc((uint)TownOfUsRpc.ShowVent)]

@@ -15,6 +15,7 @@ public static class GameTimerPatch
     public static GameObject GameTimerObj;
     public static GameObject TimerSpriteObj;
     public static SpriteRenderer TimerSprite;
+    public static AspectPosition TimerAspectPos;
     public static bool Enabled { get; set; }
     public static bool TriggerEndGame { get; set; }
     public static float GameTimer { get; set; }
@@ -25,8 +26,9 @@ public static class GameTimerPatch
         GameTimerObj = Object.Instantiate(pingTracker.gameObject, instance.transform);
         GameTimerObj.name = "GameTimerText";
 
-        GameTimerObj.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(-0.6f, 5.5f);
-        GameTimerObj.GetComponent<AspectPosition>().Alignment = AspectPosition.EdgeAlignments.Bottom;
+        TimerAspectPos = GameTimerObj.GetComponent<AspectPosition>();
+        TimerAspectPos.DistanceFromEdge = new Vector3(-0.6f, 5.5f);
+        TimerAspectPos.Alignment = AspectPosition.EdgeAlignments.Bottom;
 
         TimerSpriteObj = new GameObject("TimerSprite");
         TimerSpriteObj.transform.SetParent(GameTimerObj.transform);
@@ -98,16 +100,16 @@ public static class GameTimerPatch
 
         if (!MeetingHud.Instance)
         {
-            GameTimerObj.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(-0.6f, 5.5f);
-            GameTimerObj.GetComponent<AspectPosition>().Alignment = AspectPosition.EdgeAlignments.Bottom;
+            TimerAspectPos.DistanceFromEdge = new Vector3(-0.6f, 5.5f);
+            TimerAspectPos.Alignment = AspectPosition.EdgeAlignments.Bottom;
             timerText.text =
                 $"<size=200%>Time:{colour.ToTextColor()}{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</color></size>";
             TimerSpriteObj.transform.localPosition = new Vector3(-1f, -0.4f, 1f);
         }
         else
         {
-            GameTimerObj.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(-0.25f, 0.9f);
-            GameTimerObj.GetComponent<AspectPosition>().Alignment = AspectPosition.EdgeAlignments.Bottom;
+            TimerAspectPos.DistanceFromEdge = new Vector3(-0.25f, 0.9f);
+            TimerAspectPos.Alignment = AspectPosition.EdgeAlignments.Bottom;
             timerText.text =
                 $"<size=130%>Time:{colour.ToTextColor()}{ts.ToString(@"mm\:ss", TownOfUsPlugin.Culture)}</color></size>";
             TimerSpriteObj.transform.localPosition = new Vector3(-1f, -0.25f, 1f);

@@ -80,7 +80,7 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
 
         var immediate = OptionGroupSingleton<MinerOptions>.Instance.MineVisibility == MineVisiblityOptions.Immediate;
 
-        MinerRole.RpcPlaceVent(PlayerControl.LocalPlayer, id, SavedPos!.Value, SavedPos.Value.z + 0.0004f, immediate);
+        MinerRole.RpcPlaceVent(PlayerControl.LocalPlayer, id, SavedPos!.Value, SavedPos.Value.z, immediate);
         TouAudio.PlaySound(TouAudio.MineSound);
         SavedPos = null;
     }

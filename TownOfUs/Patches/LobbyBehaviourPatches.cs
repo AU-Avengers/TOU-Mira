@@ -3,6 +3,7 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Patches;
 
@@ -14,6 +15,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
+        HaunterRole.ResetReveals();
         GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)
         {

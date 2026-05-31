@@ -36,6 +36,11 @@
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
   <string name="ColorPlayerName">Colored Player Name</string>
+  <string name="RoleNameStyle">Role Name Style</string>
+  <string name="NameStyleTop">Top</string>
+  <string name="NameStyleTopSmall">Top (Small)</string>
+  <string name="NameStyleBottom">Bottom</string>
+  <string name="NameStyleBottomSmall">Bottom (Small)</string>
   <string name="ModStampPlacement">Mod Stamp</string>
   <string name="ModStampTopLeft">Top-Left</string>
   <string name="ModStampTopRight">Top-Right</string>

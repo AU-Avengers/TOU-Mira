@@ -13,7 +13,7 @@ public static class TouAssets
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
-    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
+    public static LoadableAsset<Sprite> Banner => TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Disabled ? new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png") : LegacyAssets.Banner;
     public static LoadableAsset<Sprite> BannerDark { get; } = new LoadableResourceAsset($"{ShortPath}.BannerDark.png");
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
@@ -171,6 +171,12 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> EscapistMarkPrefab { get; } =
         new LoadableBundleAsset<GameObject>("EscapistMark", MainBundle);
+
+    public static LoadableAsset<GameObject> VentExplodePrefab { get; } =
+        new LoadableBundleAsset<GameObject>("MinerVentCreate", MainBundle);
+
+    public static LoadableAsset<Sprite> MinerVentSprite { get; } =
+        new LoadableBundleAsset<Sprite>("MinerVent", MainBundle);
 
     public static LoadableAsset<GameObject> MeetingDeathPrefab { get; } =
         new LoadableBundleAsset<GameObject>("DeathAnimation", MainBundle);

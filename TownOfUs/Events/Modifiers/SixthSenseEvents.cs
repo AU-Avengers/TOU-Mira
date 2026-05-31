@@ -24,25 +24,28 @@ public static class SixthSenseEvents
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var target = button?.Target;
 
-        if (target == null || button == null || !button.CanClick())
+        if (target == null || button == null || !button.CanClick() || !target.HasModifier<SixthSenseModifier>())
         {
             return;
         }
 
-        CheckForSixthSense(target);
+        RpcTriggerSixthSense(PlayerControl.LocalPlayer, target);
     }
 
     [RegisterEvent]
     public static void KillButtonClickEventHandler(BeforeMurderEvent @event)
     {
-        CheckForSixthSense(@event.Target);
-        // I am groot (i am stupid)
+        var target = @event.Target;
+        if (target.AmOwner && target.HasModifier<SixthSenseModifier>())
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.SixthSense));
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.TriggerSixthSense, LocalHandling = RpcLocalHandling.None)]
-    private static void CheckForSixthSense(PlayerControl target)
+    private static void RpcTriggerSixthSense(PlayerControl source, PlayerControl target)
     {
-        if (target.AmOwner && target.HasModifier<SixthSenseModifier>())
+        if (target.AmOwner)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.SixthSense));
         }
