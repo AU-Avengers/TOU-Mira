@@ -2163,7 +2163,7 @@
   <string name="ModStampTopRight">右上</string>
   <string name="ModStampBottomLeft">左下</string>
   <string name="ModStampBottomRight">右下</string>
-  <string name="SonarTargetType">声纳目标样式</string>
+  <string name="SonarTargetType">追踪者目标样式</string>
   <string name="SonarHeartbeats">心跳</string>
   <string name="SonarArrows">箭头</string>
 </resources>

@@ -2157,4 +2157,12 @@
   <string name="ShowBasicAssassinOnHud">在Hud上顯示刺客身份</string>
   <string name="TopRightUiScale">右上角 UI 縮放比例</string>
   <string name="MisguessSummary">錯誤地將 \%player\% 猜成了 \%role\%</string>
+  <string name="ModStampPlacement">模組標識位置</string>
+  <string name="ModStampTopLeft">左上</string>
+  <string name="ModStampTopRight">右上</string>
+  <string name="ModStampBottomLeft">左下</string>
+  <string name="ModStampBottomRight">右下</string>
+  <string name="SonarHeartbeats">心跳</string>
+  <string name="SonarArrows">箭頭</string>
+  <string name="SonarTargetType">追蹤者目標樣式</string>
 </resources>
