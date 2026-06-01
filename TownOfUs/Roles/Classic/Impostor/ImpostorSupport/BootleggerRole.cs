@@ -15,6 +15,7 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<BarkeeperRole>());
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
+    public string LocaleKey => "Bootlegger";
     public string RoleName => "Bootlegger";
     public string RoleDescription => "Roleblock Crewmates to stop them";
     public string RoleLongDescription => "Roleblock the crew to disable their abilities";

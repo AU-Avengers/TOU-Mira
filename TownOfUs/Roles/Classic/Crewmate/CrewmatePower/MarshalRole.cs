@@ -33,6 +33,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
     public bool CanBeOtherEvil => true;
     private MeetingMenu meetingMenu;
     public DoomableType DoomHintType => DoomableType.Trickster;
+    public string LocaleKey => "Marshal";
     public string RoleName => "Marshal";
     public string RoleDescription => "Call a military tribunal!";
     public string RoleLongDescription => $"Call a military tribunal, allowing the crew to\neject {OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunalEjections} players in one meeting";

@@ -19,6 +19,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
+    public string LocaleKey => "Barkeeper";
     public string RoleName => "Barkeeper";
     public string RoleDescription => "Roleblock Evildoers to slow them down";
     public string RoleLongDescription => "Roleblock Evildoers to disable their abilities.";

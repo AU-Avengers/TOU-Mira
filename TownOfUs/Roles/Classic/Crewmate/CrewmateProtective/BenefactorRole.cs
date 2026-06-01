@@ -31,6 +31,7 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
     public bool UsedOnBenefactor { get; private set; }
 
     public DoomableType DoomHintType => DoomableType.Protective;
+    public string LocaleKey => "Benefactor";
     public string RoleName => "Benefactor";
     public string RoleDescription => "Cast Aegis over roles";
     public string RoleLongDescription => "Protect all players with a role of your choice.";
