@@ -188,16 +188,6 @@ public static class MiraApiPatches
         return false;
     }
 
-    [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
-    [HarmonyPrefix]
-#pragma warning disable S3400
-    public static bool MiraClosePatch()
-#pragma warning restore S3400
-    {
-        // Patching this for now
-        return false;
-    }
-
     [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
     [HarmonyPostfix]
     public static void OpenPatch()
