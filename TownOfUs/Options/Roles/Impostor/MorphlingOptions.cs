@@ -19,7 +19,7 @@ public sealed class MorphlingOptions : AbstractOptionGroup<MorphlingRole>
     [ModdedNumberOption("Morph Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float MorphlingCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Morph Duration", 5f, 15f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Morph Duration", 5f, 45f, 1f, MiraNumberSuffixes.Seconds)]
     public float MorphlingDuration { get; set; } = 10f;
 
     public ModdedEnumOption CanVent { get; set; } = new("Morphling Can Vent", (int)MorphlingVent.Always, typeof(MorphlingVent),
