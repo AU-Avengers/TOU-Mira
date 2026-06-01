@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Impostor;
 
@@ -18,9 +19,16 @@ public sealed class MorphlingOptions : AbstractOptionGroup<MorphlingRole>
     [ModdedNumberOption("Morph Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float MorphlingCooldown { get; set; } = 25f;
 
-    [ModdedNumberOption("Morph Duration", 5f, 15f, 1f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Morph Duration", 5f, 45f, 1f, MiraNumberSuffixes.Seconds)]
     public float MorphlingDuration { get; set; } = 10f;
 
-    [ModdedToggleOption("Morphling Can Vent")]
-    public bool CanVent { get; set; } = true;
+    public ModdedEnumOption CanVent { get; set; } = new("Morphling Can Vent", (int)MorphlingVent.Always, typeof(MorphlingVent),
+        ["Never", "Unless Morphed", "Always"]);
+}
+
+public enum MorphlingVent
+{
+    Never,
+    Unmimic,
+    Always,
 }

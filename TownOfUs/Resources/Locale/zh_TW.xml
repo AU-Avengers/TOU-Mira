@@ -1547,7 +1547,7 @@
   <string name="TouOptionGlitchMoveInMimicMenu">使用模仿清單時可以移動 (僅KB)</string>
   <string name="TouOptionGlitchHackCooldown">黑入冷卻</string>
   <string name="TouOptionGlitchHackDuration">黑入持續時間</string>
-  <string name="TouOptionGlitchCan Vent">混沌可使用通風口</string>
+  <string name="TouOptionGlitchCanVent">混沌可使用通風口</string>
   <string name="TouRoleFairy">天使</string>
   <string name="TouRoleFairyTabDescription">保護\%target\%免於被擊殺!</string>
   <string name="TouRoleFairyIfNoTarget">保護你的目標免於被擊殺!</string>

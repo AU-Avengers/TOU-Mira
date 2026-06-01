@@ -1986,7 +1986,7 @@
   <!-- Translation note: KB = Keyboard -->
   <string name="TouOptionGlitchHackCooldown">Hack Cooldown</string>
   <string name="TouOptionGlitchHackDuration">Hack Duration</string>
-  <string name="TouOptionGlitchCan Vent">Glitch Can Vent</string>
+  <string name="TouOptionGlitchCanVent">Glitch Can Vent</string>
   <!-- Fairy -->
   <!-- Fairy Wiki / Abilities -->
   <string name="TouRoleFairy">Fairy</string>

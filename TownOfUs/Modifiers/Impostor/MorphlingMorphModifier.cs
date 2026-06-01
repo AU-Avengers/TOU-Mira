@@ -16,6 +16,7 @@ public sealed class MorphlingMorphModifier(PlayerControl target) : ConcealedModi
     public override bool AutoStart => true;
     public override bool VisibleToOthers => true;
     public bool VisualPriority => true;
+    public bool CanMorphlingVent = true;
 
     public PlayerControl Target { get; } = target;
 
@@ -26,6 +27,8 @@ public sealed class MorphlingMorphModifier(PlayerControl target) : ConcealedModi
 
     public override void OnActivate()
     {
+        CanMorphlingVent =
+            (MorphlingVent)OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is MorphlingVent.Always;
         Player.RawSetAppearance(this);
 
         // Visual-only: match First Death Shield appearance to the morphed target without granting the actual modifier.
@@ -60,5 +63,15 @@ public sealed class MorphlingMorphModifier(PlayerControl target) : ConcealedModi
         {
             Player.cosmetics.ToggleNameVisible(false);
         }
+    }
+
+    public override bool? CanVent()
+    {
+        if (!CanMorphlingVent)
+        {
+            return false;
+        }
+
+        return null;
     }
 }
