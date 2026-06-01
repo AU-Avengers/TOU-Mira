@@ -49,6 +49,8 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
 
         if (OptionGroupSingleton<BarkeeperOptions>.Instance.Hangover)
             sb.AppendLine("Your target will have a hangover when their roleblock expires.");
+        
+        sb.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
 
         return sb;
     }

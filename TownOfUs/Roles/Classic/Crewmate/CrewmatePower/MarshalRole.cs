@@ -63,6 +63,8 @@ public sealed class MarshalRole(IntPtr cppPtr)
         var stringB = ITownOfUsRole.SetNewTabText(this);
         
         stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{TribunalsLeft}/{OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunals} Tribunals Left</b>");
+        
+        stringB.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
 
         return stringB;
     }

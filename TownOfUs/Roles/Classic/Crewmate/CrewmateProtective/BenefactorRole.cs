@@ -69,6 +69,8 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
             stringB.Append(CultureInfo.InvariantCulture,
                 $"\n<b>Aegis: </b>{roleColor.ToTextColor()}{roleName}</color>");
         }
+        
+        stringB.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
 
         return stringB;
     }

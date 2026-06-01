@@ -45,6 +45,8 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
         if (OptionGroupSingleton<BootleggerOptions>.Instance.Hangover)
             sb.AppendLine("Your target will have a hangover when their roleblock expires.");
+        
+        sb.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
 
         return sb;
     }

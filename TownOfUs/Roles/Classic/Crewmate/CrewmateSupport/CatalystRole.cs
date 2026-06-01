@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using UnityEngine;
@@ -26,7 +27,11 @@ public sealed class CatalystRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
-        return ITownOfUsRole.SetNewTabText(this);
+        var stringB = ITownOfUsRole.SetNewTabText(this);
+        
+        stringB.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
+
+        return stringB;
     }
 
     public string GetAdvancedDescription()
