@@ -20,6 +20,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override bool AutoStart => true;
     public override bool VisibleToOthers => false;
     public bool VisualPriority => true;
+    public bool CanSwooperVent = true;
 
     public VisualAppearance GetVisualAppearance()
     {
@@ -54,6 +55,8 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
     public override void OnActivate()
     {
+        CanSwooperVent =
+            (SwooperVent)OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is SwooperVent.Always;
         if (Player.AmOwner)
         {
             TouAudio.PlaySound(TouAudio.SwooperActivateSound);
@@ -121,5 +124,15 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
             player.MixUpOutfit(playerOutfit);
         }
+    }
+
+    public override bool? CanVent()
+    {
+        if (!CanSwooperVent)
+        {
+            return false;
+        }
+
+        return null;
     }
 }
