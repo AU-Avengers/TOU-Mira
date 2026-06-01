@@ -285,4 +285,12 @@
   <string name="DiedToSheriff">Zastrzelony</string>
   <string name="DiedToOfficer">Zraniony</string>
   <string name="DiedToDeputy">Odstrzelony</string>
+  <string name="ModStampPlacement">Naklejka Mod</string>
+  <string name="ModStampTopLeft">Lewy-Górny</string>
+  <string name="ModStampTopRight">Prawy-Górny</string>
+  <string name="ModStampBottomLeft">Lewy-Dolny</string>
+  <string name="ModStampBottomRight">Prawy-Dolny</string>
+  <string name="SonarTargetType">Rodzaj Śledzenia Sonara</string>
+  <string name="SonarHeartbeats">Bicia Serc</string>
+  <string name="SonarArrows">Strzałki</string>
 </resources>
