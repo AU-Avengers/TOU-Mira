@@ -5,7 +5,6 @@ using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Networking;
-using MiraAPI.Patches.Options;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
