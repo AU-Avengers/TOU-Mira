@@ -5,7 +5,6 @@ using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Networking;
-using MiraAPI.Patches.Options;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
@@ -185,16 +184,6 @@ public static class MiraApiPatches
         {
             Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, CustomTouMurderRpcs.RecordedKillCooldown));
         }
-        return false;
-    }
-
-    [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
-    [HarmonyPrefix]
-#pragma warning disable S3400
-    public static bool MiraClosePatch()
-#pragma warning restore S3400
-    {
-        // Patching this for now
         return false;
     }
 

@@ -208,7 +208,8 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         buttonText.transform.localPosition = new Vector3(0, -0.2f, 0f);
         var tmpText = buttonText.GetComponent<TextMeshPro>();
         tmpText.color = Color.white;
-        tmpText.text = TouLocale.GetParsed("TouRoleJailorExecute");
+        var classic = LegacyAssets.IsLegacy;
+        tmpText.text = classic ? string.Empty : TouLocale.GetParsed("TouRoleJailorExecute");
         //tmpText.ForceMeshUpdate();
         tmpText.fontSize = 2.5f;
         tmpText.fontSizeMax = 2.5f;
@@ -218,7 +219,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         executeButton = newButtonObj;
 
         var renderer = newButtonObj.GetComponent<SpriteRenderer>();
-        renderer.sprite = TouAssets.ExecuteCleanSprite.LoadAsset();
+        renderer.sprite = classic ? LegacyAssets.ExecuteSprite.LoadAsset() : TouAssets.ExecuteCleanSprite.LoadAsset();
 
         var passive = newButtonObj.GetComponent<PassiveButton>();
         passive.OnClick = new Button.ButtonClickedEvent();

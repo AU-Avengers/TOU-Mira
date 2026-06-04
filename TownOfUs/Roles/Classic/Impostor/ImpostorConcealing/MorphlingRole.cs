@@ -38,7 +38,7 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         Icon = TouRoleIcons.Morphling,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
-        CanUseVent = OptionGroupSingleton<MorphlingOptions>.Instance.CanVent,
+        CanUseVent = (MorphlingVent)OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is not MorphlingVent.Never,
         IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Shapeshifter)
     };
 

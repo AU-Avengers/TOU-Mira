@@ -224,8 +224,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     public static bool FairySeesRoleVisibilityFlag(PlayerControl player)
     {
         var gaKnowsTargetRole = OptionGroupSingleton<FairyOptions>.Instance.FairyKnowsTargetRole &&
-                                PlayerControl.LocalPlayer.IsRole<FairyRole>() &&
-                                PlayerControl.LocalPlayer.GetRole<FairyRole>()!.Target == player;
+                                PlayerControl.LocalPlayer.Data.Role is FairyRole fairy && fairy.Target == player;
 
         return gaKnowsTargetRole;
     }
@@ -236,8 +235,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
             OptionGroupSingleton<FairyOptions>.Instance.ShowProtect is ProtectOptions.SelfAndFairy &&
             player.HasModifier<GuardianAngelTargetModifier>();
 
-        var gaKnowsTargetRole = PlayerControl.LocalPlayer.IsRole<FairyRole>() &&
-                                PlayerControl.LocalPlayer.GetRole<FairyRole>()!.Target == player;
+        var gaKnowsTargetRole = PlayerControl.LocalPlayer.Data.Role is FairyRole fairy && fairy.Target == player;
 
         return gaTargetKnows || gaKnowsTargetRole;
     }

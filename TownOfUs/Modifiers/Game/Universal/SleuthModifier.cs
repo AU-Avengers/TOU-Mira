@@ -46,10 +46,9 @@ public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 
     public static bool SleuthVisibilityFlag(PlayerControl player)
     {
-        if (PlayerControl.LocalPlayer.HasModifier<SleuthModifier>())
+        if (PlayerControl.LocalPlayer.TryGetModifier<SleuthModifier>(out var sleuth))
         {
-            var mod = PlayerControl.LocalPlayer.GetModifier<SleuthModifier>()!;
-            return mod.Reported.Contains(player.PlayerId);
+            return sleuth.Reported.Contains(player.PlayerId);
         }
 
         return false;

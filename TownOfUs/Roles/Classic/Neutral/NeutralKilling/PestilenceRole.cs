@@ -127,7 +127,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             Player.AddModifier<InvulnerabilityModifier>(true, true, false);
         }
 
-        if (Player.AmOwner)
+        if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.PestVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Pestilence);
@@ -145,7 +145,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             Player.RemoveModifier<InvulnerabilityModifier>();
         }
 
-        if (Player.AmOwner)
+        if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);

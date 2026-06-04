@@ -16,6 +16,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons;
 
+#pragma warning disable S3060
 [MiraIgnore]
 public abstract class TownOfUsButton : CustomActionButton
 {
@@ -123,7 +124,7 @@ public abstract class TownOfUsButton : CustomActionButton
             return;
         }
 
-        Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
+        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBasicSprite.LoadAsset();
 
         TownOfUsColors.UseBasic = false;
         if (TextOutlineColor != Color.clear)
@@ -365,20 +366,27 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             return;
         }
 
-        switch (typeof(T))
+        if (this is ILegacyCapable && LegacyAssets.IsLegacy)
         {
-            case Type t when t == typeof(Vent):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
-                break;
-            case Type t when t == typeof(DeadBody):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
-                break;
-            case Type t when t == typeof(PlayerControl):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterPlayerSprite.LoadAsset();
-                break;
-            default:
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
-                break;
+            Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
+        }
+        else
+        {
+            switch (typeof(T))
+            {
+                case Type t when t == typeof(Vent):
+                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
+                    break;
+                case Type t when t == typeof(DeadBody):
+                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
+                    break;
+                case Type t when t == typeof(PlayerControl):
+                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterPlayerSprite.LoadAsset();
+                    break;
+                default:
+                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
+                    break;
+            }
         }
 
         TownOfUsColors.UseBasic = false;
@@ -463,7 +471,7 @@ public abstract class TownOfUsRoleButton<TRole> : TownOfUsButton where TRole : R
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return !Disabled && role is TRole;
+        return !Disabled && role is TRole && Role;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
@@ -480,7 +488,7 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return !Disabled && role is TRole;
+        return !Disabled && role is TRole && Role;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
@@ -544,6 +552,10 @@ public interface IKillButton
 {
 }
 
+public interface ILegacyCapable
+{
+}
+
 /// <summary>
 /// Base class for role buttons that need kill cooldown tracking.
 /// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
@@ -570,3 +582,4 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
         return true;
     }
 }
+#pragma warning restore S3060

@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IAftermathableButton
+public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IAftermathableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleMorphlingMorph", "Morph");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -20,7 +20,7 @@ public sealed class MorphlingMorphButton : TownOfUsRoleButton<MorphlingRole>, IA
     public override int MaxUses => (int)OptionGroupSingleton<MorphlingOptions>.Instance.MaxMorphs;
 
     public override bool ZeroIsInfinite { get; set; } = true;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.MorphSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.MorphSprite : TouImpAssets.MorphSprite;
 
     public override void ClickHandler()
     {

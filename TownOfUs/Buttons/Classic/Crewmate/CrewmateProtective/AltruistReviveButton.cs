@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
+public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleAltruistRevive", "Revive");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -25,7 +25,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
     public override int MaxUses => OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value
         ? 0
         : (int)OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.ReviveSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.ReviveSprite : TouCrewAssets.ReviveSprite;
     public override bool UsableInDeath => true;
 
     public bool RevivedInRound { get; set; }
@@ -72,7 +72,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBodySprite.LoadAsset();
         UpdateUsesCounterVisibility();
     }
 

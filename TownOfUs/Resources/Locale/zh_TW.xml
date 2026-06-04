@@ -1547,7 +1547,7 @@
   <string name="TouOptionGlitchMoveInMimicMenu">使用模仿清單時可以移動 (僅KB)</string>
   <string name="TouOptionGlitchHackCooldown">黑入冷卻</string>
   <string name="TouOptionGlitchHackDuration">黑入持續時間</string>
-  <string name="TouOptionGlitchCan Vent">混沌可使用通風口</string>
+  <string name="TouOptionGlitchCanVent">混沌可使用通風口</string>
   <string name="TouRoleFairy">天使</string>
   <string name="TouRoleFairyTabDescription">保護\%target\%免於被擊殺!</string>
   <string name="TouRoleFairyIfNoTarget">保護你的目標免於被擊殺!</string>
@@ -2150,4 +2150,11 @@
   <string name="TouOptionAssassinAllianceMods">同盟</string>
   <string name="TouOptionAssassinNonCrewMods">非船員</string>
   <string name="TouOptionAssassinUniversalMods">通用</string>
+  <string name="SelfKillBindToggle">左SHIFT + T + ENTER 觸發自殺</string>
+  <string name="AbortGameBindToggle">左SHIFT + L + ENTER 觸發終止遊戲</string>
+  <string name="StartMeetingBindToggle">左SHIFT + K + ENTER 觸發開始會議</string>
+  <string name="EndMeetingBindToggle">F6 觸發結束會議</string>
+  <string name="ShowBasicAssassinOnHud">在Hud上顯示刺客身份</string>
+  <string name="TopRightUiScale">右上角 UI 縮放比例</string>
+  <string name="MisguessSummary">錯誤地將 \%player\% 猜成了 \%role\%</string>
 </resources>

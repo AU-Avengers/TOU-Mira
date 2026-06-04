@@ -80,7 +80,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 this,
                 ClickGuess,
                 MeetingAbilityType.Click,
-                TouAssets.ShootMeetingSprite,
+                LegacyAssets.IsLegacy ? LegacyAssets.ShootMeetingSprite : TouAssets.ShootMeetingSprite,
                 null!,
                 IsExempt)
             {

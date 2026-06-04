@@ -22,38 +22,17 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
     public override void OnActivate()
     {
         base.OnActivate();
-        var meetingInstance = MeetingHud.Instance;
-        if (meetingInstance == null)
-        {
-            return;
-        }
-
-        VoteArea = meetingInstance.playerStates.FirstOrDefault(x => x.TargetPlayerId == Player.PlayerId)!;
-
-        var amOwner = Player.AmOwner;
-        var bmOwns = BlackMailerId == PlayerControl.LocalPlayer.PlayerId;
-
-        if (amOwner || bmOwns || !OnlyTargetSees)
-        {
-            ShookAlready = false;
-            var bmIcon = Object.Instantiate(VoteArea.XMark, VoteArea.XMark.transform.parent);
-            bmIcon.transform.localPosition = new Vector3(-0.804f, -0.212f, -2);
-            bmIcon.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
-            bmIcon.sprite = TouAssets.BlackmailLetterSprite.LoadAsset();
-            bmIcon.gameObject.SetActive(true);
-
-            BmOverlay = Object.Instantiate(VoteArea.XMark, VoteArea.XMark.transform.parent);
-            BmOverlay.transform.localPosition = new Vector3(0, 0, -2);
-            BmOverlay.transform.localScale = new Vector3(0.769f, 1, 1);
-            BmOverlay.sprite = TouAssets.BlackmailOverlaySprite.LoadAsset();
-            BmOverlay.gameObject.SetActive(true);
-            VoteArea.ColorBlindName.gameObject.SetActive(false);
-        }
+        SetUpOverlay();
     }
 
     public override void OnMeetingStart()
     {
         base.OnMeetingStart();
+        SetUpOverlay();
+    }
+
+    public void SetUpOverlay()
+    {
         var meetingInstance = MeetingHud.Instance;
         if (meetingInstance == null)
         {
@@ -67,17 +46,18 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
 
         if (amOwner || bmOwns || !OnlyTargetSees)
         {
+            var classic = LegacyAssets.IsLegacy;
             ShookAlready = false;
             var bmIcon = Object.Instantiate(VoteArea.XMark, VoteArea.XMark.transform.parent);
             bmIcon.transform.localPosition = new Vector3(-0.804f, -0.212f, -2);
             bmIcon.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
-            bmIcon.sprite = TouAssets.BlackmailLetterSprite.LoadAsset();
+            bmIcon.sprite = classic ? LegacyAssets.BlackmailLetterSprite.LoadAsset() : TouAssets.BlackmailLetterSprite.LoadAsset();
             bmIcon.gameObject.SetActive(true);
 
             BmOverlay = Object.Instantiate(VoteArea.XMark, VoteArea.XMark.transform.parent);
             BmOverlay.transform.localPosition = new Vector3(0, 0, -2);
             BmOverlay.transform.localScale = new Vector3(0.769f, 1, 1);
-            BmOverlay.sprite = TouAssets.BlackmailOverlaySprite.LoadAsset();
+            BmOverlay.sprite = classic ? LegacyAssets.BlackmailOverlaySprite.LoadAsset() : TouAssets.BlackmailOverlaySprite.LoadAsset();
             BmOverlay.gameObject.SetActive(true);
             VoteArea.ColorBlindName.gameObject.SetActive(false);
         }

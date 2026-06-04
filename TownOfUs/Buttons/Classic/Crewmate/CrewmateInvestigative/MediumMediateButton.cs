@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
+public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleMediumMediate", "Mediate");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -20,7 +20,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MediumOptions>.Instance.MediateCooldown.Value + MapCooldown, 0.001f, 120f);
     public override float EffectDuration => OptionGroupSingleton<MediumOptions>.Instance.MediateDuration.Value;
 
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MediateSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.MediateSprite : TouCrewAssets.MediateSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
