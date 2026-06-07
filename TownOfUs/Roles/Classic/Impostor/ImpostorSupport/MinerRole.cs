@@ -191,6 +191,7 @@ public sealed class MinerRole(IntPtr cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
     public IEnumerator CoExplode(Vector3 position)
     {
         var explodeAnim =
