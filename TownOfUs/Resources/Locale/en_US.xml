@@ -536,6 +536,7 @@
   <string name="TouOptionBetterMapsThemeEnumBasic">No Decor </string>
   <string name="TouOptionBetterMapsThemeEnumHalloween">Halloween</string>
   <string name="TouOptionBetterMapsThemeEnumBirthday">Birthday</string>
+  <string name="TouOptionBetterMapsThemeEnumTvShow">TV Show</string>
   <string name="TouOptionBetterMapsThemeEnumAuto">Automatic</string>
   <!-- Better Skeld Options -->
   <string name="TouOptionBetterSkeldDoorType">Door Type on Skeld</string>
