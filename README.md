@@ -1,5 +1,6 @@
 > [!NOTE]
-> This repo is a rewrite of [Town of Us Reactivated](https://github.com/eDonnes124/Town-Of-Us-R) and is under constant development, expect bugs.\
+> This repo is a rewrite and redo of [Town of Us Reactivated](https://github.com/AU-Avengers/Town-Of-Us-Reactivated) and is under constant development, expect bugs.\
+> Any players who wish to continue using TOU Reactivated may still do so, but do not expect frequent updates, and little to no content updates.\
 > This mod is ONLY available on PC and Android Among Us and is NOT host only either, please do not ask for a port or a rewrite.
 
 -----------------------

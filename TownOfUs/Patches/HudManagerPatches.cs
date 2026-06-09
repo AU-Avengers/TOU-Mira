@@ -295,12 +295,17 @@ public static class HudManagerPatches
 
         static PlayerControl GetDisguiseTargetOrSelf(PlayerControl player)
         {
-            if (player.TryGetModifier<MorphlingMorphModifier>(out var morph) && morph.Target != null)
+            if (player.TryGetModifier<MorphlingMorphModifier>(out var morph) && morph.Target)
             {
                 return morph.Target;
             }
 
-            if (player.TryGetModifier<GlitchMimicModifier>(out var mimic) && mimic.Target != null)
+            if (player.TryGetModifier<ShapeshifterShiftModifier>(out var shift) && shift.Target)
+            {
+                return shift.Target;
+            }
+
+            if (player.TryGetModifier<GlitchMimicModifier>(out var mimic) && mimic.Target)
             {
                 return mimic.Target;
             }

@@ -13,6 +13,7 @@ public static class BetterSkeldPatches
     public static bool IsObjectsFetched;
     public static bool IsVentsFetched;
     public static bool ThemesFetched;
+    public static GameObject TvShowTheme;
     public static GameObject HalloweenTheme;
     public static GameObject BirthdayTheme;
 
@@ -74,6 +75,11 @@ public static class BetterSkeldPatches
 
         var hallowTheme = rootObj.transform.FindChild("HalloweenDecorSkeld") ?? rootObj.transform.FindChild("Helloween");
         var birthTheme = rootObj.transform.FindChild("BirthdayDecorSkeld");
+        var tvTheme = rootObj.transform.FindChild("ProjectParasiteDecorSkeld");
+        if (TvShowTheme == null && tvTheme != null)
+        {
+            TvShowTheme = tvTheme.gameObject;
+        }
         if (HalloweenTheme == null && hallowTheme != null)
         {
             HalloweenTheme = hallowTheme.gameObject;
@@ -139,6 +145,7 @@ public static class BetterSkeldPatches
         if (ThemesFetched)
         {
             var birthdayAvailable = BirthdayTheme != null;
+            var tvAvailable = TvShowTheme != null;
             switch (theme)
             {
                 case SkeldTheme.Basic:
@@ -147,6 +154,10 @@ public static class BetterSkeldPatches
                     {
                         BirthdayTheme!.SetActive(false);
                     }
+                    if (tvAvailable)
+                    {
+                        TvShowTheme!.SetActive(false);
+                    }
                     break;
                 case SkeldTheme.Birthday:
                     HalloweenTheme.SetActive(false);
@@ -154,12 +165,31 @@ public static class BetterSkeldPatches
                     {
                         BirthdayTheme!.SetActive(true);
                     }
+                    if (tvAvailable)
+                    {
+                        TvShowTheme!.SetActive(false);
+                    }
                     break;
                 case SkeldTheme.Halloween:
                     HalloweenTheme.SetActive(true);
                     if (birthdayAvailable)
                     {
                         BirthdayTheme!.SetActive(false);
+                    }
+                    if (tvAvailable)
+                    {
+                        TvShowTheme!.SetActive(false);
+                    }
+                    break;
+                case SkeldTheme.TvShow:
+                    HalloweenTheme.SetActive(false);
+                    if (birthdayAvailable)
+                    {
+                        BirthdayTheme!.SetActive(false);
+                    }
+                    if (tvAvailable)
+                    {
+                        TvShowTheme!.SetActive(true);
                     }
                     break;
             }

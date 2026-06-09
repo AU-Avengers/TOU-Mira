@@ -340,7 +340,6 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         {
             RpcPlumberSendFlush(PlayerControl.LocalPlayer, Vent.currentVent.Id);
             PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
-            PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
 
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plumber));
         }
