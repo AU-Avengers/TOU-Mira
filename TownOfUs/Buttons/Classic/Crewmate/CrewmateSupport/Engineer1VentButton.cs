@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Vent>, ILegacyCapable
+public sealed class EngineerVentButton : TownOfUsVentRoleButton<EngineerTouRole>, ILegacyCapable
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.VentLabel, "Vent");
     public override BaseKeybind Keybind => Keybinds.VentAction;
@@ -26,41 +26,6 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.VentSprite : TouCrewAssets.EngiVentSprite;
     public override bool ShouldPauseInVent => false;
     public int ExtraUses { get; set; }
-
-    public override Vent? GetTarget()
-    {
-        return HudManager.Instance.ImpostorVentButton.currentTarget;
-    }
-
-    public override bool CanUse()
-    {
-        if (TimeLordRewindSystem.IsRewinding)
-        {
-            return false;
-        }
-
-        if (PlayerControl.LocalPlayer.HasDied())
-        {
-            return false;
-        }
-
-        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
-        {
-            return false;
-        }
-
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || 
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
-        {
-            return false;
-        }
-
-        var newTarget = GetTarget();
-        Target = IsTargetValid(newTarget) ? newTarget : null;
-
-        return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
-            (!LimitedUses || UsesLeft > 0);
-    }
 
     public override void ClickHandler()
     {

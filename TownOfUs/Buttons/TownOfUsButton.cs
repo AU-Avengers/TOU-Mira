@@ -582,4 +582,49 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
         return true;
     }
 }
+
+/// <summary>
+/// Base class for role buttons with Vent targets that do not use <see cref="VentButton"/> 
+/// or <see cref="HudManager.ImpostorVentButton"/> as a base.
+/// <para/>
+/// Utilizies the vanilla system for getting its Vent targets, as well as handling outlines.
+/// </summary>
+[MiraIgnore]
+public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
+{
+    public override Vent? GetTarget()
+    {
+        return HudManager.Instance.ImpostorVentButton.currentTarget;
+    }
+
+    public override bool CanUse()
+    {
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasDied())
+        {
+            return false;
+        }
+
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
+            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        var newTarget = GetTarget();
+        Target = IsTargetValid(newTarget) ? newTarget : null;
+
+        return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
+            (!LimitedUses || UsesLeft > 0);
+    }
+}
 #pragma warning restore S3060
