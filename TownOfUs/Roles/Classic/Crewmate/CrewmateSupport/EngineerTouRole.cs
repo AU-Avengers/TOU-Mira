@@ -50,7 +50,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        // CanUseVent = true,
+        CanUseVent = true,
         Icon = TouRoleIcons.Engineer,
         OptionsScreenshot = TouBanners.EngineerRoleBanner,
         IntroSound = TouAudio.EngineerIntroSound
@@ -63,6 +63,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
+            HudManager.Instance.ImpostorVentButton.ToggleVisible(false);
             CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
         }
     }
