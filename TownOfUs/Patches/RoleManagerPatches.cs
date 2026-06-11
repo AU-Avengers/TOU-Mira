@@ -734,7 +734,8 @@ public static class TouRoleManagerPatches
 
         randomCrewRoles.AddRange(specialCrewRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomCrewRoles, RoleListOption.CrewRandom));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomCrewRoles, RoleListOption.CrewRandom,
+            RoleListOption.NonImp));
 
         var randomNonImpRoles = randomCrewRoles;
 
