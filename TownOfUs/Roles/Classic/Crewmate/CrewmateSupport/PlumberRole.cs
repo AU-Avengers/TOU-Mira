@@ -26,7 +26,6 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     // Blocked vent, remaining rounds
     [HideFromIl2Cpp] public static Dictionary<int, int> VentsBlocked { get; set; } = [];
-    [HideFromIl2Cpp] public static HashSet<int> VentBlockSet { get; set; } = [];
     [HideFromIl2Cpp] public static HashSet<int> VentFlushSet { get; set; } = [];
 
 
@@ -183,7 +182,6 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         VentsBlocked.Clear();
         Barricades.Clear();
-        VentBlockSet.Clear();
         VentFlushSet.Clear();
     }
 

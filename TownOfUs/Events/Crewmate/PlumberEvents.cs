@@ -9,7 +9,6 @@ using MiraAPI.Roles;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
-using UnityEngine;
 
 namespace TownOfUs.Events.Crewmate;
 
@@ -52,7 +51,7 @@ public static class PlumberEvents
             return;
         }
 
-        if (PlumberRole.VentBlockSet.Contains(vent.Id) || PlumberRole.VentFlushSet.Contains(vent.Id))
+        if (PlumberRole.VentsBlocked.ContainsKey(vent.Id) || PlumberRole.VentFlushSet.Contains(vent.Id))
         {
             @event.Cancel();
         }
@@ -89,8 +88,5 @@ public static class PlumberEvents
         {
             plumber.SetupBarricades();
         }
-
-        PlumberRole.VentBlockSet.Clear();
-        PlumberRole.VentBlockSet = PlumberRole.VentsBlocked.Keys.ToHashSet();
     }
 }
