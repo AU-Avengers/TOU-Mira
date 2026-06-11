@@ -196,7 +196,7 @@ public static class IntroScenePatches
                 12 => list.Slot13.Value,
                 13 => list.Slot14.Value,
                 14 => list.Slot15.Value,
-                _ => (RoleListOption)(-1)
+                _ => RoleListOption.None
             };
 
             buckets.Add(slotValue);

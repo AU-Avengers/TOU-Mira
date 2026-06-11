@@ -239,7 +239,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             12 => roleList.Slot13.Value,
             13 => roleList.Slot14.Value,
             14 => roleList.Slot15.Value,
-            _  => (RoleListOption)(-1)
+            _  => RoleListOption.None
         };
 
         if ((int)bucket < 0) return;

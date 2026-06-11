@@ -312,6 +312,8 @@ public enum RoleDistribution
 
 public enum RoleListOption
 {
+    None = -1, // To avoid manually creating a -1 constant cast
+
     CrewInvest,
     CrewKilling,
     CrewProtective,
