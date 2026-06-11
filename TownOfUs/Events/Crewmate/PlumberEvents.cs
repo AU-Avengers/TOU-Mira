@@ -63,40 +63,25 @@ public static class PlumberEvents
     {
         if ((int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration > 0)
         {
-            var barricadeList = new List<KeyValuePair<GameObject, int>>();
-            if (PlumberRole.Barricades.Count > 0)
+            var unblockedVents = new HashSet<int>();
+            foreach (var (ventId, rounds) in PlumberRole.VentsBlocked)
             {
-                foreach (var barricadePair in PlumberRole.Barricades)
+                if (rounds == 1)
                 {
-                    if (barricadePair.Value == 1)
-                    {
-                        UnityEngine.Object.Destroy(barricadePair.Key);
-                        continue;
-                    }
-
-                    barricadeList.Add(new(barricadePair.Key, barricadePair.Value - 1));
+                    unblockedVents.Add(ventId);
+                    PlumberRole.Barricades.Remove(ventId, out var barricade);
+                    UnityEngine.Object.Destroy(barricade);
+                    continue;
                 }
+
+                PlumberRole.VentsBlocked[ventId] -= 1;
             }
 
-            PlumberRole.Barricades.Clear();
-            PlumberRole.Barricades = barricadeList;
-
-            var ventList = new List<KeyValuePair<int, int>>();
-            if (PlumberRole.VentsBlocked.Count > 0)
+            foreach (var vent in unblockedVents)
             {
-                foreach (var ventPair in PlumberRole.VentsBlocked)
-                {
-                    if (ventPair.Value == 1)
-                    {
-                        continue;
-                    }
-
-                    ventList.Add(new(ventPair.Key, ventPair.Value - 1));
-                }
+                PlumberRole.VentsBlocked.Remove(vent);
             }
 
-            PlumberRole.VentsBlocked.Clear();
-            PlumberRole.VentsBlocked = ventList;
             PlumberRole.VentFlushSet.Clear();
         }
 
@@ -106,6 +91,6 @@ public static class PlumberEvents
         }
 
         PlumberRole.VentBlockSet.Clear();
-        PlumberRole.VentBlockSet = PlumberRole.VentsBlocked.Select(x => x.Key).ToHashSet();
+        PlumberRole.VentBlockSet = PlumberRole.VentsBlocked.Keys.ToHashSet();
     }
 }
