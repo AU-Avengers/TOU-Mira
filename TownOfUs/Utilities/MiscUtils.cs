@@ -83,7 +83,7 @@ public static class MiscUtils
         RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
 
     public static IEnumerable<RoleBehaviour> SpawnableRoles =>
-        AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+        AllRegisteredRoles.Where(CustomRoleUtils.CanSpawnOnCurrentMode);
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
@@ -1197,7 +1197,7 @@ public static class MiscUtils
     public static List<(ushort RoleType, int Chance)> GetRolesToAssign(ModdedRoleTeams team,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+        var roles = GetRegisteredRoles(team).Where(CustomRoleUtils.CanSpawnOnCurrentMode);
 
         return GetRolesToAssign(roles, filter);
     }
@@ -1205,7 +1205,7 @@ public static class MiscUtils
     public static List<(ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+        var roles = GetRegisteredRoles(alignment).Where(CustomRoleUtils.CanSpawnOnCurrentMode);
 
         return GetRolesToAssign(roles, filter);
     }
@@ -1232,7 +1232,7 @@ public static class MiscUtils
     public static List<ushort> GetMaxRolesToAssign(ModdedRoleTeams team, int max = 1,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+        var roles = GetRegisteredRoles(team).Where(CustomRoleUtils.CanSpawnOnCurrentMode);
 
         return GetMaxRolesToAssign(roles, max, filter);
     }
@@ -1240,7 +1240,7 @@ public static class MiscUtils
     public static List<ushort> GetMaxRolesToAssign(RoleAlignment alignment, int max,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
+        var roles = GetRegisteredRoles(alignment).Where(CustomRoleUtils.CanSpawnOnCurrentMode);
 
         return GetMaxRolesToAssign(roles, max, filter);
     }
