@@ -31,30 +31,16 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         return TouRoleUtils.GetClosestUsableVent(true);
     }
 
+    public override bool IsEffectCancellable()
+    {
+        return PlayerControl.LocalPlayer.inVent;
+    }
+
     public override bool CanUse()
     {
-        var newTarget = GetTarget();
-        if (newTarget != Target)
-        {
-            Target?.SetOutline(false, false);
-        }
-
-        Target = IsTargetValid(newTarget) ? newTarget : null;
-        SetOutline(true);
-
-        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
-        {
-            return false;
-        }
-
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
-        {
-            return false;
-        }
-
-        return ((Timer <= 0 && !PlayerControl.LocalPlayer.inVent && Target != null) ||
-                PlayerControl.LocalPlayer.inVent) && (!LimitedUses || UsesLeft > 0);
+        return base.CanUse() &&
+            (EffectActive ||
+             Timer <= 0 && !PlayerControl.LocalPlayer.inVent);
     }
 
     public override void ClickHandler()
