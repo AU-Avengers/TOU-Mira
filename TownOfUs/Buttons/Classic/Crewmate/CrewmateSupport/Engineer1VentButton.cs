@@ -106,6 +106,9 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         // Error($"Left Vent");
         _ = Vent.currentVent.CanUse(PlayerControl.LocalPlayer.Data, true, out var couldUse);
         Vent.currentVent.SetButtons(false);
+
+        Vent toExit = Vent.currentVent;
+
         if (!couldUse)
         {
             Error($"Current vent cannot be exited, finding alternate route.");
@@ -127,17 +130,12 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
 
             if (newVent != null)
             {
-                PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(newVent.Id);
-            }
-            else
-            {
-                PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+                toExit = newVent;
             }
         }
-        else
-        {
-            PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
-        }
+
+        PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(toExit.Id);
+
         UsesLeft--;
         if (LimitedUses)
         {
