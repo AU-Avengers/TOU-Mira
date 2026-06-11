@@ -63,7 +63,6 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner)
         {
-            HudManager.Instance.ImpostorVentButton.ToggleVisible(false);
             CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
         }
     }
