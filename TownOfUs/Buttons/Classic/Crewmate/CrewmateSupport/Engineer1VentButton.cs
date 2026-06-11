@@ -126,10 +126,4 @@ public sealed class EngineerVentButton : TownOfUsVentRoleButton<EngineerTouRole>
             Button?.SetUsesRemaining(UsesLeft);
         }
     }
-
-    protected override void FixedUpdate(PlayerControl playerControl)
-    {
-        base.FixedUpdate(playerControl);
-        HudManager.Instance.ImpostorVentButton.ToggleVisible(false);
-    }
 }

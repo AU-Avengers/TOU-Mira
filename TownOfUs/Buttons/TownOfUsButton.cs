@@ -592,6 +592,8 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
 [MiraIgnore]
 public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
 {
+    public virtual bool HideVanillaButton { get; set; } = true;
+
     public override Vent? GetTarget()
     {
         return HudManager.Instance.ImpostorVentButton.currentTarget;
@@ -625,6 +627,12 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
 
         return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
             (!LimitedUses || UsesLeft > 0);
+    }
+
+    protected override void FixedUpdate(PlayerControl playerControl)
+    {
+        base.FixedUpdate(playerControl);
+        HudManager.Instance.ImpostorVentButton.ToggleVisible(!HideVanillaButton);
     }
 }
 #pragma warning restore S3060
