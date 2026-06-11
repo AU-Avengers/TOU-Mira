@@ -1301,17 +1301,9 @@ public static class MiscUtils
         List<RoleManager.RoleAssignmentData> assignmentData,
         Func<RoleManager.RoleAssignmentData, bool>? predicate = null)
     {
-        var roles = new List<(ushort, int)>();
-
-        assignmentData.Where(x => predicate == null || predicate(x)).ToList().ForEach(x =>
-        {
-            for (var i = 0; i < x.Count; i++)
-            {
-                roles.Add(((ushort)x.Role.Role, x.Chance));
-            }
-        });
-
-        return roles;
+        return assignmentData.Where(x => predicate == null || predicate(x))
+            .SelectMany(x => Enumerable.Repeat(x, x.Count))
+            .Select(x => ((ushort)x.Role.Role, x.Chance)).ToList();
     }
 
     public static RoleManager.RoleAssignmentData GetAssignData(RoleTypes roleType)
