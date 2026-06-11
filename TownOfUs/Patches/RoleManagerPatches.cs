@@ -884,24 +884,18 @@ public static class TouRoleManagerPatches
 
     public static IEnumerator CoAssignTargets()
     {
-        foreach (var role in MiscUtils.SpawnableRoles.Where(x => x is IAssignableTargets)
-                     .OrderBy(x => (x as IAssignableTargets)!.Priority))
+        foreach (var role in MiscUtils.SpawnableRoles.OfType<IAssignableTargets>()
+                     .OrderBy(x => x.Priority))
         {
-            if (role is IAssignableTargets assignRole)
-            {
-                assignRole.AssignTargets();
-                yield return new WaitForSeconds(0.01f);
-            }
+            role.AssignTargets();
+            yield return new WaitForSeconds(0.01f);
         }
 
-        foreach (var modifier in MiscUtils.AllModifiers.Where(x => x is IAssignableTargets)
-                     .OrderBy(x => (x as IAssignableTargets)!.Priority))
+        foreach (var modifier in MiscUtils.AllModifiers.OfType<IAssignableTargets>()
+                     .OrderBy(x => x.Priority))
         {
-            if (modifier is IAssignableTargets assignMod)
-            {
-                assignMod.AssignTargets();
-                yield return new WaitForSeconds(0.01f);
-            }
+            modifier.AssignTargets();
+            yield return new WaitForSeconds(0.01f);
         }
 
         GhostRoleSetup();
