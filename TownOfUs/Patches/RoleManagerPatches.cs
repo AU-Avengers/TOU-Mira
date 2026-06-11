@@ -182,10 +182,10 @@ public static class TouRoleManagerPatches
         bool protectBenign, bool protectEvil, bool protectKilling, bool protectOutlier)
     {
         var roleOptions = OptionGroupSingleton<RoleOptions>.Instance;
-        var minBenign = (int)roleOptions.MinNeutralBenign.Value;
-        var minEvil = (int)roleOptions.MinNeutralEvil.Value;
-        var minKilling = (int)roleOptions.MinNeutralKiller.Value;
-        var minOutlier = (int)roleOptions.MinNeutralOutlier.Value;
+        int minBenign = roleOptions.MinNeutralBenign;
+        int minEvil = roleOptions.MinNeutralEvil;
+        int minKilling = roleOptions.MinNeutralKiller;
+        int minOutlier = roleOptions.MinNeutralOutlier;
 
         // Adjust minimums to protect /up requested categories
         if (protectBenign && minBenign < 1)
@@ -413,14 +413,14 @@ public static class TouRoleManagerPatches
 
         // Calculate neutral role counts
         var roleOptions = OptionGroupSingleton<RoleOptions>.Instance;
-        var nbCount = Random.RandomRange((int)roleOptions.MinNeutralBenign.Value,
-            (int)roleOptions.MaxNeutralBenign.Value + 1);
-        var neCount = Random.RandomRange((int)roleOptions.MinNeutralEvil.Value,
-            (int)roleOptions.MaxNeutralEvil.Value + 1);
-        var nkCount = Random.RandomRange((int)roleOptions.MinNeutralKiller.Value,
-            (int)roleOptions.MaxNeutralKiller.Value + 1);
-        var noCount = Random.RandomRange((int)roleOptions.MinNeutralOutlier.Value,
-            (int)roleOptions.MaxNeutralOutlier.Value + 1);
+        var nbCount = Random.RandomRangeInt(roleOptions.MinNeutralBenign,
+            roleOptions.MaxNeutralBenign + 1);
+        var neCount = Random.RandomRangeInt(roleOptions.MinNeutralEvil,
+            roleOptions.MaxNeutralEvil + 1);
+        var nkCount = Random.RandomRangeInt(roleOptions.MinNeutralKiller,
+            roleOptions.MaxNeutralKiller + 1);
+        var noCount = Random.RandomRangeInt(roleOptions.MinNeutralOutlier,
+            roleOptions.MaxNeutralOutlier + 1);
 
         // Adjust neutral counts for /up requests and ensure crewmates outnumber neutrals
         AdjustNeutralCountsForUpRequests(ref nbCount, ref neCount, ref nkCount, ref noCount, crewmates.Count);
@@ -910,7 +910,8 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.First)]
     public static bool SelectRolesPatch(RoleManager __instance)
     {
-        var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+        var opts = OptionGroupSingleton<RoleOptions>.Instance;
+        RoleSelectionMode assignmentType = opts.RoleAssignmentType;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
         GameManager.Instance.LogicOptions.SyncOptions();
         ModifierManager.MiraAssignsModifiers = false;
@@ -929,11 +930,11 @@ public static class TouRoleManagerPatches
         var impCount = GameOptionsManager.Instance.CurrentGameOptions.GetAdjustedNumImpostors(players.Count);
         List<NetworkedPlayerInfo> infected = [];
 
-        var useBias = OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias;
+        var useBias = opts.LastImpostorBias;
 
         if (useBias && LastImps.Count > 0)
         {
-            var biasPercent = OptionGroupSingleton<RoleOptions>.Instance.ImpostorBiasPercent.Value / 100f;
+            var biasPercent = opts.ImpostorBiasPercent.Value / 100f;
             while (infected.Count < impCount)
             {
                 if (players.All(x => LastImps.Contains(x.ClientId)))
@@ -1169,16 +1170,15 @@ public static class TouRoleManagerPatches
             return true;
         }
 
-        var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
+        var list = OptionGroupSingleton<RoleOptions>.Instance;
 
-        if (assignmentType is not RoleSelectionMode.RoleList)
+        if (list.RoleAssignmentType.Value is not RoleSelectionMode.RoleList)
         {
             return true;
         }
 
         var players = GameData.Instance.PlayerCount - SpectatorRole.TrackedSpectators.Count;
         var impostors = 0;
-        var list = OptionGroupSingleton<RoleOptions>.Instance;
         var maxSlots = players < 15 ? players : 15;
         List<RoleListOption> impBuckets =
         [
