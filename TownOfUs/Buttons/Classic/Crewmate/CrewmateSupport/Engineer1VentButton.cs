@@ -28,7 +28,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
 
     public override Vent? GetTarget()
     {
-        return TouRoleUtils.GetClosestUsableVent(true);
+        return DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.currentTarget;
     }
 
     public override bool IsEffectCancellable()
@@ -104,7 +104,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         }
 
         // Error($"Left Vent");
-        _ = Vent.currentVent.CanUse(PlayerControl.LocalPlayer.Data, true, out var couldUse);
+        _ = Vent.currentVent.CanUse(PlayerControl.LocalPlayer.Data, out _, out var couldUse);
         Vent.currentVent.SetButtons(false);
 
         Vent toExit = Vent.currentVent;
