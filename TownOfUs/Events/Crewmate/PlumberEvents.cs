@@ -52,7 +52,7 @@ public static class PlumberEvents
             return;
         }
 
-        if (PlumberRole.VentBlockList.Contains(vent.Id) || PlumberRole.VentFlushList.Contains(vent.Id))
+        if (PlumberRole.VentBlockSet.Contains(vent.Id) || PlumberRole.VentFlushSet.Contains(vent.Id))
         {
             @event.Cancel();
         }
@@ -97,7 +97,7 @@ public static class PlumberEvents
 
             PlumberRole.VentsBlocked.Clear();
             PlumberRole.VentsBlocked = ventList;
-            PlumberRole.VentFlushList.Clear();
+            PlumberRole.VentFlushSet.Clear();
         }
 
         foreach (var plumber in CustomRoleUtils.GetActiveRolesOfType<PlumberRole>())
@@ -105,7 +105,7 @@ public static class PlumberEvents
             plumber.SetupBarricades();
         }
 
-        PlumberRole.VentBlockList.Clear();
-        PlumberRole.VentBlockList = PlumberRole.VentsBlocked.Select(x => x.Key).ToList();
+        PlumberRole.VentBlockSet.Clear();
+        PlumberRole.VentBlockSet = PlumberRole.VentsBlocked.Select(x => x.Key).ToHashSet();
     }
 }

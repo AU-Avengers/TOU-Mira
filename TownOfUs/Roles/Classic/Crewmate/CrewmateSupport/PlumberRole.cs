@@ -22,12 +22,12 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 {
     public override bool IsAffectedByComms => false;
 
-    [HideFromIl2Cpp] public List<int> FutureBlocks { get; set; } = [];
+    [HideFromIl2Cpp] public HashSet<int> FutureBlocks { get; set; } = [];
 
     // Blocked vent, remaining rounds
     [HideFromIl2Cpp] public static List<KeyValuePair<int, int>> VentsBlocked { get; set; } = [];
-    [HideFromIl2Cpp] public static List<int> VentBlockList { get; set; } = [];
-    [HideFromIl2Cpp] public static List<int> VentFlushList { get; set; } = [];
+    [HideFromIl2Cpp] public static HashSet<int> VentBlockSet { get; set; } = [];
+    [HideFromIl2Cpp] public static HashSet<int> VentFlushSet { get; set; } = [];
 
 
     // Barricade object, remaining rounds
@@ -189,8 +189,8 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         VentsBlocked.Clear();
         Barricades.Clear();
-        VentBlockList.Clear();
-        VentFlushList.Clear();
+        VentBlockSet.Clear();
+        VentFlushSet.Clear();
     }
 
     public void SetupBarricades()
@@ -300,11 +300,11 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public static IEnumerator SetupFlush(int id)
     {
         var delay = OptionGroupSingleton<PlumberOptions>.Instance.FlushDuration;
-        VentFlushList.Add(id);
+        VentFlushSet.Add(id);
 
         yield return new WaitForSeconds(delay);
 
-        VentFlushList.Remove(id);
+        VentFlushSet.Remove(id);
     }
 
     [MethodRpc((uint)TownOfUsRpc.PlumberFlush)]
@@ -371,10 +371,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             return;
         }
 
-        if (!plumber.FutureBlocks.Contains(ventId))
-        {
-            plumber.FutureBlocks.Add(ventId);
-        }
+        plumber.FutureBlocks.Add(ventId);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlumberBlock, player, Helpers.GetVentById(ventId));
         MiraEventManager.InvokeEvent(touAbilityEvent);
