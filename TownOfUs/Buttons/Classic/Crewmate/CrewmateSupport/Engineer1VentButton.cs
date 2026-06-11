@@ -5,6 +5,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -31,21 +32,39 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
         return HudManager.Instance.ImpostorVentButton.currentTarget;
     }
 
-    public override bool IsEffectCancellable()
-    {
-        return PlayerControl.LocalPlayer.inVent;
-    }
-
     public override bool CanUse()
     {
-        return base.CanUse() &&
-            (EffectActive ||
-             Timer <= 0 && !PlayerControl.LocalPlayer.inVent);
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasDied())
+        {
+            return false;
+        }
+
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || 
+            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        var newTarget = GetTarget();
+        Target = IsTargetValid(newTarget) ? newTarget : null;
+
+        return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
+            (!LimitedUses || UsesLeft > 0);
     }
 
     public override void ClickHandler()
     {
-        if (!CanClick())
+        if (!CanUse())
         {
             return;
         }
