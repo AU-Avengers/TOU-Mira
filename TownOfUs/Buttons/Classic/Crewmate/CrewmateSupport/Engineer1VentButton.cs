@@ -98,48 +98,50 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
 
     public override void OnEffectEnd()
     {
-        if (PlayerControl.LocalPlayer.inVent)
+        if (!PlayerControl.LocalPlayer.inVent)
         {
-            // Error($"Left Vent");
-            _ = Vent.currentVent.CanUse(PlayerControl.LocalPlayer.Data, true, out var couldUse);
-            Vent.currentVent.SetButtons(false);
-            if (!couldUse)
+            return;
+        }
+
+        // Error($"Left Vent");
+        _ = Vent.currentVent.CanUse(PlayerControl.LocalPlayer.Data, true, out var couldUse);
+        Vent.currentVent.SetButtons(false);
+        if (!couldUse)
+        {
+            Error($"Current vent cannot be exited, finding alternate route.");
+            Vent? newVent = null;
+            foreach (var closeVent in Vent.currentVent.NearbyVents)
             {
-                Error($"Current vent cannot be exited, finding alternate route.");
-                Vent? newVent = null;
-                foreach (var closeVent in Vent.currentVent.NearbyVents)
-                {
-                    if (newVent != null)
-                    {
-                        break;
-                    }
-                    var @event = new PlayerCanUseEvent(closeVent.Cast<IUsable>());
-                    MiraEventManager.InvokeEvent(@event);
-
-                    if (!@event.IsCancelled)
-                    {
-                        newVent = closeVent;
-                    }
-                }
-
                 if (newVent != null)
                 {
-                    PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(newVent.Id);
+                    break;
                 }
-                else
+                var @event = new PlayerCanUseEvent(closeVent.Cast<IUsable>());
+                MiraEventManager.InvokeEvent(@event);
+
+                if (!@event.IsCancelled)
                 {
-                    PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+                    newVent = closeVent;
                 }
+            }
+
+            if (newVent != null)
+            {
+                PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(newVent.Id);
             }
             else
             {
                 PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
             }
-            UsesLeft--;
-            if (LimitedUses)
-            {
-                Button?.SetUsesRemaining(UsesLeft);
-            }
+        }
+        else
+        {
+            PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+        }
+        UsesLeft--;
+        if (LimitedUses)
+        {
+            Button?.SetUsesRemaining(UsesLeft);
         }
     }
 }
