@@ -28,7 +28,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
 
     public override Vent? GetTarget()
     {
-        return DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.currentTarget;
+        return HudManager.Instance.ImpostorVentButton.currentTarget;
     }
 
     public override bool IsEffectCancellable()
