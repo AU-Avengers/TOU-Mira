@@ -45,7 +45,7 @@ public sealed class EngineerVentButton : TownOfUsRoleButton<EngineerTouRole, Ven
 
     public override void ClickHandler()
     {
-        if (!CanUse())
+        if (!CanClick())
         {
             return;
         }
