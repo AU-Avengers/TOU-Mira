@@ -97,8 +97,6 @@ public static class PlumberEvents
 
             PlumberRole.VentsBlocked.Clear();
             PlumberRole.VentsBlocked = ventList;
-            PlumberRole.VentBlockList.Clear();
-            PlumberRole.VentBlockList = ventList.Select(x => x.Key).ToList();
             PlumberRole.VentFlushList.Clear();
         }
 
@@ -106,5 +104,8 @@ public static class PlumberEvents
         {
             plumber.SetupBarricades();
         }
+
+        PlumberRole.VentBlockList.Clear();
+        PlumberRole.VentBlockList = PlumberRole.VentsBlocked.Select(x => x.Key).ToList();
     }
 }
