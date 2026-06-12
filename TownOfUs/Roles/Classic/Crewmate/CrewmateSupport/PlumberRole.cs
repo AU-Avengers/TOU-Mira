@@ -22,16 +22,15 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 {
     public override bool IsAffectedByComms => false;
 
-    [HideFromIl2Cpp] public List<int> FutureBlocks { get; set; } = [];
+    [HideFromIl2Cpp] public HashSet<int> FutureBlocks { get; set; } = [];
 
     // Blocked vent, remaining rounds
-    [HideFromIl2Cpp] public static List<KeyValuePair<int, int>> VentsBlocked { get; set; } = [];
-    [HideFromIl2Cpp] public static List<int> VentBlockList { get; set; } = [];
-    [HideFromIl2Cpp] public static List<int> VentFlushList { get; set; } = [];
+    [HideFromIl2Cpp] public static Dictionary<int, int> VentsBlocked { get; set; } = [];
+    [HideFromIl2Cpp] public static HashSet<int> VentFlushSet { get; set; } = [];
 
 
-    // Barricade object, remaining rounds
-    [HideFromIl2Cpp] public static List<KeyValuePair<GameObject, int>> Barricades { get; set; } = [];
+    // Blocked vent, Barricade object
+    [HideFromIl2Cpp] public static Dictionary<int, GameObject> Barricades { get; set; } = [];
 
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string LocaleKey => "Plumber";
@@ -69,6 +68,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        CanUseVent = true,
         IntroSound = TouAudio.EngineerIntroSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Plumber
@@ -96,16 +96,16 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
             if (VentsBlocked.Count > 0)
             {
-                foreach (var ventPair in VentsBlocked)
+                foreach (var (ventId, rounds) in VentsBlocked)
                 {
-                    var vent = Helpers.GetVentById(ventPair.Key);
+                    var vent = Helpers.GetVentById(ventId);
                     if (vent == null)
                     {
                         continue;
                     }
 
                     var ventLabel = TouLocale.GetParsed("TouRolePlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
-                    var text2 = duration == 0 ? string.Empty : $": {TouLocale.GetParsed("TouRolePlumberVentRoundsTabText").Replace("<roundsRemaining>", ventPair.Value.ToString(TownOfUsPlugin.Culture))}";
+                    var text2 = duration == 0 ? string.Empty : $": {TouLocale.GetParsed("TouRolePlumberVentRoundsTabText").Replace("<roundsRemaining>", rounds.ToString(TownOfUsPlugin.Culture))}";
                     stringB.Append(TownOfUsPlugin.Culture,
                         $"\n{ventLabel}{text2}");
                 }
@@ -154,17 +154,14 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public void Clear()
     {
-        if (Barricades.Count > 0)
+        foreach (var barricade in Barricades.Values)
         {
-            foreach (var barricade in Barricades.Select(x => x.Key))
+            if (barricade == null)
             {
-                if (barricade == null)
-                {
-                    continue;
-                }
-
-                Destroy(barricade);
+                continue;
             }
+
+            Destroy(barricade);
         }
 
         FutureBlocks.Clear();
@@ -174,30 +171,31 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public static void ClearAll()
     {
-        if (Barricades.Count > 0)
+        foreach (var barricade in Barricades.Values)
         {
-            foreach (var barricade in Barricades.Select(x => x.Key))
+            if (barricade == null)
             {
-                if (barricade == null)
-                {
-                    continue;
-                }
-
-                Destroy(barricade);
+                continue;
             }
+
+            Destroy(barricade);
         }
 
         VentsBlocked.Clear();
         Barricades.Clear();
-        VentBlockList.Clear();
-        VentFlushList.Clear();
+        VentFlushSet.Clear();
     }
 
     public void SetupBarricades()
     {
         foreach (var ventId in FutureBlocks)
         {
-            VentsBlocked.Add(new(ventId, (int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration));
+            var alreadySet = VentsBlocked.ContainsKey(ventId);
+            VentsBlocked[ventId] = (int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration;
+            if (alreadySet)
+            {
+                continue;
+            }
 
             GameObject barricade = new("Barricade");
 
@@ -274,7 +272,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                 }
             }
 
-            Barricades.Add(new(barricade, (int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration));
+            Barricades.Add(ventId, barricade);
         }
 
         FutureBlocks.Clear();
@@ -300,11 +298,11 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public static IEnumerator SetupFlush(int id)
     {
         var delay = OptionGroupSingleton<PlumberOptions>.Instance.FlushDuration;
-        VentFlushList.Add(id);
+        VentFlushSet.Add(id);
 
         yield return new WaitForSeconds(delay);
 
-        VentFlushList.Remove(id);
+        VentFlushSet.Remove(id);
     }
 
     [MethodRpc((uint)TownOfUsRpc.PlumberFlush)]
@@ -371,10 +369,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             return;
         }
 
-        if (!plumber.FutureBlocks.Contains(ventId))
-        {
-            plumber.FutureBlocks.Add(ventId);
-        }
+        plumber.FutureBlocks.Add(ventId);
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlumberBlock, player, Helpers.GetVentById(ventId));
         MiraEventManager.InvokeEvent(touAbilityEvent);
