@@ -1,7 +1,5 @@
 using System.Text;
 using AmongUs.GameOptions;
-using MiraAPI.Events;
-using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -10,7 +8,6 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
-using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Other;
