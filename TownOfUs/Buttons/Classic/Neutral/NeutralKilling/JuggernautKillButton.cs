@@ -10,12 +10,12 @@ using UnityEngine;
 namespace TownOfUs.Buttons.Neutral;
 
 public sealed class JuggernautKillButton : TownOfUsKillRoleButton<JuggernautRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     public override string Name => TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Juggernaut;
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.JuggKillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouNeutAssets.JuggKillSprite;
     public override float Cooldown => GetCooldown();
 
     public override void CreateButton(Transform parent)

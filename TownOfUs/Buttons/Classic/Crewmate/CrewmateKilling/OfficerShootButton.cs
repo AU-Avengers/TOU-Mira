@@ -19,13 +19,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, PlayerControl>, IKillButton
+public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, PlayerControl>, IKillButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleOfficerShoot", "Shoot");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Officer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OfficerOptions>.Instance.ShootCooldown.Value + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.OfficerShootSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouCrewAssets.OfficerShootSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 

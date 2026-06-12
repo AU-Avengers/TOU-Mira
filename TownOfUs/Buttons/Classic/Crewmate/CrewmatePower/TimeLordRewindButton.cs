@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class TimeLordRewindButton : TownOfUsRoleButton<TimeLordRole>
+public sealed class TimeLordRewindButton : TownOfUsRoleButton<TimeLordRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleTimeLordRewind", "Rewind");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -19,7 +19,7 @@ public sealed class TimeLordRewindButton : TownOfUsRoleButton<TimeLordRole>
 
     public override int MaxUses => (int)OptionGroupSingleton<TimeLordOptions>.Instance.MaxUses;
 
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.RewindSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.RewindSprite : TouCrewAssets.RewindSprite;
 
     protected override void OnClick()
     {
@@ -41,7 +41,11 @@ public sealed class TimeLordRewindButton : TownOfUsRoleButton<TimeLordRole>
             return;
         }
 
-        var spr = EffectActive ? TouCrewAssets.RewindingSprite.LoadAsset() : TouCrewAssets.RewindSprite.LoadAsset();
+        var spr = LegacyCrewAssets.RewindSprite.LoadAsset();
+        if (!LegacyAssets.IsLegacy)
+        {
+            spr = EffectActive ? TouCrewAssets.RewindingSprite.LoadAsset() : TouCrewAssets.RewindSprite.LoadAsset();
+        }
         if (Button.graphic != null && Button.graphic.sprite != spr)
         {
             Button.graphic.sprite = spr;

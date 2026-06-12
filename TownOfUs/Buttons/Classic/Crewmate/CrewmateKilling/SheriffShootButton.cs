@@ -17,13 +17,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, PlayerControl>, IKillButton
+public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, PlayerControl>, IKillButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleSheriffShoot", "Shoot");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sheriff;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SheriffOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.SheriffShootSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouCrewAssets.SheriffShootSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 

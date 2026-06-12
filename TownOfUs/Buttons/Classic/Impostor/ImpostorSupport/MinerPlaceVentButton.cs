@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAftermathableButton
+public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAftermathableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleMinerMine", "Mine");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -23,7 +23,7 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
     public override bool ZeroIsInfinite { get; set; } = true;
 
     public override int MaxUses => (int)OptionGroupSingleton<MinerOptions>.Instance.MaxMines;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.MineSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.MineSprite : TouImpAssets.MineSprite;
 
     public Vector2 VentSize { get; set; }
     public Vector3? SavedPos { get; set; }
@@ -80,7 +80,7 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
 
         var immediate = OptionGroupSingleton<MinerOptions>.Instance.MineVisibility == MineVisiblityOptions.Immediate;
 
-        MinerRole.RpcPlaceVent(PlayerControl.LocalPlayer, id, SavedPos!.Value, SavedPos.Value.z + 0.0004f, immediate);
+        MinerRole.RpcPlaceVent(PlayerControl.LocalPlayer, id, SavedPos!.Value, SavedPos.Value.z, immediate);
         TouAudio.PlaySound(TouAudio.MineSound);
         SavedPos = null;
     }

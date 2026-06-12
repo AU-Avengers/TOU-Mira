@@ -35,7 +35,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
     }
 
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.AdminSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.AdminMiraSprite : TouAssets.AdminSprite;
 
     private void RefreshAbilityButton()
     {

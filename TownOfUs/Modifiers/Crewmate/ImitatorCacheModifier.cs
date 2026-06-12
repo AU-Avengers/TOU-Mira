@@ -41,12 +41,13 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             _meetingMenu = new MeetingMenu(
                 Player.Data.Role,
                 Click,
                 MeetingAbilityType.Toggle,
-                TouAssets.ImitateSelectSprite,
-                TouAssets.ImitateDeselectSprite,
+                classic ? LegacyAssets.ImitateSelectSprite : TouAssets.ImitateSelectSprite,
+                classic ? LegacyAssets.ImitateDeselectSprite : TouAssets.ImitateDeselectSprite,
                 IsExempt,
                 Color.white)
             {

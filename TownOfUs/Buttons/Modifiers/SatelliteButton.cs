@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Modifiers;
 
-public sealed class SatelliteButton : TownOfUsButton
+public sealed class SatelliteButton : TownOfUsButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouModifierSatelliteBroadcast", "Broadcast");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
@@ -20,7 +20,7 @@ public sealed class SatelliteButton : TownOfUsButton
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SatelliteOptions>.Instance.Cooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.BroadcastSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyAssets.BroadcastSprite : TouAssets.BroadcastSprite;
     public bool CanStillUse = true;
 
     public static bool Usable => OptionGroupSingleton<SatelliteOptions>.Instance.FirstRoundUse ||
@@ -42,7 +42,7 @@ public sealed class SatelliteButton : TownOfUsButton
     {
         base.CreateButton(parent);
 
-        Button!.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
+        Button!.usesRemainingSprite.sprite = LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBodySprite.LoadAsset();
     }
 
     protected override void OnClick()

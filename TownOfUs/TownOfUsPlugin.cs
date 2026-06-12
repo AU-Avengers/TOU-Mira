@@ -67,6 +67,8 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     public string CustomOptionMenuOneDescription => TouLocale.Get("TouTabOptionBetterMapsDesc");
     public string ModifierMenuDescription => TouLocale.Get("TouTabOptionModifiersDesc");
 
+    public static ConfigEntry<LegacyVisuals> LegacyMode { get; private set; }
+
     /// <inheritdoc />
     public ConfigFile GetConfigFile()
     {
@@ -83,6 +85,8 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// </summary>
     public override void Load()
     {
+        LegacyMode = Config.Bind("LocalSettings", "LegacyMode", LegacyVisuals.Disabled,
+            "If enabled, assets will appear like they did in TOU Reactivated / Polus.gg / Town of Us.");
         ReactorCredits.Register("Town Of Us: Mira", Version, IsDevBuild, ReactorCredits.AlwaysShow);
         LocalizationManager.Register(new TaskProvider());
 
@@ -143,4 +147,12 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         WinConditionRegistry.Register(new NeutralRoleWinCondition());
         WinConditionRegistry.Register(new LoversWinCondition());
     }
+}
+
+public enum LegacyVisuals
+{
+    Disabled,
+    Players,
+    Art,
+    Full
 }

@@ -20,6 +20,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
     public override bool AutoStart => true;
     public override bool VisibleToOthers => false;
     public bool VisualPriority => true;
+    public bool CanSwooperVent = true;
 
     public VisualAppearance GetVisualAppearance()
     {
@@ -54,17 +55,19 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
     public override void OnActivate()
     {
+        CanSwooperVent =
+            (SwooperVent)OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is SwooperVent.Always;
         if (Player.AmOwner)
         {
             TouAudio.PlaySound(TouAudio.SwooperActivateSound);
+
+            var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
+            button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite.LoadAsset() : TouImpAssets.UnswoopSprite.LoadAsset());
+            button.OverrideName(TouLocale.Get("TouRoleSwooperUnswoop", "Unswoop"));
         }
 
         Player.RawSetAppearance(this);
         Player.cosmetics.ToggleNameVisible(false);
-
-        var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
-        button.OverrideSprite(TouImpAssets.UnswoopSprite.LoadAsset());
-        button.OverrideName(TouLocale.Get("TouRoleSwooperUnswoop", "Unswoop"));
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.SwooperSwoop, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
@@ -89,7 +92,7 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
         if (Player.AmOwner)
         {
             var button = CustomButtonSingleton<SwooperSwoopButton>.Instance;
-            button.OverrideSprite(TouImpAssets.SwoopSprite.LoadAsset());
+            button.OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite.LoadAsset() : TouImpAssets.SwoopSprite.LoadAsset());
             button.OverrideName(TouLocale.Get("TouRoleSwooperSwoop", "Swoop"));
             if (!MeetingHud.Instance)
             {
@@ -121,5 +124,15 @@ public sealed class SwoopModifier : ConcealedModifier, IVisualAppearance
 
             player.MixUpOutfit(playerOutfit);
         }
+    }
+
+    public override bool? CanVent()
+    {
+        if (!CanSwooperVent)
+        {
+            return false;
+        }
+
+        return null;
     }
 }

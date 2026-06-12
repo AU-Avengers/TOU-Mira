@@ -14,7 +14,7 @@ using UnityEngine;
 namespace TownOfUs.Buttons.Impostor;
 
 public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     private string _killName = "Kill";
     private string _burstKill = "Burst Kill";
@@ -23,7 +23,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
-    public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouAssets.KillSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 

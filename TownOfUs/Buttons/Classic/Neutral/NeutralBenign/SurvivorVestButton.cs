@@ -13,7 +13,7 @@ namespace TownOfUs.Buttons.Neutral;
 // Should link this to the effect duration of the button?
 // ie: make this a base modifier and just remove it once the button is done...
 // or make swooper function like this?
-public sealed class SurvivorVestButton : TownOfUsRoleButton<SurvivorRole>
+public sealed class SurvivorVestButton : TownOfUsRoleButton<SurvivorRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleSurvivorSafeguard", "Safeguard");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -21,7 +21,7 @@ public sealed class SurvivorVestButton : TownOfUsRoleButton<SurvivorRole>
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SurvivorOptions>.Instance.VestCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<SurvivorOptions>.Instance.VestDuration;
     public override int MaxUses => (int)OptionGroupSingleton<SurvivorOptions>.Instance.MaxVests;
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.VestSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.VestSprite : TouNeutAssets.VestSprite;
 
     protected override void OnClick()
     {

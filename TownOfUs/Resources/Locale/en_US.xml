@@ -5,6 +5,10 @@
   <string name="DiscordServer">Discord Server</string>
   <string name="SourceCode">Source Code</string>
   <string name="FoolsMode">Fools Mode</string>
+  <string name="LegacyThemeDisabled">Legacy: Off</string>
+  <string name="LegacyThemeArt">Legacy: Art</string>
+  <string name="LegacyThemePlayers">Legacy: Players</string>
+  <string name="LegacyThemeFull">Legacy: Full</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
   <!-- Client Options -->
@@ -32,6 +36,16 @@
   <string name="ZoomingInPractice">Zoom In Practice</string>
   <string name="SeparateChatBubbles">Separate Chat Bubbles</string>
   <string name="ColorPlayerName">Colored Player Name</string>
+  <string name="RoleNameStyle">Role Name Style</string>
+  <string name="NameStyleTop">Top</string>
+  <string name="NameStyleTopSmall">Top (Small)</string>
+  <string name="NameStyleBottom">Bottom</string>
+  <string name="NameStyleBottomSmall">Bottom (Small)</string>
+  <string name="ModStampPlacement">Mod Stamp</string>
+  <string name="ModStampTopLeft">Top-Left</string>
+  <string name="ModStampTopRight">Top-Right</string>
+  <string name="ModStampBottomLeft">Bottom-Left</string>
+  <string name="ModStampBottomRight">Bottom-Right</string>
   <string name="UseCrewmateTeamColor">Use Basic Crew Colors</string>
   <string name="ShowShieldHud">Show Shields On Hud</string>
   <string name="ShowBasicAssassinOnHud">Show Assassin On Hud</string>
@@ -74,6 +88,9 @@
   <string name="PiPSizeNormal">Normal</string>
   <string name="PiPSizeSmall">Small</string>
   <string name="PiPSizeLarge">Large</string>
+  <string name="SonarTargetType">Sonar Target Style</string>
+  <string name="SonarHeartbeats">Heartbeats</string>
+  <string name="SonarArrows">Arrows</string>
   <!-- Player Colors -->
   <string name="PlayerColorDarker">Darker</string>
   <string name="PlayerColorLighter">Lighter</string>
@@ -1970,7 +1987,7 @@
   <!-- Translation note: KB = Keyboard -->
   <string name="TouOptionGlitchHackCooldown">Hack Cooldown</string>
   <string name="TouOptionGlitchHackDuration">Hack Duration</string>
-  <string name="TouOptionGlitchCan Vent">Glitch Can Vent</string>
+  <string name="TouOptionGlitchCanVent">Glitch Can Vent</string>
   <!-- Fairy -->
   <!-- Fairy Wiki / Abilities -->
   <string name="TouRoleFairy">Fairy</string>

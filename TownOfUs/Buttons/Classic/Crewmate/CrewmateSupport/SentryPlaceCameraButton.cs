@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IAftermathableButton
+public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IAftermathableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleSentryPlaceCamera", "Deploy");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -28,7 +28,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
         }
     }
     public override int MaxUses => (int)OptionGroupSingleton<SentryOptions>.Instance.InitialCameras.Value;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.DeployCamSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.DeployCamSprite : TouCrewAssets.DeployCamSprite;
     public override bool ZeroIsInfinite { get; set; } = true;
     public int ExtraUses { get; set; }
 

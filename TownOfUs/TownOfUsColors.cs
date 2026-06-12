@@ -8,6 +8,7 @@ public static class TownOfUsColors
     public static bool UseBasic { get; set; } =
         LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
 
+    public static Color HaunterRevealed => new Color32(150, 50, 50, 255);
     public static Color CrewmateWiki => new Color32(80, 225, 255, 255);
     public static Color ImpWiki => new Color32(214, 32, 32, 255);
     public static Color NeutralWiki => new Color32(155, 155, 155, 255);

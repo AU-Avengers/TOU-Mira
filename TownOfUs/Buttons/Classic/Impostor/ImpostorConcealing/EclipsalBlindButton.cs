@@ -9,14 +9,14 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class EclipsalBlindButton : TownOfUsRoleButton<EclipsalRole>, IAftermathableButton
+public sealed class EclipsalBlindButton : TownOfUsRoleButton<EclipsalRole>, IAftermathableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleEclipsalBlind", "Blind");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<EclipsalOptions>.Instance.BlindCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<EclipsalOptions>.Instance.BlindDuration;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.BlindSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.BlindSprite : TouImpAssets.BlindSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 

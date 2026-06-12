@@ -212,19 +212,30 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             barricade.gameObject.layer = trueVent.gameObject.layer;
 
             var render = barricade.AddComponent<SpriteRenderer>();
-            var spriteList = new List<Sprite>
+            var classic = LegacyAssets.IsLegacy;
+            if (classic)
             {
-                TouAssets.BarricadeVentSprite.LoadAsset(),
-                TouAssets.BarricadeVentSprite2.LoadAsset(),
-                TouAssets.BarricadeVentSprite3.LoadAsset(),
-            };
-            var trueBarricade = spriteList.Random();
-            render.sprite = trueBarricade;
+                render.sprite = LegacyAssets.BarricadeVentSprite.LoadAsset();
+            }
+            else
+            {
+                var spriteList = new List<Sprite>
+                {
+                    TouAssets.BarricadeVentSprite.LoadAsset(),
+                    TouAssets.BarricadeVentSprite2.LoadAsset(),
+                    TouAssets.BarricadeVentSprite3.LoadAsset(),
+                };
+                var trueBarricade = spriteList.Random();
+                render.sprite = trueBarricade;
+            }
 
             switch (ShipStatus.Instance.Type)
             {
                 case ShipStatus.MapType.Fungle:
-                    render.sprite = TouAssets.BarricadeFungleSprite.LoadAsset();
+                    if (!classic)
+                    {
+                        render.sprite = TouAssets.BarricadeFungleSprite.LoadAsset();
+                    }
                     barricade.transform.localPosition = new Vector3(0.03f, -0.107f, -0.001f);
                     break;
                 case ShipStatus.MapType.Pb:
@@ -247,7 +258,10 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
                 switch (ModCompatibility.GetLIVentType(trueVent))
                 {
                     case "util-vent3":
-                        render.sprite = TouAssets.BarricadeFungleSprite.LoadAsset();
+                        if (!classic)
+                        {
+                            render.sprite = TouAssets.BarricadeFungleSprite.LoadAsset();
+                        }
                         barricade.transform.localPosition = new Vector3(0.03f, -0.107f, -0.001f);
                         break;
                     case "util-vent2":
