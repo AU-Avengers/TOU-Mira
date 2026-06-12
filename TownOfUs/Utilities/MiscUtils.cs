@@ -1202,12 +1202,12 @@ public static class MiscUtils
         return GetRolesToAssign(roles, filter);
     }
 
-    public static List<List<(ushort RoleType, int Chance)>> GetRolesToAssign(RoleAlignment alignment,
+    public static List<(ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
-        return [GetRolesToAssign(roles, filter)];
+        return GetRolesToAssign(roles, filter);
     }
 
     private static List<(ushort RoleType, int Chance)> GetRolesToAssign(IEnumerable<RoleBehaviour> roles,
@@ -1610,15 +1610,14 @@ public static class MiscUtils
         cam.centerPosition = cam.Target.transform.position;
     }
 
-    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<List<(ushort RoleType, int Chance)>> roles,
+    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<(ushort RoleType, int Chance)> roles,
         RoleListOption roleType, RoleListOption replaceType = (RoleListOption)(-1), RoleListOption biggerType = (RoleListOption)(-1))
     {
         var result = new List<ushort>();
-        var allRoles = roles.SelectMany((chances, i) => chances.Select(chance => (i, chance))).ToList();
 
         while (buckets.Contains(roleType))
         {
-            if (allRoles.Count == 0)
+            if (roles.Count == 0)
             {
                 var count = buckets.RemoveAll(x => x == roleType);
                 if ((int)replaceType != -1)
@@ -1629,9 +1628,9 @@ public static class MiscUtils
                 break;
             }
 
-            var (listIndex, addedRole) = SelectRole(allRoles);
+            var addedRole = SelectRole(roles);
             result.Add(addedRole.RoleType);
-            roles[listIndex].Remove(addedRole);
+            roles.Remove(addedRole);
 
             buckets.Remove(roleType);
         }
@@ -1639,25 +1638,25 @@ public static class MiscUtils
         return result;
     }
 
-    public static (int Index, (ushort RoleType, int Chance) RoleChance) SelectRole(List<(int Index, (ushort RoleType, int Chance) RoleChance)> roles)
+    public static (ushort RoleType, int Chance) SelectRole(List<(ushort RoleType, int Chance)> roles)
     {
-        var chosenRoles = roles.Where(x => x.RoleChance.Chance == 100).ToList();
+        var chosenRoles = roles.Where(x => x.Chance == 100).ToList();
         if (chosenRoles.Count > 0)
         {
             chosenRoles.Shuffle();
             return chosenRoles.TakeFirst();
         }
 
-        chosenRoles = roles.Where(x => x.RoleChance.Chance < 100).ToList();
-        var total = chosenRoles.Sum(x => x.RoleChance.Chance);
+        chosenRoles = roles.Where(x => x.Chance < 100).ToList();
+        var total = chosenRoles.Sum(x => x.Chance);
         var random = Random.RandomRangeInt(1, total + 1);
 
         var cumulative = 0;
-        (int Index, (ushort RoleType, int Chance) RoleChance) selectedRole = default;
+        (ushort RoleType, int Chance) selectedRole = default;
 
         foreach (var role in chosenRoles)
         {
-            cumulative += role.RoleChance.Chance;
+            cumulative += role.Chance;
             if (random <= cumulative)
             {
                 selectedRole = role;
