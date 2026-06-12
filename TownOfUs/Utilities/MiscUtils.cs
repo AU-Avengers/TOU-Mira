@@ -1614,7 +1614,9 @@ public static class MiscUtils
         List<(uint Id, ushort RoleType, int Chance)> roles, HashSet<(uint Id, ushort RoleType, int Chance)> added,
         RoleListOption roleType, RoleListOption replaceType = (RoleListOption)(-1), RoleListOption biggerType = (RoleListOption)(-1))
     {
+        Info($"For {roleType}: \nPre:" + roles.Select(x => $"({x.Id},{x.RoleType},{x.Chance})").Aggregate(string.Concat));
         roles.RemoveAll(added.Contains);
+        Info($"Post:" + roles.Select(x => $"({x.Id},{x.RoleType},{x.Chance})").Aggregate(string.Concat));
 
         var result = new List<ushort>();
 
