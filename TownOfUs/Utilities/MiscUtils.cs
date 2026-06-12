@@ -1610,9 +1610,12 @@ public static class MiscUtils
         cam.centerPosition = cam.Target.transform.position;
     }
 
-    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<(uint Id, ushort RoleType, int Chance)> roles,
+    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets,
+        List<(uint Id, ushort RoleType, int Chance)> roles, HashSet<(uint Id, ushort RoleType, int Chance)> added,
         RoleListOption roleType, RoleListOption replaceType = (RoleListOption)(-1), RoleListOption biggerType = (RoleListOption)(-1))
     {
+        roles.RemoveAll(added.Contains);
+
         var result = new List<ushort>();
 
         while (buckets.Contains(roleType))
@@ -1630,6 +1633,7 @@ public static class MiscUtils
 
             var addedRole = SelectRole(roles);
             result.Add(addedRole.RoleType);
+            added.Add(addedRole);
             roles.Remove(addedRole);
 
             buckets.Remove(roleType);

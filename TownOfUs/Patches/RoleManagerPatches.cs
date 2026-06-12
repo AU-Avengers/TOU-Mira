@@ -621,6 +621,7 @@ public static class TouRoleManagerPatches
 
         var crewRoles = new List<ushort>();
         var impRoles = new List<ushort>();
+        var takenRoles = new HashSet<(uint, ushort, int)>();
 
         var players = impostors.Count + crewmates.Count;
 
@@ -665,92 +666,93 @@ public static class TouRoleManagerPatches
         var impSupportRoles = MiscUtils.GetRolesToAssign(RoleAlignment.ImpostorSupport);
 
         // imp buckets
-        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, impConcealRoles, RoleListOption.ImpConceal,
-            RoleListOption.ImpCommon));
+        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, impConcealRoles, takenRoles,
+            RoleListOption.ImpConceal, RoleListOption.ImpCommon));
 
         var commonImpRoles = impConcealRoles;
 
-        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, impSupportRoles, RoleListOption.ImpSupport,
-            RoleListOption.ImpCommon));
+        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, impSupportRoles, takenRoles,
+            RoleListOption.ImpSupport, RoleListOption.ImpCommon));
 
         commonImpRoles.AddRange(impSupportRoles);
 
-        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, impKillingRoles, RoleListOption.ImpKilling,
-            RoleListOption.ImpSpecial));
+        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, impKillingRoles, takenRoles, 
+            RoleListOption.ImpKilling, RoleListOption.ImpSpecial));
 
         var specialImpRoles = impKillingRoles;
 
-        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, impPowerRoles, RoleListOption.ImpPower,
-            RoleListOption.ImpSpecial));
+        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, impPowerRoles, takenRoles, 
+            RoleListOption.ImpPower, RoleListOption.ImpSpecial));
 
         specialImpRoles.AddRange(impPowerRoles);
 
-        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonImpRoles, RoleListOption.ImpCommon,
-            RoleListOption.ImpRandom));
+        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonImpRoles, takenRoles,
+            RoleListOption.ImpCommon, RoleListOption.ImpRandom));
 
         var randomImpRoles = commonImpRoles;
 
-        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, specialImpRoles, RoleListOption.ImpSpecial,
-            RoleListOption.ImpRandom));
+        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, specialImpRoles, takenRoles,
+            RoleListOption.ImpSpecial, RoleListOption.ImpRandom));
 
         randomImpRoles.AddRange(specialImpRoles);
 
-        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomImpRoles, RoleListOption.ImpRandom));
+        impRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomImpRoles, takenRoles,
+            RoleListOption.ImpRandom));
 
         // crew buckets
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewInvestRoles, RoleListOption.CrewInvest,
-            RoleListOption.CrewCommon));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewInvestRoles, takenRoles,
+            RoleListOption.CrewInvest, RoleListOption.CrewCommon));
 
         var commonCrewRoles = crewInvestRoles;
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewProtectRoles, RoleListOption.CrewProtective,
-            RoleListOption.CrewCommon));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewProtectRoles, takenRoles,
+            RoleListOption.CrewProtective, RoleListOption.CrewCommon));
 
         commonCrewRoles.AddRange(crewProtectRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewSupportRoles, RoleListOption.CrewSupport,
-            RoleListOption.CrewCommon));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewSupportRoles, takenRoles,
+            RoleListOption.CrewSupport, RoleListOption.CrewCommon));
 
         commonCrewRoles.AddRange(crewSupportRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewKillingRoles, RoleListOption.CrewKilling,
-            RoleListOption.CrewSpecial));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewKillingRoles, takenRoles,
+            RoleListOption.CrewKilling, RoleListOption.CrewSpecial));
 
         var specialCrewRoles = crewKillingRoles;
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewPowerRoles, RoleListOption.CrewPower,
-            RoleListOption.CrewSpecial));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, crewPowerRoles, takenRoles,
+            RoleListOption.CrewPower, RoleListOption.CrewSpecial));
 
         specialCrewRoles.AddRange(crewPowerRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonCrewRoles, RoleListOption.CrewCommon,
-            RoleListOption.CrewRandom));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonCrewRoles, takenRoles,
+            RoleListOption.CrewCommon, RoleListOption.CrewRandom));
 
         var randomCrewRoles = commonCrewRoles;
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, specialCrewRoles, RoleListOption.CrewSpecial,
-            RoleListOption.CrewRandom));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, specialCrewRoles, takenRoles,
+            RoleListOption.CrewSpecial, RoleListOption.CrewRandom));
 
         randomCrewRoles.AddRange(specialCrewRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomCrewRoles, RoleListOption.CrewRandom,
-            RoleListOption.NonImp));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomCrewRoles, takenRoles,
+            RoleListOption.CrewRandom, RoleListOption.NonImp));
 
         var randomNonImpRoles = randomCrewRoles;
 
         // neutral buckets
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, RoleListOption.NeutBenign,
-            RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutBenignRoles, takenRoles,
+            RoleListOption.NeutBenign, RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
 
         var commonNeutRoles = neutBenignRoles;
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, RoleListOption.NeutEvil,
-            RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutEvilRoles, takenRoles,
+            RoleListOption.NeutEvil, RoleListOption.NeutCommon, RoleListOption.NeutWildcard));
 
         commonNeutRoles.AddRange(neutEvilRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, RoleListOption.NeutOutlier,
-            RoleListOption.NeutSpecial, RoleListOption.NeutWildcard));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutOutlierRoles, takenRoles,
+            RoleListOption.NeutOutlier, RoleListOption.NeutSpecial, RoleListOption.NeutWildcard));
 
         var specialNeutRoles = neutOutlierRoles;
 
@@ -758,34 +760,35 @@ public static class TouRoleManagerPatches
 
         wildNeutRoles.AddRange(commonNeutRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutKillingRoles, RoleListOption.NeutKilling,
-            RoleListOption.NeutSpecial));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, neutKillingRoles, takenRoles,
+            RoleListOption.NeutKilling, RoleListOption.NeutSpecial));
 
         specialNeutRoles.AddRange(neutKillingRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, RoleListOption.NeutCommon,
-            RoleListOption.NeutRandom));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, commonNeutRoles, takenRoles,
+            RoleListOption.NeutCommon, RoleListOption.NeutRandom));
 
         var randomNeutRoles = commonNeutRoles;
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, specialNeutRoles, RoleListOption.NeutSpecial,
-            RoleListOption.NeutRandom));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, specialNeutRoles, takenRoles,
+            RoleListOption.NeutSpecial, RoleListOption.NeutRandom));
 
         randomNeutRoles.AddRange(specialNeutRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, wildNeutRoles, RoleListOption.NeutWildcard,
-            RoleListOption.NeutRandom));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, wildNeutRoles, takenRoles,
+            RoleListOption.NeutWildcard, RoleListOption.NeutRandom));
 
         randomNeutRoles.AddRange(wildNeutRoles);
 
         randomNeutRoles.AddRange(commonNeutRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomNeutRoles, RoleListOption.NeutRandom,
-            RoleListOption.NonImp));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomNeutRoles, takenRoles,
+            RoleListOption.NeutRandom, RoleListOption.NonImp));
 
         randomNonImpRoles.AddRange(randomNeutRoles);
 
-        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomNonImpRoles, RoleListOption.NonImp));
+        crewRoles.AddRange(MiscUtils.ReadFromBucket(buckets, randomNonImpRoles, takenRoles,
+            RoleListOption.NonImp));
 
         // Add /up requested roles to pools
         AddUpRequestedRolesToPools(impRoles, crewRoles);
