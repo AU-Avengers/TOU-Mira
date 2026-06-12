@@ -37,9 +37,6 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-using RoleChance = (ushort RoleType, int Chance);
-using ListRoleChance = (int Index, (ushort RoleType, int Chance) RoleChance);
-
 namespace TownOfUs.Utilities;
 
 public static class MiscUtils
@@ -86,7 +83,7 @@ public static class MiscUtils
         RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
 
     public static IEnumerable<RoleBehaviour> SpawnableRoles =>
-        AllRegisteredRoles.Where(CustomRoleUtils.CanSpawnOnCurrentMode);
+        AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
     public static ReadOnlyCollection<IModdedOption>? GetModdedOptionsForRole(Type classType)
     {
@@ -1197,23 +1194,23 @@ public static class MiscUtils
         return infected.Select(impData => impData.Object).ToList();
     }
 
-    public static List<RoleChance> GetRolesToAssign(ModdedRoleTeams team,
+    public static List<(ushort RoleType, int Chance)> GetRolesToAssign(ModdedRoleTeams team,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(team).Where(CustomRoleUtils.CanSpawnOnCurrentMode);
+        var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetRolesToAssign(roles, filter);
     }
 
-    public static List<List<RoleChance>> GetRolesToAssign(RoleAlignment alignment,
+    public static List<List<(ushort RoleType, int Chance)>> GetRolesToAssign(RoleAlignment alignment,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(alignment).Where(CustomRoleUtils.CanSpawnOnCurrentMode);
+        var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return [GetRolesToAssign(roles, filter)];
     }
 
-    private static List<RoleChance> GetRolesToAssign(IEnumerable<RoleBehaviour> roles,
+    private static List<(ushort RoleType, int Chance)> GetRolesToAssign(IEnumerable<RoleBehaviour> roles,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
@@ -1235,7 +1232,7 @@ public static class MiscUtils
     public static List<ushort> GetMaxRolesToAssign(ModdedRoleTeams team, int max = 1,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(team).Where(CustomRoleUtils.CanSpawnOnCurrentMode);
+        var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetMaxRolesToAssign(roles, max, filter);
     }
@@ -1243,7 +1240,7 @@ public static class MiscUtils
     public static List<ushort> GetMaxRolesToAssign(RoleAlignment alignment, int max,
         Func<RoleBehaviour, bool>? filter = null)
     {
-        var roles = GetRegisteredRoles(alignment).Where(CustomRoleUtils.CanSpawnOnCurrentMode);
+        var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
         return GetMaxRolesToAssign(roles, max, filter);
     }
@@ -1300,13 +1297,21 @@ public static class MiscUtils
         return rolesToKeep;
     }
 
-    private static List<RoleChance> GetPossibleRoles(
+    private static List<(ushort RoleType, int Chance)> GetPossibleRoles(
         List<RoleManager.RoleAssignmentData> assignmentData,
         Func<RoleManager.RoleAssignmentData, bool>? predicate = null)
     {
-        return assignmentData.Where(x => predicate == null || predicate(x))
-            .SelectMany(x => Enumerable.Repeat(x, x.Count))
-            .Select(x => ((ushort)x.Role.Role, x.Chance)).ToList();
+        var roles = new List<(ushort, int)>();
+
+        assignmentData.Where(x => predicate == null || predicate(x)).ToList().ForEach(x =>
+        {
+            for (var i = 0; i < x.Count; i++)
+            {
+                roles.Add(((ushort)x.Role.Role, x.Chance));
+            }
+        });
+
+        return roles;
     }
 
     public static RoleManager.RoleAssignmentData GetAssignData(RoleTypes roleType)
@@ -1605,8 +1610,8 @@ public static class MiscUtils
         cam.centerPosition = cam.Target.transform.position;
     }
 
-    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<List<RoleChance>> roles,
-        RoleListOption roleType, RoleListOption replaceType = RoleListOption.None, RoleListOption biggerType = RoleListOption.None)
+    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<List<(ushort RoleType, int Chance)>> roles,
+        RoleListOption roleType, RoleListOption replaceType = (RoleListOption)(-1), RoleListOption biggerType = (RoleListOption)(-1))
     {
         var result = new List<ushort>();
         var allRoles = roles.SelectMany((chances, i) => chances.Select(chance => (i, chance))).ToList();
@@ -1616,10 +1621,10 @@ public static class MiscUtils
             if (allRoles.Count == 0)
             {
                 var count = buckets.RemoveAll(x => x == roleType);
-                if (replaceType != RoleListOption.None)
+                if ((int)replaceType != -1)
                 {
                     buckets.AddRange(Enumerable.Repeat(replaceType, count));
-                    if (biggerType != RoleListOption.None) buckets.AddRange(Enumerable.Repeat(biggerType, count));
+                    if ((int)biggerType != -1) buckets.AddRange(Enumerable.Repeat(biggerType, count));
                 }
                 break;
             }
@@ -1634,7 +1639,7 @@ public static class MiscUtils
         return result;
     }
 
-    public static ListRoleChance SelectRole(List<ListRoleChance> roles)
+    public static (int Index, (ushort RoleType, int Chance) RoleChance) SelectRole(List<(int Index, (ushort RoleType, int Chance) RoleChance)> roles)
     {
         var chosenRoles = roles.Where(x => x.RoleChance.Chance == 100).ToList();
         if (chosenRoles.Count > 0)
@@ -1648,7 +1653,7 @@ public static class MiscUtils
         var random = Random.RandomRangeInt(1, total + 1);
 
         var cumulative = 0;
-        ListRoleChance selectedRole = default;
+        (int Index, (ushort RoleType, int Chance) RoleChance) selectedRole = default;
 
         foreach (var role in chosenRoles)
         {

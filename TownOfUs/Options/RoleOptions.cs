@@ -50,8 +50,8 @@ public sealed class RoleOptions : AbstractOptionGroup
 
     public RoleDistribution CurrentRoleDistribution()
     {
-        TouGamemode gameMode = CustomGameMode;
-        RoleSelectionMode roleDist = RoleAssignmentType;
+        var gameMode = (TouGamemode)CustomGameMode.Value;
+        var roleDist = (RoleSelectionMode)RoleAssignmentType.Value;
         if (/*gameMode is TouGamemode.HideAndSeek && */GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek or GameModes.SeekFools)
         {
             return RoleDistribution.HideAndSeek;
@@ -80,13 +80,13 @@ public sealed class RoleOptions : AbstractOptionGroup
     {
         get
         {
-            TouGamemode gameMode = CustomGameMode;
+            var gameMode = (TouGamemode)CustomGameMode.Value;
             return !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
                 or GameModes.SeekFools || gameMode is TouGamemode.Cultist/* || gameMode is TouGamemode.AllKillers*/);
         }
     }
-    public ModdedEnumOption<TouGamemode> CustomGameMode { get; } =
-        new("Current Game Mode", TouGamemode.Normal, ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)"/*, "All Killers (N/A)", "Legacy TOU (N/A)"*/], false)
+    public ModdedEnumOption CustomGameMode { get; } =
+        new("Current Game Mode", (int)TouGamemode.Normal, typeof(TouGamemode), ["Normal", "Hide And Seek (N/A)", "Cultist (N/A)"/*, "All Killers (N/A)", "Legacy TOU (N/A)"*/], false)
         {
             // Who could've possibly thought this code breaks the game?
             /*ChangedEvent = x =>
@@ -115,8 +115,8 @@ public sealed class RoleOptions : AbstractOptionGroup
             }*/
             Visible = () => true
         };
-    public ModdedEnumOption<RoleSelectionMode> RoleAssignmentType { get; } =
-        new("Role Assignment Type", RoleSelectionMode.RoleList, ["Vanilla", "Role List", "Min/Max List"])
+    public ModdedEnumOption RoleAssignmentType { get; } =
+        new("Role Assignment Type", (int)RoleSelectionMode.RoleList, typeof(RoleSelectionMode), ["Vanilla", "Role List", "Min/Max List"])
         {
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment
         };
@@ -133,7 +133,7 @@ public sealed class RoleOptions : AbstractOptionGroup
             Visible = () => OptionGroupSingleton<RoleOptions>.Instance.LastImpostorBias && OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment && OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is not RoleDistribution.Vanilla
         };
 
-    public bool RoleListEnabled => RoleAssignmentType.Value is RoleSelectionMode.RoleList;
+    public bool RoleListEnabled => RoleAssignmentType.Value is (int)RoleSelectionMode.RoleList;
     /*public ModdedEnumOption GuaranteedKiller { get; } =
         new("Guaranteed Killer", (int)RequiredKiller.ImpostorOrNeutralKiller, typeof(RequiredKiller), ["Impostor", "Neutral Killer", "Impostor or Neutral Killer"])
         {
@@ -312,8 +312,6 @@ public enum RoleDistribution
 
 public enum RoleListOption
 {
-    None = -1, // To avoid manually creating a -1 constant cast
-
     CrewInvest,
     CrewKilling,
     CrewProtective,
