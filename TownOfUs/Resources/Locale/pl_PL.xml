@@ -293,4 +293,6 @@
   <string name="SonarTargetType">Rodzaj Śledzenia Sonara</string>
   <string name="SonarHeartbeats">Bicia Serc</string>
   <string name="SonarArrows">Strzałki</string>
+  <string name="TermsImpRoleAlignmentsInfo">• Role \%color=#FF0000\%Skrywające\%/color\% mogą \%color=#FF8B95\%zabijać\%/color\% oraz mają umiejętności które pozwalają im oszukać innych, bądź schować się podczas zabijania. • Role \%color=#FF0000\%Zabijające\%/color\% mają ulepszone, bądź dodatkowe umiejętności które pomagają im szczególnie w \%color=#FF8B95\%zabijaniu\%/color\% innych. • Role \%color=#FF0000\%Silne\%/color\% mają umiejętności które są znacznie mocniejsze niż inne role, dając \%color=#FF0000\%Intruzom\%/color\% znaczną przewagę. • Role \%color=#FF0000\%Wsparcia\%/color\% mają umiejętności które pomagają w ukryciu ciał, bądź ułatwiają \%color=#FF8B95\%zabójstwa\%/color\% innym.</string>
+  <string name="TermsRoleBucketsInfo">Pakiety Ról są tylko używane gdy ustawienie "Lista Ról" jest używana jako generacja ról. Regularny \%color=#8CFFFF\%Załogant\%/color\% zawiera role Śledcze, Ochronne i Wsparcia. Regularny \%color=#8CFFFF\%Intruz\%/color\% zawiera role Skrywające i Wsparcia.</string>
 </resources>
