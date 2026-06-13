@@ -169,7 +169,7 @@
   <string name="CommonImp">Regularny Intruz</string>
   <string name="SpecialImp">Specjalny Intruz</string>
   <string name="RandomImp">Losowy Intruz</string>
-  <string name="Any">Losowe</string>
+  <string name="Any">Losowy</string>
   <string name="Random">Losowe</string>
   <string name="CrewInvestigative">Załogant Śledczy</string>
   <string name="LoverChatTitle">\%player\% (Czat Kochanków)</string>
@@ -294,5 +294,42 @@
   <string name="SonarHeartbeats">Bicia Serc</string>
   <string name="SonarArrows">Strzałki</string>
   <string name="TermsImpRoleAlignmentsInfo">• Role \%color=#FF0000\%Skrywające\%/color\% mogą \%color=#FF8B95\%zabijać\%/color\% oraz mają umiejętności które pozwalają im oszukać innych, bądź schować się podczas zabijania. • Role \%color=#FF0000\%Zabijające\%/color\% mają ulepszone, bądź dodatkowe umiejętności które pomagają im szczególnie w \%color=#FF8B95\%zabijaniu\%/color\% innych. • Role \%color=#FF0000\%Silne\%/color\% mają umiejętności które są znacznie mocniejsze niż inne role, dając \%color=#FF0000\%Intruzom\%/color\% znaczną przewagę. • Role \%color=#FF0000\%Wsparcia\%/color\% mają umiejętności które pomagają w ukryciu ciał, bądź ułatwiają \%color=#FF8B95\%zabójstwa\%/color\% innym.</string>
-  <string name="TermsRoleBucketsInfo">Pakiety Ról są tylko używane gdy ustawienie "Lista Ról" jest używana jako generacja ról. Regularny \%color=#8CFFFF\%Załogant\%/color\% zawiera role Śledcze, Ochronne i Wsparcia. Regularny \%color=#8CFFFF\%Intruz\%/color\% zawiera role Skrywające i Wsparcia.</string>
+  <string name="TermsRoleBucketsInfo">Pakiety Ról są tylko używane gdy ustawienie "Lista Ról" jest używana jako generacja ról. Regularny \%color=#8CFFFF\%Załogant\%/color\% zawiera role Śledcze, Ochronne i Wsparcia. Regularny \%color=#8CFFFF\%Intruz\%/color\% zawiera role Skrywające i Wsparcia. • Regularny \%color=#8A8A8A\%Neutralny\%/color\% zawiera role Nieszkodliwe i Szkodliwe. • Specjalny \%color=#8CFFFF\%Załogant\%/color\% zawiera role Zabijące i Wpływowe. • Specjalny \%color=#FF0000\%Intruz\%/color\% zawiera role Zabijące i Silne. • Specjalny \%color=#8A8A8A\%Neutralny\%/color\% zawiera role Zabijące i Odrzutków. • Dziki \%color=#8A8A8A\%Neutralny\%/color\% zawiera role Nieszkodliwe, Szkodliwe i Odrzutków. • Nie-\%color=#FF0000\%Intruz\%/color\% zawiera wszystkie role \%color=#8A8A8A\%Neutralne\%/color\% i \%color=#8CFFFF\%Załogi\%/color\%. • Losowe pakiety zawirają jakąkolwiek rolę z danej frakcji (np. Losowy \%color=#8CFFFF\%Załogant\%/color\%). • Pakiet Losowy zawiera każdą włączoną rolę.</string>
+  <string name="AnticheatChatTitle">System Anticheat</string>
+  <string name="SpectatorCommandList">obs:obserwuj</string>
+  <string name="SummaryCommandList">pods:podsumowanie</string>
+  <string name="RolesCommandList">role:r</string>
+  <string name="SummaryMissingError">Nie ma podsumowania do pokazania!</string>
+  <string name="NerfMeCommandList">nerf:wizja:osłab:oslab</string>
+  <string name="NerfMeLobbyError">Nie możesz zmniejszyć swojej wizji poza lobby!</string>
+  <string name="NerfMeToggleOn">Włączono osłabienie. Twoja wizja będzie skrócona o połowę.</string>
+  <string name="NerfMeToggleOff">Wyłączono osłabianie. Twoja wizja będzie normalna.</string>
+  <string name="SetNameCommandList">ustawnick:ustaw:zmiennick:nick:nazwa:pseudonim</string>
+  <string name="SetNameLobbyError">Nie możesz zmienić swojej nazwy poza lobby!</string>
+  <string name="WelcomeMessageBlurb">Witaj w Town Of Us Mira v\%modVersion\%!\%nl\% Użyj wiki (ikona globu) aby dowiedzieć się więcej o rolach i modyfikatorach. Możesz także użyć /pomoc aby dostać listę wszystkich komend.\%nl\%Możesz wyłączyć tą wiadomość w ustawieniach klienta.</string>
+  <string name="InfoCommandDescription">/info - Ponownie wysyła najnowszą informację z twojej roli (Np. Obserwacje Doomsayera)</string>
+  <string name="InfoCommandNoInfo">Nie masz żadnej informacji z roli która może być ponownie wysłana.</string>
+  <string name="HelpCommandList">help:pomoc:wsparcie:komendy</string>
+  <string name="HelpMessageTitle">Komendy:</string>
+  <string name="HelpCommandDescription">/pomoc - Wyświetla tą wiadomość</string>
+  <string name="NerfMeCommandDescription">/wizja - Zmniejsza twoją wizję o połowę</string>
+  <string name="SetNameCommandDescription">/ustawnick - Zmienia twój nick na to co wpiszesz po komendzie (np. /ustawnick \%randomName\%) na jedną grę.</string>
+  <string name="SummaryCommandDescription">/podsumowanie - Pokazuje podsumowanie poprzedniej gry</string>
+  <string name="RolesCommandDescription">/role - Pokazuje wszystkie obecnie włączone role.</string>
+  <string name="RulesCommandDescription">/zasady - Pokazuje zasady ustawione przez hosta.</string>
+  <string name="UpCommandList">up:ustawrole</string>
+  <string name="UpCommandDescription">/up [Rola] - Pozwala ustawić sobie rolę na następną grę. Użycie /up [Rola] [NazwaGracza] pozwala wybrać rolę dla innego gracza. (Dostępne tylko dla hosta w wersjach deweloperskich)</string>
+  <string name="UpCommandHostError">Musisz być hostem aby móc użyć /up.</string>
+  <string name="UpCommandDevBuildError">Komenda /up jest dostępna tylko w wersjach deweloperskich.</string>
+  <string name="UpCommandLobbyError">Możesz użyć /up tylko w lobby!</string>
+  <string name="UpCommandInvalidError">Nieprawidłowe użycie komendy /up. Spróbuj /up [Rola] albo /up [Rola] [NazwaGracza].</string>
+  <string name="UpCommandNoRoleError">Wpisz nazwę roli. Prawidłowe użycie /up [Rola] albo /up [Rola] [NazwaGracza].</string>
+  <string name="UpCommandRoleNotFoundError">Rola "\%role\%" nie została znaleziona. Upewnij się, że rola jest wpisana poprawnie.</string>
+  <string name="UpCommandPlayerNotFoundError">Gracz "%player\%" nie został znaleziony. Upewnij się, że nazwa gracza została wpisana poprawnie.</string>
+  <string name="UpCommandSuccess">Poprawnie ustawiono role: \%role\% na następną grę.</string>
+  <string name="UpCommandSuccessOther">Poprawnie ustawiono role: \%role\% dla "\%player\%" na następną grę.</string>
+  <string name="UpCommandSuccessGlobal">Host ustawił role dla gracza "\%player\%" na następną grę.</string>
+  <string name="RulesCommandList">zasady:regulamin</string>
+  <string name="RulesMessageTitle">Zasady Lobby</string>
+  <string name="RulesMissingError">Host nie ma ustawionych zasad.</string>
 </resources>
