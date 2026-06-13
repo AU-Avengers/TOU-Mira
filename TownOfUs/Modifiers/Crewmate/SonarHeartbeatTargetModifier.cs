@@ -1,7 +1,7 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
@@ -20,17 +20,10 @@ public sealed class SonarHeartbeatTargetModifier(PlayerControl owner, Color colo
             return;
         }
 
+        var playerColor = Palette.PlayerColors[Player.GetDefaultAppearance().ColorId];
         var spr = Arrow.gameObject.GetComponent<SpriteRenderer>();
-        spr.color = Color.white;
-        var materialColor =
-            Player.cosmetics.currentBodySprite.BodySprite.material.GetColor(ShaderID.BodyColor);
-        spr.material = HatManager.Instance.PlayerMaterial;
-
-        PlayerMaterial.SetColors(materialColor, spr);
-        spr.material.SetColor(ShaderID.VisorColor, materialColor);
-        spr.material.SetColor(ShaderID.BackColor, materialColor);
-        spr.material.SetColor(ShaderID.BodyColor, materialColor);
-        var r = Arrow.gameObject.GetComponent<RainbowBehaviour>();
+        spr.color = playerColor;
+        var r = Arrow.gameObject.AddComponent<BasicRainbowBehaviour>();
 
         r.AddRend(spr, Player.cosmetics.ColorId);
     }
