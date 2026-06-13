@@ -192,7 +192,7 @@ public static class Extensions
 
         if (result is BodyVitalsMode.Disconnected)
         {
-            body.gameObject.Destroy();
+            body.gameObject.DeepDestroy();
         }
         else
         {
@@ -222,7 +222,7 @@ public static class Extensions
             }
         }
 
-        body.gameObject.Destroy();
+        body.gameObject.DeepDestroy();
     }
 
     public static void OverrideOnClickListeners(this PassiveButton passive, Action action, bool enabled = true)

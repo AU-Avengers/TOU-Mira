@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Interfaces;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Modifiers;
@@ -97,7 +96,7 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
     {
         foreach (var gameObject in CastedIcons.Select(icon => icon.gameObject).Where(gameObject => gameObject != null))
         {
-            gameObject.Destroy();
+            gameObject.DeepDestroy();
         }
 
         CastedIcons.Clear();

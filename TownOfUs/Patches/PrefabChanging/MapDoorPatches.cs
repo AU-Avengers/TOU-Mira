@@ -173,12 +173,12 @@ public static class MapDoorPatches
         {
             if (__instance.infectedOverlay.allButtons.Any(x => x.gameObject.name == "closeDoors"))
             {
-                __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "closeDoors", x => x.gameObject.Destroy());
+                __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "closeDoors", x => x.gameObject.DeepDestroy());
             }
 
             if (__instance.infectedOverlay.allButtons.Any(x => x.gameObject.name == "Doors"))
             {
-                __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "Doors", x => x.gameObject.Destroy());
+                __instance.infectedOverlay.allButtons.DoIf(x => x.gameObject.name == "Doors", x => x.gameObject.DeepDestroy());
             }
         }
     }
@@ -649,7 +649,7 @@ public static class MapDoorPatches
         switch (doorType)
         {
             case MapDoorType.None:
-                doors.DoIf(x => !x.gameObject.name.Contains("Inner") && !x.gameObject.name.Contains("Outer"), x => x.gameObject.Destroy());
+                doors.DoIf(x => !x.gameObject.name.Contains("Inner") && !x.gameObject.name.Contains("Outer"), x => x.gameObject.DeepDestroy());
 
                 __instance.AllDoors = Array.Empty<OpenableDoor>();
                 // __instance.Systems.Remove(SystemTypes.Doors);

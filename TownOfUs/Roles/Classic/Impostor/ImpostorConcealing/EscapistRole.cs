@@ -90,7 +90,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
-        EscapeMark?.gameObject.Destroy();
+        EscapeMark?.gameObject.DeepDestroy();
     }
 
     [MethodRpc((uint)TownOfUsRpc.Recall)]

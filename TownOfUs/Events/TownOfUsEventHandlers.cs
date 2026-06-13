@@ -518,7 +518,7 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent @event)
     {
-        Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.Destroy());
+        Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.DeepDestroy());
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -533,7 +533,7 @@ public static class TownOfUsEventHandlers
     [RegisterEvent]
     public static void ClearBodiesAndResetPlayersEventHandler(RoundStartEvent @event)
     {
-        Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.Destroy());
+        Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.DeepDestroy());
 
         foreach (var player in PlayerControl.AllPlayerControls)
         {

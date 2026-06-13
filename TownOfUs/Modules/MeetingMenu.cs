@@ -143,7 +143,7 @@ public sealed class MeetingMenu : IDisposable
         var collider = targetBox.GetComponent<BoxCollider2D>();
         collider.size = renderer.sprite.bounds.size;
         collider.offset = Vector2.zero;
-        targetBox.transform.GetChild(0).gameObject.Destroy();
+        targetBox.transform.GetChild(0).gameObject.DeepDestroy();
 
         var buttonText = UObject.Instantiate(
             __instance.MeetingAbilityButton.buttonLabelText.gameObject,

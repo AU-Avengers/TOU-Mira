@@ -1,7 +1,6 @@
 using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
-using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -76,7 +75,7 @@ public static class LobbyJoin
             Text.text = string.Empty;
             Text.alignment = TextAlignmentOptions.Center;
             LobbyText.transform.localPosition = new Vector3(1f, 0f, 0f);
-            LobbyText.transform.GetChild(0).gameObject.Destroy();
+            LobbyText.transform.GetChild(0).gameObject.DeepDestroy();
             LobbyText.SetActive(GameId != 0);
         }
 
