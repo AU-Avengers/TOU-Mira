@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole, DeadBody>, IAftermathableBodyButton
+public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole, DeadBody>, IAftermathableBodyButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleUndertakerDrag", "Drag");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -19,7 +19,7 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
     public override float Cooldown =>
         Math.Clamp(OptionGroupSingleton<UndertakerOptions>.Instance.DragCooldown + MapCooldown, 5f, 120f);
 
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.DragSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.DragSprite : TouImpAssets.DragSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
     private bool _isProcessingClick;
@@ -126,13 +126,13 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
 
     public void SetDrag()
     {
-        OverrideSprite(TouImpAssets.DragSprite.LoadAsset());
+        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DragSprite.LoadAsset() : TouImpAssets.DragSprite.LoadAsset());
         OverrideName(TouLocale.Get("TouRoleUndertakerDrag", "Drag"));
     }
 
     public void SetDrop()
     {
-        OverrideSprite(TouImpAssets.DropSprite.LoadAsset());
+        OverrideSprite(LegacyAssets.IsLegacy ? LegacyImpAssets.DropSprite.LoadAsset() : TouImpAssets.DropSprite.LoadAsset());
         OverrideName(TouLocale.Get("TouRoleUndertakerDrop", "Drop"));
     }
 

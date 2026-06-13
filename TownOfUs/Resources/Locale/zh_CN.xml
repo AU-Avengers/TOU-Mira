@@ -854,7 +854,7 @@
   <string name="TouOptionGlitchMoveInMimicMenu">使用模仿菜单时可移动(仅KB)</string>
   <string name="TouOptionGlitchHackCooldown">黑入冷却</string>
   <string name="TouOptionGlitchHackDuration">黑入持续时间</string>
-  <string name="TouOptionGlitchCan Vent">混沌可使用通风口</string>
+  <string name="TouOptionGlitchCanVent">混沌可使用通风口</string>
   <string name="TouRoleFairyTabDescription">保护\%target\%免于被击杀！</string>
   <string name="TouRoleFairyIfNoTarget">保护你的目标免于被击杀！</string>
   <string name="TouRoleFairyWikiDescription">天使是一名中立善良型职业，需要保护带有%symbol\%标记的目标不被击杀或放逐。</string>
@@ -2151,4 +2151,11 @@
   <string name="TouOptionAssassinNeutKilling">击杀型</string>
   <string name="TouOptionAssassinNeutOutlier">外来者型</string>
   <string name="TouOptionAssassinNonCrewMods">非船员</string>
+  <string name="SelfKillBindToggle">左SHIFT + T + ENTER 触发自杀</string>
+  <string name="AbortGameBindToggle">左SHIFT + L + ENTER 触发终止游戏</string>
+  <string name="StartMeetingBindToggle">左SHIFT + K + ENTER 触发开始会议</string>
+  <string name="EndMeetingBindToggle">F6 触发结束会议</string>
+  <string name="ShowBasicAssassinOnHud">在Hud上显示刺客身份</string>
+  <string name="TopRightUiScale">右上角 UI 缩放比例</string>
+  <string name="MisguessSummary">错误地将 \%player\% 猜成了 \%role\%</string>
 </resources>

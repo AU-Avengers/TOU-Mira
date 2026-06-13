@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using PowerTools;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -959,7 +960,9 @@ public static class MiscUtils
 
         pooledBubble.AlignChildren();
         clonedBubble.AlignChildren();
-        TeamChatPatches.AlignAllChatBubbles(chat);
+        TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, true));
+        TeamChatPatches.AlignAllChatBubbles(chat, ChatToCheck.Public);
         if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
         {
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
@@ -1033,7 +1036,9 @@ public static class MiscUtils
 
         pooledBubble.AlignChildren();
         clonedBubble.AlignChildren();
-        TeamChatPatches.AlignAllChatBubbles(chat);
+        TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, true));
+        TeamChatPatches.AlignAllChatBubbles(chat, ChatToCheck.Public);
         if (chat is { IsOpenOrOpening: false, notificationRoutine: null })
         {
             chat.notificationRoutine = chat.StartCoroutine(chat.BounceDot());
@@ -1118,8 +1123,19 @@ public static class MiscUtils
 
         pooledBubble.AlignChildren();
         clonedBubble.AlignChildren();
+        if (blackoutText)
+        {
+            TeamChatPatches.PrivateChatBubbles.Add(pooledBubble);
+        }
+        else
+        {
+            TeamChatPatches.PublicChatBubbles.Add(pooledBubble);
+        }
+        TeamChatPatches.MergedChatBubbles.Add(new TeamChatPatches.MergedBubble(clonedBubble, !blackoutText));
 
-        TeamChatPatches.AlignAllChatBubbles(chat);
+        TeamChatPatches.AlignAllChatBubbles(chat, blackoutText
+            ? ChatToCheck.Private
+            : ChatToCheck.Public);
         // Only show the for incoming messages
         // Otherwise you get a notification when you message yourself (e.g. Lovers chat).
         // (I think this is the right way to do that...)
@@ -1483,6 +1499,30 @@ public static class MiscUtils
         renderer.color = color;
 
         var arrow = gameObject.AddComponent<ArrowBehaviour>();
+        arrow.image = renderer;
+        arrow.image.color = color;
+
+        return arrow;
+    }
+    public static PingBehaviour CreatePing(Transform parent, Color color)
+    {
+        var gameObject = new GameObject("Ping")
+        {
+            layer = 5,
+            transform =
+            {
+                parent = parent
+            }
+        };
+
+        var renderer = gameObject.AddComponent<SpriteRenderer>();
+        renderer.sprite = TouAssets.ArrowSprite.LoadAsset();
+        renderer.color = color;
+        gameObject.AddComponent<Animator>();
+        var spriteAnim = gameObject.AddComponent<SpriteAnim>();
+        spriteAnim.Play(TouAssets.HeartbeatAnim.LoadAsset());
+
+        var arrow = gameObject.AddComponent<PingBehaviour>();
         arrow.image = renderer;
         arrow.image.color = color;
 
@@ -2313,6 +2353,116 @@ public static class MiscUtils
         }
 
         return name;
+    }
+
+    public static void DeepDestroy(this GameObject? obj, bool clearGc = true)
+    {
+        Coroutines.Start(Nuke(obj, clearGc));
+    }
+
+    private static IEnumerator Nuke(GameObject? go, bool clearGc)
+    {
+        if (go == null)
+            yield break;
+
+        try
+        {
+            go.transform.SetParent(null, false);
+        }
+        catch
+        {
+            // ignored
+        }
+
+        try
+        {
+            go.SetActive(false);
+        }
+        catch
+        {
+            // ignored
+        }
+
+        foreach (var mb in go.GetComponentsInChildren<MonoBehaviour>(true))
+        {
+            if (mb == null)
+                continue;
+
+            try
+            {
+                mb.StopAllCoroutines();
+            }
+            catch
+            {
+                // ignored
+            }
+
+            try
+            {
+                mb.enabled = false;
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        foreach (var renderer in go.GetComponentsInChildren<Renderer>(true))
+        {
+            if (renderer == null)
+                continue;
+
+            try
+            {
+                foreach (var mat in renderer.materials)
+                {
+                    if (mat != null)
+                        Object.Destroy(mat);
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        foreach (var filter in go.GetComponentsInChildren<MeshFilter>(true))
+        {
+            if (filter == null)
+                continue;
+
+            try
+            {
+                var mesh = filter.mesh;
+                if (mesh != null)
+                    Object.Destroy(mesh);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        Object.Destroy(go);
+        yield return null;
+        if (clearGc)
+        {
+            yield return CoFreeResources();
+        }
+    }
+
+    public static void ClearGarbageCollector()
+    {
+        Coroutines.Start(CoFreeResources());
+    }
+
+    private static IEnumerator CoFreeResources()
+    {
+        yield return Resources.UnloadUnusedAssets();
+
+        GC.Collect(0, GCCollectionMode.Forced, blocking: true);
+        GC.WaitForPendingFinalizers();
+        GC.Collect(0, GCCollectionMode.Forced, blocking: true);
     }
 }
 

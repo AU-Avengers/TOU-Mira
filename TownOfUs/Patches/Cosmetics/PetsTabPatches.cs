@@ -17,7 +17,7 @@ public static class PetsTabPatches
         string name;
         if (!_pagination || _pagination.CurrentTab == 0)
         {
-            name = TranslationController.Instance.GetString(StringNames.HatLabel);
+            name = TranslationController.Instance.GetString(StringNames.PetLabel);
         }
         else
         {

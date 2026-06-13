@@ -39,7 +39,7 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
     {
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

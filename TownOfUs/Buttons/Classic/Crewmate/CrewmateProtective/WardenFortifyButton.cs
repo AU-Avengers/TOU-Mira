@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class WardenFortifyButton : TownOfUsRoleButton<WardenRole, PlayerControl>
+public sealed class WardenFortifyButton : TownOfUsRoleButton<WardenRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleWardenFortify", "Fortify");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Warden;
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.FortifySprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.FortifySprite : TouCrewAssets.FortifySprite;
 
     public override bool CanUse()
     {

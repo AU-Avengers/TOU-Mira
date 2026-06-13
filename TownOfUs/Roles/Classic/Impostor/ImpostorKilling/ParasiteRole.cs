@@ -94,7 +94,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         ClearControlLocal();
         if (AdvancedMovementUtilities.MobileJoystickR && AdvancedMovementUtilities.MobileJoystickR.gameObject != null)
         {
-            AdvancedMovementUtilities.MobileJoystickR.gameObject.Destroy();
+            AdvancedMovementUtilities.MobileJoystickR.gameObject.DeepDestroy();
         }
     }
 
@@ -673,7 +673,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         if (controllerNotification != null && controllerNotification.gameObject != null)
         {
-            controllerNotification.gameObject.Destroy();
+            controllerNotification.gameObject.DeepDestroy();
             controllerNotification = null;
         }
     }

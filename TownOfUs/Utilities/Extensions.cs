@@ -192,7 +192,7 @@ public static class Extensions
 
         if (result is BodyVitalsMode.Disconnected)
         {
-            body.gameObject.Destroy();
+            body.gameObject.DeepDestroy();
         }
         else
         {
@@ -222,7 +222,7 @@ public static class Extensions
             }
         }
 
-        body.gameObject.Destroy();
+        body.gameObject.DeepDestroy();
     }
 
     public static void OverrideOnClickListeners(this PassiveButton passive, Action action, bool enabled = true)
@@ -679,7 +679,7 @@ public static class Extensions
         hackedSprite.gameObject.layer = button.gameObject.layer;
 
         var render = hackedSprite.AddComponent<SpriteRenderer>();
-        render.sprite = TouAssets.Hacked.LoadAsset();
+        render.sprite = LegacyAssets.IsLegacy ? LegacyAssets.Hacked.LoadAsset() : TouAssets.Hacked.LoadAsset();
 
         hackedSprite.SetHackActive(false);
 

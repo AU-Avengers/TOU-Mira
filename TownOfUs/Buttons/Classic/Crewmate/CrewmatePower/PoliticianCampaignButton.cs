@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class PoliticianCampaignButton : TownOfUsRoleButton<PoliticianRole, PlayerControl>
+public sealed class PoliticianCampaignButton : TownOfUsRoleButton<PoliticianRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRolePoliticianCampaign", "Campaign");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PoliticianOptions>.Instance.CampaignCooldown + MapCooldown, 5f, 120f);
     public override Color TextOutlineColor => TownOfUsColors.Politician;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CampaignButtonSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.CampaignButtonSprite : TouCrewAssets.CampaignButtonSprite;
 
     public override bool CanUse()
     {

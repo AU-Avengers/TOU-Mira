@@ -9,13 +9,13 @@ using UnityEngine;
 namespace TownOfUs.Buttons.Neutral;
 
 public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<InquisitorRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleInquisitorVanquish", "Vanquish");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<InquisitorOptions>.Instance.VanquishCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.InquisKillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouNeutAssets.InquisKillSprite;
 
     public static bool Usable =>
         OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;

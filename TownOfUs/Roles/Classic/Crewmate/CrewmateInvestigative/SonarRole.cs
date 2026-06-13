@@ -55,7 +55,12 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
         var players =
-            ModifierUtils.GetPlayersWithModifier<TrackerArrowTargetModifier>([HideFromIl2Cpp](x) => x.Owner == Player);
+            LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.SonarTargetType.Value is SonarTargetStyle
+                .Arrows
+                ? ModifierUtils.GetPlayersWithModifier<SonarArrowTargetModifier>([HideFromIl2Cpp](x) =>
+                    x.Owner == Player)
+                : ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>([HideFromIl2Cpp](x) =>
+                    x.Owner == Player);
 
         var playerControls = players as PlayerControl[] ?? players.ToArray();
         if (playerControls.Length == 0)
@@ -82,11 +87,19 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     public void Clear()
     {
         var players =
-            ModifierUtils.GetPlayersWithModifier<TrackerArrowTargetModifier>([HideFromIl2Cpp](x) => x.Owner == Player);
+            ModifierUtils.GetPlayersWithModifier<SonarArrowTargetModifier>([HideFromIl2Cpp](x) => x.Owner == Player);
 
         foreach (var player in players)
         {
-            player.RemoveModifier<TrackerArrowTargetModifier>();
+            player.RemoveModifier<SonarArrowTargetModifier>();
+        }
+
+        players =
+            ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>([HideFromIl2Cpp](x) => x.Owner == Player);
+
+        foreach (var player in players)
+        {
+            player.RemoveModifier<SonarHeartbeatTargetModifier>();
         }
     }
 }

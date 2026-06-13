@@ -1,28 +1,20 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class PlumberFlushButton : TownOfUsRoleButton<PlumberRole, Vent>
+public sealed class PlumberFlushButton : TownOfUsVentRoleButton<PlumberRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRolePlumberFlush", "Flush");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlumberOptions>.Instance.FlushCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent) ? OptionGroupSingleton<PlumberOptions>.Instance.FlushDuration : 0.001f;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.FlushSprite;
-
-    public override Vent? GetTarget()
-    {
-        return TouRoleUtils.GetClosestUsableVent(false, Distance);
-    }
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.FlushSprite : TouCrewAssets.FlushSprite;
 
     protected override void OnClick()
     {
@@ -37,35 +29,5 @@ public sealed class PlumberFlushButton : TownOfUsRoleButton<PlumberRole, Vent>
         var block = CustomButtonSingleton<PlumberBlockButton>.Instance;
 
         block?.SetTimer(block.Cooldown);
-    }
-
-    public override void OnEffectEnd()
-    {
-        // ignored!
-    }
-
-    public override bool CanUse()
-    {
-        var newTarget = GetTarget();
-        if (newTarget != Target)
-        {
-            Target?.SetOutline(false, false);
-        }
-
-        Target = IsTargetValid(newTarget) ? newTarget : null;
-        SetOutline(true);
-
-        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
-        {
-            return false;
-        }
-
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
-        {
-            return false;
-        }
-
-        return Timer <= 0 && Target != null;
     }
 }

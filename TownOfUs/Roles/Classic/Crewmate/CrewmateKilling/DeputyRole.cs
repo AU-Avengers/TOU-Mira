@@ -80,7 +80,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 this,
                 ClickGuess,
                 MeetingAbilityType.Click,
-                TouAssets.ShootMeetingSprite,
+                LegacyAssets.IsLegacy ? LegacyAssets.ShootMeetingSprite : TouAssets.ShootMeetingSprite,
                 null!,
                 IsExempt)
             {
@@ -93,9 +93,10 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && Killer != null && !Player.HasModifier<JailedModifier>());
         }
     }

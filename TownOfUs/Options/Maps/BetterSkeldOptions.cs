@@ -86,7 +86,8 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
         (int)SkeldTheme.Auto, typeof(SkeldTheme),
         [
             "TouOptionBetterMapsThemeEnumAuto", "TouOptionBetterMapsThemeEnumBasic",
-            "TouOptionBetterMapsThemeEnumBirthday", "TouOptionBetterMapsThemeEnumHalloween"
+            "TouOptionBetterMapsThemeEnumBirthday", "TouOptionBetterMapsThemeEnumHalloween",
+            "TouOptionBetterMapsThemeEnumTvShow"
         ]);
     
     [ModdedToggleOption("TouOptionBetterMapsChangeSaboTimers")]
@@ -122,4 +123,5 @@ public enum SkeldTheme
     Basic,
     Birthday,
     Halloween,
+    TvShow,
 }

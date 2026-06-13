@@ -61,7 +61,7 @@ public sealed class ChefArrowModifier(DeadBody deadBody, Color color) : TimedMod
     {
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

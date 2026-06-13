@@ -14,6 +14,7 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
 public static class LogoPatch
 {
+    public static SpriteRenderer GameLogo;
     public const string BepInVersionPrefix = "6.0.0-be.";
     public const int BepInVersionMinimum = 738;
 #pragma warning disable S1075 // URIs should not be hardcoded
@@ -24,6 +25,7 @@ public static class LogoPatch
     //public static bool UpdateRequired => !TownOfUsPlugin.IsMobile && Paths.BepInExVersion.ToString().Remove(BepInVersionPrefix.Length);
     public static void Postfix()
     {
+        ModStampPatch.StampPlacement = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ModStampPlacement.Value;
         RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).StringName =
             CustomStringName.CreateAndRegister("Crewmate Ghost");
         RoleManager.Instance.GetRole(RoleTypes.ImpostorGhost).StringName =
@@ -61,7 +63,8 @@ public static class LogoPatch
         var sizer = GameObject.Find("Sizer");
         if (newLogo != null)
         {
-            newLogo.GetComponent<SpriteRenderer>().sprite = TouAssets.Banner.LoadAsset();
+            GameLogo = newLogo.GetComponent<SpriteRenderer>();
+            GameLogo.sprite = TouAssets.Banner.LoadAsset();
         }
 
         if (sizer != null)

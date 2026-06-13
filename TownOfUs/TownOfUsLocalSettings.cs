@@ -6,7 +6,9 @@ using MiraAPI.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
+using TownOfUs.Modules;
 using TownOfUs.Patches;
+using TownOfUs.Patches.Misc;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -44,15 +46,29 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         var wikiButton = HudManagerPatches.WikiButton;
         var zoomButton = HudManagerPatches.ZoomButton;
         var subButton = HudManagerPatches.SubmergedFloorButton;
-        var modDisplay = HudManagerPatches.ModifierDisplayOnRight ? HudManagerPatches.ModifierDisplayObject : null;
+        var modDisplay = HudManagerPatches.ModifierDisplayOnRight ? HudManagerPatches.ModifierDisplayObject : null!;
         ResetButtonPositions();
         if (topUi && extraTopUi)
         {
             var opts = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance;
-            wikiButton?.transform.SetParent(opts.WikiOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
-            zoomButton?.transform.SetParent(opts.ZoomOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
-            subButton?.transform.SetParent(extraTopUi.transform);
-            modDisplay?.transform.SetParent(extraTopUi.transform);
+            if (wikiButton)
+            {
+                wikiButton.transform.SetParent(opts.WikiOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
+            }
+            if (zoomButton)
+            {
+                zoomButton.transform.SetParent(opts.ZoomOnBottomRow.Value ? extraTopUi.transform : topUi.transform);
+            }
+            if (subButton)
+            {
+                subButton.transform.SetParent(extraTopUi.transform);
+            }
+            if (modDisplay)
+            {
+                modDisplay.transform.SetParent(extraTopUi.transform);
+            }
+            HudManagerPatches.UiGrid.ArrangeChilds();
+            HudManagerPatches.ExtraUiGrid.ArrangeChilds();
         }
     }
 
@@ -61,15 +77,27 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         var topUi = HudManagerPatches.UiTopRight;
         var extraTopUi = HudManagerPatches.ExtraUiTopRight;
         var subButton = HudManagerPatches.SubmergedFloorButton;
-        var modDisplay = HudManagerPatches.ModifierDisplayOnRight ? HudManagerPatches.ModifierDisplayObject : null;
+        var modDisplay = HudManagerPatches.ModifierDisplayOnRight ? HudManagerPatches.ModifierDisplayObject : null!;
         if (topUi && extraTopUi)
         {
             var wikiButton = HudManagerPatches.WikiButton;
             var zoomButton = HudManagerPatches.ZoomButton;
-            wikiButton?.transform.SetParent(null);
-            zoomButton?.transform.SetParent(null);
-            subButton?.transform.SetParent(null);
-            modDisplay?.transform.SetParent(null);
+            if (wikiButton)
+            {
+                wikiButton.transform.SetParent(null);
+            }
+            if (zoomButton)
+            {
+                zoomButton.transform.SetParent(null);
+            }
+            if (subButton)
+            {
+                subButton.transform.SetParent(null);
+            }
+            if (modDisplay)
+            {
+                modDisplay.transform.SetParent(null);
+            }
         }
     }
 
@@ -114,15 +142,9 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             baseGrid.CellSize = new Vector2(alteredScale, alteredScale);
             if (baseGrid.gameObject.transform.childCount != 0)
             {
-                try
-                {
-                    baseGrid.ArrangeChilds();
-                }
-                catch
-                {
-                    // Error($"Error arranging child objects in GridArrange: {e}");
-                }
+                baseGrid.ArrangeChilds();
             }
+            baseAspect.AdjustPosition();
         }
 
         var extraAspect = HudManagerPatches.ExtraUiAspectPos;
@@ -130,7 +152,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         var extraUi = HudManagerPatches.ExtraUiTopRight;
         if (extraUi && extraAspect && extraGrid)
         {
-            extraAspect.DistanceFromEdge = new Vector3(0.435f * scaleFactor, 1.25f * scaleFactor, 65f);
+            extraAspect.DistanceFromEdge = new Vector3(0.435f * scaleFactor, 1.25f * scaleFactor, 0f);
 
             foreach (var button in extraUi.GetAllChildren())
             {
@@ -150,15 +172,9 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             extraGrid.CellSize = new Vector2(alteredScale, alteredScale);
             if (extraGrid.gameObject.transform.childCount != 0)
             {
-                try
-                {
-                    extraGrid.ArrangeChilds();
-                }
-                catch
-                {
-                    // Error($"Error arranging child objects in GridArrange: {e}");
-                }
+                extraGrid.ArrangeChilds();
             }
+            extraAspect.AdjustPosition();
         }
     }
 
@@ -185,8 +201,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
 
             touRole.OffsetButtons();
         }
-
-        if (configEntry == ButtonUIFactorSlider)
+        else if (configEntry == ButtonUIFactorSlider)
         {
             if (HudManager.InstanceExists)
             {
@@ -194,10 +209,22 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             }
             OldButtonScaleFactor = ButtonUIFactorSlider.Value;
         }
-
-        if (configEntry == WikiOnBottomRow || configEntry == ZoomOnBottomRow)
+        else if (configEntry == WikiOnBottomRow || configEntry == ZoomOnBottomRow)
         {
             SetUpButtonPositions();
+        }
+        else if (configEntry == ModStampPlacement)
+        {
+            ModStampPatch.StampPlacement = ModStampPlacement.Value;
+        }
+        else if (configEntry == RoleNameStyle)
+        {
+            HudManagerPatches.RoleNameStyle = RoleNameStyle.Value;
+            FakePlayer.UpdateFakePlayerText();
+        }
+        else if (configEntry == ColorPlayerNameToggle)
+        {
+            FakePlayer.UpdateFakePlayerText();
         }
     }
 
@@ -214,25 +241,49 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     
     [LocalizedLocalSliderSetting(min: 0.3f, max: 2f, suffixType: MiraNumberSuffixes.Multiplier, formatString: "0.00", displayValue: true)]
     public ConfigEntry<float> ButtonUIFactorSlider { get; private set; } =
-        config.Bind("UI/Visuals", "TopRightUiScale", 1f);
+        config.Bind("UI / Visuals", "TopRightUiScale", 1f);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> WikiOnBottomRow { get; private set; } =
-        config.Bind("UI/Visuals", "WikiOnBottomRow", true);
+        config.Bind("UI / Visuals", "WikiOnBottomRow", true);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ZoomOnBottomRow { get; private set; } =
-        config.Bind("UI/Visuals", "ZoomOnBottomRow", false);
+        config.Bind("UI / Visuals", "ZoomOnBottomRow", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> PreciseCooldownsToggle { get; private set; } =
-        config.Bind("UI/Visuals", "PreciseCooldowns", false);
+        config.Bind("UI / Visuals", "PreciseCooldowns", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> OffsetButtonsToggle { get; private set; } =
-        config.Bind("UI/Visuals", "OffsetButtons", false);
+        config.Bind("UI / Visuals", "OffsetButtons", false);
 
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ColorPlayerNameToggle { get; private set; } =
-        config.Bind("UI/Visuals", "ColorPlayerName", false);
+        config.Bind("UI / Visuals", "ColorPlayerName", false);
+
+    [LocalizedLocalEnumSetting(names: ["NameStyleTop", "NameStyleTopSmall", "NameStyleBottom", "NameStyleBottomSmall"])]
+    public ConfigEntry<NameStyle> RoleNameStyle { get; private set; } =
+        config.Bind("UI / Visuals", "RoleNameStyle", NameStyle.TopSmall);
+
+    [LocalizedLocalEnumSetting(names: ["ModStampTopLeft", "ModStampTopRight", "ModStampBottomLeft", "ModStampBottomRight"])]
+    public ConfigEntry<ModStampLocation> ModStampPlacement { get; private set; } =
+        config.Bind("UI / Visuals", "ModStampPlacement", ModStampLocation.TopRight);
+}
+
+public enum ModStampLocation
+{
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight
+}
+
+public enum NameStyle
+{
+    Top,
+    TopSmall,
+    Bottom,
+    BottomSmall,
 }

@@ -6,14 +6,14 @@ namespace TownOfUs.Assets;
 
 public static class TouAssets
 {
-    private const string ShortPath = "TownOfUs.Resources";
+    internal const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
     private const string SubmergedPath = "TownOfUs.Resources.Submerged";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
-    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
+    public static LoadableAsset<Sprite> Banner => TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Disabled ? new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png") : LegacyAssets.Banner;
     public static LoadableAsset<Sprite> BannerDark { get; } = new LoadableResourceAsset($"{ShortPath}.BannerDark.png");
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
@@ -37,6 +37,25 @@ public static class TouAssets
 
         return sprite;
     }
+
+    public static LoadableAsset<Sprite> LegacyMenuSprite(LegacyVisuals value)
+    {
+        var sprite = LegacyDisabled;
+        switch (value)
+        {
+            case LegacyVisuals.Players:
+                sprite = LegacyPlayers;
+                break;
+            case LegacyVisuals.Art:
+                sprite = LegacyArt;
+                break;
+            case LegacyVisuals.Full:
+                sprite = LegacyFull;
+                break;
+        }
+
+        return sprite;
+    }
     public static LoadableAsset<Sprite> DleksBanner { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.DleksBanner.png");
 
@@ -48,6 +67,18 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> DleksIcon { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.DleksIcon.png");
+
+    public static LoadableAsset<Sprite> LegacyDisabled { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyDisabled.png");
+
+    public static LoadableAsset<Sprite> LegacyPlayers { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyPlayers.png");
+
+    public static LoadableAsset<Sprite> LegacyArt { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyArt.png");
+
+    public static LoadableAsset<Sprite> LegacyFull { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyFull.png");
 
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.Normal.png");
@@ -141,6 +172,12 @@ public static class TouAssets
     public static LoadableAsset<GameObject> EscapistMarkPrefab { get; } =
         new LoadableBundleAsset<GameObject>("EscapistMark", MainBundle);
 
+    public static LoadableAsset<GameObject> VentExplodePrefab { get; } =
+        new LoadableBundleAsset<GameObject>("MinerVentCreate", MainBundle);
+
+    public static LoadableAsset<Sprite> MinerVentSprite { get; } =
+        new LoadableBundleAsset<Sprite>("MinerVent", MainBundle);
+
     public static LoadableAsset<GameObject> MeetingDeathPrefab { get; } =
         new LoadableBundleAsset<GameObject>("DeathAnimation", MainBundle);
 
@@ -151,6 +188,9 @@ public static class TouAssets
         new LoadableBundleAsset<GameObject>("MayorPostReveal", MainBundle);
 
     public static LoadableAsset<GameObject> MediumSpirit { get; } = new LoadableBundleAsset<GameObject>("MediumSpirit", MainBundle);
+
+    public static LoadableAsset<AnimationClip> HeartbeatAnim { get; } =
+        new LoadableBundleAsset<AnimationClip>("HeartbeatAnim", MainBundle);
 
     public static LoadableAsset<AnimationClip> SentryCamOffAnim { get; } =
         new LoadableBundleAsset<AnimationClip>("SentryCamOffAnimation", MainBundle);

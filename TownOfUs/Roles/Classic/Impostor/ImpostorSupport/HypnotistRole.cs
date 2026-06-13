@@ -85,12 +85,13 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                TouLocale.GetParsed("TouRoleHypnotistMassHysteria"),
+                classic ? string.Empty : TouLocale.GetParsed("TouRoleHypnotistMassHysteria"),
                 MeetingAbilityType.Click,
-                TouAssets.HysteriaCleanSprite,
+                classic ? LegacyAssets.HysteriaSprite : TouAssets.HysteriaCleanSprite,
                 null!,
                 IsExempt)
             {
@@ -103,9 +104,10 @@ public sealed class HypnotistRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !HysteriaActive && !Player.HasModifier<JailedModifier>());
         }
     }

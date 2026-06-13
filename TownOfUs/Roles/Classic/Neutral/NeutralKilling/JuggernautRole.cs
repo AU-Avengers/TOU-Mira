@@ -76,7 +76,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        if (Player.AmOwner)
+        if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.JuggVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Juggernaut);
@@ -87,7 +87,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
-        if (Player.AmOwner)
+        if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);

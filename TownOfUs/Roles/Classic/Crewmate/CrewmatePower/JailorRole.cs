@@ -137,9 +137,10 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 true);
         }
 
-        if (MeetingHud.Instance)
+        var meeting = MeetingHud.Instance;
+        if (meeting != null)
         {
-            AddMeetingButtons(MeetingHud.Instance);
+            AddMeetingButtons(meeting);
         }
     }
 
@@ -184,13 +185,13 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             if (Jailed?.PlayerId == voteArea.TargetPlayerId)
                 // if (!(jailorRole.Jailed.IsLover() && PlayerControl.LocalPlayer.IsLover()))
             {
-                GenButton(voteArea);
+                GenButton(voteArea, __instance);
             }
         }
     }
 
 
-    private void GenButton(PlayerVoteArea voteArea)
+    private void GenButton(PlayerVoteArea voteArea, MeetingHud meeting)
     {
         var confirmButton = voteArea.Buttons.transform.GetChild(0).gameObject;
 
@@ -202,12 +203,13 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         newButtonObj.transform.parent = confirmButton.transform.parent.parent;
 
         var buttonText = Object.Instantiate(
-            MeetingHud.Instance.MeetingAbilityButton.buttonLabelText.gameObject,
+            meeting.MeetingAbilityButton.buttonLabelText.gameObject,
             newButtonObj.transform);
         buttonText.transform.localPosition = new Vector3(0, -0.2f, 0f);
         var tmpText = buttonText.GetComponent<TextMeshPro>();
         tmpText.color = Color.white;
-        tmpText.text = TouLocale.GetParsed("TouRoleJailorExecute");
+        var classic = LegacyAssets.IsLegacy;
+        tmpText.text = classic ? string.Empty : TouLocale.GetParsed("TouRoleJailorExecute");
         //tmpText.ForceMeshUpdate();
         tmpText.fontSize = 2.5f;
         tmpText.fontSizeMax = 2.5f;
@@ -217,7 +219,7 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         executeButton = newButtonObj;
 
         var renderer = newButtonObj.GetComponent<SpriteRenderer>();
-        renderer.sprite = TouAssets.ExecuteCleanSprite.LoadAsset();
+        renderer.sprite = classic ? LegacyAssets.ExecuteSprite.LoadAsset() : TouAssets.ExecuteCleanSprite.LoadAsset();
 
         var passive = newButtonObj.GetComponent<PassiveButton>();
         passive.OnClick = new Button.ButtonClickedEvent();

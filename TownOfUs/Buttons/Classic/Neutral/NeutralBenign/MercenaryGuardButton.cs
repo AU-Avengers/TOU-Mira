@@ -9,14 +9,14 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>
+public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleMercenaryGuard", "Guard");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Mercenary;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MercenaryOptions>.Instance.GuardCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<MercenaryOptions>.Instance.MaxUses;
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.GuardSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.GuardSprite : TouNeutAssets.GuardSprite;
 
     public override bool Enabled(RoleBehaviour? role)
     {

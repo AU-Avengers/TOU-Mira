@@ -1,7 +1,9 @@
+using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
+using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
@@ -10,7 +12,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, PlayerControl>
+public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleArsonistDouse", "Douse");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -18,7 +20,7 @@ public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, Playe
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ArsonistOptions>.Instance.DouseCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<ArsonistOptions>.Instance.DouseUses.Value;
     public override bool ZeroIsInfinite => true;
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.DouseButtonSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.DouseButtonSprite : TouNeutAssets.DouseButtonSprite;
 
     protected override void OnClick()
     {
@@ -32,6 +34,14 @@ public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, Playe
 
         CustomButtonSingleton<ArsonistIgniteButton>.Instance.SetTimer(CustomButtonSingleton<ArsonistIgniteButton>
             .Instance.Cooldown);
+        Coroutines.Start(CoSetDouses());
+    }
+
+    public static IEnumerator CoSetDouses()
+    {
+        yield return new WaitForSeconds(0.01f);
+        
+        ArsonistRole.SetDouseUses();
     }
 
     public override bool IsTargetValid(PlayerControl? target)

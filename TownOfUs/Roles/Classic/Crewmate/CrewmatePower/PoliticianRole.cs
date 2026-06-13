@@ -89,12 +89,13 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                TouLocale.GetParsed("TouRolePoliticianReveal"),
+                classic ? string.Empty : TouLocale.GetParsed("TouRolePoliticianReveal"),
                 MeetingAbilityType.Click,
-                TouAssets.RevealCleanSprite,
+                classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
                 null!,
                 IsExempt)
             {
@@ -109,10 +110,11 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         CanCampaign = true;
 
-        if (Player.AmOwner)
+        var meeting = MeetingHud.Instance;
+        if (Player.AmOwner && meeting != null)
             // Message($"PoliticianRole.OnMeetingStart '{Player.Data.PlayerName}' {Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>()}");
         {
-            meetingMenu.GenButtons(MeetingHud.Instance,
+            meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
         }
     }

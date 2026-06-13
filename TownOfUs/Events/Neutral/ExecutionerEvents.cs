@@ -71,16 +71,14 @@ public static class ExecutionerEvents
         var exe = CustomRoleUtils.GetActiveRolesOfType<ExecutionerRole>()
             .FirstOrDefault(x => x.AboutToWin && !x.Player.HasDied());
 
-        if (winOption is ExeWinOptions.EndsGame)
+        var evilTarget = exe != null && exe.Target != null && !exe.Target.IsCrewmate();
+        if (evilTarget)
         {
-            if (exe != null && exe.Target != null && !exe.Target.IsCrewmate())
-            {
-                winOption = ExeWinOptions.Torments;
-            }
-            else
-            {
-                return;
-            }
+            winOption = ExeWinOptions.Nothing;
+        }
+        else if (winOption is ExeWinOptions.EndsGame)
+        {
+            return;
         }
 
         if (exe != null)

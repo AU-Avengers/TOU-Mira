@@ -30,4 +30,38 @@ public static class UseButtonPatch
         }
         return true;
     }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(SystemConsole), nameof(SystemConsole.Use))]
+    public static bool UseConsoleClickPatch(SystemConsole __instance)
+    {
+        if (PlayerControl.LocalPlayer.HasDied() || !PlayerControl.LocalPlayer.Is(ModdedRoleTeams.Crewmate)) return true;
+        var icon = __instance.UseIcon;
+        if (icon is ImageNames.CamsButton)
+        {
+            return MiscUtils.CanUseUtility(GameUtility.Cams);
+        }
+        if (icon is ImageNames.DoorLogsButton)
+        {
+            return MiscUtils.CanUseUtility(GameUtility.Doorlog);
+        }
+        if (icon is ImageNames.VitalsButton)
+        {
+            return MiscUtils.CanUseUtility(GameUtility.Vitals);
+        }
+        return true;
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(MapConsole), nameof(MapConsole.Use))]
+    public static bool MapConsoleClickPatch(MapConsole __instance)
+    {
+        if (PlayerControl.LocalPlayer.HasDied() || !PlayerControl.LocalPlayer.Is(ModdedRoleTeams.Crewmate)) return true;
+        var icon = __instance.UseIcon;
+        if (icon is ImageNames.AdminMapButton || icon is ImageNames.MIRAAdminButton || icon is ImageNames.PolusAdminButton || icon is ImageNames.AirshipAdminButton)
+        {
+            return MiscUtils.CanUseUtility(GameUtility.Admin);
+        }
+        return true;
+    }
 }

@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Modifiers;
 
-public sealed class ScientistButton : TownOfUsButton
+public sealed class ScientistButton : TownOfUsButton, ILegacyCapable
 {
     public VitalsMinigame? vitals;
 
@@ -40,7 +40,7 @@ public sealed class ScientistButton : TownOfUsButton
     }
 
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.VitalsSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.VitalsSprite : TouAssets.VitalsSprite;
 
     public override bool Enabled(RoleBehaviour? role)
     {
