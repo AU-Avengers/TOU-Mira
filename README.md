@@ -1,6 +1,6 @@
 > [!NOTE]
 > This repo is a rewrite and redo of [Town of Us Reactivated](https://github.com/AU-Avengers/Town-Of-Us-Reactivated) and is under constant development, expect bugs.\
-> Any players who wish to continue using TOU Reactivated may still do so, but do not expect frequent updates, and little to no content updates.\
+> Reactivated will still getting updated, but will not receive major content updates.\
 > This mod is ONLY available on PC and Android Among Us and is NOT host only either, please do not ask for a port or a rewrite.
 
 -----------------------
@@ -194,7 +194,8 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us        | Mod Version | Download Link                                                           |
 |-----------------|-------------|-------------------------------------------------------------------------|
-| 17.3.x          | 1.6.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
+| 17.4.x          | 1.6.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.3)  |
+| 17.3.x          | 1.6.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.2)  |
 | 17.3.x          | 1.6.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
 | 17.3.x          | 1.6.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0)  |
 | 17.2.x          | 1.5.9       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
