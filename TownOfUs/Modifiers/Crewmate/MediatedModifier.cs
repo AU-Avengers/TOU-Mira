@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers.Types;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
@@ -100,7 +99,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
 
         if (_arrow != null)
         {
-            _arrow.gameObject.Destroy();
+            _arrow.gameObject.DeepDestroy();
         }
     }
 

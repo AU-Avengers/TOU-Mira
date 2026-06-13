@@ -45,7 +45,7 @@ public abstract class PingTargetModifier(PlayerControl owner, Color color, float
 
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

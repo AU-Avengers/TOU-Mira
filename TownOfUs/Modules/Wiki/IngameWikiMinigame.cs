@@ -842,8 +842,9 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         var oldMax = Mathf.Max(0f, SearchScroller.Value.Inner.GetChildCount() * 0.725f);
 
-        _activeItems.Do(x => x.gameObject.DestroyImmediate());
+        _activeItems.Do(x => x.gameObject.DeepDestroy(false));
         _activeItems.Clear();
+        MiscUtils.ClearGarbageCollector();
 
         SearchTextbox.Value.SetText(string.Empty);
 

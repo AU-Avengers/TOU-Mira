@@ -33,7 +33,7 @@ public sealed class TelepathDeathNotifierModifier(PlayerControl telepath) : Time
     {
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

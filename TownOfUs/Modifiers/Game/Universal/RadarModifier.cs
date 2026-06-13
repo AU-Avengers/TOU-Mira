@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;
 
@@ -49,7 +48,7 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
     {
         if (_arrow)
         {
-            _arrow.gameObject.Destroy();
+            _arrow.gameObject.DeepDestroy();
         }
     }
 

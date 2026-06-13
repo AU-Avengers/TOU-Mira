@@ -1050,8 +1050,8 @@ public static class TeamChatPatches
                 PublicChatBubbles.RemoveAt(0);
                 var mergedBubble = MergedChatBubbles.FirstOrDefault(x => x.IsPublic)!;
                 MergedChatBubbles.Remove(mergedBubble);
-                PublicChatItems.transform.GetChild(0).gameObject.Destroy();
-                MergedChatItems.transform.FindChild(PublicBubbleName).gameObject.DestroyImmediate();
+                PublicChatItems.transform.GetChild(0).gameObject.DeepDestroy();
+                MergedChatItems.transform.FindChild(PublicBubbleName).gameObject.DeepDestroy();
             }
             for (int i = PublicChatBubbles.Count - 1; i >= 0; i--)
             {
@@ -1072,8 +1072,8 @@ public static class TeamChatPatches
                 PrivateChatBubbles.RemoveAt(0);
                 var mergedBubble = MergedChatBubbles.FirstOrDefault(x => !x.IsPublic)!;
                 MergedChatBubbles.Remove(mergedBubble);
-                PrivateChatItems.transform.GetChild(0).gameObject.Destroy();
-                MergedChatItems.transform.FindChild(PrivateBubbleName).gameObject.DestroyImmediate();
+                PrivateChatItems.transform.GetChild(0).gameObject.DeepDestroy();
+                MergedChatItems.transform.FindChild(PrivateBubbleName).gameObject.DeepDestroy();
             }
 
             num = 0f;
@@ -1345,7 +1345,7 @@ public static class TeamChatPatches
 		{
 			ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
-            clonedBubble.gameObject.Destroy();
+            clonedBubble.gameObject.DeepDestroy();
 		}
         return false;
 	}
@@ -1382,7 +1382,7 @@ public static class TeamChatPatches
 		{
 			ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
-            clonedBubble.gameObject.Destroy();
+            clonedBubble.gameObject.DeepDestroy();
 		}
         return false;
 	}

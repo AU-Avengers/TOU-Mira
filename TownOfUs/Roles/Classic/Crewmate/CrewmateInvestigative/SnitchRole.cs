@@ -7,7 +7,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using System.Text;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
@@ -316,7 +315,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (_snitchArrows != null && _snitchArrows.TryGetValue(playerId, out var arrow))
         {
-            arrow.gameObject.Destroy();
+            arrow.gameObject.DeepDestroy();
             _snitchArrows.Remove(playerId);
         }
     }
@@ -325,7 +324,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         if (_snitchArrows != null && _snitchArrows.Count > 0)
         {
-            _snitchArrows.ToList().ForEach(arrow => arrow.Value.gameObject.Destroy());
+            _snitchArrows.ToList().ForEach(arrow => arrow.Value.gameObject.DeepDestroy());
             _snitchArrows.Clear();
         }
         // Set to null so CreateSnitchArrowsSilent() can recreate arrows when needed
@@ -333,7 +332,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (SnitchRevealArrow != null)
         {
-            SnitchRevealArrow.gameObject.Destroy();
+            SnitchRevealArrow.gameObject.DeepDestroy();
             SnitchRevealArrow = null;
         }
 

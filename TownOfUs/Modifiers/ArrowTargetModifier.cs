@@ -42,7 +42,7 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

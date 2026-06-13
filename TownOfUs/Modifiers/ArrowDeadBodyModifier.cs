@@ -38,7 +38,7 @@ public abstract class ArrowDeadBodyModifier(DeadBody deadBody, Color color, floa
     {
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

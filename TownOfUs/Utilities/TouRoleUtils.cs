@@ -4,7 +4,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -29,7 +28,7 @@ public static class TouRoleUtils
         if (playerTask != null)
         {
             playerControl.myTasks.Remove(playerTask);
-            playerTask.gameObject.Destroy();
+            playerTask.gameObject.DeepDestroy();
         }
     }
 
