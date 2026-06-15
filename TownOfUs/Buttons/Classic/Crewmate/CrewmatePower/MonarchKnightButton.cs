@@ -5,7 +5,6 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -81,8 +80,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
 
         try
         {
-            if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
-                PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+            if (!CanClick())
             {
                 return;
             }
