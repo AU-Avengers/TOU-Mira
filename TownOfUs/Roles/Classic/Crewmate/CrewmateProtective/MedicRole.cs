@@ -118,7 +118,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         if (Player.AmOwner && meeting != null)
         {
             meetingMenu.GenButtons(meeting,
-                Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
+                Player.AmOwner && !Player.HasDied());
 
             foreach (var button in meetingMenu.Buttons)
             {
