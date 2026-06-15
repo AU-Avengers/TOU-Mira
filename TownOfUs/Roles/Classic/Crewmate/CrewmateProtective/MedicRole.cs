@@ -103,7 +103,6 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
                 MeetingAbilityType.Click,
                 TouAssets.LighterSprite,
                 null!,
-                voteArea => { return Player.Data.IsDead || voteArea!.AmDead; },
                 hoverColor: Color.white)
             {
                 Position = new Vector3(1.1f, -0.18f, -3f)
