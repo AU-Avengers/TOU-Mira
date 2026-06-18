@@ -373,15 +373,20 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         return false;
     }
 
-    private static bool IsModifierValid(BaseModifier baseModifier)
+    private static bool IsModifierValid(BaseModifier modifier)
     {
-        if (baseModifier is not TouBaseGameModifier modifier)
+        // This will remove modifiers that alter their chance/amount
+        if (modifier is TouBaseGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0))
         {
             return false;
         }
 
-        // This will remove modifiers that alter their chance/amount
-        if (modifier.CustomAmount <= 0 || modifier.CustomChance <= 0)
+        return IsModifierGuessable(modifier);
+    }
+
+    public static bool IsModifierGuessable(BaseModifier baseModifier)
+    {
+        if (baseModifier is not TouBaseGameModifier modifier)
         {
             return false;
         }
