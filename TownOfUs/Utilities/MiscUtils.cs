@@ -396,39 +396,11 @@ public static class MiscUtils
         return ModifierFaction.External;
     }
 
-    public static ModifierFaction GetModifierFaction(this AllianceGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this TouGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this UniversalGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this GameModifier mod)
-    {
-        return GetModifierFaction(mod as BaseModifier);
-    }
-
     public static ModifierFaction GetModifierFaction(this BaseModifier mod)
     {
-        if (mod is TouGameModifier touMod)
+        if (mod is TouBaseGameModifier touMod)
         {
             return touMod.FactionType;
-        }
-        else if (mod is AllianceGameModifier allyMod)
-        {
-            return allyMod.FactionType;
-        }
-        else if (mod is UniversalGameModifier uniMod)
-        {
-            return uniMod.FactionType;
         }
 
         if (SoftWikiEntries.ModifierEntries.ContainsKey(mod))
@@ -738,28 +710,14 @@ public static class MiscUtils
         return name;
     }
 
-    public static string GetLocaleKey(GameModifier modifier)
-    {
-        return GetLocaleKey(modifier as BaseModifier);
-    }
-
     public static string GetLocaleKey(BaseModifier modifier)
     {
-        var name = modifier.ModifierName;
-        if (modifier is TouGameModifier touMod)
+        if (modifier is TouBaseGameModifier touMod)
         {
-            name = touMod.LocaleKey;
-        }
-        else if (modifier is AllianceGameModifier allyMod)
-        {
-            name = allyMod.LocaleKey;
-        }
-        else if (modifier is UniversalGameModifier uniMod)
-        {
-            name = uniMod.LocaleKey;
+            return touMod.LocaleKey;
         }
 
-        return name;
+        return modifier.ModifierName;
     }
 
     public static Color GetRoleColour(string name)
@@ -777,50 +735,6 @@ public static class MiscUtils
     }
 
     public static Color GetModifierColour(BaseModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(GameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(TouGameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(UniversalGameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(AllianceGameModifier modifier)
     {
         var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
         if (modifier is IColoredModifier colorMod)
