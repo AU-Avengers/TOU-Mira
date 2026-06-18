@@ -1,6 +1,9 @@
-﻿using MiraAPI.Modifiers.Types;
+﻿using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -60,6 +63,11 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
         {
             if (_arrow != null)
             {
+                if (SwoopModifier.CanBeTracked == SwoopTracking.Never)
+                {
+                    _arrow.SetImageEnabled(Player.HasModifier<SwoopModifier>());
+                }
+
                 _arrow.target = Player.transform.position;
                 _arrow.Update();
             }
