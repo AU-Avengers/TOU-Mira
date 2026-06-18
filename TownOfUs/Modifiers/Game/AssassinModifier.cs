@@ -7,7 +7,6 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.HnsGame;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
@@ -379,8 +378,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         // This will remove modifiers that alter their chance/amount
         if ((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
             (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
-            (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0))
-            || modifier is HnsGameModifier)
+            (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)))
         {
             return false;
         }

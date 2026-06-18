@@ -13,6 +13,8 @@ public abstract class HnsGameModifier : TouGameModifier, IWikiDiscoverable
     public override string ModifierName => TouLocale.Get($"HnsModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"HnsModifier{LocaleKey}IntroBlurb");
 
+    public override bool HideFromGuessing => true;
+
     public override string GetDescription()
     {
         return TouLocale.GetParsed($"HnsModifier{LocaleKey}TabDescription");
