@@ -747,7 +747,36 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
         else if (_selectedItem is BaseModifier baseModifier)
         {
-            DetailScreenItemName.Value.text = baseModifier.ModifierName;
+            var faction = MiscUtils.GetModifierFaction(baseModifier);
+            var alignment = MiscUtils.GetParsedModifierFaction(faction);
+            var basicFaction = faction.ToString();
+            var non = basicFaction.Contains("Non");
+            var color = MiscUtils.GetModifierColour(baseModifier);
+            if (baseModifier is not AllianceGameModifier)
+            {
+                if (basicFaction.Contains("Crew") && !non)
+                {
+                    color = TownOfUsColors.CrewmateWiki;
+                }
+                else if (basicFaction.Contains("Neut") && !non)
+                {
+                    color = TownOfUsColors.NeutralWiki;
+                }
+                else if (basicFaction.Contains("Imp") && !non)
+                {
+                    color = TownOfUsColors.ImpWiki;
+                }
+                else if (basicFaction.Contains("Game") || non)
+                {
+                    color = TownOfUsColors.Other;
+                }
+                else if (baseModifier is UniversalGameModifier || baseModifier is TouGameModifier)
+                {
+                    color = baseModifier.FreeplayFileColor;
+                }
+            }
+            DetailScreenItemName.Value.text =
+                $"{baseModifier.ModifierName}\n<size=60%>{color.ToTextColor()}{alignment}</size></color>";
             DetailScreenIcon.Value.sprite = baseModifier.ModifierIcon != null
                 ? baseModifier.ModifierIcon.LoadAsset()
                 : TouRoleIcons.RandomAny.LoadAsset();
