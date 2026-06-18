@@ -11,7 +11,6 @@ public abstract class AllianceGameModifier : TouBaseGameModifier
 {
     public override string IntroInfo => $"{TouLocale.Get("Alliance")}: {ModifierName}";
     public virtual string Symbol => "?";
-    public override float IntroSize => 4f;
     public virtual bool DoesTasks => true;
     public virtual bool GetsPunished => true;
     public virtual bool CrewContinuesGame => true;
