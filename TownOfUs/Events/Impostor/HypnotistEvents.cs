@@ -17,7 +17,7 @@ public static class HypnotistEvents
         foreach (var mod in ModifierUtils.GetActiveModifiers<HypnotisedModifier>())
         {
             if (mod.Hypnotist == exiled || mod.Hypnotist == null || mod.Hypnotist.HasDied() ||
-                mod.Hypnotist.Data.Role is not HypnotistRole)
+                mod.Hypnotist.Data.Role is not HypnotistRole || mod.RoundsLeft == 0)
             {
                 mod.ModifierComponent?.RemoveModifier(mod);
             }

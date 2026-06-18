@@ -20,6 +20,8 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
     public bool HysteriaActive { get; set; }
 
+    public int RoundsLeft { get; private set; } = -1;
+
     public void FixedUpdate()
     {
         if (!Player || Player.Data.Role is not HypnotistRole || Player.HasDied() || !Player.AmOwner ||
@@ -110,6 +112,11 @@ public sealed class HypnotistRole(IntPtr cppPtr)
             meetingMenu.GenButtons(meeting,
                 Player.AmOwner && !Player.HasDied() && !HysteriaActive && !Player.HasModifier<JailedModifier>());
         }
+
+        if (HysteriaActive && RoundsLeft > 0)
+        {
+            RoundsLeft--;
+        }
     }
 
     public override void OnVotingComplete()
@@ -119,6 +126,11 @@ public sealed class HypnotistRole(IntPtr cppPtr)
         if (Player.AmOwner)
         {
             meetingMenu.HideButtons();
+        }
+
+        if (HysteriaActive && RoundsLeft == 0)
+        {
+            HysteriaActive = false;
         }
     }
 
@@ -167,5 +179,11 @@ public sealed class HypnotistRole(IntPtr cppPtr)
 
         var role = player.GetRole<HypnotistRole>();
         role!.HysteriaActive = true;
+
+        var maxRounds = (int)OptionGroupSingleton<HypnotistOptions>.Instance.HysteriaRoundDuration;
+        if (maxRounds > 0)
+        {
+            role!.RoundsLeft = maxRounds;
+        }
     }
 }

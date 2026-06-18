@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using HarmonyLib;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,9 +20,19 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
 
     public bool HysteriaActive { get; set; }
 
+    public int RoundsLeft { get; private set; } = -1;
+
     public override void OnDeath(DeathReason reason)
     {
         ModifierComponent?.RemoveModifier(this);
+    }
+
+    public override void OnMeetingStart()
+    {
+        if (HysteriaActive && RoundsLeft > 0)
+        {
+            RoundsLeft--;
+        }
     }
 
     public override void OnActivate()
@@ -53,6 +65,12 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         if (HysteriaActive)
         {
             return;
+        }
+
+        var maxRounds = (int)OptionGroupSingleton<HypnotistOptions>.Instance.HysteriaRoundDuration;
+        if (maxRounds > 0)
+        {
+            RoundsLeft = maxRounds;
         }
 
         // Message($"HypnotisedModifier.Hysteria - {Player.Data.PlayerName}");
