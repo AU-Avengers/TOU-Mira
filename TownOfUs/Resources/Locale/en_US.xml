@@ -2161,6 +2161,7 @@
   <string name="TouRoleSoulCollectorReapNotif">You have taken \%player\%'s soul, leaving their lifeless body standing.</string>
   <!-- Soul Collector Options -->
   <string name="TouOptionSoulCollectorReapCooldown">Reap Cooldown</string>
+  <string name="TouOptionSoulCollectorReapFirstRound">Allow Reap in First Round</string>
   <string name="TouOptionSoulCollectorCanVent">Soul Collector Can Vent</string>
   <!-- Survivor -->
   <!-- Survivor Wiki / Abilities -->
