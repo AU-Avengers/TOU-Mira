@@ -4,6 +4,7 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
@@ -86,6 +87,36 @@ public static class EngineerEvents
                 fixButton.SetUses(fixButton.UsesLeft);
                 ActiveFixTaskCount = 0;
             }
+        }
+    }
+
+    [RegisterEvent]
+    public static void PlumberFlushEngineerHandler(TouAbilityEvent @event)
+    {
+        if (@event.AbilityType is not AbilityType.PlumberFlush)
+        {
+            return;
+        }
+
+        if (PlayerControl.LocalPlayer.Data.Role is not EngineerTouRole ||
+            !PlayerControl.LocalPlayer.inVent)
+        {
+            return;
+        }
+
+        var ventButton = CustomButtonSingleton<EngineerVentButton>.Instance;
+        if (ventButton.Timer != 0)
+        {
+            ventButton.UsesLeft--;
+            if (ventButton.LimitedUses)
+            {
+                ventButton.Button?.SetUsesRemaining(ventButton.UsesLeft);
+            }
+        }
+        if (ventButton.EffectActive || !ventButton.HasEffect)
+        {
+            ventButton.EffectActive = false;
+            ventButton.Timer = ventButton.Cooldown;
         }
     }
 }

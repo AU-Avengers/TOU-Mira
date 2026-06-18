@@ -264,7 +264,7 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 [Endless Host Roles](https://github.com/Gurge44/EndlessHostRoles) - For the original Deadly Quota and Circumvent modifiers.\
 [Tommy-XL](https://github.com/Tommy-XL) - For the dlekS reimplementation from [Unlock dlekS](https://github.com/Tommy-XL/Unlock-dlekS-ehT).\
 [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) - For the original Discord Status patch.\
-[D1GQ](https://github.com/D1GQ) - For the original Splash Intro patch used in [Bette**r** Among Us](https://github.com/D1GQ/BetterAmongUs).\
+[D1GQ](https://github.com/D1GQ) - For the original Splash Intro patch used in [Better Among Us](https://github.com/D1GQ/BetterAmongUs).\
 [Maxi0fc](https://github.com/Maxi0fc) - For the original implementation of [AutoRejoin](https://github.com/Maxi0fc/AutoRejoin) and also the Role List hover feature.
 
 > [!NOTE]

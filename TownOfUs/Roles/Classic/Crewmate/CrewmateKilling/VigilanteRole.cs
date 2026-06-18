@@ -11,7 +11,6 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.HnsGame;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Networking;
@@ -308,16 +307,15 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
         return false;
     }
 
-    private static bool IsModifierValid(BaseModifier modifier)
+    private static bool IsModifierValid(BaseModifier baseModifier)
     {
-        // This will remove modifiers that alter their chance/amount
-        var isValid =
-            !((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
-              (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
-              (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0)
-               || modifier is HnsGameModifier));
+        if (baseModifier is not TouBaseGameModifier modifier)
+        {
+            return false;
+        }
 
-        if (!isValid)
+        // This will remove modifiers that alter their chance/amount
+        if (modifier.CustomAmount <= 0 || modifier.CustomChance <= 0)
         {
             return false;
         }
