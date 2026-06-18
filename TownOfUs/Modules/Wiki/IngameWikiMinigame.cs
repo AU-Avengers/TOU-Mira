@@ -734,9 +734,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         ToggleAbilitiesBtn.Value.buttonText.text =
             (_selectedItem != null) ? _selectedItem.SecondTabName : _selectedSoftItem!.SecondTabName;
 
-        DetailDescription.Value.text = (_selectedItem != null)
-            ? _selectedItem.GetAdvancedDescription()
-            : _selectedSoftItem!.GetAdvancedDescription;
+        DetailDescription.Value.text = GetDetailDescription();
         DetailDescription.Value.fontSizeMax = 2.4f;
 
         if (_selectedItem is ITownOfUsRole touRole)
@@ -794,6 +792,29 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         AbilityScroller.Value.SetBounds(new FloatRange(-0.5f, max), null);
         AbilityScroller.Value.ScrollToTop();
+    }
+
+    private string GetDetailDescription()
+    {
+        if (_selectedItem == null)
+        {
+            return _selectedSoftItem!.GetAdvancedDescription;
+        }
+
+        var description = _selectedItem.GetAdvancedDescription();
+        if (_selectedItem is not BaseModifier mod || !AssassinModifier.IsModifierGuessable(mod))
+        {
+            return description;
+        }
+        var guessable = "\n<size=50%> \n</size>This modifier can be guessed by an Assassin.";
+
+        int index = description.IndexOf("\n<size=50%> \n</size>", StringComparison.InvariantCulture);
+        if (index != -1)
+        {
+            return description.Insert(index, guessable);
+        }
+
+        return description + guessable;
     }
 
     private void LoadAbilityDetails(CustomButtonWikiDescription ability)
