@@ -28,3 +28,16 @@ public abstract class AllianceGameModifier : TouBaseGameModifier
                !role.Player.HasModifier<ExecutionerTargetModifier>() && role is not SpectatorRole;
     }
 }
+
+public enum AlliedFaction
+{
+    Crewmate,
+    CrewmateKiller,
+    Neutral,
+    NeutralKiller,
+    Impostor,
+    Lover,
+    Recruit,
+    RoleSpecific,
+    Other,
+}

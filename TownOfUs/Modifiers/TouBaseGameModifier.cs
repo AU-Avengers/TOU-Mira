@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
-using TownOfUs.Modifiers.Game;
 
 namespace TownOfUs.Modifiers;
 
@@ -21,4 +20,61 @@ public abstract class TouBaseGameModifier : GameModifier
     {
         return 1;
     }
+}
+
+public enum ModifierFaction
+{
+    Alliance,
+    Universal,
+    Crewmate,
+    Neutral,
+    Impostor,
+    CrewmateAlliance,
+    CrewmateUtility,
+    CrewmateVisibility,
+    CrewmatePostmortem,
+    CrewmatePassive,
+    NeutralAlliance,
+    NeutralUtility,
+    NeutralVisibility,
+    NeutralPostmortem,
+    NeutralPassive,
+    ImpostorAlliance,
+    ImpostorUtility,
+    ImpostorVisibility,
+    ImpostorPostmortem,
+    ImpostorPassive,
+    UniversalUtility,
+    UniversalVisibility,
+    UniversalPostmortem,
+    UniversalPassive,
+    AssailantUtility,
+    AssailantVisibility,
+    AssailantPostmortem,
+    AssailantPassive,
+    NonCrewmate,
+    NonCrewUtility,
+    NonCrewVisibility,
+    NonCrewPostmortem,
+    NonCrewPassive,
+    NonNeutral,
+    NonNeutUtility,
+    NonNeutVisibility,
+    NonNeutPostmortem,
+    NonNeutPassive,
+    NonImpostor,
+    NonImpUtility,
+    NonImpVisibility,
+    NonImpPostmortem,
+    NonImpPassive,
+    HiderUtility,
+    HiderVisibility,
+    HiderPostmortem,
+    HiderPassive,
+    SeekerUtility,
+    SeekerVisibility,
+    SeekerPostmortem,
+    SeekerPassive,
+    External,
+    Other
 }
