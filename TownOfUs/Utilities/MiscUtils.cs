@@ -1485,6 +1485,11 @@ public static class MiscUtils
 
     public static ArrowBehaviour CreateArrow(Transform parent, Color color)
     {
+        return CreateArrow<ArrowBehaviour>(parent, color);
+    }
+
+    public static TArrow CreateArrow<TArrow>(Transform parent, Color color) where TArrow : ArrowBehaviour
+    {
         var gameObject = new GameObject("Arrow")
         {
             layer = 5,
@@ -1498,7 +1503,7 @@ public static class MiscUtils
         renderer.sprite = TouAssets.ArrowSprite.LoadAsset();
         renderer.color = color;
 
-        var arrow = gameObject.AddComponent<ArrowBehaviour>();
+        var arrow = gameObject.AddComponent<TArrow>();
         arrow.image = renderer;
         arrow.image.color = color;
 
