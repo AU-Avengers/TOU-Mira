@@ -1,5 +1,4 @@
-﻿using System.Text;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.GameOptions;
@@ -12,6 +11,7 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
+using System.Text;
 using TMPro;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
@@ -777,20 +777,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             foreach (var ability in _selectedItem.Abilities)
             {
-                var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
-                var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
-                var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
-                var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
-
-                icon.sprite = ability.icon.LoadAsset();
-                icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
-                icon.tileMode = SpriteTileMode.Adaptive;
-
-                text.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
-                desc.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
-                newAbility.gameObject.SetActive(true);
+                LoadAbilityDetails(ability);
             }
 
             max = Mathf.Max(0f, _selectedItem.Abilities.Count * 0.875f);
@@ -799,20 +786,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             foreach (var ability in _selectedSoftItem.Abilities)
             {
-                var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
-                var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
-                var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
-                var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
-
-                icon.sprite = ability.icon.LoadAsset();
-                icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
-                icon.tileMode = SpriteTileMode.Adaptive;
-
-                text.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
-                desc.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
-                newAbility.gameObject.SetActive(true);
+                LoadAbilityDetails(ability);
             }
 
             max = Mathf.Max(0f, _selectedSoftItem.Abilities.Count * 0.875f);
@@ -820,6 +794,24 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         AbilityScroller.Value.SetBounds(new FloatRange(-0.5f, max), null);
         AbilityScroller.Value.ScrollToTop();
+    }
+
+    private void LoadAbilityDetails(CustomButtonWikiDescription ability)
+    {
+        var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
+        var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
+        var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
+
+        icon.sprite = ability.icon.LoadAsset();
+        icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
+        icon.tileMode = SpriteTileMode.Adaptive;
+
+        text.text =
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
+        desc.text =
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
+        newAbility.gameObject.SetActive(true);
     }
 
     private void LoadSearchScreen()
