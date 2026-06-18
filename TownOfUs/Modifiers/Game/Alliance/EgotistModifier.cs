@@ -35,7 +35,6 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
     }
 
     public override string Symbol => "#";
-    public override float IntroSize => 4f;
     public override bool DoesTasks => false;
     public override bool GetsPunished => false;
     public override bool CrewContinuesGame => false;

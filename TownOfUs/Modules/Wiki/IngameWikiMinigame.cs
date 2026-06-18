@@ -1,5 +1,4 @@
-﻿using System.Text;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.GameOptions;
@@ -12,8 +11,10 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
+using System.Text;
 using TMPro;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -733,9 +734,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         ToggleAbilitiesBtn.Value.buttonText.text =
             (_selectedItem != null) ? _selectedItem.SecondTabName : _selectedSoftItem!.SecondTabName;
 
-        DetailDescription.Value.text = (_selectedItem != null)
-            ? _selectedItem.GetAdvancedDescription()
-            : _selectedSoftItem!.GetAdvancedDescription;
+        DetailDescription.Value.text = GetDetailDescription();
         DetailDescription.Value.fontSizeMax = 2.4f;
 
         if (_selectedItem is ITownOfUsRole touRole)
@@ -776,20 +775,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             foreach (var ability in _selectedItem.Abilities)
             {
-                var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
-                var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
-                var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
-                var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
-
-                icon.sprite = ability.icon.LoadAsset();
-                icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
-                icon.tileMode = SpriteTileMode.Adaptive;
-
-                text.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
-                desc.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
-                newAbility.gameObject.SetActive(true);
+                LoadAbilityDetails(ability);
             }
 
             max = Mathf.Max(0f, _selectedItem.Abilities.Count * 0.875f);
@@ -798,20 +784,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             foreach (var ability in _selectedSoftItem.Abilities)
             {
-                var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
-                var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
-                var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
-                var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
-
-                icon.sprite = ability.icon.LoadAsset();
-                icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
-                icon.tileMode = SpriteTileMode.Adaptive;
-
-                text.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
-                desc.text =
-                    $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
-                newAbility.gameObject.SetActive(true);
+                LoadAbilityDetails(ability);
             }
 
             max = Mathf.Max(0f, _selectedSoftItem.Abilities.Count * 0.875f);
@@ -819,6 +792,47 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         AbilityScroller.Value.SetBounds(new FloatRange(-0.5f, max), null);
         AbilityScroller.Value.ScrollToTop();
+    }
+
+    private string GetDetailDescription()
+    {
+        if (_selectedItem == null)
+        {
+            return _selectedSoftItem!.GetAdvancedDescription;
+        }
+
+        var description = _selectedItem.GetAdvancedDescription();
+        if (_selectedItem is not BaseModifier mod || !AssassinModifier.IsModifierGuessable(mod))
+        {
+            return description;
+        }
+        var guessable = "\n<size=50%> \n</size>This modifier can be guessed by an Assassin.";
+
+        int index = description.IndexOf("\n<size=50%> \n</size>", StringComparison.InvariantCulture);
+        if (index != -1)
+        {
+            return description.Insert(index, guessable);
+        }
+
+        return description + guessable;
+    }
+
+    private void LoadAbilityDetails(CustomButtonWikiDescription ability)
+    {
+        var newAbility = Instantiate(AbilityTemplate.Value, AbilityScroller.Value.Inner.transform);
+        var icon = newAbility.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
+        var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
+
+        icon.sprite = ability.icon.LoadAsset();
+        icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
+        icon.tileMode = SpriteTileMode.Adaptive;
+
+        text.text =
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
+        desc.text =
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
+        newAbility.gameObject.SetActive(true);
     }
 
     private void LoadSearchScreen()
@@ -878,25 +892,15 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
                 var amount = modifier is GameModifier gameMod ? gameMod.GetAmountPerGame() : 0;
                 var chance = modifier is GameModifier gameMod2 ? gameMod2.GetAssignmentChance() : 0;
+                if (modifier is TouBaseGameModifier touMod)
+                {
+                    amount = touMod.CustomAmount;
+                    chance = touMod.CustomChance;
+                }
                 var faction = MiscUtils.GetModifierFaction(modifier);
                 var alignment = MiscUtils.GetParsedModifierFaction(faction);
                 var basicFaction = faction.ToString();
                 var color = MiscUtils.GetModifierColour(modifier);
-                if (modifier is UniversalGameModifier uniMod2)
-                {
-                    amount = uniMod2.CustomAmount;
-                    chance = uniMod2.CustomChance;
-                }
-                else if (modifier is TouGameModifier touMod2)
-                {
-                    amount = touMod2.CustomAmount;
-                    chance = touMod2.CustomChance;
-                }
-                else if (modifier is AllianceGameModifier allyMod2)
-                {
-                    amount = allyMod2.CustomAmount;
-                    chance = allyMod2.CustomChance;
-                }
                 var non = basicFaction.Contains("Non");
                 if (modifier is not AllianceGameModifier)
                 {
