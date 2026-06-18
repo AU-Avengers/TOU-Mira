@@ -6,6 +6,7 @@ using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Globalization;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -37,6 +38,7 @@ public abstract class TownOfUsButton : CustomActionButton
 
     public virtual bool Disabled { get; set; }
     public virtual bool UsableInDeath => false;
+    public virtual bool UsableFirstRound => true;
     public virtual bool ShouldPauseInVent => true;
 
     public PassiveButton PassiveComp { get; set; }
@@ -170,6 +172,11 @@ public abstract class TownOfUsButton : CustomActionButton
             return false;
         }
 
+        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasDied() && !UsableInDeath)
         {
             return false;
@@ -254,6 +261,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     public virtual bool Disabled { get; set; }
     public virtual bool ShouldPauseInVent => true;
     public virtual bool UsableInDeath => false;
+    public virtual bool UsableFirstRound => true;
 
     public PassiveButton PassiveComp { get; set; }
 
@@ -344,6 +352,11 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
 
         if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
         {
             return false;
         }
