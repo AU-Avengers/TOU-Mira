@@ -1,30 +1,17 @@
 ﻿using MiraAPI.Modifiers;
-using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using TownOfUs.Roles.Other;
 
 namespace TownOfUs.Modifiers.Game;
 
 [MiraIgnore]
-public abstract class TouGameModifier : GameModifier
+public abstract class TouGameModifier : TouBaseGameModifier
 {
-    public virtual string LocaleKey => "KEY_MISS";
-    public virtual string IntroInfo => $"{TouLocale.Get("Modifier")}: {ModifierName}";
-    public virtual float IntroSize => 2.8f;
-    public virtual ModifierFaction FactionType => ModifierFaction.Universal;
-    public virtual int CustomAmount => GetAmountPerGame();
-    public virtual int CustomChance => GetAssignmentChance();
+    public override float IntroSize => 2.8f;
     public virtual bool PreventsOtherModifiers => true;
     public virtual bool AppearsInSummary => true;
     public virtual bool AppearsInIntro => true;
     public virtual bool HideFromGuessing => false;
-
-    public override bool HideOnUi => false;
-
-    public override int GetAmountPerGame()
-    {
-        return 1;
-    }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
     {
