@@ -1202,12 +1202,12 @@ public static class MiscUtils
         return GetRolesToAssign(roles, filter);
     }
 
-    public static List<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
+    public static HashSet<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
-        return GetRolesToAssign(roles, filter);
+        return GetRolesToAssign(roles, filter).ToHashSet();
     }
 
     private static List<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(IEnumerable<RoleBehaviour> roles,
@@ -1611,10 +1611,10 @@ public static class MiscUtils
     }
 
     public static List<ushort> ReadFromBucket(List<RoleListOption> buckets,
-        List<(uint Id, ushort RoleType, int Chance)> roles, HashSet<(uint Id, ushort RoleType, int Chance)> added,
+        HashSet<(uint Id, ushort RoleType, int Chance)> roles, HashSet<(uint Id, ushort RoleType, int Chance)> added,
         RoleListOption roleType, RoleListOption replaceType = (RoleListOption)(-1), RoleListOption biggerType = (RoleListOption)(-1))
     {
-        roles.RemoveAll(added.Contains);
+        roles.ExceptWith(added);
 
         var result = new List<ushort>();
 
@@ -1642,7 +1642,7 @@ public static class MiscUtils
         return result;
     }
 
-    public static (uint Id, ushort RoleType, int Chance) SelectRole(List<(uint Id, ushort RoleType, int Chance)> roles)
+    public static (uint Id, ushort RoleType, int Chance) SelectRole(HashSet<(uint Id, ushort RoleType, int Chance)> roles)
     {
         var chosenRoles = roles.Where(x => x.Chance == 100).ToList();
         if (chosenRoles.Count > 0)
