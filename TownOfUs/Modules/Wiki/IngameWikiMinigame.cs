@@ -14,6 +14,7 @@ using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -878,25 +879,15 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
                 var amount = modifier is GameModifier gameMod ? gameMod.GetAmountPerGame() : 0;
                 var chance = modifier is GameModifier gameMod2 ? gameMod2.GetAssignmentChance() : 0;
+                if (modifier is TouBaseGameModifier touMod)
+                {
+                    amount = touMod.CustomAmount;
+                    chance = touMod.CustomChance;
+                }
                 var faction = MiscUtils.GetModifierFaction(modifier);
                 var alignment = MiscUtils.GetParsedModifierFaction(faction);
                 var basicFaction = faction.ToString();
                 var color = MiscUtils.GetModifierColour(modifier);
-                if (modifier is UniversalGameModifier uniMod2)
-                {
-                    amount = uniMod2.CustomAmount;
-                    chance = uniMod2.CustomChance;
-                }
-                else if (modifier is TouGameModifier touMod2)
-                {
-                    amount = touMod2.CustomAmount;
-                    chance = touMod2.CustomChance;
-                }
-                else if (modifier is AllianceGameModifier allyMod2)
-                {
-                    amount = allyMod2.CustomAmount;
-                    chance = allyMod2.CustomChance;
-                }
                 var non = basicFaction.Contains("Non");
                 if (modifier is not AllianceGameModifier)
                 {
