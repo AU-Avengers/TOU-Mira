@@ -3,9 +3,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor.Herbalist;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -48,8 +46,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
 
     public override void ClickHandler()
     {
-        if (CanClick() && !PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() &&
-            !PlayerControl.LocalPlayer.HasModifier<DisabledModifier>())
+        if (CanClick())
         {
             if (CurrentHerbsLimited)
             {

@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.HnsCrewmate;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.HnsCrewmate;
 using TownOfUs.Roles.HideAndSeek.Hider;
 using UnityEngine;
@@ -52,8 +51,7 @@ public sealed class ChameleonSwoopButton : TownOfUsRoleButton<HnsChameleonRole>
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }
