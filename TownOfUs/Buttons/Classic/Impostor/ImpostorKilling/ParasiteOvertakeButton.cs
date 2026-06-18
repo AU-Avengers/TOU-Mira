@@ -122,7 +122,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return true;
         }
 
-        return base.CanUse() && Target != null && Timer <= 0;
+        return base.CanUse() && Timer <= 0;
     }
 
     public override bool CanClick()

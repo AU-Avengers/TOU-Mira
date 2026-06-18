@@ -26,7 +26,6 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
         ? 0
         : (int)OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.ReviveSprite : TouCrewAssets.ReviveSprite;
-    public override bool UsableInDeath => true;
 
     public override DeadBody? GetTarget()
     {
@@ -73,17 +72,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
 
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.HasDied())
-        {
-            return false;
-        }
-
-        if (RevivedInRound)
-        {
-            return false;
-        }
-
-        return base.CanUse() && Target != null;
+        return base.CanUse() && !RevivedInRound;
     }
 
     public override void ClickHandler()
