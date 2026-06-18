@@ -391,33 +391,34 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return false;
         }
 
-        if (modifier is TouGameModifier touMod3 && touMod3.HideFromGuessing)
+        if (modifier is TouGameModifier touMod)
         {
-            return false;
-        }
-
-        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessAlliances.Value &&
-            modifier is AllianceGameModifier)
-        {
-            return true;
-        }
-
-        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers.Value)
-        {
-            if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessUtilityModifiers.Value &&
-                modifier is TouGameModifier touMod2 && touMod2.FactionType == ModifierFaction.CrewmateUtility)
+            if (touMod.HideFromGuessing)
             {
                 return false;
             }
+            if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers.Value)
+            {
+                if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessUtilityModifiers.Value &&
+                    touMod.FactionType == ModifierFaction.CrewmateUtility)
+                {
+                    return false;
+                }
 
-            if (modifier is TouGameModifier crewMod && crewMod.FactionType.ToDisplayString().Contains("Crew") &&
-                !crewMod.FactionType.ToDisplayString().Contains("Non"))
+                if (touMod.FactionType.ToDisplayString().Contains("Crew") &&
+                    !touMod.FactionType.ToDisplayString().Contains("Non"))
+                {
+                    return true;
+                }
+            }
+            if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessNonCrewModifiers.Value)
             {
                 return true;
             }
         }
 
-        if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessNonCrewModifiers.Value && modifier is TouGameModifier)
+        if (modifier is AllianceGameModifier &&
+            OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessAlliances.Value)
         {
             return true;
         }

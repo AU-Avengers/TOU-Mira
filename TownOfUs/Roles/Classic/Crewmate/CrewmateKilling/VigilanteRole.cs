@@ -320,23 +320,25 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
-        if (modifier is TouGameModifier touMod3 && touMod3.HideFromGuessing)
+        if (modifier is TouGameModifier touMod)
         {
-            return false;
+            if (touMod.HideFromGuessing)
+            {
+                return false;
+            }
+
+            if ((touMod.FactionType.ToDisplayString().Contains("Imp") ||
+                 touMod.FactionType.ToDisplayString().Contains("Killer")) &&
+                !touMod.FactionType.ToDisplayString().Contains("Non"))
+            {
+                return OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteGuessKillerMods;
+            }
         }
 
-        if (OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteGuessAlliances &&
-            modifier is AllianceGameModifier)
+        if (modifier is AllianceGameModifier &&
+            OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteGuessAlliances)
         {
             return true;
-        }
-
-        if (modifier is TouGameModifier impMod &&
-            (impMod.FactionType.ToDisplayString().Contains("Imp") ||
-             impMod.FactionType.ToDisplayString().Contains("Killer")) &&
-            !impMod.FactionType.ToDisplayString().Contains("Non"))
-        {
-            return OptionGroupSingleton<VigilanteOptions>.Instance.VigilanteGuessKillerMods;
         }
 
         return false;
