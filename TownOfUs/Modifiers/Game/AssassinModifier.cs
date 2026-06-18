@@ -376,17 +376,11 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
     private static bool IsModifierValid(BaseModifier modifier)
     {
-        var isValid = true;
         // This will remove modifiers that alter their chance/amount
         if ((modifier is TouGameModifier touMod && (touMod.CustomAmount <= 0 || touMod.CustomChance <= 0)) ||
             (modifier is AllianceGameModifier allyMod && (allyMod.CustomAmount <= 0 || allyMod.CustomChance <= 0)) ||
             (modifier is UniversalGameModifier uniMod && (uniMod.CustomAmount <= 0 || uniMod.CustomChance <= 0))
             || modifier is HnsGameModifier)
-        {
-            isValid = false;
-        }
-
-        if (!isValid)
         {
             return false;
         }
@@ -410,8 +404,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
                 return false;
             }
 
-            var crewMod = modifier as TouGameModifier;
-            if (crewMod != null && crewMod.FactionType.ToDisplayString().Contains("Crew") &&
+            if (modifier is TouGameModifier crewMod && crewMod.FactionType.ToDisplayString().Contains("Crew") &&
                 !crewMod.FactionType.ToDisplayString().Contains("Non"))
             {
                 return true;
