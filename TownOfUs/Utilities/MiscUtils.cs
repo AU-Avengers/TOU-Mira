@@ -1610,13 +1610,11 @@ public static class MiscUtils
         cam.centerPosition = cam.Target.transform.position;
     }
 
-    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets,
-        HashSet<(uint Id, ushort RoleType, int Chance)> roles, HashSet<(uint Id, ushort RoleType, int Chance)> added,
+    public static void AddFromBucket(this List<ushort> toApply, List<RoleListOption> buckets,
+        HashSet<(uint Id, ushort RoleType, int Chance)> roles, HashSet<(uint Id, ushort RoleType, int Chance)> applied,
         RoleListOption roleType, RoleListOption replaceType = (RoleListOption)(-1), RoleListOption biggerType = (RoleListOption)(-1))
     {
-        roles.ExceptWith(added);
-
-        var result = new List<ushort>();
+        roles.ExceptWith(applied);
 
         while (buckets.Contains(roleType))
         {
@@ -1632,14 +1630,11 @@ public static class MiscUtils
             }
 
             var addedRole = SelectRole(roles);
-            result.Add(addedRole.RoleType);
-            added.Add(addedRole);
-            roles.Remove(addedRole);
+            toApply.Add(addedRole.RoleType);
+            applied.Add(addedRole);
 
             buckets.Remove(roleType);
         }
-
-        return result;
     }
 
     public static (uint Id, ushort RoleType, int Chance) SelectRole(HashSet<(uint Id, ushort RoleType, int Chance)> roles)
@@ -1667,6 +1662,8 @@ public static class MiscUtils
                 break;
             }
         }
+
+        roles.Remove(selectedRole);
 
         return selectedRole;
     }
