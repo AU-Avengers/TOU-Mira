@@ -3,6 +3,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
@@ -69,11 +70,26 @@ public static class DoomsayerEvents
 
                 notif1.AdjustNotification();
             }
-            else if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnnounceWin)
+            else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Amnesiac;
+                }
+                else
+                {
+                    message = $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther")
+                        .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>";
+                    icon = TouRoleIcons.Doomsayer;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther").Replace("<player>", doom.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
+                    message.Replace("<player>", doom.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }

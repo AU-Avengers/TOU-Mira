@@ -7,6 +7,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -105,11 +106,26 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
-            else if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnnounceWin)
+            else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Amnesiac;
+                }
+                else
+                {
+                    message = TouLocale.GetParsed("TouRoleInquisitorVictoryMessage")
+                        .Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>");
+                    icon = TouRoleIcons.Inquisitor;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleInquisitorVictoryMessage").Replace("<player>", inquis.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    message.Replace("<player>", inquis.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }
@@ -140,11 +156,25 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
-            else if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnnounceWin)
+            else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage")
+                        .Replace("<player>", inquis.Player.Data.PlayerName);
+                    icon = TouRoleIcons.Amnesiac;
+                }
+                else
+                {
+                    message = $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>";
+                    icon = TouRoleIcons.Inquisitor;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
+                    message, Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }

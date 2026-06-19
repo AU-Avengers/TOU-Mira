@@ -33,8 +33,8 @@ public sealed class DoomsayerOptions : AbstractOptionGroup<DoomsayerRole>
     [ModdedEnumOption("TouOptionDoomsayerWin", typeof(DoomWinOptions), ["TouOptionDoomsayerWinEnumEndsGame", "TouOptionDoomsayerWinEnumLeaves", "TouOptionDoomsayerWinEnumNothing"])]
     public DoomWinOptions DoomWin { get; set; } = DoomWinOptions.Leaves;
 
-    public ModdedToggleOption DoomAnnounceWin { get; set; } =
-    new("TouOptionDoomsayerNotifyWin", true)
+    public ModdedToggleOption DoomAnonymizeWin { get; set; } =
+        new("TouOptionDoomsayerNotifyWin", true)
     {
         Visible = () => OptionGroupSingleton<DoomsayerOptions>.Instance.DoomWin is not DoomWinOptions.EndsGame
     };

@@ -6,6 +6,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -67,11 +68,26 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
-            else if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnnounceWin)
+            else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Amnesiac;
+                }
+                else
+                {
+                    message = TouLocale.GetParsed("TouRoleChefVictoryMessage")
+                        .Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>");
+                    icon = TouRoleIcons.Chef;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+                    message.Replace("<player>", chef.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }
@@ -107,11 +123,25 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
-            else if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnnounceWin)
+            else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+                
+                if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Amnesiac;
+                }
+                else
+                {
+                    message = TouLocale.GetParsed("TouRoleChefVictoryMessage");
+                    icon = TouRoleIcons.Chef;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName),
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+                    message.Replace("<player>", chef.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }

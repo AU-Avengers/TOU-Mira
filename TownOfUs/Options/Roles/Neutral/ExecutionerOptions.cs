@@ -18,11 +18,11 @@ public sealed class ExecutionerOptions : AbstractOptionGroup<ExecutionerRole>
     [ModdedEnumOption("Executioner Win", typeof(ExeWinOptions), ["Ends Game", "Leaves & Torments", "Nothing"])]
     public ExeWinOptions ExeWin { get; set; } = ExeWinOptions.Torments;
 
-    public ModdedToggleOption ExeAnnounceWin { get; set; } =
+    public ModdedToggleOption ExeAnonymizeWin { get; set; } =
         new("TouOptionExecutionerNotifyWin", true)
-        {
-            Visible = () => OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is not ExeWinOptions.EndsGame
-        };
+    {
+        Visible = () => OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is not ExeWinOptions.EndsGame
+    };
 }
 
 public enum ExeWinOptions

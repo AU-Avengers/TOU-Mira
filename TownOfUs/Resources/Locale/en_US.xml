@@ -1868,6 +1868,8 @@
   <string name="TouOptionWarlockTimeItTakesToUseFullCharge">Time It Takes To Use Full Charge</string>
   <!-- Neutral Roles -->
 
+  <!--Anonymous Feedback-->
+  <string name="TouNeutAnonymousVictoryMessage">\%player\% has successfully won and left!</string>
   <!-- Amnesiac -->
   <!-- Amnesiac Wiki / Abilities -->
   <string name="TouRoleAmnesiac">Amnesiac</string>
@@ -1935,7 +1937,7 @@
   <string name="TouOptionDoomsayerWinEnumEndsGame">Ends Game</string>
   <string name="TouOptionDoomsayerWinEnumLeaves">Leaves In Victory</string>
   <string name="TouOptionDoomsayerWinEnumNothing">Nothing</string>
-  <string name="TouOptionDoomsayerNotifyWin">Notify others on Win</string>
+  <string name="TouOptionDoomsayerNotifyWin">Hide role on Win Notification</string>
   <string name="TouOptionDoomsayerContinuesGame">Doomsayer Continues The Game</string>
   <!-- Doomsayer Misguess -->
   <string name="TouRoleDoomsayerMisguessOne">Only one guess was incorrect!</string>
@@ -1968,7 +1970,7 @@
   <string name="TouOptionExecutionerWinEnumEndsGame">Ends Game</string>
   <string name="TouOptionExecutionerWinEnumTorments">Leaves \%and\% Torments</string>
   <string name="TouOptionExecutionerWinEnumNothing">Nothing</string>
-  <string name="TouOptionExecutionerNotifyWin">Notify others on Win</string>
+  <string name="TouOptionExecutionerNotifyWin">Hide role on Win Notification</string>
   <!-- Glitch -->
   <!-- Glitch Wiki / Abilities -->
   <string name="TouRoleGlitch">Glitch</string>
@@ -2036,7 +2038,7 @@
   <string name="TouOptionInquisitorInquireCooldown">Inquire Cooldown</string>
   <string name="TouOptionInquisitorMaxInquiries">Max Number Of Inquiries</string>
   <string name="TouOptionInquisitorHereticAmount">Amount Of Heretics Needed</string>
-  <string name="TouOptionInquisitorNotifyWin">Notify others on Win</string>
+  <string name="TouOptionInquisitorNotifyWin">Hide role on Win Notification</string>
   <!-- Chef -->
   <!-- Chef Wiki / Abilities -->
   <string name="TouRoleChef">Chef</string>
@@ -2062,7 +2064,7 @@
   <string name="TouOptionChefArrowsToBodies">Show Arrows Pointing To Dead Bodies</string>
   <string name="TouOptionChefArrowDelay">Dead Body Arrow Delay</string>
   <string name="TouOptionChefArrowDuration">Dead Body Arrow Duration</string>
-  <string name="TouOptionChefNotifyWin">Notify others on Win</string>
+  <string name="TouOptionChefNotifyWin">Hide role on Win Notification</string>
   <!-- Jester -->
   <!-- Jester Wiki / Description -->
   <string name="TouRoleJester">Jester</string>
