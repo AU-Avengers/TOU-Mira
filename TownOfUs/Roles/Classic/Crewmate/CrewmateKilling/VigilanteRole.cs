@@ -309,7 +309,8 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
 
     private static bool IsModifierValid(BaseModifier baseModifier)
     {
-        if (baseModifier is not TouBaseGameModifier modifier)
+        if (baseModifier is not TouBaseGameModifier modifier ||
+            modifier is IUnguessableModifier { IsGuessable: false })
         {
             return false;
         }

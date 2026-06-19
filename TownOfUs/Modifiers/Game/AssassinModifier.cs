@@ -386,7 +386,8 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
     public static bool IsModifierGuessable(BaseModifier baseModifier)
     {
-        if (baseModifier is not TouBaseGameModifier modifier)
+        if (baseModifier is not TouBaseGameModifier modifier ||
+            modifier is IUnguessableModifier { IsGuessable: false })
         {
             return false;
         }
