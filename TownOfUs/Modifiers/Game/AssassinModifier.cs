@@ -423,6 +423,12 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return true;
         }
 
+        if (modifier is UniversalGameModifier &&
+            OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessUniversalModifiers)
+        {
+            return true;
+        }
+
         return false;
     }
 }

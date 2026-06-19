@@ -77,6 +77,9 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
     public ModdedToggleOption AssassinGuessNonCrewModifiers { get; } =
         new("Assassin Can Guess Other Faction Modifiers", true);
 
+    public ModdedToggleOption AssassinGuessUniversalModifiers { get; } =
+        new("Assassin Can Guess Universal Modifiers", true);
+
     public ModdedToggleOption AssassinGuessAlliances { get; } =
         new("Assassin Can Guess Alliances", true);
 
