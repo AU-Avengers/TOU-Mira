@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
+public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance, IUnguessableModifier
 {
     public override string LocaleKey => "Giant";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");

@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable
+public sealed class ShyModifier : UniversalGameModifier, IWikiDiscoverable, IUnguessableModifier
 {
     public override string LocaleKey => "Shy";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");

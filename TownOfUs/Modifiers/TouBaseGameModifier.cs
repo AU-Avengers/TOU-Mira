@@ -22,6 +22,11 @@ public abstract class TouBaseGameModifier : GameModifier
     }
 }
 
+public interface IUnguessableModifier
+{
+    bool IsGuessable => false;
+}
+
 public enum ModifierFaction
 {
     Alliance,

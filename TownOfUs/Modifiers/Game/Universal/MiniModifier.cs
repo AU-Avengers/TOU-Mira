@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
+public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance, IUnguessableModifier
 {
     public override string LocaleKey => "Mini";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");

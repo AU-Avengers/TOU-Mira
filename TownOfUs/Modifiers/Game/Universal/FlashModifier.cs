@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
+public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance, IUnguessableModifier
 {
     public override string LocaleKey => "Flash";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
