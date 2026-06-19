@@ -1,7 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
-using TownOfUs.Events;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -17,8 +16,7 @@ public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<Inquisitor
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<InquisitorOptions>.Instance.VanquishCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouNeutAssets.InquisKillSprite;
 
-    public static bool Usable =>
-        OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse || TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
+    public override bool UsableFirstRound => OptionGroupSingleton<InquisitorOptions>.Instance.FirstRoundUse;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
@@ -29,7 +27,7 @@ public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<Inquisitor
 
     public override bool CanUse()
     {
-        return base.CanUse() && Usable && Role.CanVanquish;
+        return base.CanUse() && Role.CanVanquish;
     }
 
     public override PlayerControl? GetTarget()
