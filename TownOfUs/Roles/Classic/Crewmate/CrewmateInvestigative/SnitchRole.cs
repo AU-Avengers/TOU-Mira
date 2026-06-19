@@ -12,6 +12,7 @@ using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -389,32 +390,28 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         _snitchArrows = new Dictionary<byte, ArrowBehaviour>();
         var imps = Helpers.GetAlivePlayers().Where(plr => plr.Data.Role.IsImpostor && !plr.IsTraitor());
         var traitor = Helpers.GetAlivePlayers().FirstOrDefault(plr => plr.IsTraitor());
-        imps.ToList().ForEach(imp =>
-        {
-            _snitchArrows.Add(imp.PlayerId, MiscUtils.CreateArrow(imp.transform, TownOfUsColors.Impostor));
-            PlayerNameColor.Set(imp);
-            imp.AddModifier<SnitchImpostorRevealModifier>();
-        });
+        imps.ToList().ForEach(imp => CreateSnitchArrow(imp, TownOfUsColors.Impostor));
 
         if (OptionGroupSingleton<SnitchOptions>.Instance.SnitchSeesTraitor && traitor != null)
         {
-            _snitchArrows.Add(traitor.PlayerId, MiscUtils.CreateArrow(traitor.transform, TownOfUsColors.Impostor));
-            PlayerNameColor.Set(traitor);
-            traitor.AddModifier<SnitchImpostorRevealModifier>();
+            CreateSnitchArrow(traitor, TownOfUsColors.Impostor);
         }
 
         if (OptionGroupSingleton<SnitchOptions>.Instance.SnitchNeutralRoles)
         {
             var neutrals = MiscUtils.GetRoles(RoleAlignment.NeutralKilling)
                 .Where(role => !role.Player.Data.IsDead && !role.Player.Data.Disconnected);
-            neutrals.ToList().ForEach(neutral =>
-            {
-                _snitchArrows.Add(neutral.Player.PlayerId,
-                    MiscUtils.CreateArrow(neutral.Player.transform, TownOfUsColors.Neutral));
-                PlayerNameColor.Set(neutral.Player);
-                neutral.Player.AddModifier<SnitchImpostorRevealModifier>();
-            });
+            neutrals.ToList().ForEach(neutral => CreateSnitchArrow(neutral.Player, TownOfUsColors.Neutral));
         }
+    }
+
+    private void CreateSnitchArrow(PlayerControl player, Color color)
+    {
+        var arrow = MiscUtils.CreateArrow<HideableArrowBehavior>(player.transform, color);
+        arrow.Player = player;
+        _snitchArrows!.Add(player.PlayerId, arrow);
+        PlayerNameColor.Set(player);
+        player.AddModifier<SnitchImpostorRevealModifier>();
     }
 
     public void AddSnitchTraitorArrows()
