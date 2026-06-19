@@ -120,7 +120,7 @@ public static class ExecutionerEvents
                         lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
-            else
+            else if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnnounceWin)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonOther").Replace("<player>", exe.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>",

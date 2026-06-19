@@ -39,4 +39,7 @@ public sealed class ChefOptions : AbstractOptionGroup<ChefRole>
         {
             Visible = () => OptionGroupSingleton<ChefOptions>.Instance.ChefArrows
         };
+
+    [ModdedToggleOption("TouOptionChefNotifyWin")]
+    public bool ChefAnnounceWin { get; set; } = true;
 }

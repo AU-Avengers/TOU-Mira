@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Neutral;
 
@@ -25,6 +26,12 @@ public sealed class JesterOptions : AbstractOptionGroup<JesterRole>
 
     [ModdedEnumOption("TouOptionJesterAfterWin", typeof(JestWinOptions), ["TouOptionJesterWinEnumEndsGame", "TouOptionJesterWinEnumHaunts", "TouOptionJesterWinEnumNothing"])]
     public JestWinOptions JestWin { get; set; } = JestWinOptions.EndsGame;
+
+    public ModdedToggleOption JestAnnounceWin { get; set; } =
+        new("TouOptionJesterNotifyWin", true)
+    {
+        Visible = () => OptionGroupSingleton<JesterOptions>.Instance.JestWin is not JestWinOptions.EndsGame
+    };
 }
 
 public enum JestWinOptions

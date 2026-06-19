@@ -67,7 +67,7 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
-            else
+            else if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnnounceWin)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Chef.ToTextColor()}{chef.RoleName}</color>"),
@@ -107,7 +107,7 @@ public static class ChefEvents
 
                 notif1.AdjustNotification();
             }
-            else
+            else if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnnounceWin)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     TouLocale.GetParsed("TouRoleChefVictoryMessage").Replace("<player>", chef.Player.Data.PlayerName),

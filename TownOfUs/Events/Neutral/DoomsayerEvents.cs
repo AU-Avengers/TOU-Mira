@@ -69,7 +69,7 @@ public static class DoomsayerEvents
 
                 notif1.AdjustNotification();
             }
-            else
+            else if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnnounceWin)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther").Replace("<player>", doom.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",

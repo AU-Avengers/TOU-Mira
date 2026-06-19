@@ -3,6 +3,7 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -10,6 +11,7 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
@@ -103,7 +105,7 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
-            else
+            else if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnnounceWin)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     TouLocale.GetParsed("TouRoleInquisitorVictoryMessage").Replace("<player>", inquis.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Inquisitor.ToTextColor()}{inquis.RoleName}</color>"),
@@ -138,7 +140,7 @@ public static class InquisitorEvents
 
                 notif1.AdjustNotification();
             }
-            else
+            else if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnnounceWin)
             {
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>The {TownOfUsColors.Inquisitor.ToTextColor()}Inquisitor</color>, {inquis.Player.Data.PlayerName}, has successfully won, as all Heretics have perished!</b>",
