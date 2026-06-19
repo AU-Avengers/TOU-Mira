@@ -103,7 +103,6 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
                 MeetingAbilityType.Click,
                 TouAssets.LighterSprite,
                 null!,
-                voteArea => { return Player.Data.IsDead || voteArea!.AmDead; },
                 hoverColor: Color.white)
             {
                 Position = new Vector3(1.1f, -0.18f, -3f)
@@ -119,7 +118,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         if (Player.AmOwner && meeting != null)
         {
             meetingMenu.GenButtons(meeting,
-                Player.AmOwner && !Player.HasDied() && !Player.HasModifier<JailedModifier>());
+                Player.AmOwner && !Player.HasDied());
 
             foreach (var button in meetingMenu.Buttons)
             {

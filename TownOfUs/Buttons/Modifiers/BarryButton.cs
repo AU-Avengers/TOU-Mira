@@ -3,7 +3,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Attributes;
-using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
 using UnityEngine;
@@ -20,8 +19,7 @@ public sealed class BarryButton : TownOfUsButton, ILegacyCapable
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyAssets.BarryButtonSprite : TouAssets.BarryButtonSprite;
 
-    public static bool Usable => OptionGroupSingleton<ButtonBarryOptions>.Instance.FirstRoundUse ||
-                          TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
+    public override bool UsableFirstRound => OptionGroupSingleton<ButtonBarryOptions>.Instance.FirstRoundUse;
 
     public override bool Enabled(RoleBehaviour? role)
     {
@@ -34,7 +32,7 @@ public sealed class BarryButton : TownOfUsButton, ILegacyCapable
     public override bool CanUse()
     {
         var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
-        return base.CanUse() && Usable && PlayerControl.LocalPlayer.RemainingEmergencies > 0 &&
+        return base.CanUse() && PlayerControl.LocalPlayer.RemainingEmergencies > 0 &&
                (OptionGroupSingleton<ButtonBarryOptions>.Instance.IgnoreSabo || system is { AnyActive: false });
     }
 

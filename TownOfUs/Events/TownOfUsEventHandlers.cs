@@ -124,7 +124,7 @@ public static class TownOfUsEventHandlers
         else if (uniModifier != null && option is ModReveal.Universal)
         {
             ModifierText.text =
-                $"<size=4><color=#FFFFFF>{TouLocale.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
+                $"<size={uniModifier.IntroSize}><color=#FFFFFF>{TouLocale.Get("Modifier")}: </color>{uniModifier.ModifierName}</size>";
 
             ModifierText.color = MiscUtils.GetModifierColour(uniModifier);
         }
@@ -341,6 +341,33 @@ public static class TownOfUsEventHandlers
     {
         if (!@event.TriggeredByIntro)
         {
+            foreach (var button in CustomButtonManager.Buttons)
+            {
+                if (button is FakeVentButton)
+                {
+                    continue;
+                }
+
+                if (button is TownOfUsButton touButton && !touButton.UsableFirstRound)
+                {
+                    touButton.SetRoundLockActive(false);
+                }
+
+                if (button is TownOfUsTargetButton<Vent> touButton2 && !touButton2.UsableFirstRound)
+                {
+                    touButton2.SetRoundLockActive(false);
+                }
+
+                if (button is TownOfUsTargetButton<DeadBody> touButton3 && !touButton3.UsableFirstRound)
+                {
+                    touButton3.SetRoundLockActive(false);
+                }
+
+                if (button is TownOfUsTargetButton<PlayerControl> touButton4 && !touButton4.UsableFirstRound)
+                {
+                    touButton4.SetRoundLockActive(false);
+                }
+            }
             return; // Only run when game starts.
         }
 
@@ -381,22 +408,54 @@ public static class TownOfUsEventHandlers
             HudManager.Instance.SetHudActive(true);
         }
 
-        CustomButtonSingleton<WatchButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<WatchButton>.Instance.SetUses((int)OptionGroupSingleton<LookoutOptions>.Instance
-            .MaxWatches);
-        CustomButtonSingleton<SonarTrackButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<SonarTrackButton>.Instance.SetUses((int)OptionGroupSingleton<SonarOptions>.Instance
-            .MaxTracks);
-        CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<TrapperTrapButton>.Instance.SetUses((int)OptionGroupSingleton<TrapperOptions>.Instance
-            .MaxTraps);
-        CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<VeteranAlertButton>.Instance.SetUses((int)OptionGroupSingleton<VeteranOptions>.Instance
-            .MaxNumAlerts);
+        // This sets the sabo cooldowns properly
+        if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
+        {
+            systemType.Cast<IDoorSystem>().SetInitialSabotageCooldown();
+        }
+        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
+        {
+            systemType2.Cast<IDoorSystem>().SetInitialSabotageCooldown();
+        }
 
-        CustomButtonSingleton<SpellslingerHexButton>.Instance.SetUses((int)OptionGroupSingleton<SpellslingerOptions>
-            .Instance
-            .MaxHexes);
+        foreach (var button in CustomButtonManager.Buttons)
+        {
+            if (button is FakeVentButton)
+            {
+                continue;
+            }
+            button.SetUses(button.MaxUses);
+            button.Button?.usesRemainingText.gameObject.SetActive(button.LimitedUses);
+            button.Button?.usesRemainingSprite.gameObject.SetActive(button.LimitedUses);
+
+            if (!TutorialManager.InstanceExists)
+            {
+                if (button is TownOfUsButton touButton && !touButton.UsableFirstRound)
+                {
+                    touButton.SetRoundLockActive(true);
+                }
+
+                if (button is TownOfUsTargetButton<Vent> touButton2 && !touButton2.UsableFirstRound)
+                {
+                    touButton2.SetRoundLockActive(true);
+                }
+
+                if (button is TownOfUsTargetButton<DeadBody> touButton3 && !touButton3.UsableFirstRound)
+                {
+                    touButton3.SetRoundLockActive(true);
+                }
+
+                if (button is TownOfUsTargetButton<PlayerControl> touButton4 && !touButton4.UsableFirstRound)
+                {
+                    touButton4.SetRoundLockActive(true);
+                }
+            }
+        }
+
+        CustomButtonSingleton<WatchButton>.Instance.ExtraUses = 0;
+        CustomButtonSingleton<SonarTrackButton>.Instance.ExtraUses = 0;
+        CustomButtonSingleton<TrapperTrapButton>.Instance.ExtraUses = 0;
+        CustomButtonSingleton<VeteranAlertButton>.Instance.ExtraUses = 0;
 
         CustomButtonSingleton<JailorJailButton>.Instance.ExecutedACrew = false;
 
@@ -404,9 +463,6 @@ public static class TownOfUsEventHandlers
         CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
 
         var medicShield = CustomButtonSingleton<MedicShieldButton>.Instance;
-        medicShield.SetUses(OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget
-            ? (int)OptionGroupSingleton<MedicOptions>.Instance.MedicShieldUses
-            : 1);
         if (!medicShield.LimitedUses ||
             !OptionGroupSingleton<MedicOptions>.Instance.ChangeTarget)
         {
@@ -420,24 +476,10 @@ public static class TownOfUsEventHandlers
         }
 
         CustomButtonSingleton<PlumberBlockButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<PlumberBlockButton>.Instance.SetUses((int)OptionGroupSingleton<PlumberOptions>.Instance
-            .MaxBarricades);
         CustomButtonSingleton<TransporterTransportButton>.Instance.ExtraUses = 0;
-        CustomButtonSingleton<TransporterTransportButton>.Instance.SetUses((int)OptionGroupSingleton<TransporterOptions>
-            .Instance.MaxNumTransports);
 
         CustomButtonSingleton<WarlockKillButton>.Instance.Charge = 0f;
         CustomButtonSingleton<WarlockKillButton>.Instance.BurstActive = false;
-
-        // This sets the sabo cooldowns properly
-        if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
-        {
-            systemType.Cast<IDoorSystem>().SetInitialSabotageCooldown();
-        }
-        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
-        {
-            systemType2.Cast<IDoorSystem>().SetInitialSabotageCooldown();
-        }
     }
 
     [RegisterEvent]
