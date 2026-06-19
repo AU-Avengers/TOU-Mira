@@ -28,7 +28,10 @@ namespace TownOfUs.Modules.Wiki;
 public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 {
     public GameObject SearchIcon;
+    // TODO: Improve the wiki to store all entries rather than destroy then. All items should also use a mono behaviour that allows the chances and amount to change immediately without issue.
     private List<Transform> _activeItems = [];
+    /*private List<Transform> _inactiveItems = [];
+    private List<Transform> _allItems = [];*/
     private List<RoleBehaviour> _roleList = [];
 
     private WikiPage _currentPage = WikiPage.Homepage;
@@ -885,9 +888,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         var oldMax = Mathf.Max(0f, SearchScroller.Value.Inner.GetChildCount() * 0.725f);
 
-        _activeItems.Do(x => x.gameObject.DeepDestroy(false));
+        _activeItems.Do(x => x.gameObject.Destroy());
         _activeItems.Clear();
-        MiscUtils.ClearGarbageCollector();
 
         SearchTextbox.Value.SetText(string.Empty);
 
