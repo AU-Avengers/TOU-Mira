@@ -886,7 +886,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         SearchIcon.SetActive(true);
 
-        var oldMax = Mathf.Max(0f, SearchScroller.Value.Inner.GetChildCount() * 0.725f);
+        var oldMax = Mathf.Max(0f, _activeItems.Count * 0.725f);
 
         _activeItems.Do(x => x.gameObject.Destroy());
         _activeItems.Clear();
@@ -1107,7 +1107,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         SearchPageIcon.Value.SetSizeLimit(1.44f);
 
-        var max = Mathf.Max(0f, SearchScroller.Value.Inner.GetChildCount() * 0.725f);
+        var max = Mathf.Max(0f, _activeItems.Count * 0.725f);
         SearchScroller.Value.SetBounds(new FloatRange(-0.4f, max), null);
         if (oldMax != max)
         {
