@@ -428,24 +428,27 @@ public static class TownOfUsEventHandlers
             button.Button?.usesRemainingText.gameObject.SetActive(button.LimitedUses);
             button.Button?.usesRemainingSprite.gameObject.SetActive(button.LimitedUses);
 
-            if (button is TownOfUsButton touButton && !touButton.UsableFirstRound)
+            if (!TutorialManager.InstanceExists)
             {
-                touButton.SetRoundLockActive(true);
-            }
+                if (button is TownOfUsButton touButton && !touButton.UsableFirstRound)
+                {
+                    touButton.SetRoundLockActive(true);
+                }
 
-            if (button is TownOfUsTargetButton<Vent> touButton2 && !touButton2.UsableFirstRound)
-            {
-                touButton2.SetRoundLockActive(true);
-            }
+                if (button is TownOfUsTargetButton<Vent> touButton2 && !touButton2.UsableFirstRound)
+                {
+                    touButton2.SetRoundLockActive(true);
+                }
 
-            if (button is TownOfUsTargetButton<DeadBody> touButton3 && !touButton3.UsableFirstRound)
-            {
-                touButton3.SetRoundLockActive(true);
-            }
+                if (button is TownOfUsTargetButton<DeadBody> touButton3 && !touButton3.UsableFirstRound)
+                {
+                    touButton3.SetRoundLockActive(true);
+                }
 
-            if (button is TownOfUsTargetButton<PlayerControl> touButton4 && !touButton4.UsableFirstRound)
-            {
-                touButton4.SetRoundLockActive(true);
+                if (button is TownOfUsTargetButton<PlayerControl> touButton4 && !touButton4.UsableFirstRound)
+                {
+                    touButton4.SetRoundLockActive(true);
+                }
             }
         }
 
