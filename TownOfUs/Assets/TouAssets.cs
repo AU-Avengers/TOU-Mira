@@ -133,6 +133,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Basic.png");
 
+    public static LoadableAsset<Sprite> FirstRoundLockSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.RoundOneLock.png");
+
     public static readonly LoadableAsset<GameObject> RoleSelectionGame =
         new LoadableBundleAsset<GameObject>("SelectRoleGame", MainBundle);
 

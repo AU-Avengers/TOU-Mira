@@ -39,6 +39,30 @@ public abstract class TownOfUsButton : CustomActionButton
     public virtual bool UsableInDeath => false;
     public virtual bool UsableFirstRound => true;
     public virtual bool ShouldPauseInVent => true;
+    public SpriteRenderer FirstRoundLock;
+
+    public void CreateRoundLockIcon()
+    {
+        var hackedSprite = new GameObject("RoundOneLockSprite");
+        hackedSprite.transform.SetParent(Button!.transform);
+        hackedSprite.transform.localPosition = new Vector3(0, 0, -10f);
+        hackedSprite.gameObject.layer = Button!.gameObject.layer;
+
+        var render = hackedSprite.AddComponent<SpriteRenderer>();
+        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        FirstRoundLock = render;
+
+        SetRoundLockActive(false);
+    }
+
+    public void SetRoundLockActive(bool isActive)
+    {
+        if (FirstRoundLock && FirstRoundLock.gameObject)
+        {
+            FirstRoundLock.gameObject.SetActive(isActive);
+            FirstRoundLock.enabled = isActive;
+        }
+    }
 
     public PassiveButton PassiveComp { get; set; }
 
@@ -124,6 +148,8 @@ public abstract class TownOfUsButton : CustomActionButton
             Error($"Button is null for {GetType().FullName}");
             return;
         }
+
+        CreateRoundLockIcon();
 
         Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBasicSprite.LoadAsset();
 
@@ -260,6 +286,30 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     public virtual bool ShouldPauseInVent => true;
     public virtual bool UsableInDeath => false;
     public virtual bool UsableFirstRound => true;
+    public SpriteRenderer FirstRoundLock;
+
+    public void CreateRoundLockIcon()
+    {
+        var hackedSprite = new GameObject("RoundOneLockSprite");
+        hackedSprite.transform.SetParent(Button!.transform);
+        hackedSprite.transform.localPosition = new Vector3(0, 0, -10f);
+        hackedSprite.gameObject.layer = Button!.gameObject.layer;
+
+        var render = hackedSprite.AddComponent<SpriteRenderer>();
+        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        FirstRoundLock = render;
+
+        SetRoundLockActive(false);
+    }
+
+    public void SetRoundLockActive(bool isActive)
+    {
+        if (FirstRoundLock && FirstRoundLock.gameObject)
+        {
+            FirstRoundLock.gameObject.SetActive(isActive);
+            FirstRoundLock.enabled = isActive;
+        }
+    }
 
     public PassiveButton PassiveComp { get; set; }
 
@@ -376,6 +426,8 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             Error($"Button is null for {GetType().FullName}");
             return;
         }
+
+        CreateRoundLockIcon();
 
         if (this is ILegacyCapable && LegacyAssets.IsLegacy)
         {
