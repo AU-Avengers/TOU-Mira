@@ -1,6 +1,7 @@
 ﻿using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Modules;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -28,7 +29,9 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
     public override void OnActivate()
     {
-        _arrow = MiscUtils.CreateArrow(Owner.transform, color);
+        var arrow = MiscUtils.CreateArrow<HideableArrowBehavior>(Owner.transform, color);
+        arrow.Player = Player;
+        _arrow = arrow;
     }
 
     public override void OnDeath(DeathReason reason)
