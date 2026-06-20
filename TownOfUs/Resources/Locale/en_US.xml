@@ -1868,6 +1868,9 @@
   <string name="TouOptionWarlockTimeItTakesToUseFullCharge">Time It Takes To Use Full Charge</string>
   <!-- Neutral Roles -->
 
+  <!--Anonymous Feedback-->
+  <string name="TouNeutAnonymousVictoryMessage">\%player\% has successfully won and left!</string>
+  <string name="TouOptionNeutAnonymousVictoryWin">Hide Role On Win Notification</string>
   <!-- Amnesiac -->
   <!-- Amnesiac Wiki / Abilities -->
   <string name="TouRoleAmnesiac">Amnesiac</string>
@@ -2080,6 +2083,7 @@
   <string name="TouOptionJesterWinEnumEndsGame">Ends Game</string>
   <string name="TouOptionJesterWinEnumHaunts">Haunts</string>
   <string name="TouOptionJesterWinEnumNothing">Nothing</string>
+  <string name="TouOptionJesterNotifyWin">Notify Others On Win</string>
   <!-- Juggernaut -->
   <!-- Juggernaut Wiki / Description -->
   <string name="TouRoleJuggernaut">Juggernaut</string>

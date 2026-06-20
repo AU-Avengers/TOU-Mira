@@ -3,6 +3,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
@@ -62,7 +63,7 @@ public static class DoomsayerEvents
         {
             if (doom.Player.AmOwner)
             {
-                PlayerControl.LocalPlayer.RpcPlayerExile();
+                PlayerControl.LocalPlayer.DelayExile();
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
@@ -71,9 +72,24 @@ public static class DoomsayerEvents
             }
             else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin.Value)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Neutral;
+                }
+                else
+                {
+                    message = $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther")
+                        .Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>";
+                    icon = TouRoleIcons.Doomsayer;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonOther").Replace("<player>", doom.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());
+                    message.Replace("<player>", doom.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }

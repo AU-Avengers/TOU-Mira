@@ -9,6 +9,7 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -100,7 +101,7 @@ public static class ExecutionerEvents
 
                 notif1.AdjustNotification();
 
-                PlayerControl.LocalPlayer.RpcPlayerExile();
+                PlayerControl.LocalPlayer.DelayExile();
 
                 if (winOption is ExeWinOptions.Torments)
                 {
@@ -122,9 +123,24 @@ public static class ExecutionerEvents
             }
             else
             {
+                string message;
+                LoadableAsset<Sprite> icon;
+
+                if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value)
+                {
+                    message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
+                    icon = TouRoleIcons.Neutral;
+                }
+                else
+                {
+                    message = $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonOther")
+                        .Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>";
+                    icon = TouRoleIcons.Executioner;
+                }
+
                 var notif1 = Helpers.CreateAndShowNotification(
-                    $"<b>{TouLocale.GetParsed("TouRoleExecutionerWonOther").Replace("<player>", exe.Player.Data.PlayerName).Replace("<role>", $"{TownOfUsColors.Executioner.ToTextColor()}{exe.RoleName}</color>")}</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Executioner.LoadAsset());
+                    message.Replace("<player>", exe.Player.Data.PlayerName),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: icon.LoadAsset());
 
                 notif1.AdjustNotification();
             }
