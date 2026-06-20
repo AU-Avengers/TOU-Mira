@@ -2368,6 +2368,18 @@ public static class MiscUtils
         GC.WaitForPendingFinalizers();
         GC.Collect(0, GCCollectionMode.Forced, blocking: true);
     }
+
+    public static void DelayExile(this PlayerControl localPlayer)
+    {
+        Coroutines.Start(CoWaitExile(localPlayer));
+    }
+
+    private static IEnumerator CoWaitExile(PlayerControl player)
+    {
+        yield return new WaitForSeconds(1f);
+
+        player.RpcPlayerExile();
+    }
 }
 
 public enum GameUtility

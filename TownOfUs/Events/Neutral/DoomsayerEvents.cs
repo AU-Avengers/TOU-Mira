@@ -63,7 +63,7 @@ public static class DoomsayerEvents
         {
             if (doom.Player.AmOwner)
             {
-                PlayerControl.LocalPlayer.RpcPlayerExile();
+                PlayerControl.LocalPlayer.DelayExile();
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TouLocale.GetParsed("TouRoleDoomsayerWonSelf").Replace("<role>", $"{TownOfUsColors.Doomsayer.ToTextColor()}{doom.RoleName}</color>")}</b>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Doomsayer.LoadAsset());

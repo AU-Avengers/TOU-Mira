@@ -101,7 +101,7 @@ public static class ExecutionerEvents
 
                 notif1.AdjustNotification();
 
-                PlayerControl.LocalPlayer.RpcPlayerExile();
+                PlayerControl.LocalPlayer.DelayExile();
 
                 if (winOption is ExeWinOptions.Torments)
                 {
