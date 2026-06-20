@@ -11,7 +11,7 @@ public sealed class RainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public void Update()
     {
-        if (Renderer == null)
+        if (!Renderer)
         {
             return;
         }
@@ -37,7 +37,7 @@ public sealed class BasicRainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
 
     public void Update()
     {
-        if (Renderer == null)
+        if (!Renderer)
         {
             return;
         }
@@ -45,6 +45,32 @@ public sealed class BasicRainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         if (RainbowUtils.IsRainbow(Id))
         {
             Renderer.color = RainbowUtils.SetBasicRainbow();
+        }
+    }
+
+    public void AddRend(SpriteRenderer rend, int id)
+    {
+        Renderer = rend;
+        Id = id;
+    }
+}
+
+[RegisterInIl2Cpp]
+public sealed class LightRainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
+{
+    public SpriteRenderer Renderer;
+    public int Id;
+
+    public void Update()
+    {
+        if (!Renderer)
+        {
+            return;
+        }
+
+        if (RainbowUtils.IsRainbow(Id))
+        {
+            Renderer.color = RainbowUtils.LightUp(RainbowUtils.SetBasicRainbow());
         }
     }
 
