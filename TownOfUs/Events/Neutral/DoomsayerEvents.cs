@@ -78,7 +78,7 @@ public static class DoomsayerEvents
                 if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin.Value)
                 {
                     message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
-                    icon = TouRoleIcons.Amnesiac;
+                    icon = TouRoleIcons.Neutral;
                 }
                 else
                 {

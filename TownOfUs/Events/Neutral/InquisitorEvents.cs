@@ -114,7 +114,7 @@ public static class InquisitorEvents
                 if (OptionGroupSingleton<InquisitorOptions>.Instance.InquisAnonymizeWin)
                 {
                     message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
-                    icon = TouRoleIcons.Amnesiac;
+                    icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
@@ -165,7 +165,7 @@ public static class InquisitorEvents
                 {
                     message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage")
                         .Replace("<player>", inquis.Player.Data.PlayerName);
-                    icon = TouRoleIcons.Amnesiac;
+                    icon = TouRoleIcons.Neutral;
                 }
                 else
                 {

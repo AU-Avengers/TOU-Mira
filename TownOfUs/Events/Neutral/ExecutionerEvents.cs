@@ -129,7 +129,7 @@ public static class ExecutionerEvents
                 if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value)
                 {
                     message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
-                    icon = TouRoleIcons.Amnesiac;
+                    icon = TouRoleIcons.Neutral;
                 }
                 else
                 {

@@ -76,7 +76,7 @@ public static class ChefEvents
                 if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
                 {
                     message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
-                    icon = TouRoleIcons.Amnesiac;
+                    icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
@@ -131,7 +131,7 @@ public static class ChefEvents
                 if (OptionGroupSingleton<ChefOptions>.Instance.ChefAnonymizeWin)
                 {
                     message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
-                    icon = TouRoleIcons.Amnesiac;
+                    icon = TouRoleIcons.Neutral;
                 }
                 else
                 {
