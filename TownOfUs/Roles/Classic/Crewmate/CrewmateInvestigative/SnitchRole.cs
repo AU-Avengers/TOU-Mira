@@ -12,7 +12,6 @@ using TownOfUs.Events;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
@@ -407,8 +406,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     private void CreateSnitchArrow(PlayerControl player, Color color)
     {
-        var arrow = MiscUtils.CreateArrow<HideableArrowBehavior>(player.transform, color);
-        arrow.Player = player;
+        var arrow = MiscUtils.CreateArrow(player.transform, color);
         _snitchArrows!.Add(player.PlayerId, arrow);
         PlayerNameColor.Set(player);
         player.AddModifier<SnitchImpostorRevealModifier>();

@@ -69,8 +69,8 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
                                           playerInfo.PlayerId != Player.PlayerId &&
                                           (!playerInfo.TryGetModifier<DisabledModifier>(out var mod) ||
                                            mod.IsConsideredAlive) &&
-                                          (!playerInfo.HasModifier<SwoopModifier>() ||
-                                           SwoopModifier.CanBeTracked == SwoopTracking.Always) &&
+                                          (SwoopModifier.CanBeTracked == SwoopTracking.Always ||
+                                           !playerInfo.HasModifier<SwoopModifier>()) &&
                                           !playerInfo.Data.IsDead);
         if (!target)
         {

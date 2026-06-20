@@ -5,7 +5,6 @@ using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -73,8 +72,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             color = Palette.PlayerColors[colorID];
         }
 
-        var arrow = MiscUtils.CreateArrow<HideableArrowBehavior>(Player.transform, color);
-        arrow.Player = player;
+        var arrow = MiscUtils.CreateArrow(Player.transform, color);
         arrow.target = position;
 
         try
