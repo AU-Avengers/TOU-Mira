@@ -26,8 +26,8 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
     public override bool CanBeInteractedWith => true;
     public override bool IsConsideredAlive => true;
     public override bool CanUseAbilities => true;
-    public override bool CanUseConsoles => false;
-    public override bool CanOpenMap => false;
+    public override bool CanUseConsoles => Player.IsImpostorAligned();
+    public override bool CanOpenMap => Player.IsImpostorAligned();
     public override bool CanReport => false;
     public PlayerControl Grenadier => grenadier;
 
