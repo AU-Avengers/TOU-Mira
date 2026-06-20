@@ -75,7 +75,7 @@ public static class DoomsayerEvents
                 string message;
                 LoadableAsset<Sprite> icon;
 
-                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin)
+                if (OptionGroupSingleton<DoomsayerOptions>.Instance.DoomAnonymizeWin.Value)
                 {
                     message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Amnesiac;

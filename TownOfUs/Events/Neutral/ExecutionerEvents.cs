@@ -126,7 +126,7 @@ public static class ExecutionerEvents
                 string message;
                 LoadableAsset<Sprite> icon;
 
-                if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin)
+                if (OptionGroupSingleton<ExecutionerOptions>.Instance.ExeAnonymizeWin.Value)
                 {
                     message = TouLocale.GetParsed("TouNeutAnonymousVictoryMessage");
                     icon = TouRoleIcons.Amnesiac;
