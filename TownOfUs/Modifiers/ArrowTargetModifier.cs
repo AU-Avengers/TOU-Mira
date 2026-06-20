@@ -1,7 +1,9 @@
-﻿using MiraAPI.Modifiers.Types;
+﻿using MiraAPI.Modifiers;
+using MiraAPI.Modifiers.Types;
 using MiraAPI.PluginLoading;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Modules;
+using TownOfUs.Modifiers.Impostor;
+using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers;
@@ -29,8 +31,7 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
 
     public override void OnActivate()
     {
-        var arrow = MiscUtils.CreateArrow<HideableArrowBehavior>(Owner.transform, color);
-        arrow.Player = Player;
+        var arrow = MiscUtils.CreateArrow(Owner.transform, color);
         _arrow = arrow;
     }
 
@@ -58,8 +59,11 @@ public abstract class ArrowTargetModifier(PlayerControl owner, Color color, floa
             ModifierComponent!.RemoveModifier(this);
             return;
         }
+        
+        var hide = SwoopModifier.CanBeTracked == SwoopTracking.Never &&
+                   Player.HasModifier<SwoopModifier>();
 
-        if (_updateInterval <= 0 || _time <= DateTime.UtcNow.AddSeconds(-_updateInterval))
+        if (!hide && (_updateInterval <= 0 || _time <= DateTime.UtcNow.AddSeconds(-_updateInterval)))
         {
             if (_arrow != null)
             {

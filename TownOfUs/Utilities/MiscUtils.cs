@@ -1399,11 +1399,6 @@ public static class MiscUtils
 
     public static ArrowBehaviour CreateArrow(Transform parent, Color color)
     {
-        return CreateArrow<ArrowBehaviour>(parent, color);
-    }
-
-    public static TArrow CreateArrow<TArrow>(Transform parent, Color color) where TArrow : ArrowBehaviour
-    {
         var gameObject = new GameObject("Arrow")
         {
             layer = 5,
@@ -1417,7 +1412,7 @@ public static class MiscUtils
         renderer.sprite = TouAssets.ArrowSprite.LoadAsset();
         renderer.color = color;
 
-        var arrow = gameObject.AddComponent<TArrow>();
+        var arrow = gameObject.AddComponent<ArrowBehaviour>();
         arrow.image = renderer;
         arrow.image.color = color;
 
@@ -2255,7 +2250,14 @@ public static class MiscUtils
 
     public static void DeepDestroy(this GameObject? obj, bool clearGc = true)
     {
-        Coroutines.Start(Nuke(obj, clearGc));
+        if (LogoPatch.NeedsDeepDestroy)
+        {
+            Coroutines.Start(Nuke(obj, clearGc));
+        }
+        else
+        {
+            obj?.Destroy();
+        }
     }
 
     private static IEnumerator Nuke(GameObject? go, bool clearGc)
@@ -2351,6 +2353,10 @@ public static class MiscUtils
 
     public static void ClearGarbageCollector()
     {
+        if (!LogoPatch.NeedsDeepDestroy)
+        {
+            return;
+        }
         Coroutines.Start(CoFreeResources());
     }
 
