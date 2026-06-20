@@ -1,9 +1,7 @@
-﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -51,14 +49,12 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
         }
 
         PlayerControl.LocalPlayer.RpcAddModifier<GrenadierFlashModifier>(PlayerControl.LocalPlayer);
+        HudManager.Instance.StartCoroutine(HudManager.Instance.PlayerCam.CoShakeScreen(0.2f, 2f));
         var notif1 = Helpers.CreateAndShowNotification(
             $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{TouLocale.GetParsed("TouRoleGrenadierFlashNotif")}</color></b>",
             Color.white, new Vector3(0f, 1f, -150f),
             spr: TouRoleIcons.Grenadier.LoadAsset());
         notif1.AdjustNotification();
-
-        Coroutines.Start(
-            Effects.Shake(HudManager.Instance.PlayerCam.transform, 0.2f, 0.1f, true, true).WrapToManaged());
 
         SoundManager.Instance.PlaySound(TouAudio.GrenadeSound.LoadAsset(), false);
     }

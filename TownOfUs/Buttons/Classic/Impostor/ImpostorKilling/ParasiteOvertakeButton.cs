@@ -81,26 +81,21 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         }
     }
 
-    public override bool Enabled(RoleBehaviour? role)
-    {
-        return role is ParasiteRole;
-    }
-
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole pr)
+        if (!Role)
         {
             return false;
         }
 
-        if (pr.Controlled != null)
+        if (Role.Controlled != null)
         {
             if (!CanUseWhileControlling())
             {
                 return false;
             }
 
-            var controlled = pr.Controlled;
+            var controlled = Role.Controlled;
             if (controlled == null ||
                 controlled.Data == null ||
                 controlled.HasDied() ||
@@ -114,7 +109,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 return false;
             }
 
-            if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
+            if (Role.GetOvertakeKillLockoutRemainingSeconds() > 0f)
             {
                 return false;
             }
@@ -126,7 +121,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
     public override bool CanClick()
     {
-        if (PlayerControl.LocalPlayer?.Data?.Role is ParasiteRole pr && pr.Controlled != null)
+        if (Role && Role.Controlled != null)
         {
             return CanUse();
         }

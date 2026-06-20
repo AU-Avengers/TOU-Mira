@@ -41,6 +41,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     public CustomRoleConfiguration Configuration => new(this)
     {
         Icon = TouRoleIcons.Bomber,
+        IntroSound = TouAudio.ExplodeIntro,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<BomberOptions>.Instance.CanVent
     };

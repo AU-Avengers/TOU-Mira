@@ -157,6 +157,9 @@ public static class TouAssets
     public static LoadableAsset<GameObject> MedicShield { get; } =
         new LoadableBundleAsset<GameObject>("MedicShield", MainBundle);
 
+    public static LoadableAsset<GameObject> MagicMirror { get; } =
+        new LoadableBundleAsset<GameObject>("MagicMirror", MainBundle);
+
     public static LoadableAsset<GameObject> ParasiteOverlay { get; } =
         new LoadableBundleAsset<GameObject>("ParasiteOverlayObj", MainBundle);
 

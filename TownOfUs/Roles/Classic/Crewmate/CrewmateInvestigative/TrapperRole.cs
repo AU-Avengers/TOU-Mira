@@ -52,7 +52,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         Icon = TouRoleIcons.Trapper,
         OptionsScreenshot = TouBanners.TrapperRoleBanner,
-        IntroSound = TouAudio.TrackerIntroSound
+        IntroSound = TouAudio.SuspenseIntro,
     };
 
     public void LobbyStart()
