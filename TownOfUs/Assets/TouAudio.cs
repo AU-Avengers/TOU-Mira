@@ -190,6 +190,9 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> MirrorcasterShatter { get; } =
         new LoadableBundleAsset<AudioClip>("MirrorcasterShatter", TouAssets.MainBundle);
 
+    public static LoadableAsset<AudioClip> BombExplode { get; } =
+        new LoadableAudioResourceAsset("TownOfUs.Resources.BombExplode.wav");
+
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {
         if (Constants.ShouldPlaySfx())
