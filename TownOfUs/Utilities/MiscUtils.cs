@@ -2255,7 +2255,14 @@ public static class MiscUtils
 
     public static void DeepDestroy(this GameObject? obj, bool clearGc = true)
     {
-        Coroutines.Start(Nuke(obj, clearGc));
+        if (LogoPatch.NeedsDeepDestroy)
+        {
+            Coroutines.Start(Nuke(obj, clearGc));
+        }
+        else
+        {
+            obj?.Destroy();
+        }
     }
 
     private static IEnumerator Nuke(GameObject? go, bool clearGc)
@@ -2351,6 +2358,10 @@ public static class MiscUtils
 
     public static void ClearGarbageCollector()
     {
+        if (!LogoPatch.NeedsDeepDestroy)
+        {
+            return;
+        }
         Coroutines.Start(CoFreeResources());
     }
 
