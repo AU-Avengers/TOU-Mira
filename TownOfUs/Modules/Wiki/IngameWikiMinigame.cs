@@ -28,7 +28,10 @@ namespace TownOfUs.Modules.Wiki;
 public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 {
     public GameObject SearchIcon;
+    // TODO: Improve the wiki to store all entries rather than destroy then. All items should also use a mono behaviour that allows the chances and amount to change immediately without issue.
     private List<Transform> _activeItems = [];
+    /*private List<Transform> _inactiveItems = [];
+    private List<Transform> _allItems = [];*/
     private List<RoleBehaviour> _roleList = [];
 
     private WikiPage _currentPage = WikiPage.Homepage;
@@ -747,7 +750,36 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }
         else if (_selectedItem is BaseModifier baseModifier)
         {
-            DetailScreenItemName.Value.text = baseModifier.ModifierName;
+            var faction = MiscUtils.GetModifierFaction(baseModifier);
+            var alignment = MiscUtils.GetParsedModifierFaction(faction);
+            var basicFaction = faction.ToString();
+            var non = basicFaction.Contains("Non");
+            var color = MiscUtils.GetModifierColour(baseModifier);
+            if (baseModifier is not AllianceGameModifier)
+            {
+                if (basicFaction.Contains("Crew") && !non)
+                {
+                    color = TownOfUsColors.CrewmateWiki;
+                }
+                else if (basicFaction.Contains("Neut") && !non)
+                {
+                    color = TownOfUsColors.NeutralWiki;
+                }
+                else if (basicFaction.Contains("Imp") && !non)
+                {
+                    color = TownOfUsColors.ImpWiki;
+                }
+                else if (basicFaction.Contains("Game") || non)
+                {
+                    color = TownOfUsColors.Other;
+                }
+                else if (baseModifier is UniversalGameModifier || baseModifier is TouGameModifier)
+                {
+                    color = baseModifier.FreeplayFileColor;
+                }
+            }
+            DetailScreenItemName.Value.text =
+                $"{baseModifier.ModifierName}\n<size=60%>{color.ToTextColor()}{alignment}</size></color>";
             DetailScreenIcon.Value.sprite = baseModifier.ModifierIcon != null
                 ? baseModifier.ModifierIcon.LoadAsset()
                 : TouRoleIcons.RandomAny.LoadAsset();
@@ -854,11 +886,11 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         SearchIcon.SetActive(true);
 
-        var oldMax = Mathf.Max(0f, SearchScroller.Value.Inner.GetChildCount() * 0.725f);
+        var oldMax = Mathf.Max(0f, _activeItems.Count * 0.725f);
 
         _activeItems.Do(x => x.gameObject.DeepDestroy(false));
-        _activeItems.Clear();
         MiscUtils.ClearGarbageCollector();
+        _activeItems.Clear();
 
         SearchTextbox.Value.SetText(string.Empty);
 
@@ -1076,7 +1108,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
         SearchPageIcon.Value.SetSizeLimit(1.44f);
 
-        var max = Mathf.Max(0f, SearchScroller.Value.Inner.GetChildCount() * 0.725f);
+        var max = Mathf.Max(0f, _activeItems.Count * 0.725f);
         SearchScroller.Value.SetBounds(new FloatRange(-0.4f, max), null);
         if (oldMax != max)
         {

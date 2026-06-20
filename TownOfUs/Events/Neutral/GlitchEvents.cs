@@ -20,7 +20,7 @@ public static class GlitchEvents
             return;
         }
 
-        CheckForGlitchHacked(@event, source, true);
+        CheckForGlitchHacked(@event, source);
     }
     [RegisterEvent]
     public static void VanillaButtonClickEventHandler(VanillaButtonClickEvent @event)
@@ -33,7 +33,7 @@ public static class GlitchEvents
             return;
         }
 
-        CheckForGlitchHacked(@event, source, true);
+        CheckForGlitchHacked(@event, source);
     }
 
     [RegisterEvent]
@@ -44,7 +44,7 @@ public static class GlitchEvents
         CheckForGlitchHacked(@event, source);
     }
 
-    private static void CheckForGlitchHacked(MiraCancelableEvent miraEvent, PlayerControl source, bool isLocal = false)
+    private static void CheckForGlitchHacked(MiraCancelableEvent miraEvent, PlayerControl source)
     {
         if (MeetingHud.Instance || ExileController.Instance)
         {
@@ -59,13 +59,9 @@ public static class GlitchEvents
         miraEvent.Cancel();
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{source.Data.PlayerName} was hacked, cancelling their interaction!");
 
-        if (isLocal)
+        if (source.AmOwner)
         {
             GlitchRole.RpcTriggerGlitchHack(source, false);
-        }
-        else
-        {
-            source.GetModifier<GlitchHackedModifier>()!.ShowHacked();
         }
     }
 }

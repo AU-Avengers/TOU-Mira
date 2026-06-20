@@ -9,6 +9,7 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
+using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Events;
@@ -63,7 +64,7 @@ public static class HnsGamemodeEvents
             {
                 if (PlayerControl.LocalPlayer.inVent)
                 {
-                    PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
+                    GlitchRole.RpcTriggerGlitchHack(PlayerControl.LocalPlayer, false);
                     PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                     PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
                 }

@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -39,7 +38,7 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         Icon = TouRoleIcons.Morphling,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = (MorphlingVent)OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is not MorphlingVent.Never,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Shapeshifter)
+        IntroSound = TouAudio.ShapeshifterIntroSound
     };
 
     public void LobbyStart()

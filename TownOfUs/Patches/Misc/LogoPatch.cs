@@ -22,9 +22,15 @@ public static class LogoPatch
     public const string BepInExDownloadUrl64 = "https://builds.bepinex.dev/projects/bepinex_be/752/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.752%2Bdd0655f.zip";
 #pragma warning restore S1075
     public static string BepInExDownloadUrl => Environment.Is64BitProcess ? BepInExDownloadUrl64 : BepInExDownloadUrl32;
+
+    public static bool NeedsDeepDestroy;
     //public static bool UpdateRequired => !TownOfUsPlugin.IsMobile && Paths.BepInExVersion.ToString().Remove(BepInVersionPrefix.Length);
     public static void Postfix()
     {
+        var requiredVersion = new Version(2026, 6, 5);
+        var version = Version.Parse(Application.version);
+        NeedsDeepDestroy = version >= requiredVersion;
+        Warning($"Current AU Version is {version} | Needs Deep Destroy: {NeedsDeepDestroy}");
         ModStampPatch.StampPlacement = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ModStampPlacement.Value;
         RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).StringName =
             CustomStringName.CreateAndRegister("Crewmate Ghost");

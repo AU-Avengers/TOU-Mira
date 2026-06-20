@@ -21,6 +21,11 @@ public static class RainbowUtils
         return new Color(color.r - 0.3f, color.g - 0.3f, color.b - 0.3f);
     }
 
+    public static Color LightUp(Color color)
+    {
+        return new Color(color.r + 0.3f, color.g + 0.3f, color.b + 0.3f);
+    }
+
     public static void SetRainbow(Renderer rend)
     {
         rend.material.SetColor(ShaderID.BackColor, RainbowShadow);

@@ -14,7 +14,6 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
 {
     public override string ModifierName => $"Magic Mirror";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Mirrorcaster;
-    public override float Duration => 2.5f;
 
     public override string ShieldDescription =>
         $"You are protected by the Mirrorcaster!\nYou may not die to other players";
@@ -42,7 +41,7 @@ public sealed class MagicMirrorModifier(PlayerControl mirrorcaster) : BaseShield
         ShowShield = Mirrorcaster.AmOwner ||
                      (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
 
-        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MedicShield.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
+        MedicShield = AnimStore.SpawnAnimBody(Player, TouAssets.MagicMirror.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
     }
 
     public override void OnDeactivate()

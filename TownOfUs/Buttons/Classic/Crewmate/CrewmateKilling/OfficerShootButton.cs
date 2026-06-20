@@ -6,7 +6,6 @@ using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
-using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -33,14 +32,12 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
     public bool FailedShot => RoundsBeforeReset > 0;
     public int TotalBullets { get; set; } = -1;
     public int LoadedBullets { get; set; }
-
-    public static bool Usable =>
-        OptionGroupSingleton<OfficerOptions>.Instance.FirstRoundShooting || TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
+    public override bool UsableFirstRound => OptionGroupSingleton<OfficerOptions>.Instance.FirstRoundShooting;
     public static int MaxLoadedBullets => (int)OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
 
     public override bool CanUse()
     {
-        return base.CanUse() && Usable && !FailedShot && LoadedBullets > 0;
+        return base.CanUse() && !FailedShot && LoadedBullets > 0;
     }
 
     public void UpdateUses()
