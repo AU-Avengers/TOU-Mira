@@ -13,7 +13,7 @@ using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
 namespace TownOfUs.Networking;
 
-[RegisterCustomRpc((uint)TownOfUsInternalRpc.SendClientModInfo)]
+[RegisterCustomRpc((uint)TownOfUsRpc.SendClientModInfo)]
 internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
     : PlayerCustomRpc<TownOfUsPlugin, Dictionary<byte, string>>(plugin, id)
 {

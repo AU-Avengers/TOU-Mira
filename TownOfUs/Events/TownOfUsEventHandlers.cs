@@ -46,6 +46,7 @@ using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
@@ -796,7 +797,7 @@ public static class TownOfUsEventHandlers
             {
                 if (PlayerControl.LocalPlayer.inVent)
                 {
-                    PlayerControl.LocalPlayer.GetModifier<GlitchHackedModifier>()!.ShowHacked();
+                    GlitchRole.RpcTriggerGlitchHack(PlayerControl.LocalPlayer, false);
                     PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                     PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
                 }

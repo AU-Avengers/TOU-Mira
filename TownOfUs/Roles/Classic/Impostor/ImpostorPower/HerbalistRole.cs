@@ -123,8 +123,8 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        if (PlayerControl.LocalPlayer.PlayerId == source.PlayerId ||
-            (PlayerControl.LocalPlayer.PlayerId == cleric.PlayerId &&
+        if (source.AmOwner ||
+            (cleric.AmOwner &&
              OptionGroupSingleton<HerbalistOptions>.Instance.AttackNotif))
         {
             Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
