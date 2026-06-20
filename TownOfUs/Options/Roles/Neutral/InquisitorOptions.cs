@@ -37,6 +37,6 @@ public sealed class InquisitorOptions : AbstractOptionGroup<InquisitorRole>
     public ModdedNumberOption AmountOfHeretics { get; set; } =
         new("TouOptionInquisitorHereticAmount", 3f, 3f, 5f, 1f, MiraNumberSuffixes.None, "0");
 
-    [ModdedToggleOption("TouOptionInquisitorNotifyWin")]
+    [ModdedToggleOption("TouOptionNeutAnonymousVictoryWin")]
     public bool InquisAnonymizeWin { get; set; } = true;
 }
