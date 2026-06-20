@@ -19,7 +19,7 @@ public sealed class ExecutionerOptions : AbstractOptionGroup<ExecutionerRole>
     public ExeWinOptions ExeWin { get; set; } = ExeWinOptions.Torments;
 
     public ModdedToggleOption ExeAnonymizeWin { get; set; } =
-        new("TouOptionNeutAnonymousVictoryWin", true)
+        new("TouOptionNeutAnonymousVictoryWin", false)
     {
         Visible = () => OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is not ExeWinOptions.EndsGame
     };

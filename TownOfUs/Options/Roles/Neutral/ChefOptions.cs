@@ -41,5 +41,5 @@ public sealed class ChefOptions : AbstractOptionGroup<ChefRole>
         };
 
     [ModdedToggleOption("TouOptionNeutAnonymousVictoryWin")]
-    public bool ChefAnonymizeWin { get; set; } = true;
+    public bool ChefAnonymizeWin { get; set; } = false;
 }
