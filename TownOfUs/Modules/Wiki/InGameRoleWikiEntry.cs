@@ -24,72 +24,41 @@ public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     [HideFromIl2Cpp] public string EntryTitle { get; set; }
     [HideFromIl2Cpp] public string EntryTeam { get; set; }
     [HideFromIl2Cpp] public string EntrySource { get; set; }
+    [HideFromIl2Cpp] public bool HasNoCount { get; set; }
 
     public void SetData()
     {
         var amount = 0;
         var chance = 0;
-        var hasNoAmount = false;
-        if (CustomRole != null)
+        if (!HasNoCount)
         {
-            if (CustomRole.Configuration.MaxRoleCount != 0 &&
-                !CustomRole.Configuration.HideSettings)
+            if (CustomRole != null)
             {
                 amount = (int)CustomRole.GetCount()!;
                 chance = (int)CustomRole.GetChance()!;
-                if (SoftWikiEntries.RoleEntries.ContainsKey(RoleBehaviour))
-                {
-                    SoftWikiEntries.RoleEntries.GetValueOrDefault(RoleBehaviour)!.EntryName = CustomRole.RoleName;
-                    SoftWikiEntries.RoleEntries.GetValueOrDefault(RoleBehaviour)!.GetAdvancedDescription =
-                        CustomRole.RoleDescription + MiscUtils.AppendOptionsText(RoleBehaviour.GetType());
-                }
             }
             else
             {
-                hasNoAmount = true;
-            }
-        }
-        else
-        {
-            var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
-            var roleOptions = currentGameOptions.RoleOptions;
+                var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
+                var roleOptions = currentGameOptions.RoleOptions;
 
-            amount = roleOptions.GetNumPerGame(RoleBehaviour.Role);
-            chance = roleOptions.GetChancePerGame(RoleBehaviour.Role);
-            var roleEntry = SoftWikiEntries.RoleEntries.GetValueOrDefault(RoleBehaviour)!;
-            roleEntry.EntryName = TranslationController.Instance.GetString(RoleBehaviour.StringName);
-            roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(RoleBehaviour.BlurbNameLong);
-            if (roleEntry.GetAdvancedDescription.Contains("STRMISS"))
-            {
-                var baseName = ($"{RoleBehaviour.StringName}").Replace("Role", "");
-                if (Enum.TryParse<StringNames>($"RolesHelp_{baseName}_01", out var helpName))
-                {
-                    roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(helpName);
-                }
+                amount = roleOptions.GetNumPerGame(RoleBehaviour.Role);
+                chance = roleOptions.GetChancePerGame(RoleBehaviour.Role);
             }
-        }
 
-        var txt = amount != 0
-            ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
-            : $"{TouLocale.Get("Amount", "Amount")}: 0";
+            var txt = amount != 0
+                ? $"{TouLocale.Get("Amount", "Amount")}: {amount} - {TouLocale.Get("Chance", "Chance")}: {chance}%"
+                : $"{TouLocale.Get("Amount", "Amount")}: 0";
+            EntryAmountTmp.Value.text =
+                $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{txt}</font>";
+        }
         EntryTitle = RoleBehaviour.GetRoleName();
         gameObject.name =
             $"{EntryTitle.ToLower(TownOfUsPlugin.Culture)} - {EntryTeam.ToLower(TownOfUsPlugin.Culture)} - {EntrySource.ToLower(TownOfUsPlugin.Culture)}";
 
-        if (hasNoAmount)
-        {
-            EntryAmountTmp.Value.text = string.Empty;
-            // EntryNameTmp.Value.transform.localPosition = new Vector3(0f, 0f, 0f);
-        }
-        else
-        {
-            EntryAmountTmp.Value.text =
-                $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{txt}</font>";
-            // EntryNameTmp.Value.transform.localPosition = new Vector3(0f, 0f, 0f);
-        }
         EntryNameTmp.Value.text =
             $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{EntryTitle}</font>";
-        if (!hasNoAmount && amount == 0)
+        if (!HasNoCount && amount == 0)
         {
             var baseColor = new Color32(210, 210, 210, 255);
             ButtonRenderer.Value.color = baseColor;
@@ -110,6 +79,17 @@ public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public void SetInitialData(RoleBehaviour role, Sprite sprite, string team, Color color, string source)
     {
         RoleBehaviour = role;
+        var roleEntry = SoftWikiEntries.RoleEntries.GetValueOrDefault(RoleBehaviour)!;
+        roleEntry.EntryName = TranslationController.Instance.GetString(RoleBehaviour.StringName);
+        roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(RoleBehaviour.BlurbNameLong);
+        if (roleEntry.GetAdvancedDescription.Contains("STRMISS"))
+        {
+            var baseName = ($"{RoleBehaviour.StringName}").Replace("Role", "");
+            if (Enum.TryParse<StringNames>($"RolesHelp_{baseName}_01", out var helpName))
+            {
+                roleEntry.GetAdvancedDescription = TranslationController.Instance.GetString(helpName);
+            }
+        }
         EntryTeam = team;
         EntrySource = source;
         EntryIconRenderer.Value.sprite = sprite;
@@ -127,6 +107,18 @@ public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     {
         RoleBehaviour = role;
         CustomRole = customRole;
+        HasNoCount = CustomRole.Configuration.MaxRoleCount == 0 || CustomRole.Configuration.HideSettings;
+        if (HasNoCount)
+        {
+            EntryNameTmp.Value.transform.localPosition -= new Vector3(0, 0.1f, 0);
+            EntryAmountTmp.Value.text = string.Empty;
+        }
+        if (SoftWikiEntries.RoleEntries.ContainsKey(RoleBehaviour))
+        {
+            SoftWikiEntries.RoleEntries.GetValueOrDefault(RoleBehaviour)!.EntryName = CustomRole.RoleName;
+            SoftWikiEntries.RoleEntries.GetValueOrDefault(RoleBehaviour)!.GetAdvancedDescription =
+                CustomRole.RoleDescription + MiscUtils.AppendOptionsText(RoleBehaviour.GetType());
+        }
         EntryTeam = team;
         EntrySource = source;
         EntryIconRenderer.Value.sprite = sprite;

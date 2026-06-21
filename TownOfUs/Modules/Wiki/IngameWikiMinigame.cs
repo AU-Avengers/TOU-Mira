@@ -14,7 +14,6 @@ using Reactor.Utilities.Extensions;
 using System.Text;
 using TMPro;
 using TownOfUs.Interfaces;
-using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -32,8 +31,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     private List<Transform> _activeItems = [];
     /*private List<Transform> _inactiveItems = [];
     private List<Transform> _allItems = [];*/
-    private List<InGameModifierWikiEntry> _modifierEntries = [];
-    private List<InGameRoleWikiEntry> _roleEntries = [];
+    private readonly List<InGameModifierWikiEntry> _modifierEntries = [];
+    private readonly List<InGameRoleWikiEntry> _roleEntries = [];
     private List<RoleBehaviour> _roleList = [];
 
     private WikiPage _currentPage = WikiPage.Homepage;
@@ -972,6 +971,10 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             else
             {
                 _activeItems = _modifierEntries.Select(x => x.transform).ToList();
+                foreach (var entry in _modifierEntries)
+                {
+                    entry.SetData();
+                }
             }
         }
         else
@@ -1078,6 +1081,10 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             else
             {
                 _activeItems = _roleEntries.Select(x => x.transform).ToList();
+                foreach (var entry in _roleEntries)
+                {
+                    entry.SetData();
+                }
             }
         }
 
