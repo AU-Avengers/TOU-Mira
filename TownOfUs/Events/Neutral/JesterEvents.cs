@@ -66,7 +66,7 @@ public static class JesterEvents
                         DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
-            else
+            else if (OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin)
             {
                 var text = TouLocale.GetParsed("TouNotifJesterWinGlobal");
                 if (text.Contains(jestRoleName))

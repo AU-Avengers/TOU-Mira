@@ -39,4 +39,7 @@ public sealed class ChefOptions : AbstractOptionGroup<ChefRole>
         {
             Visible = () => OptionGroupSingleton<ChefOptions>.Instance.ChefArrows
         };
+
+    [ModdedToggleOption("TouOptionNeutAnonymousVictoryWin")]
+    public bool ChefAnonymizeWin { get; set; } = false;
 }
