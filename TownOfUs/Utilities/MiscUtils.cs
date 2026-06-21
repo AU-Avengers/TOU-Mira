@@ -2353,10 +2353,6 @@ public static class MiscUtils
 
     public static void ClearGarbageCollector()
     {
-        if (!LogoPatch.NeedsDeepDestroy)
-        {
-            return;
-        }
         Coroutines.Start(CoFreeResources());
     }
 
