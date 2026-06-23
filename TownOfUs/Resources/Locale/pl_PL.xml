@@ -362,4 +362,13 @@
   <string name="TouOptionAltruistKillerEnumImpostors">Intruzi</string>
   <string name="TouOptionAltruistKillerEnumNeutralsAndImpostors">Neutrale i Intruzi</string>
   <string name="TouRoleImitatorImpostorCounterpartsWikiDescription">Bomber ⇨ Traper | Hipnotyzer ⇨ Obserwator | Sprzątacz ⇨ Kryminolog\%nl\%Górnik ⇨ Inżynier | Łowca Głów ⇨ Sonar\%nl\%Grabarz ⇨ Altruista | Czarnoksiężnik ⇨ Weteran</string>
+  <string name="TouRoleAmbassador">Ambasador</string>
+  <string name="TouRoleAmbassadorIntroBlurb">Zaprowadź \%color=#FF0000FF\%Intruzów\%/color\% do zwycięstwa</string>
+  <string name="TouRoleAmbassadorTabDescription">Zmień rolę swoją lub pozostałych Intruzów\%nl\%\%b\%Int Zabijający nie może być Silną rolą\%/b\%\%nl\%\%b\%Int Skrywający/Wsparcia nie może być Zabijający/Silną rolą\%/b\%</string>
+  <string name="TouRoleAmbassadorWikiDescription">Ambasador jest Intruzem Silnym który może zmienić rolę Intruzów na inną.</string>
+  <string name="TouRoleAmbassadorRetrain">Zmień</string>
+  <string name="TouRoleAmbassadorRetrainWiki">Zmień (Spotkanie)</string>
+  <string name="TouRoleAmbassadorRetrainWikiDescription">Zmień rolę swoją lub twoich intruzów na taką z podobną przynależnością. Intruz Zabijający może być zamieniony we wszystkie byle nie Silne role, natomiast Skrywające i Wsparcia mogą stać się sobą nawzajem.</string>
+  <string name="TouRoleAmbassadorRetrainsAvailable">\%retrainsLeft\% /\%retrainsTotal\% Pozostałe Zmiany</string>
+  <string name="TouRoleAmbassadorRetrainWaiting">Zmień się w Rundzie \%roundToWait\%</string>
 </resources>
