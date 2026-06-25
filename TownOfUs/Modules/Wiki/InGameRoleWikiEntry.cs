@@ -76,6 +76,7 @@ public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
+    [HideFromIl2Cpp]
     public void SetInitialData(RoleBehaviour role, Sprite sprite, string team, Color color, string source)
     {
         RoleBehaviour = role;

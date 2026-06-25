@@ -60,6 +60,8 @@ public sealed class InGameModifierWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPt
             RolloverHandler.Value.OverColor = new Color32(202, 202, 202, 255);
         }
     }
+
+    [HideFromIl2Cpp]
     public void SetInitialData(BaseModifier mod, Sprite sprite, string team, Color color, string source)
     {
         Modifier = mod;

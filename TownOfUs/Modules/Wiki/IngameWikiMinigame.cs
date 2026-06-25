@@ -1122,6 +1122,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         }));
     }
 
+    [HideFromIl2Cpp]
     private Transform CreateNewRoleItem(RoleBehaviour role, Sprite? sprite, string team, Color color, string source)
     {
         var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
@@ -1134,6 +1135,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         return newItem.transform;
     }
 
+    [HideFromIl2Cpp]
     private Transform CreateNewRoleItem(RoleBehaviour role, ICustomRole customRole, Sprite? sprite, string team, Color color, string source)
     {
         var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
@@ -1146,6 +1148,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         return newItem.transform;
     }
 
+    [HideFromIl2Cpp]
     private Transform CreateNewModifierItem(BaseModifier mod, Sprite? sprite, string team, Color color, string source)
     {
         var newItem = Instantiate(ModifierSearchItemTemplate.Value, SearchScroller.Value.Inner);
