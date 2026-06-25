@@ -50,27 +50,27 @@ public static class SwapperEvents
             originalVoteList.Add(TiebreakerEvents.TiebreakingVote.Value);
         }
 
-        var voteList = new List<CustomVote>();
+        @event.Votes.Clear();
 
         foreach (var vote in originalVoteList)
         {
             if (vote.Suspect == swap1)
             {
-                voteList.Add(new CustomVote(vote.Voter, swap2));
+                @event.Votes.Add(new CustomVote(vote.Voter, swap2));
             }
             else if (vote.Suspect == swap2)
             {
-                voteList.Add(new CustomVote(vote.Voter, swap1));
+                @event.Votes.Add(new CustomVote(vote.Voter, swap1));
             }
             else
             {
-                voteList.Add(vote);
+                @event.Votes.Add(vote);
             }
         }
 
         if (@event.ExiledPlayer != null)
         {
-            @event.ExiledPlayer = VotingUtils.GetExiled(voteList, out _);
+            @event.ExiledPlayer = VotingUtils.GetExiled(@event.Votes, out _);
         }
     }
 
