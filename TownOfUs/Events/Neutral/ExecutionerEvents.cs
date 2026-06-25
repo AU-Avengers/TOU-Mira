@@ -14,6 +14,7 @@ using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
@@ -148,20 +149,27 @@ public static class ExecutionerEvents
     }
 
     [RegisterEvent]
-    public static void HandleVoteEventHandler(HandleVoteEvent @event)
+    public static void HandleVoteEventHandler(VotingCompleteEvent @event)
     {
-        var votingPlayer = @event.Player;
-        var suspectPlayer = @event.TargetPlayerInfo;
-
-        if (suspectPlayer == null || !suspectPlayer._object.TryGetModifier<ExecutionerTargetModifier>(out var exeMod))
+        var states = MeetingHudGetVotesPatch.States;
+        var exes = CustomRoleUtils.GetActiveRolesOfType<ExecutionerRole>();
+        if (!exes.HasAny())
         {
             return;
         }
-
-        var exe = GameData.Instance.GetPlayerById(exeMod.OwnerId).Object;
-        if (exe != null && !exe.HasDied() && exe.Data.Role is ExecutionerRole exeRole)
+        foreach (var state in states)
         {
-            exeRole.Voters.Add(votingPlayer.PlayerId);
+            if (state.SkippedVote || state.AmDead)
+            {
+                continue;
+            }
+            foreach (var exe in exes)
+            {
+                if (exe.Target?.PlayerId == state.VotedForId)
+                {
+                    exe.Voters.Add(state.VoterId);
+                }
+            }
         }
     }
 
