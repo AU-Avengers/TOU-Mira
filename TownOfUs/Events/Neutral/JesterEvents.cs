@@ -13,6 +13,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
@@ -110,6 +111,31 @@ public static class JesterEvents
         }
 
         jester.Voters.Add(votingPlayer.PlayerId);
+    }
+
+    [RegisterEvent]
+    public static void HandleVoteEventHandler(VotingCompleteEvent @event)
+    {
+        var states = MeetingHudGetVotesPatch.States;
+        var jests = CustomRoleUtils.GetActiveRolesOfType<JesterRole>();
+        if (!jests.HasAny())
+        {
+            return;
+        }
+        foreach (var state in states)
+        {
+            if (state.SkippedVote || state.AmDead)
+            {
+                continue;
+            }
+            foreach (var jest in jests)
+            {
+                if (jest.Player.PlayerId == state.VotedForId)
+                {
+                    jest.Voters.Add(state.VoterId);
+                }
+            }
+        }
     }
 
     [RegisterEvent]
