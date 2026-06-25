@@ -27,10 +27,7 @@ namespace TownOfUs.Modules.Wiki;
 public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 {
     public GameObject SearchIcon;
-    // TODO: Improve the wiki to store all entries rather than destroy then. All items should also use a mono behaviour that allows the chances and amount to change immediately without issue.
     private List<Transform> _activeItems = [];
-    /*private List<Transform> _inactiveItems = [];
-    private List<Transform> _allItems = [];*/
     private readonly List<InGameModifierWikiEntry> _modifierEntries = [];
     private readonly List<InGameRoleWikiEntry> _roleEntries = [];
     private List<RoleBehaviour> _roleList = [];
