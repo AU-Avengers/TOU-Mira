@@ -13,6 +13,7 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
@@ -125,27 +126,33 @@ public static class HunterEvents
     }
 
     [RegisterEvent]
-    public static void HandleVoteEventHandler(HandleVoteEvent @event)
+    public static void HandleVoteEventHandler(VotingCompleteEvent @event)
     {
         if (!OptionGroupSingleton<HunterOptions>.Instance.RetributionOnVote)
         {
             return;
         }
-
-        var votingPlayer = @event.Player;
-        var suspectPlayer = @event.TargetPlayerInfo;
-
-        if (suspectPlayer?.Role is not HunterRole hunter)
+        var states = MeetingHudGetVotesPatch.States;
+        var hunters = CustomRoleUtils.GetActiveRolesOfType<HunterRole>();
+        if (!hunters.HasAny())
         {
             return;
         }
-
-        if (votingPlayer.Data.Role is HunterRole)
+        foreach (var state in states)
         {
-            return;
+            if (state.SkippedVote || state.AmDead)
+            {
+                continue;
+            }
+            foreach (var hunter in hunters)
+            {
+                var voter = MiscUtils.PlayerById(state.VoterId);
+                if (hunter.Player.PlayerId != state.VoterId && hunter.Player.PlayerId == state.VotedForId && voter != null)
+                {
+                    hunter.LastVoted = voter;
+                }
+            }
         }
-
-        hunter.LastVoted = votingPlayer;
     }
 
 
