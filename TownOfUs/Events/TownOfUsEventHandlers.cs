@@ -307,7 +307,7 @@ public static class TownOfUsEventHandlers
 
         var exeButton = CustomButtonSingleton<ExeTormentButton>.Instance;
         var jestButton = CustomButtonSingleton<JesterHauntButton>.Instance;
-        var phantomButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
+        var phantomButton = CustomButtonSingleton<SpectreSpookButton>.Instance;
 
         exeButton.Show = false;
         jestButton.Show = false;

@@ -319,7 +319,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
                     }
                 }
 
-                var spookButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
+                var spookButton = CustomButtonSingleton<SpectreSpookButton>.Instance;
                 spookButton.Show = false;
             }
 
@@ -359,7 +359,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
                 if (Player.AmOwner)
                 {
-                    var spookButton = CustomButtonSingleton<PhantomSpookButton>.Instance;
+                    var spookButton = CustomButtonSingleton<SpectreSpookButton>.Instance;
                     spookButton.Show = true;
                     spookButton.SetActive(true, this);
                 }

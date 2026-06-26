@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class PhantomSpookButton : TownOfUsButton
+public sealed class SpectreSpookButton : TownOfUsButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleSpectreSpook", "Spook");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;

@@ -1527,6 +1527,15 @@
   <string name="TouOptionWardenFortEnumSelfAndWarden">Fortified + Warden</string>
   <string name="TouOptionWardenFortEnumEveryone">Everyone</string>
   <!-- Impostor Roles -->
+    <!-- Wraith - Impostor Afterlife -->
+    <!-- Wraith Wiki / Description -->
+    <string name="TouRoleWraith">Wraith</string>
+    <string name="TouRoleWraithIntroBlurb">Scare the Crewmates to death!</string>
+    <!-- You cannot start the game as this role, so an intro blurb is unnecessary -->
+    <string name="TouRoleWraithTabDescription">Scare the Crewmates to death!\%nl\%You are vulnerable once your teammate is dead.</string>
+    <string name="TouRoleWraithTabDescriptionMultiScare">Scare the Crewmates \%amount\% times to kill them!\%nl\%You are vulnerable once your teammate is dead.</string>
+    <string name="TouRoleWraithWikiDescription">The Wraith is an Impostor Ghost that can aid their teammates after death. They may scare players, marking them for death in the meeting if they are scared enough. Once no impostors are alive or they scare a certain amount of times, they are clickable.</string>
+    <string name="TouRoleWraithScare">Scare</string>
   <!-- Ambassador Wiki / Abilities -->
   <string name="TouRoleAmbassador">Ambassador</string>
   <string name="TouRoleAmbassadorIntroBlurb">Lead the \%color=#FF0000FF\%Impostors\%/color\% to victory</string>

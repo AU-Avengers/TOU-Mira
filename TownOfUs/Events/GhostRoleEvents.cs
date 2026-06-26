@@ -15,6 +15,7 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
@@ -88,6 +89,37 @@ public static class GhostRoleEvents
     public static IEnumerator CoSetGhostwalkers(PlayerControl? exiled)
     {
         yield return new WaitForSeconds(1f);
+
+        var wraithData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<WraithRole>());
+
+        if (CustomRoleUtils.GetActiveRoles().OfType<WraithRole>().Count() < wraithData.Count)
+        {
+            var isSkipped = wraithData.Chance < 100 && HashRandom.Next(101) > wraithData.Chance;
+
+            if (!isSkipped)
+            {
+                var deadImp = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                    (x.Data.IsDead || x == exiled) && x.GetRoleWhenAlive().IsImpostor() && !x.HasModifier<AllianceGameModifier>() &&
+                    x.CanGetGhostRole() &&
+                    x.Data.Role).ToList();
+                var anyLivingImps = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                    (!x.Data.IsDead && x != exiled) && x.IsImpostorAligned() &&
+                    x.CanGetGhostRole() &&
+                    x.Data.Role).HasAny();
+
+                if (deadImp.Count > 0 && anyLivingImps)
+                {
+                    deadImp.Shuffle();
+
+                    var player = deadImp.TakeFirst();
+
+                    if (player != null)
+                    {
+                        player.RpcChangeRole(RoleId.Get<WraithRole>());
+                    }
+                }
+            }
+        }
 
         var haunterData = MiscUtils.GetAssignData((RoleTypes)RoleId.Get<HaunterRole>());
 
