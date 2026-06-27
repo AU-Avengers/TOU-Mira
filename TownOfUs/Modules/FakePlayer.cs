@@ -191,11 +191,6 @@ public sealed class FakePlayer : IDisposable
 
         PlayerMaterial.SetColors(Color.grey, _cosmeticsLayer.currentBodySprite.BodySprite);
 
-        if (OriginalPlayer)
-        {
-            _nameTextMaster.text = OriginalPlayer.cosmetics.nameText.text;
-        }
-
         _nameTextMaster.color = Color.clear;
         _colorBindText.color = Color.clear;
     }
@@ -212,11 +207,6 @@ public sealed class FakePlayer : IDisposable
 
         _nameTextMaster.color = Color.white;
         _colorBindText.color = Color.white;
-        if (OriginalPlayer)
-        {
-            _nameTextMaster.text = OriginalPlayer.cosmetics.nameText.text;
-            _nameTextMaster.color = OriginalPlayer.cosmetics.nameText.color;
-        }
     }
 
     private SpriteRenderer CreateBodyImage(PlayerCosmicInfo info)

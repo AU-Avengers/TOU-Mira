@@ -160,6 +160,12 @@ public static class TouAssets
     public static LoadableAsset<GameObject> MagicMirror { get; } =
         new LoadableBundleAsset<GameObject>("MagicMirror", MainBundle);
 
+    public static LoadableAsset<GameObject> WraithRobe { get; } =
+        new LoadableBundleAsset<GameObject>("WraithCosmetic", MainBundle);
+
+    public static LoadableAsset<Sprite> JailorPlayerSprite { get; } =
+        new LoadableBundleAsset<Sprite>("JailorPlayer", MainBundle);
+
     public static LoadableAsset<GameObject> ParasiteOverlay { get; } =
         new LoadableBundleAsset<GameObject>("ParasiteOverlayObj", MainBundle);
 

@@ -1027,6 +1027,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
                     var teamName = MiscUtils.GetParsedRoleAlignment(role);
                     var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
+                    var modInfoTxt = "AU";
                     if (customRole != null)
                     {
                         // Hides hidden roles from other mods, but keeps them visible for Pest/Mayor
@@ -1034,6 +1035,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                         {
                             continue;
                         }
+                        modInfoTxt = RemoveNonCaps(customRole.ParentMod.MiraPlugin.OptionsTitleText);
 
                         if (customRole.Team is ModdedRoleTeams.Crewmate)
                         {
@@ -1057,8 +1059,6 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     {
                         roleImg = role.RoleIconSolid;
                     }
-
-                    var modInfoTxt = "AU";
 
                     var newItem = customRole == null
                         ? CreateNewRoleItem(role, roleImg, teamName, color, modInfoTxt)

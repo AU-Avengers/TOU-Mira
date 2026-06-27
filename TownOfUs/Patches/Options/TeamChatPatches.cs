@@ -894,7 +894,7 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JaileeChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text,
-                bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
+                bubbleType: BubbleType.Jailed, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
 

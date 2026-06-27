@@ -104,6 +104,7 @@ public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         EntryAmountTmp.Value.m_maxWidth = EntryAmountTmp.Value.maxWidth + 0.1f;
     }
 
+    [HideFromIl2Cpp]
     public void SetInitialData(RoleBehaviour role, ICustomRole customRole, Sprite sprite, string team, Color color, string source)
     {
         RoleBehaviour = role;

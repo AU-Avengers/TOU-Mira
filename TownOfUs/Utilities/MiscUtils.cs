@@ -1013,6 +1013,31 @@ public static class MiscUtils
             0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
         clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
 
+        if (bubbleType is BubbleType.Jailor)
+        {
+            pooledBubble.ColorBlindName.gameObject.SetActive(false);
+            clonedBubble.ColorBlindName.gameObject.SetActive(false);
+
+            var pooledCos = pooledBubble.Player.cosmetics;
+            pooledCos.skin.gameObject.SetActive(false);
+            pooledCos.hat.gameObject.SetActive(false);
+            pooledCos.skin.gameObject.SetActive(false);
+            pooledCos.currentBodySprite.BodySprite.enabled = false;
+            var jailedPlayer = Object.Instantiate(pooledCos.visor.gameObject, pooledCos.transform);
+            jailedPlayer.GetComponent<VisorLayer>().Destroy();
+            jailedPlayer.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite.LoadAsset();
+            pooledCos.visor.gameObject.SetActive(false);
+
+            var clonedCos = clonedBubble.Player.cosmetics;
+            clonedCos.skin.gameObject.SetActive(false);
+            clonedCos.hat.gameObject.SetActive(false);
+            clonedCos.skin.gameObject.SetActive(false);
+            clonedCos.currentBodySprite.BodySprite.enabled = false;
+            var jailedPlayer2 = Object.Instantiate(clonedCos.visor.gameObject, clonedCos.transform);
+            jailedPlayer2.GetComponent<VisorLayer>().Destroy();
+            jailedPlayer2.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite.LoadAsset();
+            clonedCos.visor.gameObject.SetActive(false);
+        }
         if (blackoutText)
         {
             pooledBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
@@ -1080,7 +1105,7 @@ public static class MiscUtils
             BubbleType.Impostor => TouChatAssets.ImpBubble.LoadAsset(),
             BubbleType.Vampire => TouChatAssets.VampBubble.LoadAsset(),
             BubbleType.Lover => TouChatAssets.LoveBubble.LoadAsset(),
-            BubbleType.Jailor => TouChatAssets.JailBubble.LoadAsset(),
+            BubbleType.Jailor or BubbleType.Jailed => TouChatAssets.JailBubble.LoadAsset(),
             _ => null,
         };
         if (actualSprite != null)
@@ -2413,5 +2438,6 @@ public enum BubbleType
     Impostor,
     Vampire,
     Jailor,
+    Jailed,
     Lover
 }
