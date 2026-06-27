@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class ForensicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
  public CrimeSceneComponent? InvestigatingScene { get; set; }

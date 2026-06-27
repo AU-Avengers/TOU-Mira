@@ -12,7 +12,7 @@ using TownOfUs.Modifiers.Game.Alliance;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class MonarchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;

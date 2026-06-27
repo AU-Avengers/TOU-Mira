@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
+public sealed class SwapperRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;

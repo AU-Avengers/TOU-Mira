@@ -14,7 +14,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class SpellslingerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class SpellslingerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<ClericRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;

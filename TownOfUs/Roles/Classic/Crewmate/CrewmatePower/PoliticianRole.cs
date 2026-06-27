@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
+public sealed class PoliticianRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;

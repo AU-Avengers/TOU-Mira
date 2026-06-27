@@ -20,7 +20,7 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
+public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, IWikiDiscoverable
 {
     public bool Revealed => TaskStage is GhostTaskStage.Revealed or GhostTaskStage.CompletedTasks;
     public bool CompletedAllTasks => TaskStage is GhostTaskStage.CompletedTasks;

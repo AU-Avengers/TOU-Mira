@@ -2,7 +2,6 @@
 
 using System.Reflection;
 using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Universal;

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class VeteranRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
 

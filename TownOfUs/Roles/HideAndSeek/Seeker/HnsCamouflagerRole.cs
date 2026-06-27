@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.HideAndSeek.Seeker;
 
-public sealed class HnsCamouflagerRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
+public sealed class HnsCamouflagerRole
+    : ImpostorRole, ITownOfUsRole, IWikiDiscoverable
 {
     public static PlayerBodyTypes HiderBodyType = PlayerBodyTypes.Normal;
     public static PlayerBodyTypes SeekerBodyType = PlayerBodyTypes.Seeker;

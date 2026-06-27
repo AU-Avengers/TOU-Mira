@@ -10,7 +10,7 @@ using Color = UnityEngine.Color;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class AurialRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     private readonly Dictionary<(Vector3, int), ArrowBehaviour> _senseArrows = new();
     public DoomableType DoomHintType => DoomableType.Perception;

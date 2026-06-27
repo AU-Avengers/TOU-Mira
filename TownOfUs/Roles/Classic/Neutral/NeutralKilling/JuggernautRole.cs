@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class JuggernautRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

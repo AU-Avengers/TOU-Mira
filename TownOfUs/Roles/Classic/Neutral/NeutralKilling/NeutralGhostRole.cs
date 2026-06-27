@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public class NeutralGhostRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole
+public class NeutralGhostRole : RoleBehaviour, ITownOfUsRole
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

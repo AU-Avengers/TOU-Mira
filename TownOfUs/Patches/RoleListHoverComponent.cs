@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Patches;
 
-public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
+public sealed class RoleListHoverComponent : MonoBehaviour
 {
     public TextMeshPro TextTarget;
 

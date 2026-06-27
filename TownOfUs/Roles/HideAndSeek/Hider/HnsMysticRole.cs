@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.HideAndSeek.Hider;
 
-public sealed class HnsMysticRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
+public sealed class HnsMysticRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
 {
     public string LocaleKey => "Mystic";
     public string RoleName => TouLocale.Get($"HnsRole{LocaleKey}");

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using BepInEx.Unity.IL2CPP.Utils.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -16,7 +15,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IRewindImmune
+public sealed class MediumRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, IRewindImmune
 {
     public override bool IsAffectedByComms => false;
     public bool IgnoredByRewind => false;

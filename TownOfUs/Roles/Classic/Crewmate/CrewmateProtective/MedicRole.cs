@@ -16,7 +16,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;

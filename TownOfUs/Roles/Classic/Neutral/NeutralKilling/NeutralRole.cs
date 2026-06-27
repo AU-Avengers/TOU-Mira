@@ -2,7 +2,7 @@
 
 namespace TownOfUs.Roles.Neutral;
 
-public abstract class NeutralRole(IntPtr cppPtr) : RoleBehaviour(cppPtr)
+public abstract class NeutralRole : RoleBehaviour
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

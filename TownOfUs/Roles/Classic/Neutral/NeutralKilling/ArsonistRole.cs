@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class ArsonistRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

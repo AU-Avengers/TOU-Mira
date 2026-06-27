@@ -113,7 +113,7 @@ public static class AprilFoolsPatches
                 Constants.OpenURL(SourceCodeUrl);
             }));
 
-            var uiList = new Il2CppSystem.Collections.Generic.List<PassiveButton>();
+            var uiList = new List<PassiveButton>();
             uiList.Add(__instance.playButton);
             uiList.Add(__instance.inventoryButton);
             uiList.Add(__instance.shopButton);

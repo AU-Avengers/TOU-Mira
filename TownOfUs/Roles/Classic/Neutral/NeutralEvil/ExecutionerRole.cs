@@ -21,7 +21,7 @@ using Random = System.Random;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
+public sealed class ExecutionerRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable,
     IAssignableTargets, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
@@ -116,14 +116,14 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralEvil;
 
     public bool SetupIntroTeam(IntroCutscene instance,
-        ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        ref List<PlayerControl> yourTeam)
     {
         if (!Player.AmOwner)
         {
             return true;
         }
 
-        var exeTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+        var exeTeam = new List<PlayerControl>();
 
         exeTeam.Add(PlayerControl.LocalPlayer);
         if (Target != null)

@@ -11,7 +11,7 @@ public static class TaskAssignmentPatch
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.AddTasksFromList))]
     [HarmonyPrefix]
     public static void Prefix(ShipStatus __instance, ref int count,
-        ref Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
+        ref List<NormalPlayerTask> unusedTasks)
     {
         var type = unusedTasks[0].Length;
 

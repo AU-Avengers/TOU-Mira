@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class HunterRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
 

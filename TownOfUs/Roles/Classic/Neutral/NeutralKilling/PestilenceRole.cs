@@ -17,8 +17,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class PestilenceRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IUnguessable, ICrewVariant
+public sealed class PestilenceRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, IUnguessable, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

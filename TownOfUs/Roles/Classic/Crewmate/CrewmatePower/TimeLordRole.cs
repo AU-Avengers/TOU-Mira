@@ -16,7 +16,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class TimeLordRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IRewindImmune
+public sealed class TimeLordRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, IRewindImmune
 {
     public override bool IsAffectedByComms => false;
     public bool IgnoredByRewind => false;

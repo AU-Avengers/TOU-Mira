@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Modules.Components;
 
-public class InventoryTabPaginationBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
+public class InventoryTabPaginationBehaviour : MonoBehaviour
 {
     public TextMeshPro title;
     public PassiveButton backButton;

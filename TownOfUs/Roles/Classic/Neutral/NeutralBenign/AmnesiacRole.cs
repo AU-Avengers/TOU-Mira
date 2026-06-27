@@ -21,8 +21,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class AmnesiacRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable, ICrewVariant
+public sealed class AmnesiacRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

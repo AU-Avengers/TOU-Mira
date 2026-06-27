@@ -17,8 +17,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class MinerRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class MinerRole
+    : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 { public List<Vent> Vents { get; set; } = [];
 
     public void FixedUpdate()

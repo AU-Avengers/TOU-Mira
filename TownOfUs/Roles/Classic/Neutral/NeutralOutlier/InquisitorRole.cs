@@ -25,7 +25,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
+public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable,
     IAssignableTargets, ICrewVariant, IContinuesGame, IUnlovable
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)

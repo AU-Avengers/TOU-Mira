@@ -15,7 +15,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ITransportTrigger
+public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ITransportTrigger
 {
     public MonoBehaviour? OnTransport()
     {

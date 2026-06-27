@@ -12,8 +12,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class HypnotistRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class HypnotistRole
+    : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     private MeetingMenu meetingMenu;
 

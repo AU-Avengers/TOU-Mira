@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
+public sealed class OfficerRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
     public bool CanBeTraitor => true;
     public bool CanBeCrewpostor => false;

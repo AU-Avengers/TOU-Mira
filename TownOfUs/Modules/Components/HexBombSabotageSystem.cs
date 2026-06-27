@@ -1,5 +1,4 @@
 using Hazel;
-using Il2CppInterop.Runtime.Injection;
 using MiraAPI.Roles;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
@@ -8,7 +7,7 @@ using TownOfUs.Roles.Impostor;
 namespace TownOfUs.Modules.Components;
 
 [RegisterInIl2Cpp(typeof(ISystemType), typeof(IActivatable))]
-public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cppPtr)
+public sealed class HexBombSabotageSystem : Il2CppSystem.Object
 {
     public const byte SabotageId = 150;
     public readonly float duration;

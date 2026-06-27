@@ -10,8 +10,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class SurvivorRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable
+public sealed class SurvivorRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, IGuessable
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

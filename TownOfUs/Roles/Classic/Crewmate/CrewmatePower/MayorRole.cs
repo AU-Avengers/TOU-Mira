@@ -16,8 +16,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MayorRole(IntPtr cppPtr)
-    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate
+public sealed class MayorRole
+    : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable, IUnguessable, ILoyalCrewmate
 {
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;

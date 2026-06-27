@@ -20,8 +20,8 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class JanitorRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class JanitorRole
+    : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public void FixedUpdate()
     {

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class SpyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class SpyRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek && MiscUtils.GetCurrentMap != ExpandedMapNames.Fungle;
     public DoomableType DoomHintType => DoomableType.Perception;

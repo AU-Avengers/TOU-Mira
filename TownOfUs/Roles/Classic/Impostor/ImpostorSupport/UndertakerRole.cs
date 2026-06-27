@@ -16,8 +16,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class UndertakerRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class UndertakerRole
+    : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public void FixedUpdate()
     {

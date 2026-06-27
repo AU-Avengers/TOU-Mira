@@ -15,8 +15,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class MercenaryRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
+public sealed class MercenaryRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

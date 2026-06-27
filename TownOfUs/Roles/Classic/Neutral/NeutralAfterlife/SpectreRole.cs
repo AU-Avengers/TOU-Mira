@@ -19,8 +19,8 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class SpectreRole(IntPtr cppPtr)
-    : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
+public sealed class SpectreRole
+    : NeutralGhostRole, ITownOfUsRole, IGhostRole, IWikiDiscoverable
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

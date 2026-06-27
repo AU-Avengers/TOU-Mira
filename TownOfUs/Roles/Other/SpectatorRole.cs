@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Other;
 
-public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownOfUsRole, IWikiDiscoverable
+public sealed class SpectatorRole : RoleBehaviour, ITownOfUsRole, IWikiDiscoverable
 {
     private Minigame _hauntMenu = null!;
 

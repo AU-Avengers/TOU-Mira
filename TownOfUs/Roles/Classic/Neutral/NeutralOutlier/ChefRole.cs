@@ -24,7 +24,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IUnlovable
+public sealed class ChefRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame, IUnlovable
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

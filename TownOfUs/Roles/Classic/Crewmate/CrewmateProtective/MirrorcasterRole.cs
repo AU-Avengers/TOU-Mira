@@ -16,7 +16,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class MirrorcasterRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
  public PlayerControl? Protected { get; set; }

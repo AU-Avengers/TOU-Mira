@@ -1,6 +1,5 @@
 using System.Reflection;
 using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;

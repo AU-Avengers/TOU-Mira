@@ -18,8 +18,8 @@ using Random = System.Random;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class PlaguebearerRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class PlaguebearerRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

@@ -1,5 +1,4 @@
 using Hazel;
-using Il2CppInterop.Runtime.Injection;
 using TownOfUs.Interfaces.BaseGame;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace TownOfUs.Modules.Components;
 // This is a reimplementation of DoorsSystemType for vanilla maps (mainly just skeld), as Impostor servers assume they're unchanged.
 
 [RegisterInIl2Cpp(typeof(ISystemType), typeof(IActivatable), typeof(RunTimer), typeof(IDoorSystem))]
-public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), BaseGame.ISystemType, BaseGame.IActivatable, BaseGame.IRunTimer, BaseGame.IDoorSystem
+public class ManualDoorsSystemType : Il2CppSystem.Object, BaseGame.ISystemType, BaseGame.IActivatable, BaseGame.IRunTimer, BaseGame.IDoorSystem
 {
     public const byte SystemId = 152;
     public const SystemTypes SystemType = (SystemTypes)SystemId;

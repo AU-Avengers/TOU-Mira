@@ -12,7 +12,7 @@ namespace TownOfUs.Modules.Components;
 
 [SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "Unity")]
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Unity")]
-public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
+public sealed class AmbassadorConfirmMinigame : Minigame
 {
     public TextMeshPro TitleText;
     public SpriteRenderer RoleIcon;

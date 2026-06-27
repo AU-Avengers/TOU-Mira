@@ -11,8 +11,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class JesterRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
+public sealed class JesterRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IGuessable
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

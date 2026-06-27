@@ -12,8 +12,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class WerewolfRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class WerewolfRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

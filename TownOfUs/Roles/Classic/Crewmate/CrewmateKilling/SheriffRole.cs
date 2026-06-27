@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class SheriffRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
     public bool HasMisfired { get; set; }

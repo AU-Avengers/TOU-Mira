@@ -42,11 +42,11 @@ public class TouLocalizationProvider : LocalizationProvider
         return false;
     }
 
-    public override bool TryGetTextFormatted(StringNames stringName, Il2CppReferenceArray<Il2CppSystem.Object> parts, out string? result)
+    public override bool TryGetTextFormatted(StringNames stringName, Object[] parts, out string? result)
     {
         if (!TryGetText(stringName, out result)) return false;
 
-        result = Il2CppSystem.String.Format(result, parts);
+        result = string.Format(result, parts);
         return true;
     }
 

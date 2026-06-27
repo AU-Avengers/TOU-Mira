@@ -1,7 +1,6 @@
 using AmongUs.Data;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Hud;

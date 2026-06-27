@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class WarlockRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class WarlockRole
+    : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;

@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class VigilanteRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable
 {
     private MeetingMenu meetingMenu;
 

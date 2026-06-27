@@ -35,10 +35,6 @@ public sealed class MedSpiritObject : InnerNetObject
     public float MaxSpeed { get; private set; }
     private bool WasInRewind { get; set; }
 
-    public MedSpiritObject(IntPtr cppPtr) : base(cppPtr)
-    {
-    }
-
     public override void ClearOrDecrementDirt()
     {
         // Not needed, but must be implemented

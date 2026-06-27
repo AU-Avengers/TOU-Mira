@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class HerbalistRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Herbalist";

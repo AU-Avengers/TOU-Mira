@@ -19,8 +19,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class AmbusherRole(IntPtr cppPtr)
-    : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class AmbusherRole
+    : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<SonarRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;

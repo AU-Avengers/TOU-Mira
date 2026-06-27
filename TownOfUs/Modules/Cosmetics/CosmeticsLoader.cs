@@ -4,6 +4,7 @@ using TownOfUs.Modules.Cosmetics.Pets;
 using TownOfUs.Modules.Cosmetics.Unity;
 using UnityEngine;
 using UnityEngine.ResourceManagement.ResourceProviders;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Cosmetics;
 
@@ -12,9 +13,9 @@ public class CosmeticsLoader
     private static CosmeticsLoader? _cosmeticsLoader;
     public static CosmeticsLoader Instance => _cosmeticsLoader ??= new CosmeticsLoader();
 
-    private readonly Il2CppSystem.Collections.Generic.List<Il2CppSystem.Object> _emptyKeys = new();
+    private readonly List<Il2CppSystem.Object> _emptyKeys = new();
 
-    public Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object> EmptyKeys { get; }
+    public IEnumerable<Object> EmptyKeys { get; }
 
     private CosmeticReleaseGroup CosmeticGroup { get; }
 
@@ -27,7 +28,7 @@ public class CosmeticsLoader
 
     private CosmeticsLoader()
     {
-        EmptyKeys = new Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object>(_emptyKeys.Pointer);
+        EmptyKeys = new IEnumerable<Il2CppSystem.Object>(_emptyKeys.Pointer);
         CosmeticGroup = ScriptableObject.CreateInstance<CosmeticReleaseGroup>();
         CosmeticGroup.date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 

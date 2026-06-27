@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class DeputyRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable
 {
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;

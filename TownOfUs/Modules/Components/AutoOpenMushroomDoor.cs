@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modules.Components;
 
-public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
+public sealed class AutoOpenMushroomDoor : AutoOpenDoor
 {
     public override bool DoUpdate(float dt)
     {

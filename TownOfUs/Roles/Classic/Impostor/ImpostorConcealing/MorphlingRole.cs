@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class MorphlingRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 { public PlayerControl? Sampled { get; set; }
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Morphling";

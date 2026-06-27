@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Injection;
-using UnityEngine.AddressableAssets;
+﻿using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
@@ -31,13 +30,13 @@ public class HatLocator : Il2CppSystem.Object
 
     public string LocatorId => GetType().FullName!;
 
-    public static Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object>
+    public static IEnumerable<Il2CppSystem.Object>
         Keys => CosmeticsLoader.Instance.EmptyKeys;
 
     private string ProviderId { get; } = typeof(HatProvider).FullName!;
 
     public bool Locate(Il2CppSystem.Object key, Il2CppSystem.Type type,
-        out Il2CppSystem.Collections.Generic.IList<IResourceLocation> locations)
+        out IList<IResourceLocation> locations)
     {
         locations = null!;
 
@@ -76,10 +75,10 @@ public class HatLocator : Il2CppSystem.Object
             il2CPPType
         );
 
-        var il2CPPList = new Il2CppSystem.Collections.Generic.List<ResourceLocationBase>();
+        var il2CPPList = new List<ResourceLocationBase>();
         il2CPPList.Add(location);
         // pointer magic cuz il2cpp interfaces are broken
-        locations = new Il2CppSystem.Collections.Generic.IList<IResourceLocation>(il2CPPList.Pointer);
+        locations = new IList<IResourceLocation>(il2CPPList.Pointer);
 
         return true;
     }

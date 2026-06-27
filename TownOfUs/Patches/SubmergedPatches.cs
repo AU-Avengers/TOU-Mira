@@ -3,7 +3,6 @@ using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
 using System.Reflection;
-using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.Utilities;
 
 namespace TownOfUs.Patches;

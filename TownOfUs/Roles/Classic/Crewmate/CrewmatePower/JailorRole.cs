@@ -21,7 +21,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
+public sealed class JailorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;

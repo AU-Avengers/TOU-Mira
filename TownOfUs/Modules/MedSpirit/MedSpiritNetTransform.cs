@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modules.MedSpirit;
 
-public sealed class MedSpiritNetTransform(nint cppPtr) : InnerNetObject(cppPtr)
+public sealed class MedSpiritNetTransform : InnerNetObject
 {
     private bool isPaused;
     private Rigidbody2D body;

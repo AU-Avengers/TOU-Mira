@@ -1,6 +1,5 @@
 using System.Collections;
 using AmongUs.Data;
-using BepInEx.Unity.IL2CPP.Utils.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
@@ -12,7 +11,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Components;
 
-public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
+public sealed class HexBombSabotageTask : PlayerTask
 {
     public override int TaskStep => !IsComplete ? 0 : 1;
     public override bool IsComplete => _isComplete;

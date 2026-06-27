@@ -35,9 +35,9 @@ public static class TeamChatPatches
     public static List<ChatBubble> PublicChatBubbles = new();
     public static List<ChatBubble> PrivateChatBubbles = new();
     public static List<MergedBubble> MergedChatBubbles = new();
-    public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PublicChatPool = new();
-    public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PrivateChatPool = new();
-    public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> MergedChatPool = new();
+    public static List<PoolableBehavior> PublicChatPool = new();
+    public static List<PoolableBehavior> PrivateChatPool = new();
+    public static List<PoolableBehavior> MergedChatPool = new();
 
     internal const string PrivateBubbleName = "Private_ChatBubble";
     internal const string PublicBubbleName = "Public_ChatBubble";
@@ -1106,7 +1106,7 @@ public static class TeamChatPatches
         }
         MergedBoundsY = Mathf.Min(0f, -num + instance.scroller.Hitbox.bounds.size.y + -0.3f);
 
-        var list = new Il2CppSystem.Collections.Generic.List<PoolableBehavior>();
+        var list = new List<PoolableBehavior>();
         if (updatePublic)
         {
             PublicChatBubbles.Do(x => list.Add(x));

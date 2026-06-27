@@ -16,7 +16,7 @@ public static class IntroScenePatches
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
     public static class IntroCutsceneSpectatorPatch
     {
-        public static void Prefix(ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay,
+        public static void Prefix(ref List<PlayerControl> teamToDisplay,
             IntroCutscene __instance)
         {
             foreach (var player in PlayerControl.AllPlayerControls)
@@ -30,7 +30,7 @@ public static class IntroScenePatches
             if (PlayerControl.LocalPlayer.HasModifier<CrewpostorModifier>() &&
                 !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode)
             {
-                var impTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                var impTeam = new List<PlayerControl>();
 
                 impTeam.Add(PlayerControl.LocalPlayer);
                 foreach (var impostor in Helpers.GetAlivePlayers().Where(x => x.IsImpostor()))

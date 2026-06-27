@@ -16,8 +16,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class GlitchRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class GlitchRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

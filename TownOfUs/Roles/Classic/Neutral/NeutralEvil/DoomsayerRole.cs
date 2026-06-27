@@ -23,8 +23,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class DoomsayerRole(IntPtr cppPtr)
-    : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
+public sealed class DoomsayerRole
+    : NeutralRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant, IContinuesGame
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {

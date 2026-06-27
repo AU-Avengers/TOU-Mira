@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class EclipsalRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Eclipsal";

@@ -15,7 +15,7 @@ using UnityEngine.Events;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
+public sealed class ProsecutorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable
 { public PlayerVoteArea? ProsecuteButton { get; private set; }
 
     public bool HasProsecuted { get; private set; }

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class SentryRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public string LocaleKey => "Sentry";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

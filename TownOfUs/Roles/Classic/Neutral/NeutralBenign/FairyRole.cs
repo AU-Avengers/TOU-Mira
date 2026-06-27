@@ -23,7 +23,7 @@ using Random = System.Random;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable,
+public sealed class FairyRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable,
     IDoomable, IAssignableTargets, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
@@ -135,14 +135,14 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
 
     public bool SetupIntroTeam(IntroCutscene instance,
-        ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        ref List<PlayerControl> yourTeam)
     {
         if (!Player.AmOwner)
         {
             return true;
         }
 
-        var gaTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+        var gaTeam = new List<PlayerControl>();
 
         gaTeam.Add(PlayerControl.LocalPlayer);
         if (Target != null)

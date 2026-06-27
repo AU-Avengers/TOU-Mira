@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modules.Components;
 
-public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
+public sealed class CrimeSceneComponent : MonoBehaviour
 {
     public static readonly List<CrimeSceneComponent> _crimeScenes = [];
 

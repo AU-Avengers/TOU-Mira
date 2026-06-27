@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Modules.Components;
 
-public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
+public sealed class GuesserMenu : Minigame
 {
     private UiElement? backButton;
     private int currentPage;
@@ -137,7 +137,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         return Mathf.Max(1, Mathf.CeilToInt(itemCount / (float)ItemsPerPage));
     }
 
-    private void RefreshControllerOverlay(Il2CppSystem.Collections.Generic.List<UiElement> list)
+    private void RefreshControllerOverlay(List<UiElement> list)
     {
         if (ControllerManager.Instance && backButton != null)
         {
@@ -172,7 +172,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         RefreshControllerOverlay(list);
     }
 
-    public Il2CppSystem.Collections.Generic.List<UiElement> ShowPage()
+    public List<UiElement> ShowPage()
     {
         foreach (var entry in allEntries)
         {
@@ -188,7 +188,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         currentPage = Mathf.Clamp(currentPage, 0, totalPages - 1);
 
         var list = filtered.Skip(currentPage * ItemsPerPage).Take(ItemsPerPage).ToList();
-        var list2 = new Il2CppSystem.Collections.Generic.List<UiElement>();
+        var list2 = new List<UiElement>();
 
         for (var i = 0; i < list.Count; i++)
         {
