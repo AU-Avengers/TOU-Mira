@@ -81,7 +81,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
         Player.gameObject.layer = LayerMask.NameToLayer("Players");
 
         Player.gameObject.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-        Player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Player.OnClick()));
+        Player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((() => Player.OnClick()));
         Player.gameObject.GetComponent<BoxCollider2D>().enabled = true;
 
         if (Player.AmOwner)
@@ -246,7 +246,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
         player.gameObject.layer = LayerMask.NameToLayer("Players");
 
         player.gameObject.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-        player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => player.OnClick()));
+        player.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((() => player.OnClick()));
         player.gameObject.GetComponent<BoxCollider2D>().enabled = true;
     }
 
@@ -273,13 +273,13 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
 
     public override bool CanUse(IUsable console)
     {
-        var validUsable = console.TryCast<Console>() ||
-                          console.TryCast<DoorConsole>() ||
-                          console.TryCast<OpenDoorConsole>() ||
-                          console.TryCast<DeconControl>() ||
-                          console.TryCast<PlatformConsole>() ||
-                          console.TryCast<Ladder>() ||
-                          console.TryCast<ZiplineConsole>();
+        var validUsable = console is Console ||
+                          console is DoorConsole ||
+                          console is OpenDoorConsole ||
+                          console is DeconControl ||
+                          console is PlatformConsole ||
+                          console is Ladder ||
+                          console is ZiplineConsole;
 
         return GhostActive && validUsable;
     }
@@ -462,7 +462,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
 
         if (player.myTasks != null && player.myTasks.Count > 0)
         {
-            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && x is not ImportantTextTask);
             foreach (var t in tasks)
             {
                 total++;

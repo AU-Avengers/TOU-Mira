@@ -156,7 +156,7 @@ public static class GhostRoleUsePatches
 
         try
         {
-            minigame.Cast<IDoorMinigame>().SetDoor(__instance.MyDoor);
+            (minigame as IDoorMinigame)!.SetDoor(__instance.MyDoor);
         }
         catch (InvalidCastException)
         {

@@ -101,6 +101,13 @@ public class WikiHyperlink : MonoBehaviour
 
         var wiki = IngameWikiMinigame.Create();
         wiki.Begin(null);
-        wiki.OpenFor(wikiEntry);
+        if (wikiEntry is IWikiDiscoverable discoverableWiki)
+        {
+            wiki.OpenFor(discoverableWiki);
+        }
+        else
+        {
+            wiki.OpenFor(wikiEntry as SoftWikiInfo);
+        }
     }
 }

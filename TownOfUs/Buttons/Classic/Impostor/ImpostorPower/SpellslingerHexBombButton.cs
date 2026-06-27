@@ -21,16 +21,16 @@ public sealed class SpellslingerHexBombButton : TownOfUsRoleButton<SpellslingerR
 
     public override bool CanUse()
     {
-        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage] as SabotageSystemType;
 
         return base.CanUse() && system is { AnyActive: false };
     }
 
     protected override void OnClick()
     {
-        if (ShipStatus.Instance.Systems.ContainsKey(SystemTypes.LifeSupp))
+        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.LifeSupp, out var sysType))
         {
-            var lifeSuppSystemType = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
+            var lifeSuppSystemType = sysType as LifeSuppSystemType;
             if (lifeSuppSystemType != null)
             {
                 lifeSuppSystemType.Countdown = 10000f;
@@ -39,7 +39,7 @@ public sealed class SpellslingerHexBombButton : TownOfUsRoleButton<SpellslingerR
 
         foreach (var systemType2 in ShipStatus.Instance.Systems.Values)
         {
-            var sabo = systemType2.TryCast<ICriticalSabotage>();
+            var sabo = systemType2 as ICriticalSabotage;
             if (sabo == null)
             {
                 continue;

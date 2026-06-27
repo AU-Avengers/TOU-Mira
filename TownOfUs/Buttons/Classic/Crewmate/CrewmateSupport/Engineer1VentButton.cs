@@ -99,7 +99,7 @@ public sealed class EngineerVentButton : TownOfUsVentRoleButton<EngineerTouRole>
                 {
                     break;
                 }
-                var @event = new PlayerCanUseEvent(closeVent.Cast<IUsable>());
+                var @event = new PlayerCanUseEvent(closeVent);
                 MiraEventManager.InvokeEvent(@event);
 
                 if (!@event.IsCancelled)

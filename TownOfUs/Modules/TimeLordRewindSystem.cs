@@ -456,21 +456,20 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        if (PlayerTask.TaskIsEmergency(task) || task.TryCast<ImportantTextTask>() != null)
+        if (PlayerTask.TaskIsEmergency(task) || task is ImportantTextTask)
         {
             return;
         }
 
         var taskStep = 0;
-        var normalTask = task.TryCast<NormalPlayerTask>();
+        var normalTask = task as NormalPlayerTask;
         if (normalTask != null)
         {
-            var npt = normalTask.Cast<NormalPlayerTask>();
-            taskStep = npt.taskStep;
+            taskStep = normalTask.taskStep;
             
             if (taskStep == 0)
             {
-                var taskType = npt.TaskType;
+                var taskType = normalTask.TaskType;
                 if (taskType is TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.WaterPlants or TaskTypes.PickUpTowels)
                 {
                     taskStep = 2;
@@ -577,11 +576,10 @@ public static class TimeLordRewindSystem
         foreach (var t in player.myTasks.ToArray())
         {
             if (t == null || t.Id != x.TaskId) continue;
-            var normal = t.TryCast<NormalPlayerTask>();
+            var normal = t as NormalPlayerTask;
             if (normal != null)
             {
-                var n = normal.Cast<NormalPlayerTask>();
-                var taskType = n.TaskType;
+                var taskType = normal.TaskType;
                 // Don't schedule undo for tasks that consume objects
                 if (taskType is TaskTypes.PickUpTowels or TaskTypes.SortRecords or TaskTypes.PutAwayPistols or TaskTypes.PutAwayRifles)
                 {
@@ -1087,8 +1085,8 @@ public static class TimeLordRewindSystem
     private static void RecordLocalTaskSteps(PlayerControl lp, int samplesNeeded)
     {
         var tasks = lp.myTasks.ToArray()
-.Where(t => t != null && t.TryCast<NormalPlayerTask>() != null && !PlayerTask.TaskIsEmergency(t) &&
-        t.TryCast<ImportantTextTask>() == null)
+.Where(t => t != null && t is NormalPlayerTask && !PlayerTask.TaskIsEmergency(t) &&
+        t is not ImportantTextTask)
 .ToList();
 
         var taskCount = Math.Min(tasks.Count, 24);
@@ -1123,8 +1121,8 @@ public static class TimeLordRewindSystem
         var steps = new byte[Math.Max(taskCount, 1)];
         for (var i = 0; i < taskCount; i++)
         {
-            var npt = tasks[i].Cast<NormalPlayerTask>();
-            steps[i] = (byte)Math.Clamp(npt.taskStep, 0, 255);
+            var npt = tasks[i] as NormalPlayerTask;
+            steps[i] = (byte)Math.Clamp(npt!.taskStep, 0, 255);
         }
 
         TaskBuffer.Add(steps, taskCount);
@@ -2204,13 +2202,13 @@ return true;*/
         for (var i = 0; i < _trackedTaskCount; i++)
         {
             var id = _trackedTaskIds[i];
-            var target = lp.myTasks.ToArray().FirstOrDefault(t => t != null && t.Id == id && t.TryCast<NormalPlayerTask>() != null);
+            var target = lp.myTasks.ToArray().FirstOrDefault(t => t != null && t.Id == id && t is NormalPlayerTask);
             if (target == null)
             {
                 continue;
             }
 
-            var npt = target.Cast<NormalPlayerTask>();
+            var npt = (target as NormalPlayerTask)!;
             if (npt.TaskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi or TaskTypes.WaterPlants or TaskTypes.PickUpTowels or TaskTypes.DevelopPhotos)
             {
                 continue;

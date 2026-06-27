@@ -84,8 +84,8 @@ public sealed class SpellslingerRole : ImpostorRole, ITownOfUsRole, IWikiDiscove
         {
             return;
         }
-        var sabotage = ShipStatus.Instance.Systems[(SystemTypes)HexBombSabotageSystem.SabotageId]
-            .Cast<HexBombSabotageSystem>();
+        var sabotage =
+            (ShipStatus.Instance.Systems[(SystemTypes)HexBombSabotageSystem.SabotageId] as HexBombSabotageSystem)!;
         if (!sabotage.IsActive)
         {
             return;

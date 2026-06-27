@@ -158,8 +158,8 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
 
         canMoveWithMinigame = true;
         var basicCams = Object.FindObjectsOfType<SystemConsole>().FirstOrDefault(x =>
-            x.MinigamePrefab.TryCast<SurveillanceMinigame>() || x.MinigamePrefab.TryCast<PlanetSurveillanceMinigame>() ||
-            x.MinigamePrefab.TryCast<FungleSurveillanceMinigame>() || x.UseIcon is ImageNames.CamsButton);
+            x.MinigamePrefab is SurveillanceMinigame || x.MinigamePrefab is PlanetSurveillanceMinigame ||
+            x.MinigamePrefab is FungleSurveillanceMinigame || x.UseIcon is ImageNames.CamsButton);
         if (basicCams != null)
         {
             PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -193,9 +193,9 @@ public sealed class SecurityButton : TownOfUsButton, ILegacyCapable
         PlayerControl.LocalPlayer.NetTransform.Halt();
         securityMinigame = Object.Instantiate(basicCams.MinigamePrefab, cam.transform, false);
         securityMinigame.transform.localPosition = new Vector3(0f, 0f, -50f);
-        var fungleGame = securityMinigame.TryCast<FungleSurveillanceMinigame>();
-        var planetGame = securityMinigame.TryCast<PlanetSurveillanceMinigame>();
-        var camsGame = securityMinigame.TryCast<SurveillanceMinigame>();
+        var fungleGame = securityMinigame as FungleSurveillanceMinigame;
+        var planetGame = securityMinigame as PlanetSurveillanceMinigame;
+        var camsGame = securityMinigame as SurveillanceMinigame;
         // NOTE: The reason for checking the minigame itself is that Android shits the bed and refuses to show a camera feed. According to xtra, these are I2LCPP shenanigans.
         if (fungleGame != null)
         {

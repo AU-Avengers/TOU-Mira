@@ -108,7 +108,7 @@ public class TownOfUsLocalActionTab(ConfigFile config) : LocalSettingsTab(config
             // End Game Keybind (ENTER + L + Left Shift)
             if (type is BindActionType.AbortGame)
             {
-                var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
+                var gameFlow = GameManager.Instance.LogicFlow as LogicGameFlowNormal;
                 if (gameFlow != null)
                 {
                     CustomGameOver.Trigger<HostGameOver>([]);

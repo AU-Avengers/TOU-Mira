@@ -238,7 +238,7 @@ public static class MiscUtils
             return touRole.RoleAlignment;
         }
 
-        var alignments = Enum.GetValues<RoleAlignment>();
+        var alignments = (Enum.GetValues(typeof(RoleAlignment)) as RoleAlignment[])!;
         foreach (var alignment in alignments)
         {
             var roleAlignment = alignment;
@@ -273,7 +273,7 @@ public static class MiscUtils
         }
         else if (role is ICustomRole customRole)
         {
-            var alignments = Enum.GetValues<RoleAlignment>();
+            var alignments = (Enum.GetValues(typeof(RoleAlignment)) as RoleAlignment[])!;
             foreach (var alignment in alignments)
             {
                 var roleAlignment = alignment;
@@ -1493,10 +1493,8 @@ public static class MiscUtils
     {
         foreach (var task in player.myTasks)
         {
-            if (task.TryCast<NormalPlayerTask>() != null)
+            if (task is NormalPlayerTask normalPlayerTask)
             {
-                var normalPlayerTask = task.Cast<NormalPlayerTask>();
-
                 var updateArrow = normalPlayerTask.taskStep > 0;
 
                 normalPlayerTask.taskStep = 0;
@@ -1628,7 +1626,7 @@ public static class MiscUtils
     {
         var completed = player.myTasks.ToArray().Count(x => x.IsComplete);
         var totalTasks = player.myTasks.ToArray()
-            .Count(x => !PlayerTask.TaskIsEmergency(x) && !x.TryCast<ImportantTextTask>());
+            .Count(x => !PlayerTask.TaskIsEmergency(x) && x is not ImportantTextTask);
         var colorbase = Color.yellow;
         var color = Color.yellow;
         if (completed <= 0)

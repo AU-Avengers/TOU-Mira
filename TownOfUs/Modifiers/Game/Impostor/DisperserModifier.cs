@@ -79,7 +79,7 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
 
     public static void DispersePlayersToCoordinates(Dictionary<byte, Vector2> coordinates)
     {
-        var airshipStatus = ShipStatus.Instance.TryCast<AirshipStatus>();
+        var airshipStatus = ShipStatus.Instance as AirshipStatus;
         if (airshipStatus != null)
         {
             Warning($"Resetting Gap Room platform on Airship.");

@@ -34,7 +34,7 @@ public class NeutralGhostRole : RoleBehaviour, ITownOfUsRole
 
     public void Awake()
     {
-        var crewGhost = RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).Cast<CrewmateGhostRole>();
+        var crewGhost = (RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost) as CrewmateGhostRole)!;
         _hauntMenu = crewGhost.HauntMenu;
         Ability = crewGhost.Ability;
     }
@@ -97,7 +97,7 @@ public class NeutralGhostRole : RoleBehaviour, ITownOfUsRole
             return false;
         }
 
-        var console2 = console.TryCast<Console>()!;
+        var console2 = (console as Console)!;
         return console2 == null || console2.AllowImpostor;
     }
 
@@ -111,7 +111,7 @@ public class NeutralGhostRole : RoleBehaviour, ITownOfUsRole
 
         if (Minigame.Instance)
         {
-            if (Minigame.Instance.TryCast<HauntMenuMinigame>())
+            if (Minigame.Instance is HauntMenuMinigame)
             {
                 Minigame.Instance.Close();
             }

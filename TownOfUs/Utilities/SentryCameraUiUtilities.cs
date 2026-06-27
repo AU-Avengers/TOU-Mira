@@ -256,17 +256,17 @@ public static class SentryCameraUiUtilities
             {
                 if (_polusDotSelectedSprite == null)
                 {
-                    var allSprites = Resources.FindObjectsOfTypeAll(Il2CppType.From(typeof(Sprite)));
+                    var allSprites = Resources.FindObjectsOfTypeAll<Sprite>();
                     _polusDotSelectedSprite =
-                        allSprites.FirstOrDefault(s => s != null && s.TryCast<Sprite>() != null &&
-                                                       s.Cast<Sprite>().name == "panel_security_camselected")?.TryCast<Sprite>();
+                        allSprites.FirstOrDefault(s => s != null &&
+                                                       s.name == "panel_security_camselected");
                 }
                 if (_polusDotUnselectedSprite == null)
                 {
-                    var allSprites = Resources.FindObjectsOfTypeAll(Il2CppType.From(typeof(Sprite)));
+                    var allSprites = Resources.FindObjectsOfTypeAll<Sprite>();
                     _polusDotUnselectedSprite =
-                        allSprites.FirstOrDefault(s => s != null && s.TryCast<Sprite>() != null &&
-                                                       s.Cast<Sprite>().name == "panel_security_camnotselect")?.TryCast<Sprite>();
+                        allSprites.FirstOrDefault(s => s != null &&
+                                                       s.name == "panel_security_camnotselect");
                 }
             }
             catch
@@ -422,14 +422,14 @@ public static class SentryCameraUiUtilities
 
             if (_polusPageArrowSprite == null)
             {
-                var allSprites = Resources.FindObjectsOfTypeAll(Il2CppType.From(typeof(Sprite)));
-                _polusPageArrowSprite = allSprites.FirstOrDefault(s => s != null && s.TryCast<Sprite>() != null && s.Cast<Sprite>().name == "panel_security_arrow")?.TryCast<Sprite>();
+                var allSprites = Resources.FindObjectsOfTypeAll(typeof(Sprite))!;
+                _polusPageArrowSprite = allSprites.FirstOrDefault(s => s != null && s is Sprite sprite && sprite.name == "panel_security_arrow") as Sprite;
             }
 
             if (_polusPageFlipSound == null)
             {
-                var allClips = Resources.FindObjectsOfTypeAll(Il2CppType.From(typeof(AudioClip)));
-                _polusPageFlipSound = allClips.FirstOrDefault(a => a != null && a.TryCast<AudioClip>() != null && a.Cast<AudioClip>().name == "UI_Select")?.TryCast<AudioClip>();
+                var allClips = Resources.FindObjectsOfTypeAll(typeof(AudioClip))!;
+                _polusPageFlipSound = allClips.FirstOrDefault(a => a != null && a is AudioClip audio && audio.name == "UI_Select") as AudioClip;
             }
         }
         catch (Exception ex)
@@ -447,9 +447,9 @@ public static class SentryCameraUiUtilities
 
         try
         {
-            var anyObj = Resources.FindObjectsOfTypeAll(Il2CppType.From(typeof(PlanetSurveillanceMinigame)))
-    .FirstOrDefault(x => x != null);
-            var any = anyObj != null ? anyObj.TryCast<PlanetSurveillanceMinigame>() : null;
+            var anyObj = Resources.FindObjectsOfTypeAll<PlanetSurveillanceMinigame>()
+    .FirstOrDefault(x => x != null)!;
+            var any = anyObj != null ? anyObj : null;
             if (any != null)
             {
                 CachePolusPagingUi(any);

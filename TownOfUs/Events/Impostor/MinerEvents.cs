@@ -21,7 +21,7 @@ public static class MinerEvents
             return;
         }
 
-        var vent = @event.Usable.TryCast<Vent>();
+        var vent = @event.Usable as Vent;
 
         if (vent == null)
         {

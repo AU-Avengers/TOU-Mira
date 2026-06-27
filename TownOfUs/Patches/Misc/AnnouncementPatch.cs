@@ -137,7 +137,7 @@ public static class ModNewsFetcher
                     newsElement.GetProperty("Text").EnumerateArray().Select(element => element.GetString()));
                 // Create ModNews object
                 var modNew = new TouMiraModNews(number, title, subTitle, shortTitle, body, dateString);
-                ModNewsHistory.AllModNews = ModNewsHistory.AllModNews.Add(modNew);
+                ModNewsHistory.AllModNews.AddItem(modNew);
             }
         }
         catch (Exception ex)
@@ -200,7 +200,7 @@ public static class ModNewsFetcher
                 newsElement.GetProperty("Text").EnumerateArray().Select(element => element.GetString()));
             // Create ModNews object
             var modNew = new TouMiraModNews(number, title, subTitle, shortTitle, body, dateString);
-            ModNewsHistory.AllModNews = ModNewsHistory.AllModNews.Add(modNew);
+            ModNewsHistory.AllModNews.AddItem(modNew);
         }
     }
 

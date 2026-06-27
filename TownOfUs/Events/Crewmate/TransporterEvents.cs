@@ -39,7 +39,7 @@ public static class TransporterEvents
             return;
         }
 
-        var console = @event.Usable.TryCast<SystemConsole>();
+        var console = @event.Usable as SystemConsole;
 
         if (console == null)
             // Not a SystemConsole, return
@@ -47,7 +47,7 @@ public static class TransporterEvents
             return;
         }
 
-        if (console.MinigamePrefab.TryCast<VitalsMinigame>())
+        if (console.MinigamePrefab is VitalsMinigame)
         {
             @event.Cancel();
         }

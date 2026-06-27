@@ -46,7 +46,7 @@ public class PetLoader : IBaseLoader
             return false;
         }
 
-        il2CPPType = type == ReferenceType.PetViewData ? Il2CppType.Of<PetBehaviour>() : null;
+        il2CPPType = type == ReferenceType.PetViewData ? typeof(PetBehaviour) : null!;
         return il2CPPType != null;
     }
 

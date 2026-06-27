@@ -31,7 +31,7 @@ public sealed class BarryButton : TownOfUsButton, ILegacyCapable
 
     public override bool CanUse()
     {
-        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage] as SabotageSystemType;
         return base.CanUse() && PlayerControl.LocalPlayer.RemainingEmergencies > 0 &&
                (OptionGroupSingleton<ButtonBarryOptions>.Instance.IgnoreSabo || system is { AnyActive: false });
     }

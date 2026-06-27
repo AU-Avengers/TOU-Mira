@@ -495,7 +495,7 @@ public static class EndGamePatches
                 break;
         }
 
-        var toggleAction = new Action(() =>
+        var toggleAction = new UnityAction(() =>
         {
             switch (LocalSettingsTabSingleton<TownOfUsLocalMiscSettings>.Instance.EndSummaryVisibility.Value)
             {
@@ -525,7 +525,7 @@ public static class EndGamePatches
 
         var passiveButton = GameSummaryButton.GetComponent<PassiveButton>();
         passiveButton.OnClick = new Button.ButtonClickedEvent();
-        passiveButton.OnClick.AddListener((UnityAction)toggleAction);
+        passiveButton.OnClick.AddListener(toggleAction);
 
         AfterEndGameSetup(instance);
         HandlePlayerNames();

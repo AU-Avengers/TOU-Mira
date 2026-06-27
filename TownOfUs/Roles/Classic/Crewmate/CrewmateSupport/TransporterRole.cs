@@ -222,23 +222,23 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
             shy2.OnRoundStart();
         }
 
-        if (t1.TryCast<DeadBody>())
+        if (t1 is DeadBody body1)
         {
-            PreCheckUndertaker(t1.TryCast<DeadBody>()!);
+            PreCheckUndertaker(body1);
         }
 
-        if (t2.TryCast<DeadBody>())
+        if (t2 is DeadBody body2)
         {
-            PreCheckUndertaker(t2.TryCast<DeadBody>()!);
+            PreCheckUndertaker(body2);
         }
 
         var positions = GetAdjustedPositions(t1, t2);
-        if (t1.TryCast<PlayerControl>() != null && t2.TryCast<DeadBody>() != null)
+        if (t1 is PlayerControl && t2 is DeadBody)
         {
             positions.Item1 = play1.Collider.bounds.center;
         }
 
-        if (t2.TryCast<PlayerControl>() != null && t1.TryCast<DeadBody>() != null)
+        if (t2 is PlayerControl && t1 is DeadBody)
         {
             positions.Item2 = play2.Collider.bounds.center;
         }
@@ -366,14 +366,14 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
             Vector2 TP1Position = new(0, 0);
             Vector2 TP2Position = new(0, 0);
 
-            if (transportable.TryCast<DeadBody>() == null && transportable2.TryCast<DeadBody>() == null)
+            if (transportable is not DeadBody && transportable2 is not DeadBody)
             {
-                Error($"type: {transportable.GetIl2CppType().Name}");
-                var TP1 = transportable.TryCast<PlayerControl>()!;
+                Error($"type: {transportable.GetType().Name}");
+                var TP1 = (transportable as PlayerControl)!;
                 TP1Position = TP1.GetTruePosition();
                 TP1Position = new Vector2(TP1Position.x, TP1Position.y + 0.3636f);
 
-                var TP2 = transportable2.TryCast<PlayerControl>()!;
+                var TP2 = (transportable2 as PlayerControl)!;
                 TP2Position = TP2.GetTruePosition();
                 TP2Position = new Vector2(TP2Position.x, TP2Position.y + 0.3636f);
 
@@ -388,13 +388,11 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
                     TP2Position = new Vector2(TP2Position.x, TP2Position.y + 0.2233912f * 0.75f);
                 }
             }
-            else if (transportable.TryCast<DeadBody>() != null && transportable2.TryCast<DeadBody>() == null)
+            else if (transportable is DeadBody Player1Body && transportable2 is PlayerControl TP2)
             {
-                var Player1Body = transportable.TryCast<DeadBody>()!;
                 TP1Position = Player1Body.TruePosition;
                 TP1Position = new Vector2(TP1Position.x, TP1Position.y + 0.3636f);
 
-                var TP2 = transportable2.TryCast<PlayerControl>()!;
                 TP2Position = TP2.GetTruePosition();
                 TP2Position = new Vector2(TP2Position.x, TP2Position.y + 0.3636f);
 
@@ -404,13 +402,11 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
                     TP2Position = new Vector2(TP2Position.x, TP2Position.y + 0.2233912f * 0.75f);
                 }
             }
-            else if (transportable.TryCast<DeadBody>() == null && transportable2.TryCast<DeadBody>() != null)
+            else if (transportable is PlayerControl TP1 && transportable2 is DeadBody Player2Body)
             {
-                var TP1 = transportable.TryCast<PlayerControl>()!;
                 TP1Position = TP1.GetTruePosition();
                 TP1Position = new Vector2(TP1Position.x, TP1Position.y + 0.3636f);
 
-                var Player2Body = transportable2.TryCast<DeadBody>()!;
                 TP2Position = Player2Body.TruePosition;
                 TP2Position = new Vector2(TP2Position.x, TP2Position.y + 0.3636f);
                 if (TP1.HasModifier<MiniModifier>())
@@ -419,10 +415,10 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
                     TP2Position = new Vector2(TP2Position.x, TP2Position.y - 0.2233912f * 0.75f);
                 }
             }
-            else if (transportable.TryCast<DeadBody>() != null && transportable2.TryCast<DeadBody>() != null)
+            else if (transportable is DeadBody db1 && transportable2 is DeadBody db2)
             {
-                TP1Position = transportable.TryCast<DeadBody>()!.TruePosition;
-                TP2Position = transportable2.TryCast<DeadBody>()!.TruePosition;
+                TP1Position = db1!.TruePosition;
+                TP2Position = db2!.TruePosition;
             }
 
             return (TP1Position, TP2Position);
@@ -431,8 +427,8 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
 
     public static void Transport(MonoBehaviour mono, Vector3 position)
     {
-        var deadBody = mono.TryCast<DeadBody>();
-        var player = mono.TryCast<PlayerControl>();
+        var deadBody = mono as DeadBody;
+        var player = mono as PlayerControl;
         if (player != null && player.HasModifier<ImmovableModifier>())
         {
             return;
@@ -458,7 +454,7 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
             mono.transform.position += cd.bounds.center - position;
         }
 
-        var cnt = mono.TryCast<CustomNetworkTransform>();
+        var cnt = mono as CustomNetworkTransform;
         if (cnt != null)
         {
             cnt.SnapTo(position, (ushort)(cnt.lastSequenceId + 1));

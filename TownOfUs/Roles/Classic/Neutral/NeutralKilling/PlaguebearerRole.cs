@@ -161,7 +161,7 @@ public sealed class PlaguebearerRole
             return false;
         }
 
-        var console = usable.TryCast<Console>()!;
+        var console = (usable as Console)!;
         return console == null || console.AllowImpostor;
     }
 

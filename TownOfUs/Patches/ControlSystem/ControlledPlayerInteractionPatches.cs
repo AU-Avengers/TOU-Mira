@@ -24,7 +24,7 @@ public static class ControlledPlayerInteractionPatches
         var allUsables = UnityObject.FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
-            if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
+            if (obj is IUsable usable && usable is not Vent)
             {
                 _cachedInteractables.Add(usable);
             }
@@ -274,7 +274,7 @@ public static class ControlledPlayerInteractionPatches
                 continue;
             }
 
-            var obj = usable.TryCast<MonoBehaviour>();
+            var obj = usable as MonoBehaviour;
             if (obj == null)
             {
                 continue;

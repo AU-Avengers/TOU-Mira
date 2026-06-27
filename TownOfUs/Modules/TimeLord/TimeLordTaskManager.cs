@@ -60,7 +60,7 @@ internal static class TimeLordTaskManager
             return;
         }
 
-        if (PlayerTask.TaskIsEmergency(task) || task.TryCast<ImportantTextTask>() != null)
+        if (PlayerTask.TaskIsEmergency(task) || task is ImportantTextTask)
         {
             return;
         }

@@ -184,6 +184,6 @@ public sealed class MediumRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
     [MethodRpc((uint)TownOfUsRpc.RemoveMediumSpirit)]
     public static void RpcRemoveMediumSpirit(PlayerControl medium, MedSpiritObject spirit)
     {
-        spirit.StartCoroutine(spirit.CoDestroy().WrapToIl2Cpp());
+        spirit.StartCoroutine(spirit.CoDestroy());
     }
 }

@@ -45,7 +45,7 @@ public sealed class GuesserMenu : Minigame
     {
         var shapeShifterRole = RoleManager.Instance.GetRole(RoleTypes.Shapeshifter);
 
-        var ogMenu = shapeShifterRole.TryCast<ShapeshifterRole>()!.ShapeshifterMenu;
+        var ogMenu = (shapeShifterRole as ShapeshifterRole)!.ShapeshifterMenu;
         var newMenu = Instantiate(ogMenu);
         var customMenu = newMenu.gameObject.AddComponent<GuesserMenu>();
 
@@ -59,10 +59,9 @@ public sealed class GuesserMenu : Minigame
 
         var back = customMenu.backButton.GetComponent<PassiveButton>();
         back.OnClick.RemoveAllListeners();
-        back.OnClick.AddListener((UnityAction)(Action)customMenu.Close);
+        back.OnClick.AddListener((UnityAction)customMenu.Close);
 
         customMenu.CloseSound = newMenu.CloseSound;
-        customMenu.logger = newMenu.logger;
         customMenu.OpenSound = newMenu.OpenSound;
 
         newMenu.DestroyImmediate();
@@ -278,14 +277,14 @@ public sealed class GuesserMenu : Minigame
             searchFocusButton.ClickSound = wikiClickSound;
         }
         searchFocusButton.OnClick.RemoveAllListeners();
-        searchFocusButton.OnClick.AddListener((UnityAction)(Action)(() => 
+        searchFocusButton.OnClick.AddListener((UnityAction)(() => 
         { 
             searchTextbox.GiveFocus();
         }));
 
         searchTextbox.SetText(string.Empty);
         searchTextbox.OnChange.RemoveAllListeners();
-        searchTextbox.OnChange.AddListener((UnityAction)(Action)(() =>
+        searchTextbox.OnChange.AddListener((UnityAction)(() =>
         {
             searchText = searchTextbox.outputText.text ?? string.Empty;
             currentPage = 0;

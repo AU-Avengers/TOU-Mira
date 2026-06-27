@@ -301,7 +301,7 @@ public static class MiraApiPatches
                         .GetComponent<HowToPlayRoleButton>();
                     Sprite roleIcon = __instance.rolesScenes.ToArray().First(r => r.role == role.Role).roleIcon;
                     component.SetRoleInfo(role, roleIcon);
-                    component.SetButtonAction((Il2CppSystem.Action)(() => { OpenRolePage(__instance, role.Role); }));
+                    component.SetButtonAction((() => { OpenRolePage(__instance, role.Role); }));
                     __instance.controllerSelectables.Add(component.GetComponent<PassiveButton>());
                 }
             }

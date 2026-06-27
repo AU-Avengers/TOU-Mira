@@ -46,7 +46,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
         RevealAlliance(Target);
         TouAudio.PlaySound(TouAudio.QuestionSound);
 
-        Target?.cosmetics.SetOutline(false, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Seer));
+        Target?.cosmetics.SetOutline(false, TownOfUsColors.Seer);
     }
 
     public static void RevealAlliance(PlayerControl target)

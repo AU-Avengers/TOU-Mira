@@ -128,13 +128,8 @@ internal static class NetTransformBacklogUtils
     /// </summary>
     public static void FlushBacklogWithPause(PlayerControl player)
     {
-        if (player == null || player.NetTransform == null)
-        {
-            return;
-        }
-
-        var cnt = player.NetTransform.TryCast<CustomNetworkTransform>();
-        if (cnt == null)
+        var cnt = player.NetTransform;
+        if (player == null || cnt == null)
         {
             return;
         }
@@ -184,7 +179,7 @@ internal static class NetTransformBacklogUtils
             return;
         }
 
-        var cnt = player.NetTransform.TryCast<CustomNetworkTransform>();
+        var cnt = player.NetTransform as CustomNetworkTransform;
         if (cnt == null)
         {
             return;
@@ -220,7 +215,7 @@ internal static class NetTransformBacklogUtils
             return;
         }
 
-        var cnt = player.NetTransform.TryCast<CustomNetworkTransform>();
+        var cnt = player.NetTransform as CustomNetworkTransform;
         if (cnt == null)
         {
             // Fall back to a plain snap

@@ -140,7 +140,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
             Constants.ShipAndAllObjectsMask,
             false);
 
-        return hits.Count == 0 && noConflict && !ModCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1;
+        return hits.Length == 0 && noConflict && !ModCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1;
     }
 
     private static bool IsInDisabledRoom(Vector3 position, SentryOptions options)

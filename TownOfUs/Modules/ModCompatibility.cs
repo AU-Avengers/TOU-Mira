@@ -133,7 +133,7 @@ public static class ModCompatibility
         var sBuilder = new StringBuilder();
 
         var mods = Chainloader.PluginInfos;
-        sBuilder.Append("\nBepInEx " + Paths.BepInExVersion.WithoutBuild());
+        // sBuilder.Append("\nBepInEx " + Paths.BepInExVersion.WithoutBuild());
         foreach (var mod in mods)
         {
             sBuilder.Append( $"\n{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
@@ -519,12 +519,12 @@ public static class ModCompatibility
         if (PlayerControl.LocalPlayer.Data.Role is IGhostRole ghost && !ghost.Caught)
         {
             var startingVent =
-                ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+                ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Length)];
 
             while (startingVent == ShipStatus.Instance.AllVents[0] || startingVent == ShipStatus.Instance.AllVents[14])
             {
                 startingVent =
-                    ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+                    ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Length)];
             }
 
             var pos = new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
@@ -575,7 +575,7 @@ public static class ModCompatibility
         var validType = SubInjectedTypes.TryGetValue(typeName, out var type);
 
         return validType
-            ? obj.AddComponent(Il2CppType.From(type)).TryCast<MonoBehaviour>()!
+            ? (obj.AddComponent(type) as MonoBehaviour)!
             : obj.AddComponent<MissingBehaviour>();
     }
 

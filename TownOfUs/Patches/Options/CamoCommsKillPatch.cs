@@ -27,8 +27,8 @@ public static class KillOverlayPatch
                 NameVisible = false,
                 PlayerMaterialColor = Color.grey,
             };
-            var killerAction = (Action)(() => { __instance.LoadKillerSkin(outfit); });
-            var victimAction = (Action)(() => { __instance.LoadVictimSkin(initData.victimOutfit); });
+            var killerAction = (() => { __instance.LoadKillerSkin(outfit); });
+            var victimAction = (() => { __instance.LoadVictimSkin(initData.victimOutfit); });
             if (__instance.killerParts)
             {
                 __instance.killerParts.SetBodyType(initData.killerBodyType);

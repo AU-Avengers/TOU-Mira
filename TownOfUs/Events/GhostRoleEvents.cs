@@ -65,7 +65,7 @@ public static class GhostRoleEvents
             return;
         }
 
-        var console = @event.Usable.TryCast<Console>();
+        var console = @event.Usable as Console;
         if (!console || console.IsConsoleAllowed() || !ghostwalker.GhostActive)
         {
             return;

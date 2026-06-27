@@ -188,16 +188,15 @@ public static class SentryCameraUtilities
         SurvCamera? resourceTemplateCamera = null;
         try
         {
-            var all = Resources.FindObjectsOfTypeAll(Il2CppType.From(typeof(SurvCamera)));
+            var all = Resources.FindObjectsOfTypeAll<SurvCamera>();
             resourceTemplateCamera = all
                 .FirstOrDefault(x =>
                 {
-                    var cam = x != null ? x.TryCast<SurvCamera>() : null;
+                    var cam = x != null ? x : null;
                     if (cam == null || cam.gameObject == null) return false;
                     var sr = cam.gameObject.GetComponent<SpriteRenderer>();
                     return sr != null && sr.sprite != null;
-                })
-                ?.TryCast<SurvCamera>();
+                });
         }
         catch
         {

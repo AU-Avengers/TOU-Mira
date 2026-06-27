@@ -199,7 +199,7 @@ public static class LogicGameFlowPatches
 
         if (ShipStatus.Instance.Systems.ContainsKey(SystemTypes.LifeSupp))
         {
-            var lifeSuppSystemType = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
+            var lifeSuppSystemType = ShipStatus.Instance.Systems[SystemTypes.LifeSupp] as LifeSuppSystemType;
             if (lifeSuppSystemType is { Countdown: < 0f })
             {
                 __instance.EndGameForSabotage();
@@ -211,7 +211,7 @@ public static class LogicGameFlowPatches
 
         foreach (var systemType2 in ShipStatus.Instance.Systems.Values)
         {
-            var sabo = systemType2.TryCast<ICriticalSabotage>();
+            var sabo = systemType2 as ICriticalSabotage;
             if (sabo == null)
             {
                 continue;

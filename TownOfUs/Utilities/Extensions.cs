@@ -176,7 +176,7 @@ public static class Extensions
 
     public static IEnumerator CoCleanCustom(this DeadBody body, BodyVitalsMode result)
     {
-        var renderer = body.bodyRenderers[^1];
+        var renderer = body.bodyRenderers[body.bodyRenderers.Length - 1];
         yield return MiscUtils.PerformTimedAction(1f, t => renderer.color = renderer.color.SetAlpha(1 - t));
         var tweakOpt = OptionGroupSingleton<VanillaTweakOptions>.Instance;
         var hidePets = tweakOpt.PetVisibilityUponDeath;
@@ -465,7 +465,7 @@ public static class Extensions
 
         if (!roleBehaviour.IsDead)
         {
-            player.Data.RoleWhenAlive = new Il2CppSystem.Nullable<RoleTypes>(roleBehaviour.Role);
+            player.Data.RoleWhenAlive = roleBehaviour.Role;
         }
 
         if (recordRole)
@@ -592,7 +592,9 @@ public static class Extensions
 
     public static T TakeFirst<T>(this List<T> list)
     {
-        return list.RemoveAndReturn(0);
+        var first = list[0];
+        list.Remove(first);
+        return first;
     }
 
     public static List<T> Pad<T>(this List<T> list, int max, T item)

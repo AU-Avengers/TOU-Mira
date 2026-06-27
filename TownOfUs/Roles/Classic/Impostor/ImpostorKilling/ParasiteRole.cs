@@ -894,13 +894,12 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
         var closestDistance = float.MaxValue;
         IUsable? closestInteractable = null;
 
-        // Use cached interactables from ControlledPlayerInteractionPatches if available, otherwise scan
         var cached = ControlledPlayerInteractionPatches.GetCachedInteractables();
         var interactablesToCheck = cached != null && cached.Count > 0 
             ? cached 
             : GetInteractablesList();
 
-        const float maxCheckDistance = 5f; // Most interactables have UsableDistance <= 3f
+        const float maxCheckDistance = 5f;
 
         foreach (var usable in interactablesToCheck)
         {
@@ -909,14 +908,12 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
                 continue;
             }
 
-            // Get the MonoBehaviour to access transform
-            var obj = usable.TryCast<MonoBehaviour>();
+            var obj = usable as MonoBehaviour;
             if (obj == null)
             {
                 continue;
             }
 
-            // Quick distance check before expensive CanUse check
             var objPos = (Vector2)obj.transform.position;
             var distance = Vector2.Distance(position, objPos);
             if (distance > maxCheckDistance || distance > usable.UsableDistance)
@@ -924,7 +921,6 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
                 continue;
             }
 
-            // Check if player can use this
             bool canUse;
             usable.CanUse(player.Data, out canUse, out _);
             if (!canUse)
@@ -948,7 +944,7 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
         var allUsables = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
-            if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
+            if (obj is IUsable usable && usable is not Vent)
             {
                 result.Add(usable);
             }
@@ -963,7 +959,7 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
             return;
         }
 
-        if (interactable.TryCast<Ladder>() is { } ladder)
+        if (interactable is Ladder ladder)
         {
             if (!player.AmOwner)
             {
@@ -972,7 +968,7 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
             player.MyPhysics.RpcClimbLadder(ladder);
             ladder.CoolDown = ladder.MaxCoolDown;
         }
-        else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
+        else if (interactable is ZiplineConsole ziplineConsole)
         {
             if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
@@ -983,7 +979,7 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
                 player.CheckUseZipline(player, ziplineConsole.zipline, ziplineConsole.atTop);
             }
         }
-        else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
+        else if (interactable is OpenDoorConsole openDoorConsole)
         {
             if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
@@ -991,7 +987,7 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
             }
             openDoorConsole.myDoor.SetDoorway(true);
         }
-        else if (interactable.TryCast<DoorConsole>() is { } doorConsole)
+        else if (interactable is DoorConsole doorConsole)
         {
             if (player.AmOwner)
             {
@@ -1001,7 +997,7 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
 
                 try
                 {
-                    minigame.Cast<IDoorMinigame>().SetDoor(doorConsole.MyDoor);
+                    (minigame as IDoorMinigame)!.SetDoor(doorConsole.MyDoor);
                 }
                 catch (InvalidCastException)
                 {
@@ -1011,7 +1007,7 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
                 minigame.Begin(null);
             }
         }
-        else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
+        else if (interactable is PlatformConsole platformConsole)
         {
             if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
@@ -1028,7 +1024,7 @@ public sealed class ParasiteRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
                 }
             }
         }
-        else if (interactable.TryCast<DeconControl>() is { } deconControl)
+        else if (interactable is DeconControl deconControl)
         {
             if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {

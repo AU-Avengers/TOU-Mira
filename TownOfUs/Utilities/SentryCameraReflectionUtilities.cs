@@ -76,7 +76,6 @@ public static class SentryCameraReflectionUtilities
         return texturesObj switch
         {
             RenderTexture[] arr => arr.Length,
-            Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppReferenceArray<RenderTexture> ilArr => ilArr.Length,
             _ => 0,
         };
     }
@@ -91,15 +90,6 @@ public static class SentryCameraReflectionUtilities
                     Array.Copy(arr, resized, arr.Length);
                     return resized;
                 }
-            case Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppReferenceArray<RenderTexture> ilArr:
-                {
-                    var resized = new Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppReferenceArray<RenderTexture>(newLength);
-                    for (var i = 0; i < ilArr.Length && i < newLength; i++)
-                    {
-                        resized[i] = ilArr[i];
-                    }
-                    return resized;
-                }
             default:
                 return texturesObj;
         }
@@ -110,7 +100,6 @@ public static class SentryCameraReflectionUtilities
         return texturesObj switch
         {
             RenderTexture[] arr => index >= 0 && index < arr.Length ? arr[index] : null,
-            Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppReferenceArray<RenderTexture> ilArr => index >= 0 && index < ilArr.Length ? ilArr[index] : null,
             _ => null,
         };
     }
@@ -122,7 +111,7 @@ public static class SentryCameraReflectionUtilities
             case RenderTexture[] arr when index >= 0 && index < arr.Length:
                 arr[index] = texture;
                 break;
-            case Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppReferenceArray<RenderTexture> ilArr when index >= 0 && index < ilArr.Length:
+            case RenderTexture[] ilArr when index >= 0 && index < ilArr.Length:
                 ilArr[index] = texture;
                 break;
         }

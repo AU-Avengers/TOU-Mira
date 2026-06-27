@@ -10,7 +10,7 @@ public static class LongBoiPatches
     [HarmonyPatch(typeof(LongBoiPlayerBody), nameof(LongBoiPlayerBody.Awake))]
     public static bool LongBodyAwakePatch(LongBoiPlayerBody __instance)
     {
-        __instance.cosmeticLayer.OnSetBodyAsGhost += (Action)__instance.SetPoolableGhost;
+        __instance.cosmeticLayer.OnSetBodyAsGhost += __instance.SetPoolableGhost;
         __instance.cosmeticLayer.OnColorChange += (Action<int>)__instance.SetHeightFromColor;
         __instance.cosmeticLayer.OnCosmeticSet +=
             (Action<string, int, CosmeticsLayer.CosmeticKind>)__instance.OnCosmeticSet;

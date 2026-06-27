@@ -19,7 +19,7 @@ public static class WerewolfEvents
             return;
         }
 
-        var vent = @event.Usable.TryCast<Vent>();
+        var vent = @event.Usable as Vent;
 
         if (vent == null)
         {

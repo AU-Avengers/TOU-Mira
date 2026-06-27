@@ -210,7 +210,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
     public void CycleAbility()
     {
         var stepUp = (HerbAbilities)((int)CurrentAbility + 1);
-        if (Enum.IsDefined(stepUp))
+        if (Enum.IsDefined(typeof(HerbAbilities), stepUp))
         {
             CurrentAbility = stepUp;
         }

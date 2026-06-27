@@ -144,7 +144,7 @@ public sealed class JesterRole
             return false;
         }
 
-        var console = usable.TryCast<Console>()!;
+        var console = (usable as Console)!;
         return console == null || console.AllowImpostor;
     }
 

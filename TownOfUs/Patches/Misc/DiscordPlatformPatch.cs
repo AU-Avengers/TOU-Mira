@@ -1,4 +1,5 @@
-using System.Reflection;
+// TODO: Reimplement Discord Patches
+/*using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -57,4 +58,4 @@ public static class DiscordPlatformPatch
         }
         return false;
     }
-}
+}*/

@@ -18,16 +18,16 @@ public static class TaskAssignmentPatch
         if (type is TaskLength.Short)
         {
             count += TownOfUsMapOptions.GetMapBasedShortTasks();
-            count = Math.Clamp(count, 0, __instance.ShortTasks.Count);
+            count = Math.Clamp(count, 0, __instance.ShortTasks.Length);
         }
         else if (type is TaskLength.Long)
         {
             count += TownOfUsMapOptions.GetMapBasedLongTasks();
-            count = Math.Clamp(count, 0, __instance.LongTasks.Count);
+            count = Math.Clamp(count, 0, __instance.LongTasks.Length);
         }
         else if (type is TaskLength.Common)
         {
-            count = Math.Clamp(count, 0, __instance.CommonTasks.Count);
+            count = Math.Clamp(count, 0, __instance.CommonTasks.Length);
         }
     }
 

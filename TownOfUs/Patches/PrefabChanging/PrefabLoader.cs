@@ -27,9 +27,9 @@ public class PrefabLoader
         {
             if (!ModCompatibility.SubLoaded) return null!;
 
-            if (_submarineStatus == null || _submarineStatus.WasCollected || !_submarineStatus || _submarineStatus == null)
+            if (_submarineStatus == null || !_submarineStatus || _submarineStatus == null)
             {
-                if (ShipStatus.Instance is null || ShipStatus.Instance.WasCollected || !ShipStatus.Instance || !ShipStatus.Instance)
+                if (ShipStatus.Instance is null || !ShipStatus.Instance || !ShipStatus.Instance)
                 {
                     return _submarineStatus = null!;
                 }
@@ -38,8 +38,7 @@ public class PrefabLoader
                     if (ShipStatus.Instance.Type == ModCompatibility.SubmergedMapType)
                     {
                         return _submarineStatus =
-                            (ShipStatus.Instance.GetComponent(Il2CppType.From(ModCompatibility.SubmarineStatusType))
-                                ?.TryOtherCast(ModCompatibility.SubmarineStatusType) as MonoBehaviour)!;
+                            (ShipStatus.Instance.GetComponent(ModCompatibility.SubmarineStatusType) as MonoBehaviour)!;
                     }
                     else
                     {
@@ -110,7 +109,7 @@ public class PrefabLoader
 
     private static IEnumerator LoadMap<T>(MapNames map, Out<T> shipStatus) where T : ShipStatus
     {
-        AssetReference reference = AmongUsClient.Instance.ShipPrefabs._items[(int)map];
+        AssetReference reference = AmongUsClient.Instance.ShipPrefabs[(int)map];
 
         AsyncOperationHandle<GameObject> handle;
 

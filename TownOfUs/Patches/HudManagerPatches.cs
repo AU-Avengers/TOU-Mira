@@ -68,8 +68,7 @@ public static class HudManagerPatches
 
     private static void RefreshUIAnchors()
     {
-        ResolutionManager.ResolutionChanged.Invoke(
-            (float)Screen.width / Screen.height,
+        ResolutionManager.SetResolution(
             Screen.width,
             Screen.height,
             Screen.fullScreen
@@ -942,7 +941,7 @@ public static class HudManagerPatches
         {
             ZoomButton = Object.Instantiate(instance.MapButton.gameObject, ExtraUiTopRight.transform);
             ZoomButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-            ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ButtonClickZoom));
+            ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(ButtonClickZoom);
             ZoomButton.name = "ZoomButton";
             var inactive = ZoomButton.transform.Find("Inactive");
                 inactive.GetComponent<SpriteRenderer>().sprite =
@@ -976,7 +975,7 @@ public static class HudManagerPatches
                     PassiveButton buttonBehavior = SubmergedFloorButton.GetComponent<PassiveButton>();
                     buttonBehavior.OnClick.RemoveAllListeners();
                     buttonBehavior.OnClick = new Button.ButtonClickedEvent();
-                    buttonBehavior.OnClick.AddListener(new Action(ChangeSubFloor));
+                    buttonBehavior.OnClick.AddListener(ChangeSubFloor);
 
                     TownOfUsLocalSettings.SetUpButtonPositions();
                 }
@@ -1354,7 +1353,7 @@ public static class HudManagerPatches
         }
 
         var text = role.GetType().FullName!;
-        if (Enum.IsDefined(role.Role))
+        if (Enum.IsDefined(typeof(RoleTypes), role.Role))
         {
             text = $"AmongUs.Roles.{role.Role.ToString()}";
         }

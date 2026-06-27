@@ -1,4 +1,5 @@
 using System.Collections;
+using BepInEx.Bootstrap;
 using HarmonyLib;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
@@ -78,7 +79,7 @@ public static class PlayerJoinPatch
             yield break;
         }
 
-        var mods = IL2CPPChainloader.Instance.Plugins;
+        var mods = Chainloader.PluginInfos;
         var modDictionary = new Dictionary<byte, string>();
         byte modByte = 0;
         foreach (var mod in mods)

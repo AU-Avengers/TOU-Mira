@@ -112,14 +112,14 @@ public static class TimeLordEvents
             return;
         }
 
-        var console = @event.Usable.TryCast<SystemConsole>();
+        var console = @event.Usable as SystemConsole;
 
         if (console == null)
         {
             return;
         }
 
-        if (console.MinigamePrefab.TryCast<VitalsMinigame>())
+        if (console.MinigamePrefab is VitalsMinigame)
         {
             @event.Cancel();
         }

@@ -19,15 +19,6 @@ public class HatLocator : UnityEngine.Object
         Addressables.AddResourceLocator(locator);
     }
 
-    public HatLocator(IntPtr iPtr) : base(iPtr)
-    {
-    }
-    
-    public HatLocator() : base(ClassInjector.DerivedConstructorPointer<HatLocator>())
-    {
-        ClassInjector.DerivedConstructorBody(this);
-    }
-
     public string LocatorId => GetType().FullName!;
 
     public static IEnumerable<UnityEngine.Object>
@@ -66,7 +57,7 @@ public class HatLocator : UnityEngine.Object
             return false;
         }
 
-        Debug($"Found cosmetic {realKey}, type {typeName}, il2cpp tyle {il2CPPType.NameOrDefault}");
+        Debug($"Found cosmetic {realKey}, type {typeName}, il2cpp tyle {il2CPPType.FullName}");
 
         var location = new ResourceLocationBase(
             keyString,

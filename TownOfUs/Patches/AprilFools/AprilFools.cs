@@ -64,10 +64,10 @@ public static class AprilFoolsPatches
             legacyPassive.OnClick = new Button.ButtonClickedEvent();
             var translator = legacytoggle.transform.GetChild(0).GetChild(0).GetComponent<TmpMiraTranslator>();
 
-            legacyPassive.OnClick.AddListener((Action)(() =>
+            legacyPassive.OnClick.AddListener((() =>
             {
                 var next = TownOfUsPlugin.LegacyMode.Value + 1;
-                var value = !Enum.IsDefined(next) ? LegacyVisuals.Disabled : next;
+                var value = !(Enum.IsDefined(typeof(LegacyVisuals), next)) ? LegacyVisuals.Disabled : next;
                 TownOfUsPlugin.LegacyMode.Value = value;
                 legacySprite.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset();
                 legacySprite2.sprite = TouAssets.LegacyMenuSprite(TownOfUsPlugin.LegacyMode.Value).LoadAsset();
@@ -85,7 +85,7 @@ public static class AprilFoolsPatches
             var foolsPassive = aprilfoolstoggle.GetComponent<PassiveButton>();
             foolsPassive.OnClick = new Button.ButtonClickedEvent();
 
-            foolsPassive.OnClick.AddListener((Action)(() =>
+            foolsPassive.OnClick.AddListener((() =>
             {
                 var num = CurrentMode + 1;
                 CurrentMode = num > 3 ? 0 : num;
@@ -98,7 +98,7 @@ public static class AprilFoolsPatches
             var discordPassive = discordButton.GetComponent<PassiveButton>();
             discordPassive.OnClick = new Button.ButtonClickedEvent();
 
-            discordPassive.OnClick.AddListener((Action)(() =>
+            discordPassive.OnClick.AddListener((() =>
             {
                 Constants.OpenURL(DiscordServerUrl);
             }));
@@ -108,7 +108,7 @@ public static class AprilFoolsPatches
             var githubPassive = githubButton.GetComponent<PassiveButton>();
             githubPassive.OnClick = new Button.ButtonClickedEvent();
 
-            githubPassive.OnClick.AddListener((Action)(() =>
+            githubPassive.OnClick.AddListener((() =>
             {
                 Constants.OpenURL(SourceCodeUrl);
             }));

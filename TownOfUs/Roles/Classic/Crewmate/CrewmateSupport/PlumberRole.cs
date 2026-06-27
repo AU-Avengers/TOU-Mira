@@ -22,10 +22,13 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
     public override bool IsAffectedByComms => false;
  public HashSet<int> FutureBlocks { get; set; } = [];
 
-    // Blocked vent, remaining rounds public static Dictionary<int, int> VentsBlocked { get; set; } = []; public static HashSet<int> VentFlushSet { get; set; } = [];
+    // Blocked vent, remaining rounds
+    public static Dictionary<int, int> VentsBlocked { get; set; } = [];
+    public static HashSet<int> VentFlushSet { get; set; } = [];
 
 
-    // Blocked vent, Barricade object public static Dictionary<int, GameObject> Barricades { get; set; } = [];
+    // Blocked vent, Barricade object
+    public static Dictionary<int, GameObject> Barricades { get; set; } = [];
 
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string LocaleKey => "Plumber";

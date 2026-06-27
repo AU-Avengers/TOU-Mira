@@ -16,6 +16,7 @@ using TownOfUs.Modifiers.Game;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -230,7 +231,7 @@ public sealed class JailorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
         usesText = usesTextObj;
     }
 
-    private Action Execute()
+    private UnityAction Execute()
     {
         void Listener()
         {

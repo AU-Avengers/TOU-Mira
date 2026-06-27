@@ -1,3 +1,4 @@
+using BepInEx.Bootstrap;
 using Discord;
 using HarmonyLib;
 
@@ -6,14 +7,14 @@ namespace TownOfUs.Patches.Misc;
 [HarmonyPatch(typeof(ActivityManager))]
 public static class DiscordStatus
 {
-    private static string ModInfo = $"TOU:M v{TownOfUsPlugin.Version}" + (TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.Version.Contains("beta") ? " (DEV)" : string.Empty);
+    private static string ModInfo = $"TOU:M v{TownOfUsPlugin.Version}";
     private static string _smallIcon = "???";
 
     [HarmonyPrefix]
     [HarmonyPatch(nameof(ActivityManager.UpdateActivity))]
     public static void ActivityManagerUpdateActivityPrefix(ActivityManager __instance, [HarmonyArgument(0)] Activity activity)
     {
-        var modCount = $"{IL2CPPChainloader.Instance.Plugins.Count} Mods";
+        var modCount = $"{Chainloader.PluginInfos.Count} Mods";
         activity.Details = (string.IsNullOrEmpty(activity.Details)) ? ModInfo : ModInfo + " | " + activity.Details;
         activity.State = (string.IsNullOrEmpty(activity.State)) ? modCount : $"{modCount} | {activity.State}";
         activity.Assets.LargeImage = "icon";

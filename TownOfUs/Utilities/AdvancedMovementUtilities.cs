@@ -80,7 +80,7 @@ public static class AdvancedMovementUtilities
                 EnsureKeybindHasKey(miraKeybind);
             }
 
-            return ReInput.players.GetPlayer(0).GetButton(keybind.Id);
+            return ReInput.players.GetPlayer(0).GetButton(int.Parse(keybind.Id!));
         }
         catch
         {

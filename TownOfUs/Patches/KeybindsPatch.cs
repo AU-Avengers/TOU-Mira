@@ -154,7 +154,7 @@ public static class Bindings
                 });
             }
 
-            var voterStates = new Il2CppStructArray<MeetingHud.VoterState>(voterStatesList.Count);
+            var voterStates = new MeetingHud.VoterState[voterStatesList.Count];
             for (int i = 0; i < voterStatesList.Count; i++)
             {
                 voterStates[i] = voterStatesList[i];
@@ -228,7 +228,7 @@ public static class Bindings
                 // End Game Keybind (ENTER + L + Left Shift)
                 if (settings.AbortGameBindToggle.Value && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift))
                 {
-                    var gameFlow = GameManager.Instance.LogicFlow.Cast<LogicGameFlowNormal>();
+                    var gameFlow = GameManager.Instance.LogicFlow as LogicGameFlowNormal;
                     if (gameFlow != null)
                     {
                         CustomGameOver.Trigger<HostGameOver>([]);

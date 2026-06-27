@@ -15,40 +15,40 @@ public static class VanillaSettingsPatch
             try
             {
                 var impostorCount = __instance.Children.ToArray()
-                    ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumImpostors)
-                    ?.Cast<NumberOption>();
+                    .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.NumImpostors)
+                    as NumberOption;
                 if (impostorCount != null)
                 {
                     impostorCount.ValidRange = new FloatRange(0f, 5f);
                 }
 
                 var impostorMaxCount = __instance.Children.ToArray()
-                    ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.MaxImpostors)
-                    ?.Cast<NumberOption>();
+                    .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.MaxImpostors)
+                    as NumberOption;
                 if (impostorMaxCount != null)
                 {
                     impostorMaxCount.ValidRange = new FloatRange(0f, 5f);
                 }
 
                 var commonTasks = __instance.Children.ToArray()
-                    ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumCommonTasks)
-                    ?.Cast<NumberOption>();
+                    .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.NumCommonTasks)
+                    as NumberOption;
                 if (commonTasks != null)
                 {
                     commonTasks.ValidRange = new FloatRange(0f, 4f);
                 }
 
                 var shortTasks = __instance.Children.ToArray()
-                    ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumShortTasks)
-                    ?.Cast<NumberOption>();
+                    .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.NumShortTasks)
+                    as NumberOption;
                 if (shortTasks != null)
                 {
                     shortTasks.ValidRange = new FloatRange(0f, 8f);
                 }
 
                 var longTasks = __instance.Children.ToArray()
-                    ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumLongTasks)
-                    ?.Cast<NumberOption>();
+                    .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.NumLongTasks)
+                    as NumberOption;
                 if (longTasks != null)
                 {
                     longTasks.ValidRange = new FloatRange(0f, 4f);
@@ -65,9 +65,9 @@ public static class VanillaSettingsPatch
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
     public static bool Prefix(ShipStatus __instance)
     {
-        var commonTask = Math.Min(__instance.CommonTasks.Count, 4);
-        var normalTask = Math.Min(__instance.ShortTasks.Count, 8);
-        var longTask = Math.Min(__instance.LongTasks.Count, 4);
+        var commonTask = Math.Min(__instance.CommonTasks.Length, 4);
+        var normalTask = Math.Min(__instance.ShortTasks.Length, 8);
+        var longTask = Math.Min(__instance.LongTasks.Length, 4);
         if (GameOptionsManager.Instance.currentGameOptions.GameMode is GameModes.HideNSeek)
         {
             var options = GameOptionsManager.Instance.currentHideNSeekGameOptions;

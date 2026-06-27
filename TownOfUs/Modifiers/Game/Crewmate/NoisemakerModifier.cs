@@ -98,9 +98,9 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
             VibrationManager.Vibrate(1f, PlayerControl.LocalPlayer.GetTruePosition(), 7f, 1.2f);
         }
 
-        var noise = RoleManager.Instance.GetRole(RoleTypes.Noisemaker).Cast<NoisemakerRole>();
+        var noise = RoleManager.Instance.GetRole(RoleTypes.Noisemaker) as NoisemakerRole;
         var deathArrowPrefab =
-            Object.Instantiate(noise.deathArrowPrefab, Player.transform.position, Quaternion.identity);
+            Object.Instantiate(noise!.deathArrowPrefab, Player.transform.position, Quaternion.identity);
 
         var deathArrow = deathArrowPrefab.GetComponent<NoisemakerArrow>();
         deathArrow.SetDuration(OptionGroupSingleton<NoisemakerOptions>.Instance.AlertDuration);

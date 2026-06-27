@@ -75,8 +75,8 @@ public class CosmeticsLoader
         {
             il2CPPType = type switch
             {
-                ReferenceType.Preview => Il2CppType.Of<PreviewViewData>(),
-                _ => null
+                ReferenceType.Preview => typeof(PreviewViewData),
+                _ => null!
             };
 
             return il2CPPType != null

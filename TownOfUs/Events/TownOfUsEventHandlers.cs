@@ -410,13 +410,13 @@ public static class TownOfUsEventHandlers
         }
 
         // This sets the sabo cooldowns properly
-        if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
+        if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType) && systemType is IDoorSystem door1)
         {
-            systemType.Cast<IDoorSystem>().SetInitialSabotageCooldown();
+            door1.SetInitialSabotageCooldown();
         }
-        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
+        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2) && systemType is IDoorSystem door2)
         {
-            systemType2.Cast<IDoorSystem>().SetInitialSabotageCooldown();
+            door2.SetInitialSabotageCooldown();
         }
 
         foreach (var button in CustomButtonManager.Buttons)

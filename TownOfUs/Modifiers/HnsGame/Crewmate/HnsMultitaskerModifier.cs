@@ -54,13 +54,13 @@ public sealed class HnsMultitaskerModifier : HnsGameModifier
 
     public static bool IsExemptTask()
     {
-        return Minigame.Instance.TryCast<VitalsMinigame>() ||
-               Minigame.Instance.TryCast<CollectShellsMinigame>() ||
-               Minigame.Instance.TryCast<MushroomDoorSabotageMinigame>() ||
-               Minigame.Instance.TryCast<ShapeshifterMinigame>() ||
-               Minigame.Instance.TryCast<FungleSurveillanceMinigame>() ||
-               Minigame.Instance.TryCast<SurveillanceMinigame>() ||
-               Minigame.Instance.TryCast<PlanetSurveillanceMinigame>() ||
+        return Minigame.Instance is VitalsMinigame ||
+               Minigame.Instance is CollectShellsMinigame ||
+               Minigame.Instance is MushroomDoorSabotageMinigame ||
+               Minigame.Instance is ShapeshifterMinigame ||
+               Minigame.Instance is FungleSurveillanceMinigame ||
+               Minigame.Instance is SurveillanceMinigame ||
+               Minigame.Instance is PlanetSurveillanceMinigame ||
                Minigame.Instance is IngameWikiMinigame ||
                Minigame.Instance is CustomPlayerMenu ||
                Minigame.Instance is GuesserMenu;

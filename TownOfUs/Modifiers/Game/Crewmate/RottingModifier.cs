@@ -81,7 +81,7 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
     public static IEnumerator CoSetUpRot(DeadBody body, PlayerControl target, PlayerControl killer)
     {
         yield return new WaitForEndOfFrame();
-        ViperDeadBody deadBody = Object.Instantiate(GameManager.Instance.deadBodyPrefab[1]).Cast<ViperDeadBody>();
+        ViperDeadBody deadBody = (Object.Instantiate(GameManager.Instance.deadBodyPrefab[1]) as ViperDeadBody)!;
         deadBody.enabled = false;
         deadBody.ParentId = target.PlayerId;
         deadBody.bodyRenderers.Do(x => target.SetPlayerMaterialColors(x));

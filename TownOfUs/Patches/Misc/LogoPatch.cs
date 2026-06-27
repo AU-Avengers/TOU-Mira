@@ -105,6 +105,7 @@ public static class LogoPatch
         logo2.transform.localScale = new Vector3(0.15f, 0.15f, 1);
         logo2.transform.localPosition = new Vector3(1.21f, 0.7556f, 1);
 
+        /*
         if (TownOfUsPlugin.IsMobile)
         {
             return;
@@ -116,7 +117,7 @@ public static class LogoPatch
             var basicBep = Paths.BepInExVersion.ToString()[charCount..];
             var newBep = basicBep.Split('+')[0];
             var parsedVersion = int.Parse(newBep, TownOfUsPlugin.Culture);
-            Error($"Running BepInEx {Paths.BepInExVersion.ToString()}, version is {newBep}");
+            // Error($"Running BepInEx {Paths.BepInExVersion.ToString()}, version is {newBep}");
             if (parsedVersion < BepInVersionMinimum)
             {
                 Error($"BepInEx version is too low, minimum required is {BepInVersionMinimum}!");
@@ -126,7 +127,7 @@ public static class LogoPatch
         catch (Exception e)
         {
             System.Console.WriteLine(e);
-        }
+        }*/
     }
 
     public static IEnumerator CoOpenWarning()

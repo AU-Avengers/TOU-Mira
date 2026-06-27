@@ -109,7 +109,7 @@ public sealed class HnsTransporterModifier : HnsGameModifier
             PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(position);
         }
 
-        var cnt = player.TryCast<CustomNetworkTransform>();
+        var cnt = player.NetTransform;
         if (cnt != null)
         {
             cnt.SnapTo(position, (ushort)(cnt.lastSequenceId + 1));

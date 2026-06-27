@@ -63,7 +63,7 @@ public static class WikiHyperLinkPatches
                 {
                     replacement =
                         $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={role.GetType().FullName}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
-                    if (Enum.IsDefined(role.Role))
+                    if (Enum.IsDefined(typeof(RoleTypes), role.Role))
                     {
                         replacement =
                         $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";

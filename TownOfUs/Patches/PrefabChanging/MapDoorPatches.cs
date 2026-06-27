@@ -147,16 +147,16 @@ public static class MapDoorPatches
         if (instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
         {
             Info(string.Format( "Closing doors of room {0}", room));
-            var doorSys = systemType.Cast<IDoorSystem>();
-            doorSys.CloseDoorsOfType(room);
+            var doorSys = systemType as IDoorSystem;
+            doorSys!.CloseDoorsOfType(room);
             return false;
         }
 
         if (instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
         {
             Info(string.Format( "Closing doors of room {0}", room));
-            var doorSys = systemType2.Cast<IDoorSystem>();
-            doorSys.CloseDoorsOfType(room);
+            var doorSys = systemType2 as IDoorSystem;
+            doorSys!.CloseDoorsOfType(room);
             return false;
         }
 
@@ -190,7 +190,7 @@ public static class MapDoorPatches
         var instance = ShipStatus.Instance;
         if (__instance.door && instance && instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
         {
-            float timer = systemType.Cast<RunTimer>().GetTimer(__instance.room);
+            float timer = (systemType as RunTimer)!.GetTimer(__instance.room);
             float num = __instance.Parent.CanUseDoors ? timer : 1f;
             __instance.door.material.SetFloat("_Percent", num);
             return false;
@@ -198,7 +198,7 @@ public static class MapDoorPatches
 
         if (__instance.door && instance && instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
         {
-            float timer = systemType2.Cast<RunTimer>().GetTimer(__instance.room);
+            float timer = (systemType2 as RunTimer)!.GetTimer(__instance.room);
             float num = __instance.Parent.CanUseDoors ? timer : 1f;
             __instance.door.material.SetFloat("_Percent", num);
             return false;
@@ -219,7 +219,7 @@ public static class MapDoorPatches
         var instance = ShipStatus.Instance;
         if (instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
         {
-            if (systemType.Cast<RunTimer>().GetTimer(__instance.room) > 0f)
+            if ((systemType as RunTimer)!.GetTimer(__instance.room) > 0f)
             {
                 return false;
             }
@@ -230,7 +230,7 @@ public static class MapDoorPatches
 
         if (instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
         {
-            if (systemType2.Cast<RunTimer>().GetTimer(__instance.room) > 0f)
+            if ((systemType2 as RunTimer)!.GetTimer(__instance.room) > 0f)
             {
                 return false;
             }
@@ -247,15 +247,15 @@ public static class MapDoorPatches
     {
         if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Doors, out var systemType))
         {
-            __instance.doors = systemType.Cast<IActivatable>();
+            __instance.doors = systemType as IActivatable;
         }
         else if (ShipStatus.Instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType2))
         {
-            __instance.doors = systemType2.Cast<IActivatable>();
+            __instance.doors = systemType2 as IActivatable;
         }
         else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType3))
         {
-            __instance.doors = systemType3.Cast<IActivatable>();
+            __instance.doors = systemType3 as IActivatable;
         }
     }
 
@@ -350,7 +350,7 @@ public static class MapDoorPatches
 
         __instance.AllDoors = doorList.ToArray();
         __instance.Systems.Remove(SystemTypes.Doors);
-        __instance.Systems.Add(ManualDoorsSystemType.SystemType, new ManualDoorsSystemType().TryCast<ISystemType>());
+        __instance.Systems.Add(ManualDoorsSystemType.SystemType, new ManualDoorsSystemType());
     }
 
     [HarmonyPatch(typeof(PolusShipStatus), nameof(PolusShipStatus.OnEnable))]
@@ -427,7 +427,7 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType());
 
                 return;
             case MapDoorType.Fungle:
@@ -515,7 +515,7 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType());
 
                 return;
             case MapDoorType.Fungle:
@@ -599,7 +599,7 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = doorList.ToArray();
                 __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType());
 
                 return;
             case MapDoorType.Airship:
@@ -695,7 +695,7 @@ public static class MapDoorPatches
 
                 __instance.AllDoors = doorList.ToArray();
                 // __instance.Systems.Remove(SystemTypes.Doors);
-                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType().TryCast<ISystemType>());
+                __instance.Systems.Add(SkeldDoorsSystemType.SystemType, new SkeldDoorsSystemType());
 
                 return;
             case MapDoorType.Polus:

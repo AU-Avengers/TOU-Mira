@@ -17,7 +17,7 @@ public static class AmongUsClientPatches
             return;
         }
 
-        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat([(SystemTypes)HexBombSabotageSystem.SabotageId, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]).ToArray();
+        SystemTypeHelpers.AllTypes.AddRangeToArray([(SystemTypes)HexBombSabotageSystem.SabotageId, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]);
 
         var medSpirit = TouAssets.MediumSpirit.LoadAsset().GetComponent<MedSpiritObject>();
         medSpirit.SpawnId = (uint)__instance.SpawnableObjects.Count;

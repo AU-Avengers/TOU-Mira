@@ -46,7 +46,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILe
 
     public override bool CanUse()
     {
-        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage] as SabotageSystemType;
 
         return base.CanUse() && system is { AnyActive: true };
     }
@@ -54,7 +54,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILe
     protected override void OnClick()
     {
         OverrideName(TouLocale.Get("TouRoleEngineerFixing", "Fixing"));
-        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage] as SabotageSystemType;
 
         if (system is not { AnyActive: true })
         {
@@ -65,7 +65,7 @@ public sealed class EngineerFixButton : TownOfUsRoleButton<EngineerTouRole>, ILe
     public override void OnEffectEnd()
     {
         OverrideName(TouLocale.Get("TouRoleEngineerFix", "Fix"));
-        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage] as SabotageSystemType;
 
         if (system is { AnyActive: true })
         {

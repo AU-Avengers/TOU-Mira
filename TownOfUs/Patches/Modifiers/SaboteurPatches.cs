@@ -33,11 +33,11 @@ public static class SaboteurPatches
             return;
         }
 
-        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage] as SabotageSystemType;
 
         var options = OptionGroupSingleton<SaboteurOptions>.Instance;
 
-        if (system.AnyActive)
+        if (system!.AnyActive)
         {
             system.Timer = 30f;
         }
