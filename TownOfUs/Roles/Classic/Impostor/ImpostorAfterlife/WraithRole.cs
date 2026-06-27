@@ -5,6 +5,9 @@ using Reactor.Utilities;
 using System.Collections;
 using MiraAPI.GameOptions;
 using TownOfUs.Modifiers;
+using TownOfUs.Modules;
+using TownOfUs.Modules.Anims;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
@@ -39,6 +42,8 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
     public bool GhostActive => Setup && !Caught;
     public List<byte> UniqueClicks;
     public bool ClicksQuotaMet => UniqueClicks.Count >= (int)OptionGroupSingleton<WraithOptions>.Instance.ScaresRequiredToClick.Value;
+    public GameObject PlayerRobe { get; set; }
+    public bool ShowRobe { get; set; }
 
     public bool CanCatch()
     {
@@ -118,6 +123,11 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
             return;
         }
 
+        if (!MeetingHud.Instance && PlayerRobe)
+        {
+            PlayerRobe.SetActive(ShowRobe);
+        }
+
         FadeUpdate();
     }
 
@@ -169,6 +179,19 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+
+        var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x =>
+            x.ParentId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x =>
+            x.PlayerId == PlayerControl.LocalPlayer.PlayerId && !TutorialManager.InstanceExists);
+
+        ShowRobe = Player.AmOwner || PlayerControl.LocalPlayer.IsImpostorAligned() && !genOpt.FFAImpostorMode ||
+                   (PlayerControl.LocalPlayer.HasDied() && genOpt.TheDeadKnow && !body && !fakePlayer?.body);
+
+        PlayerRobe = AnimStore.SpawnAnimBody(Player, TouAssets.WraithRobe.LoadAsset(), false, -1.1f, -0.1f, 1.5f)!;
+
         var opts = OptionGroupSingleton<WraithOptions>.Instance;
         ScaresAvailable = (int)opts.ScareUses.Value;
         ScaresLeftToClick = (int)opts.ScaresRequiredToClick.Value;
@@ -213,6 +236,10 @@ public sealed class WraithRole(IntPtr cppPtr) : ImpostorGhostRole(cppPtr), ITown
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
+        if (PlayerRobe)
+        {
+            PlayerRobe.DeepDestroy();
+        }
         if (TutorialManager.InstanceExists)
         {
             Player.ResetAppearance();
