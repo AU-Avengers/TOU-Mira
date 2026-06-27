@@ -4,7 +4,6 @@ using MiraAPI.Utilities;
 using TownOfUs.Options.Maps;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
-using Action = Il2CppSystem.Action;
 
 namespace TownOfUs.Patches.Options;
 [HarmonyPriority(Priority.Last)]

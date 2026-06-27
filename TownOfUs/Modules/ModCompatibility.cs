@@ -8,7 +8,6 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;
@@ -17,7 +16,6 @@ using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Version = SemanticVersioning.Version;
 
 namespace TownOfUs.Modules;
 

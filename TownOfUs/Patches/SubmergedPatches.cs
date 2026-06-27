@@ -1,33 +1,24 @@
-﻿using HarmonyLib;
+﻿using System.Collections;
+using HarmonyLib;
 using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Roles;
-using System.Reflection;
 using MiraAPI.Utilities;
 
 namespace TownOfUs.Patches;
 
-[HarmonyPatch]
+[HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
 public static class SubmergedStartPatch
 {
-    public static MethodBase TargetMethod()
+    public static void Postfix(IntroCutscene __instance, ref IEnumerator __result)
     {
-        return Helpers.GetStateMachineMoveNext<IntroCutscene>(nameof(IntroCutscene.ShowRole))!;
-    }
-
-    public static void Postfix(Il2CppObjectBase __instance)
-    {
-        var wrapper = new StateMachineWrapper<IntroCutscene>(__instance);
-        // run before the first yield
-        if (wrapper.GetState() != 1)
+        __result = Helpers.CreateWrapper(__result, () => 
         {
-            return;
-        }
-
-        if (ModCompatibility.IsSubmerged())
-        {
-            Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
-        }
+            if (ModCompatibility.IsSubmerged())
+            {
+                Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
+            }
+        });
     }
 }
 

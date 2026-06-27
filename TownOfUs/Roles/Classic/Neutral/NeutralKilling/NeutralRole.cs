@@ -1,4 +1,5 @@
-﻿using MiraAPI.Patches.Stubs;
+﻿using System.Text;
+using MiraAPI.Patches.Stubs;
 
 namespace TownOfUs.Roles.Neutral;
 

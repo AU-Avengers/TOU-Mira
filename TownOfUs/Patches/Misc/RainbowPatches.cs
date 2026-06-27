@@ -2,7 +2,6 @@ using AmongUs.Data;
 using HarmonyLib;
 using TownOfUs.Modules.RainbowMod;
 using UnityEngine;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.RainbowMod;
 

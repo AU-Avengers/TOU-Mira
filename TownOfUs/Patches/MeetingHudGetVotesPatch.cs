@@ -9,7 +9,7 @@ public static class MeetingHudGetVotesPatch
 
     [HarmonyPrefix]
     [HarmonyPatch(nameof(MeetingHud.VotingComplete))]
-    public static void VotingCompletePrefix(Il2CppStructArray<MeetingHud.VoterState> states)
+    public static void VotingCompletePrefix(MeetingHud.VoterState[] states)
     {
         // CODE REVIEW 22/2/2025 AEDT (D/M/Y)
         // ---------------------------------

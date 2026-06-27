@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches.Misc;
 

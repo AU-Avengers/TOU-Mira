@@ -207,11 +207,11 @@ public static class ModNewsFetcher
     [HarmonyPatch]
     public static class ModNewsHistory
     {
-        public static ImmutableList<TouMiraModNews> AllModNews = ImmutableList<TouMiraModNews>.Empty;
+        public static IReadOnlyList<TouMiraModNews> AllModNews = [];
 
         [HarmonyPatch(typeof(PlayerAnnouncementData), nameof(PlayerAnnouncementData.SetAnnouncements))]
         [HarmonyPrefix]
-        public static void SetModAnnouncements_Prefix(ref Il2CppReferenceArray<Announcement> aRange)
+        public static void SetModAnnouncements_Prefix(ref Announcement[] aRange)
         {
             if (AllModNews.Count == 0)
             {
