@@ -203,11 +203,11 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{TouLocale.Get("TouRoleInquisitorTabAddition")}</b>");
+        stringB.AppendLine($"<b>{TouLocale.Get("TouRoleInquisitorTabAddition")}</b>");
         foreach (var role in TargetRoles)
         {
             var newText = $"<b><size=80%>{role.TeamColor.ToTextColor()}{role.GetRoleName()}</size></b>";
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
+            stringB.AppendLine($"{newText}");
         }
 
         return stringB;
@@ -304,7 +304,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
             if (player.Object.HasModifier<InquisitorHereticModifier>())
             {
                 text = TouLocale.GetParsed("TouRoleInquisitorInquiredHeretic").Replace("<player>", player.PlayerName);
-                reportBuilder.AppendLine(TownOfUsPlugin.Culture,
+                reportBuilder.AppendLine(
                     $"{text}\n");
                 var roles = TargetRoles;
                 var lastRole = roles[roles.Count - 1];
@@ -329,7 +329,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
             }
             else
             {
-                reportBuilder.AppendLine(TownOfUsPlugin.Culture,
+                reportBuilder.AppendLine(
                     $"{text}");
             }
 

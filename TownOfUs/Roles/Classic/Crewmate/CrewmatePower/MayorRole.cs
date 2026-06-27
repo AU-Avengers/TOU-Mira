@@ -62,7 +62,7 @@ public sealed class MayorRole
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (!Revealed)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{UnrevealedString}</b>");
+            stringB.AppendLine($"<b>{UnrevealedString}</b>");
         }
 
         return stringB;

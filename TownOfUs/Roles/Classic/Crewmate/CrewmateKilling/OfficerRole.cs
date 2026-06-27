@@ -105,11 +105,11 @@ public sealed class OfficerRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{RoundTabBasicTabText}</b>");
+        stringB.AppendLine($"<b>{RoundTabBasicTabText}</b>");
         if (RoundsBeforeReset > 0)
         {
             var text = RoundsBeforeReset == 1 ? RoundTabWaitNextString : RoundWaitString();
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{text}</b>");
+            stringB.AppendLine($"\n<b>{text}</b>");
         }
 
         return stringB;

@@ -15,19 +15,12 @@ public class HatProvider : ResourceProviderBase
         Addressables.ResourceManager.ResourceProviders.Insert(0, provider);
     }
 
-    public HatProvider(IntPtr iPtr) : base(iPtr) { }
-
-    public HatProvider() : base(ClassInjector.DerivedConstructorPointer<HatProvider>())
-    {
-        ClassInjector.DerivedConstructorBody(this);
-    }
-
-    public override bool CanProvide(Il2CppSystem.Type t, IResourceLocation location)
+    public override bool CanProvide(Type t, IResourceLocation location)
     {
         return location.InternalId.StartsWith("toum.", StringComparison.InvariantCulture);
     }
 
-    public override Il2CppSystem.Type GetDefaultType(IResourceLocation location)
+    public override Type GetDefaultType(IResourceLocation location)
     {
         return location.ResourceType;
     }
@@ -67,7 +60,7 @@ public class HatProvider : ResourceProviderBase
         }
     }
 
-    public override void Release(IResourceLocation location, Il2CppSystem.Object obj)
+    public override void Release(IResourceLocation location, System.Object obj)
     {
         Warning("I don't know how to release cosmetic yet");
     }

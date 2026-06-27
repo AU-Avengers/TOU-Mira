@@ -43,7 +43,7 @@ public sealed class ClericRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         var barrieredPlayer = ModifierUtils.GetPlayersWithModifier<ClericBarrierModifier>(x => x.Cleric.AmOwner).FirstOrDefault();
         if (barrieredPlayer != null)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", barrieredPlayer.Data.PlayerName)}</b>");
+            stringB.AppendLine($"\n<b>{ProtectionString.Replace("<player>", barrieredPlayer.Data.PlayerName)}</b>");
         }
 
         return stringB;

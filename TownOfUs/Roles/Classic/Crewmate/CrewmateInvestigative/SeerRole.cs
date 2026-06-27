@@ -183,11 +183,11 @@ public sealed class SeerRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, I
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (ComparisonList.Count != 0)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{TabHeaderString}</b>");
+            stringB.AppendLine($"\n<b>{TabHeaderString}</b>");
             foreach (var comparison in ComparisonList)
             {
                 var newText = $"<b><size=70%>{comparison}</size></b>";
-                stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
+                stringB.AppendLine($"{newText}");
             }
         }
 

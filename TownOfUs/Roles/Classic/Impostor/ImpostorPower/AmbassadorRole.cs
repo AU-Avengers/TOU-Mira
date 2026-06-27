@@ -71,7 +71,7 @@ public sealed class AmbassadorRole : ImpostorRole, ITownOfUsRole, IWikiDiscovera
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"{RetrainsString()}");
 
         return stringB;

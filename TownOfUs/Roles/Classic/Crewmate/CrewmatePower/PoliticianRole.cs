@@ -73,7 +73,7 @@ public sealed class PoliticianRole : CrewmateRole, ITouCrewRole, IWikiDiscoverab
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture,
+            stringB.AppendLine(
                 $"<b>{TouLocale.GetParsed("TouRolePoliticianEgotistTabInfo")}</b>");
         }
 

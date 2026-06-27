@@ -223,12 +223,12 @@ public sealed class DoomsayerRole
 
             if (hint.Contains("STRMISS"))
             {
-                reportBuilder.AppendLine(TownOfUsPlugin.Culture,
+                reportBuilder.AppendLine(
                     $"{fallback.Replace("<player>", player.PlayerName)}\n");
             }
             else
             {
-                reportBuilder.AppendLine(TownOfUsPlugin.Culture, $"{hint.Replace("<player>", player.PlayerName)}\n");
+                reportBuilder.AppendLine($"{hint.Replace("<player>", player.PlayerName)}\n");
             }
 
             var roles = MiscUtils.AllRegisteredRoles

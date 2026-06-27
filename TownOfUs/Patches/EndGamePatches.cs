@@ -384,29 +384,29 @@ public static class EndGamePatches
             var role2 = string.Join(" ", data.RoleStringShort);
             if (count % 2 == 0)
             {
-                roleSummaryText2.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role2}");
+                roleSummaryText2.AppendLine($"{data.PlayerName} - {role2}");
             }
             else
             {
-                roleSummaryText1.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role2}");
+                roleSummaryText1.AppendLine($"{data.PlayerName} - {role2}");
             }
 
             count++;
-            roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
-            normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role}");
-            basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role2}");
+            roleSummaryTextFull.AppendLine($"{data.PlayerName} - {role}");
+            normalSummary.AppendLine($"<size=62%>{data.PlayerName} - {role}");
+            basicSummary.AppendLine($"<size=62%>{data.PlayerName} - {role2}");
 
-            segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=70%>{data.ChatSummaryTitle}</size>");
+            segmentedSummary.AppendLine($"<size=70%>{data.ChatSummaryTitle}</size>");
             segmentedSummary.Append(TownOfUsPlugin.Culture, $"<size=62%>");
             if (!data.ChatSummaryRoleInfo.IsNullOrWhiteSpace())
             {
-                segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"•{data.ChatSummaryRoleInfo}");
+                segmentedSummary.AppendLine($"•{data.ChatSummaryRoleInfo}");
             }
             if (!data.ChatSummaryStats.IsNullOrWhiteSpace())
             {
-                segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"•{data.ChatSummaryStats}");
+                segmentedSummary.AppendLine($"•{data.ChatSummaryStats}");
             }
-            segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"•{data.ChatSummaryCod}");
+            segmentedSummary.AppendLine($"•{data.ChatSummaryCod}");
             segmentedSummary.Append(TownOfUsPlugin.Culture, $"</size>");
         }
 

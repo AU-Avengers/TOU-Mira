@@ -1,18 +1,13 @@
 using Hazel;
-using TownOfUs.Interfaces.BaseGame;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Components;
 // This is a reimplementation of AutoDoorsSystemType for vanilla maps, as Impostor servers assume they're unchanged.
 
-[RegisterInIl2Cpp(typeof(ISystemType), typeof(IActivatable), typeof(RunTimer), typeof(IDoorSystem))]
-public class SkeldDoorsSystemType : Il2CppSystem.Object, BaseGame.ISystemType, BaseGame.IActivatable, BaseGame.IRunTimer, BaseGame.IDoorSystem
+public class SkeldDoorsSystemType : Object, ISystemType, IActivatable, RunTimer, IDoorSystem
 {
     public const byte SystemId = 151;
     public const SystemTypes SystemType = (SystemTypes)SystemId;
-    public SkeldDoorsSystemType() : this(ClassInjector.DerivedConstructorPointer<SkeldDoorsSystemType>())
-    {
-        ClassInjector.DerivedConstructorBody(this);
-    }
     
 	public bool IsActive
 	{
@@ -126,7 +121,8 @@ public class SkeldDoorsSystemType : Il2CppSystem.Object, BaseGame.ISystemType, B
             OpenableDoor openableDoor = ShipStatus.Instance.AllDoors[i];
             if (openableDoor.Room == system)
             {
-                return openableDoor.Cast<AutoOpenDoor>().CooldownTimer / 30f;
+                var auto = openableDoor as AutoOpenDoor;
+                return auto!.CooldownTimer / 30f;
             }
 		}
 		return 0f;

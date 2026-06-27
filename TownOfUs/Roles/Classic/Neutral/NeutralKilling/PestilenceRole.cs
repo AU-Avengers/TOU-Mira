@@ -81,12 +81,12 @@ public sealed class PestilenceRole
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"{RoleColor.ToTextColor()}{YouAreText}<b> {RoleName},‎ ‎ ‎ \n<size=80%>{RoleDescription}</size></b></color>");
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"{RoleLongDescription}");
+        stringB.AppendLine($"{RoleLongDescription}");
 
         return stringB;
     }

@@ -95,7 +95,7 @@ public sealed class ChefRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable, ID
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{_tabCounter.Replace("<bodiesFed>", $"{BodiesServed}")}</b>");
+        stringB.AppendLine($"<b>{_tabCounter.Replace("<bodiesFed>", $"{BodiesServed}")}</b>");
 
         return stringB;
     }

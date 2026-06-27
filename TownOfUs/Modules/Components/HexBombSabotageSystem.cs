@@ -3,11 +3,11 @@ using MiraAPI.Roles;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles.Impostor;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp(typeof(ISystemType), typeof(IActivatable))]
-public sealed class HexBombSabotageSystem : Il2CppSystem.Object
+public sealed class HexBombSabotageSystem : Object, ISystemType, IActivatable
 {
     public const byte SabotageId = 150;
     public readonly float duration;
@@ -20,9 +20,8 @@ public sealed class HexBombSabotageSystem : Il2CppSystem.Object
     public static bool BombFinished { get; internal set; }
 
     private float _dirtyTimer;
-    public HexBombSabotageSystem(float duration) : this(ClassInjector.DerivedConstructorPointer<HexBombSabotageSystem>())
+    public HexBombSabotageSystem(float duration)
     {
-        ClassInjector.DerivedConstructorBody(this);
         Instance = this;
         this.duration = duration;
     }

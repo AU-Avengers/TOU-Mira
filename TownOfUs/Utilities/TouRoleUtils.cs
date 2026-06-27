@@ -157,12 +157,12 @@ public static class TouRoleUtils
         }
 
         var stringB = new StringBuilder();
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.‎ ‎ ‎ </b></color>");
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
         stringB.Append("<size=70%>");
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"{role.RoleLongDescription}");
+        stringB.AppendLine($"{role.RoleLongDescription}");
 
         return stringB;
     }
@@ -178,12 +178,12 @@ public static class TouRoleUtils
         }
 
         var stringB = new StringBuilder();
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"{role.RoleColor.ToTextColor()}{youAre}<b> {role.RoleName}.‎ ‎ ‎ </b></color>");
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(alignment, true)}</b></size>");
         stringB.Append("<size=70%>");
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"{role.RoleLongDescription}");
+        stringB.AppendLine($"{role.RoleLongDescription}");
 
         return stringB;
     }

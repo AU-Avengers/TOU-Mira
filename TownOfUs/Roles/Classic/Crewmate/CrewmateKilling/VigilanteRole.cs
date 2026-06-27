@@ -55,7 +55,7 @@ public sealed class VigilanteRole : CrewmateRole, ITouCrewRole, IWikiDiscoverabl
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("TouRoleVigilanteEvilTabInfo")}");
+            stringB.AppendLine($"{TouLocale.GetParsed("TouRoleVigilanteEvilTabInfo")}");
         }
 
         if ((int)OptionGroupSingleton<VigilanteOptions>.Instance.MultiShots > 0)
@@ -63,7 +63,7 @@ public sealed class VigilanteRole : CrewmateRole, ITouCrewRole, IWikiDiscoverabl
             var newText = SafeShotsLeft == 0
                 ? TouLocale.GetParsed("TouRoleVigilanteNoSafeShots")
                 : TouLocale.GetParsed("TouRoleVigilanteSafeShotsLeft").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture));
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
+            stringB.AppendLine($"{newText}");
         }
 
         return stringB;

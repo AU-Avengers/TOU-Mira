@@ -73,9 +73,9 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"{RoleColor.ToTextColor()}{TouLocale.Get("YouAreA")}<b> {RoleName}.</b></color>");
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
 
@@ -87,7 +87,7 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
         var text = TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription{desc}");
 
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"{text}");
+        stringB.AppendLine($"{text}");
 
         return stringB;
     }

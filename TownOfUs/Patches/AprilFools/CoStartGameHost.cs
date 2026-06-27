@@ -1,4 +1,5 @@
-using System.Reflection;
+// TODO: Add back dlekS patch.
+/*using System.Reflection;
 using HarmonyLib;
 using MiraAPI.Utilities;
 using UnityEngine;
@@ -48,4 +49,4 @@ public static class CoStartGameHostPatch
         return false;
     }
 }
-#pragma warning restore S1121
+#pragma warning restore S1121*/

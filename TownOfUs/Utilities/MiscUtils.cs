@@ -117,7 +117,7 @@ public static class MiscUtils
         }
 
         var builder = new StringBuilder();
-        builder.AppendLine(TownOfUsPlugin.Culture,
+        builder.AppendLine(
             $"\n<size=50%> \n</size><b>{TownOfUsColors.Vigilante.ToTextColor()}{TouLocale.Get("Options")}</color></b>");
 
         var insertedSummary = false;

@@ -57,25 +57,25 @@ public sealed class SheriffRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"{RoleColor.ToTextColor()}{TouLocale.Get("YouAreA")}<b> {RoleName}.</b></color>");
-        stringB.AppendLine(TownOfUsPlugin.Culture,
+        stringB.AppendLine(
             $"<size=60%>{TouLocale.Get("Alignment")}: <b>{MiscUtils.GetParsedRoleAlignment(RoleAlignment, true)}</b></size>");
         stringB.Append("<size=70%>");
         if (PlayerControl.LocalPlayer.HasModifier<EgotistModifier>())
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEgo")}");
+            stringB.AppendLine($"{TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionEgo")}");
         }
         else
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{RoleLongDescription}");
+            stringB.AppendLine($"{RoleLongDescription}");
             var addedText = "d";
             if (!CustomButtonSingleton<SheriffShootButton>.Instance.FailedShot)
             {
                 var missType = OptionGroupSingleton<SheriffOptions>.Instance.MisfireType;
                 addedText = $"Kills{missType}";
             }
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{TouLocale.GetParsed($"TouRole{LocaleKey}TabMisfire{addedText}")}</b>");
+            stringB.AppendLine($"<b>{TouLocale.GetParsed($"TouRole{LocaleKey}TabMisfire{addedText}")}</b>");
         }
 
         return stringB;

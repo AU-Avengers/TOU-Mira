@@ -13,7 +13,7 @@ public class CosmeticsLoader
     private static CosmeticsLoader? _cosmeticsLoader;
     public static CosmeticsLoader Instance => _cosmeticsLoader ??= new CosmeticsLoader();
 
-    private readonly List<Il2CppSystem.Object> _emptyKeys = new();
+    private readonly List<UnityEngine.Object> _emptyKeys = new();
 
     public IEnumerable<Object> EmptyKeys { get; }
 
@@ -28,7 +28,7 @@ public class CosmeticsLoader
 
     private CosmeticsLoader()
     {
-        EmptyKeys = new IEnumerable<Il2CppSystem.Object>(_emptyKeys.Pointer);
+        EmptyKeys = new IEnumerable<UnityEngine.Object>(_emptyKeys.Pointer);
         CosmeticGroup = ScriptableObject.CreateInstance<CosmeticReleaseGroup>();
         CosmeticGroup.date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
@@ -67,7 +67,7 @@ public class CosmeticsLoader
     public bool LocateCosmetic(
         string id,
         string type,
-        [NotNullWhen(true)] out Il2CppSystem.Type? il2CPPType
+        out Type il2CPPType
     )
     {
         il2CPPType = null;
@@ -93,7 +93,7 @@ public class CosmeticsLoader
         ProvideHandle provideHandle,
         string id,
         string type,
-        [NotNullWhen(false)] out Exception? exception
+        out Exception? exception
         )
     {
         exception = null;
@@ -111,7 +111,7 @@ public class CosmeticsLoader
         }
     }
 
-    public bool TryGetPet(string id, [NotNullWhen(true)] out CustomPet? hat)
+    public bool TryGetPet(string id, out CustomPet? hat)
     {
         return _petLoader.CustomPets.TryGetValue(id, out hat);
     }

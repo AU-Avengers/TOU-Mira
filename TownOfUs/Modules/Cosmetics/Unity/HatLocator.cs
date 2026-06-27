@@ -4,7 +4,7 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace TownOfUs.Modules.Cosmetics.Unity;
 
-public class HatLocator : Il2CppSystem.Object
+public class HatLocator : UnityEngine.Object
 {
 
     public static string GetGuid(string hatId, string type)
@@ -30,12 +30,12 @@ public class HatLocator : Il2CppSystem.Object
 
     public string LocatorId => GetType().FullName!;
 
-    public static IEnumerable<Il2CppSystem.Object>
+    public static IEnumerable<UnityEngine.Object>
         Keys => CosmeticsLoader.Instance.EmptyKeys;
 
     private string ProviderId { get; } = typeof(HatProvider).FullName!;
 
-    public bool Locate(Il2CppSystem.Object key, Il2CppSystem.Type type,
+    public bool Locate(UnityEngine.Object key, Type type,
         out IList<IResourceLocation> locations)
     {
         locations = null!;

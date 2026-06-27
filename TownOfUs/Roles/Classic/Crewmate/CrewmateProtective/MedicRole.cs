@@ -78,7 +78,7 @@ public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
 
         if (Shielded != null)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Shielded.Data.PlayerName)}</b>");
+            stringB.AppendLine($"\n<b>{ProtectionString.Replace("<player>", Shielded.Data.PlayerName)}</b>");
         }
 
         return stringB;

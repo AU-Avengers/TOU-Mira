@@ -94,7 +94,7 @@ public sealed class MirrorcasterRole : CrewmateRole, ITouCrewRole, IWikiDiscover
 
         if (Protected != null)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Protected.Data.PlayerName)}</b>");
+            stringB.AppendLine($"\n<b>{ProtectionString.Replace("<player>", Protected.Data.PlayerName)}</b>");
         }
 
         return stringB;

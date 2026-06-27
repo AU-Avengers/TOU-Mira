@@ -71,18 +71,18 @@ public sealed class HunterRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
             .FirstOrDefault();
         if (stalkedPlayer != null && !stalkedPlayer.HasDied() && !CaughtPlayers.Contains(stalkedPlayer))
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.Get("TouRoleHunterStalking")}: <b>{stalkedPlayer.Data.PlayerName}</b>");
+            stringB.AppendLine($"{TouLocale.Get("TouRoleHunterStalking")}: <b>{stalkedPlayer.Data.PlayerName}</b>");
         }
         if (CaughtPlayers.Count != 0)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture,
+            stringB.AppendLine(
                 $"<b>{TouLocale.Get("TouRoleHunterCaughtPlayersText")}</b>");
         }
 
         foreach (var player in CaughtPlayers)
         {
             var newText = $"<b><size=80%>{player.Data.PlayerName}</size></b>";
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
+            stringB.AppendLine($"{newText}");
         }
 
         return stringB;

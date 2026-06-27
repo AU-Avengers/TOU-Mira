@@ -61,20 +61,20 @@ public sealed class MonarchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
         // Add a blank line before extra info for spacing
         sb.AppendLine();
 
-        sb.AppendLine(TownOfUsPlugin.Culture, $"{VoteInfoString.Replace("<amount>", votes.ToString(TownOfUsPlugin.Culture))}");
+        sb.AppendLine($"{VoteInfoString.Replace("<amount>", votes.ToString(TownOfUsPlugin.Culture))}");
 
         var egoIsThriving = PlayerControl.LocalPlayer?.HasModifier<EgotistModifier>() ?? false;
 
         if (OptionGroupSingleton<MonarchOptions>.Instance.CrewKnightsGrantKillImmunity)
         {
             if (egoIsThriving)
-                sb.AppendLine(TownOfUsPlugin.Culture, $"{DefenseEgoString}");
+                sb.AppendLine($"{DefenseEgoString}");
             else
-                sb.AppendLine(TownOfUsPlugin.Culture, $"{DefenseString}");
+                sb.AppendLine($"{DefenseString}");
         }
 
         if (OptionGroupSingleton<MonarchOptions>.Instance.InformWhenKnightDies)
-            sb.AppendLine(TownOfUsPlugin.Culture, $"{DeathInfoString}");
+            sb.AppendLine($"{DeathInfoString}");
 
         return sb;
     }

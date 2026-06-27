@@ -80,7 +80,7 @@ public sealed class WardenRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
         if (Fortified != null)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{ProtectionString.Replace("<player>", Fortified.Data.PlayerName)}</b>");
+            stringB.AppendLine($"\n<b>{ProtectionString.Replace("<player>", Fortified.Data.PlayerName)}</b>");
         }
 
         return stringB;

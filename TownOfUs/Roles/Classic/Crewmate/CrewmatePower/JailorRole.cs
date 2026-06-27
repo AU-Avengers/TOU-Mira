@@ -89,7 +89,7 @@ public sealed class JailorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (PlayerControl.LocalPlayer.TryGetModifier<AllianceGameModifier>(out var allyMod) && !allyMod.GetsPunished)
         {
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("TouRoleJailorEvilTabInfo")}");
+            stringB.AppendLine($"{TouLocale.GetParsed("TouRoleJailorEvilTabInfo")}");
         }
 
         return stringB;

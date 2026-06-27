@@ -85,7 +85,7 @@ public sealed class SentryRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         var portableLine = portableImmediate
             ? TouLocale.GetParsed("TouRoleSentryPortableAvailableImmediately", "Portable Cameras are available immediately.")
             : TouLocale.GetParsed("TouRoleSentryPortableAvailableAfterTasks", "Portable Cameras are available after tasks.");
-        stringB.AppendLine(TownOfUsPlugin.Culture, $"<size=60%><color=#BFBFBF>{portableLine}</color></size>");
+        stringB.AppendLine($"<size=60%><color=#BFBFBF>{portableLine}</color></size>");
 
         var deployedVis = OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility;
         if (deployedVis is SentryDeployedCamerasVisibility.AfterMeeting)
@@ -105,7 +105,7 @@ public sealed class SentryRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
             var camerasHeader = maxCameras > 0
                 ? TouLocale.GetParsed("TouRoleSentryCamerasHeader", "Cameras") + $" ({currentCount}/{maxCameras})"
                 : TouLocale.GetParsed("TouRoleSentryCamerasHeader", "Cameras");
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b>{camerasHeader}</b>");
+            stringB.AppendLine($"\n<b>{camerasHeader}</b>");
 
             if (Cameras.Count > 0)
             {
@@ -135,7 +135,7 @@ public sealed class SentryRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
                     var status = isPending
                         ? $" <size=60%><color=#BFBFBF>{TouLocale.GetParsed("TouRoleSentrySentryOnly", "(Sentry-only)")}</color></size>"
                         : string.Empty;
-                    stringB.AppendLine(TownOfUsPlugin.Culture, 
+                    stringB.AppendLine(
                         $"• <b>Cam {idx}</b>: {roomName}{remainingText}{status}");
                     idx++;
                 }
@@ -151,7 +151,7 @@ public sealed class SentryRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
                         room = $"({pos.x:0.0}, {pos.y:0.0})";
                     }
                     var placingText = TouLocale.GetParsed("TouRoleSentryPlacing", "(Placing...)");
-                    stringB.AppendLine(TownOfUsPlugin.Culture, 
+                    stringB.AppendLine(
                         $"• <color=#BFBFBF>{room} <size=60%>{placingText}</size></color>");
                 }
             }
@@ -160,7 +160,7 @@ public sealed class SentryRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         if (CompletedAllTasks)
         {
             var unlockedText = TouLocale.GetParsed("TouRoleSentryPortableCameraUnlocked", "Portable Cameras Unlocked!");
-            stringB.AppendLine(TownOfUsPlugin.Culture, $"\n<b><color=#00FF00>{unlockedText}</color></b>");
+            stringB.AppendLine($"\n<b><color=#00FF00>{unlockedText}</color></b>");
         }
 
         return stringB;
