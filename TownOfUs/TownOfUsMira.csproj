@@ -4,6 +4,7 @@
         <Description>Town Of Us Mira</Description>
         <RootNamespace>TownOfUs</RootNamespace>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     </PropertyGroup>
 
     <ItemGroup>

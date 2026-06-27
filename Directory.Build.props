@@ -13,7 +13,8 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <Version>1.6.3.1</Version>
+        <VersionPrefix>1.6.3</VersionPrefix>
+        <VersionSuffix>1</VersionSuffix>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, Nix, Satire, xerminator, XtraCube, whichtwix, Zeo</Authors>
         <Company>Among Us Avengers</Company>
