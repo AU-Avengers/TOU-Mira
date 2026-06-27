@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.GameOptions;
@@ -40,8 +39,7 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
-    public RoleAlignment RoleAlignment => RoleAlignment.ImpostorKilling;
-    [HideFromIl2Cpp] public PlayerControl? Pursued { get; set; }
+    public RoleAlignment RoleAlignment => RoleAlignment.ImpostorKilling; public PlayerControl? Pursued { get; set; }
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -51,7 +49,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         CanUseVent = OptionGroupSingleton<AmbusherOptions>.Instance.CanVent
     };
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -73,7 +70,6 @@ public sealed class AmbusherRole(IntPtr cppPtr)
         Clear();
     }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

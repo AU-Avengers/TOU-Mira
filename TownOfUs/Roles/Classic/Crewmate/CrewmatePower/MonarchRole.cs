@@ -1,5 +1,4 @@
 using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
@@ -54,7 +53,6 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         MaxRoleCount = 1
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var sb = ITownOfUsRole.SetNewTabText(this);
@@ -81,7 +79,6 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         return sb;
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

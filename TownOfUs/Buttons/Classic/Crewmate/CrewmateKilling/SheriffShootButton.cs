@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Il2CppInterop.Runtime;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
@@ -68,10 +67,12 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
 
     private static IEnumerator CoSetBodyReportable(byte bodyId)
     {
-        var waitDelegate =
-            DelegateSupport.ConvertDelegate<Il2CppSystem.Func<bool>>(() => Helpers.GetBodyById(bodyId) != null);
-        yield return new WaitUntil(waitDelegate);
         var body = Helpers.GetBodyById(bodyId);
+        while (body == null)
+        {
+            yield return null;
+            body = Helpers.GetBodyById(bodyId);
+        }
 
         if (body != null)
         {

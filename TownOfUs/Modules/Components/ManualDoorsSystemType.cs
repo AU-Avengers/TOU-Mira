@@ -1,6 +1,5 @@
 using Hazel;
 using Il2CppInterop.Runtime.Injection;
-using Reactor.Utilities.Attributes;
 using TownOfUs.Interfaces.BaseGame;
 using UnityEngine;
 

@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -92,7 +91,6 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         Icon = TouRoleIcons.Herbalist,
     };
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
         new(TouLocale.GetParsed($"TouRole{LocaleKey}Expose", "Expose"),

@@ -1,6 +1,5 @@
 using System.Text;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
@@ -33,7 +32,6 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -63,9 +61,7 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         Icon = TouRoleIcons.Seer,
         OptionsScreenshot = TouBanners.SeerRoleBanner,
         IntroSound = TouAudio.QuestionSound
-    };
-    [HideFromIl2Cpp] public PlayerControl? GazeTarget { get; set; }
-    [HideFromIl2Cpp] public PlayerControl? IntuitTarget { get; set; }
+    }; public PlayerControl? GazeTarget { get; set; } public PlayerControl? IntuitTarget { get; set; }
 
     public static string TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
     public override void Initialize(PlayerControl player)
@@ -182,7 +178,6 @@ public sealed class SeerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRol
         GazeTarget = null;
     }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

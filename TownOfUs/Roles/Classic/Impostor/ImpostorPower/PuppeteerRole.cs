@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -18,12 +17,10 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ITransportTrigger
 {
-    [HideFromIl2Cpp]
     public MonoBehaviour? OnTransport()
     {
         return Controlled;
-    }
-    [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
+    } public PlayerControl? Controlled { get; set; }
     public float ControlTimer { get; set; }
 
     private LobbyNotificationMessage? controllerNotification;
@@ -52,7 +49,6 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         CanUseVent = OptionGroupSingleton<PuppeteerOptions>.Instance.CanVent
     };
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
         new(TouLocale.GetParsed($"TouRole{LocaleKey}Control", "Control"),

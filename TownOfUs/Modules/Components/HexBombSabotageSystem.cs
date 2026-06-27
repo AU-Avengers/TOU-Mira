@@ -1,7 +1,6 @@
 using Hazel;
 using Il2CppInterop.Runtime.Injection;
 using MiraAPI.Roles;
-using Reactor.Utilities.Attributes;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles.Impostor;

@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -17,8 +16,7 @@ using UnityEngine.Events;
 namespace TownOfUs.Roles.Crewmate;
 
 public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
-{
-    [HideFromIl2Cpp] public PlayerVoteArea? ProsecuteButton { get; private set; }
+{ public PlayerVoteArea? ProsecuteButton { get; private set; }
 
     public bool HasProsecuted { get; private set; }
 
@@ -77,7 +75,6 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -108,7 +105,6 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         IntroSound = TouAudio.ProsIntroSound
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var text = ITownOfUsRole.SetNewTabText(this);

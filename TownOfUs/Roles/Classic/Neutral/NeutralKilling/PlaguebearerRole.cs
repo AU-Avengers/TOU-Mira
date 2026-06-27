@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Text;
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -41,7 +40,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
 
         var allInfected =
-            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) => !x.Player.HasDied() && x.PlagueBearerId == Player.PlayerId && !x.Player.AmOwner);
+            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>((x) => !x.Player.HasDied() && x.PlagueBearerId == Player.PlayerId && !x.Player.AmOwner);
 
         if (allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
             (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2))
@@ -67,7 +66,6 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -94,7 +92,6 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

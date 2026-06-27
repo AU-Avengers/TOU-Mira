@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using AmongUs.GameOptions;
 using BepInEx;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
 using Reactor.Utilities;
@@ -130,7 +129,6 @@ public static class LogoPatch
         }
     }
 
-    [HideFromIl2Cpp]
     public static IEnumerator CoOpenWarning()
     {
         var task = Task.Run(() => MessageBox(GetForegroundWindow(),

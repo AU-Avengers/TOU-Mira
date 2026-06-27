@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -13,8 +12,7 @@ using UnityEngine;
 namespace TownOfUs.Roles.Impostor;
 
 public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
-{
-    [HideFromIl2Cpp] public PlayerControl? Sampled { get; set; }
+{ public PlayerControl? Sampled { get; set; }
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Morphling";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -46,7 +44,6 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         Clear();
     }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
@@ -60,7 +57,6 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         return stringB;
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

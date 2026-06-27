@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
@@ -36,7 +35,6 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -104,7 +102,6 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         }
     }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

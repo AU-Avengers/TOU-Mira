@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Il2CppInterop.Runtime;
 using Reactor.Localization.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Cosmetics.Unity;

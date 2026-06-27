@@ -1,13 +1,11 @@
 using System.Collections;
 using Hazel;
-using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using Reactor.Utilities.Attributes;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
@@ -16,7 +14,6 @@ using UnityEngine;
 
 namespace TownOfUs.Modules.MedSpirit;
 
-[RegisterInIl2Cpp]
 public sealed class MedSpiritObject : InnerNetObject
 {
     // Components
@@ -231,7 +228,6 @@ public sealed class MedSpiritObject : InnerNetObject
         transform.position = position;
     }
 
-    [HideFromIl2Cpp]
     public IEnumerator CoFadeIn()
     {
         yield return new WaitForEndOfFrame();
@@ -244,7 +240,6 @@ public sealed class MedSpiritObject : InnerNetObject
         yield return MiscUtils.FadeIn(Rend, 0.0001f, 0.05f);
     }
 
-    [HideFromIl2Cpp]
     public IEnumerator CoDestroy()
     {
         Moveable = false;

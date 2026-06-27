@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Options;
@@ -16,7 +15,6 @@ public interface ITownOfUsRole : ICustomRole
     public virtual string ShortName => "";
     public static Dictionary<string, string> LocaleList => [];
 
-    [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
@@ -235,7 +233,6 @@ public interface ITownOfUsRole : ICustomRole
         return TouRoleUtils.SetDeadTabText(role);
     }
 
-    [HideFromIl2Cpp]
     StringBuilder ICustomRole.SetTabText()
     {
         return SetNewTabText(this);

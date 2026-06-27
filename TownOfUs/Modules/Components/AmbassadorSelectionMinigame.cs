@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;
@@ -14,7 +12,6 @@ using UnityEngine.Events;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
 [SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "Unity")]
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Unity")]
 public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr)
@@ -82,7 +79,6 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         return gameObject.AddComponent<AmbassadorSelectionMinigame>();
     }
 
-    [HideFromIl2Cpp]
     public void Open(List<RoleBehaviour> roles, Action<RoleBehaviour> onClick, RoleTypes? defaultRole = null)
     {
         availableRoles = roles;
@@ -211,7 +207,6 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         return passiveButton;
     }
 
-    [HideFromIl2Cpp]
     private IEnumerator CoAnimateCards()
     {
         foreach (var o in RolesHolder!.transform)

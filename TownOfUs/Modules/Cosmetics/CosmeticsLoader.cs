@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Il2CppInterop.Runtime;
 using TownOfUs.Modules.Cosmetics.Pets;
 using TownOfUs.Modules.Cosmetics.Unity;
 using UnityEngine;

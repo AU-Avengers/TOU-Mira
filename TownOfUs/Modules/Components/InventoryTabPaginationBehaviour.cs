@@ -1,6 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Utilities.Assets;
-using Reactor.Utilities.Attributes;
+﻿using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;
@@ -10,7 +8,6 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
 public class InventoryTabPaginationBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
 {
     public TextMeshPro title;
@@ -21,10 +18,8 @@ public class InventoryTabPaginationBehaviour(nint cppPtr) : MonoBehaviour(cppPtr
     public int CurrentTab { get; private set; }
     public int MaxTab { get; private set; }
 
-    [HideFromIl2Cpp]
     public Func<string> GetTextFunction { get; private set; }
 
-    [HideFromIl2Cpp]
     public void Setup(InventoryTab inventoryTab, int maxTab, Func<string> getTextFunction)
     {
         tab = inventoryTab;

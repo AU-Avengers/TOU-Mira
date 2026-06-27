@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Events;
+﻿using MiraAPI.Events;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
@@ -39,7 +38,6 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

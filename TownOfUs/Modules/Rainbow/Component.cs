@@ -1,10 +1,8 @@
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 
 namespace TownOfUs.Modules.RainbowMod;
 
-[RegisterInIl2Cpp]
-public sealed class RainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
+public sealed class RainbowBehaviour : MonoBehaviour
 {
     public Renderer Renderer;
     public int Id;
@@ -29,8 +27,7 @@ public sealed class RainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     }
 }
 
-[RegisterInIl2Cpp]
-public sealed class BasicRainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
+public sealed class BasicRainbowBehaviour : MonoBehaviour
 {
     public SpriteRenderer Renderer;
     public int Id;
@@ -55,8 +52,7 @@ public sealed class BasicRainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     }
 }
 
-[RegisterInIl2Cpp]
-public sealed class LightRainbowBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
+public sealed class LightRainbowBehaviour : MonoBehaviour
 {
     public SpriteRenderer Renderer;
     public int Id;

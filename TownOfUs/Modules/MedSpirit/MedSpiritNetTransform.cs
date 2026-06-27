@@ -1,13 +1,11 @@
 using Hazel;
 using InnerNet;
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 
 // ReSharper disable InconsistentNaming
 
 namespace TownOfUs.Modules.MedSpirit;
 
-[RegisterInIl2Cpp]
 public sealed class MedSpiritNetTransform(nint cppPtr) : InnerNetObject(cppPtr)
 {
     private bool isPaused;

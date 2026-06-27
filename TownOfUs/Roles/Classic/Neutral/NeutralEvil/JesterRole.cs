@@ -1,5 +1,4 @@
 ﻿using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -29,8 +28,7 @@ public sealed class JesterRole(IntPtr cppPtr)
     public bool Voted { get; set; }
     public bool AboutToWin { get; set; }
     public bool SentWinMsg { get; set; }
-
-    [HideFromIl2Cpp] public List<byte> Voters { get; } = [];
+ public List<byte> Voters { get; } = [];
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<EngineerTouRole>());
 

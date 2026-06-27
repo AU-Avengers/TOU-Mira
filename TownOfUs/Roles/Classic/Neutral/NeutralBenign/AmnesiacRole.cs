@@ -1,6 +1,5 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -50,7 +49,6 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -95,7 +93,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         {
             var mods = Player.GetModifiers<AmnesiacArrowModifier>();
 
-            mods.Do([HideFromIl2Cpp](x) => Player.RemoveModifier(x.UniqueId));
+            mods.Do((x) => Player.RemoveModifier(x.UniqueId));
         }
     }
 
@@ -158,7 +156,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
                 .ToList();
             inquis.TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
                 .Where(x => x.Player != player)
-                .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.GetRoleName()).ToList();
+                .Select((x) => x.TargetRole).OrderBy((x) => x.GetRoleName()).ToList();
         }
         else if (player.Data.Role is PlaguebearerRole || player.Data.Role is PestilenceRole)
         {

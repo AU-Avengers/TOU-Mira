@@ -1,4 +1,3 @@
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -25,7 +24,6 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -54,16 +52,11 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         OptionsScreenshot = TouBanners.SentryRoleBanner,
         IntroSound = TouAudio.SentryIntro,
     };
+ public static List<KeyValuePair<SurvCamera, int>> Cameras { get; set; } = [];
+ public List<Vector2> FutureCameras { get; set; } = [];
+ public bool PortableCamsUnlockedNotified { get; set; }
+ public static HashSet<byte> PortableCamsUsers { get; } = new();
 
-    [HideFromIl2Cpp] public static List<KeyValuePair<SurvCamera, int>> Cameras { get; set; } = [];
-
-    [HideFromIl2Cpp] public List<Vector2> FutureCameras { get; set; } = [];
-
-    [HideFromIl2Cpp] public bool PortableCamsUnlockedNotified { get; set; }
-
-    [HideFromIl2Cpp] public static HashSet<byte> PortableCamsUsers { get; } = new();
-
-    [HideFromIl2Cpp]
     public static bool AnyPortableCamsInUse => PortableCamsUsers.Count > 0;
 
     public bool CompletedAllTasks
@@ -81,7 +74,6 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

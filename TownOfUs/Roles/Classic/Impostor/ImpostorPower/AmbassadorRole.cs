@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -35,7 +34,6 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -51,9 +49,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
 
     public Color RoleColor => TownOfUsColors.Impostor;
     public ModdedRoleTeams Team => ModdedRoleTeams.Impostor;
-    public RoleAlignment RoleAlignment => RoleAlignment.ImpostorPower;
-    [HideFromIl2Cpp] public NetworkedPlayerInfo? SelectedPlr { get; private set; }
-    [HideFromIl2Cpp] public RoleBehaviour? SelectedRole { get; private set; }
+    public RoleAlignment RoleAlignment => RoleAlignment.ImpostorPower; public NetworkedPlayerInfo? SelectedPlr { get; private set; } public RoleBehaviour? SelectedRole { get; private set; }
     public int RetrainsAvailable { get; set; }
     public int RoundsCooldown { get; set; }
     private MeetingMenu meetingMenu;
@@ -71,7 +67,6 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         Icon = TouRoleIcons.Ambassador
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

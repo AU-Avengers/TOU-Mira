@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
@@ -48,7 +47,6 @@ public sealed class MercenaryRole(IntPtr cppPtr)
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -87,7 +85,6 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
@@ -115,7 +112,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
 
         if (!Player.HasModifier<BasicGhostModifier>() && ModifierUtils
-                .GetActiveModifiers<MercenaryBribedModifier>([HideFromIl2Cpp](x) => x.Mercenary == Player).HasAny())
+                .GetActiveModifiers<MercenaryBribedModifier>((x) => x.Mercenary == Player).HasAny())
         {
             Player.AddModifier<BasicGhostModifier>();
         }

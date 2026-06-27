@@ -1,5 +1,4 @@
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
@@ -17,9 +16,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class EscapistRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
-{
-    [HideFromIl2Cpp] public Vector2? MarkedLocation { get; set; }
-    [HideFromIl2Cpp] public GameObject EscapeMark { get; set; }
+{ public Vector2? MarkedLocation { get; set; } public GameObject EscapeMark { get; set; }
 
     public void FixedUpdate()
     {
@@ -69,7 +66,6 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
 
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

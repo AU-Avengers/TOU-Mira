@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Modifiers;
+﻿using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -35,8 +34,7 @@ public sealed class InvestigatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     };
 
 
-
-    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
+ public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override void Initialize(PlayerControl player)
     {

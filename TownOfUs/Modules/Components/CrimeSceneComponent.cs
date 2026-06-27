@@ -1,14 +1,11 @@
 ﻿using System.Collections;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
-using Reactor.Utilities.Attributes;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
 public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
 {
     public static readonly List<CrimeSceneComponent> _crimeScenes = [];
@@ -64,7 +61,6 @@ public sealed class CrimeSceneComponent(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
-    [HideFromIl2Cpp]
     public List<byte> GetScenePlayers()
     {
         return _scenePlayers;

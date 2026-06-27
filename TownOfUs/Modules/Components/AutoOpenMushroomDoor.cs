@@ -1,11 +1,9 @@
 using Hazel;
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
 public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
 {
     public override bool DoUpdate(float dt)

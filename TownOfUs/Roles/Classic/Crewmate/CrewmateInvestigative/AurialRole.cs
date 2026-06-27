@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -54,7 +53,6 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         _senseArrows.Clear();
     }
 
-    [HideFromIl2Cpp]
     public IEnumerator Sense(PlayerControl player)
     {
         if (!CheckRange(player, OptionGroupSingleton<AurialOptions>.Instance.AuraOuterRadius))

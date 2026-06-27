@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -15,10 +14,8 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
-
-    [HideFromIl2Cpp] public CrimeSceneComponent? InvestigatingScene { get; set; }
-
-    [HideFromIl2Cpp] public List<byte> InvestigatedPlayers { get; init; } = new();
+ public CrimeSceneComponent? InvestigatingScene { get; set; }
+ public List<byte> InvestigatedPlayers { get; init; } = new();
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Forensic";
@@ -33,7 +30,6 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

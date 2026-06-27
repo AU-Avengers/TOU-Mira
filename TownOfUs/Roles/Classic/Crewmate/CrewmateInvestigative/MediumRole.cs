@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -22,8 +21,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public override bool IsAffectedByComms => false;
     public bool IgnoredByRewind => false;
     public bool IgnoredByRecording => Spirit != null;
-
-    [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = new();
+ public List<MediatedModifier> MediatedPlayers { get; } = new();
 
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Medium";
@@ -38,7 +36,6 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

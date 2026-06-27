@@ -1,12 +1,10 @@
 ﻿using AmongUs.GameOptions;
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 using TMPro;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
-public class WikiHyperlink(IntPtr cppPtr) : MonoBehaviour(cppPtr)
+public class WikiHyperlink : MonoBehaviour
 {
     private TextMeshPro tmp;
     private Camera worldCamera;

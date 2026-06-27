@@ -2,7 +2,6 @@ using System.Collections;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -58,7 +57,6 @@ public sealed class MayorRole(IntPtr cppPtr)
     public bool IsPowerCrew => true;
     public static bool DisabledAnimation { get; set; }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
@@ -72,8 +70,7 @@ public sealed class MayorRole(IntPtr cppPtr)
 
     public bool IsGuessable => false;
     public RoleBehaviour AppearAs => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<PoliticianRole>());
-
-    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
+ public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
 
     public static string UnrevealedString = TouLocale.GetParsed("TouRoleMayorUnrevealedTabText");

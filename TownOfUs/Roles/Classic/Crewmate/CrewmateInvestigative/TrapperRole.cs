@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -14,8 +13,7 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
-
-    [HideFromIl2Cpp] public List<RoleBehaviour> TrappedPlayers { get; set; } = new();
+ public List<RoleBehaviour> TrappedPlayers { get; set; } = new();
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Trapper";
@@ -30,7 +28,6 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

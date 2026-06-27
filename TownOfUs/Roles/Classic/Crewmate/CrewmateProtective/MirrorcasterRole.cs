@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -20,10 +19,8 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
-
-    [HideFromIl2Cpp] public PlayerControl? Protected { get; set; }
-    public int UnleashesAvailable { get; set; }
-    [HideFromIl2Cpp] public RoleBehaviour? ContainedRole { get; set; }
+ public PlayerControl? Protected { get; set; }
+    public int UnleashesAvailable { get; set; } public RoleBehaviour? ContainedRole { get; set; }
 
     public void FixedUpdate()
     {
@@ -51,7 +48,6 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -92,7 +88,6 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         ProtectionString = TouLocale.GetParsed("TouRoleMirrorcasterTabProtecting");
     }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

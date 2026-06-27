@@ -1,5 +1,4 @@
 using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -46,7 +45,6 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -107,7 +105,6 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         CustomButtonSingleton<AltruistSacrificeButton>.Instance.RevivedInRound = false;
     }
 
-    [HideFromIl2Cpp]
     public static void ClearArrows()
     {
         Error($"AltruistRole.ClearArrows");
@@ -123,7 +120,6 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         }
     }
 
-    [HideFromIl2Cpp]
     public IEnumerator CoRevivePlayer(PlayerControl dead)
     {
         IsReviveInProgress = true;

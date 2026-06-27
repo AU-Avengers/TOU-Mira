@@ -1,10 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 
 namespace AuAvengers.Animations;
 
-[RegisterInIl2Cpp]
 [SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "Unity")]
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Unity")]
 [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1307:Accessible fields should begin with upper-case letter",

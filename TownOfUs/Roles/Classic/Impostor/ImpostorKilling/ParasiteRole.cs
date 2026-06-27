@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -18,8 +17,7 @@ using Object = UnityEngine.Object;
 namespace TownOfUs.Roles.Impostor;
 
 public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
-{
-    [HideFromIl2Cpp] public PlayerControl? Controlled { get; set; }
+{ public PlayerControl? Controlled { get; set; }
     private float _overtakeKillLockoutUntil;
     private bool _killPendingFromTimer;
 
@@ -67,7 +65,6 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         CanUseVent = OptionGroupSingleton<ParasiteOptions>.Instance.CanVent
     };
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities =>
     [
         new(TouLocale.GetParsed($"TouRole{LocaleKey}Overtake", "Overtake"),

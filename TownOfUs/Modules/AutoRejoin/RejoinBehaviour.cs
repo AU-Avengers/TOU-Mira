@@ -1,14 +1,12 @@
 
 using AmongUs.Data;
 using InnerNet;
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.AutoRejoin;
 
-[RegisterInIl2Cpp]
-public class RejoinBehaviour(IntPtr cppPtr) : MonoBehaviour(cppPtr)
+public class RejoinBehaviour : MonoBehaviour
 {
     public static bool            PendingRejoin;
     public static int             SavedGameId = -1;

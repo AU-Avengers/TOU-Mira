@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using Il2CppSystem.Text;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;

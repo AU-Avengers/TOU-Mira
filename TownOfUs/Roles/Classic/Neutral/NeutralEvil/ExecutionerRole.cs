@@ -1,7 +1,6 @@
 using System.Collections;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -41,8 +40,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
     // If the Executioner's target is evil, then they will not be able to end the game, and will instead torment.
     public bool TargetVotedAsEvil { get; set; }
     public bool AboutToWin { get; set; }
-
-    [HideFromIl2Cpp] public List<byte> Voters { get; set; } = [];
+ public List<byte> Voters { get; set; } = [];
 
     public int Priority { get; set; } = 2;
 
@@ -176,7 +174,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         if (Target == null)
         {
             Target = ModifierUtils
-                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
+                .GetPlayersWithModifier<ExecutionerTargetModifier>((x) => x.OwnerId == Player.PlayerId)
                 .FirstOrDefault();
         }
 
@@ -200,7 +198,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
         if (TutorialManager.InstanceExists && Player.AmOwner)
         {
             var players = ModifierUtils
-                .GetPlayersWithModifier<ExecutionerTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
+                .GetPlayersWithModifier<ExecutionerTargetModifier>((x) => x.OwnerId == Player.PlayerId)
                 .ToList();
             players.Do(x => x.RpcRemoveModifier<ExecutionerTargetModifier>());
         }

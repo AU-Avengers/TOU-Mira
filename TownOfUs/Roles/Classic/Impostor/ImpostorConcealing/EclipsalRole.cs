@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Roles;
+﻿using MiraAPI.Roles;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Impostor;
@@ -31,7 +30,6 @@ public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
 
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

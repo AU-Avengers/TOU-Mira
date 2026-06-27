@@ -1,11 +1,9 @@
 
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 
 namespace TownOfUs.Modules.AutoRejoin;
 
-[RegisterInIl2Cpp]
-public class CountdownGui(IntPtr cppPtr) : MonoBehaviour(cppPtr)
+public class CountdownGui : MonoBehaviour
 {
     private GUIStyle? _style;
     private GUIStyle? _shadow;

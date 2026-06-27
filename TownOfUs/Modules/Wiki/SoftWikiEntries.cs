@@ -1,5 +1,4 @@
 ﻿using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -8,8 +7,7 @@ using UnityEngine;
 namespace TownOfUs.Modules.Wiki;
 
 public sealed class SoftWikiInfo(Type type, RoleTypes role)
-{
-    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; set; } = [];
+{ public List<CustomButtonWikiDescription> Abilities { get; set; } = [];
     public Type EntryType => type;
     public Sprite Icon { get; set; }
     public RoleTypes AssociatedRole => role;

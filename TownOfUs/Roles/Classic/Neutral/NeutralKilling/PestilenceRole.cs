@@ -1,7 +1,6 @@
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -79,7 +78,6 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         return result;
     }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();

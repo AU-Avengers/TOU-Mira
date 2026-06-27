@@ -5,7 +5,6 @@ using System.Text;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using Il2CppInterop.Runtime;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Hud;
 using Reactor.Utilities;

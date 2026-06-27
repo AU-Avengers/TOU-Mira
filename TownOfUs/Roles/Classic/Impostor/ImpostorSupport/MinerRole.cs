@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -20,8 +19,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class MinerRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
-{
-    [HideFromIl2Cpp] public List<Vent> Vents { get; set; } = [];
+{ public List<Vent> Vents { get; set; } = [];
 
     public void FixedUpdate()
     {
@@ -64,7 +62,6 @@ public sealed class MinerRole(IntPtr cppPtr)
         IntroSound = TouAudio.MineSound
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
@@ -76,7 +73,6 @@ public sealed class MinerRole(IntPtr cppPtr)
         return stringB;
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -191,7 +187,6 @@ public sealed class MinerRole(IntPtr cppPtr)
         }
     }
 
-    [HideFromIl2Cpp]
     public IEnumerator CoExplode(Vector3 position)
     {
         var explodeAnim =

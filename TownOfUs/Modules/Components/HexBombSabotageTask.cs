@@ -1,11 +1,9 @@
 using System.Collections;
 using AmongUs.Data;
 using BepInEx.Unity.IL2CPP.Utils.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Attributes;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Roles.Impostor;
@@ -14,7 +12,6 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
 public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
 {
     public override int TaskStep => !IsComplete ? 0 : 1;
@@ -63,7 +60,6 @@ public sealed class HexBombSabotageTask(nint cppPtr) : PlayerTask(cppPtr)
         notif1.AdjustNotification();
     }
 
-    [HideFromIl2Cpp]
     private IEnumerator CoFlash()
     {
         var wait = new WaitForSeconds(1f);

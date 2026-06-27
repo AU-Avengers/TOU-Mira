@@ -1,15 +1,12 @@
-using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Attributes;
 using TMPro;
 using UnityEngine;
 
 namespace TownOfUs.Modules.Wiki;
 
-[RegisterInIl2Cpp]
-public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
+public sealed class InGameRoleWikiEntry : MonoBehaviour
 {
     public Il2CppReferenceField<SpriteRenderer> EntryIconRenderer;
     public Il2CppReferenceField<TextMeshPro> EntryNameTmp;
@@ -18,13 +15,7 @@ public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
     public Il2CppReferenceField<TextMeshPro> EntryAmountTmp;
     public Il2CppReferenceField<TextMeshPro> EntrySourceTmp;
     public Il2CppReferenceField<ButtonRolloverHandler> RolloverHandler;
-    public Il2CppReferenceField<SpriteRenderer> ButtonRenderer;
-    [HideFromIl2Cpp] public RoleBehaviour RoleBehaviour { get; set; }
-    [HideFromIl2Cpp] public ICustomRole? CustomRole { get; set; }
-    [HideFromIl2Cpp] public string EntryTitle { get; set; }
-    [HideFromIl2Cpp] public string EntryTeam { get; set; }
-    [HideFromIl2Cpp] public string EntrySource { get; set; }
-    [HideFromIl2Cpp] public bool HasNoCount { get; set; }
+    public Il2CppReferenceField<SpriteRenderer> ButtonRenderer; public RoleBehaviour RoleBehaviour { get; set; } public ICustomRole? CustomRole { get; set; } public string EntryTitle { get; set; } public string EntryTeam { get; set; } public string EntrySource { get; set; } public bool HasNoCount { get; set; }
 
     public void SetData()
     {
@@ -76,7 +67,6 @@ public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
-    [HideFromIl2Cpp]
     public void SetInitialData(RoleBehaviour role, Sprite sprite, string team, Color color, string source)
     {
         RoleBehaviour = role;
@@ -104,7 +94,6 @@ public sealed class InGameRoleWikiEntry(IntPtr cppPtr) : MonoBehaviour(cppPtr)
         EntryAmountTmp.Value.m_maxWidth = EntryAmountTmp.Value.maxWidth + 0.1f;
     }
 
-    [HideFromIl2Cpp]
     public void SetInitialData(RoleBehaviour role, ICustomRole customRole, Sprite sprite, string team, Color color, string source)
     {
         RoleBehaviour = role;

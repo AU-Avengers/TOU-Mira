@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;
@@ -12,7 +10,6 @@ using UnityEngine.Events;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
 [SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "Unity")]
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "Unity")]
 public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
@@ -75,7 +72,6 @@ public sealed class AmbassadorConfirmMinigame(IntPtr cppPtr) : Minigame(cppPtr)
         return gameObject.AddComponent<AmbassadorConfirmMinigame>();
     }
 
-    [HideFromIl2Cpp]
     public void Open(RoleBehaviour role, Action<bool> onClick)
     {
         clickHandler = onClick;

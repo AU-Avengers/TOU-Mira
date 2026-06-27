@@ -1,11 +1,9 @@
-using Reactor.Utilities.Attributes;
 using TMPro;
 using UnityEngine;
 
 namespace TownOfUs.Modules.Localization;
 
-[RegisterInIl2Cpp]
-public class TmpMiraTranslator(IntPtr cppPtr) : MonoBehaviour(cppPtr), IMiraTranslation
+public class TmpMiraTranslator : MonoBehaviour, IMiraTranslation
 {
     public string stringName;
 

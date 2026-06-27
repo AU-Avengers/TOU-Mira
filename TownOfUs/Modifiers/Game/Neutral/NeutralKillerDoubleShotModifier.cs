@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles;
@@ -11,8 +10,7 @@ public sealed class NeutralKillerDoubleShotModifier : DoubleShotModifier, IWikiD
     public override string ModifierName => TouLocale.Get("TouModifierDoubleShot", "Double Shot");
     public override bool ShowInFreeplay => true;
     public override bool HideFromGuessing => true;
-
-    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
+ public bool IsHiddenFromList => true;
 
     // YES this is scuffed, a better solution will be used at a later time
     public uint FakeTypeId =>

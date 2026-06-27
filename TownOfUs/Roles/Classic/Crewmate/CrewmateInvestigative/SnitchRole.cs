@@ -1,6 +1,5 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -24,8 +23,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public bool CanBeEgotist => true;
     public bool CanBeOtherEvil => false;
 
-    private Dictionary<byte, ArrowBehaviour>? _snitchArrows;
-    [HideFromIl2Cpp] public ArrowBehaviour? SnitchRevealArrow { get; private set; }
+    private Dictionary<byte, ArrowBehaviour>? _snitchArrows; public ArrowBehaviour? SnitchRevealArrow { get; private set; }
     public bool CompletedAllTasks => TaskStage is TaskStage.CompletedTasks;
     public bool OnLastTask => TaskStage is TaskStage.Revealed or TaskStage.CompletedTasks;
     public TaskStage TaskStage { get; private set; } = TaskStage.Unrevealed;
@@ -72,7 +70,6 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         IntroSound = TouAudio.ToppatIntroSound
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = new StringBuilder();

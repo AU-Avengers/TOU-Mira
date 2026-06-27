@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.GameOptions;
+﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Options;
 using UnityEngine;
@@ -9,8 +8,7 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 public sealed class ImpostorAssassinModifier : AssassinModifier, IWikiDiscoverable
 {
     public override bool ShowInFreeplay => true;
-
-    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
+ public bool IsHiddenFromList => true;
 
     // YES this is scuffed, a better solution will be used at a later time
     public uint FakeTypeId =>

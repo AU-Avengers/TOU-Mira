@@ -1,5 +1,4 @@
-﻿using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Hud;
+﻿using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
@@ -19,8 +18,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 {
     private MeetingMenu meetingMenu;
     public override bool IsAffectedByComms => false;
-
-    [HideFromIl2Cpp] public PlayerControl? Killer { get; set; }
+ public PlayerControl? Killer { get; set; }
     public DoomableType DoomHintType => DoomableType.Relentless;
     public string LocaleKey => "Deputy";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -34,7 +32,6 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

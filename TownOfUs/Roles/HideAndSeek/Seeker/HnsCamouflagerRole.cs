@@ -1,5 +1,4 @@
 using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities;
@@ -25,7 +24,6 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -60,12 +58,10 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
     {
         // ignore
     }
-
-    [HideFromIl2Cpp] public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
+ public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
 
     public bool CanSpawnOnCurrentMode() => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
 
-    [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => MiscUtils.CurrentGamemode() is TouGamemode.HideAndSeek;
 
     public override void Initialize(PlayerControl player)
@@ -74,7 +70,6 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
         Coroutines.Start(CoSetUpBodyType());
     }
 
-    [HideFromIl2Cpp]
     public IEnumerator CoSetUpBodyType()
     {
         yield return new WaitForSeconds(7f);

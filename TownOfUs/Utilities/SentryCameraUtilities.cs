@@ -1,4 +1,3 @@
-using Il2CppInterop.Runtime;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.PrefabChanging;
 using TownOfUs.Roles.Crewmate;

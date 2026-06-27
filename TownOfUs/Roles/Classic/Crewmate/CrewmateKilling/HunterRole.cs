@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -21,8 +20,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     public override bool IsAffectedByComms => false;
 
     public PlayerControl? LastVoted { get; set; }
-
-    [HideFromIl2Cpp] public List<PlayerControl> CaughtPlayers { get; } = [];
+ public List<PlayerControl> CaughtPlayers { get; } = [];
 
     public DoomableType DoomHintType => DoomableType.Hunter;
     public string LocaleKey => "Hunter";
@@ -37,7 +35,6 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -67,7 +64,6 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         IntroSound = TouAudio.OtherIntroSound
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

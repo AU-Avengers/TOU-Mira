@@ -1,4 +1,3 @@
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -20,9 +19,7 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     public bool CanBeOtherEvil => true;
 
     private MeetingMenu meetingMenu;
-
-    [HideFromIl2Cpp] public PlayerVoteArea? Swap1 { get; set; }
-    [HideFromIl2Cpp] public PlayerVoteArea? Swap2 { get; set; }
+ public PlayerVoteArea? Swap1 { get; set; } public PlayerVoteArea? Swap2 { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string LocaleKey => "Swapper";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -36,7 +33,6 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

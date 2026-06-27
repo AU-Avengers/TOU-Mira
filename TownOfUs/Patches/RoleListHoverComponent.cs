@@ -1,5 +1,4 @@
 using MiraAPI.GameOptions;
-using Reactor.Utilities.Attributes;
 using TMPro;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options;
@@ -7,7 +6,6 @@ using UnityEngine;
 
 namespace TownOfUs.Patches;
 
-[RegisterInIl2Cpp]
 public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
 {
     public TextMeshPro TextTarget;

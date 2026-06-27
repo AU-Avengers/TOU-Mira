@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
-using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Interfaces;
@@ -17,7 +15,6 @@ using UnityEngine.UI;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
 public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
 {
     private UiElement? backButton;
@@ -118,7 +115,6 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
             : text.Trim().ToLowerInvariant();
     }
 
-    [HideFromIl2Cpp]
     private List<MenuEntry> GetFilteredEntries()
     {
         var query = NormalizeForSearch(searchText);
@@ -149,7 +145,6 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         }
     }
 
-    [HideFromIl2Cpp]
     private IEnumerator CoRestoreFocus()
     {
         yield return null;
@@ -209,7 +204,6 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         return list2;
     }
 
-    [HideFromIl2Cpp]
     private void EnsureSearchUi()
     {
         if (searchTextbox != null)
@@ -373,7 +367,6 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         }
     }
 
-    [HideFromIl2Cpp]
     private static Bounds CalcSpriteBoundsInParentSpace(Transform parent, GameObject root)
     {
         var first = true;
@@ -407,7 +400,6 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         return bounds;
     }
 
-    [HideFromIl2Cpp]
     public void Begin(Func<RoleBehaviour, bool> roleMatch, Action<RoleBehaviour> roleClickHandler,
         Func<BaseModifier, bool>? modifierMatch = null, Action<BaseModifier>? modifierClickHandler = null)
     {

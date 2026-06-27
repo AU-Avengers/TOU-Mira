@@ -2,9 +2,7 @@
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
-using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Injection;
 using MiraAPI;
 using MiraAPI.PluginLoading;
 using MiraAPI.Utilities.Assets;
@@ -17,8 +15,6 @@ using TownOfUs.Modules.Cosmetics.Unity;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.WinConditions;
-using UnityEngine.AddressableAssets.ResourceLocators;
-using UnityEngine.ResourceManagement.ResourceProviders;
 using ModCompatibility = TownOfUs.Modules.ModCompatibility;
 
 namespace TownOfUs;
@@ -31,7 +27,7 @@ namespace TownOfUs;
 [BepInDependency(ReactorPlugin.Id)]
 [BepInDependency(MiraApiPlugin.Id)]
 [ReactorModFlags(ModFlags.RequireOnAllClients)]
-public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
+public partial class TownOfUsPlugin : BaseUnityPlugin, IMiraPlugin
 {
     public static bool IsMobile => Constants.GetPlatformType() is Platforms.Android or Platforms.IPhone;
     /// <summary>
@@ -68,6 +64,7 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     public string ModifierMenuDescription => TouLocale.Get("TouTabOptionModifiersDesc");
 
     public static ConfigEntry<LegacyVisuals> LegacyMode { get; private set; }
+    public static TownOfUsPlugin Instance { get; private set; }
 
     /// <inheritdoc />
     public ConfigFile GetConfigFile()
@@ -83,22 +80,15 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
     /// <summary>
     ///     The Load method for the plugin.
     /// </summary>
-    public override void Load()
+    private void Awake()
     {
+        Instance = this;
         LegacyMode = Config.Bind("LocalSettings", "LegacyMode", LegacyVisuals.Disabled,
             "If enabled, assets will appear like they did in TOU Reactivated / Polus.gg / Town of Us.");
         ReactorCredits.Register("Town Of Us: Mira", Version, IsDevBuild, ReactorCredits.AlwaysShow);
         LocalizationManager.Register(new TaskProvider());
 
         TouAssets.Initialize();
-
-        IL2CPPChainloader.Instance.Finished +=
-            ModCompatibility
-                .Initialize; // Initialise AFTER the mods are loaded to ensure maximum parity (no need for the soft dependency either then)
-
-        IL2CPPChainloader.Instance.Finished +=
-            ModNewsFetcher
-                .CheckForNews; // Checks for mod announcements after everything is loaded to avoid Epic Games crashing
 
         if (!IsMobile)
         {
@@ -116,16 +106,6 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
             }
         }
 
-        ClassInjector.RegisterTypeInIl2Cpp<HatLocator>(new RegisterTypeOptions
-        {
-            Interfaces = new Il2CppInterfaceCollection([typeof(IResourceLocator)])
-        });
-
-        ClassInjector.RegisterTypeInIl2Cpp<HatProvider>(new RegisterTypeOptions
-        {
-            Interfaces = new Il2CppInterfaceCollection([typeof(IResourceProvider)])
-        });
-
         Info("Initializing HatProvider...");
         HatProvider.Initialize();
         Info("HatProvider initialized!");
@@ -136,6 +116,13 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
 
         Harmony.PatchAll();
         RegisterWinConditions();
+    }
+
+    private void Start()
+    {
+        ModCompatibility.Initialize(); // Initialise AFTER the mods are loaded to ensure maximum parity (no need for the soft dependency either then)
+
+        ModNewsFetcher.CheckForNews(); // Checks for mod announcements after everything is loaded to avoid Epic Games crashing
     }
 
     /// <summary>

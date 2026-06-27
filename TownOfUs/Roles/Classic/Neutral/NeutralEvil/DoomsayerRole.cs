@@ -1,7 +1,6 @@
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
@@ -43,8 +42,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     public int NumberOfGuesses { get; set; }
     public int IncorrectGuesses { get; set; }
     public bool AllGuessesCorrect { get; set; }
-
-    [HideFromIl2Cpp] public List<PlayerControl> AllVictims { get; } = [];
+ public List<PlayerControl> AllVictims { get; } = [];
 
     public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<DoomsayerOptions>.Instance.DoomContinuesGame && Helpers.GetAlivePlayers().Count > 1;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VigilanteRole>());
@@ -99,7 +97,6 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

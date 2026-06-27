@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -156,7 +155,6 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         return true;
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -197,7 +195,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
         {
             var players = ModifierUtils
                 .GetPlayersWithModifier<
-                    GuardianAngelTargetModifier>([HideFromIl2Cpp](x) => x.OwnerId == Player.PlayerId)
+                    GuardianAngelTargetModifier>((x) => x.OwnerId == Player.PlayerId)
                 .ToList();
             players.Do(x => x.RpcRemoveModifier<GuardianAngelTargetModifier>());
         }

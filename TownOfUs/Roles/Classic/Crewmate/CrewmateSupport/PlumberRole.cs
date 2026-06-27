@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -21,16 +20,12 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
+ public HashSet<int> FutureBlocks { get; set; } = [];
 
-    [HideFromIl2Cpp] public HashSet<int> FutureBlocks { get; set; } = [];
-
-    // Blocked vent, remaining rounds
-    [HideFromIl2Cpp] public static Dictionary<int, int> VentsBlocked { get; set; } = [];
-    [HideFromIl2Cpp] public static HashSet<int> VentFlushSet { get; set; } = [];
+    // Blocked vent, remaining rounds public static Dictionary<int, int> VentsBlocked { get; set; } = []; public static HashSet<int> VentFlushSet { get; set; } = [];
 
 
-    // Blocked vent, Barricade object
-    [HideFromIl2Cpp] public static Dictionary<int, GameObject> Barricades { get; set; } = [];
+    // Blocked vent, Barricade object public static Dictionary<int, GameObject> Barricades { get; set; } = [];
 
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string LocaleKey => "Plumber";
@@ -45,7 +40,6 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -79,7 +73,6 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         Clear();
     }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);

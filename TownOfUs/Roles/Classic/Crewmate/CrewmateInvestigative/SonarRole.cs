@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -24,7 +23,6 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -49,7 +47,6 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         IntroSound = TouAudio.TrackerIntroSound
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
@@ -57,9 +54,9 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         var players =
             LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.SonarTargetType.Value is SonarTargetStyle
                 .Arrows
-                ? ModifierUtils.GetPlayersWithModifier<SonarArrowTargetModifier>([HideFromIl2Cpp](x) =>
+                ? ModifierUtils.GetPlayersWithModifier<SonarArrowTargetModifier>((x) =>
                     x.Owner == Player)
-                : ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>([HideFromIl2Cpp](x) =>
+                : ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>((x) =>
                     x.Owner == Player);
 
         var playerControls = players as PlayerControl[] ?? players.ToArray();
@@ -87,7 +84,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     public void Clear()
     {
         var players =
-            ModifierUtils.GetPlayersWithModifier<SonarArrowTargetModifier>([HideFromIl2Cpp](x) => x.Owner == Player);
+            ModifierUtils.GetPlayersWithModifier<SonarArrowTargetModifier>((x) => x.Owner == Player);
 
         foreach (var player in players)
         {
@@ -95,7 +92,7 @@ public sealed class SonarRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         }
 
         players =
-            ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>([HideFromIl2Cpp](x) => x.Owner == Player);
+            ModifierUtils.GetPlayersWithModifier<SonarHeartbeatTargetModifier>((x) => x.Owner == Player);
 
         foreach (var player in players)
         {

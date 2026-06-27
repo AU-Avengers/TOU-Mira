@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.GameEnd;

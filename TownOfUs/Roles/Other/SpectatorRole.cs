@@ -1,5 +1,4 @@
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
@@ -64,8 +63,7 @@ public sealed class SpectatorRole(IntPtr cppPtr) : RoleBehaviour(cppPtr), ITownO
 
     public Color RoleColor => TownOfUsColors.Spectator;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
-    public RoleAlignment RoleAlignment => RoleAlignment.GameOutlier;
-    [HideFromIl2Cpp] public bool IsHiddenFromList => true;
+    public RoleAlignment RoleAlignment => RoleAlignment.GameOutlier; public bool IsHiddenFromList => true;
 
     public override bool IsDead => true;
 

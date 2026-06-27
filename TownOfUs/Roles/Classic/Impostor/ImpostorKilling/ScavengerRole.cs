@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -21,8 +20,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public bool GameStarted { get; set; }
-    public float TimeRemaining { get; set; }
-    [HideFromIl2Cpp] public PlayerControl? Target { get; set; }
+    public float TimeRemaining { get; set; } public PlayerControl? Target { get; set; }
     public bool Scavenging { get; set; }
 
     public void FixedUpdate()
@@ -113,7 +111,6 @@ public sealed class ScavengerRole(IntPtr cppPtr)
         IntroSound = TouAudio.WarlockIntroSound
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
@@ -126,8 +123,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
 
         return stringB;
     }
-
-    [HideFromIl2Cpp] public List<CustomButtonWikiDescription> Abilities { get; } = [];
+ public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override void OnDeath(DeathReason reason)
     {

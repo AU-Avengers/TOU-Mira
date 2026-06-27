@@ -2,7 +2,6 @@ using System.Collections;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -43,10 +42,8 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     public bool IsUnlovable => true;
     public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<InquisitorOptions>.Instance.StallGame && CanVanquish && !TargetsDead && Helpers.GetAlivePlayers().Count <= 3;
     public bool CanVanquish { get; set; } = true;
-
-    [HideFromIl2Cpp] public List<PlayerControl> Targets { get; set; } = [];
-
-    [HideFromIl2Cpp] public List<RoleBehaviour> TargetRoles { get; set; } = [];
+ public List<PlayerControl> Targets { get; set; } = [];
+ public List<RoleBehaviour> TargetRoles { get; set; } = [];
 
     public bool TargetsDead { get; set; }
     public int Priority { get; set; } = 5;
@@ -150,7 +147,6 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
@@ -204,7 +200,6 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         return result;
     }
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
@@ -243,7 +238,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().Where(x => x != player)
                 .ToList();
             TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>().Where(x => x.Player != player)
-                .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.GetRoleName()).ToList();
+                .Select((x) => x.TargetRole).OrderBy((x) => x.GetRoleName()).ToList();
         }
 
         if (TutorialManager.InstanceExists && Targets.Count == 0 && Player.AmOwner && Player.IsHost() &&

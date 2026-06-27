@@ -1,5 +1,4 @@
 ﻿using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Hud;
@@ -21,10 +20,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
         RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>()) is ICustomRole customRole &&
         (int)customRole.GetCount()! > 0 && (int)customRole.GetChance()! > 0 ||
         (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance > 0;
-    public bool CanSpawnOnCurrentMode() => false;
-    [HideFromIl2Cpp] public List<RoleBehaviour> ChosenRoles { get; } = [];
-    [HideFromIl2Cpp] public RoleBehaviour? RandomRole { get; set; }
-    [HideFromIl2Cpp] public RoleBehaviour? SelectedRole { get; set; }
+    public bool CanSpawnOnCurrentMode() => false; public List<RoleBehaviour> ChosenRoles { get; } = []; public RoleBehaviour? RandomRole { get; set; } public RoleBehaviour? SelectedRole { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public bool NoSpawn => true;
     public string LocaleKey => "Traitor";
@@ -60,7 +56,6 @@ public sealed class TraitorRole(IntPtr cppPtr)
         Icon = TouRoleIcons.Traitor
     };
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get

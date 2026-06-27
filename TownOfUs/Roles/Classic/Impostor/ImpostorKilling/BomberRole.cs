@@ -1,5 +1,4 @@
 ﻿using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
@@ -16,8 +15,7 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class BomberRole(IntPtr cppPtr)
     : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
-{
-    [HideFromIl2Cpp] public Bomb? Bomb { get; set; }
+{ public Bomb? Bomb { get; set; }
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrapperRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;
 
@@ -48,7 +46,6 @@ public sealed class BomberRole(IntPtr cppPtr)
 
 
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
     {
         get
