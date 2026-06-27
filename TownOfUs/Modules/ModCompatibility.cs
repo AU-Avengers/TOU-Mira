@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using MiraAPI.GameOptions;
@@ -81,7 +82,7 @@ public static class ModCompatibility
     public const string LaunchpadGuid = "dev.xtracube.launchpad";
     public static Version LaunchpadVersion { get; private set; }
     public static bool LaunchpadLoaded { get; private set; }
-    public static BasePlugin LaunchpadPlugin { get; private set; }
+    public static BaseUnityPlugin LaunchpadPlugin { get; private set; }
     public static Assembly LaunchpadAssembly { get; private set; }
     public static Type[] LaunchpadTypes { get; private set; }
     public static Type LaunchpadTagManager { get; private set; }
@@ -90,7 +91,7 @@ public static class ModCompatibility
     public const string BetterAuGuid = "com.d1gq.betteramongus";
     public static Version BauVersion { get; private set; }
     public static bool BauLoaded { get; private set; }
-    public static BasePlugin BauPlugin { get; private set; }
+    public static BaseUnityPlugin BauPlugin { get; private set; }
     public static Assembly BauAssembly { get; private set; }
     public static Type[] BauTypes { get; private set; }
     /*private static PropertyInfo bauCommandPrefix;
@@ -100,20 +101,20 @@ public static class ModCompatibility
     public const string CrowdedGuid = "xyz.crowdedmods.crowdedmod";
     public static Version CrowdedVersion { get; private set; }
     public static bool CrowdedLoaded { get; private set; }
-    public static BasePlugin CrowdedPlugin { get; private set; }
+    public static BaseUnityPlugin CrowdedPlugin { get; private set; }
     public static Assembly CrowdedAssembly { get; private set; }
 
 
     public const string AleLuduGuid = "pl.townofus.aleludu";
     public static Version AleLuduVersion { get; private set; }
     public static bool AleLuduLoaded { get; private set; }
-    public static BasePlugin AleLuduPlugin { get; private set; }
+    public static BaseUnityPlugin AleLuduPlugin { get; private set; }
     public static Assembly AleLuduAssembly { get; private set; }
     
     /*public const string CorsacGuid = "CorsacCosmetics";
     public static Version CorsacVersion { get; private set; }
     public static bool CorsacLoaded { get; private set; }
-    public static BasePlugin CorsacPlugin { get; private set; }
+    public static BaseUnityPlugin CorsacPlugin { get; private set; }
     public static Assembly CorsacAssembly { get; private set; }
     public static Type[] CorsacTypes { get; private set; }
     private static readonly Dictionary<Assembly, string> ResourceBundles = new();
@@ -134,7 +135,7 @@ public static class ModCompatibility
 
         var sBuilder = new StringBuilder();
 
-        var mods = IL2CPPChainloader.Instance.Plugins;
+        var mods = Chainloader.PluginInfos;
         sBuilder.Append("\nBepInEx " + Paths.BepInExVersion.WithoutBuild());
         foreach (var mod in mods)
         {
@@ -142,24 +143,24 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
-        var customSysTypes = new List<SystemTypes>()
+        var customSysTypes = new []
         {
             SkeldDoorsSystemType.SystemType,
             ManualDoorsSystemType.SystemType,
         };
         // This allows the custom door types to update properly
-        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat(customSysTypes).ToArray();
+        SystemTypeHelpers.AllTypes.AddRangeToArray(customSysTypes);
     }
 
 #pragma warning disable S3011
     private static void InitLaunchpad()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(LaunchpadGuid, out var value))
+        if (!Chainloader.PluginInfos.TryGetValue(LaunchpadGuid, out var value))
         {
             return;
         }
 
-        LaunchpadPlugin = (value.Instance as BasePlugin)!;
+        LaunchpadPlugin = value.Instance;
         LaunchpadAssembly = LaunchpadPlugin.GetType().Assembly;
         LaunchpadVersion = value.Metadata.Version;
 
@@ -213,12 +214,12 @@ public static class ModCompatibility
 #pragma warning restore S3011
     /*public static void InitCorsac()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(CorsacGuid, out var plugin))
+        if (!Chainloader.PluginInfos.TryGetValue(CorsacGuid, out var plugin))
         {
             return;
         }
 
-        CorsacPlugin = (plugin!.Instance as BasePlugin)!;
+        CorsacPlugin = (plugin!.Instance as BaseUnityPlugin)!;
         CorsacVersion = plugin.Metadata.Version;
 
         CorsacAssembly = CorsacPlugin.GetType().Assembly;
@@ -238,12 +239,12 @@ public static class ModCompatibility
 
     public static void InitSubmerged()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(SubmergedGuid, out var plugin))
+        if (!Chainloader.PluginInfos.TryGetValue(SubmergedGuid, out var plugin))
         {
             return;
         }
 
-        SubPlugin = (plugin!.Instance as BasePlugin)!;
+        SubPlugin = (plugin!.Instance as BaseUnityPlugin)!;
         SubVersion = plugin.Metadata.Version;
 
         SubAssembly = SubPlugin.GetType().Assembly;
@@ -634,12 +635,12 @@ public static class ModCompatibility
 
     private static void InitLevelImpostor()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(LevelImpostorGuid, out var value))
+        if (!Chainloader.PluginInfos.TryGetValue(LevelImpostorGuid, out var value))
         {
             return;
         }
 
-        LIPlugin = (value.Instance as BasePlugin)!;
+        LIPlugin = value.Instance;
         LIAssembly = LIPlugin.GetType().Assembly;
 
         LITypes = AccessTools.GetTypesFromAssembly(LIAssembly);
@@ -676,12 +677,12 @@ public static class ModCompatibility
 
     private static void InitBetterAmongUs()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(BetterAuGuid, out var value))
+        if (!Chainloader.PluginInfos.TryGetValue(BetterAuGuid, out var value))
         {
             return;
         }
 
-        BauPlugin = (value.Instance as BasePlugin)!;
+        BauPlugin = value.Instance;
         BauAssembly = BauPlugin.GetType().Assembly;
         BauVersion = value.Metadata.Version;
         BauTypes = AccessTools.GetTypesFromAssembly(BauAssembly);
@@ -697,12 +698,12 @@ public static class ModCompatibility
 
     private static void InitCrowded()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(CrowdedGuid, out var value))
+        if (!Chainloader.PluginInfos.TryGetValue(CrowdedGuid, out var value))
         {
             return;
         }
 
-        CrowdedPlugin = (value.Instance as BasePlugin)!;
+        CrowdedPlugin = value.Instance;
         CrowdedAssembly = CrowdedPlugin.GetType().Assembly;
         CrowdedVersion = value.Metadata.Version;
 
@@ -717,12 +718,12 @@ public static class ModCompatibility
 
     private static void InitAleLudu()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(AleLuduGuid, out var value))
+        if (!Chainloader.PluginInfos.TryGetValue(AleLuduGuid, out var value))
         {
             return;
         }
 
-        AleLuduPlugin = (value.Instance as BasePlugin)!;
+        AleLuduPlugin = value.Instance;
         AleLuduAssembly = AleLuduPlugin.GetType().Assembly;
         AleLuduVersion = value.Metadata.Version;
 
