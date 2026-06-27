@@ -8,7 +8,7 @@ namespace AuAvengers.Animations;
 [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1307:Accessible fields should begin with upper-case letter",
     Justification = "Unity")]
 public sealed class UE_SpriteFlipper : MonoBehaviour
-{ public Il2CppArrayBase<SpriteRenderer> RenderersArray { get; set; }
+{ public SpriteRenderer[] RenderersArray { get; set; }
 
     public bool UseNegative { get; set; }
     public bool DoOffset { get; set; }
@@ -24,7 +24,7 @@ public sealed class UE_SpriteFlipper : MonoBehaviour
         Justification = "Too much work")]
     public void Update()
     {
-        if (RenderersArray.Count != 0)
+        if (RenderersArray.HasAny())
         {
             foreach (var rend in RenderersArray)
             {

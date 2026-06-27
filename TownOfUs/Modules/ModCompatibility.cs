@@ -4,7 +4,6 @@ using System.Reflection.Emit;
 using System.Text;
 using BepInEx;
 using BepInEx.Bootstrap;
-using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Hud;
@@ -61,7 +60,7 @@ public static class ModCompatibility
 
     public static Version SubVersion { get; private set; }
     public static bool SubLoaded { get; private set; }
-    public static BasePlugin SubPlugin { get; private set; }
+    public static BaseUnityPlugin SubPlugin { get; private set; }
     public static Assembly SubAssembly { get; private set; }
     public static Type[] SubTypes { get; private set; }
     public static Dictionary<string, Type> SubInjectedTypes { get; private set; }
@@ -73,7 +72,7 @@ public static class ModCompatibility
     public static TaskTypes RetrieveOxygenMask { get; private set; }
 
     public static bool LILoaded { get; private set; }
-    private static BasePlugin LIPlugin { get; set; }
+    private static BaseUnityPlugin LIPlugin { get; set; }
     private static Assembly LIAssembly { get; set; }
     private static Type[] LITypes { get; set; }
     public static bool IsWikiButtonOffset { get; set; }

@@ -151,7 +151,7 @@ public sealed class HexBombSabotageTask : PlayerTask
         }
     }
 
-    public override void AppendTaskText(Il2CppSystem.Text.StringBuilder sb)
+    public override void AppendTaskText(System.Text.StringBuilder sb)
     {
         _even = !_even;
         var color = _even ? Color.yellow : Color.red;

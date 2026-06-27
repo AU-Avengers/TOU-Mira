@@ -85,7 +85,7 @@ public class NeutralGhostRole : RoleBehaviour, ITownOfUsRole
         return role is ITownOfUsRole tRole && tRole.WinConditionMet();
     }
 
-    public override void AppendTaskHint(Il2CppSystem.Text.StringBuilder taskStringBuilder)
+    public override void AppendTaskHint(System.Text.StringBuilder taskStringBuilder)
     {
         // remove default task hint
     }

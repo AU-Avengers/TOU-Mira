@@ -2077,11 +2077,11 @@ public static class MiscUtils
     }
 
     //Submerged utils
-    public static object? TryOtherCast(this Il2CppObjectBase self, Type type)
+    /*public static object? TryOtherCast(this Object self, Type type)
     {
-        return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type)
+        return AccessTools.Method(self.GetType(), nameof(Object.TryCast)).MakeGenericMethod(type)
             .Invoke(self, Array.Empty<object>());
-    }
+    }*/
 
     public static IList CreateList(Type myType)
     {

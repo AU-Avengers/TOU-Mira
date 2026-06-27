@@ -187,7 +187,7 @@ public sealed class SpectatorRole : RoleBehaviour, ITownOfUsRole, IWikiDiscovera
 
     public override bool DidWin(GameOverReason gameOverReason) => false;
 
-    public override void AppendTaskHint(Il2CppSystem.Text.StringBuilder taskStringBuilder)
+    public override void AppendTaskHint(System.Text.StringBuilder taskStringBuilder)
     {
         // remove default task hint
     }

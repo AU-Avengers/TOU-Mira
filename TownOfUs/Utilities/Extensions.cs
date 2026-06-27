@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using AmongUs.GameOptions;
-using LibCpp2IL;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;

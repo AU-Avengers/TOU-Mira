@@ -55,7 +55,7 @@ public sealed class HnsChameleonRole : CrewmateRole, ITownOfUsRole, IWikiDiscove
         // ignore
     }
 
-    public override void AppendTaskHint(Il2CppSystem.Text.StringBuilder taskStringBuilder)
+    public override void AppendTaskHint(System.Text.StringBuilder taskStringBuilder)
     {
         taskStringBuilder.AppendLine($"\n{RoleHintText}\n{RoleLongDescription}");
     }
