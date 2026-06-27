@@ -33,7 +33,7 @@ public sealed class VampireOptions : AbstractOptionGroup<VampireRole>, IWikiOpti
     [ModdedToggleOption("TouOptionVampireCanVent")]
     public bool CanVent { get; set; } = true;
 
-    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+    public HashSet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {
             ConvertNeutralBenign.StringName,

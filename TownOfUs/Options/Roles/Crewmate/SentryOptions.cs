@@ -120,7 +120,7 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
             Visible = () => OptionGroupSingleton<SentryOptions>.Instance.BlindspotsCount.Value >= 10f
         };
 
-    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+    public HashSet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {
             BlindspotsCount.StringName,

@@ -18,7 +18,7 @@ public class LocalizedLocalToggleSettingAttribute(
     private readonly string? _description = description;
 
     /// <inheritdoc/>
-    public override LocalizedLocalToggleSetting CreateSetting(Type tab, ConfigEntryBase configEntryBase)
+    public override ILocalSetting CreateSetting(Type tab, ConfigEntryBase configEntryBase)
     {
         return new LocalizedLocalToggleSetting(tab, configEntryBase, _name, _description);
     }

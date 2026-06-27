@@ -437,7 +437,7 @@ public sealed class IngameWikiMinigame : Minigame
             {
                 var options = mainOptionGroups?.FirstOrDefault(x => x == optionsCategory)?.Children;
                 IWikiOptionsSummaryProvider? summaryProvider = null;
-                IReadOnlySet<StringNames>? hiddenKeys = null;
+                HashSet<StringNames>? hiddenKeys = null;
                 try
                 {
                     var optionGroups =

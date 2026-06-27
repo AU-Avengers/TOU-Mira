@@ -80,7 +80,7 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
     public ModdedToggleOption AssassinGuessAlliances { get; } =
         new("Assassin Can Guess Alliances", true);
 
-    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+    public HashSet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {
             NumberOfImpostorAssassins.StringName,

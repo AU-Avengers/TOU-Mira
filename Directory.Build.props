@@ -1,6 +1,6 @@
 ﻿<Project>
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <DebugType>embedded</DebugType>
         <Nullable>enable</Nullable>
@@ -13,8 +13,7 @@
 
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 
-        <VersionPrefix>1.6.3</VersionPrefix>
-        <VersionSuffix>dev</VersionSuffix>
+        <Version>1.6.3.1</Version>
 
         <Authors>Atony, AlchlcSystm, angxlwtf, MyDragonBreath, Nix, Satire, xerminator, XtraCube, whichtwix, Zeo</Authors>
         <Company>Among Us Avengers</Company>

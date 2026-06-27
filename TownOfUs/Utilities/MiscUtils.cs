@@ -101,7 +101,7 @@ public static class MiscUtils
         }
 
         IWikiOptionsSummaryProvider? summaryProvider = null;
-        IReadOnlySet<StringNames>? hiddenKeys = null;
+        HashSet<StringNames>? hiddenKeys = null;
         try
         {
             var optionGroups =

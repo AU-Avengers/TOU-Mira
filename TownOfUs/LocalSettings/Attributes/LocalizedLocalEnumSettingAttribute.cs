@@ -22,7 +22,7 @@ public class LocalizedLocalEnumSettingAttribute(
     private readonly string? _description = description;
 
     /// <inheritdoc/>
-    public override LocalizedLocalEnumSetting CreateSetting(Type tab, ConfigEntryBase configEntryBase)
+    public override ILocalSetting CreateSetting(Type tab, ConfigEntryBase configEntryBase)
     {
         return new LocalizedLocalEnumSetting(tab, configEntryBase, configEntryBase.SettingType, _name, _description,
             names);

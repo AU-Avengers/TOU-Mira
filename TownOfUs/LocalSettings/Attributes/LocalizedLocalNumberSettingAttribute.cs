@@ -31,7 +31,7 @@ public class LocalizedLocalNumberSettingAttribute(
     private readonly string? _description = description;
 
     /// <inheritdoc/>
-    public override LocalizedLocalNumberSetting CreateSetting(Type tab, ConfigEntryBase configEntryBase)
+    public override ILocalSetting CreateSetting(Type tab, ConfigEntryBase configEntryBase)
     {
         return new LocalizedLocalNumberSetting(tab, configEntryBase, _name, _description, new FloatRange(min, max),
             increment, suffixType, formatString);

@@ -44,7 +44,7 @@ public sealed class OfficerOptions : AbstractOptionGroup<OfficerRole>, IWikiOpti
     public ModdedNumberOption RoundsPunished { get; set; } = new("TouOptionOfficerRoundPunishment", 1f, 1f, 5f, 1f,
         MiraNumberSuffixes.None);
 
-    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+    public HashSet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {
             ShootCooldown.StringName,

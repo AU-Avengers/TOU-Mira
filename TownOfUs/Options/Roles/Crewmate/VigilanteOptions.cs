@@ -34,7 +34,7 @@ public sealed class VigilanteOptions : AbstractOptionGroup<VigilanteRole>, IWiki
     [ModdedNumberOption("TouOptionVigilanteSafeShotsAvailable", 0f, 3f, 1f, MiraNumberSuffixes.None, "0")]
     public float MultiShots { get; set; } = 3;
     
-    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+    public HashSet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {
             VigilanteGuessNeutralBenign.StringName,

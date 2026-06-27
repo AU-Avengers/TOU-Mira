@@ -27,7 +27,7 @@ public sealed class SheriffOptions : AbstractOptionGroup<SheriffRole>, IWikiOpti
     [ModdedEnumOption("TouOptionSheriffMisfireKills", typeof(MisfireOptions), ["TouOptionSheriffKillEnumSheriff", "TouOptionSheriffKillEnumTarget", "TouOptionSheriffKillEnumBoth", "TouOptionSheriffKillEnumNobody"])]
     public MisfireOptions MisfireType { get; set; } = MisfireOptions.Sheriff;
 
-    public IReadOnlySet<StringNames> WikiHiddenOptionKeys =>
+    public HashSet<StringNames> WikiHiddenOptionKeys =>
         new HashSet<StringNames>
         {
             ShootNeutralBenign.StringName,
