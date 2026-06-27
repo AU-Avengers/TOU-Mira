@@ -93,7 +93,7 @@ public sealed class SpellslingerRole : ImpostorRole, ITownOfUsRole, IWikiDiscove
 
         var text = TouLocale.GetParsed("TouRoleSpellslingerGlobalWarning").Replace("<role>", $"#{RoleName.ToLowerInvariant().Replace(" ", "-")}");
 
-        reportBuilder.Append(TownOfUsPlugin.Culture,
+        reportBuilder.Append(
             $"{text.Replace("<time>", $"{(int)sabotage.TimeRemaining + 1}")}");
 
         var report = reportBuilder.ToString();
@@ -122,21 +122,21 @@ public sealed class SpellslingerRole : ImpostorRole, ITownOfUsRole, IWikiDiscove
 
         if (EveryoneHexed())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexFinished")}</b>");
+            stringB.Append( $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexFinished")}</b>");
         }
         else
         {
             if (hexed.Count > 0)
             {
-                stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexedInfo")}</b>");
+                stringB.Append( $"\n<b>{TouLocale.Get("TouRoleSpellslingerTabHexedInfo")}</b>");
                 foreach (var player in hexed)
                 {
                     var color = player.IsImpostorAligned() ? "red" : "white";
-                    stringB.Append(TownOfUsPlugin.Culture, $"\n<color={color}><size=75%>{player.Data.PlayerName}</size></color>");
+                    stringB.Append( $"\n<color={color}><size=75%>{player.Data.PlayerName}</size></color>");
                 }
             }
 
-            stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
+            stringB.Append( $"\n\n<b>{TouLocale.GetParsed("TouRoleSpellslingerTabHexCounter").Replace("<count>", $"{unhexedNonImpostors.Count}")}</b>");
         }
 
         return stringB;

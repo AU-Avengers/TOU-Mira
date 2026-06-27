@@ -27,7 +27,7 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
         {
             return base.CanUse();
         }
-        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+        var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage] as SabotageSystemType;
 
         return base.CanUse() && system is { AnyActive: false };
     }

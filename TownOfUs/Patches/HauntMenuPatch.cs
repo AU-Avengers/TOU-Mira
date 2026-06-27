@@ -41,7 +41,7 @@ public static class HauntMenuMinigamePatch
                         modifierTextBuilder.Append(", ");
                     }
 
-                    modifierTextBuilder.Append(TownOfUsPlugin.Culture,
+                    modifierTextBuilder.Append(
                         $"{color.ToTextColor()}{modifier.ModifierName}</color>");
                     first = false;
                 }
@@ -125,7 +125,7 @@ public static class HauntMenuMinigamePatch
                         modifierTextBuilder.Append(", ");
                     }
 
-                    modifierTextBuilder.Append(TownOfUsPlugin.Culture,
+                    modifierTextBuilder.Append(
                         $"{color.ToTextColor()}{modifier.ModifierName}</color>");
                     first = false;
                 }

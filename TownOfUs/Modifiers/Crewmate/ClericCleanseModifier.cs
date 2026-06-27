@@ -55,7 +55,7 @@ public sealed class ClericCleanseModifier(PlayerControl cleric) : BaseModifier
 
             foreach (var effect in Effects)
             {
-                text.Append(TownOfUsPlugin.Culture, $" {effect.ToString()},");
+                text.Append( $" {effect.ToString()},");
             }
 
             text = text.Remove(text.Length - 1, 1);

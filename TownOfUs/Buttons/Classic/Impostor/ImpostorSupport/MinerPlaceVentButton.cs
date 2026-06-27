@@ -34,7 +34,7 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
 
         var vents = Object.FindObjectsOfType<Vent>();
 
-        if (vents.Count > 0)
+        if (vents.HasAny())
         {
             VentSize = Vector2.Scale(vents[0].GetComponent<BoxCollider2D>().size, vents[0].transform.localScale) *
                        0.75f;
@@ -59,7 +59,7 @@ public sealed class MinerPlaceVentButton : TownOfUsRoleButton<MinerRole>, IAfter
             Constants.ShipAndAllObjectsMask,
             false);
 
-        return hits.Count == 0 && noConflict && !ModCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1;
+        return !hits.HasAny() && noConflict && !ModCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1;
     }
 
     public void AftermathHandler()

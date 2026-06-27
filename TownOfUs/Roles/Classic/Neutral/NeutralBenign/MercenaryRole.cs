@@ -90,16 +90,16 @@ public sealed class MercenaryRole
         var stringB = ITownOfUsRole.SetNewTabText(this);
         var players = ModifierUtils.GetPlayersWithModifier<MercenaryBribedModifier>();
 
-        stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.GetParsed("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
+        stringB.Append( $"\n<b>{TouLocale.GetParsed("TouRoleMercenaryTabGoldCounter").Replace("<count>", $"{Gold}")}</b>");
 
         var playerControls = players as PlayerControl[] ?? [.. players];
         if (playerControls.Length != 0)
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleMercenaryTabBribedInfo")}</b>");
+            stringB.Append( $"\n<b>{TouLocale.Get("TouRoleMercenaryTabBribedInfo")}</b>");
 
             foreach (var player in playerControls)
             {
-                stringB.Append(TownOfUsPlugin.Culture, $"\n{player.Data.PlayerName}");
+                stringB.Append( $"\n{player.Data.PlayerName}");
             }
         }
 

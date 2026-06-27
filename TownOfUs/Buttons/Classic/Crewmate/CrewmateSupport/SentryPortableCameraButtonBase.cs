@@ -340,8 +340,8 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
         if (!mapWithoutCameras)
         {
             basicCams = Object.FindObjectsOfType<SystemConsole>().FirstOrDefault(x =>
-                x.MinigamePrefab.TryCast<SurveillanceMinigame>() || x.MinigamePrefab.TryCast<PlanetSurveillanceMinigame>() ||
-                x.MinigamePrefab.TryCast<FungleSurveillanceMinigame>() || x.UseIcon is ImageNames.CamsButton);
+                x.MinigamePrefab is SurveillanceMinigame || x.MinigamePrefab is PlanetSurveillanceMinigame ||
+                x.MinigamePrefab is FungleSurveillanceMinigame || x.UseIcon is ImageNames.CamsButton);
         }
         if (basicCams == null)
         {
@@ -372,9 +372,9 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         try
         {
-            var fungleGame = _securityMinigame.TryCast<FungleSurveillanceMinigame>();
-            var planetGame = _securityMinigame.TryCast<PlanetSurveillanceMinigame>();
-            var camsGame = _securityMinigame.TryCast<SurveillanceMinigame>();
+            var fungleGame = _securityMinigame as FungleSurveillanceMinigame;
+            var planetGame = _securityMinigame as PlanetSurveillanceMinigame;
+            var camsGame = _securityMinigame as SurveillanceMinigame;
             // NOTE: The reason for checking the minigame itself is that Android shits the bed and refuses to show a camera feed. According to xtra, these are I2LCPP shenanigans.
             if (fungleGame != null)
             {

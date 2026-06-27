@@ -68,7 +68,7 @@ public sealed class SonarRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
         stringB.Append("\n<b>Tracked Players:</b>");
         foreach (var plr in playerControls)
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n{plr.Data.PlayerName}");
+            stringB.Append( $"\n{plr.Data.PlayerName}");
         }
 
         return stringB;

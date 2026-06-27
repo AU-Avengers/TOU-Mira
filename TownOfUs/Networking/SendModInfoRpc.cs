@@ -164,7 +164,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                 chatMessageBuilder.Append(TouLocale.GetParsed("AnticheatKickChatMessage").Replace("<player>", client.Data.PlayerName));
                 foreach (var mod in cheatMods)
                 {
-                    chatMessageBuilder.Append(TownOfUsPlugin.Culture, $"\n<color=#FF0000>{mod}</color>");
+                    chatMessageBuilder.Append( $"\n<color=#FF0000>{mod}</color>");
                 }
                 MiscUtils.AddFakeChat(PlayerControl.LocalPlayer.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", chatMessageBuilder.ToString(), true, altColors:true);
                 
@@ -177,15 +177,15 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             else if (throwNewMsg && newModDictionary.Count > 0 && OptionGroupSingleton<HostSpecificOptions>.Instance.AntiCheatWarnings.Value)
             {
                 var stringBuilder = new StringBuilder();
-                stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");
+                stringBuilder.Append( $"{TouLocale.GetParsed("AnticheatMessage").Replace("<player>", client.Data.PlayerName)}");
                 foreach (var mod in newModDictionary)
                 {
                     if (blacklist.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase)))
                     {
-                        stringBuilder.Append(TownOfUsPlugin.Culture, $"\n<color=#FF0000>{mod}</color>");
+                        stringBuilder.Append( $"\n<color=#FF0000>{mod}</color>");
                         continue;
                     }
-                    stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
+                    stringBuilder.Append( $"\n{mod}");
                 }
                 MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{TouLocale.Get("AnticheatChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
             }
@@ -226,15 +226,15 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                     return;
                 }
                 var stringBuilder = new StringBuilder();
-                stringBuilder.Append(TownOfUsPlugin.Culture, $"{TouLocale.GetParsed("AnticheatKickMissingMessage").Replace("<player>", client.Data.PlayerName)}");
+                stringBuilder.Append( $"{TouLocale.GetParsed("AnticheatKickMissingMessage").Replace("<player>", client.Data.PlayerName)}");
                 foreach (var mod in requiredMods)
                 {
                     if (!reqModDictionary.Any(x => mod.Contains(x, StringComparison.OrdinalIgnoreCase)))
                     {
-                        stringBuilder.Append(TownOfUsPlugin.Culture, $"\n<color=#FF0000>{mod}</color>");
+                        stringBuilder.Append( $"\n<color=#FF0000>{mod}</color>");
                         continue;
                     }
-                    stringBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod}");
+                    stringBuilder.Append( $"\n{mod}");
                 }
                 MiscUtils.AddFakeChat(client.Data, $"<color=#D53F42>{TouLocale.Get("SystemChatTitle")}</color>", stringBuilder.ToString(), true, altColors:true);
                 kickPlayer = true;

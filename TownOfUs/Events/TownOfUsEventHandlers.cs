@@ -375,10 +375,10 @@ public static class TownOfUsEventHandlers
         if (FirstDeadPatch.PlayerNames.Count > 0)
         {
             var stringB = new StringBuilder();
-            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died First In Order: ");
+            stringB.Append( $"List Of Players That Died First In Order: ");
             foreach (var playername in FirstDeadPatch.PlayerNames)
             {
-                stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
+                stringB.Append( $"{playername}, ");
             }
 
             stringB = stringB.Remove(stringB.Length - 2, 2);
@@ -389,10 +389,10 @@ public static class TownOfUsEventHandlers
         if (FirstDeadPatch.FirstRoundPlayerNames.Count > 0)
         {
             var stringB = new StringBuilder();
-            stringB.Append(TownOfUsPlugin.Culture, $"List Of Players That Died Round One In Order: ");
+            stringB.Append( $"List Of Players That Died Round One In Order: ");
             foreach (var playername in FirstDeadPatch.FirstRoundPlayerNames)
             {
-                stringB.Append(TownOfUsPlugin.Culture, $"{playername}, ");
+                stringB.Append( $"{playername}, ");
             }
 
             stringB = stringB.Remove(stringB.Length - 2, 2);

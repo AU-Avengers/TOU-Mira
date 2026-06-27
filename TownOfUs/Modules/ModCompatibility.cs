@@ -136,7 +136,7 @@ public static class ModCompatibility
         sBuilder.Append("\nBepInEx " + Paths.BepInExVersion.WithoutBuild());
         foreach (var mod in mods)
         {
-            sBuilder.Append(TownOfUsPlugin.Culture, $"\n{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
+            sBuilder.Append( $"\n{mod.Value.Metadata.Name}: {mod.Value.Metadata.Version}");
         }
 
         InternalModList = sBuilder.ToString();

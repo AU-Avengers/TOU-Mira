@@ -45,7 +45,7 @@ public static class MapDoorPatches
             OpenableDoor openableDoor = ShipStatus.Instance.AllDoors.First(d => d.Id == id);
             if (openableDoor == null)
             {
-                Warning(string.Format(TownOfUsPlugin.Culture, "Couldn't find door {0}", id));
+                Warning(string.Format( "Couldn't find door {0}", id));
             }
             else
             {
@@ -146,7 +146,7 @@ public static class MapDoorPatches
         var instance = ShipStatus.Instance;
         if (instance.Systems.TryGetValue(SkeldDoorsSystemType.SystemType, out var systemType))
         {
-            Info(string.Format(TownOfUsPlugin.Culture, "Closing doors of room {0}", room));
+            Info(string.Format( "Closing doors of room {0}", room));
             var doorSys = systemType.Cast<IDoorSystem>();
             doorSys.CloseDoorsOfType(room);
             return false;
@@ -154,7 +154,7 @@ public static class MapDoorPatches
 
         if (instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2))
         {
-            Info(string.Format(TownOfUsPlugin.Culture, "Closing doors of room {0}", room));
+            Info(string.Format( "Closing doors of room {0}", room));
             var doorSys = systemType2.Cast<IDoorSystem>();
             doorSys.CloseDoorsOfType(room);
             return false;

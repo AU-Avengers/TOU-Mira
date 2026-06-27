@@ -102,17 +102,17 @@ public sealed class PlaguebearerRole
 
         if (allInfected.HasAny())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
+            stringB.Append( $"\n<b>{TouLocale.Get("TouRolePlaguebearerTabInfectedInfo")}</b>");
             foreach (var plr in allInfected)
             {
-                stringB.Append(TownOfUsPlugin.Culture, $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
+                stringB.Append( $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
             }
         }
 
         var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
 
-        stringB.Append(TownOfUsPlugin.Culture, $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
+        stringB.Append( $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");
 
         return stringB;
     }

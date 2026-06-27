@@ -14,6 +14,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using UnityEngine.UI;
 using TownOfUs.Modifiers;
+using UnityEngine.Events;
 
 namespace TownOfUs.Patches.Options;
 
@@ -764,7 +765,7 @@ public static class TeamChatPatches
 
         TeamChatButton = Object.Instantiate(BanMenu.gameObject, BanMenu.transform.parent);
         TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-        TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ToggleTeamChat));
+        TeamChatButton.GetComponent<PassiveButton>().OnClick.AddListener(ToggleTeamChat);
         TeamChatButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TouAssets.TeamChatSwitch.LoadAsset();
         TeamChatButton.name = "FactionChat";
         var pos = BanMenu.transform.localPosition;

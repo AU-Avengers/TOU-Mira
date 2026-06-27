@@ -95,7 +95,7 @@ public sealed class TrapperRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
 
             foreach (var role in TrappedPlayers)
             {
-                message.Append(TownOfUsPlugin.Culture, $"{MiscUtils.GetHyperlinkText(role)}, ");
+                message.Append( $"{MiscUtils.GetHyperlinkText(role)}, ");
             }
 
             message = message.Remove(message.Length - 2, 2);

@@ -102,10 +102,10 @@ public sealed class ArsonistRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable
 
         if (allDoused.HasAny())
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TouLocale.Get("TouRoleArsonistTabDousedInfo")}</b>");
+            stringB.Append( $"\n<b>{TouLocale.Get("TouRoleArsonistTabDousedInfo")}</b>");
             foreach (var plr in allDoused)
             {
-                stringB.Append(TownOfUsPlugin.Culture,
+                stringB.Append(
                     $"\n{Color.white.ToTextColor()}{plr.Data.PlayerName}</color>");
             }
         }

@@ -50,7 +50,7 @@ public sealed class MorphlingRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
 
         if (Sampled != null && Player.HasModifier<MorphlingMorphModifier>())
         {
-            stringB.Append(TownOfUsPlugin.Culture,
+            stringB.Append(
                 $"\n<b>{MorphedString.Replace("<player>", $"{Sampled.Data.Color.ToTextColor()}{Sampled.Data.PlayerName}</color>")}</b>");
         }
 

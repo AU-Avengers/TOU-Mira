@@ -27,7 +27,7 @@ public sealed class FakeVentButton : CustomActionButton
             pb.OnClick = new Button.ButtonClickedEvent();
         }
 
-        Button!.TryCast<AbilityButton>()!
+        (Button! as AbilityButton)!
             .commsDown
             .GetComponent<SpriteRenderer>()
             .sprite = Sprite.LoadAsset();

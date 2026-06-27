@@ -224,7 +224,7 @@ public static class Extensions
         body.gameObject.DeepDestroy();
     }
 
-    public static void OverrideOnClickListeners(this PassiveButton passive, Action action, bool enabled = true)
+    public static void OverrideOnClickListeners(this PassiveButton passive, UnityAction action, bool enabled = true)
     {
         if (!passive)
         {
@@ -237,7 +237,7 @@ public static class Extensions
         passive.enabled = enabled;
     }
 
-    public static void OverrideOnMouseOverListeners(this PassiveButton passive, Action action, bool enabled = true)
+    public static void OverrideOnMouseOverListeners(this PassiveButton passive, UnityAction action, bool enabled = true)
     {
         if (!passive)
         {
@@ -250,7 +250,7 @@ public static class Extensions
         passive.enabled = enabled;
     }
 
-    public static void OverrideOnMouseOutListeners(this PassiveButton passive, Action action, bool enabled = true)
+    public static void OverrideOnMouseOutListeners(this PassiveButton passive, UnityAction action, bool enabled = true)
     {
         if (!passive)
         {

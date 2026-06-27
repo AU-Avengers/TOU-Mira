@@ -382,7 +382,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
                 continue;
             }
 
-            var obj = usable.TryCast<MonoBehaviour>();
+            var obj = usable as MonoBehaviour;
             if (obj == null)
             {
                 continue;
@@ -418,7 +418,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
         var allUsables = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
-            if (obj.TryCast<IUsable>() is { } usable && usable.TryCast<Vent>() == null)
+            if (obj is IUsable usable && usable is not Vent)
             {
                 result.Add(usable);
             }
@@ -433,7 +433,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
             return;
         }
 
-        if (interactable.TryCast<Ladder>() is { } ladder)
+        if (interactable is Ladder ladder)
         {
             if (!player.AmOwner)
             {
@@ -442,7 +442,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
             player.MyPhysics.RpcClimbLadder(ladder);
             ladder.CoolDown = ladder.MaxCoolDown;
         }
-        else if (interactable.TryCast<ZiplineConsole>() is { } ziplineConsole)
+        else if (interactable is ZiplineConsole ziplineConsole)
         {
             if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
@@ -453,7 +453,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
                 player.CheckUseZipline(player, ziplineConsole.zipline, ziplineConsole.atTop);
             }
         }
-        else if (interactable.TryCast<OpenDoorConsole>() is { } openDoorConsole)
+        else if (interactable is OpenDoorConsole openDoorConsole)
         {
             if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
@@ -461,7 +461,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
             }
             openDoorConsole.myDoor.SetDoorway(true);
         }
-        else if (interactable.TryCast<DoorConsole>() is { } doorConsole)
+        else if (interactable is DoorConsole doorConsole)
         {
             if (player.AmOwner)
             {
@@ -471,7 +471,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
 
                 try
                 {
-                    minigame.Cast<IDoorMinigame>().SetDoor(doorConsole.MyDoor);
+                    (minigame as IDoorMinigame)!.SetDoor(doorConsole.MyDoor);
                 }
                 catch (InvalidCastException)
                 {
@@ -481,7 +481,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
                 minigame.Begin(null);
             }
         }
-        else if (interactable.TryCast<PlatformConsole>() is { } platformConsole)
+        else if (interactable is PlatformConsole platformConsole)
         {
             if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {
@@ -498,7 +498,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
                 }
             }
         }
-        else if (interactable.TryCast<DeconControl>() is { } deconControl)
+        else if (interactable is DeconControl deconControl)
         {
             if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost)
             {

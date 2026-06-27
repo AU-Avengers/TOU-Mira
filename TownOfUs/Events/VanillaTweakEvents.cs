@@ -84,7 +84,7 @@ public static class VanillaTweakEvents
         {
             if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Ventilation, out var comms))
             {
-                var ventilationSystem = comms.TryCast<VentilationSystem>();
+                var ventilationSystem = comms as VentilationSystem;
                 VanillaSystemCheckPatches.VentSystem = ventilationSystem!;
             }
 
@@ -93,12 +93,12 @@ public static class VanillaTweakEvents
                 if (ShipStatus.Instance.Type == ShipStatus.MapType.Hq ||
                     ShipStatus.Instance.Type == ShipStatus.MapType.Fungle)
                 {
-                    var hqSystem = commsSystem.Cast<HqHudSystemType>();
+                    var hqSystem = commsSystem as HqHudSystemType;
                     VanillaSystemCheckPatches.HqCommsSystem = hqSystem;
                 }
                 else
                 {
-                    var hudSystem = commsSystem.Cast<HudOverrideSystemType>();
+                    var hudSystem = commsSystem as HudOverrideSystemType;
                     VanillaSystemCheckPatches.HudCommsSystem = hudSystem;
                 }
             }

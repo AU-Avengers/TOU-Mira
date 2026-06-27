@@ -28,17 +28,17 @@ public sealed class HunterStalkedModifier(PlayerControl hunter) : TimedModifier
 
         if (PlayerControl.LocalPlayer.Data.Role is HunterRole)
         {
-            Player?.cosmetics.SetOutline(true, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Hunter));
+            Player?.cosmetics.SetOutline(true, TownOfUsColors.Hunter);
         }
     }
 
     public override void OnDeactivate()
     {
-        Player.cosmetics.SetOutline(false, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Hunter));
+        Player.cosmetics.SetOutline(false, TownOfUsColors.Hunter);
     }
 
     public override void OnDeath(DeathReason reason)
     {
-        Player.cosmetics.SetOutline(false, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Hunter));
+        Player.cosmetics.SetOutline(false, TownOfUsColors.Hunter);
     }
 }

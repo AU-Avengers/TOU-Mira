@@ -31,7 +31,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
 
         if (Lookout.AmOwner)
         {
-            Player?.cosmetics.SetOutline(true, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Lookout));
+            Player?.cosmetics.SetOutline(true, TownOfUsColors.Lookout);
         }
     }
 
@@ -53,7 +53,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
 
             foreach (var role in SeenPlayers)
             {
-                message.Append(TownOfUsPlugin.Culture, $"{role.GetRoleName()}, ");
+                message.Append( $"{role.GetRoleName()}, ");
             }
 
             message = message.Remove(message.Length - 2, 2);

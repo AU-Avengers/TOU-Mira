@@ -76,7 +76,7 @@ public sealed class AmbusherRole
 
         if (Pursued && Pursued != null)
         {
-            stringB.Append(TownOfUsPlugin.Culture,
+            stringB.Append(
                 $"\n<b>{PursuingString.Replace("<player>", $"{Pursued.Data.Color.ToTextColor()}{Pursued.Data.PlayerName}</color>")}</b>");
         }
 

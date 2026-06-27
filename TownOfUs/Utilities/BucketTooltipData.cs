@@ -175,11 +175,11 @@ public static class BucketTooltipData
 
             if (!string.IsNullOrEmpty(r.ClassFullName))
             {
-                sb.Append(TownOfUsPlugin.Culture, $"<link=\"{r.ClassFullName}:{i}\"><color={ColorHex(r.Col)}>{displayName}</color></link>");
+                sb.Append( $"<link=\"{r.ClassFullName}:{i}\"><color={ColorHex(r.Col)}>{displayName}</color></link>");
             }
             else
             {
-                sb.Append(TownOfUsPlugin.Culture, $"<color={ColorHex(r.Col)}>{displayName}</color>");
+                sb.Append( $"<color={ColorHex(r.Col)}>{displayName}</color>");
             }
 
             if (i < info.Roles.Length - 1)

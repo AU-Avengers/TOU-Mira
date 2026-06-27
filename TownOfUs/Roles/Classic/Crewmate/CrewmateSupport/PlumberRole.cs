@@ -80,11 +80,11 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
         var barrText = duration == 0
             ? TouLocale.GetParsed("TouRolePlumberExtraTabTextForever")
             : TouLocale.GetParsed("TouRolePlumberExtraTabText").Replace("<roundCount>", duration.ToString(TownOfUsPlugin.Culture));
-        stringB.Append(TownOfUsPlugin.Culture,
+        stringB.Append(
             $"\n<b><size=60%>Note: {barrText}</size></b>");
         if (VentsBlocked.Count > 0 || FutureBlocks.Count > 0)
         {
-            stringB.Append(TownOfUsPlugin.Culture,
+            stringB.Append(
                 $"\n<b>{TouLocale.GetParsed("TouRolePlumberVentListTabText")}:</b>");
 
             if (VentsBlocked.Count > 0)
@@ -99,7 +99,7 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
 
                     var ventLabel = TouLocale.GetParsed("TouRolePlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
                     var text2 = duration == 0 ? string.Empty : $": {TouLocale.GetParsed("TouRolePlumberVentRoundsTabText").Replace("<roundsRemaining>", rounds.ToString(TownOfUsPlugin.Culture))}";
-                    stringB.Append(TownOfUsPlugin.Culture,
+                    stringB.Append(
                         $"\n{ventLabel}{text2}");
                 }
             }
@@ -115,7 +115,7 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
                     }
 
                     var prepLabel = TouLocale.GetParsed("TouRolePlumberVentLabelTabText").Replace("<roomName>", MiscUtils.GetRoomName(vent.transform.position));
-                    stringB.Append(TownOfUsPlugin.Culture,
+                    stringB.Append(
                         $"\n<color=#BFBFBF>{prepLabel}: {TouLocale.GetParsed("TouRolePlumberUnbuiltBarricadeTabText")}</color>");
                 }
             }

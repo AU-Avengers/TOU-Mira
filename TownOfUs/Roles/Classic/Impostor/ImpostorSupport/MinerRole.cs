@@ -67,7 +67,7 @@ public sealed class MinerRole
         var stringB = ITownOfUsRole.SetNewTabText(this);
         if (OptionGroupSingleton<MinerOptions>.Instance.MineVisibility is MineVisiblityOptions.AfterUse)
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"Vents will only be visible once used");
+            stringB.Append( $"Vents will only be visible once used");
         }
 
         return stringB;

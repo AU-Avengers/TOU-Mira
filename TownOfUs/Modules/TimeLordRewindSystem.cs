@@ -2467,11 +2467,10 @@ return true;*/
                 continue;
             }
 
-            var normal = t.TryCast<NormalPlayerTask>();
+            var normal = t as NormalPlayerTask;
             if (normal != null)
             {
-                var n = normal.Cast<NormalPlayerTask>();
-                var taskType = n.TaskType;
+                var taskType = normal.TaskType;
                 
                 // Exception: Don't undo tasks that consume objects (objects are removed on completion)
                 // These tasks would softlock if undone because the objects can't be restored
@@ -2497,11 +2496,9 @@ return true;*/
                 continue;
             }
 
-            var normal = t.TryCast<NormalPlayerTask>();
+            var normal = t as NormalPlayerTask;
             if (normal != null)
             {
-                var n = normal.Cast<NormalPlayerTask>();
-                
                 // Try to restore to the step before completion
                 int restoreStep = 0;
                 bool foundStoredStep = false;
@@ -2517,7 +2514,7 @@ return true;*/
                 }
                 
                 // For tasks excluded from local step tracking, use special handling
-                var taskType = n.TaskType;
+                var taskType = normal.TaskType;
                 if (!foundStoredStep || taskType is TaskTypes.InspectSample or TaskTypes.FuelEngines or global::TaskTypes.ExtractFuel 
                     or TaskTypes.ChartCourse or TaskTypes.UploadData or TaskTypes.SortRecords or TaskTypes.OpenWaterways 
                     or TaskTypes.EmptyGarbage or TaskTypes.EmptyChute or TaskTypes.SubmitScan or TaskTypes.RebootWifi 
@@ -2581,9 +2578,9 @@ return true;*/
                     }
                 }
                 
-                n.taskStep = restoreStep;
-                n.Initialize();
-                n.UpdateArrowAndLocation();
+                normal.taskStep = restoreStep;
+                normal.Initialize();
+                normal.UpdateArrowAndLocation();
             }
 
             break;

@@ -79,133 +79,133 @@ public sealed class EngineerTouRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
         switch ((ExpandedMapNames)GameOptionsManager.Instance.currentGameOptions.MapId)
         {
             case ExpandedMapNames.Skeld or ExpandedMapNames.Dleks:
-                var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
-                if (comms1.IsActive)
+                var comms1 = ShipStatus.Instance.Systems[SystemTypes.Comms] as HudOverrideSystemType;
+                if (comms1!.IsActive)
                 {
                     FixComms();
                 }
 
-                var reactor1 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
-                if (reactor1.IsActive)
+                var reactor1 = ShipStatus.Instance.Systems[SystemTypes.Reactor] as ReactorSystemType;
+                if (reactor1!.IsActive)
                 {
                     FixReactor(SystemTypes.Reactor);
                 }
 
-                var oxygen1 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
-                if (oxygen1.IsActive)
+                var oxygen1 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp] as LifeSuppSystemType;
+                if (oxygen1!.IsActive)
                 {
                     FixOxygen();
                 }
 
-                var lights1 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                if (lights1.IsActive)
+                var lights1 = ShipStatus.Instance.Systems[SystemTypes.Electrical] as SwitchSystem;
+                if (lights1!.IsActive)
                 {
                     RpcFix(engineer, 0);
                 }
 
                 break;
             case ExpandedMapNames.MiraHq:
-                var comms2 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HqHudSystemType>();
-                if (comms2.IsActive)
+                var comms2 = ShipStatus.Instance.Systems[SystemTypes.Comms] as HqHudSystemType;
+                if (comms2!.IsActive)
                 {
                     FixMiraComms();
                 }
 
-                var reactor2 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
-                if (reactor2.IsActive)
+                var reactor2 = ShipStatus.Instance.Systems[SystemTypes.Reactor] as ReactorSystemType;
+                if (reactor2!.IsActive)
                 {
                     FixReactor(SystemTypes.Reactor);
                 }
 
-                var oxygen2 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
-                if (oxygen2.IsActive)
+                var oxygen2 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp] as LifeSuppSystemType;
+                if (oxygen2!.IsActive)
                 {
                     FixOxygen();
                 }
 
-                var lights2 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                if (lights2.IsActive)
+                var lights2 = ShipStatus.Instance.Systems[SystemTypes.Electrical] as SwitchSystem;
+                if (lights2!.IsActive)
                 {
                     RpcFix(engineer, 0);
                 }
 
                 break;
             case ExpandedMapNames.Polus:
-                var comms3 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
-                if (comms3.IsActive)
+                var comms3 = ShipStatus.Instance.Systems[SystemTypes.Comms] as HudOverrideSystemType;
+                if (comms3!.IsActive)
                 {
                     FixComms();
                 }
 
-                var seismic = ShipStatus.Instance.Systems[SystemTypes.Laboratory].Cast<ReactorSystemType>();
-                if (seismic.IsActive)
+                var seismic = ShipStatus.Instance.Systems[SystemTypes.Laboratory] as ReactorSystemType;
+                if (seismic!.IsActive)
                 {
                     FixReactor(SystemTypes.Laboratory);
                 }
 
-                var lights3 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                if (lights3.IsActive)
+                var lights3 = ShipStatus.Instance.Systems[SystemTypes.Electrical] as SwitchSystem;
+                if (lights3!.IsActive)
                 {
                     RpcFix(engineer, 0);
                 }
 
                 break;
             case ExpandedMapNames.Airship:
-                var comms4 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
-                if (comms4.IsActive)
+                var comms4 = ShipStatus.Instance.Systems[SystemTypes.Comms] as HudOverrideSystemType;
+                if (comms4!.IsActive)
                 {
                     FixComms();
                 }
 
-                var reactor = ShipStatus.Instance.Systems[SystemTypes.HeliSabotage].Cast<HeliSabotageSystem>();
-                if (reactor.IsActive)
+                var reactor = ShipStatus.Instance.Systems[SystemTypes.HeliSabotage] as HeliSabotageSystem;
+                if (reactor!.IsActive)
                 {
                     FixAirshipReactor();
                 }
 
-                var lights4 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                if (lights4.IsActive)
+                var lights4 = ShipStatus.Instance.Systems[SystemTypes.Electrical] as SwitchSystem;
+                if (lights4!.IsActive)
                 {
                     RpcFix(engineer, 0);
                 }
 
                 break;
             case ExpandedMapNames.Fungle:
-                var reactor7 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
-                if (reactor7.IsActive)
+                var reactor7 = ShipStatus.Instance.Systems[SystemTypes.Reactor] as ReactorSystemType;
+                if (reactor7!.IsActive)
                 {
                     FixReactor(SystemTypes.Reactor);
                 }
 
-                var comms7 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HqHudSystemType>();
-                if (comms7.IsActive)
+                var comms7 = ShipStatus.Instance.Systems[SystemTypes.Comms] as HqHudSystemType;
+                if (comms7!.IsActive)
                 {
                     FixMiraComms();
                 }
 
                 var mushroom = ShipStatus.Instance.Systems[SystemTypes.MushroomMixupSabotage]
-                    .Cast<MushroomMixupSabotageSystem>();
-                if (mushroom.IsActive)
+                     as MushroomMixupSabotageSystem;
+                if (mushroom!.IsActive)
                 {
                     RpcFix(engineer, 1);
                 }
 
                 break;
             case ExpandedMapNames.Submerged:
-                var reactor5 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
-                if (reactor5.IsActive)
+                var reactor5 = ShipStatus.Instance.Systems[SystemTypes.Reactor] as ReactorSystemType;
+                if (reactor5!.IsActive)
                 {
                     FixReactor(SystemTypes.Reactor);
                 }
 
-                var lights5 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                if (lights5.IsActive)
+                var lights5 = ShipStatus.Instance.Systems[SystemTypes.Electrical] as SwitchSystem;
+                if (lights5!.IsActive)
                 {
                     RpcFix(engineer, 0);
                 }
 
-                var comms5 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
-                if (comms5.IsActive)
+                var comms5 = ShipStatus.Instance.Systems[SystemTypes.Comms] as HudOverrideSystemType;
+                if (comms5!.IsActive)
                 {
                     FixComms();
                 }
@@ -220,32 +220,32 @@ public sealed class EngineerTouRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
 
                 break;
             case ExpandedMapNames.LevelImpostor:
-                var comms6 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
-                if (comms6.IsActive)
+                var comms6 = ShipStatus.Instance.Systems[SystemTypes.Comms] as HudOverrideSystemType;
+                if (comms6!.IsActive)
                 {
                     FixComms();
                 }
 
-                var reactor6 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
-                if (reactor6.IsActive)
+                var reactor6 = ShipStatus.Instance.Systems[SystemTypes.Reactor] as ReactorSystemType;
+                if (reactor6!.IsActive)
                 {
                     FixReactor(SystemTypes.Reactor);
                 }
 
-                var oxygen6 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
-                if (oxygen6.IsActive)
+                var oxygen6 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp] as LifeSuppSystemType;
+                if (oxygen6!.IsActive)
                 {
                     FixOxygen();
                 }
 
-                var lights6 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                if (lights6.IsActive)
+                var lights6 = ShipStatus.Instance.Systems[SystemTypes.Electrical] as SwitchSystem;
+                if (lights6!.IsActive)
                 {
                     RpcFix(engineer, 0);
                 }
 
                 if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Laboratory, out var seismic1) &&
-                    seismic1.Cast<IActivatable>().IsActive)
+                    (seismic1 as IActivatable)!.IsActive)
                 {
                     FixReactor(SystemTypes.Laboratory);
                 }
@@ -297,13 +297,13 @@ public sealed class EngineerTouRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
 
         if (type == 0)
         {
-            var lights = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+            var lights = ShipStatus.Instance.Systems[SystemTypes.Electrical] as SwitchSystem;
             lights.ActualSwitches = lights.ExpectedSwitches;
         }
         else if (type == 1)
         {
             var mushroom = ShipStatus.Instance.Systems[SystemTypes.MushroomMixupSabotage]
-                .Cast<MushroomMixupSabotageSystem>();
+                 as MushroomMixupSabotageSystem;
             mushroom.currentSecondsUntilHeal = 0.1f;
         }
         else if (type == 2)

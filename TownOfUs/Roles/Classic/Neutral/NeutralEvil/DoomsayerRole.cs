@@ -247,17 +247,17 @@ public sealed class DoomsayerRole
 
             if (roles.Count != 0)
             {
-                reportBuilder.Append(TownOfUsPlugin.Culture, $"(");
+                reportBuilder.Append( $"(");
                 foreach (var role2 in roles)
                 {
                     if (role2 == lastRole)
                     {
-                        reportBuilder.Append(TownOfUsPlugin.Culture,
+                        reportBuilder.Append(
                             $"{MiscUtils.GetHyperlinkText(lastRole)})");
                     }
                     else
                     {
-                        reportBuilder.Append(TownOfUsPlugin.Culture,
+                        reportBuilder.Append(
                             $"{MiscUtils.GetHyperlinkText(role2)}, ");
                     }
                 }

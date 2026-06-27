@@ -117,8 +117,8 @@ public sealed class ScavengerRole
 
         if (Target != null && Scavenging)
         {
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TimerString.Replace("<timeLeft>", TimeRemaining.ToString("0", TownOfUsPlugin.Culture))}</b>");
-            stringB.Append(TownOfUsPlugin.Culture, $"\n<b>{TargetString.Replace("<player>", Target.Data.PlayerName)}</b>");
+            stringB.Append( $"\n<b>{TimerString.Replace("<timeLeft>", TimeRemaining.ToString("0", TownOfUsPlugin.Culture))}</b>");
+            stringB.Append( $"\n<b>{TargetString.Replace("<player>", Target.Data.PlayerName)}</b>");
         }
 
         return stringB;
