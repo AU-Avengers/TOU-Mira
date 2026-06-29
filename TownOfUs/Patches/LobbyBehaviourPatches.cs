@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Patches.Options;
