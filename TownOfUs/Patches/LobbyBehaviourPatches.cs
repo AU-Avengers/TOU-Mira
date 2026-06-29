@@ -37,6 +37,6 @@ public static class LobbyBehaviourPatches
 
         // Clear Time Lord snapshot data to prevent stale positions from previous games
         TimeLordRewindSystem.Reset();
-        MiscUtils.ClearGarbageCollector();
+        MiraAPI.Utilities.Extensions.ClearGarbageCollector();
     }
 }
