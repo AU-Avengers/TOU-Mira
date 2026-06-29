@@ -15,6 +15,9 @@ public sealed class JesterOptions : AbstractOptionGroup<JesterRole>
     [ModdedToggleOption("TouOptionJesterCanVent")]
     public bool CanVent { get; set; } = true;
 
+    [ModdedToggleOption("TouOptionJesterCanPoke")]
+    public bool CanPoke { get; set; } = true;
+
     [ModdedToggleOption("TouOptionJesterImpVision")]
     public bool ImpostorVision { get; set; } = true;
 
