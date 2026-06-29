@@ -13,7 +13,7 @@ public sealed class JesterPokeButton : TownOfUsRoleButton<JesterRole, PlayerCont
     public override string Name => TouLocale.GetParsed("TouRoleJesterPoke", "Poke");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Jester;
-    public override float Cooldown => 0.001f;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<JesterOptions>.Instance.PokeCooldown.Value + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => TouNeutAssets.JesterHauntSprite;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 

@@ -18,6 +18,12 @@ public sealed class JesterOptions : AbstractOptionGroup<JesterRole>
     [ModdedToggleOption("TouOptionJesterCanPoke")]
     public bool CanPoke { get; set; } = true;
 
+    public ModdedNumberOption PokeCooldown { get; } =
+        new("TouOptionJesterPokeCooldown", 25f, 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds, "0.0")
+    {
+        Visible = () => OptionGroupSingleton<JesterOptions>.Instance.CanPoke
+    };
+
     [ModdedToggleOption("TouOptionJesterImpVision")]
     public bool ImpostorVision { get; set; } = true;
 
