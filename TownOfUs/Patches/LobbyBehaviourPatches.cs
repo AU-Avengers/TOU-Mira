@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Patches.Options;
@@ -37,6 +38,6 @@ public static class LobbyBehaviourPatches
 
         // Clear Time Lord snapshot data to prevent stale positions from previous games
         TimeLordRewindSystem.Reset();
-        MiscUtils.ClearGarbageCollector();
+        MiraAPI.Utilities.Extensions.ClearGarbageCollector();
     }
 }
