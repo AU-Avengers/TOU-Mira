@@ -1,0 +1,36 @@
+﻿using MiraAPI.Hud;
+using MiraAPI.Utilities;
+using MiraAPI.Utilities.Assets;
+using TownOfUs.Roles.Neutral;
+using UnityEngine;
+
+namespace TownOfUs.Buttons.Classic.Neutral.NeutralEvil;
+
+public sealed class JesterPokeButton : TownOfUsRoleButton<JesterRole, PlayerControl>
+{
+    public override string Name => TouLocale.GetParsed("TouRoleJesterPoke", "Poke");
+    public override BaseKeybind Keybind => Keybinds.PrimaryAction;
+    public override Color TextOutlineColor => TownOfUsColors.Jester;
+    public override float Cooldown => 0.001f;
+    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.JesterHauntSprite;
+    public override ButtonLocation Location => ButtonLocation.BottomRight;
+
+    public override PlayerControl? GetTarget()
+    {
+        return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
+    }
+
+    protected override void OnClick()
+    {
+        if (Target == null)
+        {
+            return;
+        }
+
+        var notif1 = Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("TouNotifJesterPoke").Replace("<player>", $"{TownOfUsColors.Jester.ToTextColor()}{Target.Data.PlayerName}</color>"),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Jester.LoadAsset());
+
+        notif1.AdjustNotification();
+    }
+}
