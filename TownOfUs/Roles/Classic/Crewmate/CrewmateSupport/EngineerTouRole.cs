@@ -50,7 +50,7 @@ public sealed class EngineerTouRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        CanUseVent = true,
+        GetsVentData = true,
         Icon = TouRoleIcons.Engineer,
         OptionsScreenshot = TouBanners.EngineerRoleBanner,
         IntroSound = TouAudio.EngineerIntroSound

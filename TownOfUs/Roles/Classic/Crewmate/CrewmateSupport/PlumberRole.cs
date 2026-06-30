@@ -68,7 +68,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        CanUseVent = true,
+        GetsVentData = true,
         IntroSound = TouAudio.EngineerIntroSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Plumber
