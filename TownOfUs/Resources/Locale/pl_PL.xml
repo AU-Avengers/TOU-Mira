@@ -513,4 +513,23 @@
   <string name="TouOptionAmbusherPursueArrowUpdateInterval">Przerwa Między Aktualizacją Srzałki</string>
   <string name="TouOptionAmbusherStopPursuingPlayerOnAmbush">Przestań Nękać Po Osaczeniu</string>
   <string name="TouOptionAmbusherCanVent">Czyhacz Może Wentować</string>
+  <string name="TouRoleImitatorNeutralCounterpartsWikiDescription">Sklerotyk ⇨ Medyk | Zgad ⇨ Mścic | Kat ⇨ Kapuś\%nl\%Glicz ⇨ Szeryf | Wróżka ⇨ Kleryk | Inkwiz ⇨ Wyrocznia\%nl\%Błazen ⇨ Hydraulik | Najem ⇨ Opiekun\%nl\%Mora/Chor ⇨ Aurysta | Żniw ⇨ Medium | Wilk ⇨ Łowca</string>
+  <string name="TouRoleAmnesiac">Sklerotyk</string>
+  <string name="TouRoleAmnesiacIntroBlurb">Przypomnij sobie rolę martwego</string>
+  <string name="TouRoleAmnesiacTabDescription">Znajdź martwe ciało przypominając sobie i zostając jego rolą.</string>
+  <string name="TouRoleAmnesiacWikiDescription">Sklerotyk jest Neutralną Nieszkodliwą rolą która odziedzicza rolę po martwym graczu. Trzymaj się przypomnianej roli aby wygrać grę.</string>
+  <string name="TouRoleAmnesiacRemember">Przypomnij</string>
+  <string name="TouRoleAmnesiacRememberWikiDescription">Przypomnij sobie rolę martwego ciała. Jeżeli rola jest wyjątkowa, zapamiętasz jedynie bazową rolę z frakcji.</string>
+  <string name="TouRoleAmnesiacRememberNotif">Przypomniałeś sobie że byłeś jak \%player\%, zmieniając się w \%role\%</string>
+  <string name="TouRoleAmnesiacRememberFailNotif">\%player\% był \%role\%, więc ich rola nie może zostać podniesiona.</string>
+  <string name="TouRoleAmnesiacRememberFailTargetNotif">\%player\% miał rolę z tobą na celowniku, a więc jego rola nie może zostać podniesiona.</string>
+  <string name="TouOptionAmnesiacInheritFactionModifier">Odziedzicz Frakcyjne Modyfikatory</string>
+  <string name="TouOptionAmnesiacShowArrows">Pokazuj Strzałki Do Martwych Ciał</string>
+  <string name="TouOptionAmnesiacArrowDelay">Czas Po Którym Pojawia Się Strzałka Śmierci</string>
+  <string name="TouOptionAmnesiacAssassinImpostor">Może być Intruzem Asasynem</string>
+  <string name="TouOptionAmnesiacAssassinNeutral">Może być Neutralnym Zabijającym Asasynem</string>
+  <string name="TouOptionAmnesiacAssassinEnumNever">Nigdy</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentNeut">Gdy NZ był Asasynem</string>
+  <string name="TouOptionAmnesiacAssassinEnumDependentImp">Gdy Int był Asasynem</string>
+  <string name="TouOptionAmnesiacAssassinEnumAlways">Zawsze</string>
 </resources>
