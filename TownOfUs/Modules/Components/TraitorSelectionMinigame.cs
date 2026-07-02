@@ -172,7 +172,7 @@ public sealed class TraitorSelectionMinigame : Minigame
     {
         foreach (var o in RolesHolder!.transform)
         {
-            var card = o.Cast<Transform>();
+            var card = o as Transform;
             if (card == null)
             {
                 continue;

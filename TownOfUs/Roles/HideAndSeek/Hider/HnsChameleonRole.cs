@@ -79,7 +79,7 @@ public sealed class HnsChameleonRole : CrewmateRole, ITownOfUsRole, IWikiDiscove
 
     public void Awake()
     {
-        var engineer = RoleManager.Instance.GetRole(RoleTypes.Engineer).Cast<EngineerRole>();
+        var engineer = (RoleManager.Instance.GetRole(RoleTypes.Engineer) as EngineerRole)!;
         Ability = engineer.Ability;
     }
 

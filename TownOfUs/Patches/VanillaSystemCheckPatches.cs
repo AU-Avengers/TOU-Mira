@@ -16,7 +16,7 @@ public static class VanillaSystemCheckPatches
     {
         if (__instance.Systems.TryGetValue(SystemTypes.Ventilation, out var comms))
         {
-            var ventilationSystem = comms.TryCast<VentilationSystem>();
+            var ventilationSystem = comms as VentilationSystem;
             VentSystem = ventilationSystem!;
         }
 
@@ -25,12 +25,12 @@ public static class VanillaSystemCheckPatches
             if (__instance.Type == ShipStatus.MapType.Hq ||
                 __instance.Type == ShipStatus.MapType.Fungle)
             {
-                var hqSystem = commsSystem.Cast<HqHudSystemType>();
+                var hqSystem = commsSystem as HqHudSystemType;
                 HqCommsSystem = hqSystem;
             }
             else
             {
-                var hudSystem = commsSystem.Cast<HudOverrideSystemType>();
+                var hudSystem = commsSystem as HudOverrideSystemType;
                 HudCommsSystem = hudSystem;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using BepInEx;
+using BepInEx.Bootstrap;
 using HarmonyLib;
 using Hazel;
 using MiraAPI.GameOptions;
@@ -127,9 +128,9 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
 
         if (!client.AmOwner && PlayerControl.LocalPlayer.IsHost() && HudManager.InstanceExists)
         {
-            var mods = IL2CPPChainloader.Instance.Plugins;
+            var mods = Chainloader.PluginInfos;
             var modDictionary = new Dictionary<byte, string>();
-            modDictionary.Add(0, $"BepInEx " + Paths.BepInExVersion.WithoutBuild());
+            // modDictionary.Add(0, $"BepInEx " + Paths.BepInExVersion.WithoutBuild());
             byte modByte = 1;
             foreach (var mod in mods)
             {
@@ -137,14 +138,14 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
                 modByte++;
             }
             var newModDictionary = new List<string>();
-            var bepChecked = false;
+            // var bepChecked = false;
             foreach (var mod in list)
             {
-                if (mod.Value.Contains("BepInEx") && !bepChecked)
+                /*if (mod.Value.Contains("BepInEx") && !bepChecked)
                 {
                     bepChecked = true;
                     continue;
-                }
+                }*/
                 if (modDictionary.ContainsValue(mod.Value) || whitelist.Any(x => mod.Value.Contains(x, StringComparison.OrdinalIgnoreCase)))
                 {
                     continue;

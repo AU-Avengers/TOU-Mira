@@ -84,7 +84,7 @@ public static class ShapeshifterRolePatch
             changeOutfit();
             __instance.cosmetics.SetScale(__instance.MyPhysics.Animations.DefaultPlayerScale,
                 __instance.defaultCosmeticsScale);
-            (__instance.Data.Role.TryCast<ShapeshifterRole>()!).SetEvidence();
+            (__instance.Data.Role as ShapeshifterRole)!.SetEvidence();
         };
         Action shiftDelegate = delegate()
         {

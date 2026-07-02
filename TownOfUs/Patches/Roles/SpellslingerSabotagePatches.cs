@@ -20,9 +20,9 @@ public static class SpellslingerSabotagePatches
         if (!__instance.Systems.TryGetValue((SystemTypes)HexBombSabotageSystem.SabotageId, out _))
         {
             var hexBombSabo = new HexBombSabotageSystem(OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDuration);
-            __instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>().specials
-                .Add(hexBombSabo.Cast<IActivatable>());
-            __instance.Systems.Add((SystemTypes)HexBombSabotageSystem.SabotageId, hexBombSabo.Cast<ISystemType>());
+            (__instance.Systems[SystemTypes.Sabotage] as SabotageSystemType)!.specials
+                .Add(hexBombSabo);
+            __instance.Systems.Add((SystemTypes)HexBombSabotageSystem.SabotageId, hexBombSabo);
         }
     }
 

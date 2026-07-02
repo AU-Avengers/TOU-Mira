@@ -72,7 +72,7 @@ public static class VisionPatch
                 if (__instance.Systems != null &&
                     __instance.Systems.TryGetValue(SystemTypes.Electrical, out var system))
                 {
-                    switchSystem = system.TryCast<SwitchSystem>();
+                    switchSystem = system as SwitchSystem;
                 }
 
                 var t = switchSystem?.Level ?? 1;

@@ -98,7 +98,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
     private IEnumerator CoRandomizeVote()
     {
         var meetingInstance = MeetingHud.Instance;
-        var logicOptionsNormal = GameManager.Instance.LogicOptions.TryCast<LogicOptionsNormal>();
+        var logicOptionsNormal = GameManager.Instance.LogicOptions as LogicOptionsNormal;
         if (logicOptionsNormal == null)
         {
             Info("logic is not normal!");

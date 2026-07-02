@@ -64,7 +64,7 @@ public static class SentryCameraMinigamePatch
                 var task = PlayerControl.LocalPlayer.myTasks[i];
                 if (task != null)
                 {
-                    var normTask = task.TryCast<NormalPlayerTask>();
+                    var normTask = task as NormalPlayerTask;
                     if (normTask != null)
                     {
                         Logger.LogInfo($"  Task {i}: TaskType={normTask.TaskType}, IsComplete={normTask.IsComplete}");

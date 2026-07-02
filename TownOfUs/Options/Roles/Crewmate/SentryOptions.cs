@@ -55,7 +55,7 @@ public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOption
 
 
     private static readonly string[] SystemTypeLocaleKeys =
-        Enum.GetNames<SystemTypes>().Select(n => $"TouSystemType_{n}").ToArray();
+        Enum.GetNames(typeof(SystemTypes)).Select(n => $"TouSystemType_{n}").ToArray();
 
     public ModdedNumberOption BlindspotsCount { get; } =
         new("TouOptionSentryBlindspots", 0f, 0f, 10f, 1f, "Off", "#", MiraNumberSuffixes.None, "0");

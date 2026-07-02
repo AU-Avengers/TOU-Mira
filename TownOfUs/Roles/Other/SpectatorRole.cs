@@ -20,7 +20,7 @@ public sealed class SpectatorRole : RoleBehaviour, ITownOfUsRole, IWikiDiscovera
 
     public void Awake()
     {
-        var crewGhost = RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost).Cast<CrewmateGhostRole>();
+        var crewGhost = (RoleManager.Instance.GetRole(RoleTypes.CrewmateGhost) as CrewmateGhostRole)!;
         _hauntMenu = crewGhost.HauntMenu;
         Ability = crewGhost.Ability;
     }
@@ -35,7 +35,7 @@ public sealed class SpectatorRole : RoleBehaviour, ITownOfUsRole, IWikiDiscovera
 
         if (Minigame.Instance)
         {
-            if (Minigame.Instance.TryCast<HauntMenuMinigame>())
+            if (Minigame.Instance is HauntMenuMinigame)
             {
                 Minigame.Instance.Close();
             }
