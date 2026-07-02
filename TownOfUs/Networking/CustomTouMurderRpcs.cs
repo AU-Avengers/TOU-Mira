@@ -142,7 +142,7 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        Coroutines.Start(CoWaitForMultiIndirect(source, targets, inMeeting, isIndirect, ignoreShields, didSucceed,
+        AmongUsClient.Instance.StartCoroutine(CoWaitForMultiIndirect(source, targets, inMeeting, isIndirect, ignoreShields, didSucceed,
             resetKillTimer, createDeadBody, teleportMurderer, showKillAnim, playKillSound, causeOfDeath));
     }
 
@@ -341,7 +341,7 @@ public static class CustomTouMurderRpcs
         if (RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner &&
             source.Data?.Role?.CanUseKillButton == true)
         {
-            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
+            AmongUsClient.Instance.StartCoroutine(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
         }
     }
 
@@ -413,7 +413,7 @@ public static class CustomTouMurderRpcs
         if (RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner &&
             source.Data?.Role?.CanUseKillButton == true)
         {
-            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
+            AmongUsClient.Instance.StartCoroutine(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
         }
     }
 
@@ -449,7 +449,7 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        Coroutines.Start(CoWaitForFramedIndirect(source, target, framed, ignoreShield, didSucceed, resetKillTimer,
+        AmongUsClient.Instance.StartCoroutine(CoWaitForFramedIndirect(source, target, framed, ignoreShield, didSucceed, resetKillTimer,
             createDeadBody, showKillAnim, playKillSound, causeOfDeath));
     }
 
@@ -583,13 +583,13 @@ public static class CustomTouMurderRpcs
             showKillAnim,
             playKillSound);
 
-        Coroutines.Start(CoWaitForJump(murderResultFlags2, framed, target));
+        AmongUsClient.Instance.StartCoroutine(CoWaitForJump(murderResultFlags2, framed, target));
 
         // Record kill cooldown change after CustomMurder if it was reset
         if (RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner &&
             source.Data?.Role?.CanUseKillButton == true)
         {
-            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
+            AmongUsClient.Instance.StartCoroutine(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
         }
     }
 
@@ -674,7 +674,7 @@ public static class CustomTouMurderRpcs
             return;
         }
 
-        Coroutines.Start(CoWaitForIndirect(source, target, inMeeting, isIndirect, ignoreShield, didSucceed,
+        AmongUsClient.Instance.StartCoroutine(CoWaitForIndirect(source, target, inMeeting, isIndirect, ignoreShield, didSucceed,
             resetKillTimer, createDeadBody, teleportMurderer, showKillAnim, playKillSound, causeOfDeath));
     }
 
@@ -821,7 +821,7 @@ public static class CustomTouMurderRpcs
         if (RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner &&
             source.Data?.Role?.CanUseKillButton == true)
         {
-            Coroutines.Start(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
+            AmongUsClient.Instance.StartCoroutine(CoRecordKillCooldownAfterCustomMurder(source, RecordedKillCooldown));
         }
     }
 

@@ -292,7 +292,7 @@ public sealed class GuesserMenu : Minigame
             
             if (searchTextbox != null)
             {
-                Coroutines.Start(CoRestoreFocus());
+                AmongUsClient.Instance.StartCoroutine(CoRestoreFocus());
             }
         }));
 

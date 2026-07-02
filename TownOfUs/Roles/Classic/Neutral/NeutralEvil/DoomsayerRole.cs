@@ -359,7 +359,7 @@ public sealed class DoomsayerRole
                 IncorrectGuesses++;
                 if (!opts.DoomsayerGuessAllAtOnce)
                 {
-                    Coroutines.Start(MiscUtils.CoFlash(Color.red));
+                    AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.red));
                     meetingMenu?.HideButtons();
                     shapeMenu.Close();
                     return;
@@ -367,7 +367,7 @@ public sealed class DoomsayerRole
             }
             else if (!opts.DoomsayerGuessAllAtOnce)
             {
-                Coroutines.Start(MiscUtils.CoFlash(Color.green));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.green));
                 NumberOfGuesses++;
             }
             else
@@ -393,7 +393,7 @@ public sealed class DoomsayerRole
 
                 notif1.AdjustNotification();
 
-                Coroutines.Start(MiscUtils.CoFlash(Color.red));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.red));
             }
             else if (opts.DoomsayerGuessAllAtOnce)
             {

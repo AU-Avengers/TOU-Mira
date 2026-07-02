@@ -238,7 +238,7 @@ public sealed class AltruistRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverabl
         var opts = (InformedKillers)OptionGroupSingleton<AltruistOptions>.Instance.KillersAlertedAtStart.Value;
         if (opts.ToDisplayString().Contains("Impostors") && PlayerControl.LocalPlayer.IsImpostorAligned() || opts.ToDisplayString().Contains("Neutrals") && PlayerControl.LocalPlayer.Is(RoleAlignment.NeutralKilling))
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Altruist));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Altruist));
 
             if (!alt.HasModifier<AltruistArrowModifier>())
             {
@@ -249,6 +249,6 @@ public sealed class AltruistRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverabl
         var touAbilityEvent = new TouAbilityEvent(AbilityType.AltruistRevive, alt, target);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
-        Coroutines.Start(role.CoRevivePlayer(target));
+        AmongUsClient.Instance.StartCoroutine(role.CoRevivePlayer(target));
     }
 }

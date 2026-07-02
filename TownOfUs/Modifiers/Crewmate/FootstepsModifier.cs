@@ -47,7 +47,7 @@ public sealed class FootstepsModifier : BaseModifier
             return;
         }
 
-        _currentSteps.ToList().ForEach(step => Coroutines.Start(FootstepFadeout(step.Key, step.Value)));
+        _currentSteps.ToList().ForEach(step => AmongUsClient.Instance.StartCoroutine(FootstepFadeout(step.Key, step.Value)));
         _currentSteps.Clear();
     }
 
@@ -101,7 +101,7 @@ public sealed class FootstepsModifier : BaseModifier
 
             _currentSteps!.Add(footstep, sprite);
             _lastPos = Player.transform.position;
-            Coroutines.Start(FootstepDisappear(footstep, sprite, PrintDuration));
+            AmongUsClient.Instance.StartCoroutine(FootstepDisappear(footstep, sprite, PrintDuration));
         }
         else
         {
@@ -147,7 +147,7 @@ public sealed class FootstepsModifier : BaseModifier
                                              (PrintSize / 10);
 
             _currentSteps!.Add(footstep, sprite);
-            Coroutines.Start(FootstepDisappear(footstep, sprite, PrintDuration));
+            AmongUsClient.Instance.StartCoroutine(FootstepDisappear(footstep, sprite, PrintDuration));
 
             _footstepInterval = 0;
         }

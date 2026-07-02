@@ -139,7 +139,7 @@ public sealed class MediumRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         }
         if (targets.Count != 0)
         {
-            Coroutines.Start(CoShowGhosts(player, targets));
+            AmongUsClient.Instance.StartCoroutine(CoShowGhosts(player, targets));
         }
 
         var hidden =

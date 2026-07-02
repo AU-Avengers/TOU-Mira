@@ -40,7 +40,7 @@ public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, Play
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
         _biteName = TouLocale.Get("TouRoleVampireBite", "Bite");
         OverrideName(_killName);
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(this, false));
     }
 
     protected override void FixedUpdate(PlayerControl playerControl)

@@ -182,7 +182,7 @@ public static class MiraApiPatches
         // Record kill cooldown change after CustomMurder if it was reset
         if (CustomTouMurderRpcs.RecordedKillCooldown > -1f && resetKillTimer && source.AmOwner && source.Data?.Role?.CanUseKillButton == true)
         {
-            Coroutines.Start(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, CustomTouMurderRpcs.RecordedKillCooldown));
+            AmongUsClient.Instance.StartCoroutine(CustomTouMurderRpcs.CoRecordKillCooldownAfterCustomMurder(source, CustomTouMurderRpcs.RecordedKillCooldown));
         }
         return false;
     }

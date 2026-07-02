@@ -67,7 +67,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
 
         notif1.AdjustNotification();
 
-        Coroutines.Start(MiscUtils.CoFlash(Color.red));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.red));
     }
 
     private void Shoot()
@@ -167,7 +167,7 @@ public sealed class OfficerShootButton : TownOfUsKillRoleButton<OfficerRole, Pla
 
         if (!OptionGroupSingleton<OfficerOptions>.Instance.CanSelfReport.Value)
         {
-            Coroutines.Start(CoSetBodyReportable(Target.PlayerId));
+            AmongUsClient.Instance.StartCoroutine(CoSetBodyReportable(Target.PlayerId));
         }
     }
 

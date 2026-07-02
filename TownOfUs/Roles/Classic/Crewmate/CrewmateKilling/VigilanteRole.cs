@@ -209,7 +209,7 @@ public sealed class VigilanteRole : CrewmateRole, ITouCrewRole, IWikiDiscoverabl
             if (victim == Player && SafeShotsLeft != 0)
             {
                 SafeShotsLeft--;
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Impostor));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Impostor));
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Vigilante.ToTextColor()}{TouLocale.GetParsed("TouRoleVigilanteMultiShotFeedback").Replace("<count>", SafeShotsLeft.ToString(TownOfUsPlugin.Culture))}</color></b>",

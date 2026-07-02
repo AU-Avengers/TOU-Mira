@@ -247,7 +247,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 modifier!.Used = true;
 
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Impostor));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Impostor));
 
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}Your Double Shot has prevented you from dying this meeting!</color></b>",

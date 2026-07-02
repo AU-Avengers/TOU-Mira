@@ -30,7 +30,7 @@ public static class SwapperEvents
             return;
         }
 
-        Coroutines.Start(PerformSwaps());
+        AmongUsClient.Instance.StartCoroutine(PerformSwaps());
     }
 
     private static void SwapVotes(ProcessVotesEvent @event, SwapperRole swapper)
@@ -112,8 +112,8 @@ public static class SwapperEvents
 
             for (var i = 0; i < elements1.Length; i++)
             {
-                Coroutines.Start(Slide2D(elements1[i], elements1[i].position, elements2[i].position, duration));
-                Coroutines.Start(Slide2D(elements2[i], elements2[i].position, elements1[i].position, duration));
+                AmongUsClient.Instance.StartCoroutine(Slide2D(elements1[i], elements1[i].position, elements2[i].position, duration));
+                AmongUsClient.Instance.StartCoroutine(Slide2D(elements2[i], elements2[i].position, elements1[i].position, duration));
             }
 
             yield return new WaitForSeconds(duration);

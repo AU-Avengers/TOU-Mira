@@ -201,7 +201,7 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
         if (oracle.AmOwner)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TouLocale.GetParsed("TouRoleOracleBlessingMessageSelf").Replace("<player>", target.Data.PlayerName)}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());
@@ -209,7 +209,7 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         }
         else if (source.AmOwner)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Oracle));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Oracle));
             var notif1 = Helpers.CreateAndShowNotification(
                 $"<b>{TouLocale.GetParsed("TouRoleOracleBlessingMessageOthers").Replace("<player>", target.Data.PlayerName)}</b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Oracle.LoadAsset());

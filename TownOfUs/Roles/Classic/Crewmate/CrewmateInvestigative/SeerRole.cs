@@ -102,14 +102,14 @@ public sealed class SeerRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, I
     {
         if (GazeTarget == null || IntuitTarget == null)
         {
-            Coroutines.Start(MiscUtils.CoFlash(Color.red));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.red));
             ShowNotification($"<b>{TouLocale.GetParsed("TouRoleSeerCompareErrorAmountNotif")}</b>");
             return;
         }
 
         if (GazeTarget == seer || IntuitTarget == seer)
         {
-            Coroutines.Start(MiscUtils.CoFlash(Color.red));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.red));
             ShowNotification($"<b>{TouLocale.GetParsed("TouRoleSeerCompareErrorSelfNotif")}</b>");
             return;
         }
@@ -159,7 +159,7 @@ public sealed class SeerRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, I
 
         if (enemies)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.ImpSoft));
             var text = TouLocale.GetParsed("TouRoleSeerCompareEnemiesNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ShowNotification($"<b>{TownOfUsColors.ImpSoft.ToTextColor()}{text}</color></b>");
             var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
@@ -167,7 +167,7 @@ public sealed class SeerRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, I
         }
         else
         {
-            Coroutines.Start(MiscUtils.CoFlash(Palette.CrewmateBlue));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Palette.CrewmateBlue));
             var text = TouLocale.GetParsed("TouRoleSeerCompareFriendsNotif").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);
             ShowNotification($"<b>{Palette.CrewmateBlue.ToTextColor()}{text}</color></b>");
             var compareResult = TouLocale.GetParsed("TouRoleSeerTabComparison").Replace("<gazed>", players[0]).Replace("<intuited>", players[1]);

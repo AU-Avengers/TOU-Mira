@@ -144,7 +144,7 @@ public sealed class MirrorcasterRole : CrewmateRole, ITouCrewRole, IWikiDiscover
 
     public static void DangerAnim(bool localMirrorcaster = false)
     {
-        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !localMirrorcaster ? TownOfUsColors.NeutralWiki : new Color32(144, 162, 195, 255)));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !localMirrorcaster ? TownOfUsColors.NeutralWiki : new Color32(144, 162, 195, 255)));
         if (localMirrorcaster)
         {
             TouAudio.PlaySound(TouAudio.MirrorcasterShatter);

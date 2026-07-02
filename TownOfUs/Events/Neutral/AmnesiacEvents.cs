@@ -30,7 +30,7 @@ public static class AmnesiacEvents
             return;
         }
 
-        Coroutines.Start(CoCreateArrow(@event.Target));
+        AmongUsClient.Instance.StartCoroutine(CoCreateArrow(@event.Target));
     }
 
     [RegisterEvent]

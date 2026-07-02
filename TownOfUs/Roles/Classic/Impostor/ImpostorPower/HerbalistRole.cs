@@ -126,7 +126,7 @@ public sealed class HerbalistRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
             (cleric.AmOwner &&
              OptionGroupSingleton<HerbalistOptions>.Instance.AttackNotif))
         {
-            Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
         }
     }
 }

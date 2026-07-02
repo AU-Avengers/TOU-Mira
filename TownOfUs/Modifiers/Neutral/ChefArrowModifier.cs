@@ -29,7 +29,7 @@ public sealed class ChefArrowModifier(DeadBody deadBody, Color color) : TimedMod
         _arrow = MiscUtils.CreateArrow(Player.transform, color);
         _arrow.target = DeadBody.transform.position;
 
-        Coroutines.Start(MiscUtils.CoFlash(color));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(color));
     }
 
     public override void FixedUpdate()

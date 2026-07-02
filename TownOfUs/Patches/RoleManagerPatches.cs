@@ -857,7 +857,7 @@ public static class TouRoleManagerPatches
     public static void AssignTargets()
     {
         // This is a coroutine because otherwise, the game just assigns targets real badly like traitor egotist, exe being lovers with their targets, that sort of thing - Atony
-        Coroutines.Start(CoAssignTargets());
+        AmongUsClient.Instance.StartCoroutine(CoAssignTargets());
     }
 
     public static IEnumerator CoAssignTargets()

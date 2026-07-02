@@ -55,7 +55,7 @@ public static class ReviveUtilities
 
         // Ensure death state is properly synced before revive to prevent desyncs
         // Wait a small amount to ensure any pending death syncs complete
-        Coroutines.Start(CoEnsureDeathStateSyncedBeforeRevive(revived, inMeetingOrExile, position, roleWhenAlive, flashColor, 
+        AmongUsClient.Instance.StartCoroutine(CoEnsureDeathStateSyncedBeforeRevive(revived, inMeetingOrExile, position, roleWhenAlive, flashColor, 
             revivedOwnerNotificationText, reviverOwnerNotificationText, notificationIcon, reviver));
     }
 
@@ -156,7 +156,7 @@ public static class ReviveUtilities
             try
             {
                 TouAudio.PlaySound(TouAudio.AltruistReviveSound);
-                Coroutines.Start(MiscUtils.CoFlash(flashColor));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(flashColor));
                 var notif = Helpers.CreateAndShowNotification(
                     $"<b>{flashColor.ToTextColor()}{revivedOwnerNotificationText}</color></b>",
                     Color.white,
@@ -175,7 +175,7 @@ public static class ReviveUtilities
             try
             {
                 TouAudio.PlaySound(TouAudio.AltruistReviveSound);
-                Coroutines.Start(MiscUtils.CoFlash(flashColor));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(flashColor));
                 var notif = Helpers.CreateAndShowNotification(
                     $"<b>{flashColor.ToTextColor()}{reviverOwnerNotificationText}</color></b>",
                     Color.white,
@@ -203,6 +203,6 @@ public static class ReviveUtilities
             // ignored
         }
 
-        Coroutines.Start(CoEnsureNoLingeringBody(revived.PlayerId, 1.0f));
+        AmongUsClient.Instance.StartCoroutine(CoEnsureNoLingeringBody(revived.PlayerId, 1.0f));
     }
 }

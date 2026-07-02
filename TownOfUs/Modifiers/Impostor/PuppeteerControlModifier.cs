@@ -32,7 +32,7 @@ public sealed class PuppeteerControlModifier(PlayerControl controller) : Disable
         {
             TouAudio.PlaySound(TouAudio.HackedSound);
             CreateNotification();
-            Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed, Duration));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Palette.ImpostorRed, Duration));
 
             if (Minigame.Instance)
                 Minigame.Instance.Close();

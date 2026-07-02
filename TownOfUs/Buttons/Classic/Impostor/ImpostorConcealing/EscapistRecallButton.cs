@@ -38,7 +38,7 @@ public sealed class EscapistRecallButton : TownOfUsRoleButton<EscapistRole>, IAf
     {
         if (Role.MarkedLocation != null)
         {
-            Coroutines.Start(CoRecall(Role.MarkedLocation.Value));
+            AmongUsClient.Instance.StartCoroutine(CoRecall(Role.MarkedLocation.Value));
         }
         // TouAudio.PlaySound(TouAudio.EscapistRecallSound);
     }

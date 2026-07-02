@@ -118,7 +118,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
             PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
         }
 
-        Coroutines.Start(CoMarkForDeath(Target));
+        AmongUsClient.Instance.StartCoroutine(CoMarkForDeath(Target));
     }
 
     public List<PlayerControl> MarkedTargets = new();

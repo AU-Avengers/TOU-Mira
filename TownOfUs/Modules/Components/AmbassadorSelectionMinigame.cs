@@ -87,7 +87,7 @@ public sealed class AmbassadorSelectionMinigame : Minigame
         // Adds random as an option
         RoleCount = availableRoles.Count + 1;
 
-        Coroutines.Start(CoOpen(this));
+        AmongUsClient.Instance.StartCoroutine(CoOpen(this));
     }
 
     private static IEnumerator CoOpen(AmbassadorSelectionMinigame minigame)
@@ -153,7 +153,7 @@ public sealed class AmbassadorSelectionMinigame : Minigame
             clickHandler.Invoke(RoleManager.Instance.GetRole(_selectedRole!.Value));
         }));
 
-        Coroutines.Start(CoAnimateCards());
+        AmongUsClient.Instance.StartCoroutine(CoAnimateCards());
         TransType = TransitionType.None;
         Begin(null);
     }
@@ -218,7 +218,7 @@ public sealed class AmbassadorSelectionMinigame : Minigame
             }
 
             var child = card.GetChild(0);
-            Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: 0.5f - (RoleCount * 0.0075f), duration: 0.1f,
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.BetterBloop(child, finalSize: 0.5f - (RoleCount * 0.0075f), duration: 0.1f,
                 intensity: 0.11f));
             yield return new WaitForSeconds(0.01f);
         }

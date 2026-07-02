@@ -1241,7 +1241,7 @@ public static class TimeLordRewindSystem
             }
         }
 
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.TimeLord, duration, 0.25f));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.TimeLord, duration, 0.25f));
 
         ConfigureLocalBodyRestores(duration, history);
         
@@ -2079,7 +2079,7 @@ return true;*/
             var player = MiscUtils.PlayerById(rec.BodyId);
             if (player != null && player.HasModifier<RottingModifier>())
             {
-                Coroutines.Start(RottingModifier.StartRotting(player));
+                AmongUsClient.Instance.StartCoroutine(RottingModifier.StartRotting(player));
             }
         }
     }
@@ -2718,7 +2718,7 @@ return true;*/
 
         if (!revived.AmOwner && !string.IsNullOrEmpty(revived.CurrentOutfit.PetId))
         {
-            Coroutines.Start(CoRefreshPetState(revived));
+            AmongUsClient.Instance.StartCoroutine(CoRefreshPetState(revived));
         }
     }
 
@@ -2729,7 +2729,7 @@ return true;*/
             return;
         }
 
-        Coroutines.Start(CoDeferredRevive(revivedId));
+        AmongUsClient.Instance.StartCoroutine(CoDeferredRevive(revivedId));
     }
 
     private static System.Collections.IEnumerator CoDeferredRevive(byte revivedId)

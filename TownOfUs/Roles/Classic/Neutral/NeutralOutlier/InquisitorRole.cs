@@ -219,8 +219,8 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
         var canVent = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
         var inquire = CustomButtonSingleton<InquisitorInquireButton>.Instance;
         var vanquish = CustomButtonSingleton<InquisitorVanquishButton>.Instance;
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(inquire, !canVent));
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(vanquish, !canVent));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(inquire, !canVent));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(vanquish, !canVent));
     }
 
     public override void Initialize(PlayerControl player)
@@ -245,7 +245,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
         if (TutorialManager.InstanceExists && Targets.Count == 0 && Player.AmOwner && Player.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
-            Coroutines.Start(SetTutorialTargets(this));
+            AmongUsClient.Instance.StartCoroutine(SetTutorialTargets(this));
         }
     }
 

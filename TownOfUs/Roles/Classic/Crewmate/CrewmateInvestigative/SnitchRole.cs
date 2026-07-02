@@ -180,7 +180,7 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
             {
                 if (!silent)
                 {
-                    Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+                    AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
                     var text = Player.HasModifier<EgotistModifier>()
                         ? TouLocale.GetParsed("TouRoleSnitchSelfRevealedEgoFeedback")
                         : TouLocale.GetParsed("TouRoleSnitchSelfRevealedFeedback");
@@ -197,7 +197,7 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
                 CreateRevealingArrow(silent);
                 if (!silent)
                 {
-                    Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+                    AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
                     var text = Player.HasModifier<EgotistModifier>()
                         ? TouLocale.GetParsed("TouRoleSnitchImpRevealedEgoFeedback")
                         : TouLocale.GetParsed("TouRoleSnitchImpRevealedFeedback");
@@ -230,7 +230,7 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
             }
             else if (IsTargetOfSnitch(PlayerControl.LocalPlayer) && !silent)
             {
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
                 var text = Player.HasModifier<EgotistModifier>()
                     ? TouLocale.GetParsed("TouRoleSnitchImpCompletedEgoFeedback")
                     : TouLocale.GetParsed("TouRoleSnitchImpCompletedFeedback");
@@ -368,7 +368,7 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         PlayerNameColor.Set(Player);
         if (!silent)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
         }
         SnitchRevealArrow = MiscUtils.CreateArrow(Player.transform, TownOfUsColors.Snitch);
     }
@@ -382,7 +382,7 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
         if (!silent)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
         }
         _snitchArrows = new Dictionary<byte, ArrowBehaviour>();
         var imps = Helpers.GetAlivePlayers().Where(plr => plr.Data.Role.IsImpostor && !plr.IsTraitor());

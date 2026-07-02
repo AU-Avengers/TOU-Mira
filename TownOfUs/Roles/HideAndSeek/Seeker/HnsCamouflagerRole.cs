@@ -68,7 +68,7 @@ public sealed class HnsCamouflagerRole
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
-        Coroutines.Start(CoSetUpBodyType());
+        AmongUsClient.Instance.StartCoroutine(CoSetUpBodyType());
     }
 
     public IEnumerator CoSetUpBodyType()

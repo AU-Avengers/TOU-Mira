@@ -30,7 +30,7 @@ public static class ChefEvents
             return;
         }
 
-        Coroutines.Start(CoCreateChefArrow(@event.Target));
+        AmongUsClient.Instance.StartCoroutine(CoCreateChefArrow(@event.Target));
     }
 
     public static IEnumerator CoCreateChefArrow(PlayerControl target)

@@ -50,7 +50,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
     {
         Player.RawSetAppearance(this);
         Player.cosmetics.ToggleNameVisible(false);
-        Coroutines.Start(CoSetBodyReportable());
+        AmongUsClient.Instance.StartCoroutine(CoSetBodyReportable());
     }
 
     private IEnumerator CoSetBodyReportable()

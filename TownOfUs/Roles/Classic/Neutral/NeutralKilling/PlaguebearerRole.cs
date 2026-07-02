@@ -136,7 +136,7 @@ public sealed class PlaguebearerRole
         Player.AddModifier<PlaguebearerInfectedModifier>(Player.PlayerId);
         if (Player.AmOwner && (int)OptionGroupSingleton<PlaguebearerOptions>.Instance.PestChance != 0)
         {
-            Coroutines.Start(CheckForPestChance(Player));
+            AmongUsClient.Instance.StartCoroutine(CheckForPestChance(Player));
         }
     }
 

@@ -90,7 +90,7 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
             (Helpers.GetAlivePlayers().Count > MaxAlivesNeeded))
         {
             Info($"Prepping vote, as {Helpers.GetAlivePlayers().Count} players is more than the requirement of {MaxAlivesNeeded} players");
-            Coroutines.Start(CoRandomizeVote());
+            AmongUsClient.Instance.StartCoroutine(CoRandomizeVote());
             IsVoteReady = true;
         }
     }

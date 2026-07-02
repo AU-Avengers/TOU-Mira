@@ -27,7 +27,7 @@ public sealed class HypnotistHysteriaFreeplayButton : TownOfUsRoleButton<Hypnoti
 
     protected override void OnClick()
     {
-        Coroutines.Start(CoHysteria());
+        AmongUsClient.Instance.StartCoroutine(CoHysteria());
     }
 
     public static IEnumerator CoHysteria()

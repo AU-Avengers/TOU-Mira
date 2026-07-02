@@ -1323,7 +1323,7 @@ public static class HudManagerPatches
         
         TownOfUsLocalSettings.OldButtonScaleFactor =
             LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ButtonUIFactorSlider.Value;
-        Coroutines.Start(TownOfUsLocalSettings.CoResizeSettingsUI());
+        AmongUsClient.Instance.StartCoroutine(TownOfUsLocalSettings.CoResizeSettingsUI());
     }
 
     internal static readonly Dictionary<RoleListOption, RoleAlignment> TooltipAlignments = new()

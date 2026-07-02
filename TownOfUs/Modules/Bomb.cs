@@ -26,7 +26,7 @@ public sealed class Bomb : IDisposable
 
     public void Detonate()
     {
-        Coroutines.Start(CoDetonate());
+        AmongUsClient.Instance.StartCoroutine(CoDetonate());
     }
 
     private IEnumerator CoDetonate()

@@ -145,7 +145,7 @@ public sealed class AurialRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
         if (player.AmOwner)
         {
-            Coroutines.Start(aurial.Sense(source));
+            AmongUsClient.Instance.StartCoroutine(aurial.Sense(source));
         }
     }
 }

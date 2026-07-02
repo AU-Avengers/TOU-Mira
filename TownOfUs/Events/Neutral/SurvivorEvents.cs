@@ -89,6 +89,6 @@ public static class SurvivorEvents
         button?.SetTimer(reset);
 
         source.SetKillTimer(reset);
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.NeutralWiki, alpha: 0.5f));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.NeutralWiki, alpha: 0.5f));
     }
 }

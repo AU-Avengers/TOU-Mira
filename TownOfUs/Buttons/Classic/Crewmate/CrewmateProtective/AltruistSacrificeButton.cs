@@ -146,7 +146,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
 
         if (killOnStart)
         {
-            Coroutines.Start(AltruistReviveButton.CoKillOnStart(PlayerControl.LocalPlayer));
+            AmongUsClient.Instance.StartCoroutine(AltruistReviveButton.CoKillOnStart(PlayerControl.LocalPlayer));
         }
 
         OverrideName(TouLocale.Get("TouRoleAltruistReviving", "Reviving"));
@@ -156,7 +156,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
     {
         RevivedInRound = true;
         OverrideName(TouLocale.Get("TouRoleAltruistRevive", "Revive"));
-        Coroutines.Start(CoSacrifite(PlayerControl.LocalPlayer));
+        AmongUsClient.Instance.StartCoroutine(CoSacrifite(PlayerControl.LocalPlayer));
     }
 
     public static IEnumerator CoSacrifite(PlayerControl player)

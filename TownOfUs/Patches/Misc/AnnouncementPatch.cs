@@ -73,7 +73,7 @@ public static class ModNewsFetcher
             return;
         }
 
-        Coroutines.Start(FetchNews());
+        AmongUsClient.Instance.StartCoroutine(FetchNews());
     }
 
     public static IEnumerator FetchNews()

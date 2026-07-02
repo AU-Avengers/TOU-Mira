@@ -99,14 +99,14 @@ public sealed class ForensicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverabl
         var text = TouLocale.GetParsed("TouRoleForensicAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
         if (InvestigatedPlayers.Contains(player.PlayerId) && InvestigatingScene != null && InvestigatingScene.DeadPlayer != null)
         {
-            Coroutines.Start(MiscUtils.CoFlash(Color.red));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.red));
 
             var deadPlayer = InvestigatingScene.DeadPlayer;
             text = text.Replace("<deadPlayer>", deadPlayer.Data.PlayerName);
         }
         else
         {
-            Coroutines.Start(MiscUtils.CoFlash(Color.green));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.green));
             text = TouLocale.GetParsed("TouRoleForensicNotAtScene").Replace("<player>", $"{TownOfUsColors.Forensic.ToTextColor()}{player.Data.PlayerName}</color>");
         }
         var notif1 = Helpers.CreateAndShowNotification(text,

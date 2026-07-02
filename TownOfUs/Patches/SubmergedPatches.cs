@@ -16,7 +16,7 @@ public static class SubmergedStartPatch
         {
             if (ModCompatibility.IsSubmerged())
             {
-                Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
+                AmongUsClient.Instance.StartCoroutine(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
             }
         });
     }

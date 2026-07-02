@@ -179,7 +179,7 @@ public static class TimeLordBodyManager
                 if (player != null && !player.AmOwner)
                 {
                     player.SetPet(rec.OriginalPetId);
-                    Coroutines.Start(CoRefreshPetState(player));
+                    AmongUsClient.Instance.StartCoroutine(CoRefreshPetState(player));
                     BodyLogger?.LogError($"[RestoreCleanedBody] Restored pet '{rec.OriginalPetId}' to player {bodyId} (body already active)");
                 }
             }
@@ -212,7 +212,7 @@ public static class TimeLordBodyManager
             if (player != null && !player.AmOwner)
             {
                 player.SetPet(rec.OriginalPetId);
-                Coroutines.Start(CoRefreshPetState(player));
+                AmongUsClient.Instance.StartCoroutine(CoRefreshPetState(player));
                 BodyLogger?.LogError($"[RestoreCleanedBody] Restored pet '{rec.OriginalPetId}' to player {bodyId}");
             }
         }

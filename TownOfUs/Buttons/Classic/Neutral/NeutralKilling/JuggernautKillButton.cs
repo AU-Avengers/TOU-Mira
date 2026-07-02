@@ -20,7 +20,7 @@ public sealed class JuggernautKillButton : TownOfUsKillRoleButton<JuggernautRole
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(this, false));
     }
 
     public static float BaseCooldown => Math.Clamp(OptionGroupSingleton<JuggernautOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);

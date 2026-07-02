@@ -1079,7 +1079,7 @@ public static class MiscUtils
         // (I think this is the right way to do that...)
         if (onLeft && (!chat.IsOpenOrOpening || !TeamChatPatches.TeamChatActive))
         {
-            Coroutines.Start(BouncePrivateChatDot(bubbleType));
+            AmongUsClient.Instance.StartCoroutine(BouncePrivateChatDot(bubbleType));
             SoundManager.Instance.PlaySound(chat.messageSound, false).pitch = 0.1f;
         }
 
@@ -2110,7 +2110,7 @@ public static class MiscUtils
     {
         var anim = player.KillAnimations.Random();
 
-        Coroutines.Start(CoPerformAttack(player, anim!, pos));
+        AmongUsClient.Instance.StartCoroutine(CoPerformAttack(player, anim!, pos));
     }
 
     public static IEnumerator CoPerformAttack(PlayerControl attacker, KillAnimation anim, Vector2 pos)
@@ -2272,7 +2272,7 @@ public static class MiscUtils
 
     public static void DelayExile(this PlayerControl localPlayer)
     {
-        Coroutines.Start(CoWaitExile(localPlayer));
+        AmongUsClient.Instance.StartCoroutine(CoWaitExile(localPlayer));
     }
 
     private static IEnumerator CoWaitExile(PlayerControl player)

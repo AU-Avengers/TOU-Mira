@@ -77,7 +77,7 @@ public sealed class AmbassadorConfirmMinigame : Minigame
         clickHandler = onClick;
         NewRole = role;
 
-        Coroutines.Start(CoOpen(this));
+        AmongUsClient.Instance.StartCoroutine(CoOpen(this));
     }
 
     private static IEnumerator CoOpen(AmbassadorConfirmMinigame minigame)

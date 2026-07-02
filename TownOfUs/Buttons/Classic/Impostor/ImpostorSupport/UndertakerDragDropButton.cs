@@ -51,7 +51,7 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
         }
         finally
         {
-            Coroutines.Start(ResetProcessingFlag());
+            AmongUsClient.Instance.StartCoroutine(ResetProcessingFlag());
         }
     }
 

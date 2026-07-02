@@ -112,7 +112,7 @@ public static class SentryEvents
                 spr: TouRoleIcons.Sentry.LoadAsset());
             notif.AdjustNotification();
 
-            Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
+            AmongUsClient.Instance.StartCoroutine(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
         }
     }
 
@@ -159,7 +159,7 @@ public static class SentryEvents
                     spr: TouRoleIcons.Sentry.LoadAsset());
                 notif.AdjustNotification();
 
-                Coroutines.Start(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
+                AmongUsClient.Instance.StartCoroutine(FlashActionButton(CustomButtonSingleton<SentryPortableCameraButton>.Instance.Button));
             }
         }
     }

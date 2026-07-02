@@ -178,7 +178,7 @@ public sealed class FairyRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable,
         if (TutorialManager.InstanceExists && Target == null && PlayerControl.LocalPlayer.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
-            Coroutines.Start(SetTutorialTargets(this));
+            AmongUsClient.Instance.StartCoroutine(SetTutorialTargets(this));
         }
     }
 

@@ -27,6 +27,6 @@ public sealed class HnsSnitchArrowModifier(PlayerControl owner, Color color, flo
 
         r.AddRend(spr, Player.cosmetics.ColorId);
 
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Snitch));
     }
 }

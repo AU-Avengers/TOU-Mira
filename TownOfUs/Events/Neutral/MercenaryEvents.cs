@@ -102,7 +102,7 @@ public static class MercenaryEvents
             if (source.AmOwner)
             {
                 ResetButtonTimer(source, button);
-                Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki : TownOfUsColors.Mercenary, alpha: 0.5f));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki : TownOfUsColors.Mercenary, alpha: 0.5f));
             }
         }
 

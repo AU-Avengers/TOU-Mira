@@ -67,14 +67,14 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
                 TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(player, rotting, rotting.transform.position, 
                     TimeLordBodyManager.CleanedBodySource.Rotting);
             }
-            Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(rotting));
+            AmongUsClient.Instance.StartCoroutine(TimeLordBodyManager.CoHideBodyForTimeLord(rotting));
         }
         else
         {
-            Coroutines.Start(rotting.CoClean());
+            AmongUsClient.Instance.StartCoroutine(rotting.CoClean());
         }*/
         CrimeSceneComponent.ClearCrimeScene(rotting);
-        Coroutines.Start(CoSetUpRot(rotting, player, killer == null ? player : killer));
+        AmongUsClient.Instance.StartCoroutine(CoSetUpRot(rotting, player, killer == null ? player : killer));
     }
 
     public static IEnumerator CoSetUpRot(DeadBody body, PlayerControl target, PlayerControl killer)

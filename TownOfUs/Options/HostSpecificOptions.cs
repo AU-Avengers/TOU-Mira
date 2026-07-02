@@ -29,7 +29,7 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             Debug("Toggle April Fools mode.");
-            Coroutines.Start(CoSetAprilFools());
+            AmongUsClient.Instance.StartCoroutine(CoSetAprilFools());
         }
     };*/
     public ModdedToggleOption EnableSpectators { get; set; } = new("Allow Spectators", true, false)

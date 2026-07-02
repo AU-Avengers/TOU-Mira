@@ -326,8 +326,8 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
 
         if (player.AmOwner)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plumber));
-            Coroutines.Start(SeeVenter(player));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Plumber));
+            AmongUsClient.Instance.StartCoroutine(SeeVenter(player));
         }
 
         if (PlayerControl.LocalPlayer.inVent)
@@ -335,7 +335,7 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
             RpcPlumberSendFlush(PlayerControl.LocalPlayer, Vent.currentVent.Id);
             PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
 
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plumber));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Plumber));
         }
     }
 
@@ -348,7 +348,7 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
             return;
         }
 
-        Coroutines.Start(SetupFlush(ventId));
+        AmongUsClient.Instance.StartCoroutine(SetupFlush(ventId));
     }
 
     [MethodRpc((uint)TownOfUsRpc.PlumberBlockVent)]

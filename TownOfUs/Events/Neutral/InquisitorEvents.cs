@@ -43,7 +43,7 @@ public static class InquisitorEvents
         {
             if (victim.HasModifier<InquisitorHereticModifier>() && !source.AmOwner)
             {
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.1f));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.1f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}A Heretic has perished!</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f),
@@ -52,7 +52,7 @@ public static class InquisitorEvents
             }
             else if (!victim.HasModifier<InquisitorHereticModifier>() && source.AmOwner)
             {
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.4f));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Inquisitor, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{victim.Data.PlayerName} was not a heretic!\nYou can no longer vanquish players.</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());
@@ -60,7 +60,7 @@ public static class InquisitorEvents
             }
             else if (victim.HasModifier<InquisitorHereticModifier>() && source.AmOwner)
             {
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Doomsayer, alpha: 0.4f));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Doomsayer, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Inquisitor.ToTextColor()}{victim.Data.PlayerName} was a heretic!</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Inquisitor.LoadAsset());

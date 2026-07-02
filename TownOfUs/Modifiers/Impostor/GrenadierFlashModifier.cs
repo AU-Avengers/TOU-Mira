@@ -76,7 +76,7 @@ public sealed class GrenadierFlashModifier(PlayerControl grenadier) : DisabledMo
                 notif1.AdjustNotification();
                 notif1.transform.localPosition = new Vector3(0f, 1f, -150f);
             }
-            Coroutines.Start(CoShakeScreen());
+            AmongUsClient.Instance.StartCoroutine(CoShakeScreen());
         }
     }
 

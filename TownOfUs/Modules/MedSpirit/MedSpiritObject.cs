@@ -104,7 +104,7 @@ public sealed class MedSpiritObject : InnerNetObject
         Rend.material.SetColor(ShaderID.VisorColor, VisorColor);
         Rend.material.SetColor(ShaderID.BackColor, BackColor);
         Rend.material.SetColor(ShaderID.BodyColor, BodyColor);
-        Coroutines.Start(CoFadeIn());
+        AmongUsClient.Instance.StartCoroutine(CoFadeIn());
 
         if (!AmOwner) return;
 

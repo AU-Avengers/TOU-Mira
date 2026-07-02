@@ -36,7 +36,7 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
             _arrow.target = Player.GetTruePosition();
         }
 
-        Coroutines.Start(MiscUtils.CoFlash(FlashColor));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(FlashColor));
     }
 
     public override void OnDeactivate()

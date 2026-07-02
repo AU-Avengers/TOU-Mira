@@ -33,7 +33,7 @@ public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, Playe
 
         CustomButtonSingleton<ArsonistIgniteButton>.Instance.SetTimer(CustomButtonSingleton<ArsonistIgniteButton>
             .Instance.Cooldown);
-        Coroutines.Start(CoSetDouses());
+        AmongUsClient.Instance.StartCoroutine(CoSetDouses());
     }
 
     public static IEnumerator CoSetDouses()

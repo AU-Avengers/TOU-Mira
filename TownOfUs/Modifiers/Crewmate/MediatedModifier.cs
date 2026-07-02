@@ -68,7 +68,7 @@ public sealed class MediatedModifier(byte mediumId) : TimedModifier
             Player.AddModifier<MediumHiddenModifier>();
         }
 
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Medium, alpha: 0.5f));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Medium, alpha: 0.5f));
     }
 
     public override void OnDeactivate()

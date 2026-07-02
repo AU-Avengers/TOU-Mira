@@ -92,7 +92,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
         }
         finally
         {
-            Coroutines.Start(ResetProcessingFlag());
+            AmongUsClient.Instance.StartCoroutine(ResetProcessingFlag());
         }
     }
 

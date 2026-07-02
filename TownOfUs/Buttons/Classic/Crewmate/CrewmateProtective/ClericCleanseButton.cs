@@ -39,7 +39,7 @@ public sealed class ClericCleanseButton : TownOfUsRoleButton<ClericRole, PlayerC
 
         if (ClericCleanseModifier.FindNegativeEffects(Target).Count > 0)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Cleric));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Cleric));
         }
 
         CustomButtonSingleton<ClericBarrierButton>.Instance.ResetCooldownAndOrEffect();

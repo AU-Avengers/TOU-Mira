@@ -320,12 +320,12 @@ public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
 
     public static void DangerAnim()
     {
-        Coroutines.Start(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
     }
 
     public static void DangerAnimNonMedic()
     {
-        Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki :new Color(0f, 0.5f, 0f, 1f)));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields ? TownOfUsColors.NeutralWiki :new Color(0f, 0.5f, 0f, 1f)));
     }
 
     public void LobbyStart()
@@ -392,7 +392,7 @@ public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
 
         if (PlayerControl.LocalPlayer.PlayerId == source.PlayerId)
         {
-            Coroutines.Start(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(new Color(0f, 0.5f, 0f, 1f)));
         }
 
         var shieldNotify = OptionGroupSingleton<MedicOptions>.Instance.WhoGetsNotification;

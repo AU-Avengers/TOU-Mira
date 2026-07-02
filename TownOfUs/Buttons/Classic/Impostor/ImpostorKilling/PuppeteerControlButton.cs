@@ -49,7 +49,7 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, true));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(this, true));
     }
 
     public override bool CanUse()

@@ -131,8 +131,8 @@ public sealed class ArsonistRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable
         var canVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
         var douse = CustomButtonSingleton<ArsonistDouseButton>.Instance;
         var ignite = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(douse, !canVent));
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(ignite, !canVent));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(douse, !canVent));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(ignite, !canVent));
     }
 
     public override void Initialize(PlayerControl player)

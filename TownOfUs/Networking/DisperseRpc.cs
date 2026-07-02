@@ -51,6 +51,6 @@ public sealed class DisperseRpc(TownOfUsPlugin plugin, uint id)
             return;
         }
 
-        Coroutines.Start(DisperserModifier.CoDisperse(data));
+        AmongUsClient.Instance.StartCoroutine(DisperserModifier.CoDisperse(data));
     }
 }

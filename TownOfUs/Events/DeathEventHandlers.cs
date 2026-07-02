@@ -83,7 +83,7 @@ public static class DeathEventHandlers
     [RegisterEvent(1000)]
     public static void PlayerDeathEventHandler(PlayerDeathEvent @event)
     {
-        Coroutines.Start(CoWaitForDeathHandler(@event));
+        AmongUsClient.Instance.StartCoroutine(CoWaitForDeathHandler(@event));
     }
 
     [RegisterEvent(10000)]
@@ -97,7 +97,7 @@ public static class DeathEventHandlers
         {
             return;
         }
-        Coroutines.Start(CoWaitForDeathHandler(exiled));
+        AmongUsClient.Instance.StartCoroutine(CoWaitForDeathHandler(exiled));
     }
 
     [RegisterEvent(500)]

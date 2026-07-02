@@ -74,13 +74,13 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
                 TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(PlayerControl.LocalPlayer, body, body.transform.position, 
                     TimeLordBodyManager.CleanedBodySource.Janitor);
             }
-            Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
+            AmongUsClient.Instance.StartCoroutine(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
         }
         else
         {
-            Coroutines.Start(body.CoCleanCustom(destroyBody));
+            AmongUsClient.Instance.StartCoroutine(body.CoCleanCustom(destroyBody));
         }
-        Coroutines.Start(CrimeSceneComponent.CoClean(body));
+        AmongUsClient.Instance.StartCoroutine(CrimeSceneComponent.CoClean(body));
     }
 
     public override bool Enabled(RoleBehaviour? role)

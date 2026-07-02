@@ -59,7 +59,7 @@ public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
         {
             var newQuota = OptionGroupSingleton<DeadlyQuotaOptions>.Instance.GenerateKillQuota();
             KillQuota = newQuota;
-            Coroutines.Start(SetUpQuota(newQuota));
+            AmongUsClient.Instance.StartCoroutine(SetUpQuota(newQuota));
         }
     }
 

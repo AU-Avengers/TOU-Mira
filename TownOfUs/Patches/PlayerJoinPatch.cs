@@ -51,7 +51,7 @@ public static class PlayerJoinPatch
 
             IngameWikiMinigame.Create().Begin(null);
         });
-        Coroutines.Start(CoSendJoinMsg());
+        AmongUsClient.Instance.StartCoroutine(CoSendJoinMsg());
     }
 
     internal static IEnumerator CoSendJoinMsg()

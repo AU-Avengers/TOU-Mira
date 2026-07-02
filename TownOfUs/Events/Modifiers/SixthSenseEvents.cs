@@ -38,7 +38,7 @@ public static class SixthSenseEvents
         var target = @event.Target;
         if (target.AmOwner && target.HasModifier<SixthSenseModifier>())
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.SixthSense));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.SixthSense));
         }
     }
 
@@ -47,7 +47,7 @@ public static class SixthSenseEvents
     {
         if (target.AmOwner)
         {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.SixthSense));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.SixthSense));
         }
     }
 }

@@ -147,7 +147,7 @@ public static class LogoPatch
             if (parsedVersion < BepInVersionMinimum)
             {
                 Error($"BepInEx version is too low, minimum required is {BepInVersionMinimum}!");
-                Coroutines.Start(CoOpenWarning());
+                AmongUsClient.Instance.StartCoroutine(CoOpenWarning());
             }
         }
         catch (Exception e)

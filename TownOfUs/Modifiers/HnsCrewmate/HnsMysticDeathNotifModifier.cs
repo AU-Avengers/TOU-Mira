@@ -32,7 +32,7 @@ public sealed class HnsMysticDeathNotifModifier(PlayerControl mystic) : TimedMod
         _arrow = MiscUtils.CreateArrow(Mystic.transform, Color.white);
         _arrow.target = deadPlayer.Object.GetTruePosition();
 
-        Coroutines.Start(MiscUtils.CoFlash(FlashColor));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(FlashColor));
     }
 
     public override void OnDeactivate()

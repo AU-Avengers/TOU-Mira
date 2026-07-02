@@ -109,7 +109,7 @@ public sealed class HunterRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
 
             if (hunter.AmOwner)
             {
-                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Hunter));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Hunter));
 
                 CustomButtonSingleton<HunterStalkButton>.Instance.ResetCooldownAndOrEffect();
                 var text = playerInteraction && OptionGroupSingleton<HunterOptions>.Instance.SeesTypeOfInteraction.Value

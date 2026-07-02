@@ -182,7 +182,7 @@ public sealed class ExecutionerRole : NeutralRole, ITownOfUsRole, IWikiDiscovera
         if (TutorialManager.InstanceExists && Target == null &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started && PlayerControl.LocalPlayer.IsHost())
         {
-            Coroutines.Start(SetTutorialTargets(this));
+            AmongUsClient.Instance.StartCoroutine(SetTutorialTargets(this));
         }
     }
 

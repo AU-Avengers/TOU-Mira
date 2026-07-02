@@ -128,14 +128,14 @@ public sealed class JanitorRole
                     TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(player, body, body.transform.position, 
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
-                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
+                AmongUsClient.Instance.StartCoroutine(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
             }
             else
             {
                 TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Option disabled and no Time Lord, calling CoClean (Body will appear {destroyBody.ToDisplayString()})");
-                Coroutines.Start(body.CoCleanCustom(destroyBody));
+                AmongUsClient.Instance.StartCoroutine(body.CoCleanCustom(destroyBody));
             }
-            Coroutines.Start(CrimeSceneComponent.CoClean(body));
+            AmongUsClient.Instance.StartCoroutine(CrimeSceneComponent.CoClean(body));
         }
         else
         {

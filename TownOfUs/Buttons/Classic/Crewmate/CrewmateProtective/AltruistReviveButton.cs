@@ -166,7 +166,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
         // Kill altruist right after starting the revive (small delay ensures the revive RPCs are dispatched first)
         if (killOnStart)
         {
-            Coroutines.Start(CoKillOnStart(PlayerControl.LocalPlayer));
+            AmongUsClient.Instance.StartCoroutine(CoKillOnStart(PlayerControl.LocalPlayer));
         }
 
         OverrideName(TouLocale.Get("TouRoleAltruistReviving", "Reviving"));
@@ -187,7 +187,7 @@ public sealed class AltruistReviveButton : TownOfUsRoleButton<AltruistRole>, ILe
         OverrideName(TouLocale.Get("TouRoleAltruistRevive", "Revive"));
         if ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value is ReviveType.GroupSacrifice)
         {
-            Coroutines.Start(CoSacrifite(PlayerControl.LocalPlayer));
+            AmongUsClient.Instance.StartCoroutine(CoSacrifite(PlayerControl.LocalPlayer));
         }
     }
 

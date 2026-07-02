@@ -22,7 +22,7 @@ public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollect
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(this, false));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(this, false));
     }
 
     public void SetDiseasedTimer(float multiplier)

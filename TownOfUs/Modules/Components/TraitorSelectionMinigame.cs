@@ -59,7 +59,7 @@ public sealed class TraitorSelectionMinigame : Minigame
         clickHandler = onClick;
         _selectedRole = defaultRole ?? roles.Random()!.Role;
 
-        Coroutines.Start(CoOpen(this));
+        AmongUsClient.Instance.StartCoroutine(CoOpen(this));
     }
 
     private static IEnumerator CoOpen(TraitorSelectionMinigame minigame)
@@ -75,7 +75,7 @@ public sealed class TraitorSelectionMinigame : Minigame
 
     public override void Close()
     {
-        Coroutines.Stop(CoAnimateCards());
+        AmongUsClient.Instance.StopCoroutine(CoAnimateCards());
         HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(_bgColor, Color.clear));
         CurrentCard = -1;
         MinigameStubs.Close(this);
@@ -120,7 +120,7 @@ public sealed class TraitorSelectionMinigame : Minigame
             clickHandler.Invoke(RoleManager.Instance.GetRole(_selectedRole!.Value));
         }));
 
-        Coroutines.Start(CoAnimateCards());
+        AmongUsClient.Instance.StartCoroutine(CoAnimateCards());
         TransType = TransitionType.None;
         Begin(null);
     }
@@ -180,7 +180,7 @@ public sealed class TraitorSelectionMinigame : Minigame
 
             var child = card.GetChild(0);
             yield return CoAnimateCardIn(child);
-            Coroutines.Start(MiscUtils.BetterBloop(child, finalSize: 0.55f, duration: 0.22f, intensity: 0.16f));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.BetterBloop(child, finalSize: 0.55f, duration: 0.22f, intensity: 0.16f));
             yield return new WaitForSeconds(0.1f);
         }
 

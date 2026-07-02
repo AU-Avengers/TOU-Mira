@@ -104,7 +104,7 @@ public sealed class Trap : IDisposable
             _transform = trapPref.transform
         };
 
-        Coroutines.Start(trap.FrameTimer());
+        AmongUsClient.Instance.StartCoroutine(trap.FrameTimer());
 
         _traps.Add(trap);
     }
@@ -129,7 +129,7 @@ public sealed class Trap : IDisposable
                 Object.Destroy(_transform.gameObject);
             }
 
-            Coroutines.Stop(FrameTimer());
+            AmongUsClient.Instance.StopCoroutine(FrameTimer());
         }
     }
 }

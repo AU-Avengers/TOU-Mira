@@ -35,7 +35,7 @@ public static class HnsGamemodeEvents
             return;
         }
         var cutscene = @event.IntroCutscene;
-        Coroutines.Start(CoChangeImpostorRole(cutscene));
+        AmongUsClient.Instance.StartCoroutine(CoChangeImpostorRole(cutscene));
     }
 
     [RegisterEvent]

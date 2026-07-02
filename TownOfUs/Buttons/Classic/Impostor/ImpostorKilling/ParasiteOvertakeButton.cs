@@ -469,7 +469,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         }
         finally
         {
-            Coroutines.Start(ResetProcessingFlag());
+            AmongUsClient.Instance.StartCoroutine(ResetProcessingFlag());
         }
     }
 

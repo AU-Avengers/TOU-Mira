@@ -476,8 +476,8 @@ public static class ModCompatibility
 
     public static void ExileRoleChangePostfix()
     {
-        Coroutines.Start(WaitMeeting(ResetTimers));
-        Coroutines.Start(WaitMeeting(GhostRoleBegin));
+        AmongUsClient.Instance.StartCoroutine(WaitMeeting(ResetTimers));
+        AmongUsClient.Instance.StartCoroutine(WaitMeeting(GhostRoleBegin));
     }
 
     public static IEnumerator WaitMeeting(Action next)

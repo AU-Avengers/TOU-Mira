@@ -403,7 +403,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !silent)
             {
-                Coroutines.Start(MiscUtils.CoFlash(RoleColor));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterImpAlertFeedback")}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
@@ -434,7 +434,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
 
             if (Player.AmOwner && !silent)
             {
-                Coroutines.Start(MiscUtils.CoFlash(Color.white));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterSelfRevealFeedback")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());
@@ -442,7 +442,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
             }
             else if (IsTargetOfHaunter(PlayerControl.LocalPlayer) && !silent)
             {
-                Coroutines.Start(MiscUtils.CoFlash(Color.white));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.white));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterImpRevealFeedback")}</b></color>",
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());

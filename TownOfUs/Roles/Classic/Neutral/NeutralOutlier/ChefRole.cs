@@ -127,7 +127,7 @@ public sealed class ChefRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable, ID
             {
                 if (deadBodies.Select(x => x.ParentId).Contains(deadPlayer.PlayerId))
                 {
-                    Coroutines.Start(ChefEvents.CoCreateChefArrow(deadPlayer));
+                    AmongUsClient.Instance.StartCoroutine(ChefEvents.CoCreateChefArrow(deadPlayer));
                 }
             }
         }
@@ -211,13 +211,13 @@ public sealed class ChefRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable, ID
                     TownOfUs.Events.Crewmate.TimeLordEventHandlers.RecordBodyCleaned(chef, body, body.transform.position, 
                         TimeLordBodyManager.CleanedBodySource.Janitor);
                 }
-                Coroutines.Start(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
+                AmongUsClient.Instance.StartCoroutine(TimeLordBodyManager.CoHideBodyForTimeLord(body, destroyBody));
             }
             else
             {
-                Coroutines.Start(body.CoCleanCustom(destroyBody));
+                AmongUsClient.Instance.StartCoroutine(body.CoCleanCustom(destroyBody));
             }
-            // Coroutines.Start(CrimeSceneComponent.CoClean(body));
+            // AmongUsClient.Instance.StartCoroutine(CrimeSceneComponent.CoClean(body));
         }
     }
     [MethodRpc((uint)TownOfUsRpc.ServeBody)]

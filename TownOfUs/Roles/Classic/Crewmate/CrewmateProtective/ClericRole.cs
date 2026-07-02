@@ -96,7 +96,7 @@ public sealed class ClericRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
             (cleric.AmOwner &&
              OptionGroupSingleton<ClericOptions>.Instance.AttackNotif))
         {
-            Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));
         }
     }
 }

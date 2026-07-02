@@ -61,7 +61,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
 
         notif1.AdjustNotification();
 
-        Coroutines.Start(MiscUtils.CoFlash(Color.red));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.red));
     }
 
     private static IEnumerator CoSetBodyReportable(byte bodyId)
@@ -182,7 +182,7 @@ public sealed class SheriffShootButton : TownOfUsKillRoleButton<SheriffRole, Pla
 
         if (!OptionGroupSingleton<SheriffOptions>.Instance.SheriffBodyReport)
         {
-            Coroutines.Start(CoSetBodyReportable(Target.PlayerId));
+            AmongUsClient.Instance.StartCoroutine(CoSetBodyReportable(Target.PlayerId));
         }
     }
 

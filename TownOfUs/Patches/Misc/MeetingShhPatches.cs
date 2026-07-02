@@ -19,7 +19,7 @@ public static class MeetingShhPatches
             (PlayerControl.LocalPlayer.HasModifier<BlackmailedModifier>() ||
              PlayerControl.LocalPlayer.TryGetModifier<JailedModifier>(out var jailMod) && jailMod.IsJailorValid))
         {
-            Coroutines.Start(MeetingShhh());
+            AmongUsClient.Instance.StartCoroutine(MeetingShhh());
         }
     }
 

@@ -63,7 +63,8 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
         placementCoroutine != null;
 
     public Vector3? SavedPos { get; set; }
-    private const float MaxPlacementDistance = 0.5f; private IEnumerator? placementCoroutine;
+    private const float MaxPlacementDistance = 0.5f;
+    private Coroutine placementCoroutine;
     private bool _pendingPlacement;
     private bool _refundApplied;
     private static float _lastMaxPlacedNotifyTime;
@@ -216,9 +217,9 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
         SavedPos = PlayerControl.LocalPlayer.transform.position;
         if (placementCoroutine != null)
         {
-            Coroutines.Stop(placementCoroutine);
+            AmongUsClient.Instance.StopCoroutine(placementCoroutine);
         }
-        placementCoroutine = Coroutines.Start(PlaceCameraCoroutine());
+        placementCoroutine = AmongUsClient.Instance.StartCoroutine(PlaceCameraCoroutine());
     }
 
     private IEnumerator PlaceCameraCoroutine()
@@ -272,7 +273,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
             var distance = Vector2.Distance(playerControl.transform.position, SavedPos.Value);
             if (distance > MaxPlacementDistance)
             {
-                Coroutines.Stop(placementCoroutine);
+                AmongUsClient.Instance.StopCoroutine(placementCoroutine);
                 placementCoroutine = null;
                 _pendingPlacement = false;
 

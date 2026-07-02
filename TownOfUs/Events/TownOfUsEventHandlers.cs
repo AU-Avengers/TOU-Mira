@@ -142,7 +142,7 @@ public static class TownOfUsEventHandlers
 
         if (ModCompatibility.IsSubmerged())
         {
-            Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
+            AmongUsClient.Instance.StartCoroutine(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
         }
 
         var role = PlayerControl.LocalPlayer.Data.Role;
@@ -178,7 +178,7 @@ public static class TownOfUsEventHandlers
             return;
         }
         var cutscene = @event.IntroCutscene;
-        Coroutines.Start(CoChangeModifierText(cutscene));
+        AmongUsClient.Instance.StartCoroutine(CoChangeModifierText(cutscene));
     }
 
     public static IEnumerator CoChangeModifierText(IntroCutscene cutscene)
@@ -835,8 +835,8 @@ public static class TownOfUsEventHandlers
         {
             return;
         }
-        Coroutines.Start(CoSendSpecData(@event.ClientData));
-        Coroutines.Start(CoSendRulesToPlayer(@event.ClientData));
+        AmongUsClient.Instance.StartCoroutine(CoSendSpecData(@event.ClientData));
+        AmongUsClient.Instance.StartCoroutine(CoSendRulesToPlayer(@event.ClientData));
     }
 
     internal static IEnumerator CoSendSpecData(ClientData clientData)
@@ -994,7 +994,7 @@ public static class TownOfUsEventHandlers
         voteArea.Overlay.gameObject.SetActive(false);
         animation.gameObject.SetActive(false);
 
-        Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed, 0.5f, 0.15f));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Palette.ImpostorRed, 0.5f, 0.15f));
         var seconds = Random.RandomRange(0.4f, 1.1f);
         // if there's less than 6 players alive, animation will play instantly
         if (Helpers.GetAlivePlayers().Count <= 5)
@@ -1044,7 +1044,7 @@ public static class TownOfUsEventHandlers
         try
         {
             voteArea.XMark.gameObject.SetActive(true);
-            Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.BetterBloop(voteArea.XMark.transform));
         }
         catch
         {
@@ -1060,7 +1060,7 @@ public static class TownOfUsEventHandlers
             if (target.AmOwner)
             {
                 MeetingMenu.Instances.Do(x => x.HideButtons());
-                Coroutines.Start(CoHideHud());
+                AmongUsClient.Instance.StartCoroutine(CoHideHud());
             }
             // hide meeting menu button for victim
             else if (!source.AmOwner && !target.AmOwner)
@@ -1122,13 +1122,13 @@ public static class TownOfUsEventHandlers
             MayorRole.DestroyReveal(targetVoteArea);
         }
 
-        Coroutines.Start(CoAnimateDeath(targetVoteArea));
+        AmongUsClient.Instance.StartCoroutine(CoAnimateDeath(targetVoteArea));
 
         // hide meeting menu buttons on the victim's screen
         if (target.AmOwner)
         {
             MeetingMenu.Instances.Do(x => x.HideButtons());
-            Coroutines.Start(CoHideHud());
+            AmongUsClient.Instance.StartCoroutine(CoHideHud());
         }
         // hide meeting menu button for victim
         else if (!source.AmOwner && !target.AmOwner)

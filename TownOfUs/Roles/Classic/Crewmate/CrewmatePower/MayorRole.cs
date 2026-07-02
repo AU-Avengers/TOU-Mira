@@ -87,7 +87,7 @@ public sealed class MayorRole
         if (MeetingHud.Instance && !DisabledAnimation)
         {
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == player.PlayerId);
-            Coroutines.Start(CoAnimateReveal(targetVoteArea));
+            AmongUsClient.Instance.StartCoroutine(CoAnimateReveal(targetVoteArea));
         }
 
         if (Player.AmOwner)
@@ -120,7 +120,7 @@ public sealed class MayorRole
         var targetVoteArea = meeting.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
         if (Revealed && !DisabledAnimation)
         {
-            Coroutines.Start(CoAnimatePostReveal(targetVoteArea));
+            AmongUsClient.Instance.StartCoroutine(CoAnimatePostReveal(targetVoteArea));
         }
 
         if (Player.AmOwner && !Revealed)
@@ -182,7 +182,7 @@ public sealed class MayorRole
         }
 
         var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == plr.PlayerId);
-        Coroutines.Start(CoAnimateReveal(targetVoteArea));
+        AmongUsClient.Instance.StartCoroutine(CoAnimateReveal(targetVoteArea));
     }
 
 
@@ -242,7 +242,7 @@ public sealed class MayorRole
         MayorPlayer.transform.GetChild(0).gameObject.SetActive(true);
         MayorPlayer.transform.GetChild(1).gameObject.SetActive(true);
 
-        Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Mayor, 0.15f, 0.15f));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Mayor, 0.15f, 0.15f));
 
         var bodysAnim = MayorPlayer.GetComponent<SpriteAnim>();
         var outfitAnim = MayorPlayer.transform.GetChild(0).GetComponent<SpriteAnim>();

@@ -16,7 +16,7 @@ public static class BaitEvents
             !@event.Source.IsRole<SoulCollectorRole>() &&
             !MeetingHud.Instance)
         {
-            Coroutines.Start(BaitModifier.CoReportDelay(@event.Source, @event.Target));
+            AmongUsClient.Instance.StartCoroutine(BaitModifier.CoReportDelay(@event.Source, @event.Target));
         }
     }
 }

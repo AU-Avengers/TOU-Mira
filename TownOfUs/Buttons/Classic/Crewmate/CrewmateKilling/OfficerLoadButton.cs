@@ -31,7 +31,7 @@ public sealed class OfficerLoadButton : TownOfUsRoleButton<OfficerRole>
         ShootButton.TotalBullets--;
         ShootButton.LoadedBullets++;
         OfficerRole.RpcOfficerSyncBullets(PlayerControl.LocalPlayer, ShootButton.RoundsBeforeReset, ShootButton.TotalBullets, ShootButton.LoadedBullets);
-        Coroutines.Start(CoWaitForFreshBullets());
+        AmongUsClient.Instance.StartCoroutine(CoWaitForFreshBullets());
     }
 
     public IEnumerator CoWaitForFreshBullets()

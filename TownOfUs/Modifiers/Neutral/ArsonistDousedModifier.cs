@@ -19,7 +19,7 @@ public sealed class ArsonistDousedModifier(byte arsonistId) : BaseModifier
         var arso = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == ArsonistId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ArsonistDouse, arso!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
-        Coroutines.Start(ArsonistDouseButton.CoSetDouses());
+        AmongUsClient.Instance.StartCoroutine(ArsonistDouseButton.CoSetDouses());
     }
 
     public override void OnDeath(DeathReason reason)

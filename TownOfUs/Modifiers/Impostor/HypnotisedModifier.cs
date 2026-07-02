@@ -121,7 +121,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         }
 
         // Message($"HypnotisedModifier.UnHysteria - {Player.Data.PlayerName}");
-        Coroutines.Start(CoUnHysteria());
+        AmongUsClient.Instance.StartCoroutine(CoUnHysteria());
     }
 
     public IEnumerator CoUnHysteria()

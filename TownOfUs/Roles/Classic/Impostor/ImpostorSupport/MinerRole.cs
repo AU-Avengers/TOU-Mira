@@ -159,7 +159,7 @@ public sealed class MinerRole
         ShipStatus.Instance.AllVents = allVents.ToArray();
 
         miner.Vents.Add(vent);
-        Coroutines.Start(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
+        AmongUsClient.Instance.StartCoroutine(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
 
         if (ModCompatibility.SubLoaded)
         {

@@ -100,15 +100,15 @@ public sealed class GlitchRole
         var kill = CustomButtonSingleton<GlitchKillButton>.Instance;
         if (!canVent)
         {
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(hack));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(mimic, !canVent));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(hack));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(kill, !canVent));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(mimic, !canVent));
         }
         else
         {
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(hack, false));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(mimic, false));
-            Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, false));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(hack, false));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(mimic, false));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(kill, false));
         }
     }
 

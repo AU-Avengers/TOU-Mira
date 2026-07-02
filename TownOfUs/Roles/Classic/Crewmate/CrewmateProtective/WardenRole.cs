@@ -168,7 +168,7 @@ public sealed class WardenRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         // Error("RpcWardenNotify");
         if (source.AmOwner || player.AmOwner)
         {
-            Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !player.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Warden));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !player.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Warden));
         }
     }
 }

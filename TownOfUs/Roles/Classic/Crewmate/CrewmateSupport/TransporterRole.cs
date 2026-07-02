@@ -87,7 +87,7 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
         {
             if (transporter.AmOwner)
             {
-                Coroutines.Start(MiscUtils.CoFlash(Color.red));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Color.red));
             }
 
             return;

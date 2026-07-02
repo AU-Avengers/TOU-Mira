@@ -82,7 +82,7 @@ public static class GhostRoleEvents
             return;
         }
         var exiled = @event.ExileController?.initData?.networkedPlayer?.Object;
-        Coroutines.Start(CoSetGhostwalkers(exiled));
+        AmongUsClient.Instance.StartCoroutine(CoSetGhostwalkers(exiled));
     }
 
     public static IEnumerator CoSetGhostwalkers(PlayerControl? exiled)

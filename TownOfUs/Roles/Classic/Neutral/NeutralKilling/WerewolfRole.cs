@@ -89,8 +89,8 @@ public sealed class WerewolfRole
         var canVent = OptionGroupSingleton<WerewolfOptions>.Instance.CanVent || LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.OffsetButtonsToggle.Value;
         var rampage = CustomButtonSingleton<WerewolfRampageButton>.Instance;
         var kill = CustomButtonSingleton<WerewolfKillButton>.Instance;
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(rampage, !canVent));
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(kill, !canVent));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(rampage, !canVent));
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoMoveButtonIndex(kill, !canVent));
     }
 
     public override void Initialize(PlayerControl player)

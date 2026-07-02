@@ -159,7 +159,7 @@ public sealed class FakePlayer : IDisposable
 
     public static void UpdateFakePlayerText(bool waitForRole = false)
     {
-        Coroutines.Start(CyclePlayerNames(waitForRole));
+        AmongUsClient.Instance.StartCoroutine(CyclePlayerNames(waitForRole));
     }
 
     private static IEnumerator CyclePlayerNames(bool waitForRole)

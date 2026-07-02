@@ -51,7 +51,7 @@ public sealed class HunterKillButton : TownOfUsKillRoleButton<HunterRole, Player
 
         if (!OptionGroupSingleton<HunterOptions>.Instance.HunterBodyReport)
         {
-            Coroutines.Start(CoSetBodyReportable(Target.PlayerId));
+            AmongUsClient.Instance.StartCoroutine(CoSetBodyReportable(Target.PlayerId));
         }
     }
 

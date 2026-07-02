@@ -142,7 +142,7 @@ public sealed class ScavengerRole
         TargetString = TouLocale.GetParsed("TouRoleScavengerTabTarget");
         if (TutorialManager.InstanceExists && Target == null && Player.AmOwner)
         {
-            Coroutines.Start(SetTutorialTarget(this, Player));
+            AmongUsClient.Instance.StartCoroutine(SetTutorialTarget(this, Player));
         }
     }
 

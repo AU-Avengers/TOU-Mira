@@ -58,7 +58,7 @@ public class PrefabLoader
     [HarmonyPriority(Priority.VeryLow)]
     public static void Postfix()
     {
-        Coroutines.Start(LoadMaps());
+        AmongUsClient.Instance.StartCoroutine(LoadMaps());
     }
 
     public static IEnumerator LoadMaps()

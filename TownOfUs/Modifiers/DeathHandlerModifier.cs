@@ -95,14 +95,14 @@ public sealed class DeathHandlerModifier : BaseModifier
             .Replace("<player>", name)
             .Replace("<role>", text);
 
-        Coroutines.Start(CoSetExtended(player, summary));
+        AmongUsClient.Instance.StartCoroutine(CoSetExtended(player, summary));
     }
 
     public static void UpdateDeathHandler(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,
         DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedBy = "null",
         DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
     {
-        Coroutines.Start(CoWriteDeathHandler(player, causeOfDeath, roundOfDeath, diedThisRound, killedBy, lockInfo));
+        AmongUsClient.Instance.StartCoroutine(CoWriteDeathHandler(player, causeOfDeath, roundOfDeath, diedThisRound, killedBy, lockInfo));
     }
 
     public static void UpdateDeathHandlerImmediate(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,
@@ -115,7 +115,7 @@ public sealed class DeathHandlerModifier : BaseModifier
             player.AddModifier<DeathHandlerModifier>();
         }
 
-        Coroutines.Start(CoWriteDeathHandlerImmediate(player, causeOfDeath, roundOfDeath, diedThisRound, killedBy, lockInfo));
+        AmongUsClient.Instance.StartCoroutine(CoWriteDeathHandlerImmediate(player, causeOfDeath, roundOfDeath, diedThisRound, killedBy, lockInfo));
     }
 
     public static bool IsCoroutineRunning { get; set; }

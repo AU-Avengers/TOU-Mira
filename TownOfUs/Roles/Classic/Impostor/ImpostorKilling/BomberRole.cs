@@ -84,12 +84,12 @@ public sealed class BomberRole
         }
         else if (OptionGroupSingleton<BomberOptions>.Instance.AllImpsSeeBomb && PlayerControl.LocalPlayer.IsImpostorAligned())
         {
-            Coroutines.Start(Bomb.BombShowTeammate(player, position));
+            AmongUsClient.Instance.StartCoroutine(Bomb.BombShowTeammate(player, position));
         }
         else if ((PlayerControl.LocalPlayer.DiedOtherRound() &&
                   OptionGroupSingleton<PostmortemOptions>.Instance.TheDeadKnow))
         {
-            Coroutines.Start(Bomb.BombShowTeammate(player, position));
+            AmongUsClient.Instance.StartCoroutine(Bomb.BombShowTeammate(player, position));
         }
     }
 }

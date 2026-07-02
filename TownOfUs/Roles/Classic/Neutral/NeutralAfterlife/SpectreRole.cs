@@ -195,7 +195,7 @@ public sealed class SpectreRole
                 Player.SetCamouflage(false);
             }
 
-            Coroutines.Start(SetTutorialCollider(Player));
+            AmongUsClient.Instance.StartCoroutine(SetTutorialCollider(Player));
 
             if (Player.AmOwner)
             {

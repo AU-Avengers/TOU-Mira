@@ -19,7 +19,7 @@ public static class DummyBehaviourPatches
     public static void DummyStartPatch(DummyBehaviour __instance)
     {
         var dum = __instance.myPlayer;
-        Coroutines.Start(TouDummyMode(dum));
+        AmongUsClient.Instance.StartCoroutine(TouDummyMode(dum));
     }
 
     private static IEnumerator TouDummyMode(PlayerControl dummy)

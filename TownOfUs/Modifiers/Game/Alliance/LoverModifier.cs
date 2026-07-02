@@ -177,7 +177,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         if (TutorialManager.InstanceExists && OtherLover == null && Player.AmOwner && Player.IsHost() &&
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
         {
-            Coroutines.Start(SetTutorialTarget(this, Player));
+            AmongUsClient.Instance.StartCoroutine(SetTutorialTarget(this, Player));
         }
     }
 

@@ -88,7 +88,7 @@ public static class DeathStateSync
             return;
         }
 
-        Coroutines.Start(CoValidateAndCorrectDeathStates());
+        AmongUsClient.Instance.StartCoroutine(CoValidateAndCorrectDeathStates());
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ public static class DeathStateSync
         }
 
         PendingDeathSyncs[target.PlayerId] = isDead;
-        Coroutines.Start(CoDelayedDeathStateSync(target, isDead));
+        AmongUsClient.Instance.StartCoroutine(CoDelayedDeathStateSync(target, isDead));
     }
 
     /// <summary>
@@ -244,11 +244,11 @@ public static class DeathStateSync
 
         if (AmongUsClient.Instance.AmHost)
         {
-            Coroutines.Start(CoValidateAndCorrectDeathStates());
+            AmongUsClient.Instance.StartCoroutine(CoValidateAndCorrectDeathStates());
         }
         else
         {
-            Coroutines.Start(CoDelayedValidationRequest(killer));
+            AmongUsClient.Instance.StartCoroutine(CoDelayedValidationRequest(killer));
         }
     }
 
@@ -317,7 +317,7 @@ public static class DeathStateSyncPatches
 
         DeathStateSync.CancelPendingDeathSync(player.PlayerId);
 
-        Coroutines.Start(CoSyncAfterRevive(player));
+        AmongUsClient.Instance.StartCoroutine(CoSyncAfterRevive(player));
     }
 
     private static IEnumerator CoSyncAfterRevive(PlayerControl player)
