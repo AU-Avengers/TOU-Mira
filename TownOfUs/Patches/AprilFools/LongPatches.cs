@@ -25,7 +25,7 @@ public static class LongBoiPatches
     {
         if (!__instance.isPoolablePlayer)
         {
-            if (GameManager.Instance.IsHideAndSeek() &&
+            if (GameManager.Instance is HideAndSeekManager &&
                 AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started &&
                 __instance.myPlayerControl.Data.Role != null &&
                 __instance.myPlayerControl.Data.Role.TeamType == RoleTeamTypes.Impostor)

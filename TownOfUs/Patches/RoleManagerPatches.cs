@@ -898,7 +898,7 @@ public static class TouRoleManagerPatches
         GameManager.Instance.LogicOptions.SyncOptions();
         ModifierManager.MiraAssignsModifiers = false;
 
-        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance.IsHideAndSeek() || assignmentType is RoleSelectionMode.Vanilla)
+        if (TutorialManager.InstanceExists || ReplaceRoleManager || GameManager.Instance is HideAndSeekManager || assignmentType is RoleSelectionMode.Vanilla)
         {
             return true;
         }

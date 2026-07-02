@@ -98,7 +98,7 @@ public sealed class HnsMysticRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverab
 
             if (!flag3)
             {
-                if (GameManager.Instance.IsHideAndSeek())
+                if (GameManager.Instance is HideAndSeekManager)
                 {
                     DataManager.Player.Stats.IncrementStat(StatID.HideAndSeek_TimesVented);
                     return;
@@ -137,7 +137,7 @@ public sealed class HnsMysticRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverab
                 Vent.currentVent.SetButtons(false);
                 PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                 isExitVentQueued = true;
-                if (GameManager.Instance.IsHideAndSeek())
+                if (GameManager.Instance is HideAndSeekManager)
                 {
                     usesRemaining--;
                     HudManager.Instance.AbilityButton.SetUsesRemaining(usesRemaining);

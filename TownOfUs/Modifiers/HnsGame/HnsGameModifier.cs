@@ -27,7 +27,7 @@ public abstract class HnsGameModifier : TouGameModifier, IWikiDiscoverable
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
     public override ModifierFaction FactionType => ModifierFaction.Crewmate;
  public bool IsHiddenFromList => MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek;
-    public override bool CanSpawnOnCurrentMode() => GameManager.Instance.IsHideAndSeek();
+    public override bool CanSpawnOnCurrentMode() => GameManager.Instance is HideAndSeekManager;
     public override Color FreeplayFileColor => new Color32(0, 0, 0, 255);
 
     public override bool IsModifierValidOn(RoleBehaviour role)

@@ -107,7 +107,7 @@ public class WikiHyperlink : MonoBehaviour
         }
         else
         {
-            wiki.OpenFor(wikiEntry as SoftWikiInfo);
+            wiki.OpenFor((wikiEntry as SoftWikiInfo)!);
         }
     }
 }

@@ -955,7 +955,7 @@ public sealed class IngameWikiMinigame : Minigame
                     else
                     {
                         SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(),
-                            SoftWikiEntries.ModifierEntries.GetValueOrDefault(modifier));
+                            SoftWikiEntries.ModifierEntries.GetValueOrDefault(modifier)!);
                     }
                 }
             }
@@ -1065,7 +1065,7 @@ public sealed class IngameWikiMinigame : Minigame
                     else
                     {
                         SetupForItem(newItem.gameObject.GetComponent<PassiveButton>(),
-                            SoftWikiEntries.RoleEntries.GetValueOrDefault(role));
+                            SoftWikiEntries.RoleEntries.GetValueOrDefault(role)!);
                     }
                 }
             }

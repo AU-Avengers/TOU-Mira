@@ -54,7 +54,7 @@ public class HatProvider : ResourceProviderBase
         {
             Error($"Failed to provide cosmetic {id} of type {type}:\n{exception}");
             provideHandle.Complete<UnityEngine.Object>(null!, false, 
-                new Exception(exception.ToString()));
+                new Exception(exception!.ToString()));
         }
     }
 
