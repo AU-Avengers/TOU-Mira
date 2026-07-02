@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameEnd;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.GameOver;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;

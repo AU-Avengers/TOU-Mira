@@ -70,6 +70,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medic.LoadAsset(), "TouMira.Role.Crewmate.Medic", 1.25f),
         IntroSound = TouAudio.ScientistIntroSound,
         OptionsScreenshot = TouBanners.MedicRoleBanner,
         Icon = TouRoleIcons.Medic

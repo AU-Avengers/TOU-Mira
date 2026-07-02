@@ -43,6 +43,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Juggernaut.LoadAsset(), "TouMira.Role.Neutral.Juggernaut", 1.25f),
         CanUseVent = OptionGroupSingleton<JuggernautOptions>.Instance.CanVent,
         IntroSound = TouAudio.WarlockIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

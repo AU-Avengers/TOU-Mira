@@ -127,6 +127,7 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Fairy.LoadAsset(), "TouMira.Role.Neutral.Fairy", 1.25f),
         Icon = TouRoleIcons.Fairy,
         IntroSound = TouAudio.GuardianAngelSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

@@ -81,6 +81,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mercenary.LoadAsset(), "TouMira.Role.Neutral.Mercenary", 1.25f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Mercenary,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

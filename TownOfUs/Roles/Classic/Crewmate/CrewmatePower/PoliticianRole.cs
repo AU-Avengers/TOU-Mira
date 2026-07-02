@@ -64,6 +64,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician.LoadAsset(), "TouMira.Role.Crewmate.Politician", 1.25f),
         Icon = TouRoleIcons.Politician,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.PoliticianIntroSound,

@@ -1,6 +1,5 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Impostor;
 using TownOfUs.Roles.Impostor;

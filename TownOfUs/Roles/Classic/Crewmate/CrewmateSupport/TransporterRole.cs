@@ -59,6 +59,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Transporter.LoadAsset(), "TouMira.Role.Crewmate.Transporter", 1.25f),
         Icon = TouRoleIcons.Transporter,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.TimeLordIntroSound

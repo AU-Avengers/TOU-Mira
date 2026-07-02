@@ -80,6 +80,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Amnesiac.LoadAsset(), "TouMira.Role.Neutral.Amnesiac", 1.25f),
         IntroSound = TouAudio.MediumIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),

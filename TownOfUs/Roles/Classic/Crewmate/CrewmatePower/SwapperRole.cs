@@ -57,6 +57,7 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Swapper.LoadAsset(), "TouMira.Role.Crewmate.Swapper", 1.25f),
         Icon = TouRoleIcons.Swapper,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         MaxRoleCount = 1,

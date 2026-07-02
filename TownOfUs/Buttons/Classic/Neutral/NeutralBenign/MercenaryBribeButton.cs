@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;

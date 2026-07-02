@@ -62,6 +62,7 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jester.LoadAsset(), "TouMira.Role.Neutral.Jester", 1.25f),
         CanUseVent = OptionGroupSingleton<JesterOptions>.Instance.CanVent,
         IntroSound = TouAudio.NoisemakerIntroSound,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),

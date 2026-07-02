@@ -68,6 +68,7 @@ public sealed class VampireRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Vampire.LoadAsset(), "TouMira.Role.Neutral.Vampire", 1.25f),
         CanUseVent = OptionGroupSingleton<VampireOptions>.Instance.CanVent,
         IntroSound = TouAudio.VampIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

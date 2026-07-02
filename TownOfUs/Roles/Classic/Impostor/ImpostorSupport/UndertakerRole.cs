@@ -55,6 +55,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Undertaker.LoadAsset(), "TouMira.Role.Impostor.Undertaker", 1.25f),
         UseVanillaKillButton = true,
         CanUseVent = OptionGroupSingleton<UndertakerOptions>.Instance.CanVent,
         Icon = TouRoleIcons.Undertaker,

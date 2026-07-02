@@ -56,6 +56,7 @@ public sealed class ForensicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Forensic.LoadAsset(), "TouMira.Role.Crewmate.Forensic", 1.25f),
         Icon = TouRoleIcons.Forensic,
         OptionsScreenshot = TouBanners.ForensicRoleBanner,
         IntroSound = TouAudio.QuestionSound
