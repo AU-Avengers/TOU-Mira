@@ -7,7 +7,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using System.Text;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.Neutral;

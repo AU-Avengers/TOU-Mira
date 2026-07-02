@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using TownOfUs.Modules.Cosmetics.Pets;
 using TownOfUs.Modules.Cosmetics.Unity;

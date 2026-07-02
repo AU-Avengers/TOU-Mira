@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules;

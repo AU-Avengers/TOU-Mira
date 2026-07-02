@@ -5,7 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.GameOver;
 using TownOfUs.Modifiers;

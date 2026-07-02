@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Reactor.Localization.Utilities;
+﻿using Reactor.Localization.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modules.Cosmetics.Unity;
 using UnityEngine;

@@ -2,7 +2,6 @@
 using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.Modifiers;
 using MiraAPI.Voting;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Game.Universal;
 
 namespace TownOfUs.Events.Modifiers;

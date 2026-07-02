@@ -4,7 +4,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Patches.Options;

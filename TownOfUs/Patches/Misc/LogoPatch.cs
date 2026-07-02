@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Runtime.InteropServices;
 using AmongUs.GameOptions;
-using BepInEx;
 using HarmonyLib;
 using MiraAPI.Roles;
 using Reactor.Localization.Utilities;
-using Reactor.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;

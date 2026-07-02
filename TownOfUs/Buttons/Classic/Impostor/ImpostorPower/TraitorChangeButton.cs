@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Roles;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Impostor;

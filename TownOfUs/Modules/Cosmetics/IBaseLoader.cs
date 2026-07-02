@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace TownOfUs.Modules.Cosmetics;

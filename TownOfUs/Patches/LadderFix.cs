@@ -1,7 +1,6 @@
 ﻿// https://github.com/eDonnes124/Town-Of-Us-R/blob/ee0935bfbd35199b5d4f6f4ad9cf98621acb6d21/source/Patches/LadderFix.cs
 
 using System.Collections;
-using System.Reflection;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;

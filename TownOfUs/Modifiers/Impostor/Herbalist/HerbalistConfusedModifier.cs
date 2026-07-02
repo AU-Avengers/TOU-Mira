@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;

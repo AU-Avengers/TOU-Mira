@@ -14,7 +14,6 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using UnityEngine.UI;
 using TownOfUs.Modifiers;
-using UnityEngine.Events;
 
 namespace TownOfUs.Patches.Options;
 
