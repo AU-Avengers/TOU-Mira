@@ -21,6 +21,7 @@ public static class AmongUsClientPatches
         SystemTypeHelpers.AllTypes.AddRangeToArray([HexBombSabotageSystem.SystemType, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]);
         Error("TOU Mira Spawnables are temporarily disabled. Medium will not work.");
 
+        // TODO: Fix Medium Spirit spawnable ASAP
         /*
         Warning("Added TOU Mira Spawnables.");
         var medSpirit = TouAssets.MediumSpirit.LoadAsset().GetComponent<MedSpiritObject>();

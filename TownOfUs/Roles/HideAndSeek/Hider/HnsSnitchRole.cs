@@ -165,6 +165,7 @@ public sealed class HnsSnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverab
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
+        _filter = Helpers.CreateFilter(Constants.Usables);
         if (GameManager.Instance.LogicOptions is LogicOptionsHnS logicOptionsHnS)
         {
             usesRemaining = logicOptionsHnS.GetCrewmateVentUses();
@@ -195,23 +196,23 @@ public sealed class HnsSnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverab
         currentTarget = newTarget!;
         currentTarget?.SetOutline(true, true, Palette.CrewmateBlue);
     }
-    private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
+    private static ContactFilter2D _filter;
     public Vent? GetTarget()
     {
-        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 4, Filter);
+        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 4, _filter);
         if (vent == null)
         {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 3, Filter);
+            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 3, _filter);
         }
 
         if (vent == null)
         {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 2, Filter);
+            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 2, _filter);
         }
 
         if (vent == null)
         {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance(), Filter);
+            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance(), _filter);
         }
 
         if (vent != null && PlayerControl.LocalPlayer.CanUseVent(vent))

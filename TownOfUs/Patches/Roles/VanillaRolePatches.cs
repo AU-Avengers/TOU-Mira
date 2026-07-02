@@ -42,7 +42,8 @@ public static class VanillaRolePatches
         return true;
     }
 
-    [HarmonyPatch(nameof(RoleBehaviour.RoleIconSolid), MethodType.Getter)]
+    // TODO: Fix Vanilla Role Icon patches
+    /*[HarmonyPatch(nameof(RoleBehaviour.RoleIconSolid), MethodType.Getter)]
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
     public static bool VanillaIconPrefix(RoleBehaviour __instance, ref Sprite __result)
@@ -60,5 +61,5 @@ public static class VanillaRolePatches
             return false;
         }
         return true;
-    }
+    }*/
 }
