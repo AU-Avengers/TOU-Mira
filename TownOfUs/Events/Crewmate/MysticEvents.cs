@@ -1,9 +1,7 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
-using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Events.Crewmate;
