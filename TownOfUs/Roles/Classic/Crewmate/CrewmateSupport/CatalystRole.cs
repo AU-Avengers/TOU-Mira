@@ -20,6 +20,7 @@ public sealed class CatalystRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Catalyst.LoadAsset(), "TouMira.Role.Crewmate.Catalyst", 1.45f),
         Icon = TouRoleIcons.Catalyst,
         OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
     };

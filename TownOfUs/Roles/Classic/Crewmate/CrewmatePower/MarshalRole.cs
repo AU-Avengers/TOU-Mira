@@ -43,6 +43,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Marshal.LoadAsset(), "TouMira.Role.Crewmate.Marshal", 1.45f),
         Icon = TouRoleIcons.Marshal,
         OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
         MaxRoleCount = 1,

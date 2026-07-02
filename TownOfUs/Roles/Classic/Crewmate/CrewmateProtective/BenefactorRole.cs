@@ -41,6 +41,7 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Benefactor.LoadAsset(), "TouMira.Role.Crewmate.Benefactor", 1.45f),
         Icon = TouRoleIcons.Benefactor,
         OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
     };
