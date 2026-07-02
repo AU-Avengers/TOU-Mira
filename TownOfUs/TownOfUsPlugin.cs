@@ -14,6 +14,7 @@ using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Modules.Cosmetics.Unity;
+using TownOfUs.Modules.DraftMode;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Misc;
 using TownOfUs.Patches.WinConditions;
@@ -125,6 +126,8 @@ public partial class TownOfUsPlugin : BasePlugin, IMiraPlugin
         {
             Interfaces = new Il2CppInterfaceCollection([typeof(IResourceProvider)])
         });
+
+        ClassInjector.RegisterTypeInIl2Cpp<DraftEngineBehaviour>();
 
         Info("Initializing HatProvider...");
         HatProvider.Initialize();
