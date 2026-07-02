@@ -153,7 +153,7 @@ public static class DleksMapOptionPickerPatches
         dleksButton.name = "DleksButton";
         dleksButton.map = MapNames.Dleks;
         dleksButton.GetComponent<SpriteRenderer>().sprite = TouAssets.DleksTextAlt.LoadAsset();
-        dleksButton.OnPressEvent = fungleButton.OnPressEvent;
+        // dleksButton.OnPressEvent = fungleButton.OnPressEvent;
 
         dleksButton.transform.position = new Vector3(fungleButton.transform.position.x, __instance.buttons[0].transform.position.y + 0.7f, fungleButton.transform.position.z);
 

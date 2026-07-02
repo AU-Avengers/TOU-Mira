@@ -13,7 +13,7 @@ public static class LaunchpadReloadedPatches
     public static void StartPatch(PlayerControl __instance)
     {
         if (ModCompatibility.LaunchpadLoaded &&
-            __instance.TryGetComponent(Il2CppType.From(ModCompatibility.LaunchpadTagManager), out var tagManager))
+            __instance.TryGetComponent(ModCompatibility.LaunchpadTagManager, out var tagManager))
         {
             tagManager.Destroy();
         }

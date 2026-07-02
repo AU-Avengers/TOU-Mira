@@ -10,9 +10,7 @@ public class HatProvider : ResourceProviderBase
     public static void Initialize()
     {
         var instance = new HatProvider();
-        // interfaces r broken in il2cpp so we have to use pointer magic
-        var provider = new IResourceProvider(instance.Pointer);
-        Addressables.ResourceManager.ResourceProviders.Insert(0, provider);
+        Addressables.ResourceManager.ResourceProviders.Insert(0, instance);
     }
 
     public override bool CanProvide(Type t, IResourceLocation location)
@@ -33,7 +31,7 @@ public class HatProvider : ResourceProviderBase
         if (!internalId.StartsWith("toum", StringComparison.InvariantCulture))
         {
             Error($"{internalId} is not a TOU Mira cosmetic");
-            provideHandle.Complete<UnityEngine.Object>(null!, false, new Il2CppSystem.Exception("Not a TOU Mira cosmetic"));
+            provideHandle.Complete<UnityEngine.Object>(null!, false, new Exception("Not a TOU Mira cosmetic"));
             return;
         }
 
@@ -41,7 +39,7 @@ public class HatProvider : ResourceProviderBase
         if (idAndType.Length != 2) 
         {
             Error($"Invalid identifier: {idAndType}");
-            provideHandle.Complete<UnityEngine.Object>(null!, false, new Il2CppSystem.Exception("Invalid TOU Mira ID"));
+            provideHandle.Complete<UnityEngine.Object>(null!, false, new Exception("Invalid TOU Mira ID"));
             return;
         }
 
@@ -54,9 +52,9 @@ public class HatProvider : ResourceProviderBase
         }
         else
         {
-            Error($"Failed to provide cosmetic {id} of type {type}:\n{exception.ToString()}");
+            Error($"Failed to provide cosmetic {id} of type {type}:\n{exception}");
             provideHandle.Complete<UnityEngine.Object>(null!, false, 
-                new Il2CppSystem.Exception(exception.ToString()));
+                new Exception(exception.ToString()));
         }
     }
 

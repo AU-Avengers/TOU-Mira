@@ -4,7 +4,7 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace TownOfUs.Modules.Cosmetics.Unity;
 
-public class HatLocator : UnityEngine.Object
+public class HatLocator : UnityEngine.Object, IResourceLocator
 {
 
     public static string GetGuid(string hatId, string type)
@@ -15,21 +15,20 @@ public class HatLocator : UnityEngine.Object
     public static void Initialize()
     {
         var instance = new HatLocator();
-        var locator = new IResourceLocator(instance.Pointer);
-        Addressables.AddResourceLocator(locator);
+        Addressables.AddResourceLocator(instance);
     }
 
     public string LocatorId => GetType().FullName!;
 
-    public static IEnumerable<UnityEngine.Object>
+    public IEnumerable<object>
         Keys => CosmeticsLoader.Instance.EmptyKeys;
 
     private string ProviderId { get; } = typeof(HatProvider).FullName!;
 
-    public bool Locate(UnityEngine.Object key, Type type,
+    public bool Locate(object key, Type type,
         out IList<IResourceLocation> locations)
     {
-        locations = null!;
+        locations = new List<IResourceLocation>();
 
         if (key.ToString() is not { } keyString)
         {
@@ -66,10 +65,7 @@ public class HatLocator : UnityEngine.Object
             il2CPPType
         );
 
-        var il2CPPList = new List<ResourceLocationBase>();
-        il2CPPList.Add(location);
-        // pointer magic cuz il2cpp interfaces are broken
-        locations = new IList<IResourceLocation>(il2CPPList.Pointer);
+        locations.Add(location);
 
         return true;
     }

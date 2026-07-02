@@ -14,7 +14,7 @@ public class CosmeticsLoader
 
     private readonly List<UnityEngine.Object> _emptyKeys = new();
 
-    public IEnumerable<Object> EmptyKeys { get; }
+    public IEnumerable<object> EmptyKeys { get; }
 
     private CosmeticReleaseGroup CosmeticGroup { get; }
 
@@ -27,7 +27,7 @@ public class CosmeticsLoader
 
     private CosmeticsLoader()
     {
-        EmptyKeys = new IEnumerable<UnityEngine.Object>(_emptyKeys.Pointer);
+        // EmptyKeys = new IEnumerable<object>();
         CosmeticGroup = ScriptableObject.CreateInstance<CosmeticReleaseGroup>();
         CosmeticGroup.date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 

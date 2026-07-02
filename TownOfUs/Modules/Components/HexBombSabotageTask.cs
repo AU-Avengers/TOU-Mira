@@ -42,9 +42,8 @@ public sealed class HexBombSabotageTask : PlayerTask
 
     public override void Initialize()
     {
-        _sabotage = ShipStatus.Instance.Systems[(SystemTypes)HexBombSabotageSystem.SabotageId]
-            .Cast<HexBombSabotageSystem>();
-        _flash ??= HudManager.Instance.StartCoroutine(CoFlash().WrapToIl2Cpp());
+        _sabotage = (ShipStatus.Instance.Systems[HexBombSabotageSystem.SystemType] as HexBombSabotageSystem)!;
+        _flash ??= HudManager.Instance.StartCoroutine(CoFlash());
 
         _ogShakeEnabled = DataManager.Settings.Gameplay.ScreenShake;
         _ogShakeAmt = HudManager.Instance.PlayerCam.shakeAmount;
