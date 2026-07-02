@@ -87,7 +87,7 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plaguebearer.LoadAsset(), "TouMira.Role.Neutral.Plaguebearer", 1.25f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plaguebearer.LoadAsset(), "TouMira.Role.Neutral.Plaguebearer", 1.45f),
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.Plaguebearer,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

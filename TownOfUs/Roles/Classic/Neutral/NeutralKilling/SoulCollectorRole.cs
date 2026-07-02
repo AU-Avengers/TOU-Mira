@@ -59,7 +59,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.SoulCollector.LoadAsset(), "TouMira.Role.Neutral.SoulCollector", 1.25f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.SoulCollector.LoadAsset(), "TouMira.Role.Neutral.SoulCollector", 1.45f),
         CanUseVent = OptionGroupSingleton<SoulCollectorOptions>.Instance.CanVent,
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.SoulCollector,

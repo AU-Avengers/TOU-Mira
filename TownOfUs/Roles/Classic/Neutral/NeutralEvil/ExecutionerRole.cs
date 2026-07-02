@@ -140,7 +140,7 @@ public sealed class ExecutionerRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownO
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Executioner.LoadAsset(), "TouMira.Role.Neutral.Executioner", 1.25f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Executioner.LoadAsset(), "TouMira.Role.Neutral.Executioner", 1.45f),
         IntroSound = TouAudio.DiscoveredSound,
         Icon = TouRoleIcons.Executioner,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

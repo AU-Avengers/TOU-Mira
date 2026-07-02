@@ -145,17 +145,31 @@ public static class TownOfUsEventHandlers
             Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
+        instance.RoleText.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        instance.RoleText.UpdateMeshPadding();
+
+        var role = PlayerControl.LocalPlayer.Data.Role;
+        if (role is ITownOfUsRole tou)
         {
-            instance.RoleText.text = custom.RoleName;
+            var icon = tou.Configuration.IconTmp ? $"<sprite name=\"{tou.Configuration.IconTmp.name}\">" : string.Empty;
+            instance.RoleText.text = icon + tou.RoleName;
             if (instance.YouAreText.transform.TryGetComponent<TextTranslatorTMP>(out var tmp))
             {
-                tmp.defaultStr = custom.YouAreText;
+                tmp.defaultStr = tou.YouAreText;
                 tmp.TargetText = StringNames.None;
                 tmp.ResetText();
             }
 
-            instance.RoleBlurbText.text = custom.RoleDescription;
+            instance.RoleBlurbText.text = tou.RoleDescription;
+        }
+        else if (role is ICustomRole custom)
+        {
+            var icon = custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : string.Empty;
+            instance.RoleText.text = icon + custom.RoleName;
+        }
+        else
+        {
+            instance.RoleText.text = $"<sprite name=\"AmongUs.Role.{role.Role.ToString()}\">" + role.NiceName;
         }
 
         var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);

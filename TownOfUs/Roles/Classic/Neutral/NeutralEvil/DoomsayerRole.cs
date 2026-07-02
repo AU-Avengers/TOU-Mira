@@ -63,7 +63,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Doomsayer.LoadAsset(), "TouMira.Role.Neutral.Doomsayer", 1.25f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Doomsayer.LoadAsset(), "TouMira.Role.Neutral.Doomsayer", 1.45f),
         IntroSound = TouAudio.QuestionSound,
         Icon = TouRoleIcons.Doomsayer,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

@@ -60,7 +60,7 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Officer.LoadAsset(), "TouMira.Role.Crewmate.Officer", 1.25f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Officer.LoadAsset(), "TouMira.Role.Crewmate.Officer", 1.45f),
         Icon = TouRoleIcons.Officer,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound

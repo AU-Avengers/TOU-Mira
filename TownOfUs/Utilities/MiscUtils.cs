@@ -839,6 +839,10 @@ public static class MiscUtils
             clonedBubble.SetRight();
         }
 
+        pooledBubble.NameText.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        pooledBubble.NameText.UpdateMeshPadding();
+        pooledBubble.TextArea.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        pooledBubble.TextArea.UpdateMeshPadding();
         pooledBubble.SetCosmetics(basePlayer);
         pooledBubble.NameText.text = nameText;
         pooledBubble.NameText.color = Color.white;
@@ -852,6 +856,10 @@ public static class MiscUtils
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
 
+        clonedBubble.NameText.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        clonedBubble.NameText.UpdateMeshPadding();
+        clonedBubble.TextArea.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        clonedBubble.TextArea.UpdateMeshPadding();
         clonedBubble.SetCosmetics(basePlayer);
         clonedBubble.NameText.text = nameText;
         clonedBubble.NameText.color = Color.white;
@@ -915,6 +923,10 @@ public static class MiscUtils
         }
 
         pooledBubble.SetCosmetics(basePlayer);
+        pooledBubble.NameText.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        pooledBubble.NameText.UpdateMeshPadding();
+        pooledBubble.TextArea.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        pooledBubble.TextArea.UpdateMeshPadding();
         pooledBubble.NameText.text = nameText;
         pooledBubble.NameText.color = Color.white;
         pooledBubble.NameText.ForceMeshUpdate(true, true);
@@ -928,11 +940,17 @@ public static class MiscUtils
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
 
         clonedBubble.SetCosmetics(basePlayer);
+        clonedBubble.NameText.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        clonedBubble.NameText.UpdateMeshPadding();
+        clonedBubble.TextArea.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        clonedBubble.TextArea.UpdateMeshPadding();
         clonedBubble.NameText.text = nameText;
         clonedBubble.NameText.color = Color.white;
         clonedBubble.NameText.ForceMeshUpdate(true, true);
         clonedBubble.votedMark.enabled = false;
         clonedBubble.Xmark.enabled = false;
+        clonedBubble.TextArea.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        clonedBubble.TextArea.UpdateMeshPadding();
         clonedBubble.TextArea.text = message;
         clonedBubble.TextArea.text = WikiHyperLinkPatches.CheckForTags(message, clonedBubble.TextArea);
         clonedBubble.TextArea.ForceMeshUpdate(true, true);
@@ -991,6 +1009,10 @@ public static class MiscUtils
             clonedBubble.SetRight();
         }
 
+        pooledBubble.NameText.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        pooledBubble.NameText.UpdateMeshPadding();
+        pooledBubble.TextArea.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        pooledBubble.TextArea.UpdateMeshPadding();
         pooledBubble.SetCosmetics(basePlayer);
         pooledBubble.NameText.text = nameText;
         pooledBubble.NameText.ForceMeshUpdate(true, true);
@@ -1002,6 +1024,10 @@ public static class MiscUtils
             0.2f + pooledBubble.NameText.GetNotDumbRenderedHeight() + pooledBubble.TextArea.GetNotDumbRenderedHeight());
         pooledBubble.MaskArea.size = pooledBubble.Background.size - new Vector2(0, 0.03f);
 
+        clonedBubble.NameText.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        clonedBubble.NameText.UpdateMeshPadding();
+        clonedBubble.TextArea.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        clonedBubble.TextArea.UpdateMeshPadding();
         clonedBubble.SetCosmetics(basePlayer);
         clonedBubble.NameText.text = nameText;
         clonedBubble.NameText.ForceMeshUpdate(true, true);
@@ -2283,6 +2309,20 @@ public static class MiscUtils
         yield return new WaitForSeconds(1f);
 
         player.RpcPlayerExile();
+    }
+
+    public static string GetRoleTmpIcon(RoleTypes role)
+    {
+        return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+    }
+
+    public static string GetRoleTmpIcon(RoleBehaviour role)
+    {
+        if (role is ICustomRole custom)
+        {
+            return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
+        }
+        return $"<sprite name=\"AmongUs.Role.{role.Role.ToString()}\">";
     }
 }
 

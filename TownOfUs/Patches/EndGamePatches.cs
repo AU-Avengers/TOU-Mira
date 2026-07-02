@@ -61,7 +61,7 @@ public static class EndGamePatches
             {
                 EndGameData.PlayerRecords.Add(new EndGameData.PlayerRecord
                 {
-                    ChatSummaryTitle = $"{playerControl.Data.PlayerName} - {TouLocale.Get("TouRoleSpectator")}",
+                    ChatSummaryTitle = $"{playerControl.Data.PlayerName} - {MiscUtils.GetRoleTmpIcon((RoleTypes)RoleId.Get<SpectatorRole>())}{TouLocale.Get("TouRoleSpectator")}",
                     ChatSummaryRoleInfo = string.Empty,
                     ChatSummaryStats = string.Empty,
                     ChatSummaryCod = string.Empty,
@@ -305,7 +305,7 @@ public static class EndGamePatches
             {
                 playerName.Append(playerControl.Data.PlayerName);
             }
-            summaryTitle.Append(TownOfUsPlugin.Culture, $"{playerName.ToString()} - {latestRole}{modifierHolder.ToString()}");
+            summaryTitle.Append(TownOfUsPlugin.Culture, $"{playerName.ToString()} - {MiscUtils.GetRoleTmpIcon(playerRoleType)}{latestRole}{modifierHolder.ToString()}");
 
             var alliance = playerControl.GetModifiers<AllianceGameModifier>().FirstOrDefault();
             if (alliance != null)
@@ -384,17 +384,17 @@ public static class EndGamePatches
             var role2 = string.Join(" ", data.RoleStringShort);
             if (count % 2 == 0)
             {
-                roleSummaryText2.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role2}");
+                roleSummaryText2.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role2}");
             }
             else
             {
-                roleSummaryText1.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role2}");
+                roleSummaryText1.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role2}");
             }
 
             count++;
-            roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
-            normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role}");
-            basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role2}");
+            roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role}");
+            normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role}");
+            basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role2}");
 
             segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=70%>{data.ChatSummaryTitle}</size>");
             segmentedSummary.Append(TownOfUsPlugin.Culture, $"<size=62%>");
@@ -411,6 +411,8 @@ public static class EndGamePatches
         }
 
         var roleSummaryTextMesh = roleSummary.GetComponent<TMP_Text>();
+        roleSummaryTextMesh.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        roleSummaryTextMesh.UpdateMeshPadding();
         roleSummaryTextMesh.alignment = TextAlignmentOptions.TopLeft;
         roleSummaryTextMesh.color = Color.white;
         roleSummaryTextMesh.fontSizeMin = 1.1f;
@@ -418,6 +420,8 @@ public static class EndGamePatches
         roleSummaryTextMesh.fontSize = 1.1f;
 
         var roleSummaryTextMesh2 = roleSummary2.GetComponent<TMP_Text>();
+        roleSummaryTextMesh2.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        roleSummaryTextMesh2.UpdateMeshPadding();
         roleSummaryTextMesh2.alignment = TextAlignmentOptions.TopLeft;
         roleSummaryTextMesh2.color = Color.white;
         roleSummaryTextMesh2.fontSizeMin = 1.1f;
@@ -425,6 +429,8 @@ public static class EndGamePatches
         roleSummaryTextMesh2.fontSize = 1.1f;
 
         var roleSummaryTextMeshLeft = roleSummaryLeft.GetComponent<TMP_Text>();
+        roleSummaryTextMeshLeft.m_spriteAsset = TmpSpriteUtils.AssetHolder;
+        roleSummaryTextMeshLeft.UpdateMeshPadding();
         roleSummaryTextMeshLeft.alignment = TextAlignmentOptions.TopLeft;
         roleSummaryTextMeshLeft.color = Color.white;
         roleSummaryTextMeshLeft.fontSizeMin = 1.1f;

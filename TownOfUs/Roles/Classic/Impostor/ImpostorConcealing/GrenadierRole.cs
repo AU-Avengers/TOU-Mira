@@ -27,7 +27,7 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Grenadier.LoadAsset(), "TouMira.Role.Impostor.Grenadier", 1.25f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Grenadier.LoadAsset(), "TouMira.Role.Impostor.Grenadier", 1.45f),
         Icon = TouRoleIcons.Grenadier,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<GrenadierOptions>.Instance.CanVent

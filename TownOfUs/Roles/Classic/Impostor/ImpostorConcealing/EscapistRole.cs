@@ -62,7 +62,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Escapist.LoadAsset(), "TouMira.Role.Impostor.Escapist", 1.25f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Escapist.LoadAsset(), "TouMira.Role.Impostor.Escapist", 1.45f),
         Icon = TouRoleIcons.Escapist,
         IntroSound = TouAudio.TimeLordIntroSound,
         OptionsScreenshot = TouBanners.EscapistRoleBanner,

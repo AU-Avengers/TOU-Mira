@@ -154,7 +154,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
     public override CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectre.LoadAsset(), "TouMira.Role.Neutral.Spectre", 1.25f),
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectre.LoadAsset(), "TouMira.Role.Neutral.Spectre", 1.45f),
         Icon = TouRoleIcons.Spectre,
         OptionsScreenshot = TouBanners.SpectreRoleBanner,
         HideSettings = false,
