@@ -58,6 +58,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Deputy.LoadAsset(), "TouMira.Role.Crewmate.Deputy", 1.45f),
         Icon = TouRoleIcons.Deputy,
         OptionsScreenshot = TouBanners.DeputyRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound,

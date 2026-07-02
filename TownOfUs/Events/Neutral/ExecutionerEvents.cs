@@ -9,7 +9,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -149,7 +148,7 @@ public static class ExecutionerEvents
     }
 
     [RegisterEvent]
-    public static void HandleVoteEventHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
     {
         var states = MeetingHudGetVotesPatch.States;
         var exes = CustomRoleUtils.GetActiveRolesOfType<ExecutionerRole>();

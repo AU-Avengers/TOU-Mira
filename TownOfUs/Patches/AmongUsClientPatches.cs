@@ -10,16 +10,24 @@ public static class AmongUsClientPatches
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.Awake))]
     [HarmonyPostfix]
+    [HarmonyPriority(Priority.Last)]
     public static void StartPatch(AmongUsClient __instance)
     {
         if (AmongUsClient.Instance != __instance)
         {
-            Error("AmongUsClient duplicate detected.");
             return;
         }
+        var customSysTypes = new List<SystemTypes>()
+        {
+            HexBombSabotageSystem.SystemType,
+            SkeldDoorsSystemType.SystemType,
+            ManualDoorsSystemType.SystemType,
+        };
+        // This allows the custom door types to update properly
+        Warning("Added TOU Mira System Types!");
+        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat(customSysTypes).ToArray();
 
-        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat([(SystemTypes)HexBombSabotageSystem.SabotageId, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]).ToArray();
-
+        Warning("Added TOU Mira Spawnables.");
         var medSpirit = TouAssets.MediumSpirit.LoadAsset().GetComponent<MedSpiritObject>();
         medSpirit.SpawnId = (uint)__instance.SpawnableObjects.Count;
         __instance.SpawnableObjects =

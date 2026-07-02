@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
