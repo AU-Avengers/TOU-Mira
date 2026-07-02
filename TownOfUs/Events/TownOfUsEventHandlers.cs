@@ -158,7 +158,7 @@ public static class TownOfUsEventHandlers
 
             instance.RoleBlurbText.text = tou.RoleDescription;
         }
-        instance.RoleText.text = $"<size=80%>{MiscUtils.GetRoleTmpIcon(role)}</size>{instance.RoleText.text}";
+        // instance.RoleText.text = $"<size=80%>{MiscUtils.GetRoleTmpIcon(role)}</size>{instance.RoleText.text}";
 
         var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
         if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)
