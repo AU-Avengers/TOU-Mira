@@ -16,23 +16,16 @@ public static class AmongUsClientPatches
         {
             return;
         }
-        var customSysTypes = new List<SystemTypes>()
-        {
-            HexBombSabotageSystem.SystemType,
-            SkeldDoorsSystemType.SystemType,
-            ManualDoorsSystemType.SystemType,
-        };
         // This allows the custom door types to update properly
         Warning("Added TOU Mira System Types!");
-        SystemTypeHelpers.AllTypes.AddRangeToArray([(SystemTypes)HexBombSabotageSystem.SabotageId, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]);
+        SystemTypeHelpers.AllTypes.AddRangeToArray([HexBombSabotageSystem.SystemType, SkeldDoorsSystemType.SystemType, ManualDoorsSystemType.SystemType]);
 
         Warning("Added TOU Mira Spawnables.");
         var medSpirit = TouAssets.MediumSpirit.LoadAsset().GetComponent<MedSpiritObject>();
-        medSpirit.SpawnId = (uint)__instance.SpawnableObjects.Count;
+        medSpirit.SpawnId = (uint)__instance.SpawnableObjects.Length;
         __instance.SpawnableObjects =
-            __instance.SpawnableObjects.Add(__instance.SpawnableObjects[0]).ToArray(); // dummy value
+            __instance.SpawnableObjects.AddRangeToArray([__instance.SpawnableObjects[0]]); // dummy value
 
-        __instance.NonAddressableSpawnableObjects =
-            __instance.NonAddressableSpawnableObjects.Add(medSpirit).ToArray();
+        __instance.NonAddressableSpawnableObjects.AddRangeToArray([medSpirit]);
     }
 }
