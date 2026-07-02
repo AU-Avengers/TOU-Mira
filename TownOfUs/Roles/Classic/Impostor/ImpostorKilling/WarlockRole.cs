@@ -28,6 +28,7 @@ public sealed class WarlockRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Warlock.LoadAsset(), "TouMira.Role.Impostor.Warlock", 1.45f),
         UseVanillaKillButton = false,
         IntroSound = TouAudio.WarlockIntroSound,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,

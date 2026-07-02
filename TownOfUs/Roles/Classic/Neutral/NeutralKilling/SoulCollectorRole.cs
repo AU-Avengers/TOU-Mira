@@ -57,6 +57,7 @@ public sealed class SoulCollectorRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.SoulCollector.LoadAsset(), "TouMira.Role.Neutral.SoulCollector", 1.45f),
         CanUseVent = OptionGroupSingleton<SoulCollectorOptions>.Instance.CanVent,
         IntroSound = TouAudio.PhantomIntroSound,
         Icon = TouRoleIcons.SoulCollector,

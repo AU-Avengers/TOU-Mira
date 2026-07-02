@@ -100,21 +100,7 @@ public static class JesterEvents
     }
 
     [RegisterEvent]
-    public static void HandleVoteEventHandler(HandleVoteEvent @event)
-    {
-        var votingPlayer = @event.Player;
-        var suspectPlayer = @event.TargetPlayerInfo;
-
-        if (suspectPlayer?.Role is not JesterRole jester)
-        {
-            return;
-        }
-
-        jester.Voters.Add(votingPlayer.PlayerId);
-    }
-
-    [RegisterEvent]
-    public static void HandleVoteEventHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
     {
         var states = MeetingHudGetVotesPatch.States;
         var jests = CustomRoleUtils.GetActiveRolesOfType<JesterRole>();

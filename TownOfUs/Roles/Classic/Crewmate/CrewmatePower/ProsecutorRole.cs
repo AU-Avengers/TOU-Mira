@@ -99,6 +99,7 @@ public sealed class ProsecutorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverab
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Prosecutor.LoadAsset(), "TouMira.Role.Crewmate.Prosecutor", 1.45f),
         MaxRoleCount = 1,
         Icon = TouRoleIcons.Prosecutor,
         OptionsScreenshot = TouBanners.ProsecutorRoleBanner,

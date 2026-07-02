@@ -42,6 +42,7 @@ public sealed class SonarRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sonar.LoadAsset(), "TouMira.Role.Crewmate.Sonar", 1.45f),
         Icon = TouRoleIcons.Sonar,
         OptionsScreenshot = TouBanners.SonarRoleBanner,
         IntroSound = TouAudio.TrackerIntroSound

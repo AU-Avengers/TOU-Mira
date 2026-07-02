@@ -1,7 +1,6 @@
 ﻿using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Globalization;
 using TownOfUs.Interfaces;

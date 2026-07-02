@@ -42,6 +42,7 @@ public sealed class PuppeteerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Puppeteer.LoadAsset(), "TouMira.Role.Impostor.Puppeteer", 1.45f),
         UseVanillaKillButton = false,
         Icon = TouRoleIcons.Puppeteer,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,

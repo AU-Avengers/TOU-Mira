@@ -53,6 +53,7 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Oracle.LoadAsset(), "TouMira.Role.Crewmate.Oracle", 1.45f),
         Icon = TouRoleIcons.Oracle,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.GuardianAngelSound

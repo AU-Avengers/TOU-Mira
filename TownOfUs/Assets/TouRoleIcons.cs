@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Assets;
@@ -158,6 +157,9 @@ public static class TouRoleIcons
         new LoadableBundleAsset<Sprite>("Spectre", TouAssets.MainBundle);
 
     // Neutral Benign
+    public static LoadableAsset<Sprite> Admirer { get; } =
+        new LoadableBundleAsset<Sprite>("Admirer", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> Amnesiac { get; } =
         new LoadableBundleAsset<Sprite>("Amnesiac", TouAssets.MainBundle);
 
@@ -186,6 +188,12 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> Jester { get; } =
         new LoadableBundleAsset<Sprite>("Jester", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> SoulCollector { get; } =
+        new LoadableBundleAsset<Sprite>("SoulCollector", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> Death { get; } =
+        new LoadableBundleAsset<Sprite>("Death", TouAssets.MainBundle);
+
     // Neutral Killing
     public static LoadableAsset<Sprite> Arsonist { get; } =
         new LoadableBundleAsset<Sprite>("Arsonist", TouAssets.MainBundle);
@@ -205,8 +213,8 @@ public static class TouRoleIcons
     public static LoadableAsset<Sprite> SerialKiller { get; } =
         new LoadableBundleAsset<Sprite>("SerialKiller", TouAssets.MainBundle);
 
-    public static LoadableAsset<Sprite> SoulCollector { get; } =
-        new LoadableBundleAsset<Sprite>("SoulCollector", TouAssets.MainBundle);
+    public static LoadableAsset<Sprite> Medusa { get; } =
+        new LoadableBundleAsset<Sprite>("Medusa", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Vampire { get; } =
         new LoadableBundleAsset<Sprite>("Vampire", TouAssets.MainBundle);

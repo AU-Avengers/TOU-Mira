@@ -30,6 +30,7 @@ public sealed class SpyRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, ID
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spy.LoadAsset(), "TouMira.Role.Crewmate.Spy", 1.45f),
         Icon = TouRoleIcons.Spy,
         OptionsScreenshot = TouBanners.SpyRoleBanner,
         IntroSound = TouAudio.SpyIntroSound

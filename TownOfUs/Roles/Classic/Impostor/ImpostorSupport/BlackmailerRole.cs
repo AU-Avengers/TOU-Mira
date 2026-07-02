@@ -43,6 +43,7 @@ public sealed class BlackmailerRole : ImpostorRole, ITownOfUsRole, IWikiDiscover
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Blackmailer.LoadAsset(), "TouMira.Role.Impostor.Blackmailer", 1.45f),
         UseVanillaKillButton = true,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Blackmailer

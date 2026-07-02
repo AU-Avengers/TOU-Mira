@@ -29,6 +29,7 @@ public sealed class LookoutRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Lookout.LoadAsset(), "TouMira.Role.Crewmate.Lookout", 1.45f),
         Icon = TouRoleIcons.Lookout,
         OptionsScreenshot = TouBanners.LookoutRoleBanner,
         IntroSound = TouAudio.SuspenseIntro,

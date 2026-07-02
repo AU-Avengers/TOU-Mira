@@ -38,6 +38,7 @@ public sealed class BomberRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Bomber.LoadAsset(), "TouMira.Role.Impostor.Bomber", 1.45f),
         Icon = TouRoleIcons.Bomber,
         IntroSound = TouAudio.ExplodeIntro,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,

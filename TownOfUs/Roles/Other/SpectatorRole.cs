@@ -69,6 +69,7 @@ public sealed class SpectatorRole : RoleBehaviour, ITownOfUsRole, IWikiDiscovera
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectator.LoadAsset(), "TouMira.Role.Game.Spectator", 1.45f),
         TasksCountForProgress = false,
         IntroSound = TouAudio.NoisemakerIntroSound,
         Icon = TouRoleIcons.Spectator,

@@ -52,6 +52,7 @@ public sealed class ForensicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverabl
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Forensic.LoadAsset(), "TouMira.Role.Crewmate.Forensic", 1.45f),
         Icon = TouRoleIcons.Forensic,
         OptionsScreenshot = TouBanners.ForensicRoleBanner,
         IntroSound = TouAudio.QuestionSound

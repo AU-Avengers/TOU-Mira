@@ -10,6 +10,7 @@ namespace TownOfUs.Modules.Components;
 public sealed class HexBombSabotageSystem : Object, ISystemType, IActivatable
 {
     public const byte SabotageId = 150;
+    public const SystemTypes SystemType = (SystemTypes)SabotageId;
     public readonly float duration;
 
     public bool IsActive => (TimeRemaining > 0 || Stage == HexBombStage.Finished);

@@ -28,6 +28,7 @@ public sealed class InvestigatorRole : CrewmateRole, ITownOfUsRole, IWikiDiscove
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Investigator.LoadAsset(), "TouMira.Role.Crewmate.Investigator", 1.45f),
         Icon = TouRoleIcons.Investigator,
         OptionsScreenshot = TouBanners.InvestigatorRoleBanner,
         IntroSound = TouAudio.SpyIntroSound

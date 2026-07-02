@@ -106,6 +106,7 @@ public sealed class ScavengerRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Scavenger.LoadAsset(), "TouMira.Role.Impostor.Scavenger", 1.45f),
         Icon = TouRoleIcons.Scavenger,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.WarlockIntroSound

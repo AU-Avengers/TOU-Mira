@@ -48,6 +48,7 @@ public sealed class EngineerTouRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Engineer.LoadAsset(), "TouMira.Role.Crewmate.Engineer", 1.45f),
         CanUseVent = true,
         Icon = TouRoleIcons.Engineer,
         OptionsScreenshot = TouBanners.EngineerRoleBanner,

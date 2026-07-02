@@ -24,6 +24,7 @@ public sealed class MysticRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mystic.LoadAsset(), "TouMira.Role.Crewmate.Mystic", 1.45f),
         Icon = TouRoleIcons.Mystic,
         OptionsScreenshot = TouBanners.MysticRoleBanner,
         IntroSound = TouAudio.MediumIntroSound

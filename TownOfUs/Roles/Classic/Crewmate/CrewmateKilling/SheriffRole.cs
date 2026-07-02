@@ -49,6 +49,7 @@ public sealed class SheriffRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sheriff.LoadAsset(), "TouMira.Role.Crewmate.Sheriff", 1.45f),
         Icon = TouRoleIcons.Sheriff,
         OptionsScreenshot = TouBanners.SheriffRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound

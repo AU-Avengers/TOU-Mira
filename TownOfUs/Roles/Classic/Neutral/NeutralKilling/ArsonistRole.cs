@@ -85,6 +85,7 @@ public sealed class ArsonistRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Arsonist.LoadAsset(), "TouMira.Role.Neutral.Arsonist", 1.45f),
         CanUseVent = OptionGroupSingleton<ArsonistOptions>.Instance.CanVent,
         IntroSound = TouAudio.ArsoIgniteSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

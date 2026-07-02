@@ -48,6 +48,7 @@ public sealed class VeteranRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Veteran.LoadAsset(), "TouMira.Role.Crewmate.Veteran", 1.45f),
         Icon = TouRoleIcons.Veteran,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound

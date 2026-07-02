@@ -1,6 +1,7 @@
 using HarmonyLib;
 using Hazel;
 using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modules;

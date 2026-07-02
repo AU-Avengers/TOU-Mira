@@ -145,18 +145,20 @@ public static class TownOfUsEventHandlers
             Coroutines.Start(ModCompatibility.WaitMeeting(ModCompatibility.ResetTimers));
         }
 
-        if (PlayerControl.LocalPlayer.Data.Role is ITownOfUsRole custom)
+        var role = PlayerControl.LocalPlayer.Data.Role;
+        if (role is ITownOfUsRole tou)
         {
-            instance.RoleText.text = custom.RoleName;
+            instance.RoleText.text = tou.RoleName;
             if (instance.YouAreText.transform.TryGetComponent<TextTranslatorTMP>(out var tmp))
             {
-                tmp.defaultStr = custom.YouAreText;
+                tmp.defaultStr = tou.YouAreText;
                 tmp.TargetText = StringNames.None;
                 tmp.ResetText();
             }
 
-            instance.RoleBlurbText.text = custom.RoleDescription;
+            instance.RoleBlurbText.text = tou.RoleDescription;
         }
+        // instance.RoleText.text = $"<size=80%>{MiscUtils.GetRoleTmpIcon(role)}</size>{instance.RoleText.text}";
 
         var teamModifier = PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().FirstOrDefault(x => x.AppearsInIntro);
         if (teamModifier != null && OptionGroupSingleton<InitialRoundOptions>.Instance.TeamModifierReveal)

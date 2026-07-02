@@ -61,6 +61,7 @@ public sealed class WardenRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Warden.LoadAsset(), "TouMira.Role.Crewmate.Warden", 1.45f),
         IntroSound = TouAudio.SpyIntroSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Warden

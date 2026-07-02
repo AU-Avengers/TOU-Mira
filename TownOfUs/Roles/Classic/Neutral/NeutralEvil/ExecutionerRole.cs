@@ -138,6 +138,7 @@ public sealed class ExecutionerRole : NeutralRole, ITownOfUsRole, IWikiDiscovera
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Executioner.LoadAsset(), "TouMira.Role.Neutral.Executioner", 1.45f),
         IntroSound = TouAudio.DiscoveredSound,
         Icon = TouRoleIcons.Executioner,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

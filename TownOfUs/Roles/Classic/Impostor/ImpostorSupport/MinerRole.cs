@@ -56,6 +56,7 @@ public sealed class MinerRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Miner.LoadAsset(), "TouMira.Role.Impostor.Miner", 1.45f),
         UseVanillaKillButton = true,
         Icon = TouRoleIcons.Miner,
         OptionsScreenshot = TouBanners.MinerRoleBanner,

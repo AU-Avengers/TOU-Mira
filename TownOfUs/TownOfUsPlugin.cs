@@ -5,7 +5,6 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using MiraAPI;
 using MiraAPI.PluginLoading;
-using MiraAPI.Utilities.Assets;
 using Reactor;
 using Reactor.Localization;
 using Reactor.Networking;

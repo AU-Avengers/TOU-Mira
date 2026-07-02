@@ -33,6 +33,7 @@ public sealed class MorphlingRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Morphling.LoadAsset(), "TouMira.Role.Impostor.Morphling", 1.45f),
         Icon = TouRoleIcons.Morphling,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = (MorphlingVent)OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is not MorphlingVent.Never,

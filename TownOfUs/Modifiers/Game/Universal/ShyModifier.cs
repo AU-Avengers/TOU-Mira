@@ -1,7 +1,6 @@
 ﻿using AmongUs.Data;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;

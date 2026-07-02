@@ -70,6 +70,7 @@ public sealed class MirrorcasterRole : CrewmateRole, ITouCrewRole, IWikiDiscover
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mirrorcaster.LoadAsset(), "TouMira.Role.Crewmate.Mirrorcaster", 1.45f),
         IntroSound = TouAudio.MirrorcasterIntro,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Mirrorcaster

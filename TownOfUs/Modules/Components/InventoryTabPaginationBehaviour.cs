@@ -1,4 +1,6 @@
 ﻿using MiraAPI.Utilities.Assets;
+using Il2CppInterop.Runtime.Attributes;
+using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;

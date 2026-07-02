@@ -58,6 +58,7 @@ public sealed class SeerRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, I
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Seer.LoadAsset(), "TouMira.Role.Crewmate.Seer", 1.45f),
         Icon = TouRoleIcons.Seer,
         OptionsScreenshot = TouBanners.SeerRoleBanner,
         IntroSound = TouAudio.QuestionSound

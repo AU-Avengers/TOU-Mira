@@ -45,6 +45,7 @@ public sealed class VigilanteRole : CrewmateRole, ITouCrewRole, IWikiDiscoverabl
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Vigilante.LoadAsset(), "TouMira.Role.Crewmate.Vigilante", 1.45f),
         Icon = TouRoleIcons.Vigilante,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound

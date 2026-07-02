@@ -26,6 +26,7 @@ public sealed class GrenadierRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Grenadier.LoadAsset(), "TouMira.Role.Impostor.Grenadier", 1.45f),
         Icon = TouRoleIcons.Grenadier,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<GrenadierOptions>.Instance.CanVent

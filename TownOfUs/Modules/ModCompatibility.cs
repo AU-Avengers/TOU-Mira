@@ -140,13 +140,6 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
-        var customSysTypes = new []
-        {
-            SkeldDoorsSystemType.SystemType,
-            ManualDoorsSystemType.SystemType,
-        };
-        // This allows the custom door types to update properly
-        SystemTypeHelpers.AllTypes.AddRangeToArray(customSysTypes);
     }
 
 #pragma warning disable S3011

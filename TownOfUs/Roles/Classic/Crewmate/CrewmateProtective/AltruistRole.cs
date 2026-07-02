@@ -64,6 +64,7 @@ public sealed class AltruistRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverabl
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Altruist.LoadAsset(), "TouMira.Role.Crewmate.Altruist", 1.45f),
         IntroSound = TouAudio.AltruistReviveSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Altruist

@@ -74,6 +74,7 @@ public sealed class JailorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Jailor.LoadAsset(), "TouMira.Role.Crewmate.Jailor", 1.45f),
         MaxRoleCount = 1,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Jailor,

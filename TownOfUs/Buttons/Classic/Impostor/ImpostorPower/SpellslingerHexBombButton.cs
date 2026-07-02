@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;

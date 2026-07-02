@@ -2270,123 +2270,6 @@ public static class MiscUtils
         return name;
     }
 
-    public static void DeepDestroy(this GameObject? obj, bool clearGc = true)
-    {
-        if (LogoPatch.NeedsDeepDestroy)
-        {
-            Coroutines.Start(Nuke(obj, clearGc));
-        }
-        else
-        {
-            obj?.Destroy();
-        }
-    }
-
-    private static IEnumerator Nuke(GameObject? go, bool clearGc)
-    {
-        if (go == null)
-            yield break;
-
-        try
-        {
-            go.transform.SetParent(null, false);
-        }
-        catch
-        {
-            // ignored
-        }
-
-        try
-        {
-            go.SetActive(false);
-        }
-        catch
-        {
-            // ignored
-        }
-
-        foreach (var mb in go.GetComponentsInChildren<MonoBehaviour>(true))
-        {
-            if (mb == null)
-                continue;
-
-            try
-            {
-                mb.StopAllCoroutines();
-            }
-            catch
-            {
-                // ignored
-            }
-
-            try
-            {
-                mb.enabled = false;
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        foreach (var renderer in go.GetComponentsInChildren<Renderer>(true))
-        {
-            if (renderer == null)
-                continue;
-
-            try
-            {
-                foreach (var mat in renderer.materials)
-                {
-                    if (mat != null)
-                        Object.Destroy(mat);
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        foreach (var filter in go.GetComponentsInChildren<MeshFilter>(true))
-        {
-            if (filter == null)
-                continue;
-
-            try
-            {
-                var mesh = filter.mesh;
-                if (mesh != null)
-                    Object.Destroy(mesh);
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        Object.Destroy(go);
-        yield return null;
-        if (clearGc)
-        {
-            yield return CoFreeResources();
-        }
-    }
-
-    public static void ClearGarbageCollector()
-    {
-        Coroutines.Start(CoFreeResources());
-    }
-
-    private static IEnumerator CoFreeResources()
-    {
-        yield return Resources.UnloadUnusedAssets();
-
-        GC.Collect(0, GCCollectionMode.Forced, blocking: true);
-        GC.WaitForPendingFinalizers();
-        GC.Collect(0, GCCollectionMode.Forced, blocking: true);
-    }
-
     public static void DelayExile(this PlayerControl localPlayer)
     {
         Coroutines.Start(CoWaitExile(localPlayer));
@@ -2397,6 +2280,20 @@ public static class MiscUtils
         yield return new WaitForSeconds(1f);
 
         player.RpcPlayerExile();
+    }
+
+    public static string GetRoleTmpIcon(RoleTypes role)
+    {
+        return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+    }
+
+    public static string GetRoleTmpIcon(RoleBehaviour role)
+    {
+        if (role is ICustomRole custom)
+        {
+            return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
+        }
+        return $"<sprite name=\"AmongUs.Role.{role.Role.ToString()}\">";
     }
 }
 

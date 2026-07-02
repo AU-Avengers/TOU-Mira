@@ -66,6 +66,7 @@ public sealed class SurvivorRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Survivor.LoadAsset(), "TouMira.Role.Neutral.Survivor", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Survivor,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

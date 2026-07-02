@@ -58,6 +58,7 @@ public sealed class JanitorRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Janitor.LoadAsset(), "TouMira.Role.Impostor.Janitor", 1.45f),
         UseVanillaKillButton = true,
         Icon = TouRoleIcons.Janitor,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,

@@ -1,5 +1,6 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
+using MiraAPI.Modifiers;
 using UnityEngine;
 
 namespace TownOfUs.Modules.Wiki;

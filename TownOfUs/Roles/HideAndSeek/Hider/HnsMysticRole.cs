@@ -28,6 +28,7 @@ public sealed class HnsMysticRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverab
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mystic.LoadAsset(), "TouMira.Role.Crewmate.Mystic", 1.45f),
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Mystic,

@@ -65,6 +65,7 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plumber.LoadAsset(), "TouMira.Role.Crewmate.Plumber", 1.45f),
         CanUseVent = true,
         IntroSound = TouAudio.EngineerIntroSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
