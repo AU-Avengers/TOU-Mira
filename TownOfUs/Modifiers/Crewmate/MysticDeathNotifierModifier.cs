@@ -15,7 +15,7 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
 
     private ArrowBehaviour? _arrow;
     public override string ModifierName => "Death Notifier";
-    public override float Duration => OptionGroupSingleton<MysticOptions>.Instance.MysticArrowDuration;
+    public override float Duration => OptionGroupSingleton<MysticOptions>.Instance.MysticArrowDuration > 0 ? OptionGroupSingleton<MysticOptions>.Instance.MysticArrowDuration : 0.001f;
     public override bool HideOnUi => true;
     public PlayerControl Mystic { get; set; } = mystic;
 
@@ -30,8 +30,11 @@ public sealed class MysticDeathNotifierModifier(PlayerControl mystic) : TimedMod
             item.Show(Player, 0);
         }
 
-        _arrow = MiscUtils.CreateArrow(Mystic.transform, Color.white);
-        _arrow.target = Player.GetTruePosition();
+        if (OptionGroupSingleton<MysticOptions>.Instance.MysticArrowDuration > 0)
+        {
+            _arrow = MiscUtils.CreateArrow(Mystic.transform, Color.white);
+            _arrow.target = Player.GetTruePosition();
+        }
 
         Coroutines.Start(MiscUtils.CoFlash(FlashColor));
     }
