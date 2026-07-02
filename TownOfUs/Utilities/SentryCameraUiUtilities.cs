@@ -127,7 +127,7 @@ public static class SentryCameraUiUtilities
         }
 
         var minX = viewPorts.Min(v => v.transform.position.x);
-        var maxX = viewPorts.Max(v => v.transform.position.x);
+        var maxX = viewPorts.Max<MeshRenderer, float>(v => v.transform.position.x);
         var minY = viewPorts.Min(v => v.transform.position.y);
         var buttonY = minY - 0.45f;
         var buttonZ = closeBtn.position.z;
@@ -330,7 +330,7 @@ public static class SentryCameraUiUtilities
         if (viewPorts == null || viewPorts.Length == 0) return;
 
         var minX = viewPorts.Min(v => v.transform.position.x);
-        var maxX = viewPorts.Max(v => v.transform.position.x);
+        var maxX = viewPorts.Max<MeshRenderer, float>(v => v.transform.position.x);
         var minY = viewPorts.Min(v => v.transform.position.y);
         var buttonY = minY - 0.45f;
         var dotsY = buttonY - 0.22f;
