@@ -11,8 +11,6 @@ public class CosmeticsLoader
     private static CosmeticsLoader? _cosmeticsLoader;
     public static CosmeticsLoader Instance => _cosmeticsLoader ??= new CosmeticsLoader();
 
-    private readonly List<UnityEngine.Object> _emptyKeys = new();
-
     public IEnumerable<object> EmptyKeys { get; }
 
     private CosmeticReleaseGroup CosmeticGroup { get; }
@@ -68,7 +66,7 @@ public class CosmeticsLoader
         out Type il2CPPType
     )
     {
-        il2CPPType = null;
+        il2CPPType = null!;
         try
         {
             il2CPPType = type switch
@@ -109,7 +107,7 @@ public class CosmeticsLoader
         }
     }
 
-    public bool TryGetPet(string id, out CustomPet? hat)
+    public bool TryGetPet(string id, out CustomPet hat)
     {
         return _petLoader.CustomPets.TryGetValue(id, out hat);
     }

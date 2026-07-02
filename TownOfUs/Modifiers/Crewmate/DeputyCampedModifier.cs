@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using TownOfUs.Events.TouEvents;
-using UnityEngine;
 
 namespace TownOfUs.Modifiers.Crewmate;
 

@@ -17,7 +17,7 @@ public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerC
     public override float EffectDuration => OptionGroupSingleton<ClericOptions>.Instance.BarrierDuration;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.BarrierSprite : TouCrewAssets.BarrierSprite;
 
-    public override bool IsTargetValid(PlayerControl? target)
+    public override bool IsTargetValid(PlayerControl target)
     {
         return base.IsTargetValid(target) && !target!.HasModifier<ClericBarrierModifier>();
     }

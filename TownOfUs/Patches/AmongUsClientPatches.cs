@@ -1,6 +1,5 @@
 using HarmonyLib;
 using TownOfUs.Modules.Components;
-using TownOfUs.Modules.MedSpirit;
 
 namespace TownOfUs.Patches;
 

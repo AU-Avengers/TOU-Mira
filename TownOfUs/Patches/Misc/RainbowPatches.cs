@@ -60,7 +60,7 @@ public static class ChatNotifRainbowPatch
 {
     public static void Prefix(ChatNotification __instance)
     {
-        if (__instance.gameObject.active && RainbowUtils.IsRainbow(__instance.player.cosmetics.ColorId))
+        if (__instance.gameObject.activeSelf && RainbowUtils.IsRainbow(__instance.player.cosmetics.ColorId))
         {
             string str = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
             __instance.playerNameText.text = "<color=#" + str + ">" + __instance.playerNameText.text.WithoutRichText();
@@ -69,7 +69,7 @@ public static class ChatNotifRainbowPatch
 
     public static void Postfix(ChatNotification __instance)
     {
-        if (__instance.gameObject.active && RainbowUtils.IsRainbow(__instance.player.cosmetics.ColorId))
+        if (__instance.gameObject.activeSelf && RainbowUtils.IsRainbow(__instance.player.cosmetics.ColorId))
         {
             string str = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
             __instance.playerNameText.text = "<color=#" + str + ">" + __instance.playerNameText.text.WithoutRichText();

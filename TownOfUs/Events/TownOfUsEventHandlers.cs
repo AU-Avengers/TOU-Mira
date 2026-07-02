@@ -415,7 +415,7 @@ public static class TownOfUsEventHandlers
         {
             door1.SetInitialSabotageCooldown();
         }
-        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2) && systemType is IDoorSystem door2)
+        else if (ShipStatus.Instance.Systems.TryGetValue(ManualDoorsSystemType.SystemType, out var systemType2) && systemType2 is IDoorSystem door2)
         {
             door2.SetInitialSabotageCooldown();
         }

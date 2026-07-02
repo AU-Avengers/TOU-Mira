@@ -29,7 +29,6 @@ public static class MonarchEvents
             return;
 
         var monarch = PlayerControl.AllPlayerControls
-            .ToArray()
             .FirstOrDefault(p => !p.HasDied() && p.Data.Role is MonarchRole);
 
         if (monarch == null || !monarch.AmOwner)

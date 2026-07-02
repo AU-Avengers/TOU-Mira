@@ -1011,7 +1011,6 @@ public static class TeamChatPatches
             else if (color == Color.white &&
                      (player.AmOwner || player.Data.Role is MayorRole mayor && mayor.Revealed ||
                       DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && genOpt.TheDeadKnow) && PlayerControl.AllPlayerControls
-                         .ToArray()
                          .FirstOrDefault(x => x.Data.PlayerName == playerName) && MeetingHud.Instance)
             {
                 __instance.NameText.color = (player.GetRoleWhenAlive() is ICustomRole custom) ? custom.RoleColor : player.GetRoleWhenAlive().TeamColor;

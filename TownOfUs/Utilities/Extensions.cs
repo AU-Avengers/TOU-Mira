@@ -303,13 +303,13 @@ public static class Extensions
         foreach (var hand in panel.PlayerIcon.Hands)
         {
             hand.sharedMaterial = CosmeticsLayer.GetBodyMaterial(PlayerMaterial.MaskType.ComplexUI);
-            hand.gameObject.active = false;
+            hand.gameObject.SetActive(false);
         }
 
         foreach (var sprite in panel.PlayerIcon.OtherBodySprites)
         {
             sprite.sharedMaterial = CosmeticsLayer.GetBodyMaterial(PlayerMaterial.MaskType.ComplexUI);
-            sprite.gameObject.active = false;
+            sprite.gameObject.SetActive(false);
         }
 
         var roleIcon = Object.Instantiate(panel.Background, panel.transform).gameObject;
@@ -375,13 +375,13 @@ public static class Extensions
         foreach (var hand in panel.PlayerIcon.Hands)
         {
             hand.sharedMaterial = CosmeticsLayer.GetBodyMaterial(PlayerMaterial.MaskType.ComplexUI);
-            hand.gameObject.active = false;
+            hand.gameObject.SetActive(false);
         }
 
         foreach (var sprite in panel.PlayerIcon.OtherBodySprites)
         {
             sprite.sharedMaterial = CosmeticsLayer.GetBodyMaterial(PlayerMaterial.MaskType.ComplexUI);
-            sprite.gameObject.active = false;
+            sprite.gameObject.SetActive(false);
         }
 
         var roleIcon = Object.Instantiate(panel.Background, panel.transform).gameObject;
@@ -554,7 +554,7 @@ public static class Extensions
     {
         List<Vent> vents;
 
-        var cleanVentTasks = player.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+        var cleanVentTasks = player.myTasks.Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
 
         if (cleanVentTasks != null)
         {
@@ -653,7 +653,7 @@ public static class Extensions
     /// <param name="ignoreColliders">Whether colliders should be ignored when searching.</param>
     /// <param name="predicate">Optional predicate to test if the object is valid.</param>
     /// <returns>The closest player if there is one, false otherwise.</returns>
-    public static PlayerControl? GetClosestLivingPlayer(
+    public static PlayerControl GetClosestLivingPlayer(
         this PlayerControl playerControl,
         bool includeImpostors,
         float distance,

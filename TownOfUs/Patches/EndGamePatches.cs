@@ -296,7 +296,7 @@ public static class EndGamePatches
             var playerName = new StringBuilder();
             var playerWinner = false;
 
-            if (EndGameResult.CachedWinners.ToArray().Any(x => x.PlayerName == playerControl.Data.PlayerName))
+            if (EndGameResult.CachedWinners.Any(x => x.PlayerName == playerControl.Data.PlayerName))
             {
                 playerName.Append( $"<color=#EFBF04>{playerControl.Data.PlayerName}</color>");
                 playerWinner = true;

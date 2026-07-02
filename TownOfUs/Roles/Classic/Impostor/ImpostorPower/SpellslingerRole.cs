@@ -146,7 +146,6 @@ public sealed class SpellslingerRole : ImpostorRole, ITownOfUsRole, IWikiDiscove
     public static bool EveryoneHexed()
     {
         return PlayerControl.AllPlayerControls
-            .ToArray()
             .Where(p => p.Data.Role is not SpellslingerRole && !p.HasDied() && (!p.IsImpostorAligned() || OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode))
             .All(p => p.HasModifier<SpellslingerHexedModifier>());
     }

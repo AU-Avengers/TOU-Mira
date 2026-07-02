@@ -56,7 +56,7 @@ public sealed class VampireBiteButton : TownOfUsKillRoleButton<VampireRole, Play
         base.FixedUpdate(playerControl);
     }
 
-    public override bool IsTargetValid(PlayerControl? target)
+    public override bool IsTargetValid(PlayerControl target)
     {
         return base.IsTargetValid(target) && target != null && (!target.IsRole<VampireRole>() ||
                                                                 (PlayerControl.LocalPlayer.IsLover() &&

@@ -196,9 +196,9 @@ public static class LogicGameFlowPatches
             return false;
         }
 
-        if (ShipStatus.Instance.Systems.ContainsKey(SystemTypes.LifeSupp))
+        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.LifeSupp, out var lifeSupp))
         {
-            var lifeSuppSystemType = ShipStatus.Instance.Systems[SystemTypes.LifeSupp] as LifeSuppSystemType;
+            var lifeSuppSystemType = lifeSupp as LifeSuppSystemType;
             if (lifeSuppSystemType is { Countdown: < 0f })
             {
                 __instance.EndGameForSabotage();

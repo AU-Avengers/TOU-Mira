@@ -421,14 +421,14 @@ public static class SentryCameraUiUtilities
 
             if (_polusPageArrowSprite == null)
             {
-                var allSprites = Resources.FindObjectsOfTypeAll(typeof(Sprite))!;
-                _polusPageArrowSprite = allSprites.FirstOrDefault(s => s != null && s is Sprite sprite && sprite.name == "panel_security_arrow") as Sprite;
+                var allSprites = Resources.FindObjectsOfTypeAll<Sprite>()!;
+                _polusPageArrowSprite = allSprites.FirstOrDefault(s => s.name == "panel_security_arrow");
             }
 
             if (_polusPageFlipSound == null)
             {
-                var allClips = Resources.FindObjectsOfTypeAll(typeof(AudioClip))!;
-                _polusPageFlipSound = allClips.FirstOrDefault(a => a != null && a is AudioClip audio && audio.name == "UI_Select") as AudioClip;
+                var allClips = Resources.FindObjectsOfTypeAll<AudioClip>()!;
+                _polusPageFlipSound = allClips.FirstOrDefault(a => a.name == "UI_Select");
             }
         }
         catch (Exception ex)

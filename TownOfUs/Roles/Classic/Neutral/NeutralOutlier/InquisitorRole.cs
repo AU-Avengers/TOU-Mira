@@ -296,7 +296,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
             return;
         }
 
-        foreach (var player in GameData.Instance.AllPlayers.ToArray()
+        foreach (var player in GameData.Instance.AllPlayers
                      .Where(x => !x.Object.HasDied() && x.Object.HasModifier<InquisitorInquiredModifier>()))
         {
             var text = TouLocale.GetParsed("TouRoleInquisitorInquiredNonHeretic")
@@ -311,7 +311,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
 
                 if (roles.Count != 0)
                 {
-                    reportBuilder.Append( $"(");
+                    reportBuilder.Append("(");
                     foreach (var role2 in roles)
                     {
                         if (role2 == lastRole)

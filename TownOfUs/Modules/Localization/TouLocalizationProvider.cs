@@ -46,7 +46,7 @@ public class TouLocalizationProvider : LocalizationProvider
     {
         if (!TryGetText(stringName, out result)) return false;
 
-        result = string.Format(result, parts);
+        result = string.Format(TownOfUsPlugin.Culture, result!, parts);
         return true;
     }
 

@@ -56,12 +56,11 @@ public sealed class UnderdogModifier : TouGameModifier, IWikiDiscoverable
     {
         var mod = player.GetModifier<UnderdogModifier>();
 
+        var baseKillCooldown = GameOptionsManager.Instance.CurrentGameOptions.TryGetFloat(FloatOptionNames.KillCooldown, out var kc2) ? kc2 : 25f;
         if (mod == null)
         {
-            return GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.KillCooldown);
+            return baseKillCooldown;
         }
-
-        var baseKillCooldown = GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.KillCooldown);
 
         var lowerKc = baseKillCooldown - KillCooldownIncrease;
         var upperKc = baseKillCooldown + KillCooldownIncrease;

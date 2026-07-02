@@ -113,7 +113,7 @@ public static class GhostRolePatches
         }
 
         if (PlayerControl.LocalPlayer.Data.Role is IGhostRole { GhostActive: true } &&
-            PlayerControl.LocalPlayer.inVent != __instance.ImpostorVentButton.gameObject.active)
+            PlayerControl.LocalPlayer.inVent != __instance.ImpostorVentButton.gameObject.activeInHierarchy)
         {
             __instance.ImpostorVentButton.gameObject.SetActive(PlayerControl.LocalPlayer.inVent);
         }

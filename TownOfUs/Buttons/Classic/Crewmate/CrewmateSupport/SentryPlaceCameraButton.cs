@@ -253,7 +253,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
             SavedPos = null;
         }
         _pendingPlacement = false;
-        placementCoroutine = null;
+        placementCoroutine = null!;
     }
 
     protected override void FixedUpdate(PlayerControl playerControl)
@@ -273,7 +273,7 @@ public sealed class SentryPlaceCameraButton : TownOfUsRoleButton<SentryRole>, IA
             if (distance > MaxPlacementDistance)
             {
                 AmongUsClient.Instance.StopCoroutine(placementCoroutine);
-                placementCoroutine = null;
+                placementCoroutine = null!;
                 _pendingPlacement = false;
 
                 if (LimitedUses && !_refundApplied)

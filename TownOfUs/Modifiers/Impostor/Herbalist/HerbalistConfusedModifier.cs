@@ -90,9 +90,8 @@ public sealed class HerbalistConfusedModifier(PlayerControl herbalist) : TimedMo
 
     public static void MushroomMixUp(MushroomMixupSabotageSystem instance, PlayerControl player)
     {
-        if (player != null && !player.Data.IsDead && instance.currentMixups.ContainsKey(player.PlayerId))
+        if (player != null && !player.Data.IsDead && instance.currentMixups.TryGetValue(player.PlayerId, out var condensedOutfit))
         {
-            var condensedOutfit = instance.currentMixups[player.PlayerId];
             var playerOutfit = instance.ConvertToPlayerOutfit(condensedOutfit);
             playerOutfit.NamePlateId = player.Data.DefaultOutfit.NamePlateId;
 

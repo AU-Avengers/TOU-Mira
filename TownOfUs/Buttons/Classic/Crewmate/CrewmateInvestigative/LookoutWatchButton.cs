@@ -18,7 +18,7 @@ public sealed class WatchButton : TownOfUsRoleButton<LookoutRole, PlayerControl>
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.WatchSprite : TouCrewAssets.WatchSprite;
     public int ExtraUses { get; set; }
 
-    public override bool IsTargetValid(PlayerControl? target)
+    public override bool IsTargetValid(PlayerControl target)
     {
         return base.IsTargetValid(target) && !target!.HasModifier<LookoutWatchedModifier>(x => x.Lookout.AmOwner);
     }

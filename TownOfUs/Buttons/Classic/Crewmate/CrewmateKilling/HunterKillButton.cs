@@ -64,7 +64,7 @@ public sealed class HunterKillButton : TownOfUsKillRoleButton<HunterRole, Player
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }
 
-    public override bool IsTargetValid(PlayerControl? target)
+    public override bool IsTargetValid(PlayerControl target)
     {
         if (!Role.CaughtPlayers.Contains(target!))
         {

@@ -192,7 +192,7 @@ public sealed class DoomsayerRole
             return;
         }
 
-        foreach (var player in GameData.Instance.AllPlayers.ToArray()
+        foreach (var player in GameData.Instance.AllPlayers
                      .Where(x => !x.Object.HasDied() && x.Object.HasModifier<DoomsayerObservedModifier>()))
         {
             var role = player.Object.Data.Role;
@@ -247,7 +247,7 @@ public sealed class DoomsayerRole
 
             if (roles.Count != 0)
             {
-                reportBuilder.Append( $"(");
+                reportBuilder.Append("(");
                 foreach (var role2 in roles)
                 {
                     if (role2 == lastRole)

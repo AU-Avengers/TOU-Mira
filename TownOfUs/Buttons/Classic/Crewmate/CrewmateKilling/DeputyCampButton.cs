@@ -20,7 +20,7 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>, 
         return base.CanUse() && Usable;
     }
 
-    public override bool IsTargetValid(PlayerControl? target)
+    public override bool IsTargetValid(PlayerControl target)
     {
         return base.IsTargetValid(target) && !target?.HasModifier<DeputyCampedModifier>() == true;
     }

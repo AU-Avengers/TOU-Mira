@@ -24,7 +24,7 @@ public sealed class SeerRevealButton : TownOfUsRoleButton<SeerRole, PlayerContro
                !OptionGroupSingleton<SeerOptions>.Instance.SalemSeer;
     }
 
-    public override bool IsTargetValid(PlayerControl? target)
+    public override bool IsTargetValid(PlayerControl target)
     {
         return base.IsTargetValid(target) && !target!.HasModifier<SeerGoodRevealModifier>() &&
                !target!.HasModifier<SeerEvilRevealModifier>();

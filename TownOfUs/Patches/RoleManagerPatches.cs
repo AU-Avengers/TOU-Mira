@@ -905,7 +905,7 @@ public static class TouRoleManagerPatches
 
         var random = new System.Random();
 
-        var players = GameData.Instance.AllPlayers.ToArray()
+        var players = GameData.Instance.AllPlayers
             .Excluding(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
         players.Shuffle();
 
@@ -1014,7 +1014,7 @@ public static class TouRoleManagerPatches
     [HarmonyPriority(Priority.Low)]
     public static void SetSpectatorsAndModifiers(RoleManager __instance)
     {
-        var spectators = GameData.Instance.AllPlayers.ToArray()
+        var spectators = GameData.Instance.AllPlayers
             .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
         var specId = (RoleTypes)RoleId.Get<SpectatorRole>();
 
@@ -1030,7 +1030,7 @@ public static class TouRoleManagerPatches
 
         if (OptionGroupSingleton<InitialRoundOptions>.Instance.RoundOneVictims)
         {
-            var firstDead = GameData.Instance.AllPlayers.ToArray()
+            var firstDead = GameData.Instance.AllPlayers
                 .Where(x => FirstDeadPatch.FirstRoundPlayerNames.Contains(x.PlayerName) && !spectators.Contains(x)).ToList();
 
             foreach (var player in firstDead)

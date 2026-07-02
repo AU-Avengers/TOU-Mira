@@ -336,7 +336,7 @@ public static class HudManagerPatches
         {
             foreach (var playerVA in MeetingHud.Instance.playerStates)
             {
-                if (!playerVA.gameObject.active)
+                if (!playerVA.gameObject.activeSelf)
                 {
                     continue;
                 }
@@ -1184,7 +1184,7 @@ public static class HudManagerPatches
                                                  FriendsListUI.Instance && FriendsListUI.Instance.IsOpen ||
                                                  GameStartManager.InstanceExists &&
                                                  (GameStartManager.Instance.RulesViewPanel &&
-                                                  GameStartManager.Instance.RulesViewPanel.active ||
+                                                  GameStartManager.Instance.RulesViewPanel.activeSelf ||
                                                   GameSettingMenu.Instance));
 
     private static bool _registeredSoftModifiers;

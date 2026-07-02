@@ -16,7 +16,7 @@ public static class HideSpecVoteAreas
         }
         foreach (var voteArea in __instance.playerStates)
         {
-            if (!voteArea.gameObject.active)
+            if (!voteArea.gameObject.activeSelf)
             {
                 continue;
             }

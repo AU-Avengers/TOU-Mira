@@ -10,7 +10,7 @@ public static class PaletteColorsPatch
     {
         if (colorId < 0 || colorId >= Palette.ColorNames.Length)
         {
-            Error(string.Format( "Color ID {0}, but Palette Length of {1}", colorId, Palette.ColorNames.Length));
+            Error(string.Format(TownOfUsPlugin.Culture, "Color ID {0}, but Palette Length of {1}", colorId, Palette.ColorNames.Length));
             __result = "???";
             return false;
         }

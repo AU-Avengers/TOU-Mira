@@ -179,12 +179,6 @@ internal static class NetTransformBacklogUtils
             return;
         }
 
-        var cnt = player.NetTransform as CustomNetworkTransform;
-        if (cnt == null)
-        {
-            return;
-        }
-
         EnsureSearched();
 
         try
@@ -192,7 +186,7 @@ internal static class NetTransformBacklogUtils
             for (var i = 0; i < _clearableCollectionFields.Length; i++)
             {
                 var f = _clearableCollectionFields[i];
-                var v = f.GetValue(cnt);
+                var v = f.GetValue(player.NetTransform);
                 if (v != null)
                 {
                     TryClear(v);
@@ -215,21 +209,6 @@ internal static class NetTransformBacklogUtils
             return;
         }
 
-        var cnt = player.NetTransform as CustomNetworkTransform;
-        if (cnt == null)
-        {
-            // Fall back to a plain snap
-            try
-            {
-                player.NetTransform.SnapTo(player.transform.position);
-            }
-            catch
-            {
-                // ignored
-            }
-            return;
-        }
-
         EnsureSearched();
 
         try
@@ -237,7 +216,7 @@ internal static class NetTransformBacklogUtils
             for (var i = 0; i < _clearableCollectionFields.Length; i++)
             {
                 var f = _clearableCollectionFields[i];
-                var v = f.GetValue(cnt);
+                var v = f.GetValue(player.NetTransform);
                 if (v != null)
                 {
                     TryClear(v);
@@ -253,7 +232,7 @@ internal static class NetTransformBacklogUtils
         try
         {
             // Bump sequence id to force the CNT to treat this as a fresh authoritative snap locally.
-            cnt.SnapTo(pos, (ushort)(cnt.lastSequenceId + 1));
+            player.NetTransform.SnapTo(pos, (ushort)(player.NetTransform.lastSequenceId + 1));
         }
         catch
         {

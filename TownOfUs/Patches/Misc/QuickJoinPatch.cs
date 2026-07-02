@@ -82,7 +82,7 @@ public static class LobbyJoin
 
         if (RegionFindText)
         {
-            RegionFindText.SetActive(!OriginalRegionText.active);
+            RegionFindText.SetActive(!OriginalRegionText.activeSelf);
         }
         else
         {
@@ -92,7 +92,7 @@ public static class LobbyJoin
             RegionFindText.name = "RegionFindText";
             RegionText = RegionFindText.GetComponent<TextMeshPro>();
             RegionText.text = MiscUtils.GetRegionName(null, false);
-            RegionFindText.SetActive(!OriginalRegionText.active);
+            RegionFindText.SetActive(!OriginalRegionText.activeSelf);
         }
     }
 
@@ -111,12 +111,12 @@ public static class LobbyJoin
     [HarmonyPostfix]
     public static void Update()
     {
-        if (RegionFindText && RegionFindText.active)
+        if (RegionFindText && RegionFindText.activeSelf)
         {
-            RegionFindText.SetActive(!OriginalRegionText.active);
+            RegionFindText.SetActive(!OriginalRegionText.activeSelf);
             RegionText.text = MiscUtils.GetRegionName(null, false);
         }
-        if (GameId == 0 || !LobbyText || !LobbyText.active)
+        if (GameId == 0 || !LobbyText || !LobbyText.activeSelf)
         {
             return;
         }

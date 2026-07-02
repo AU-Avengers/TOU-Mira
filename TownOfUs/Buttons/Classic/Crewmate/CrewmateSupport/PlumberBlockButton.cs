@@ -17,7 +17,7 @@ public sealed class PlumberBlockButton : TownOfUsVentRoleButton<PlumberRole>, IL
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.BlockSprite : TouCrewAssets.BlockSprite;
     public int ExtraUses { get; set; }
 
-    public override bool IsTargetValid(Vent? target)
+    public override bool IsTargetValid(Vent target)
     {
         return base.IsTargetValid(target) && !Role.FutureBlocks.Contains(target!.Id);
     }

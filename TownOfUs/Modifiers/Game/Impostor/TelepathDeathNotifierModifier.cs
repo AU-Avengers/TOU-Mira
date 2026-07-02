@@ -19,7 +19,7 @@ public sealed class TelepathDeathNotifierModifier(PlayerControl telepath) : Time
     {
         base.OnActivate();
 
-        var deadPlayer = GameData.Instance.AllPlayers.ToArray()
+        var deadPlayer = GameData.Instance.AllPlayers
             .FirstOrDefault(x => x.PlayerId == Player.PlayerId && x.IsDead);
         if (deadPlayer == null)
         {

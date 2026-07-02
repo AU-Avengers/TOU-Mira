@@ -377,7 +377,7 @@ public sealed class SpectreRole
 
         if (player.myTasks != null && player.myTasks.Count > 0)
         {
-            var tasks = player.myTasks.ToArray().Where(x => !PlayerTask.TaskIsEmergency(x) && x is not ImportantTextTask);
+            var tasks = player.myTasks.Where(x => !PlayerTask.TaskIsEmergency(x) && x is not ImportantTextTask);
             foreach (var t in tasks)
             {
                 total++;

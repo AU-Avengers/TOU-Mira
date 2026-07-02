@@ -78,7 +78,7 @@ public static class MiscUtils
     public static IEnumerable<RoleBehaviour> AllRoles => CustomRoleManager.CustomRoleBehaviours;
 
     public static IEnumerable<RoleBehaviour> AllRegisteredRoles =>
-        RoleManager.Instance.AllRoles.ToArray().Excluding(x => x.IsRoleBlacklisted());
+        RoleManager.Instance.AllRoles.Excluding(x => x.IsRoleBlacklisted());
 
     public static IEnumerable<RoleBehaviour> SpawnableRoles =>
         AllRegisteredRoles.Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
@@ -1623,8 +1623,8 @@ public static class MiscUtils
 
     public static string TaskInfo(this PlayerControl player)
     {
-        var completed = player.myTasks.ToArray().Count(x => x.IsComplete);
-        var totalTasks = player.myTasks.ToArray()
+        var completed = player.myTasks.Count(x => x.IsComplete);
+        var totalTasks = player.myTasks
             .Count(x => !PlayerTask.TaskIsEmergency(x) && x is not ImportantTextTask);
         var colorbase = Color.yellow;
         var color = Color.yellow;
@@ -1742,7 +1742,7 @@ public static class MiscUtils
         return couldUse;
     }
 
-    public static PlayerControl? GetImpostorTarget(float distance)
+    public static PlayerControl GetImpostorTarget(float distance)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var saboOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;

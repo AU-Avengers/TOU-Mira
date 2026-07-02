@@ -23,7 +23,7 @@ public static class TouRoleUtils
             return;
         }
 
-        var playerTask = playerControl.myTasks.ToArray().FirstOrDefault(x => x is ImportantTextTask);
+        var playerTask = playerControl.myTasks.FirstOrDefault(x => x is ImportantTextTask);
 
         if (playerTask != null)
         {

@@ -42,7 +42,7 @@ public sealed class ArsonistDouseButton : TownOfUsRoleButton<ArsonistRole, Playe
         ArsonistRole.SetDouseUses();
     }
 
-    public override bool IsTargetValid(PlayerControl? target)
+    public override bool IsTargetValid(PlayerControl target)
     {
         return base.IsTargetValid(target) && !target!.HasModifier<ArsonistDousedModifier>();
     }

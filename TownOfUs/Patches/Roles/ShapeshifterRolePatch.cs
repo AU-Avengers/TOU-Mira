@@ -54,7 +54,7 @@ public static class ShapeshifterRolePatch
             {
                 __instance.RemoveModifier<ShapeshifterShiftModifier>();
                 __instance.logger.Info(
-                    string.Format( "Player {0} Shapeshift is reverting", __instance.PlayerId),
+                    string.Format(TownOfUsPlugin.Culture, "Player {0} Shapeshift is reverting", __instance.PlayerId),
                     null);
                 __instance.shapeshiftTargetPlayerId = -1;
                 if (__instance.AmOwner)
@@ -67,7 +67,7 @@ public static class ShapeshifterRolePatch
             {
                 __instance.AddModifier<ShapeshifterShiftModifier>(trueTargetPlayer);
                 __instance.logger.Info(
-                    string.Format( "Player {0} is shapeshifting into {1}", __instance.PlayerId,
+                    string.Format(TownOfUsPlugin.Culture, "Player {0} is shapeshifting into {1}", __instance.PlayerId,
                         trueTargetPlayer.PlayerId),
                     null);
                 __instance.shapeshiftTargetPlayerId = (int)trueTargetPlayer.PlayerId;

@@ -299,13 +299,13 @@ public sealed class EngineerTouRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
         if (type == 0)
         {
             var lights = ShipStatus.Instance.Systems[SystemTypes.Electrical] as SwitchSystem;
-            lights.ActualSwitches = lights.ExpectedSwitches;
+            lights!.ActualSwitches = lights.ExpectedSwitches;
         }
         else if (type == 1)
         {
             var mushroom = ShipStatus.Instance.Systems[SystemTypes.MushroomMixupSabotage]
                  as MushroomMixupSabotageSystem;
-            mushroom.currentSecondsUntilHeal = 0.1f;
+            mushroom!.currentSecondsUntilHeal = 0.1f;
         }
         else if (type == 2)
         {

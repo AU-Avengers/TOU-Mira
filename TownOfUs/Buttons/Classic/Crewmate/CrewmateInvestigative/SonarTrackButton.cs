@@ -18,7 +18,7 @@ public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerContr
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.TrackSprite : TouCrewAssets.TrackSprite;
     public int ExtraUses { get; set; }
 
-    public override bool IsTargetValid(PlayerControl? target)
+    public override bool IsTargetValid(PlayerControl target)
     {
         return base.IsTargetValid(target) && !target!.HasModifier<SonarArrowTargetModifier>() && !target!.HasModifier<SonarHeartbeatTargetModifier>();
     }

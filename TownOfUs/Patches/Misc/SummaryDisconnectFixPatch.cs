@@ -275,7 +275,7 @@ public static class SummaryDisconnectFixPatch
         var playerName = new StringBuilder();
         var playerWinner = false;
 
-        if (EndGameResult.CachedWinners.ToArray().Any(x => x.PlayerName == player.Data.PlayerName))
+        if (EndGameResult.CachedWinners.Any(x => x.PlayerName == player.Data.PlayerName))
         {
             playerName.Append( $"<color=#EFBF04>{player.Data.PlayerName}</color>");
             playerWinner = true;

@@ -45,7 +45,6 @@ public static class DummyBehaviourPatches
             .ToList();
 
         PlayerControl.AllPlayerControls
-            .ToArray()
             .Where(player => roleList.Contains(player.Data.Role))
             .ToList()
             .ForEach(player => roleList.Remove(player.Data.Role));

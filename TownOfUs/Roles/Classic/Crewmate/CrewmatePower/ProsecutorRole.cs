@@ -44,7 +44,7 @@ public sealed class ProsecutorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverab
         ProsecuteButton.gameObject.SetActive(!HideProsButton && meeting.state == MeetingHud.VoteStates.NotVoted &&
                                              !SelectingProsecuteVictim);
 
-        if (!ProsecuteButton.gameObject.active)
+        if (!ProsecuteButton.gameObject.activeSelf)
         {
             return;
         }

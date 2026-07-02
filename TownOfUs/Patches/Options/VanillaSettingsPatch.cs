@@ -14,7 +14,7 @@ public static class VanillaSettingsPatch
         {
             try
             {
-                var impostorCount = __instance.Children.ToArray()
+                var impostorCount = __instance.Children
                     .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.NumImpostors)
                     as NumberOption;
                 if (impostorCount != null)
@@ -22,7 +22,7 @@ public static class VanillaSettingsPatch
                     impostorCount.ValidRange = new FloatRange(0f, 5f);
                 }
 
-                var impostorMaxCount = __instance.Children.ToArray()
+                var impostorMaxCount = __instance.Children
                     .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.MaxImpostors)
                     as NumberOption;
                 if (impostorMaxCount != null)
@@ -30,7 +30,7 @@ public static class VanillaSettingsPatch
                     impostorMaxCount.ValidRange = new FloatRange(0f, 5f);
                 }
 
-                var commonTasks = __instance.Children.ToArray()
+                var commonTasks = __instance.Children
                     .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.NumCommonTasks)
                     as NumberOption;
                 if (commonTasks != null)
@@ -38,7 +38,7 @@ public static class VanillaSettingsPatch
                     commonTasks.ValidRange = new FloatRange(0f, 4f);
                 }
 
-                var shortTasks = __instance.Children.ToArray()
+                var shortTasks = __instance.Children
                     .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.NumShortTasks)
                     as NumberOption;
                 if (shortTasks != null)
@@ -46,7 +46,7 @@ public static class VanillaSettingsPatch
                     shortTasks.ValidRange = new FloatRange(0f, 8f);
                 }
 
-                var longTasks = __instance.Children.ToArray()
+                var longTasks = __instance.Children
                     .FirstOrDefault(x => x is NumberOption numOpt && numOpt.intOptionName == Int32OptionNames.NumLongTasks)
                     as NumberOption;
                 if (longTasks != null)

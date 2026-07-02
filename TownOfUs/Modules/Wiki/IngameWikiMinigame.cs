@@ -1094,7 +1094,7 @@ public sealed class IngameWikiMinigame : Minigame
         _roleEntries.Do(x => x.gameObject.SetActive(showRoles));
         _modifierEntries.Do(x => x.gameObject.SetActive(!showRoles));
     }
-    private void SetupForItem(PassiveButton passiveButton, IWikiDiscoverable? wikiDiscoverable)
+    private void SetupForItem(PassiveButton passiveButton, IWikiDiscoverable wikiDiscoverable)
     {
         passiveButton.OnClick.AddListener((UnityAction)(() =>
         {
@@ -1104,7 +1104,7 @@ public sealed class IngameWikiMinigame : Minigame
         }));
     }
 
-    private void SetupForItem(PassiveButton passiveButton, SoftWikiInfo? softInfo)
+    private void SetupForItem(PassiveButton passiveButton, SoftWikiInfo softInfo)
     {
         passiveButton.OnClick.AddListener((UnityAction)(() =>
         {
@@ -1176,14 +1176,14 @@ public sealed class IngameWikiMinigame : Minigame
             LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
     }
 
-    public void OpenFor(IWikiDiscoverable? wikiDiscoverable)
+    public void OpenFor(IWikiDiscoverable wikiDiscoverable)
     {
         _selectedItem = wikiDiscoverable;
         _selectedSoftItem = null!;
         UpdatePage(WikiPage.DetailScreen);
     }
 
-    public void OpenFor(SoftWikiInfo? softWikiInfo)
+    public void OpenFor(SoftWikiInfo softWikiInfo)
     {
         _selectedItem = null!;
         _selectedSoftItem = softWikiInfo;

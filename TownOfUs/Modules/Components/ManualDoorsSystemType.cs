@@ -47,7 +47,7 @@ public class ManualDoorsSystemType : Object, ISystemType, IActivatable, RunTimer
 			OpenableDoor openableDoor = ShipStatus.Instance.AllDoors.First(d => d.Id == id);
 			if (openableDoor == null)
 			{
-				Warning(string.Format( "Couldn't find door {0}", id));
+				Warning(string.Format(TownOfUsPlugin.Culture, "Couldn't find door {0}", id));
 			}
 			else
 			{

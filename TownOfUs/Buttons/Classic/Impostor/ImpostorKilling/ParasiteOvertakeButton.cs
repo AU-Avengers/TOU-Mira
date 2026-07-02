@@ -52,7 +52,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return 0f;
         }
 
-        var baseKill = GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.KillCooldown);
+        var baseKill = GameOptionsManager.Instance.CurrentGameOptions.TryGetFloat(FloatOptionNames.KillCooldown, out var kc) ? kc : 25f;
         var effectiveKill = local.GetKillCooldown();
         return effectiveKill - (baseKill + MapCooldown);
     }
@@ -202,7 +202,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
     {
         if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole pr)
         {
-            return null;
+            return null!;
         }
 
         if (pr.Controlled != null)

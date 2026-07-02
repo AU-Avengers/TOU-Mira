@@ -577,7 +577,7 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
         }
     }
 
-    public override bool IsTargetValid(TTarget? target)
+    public override bool IsTargetValid(TTarget target)
     {
         if (target is PlayerControl playerTarget)
         {
@@ -656,7 +656,7 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
 {
     public virtual bool HideVanillaButton { get; set; } = true;
 
-    public override Vent? GetTarget()
+    public override Vent GetTarget()
     {
         return HudManager.Instance.ImpostorVentButton.currentTarget;
     }
@@ -684,7 +684,7 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
         }
 
         var newTarget = GetTarget();
-        Target = IsTargetValid(newTarget) ? newTarget : null;
+        Target = IsTargetValid(newTarget) ? newTarget : null!;
 
         return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
             (!LimitedUses || UsesLeft > 0);

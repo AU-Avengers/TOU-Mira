@@ -58,7 +58,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
             SetOutline(false);
         }
 
-        Target = IsTargetValid(newTarget) ? newTarget : null;
+        Target = IsTargetValid(newTarget) ? newTarget : null!;
         SetOutline(true);
 
         return PlayerControl.LocalPlayer.moveable &&
