@@ -68,7 +68,7 @@ public sealed class MorphlingSampleButton : TownOfUsRoleButton<MorphlingRole, Pl
         SetActive(false, Role);
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

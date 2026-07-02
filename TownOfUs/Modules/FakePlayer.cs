@@ -4,7 +4,6 @@ using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using PowerTools;
-using Reactor.Utilities;
 using TMPro;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
@@ -139,7 +138,7 @@ public sealed class FakePlayer : IDisposable
         }
 
         var cosmeticsObj = body.transform.GetChild(2).gameObject;
-        if (cosmeticsObj != null && cosmeticsObj.transform.GetChildCount() > 4)
+        if (cosmeticsObj != null && cosmeticsObj.transform.childCount > 4)
         {
             cosmeticsObj.transform.GetChild(3).gameObject.SetActive(false);
             cosmeticsObj.transform.GetChild(4).gameObject.SetActive(false);
@@ -279,9 +278,9 @@ public sealed class FakePlayer : IDisposable
             petBehaviour.SetCrewmateColor(colorId);
             petBehaviour.transform.localPosition = Vector2.zero +
                                                    (flipX
-                                                       ? Vector2.right * Random.RandomRange(0, 0.2f)
-                                                       : Vector2.left * Random.RandomRange(0, 0.2f)) +
-                                                   Vector2.down * Random.RandomRange(-0.05f, 0.15f);
+                                                       ? Vector2.right * Random.Range(0, 0.2f)
+                                                       : Vector2.left * Random.Range(0, 0.2f)) +
+                                                   Vector2.down * Random.Range(-0.05f, 0.15f);
             petBehaviour.transform.localScale = Scale;
             petBehaviour.FlipX = flipX;
 

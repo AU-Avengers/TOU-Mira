@@ -5,7 +5,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Universal;
 
 namespace TownOfUs.Events.Modifiers;

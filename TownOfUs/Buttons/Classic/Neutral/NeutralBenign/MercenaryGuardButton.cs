@@ -37,7 +37,7 @@ public sealed class MercenaryGuardButton : TownOfUsRoleButton<MercenaryRole, Pla
         notif1.AdjustNotification();
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
             predicate: x => !x.HasModifier<MercenaryGuardModifier>());

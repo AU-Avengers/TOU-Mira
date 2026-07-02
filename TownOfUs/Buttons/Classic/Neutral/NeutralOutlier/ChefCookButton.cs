@@ -37,7 +37,7 @@ public sealed class ChefCookButton : TownOfUsRoleButton<ChefRole, DeadBody>
         }
     }
 
-    public override DeadBody? GetTarget()
+    public override DeadBody GetTarget()
     {
         return PlayerControl.LocalPlayer?.GetNearestDeadBody(PlayerControl.LocalPlayer.MaxReportDistance / 4f);
     }

@@ -13,7 +13,7 @@ public sealed class ForensicInspectButton : TownOfUsRoleButton<ForensicRole, Cri
     public override float Cooldown => Math.Clamp(MapCooldown, 1f, 120f);
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.InspectSprite : TouCrewAssets.InspectSprite;
 
-    public override CrimeSceneComponent? GetTarget()
+    public override CrimeSceneComponent GetTarget()
     {
         return PlayerControl.LocalPlayer.GetNearestObjectOfType<CrimeSceneComponent>(Distance,
             Helpers.CreateFilter(Constants.NotShipMask));

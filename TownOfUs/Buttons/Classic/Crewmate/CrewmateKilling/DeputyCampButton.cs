@@ -25,7 +25,7 @@ public sealed class CampButton : TownOfUsRoleButton<DeputyRole, PlayerControl>, 
         return base.IsTargetValid(target) && !target?.HasModifier<DeputyCampedModifier>() == true;
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

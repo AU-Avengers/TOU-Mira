@@ -10,7 +10,6 @@ using TownOfUs.Options;
 using UnityEngine;
 using TownOfUs.Options.Modifiers.Impostor;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 
 namespace TownOfUs.Events.Modifiers;
 

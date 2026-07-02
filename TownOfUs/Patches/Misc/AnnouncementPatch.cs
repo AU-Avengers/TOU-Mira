@@ -6,7 +6,6 @@ using AmongUs.Data;
 using AmongUs.Data.Player;
 using Assets.InnerNet;
 using HarmonyLib;
-using Reactor.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
 

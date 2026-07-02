@@ -24,7 +24,7 @@ public sealed class AmbusherAmbushButton : TownOfUsKillRoleButton<AmbusherRole, 
         SetTimer(Cooldown * multiplier);
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return Role.Pursued?.GetClosestLivingPlayer(false, Distance);
     }

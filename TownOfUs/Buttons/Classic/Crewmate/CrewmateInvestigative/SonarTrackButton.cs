@@ -23,7 +23,7 @@ public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerContr
         return base.IsTargetValid(target) && !target!.HasModifier<SonarArrowTargetModifier>() && !target!.HasModifier<SonarHeartbeatTargetModifier>();
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

@@ -1,7 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;
@@ -102,7 +101,7 @@ public sealed class MonarchKnightButton : TownOfUsRoleButton<MonarchRole, Player
         _isProcessingClick = false;
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
             predicate: x => !x.HasModifier<KnightedModifier>());

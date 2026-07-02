@@ -1,6 +1,5 @@
 using BepInEx.Logging;
 using MiraAPI.GameOptions;
-using Reactor.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Patches.Options;
 using UnityEngine;

@@ -95,7 +95,7 @@ public sealed class HerbalistAbilityKillButton : TownOfUsRoleButton<HerbalistRol
         }
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return MiscUtils.GetImpostorTarget(Distance);
     }

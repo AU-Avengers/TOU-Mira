@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -61,7 +60,7 @@ public sealed class UndertakerDragDropButton : TownOfUsRoleButton<UndertakerRole
         _isProcessingClick = false;
     }
 
-    public override DeadBody? GetTarget()
+    public override DeadBody GetTarget()
     {
         return PlayerControl.LocalPlayer?.GetNearestDeadBody(PlayerControl.LocalPlayer.MaxReportDistance / 4f);
     }

@@ -4,7 +4,6 @@ using AmongUs.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;
@@ -146,7 +145,7 @@ public sealed class TraitorSelectionMinigame : Minigame
                 newRoleObj.transform.localPosition.y, newRoleObj.transform.localPosition.z + 10);
         }));
 
-        var randZ = -10f + z * 5f + Random.RandomRange(-1.5f, 1.5f);
+        var randZ = -10f + z * 5f + Random.Range(-1.5f, 1.5f);
         newRoleObj.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, -randZ));
         newRoleObj.transform.localPosition =
             new Vector3(newRoleObj.transform.localPosition.x, newRoleObj.transform.localPosition.y, z);
@@ -189,8 +188,8 @@ public sealed class TraitorSelectionMinigame : Minigame
 
     private static IEnumerator CoAnimateCardIn(Transform card)
     {
-        var randY = (CurrentCard * CurrentCard * 0.5f - CurrentCard) * 0.1f + Random.RandomRange(-0.15f, 0f);
-        var randZ = -10f + CurrentCard * 5f + Random.RandomRange(-1.5f, 0f);
+        var randY = (CurrentCard * CurrentCard * 0.5f - CurrentCard) * 0.1f + Random.Range(-0.15f, 0f);
+        var randZ = -10f + CurrentCard * 5f + Random.Range(-1.5f, 0f);
         if (CurrentCard == 0)
         {
             randY = 0f;

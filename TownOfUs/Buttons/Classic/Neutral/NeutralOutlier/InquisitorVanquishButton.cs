@@ -29,7 +29,7 @@ public sealed class InquisitorVanquishButton : TownOfUsKillRoleButton<Inquisitor
         return base.CanUse() && Role.CanVanquish;
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

@@ -16,7 +16,7 @@ public sealed class WardenFortifyButton : TownOfUsRoleButton<WardenRole, PlayerC
         return base.CanUse() && Role is { Fortified: null };
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

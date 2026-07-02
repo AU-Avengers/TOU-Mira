@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
 using Object = UnityEngine.Object;

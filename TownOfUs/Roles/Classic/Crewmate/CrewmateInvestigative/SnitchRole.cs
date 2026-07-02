@@ -5,7 +5,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using System.Text;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;

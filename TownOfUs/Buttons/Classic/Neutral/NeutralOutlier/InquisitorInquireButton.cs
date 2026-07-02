@@ -26,7 +26,7 @@ public sealed class InquisitorInquireButton : TownOfUsRoleButton<InquisitorRole,
         return base.Enabled(role) && !OptionGroupSingleton<InquisitorOptions>.Instance.CantInquire;
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
             predicate: x => !x.HasModifier<InquisitorInquiredModifier>());

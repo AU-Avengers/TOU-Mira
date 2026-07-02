@@ -6,7 +6,6 @@ using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Modifiers;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Roles;

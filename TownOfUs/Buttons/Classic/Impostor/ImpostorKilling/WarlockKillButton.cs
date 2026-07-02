@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
-using Reactor.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
@@ -142,7 +141,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
         // The timer changes are moved to WarlockEvents.cs due to the kill system changes adding a delay.
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var saboOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;

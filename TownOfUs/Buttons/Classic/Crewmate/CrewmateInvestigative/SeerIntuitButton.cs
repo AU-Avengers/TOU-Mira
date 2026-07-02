@@ -29,7 +29,7 @@ public sealed class SeerIntuitButton : TownOfUsRoleButton<SeerRole, PlayerContro
         SetTimer(Cooldown * multiplier);
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
             predicate: x => Role.GazeTarget != x && Role.IntuitTarget != x && !x.HasModifier<BaseRevealModifier>(y => y.RevealRole && y.Visible));

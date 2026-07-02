@@ -16,7 +16,7 @@ public sealed class OracleBlessButton : TownOfUsRoleButton<OracleRole, PlayerCon
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OracleOptions>.Instance.BlessCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.BlessSprite : TouCrewAssets.BlessSprite;
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
             predicate: x => !x.HasModifier<OracleBlessedModifier>());

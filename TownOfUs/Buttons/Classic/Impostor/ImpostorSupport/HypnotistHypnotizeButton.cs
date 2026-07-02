@@ -43,7 +43,7 @@ public sealed class HypnotistHypnotizeButton : TownOfUsRoleButton<HypnotistRole,
         Target.RpcAddModifier<HypnotisedModifier>(PlayerControl.LocalPlayer);
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(false, Distance, false,
             player => !player.HasModifier<HypnotisedModifier>());

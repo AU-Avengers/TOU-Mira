@@ -23,7 +23,7 @@ public sealed class JailorJailButton : TownOfUsRoleButton<JailorRole, PlayerCont
         return base.Enabled(role) && !ExecutedACrew;
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
             predicate: player => !player.HasModifier<JailedModifier>() && !player.HasModifier<JailSparedModifier>());

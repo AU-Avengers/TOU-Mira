@@ -24,7 +24,7 @@ public sealed class JanitorCleanButton : TownOfUsKillRoleButton<JanitorRole, Dea
         SetTimer(Cooldown * multiplier);
     }
 
-    public override DeadBody? GetTarget()
+    public override DeadBody GetTarget()
     {
         return PlayerControl.LocalPlayer.GetNearestDeadBody(Distance);
     }

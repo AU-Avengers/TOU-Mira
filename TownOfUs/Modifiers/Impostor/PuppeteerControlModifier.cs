@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Utilities.ControlSystem;

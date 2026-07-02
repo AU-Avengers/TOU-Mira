@@ -1,7 +1,6 @@
 ﻿using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using Reactor.Utilities;
 using System.Globalization;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
@@ -199,7 +198,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         return target.GetModifiers<BaseShieldModifier>().HasAny();
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole pr)
         {

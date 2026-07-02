@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using Reactor.Utilities;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Options.Roles.HnsCrewmate;
 using UnityEngine;

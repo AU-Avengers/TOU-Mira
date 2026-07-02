@@ -22,7 +22,7 @@ public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerC
         return base.IsTargetValid(target) && !target!.HasModifier<ClericBarrierModifier>();
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

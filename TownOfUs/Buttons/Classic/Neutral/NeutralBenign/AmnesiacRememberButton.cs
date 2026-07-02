@@ -13,7 +13,7 @@ public sealed class AmnesiacRememberButton : TownOfUsRoleButton<AmnesiacRole, De
     public override float InitialCooldown => 0.001f;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.RememberButtonSprite : TouNeutAssets.RememberButtonSprite;
 
-    public override DeadBody? GetTarget()
+    public override DeadBody GetTarget()
     {
         return PlayerControl.LocalPlayer.GetNearestDeadBody(Distance);
     }

@@ -2,7 +2,6 @@
 using MiraAPI.Modifiers;
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;

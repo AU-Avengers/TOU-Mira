@@ -1,6 +1,5 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
-using Reactor.Utilities;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -28,7 +27,7 @@ public sealed class PestilenceKillButton : TownOfUsKillRoleButton<PestilenceRole
         SetTimer(Cooldown * multiplier);
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         if (!OptionGroupSingleton<LoversOptions>.Instance.LoversKillEachOther && PlayerControl.LocalPlayer.IsLover())
         {

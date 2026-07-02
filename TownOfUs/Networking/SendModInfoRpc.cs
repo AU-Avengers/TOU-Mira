@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using BepInEx;
 using BepInEx.Bootstrap;
 using HarmonyLib;
 using Hazel;

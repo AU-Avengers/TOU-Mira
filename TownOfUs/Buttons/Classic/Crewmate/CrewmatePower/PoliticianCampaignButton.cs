@@ -20,7 +20,7 @@ public sealed class PoliticianCampaignButton : TownOfUsRoleButton<PoliticianRole
         return base.CanUse() && Role is { CanCampaign: true };
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
             predicate: x => !x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner));

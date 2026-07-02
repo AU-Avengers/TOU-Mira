@@ -1,7 +1,6 @@
 using System.Collections;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
-using Reactor.Utilities;
 using UnityEngine;
 
 namespace TownOfUs.Roles.HideAndSeek.Seeker;

@@ -592,12 +592,12 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
 public interface IAftermathablePlayerButton : IAftermathableButton
 {
-    PlayerControl? Target { get; set; }
+    PlayerControl Target { get; set; }
 }
 
 public interface IAftermathableBodyButton : IAftermathableButton
 {
-    DeadBody? Target { get; set; }
+    DeadBody Target { get; set; }
 }
 
 public interface IAftermathableButton

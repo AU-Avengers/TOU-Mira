@@ -7,7 +7,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
@@ -413,13 +412,13 @@ public static class TouRoleManagerPatches
 
         // Calculate neutral role counts
         var roleOptions = OptionGroupSingleton<RoleOptions>.Instance;
-        var nbCount = Random.RandomRange((int)roleOptions.MinNeutralBenign.Value,
+        var nbCount = Random.Range((int)roleOptions.MinNeutralBenign.Value,
             (int)roleOptions.MaxNeutralBenign.Value + 1);
-        var neCount = Random.RandomRange((int)roleOptions.MinNeutralEvil.Value,
+        var neCount = Random.Range((int)roleOptions.MinNeutralEvil.Value,
             (int)roleOptions.MaxNeutralEvil.Value + 1);
-        var nkCount = Random.RandomRange((int)roleOptions.MinNeutralKiller.Value,
+        var nkCount = Random.Range((int)roleOptions.MinNeutralKiller.Value,
             (int)roleOptions.MaxNeutralKiller.Value + 1);
-        var noCount = Random.RandomRange((int)roleOptions.MinNeutralOutlier.Value,
+        var noCount = Random.Range((int)roleOptions.MinNeutralOutlier.Value,
             (int)roleOptions.MaxNeutralOutlier.Value + 1);
 
         // Adjust neutral counts for /up requests and ensure crewmates outnumber neutrals

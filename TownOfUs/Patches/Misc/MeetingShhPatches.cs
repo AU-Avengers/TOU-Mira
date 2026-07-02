@@ -1,7 +1,6 @@
 using System.Collections;
 using HarmonyLib;
 using MiraAPI.Modifiers;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Impostor;

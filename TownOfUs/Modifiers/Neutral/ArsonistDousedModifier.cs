@@ -1,6 +1,5 @@
 using MiraAPI.Events;
 using MiraAPI.Modifiers;
-using Reactor.Utilities;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Roles.Neutral;

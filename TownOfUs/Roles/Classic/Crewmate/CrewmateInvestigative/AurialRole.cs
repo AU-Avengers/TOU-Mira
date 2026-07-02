@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using Color = UnityEngine.Color;

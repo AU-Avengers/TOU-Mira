@@ -3,7 +3,6 @@ using MiraAPI.Hud;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;

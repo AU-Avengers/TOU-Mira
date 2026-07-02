@@ -3,7 +3,6 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers.Game.Crewmate;
@@ -26,7 +25,7 @@ public sealed class TestCleanButton : TownOfUsTargetButton<DeadBody>
 
     public DeadBody? CleaningBody { get; set; }
 
-    public override DeadBody? GetTarget()
+    public override DeadBody GetTarget()
     {
         return PlayerControl.LocalPlayer.GetNearestDeadBody(Distance);
     }

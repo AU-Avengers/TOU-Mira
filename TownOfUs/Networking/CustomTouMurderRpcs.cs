@@ -6,7 +6,6 @@ using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules;

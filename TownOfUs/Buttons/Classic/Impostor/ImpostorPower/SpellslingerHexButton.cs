@@ -22,7 +22,7 @@ public sealed class SpellslingerHexButton : TownOfUsRoleButton<SpellslingerRole,
         return base.Enabled(role) && !SpellslingerRole.EveryoneHexed();
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(false, Distance, predicate: x => !x.HasModifier<SpellslingerHexedModifier>());
     }

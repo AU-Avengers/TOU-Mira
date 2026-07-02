@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Roles.Neutral;
 

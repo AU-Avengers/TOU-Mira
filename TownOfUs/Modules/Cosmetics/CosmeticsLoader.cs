@@ -3,7 +3,6 @@ using TownOfUs.Modules.Cosmetics.Pets;
 using TownOfUs.Modules.Cosmetics.Unity;
 using UnityEngine;
 using UnityEngine.ResourceManagement.ResourceProviders;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Modules.Cosmetics;
 

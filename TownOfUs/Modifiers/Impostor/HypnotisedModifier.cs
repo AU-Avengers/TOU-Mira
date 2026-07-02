@@ -3,7 +3,6 @@ using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using UnityEngine;
 using Random = UnityEngine.Random;

@@ -1,6 +1,5 @@
 using System.Collections;
 using MiraAPI.GameOptions;
-using Reactor.Utilities;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;

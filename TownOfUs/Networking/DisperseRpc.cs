@@ -2,7 +2,6 @@
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Impostor;
 using UnityEngine;
 

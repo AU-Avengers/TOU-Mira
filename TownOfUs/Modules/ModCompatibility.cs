@@ -7,7 +7,6 @@ using BepInEx.Bootstrap;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Hud;
-using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;
 using TownOfUs.Modules.Components;

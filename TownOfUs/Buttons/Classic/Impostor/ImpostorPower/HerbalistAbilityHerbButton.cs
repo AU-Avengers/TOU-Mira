@@ -234,7 +234,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
     private static Func<HerbalistProtectionModifier, bool> ProtectedPredicate { get; } =
         msModifier => msModifier.Herbalist.AmOwner;
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         var isFfa = OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode;
         if (CurrentAbility is HerbAbilities.Expose)

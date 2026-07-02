@@ -26,7 +26,7 @@ public sealed class MedicShieldButton : TownOfUsRoleButton<MedicRole, PlayerCont
         return base.CanUse() && (Role is { Shielded: null } || CanChangeTarget);
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

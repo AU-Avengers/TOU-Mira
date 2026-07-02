@@ -182,8 +182,8 @@ public sealed class IngameWikiMinigame : Minigame
         DetailScreenBackBtn.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
         DetailScreenBackBtn.OnClick.AddListener((UnityAction)(() =>
         {
-            _selectedItem = null;
-            _selectedSoftItem = null;
+            _selectedItem = null!;
+            _selectedSoftItem = null!;
             UpdatePage(WikiPage.SearchScreen);
         }));
 
@@ -208,8 +208,8 @@ public sealed class IngameWikiMinigame : Minigame
         DetailScreenBackBtn.GetComponentInChildren<TextMeshPro>().text = TouLocale.Get("BackButtonText", "Back");
         DetailScreenBackBtn.OnClick.AddListener((UnityAction)(() =>
         {
-            _selectedItem = null;
-            _selectedSoftItem = null;
+            _selectedItem = null!;
+            _selectedSoftItem = null!;
             UpdatePage(WikiPage.SearchScreen);
         }));
 
@@ -304,8 +304,8 @@ public sealed class IngameWikiMinigame : Minigame
 
                 var activeMods = PlayerControl.LocalPlayer.GetModifiers<GameModifier>()
                     .Where(x => x is IWikiDiscoverable || SoftWikiEntries.ModifierEntries.ContainsKey(x)).ToList();
-                SpriteRenderer? modifierIcon = null;
-                SpriteRenderer? playerRoleIcon = null;
+                SpriteRenderer? modifierIcon = null!;
+                SpriteRenderer? playerRoleIcon = null!;
 
                 if (activeMods.Count > 0 && HomepageModifiersBtn.transform.GetChild(0)
                         .TryGetComponent<SpriteRenderer>(out var modIcon))
@@ -435,8 +435,8 @@ public sealed class IngameWikiMinigame : Minigame
             foreach (var optionsCategory in newTerms.OptionGroups)
             {
                 var options = mainOptionGroups?.FirstOrDefault(x => x == optionsCategory)?.Children;
-                IWikiOptionsSummaryProvider? summaryProvider = null;
-                HashSet<StringNames>? hiddenKeys = null;
+                IWikiOptionsSummaryProvider? summaryProvider = null!;
+                HashSet<StringNames>? hiddenKeys = null!;
                 try
                 {
                     var optionGroups =
@@ -448,8 +448,8 @@ public sealed class IngameWikiMinigame : Minigame
                 }
                 catch
                 {
-                    summaryProvider = null;
-                    hiddenKeys = null;
+                    summaryProvider = null!;
+                    hiddenKeys = null!;
                 }
 
                 if (options == null || !optionsCategory.GroupVisible())
@@ -1099,7 +1099,7 @@ public sealed class IngameWikiMinigame : Minigame
         passiveButton.OnClick.AddListener((UnityAction)(() =>
         {
             _selectedItem = wikiDiscoverable;
-            _selectedSoftItem = null;
+            _selectedSoftItem = null!;
             UpdatePage(WikiPage.DetailScreen);
         }));
     }
@@ -1109,7 +1109,7 @@ public sealed class IngameWikiMinigame : Minigame
         passiveButton.OnClick.AddListener((UnityAction)(() =>
         {
             _selectedSoftItem = softInfo;
-            _selectedItem = null;
+            _selectedItem = null!;
             UpdatePage(WikiPage.DetailScreen);
         }));
     }
@@ -1179,13 +1179,13 @@ public sealed class IngameWikiMinigame : Minigame
     public void OpenFor(IWikiDiscoverable? wikiDiscoverable)
     {
         _selectedItem = wikiDiscoverable;
-        _selectedSoftItem = null;
+        _selectedSoftItem = null!;
         UpdatePage(WikiPage.DetailScreen);
     }
 
     public void OpenFor(SoftWikiInfo? softWikiInfo)
     {
-        _selectedItem = null;
+        _selectedItem = null!;
         _selectedSoftItem = softWikiInfo;
         UpdatePage(WikiPage.DetailScreen);
     }

@@ -1,7 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using System.Collections;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;

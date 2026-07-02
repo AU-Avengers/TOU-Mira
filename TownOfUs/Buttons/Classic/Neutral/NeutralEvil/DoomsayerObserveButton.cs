@@ -22,7 +22,7 @@ public sealed class DoomsayerObserveButton : TownOfUsRoleButton<DoomsayerRole, P
         return base.Enabled(role) && !OptionGroupSingleton<DoomsayerOptions>.Instance.CantObserve;
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance,
             predicate: x => !x.HasModifier<DoomsayerObservedModifier>());

@@ -15,7 +15,6 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Networking.Rpc;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Collections;
 using System.Text;
@@ -995,7 +994,7 @@ public static class TownOfUsEventHandlers
         animation.gameObject.SetActive(false);
 
         AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Palette.ImpostorRed, 0.5f, 0.15f));
-        var seconds = Random.RandomRange(0.4f, 1.1f);
+        var seconds = Random.Range(0.4f, 1.1f);
         // if there's less than 6 players alive, animation will play instantly
         if (Helpers.GetAlivePlayers().Count <= 5)
         {

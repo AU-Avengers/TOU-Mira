@@ -44,7 +44,7 @@ public sealed class PuppeteerKillButton : TownOfUsKillRoleButton<PuppeteerRole, 
         SetTimer(Cooldown * multiplier);
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         if (ControlButton.EffectActive && Role.Controlled != null)
         {

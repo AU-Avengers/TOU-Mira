@@ -18,7 +18,7 @@ public sealed class ForensicExamineButton : TownOfUsRoleButton<ForensicRole, Pla
         return base.CanUse() && Role.InvestigatingScene;
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

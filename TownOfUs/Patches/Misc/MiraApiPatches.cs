@@ -1,15 +1,12 @@
 using AmongUs.GameOptions;
 using MiraAPI.Patches.Freeplay;
 using HarmonyLib;
-using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using TownOfUs.Networking;
-using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;
 
@@ -199,70 +196,5 @@ public static class MiraApiPatches
     public static void ClosePatch()
     {
         HudManager.Instance.PlayerCam.OverrideScreenShakeEnabled = true;
-    }
-
-    [HarmonyPatch(typeof(HowToPlayScene), nameof(HowToPlayScene.OpenRolesSelectionMenu))]
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
-    public static bool HowToPlayPrefix(HowToPlayScene __instance)
-    {
-        if (MiraApiPlugin.IsDevBuild)
-        {
-            // This is simply a fix for public release, no api update needed.
-            return true;
-        }
-
-        __instance.sceneIndex = 0;
-        __instance.category = HowToPlayScene.HowToPlayCategory.RolesSelection;
-        __instance.startPage.SetActive(false);
-        if (__instance.roleButtonsParent.childCount == 0)
-        {
-            foreach (var role in RoleManager.Instance.AllRoles.ToArray().Where(x => !x.IsCustomRole()))
-            {
-                if (!role.IsSimpleRole && role.Role != RoleTypes.CrewmateGhost && role.Role != RoleTypes.ImpostorGhost)
-                {
-                    HowToPlayRoleButton component = UnityEngine.Object
-                        .Instantiate(__instance.roleButtonPrefab, __instance.roleButtonsParent)
-                        .GetComponent<HowToPlayRoleButton>();
-                    Sprite roleIcon = __instance.rolesScenes.ToArray().First(r => r.role == role.Role).roleIcon;
-                    component.SetRoleInfo(role, roleIcon);
-                    component.SetButtonAction((() => { OpenRolePage(__instance, role.Role); }));
-                    __instance.controllerSelectables.Add(component.GetComponent<PassiveButton>());
-                }
-            }
-
-            foreach (UiElement uiElement in __instance.controllerSelectables)
-            {
-                uiElement.ReceiveMouseOut();
-            }
-
-            ControllerManager.Instance.NewScene(__instance.name, __instance.closeButton,
-                __instance.defaultButtonSelected, __instance.controllerSelectables, false);
-        }
-
-        __instance.DisableAllScenes();
-        __instance.roleSelectionScene.SetActive(true);
-        ControllerManager.Instance.SetDefaultSelection(__instance.defaultButtonSelected, null);
-        return false;
-    }
-
-    public static void OpenRolePage(HowToPlayScene instance, RoleTypes roleType)
-    {
-        instance.category = HowToPlayScene.HowToPlayCategory.Roles;
-        var newList = instance.rolesScenes.ToArray().ToList();
-        var buttonList = instance.roleButtons;
-        instance.sceneIndex = newList.FindIndex(r => r.role == roleType);
-        if (roleType != RoleTypes.Crewmate)
-        {
-            foreach (var button in buttonList)
-            {
-                if (button.GetRole().Role == roleType)
-                {
-                    instance.previouslySelectedRoleButton = button.GetComponent<PassiveButton>();
-                }
-            }
-        }
-        instance.SetupDots(instance.rolesScenes[instance.sceneIndex].rolePages.Count);
-        instance.ChangeScene(0);
     }
 }

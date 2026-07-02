@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities;
 using System.Collections;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;

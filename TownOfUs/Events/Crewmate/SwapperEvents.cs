@@ -5,7 +5,6 @@ using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using MiraAPI.Voting;
-using Reactor.Utilities;
 using TownOfUs.Events.Modifiers;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
