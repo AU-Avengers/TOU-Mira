@@ -70,7 +70,7 @@ public static class BetterMiraHqPatches
         }
         if (HalloweenTheme == null)
         {
-            HalloweenTheme = rootObj.transform.FindChild("HalloweenDecorMira").gameObject;
+            HalloweenTheme = rootObj.transform.Find("HalloweenDecorMira").gameObject;
         }
         ThemesFetched = HalloweenTheme != null;
     }

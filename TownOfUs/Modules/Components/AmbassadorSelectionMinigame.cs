@@ -39,15 +39,15 @@ public sealed class AmbassadorSelectionMinigame : Minigame
             Instance.Close();
         }
 
-        RolesHolder = transform.FindChild("Roles");
-        RolePrefab = transform.FindChild("RoleCardHolder").gameObject;
-        StatusText = transform.FindChild("Status").gameObject.GetComponent<TextMeshPro>();
-        RoleName = transform.FindChild("Status").FindChild("RoleName").gameObject.GetComponent<TextMeshPro>();
-        RoleTeam = transform.FindChild("Status").FindChild("RoleTeam").gameObject.GetComponent<TextMeshPro>();
-        RoleIcon = transform.FindChild("Status").FindChild("RoleImage").gameObject.GetComponent<SpriteRenderer>();
-        RedRing = transform.FindChild("Status").FindChild("RoleRing").gameObject;
-        WarpRing = transform.FindChild("Status").FindChild("RingWarp").gameObject;
-        RoleTeam = transform.FindChild("Status").FindChild("RoleTeam").gameObject.GetComponent<TextMeshPro>();
+        RolesHolder = transform.Find("Roles");
+        RolePrefab = transform.Find("RoleCardHolder").gameObject;
+        StatusText = transform.Find("Status").gameObject.GetComponent<TextMeshPro>();
+        RoleName = transform.Find("Status").Find("RoleName").gameObject.GetComponent<TextMeshPro>();
+        RoleTeam = transform.Find("Status").Find("RoleTeam").gameObject.GetComponent<TextMeshPro>();
+        RoleIcon = transform.Find("Status").Find("RoleImage").gameObject.GetComponent<SpriteRenderer>();
+        RedRing = transform.Find("Status").Find("RoleRing").gameObject;
+        WarpRing = transform.Find("Status").Find("RingWarp").gameObject;
+        RoleTeam = transform.Find("Status").Find("RoleTeam").gameObject.GetComponent<TextMeshPro>();
 
         StatusText.font = HudManager.Instance.TaskPanel.taskText.font;
         StatusText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;

@@ -92,9 +92,9 @@ public sealed class GuesserMenu : Minigame
         {
             customMenu.PreviousPage();
         }));
-        customMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        customMenu.transform.Find("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        customMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        customMenu.transform.Find("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         return customMenu;
@@ -436,8 +436,8 @@ public sealed class GuesserMenu : Minigame
             var shapeshifterPanel = Instantiate(panelPrefab, transform);
             shapeshifterPanel!.transform.localPosition = new Vector3(0f, 0f, -1f);
             shapeshifterPanel.SetRole(i, role, () => { onRoleClick(role); });
-            shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight")
-                .FindChild("ShapeshifterIcon").gameObject.SetActive(false);
+            shapeshifterPanel.gameObject.transform.Find("Nameplate").Find("Highlight")
+                .Find("ShapeshifterIcon").gameObject.SetActive(false);
 
             allEntries.Add(new MenuEntry(shapeshifterPanel, role.GetRoleName()));
         }
@@ -454,8 +454,8 @@ public sealed class GuesserMenu : Minigame
                 var shapeshifterPanel = Instantiate(panelPrefab, transform);
                 shapeshifterPanel!.transform.localPosition = new Vector3(0f, 0f, -1f);
                 shapeshifterPanel.SetModifier(index, modifier, () => { onModifierClick(modifier); });
-                shapeshifterPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight")
-                    .FindChild("ShapeshifterIcon").gameObject.SetActive(false);
+                shapeshifterPanel.gameObject.transform.Find("Nameplate").Find("Highlight")
+                    .Find("ShapeshifterIcon").gameObject.SetActive(false);
 
                 allEntries.Add(new MenuEntry(shapeshifterPanel, modifier.ModifierName));
             }

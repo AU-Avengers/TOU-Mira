@@ -56,14 +56,14 @@ public class LocalizedLocalEnumSetting : LocalEnumSetting
         ref float offset, ref int order, bool last)
     {
         var button = Object.Instantiate(toggle, parent).GetComponent<PassiveButton>();
-        var tmp = button.transform.FindChild("Text_TMP").GetComponent<TextMeshPro>();
+        var tmp = button.transform.Find("Text_TMP").GetComponent<TextMeshPro>();
         var rollover = button.GetComponent<ButtonRolloverHandler>();
         tmp.GetComponent<TextTranslatorTMP>().Destroy();
         button.gameObject.SetActive(true);
 
         var toggleComp = button.GetComponent<ToggleButtonBehaviour>();
         var background = toggleComp.Background;
-        var highlight = button.transform.FindChild("ButtonHighlight")?.GetComponent<SpriteRenderer>();
+        var highlight = button.transform.Find("ButtonHighlight")?.GetComponent<SpriteRenderer>();
         if (highlight != null)
         {
             highlight.color = Tab!.TabAppearance.EnumHoverColor;

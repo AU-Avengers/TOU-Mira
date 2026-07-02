@@ -119,7 +119,7 @@ public static class BetterPolusPatches
         }
         if (HalloweenTheme == null)
         {
-            HalloweenTheme = rootObj.transform.FindChild("HalloweenDecorPolus").gameObject;
+            HalloweenTheme = rootObj.transform.Find("HalloweenDecorPolus").gameObject;
         }
         ThemesFetched = HalloweenTheme != null;
     }
@@ -171,7 +171,7 @@ public static class BetterPolusPatches
 
         if (DropShip == null)
         {
-            DropShip = GameObject.Find("PolusShip(Clone)").transform.FindChild("Dropship").gameObject;
+            DropShip = GameObject.Find("PolusShip(Clone)").transform.Find("Dropship").gameObject;
         }
 
         if (Outside == null)

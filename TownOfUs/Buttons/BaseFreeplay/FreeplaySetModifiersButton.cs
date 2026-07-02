@@ -52,9 +52,9 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton
         }
 
         var playerMenu = CustomPlayerMenu.Create();
-        playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        playerMenu.transform.Find("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        playerMenu.transform.Find("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         playerMenu.Begin(
@@ -178,9 +178,9 @@ public sealed class FreeplaySetModifiersButton : TownOfUsButton
         }
 
         var player2Menu = CustomPlayerMenu.Create();
-        player2Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        player2Menu.transform.Find("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             loverA.cosmetics.currentBodySprite.BodySprite.material;
-        player2Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        player2Menu.transform.Find("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             loverA.cosmetics.currentBodySprite.BodySprite.material;
 
         player2Menu.Begin(

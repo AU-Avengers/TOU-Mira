@@ -676,7 +676,7 @@ public static class TeamChatPatches
 
         CheckCurrentChats(chat);
         var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
-        var Background = ChatScreenContainer?.transform.FindChild("Background");
+        var Background = ChatScreenContainer?.transform.Find("Background");
 
         if (TeamChatActive)
         {
@@ -760,7 +760,7 @@ public static class TeamChatPatches
         }
 
         var ChatScreenContainer = GameObject.Find("ChatScreenContainer");
-        var BanMenu = ChatScreenContainer.transform.FindChild("BanMenuButton");
+        var BanMenu = ChatScreenContainer.transform.Find("BanMenuButton");
 
         TeamChatButton = Object.Instantiate(BanMenu.gameObject, BanMenu.transform.parent);
         TeamChatButton.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
@@ -1051,7 +1051,7 @@ public static class TeamChatPatches
                 var mergedBubble = MergedChatBubbles.FirstOrDefault(x => x.IsPublic)!;
                 MergedChatBubbles.Remove(mergedBubble);
                 PublicChatItems.transform.GetChild(0).gameObject.DeepDestroy();
-                MergedChatItems.transform.FindChild(PublicBubbleName).gameObject.DeepDestroy();
+                MergedChatItems.transform.Find(PublicBubbleName).gameObject.DeepDestroy();
             }
             for (int i = PublicChatBubbles.Count - 1; i >= 0; i--)
             {
@@ -1073,7 +1073,7 @@ public static class TeamChatPatches
                 var mergedBubble = MergedChatBubbles.FirstOrDefault(x => !x.IsPublic)!;
                 MergedChatBubbles.Remove(mergedBubble);
                 PrivateChatItems.transform.GetChild(0).gameObject.DeepDestroy();
-                MergedChatItems.transform.FindChild(PrivateBubbleName).gameObject.DeepDestroy();
+                MergedChatItems.transform.Find(PrivateBubbleName).gameObject.DeepDestroy();
             }
 
             num = 0f;

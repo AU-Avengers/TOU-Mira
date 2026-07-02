@@ -739,7 +739,7 @@ public static class HudManagerPatches
 
         if (HudManager.Instance.TaskPanel != null)
         {
-            var tabText = HudManager.Instance.TaskPanel.tab.transform.FindChild("TabText_TMP")
+            var tabText = HudManager.Instance.TaskPanel.tab.transform.Find("TabText_TMP")
                 .GetComponent<TextMeshPro>();
             tabText.SetText($"{StoredTasksText} {PlayerControl.LocalPlayer.TaskInfo()}");
         }

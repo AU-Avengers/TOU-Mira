@@ -125,9 +125,9 @@ public sealed class PuppeteerControlButton : TownOfUsRoleButton<PuppeteerRole>, 
         {
             Info("No player is being controlled, opening menu.");
             var playerMenu = CustomPlayerMenu.Create();
-            playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+            playerMenu.transform.Find("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
                 PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-            playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+            playerMenu.transform.Find("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
                 PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
             playerMenu.Begin(

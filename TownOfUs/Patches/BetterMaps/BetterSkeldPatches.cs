@@ -73,9 +73,9 @@ public static class BetterSkeldPatches
             return;
         }
 
-        var hallowTheme = rootObj.transform.FindChild("HalloweenDecorSkeld") ?? rootObj.transform.FindChild("Helloween");
-        var birthTheme = rootObj.transform.FindChild("BirthdayDecorSkeld");
-        var tvTheme = rootObj.transform.FindChild("ProjectParasiteDecorSkeld");
+        var hallowTheme = rootObj.transform.Find("HalloweenDecorSkeld") ?? rootObj.transform.Find("Helloween");
+        var birthTheme = rootObj.transform.Find("BirthdayDecorSkeld");
+        var tvTheme = rootObj.transform.Find("ProjectParasiteDecorSkeld");
         if (TvShowTheme == null && tvTheme != null)
         {
             TvShowTheme = tvTheme.gameObject;

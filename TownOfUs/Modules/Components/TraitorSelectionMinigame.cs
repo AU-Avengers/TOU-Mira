@@ -34,9 +34,9 @@ public sealed class TraitorSelectionMinigame : Minigame
             Instance.Close();
         }
 
-        RolesHolder = transform.FindChild("Roles");
-        RolePrefab = transform.FindChild("RoleCardHolder").gameObject;
-        StatusText = transform.FindChild("Status").gameObject.GetComponent<TextMeshPro>();
+        RolesHolder = transform.Find("Roles");
+        RolePrefab = transform.Find("RoleCardHolder").gameObject;
+        StatusText = transform.Find("Status").gameObject.GetComponent<TextMeshPro>();
 
         StatusText.font = HudManager.Instance.TaskPanel.taskText.font;
         StatusText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;

@@ -30,7 +30,7 @@ public static class CelebrityMeetingIntroPatch
         }
 
         __instance.ProtectedRecently.SetActive(true);
-        var textObj = __instance.ProtectedRecently.transform.FindChild("ProtectedText_TMP");
+        var textObj = __instance.ProtectedRecently.transform.Find("ProtectedText_TMP");
         var textTMP = textObj.GetComponent<TextMeshPro>();
 
         celebrity.Announced = true;
@@ -40,7 +40,7 @@ public static class CelebrityMeetingIntroPatch
 
         textTMP.text = celebrity.AnnounceMessage;
 
-        var iconObj = __instance.ProtectedRecently.transform.FindChild("UI_ProtectionIcon");
+        var iconObj = __instance.ProtectedRecently.transform.Find("UI_ProtectionIcon");
         var iconSprite = iconObj.GetComponent<SpriteRenderer>();
         iconSprite.sprite = TouModifierIcons.Celebrity.LoadAsset();
 

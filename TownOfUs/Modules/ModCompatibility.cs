@@ -234,7 +234,7 @@ public static class ModCompatibility
             return;
         }
 
-        SubPlugin = (plugin!.Instance as BaseUnityPlugin)!;
+        SubPlugin = plugin!.Instance;
         SubVersion = plugin.Metadata.Version;
 
         SubAssembly = SubPlugin.GetType().Assembly;

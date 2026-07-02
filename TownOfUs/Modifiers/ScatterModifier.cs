@@ -50,16 +50,16 @@ public class ScatterModifier(float time) : TimedModifier
         scatterUI.transform.localPosition = new Vector3(-3.22f, 2.26f, -10f);
         scatterUI!.SetActive(false);
 
-        scatterText = scatterUI.transform.FindChild("ScatterCanvas").FindChild("ScatterText").gameObject
+        scatterText = scatterUI.transform.Find("ScatterCanvas").Find("ScatterText").gameObject
             .GetComponent<TextMeshProUGUI>();
         scatterText.text = $"Scatter: {Duration}s";
         scatterText!.gameObject.SetActive(false);
 
-        scatterBar = scatterUI.transform.FindChild("ScatterCanvas").FindChild("ScatterBar").gameObject
+        scatterBar = scatterUI.transform.Find("ScatterCanvas").Find("ScatterBar").gameObject
             .GetComponent<Image>();
         scatterBar.fillAmount = 1f;
 
-        var scatterIcon = scatterUI.transform.FindChild("ScatterCanvas").FindChild("ScatterIcon").gameObject
+        var scatterIcon = scatterUI.transform.Find("ScatterCanvas").Find("ScatterIcon").gameObject
             .GetComponent<Image>();
         scatterIcon.sprite = Player.Data.Role.RoleIconSolid;
     }

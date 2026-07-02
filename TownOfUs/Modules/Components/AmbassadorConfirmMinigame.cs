@@ -33,13 +33,13 @@ public sealed class AmbassadorConfirmMinigame : Minigame
             Instance.Close();
         }
 
-        TitleText = transform.FindChild("Status").FindChild("Title").gameObject.GetComponent<TextMeshPro>();
-        RoleIcon = transform.FindChild("Status").FindChild("RoleImage").gameObject.GetComponent<SpriteRenderer>();
-        RetrainText = transform.FindChild("Status").FindChild("RetrainText").gameObject.GetComponent<TextMeshPro>();
-        Divider = transform.FindChild("Status").FindChild("Divider").gameObject;
-        Box = transform.FindChild("Status").FindChild("Box").gameObject;
-        DenyButton = transform.FindChild("Status").FindChild("DenyButton").gameObject;
-        AcceptButton = transform.FindChild("Status").FindChild("AcceptButton").gameObject;
+        TitleText = transform.Find("Status").Find("Title").gameObject.GetComponent<TextMeshPro>();
+        RoleIcon = transform.Find("Status").Find("RoleImage").gameObject.GetComponent<SpriteRenderer>();
+        RetrainText = transform.Find("Status").Find("RetrainText").gameObject.GetComponent<TextMeshPro>();
+        Divider = transform.Find("Status").Find("Divider").gameObject;
+        Box = transform.Find("Status").Find("Box").gameObject;
+        DenyButton = transform.Find("Status").Find("DenyButton").gameObject;
+        AcceptButton = transform.Find("Status").Find("AcceptButton").gameObject;
 
         TitleText.font = HudManager.Instance.TaskPanel.taskText.font;
         TitleText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;

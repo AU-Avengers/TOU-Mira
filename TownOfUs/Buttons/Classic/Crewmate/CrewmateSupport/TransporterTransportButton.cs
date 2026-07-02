@@ -43,9 +43,9 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
         }
 
         var player1Menu = CustomPlayerMenu.Create();
-        player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        player1Menu.transform.Find("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        player1Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        player1Menu.transform.Find("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         player1Menu.Begin(
@@ -61,9 +61,9 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
                 }
 
                 var player2Menu = CustomPlayerMenu.Create();
-                player2Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+                player2Menu.transform.Find("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
                     PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-                player2Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+                player2Menu.transform.Find("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
                     PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
                 player2Menu.Begin(

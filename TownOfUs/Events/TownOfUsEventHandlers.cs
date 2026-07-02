@@ -80,7 +80,7 @@ public static class TownOfUsEventHandlers
         }
         if (RolePanel == null)
         {
-            var panelThing = HudManager.Instance.TaskStuff.transform.FindChild("RolePanel");
+            var panelThing = HudManager.Instance.TaskStuff.transform.Find("RolePanel");
             if (panelThing != null)
             {
                 RolePanel = panelThing.gameObject.GetComponent<TaskPanelBehaviour>();
@@ -90,7 +90,7 @@ public static class TownOfUsEventHandlers
         if (RolePanel != null && RoleIconRenderer == null)
         {
             var newObj = new GameObject("RoleIcon");
-            newObj.transform.parent = RolePanel.transform.FindChild("Tab").transform;
+            newObj.transform.parent = RolePanel.transform.Find("Tab").transform;
             newObj.transform.localScale = new(5f, 1.3f, 1);
             newObj.layer = LayerMask.NameToLayer("UI");
             newObj.transform.localPosition = new Vector3(-1.2f, 0.325f, -0.1f);
@@ -277,7 +277,7 @@ public static class TownOfUsEventHandlers
         panel.open = true;
 
         var tabText = panel.tab.gameObject.GetComponentInChildren<TextMeshPro>();
-        var ogPanel = HudManager.Instance.TaskStuff.transform.FindChild("TaskPanel").gameObject
+        var ogPanel = HudManager.Instance.TaskStuff.transform.Find("TaskPanel").gameObject
             .GetComponent<TaskPanelBehaviour>();
         if (tabText.text != role.RoleName)
         {

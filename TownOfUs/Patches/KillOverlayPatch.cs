@@ -13,11 +13,11 @@ public static class KillOverlayPatch
     public static void Prefix(OverlayKillAnimation __instance, KillOverlay parent)
     {
         var mode = (KillColor)OptionGroupSingleton<GameMechanicOptions>.Instance.KillAnimationBackgroundColor.Value;
-        var flame = parent.transform.FindChild("QuadParent");
+        var flame = parent.transform.Find("QuadParent");
         if (flame != null)
         {
             flame.transform.localPosition = new Vector3(0f, 0f);
-            if (flame.transform.FindChild("BackgroundFlame").TryGetComponent<SpriteRenderer>(out var flameSprite))
+            if (flame.transform.Find("BackgroundFlame").TryGetComponent<SpriteRenderer>(out var flameSprite))
             {
                 flameSprite.sprite = TouAssets.KillBG.LoadAsset();
                 if (material == null)
@@ -63,7 +63,7 @@ public static class KillOverlayPatch
             if (flame != null)
             {
                 flame.transform.localPosition = new Vector3(0, -1.5f);
-                if (flame.transform.FindChild("BackgroundFlame").TryGetComponent<SpriteRenderer>(out var flameSprite))
+                if (flame.transform.Find("BackgroundFlame").TryGetComponent<SpriteRenderer>(out var flameSprite))
                 {
                     flameSprite.sprite = TouAssets.RetributionBG.LoadAsset();
                     if (material == null)

@@ -325,7 +325,7 @@ public sealed class FakePlayer : IDisposable
 
     private void CreateNameTextParentObj(PlayerControl player, GameObject parent, PlayerCosmicInfo info)
     {
-        var baseParentTrans = player.gameObject.transform.FindChild("Names");
+        var baseParentTrans = player.gameObject.transform.Find("Names");
         if (baseParentTrans == null)
         {
             return;
@@ -347,13 +347,13 @@ public sealed class FakePlayer : IDisposable
             nameObj.transform.localScale /= 0.7f;
         }
 
-        var nameText = nameObj.transform.FindChild(NameTextObjName).GetComponent<TextMeshPro>();
-        var baseNameText = baseObject.transform.FindChild(NameTextObjName).GetComponent<TextMeshPro>();
+        var nameText = nameObj.transform.Find(NameTextObjName).GetComponent<TextMeshPro>();
+        var baseNameText = baseObject.transform.Find(NameTextObjName).GetComponent<TextMeshPro>();
 
-        _colorBindTextObj = nameObj.transform.FindChild(ColorBindTextName).gameObject;
+        _colorBindTextObj = nameObj.transform.Find(ColorBindTextName).gameObject;
         _colorBindText = _colorBindTextObj.GetComponent<TextMeshPro>();
 
-        var baseColorBindText = baseObject.transform.FindChild(ColorBindTextName).GetComponent<TextMeshPro>();
+        var baseColorBindText = baseObject.transform.Find(ColorBindTextName).GetComponent<TextMeshPro>();
         var transparency = OptionGroupSingleton<ShyOptions>.Instance.FinalTransparency / 100;
 
         if (nameText != null && baseNameText != null)
@@ -392,7 +392,7 @@ public sealed class FakePlayer : IDisposable
 
     private static void RemoveRoleInfo(GameObject nameTextObjct)
     {
-        var info = nameTextObjct.transform.FindChild("Info");
+        var info = nameTextObjct.transform.Find("Info");
         if (info != null)
         {
             Object.Destroy(info.gameObject);

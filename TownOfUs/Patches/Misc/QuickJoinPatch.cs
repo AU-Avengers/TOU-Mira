@@ -67,7 +67,7 @@ public static class LobbyJoin
         }
         else
         {
-            LobbyText = Object.Instantiate(__instance.transform.FindChild("Header").gameObject, __instance.transform);
+            LobbyText = Object.Instantiate(__instance.transform.Find("Header").gameObject, __instance.transform);
             LobbyText.name = "LobbyText";
             Text = LobbyText.transform.GetChild(1).GetComponent<TextMeshPro>();
             Text.fontSizeMin = 3.35f;
@@ -86,8 +86,8 @@ public static class LobbyJoin
         }
         else
         {
-            OriginalRegionText = __instance.transform.FindChild("AspectSize").FindChild("Scaler")
-                    .FindChild("FieldsContainer").FindChild("Server").GetChild(2).gameObject;
+            OriginalRegionText = __instance.transform.Find("AspectSize").Find("Scaler")
+                    .Find("FieldsContainer").Find("Server").GetChild(2).gameObject;
             RegionFindText = Object.Instantiate(OriginalRegionText, OriginalRegionText.transform.parent);
             RegionFindText.name = "RegionFindText";
             RegionText = RegionFindText.GetComponent<TextMeshPro>();

@@ -94,7 +94,7 @@ public class LocalizedLocalSliderSetting : LocalSliderSetting
         var newSlider = Object.Instantiate(slider, parent).GetComponent<SlideBar>();
         var rollover = newSlider.GetComponent<ButtonRolloverHandler>();
         newSlider.Title =
-            newSlider.transform.FindChild("Text_TMP")
+            newSlider.transform.Find("Text_TMP")
                 .GetComponent<TextMeshPro>(); // Why the hell slider has a title property that is not even assigned???
         newSlider.Title.GetComponent<TextTranslatorTMP>().Destroy();
         newSlider.gameObject.SetActive(true);
