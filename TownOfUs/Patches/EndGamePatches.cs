@@ -411,8 +411,6 @@ public static class EndGamePatches
         }
 
         var roleSummaryTextMesh = roleSummary.GetComponent<TMP_Text>();
-        roleSummaryTextMesh.m_spriteAsset = TmpSpriteUtils.AssetHolder;
-        roleSummaryTextMesh.UpdateMeshPadding();
         roleSummaryTextMesh.alignment = TextAlignmentOptions.TopLeft;
         roleSummaryTextMesh.color = Color.white;
         roleSummaryTextMesh.fontSizeMin = 1.1f;
@@ -420,8 +418,6 @@ public static class EndGamePatches
         roleSummaryTextMesh.fontSize = 1.1f;
 
         var roleSummaryTextMesh2 = roleSummary2.GetComponent<TMP_Text>();
-        roleSummaryTextMesh2.m_spriteAsset = TmpSpriteUtils.AssetHolder;
-        roleSummaryTextMesh2.UpdateMeshPadding();
         roleSummaryTextMesh2.alignment = TextAlignmentOptions.TopLeft;
         roleSummaryTextMesh2.color = Color.white;
         roleSummaryTextMesh2.fontSizeMin = 1.1f;
@@ -429,8 +425,6 @@ public static class EndGamePatches
         roleSummaryTextMesh2.fontSize = 1.1f;
 
         var roleSummaryTextMeshLeft = roleSummaryLeft.GetComponent<TMP_Text>();
-        roleSummaryTextMeshLeft.m_spriteAsset = TmpSpriteUtils.AssetHolder;
-        roleSummaryTextMeshLeft.UpdateMeshPadding();
         roleSummaryTextMeshLeft.alignment = TextAlignmentOptions.TopLeft;
         roleSummaryTextMeshLeft.color = Color.white;
         roleSummaryTextMeshLeft.fontSizeMin = 1.1f;
