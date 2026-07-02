@@ -173,7 +173,7 @@ public static class CustomTouMurderRpcs
         var firstTarget = true;
         var victims = new Dictionary<byte, string>();
         var survivors = new Dictionary<byte, string>();
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => targets.ContainsKey(x.PlayerId)).ToList();
+        var allPlayers = PlayerControl.AllPlayerControls.Where(x => targets.ContainsKey(x.PlayerId)).ToList();
         foreach (var target in allPlayers)
         {
             var beforeMurderEvent = new BeforeMurderEvent(source, target, inMeeting);
@@ -302,7 +302,7 @@ public static class CustomTouMurderRpcs
         var murderResultFlagsGood = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
         var murderResultFlagsBad = MurderResultFlags.DecisionByHost | MurderResultFlags.FailedError;
 
-        var allVictims = PlayerControl.AllPlayerControls.ToArray().Where(x => victims.ContainsKey(x.PlayerId)).ToList();
+        var allVictims = PlayerControl.AllPlayerControls.Where(x => victims.ContainsKey(x.PlayerId)).ToList();
         foreach (var target in allVictims)
         {
             DeathHandlerModifier.UpdateDeathHandlerImmediate(target, TouLocale.Get($"DiedTo{cod}"),
@@ -323,7 +323,7 @@ public static class CustomTouMurderRpcs
                 playKillSound);
         }
 
-        var allSurvivors = PlayerControl.AllPlayerControls.ToArray().Where(x => survivors.ContainsKey(x.PlayerId))
+        var allSurvivors = PlayerControl.AllPlayerControls.Where(x => survivors.ContainsKey(x.PlayerId))
             .ToList();
         foreach (var target in allSurvivors)
         {
@@ -384,7 +384,7 @@ public static class CustomTouMurderRpcs
 
         var murderResultFlags2 = MurderResultFlags.DecisionByHost | murderResultFlags;
 
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => targets.ContainsKey(x.PlayerId)).ToList();
+        var allPlayers = PlayerControl.AllPlayerControls.Where(x => targets.ContainsKey(x.PlayerId)).ToList();
         foreach (var target in allPlayers)
         {
             if (murderResultFlags2.HasFlag(MurderResultFlags.Succeeded) &&

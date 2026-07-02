@@ -56,7 +56,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
     {
         if (!EffectActive)
         {
-            var player = PlayerControl.AllPlayerControls.ToArray().Where(plr => (!plr.HasDied() ||
+            var player = PlayerControl.AllPlayerControls.Where(plr => (!plr.HasDied() ||
                 Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == plr.PlayerId) ||
                 FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {plr.gameObject.name}")
                     ?.body && !plr.AmOwner)).Random();

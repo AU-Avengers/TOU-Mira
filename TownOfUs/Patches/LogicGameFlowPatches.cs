@@ -44,7 +44,7 @@ public static class LogicGameFlowPatches
             }
             else
             {
-                var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                var randomPlayer = PlayerControl.AllPlayerControls.Where(x =>
                     !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x
                         .GetModifiers<GameModifier>()
                         .Any(x => x.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
@@ -266,7 +266,7 @@ public static class LogicGameFlowPatches
         // Causes the game to draw in extreme scenarios
         if (Helpers.GetAlivePlayers().Count <= 0)
         {
-            var randomPlayer = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+            var randomPlayer = PlayerControl.AllPlayerControls.Where(x =>
                 !x.Data.Role.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) && !x.GetModifiers<GameModifier>()
                     .Any(y => y.DidWin(CustomGameOver.GameOverReason<DrawGameOver>()) == true)).Random();
             CustomGameOver.Trigger<DrawGameOver>([

@@ -999,7 +999,7 @@ public static class TeamChatPatches
         [HarmonyPostfix]
         public static void SetNamePostfix(ChatBubble __instance, [HarmonyArgument(0)] string playerName, [HarmonyArgument(3)] Color color)
         {
-            var player = PlayerControl.AllPlayerControls.ToArray()
+            var player = PlayerControl.AllPlayerControls
                 .FirstOrDefault(x => x.Data.PlayerName == playerName);
             if (player == null) return;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;

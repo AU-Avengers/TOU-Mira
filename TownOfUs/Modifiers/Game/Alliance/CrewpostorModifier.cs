@@ -62,7 +62,7 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
         if (chance <=
             (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance)
         {
-            var filtered = PlayerControl.AllPlayerControls.ToArray()
+            var filtered = PlayerControl.AllPlayerControls
                 .Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&

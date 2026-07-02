@@ -26,7 +26,7 @@ public static class MultiplayerFreeplayDebugState
 
         Baseline.Clear();
 
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+        foreach (var player in PlayerControl.AllPlayerControls)
         {
             if (player == null || player.Data?.Role == null)
             {
@@ -65,7 +65,7 @@ public static class MultiplayerFreeplayDebugState
             try { UnityEngine.Object.Destroy(body.gameObject); } catch { /* ignored */ }
         }
 
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+        foreach (var player in PlayerControl.AllPlayerControls)
         {
             if (player == null || player.Data?.Role == null)
             {

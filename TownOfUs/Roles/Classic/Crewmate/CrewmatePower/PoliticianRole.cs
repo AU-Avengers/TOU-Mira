@@ -148,7 +148,7 @@ public sealed class PoliticianRole : CrewmateRole, ITouCrewRole, IWikiDiscoverab
         meetingMenu.HideButtons();
 
         // All living crewmates excluding the Politician
-        var aliveCrew = PlayerControl.AllPlayerControls.ToArray()
+        var aliveCrew = PlayerControl.AllPlayerControls
             .Where(x => !x.HasDied() && x.IsCrewmate() && x.Data.Role is not PoliticianRole).ToList();
         // All living crewmates excluding the Politician that are campaigned
         var aliveCampaigned = aliveCrew.Count(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner));

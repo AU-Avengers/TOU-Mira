@@ -97,7 +97,7 @@ public sealed class PlaguebearerRole
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
 
-        var allInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+        var allInfected = PlayerControl.AllPlayerControls.Where(x =>
             !x.HasDied() && x != Player &&
             x.GetModifier<PlaguebearerInfectedModifier>()?.PlagueBearerId == Player.PlayerId);
 
@@ -110,7 +110,7 @@ public sealed class PlaguebearerRole
             }
         }
 
-        var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(x =>
+        var notInfected = PlayerControl.AllPlayerControls.Where(x =>
             !x.HasDied() && x != Player && !x.HasModifier<PlaguebearerInfectedModifier>());
 
         stringB.Append( $"\n\n<b>{TouLocale.GetParsed("TouRolePlaguebearerTabInfectCounter").Replace("<count>", $"{notInfected.Count()}")}</b>");

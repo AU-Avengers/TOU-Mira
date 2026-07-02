@@ -61,6 +61,6 @@ public sealed class TelepathModifier : TouGameModifier, IWikiDiscoverable
     {
         return base.IsModifierValidOn(role) && role.IsImpostor() &&
                !OptionGroupSingleton<GeneralOptions>.Instance.FFAImpostorMode &&
-               PlayerControl.AllPlayerControls.ToArray().Count(x => x.IsImpostor() && !x.HasDied()) != 1;
+               PlayerControl.AllPlayerControls.Count(x => x.IsImpostor() && !x.HasDied()) != 1;
     }
 }

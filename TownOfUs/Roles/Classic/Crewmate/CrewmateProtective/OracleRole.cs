@@ -96,7 +96,7 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
             return TouLocale.GetParsed("TouRoleOracleConfessorDied");
         }
 
-        var allPlayers = PlayerControl.AllPlayerControls.ToArray()
+        var allPlayers = PlayerControl.AllPlayerControls
             .Where(x => !x.HasDied() && !x.AmOwner && x != player).ToList();
         if (allPlayers.Count < 2)
         {
@@ -105,7 +105,7 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
 
         var options = OptionGroupSingleton<OracleOptions>.Instance;
 
-        var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() &&
+        var evilPlayers = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() &&
                                                                                (x.IsImpostor() ||
                                                                                    (x.Is(RoleAlignment.NeutralOutlier) &&
                                                                                        options.ShowNeutralOutlierAsEvil.Value) ||

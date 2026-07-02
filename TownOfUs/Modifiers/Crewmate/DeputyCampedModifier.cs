@@ -31,17 +31,17 @@ public sealed class DeputyCampedModifier(PlayerControl deputy) : BaseModifier
 
         if (Deputy.AmOwner)
         {
-            Player?.cosmetics.SetOutline(true, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Deputy));
+            Player?.cosmetics.SetOutline(true, (TownOfUsColors.Deputy));
         }
     }
 
     public override void OnDeath(DeathReason reason)
     {
-        Player.cosmetics.SetOutline(false, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Deputy));
+        Player.cosmetics.SetOutline(false, (TownOfUsColors.Deputy));
     }
 
     public override void OnDeactivate()
     {
-        Player.cosmetics.SetOutline(false, new Il2CppSystem.Nullable<Color>(TownOfUsColors.Deputy));
+        Player.cosmetics.SetOutline(false, (TownOfUsColors.Deputy));
     }
 }

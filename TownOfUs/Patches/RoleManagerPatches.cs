@@ -885,7 +885,7 @@ public static class TouRoleManagerPatches
         GhostRoleSetup();
 
         ModifierManager.AssignModifiers(
-            PlayerControl.AllPlayerControls.ToArray().Where(plr => !plr.Data.IsDead && !plr.Data.Disconnected)
+            PlayerControl.AllPlayerControls.Where(plr => !plr.Data.IsDead && !plr.Data.Disconnected)
                 .ToList());
     }
 

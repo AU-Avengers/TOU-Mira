@@ -25,7 +25,7 @@ public static class KillOverlayPatch
                     material = new Material(flameSprite.material);
                 }
                 flameSprite.material = material;
-                var killer = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Data.PlayerName == __instance.initData.killerOutfit.PlayerName);
+                var killer = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.Data.PlayerName == __instance.initData.killerOutfit.PlayerName);
                 Color color = TownOfUsColors.Impostor;
 
                 switch (mode)

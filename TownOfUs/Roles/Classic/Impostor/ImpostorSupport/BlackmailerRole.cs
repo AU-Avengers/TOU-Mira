@@ -79,7 +79,7 @@ public sealed class BlackmailerRole : ImpostorRole, ITownOfUsRole, IWikiDiscover
             MiscUtils.RunAnticheatWarning(source);
             return;
         }
-        var existingBmed = PlayerControl.AllPlayerControls.ToArray()
+        var existingBmed = PlayerControl.AllPlayerControls
             .FirstOrDefault(x => x.GetModifier<BlackmailedModifier>()?.BlackMailerId == source.PlayerId);
 
         existingBmed?.RemoveModifier<BlackmailedModifier>();

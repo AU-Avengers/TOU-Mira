@@ -44,7 +44,7 @@ public sealed class MirrorcasterMagicMirrorButton : TownOfUsRoleButton<Mirrorcas
 
     public void AftermathHandler()
     {
-        var player = PlayerControl.AllPlayerControls.ToArray().Where(plr => !plr.HasDied()).Random();
+        var player = PlayerControl.AllPlayerControls.Where(plr => !plr.HasDied()).Random();
         if (player == null)
         {
             return;

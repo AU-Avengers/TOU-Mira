@@ -177,7 +177,7 @@ public static class ChatPatches
             }
     
             string targetName = textRegular.Substring(6).Trim();
-            var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
+            var target = PlayerControl.AllPlayerControls.FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
     
             if (target == null)
             {
@@ -225,7 +225,7 @@ public static class ChatPatches
             }
     
             string targetName = textRegular.Substring(5).Trim();
-            var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
+            var target = PlayerControl.AllPlayerControls.FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
     
             if (target == null)
             {
@@ -425,7 +425,7 @@ public static class ChatPatches
                 {
                     msg = TouLocale.GetParsed("SetNameRequirementError");
                 }
-                else if (PlayerControl.AllPlayerControls.ToArray().Any(x =>
+                else if (PlayerControl.AllPlayerControls.Any(x =>
                              x.Data.PlayerName.ToLower(TownOfUsPlugin.Culture).Trim() ==
                              textRegular.ToLower(TownOfUsPlugin.Culture).Trim() &&
                              !x.AmOwner))
@@ -524,7 +524,7 @@ public static class ChatPatches
                             string targetName;
                             if (targetPlayerName != null)
                             {
-                                var targetPlayer = PlayerControl.AllPlayerControls.ToArray()
+                                var targetPlayer = PlayerControl.AllPlayerControls
                                     .FirstOrDefault(p => p.Data.PlayerName.Equals(targetPlayerName, StringComparison.OrdinalIgnoreCase) ||
                                                          p.Data.PlayerName.Contains(targetPlayerName, StringComparison.OrdinalIgnoreCase));
 

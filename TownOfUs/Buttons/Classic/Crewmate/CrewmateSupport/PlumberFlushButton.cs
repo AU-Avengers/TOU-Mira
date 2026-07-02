@@ -12,7 +12,7 @@ public sealed class PlumberFlushButton : TownOfUsVentRoleButton<PlumberRole>, IL
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Plumber;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<PlumberOptions>.Instance.FlushCooldown + MapCooldown, 5f, 120f);
-    public override float EffectDuration => PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent) ? OptionGroupSingleton<PlumberOptions>.Instance.FlushDuration : 0.001f;
+    public override float EffectDuration => PlayerControl.AllPlayerControls.Any(x => x.inVent) ? OptionGroupSingleton<PlumberOptions>.Instance.FlushDuration : 0.001f;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.FlushSprite : TouCrewAssets.FlushSprite;
 
     protected override void OnClick()

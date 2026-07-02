@@ -143,7 +143,7 @@ public static class JesterEvents
 
         if (jest.Player.AmOwner && OptionGroupSingleton<JesterOptions>.Instance.JestWin is JestWinOptions.Haunts)
         {
-            var allVoters = PlayerControl.AllPlayerControls.ToArray()
+            var allVoters = PlayerControl.AllPlayerControls
                 .Where(x => jest.Voters.Contains(x.PlayerId) && !x.AmOwner);
             if (!allVoters.HasAny())
             {

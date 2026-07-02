@@ -18,7 +18,7 @@ namespace TownOfUs.Modifiers.Crewmate;
 public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinuesGame
 {
     public bool ContinuesGame =>
-        !Player.HasDied() && Player.IsCrewmate() && (MiscUtils.NKillersAliveCount > 0 || MiscUtils.ImpAliveCount > 0) && MiscUtils.CrewKillersAliveCount == 0 && PlayerControl.AllPlayerControls.ToArray().Any(x =>
+        !Player.HasDied() && Player.IsCrewmate() && (MiscUtils.NKillersAliveCount > 0 || MiscUtils.ImpAliveCount > 0) && MiscUtils.CrewKillersAliveCount == 0 && PlayerControl.AllPlayerControls.Any(x =>
             x.Data.IsDead && x.GetRoleWhenAlive() is ITouCrewRole crewRole && crewRole.IsPowerCrew) &&
         Helpers.GetAlivePlayers().Count > 1;
     private MeetingMenu? _meetingMenu;
@@ -135,7 +135,7 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
         var playerRole = player.Object.GetRoleWhenAlive();
         var playerRoleId = playerRole.Role;
         var crewRole = (playerRole is ICrewVariant crewVariant) ? crewVariant.CrewVariant : playerRole;
-        var otherPlayersWithPowerRole = PlayerControl.AllPlayerControls.ToArray().Count(x => x.Data.Role.Role == playerRoleId && x != player.Object && !x.AmOwner) > 1;
+        var otherPlayersWithPowerRole = PlayerControl.AllPlayerControls.Count(x => x.Data.Role.Role == playerRoleId && x != player.Object && !x.AmOwner) > 1;
         var otherImitatorsExist = Helpers.GetAlivePlayers()
             .Any(x => x.HasModifier<ImitatorCacheModifier>() && x.IsCrewmate() && !x.AmOwner);
 

@@ -83,7 +83,7 @@ public static class ProsecutorEvents
             return;
         }
 
-        foreach (var plr in PlayerControl.AllPlayerControls.ToArray())
+        foreach (var plr in PlayerControl.AllPlayerControls)
         {
             plr.GetVoteData().Votes.Clear();
             plr.GetVoteData().VotesRemaining = 0;

@@ -34,7 +34,7 @@ public sealed class NeutralGameOver : CustomGameOver
         }
 
         _role = mainRole!;
-        if (PlayerControl.AllPlayerControls.ToArray().Any(x => x != role.Player && x.GetRoleWhenAlive().GetType() == _role.GetType()))
+        if (PlayerControl.AllPlayerControls.Any(x => x != role.Player && x.GetRoleWhenAlive().GetType() == _role.GetType()))
         {
             _soloWin = false;
         }

@@ -206,7 +206,7 @@ public static class ExecutionerEvents
 
             if (exe.AmOwner && winOption is ExeWinOptions.Torments)
             {
-                var allVoters = PlayerControl.AllPlayerControls.ToArray()
+                var allVoters = PlayerControl.AllPlayerControls
                     .Where(x => exeRole.Voters.Contains(x.PlayerId) && !x.AmOwner);
 
                 if (!allVoters.HasAny())

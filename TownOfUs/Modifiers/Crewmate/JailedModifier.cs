@@ -24,7 +24,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
     public override void OnActivate()
     {
         base.OnActivate();
-        var jailor = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == JailorId);
+        var jailor = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == JailorId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.JailorJail, jailor!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
     }

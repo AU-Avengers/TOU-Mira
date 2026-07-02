@@ -351,7 +351,7 @@ public sealed class DoomsayerRole
 
             meetingMenu?.HideSingle(targetId);
 
-            var playersAlive = PlayerControl.AllPlayerControls.ToArray()
+            var playersAlive = PlayerControl.AllPlayerControls
                 .Count(x => !x.HasDied() && !x.IsJailed() && x != Player);
 
             if (victim == Player)

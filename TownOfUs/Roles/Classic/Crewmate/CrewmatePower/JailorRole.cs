@@ -35,7 +35,7 @@ public sealed class JailorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
 
     public int Executes { get; set; } = (int)OptionGroupSingleton<JailorOptions>.Instance.MaxExecutes;
 
-    public PlayerControl Jailed => PlayerControl.AllPlayerControls.ToArray()
+    public PlayerControl Jailed => PlayerControl.AllPlayerControls
         .FirstOrDefault(x => x.GetModifier<JailedModifier>()?.JailorId == Player.PlayerId)!;
 
     public DoomableType DoomHintType => DoomableType.Relentless;

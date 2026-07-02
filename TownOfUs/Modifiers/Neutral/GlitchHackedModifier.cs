@@ -28,7 +28,7 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
 
     public override void OnActivate()
     {
-        var glitch = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == GlitchId);
+        var glitch = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == GlitchId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchInitialHack, glitch!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
         if (Player.AmOwner)
@@ -69,7 +69,7 @@ public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
         }
 
         ShouldHideHacked = false;
-        var glitch = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == GlitchId);
+        var glitch = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == GlitchId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.GlitchHackTrigger, glitch!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 

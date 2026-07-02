@@ -276,7 +276,7 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
 
     public static IEnumerator SeeVenter(PlayerControl plumber)
     {
-        var playersInVent = PlayerControl.AllPlayerControls.ToArray().Where(x => x.inVent);
+        var playersInVent = PlayerControl.AllPlayerControls.Where(x => x.inVent);
 
         foreach (var player in playersInVent)
         {
@@ -318,7 +318,7 @@ public sealed class PlumberRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
         var touAbilityEvent = new TouAbilityEvent(AbilityType.PlumberFlush, player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
 
-        var someoneInVent = PlayerControl.AllPlayerControls.ToArray().Any(x => x.inVent);
+        var someoneInVent = PlayerControl.AllPlayerControls.Any(x => x.inVent);
         if (!someoneInVent)
         {
             return;

@@ -81,7 +81,7 @@ public sealed class HexBombSabotageSystem : Object, ISystemType, IActivatable
                 var spellslinger = CustomRoleUtils.GetActiveRolesOfType<SpellslingerRole>().FirstOrDefault();
                 if (spellslinger != null)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls.ToArray()
+                    foreach (var player in PlayerControl.AllPlayerControls
                                  .Where(x => !x.HasDied() && !x.IsImpostorAligned()))
                     {
                         DeathHandlerModifier.UpdateDeathHandlerImmediate(player, TouLocale.Get("DiedToSpellslingerHexBomb"), DeathEventHandlers.CurrentRound, DeathHandlerOverride.SetTrue,

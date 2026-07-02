@@ -199,7 +199,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
                 Player.SetCamouflage(false);
             }
 
-            Coroutines.Start(SetTutorialCollider(Player));
+            AmongUsClient.Instance.StartCoroutine(SetTutorialCollider(Player));
 
             if (Player.AmOwner)
             {
@@ -226,7 +226,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
         var dangerLevel2 = 0f;
         var scaryMusicDistance = 55f * GameOptionsManager.Instance.currentNormalGameOptions.PlayerSpeedMod;
         var veryScaryMusicDistance = 15f * GameOptionsManager.Instance.currentNormalGameOptions.PlayerSpeedMod;
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => x.IsImpostor() || x.IsNeutral()))
+        foreach (var player in PlayerControl.AllPlayerControls.Where(x => x.IsImpostor() || x.IsNeutral()))
         {
             if (player != null)
             {
@@ -395,7 +395,7 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
 
             if (Player.AmOwner && !silent)
             {
-                Coroutines.Start(MiscUtils.CoFlash(RoleColor));
+                AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(RoleColor));
                 var notif1 = Helpers.CreateAndShowNotification(
                     $"<b>{TownOfUsColors.Haunter.ToTextColor()}{TouLocale.GetParsed("TouRoleHaunterSelfAlertFeedback")}</b></color>", Color.white,
                     new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Haunter.LoadAsset());

@@ -668,7 +668,7 @@ public static class MiscUtils
 
     public static T? GetRole<T>() where T : RoleBehaviour
     {
-        return PlayerControl.AllPlayerControls.ToArray().ToList().Find(x => x.Data.Role is T)?.Data?.Role as T;
+        return PlayerControl.AllPlayerControls.ToList().Find(x => x.Data.Role is T)?.Data?.Role as T;
     }
 
     public static IEnumerable<RoleBehaviour> GetRoles(RoleAlignment alignment)
@@ -1123,7 +1123,7 @@ public static class MiscUtils
 
     public static List<PlayerControl> GetCrewmates(List<PlayerControl> impostors)
     {
-        return PlayerControl.AllPlayerControls.ToArray()
+        return PlayerControl.AllPlayerControls
             .Where(player => impostors.All(imp => imp.PlayerId != player.PlayerId)).ToList();
     }
 

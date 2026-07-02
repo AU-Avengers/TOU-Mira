@@ -24,7 +24,7 @@ public static class FreeplayDebugState
 
         Baseline.Clear();
 
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+        foreach (var player in PlayerControl.AllPlayerControls)
         {
             if (player == null || player.Data?.Role == null)
             {
@@ -52,7 +52,7 @@ public static class FreeplayDebugState
         TeamChatPatches.TeamChatActive = false;
         TeamChatPatches.ForceNormalChat();
 
-        foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+        foreach (var player in PlayerControl.AllPlayerControls)
         {
             if (player == null || player.Data?.Role == null)
             {

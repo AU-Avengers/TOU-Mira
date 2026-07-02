@@ -36,7 +36,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return 0;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
+        var validPlayer = PlayerControl.AllPlayerControls
             .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
@@ -52,7 +52,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return 0;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
+        var validPlayer = PlayerControl.AllPlayerControls
             .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 
@@ -68,7 +68,7 @@ public sealed class FirstDeadShield : ExcludedGameModifier, IAnimated
             return false;
         }
 
-        var validPlayer = PlayerControl.AllPlayerControls.ToArray()
+        var validPlayer = PlayerControl.AllPlayerControls
             .Where(x => FirstDeadPatch.PlayerNames.Contains(x.name)).AsEnumerable()
             .OrderBy(obj => FirstDeadPatch.PlayerNames.IndexOf(obj.name)).FirstOrDefault();
 

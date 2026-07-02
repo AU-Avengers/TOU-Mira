@@ -49,7 +49,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
             GameOptionsManager.Instance.CurrentGameOptions.RoleOptions.GetChancePerGame(
                 (RoleTypes)RoleId.Get<TraitorRole>()))
         {
-            var filtered = PlayerControl.AllPlayerControls.ToArray()
+            var filtered = PlayerControl.AllPlayerControls
                 .Where(x => x.IsCrewmate() &&
                             !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() &&

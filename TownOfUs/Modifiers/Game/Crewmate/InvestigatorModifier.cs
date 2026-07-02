@@ -69,7 +69,7 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable, I
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
+        PlayerControl.AllPlayerControls.Where(plr => plr.HasModifier<FootstepsModifier>())
             .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
     }
 
@@ -80,7 +80,7 @@ public sealed class InvestigatorModifier : TouGameModifier, IWikiDiscoverable, I
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
+        PlayerControl.AllPlayerControls.Where(plr => plr.HasModifier<FootstepsModifier>())
             .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
     }
 }

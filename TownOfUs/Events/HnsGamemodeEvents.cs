@@ -20,7 +20,7 @@ public static class HnsGamemodeEvents
     {
         yield return new WaitForSeconds(0.01f);
         
-        var seeker = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.IsImpostor());
+        var seeker = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.IsImpostor());
         if (seeker != null)
         {
             cutscene.ImpostorTitle.text = seeker.Data.Role.GetRoleName();
@@ -76,7 +76,7 @@ public static class HnsGamemodeEvents
                 @event.Cancel();
             }
 
-            var aliveCount = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.HasDied());
+            var aliveCount = PlayerControl.AllPlayerControls.Count(x => !x.HasDied());
             var minimum = (int)OptionGroupSingleton<GameMechanicOptions>.Instance.PlayerCountWhenVentsDisable.Value;
 
             if (PlayerControl.LocalPlayer.inVent && (aliveCount <= minimum

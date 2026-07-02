@@ -346,7 +346,7 @@ public sealed class SpectreRole
         else if (stage is GhostTaskStage.CompletedTasks &&
                  OptionGroupSingleton<SpectreOptions>.Instance.SpectreWin is SpectreWinOptions.Spooks)
         {
-            var allVictims = PlayerControl.AllPlayerControls.ToArray()
+            var allVictims = PlayerControl.AllPlayerControls
                 .Where(x => !x.AmOwner);
 
             if (allVictims.HasAny())

@@ -55,7 +55,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
             return;
         }
 
-        var inquis = PlayerControl.AllPlayerControls.ToArray()
+        var inquis = PlayerControl.AllPlayerControls
             .FirstOrDefault(x =>
                 x.IsRole<InquisitorRole>() && !x.HasDied() &&
                 !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName));
@@ -69,7 +69,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
         }
 
         var required = (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics;
-        var players = PlayerControl.AllPlayerControls.ToArray()
+        var players = PlayerControl.AllPlayerControls
             .Where(x => x.Data.Role is not InquisitorRole && x.Data.Role is not SpectatorRole).ToList();
         var textlog = $"Players in heretic list possible: {players.Count}";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, textlog);

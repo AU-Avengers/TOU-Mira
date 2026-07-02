@@ -91,7 +91,7 @@ public static class Bindings
             MiraEventManager.InvokeEvent(new CheckForEndVotingEvent(true));
 
             var finalVoteList = new List<CustomVote>();
-            foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+            foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player == null || player.HasDied())
                 {
@@ -135,7 +135,7 @@ public static class Bindings
                 });
             }
 
-            foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+            foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player == null || player.HasDied())
                 {

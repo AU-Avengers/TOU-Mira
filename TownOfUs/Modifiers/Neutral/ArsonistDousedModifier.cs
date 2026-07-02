@@ -16,7 +16,7 @@ public sealed class ArsonistDousedModifier(byte arsonistId) : BaseModifier
 
     public override void OnActivate()
     {
-        var arso = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == ArsonistId);
+        var arso = PlayerControl.AllPlayerControls.FirstOrDefault(x => x.PlayerId == ArsonistId);
         var touAbilityEvent = new TouAbilityEvent(AbilityType.ArsonistDouse, arso!, Player);
         MiraEventManager.InvokeEvent(touAbilityEvent);
         Coroutines.Start(ArsonistDouseButton.CoSetDouses());
@@ -31,12 +31,12 @@ public sealed class ArsonistDousedModifier(byte arsonistId) : BaseModifier
     {
         if (PlayerControl.LocalPlayer.IsRole<ArsonistRole>())
         {
-            Player?.cosmetics.SetOutline(true, new Il2CppSystem.Nullable<Color>(Color.yellow));
+            Player?.cosmetics.SetOutline(true, (Color.yellow));
         }
     }
 
     public override void OnDeactivate()
     {
-        Player.cosmetics.SetOutline(false, new Il2CppSystem.Nullable<Color>(Color.yellow));
+        Player.cosmetics.SetOutline(false, (Color.yellow));
     }
 }

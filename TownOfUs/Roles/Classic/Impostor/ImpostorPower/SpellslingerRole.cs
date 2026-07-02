@@ -110,7 +110,7 @@ public sealed class SpellslingerRole : ImpostorRole, ITownOfUsRole, IWikiDiscove
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
-        var alivePlayers = PlayerControl.AllPlayerControls.ToArray()
+        var alivePlayers = PlayerControl.AllPlayerControls
             .Where(x => !DeathHandlerModifier.IsFullyDead(x)).ToList();
 
         var hexed = alivePlayers

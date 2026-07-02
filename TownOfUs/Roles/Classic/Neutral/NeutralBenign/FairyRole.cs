@@ -53,12 +53,12 @@ public sealed class FairyRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable,
 
         var evilTargetPercent = (int)OptionGroupSingleton<FairyOptions>.Instance.EvilTargetPercent;
 
-        var gas = PlayerControl.AllPlayerControls.ToArray()
+        var gas = PlayerControl.AllPlayerControls
             .Where(x => x.IsRole<FairyRole>() && !x.HasDied());
 
         foreach (var ga in gas)
         {
-            var filtered = PlayerControl.AllPlayerControls.ToArray()
+            var filtered = PlayerControl.AllPlayerControls
                 .Where(x => !x.IsRole<FairyRole>() && !x.Is(RoleAlignment.NeutralOutlier) && !x.HasDied() &&
                             !x.HasModifier<ExecutionerTargetModifier>() && !x.HasModifier<AllianceGameModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName))

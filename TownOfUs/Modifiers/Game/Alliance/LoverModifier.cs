@@ -73,7 +73,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             return;
         }
 
-        foreach (var lover in PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>())
+        foreach (var lover in PlayerControl.AllPlayerControls.Where(x => x.HasModifier<LoverModifier>())
                      .ToList())
         {
             lover.RpcRemoveModifier<LoverModifier>();
@@ -87,7 +87,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
             var loveOpt = OptionGroupSingleton<LoversOptions>.Instance;
             var impTargetPercent = (int)loveOpt.LovingImpPercent;
 
-            var players = PlayerControl.AllPlayerControls.ToArray()
+            var players = PlayerControl.AllPlayerControls
                 .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
                             !x.HasModifier<AllianceGameModifier>() &&
                             !SpectatorRole.TrackedSpectators.Contains(x.Data.PlayerName) &&
@@ -186,7 +186,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         yield return new WaitForSeconds(0.01f);
         var impTargetPercent = (int)OptionGroupSingleton<LoversOptions>.Instance.LovingImpPercent;
 
-        var players = PlayerControl.AllPlayerControls.ToArray()
+        var players = PlayerControl.AllPlayerControls
             .Where(x => !x.HasDied() && !x.HasModifier<ExecutionerTargetModifier>() &&
                         (x.Data.Role is not IUnlovable unlovable || !unlovable.IsUnlovable)).ToList();
         players.Shuffle();
@@ -347,7 +347,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
 
         if (clearExisting)
         {
-            foreach (var player in PlayerControl.AllPlayerControls.ToArray()
+            foreach (var player in PlayerControl.AllPlayerControls
                          .Where(x => x != null && x.HasModifier<LoverModifier>()).ToList())
             {
                 player.RpcRemoveModifier<LoverModifier>();
@@ -361,7 +361,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     [MethodRpc((uint)TownOfUsRpc.SetOtherLover)]
     private static void RpcSetOtherLover(PlayerControl player, PlayerControl target)
     {
-        if (PlayerControl.AllPlayerControls.ToArray().Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)
+        if (PlayerControl.AllPlayerControls.Where(x => x.HasModifier<LoverModifier>()).ToList().Count > 0)
         {
             Error("RpcSetOtherLover - Lovers Already Spawned!");
             return;

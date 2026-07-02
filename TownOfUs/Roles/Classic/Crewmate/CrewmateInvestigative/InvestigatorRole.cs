@@ -59,7 +59,7 @@ public sealed class InvestigatorRole : CrewmateRole, ITownOfUsRole, IWikiDiscove
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
+        PlayerControl.AllPlayerControls.Where(plr => plr.HasModifier<FootstepsModifier>())
             .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
     }
 
@@ -70,7 +70,7 @@ public sealed class InvestigatorRole : CrewmateRole, ITownOfUsRole, IWikiDiscove
             return;
         }
 
-        PlayerControl.AllPlayerControls.ToArray().Where(plr => plr.HasModifier<FootstepsModifier>())
+        PlayerControl.AllPlayerControls.Where(plr => plr.HasModifier<FootstepsModifier>())
             .ToList().ForEach(plr => plr.GetModifierComponent().RemoveModifier<FootstepsModifier>());
     }
 }

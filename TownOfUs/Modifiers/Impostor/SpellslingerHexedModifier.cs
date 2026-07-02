@@ -17,7 +17,7 @@ public sealed class SpellslingerHexedModifier(PlayerControl spellslinger) : Base
     {
         base.OnActivate();
 
-        var pb = PlayerControl.AllPlayerControls.ToArray()
+        var pb = PlayerControl.AllPlayerControls
             .FirstOrDefault(x => x.IsRole<SpellslingerRole>());
         if (pb != null)
         {
@@ -30,12 +30,12 @@ public sealed class SpellslingerHexedModifier(PlayerControl spellslinger) : Base
     {
         if (PlayerControl.LocalPlayer.IsRole<SpellslingerRole>() && !Player.AmOwner)
         {
-            Player?.cosmetics.SetOutline(true, new Il2CppSystem.Nullable<Color>(color));
+            Player?.cosmetics.SetOutline(true, (color));
         }
     }
 
     public override void OnDeactivate()
     {
-        Player.cosmetics.SetOutline(false, new Il2CppSystem.Nullable<Color>(color));
+        Player.cosmetics.SetOutline(false, (color));
     }
 }

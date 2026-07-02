@@ -56,7 +56,7 @@ public sealed class HypnotisedModifier(PlayerControl hypnotist) : BaseModifier
         }
 
         // Message($"HypnotisedModifier.Hysteria - {Player.Data.PlayerName}");
-        var players = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.HasDied() && x != Player).ToList();
+        var players = PlayerControl.AllPlayerControls.Where(x => !x.HasDied() && x != Player).ToList();
 
         var bodyType = Random.RandomRangeInt(0, 10);
         var bodyShape = PlayerBodyTypes.Normal;

@@ -52,12 +52,12 @@ public sealed class ExecutionerRole : NeutralRole, ITownOfUsRole, IWikiDiscovera
         }
 
         // Error($"SelectExeTargets");
-        var exes = PlayerControl.AllPlayerControls.ToArray()
+        var exes = PlayerControl.AllPlayerControls
             .Where(x => x.IsRole<ExecutionerRole>() && !x.HasDied());
 
         foreach (var exe in exes)
         {
-            var filtered = PlayerControl.AllPlayerControls.ToArray()
+            var filtered = PlayerControl.AllPlayerControls
                 .Where(x => !x.IsRole<ExecutionerRole>() && !x.HasDied() &&
                             x.Is(ModdedRoleTeams.Crewmate) &&
                             !x.HasModifier<GuardianAngelTargetModifier>() &&
