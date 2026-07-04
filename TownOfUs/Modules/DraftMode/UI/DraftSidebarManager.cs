@@ -5,6 +5,7 @@ using TownOfUs.Options;
 using TownOfUs.Patches;
 using UnityEngine;
 
+
 namespace TownOfUs.Modules.DraftMode
 {
     public static class DraftSidebarManager
@@ -189,9 +190,9 @@ namespace TownOfUs.Modules.DraftMode
             string text = (DraftRecapMode)displayMode switch
             {
                 DraftRecapMode.Nothing   => "a role",
-                DraftRecapMode.Alignment => $"{DraftUiManager.GetTeamLabel(role).ToUpperInvariant() ?? "Unknown"}",
-                DraftRecapMode.Role      => $"{role?.NiceName.ToUpperInvariant() ?? "Unknown"}",
-                DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()}",
+                DraftRecapMode.Alignment => $"{DraftUiManager.GetTeamLabel(role).ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
+                DraftRecapMode.Role      => $"{role?.NiceName.ToUpperInvariant()} {MiscUtils.GetRoleTmpIcon(role)}",
+                DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
             };
             if(displayMode == DraftRecapMode.Role)
             {
