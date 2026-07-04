@@ -57,6 +57,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Pestilence.LoadAsset(), "TouMira.Role.Neutral.Pestilence", 1.45f),
         CanUseVent = OptionGroupSingleton<PlaguebearerOptions>.Instance.CanVent,
         HideSettings = true,
         CanModifyChance = false,

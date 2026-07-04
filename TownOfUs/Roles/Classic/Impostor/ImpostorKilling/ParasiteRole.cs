@@ -60,7 +60,9 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Parasite.LoadAsset(), "TouMira.Role.Impostor.Parasite", 1.45f),
         UseVanillaKillButton = false,
+        IntroSound = TouAudio.ScreamIntro,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Parasite,
         CanUseVent = OptionGroupSingleton<ParasiteOptions>.Instance.CanVent
@@ -94,7 +96,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         ClearControlLocal();
         if (AdvancedMovementUtilities.MobileJoystickR && AdvancedMovementUtilities.MobileJoystickR.gameObject != null)
         {
-            AdvancedMovementUtilities.MobileJoystickR.gameObject.Destroy();
+            AdvancedMovementUtilities.MobileJoystickR.gameObject.DeepDestroy();
         }
     }
 
@@ -673,7 +675,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         if (controllerNotification != null && controllerNotification.gameObject != null)
         {
-            controllerNotification.gameObject.Destroy();
+            controllerNotification.gameObject.DeepDestroy();
             controllerNotification = null;
         }
     }

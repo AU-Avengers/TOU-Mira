@@ -81,6 +81,7 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Chef.LoadAsset(), "TouMira.Role.Neutral.Chef", 1.45f),
         IntroSound = TouAudio.ChefSound,
         Icon = TouRoleIcons.Chef,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

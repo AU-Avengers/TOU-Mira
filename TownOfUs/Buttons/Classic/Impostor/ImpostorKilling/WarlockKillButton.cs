@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;

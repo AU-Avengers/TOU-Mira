@@ -4,6 +4,7 @@ using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
@@ -61,6 +62,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Escapist.LoadAsset(), "TouMira.Role.Impostor.Escapist", 1.45f),
         Icon = TouRoleIcons.Escapist,
         IntroSound = TouAudio.TimeLordIntroSound,
         OptionsScreenshot = TouBanners.EscapistRoleBanner,
@@ -90,7 +92,7 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);
         TouRoleUtils.ClearTaskHeader(Player);
-        EscapeMark?.gameObject.Destroy();
+        EscapeMark?.gameObject.DeepDestroy();
     }
 
     [MethodRpc((uint)TownOfUsRpc.Recall)]

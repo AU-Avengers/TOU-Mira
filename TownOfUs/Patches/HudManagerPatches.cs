@@ -295,12 +295,17 @@ public static class HudManagerPatches
 
         static PlayerControl GetDisguiseTargetOrSelf(PlayerControl player)
         {
-            if (player.TryGetModifier<MorphlingMorphModifier>(out var morph) && morph.Target != null)
+            if (player.TryGetModifier<MorphlingMorphModifier>(out var morph) && morph.Target)
             {
                 return morph.Target;
             }
 
-            if (player.TryGetModifier<GlitchMimicModifier>(out var mimic) && mimic.Target != null)
+            if (player.TryGetModifier<ShapeshifterShiftModifier>(out var shift) && shift.Target)
+            {
+                return shift.Target;
+            }
+
+            if (player.TryGetModifier<GlitchMimicModifier>(out var mimic) && mimic.Target)
             {
                 return mimic.Target;
             }
@@ -390,7 +395,7 @@ public static class HudManagerPatches
                 if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
-                    roleName = $"<size={roleNameSize}>{color.ToTextColor()}{role.GetRoleName()}</color></size>";
+                    roleName = $"<size={roleNameSize}>{MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{role.GetRoleName()}</color></size>";
 
                     if (role.Role is RoleTypes.GuardianAngel)
                     {
@@ -402,7 +407,7 @@ public static class HudManagerPatches
                     {
                         color = revealedRole.ShownRole!.TeamColor;
                         roleName =
-                            $"<size={roleNameSize}>{color.ToTextColor()}{revealedRole.ShownRole!.GetRoleName()}</color></size>";
+                            $"<size={roleNameSize}>{color.ToTextColor()}{MiscUtils.GetRoleTmpIcon(revealedRole.ShownRole!)}{revealedRole.ShownRole!.GetRoleName()}</color></size>";
                     }
 
                     if (!player.HasModifier<VampireBittenModifier>() && role is VampireRole && (vampBuddy || localGhost))
@@ -419,11 +424,11 @@ public static class HudManagerPatches
                     if (cachedMod is ICachedRole cache && cache.Visible &&
                         role.GetType() != cache.CachedRole.GetType())
                     {
-                        var cachedName = cache.CachedRoleName == "" ? cache.CachedRole.GetRoleName() : cache
+                        var cachedName = cache.CachedRoleName == "" ? MiscUtils.GetRoleTmpIcon(cache.CachedRole) + cache.CachedRole.GetRoleName() : cache
                             .CachedRoleName;
                         roleName = cache.ShowCurrentRoleFirst
-                            ? $"<size={roleNameSize}>{color.ToTextColor()}{role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
-                            : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
+                            ? $"<size={roleNameSize}>{MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
                     }
 
                     if (localDead &&
@@ -602,11 +607,11 @@ public static class HudManagerPatches
                 if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
-                    roleName = $"<size={roleNameSize}>{color.ToTextColor()}{role.GetRoleName()}</color></size>";
+                    roleName = $"<size={roleNameSize}>{MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{role.GetRoleName()}</color></size>";
 
                     if (role.Role is RoleTypes.GuardianAngel)
                     {
-                        roleName = $"<size={roleNameSize}>{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
+                        roleName = $"<size={roleNameSize}>{MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
                     }
 
                     var revealedRole = revealMods.FirstOrDefault(x => x.Visible && x.RevealRole && x.ShownRole != null);
@@ -614,7 +619,7 @@ public static class HudManagerPatches
                     {
                         color = revealedRole.ShownRole!.TeamColor;
                         roleName =
-                            $"<size={roleNameSize}>{color.ToTextColor()}{revealedRole.ShownRole!.GetRoleName()}</color></size>";
+                            $"<size={roleNameSize}>{MiscUtils.GetRoleTmpIcon(revealedRole.ShownRole!)}{color.ToTextColor()}{revealedRole.ShownRole!.GetRoleName()}</color></size>";
                     }
 
                     if (!player.HasModifier<VampireBittenModifier>() && role is VampireRole && (vampBuddy || localGhost))
@@ -631,11 +636,11 @@ public static class HudManagerPatches
                     if (cachedMod is ICachedRole cache && cache.Visible &&
                         player.Data.Role.GetType() != cache.CachedRole.GetType())
                     {
-                        var cachedName = cache.CachedRoleName == "" ? cache.CachedRole.GetRoleName() : cache
+                        var cachedName = cache.CachedRoleName == "" ? MiscUtils.GetRoleTmpIcon(cache.CachedRole) + cache.CachedRole.GetRoleName() : cache
                             .CachedRoleName;
                         roleName = cache.ShowCurrentRoleFirst
-                            ? $"<size={roleNameSize}>{color.ToTextColor()}{role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
-                            : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
+                            ? $"<size={roleNameSize}>{MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{role.GetRoleName()}</color> ({cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color>)</size>"
+                            : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
                     }
 
                     if (localDead && isVisible &&

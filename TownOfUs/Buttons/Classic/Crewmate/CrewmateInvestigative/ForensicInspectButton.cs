@@ -1,5 +1,4 @@
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;

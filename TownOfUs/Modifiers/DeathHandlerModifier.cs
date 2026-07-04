@@ -65,12 +65,12 @@ public sealed class DeathHandlerModifier : BaseModifier
     }
 
     [MethodRpc((uint)TownOfUsRpc.UpdateLocalDeathHandler)]
-    public static void RpcUpdateLocalDeathHandler(PlayerControl player, string causeOfDeath = "null", int roundOfDeath = -1,
-        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedByString = "null", PlayerControl? killedBy = null,
+    public static void RpcUpdateLocalDeathHandler(PlayerControl player, PlayerControl killedBy, string causeOfDeath = "null", int roundOfDeath = -1,
+        DeathHandlerOverride diedThisRound = DeathHandlerOverride.Ignore, string killedByString = "null",
         DeathHandlerOverride lockInfo = DeathHandlerOverride.Ignore)
     {
         var localizedCod = TouLocale.Get(causeOfDeath).Contains("STRMISS") ? "null" : TouLocale.Get(causeOfDeath);
-        var localizedKilledBy = (TouLocale.GetParsed(killedByString).Contains("STRMISS") || killedBy == null) ? "null" : TouLocale.GetParsed(killedByString).Replace("<player>", killedBy.Data.PlayerName);
+        var localizedKilledBy = (TouLocale.GetParsed(killedByString).Contains("STRMISS") || killedBy == player) ? "null" : TouLocale.GetParsed(killedByString).Replace("<player>", killedBy.Data.PlayerName);
         UpdateDeathHandler(player, localizedCod, roundOfDeath, diedThisRound, localizedKilledBy, lockInfo);
     }
 

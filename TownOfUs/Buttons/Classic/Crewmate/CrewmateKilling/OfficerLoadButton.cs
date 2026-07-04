@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
-using TownOfUs.Events;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -21,13 +19,11 @@ public sealed class OfficerLoadButton : TownOfUsRoleButton<OfficerRole>
     public static OfficerShootButton ShootButton => CustomButtonSingleton<OfficerShootButton>.Instance;
     public static int MaxLoadedBullets => (int)OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
     public bool RecentlyLoadedBullet;
-
-    public static bool Usable =>
-        OptionGroupSingleton<OfficerOptions>.Instance.FirstRoundShooting || TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
+    public override bool UsableFirstRound => OptionGroupSingleton<OfficerOptions>.Instance.FirstRoundShooting;
 
     public override bool CanUse()
     {
-        return base.CanUse() && Usable && !ShootButton.FailedShot && ShootButton.LoadedBullets < MaxLoadedBullets;
+        return base.CanUse() && !ShootButton.FailedShot && ShootButton.LoadedBullets < MaxLoadedBullets;
     }
 
     protected override void OnClick()

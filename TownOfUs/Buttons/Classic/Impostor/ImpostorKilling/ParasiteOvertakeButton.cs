@@ -1,13 +1,11 @@
 ﻿using AmongUs.GameOptions;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Globalization;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
@@ -82,26 +80,21 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
         }
     }
 
-    public override bool Enabled(RoleBehaviour? role)
-    {
-        return role is ParasiteRole;
-    }
-
     public override bool CanUse()
     {
-        if (PlayerControl.LocalPlayer.Data?.Role is not ParasiteRole pr)
+        if (!Role)
         {
             return false;
         }
 
-        if (pr.Controlled != null)
+        if (Role.Controlled != null)
         {
             if (!CanUseWhileControlling())
             {
                 return false;
             }
 
-            var controlled = pr.Controlled;
+            var controlled = Role.Controlled;
             if (controlled == null ||
                 controlled.Data == null ||
                 controlled.HasDied() ||
@@ -115,7 +108,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
                 return false;
             }
 
-            if (pr.GetOvertakeKillLockoutRemainingSeconds() > 0f)
+            if (Role.GetOvertakeKillLockoutRemainingSeconds() > 0f)
             {
                 return false;
             }
@@ -127,7 +120,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
 
     public override bool CanClick()
     {
-        if (PlayerControl.LocalPlayer?.Data?.Role is ParasiteRole pr && pr.Controlled != null)
+        if (Role && Role.Controlled != null)
         {
             return CanUse();
         }
@@ -157,8 +150,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }

@@ -11,7 +11,7 @@ public sealed class HnsImpostorModifierOptions : AbstractOptionGroup
     // public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.HideAndSeek;
     public override Func<bool> GroupVisible => () => false;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
-    public override bool ShowInModifiersMenu => true;
+    public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 1;
 
     public ModdedNumberOption AdministratorChance { get; } =

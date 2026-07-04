@@ -62,6 +62,7 @@ public sealed class HunterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hunter.LoadAsset(), "TouMira.Role.Crewmate.Hunter", 1.45f),
         Icon = TouRoleIcons.Hunter,
         OptionsScreenshot = TouBanners.HunterRoleBanner,
         IntroSound = TouAudio.OtherIntroSound

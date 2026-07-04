@@ -35,8 +35,11 @@ public sealed class ChefOptions : AbstractOptionGroup<ChefRole>
         };
 
     public ModdedNumberOption ChefArrowDuration { get; set; } =
-        new("TouOptionChefArrowDuration", 10f, 0f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.0", zeroInfinity: true)
+        new("TouOptionChefArrowDuration", 10f, 0.5f, 15f, 0.5f, MiraNumberSuffixes.Seconds, "0.0", zeroInfinity: true)
         {
             Visible = () => OptionGroupSingleton<ChefOptions>.Instance.ChefArrows
         };
+
+    [ModdedToggleOption("TouOptionNeutAnonymousVictoryWin")]
+    public bool ChefAnonymizeWin { get; set; } = false;
 }

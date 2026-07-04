@@ -10,7 +10,7 @@ public sealed class HnsCrewmateModifierOptions : AbstractOptionGroup
     public override string GroupName => "Hider Modifiers";
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.HideAndSeek;
     public override Color GroupColor => Palette.CrewmateRoleHeaderBlue;
-    public override bool ShowInModifiersMenu => true;
+    public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 0;
 
     public ModdedNumberOption FrostyAmount { get; } =

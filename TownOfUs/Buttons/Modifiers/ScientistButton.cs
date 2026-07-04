@@ -2,10 +2,8 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Crewmate;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -111,8 +109,7 @@ public sealed class ScientistButton : TownOfUsButton, ILegacyCapable
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }

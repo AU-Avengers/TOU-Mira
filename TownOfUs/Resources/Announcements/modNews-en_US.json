@@ -1014,6 +1014,58 @@
         "\n- Game Mechanic Option: All Shields Flash Anonymously.",
         "\n- Top-Right UI can now be scaled up and down."
       ]
+    },
+    {
+      "Date": "2026-06-13T12:51:00Z",
+      "Number": "100043",
+      "ShortTitle": "TOU: Mira v1.6.3",
+      "Title": "Play it your way.",
+      "SubTitle": "With Mira OR Reactivated",
+      "Text": [
+        "<b>Mira has been updated for the latest release of Among Us, alongside TOU Reactivated!</b>",
+        "\nYou may now choose to use <link=https://github.com/AU-Avengers/Town-Of-Us-Reactivated/>TOU Reactivated</link> again if you so wish, but Mira will get major content updates, unlike Reactivated.",
+        "\n\nThe Mira team really appreciates all of your support, thank you so much for playing the mod!",
+        "\n\n★ <link=https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.3>TOU Mira v1.6.3 Download</link> ★ <link=https://au-avengers.github.io/docs.toum.gg/>Mod Guide & Details</link> ★",
+
+        "\n\n\r<size=105%>Crewmate Role Bugfixes:</size>",
+        "\n- Officer now sees Prosecutor as a valid killer.",
+        "\n- Monarch is no longer immune to basic interactions when they have a shield.",
+        "\n- Cleric Barrier duration is no longer tied to its cooldown.",
+        "\n- Warden no longer resets cooldowns to one second.",
+        "\n- Engineer and Plumber interact with vents in a more optimized fashion. (PR #190 by @TheDavSmasher)",
+        "\n- Plumber barricades prevent all venters from entering properly. (PR #192 by @TheDavSmasher)",
+        "\n- Sentry Cameras are no longer placed below the map.",
+
+        "\n\n\r<size=105%>Neutral Role Bugfixes:</size>",
+        "\n- Arsonist douse count is no longer more than intended.",
+        "\n- Executioner can no longer torment when their target becomes evil.",
+
+        "\n\n\r<size=105%>Impostor Role Bugfixes:</size>",
+        "\n- Shapeshifter now inherits fake shields on players, like how Morphling / Glitch do.",
+        "\n- Parasite and Puppeteer can interact with Ladders, Platforms, and Ziplines properly. (PR #176 by @DrFreezyYT)",
+        "\n- Pet Button no longer interferes with forced player map interactions.",
+
+        "\n\n\r<size=105%>Other Bugfixes:</size>",
+        "\n- Pets tab now says \"Pets\" rather than \"Hats.\"",
+        "\n- Directly clicking on security utilities like Admin is no longer possible if task requirements aren't met.",
+        "\n- End Game Timer is no longer broken.",
+
+        "\n\n\r<size=105%>Changes:</size>",
+        "\n- Miner now places Polus vents and has an animation paired with it.",
+        "\n- By default, Sonar now uses Heartbeats instead of arrows to keep track of players.",
+        "\n- Haunter now marks players with a dark red name when they are revealed.",
+
+        "\n\n\r<size=105%>Improvements:</size>",
+        "\n- Glitch, Morphling, and Swooper now have better vent settings.",
+        "\n- UI changes are far more optimized now.",
+        "\n- Destroyed animations are now cleared from memory properly.",
+
+        "\n\n\r<size=105%>Additions:</size>",
+        "\n- TOU Mira: Legacy is now a part of the main mod.",
+        "\n- Role Name placement is now configurable in terms of size and position.",
+        "\n- Added configurable mod stamp placement.",
+        "\n- Added \"TV Show\" style for Skeld visuals."
+      ]
     }
   ]
 }

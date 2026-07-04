@@ -50,6 +50,7 @@ public static class SwapperEvents
             originalVoteList.Add(TiebreakerEvents.TiebreakingVote.Value);
         }
 
+        @event.Votes.Clear();
         var voteList = new List<CustomVote>();
 
         foreach (var vote in originalVoteList)
@@ -57,14 +58,17 @@ public static class SwapperEvents
             if (vote.Suspect == swap1)
             {
                 voteList.Add(new CustomVote(vote.Voter, swap2));
+                @event.Votes.Add(new CustomVote(vote.Voter, swap2));
             }
             else if (vote.Suspect == swap2)
             {
                 voteList.Add(new CustomVote(vote.Voter, swap1));
+                @event.Votes.Add(new CustomVote(vote.Voter, swap1));
             }
             else
             {
                 voteList.Add(vote);
+                @event.Votes.Add(vote);
             }
         }
 

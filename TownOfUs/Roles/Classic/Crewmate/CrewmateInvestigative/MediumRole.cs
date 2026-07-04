@@ -1,4 +1,5 @@
-﻿using BepInEx.Unity.IL2CPP.Utils.Collections;
+﻿using System.Collections;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -7,6 +8,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
+using Reactor.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules.MedSpirit;
@@ -56,6 +58,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medium.LoadAsset(), "TouMira.Role.Crewmate.Medium", 1.45f),
         Icon = TouRoleIcons.Medium,
         OptionsScreenshot = TouBanners.MediumRoleBanner,
         IntroSound = TouAudio.MediumIntroSound
@@ -140,24 +143,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
         if (targets.Count != 0)
         {
-            var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
-            allPlayers.Remove(player);
-            foreach (var target in targets)
-            {
-                var newPlayer =
-                    allPlayers.FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
-                if (newPlayer == null)
-                {
-                    continue;
-                }
-
-                allPlayers.Remove(newPlayer);
-                if (player.AmOwner || newPlayer.AmOwner)
-                {
-                    var modifier = new MediatedModifier(player.PlayerId);
-                    newPlayer.GetModifierComponent()?.AddModifier(modifier);
-                }
-            }
+            Coroutines.Start(CoShowGhosts(player, targets));
         }
 
         var hidden =
@@ -173,6 +159,29 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                 }
 
                 plr.AddModifier<MediumHiddenModifier>();
+            }
+        }
+    }
+
+    public static IEnumerator CoShowGhosts(PlayerControl player, Dictionary<byte, string> targets)
+    {
+        // This must be a coroutine for it to show the arrow to everyone besides the host.
+        yield return new WaitForSeconds(0.5f);
+        var allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
+        allPlayers.Remove(player);
+        foreach (var target in targets)
+        {
+            var newPlayer =
+                allPlayers.FirstOrDefault(x => x.PlayerId == target.Key || x.Data.PlayerName == target.Value);
+            if (newPlayer == null)
+            {
+                continue;
+            }
+
+            allPlayers.Remove(newPlayer);
+            if (player.AmOwner || newPlayer.AmOwner)
+            {
+                newPlayer.AddModifier<MediatedModifier>(player.PlayerId);
             }
         }
     }

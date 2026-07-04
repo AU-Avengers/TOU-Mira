@@ -9,7 +9,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
 {
     public override string GroupName => "Universal Modifiers";
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
-    public override bool ShowInModifiersMenu => true;
+    public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 1;
 
     [ModdedNumberOption("Button Barry Amount", 0, 1)]

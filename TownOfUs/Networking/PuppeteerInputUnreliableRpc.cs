@@ -24,7 +24,7 @@ internal readonly struct PuppeteerInputPacket
     public Vector2 Velocity { get; }
 }
 
-[RegisterCustomRpc((uint)TownOfUsInternalRpc.PuppeteerInputUnreliable)]
+[RegisterCustomRpc((uint)TownOfUsRpc.PuppeteerInputUnreliable)]
 internal sealed class PuppeteerInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
     : PlayerCustomRpc<TownOfUsPlugin, PuppeteerInputPacket>(plugin, id)
 {

@@ -164,8 +164,10 @@ public static class CustomTouMurderRpcs
         if (isIndirect)
         {
             source.AddModifier<IndirectAttackerModifier>(ignoreShields);
-            yield return null;
-            yield return null;
+            while (!source.HasModifier<IndirectAttackerModifier>())
+            {
+                yield return null;
+            }
         }
 
         var firstTarget = true;
@@ -465,8 +467,10 @@ public static class CustomTouMurderRpcs
     {
         // Wait for the modifier component to set up.
         source.AddModifier<IndirectAttackerModifier>(ignoreShield);
-        yield return null;
-        yield return null;
+        while (!source.HasModifier<IndirectAttackerModifier>())
+        {
+            yield return null;
+        }
 
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;
 
@@ -692,8 +696,10 @@ public static class CustomTouMurderRpcs
         if (isIndirect)
         {
             source.AddModifier<IndirectAttackerModifier>(ignoreShield);
-            yield return null;
-            yield return null;
+            while (!source.HasModifier<IndirectAttackerModifier>())
+            {
+                yield return null;
+            }
         }
 
         var murderResultFlags = didSucceed ? MurderResultFlags.Succeeded : MurderResultFlags.FailedError;

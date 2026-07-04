@@ -1,4 +1,5 @@
 using HarmonyLib;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Events;
@@ -202,7 +203,7 @@ public static class AprilFoolsPatches
         highlightObj.transform.GetChild(0).transform.localScale = new Vector3(1.2404f, 0.62023f, 0.62023f);
         baseObj.transform.GetChild(0).transform.localScale = new Vector3(1.2404f, 0.62023f, 0.62023f);
         obj.GetComponent<NewsCountButton>().DestroyImmediate();
-        obj.transform.GetChild(3).gameObject.DestroyImmediate();
+        obj.transform.GetChild(3).gameObject.DeepDestroy();
         return obj;
     }
 }

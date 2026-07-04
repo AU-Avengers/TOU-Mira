@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using UnityEngine;
 
@@ -133,6 +132,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Basic.png");
 
+    public static LoadableAsset<Sprite> FirstRoundLockSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.RoundOneLock.png");
+
     public static readonly LoadableAsset<GameObject> RoleSelectionGame =
         new LoadableBundleAsset<GameObject>("SelectRoleGame", MainBundle);
 
@@ -153,6 +155,15 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> MedicShield { get; } =
         new LoadableBundleAsset<GameObject>("MedicShield", MainBundle);
+
+    public static LoadableAsset<GameObject> MagicMirror { get; } =
+        new LoadableBundleAsset<GameObject>("MagicMirror", MainBundle);
+
+    public static LoadableAsset<GameObject> WraithRobe { get; } =
+        new LoadableBundleAsset<GameObject>("WraithCosmetic", MainBundle);
+
+    public static LoadableAsset<Sprite> JailorPlayerSprite { get; } =
+        new LoadableBundleAsset<Sprite>("JailorPlayer", MainBundle);
 
     public static LoadableAsset<GameObject> ParasiteOverlay { get; } =
         new LoadableBundleAsset<GameObject>("ParasiteOverlayObj", MainBundle);

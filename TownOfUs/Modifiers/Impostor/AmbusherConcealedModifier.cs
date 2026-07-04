@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modules.Anims;
@@ -113,7 +112,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
             if (!Target.HasDied() || MeetingHud.Instance || Player.HasDied())
             {
-                ambushAnim.gameObject.Destroy();
+                ambushAnim.gameObject.DeepDestroy();
                 Player.Visible = true;
 
                 foreach (var shield in Player.GetModifiers<BaseShieldModifier>())
@@ -168,7 +167,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
             if (!Target.HasDied() || MeetingHud.Instance || Player.HasDied())
             {
-                ambushAnim.gameObject.Destroy();
+                ambushAnim.gameObject.DeepDestroy();
                 Player.Visible = true;
 
                 foreach (var shield in Player.GetModifiers<BaseShieldModifier>())
@@ -201,7 +200,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
                 yield break;
             }
 
-            ambushAnim.gameObject.Destroy();
+            ambushAnim.gameObject.DeepDestroy();
 
             if (!MeetingHud.Instance && Target.HasDied())
             {
@@ -257,7 +256,7 @@ public sealed class AmbusherConcealedModifier(PlayerControl target) : ConcealedM
 
         if (ambushAnim != null)
         {
-            ambushAnim.gameObject.Destroy();
+            ambushAnim.gameObject.DeepDestroy();
 
             Player.Visible = true;
 

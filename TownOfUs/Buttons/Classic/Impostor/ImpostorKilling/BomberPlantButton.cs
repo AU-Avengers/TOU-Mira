@@ -1,6 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
-using TownOfUs.Events;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -17,18 +15,11 @@ public sealed class BomberPlantButton : TownOfUsKillRoleButton<BomberRole>, IAft
     public override int MaxUses => (int)OptionGroupSingleton<BomberOptions>.Instance.MaxBombs;
     public override bool ZeroIsInfinite => true;
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.PlantSprite : TouImpAssets.PlaceSprite;
-
-    public static bool Usable => OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound ||
-                         TutorialManager.InstanceExists || DeathEventHandlers.CurrentRound > 1;
+    public override bool UsableFirstRound => OptionGroupSingleton<BomberOptions>.Instance.CanBombFirstRound;
 
     public void SetDiseasedTimer(float multiplier)
     {
         SetTimer(Cooldown * multiplier);
-    }
-
-    public override bool CanUse()
-    {
-        return base.CanUse() && Usable;
     }
 
     public void AftermathHandler()

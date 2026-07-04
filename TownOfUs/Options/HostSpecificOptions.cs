@@ -16,6 +16,8 @@ public sealed class HostSpecificOptions : AbstractOptionGroup
 
     public ModdedToggleOption MultiplayerFreeplay { get; set; } = new("Freeplay Mode", false, false);
 
+    public ModdedToggleOption KickRichTextNames { get; set; } = new("Kick Players using Unity Rich Text Tags", true, false);
+
     public ModdedEnumOption BetaLoggingLevel { get; set; } = new("Advanced Logging Mode", (int)LoggingLevel.LogForEveryonePostGame, typeof(LoggingLevel),
         ["No Logging", "Log For Host", "Log For Everyone", "Log Post-Game"], false)
     {
