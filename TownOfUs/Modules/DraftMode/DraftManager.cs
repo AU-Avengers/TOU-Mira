@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace TownOfUs.Modules.DraftMode;
 
 public static class DraftManager
 {
     public static bool IsDraftActive;
-    public static int TotalSlots => _totalSlots;
-    public static int CurrentTurn => _currentTurn;
-
     public static float TurnDuration { get; set; } = 10f;
     public static float TurnTimeLeft { get; set; }
     public static bool ShowRandomOption { get; set; } = true;
-    public static IEnumerable<int> TurnOrder { get; internal set; }
+    public static IEnumerable<int> TurnOrder => SlotStates.Select(s => s.SlotNumber).OrderBy(x => x);
 
     private static readonly List<DraftSlotState> SlotStates = [];
     private static readonly Dictionary<byte, int> PlayerToSlot = [];
@@ -37,37 +30,22 @@ public static class DraftManager
         }
 
         IsDraftActive = true;
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+            $"[DraftManager] SetDraftStateFromHost: [{string.Join(", ", playerIds.Zip(slotNumbers, (p, s) => $"{p}->{s}"))}]");
     }
 
-    public static void UpdateSlotAssignments(int totalSlots, byte[] playerIds, int[] slotNumbers)
-    {
-        if (playerIds == null || slotNumbers == null) return;
-        if (playerIds.Length != slotNumbers.Length) return;
-
-        _totalSlots = totalSlots;
-
-        for (var i = 0; i < playerIds.Length; i++)
-        {
-            var existing = GetStateForPlayer(playerIds[i]);
-            if (existing != null)
-                existing.SlotNumber = slotNumbers[i];
-        }
-    }
-
-    /// <summary>
-    /// Add a slot state for a player (used when receiving individual slot assignments)
-    /// </summary>
     public static void AddSlotState(DraftSlotState state)
     {
         if (state == null) return;
-        
-        // Remove existing state for this player if it exists
+
         var existing = SlotStates.FirstOrDefault(s => s.PlayerId == state.PlayerId);
         if (existing != null)
             SlotStates.Remove(existing);
-        
+
         SlotStates.Add(state);
         PlayerToSlot[state.PlayerId] = state.SlotNumber;
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+            $"[DraftManager] AddSlotState: player {state.PlayerId} -> slot {state.SlotNumber}");
     }
 
     public static void SubmitPick(byte playerId, byte index)
@@ -142,17 +120,28 @@ public static class DraftManager
         _currentTurn = 0;
         TurnTimeLeft = 0f;
 
-        // Reset never told the overlay the draft was over, so it stayed stuck
-        // on "Waiting" (and kept GameStartManager/LobbyInfoPane hidden) forever.
         DraftStatusOverlay.SetState(OverlayState.Hidden);
         DraftSidebarManager.InvalidateCache();
+
+        try
+        {
+            if (GameStartManager.Instance != null)
+            {
+                GameStartManager.Instance.ResetStartState();
+            }
+        }
+        catch { }
     }
 }
 
-public class RecapEntry(int slotNumber, string roleName)
+public class RecapEntry(int slotNumber, string roleName, string teamLabel = null, string colorHex = null)
 {
     public int SlotNumber { get; } = slotNumber;
-    public string RoleName { get; } = roleName;
+    public string RoleName  { get; } = roleName;
+
+    public string TeamLabel { get; } = teamLabel ?? "Unknown";
+
+    public string ColorHex  { get; } = colorHex  ?? "FFFFFF";
 }
 
 public class DraftSlotState

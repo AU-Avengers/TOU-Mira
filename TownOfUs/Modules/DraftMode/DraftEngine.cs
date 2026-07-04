@@ -1,12 +1,10 @@
 using UnityEngine;
 using TownOfUs.Patches.DraftMode;
 using System.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using TownOfUs.Options;
+using System.Threading.Tasks;
 using MiraAPI.GameOptions;
 
 namespace TownOfUs.Modules.DraftMode
@@ -58,11 +56,12 @@ namespace TownOfUs.Modules.DraftMode
 
             if (_running)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftEngine] Already running, aborting");
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftEngine] Draft already running!");
                 return;
             }
 
-            _pool = DraftPoolBuilder.BuildPool();
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Building draft pool");
+            _pool = DraftPoolBuilder.BuildPool(pidToSlot.Count);
             if (_pool == null || _pool.Count == 0)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, "[DraftEngine] Pool is empty, aborting and starting game normally");
@@ -79,15 +78,11 @@ namespace TownOfUs.Modules.DraftMode
             _currentTurnNumber = 0;
             _running = true;
 
-            // Set state locally
-            DraftManager.SetDraftStateFromHost(totalSlots, pidToSlot.Keys.ToList(), _slotOrder);
+            DraftManager.SetDraftStateFromHost(totalSlots, pidToSlot.Keys.ToList(), pidToSlot.Values.ToList());
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Draft state set locally");
-
-            // Broadcast to clients
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Broadcasting slot notifications");
             DraftNetworkHelper.BroadcastSlotNotifications(totalSlots, pidToSlot);
-
-            // Start the draft loop
+            DraftCancelButton.Show();
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Starting draft loop coroutine");
             Coroutines.Start(HostDraftLoop());
         }
@@ -99,7 +94,7 @@ namespace TownOfUs.Modules.DraftMode
             while (_running && _turnIndex < _slotOrder.Count)
             {
                 bool turnSetupSuccess = SetupTurn();
-                
+
                 if (!turnSetupSuccess)
                 {
                     _turnIndex++;
@@ -111,6 +106,12 @@ namespace TownOfUs.Modules.DraftMode
 
                 _turnIndex++;
                 yield return new WaitForSeconds(0.5f);
+            }
+
+            if (!_running)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Draft loop exited due to cancellation, skipping FinishDraft");
+                yield break;
             }
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Draft complete");
@@ -126,16 +127,24 @@ namespace TownOfUs.Modules.DraftMode
 
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Turn {_currentTurnNumber}: Starting turn for slot {slot}");
 
-                _currentOffers = DraftPoolBuilder.GetOfferedRoles(_rng);
+                _currentOffers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng);
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Generated {_currentOffers.Count} role offers");
 
                 var pickedRoleCandidates = new List<ushort>();
-                foreach (var bucket in _currentOffers)
+                foreach (var roleName in _currentOffers)
                 {
-                    var resolved = DraftRolePool.ResolveBucketToRoleNames(bucket);
-                    var roleId = DraftRolePool.ChooseRepresentativeRoleId(resolved);
-                    if (roleId == 0)
-                        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftEngine] Bucket '{bucket}' failed to resolve to a role id (resolved names: [{string.Join(", ", resolved)}]) - check DraftRolePool name matching for this role");
+                    ushort roleId;
+                    if (roleName == "__RANDOM__")
+                    {
+                        roleId = 0;
+                    }
+                    else
+                    {
+                        roleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { roleName });
+                        if (roleId == 0)
+                            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                                $"[DraftEngine] Role name '{roleName}' failed to resolve to a role id");
+                    }
                     pickedRoleCandidates.Add(roleId);
                 }
 
@@ -172,7 +181,10 @@ namespace TownOfUs.Modules.DraftMode
         {
             var state = DraftManager.GetStateForSlot(slot);
             var turnDuration = (int)Mathf.Max(1f, OptionGroupSingleton<RoleOptions>.Instance.TurnDurationSeconds.Value);
-            var endTime = Time.time + turnDuration;
+
+            bool isBotOrDc = state != null && IsBotOrDisconnected(state.PlayerId);
+            var waitSeconds = isBotOrDc ? Mathf.Min(1f, turnDuration) : turnDuration;
+            var endTime = Time.time + waitSeconds;
 
             while (Time.time < endTime && _running)
             {
@@ -189,12 +201,36 @@ namespace TownOfUs.Modules.DraftMode
                 yield return null;
             }
 
+            if (!_running) yield break;
+
             if (state != null && state.PendingPickIndex == 255 && !state.HasPicked)
             {
                 var index = (byte)_rng.Next(Math.Max(1, _currentOffers.Count));
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Auto-picking index {index} (timeout)");
+                var reason = isBotOrDc ? "bot/disconnected" : "timeout";
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Auto-picking index {index} ({reason})");
                 ApplyPick(slot, index);
             }
+        }
+
+        private static bool IsBotOrDisconnected(byte playerId)
+        {
+            var player = PlayerControl.AllPlayerControls?.ToArray()
+                .FirstOrDefault(p => p != null && p.PlayerId == playerId);
+
+            if (player == null) return true;
+            if (player.Data == null || player.Data.Disconnected) return true;
+
+            try
+            {
+                var client = AmongUsClient.Instance?.GetClient(player.OwnerId);
+                if (client == null) return true;
+            }
+            catch
+            {
+
+            }
+
+            return false;
         }
 
         public void RequestReroll(byte playerId)
@@ -208,12 +244,13 @@ namespace TownOfUs.Modules.DraftMode
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Reroll requested by player {playerId}");
 
-            _currentOffers = DraftPoolBuilder.GetOfferedRoles(_rng);
+            _currentOffers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng);
             var pickedRoleCandidates = new List<ushort>();
-            foreach (var bucket in _currentOffers)
+            foreach (var roleName in _currentOffers)
             {
-                var resolved = DraftRolePool.ResolveBucketToRoleNames(bucket);
-                var roleId = DraftRolePool.ChooseRepresentativeRoleId(resolved);
+                ushort roleId = roleName == "__RANDOM__"
+                    ? (ushort)0
+                    : DraftRolePool.ChooseRepresentativeRoleId(new List<string> { roleName });
                 pickedRoleCandidates.Add(roleId);
             }
 
@@ -226,13 +263,28 @@ namespace TownOfUs.Modules.DraftMode
             var state = DraftManager.GetStateForSlot(slot);
             if (state == null) return;
 
-            var idx = Math.Max(0, Math.Min(_currentOffers.Count - 1, index));
-            var chosenBucket = _currentOffers.Count > idx ? _currentOffers[idx] : null;
-            var resolved = chosenBucket != null ? DraftRolePool.ResolveBucketToRoleNames(chosenBucket) : new List<string>();
-            var chosenRoleId = DraftRolePool.ChooseRepresentativeRoleId(resolved);
+            var idx          = Math.Max(0, Math.Min(_currentOffers.Count - 1, index));
+            var chosenName   = _currentOffers.Count > idx ? _currentOffers[idx] : null;
+
+            if (chosenName != null && chosenName != "__RANDOM__")
+                _pool.Remove(chosenName);
+
+            ushort chosenRoleId;
+            if (chosenName == "__RANDOM__" || chosenName == null)
+            {
+
+                var remaining = _pool.Where(r => !string.IsNullOrWhiteSpace(r)).ToList();
+                chosenRoleId = (ushort)(remaining.Count > 0
+                    ? DraftRolePool.ChooseRepresentativeRoleId(new List<string> { remaining[_rng.Next(remaining.Count)] })
+                    : 0);
+            }
+            else
+            {
+                chosenRoleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { chosenName });
+            }
 
             if (chosenRoleId == 0)
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftEngine] Pick for slot {slot} resolved to role id 0 (bucket '{chosenBucket}'), this player will not get a proper role assignment");
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftEngine] Pick for slot {slot} resolved to role id 0 (chosen name: '{chosenName ?? "null"}'), this player will not get a proper role assignment");
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Applied pick for slot {slot}: roleId {chosenRoleId}");
 
@@ -244,35 +296,82 @@ namespace TownOfUs.Modules.DraftMode
         private void FinishDraft()
         {
             _running = false;
+
+            var recapMode = OptionGroupSingleton<RoleOptions>.Instance?.DraftRecap.Value ?? DraftRecapMode.Nothing;
+
             var recapEntries = new List<RecapEntry>();
             foreach (var s in DraftManager.GetAllStates())
             {
                 var roleName = DraftRolePool.GetRoleNameFromId(s.ChosenRoleId) ?? s.ForcedRoleName ?? "Unknown";
-                recapEntries.Add(new RecapEntry(s.SlotNumber, roleName));
+
+                RoleBehaviour roleBehaviour = null;
+                try
+                {
+                    roleBehaviour = s.ChosenRoleId != 0
+                        ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)s.ChosenRoleId)
+                          ?? RoleManager.Instance?.GetRole((AmongUs.GameOptions.RoleTypes)s.ChosenRoleId)
+                        : null;
+                }
+                catch {  }
+
+                string teamLabel = "";
+                Color roleColor = Color.white;
+                if (recapMode == DraftRecapMode.Faction)
+                {
+                    teamLabel = DraftUiManager.GetBroadFaction(roleBehaviour).ToUpperInvariant() ?? "Unknown";
+                    if (teamLabel != null && teamLabel.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
+                        ColorUtility.TryParseHtmlString("#FF0000", out roleColor);
+                    else if (teamLabel != null && teamLabel.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
+                        ColorUtility.TryParseHtmlString("#717171", out roleColor);
+                    else
+                        ColorUtility.TryParseHtmlString("#5BD7E4", out roleColor);
+                }
+                else if (recapMode == DraftRecapMode.Alignment)
+                {
+                    teamLabel = DraftUiManager.GetTeamLabel(roleBehaviour).ToUpperInvariant() ?? "Unknown";
+                    if (teamLabel != null && teamLabel.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
+                        ColorUtility.TryParseHtmlString("#FF0000", out roleColor);
+                    else if (teamLabel != null && teamLabel.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
+                        ColorUtility.TryParseHtmlString("#717171", out roleColor);
+                    else
+                        ColorUtility.TryParseHtmlString("#5BD7E4", out roleColor);
+
+                }
+                else if (recapMode == DraftRecapMode.Role)
+                {
+                    teamLabel = roleBehaviour?.NiceName.ToUpperInvariant() ?? "Unknown";
+                    roleColor = DraftUiManager.GetRoleColor(roleBehaviour);
+                }
+                string colorHex  = ColorUtility.ToHtmlStringRGB(roleColor);
+
+                recapEntries.Add(new RecapEntry(s.SlotNumber, roleName, teamLabel, colorHex));
             }
 
-            var showRecap = OptionGroupSingleton<RoleOptions>.Instance.DraftRecap.Value != DraftRecapMode.Nothing;
-            
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Draft finished, recap={showRecap}");
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Draft finished, recapMode={recapMode}");
             DraftApplier.StorePendingDraftStates(DraftManager.GetAllStates());
-            DraftNetworkHelper.BroadcastRecap(recapEntries, showRecap);
-            Coroutines.Start(CoAutoStartGame());
+            DraftNetworkHelper.BroadcastRecap(recapEntries, recapMode);
+            Coroutines.Start(CoAutoStartGame(recapMode != DraftRecapMode.Nothing ? 6f : 0f));
         }
 
-        private static IEnumerator CoAutoStartGame()
+        private static IEnumerator CoAutoStartGame(float delay = 0f)
         {
+            if (delay > 0f)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
             if (!AmongUsClient.Instance.AmHost)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftEngine] No longer host");
                 yield break;
             }
-            
+
             if (GameStartManager.Instance == null)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftEngine] GameStartManager not found");
                 yield break;
             }
-            
+
             if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Joined)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftEngine] Not in joined state");
@@ -284,7 +383,14 @@ namespace TownOfUs.Modules.DraftMode
             GameStartPatch.SkipIntercept = true;
             int orig = GameStartManager.Instance.MinPlayers;
             GameStartManager.Instance.MinPlayers = 1;
-            GameStartManager.Instance.BeginGame();
+            try
+            {
+                GameStartManager.Instance.BeginGame();
+            }
+            catch (System.Exception ex)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftEngine] Exception during GameStartManager.BeginGame: {ex}");
+            }
             GameStartManager.Instance.countDownTimer = 0f;
             GameStartManager.Instance.MinPlayers = orig;
             yield return null;

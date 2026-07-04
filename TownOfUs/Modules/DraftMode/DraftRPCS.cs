@@ -2,6 +2,7 @@ using Reactor.Networking.Attributes;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
+using TownOfUs.Options;
 
 namespace TownOfUs.Modules.DraftMode;
 
@@ -45,6 +46,8 @@ public static class DraftRpcs
         else
         {
             state.SlotNumber = slotNumber;
+
+            DraftManager.AddSlotState(state);
         }
     }
 
@@ -85,6 +88,8 @@ public static class DraftRpcs
         else
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Not my turn, just caching roles");
+
+            DraftStatusOverlay.SetState(OverlayState.Waiting);
         }
     }
 
@@ -118,6 +123,7 @@ public static class DraftRpcs
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] RpcCancelDraft");
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftScreenController.Hide();
+        DraftCancelButton.Hide();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftEnd)]
@@ -126,6 +132,7 @@ public static class DraftRpcs
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] RpcEndDraft");
         DraftManager.Reset(cancelledBeforeCompletion: true);
         DraftScreenController.Hide();
+        DraftCancelButton.Hide();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftCreateNotif)]
@@ -140,8 +147,52 @@ public static class DraftRpcs
     public static void RpcBroadcastRecap(PlayerControl sender, string recapData)
     {
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] RpcBroadcastRecap");
+
+        var mode = DraftRecapMode.Nothing;
+        var entries = new List<(int slot, string label, string colorHex)>();
+        if (!string.IsNullOrEmpty(recapData))
+        {
+
+            var tokens = recapData.Split('|');
+            if (tokens.Length >= 1 && int.TryParse(tokens[0], out var modeInt))
+            {
+                mode = (DraftRecapMode)modeInt;
+                for (int i = 1; i < tokens.Length; i++)
+                {
+                    var parts = tokens[i].Split(':');
+                    if (parts.Length < 3) continue;
+                    if (!int.TryParse(parts[0], out var slot)) continue;
+                    entries.Add((slot, parts[1], parts[2]));
+                }
+            }
+        }
+
         DraftScreenController.Hide();
-        DraftManager.Reset(cancelledBeforeCompletion: false);
+
+        bool willShowRecap = mode != DraftRecapMode.Nothing && entries.Count > 0;
+
+        if (!willShowRecap)
+        {
+
+            DraftManager.Reset(cancelledBeforeCompletion: false);
+            return;
+        }
+
+        DraftStatusOverlay.SetState(OverlayState.BackgroundOnly);
+
+        try
+        {
+            DraftRecapScreen.Show(entries, mode, onComplete: () =>
+            {
+
+                DraftManager.Reset(cancelledBeforeCompletion: false);
+            });
+        }
+        catch (Exception e)
+        {
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRpc] Failed to show recap screen: {e}");
+            DraftManager.Reset(cancelledBeforeCompletion: false);
+        }
     }
 }
 
@@ -156,26 +207,14 @@ public static class DraftNetworkHelper
             DraftRpcs.RpcSubmitPick(PlayerControl.LocalPlayer, index);
     }
 
-    public static void BroadcastDraftStart(int totalSlots, List<byte> playerIds, List<int> slotNumbers)
-    {
-        if (playerIds == null || slotNumbers == null) return;
-        
-        DraftRpcs.RpcStartDraft(PlayerControl.LocalPlayer, totalSlots);
-        
-        for (int i = 0; i < playerIds.Count; i++)
-        {
-            DraftRpcs.RpcSlotNotify(PlayerControl.LocalPlayer, playerIds[i], slotNumbers[i]);
-        }
-    }
-
     public static void BroadcastSlotNotifications(int totalSlots, Dictionary<byte, int> pidToSlot)
     {
         if (pidToSlot == null) return;
-        
+
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] Broadcasting {pidToSlot.Count} slot assignments");
-        
+
         DraftRpcs.RpcStartDraft(PlayerControl.LocalPlayer, totalSlots);
-        
+
         foreach (var kvp in pidToSlot)
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] Sending slot: Player {kvp.Key} -> Slot {kvp.Value}");
@@ -186,11 +225,11 @@ public static class DraftNetworkHelper
     public static void SendTurnAnnouncement(int slot, byte playerId, List<ushort> roleIds, int turnNumber)
     {
         if (roleIds == null) return;
-        
+
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] SendTurnAnnouncement: turn {turnNumber}, slot {slot}, picker {playerId}");
-        
+
         DraftManager.SetClientTurn(turnNumber, slot);
-        
+
         const int maxOffered = 9;
         if (roleIds.Count > maxOffered)
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftNetworkHelper] {roleIds.Count} roles offered but the RPC only carries {maxOffered}, truncating");
@@ -199,7 +238,7 @@ public static class DraftNetworkHelper
         var count = Math.Min(maxOffered, roleIds.Count);
         for (int i = 0; i < count; i++)
             padded[i] = roleIds[i];
-        
+
         DraftRpcs.RpcAnnounceTurn(PlayerControl.LocalPlayer, turnNumber, slot, playerId, (byte)count,
             padded[0], padded[1], padded[2], padded[3], padded[4], padded[5], padded[6], padded[7], padded[8]);
     }
@@ -245,28 +284,35 @@ public static class DraftNetworkHelper
     {
         DraftRpcs.RpcCancelDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
+        DraftCancelButton.Hide();
     }
 
-    public static void BroadcastRecap(List<RecapEntry> entries, bool showRecap)
+    public static void BroadcastRecap(List<RecapEntry> entries, DraftRecapMode mode)
     {
-        var recapData = "";
-        if (showRecap && entries != null)
+        var recapData = ((int)mode).ToString();
+
+        if (mode != DraftRecapMode.Nothing && entries != null)
         {
             var lines = new List<string>();
             foreach (var e in entries)
             {
-                lines.Add($"{e.SlotNumber}:{e.RoleName ?? ""}");
+
+                var label = mode == DraftRecapMode.Role ? (e.RoleName ?? "Unknown") : (e.TeamLabel ?? "Unknown");
+
+                label = label.Replace(":", "").Replace("|", "");
+                lines.Add($"{e.SlotNumber}:{label}:{e.ColorHex}");
             }
-            recapData = string.Join("|", lines);
+            recapData += "|" + string.Join("|", lines);
+            DraftCancelButton.Hide();
         }
 
         DraftRpcs.RpcBroadcastRecap(PlayerControl.LocalPlayer, recapData);
-        DraftManager.Reset(cancelledBeforeCompletion: false);
     }
 
     public static void BroadcastDraftEnd()
     {
         DraftRpcs.RpcEndDraft(PlayerControl.LocalPlayer);
         DraftManager.Reset(cancelledBeforeCompletion: true);
+        DraftCancelButton.Hide();
     }
 }

@@ -1,5 +1,7 @@
 using System.Text;
 using HarmonyLib;
+using MiraAPI.GameOptions;
+using TownOfUs.Options;
 using TownOfUs.Patches;
 using UnityEngine;
 
@@ -136,7 +138,7 @@ namespace TownOfUs.Modules.DraftMode
             for (int i = 0; i < word.Length; i++)
             {
                 float w = (Mathf.Sin(t * 2.2f - (startIdx + i) * 0.6f) + 1f) * 0.5f;
-                w *= w; // sharpen the moving glint
+                w *= w;
                 Color c = Color.Lerp(baseCol, Color.white, w * 0.8f);
                 sb.Append($"<color=#{ColorUtility.ToHtmlStringRGB(c)}>{word[i]}</color>");
             }
@@ -146,65 +148,69 @@ namespace TownOfUs.Modules.DraftMode
         private static string BuildRow(int slot, DraftSlotState state, bool isMe)
         {
             string you    = isMe ? "  <color=#8BD5F9><b>(YOU)</b></color>" : string.Empty;
-            string numCol = isMe ? "#8BD5F9" : "#a4a69a";
+            string numCol = isMe ? "#8BD5F9" : "#ffee00";
 
             if (state.IsPickingNow && !state.HasPicked)
             {
-                float p = (Mathf.Sin(Time.time * 3.0f) + 1f) * 0.5f;                 // smooth breathing
-                Color c = Color.Lerp(new Color(1f, 0.80f, 0.28f), new Color(1f, 0.97f, 0.74f), p);
-                string hex = ColorUtility.ToHtmlStringRGB(c);
-                return $"<color={numCol}><b>Player #{slot:D2}</b></color> <b><color=#{hex}> is picking...</color></b>{you}";
+                return $"<color={numCol}><b>Player #{slot:D2}</b></color> <b><color=#FFFFFF> is picking...</color></b>{you}";
             }
 
             string statusCol, statusTxt;
             if (state.HasPicked)
             {
-                var statusLabel = GetStatusLabelForRole(state.ChosenRoleId);
-                statusCol = statusLabel == "picked IMPOSTOR"
-                    ? "#FF5050"
-                    : statusLabel == "picked NEUTRAL"
-                        ? "#717171"
-                        : "#5BD7E4";
-                statusTxt = statusLabel;
+                (statusTxt, statusCol) = GetStatusLabelForRole(state.ChosenRoleId);
             }
             else
             {
-                statusCol = "#ffffff"; statusTxt = "is waiting";
+                return $"<color={numCol}><b>Player #{slot:D2}</b></color> <color=#ffffff>is waiting</color>";
             }
 
-            string row = $"<color={numCol}><b>Player #{slot:D2}</b></color> <color={statusCol}>{statusTxt}</color>{you}";
+            string row = $"<color={numCol}><b>Player #{slot:D2}</b></color> picked <b><color={statusCol}>{statusTxt}</color></b>{you}";
             if (isMe)
                 return $"<mark=#8BD5F910>{row}</mark>";
             return row;
         }
 
-        private static string GetStatusLabelForRole(ushort roleId)
+        private static (string text, string colorHex) GetStatusLabelForRole(ushort roleId)
         {
+            RoleBehaviour role = null;
             try
             {
-                var role = RoleManager.Instance?.GetRole((AmongUs.GameOptions.RoleTypes)roleId);
-                if (role != null)
-                {
-                    var factionName = GetRoleFactionName(role);
-                    if (factionName != null && factionName.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
-                        return "picked IMPOSTOR";
-                    if (factionName != null && factionName.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
-                        return "picked NEUTRAL";
-                }
+                role = roleId != 0
+                    ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)
+                      ?? RoleManager.Instance?.GetRole((AmongUs.GameOptions.RoleTypes)roleId)
+                    : null;
             }
             catch { }
-            return "picked CREWMATE";
-        }
 
-        private static string GetRoleFactionName(RoleBehaviour role)
-        {
-            if (role == null) return null;
-            try
+            var faction = DraftUiManager.GetBroadFaction(role);
+            string colorHex = "";
+            var displayMode = OptionGroupSingleton<RoleOptions>.Instance?.DraftSidebarDisplay.Value;
+            string text = (DraftRecapMode)displayMode switch
             {
-                return role.GetType().Name;
+                DraftRecapMode.Nothing   => "a role",
+                DraftRecapMode.Alignment => $"{DraftUiManager.GetTeamLabel(role).ToUpperInvariant() ?? "Unknown"}",
+                DraftRecapMode.Role      => $"{role?.NiceName.ToUpperInvariant() ?? "Unknown"}",
+                DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()}",
+            };
+            if(displayMode == DraftRecapMode.Role)
+            {
+                colorHex = "#" + ColorUtility.ToHtmlStringRGB(role.TeamColor) ?? "#5BD7E4";
+            } else if ( displayMode == DraftRecapMode.Nothing)
+            {
+                colorHex = "#f7f7f7";
             }
-            catch { return null; }
-        }
+            else
+            {
+               colorHex =
+            faction switch
+            {
+                "Impostor" => "#FF5050",
+                "Neutral"  => "#717171",
+                _          => "#5BD7E4",
+            };
+            }
+            return (text, colorHex);
     }
 
     [HarmonyPatch(typeof(HudManagerPatches), nameof(HudManagerPatches.UpdateRoleList))]
@@ -216,13 +222,6 @@ namespace TownOfUs.Modules.DraftMode
             if (!DraftSidebarManager.IsActive) return;
             DraftSidebarManager.DrawSidebar();
         }
-    }
-
-    [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastDraftStart))]
-    public static class DraftSidebarActivateOnStart
-    {
-        [HarmonyPostfix]
-        public static void Postfix() => DraftSidebarManager.Activate();
     }
 
     [HarmonyPatch(typeof(DraftManager), nameof(DraftManager.SetDraftStateFromHost))]
@@ -291,4 +290,5 @@ namespace TownOfUs.Modules.DraftMode
             return false;
         }
     }
+}
 }

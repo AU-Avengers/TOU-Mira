@@ -1,3 +1,4 @@
+using System;
 using AmongUs.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -12,6 +13,16 @@ namespace TownOfUs.Modules.DraftMode
         public static Func<string, List<string>> ResolveDelegate;
         public static Func<string, ushort> IdResolver;
         public static Func<ushort, string> NameResolver;
+
+        private static readonly Dictionary<string, ushort> RoleNameToIdCache = new(StringComparer.Ordinal);
+
+        public static void ClearNameCache() => RoleNameToIdCache.Clear();
+
+        private static void CacheRoleId(string roleName, ushort roleId)
+        {
+            if (string.IsNullOrEmpty(roleName) || roleId == 0) return;
+            RoleNameToIdCache[roleName] = roleId;
+        }
 
         public static List<string> ResolveBucketToRoleNames(string bucket)
         {
@@ -48,8 +59,14 @@ namespace TownOfUs.Modules.DraftMode
                         var id = IdResolver(nm);
                         if (id != 0) return id;
                     }
-                    catch { /* idk */ }
+                    catch {  }
                 }
+            }
+
+            foreach (var nm in roleNames)
+            {
+                if (RoleNameToIdCache.TryGetValue(nm, out var cachedId) && cachedId != 0)
+                    return cachedId;
             }
 
             foreach (var nm in roleNames)
@@ -72,7 +89,7 @@ namespace TownOfUs.Modules.DraftMode
             if (NameResolver != null)
             {
                 try { return NameResolver(id); }
-                catch { /* idk */ }
+                catch {  }
             }
 
             if (id == 0) return null;
@@ -92,12 +109,30 @@ namespace TownOfUs.Modules.DraftMode
             if (TryMatchBucketToRoleListOption(bucket, out var roleListOption))
             {
                 var roleBehaviours = GetRolesForBucket(roleListOption);
+                var names = new List<string>();
                 foreach (var role in roleBehaviours)
                 {
                     var name = role?.GetRoleName();
-                    if (!string.IsNullOrWhiteSpace(name) && !resolvedNames.Contains(name, StringComparer.OrdinalIgnoreCase))
-                        resolvedNames.Add(name);
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        CacheRoleId(name, (ushort)role.Role);
+
+                        int count = Math.Max(1, GetRoleCount(role));
+                        for (int i = 0; i < count; i++)
+                        {
+                            names.Add(name);
+                        }
+                    }
                 }
+
+                var rng = new System.Random();
+                for (int i = names.Count - 1; i > 0; i--)
+                {
+                    int j = rng.Next(i + 1);
+                    (names[i], names[j]) = (names[j], names[i]);
+                }
+
+                resolvedNames = names;
             }
             else
             {
@@ -105,7 +140,11 @@ namespace TownOfUs.Modules.DraftMode
                 if (directRole != null)
                 {
                     var name = directRole.GetRoleName();
-                    if (!string.IsNullOrWhiteSpace(name)) resolvedNames.Add(name);
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        CacheRoleId(name, (ushort)directRole.Role);
+                        resolvedNames.Add(name);
+                    }
                 }
             }
 
@@ -128,8 +167,12 @@ namespace TownOfUs.Modules.DraftMode
             });
         }
 
-        private static string NormalizeName(string value) =>
-            (value ?? string.Empty).Trim().ToLowerInvariant().Replace(" ", string.Empty).Replace("-", string.Empty);
+        private static string NormalizeName(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return string.Empty;
+            var clean = System.Text.RegularExpressions.Regex.Replace(value, "<.*?>", string.Empty);
+            return clean.Trim().ToLowerInvariant().Replace(" ", string.Empty).Replace("-", string.Empty);
+        }
 
         private static bool TryMatchBucketToRoleListOption(string bucket, out RoleListOption roleListOption)
         {
@@ -212,7 +255,64 @@ namespace TownOfUs.Modules.DraftMode
             if (role is not ITownOfUsRole touRole || !touRole.IsDraftable)
                 return false;
 
-            return role.GetRoleName() is { Length: > 0 } && CustomRoleUtils.CanSpawnOnCurrentMode(role);
+            return role.GetRoleName() is { Length: > 0 } && CustomRoleUtils.CanSpawnOnCurrentMode(role) && IsRoleEnabled(role);
+        }
+
+        public static bool IsRoleEnabled(RoleBehaviour role)
+        {
+            if (role == null) return false;
+            try
+            {
+                if (role is ICustomRole customRole && customRole.Configuration != null && customRole.Configuration.MaxRoleCount != 0)
+                {
+                    var countObj = customRole.GetCount();
+                    var chanceObj = customRole.GetChance();
+                    int count = countObj != null ? (int)countObj : 0;
+                    int chance = chanceObj != null ? (int)chanceObj : 0;
+                    return count > 0 && chance > 0;
+                }
+                else
+                {
+                    var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
+                    if (roleOptions != null)
+                    {
+                        int count = (int)roleOptions.GetNumPerGame(role.Role);
+                        int chance = (int)roleOptions.GetChancePerGame(role.Role);
+                        return count > 0 && chance > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRolePool] Exception in IsRoleEnabled for {role.GetType().Name}: {ex}");
+            }
+            return false;
+        }
+
+        public static int GetRoleCount(RoleBehaviour role)
+        {
+            if (role == null) return 0;
+            try
+            {
+                if (role is ICustomRole customRole && customRole.Configuration != null && customRole.Configuration.MaxRoleCount != 0)
+                {
+                    var countObj = customRole.GetCount();
+                    return countObj != null ? (int)countObj : 0;
+                }
+                else
+                {
+                    var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
+                    if (roleOptions != null)
+                    {
+                        return (int)roleOptions.GetNumPerGame(role.Role);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRolePool] Exception in GetRoleCount for {role.GetType().Name}: {ex}");
+            }
+            return 0;
         }
     }
 }

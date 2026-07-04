@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-
 namespace TownOfUs.Modules.DraftMode
 {
     [RegisterInIl2Cpp]
@@ -15,12 +14,11 @@ namespace TownOfUs.Modules.DraftMode
 
         public const int RerollCardIndex = -42;
 
-
         private sealed class DraftCardIdleCache
         {
-            public Transform Card; 
-            public Transform Holder; 
-            public Vector3 BasePosition; 
+            public Transform Card;
+            public Transform Holder;
+            public Vector3 BasePosition;
             public Quaternion BaseRotation;
         }
 
@@ -120,7 +118,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_timerRoot != null)
             {
-                try { Destroy(_timerRoot); } catch { }
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true); } catch { }
                 _timerRoot = null;
                 _timerText = null;
                 _timerTrack = null;
@@ -182,7 +180,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_tooltipRoot != null)
             {
-                try { Destroy(_tooltipRoot); } catch { }
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true); } catch { }
                 _tooltipRoot = null;
                 _tooltipText = null;
             }
@@ -244,7 +242,8 @@ namespace TownOfUs.Modules.DraftMode
             Instance.DestroySelectionBackdrop();
             Instance.DestroyTooltip();
 
-            if (Instance._screenRoot != null) Destroy(Instance._screenRoot);
+            if (Instance._screenRoot != null)
+                MiraAPI.Utilities.Extensions.DeepDestroy(Instance._screenRoot, false);
 
             if (HudManager.Instance != null)
             {
@@ -253,14 +252,23 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     var child = hud.GetChild(i);
                     if (child != null && child.name.StartsWith("DraftCard_"))
-                        Destroy(child.gameObject);
+                        MiraAPI.Utilities.Extensions.DeepDestroy(child.gameObject, false);
                 }
             }
 
             Instance._idleCardCaches.Clear();
             Instance._idleCardCacheByTransform.Clear();
-            Destroy(Instance.gameObject);
+            var go = Instance.gameObject;
             Instance = null;
+
+            if (go != null)
+                MiraAPI.Utilities.Extensions.DeepDestroy(go, false);
+
+            try
+            {
+                MiraAPI.Utilities.Extensions.ClearGarbageCollector();
+            }
+            catch { }
         }
 
         private void BuildScreen()
@@ -289,7 +297,7 @@ namespace TownOfUs.Modules.DraftMode
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftScreenController] SelectRoleGame prefab not found.");
                 DestroyBottomTimer();
                 DestroySelectionBackdrop();
-                Destroy(gameObject); Instance = null; return;
+                MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true); Instance = null; return;
             }
 
             _screenRoot = Instantiate(prefab);
@@ -324,7 +332,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 DestroyBottomTimer();
                 DestroySelectionBackdrop();
-                Destroy(_screenRoot); Destroy(gameObject); Instance = null; return;
+                MiraAPI.Utilities.Extensions.DeepDestroy(_screenRoot, true); MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true); Instance = null; return;
             }
 
             var rolePrefab = holderGo.gameObject;
@@ -479,7 +487,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_selectionBackdrop != null)
             {
-                try { Destroy(_selectionBackdrop); } catch { }
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true); } catch { }
                 _selectionBackdrop = null;
                 _selectionBackdropWash = null;
                 _selectionBackdropBeam = null;
@@ -841,7 +849,7 @@ namespace TownOfUs.Modules.DraftMode
 
             if (index == RerollCardIndex)
             {
-                _hasPicked = true; 
+                _hasPicked = true;
                 DraftNetworkHelper.RequestReroll();
                 return;
             }

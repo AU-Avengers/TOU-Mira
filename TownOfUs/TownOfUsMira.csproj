@@ -16,7 +16,7 @@
     <Import Project="../AmongUs.props" />
     <Target Name="CopyDllToAnotherFolder" AfterTargets="Build">
   <Copy SourceFiles="$(TargetDir)$(TargetName).dll" 
-        DestinationFolder="/Users/neiljain/GameHub/steamapps/common/Among Us/BepInEx/plugins" 
+        DestinationFolder="/Users/neiljain/Library/Application Support/CrossOver/Bottles/Main/drive_c/Program Files (x86)/Steam/steamapps/common/Among Us/BepInEx/plugins" 
         SkipUnchangedFiles="true" />
 </Target>
 

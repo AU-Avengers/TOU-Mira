@@ -1,4 +1,4 @@
-﻿using Reactor.Utilities.Attributes;
+using Reactor.Utilities.Attributes;
 using System.Collections;
 using System.Globalization;
 using HarmonyLib;
@@ -128,6 +128,7 @@ namespace TownOfUs.Modules.DraftMode
             _instance._cachedPickerSlot = -1;
             _instance._cachedPickerCount = -1;
             _instance._cachedIsMyTurn   = false;
+            _instance._rebuildPending   = false;
             _cachedRolePrefab           = null;
             _cachedGsm                  = null;
             _cachedLobbyPane            = null;
@@ -149,8 +150,16 @@ namespace TownOfUs.Modules.DraftMode
 
         private void BuildUI()
         {
-            if (HudManager.Instance == null) return;
-            if (HudManager.Instance.TaskPanel == null || HudManager.Instance.TaskPanel.taskText == null) return;
+            if (HudManager.Instance == null)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftStatusOverlay] BuildUI: HudManager.Instance is null, deferring");
+                return;
+            }
+            if (HudManager.Instance.TaskPanel == null || HudManager.Instance.TaskPanel.taskText == null)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftStatusOverlay] BuildUI: TaskPanel/taskText not ready, deferring");
+                return;
+            }
 
             var font    = HudManager.Instance.TaskPanel.taskText.font;
             var fontMat = HudManager.Instance.TaskPanel.taskText.fontMaterial;
@@ -551,7 +560,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_roleCardNewRoleObj != null)
             {
-                try { UnityEngine.Object.Destroy(_roleCardNewRoleObj); } catch { }
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_roleCardNewRoleObj, true); } catch { }
                 _roleCardNewRoleObj = null;
             }
             HideCardTooltip();
@@ -602,7 +611,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_cardTooltipRoot != null)
             {
-                try { UnityEngine.Object.Destroy(_cardTooltipRoot); } catch { }
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_cardTooltipRoot, true); } catch { }
             }
             _cardTooltipRoot = null;
             _cardTooltipText = null;
@@ -749,11 +758,25 @@ namespace TownOfUs.Modules.DraftMode
                 _nowPickingValue.color = isMyTurn ? new Color(0.1f, 1f, 0.4f) : new Color(1f, 0.85f, 0.1f);
             if (_nowPickingLabel != null)
                 _nowPickingLabel.text = labelText;
+
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                $"[DraftStatusOverlay] UpdateContent: localPlayerId={PlayerControl.LocalPlayer.PlayerId}, mySlot={mySlot}, pickerSlot={pickerSlot}, pickerCount={pickerCount}, isMyTurn={isMyTurn}");
         }
+
+        private bool _rebuildPending = false;
 
         private void UpdateVisibility()
         {
-            if (_root == null && _currentState != OverlayState.Hidden) BuildUI();
+            if (_root == null && _currentState != OverlayState.Hidden)
+            {
+                BuildUI();
+                if (_root == null && !_rebuildPending)
+                {
+
+                    _rebuildPending = true;
+                    Coroutines.Start(CoRetryBuildUI());
+                }
+            }
             if (_root == null) return;
 
             if (_currentState == OverlayState.Hidden)
@@ -784,6 +807,18 @@ namespace TownOfUs.Modules.DraftMode
                 if (_backdropArt != null) _backdropArt.SetActive(true);
                 HideHudElements();
             }
+        }
+
+        private IEnumerator CoRetryBuildUI()
+        {
+
+            for (int i = 0; i < 60 && _root == null && _currentState != OverlayState.Hidden; i++)
+            {
+                yield return null;
+                BuildUI();
+            }
+            _rebuildPending = false;
+            if (_root != null) UpdateVisibility();
         }
 
         private void HideHudElements()

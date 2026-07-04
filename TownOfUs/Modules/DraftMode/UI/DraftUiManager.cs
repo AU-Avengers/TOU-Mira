@@ -8,26 +8,6 @@ namespace TownOfUs.Modules.DraftMode
 {
     public static class DraftUiManager
     {
-        public static void ShowPicker(List<ushort> roleIds)
-        {
-            if (HudManager.Instance == null || roleIds == null || roleIds.Count == 0) return;
-            DraftStatusOverlay.SetState(OverlayState.BackgroundOnly);
-            DraftScreenController.Show(roleIds.ToArray());
-        }
-
-        public static void RefreshTurnList()
-        {
-            DraftStatusOverlay.Refresh();
-        }
-
-        public static void CloseAll()
-        {
-            DraftScreenController.Hide();
-
-            if (DraftManager.IsDraftActive)
-                DraftStatusOverlay.SetState(OverlayState.Waiting);
-        }
-
         public static List<DraftRoleCard> BuildCards(List<ushort> roleIds)
         {
             var cards = new List<DraftRoleCard>();
@@ -43,7 +23,7 @@ namespace TownOfUs.Modules.DraftMode
                 Sprite icon        = GetRoleIcon(role);
                 Color  color       = GetRoleColor(role);
 
-                cards.Add(new DraftRoleCard(displayName, team, icon, color, i, id, GetRoleDescription(role)));
+                cards.Add(new DraftRoleCard(displayName, team, icon, color, i, GetRoleDescription(role)));
             }
 
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
@@ -52,7 +32,7 @@ namespace TownOfUs.Modules.DraftMode
                     "Random", "Random",
                     TouRoleIcons.RandomAny.LoadAsset(),
                     Color.white,
-                    roleIds.Count, 0, "Locks in a completely random role for you."));
+                    roleIds.Count, "Locks in a completely random role for you."));
             return cards;
         }
 
@@ -77,7 +57,7 @@ namespace TownOfUs.Modules.DraftMode
             catch { return null; }
         }
 
-        public static string GetTeamLabel(RoleBehaviour role) 
+        public static string GetTeamLabel(RoleBehaviour role)
         {
             if (role == null) return "Unknown";
             try { return MiscUtils.GetParsedRoleAlignment(role); } catch { }
@@ -88,8 +68,21 @@ namespace TownOfUs.Modules.DraftMode
                 return "Neutral";
             return "Crewmate";
         }
+         public static string GetBroadFaction(RoleBehaviour role)
+        {
+            if (role == null) return "Crewmate";
+            string alignment = null;
+            try { alignment = MiscUtils.GetParsedRoleAlignment(role); } catch { }
+            alignment ??= GetRoleFactionName(role);
 
-        private static string GetRoleFactionName(RoleBehaviour role)
+            if (alignment != null && alignment.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
+                return "Impostor";
+            if (alignment != null && alignment.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
+                return "Neutral";
+            return "Crewmate";
+        }
+
+        public static string GetRoleFactionName(RoleBehaviour role)
         {
             if (role == null) return null;
             try
@@ -116,7 +109,5 @@ namespace TownOfUs.Modules.DraftMode
             return Color.white;
         }
 
-        public static string Normalize(string s) =>
-            (s ?? string.Empty).Replace(" ", "").Replace("-", "");
     }
 }
