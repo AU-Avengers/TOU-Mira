@@ -50,6 +50,7 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Veteran.LoadAsset(), "TouMira.Role.Crewmate.Veteran", 1.45f),
         Icon = TouRoleIcons.Veteran,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ImpostorIntroSound

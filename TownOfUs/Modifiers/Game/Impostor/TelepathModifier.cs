@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Impostor;

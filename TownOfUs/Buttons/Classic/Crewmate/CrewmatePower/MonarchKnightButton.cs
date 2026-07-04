@@ -1,7 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Modifiers;

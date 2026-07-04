@@ -3,7 +3,6 @@ using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Buttons.Modifiers;
 using TownOfUs.Interfaces;
 using TownOfUs.Options.Modifiers;

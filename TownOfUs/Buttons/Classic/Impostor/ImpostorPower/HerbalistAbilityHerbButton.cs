@@ -2,7 +2,6 @@ using System.Globalization;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Impostor.Herbalist;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;

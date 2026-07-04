@@ -2,7 +2,6 @@ using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Alliance;

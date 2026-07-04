@@ -270,18 +270,4 @@ public static class SentryCameraSurveillancePatch
             SentryCameraPortablePatch.ApplyPortableBlinkState();
         }
     }
-
-    [HarmonyPatch(typeof(PassiveButton), nameof(PassiveButton.ReceiveClickDown))]
-    public static class PassiveButtonClickPatch
-    {
-        public static void Postfix(PassiveButton __instance)
-        {
-            if (!__instance) return;
-            var name = __instance.gameObject?.name ?? "NULL";
-            if (name.Contains("SentryRightArrow") || name.Contains("SentryLeftArrow"))
-            {
-                Logger.LogInfo($"[PASSIVE BUTTON] ReceiveClickDown called on {name}, frame {Time.frameCount}, enabled={__instance.enabled}, OnClick={(__instance.OnClick != null ? "EXISTS" : "NULL")}");
-            }
-        }
-    }
 }

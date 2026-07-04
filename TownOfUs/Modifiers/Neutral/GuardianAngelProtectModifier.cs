@@ -1,7 +1,6 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Options;

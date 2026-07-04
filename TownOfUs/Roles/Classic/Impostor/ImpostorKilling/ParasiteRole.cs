@@ -60,6 +60,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Parasite.LoadAsset(), "TouMira.Role.Impostor.Parasite", 1.45f),
         UseVanillaKillButton = false,
         IntroSound = TouAudio.ScreamIntro,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,

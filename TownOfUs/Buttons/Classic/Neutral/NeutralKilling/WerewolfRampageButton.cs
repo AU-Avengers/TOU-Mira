@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;

@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using MiraAPI.Hud;
 using MiraAPI.Utilities;
 using Reactor.Utilities;

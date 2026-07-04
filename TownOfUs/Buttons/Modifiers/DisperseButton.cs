@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Networking;
