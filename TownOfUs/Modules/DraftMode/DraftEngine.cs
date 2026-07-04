@@ -345,7 +345,7 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 else if (recapMode == DraftRecapMode.Role)
                 {
-                    teamLabel = roleBehaviour?.NiceName.ToUpperInvariant() ?? "Unknown";
+                    teamLabel = roleBehaviour?.NiceName.ToUpperInvariant() + MiscUtils.GetRoleTmpIcon(roleBehaviour);
                     roleColor = DraftUiManager.GetRoleColor(roleBehaviour);
                 }
                 string colorHex  = ColorUtility.ToHtmlStringRGB(roleColor);

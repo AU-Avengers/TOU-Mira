@@ -29,6 +29,7 @@ namespace TownOfUs.Modules.DraftMode
         private GameObject  _textRoot;
         private TextMeshPro _headerText;
         private readonly List<TextMeshPro> _rowTexts = new();
+        private float _camW = 8f;
 
         public static void Show(
             List<(int slot, string label, string colorHex)> entries,
@@ -114,6 +115,7 @@ namespace TownOfUs.Modules.DraftMode
             var cam   = Camera.main;
             float camH = cam != null ? cam.orthographicSize * 2f : 6f;
             float camW = camH * ((float)Screen.width / Screen.height);
+            _camW = camW;
 
             _bgOverlay = new GameObject("DraftRecapBg");
             _bgOverlay.transform.SetParent(HudManager.Instance.transform, false);
@@ -234,10 +236,15 @@ namespace TownOfUs.Modules.DraftMode
 
             string modeLabel = mode == DraftRecapMode.Role ? "Role" : "Faction";
             _headerText.text = $"<b>DRAFT RECAP</b>  <size=60%><color=#88FFFF>({modeLabel})</color></size>";
-
-            int   count     = entries.Count;
-            float rowHeight = Mathf.Min(0.7f, 3.6f / Mathf.Max(count, 1));
-            float startY    = (count - 1) * rowHeight * 0.5f;
+            var sorted = entries.OrderBy(e => e.slot).ToList();
+            int count  = sorted.Count;
+            const int maxSingleColumn = 8;
+            bool twoColumns = count > maxSingleColumn;
+            int rowsPerColumn = twoColumns ? (count + 1) / 2 : count;
+            rowsPerColumn = Math.Max(1, rowsPerColumn);
+            float rowHeight  = Mathf.Min(0.7f, 3.6f / rowsPerColumn);
+            float startY     = (rowsPerColumn - 1) * rowHeight * 0.5f;
+            float colOffsetX = twoColumns ? _camW * 0.23f : 0f;
 
             var slotToName = new Dictionary<int, string>();
             if (PlayerControl.AllPlayerControls != null)
@@ -251,16 +258,21 @@ namespace TownOfUs.Modules.DraftMode
                 }
             }
 
-            for (int i = 0; i < entries.Count; i++)
+            for (int i = 0; i < sorted.Count; i++)
             {
-                var (slot, label, colorHex) = entries[i];
-                float y = startY - i * rowHeight;
+                var (slot, label, colorHex) = sorted[i];
+
+                int rowIndex     = twoColumns ? i / 2 : i;
+                bool inLeftColumn = !twoColumns || i % 2 == 0;
+                float x = twoColumns ? (inLeftColumn ? -colOffsetX : colOffsetX) : 0f;
+                float y = startY - rowIndex * rowHeight;
+
                 slotToName.TryGetValue(slot, out var playerName);
                 playerName ??= $"Slot {slot}";
 
                 var rowGo = new GameObject($"RecapRow_{i}");
                 rowGo.transform.SetParent(_textRoot.transform, false);
-                rowGo.transform.localPosition = new Vector3(0f, y - 0.05f, 0f);
+                rowGo.transform.localPosition = new Vector3(x, y - 0.05f, 0f);
 
                 var tmp = rowGo.AddComponent<TextMeshPro>();
                 CopyFont(tmp);
