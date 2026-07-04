@@ -151,6 +151,29 @@ namespace TownOfUs.Modules.DraftMode
             return resolvedNames.Count > 0;
         }
 
+        public static int GetMaxCountForRoleName(string name)
+        {
+            var role = FindRoleByName(name);
+            return role != null ? Math.Max(1, GetRoleCount(role)) : int.MaxValue;
+        }
+
+        public static bool IsImpostorRoleName(string name)
+        {
+            var role = FindRoleByName(name);
+            if (role == null) return false;
+
+            try
+            {
+                var alignment = MiscUtils.GetParsedRoleAlignment(role);
+                if (!string.IsNullOrEmpty(alignment) &&
+                    alignment.Contains("Impostor", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            catch { }
+
+            return role.Role is RoleTypes.ImpostorGhost or RoleTypes.Impostor or RoleTypes.Shapeshifter;
+        }
+
         private static RoleBehaviour FindRoleByName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return null;

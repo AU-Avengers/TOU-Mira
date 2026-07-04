@@ -272,11 +272,17 @@ namespace TownOfUs.Modules.DraftMode
             ushort chosenRoleId;
             if (chosenName == "__RANDOM__" || chosenName == null)
             {
-
                 var remaining = _pool.Where(r => !string.IsNullOrWhiteSpace(r)).ToList();
-                chosenRoleId = (ushort)(remaining.Count > 0
-                    ? DraftRolePool.ChooseRepresentativeRoleId(new List<string> { remaining[_rng.Next(remaining.Count)] })
-                    : 0);
+                if (remaining.Count > 0)
+                {
+                    var randomName = remaining[_rng.Next(remaining.Count)];
+                    _pool.Remove(randomName);
+                    chosenRoleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { randomName });
+                }
+                else
+                {
+                    chosenRoleId = 0;
+                }
             }
             else
             {
@@ -318,7 +324,7 @@ namespace TownOfUs.Modules.DraftMode
                 Color roleColor = Color.white;
                 if (recapMode == DraftRecapMode.Faction)
                 {
-                    teamLabel = DraftUiManager.GetBroadFaction(roleBehaviour).ToUpperInvariant() ?? "Unknown";
+                    teamLabel = DraftUiManager.GetBroadFaction(roleBehaviour).ToUpperInvariant() + $"<sprite name=\"AmongUs.Role.{DraftUiManager.GetBroadFaction(roleBehaviour)}\">";
                     if (teamLabel != null && teamLabel.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
                         ColorUtility.TryParseHtmlString("#FF0000", out roleColor);
                     else if (teamLabel != null && teamLabel.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
@@ -328,7 +334,7 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 else if (recapMode == DraftRecapMode.Alignment)
                 {
-                    teamLabel = DraftUiManager.GetTeamLabel(roleBehaviour).ToUpperInvariant() ?? "Unknown";
+                    teamLabel = DraftUiManager.GetTeamLabel(roleBehaviour).ToUpperInvariant() + $"<sprite name=\"AmongUs.Role.{DraftUiManager.GetBroadFaction(roleBehaviour)}\">";
                     if (teamLabel != null && teamLabel.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
                         ColorUtility.TryParseHtmlString("#FF0000", out roleColor);
                     else if (teamLabel != null && teamLabel.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))

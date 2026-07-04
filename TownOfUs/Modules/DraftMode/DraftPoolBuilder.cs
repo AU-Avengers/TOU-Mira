@@ -64,15 +64,37 @@ public static class DraftPoolBuilder
             rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
         ];
 
+        var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
+        int maxImps   = impOpts != null ? Math.Max(0, (int)impOpts.MaxImpostors.Value) : int.MaxValue;
+        int addedImps = 0;
+
+        var rng        = new System.Random();
+        var usedCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
         int limit = Math.Min(numPlayers, slots.Length);
         for (int i = 0; i < limit; i++)
         {
-            var roleNames = DraftRolePool.ResolveBucketToRoleNames(
-                RoleListOptionToString(slots[i]));
+            var roleNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(slots[i]));
+            if (roleNames == null || roleNames.Count == 0) continue;
 
-            foreach (var name in roleNames)
-                if (!string.IsNullOrWhiteSpace(name))
-                    pool.Add(name);
+            // Each slot fills exactly one seat, so exactly one role should come out
+            // of it, not the entire (already count-weighted) bucket list. Also drop
+            // anything that already hit its configured max count, and, if we've
+            // already hit the impostor cap, drop impostor-aligned candidates too.
+            var candidates = roleNames
+                .Where(n => !string.IsNullOrWhiteSpace(n))
+                .Where(n => usedCounts.GetValueOrDefault(n) < DraftRolePool.GetMaxCountForRoleName(n))
+                .Where(n => addedImps < maxImps || !DraftRolePool.IsImpostorRoleName(n))
+                .ToList();
+
+            if (candidates.Count == 0) continue;
+
+            var chosen = candidates[rng.Next(candidates.Count)];
+            pool.Add(chosen);
+            usedCounts[chosen] = usedCounts.GetValueOrDefault(chosen) + 1;
+
+            if (DraftRolePool.IsImpostorRoleName(chosen))
+                addedImps++;
         }
 
         return pool;
@@ -141,42 +163,22 @@ public static class DraftPoolBuilder
 
     private static void ExpandBucket(List<string> pool, RoleListOption bucket, int maxSlots)
     {
-        if (maxSlots <= 0) return;
-
-        var names = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(bucket));
-        if (names == null || names.Count == 0) return;
-        int added = 0;
-        while (added < maxSlots)
-        {
-            foreach (var name in names)
-            {
-                if (string.IsNullOrWhiteSpace(name)) continue;
-                pool.Add(name);
-                added++;
-                if (added >= maxSlots) break;
-            }
-        }
+        ExpandBucketCapped(pool, bucket, maxSlots);
     }
 
     private static int ExpandBucketCapped(List<string> pool, RoleListOption bucket, int maxSlots)
     {
         if (maxSlots <= 0) return 0;
 
-        var names = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(bucket));
+        var names = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(bucket))
+            ?.Where(n => !string.IsNullOrWhiteSpace(n))
+            .ToList();
         if (names == null || names.Count == 0) return 0;
+        int take = Math.Min(maxSlots, names.Count);
+        for (int i = 0; i < take; i++)
+            pool.Add(names[i]);
 
-        int added = 0;
-        while (added < maxSlots)
-        {
-            foreach (var name in names)
-            {
-                if (string.IsNullOrWhiteSpace(name)) continue;
-                pool.Add(name);
-                added++;
-                if (added >= maxSlots) break;
-            }
-        }
-        return added;
+        return take;
     }
 
     private static string RoleListOptionToString(RoleListOption opt)
