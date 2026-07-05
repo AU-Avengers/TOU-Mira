@@ -1,5 +1,6 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -7,6 +8,7 @@ using Reactor.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
@@ -97,6 +99,14 @@ public static class DeputyEvents
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
 
             notif1.AdjustNotification();
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
+        }
+        if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller)
+        {
+            var notif = Helpers.CreateAndShowNotification(
+                $"<b>{TownOfUsColors.Deputy.ToTextColor()}{TouLocale.GetParsed("TouRoleDeputyKillerWarnNotif")}</color></b>",
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+            notif.AdjustNotification();
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
         }
     }

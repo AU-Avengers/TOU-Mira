@@ -743,8 +743,11 @@
   <!-- Deputy Feedback -->
   <string name="TouRoleDeputyCampNotif">Wait for \%player\%'s death so you can blast their killer in the meeting.</string>
   <string name="TouRoleDeputyCampedKillNotif">Your camped target, \%player\%, has died! Avenge them in the meeting.</string>
+  <string name="TouRoleDeputyKillerWarnNotif">A Deputy had camped your victim, watch out! </string>
   <string name="TouRoleDeputyMessageTitle">Deputy Feedback</string>
   <string name="TouRoleDeputyMissedShot">You missed your shot! They are either not the killer or are invincible.</string>
+  <!-- Deputy Options -->
+  <string name="TouOptionDeputyWarnKillerOnCampedKill">Warn Killer Upon Killing Camped Target</string>
   <!-- Forensic - Crewmate Investigative -->
   <!-- Forensic Wiki / Abilities -->
   <string name="TouRoleForensic">Forensic</string>
