@@ -929,6 +929,9 @@ public static class HudManagerPatches
                     break;
                 case RoleDistribution.Draft:
                     var draftOpts = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+                    var draftCrewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
+                    var draftImpOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
+                    var draftNeutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
                     rolelistBuilder.Append(StoredDraftTitle);
                     rolelistBuilder.Append(":</color>\n");
                     if (list.UseRoleListForPool.Value)
@@ -957,6 +960,23 @@ public static class HudManagerPatches
 
                             rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
                         }
+                    } else 
+                    {
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigatives: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Powers: {draftCrewOpts.MaxCrewPower.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Killings: {draftCrewOpts.MaxCrewKilling.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Protectives: {draftCrewOpts.MaxCrewProtective.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Supports: {draftCrewOpts.MaxCrewSupport.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Powers: {draftCrewOpts.MaxCrewPower.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killings: {draftImpOpts.MaxImpKilling.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Powers: {draftImpOpts.MaxImpPower.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Supports: {draftImpOpts.MaxImpSupport.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benigns: {draftNeutOpts.MaxNeutBenign.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killings: {draftNeutOpts.MaxNeutKilling.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evils: {draftNeutOpts.MaxNeutEvil.Value} Max");
                     }
                     break;
             }
