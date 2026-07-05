@@ -17,9 +17,9 @@ public static class DraftPoolBuilder
 
         return BuildPoolFromManualAmounts();
     }
-    public static List<string> GetOfferedRoles(List<string> currentPool, System.Random rng = null)
+    public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null, ICollection<string> avoid = null)
     {
-        rng ??= new System.Random();
+        rng ??= new UnityRng();
         var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
         if (roleOpts == null) return new List<string>();
 
@@ -33,17 +33,32 @@ public static class DraftPoolBuilder
 
         for (int i = poolCopy.Count - 1; i > 0; i--)
         {
-            int j = rng.Next(i + 1);
+            int j = rng.NextInt(i + 1);
             (poolCopy[i], poolCopy[j]) = (poolCopy[j], poolCopy[i]);
         }
 
         var picked = new List<string>();
         var seen   = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var candidate in poolCopy)
+
+        if (avoid != null && avoid.Count > 0)
         {
-            if (string.IsNullOrEmpty(candidate)) continue;
-            if (seen.Add(candidate)) picked.Add(candidate);
-            if (picked.Count >= offered) break;
+            foreach (var candidate in poolCopy)
+            {
+                if (string.IsNullOrEmpty(candidate)) continue;
+                if (avoid.Contains(candidate)) continue;
+                if (seen.Add(candidate)) picked.Add(candidate);
+                if (picked.Count >= offered) break;
+            }
+        }
+
+        if (picked.Count < offered)
+        {
+            foreach (var candidate in poolCopy)
+            {
+                if (string.IsNullOrEmpty(candidate)) continue;
+                if (seen.Add(candidate)) picked.Add(candidate);
+                if (picked.Count >= offered) break;
+            }
         }
 
         return picked;
@@ -68,7 +83,7 @@ public static class DraftPoolBuilder
         int maxImps   = impOpts != null ? Math.Max(0, (int)impOpts.MaxImpostors.Value) : int.MaxValue;
         int addedImps = 0;
 
-        var rng        = new System.Random();
+        IRng rng       = new UnityRng();
         var usedCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         int limit = Math.Min(numPlayers, slots.Length);
@@ -77,10 +92,6 @@ public static class DraftPoolBuilder
             var roleNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(slots[i]));
             if (roleNames == null || roleNames.Count == 0) continue;
 
-            // Each slot fills exactly one seat, so exactly one role should come out
-            // of it, not the entire (already count-weighted) bucket list. Also drop
-            // anything that already hit its configured max count, and, if we've
-            // already hit the impostor cap, drop impostor-aligned candidates too.
             var candidates = roleNames
                 .Where(n => !string.IsNullOrWhiteSpace(n))
                 .Where(n => usedCounts.GetValueOrDefault(n) < DraftRolePool.GetMaxCountForRoleName(n))
@@ -89,7 +100,7 @@ public static class DraftPoolBuilder
 
             if (candidates.Count == 0) continue;
 
-            var chosen = candidates[rng.Next(candidates.Count)];
+            var chosen = candidates[rng.NextInt(candidates.Count)];
             pool.Add(chosen);
             usedCounts[chosen] = usedCounts.GetValueOrDefault(chosen) + 1;
 
@@ -174,6 +185,7 @@ public static class DraftPoolBuilder
             ?.Where(n => !string.IsNullOrWhiteSpace(n))
             .ToList();
         if (names == null || names.Count == 0) return 0;
+
         int take = Math.Min(maxSlots, names.Count);
         for (int i = 0; i < take; i++)
             pool.Add(names[i]);

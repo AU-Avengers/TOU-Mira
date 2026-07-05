@@ -17,15 +17,6 @@ public static class DraftRpcs
         DraftManager.SubmitPick(sender.PlayerId, (byte)index);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.DraftRequestReroll)]
-    public static void RpcRequestReroll(PlayerControl sender)
-    {
-        if (!AmongUsClient.Instance.AmHost) return;
-        if (sender == null) return;
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcRequestReroll: player {sender.PlayerId}");
-        DraftEngineBehaviour.Instance?.RequestReroll(sender.PlayerId);
-    }
-
     [MethodRpc((uint)TownOfUsRpc.DraftStart)]
     public static void RpcStartDraft(PlayerControl sender, int totalSlots)
     {
@@ -241,19 +232,6 @@ public static class DraftNetworkHelper
 
         DraftRpcs.RpcAnnounceTurn(PlayerControl.LocalPlayer, turnNumber, slot, playerId, (byte)count,
             padded[0], padded[1], padded[2], padded[3], padded[4], padded[5], padded[6], padded[7], padded[8]);
-    }
-
-    public static void RequestReroll()
-    {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftNetworkHelper] RequestReroll");
-        if (AmongUsClient.Instance.AmHost)
-        {
-            DraftEngineBehaviour.Instance?.RequestReroll(PlayerControl.LocalPlayer.PlayerId);
-        }
-        else
-        {
-            DraftRpcs.RpcRequestReroll(PlayerControl.LocalPlayer);
-        }
     }
 
     public static void BroadcastPickConfirmed(int slot, ushort roleId)

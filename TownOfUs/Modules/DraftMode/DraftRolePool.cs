@@ -1,4 +1,3 @@
-using System;
 using AmongUs.GameOptions;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -125,10 +124,10 @@ namespace TownOfUs.Modules.DraftMode
                     }
                 }
 
-                var rng = new System.Random();
+                IRng rng = new UnityRng();
                 for (int i = names.Count - 1; i > 0; i--)
                 {
-                    int j = rng.Next(i + 1);
+                    int j = rng.NextInt(i + 1);
                     (names[i], names[j]) = (names[j], names[i]);
                 }
 

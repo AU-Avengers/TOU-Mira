@@ -12,8 +12,6 @@ namespace TownOfUs.Modules.DraftMode
     {
         public static DraftScreenController Instance { get; private set; }
 
-        public const int RerollCardIndex = -42;
-
         private sealed class DraftCardIdleCache
         {
             public Transform Card;
@@ -846,13 +844,6 @@ namespace TownOfUs.Modules.DraftMode
         private void OnCardClicked(int index)
         {
             if (_hasPicked) return;
-
-            if (index == RerollCardIndex)
-            {
-                _hasPicked = true;
-                DraftNetworkHelper.RequestReroll();
-                return;
-            }
 
             _hasPicked = true;
             DraftNetworkHelper.SendPickToHost(index);

@@ -79,9 +79,16 @@ public static class DraftManager
 
     public static void SetClientTurn(int turnNumber, int slot)
     {
-        _currentTurn = turnNumber;
-        foreach (var s in SlotStates)
-            s.IsPickingNow = s.SlotNumber == slot;
+        if (turnNumber != _currentTurn)
+        {
+            _currentTurn = turnNumber;
+            foreach (var s in SlotStates)
+                s.IsPickingNow = false;
+        }
+
+        var target = SlotStates.FirstOrDefault(s => s.SlotNumber == slot);
+        if (target != null)
+            target.IsPickingNow = true;
 
         DraftSidebarManager.InvalidateCache();
         DraftStatusOverlay.Refresh();
