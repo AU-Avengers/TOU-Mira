@@ -39,6 +39,8 @@ public sealed class RemoteKillButton : TownOfUsButton
                !FreeplayButtonsVisibility.Hidden;
     }
 
+    private PlayerControl? target1;
+
     protected override void OnClick()
     {
         PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -51,57 +53,42 @@ public sealed class RemoteKillButton : TownOfUsButton
         Killer = null;
         Victim = null;
 
-        var player1Menu = CustomPlayerMenu.Create();
-        player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        var playerMenu = CustomPlayerMenu.Create();
+        playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        player1Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
-        player1Menu.Begin(
+        playerMenu.Begin(
             plr => !plr.Data.Disconnected &&
                    (plr.moveable || plr.inVent),
             plr =>
             {
-                player1Menu.ForceClose();
-
                 if (plr == null)
                 {
                     return;
                 }
-
-                var player2Menu = CustomPlayerMenu.Create();
-                player2Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
-                    plr.cosmetics.currentBodySprite.BodySprite.material;
-                player2Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
-                    plr.cosmetics.currentBodySprite.BodySprite.material;
-
-                player2Menu.Begin(
-                    plr2 => !plr2.Data.Disconnected && !plr2.Data.IsDead &&
-                            (plr2.moveable || plr2.inVent),
-                    plr2 =>
-                    {
-                        player2Menu.Close();
-                        if (plr2 == null)
-                        {
-                            return;
-                        }
-
-                        Killer = plr;
-                        Victim = plr2;
-                        EffectActive = true;
-                        Timer = EffectDuration;
-                    }
-                );
-                foreach (var panel in player2Menu.potentialVictims)
+                if (target1 == null) // Set the Killer
                 {
-                    if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
-                    {
-                        panel.NameText.color = Color.white;
-                    }
+                    target1 = plr;
+                    return;
                 }
+                if (target1.PlayerId == plr.PlayerId) // Unselect the Killer
+                {
+                    Killer = null;
+                    return;
+                }
+                playerMenu.Close();
+
+                Killer = target1;
+                Victim = plr;
+                EffectActive = true;
+                Timer = EffectDuration;
+
+                target1 = null;
             }
         );
-        foreach (var panel in player1Menu.potentialVictims)
+        foreach (var panel in playerMenu.potentialVictims)
         {
             if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
             {

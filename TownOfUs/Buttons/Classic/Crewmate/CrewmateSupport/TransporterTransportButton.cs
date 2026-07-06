@@ -30,6 +30,8 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
         OnClick();
     }
 
+    private PlayerControl? target1;
+
     protected override void OnClick()
     {
         if (!OptionGroupSingleton<TransporterOptions>.Instance.MoveWithMenu)
@@ -42,57 +44,41 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
             return;
         }
 
-        var player1Menu = CustomPlayerMenu.Create();
-        player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+        var playerMenu = CustomPlayerMenu.Create();
+        playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-        player1Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+        playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
-        player1Menu.Begin(
+        playerMenu.Begin(
             plr => ((!plr.Data.Disconnected && !plr.Data.IsDead) || Helpers.GetBodyById(plr.PlayerId)) &&
                    (plr.moveable || plr.inVent),
             plr =>
             {
-                player1Menu.ForceClose();
-
                 if (plr == null)
                 {
                     return;
                 }
 
-                var player2Menu = CustomPlayerMenu.Create();
-                player2Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
-                    PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-                player2Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
-                    PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
-
-                player2Menu.Begin(
-                    plr2 => plr2.PlayerId != plr.PlayerId &&
-                            (!plr2.HasDied() ||
-                             Helpers.GetBodyById(plr2.PlayerId) /*  || MiscUtils.GetFakePlayer(plr2)?.body */) &&
-                            (plr2.moveable || plr2.inVent),
-                    plr2 =>
-                    {
-                        player2Menu.Close();
-                        if (plr2 == null)
-                        {
-                            return;
-                        }
-
-                        TransporterRole.RpcTransport(PlayerControl.LocalPlayer, plr.PlayerId, plr2.PlayerId);
-                    }
-                );
-                foreach (var panel in player2Menu.potentialVictims)
+                if (target1 == null) // Set first choice
                 {
-                    panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
-                    if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
-                    {
-                        panel.NameText.color = Color.white;
-                    }
+                    target1 = plr;
+                    return;
                 }
+                if (target1.PlayerId == plr.PlayerId) // Unselect first choice
+                {
+                    target1 = null;
+                    return;
+                }
+
+                playerMenu.Close();
+
+                TransporterRole.RpcTransport(PlayerControl.LocalPlayer, target1.PlayerId, plr.PlayerId);
+
+                target1 = null;
             }
         );
-        foreach (var panel in player1Menu.potentialVictims)
+        foreach (var panel in playerMenu.potentialVictims)
         {
             panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
             if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
