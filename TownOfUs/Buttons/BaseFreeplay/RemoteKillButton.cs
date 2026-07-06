@@ -72,12 +72,14 @@ public sealed class RemoteKillButton : TownOfUsButton
                 {
                     target1 = plr;
                     var targetPanel = playerMenu.GetVictimPanel(target1.Data);
+                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
                     // set outline for targetPanel
                     return;
                 }
                 if (target1.PlayerId == plr.PlayerId) // Unselect the Killer
                 {
                     var targetPanel = playerMenu.GetVictimPanel(target1.Data);
+                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
                     // clear outline for targetPanel
                     Killer = null;
                     return;

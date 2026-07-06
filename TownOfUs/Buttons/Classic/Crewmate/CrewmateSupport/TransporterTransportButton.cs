@@ -64,12 +64,14 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
                 {
                     target1 = plr;
                     var targetPanel = playerMenu.GetVictimPanel(target1.Data);
+                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
                     // set outline for targetPanel
                     return;
                 }
                 if (target1.PlayerId == plr.PlayerId) // Unselect first choice
                 {
                     var targetPanel = playerMenu.GetVictimPanel(target1.Data);
+                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
                     // clear outline for targetPanel
                     target1 = null;
                     return;
