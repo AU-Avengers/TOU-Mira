@@ -63,13 +63,13 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
                 if (target1 == null) // Set first choice
                 {
                     target1 = plr;
-                    var targetPanel = playerMenu.potentialVictims.First(victim => victim.NameText.text == target1.Data.PlayerName);
+                    var targetPanel = playerMenu.GetVictimPanel(target1.Data);
                     // set outline for targetPanel
                     return;
                 }
                 if (target1.PlayerId == plr.PlayerId) // Unselect first choice
                 {
-                    var targetPanel = playerMenu.potentialVictims.First(victim => victim.NameText.text == target1.Data.PlayerName);
+                    var targetPanel = playerMenu.GetVictimPanel(target1.Data);
                     // clear outline for targetPanel
                     target1 = null;
                     return;

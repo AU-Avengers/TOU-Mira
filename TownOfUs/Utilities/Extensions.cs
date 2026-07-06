@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using LibCpp2IL;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -425,6 +426,12 @@ public static class Extensions
         panel.NameText.text = finalString;
         panel.NameText.alignment = TextAlignmentOptions.Right;
         panel.NameText.transform.localPosition += Vector3.left * 0.05f;
+    }
+
+    public static ShapeshifterPanel GetVictimPanel(this CustomPlayerMenu playerMenu, NetworkedPlayerInfo player)
+    {
+        return playerMenu.potentialVictims.First(victim =>
+            victim.NameText.text == player.PlayerName || victim.ColorBlindName.text == player.PlayerName);
     }
 
     [MethodRpc((uint)TownOfUsRpc.ChangeRole)]
