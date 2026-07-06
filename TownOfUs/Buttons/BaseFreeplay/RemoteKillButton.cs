@@ -71,10 +71,14 @@ public sealed class RemoteKillButton : TownOfUsButton
                 if (target1 == null) // Set the Killer
                 {
                     target1 = plr;
+                    var targetPanel = playerMenu.potentialVictims.First(victim => victim.NameText.text == target1.Data.PlayerName);
+                    // set outline for targetPanel
                     return;
                 }
                 if (target1.PlayerId == plr.PlayerId) // Unselect the Killer
                 {
+                    var targetPanel = playerMenu.potentialVictims.First(victim => victim.NameText.text == target1.Data.PlayerName);
+                    // clear outline for targetPanel
                     Killer = null;
                     return;
                 }
