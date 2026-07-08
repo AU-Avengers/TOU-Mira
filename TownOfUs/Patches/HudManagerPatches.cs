@@ -861,7 +861,7 @@ public static class HudManagerPatches
         else
         {
             RoleList.SetActive(false);
-            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList)
+            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList && roleAssignmentType is not RoleDistribution.Draft)
             {
                 return;
             }
@@ -925,6 +925,58 @@ public static class HudManagerPatches
                         rolelistBuilder.Append(max);
                         rolelistBuilder.Append(' ');
                         rolelistBuilder.AppendLine(StoredMaximum);
+                    }
+                    break;
+                case RoleDistribution.Draft:
+                    var draftOpts = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+                    var draftCrewOpts = OptionGroupSingleton<RoleDraftCrewOptions>.Instance;
+                    var draftImpOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
+                    var draftNeutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
+                    rolelistBuilder.Append(StoredDraftTitle);
+                    rolelistBuilder.Append(":</color>\n");
+                    if (list.UseRoleListForPool.Value)
+                    {
+                        for (var i = 0; i < maxSlots; i++)
+                        {
+                            var slotValue = i switch
+                            {
+                                0 => draftOpts.Slot1.Value,
+                                1 => draftOpts.Slot2.Value,
+                                2 => draftOpts.Slot3.Value,
+                                3 => draftOpts.Slot4.Value,
+                                4 => draftOpts.Slot5.Value,
+                                5 => draftOpts.Slot6.Value,
+                                6 => draftOpts.Slot7.Value,
+                                7 => draftOpts.Slot8.Value,
+                                8 => draftOpts.Slot9.Value,
+                                9 => draftOpts.Slot10.Value,
+                                10 => draftOpts.Slot11.Value,
+                                11 => draftOpts.Slot12.Value,
+                                12 => draftOpts.Slot13.Value,
+                                13 => draftOpts.Slot14.Value,
+                                14 => draftOpts.Slot15.Value,
+                                _ => (RoleListOption)(-1)
+                            };
+
+                            rolelistBuilder.AppendLine(GetRoleForSlot(slotValue));
+                        }
+                    } else 
+                    {
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigatives: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Powers: {draftCrewOpts.MaxCrewPower.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Killings: {draftCrewOpts.MaxCrewKilling.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Protectives: {draftCrewOpts.MaxCrewProtective.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Supports: {draftCrewOpts.MaxCrewSupport.Value} Max");
+                        rolelistBuilder.AppendLine($"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Powers: {draftCrewOpts.MaxCrewPower.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killings: {draftImpOpts.MaxImpKilling.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Powers: {draftImpOpts.MaxImpPower.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Supports: {draftImpOpts.MaxImpSupport.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benigns: {draftNeutOpts.MaxNeutBenign.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killings: {draftNeutOpts.MaxNeutKilling.Value} Max");
+                        rolelistBuilder.AppendLine($"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evils: {draftNeutOpts.MaxNeutEvil.Value} Max");
                     }
                     break;
             }
@@ -1201,6 +1253,7 @@ public static class HudManagerPatches
     public static string NeutralKillers { get; private set; } = "Neutral Killers";
     public static string StoredMinimum { get; private set; } = "Min";
     public static string StoredMaximum { get; private set; } = "Max";
+    public static string StoredDraftTitle { get; private set; } = "Draft Mode";
     internal static List<string> StoredRoleBuckets =
     [
         "CrewInvestigative",
@@ -1247,6 +1300,7 @@ public static class HudManagerPatches
         StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");
         StoredRoleList = TouLocale.Get("SetRoleList");
         StoredFactionList = TouLocale.Get("NeutralFactionList");
+        StoredDraftTitle = TouLocale.Get("StoredDraftTitle");
         List<string> lists =
         [
             TouLocale.Get("NeutralBenigns"),
