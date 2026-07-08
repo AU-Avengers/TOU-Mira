@@ -25,20 +25,7 @@ public static class AntiRichTextNamePatch
     {
         string name = __instance.Data?.PlayerName ?? "";
         if (!RichTextPattern.IsMatch(name)) return;
-
-        if (__instance == PlayerControl.LocalPlayer)
-        {
-            if (_warnedPlayers.Contains(__instance.PlayerId)) return;
-            _warnedPlayers.Add(__instance.PlayerId);
-
-            Helpers.CreateAndShowNotification(
-                "Warning: your name contains rich text tags and may get you kicked.",
-                Color.yellow
-            );
-            return;
-        }
         if (!AmongUsClient.Instance.AmHost) return;
-        if (!OptionGroupSingleton<HostSpecificOptions>.Instance.KickRichTextNames) return;
 
         Helpers.CreateAndShowNotification(
             $"<b>{name}</b> was kicked for having Unity Rich Text tags in name.",
