@@ -24,7 +24,6 @@ public abstract class NeutralRole(IntPtr cppPtr) : RoleBehaviour(cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
     }
     public override bool IsDead => false; // needed because we inherit from RoleBehaviour
-    public static bool IsDraftable => false;
     public override bool IsAffectedByComms => false;
 
 #pragma warning disable S927 // Parameter names should match base declaration and other partial definitions
