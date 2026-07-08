@@ -173,6 +173,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Inquisitor.LoadAsset(), "TouMira.Role.Neutral.Inquisitor", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Inquisitor,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
@@ -211,7 +212,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         stringB.AppendLine(TownOfUsPlugin.Culture, $"<b>{TouLocale.Get("TouRoleInquisitorTabAddition")}</b>");
         foreach (var role in TargetRoles)
         {
-            var newText = $"<b><size=80%>{role.TeamColor.ToTextColor()}{role.GetRoleName()}</size></b>";
+            var newText = $"<b><size=80%>{MiscUtils.GetRoleTmpIcon(role)}{role.TeamColor.ToTextColor()}{role.GetRoleName()}</size></b>";
             stringB.AppendLine(TownOfUsPlugin.Culture, $"{newText}");
         }
 

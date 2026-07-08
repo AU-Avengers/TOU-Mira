@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Roles.Impostor;

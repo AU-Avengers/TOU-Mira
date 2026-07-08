@@ -58,6 +58,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medium.LoadAsset(), "TouMira.Role.Crewmate.Medium", 1.45f),
         Icon = TouRoleIcons.Medium,
         OptionsScreenshot = TouBanners.MediumRoleBanner,
         IntroSound = TouAudio.MediumIntroSound

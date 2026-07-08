@@ -2,7 +2,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
 using TownOfUs.Options.Modifiers.Crewmate;

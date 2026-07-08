@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;

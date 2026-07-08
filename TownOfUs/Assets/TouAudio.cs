@@ -1,6 +1,5 @@
 using AmongUs.GameOptions;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using UnityEngine;
 
 namespace TownOfUs.Assets;

@@ -2284,6 +2284,20 @@ public static class MiscUtils
 
         player.RpcPlayerExile();
     }
+
+    public static string GetRoleTmpIcon(RoleTypes role)
+    {
+        return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+    }
+
+    public static string GetRoleTmpIcon(RoleBehaviour role)
+    {
+        if (role is ICustomRole custom)
+        {
+            return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
+        }
+        return $"<sprite name=\"AmongUs.Role.{role.Role.ToString()}\">";
+    }
 }
 
 public enum GameUtility

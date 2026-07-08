@@ -162,6 +162,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Haunter.LoadAsset(), "TouMira.Role.Crewmate.Haunter", 1.45f),
         Icon = TouRoleIcons.Haunter,
         OptionsScreenshot = TouBanners.HaunterRoleBanner,
         TasksCountForProgress = false,

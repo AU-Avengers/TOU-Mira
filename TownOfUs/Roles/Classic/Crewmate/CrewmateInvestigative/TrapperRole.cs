@@ -50,6 +50,7 @@ public sealed class TrapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Trapper.LoadAsset(), "TouMira.Role.Crewmate.Trapper", 1.45f),
         Icon = TouRoleIcons.Trapper,
         OptionsScreenshot = TouBanners.TrapperRoleBanner,
         IntroSound = TouAudio.SuspenseIntro,

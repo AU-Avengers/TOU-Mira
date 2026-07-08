@@ -2,7 +2,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches.PrefabChanging;

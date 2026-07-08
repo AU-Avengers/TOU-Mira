@@ -50,6 +50,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Sentry.LoadAsset(), "TouMira.Role.Crewmate.Sentry", 1.45f),
         Icon = TouRoleIcons.Sentry,
         OptionsScreenshot = TouBanners.SentryRoleBanner,
         IntroSound = TouAudio.SentryIntro,

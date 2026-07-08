@@ -33,6 +33,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Aurial.LoadAsset(), "TouMira.Role.Crewmate.Aurial", 1.45f),
         Icon = TouRoleIcons.Aurial,
         OptionsScreenshot = TouBanners.AurialRoleBanner,
         IntroSound = TouAudio.MediumIntroSound

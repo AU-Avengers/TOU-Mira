@@ -82,6 +82,10 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
             meetingInstance.StartCoroutine(Effects.SwayX(BmOverlay.transform));
         }
 
+        if (!Player.AmOwner)
+        {
+            return;
+        }
         if (!IsVoteReady && !VoteArea.DidVote && meetingInstance.state == MeetingHud.VoteStates.NotVoted &&
             (Helpers.GetAlivePlayers().Count > MaxAlivesNeeded))
         {
@@ -131,15 +135,8 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
                 if (MeetingHud.Instance)
                 {
                     VoteArea.SetVote(252);
-                    if (OnlyTargetSees)
-                    {
-                        VoteArea.Flag.enabled = false;
-                    }
 
-                    if (Player.AmOwner)
-                    {
-                        meetingInstance.Confirm(252);
-                    }
+                    meetingInstance.Confirm(252);
 
                     AboutToVote = false;
                     Info($"voted because everyone finished!");
@@ -157,15 +154,8 @@ public sealed class BlackmailedModifier(byte blackMailerId) : BaseModifier
         if (MeetingHud.Instance)
         {
             VoteArea.SetVote(252);
-            if (OnlyTargetSees)
-            {
-                VoteArea.Flag.enabled = false;
-            }
 
-            if (Player.AmOwner)
-            {
-                meetingInstance.Confirm(252);
-            }
+            meetingInstance.Confirm(252);
 
             Info($"voted because time ran out!");
         }
