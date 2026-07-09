@@ -44,12 +44,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Transport", "Transport"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}TransportWikiDescription"),
                     TouCrewAssets.Transport)
-            };
+            ];
         }
     }
 

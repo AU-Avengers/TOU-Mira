@@ -15,7 +15,7 @@ public static class UpCommandRequests
     /// <summary>
     /// Dictionary mapping player names to requested role names.
     /// </summary>
-    private static readonly Dictionary<string, string> Requests = new();
+    private static readonly Dictionary<string, string> Requests = [];
 
     /// <summary>
     /// Clears all /up requests. Should be called when entering lobby.
@@ -160,6 +160,6 @@ public static class UpCommandRequests
     /// <returns>A dictionary of all current requests (player name -> role name).</returns>
     public static Dictionary<string, string> GetAllRequests()
     {
-        return new Dictionary<string, string>(Requests);
+        return [with(Requests)];
     }
 }

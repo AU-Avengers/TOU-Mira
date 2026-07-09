@@ -121,7 +121,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
         Coroutines.Start(CoMarkForDeath(Target));
     }
 
-    public List<PlayerControl> MarkedTargets = new();
+    public List<PlayerControl> MarkedTargets = [];
 
     public IEnumerator CoMarkForDeath(PlayerControl player)
     {

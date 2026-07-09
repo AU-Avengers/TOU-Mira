@@ -15,7 +15,7 @@ public static class PaletteColorsPatch
             __result = "???";
             return false;
         }
-        var vanillaString = TranslationController.Instance.GetString(Palette.ColorNames[colorId], Array.Empty<Object>());
+        var vanillaString = TranslationController.Instance.GetString(Palette.ColorNames[colorId], []);
         
         if (vanillaString != null)
         {

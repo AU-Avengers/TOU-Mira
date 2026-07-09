@@ -12,7 +12,7 @@ namespace TownOfUs.Utilities;
 internal static class NetTransformBacklogUtils
 {
     private static bool _searched;
-    private static FieldInfo[] _clearableCollectionFields = Array.Empty<FieldInfo>();
+    private static FieldInfo[] _clearableCollectionFields = [];
 
     private static void EnsureSearched()
     {
@@ -71,7 +71,7 @@ internal static class NetTransformBacklogUtils
         }
         catch
         {
-            _clearableCollectionFields = Array.Empty<FieldInfo>();
+            _clearableCollectionFields = [];
         }
     }
 

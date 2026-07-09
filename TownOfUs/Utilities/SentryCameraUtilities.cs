@@ -306,7 +306,7 @@ public static class SentryCameraUtilities
 
         var allCameras = ShipStatus.Instance.AllCameras != null
             ? ShipStatus.Instance.AllCameras.ToList()
-            : new List<SurvCamera>();
+            : [];
         allCameras.Add(camera);
         ShipStatus.Instance.AllCameras = allCameras.ToArray();
 

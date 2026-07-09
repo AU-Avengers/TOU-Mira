@@ -12,7 +12,7 @@ internal static class TimeLordTaskManager
         public bool Done { get; set; }
     }
 
-    private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
+    private static readonly List<HostTaskCompletion> HostTaskCompletions = [with(64)];
     private static List<ScheduledTaskUndo>? _hostTaskUndos;
 
     public static void ClearHostTaskHistory()
@@ -63,7 +63,7 @@ internal static class TimeLordTaskManager
             return;
         }
 
-        _hostTaskUndos = new List<ScheduledTaskUndo>(schedule.Count);
+        _hostTaskUndos = [with(schedule.Count)];
         foreach (var (playerId, taskId, triggerAt) in schedule)
         {
             _hostTaskUndos.Add(new ScheduledTaskUndo(playerId, taskId, triggerAt));

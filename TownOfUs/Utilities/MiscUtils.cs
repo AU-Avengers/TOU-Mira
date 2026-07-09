@@ -1933,14 +1933,14 @@ public static class MiscUtils
         return text;
     }
 
-    private static List<SupportedLangs> _languagesToBold = new List<SupportedLangs>
-    {
+    private static List<SupportedLangs> _languagesToBold =
+    [
         SupportedLangs.Russian,
         SupportedLangs.Japanese,
         SupportedLangs.SChinese,
         SupportedLangs.TChinese,
         SupportedLangs.Korean
-    };
+    ];
 
     public static void AdjustNotification(this LobbyNotificationMessage notification)
     {
@@ -2081,7 +2081,7 @@ public static class MiscUtils
     public static object? TryOtherCast(this Il2CppObjectBase self, Type type)
     {
         return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type)
-            .Invoke(self, Array.Empty<object>());
+            .Invoke(self, []);
     }
 
     public static IList CreateList(Type myType)

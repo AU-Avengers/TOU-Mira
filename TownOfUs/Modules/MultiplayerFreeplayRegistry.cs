@@ -24,7 +24,7 @@ public static class MultiplayerFreeplayRegistry
             .OrderBy(t => t.FullName, StringComparer.Ordinal)
             .ToList();
 
-        _modifierTypeToId = new Dictionary<Type, ushort>(_modifierTypesSorted.Count);
+        _modifierTypeToId = [with(_modifierTypesSorted.Count)];
         for (ushort i = 0; i < _modifierTypesSorted.Count; i++)
         {
             _modifierTypeToId[_modifierTypesSorted[i]] = i;

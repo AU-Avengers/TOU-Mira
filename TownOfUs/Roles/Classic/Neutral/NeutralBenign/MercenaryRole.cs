@@ -53,15 +53,15 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Guard", "Guard"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}GuardWikiDescription"),
                     TouNeutAssets.GuardSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Bribe", "Bribe"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BribeWikiDescription"),
                     TouNeutAssets.BribeSprite)
-            };
+            ];
         }
     }
 

@@ -43,12 +43,12 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Watch", "Watch"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}WatchWikiDescription"),
                     TouCrewAssets.WatchSprite)
-            };
+            ];
         }
     }
 

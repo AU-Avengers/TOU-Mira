@@ -9,9 +9,9 @@ namespace TownOfUs.Modules.TimeLord;
 /// </summary>
 public sealed class TimeLordEventRegistry
 {
-    private readonly List<QueuedEvent> _events = new();
-    private readonly Dictionary<Type, Action<TimeLordEvent>> _undoHandlers = new();
-    private readonly Dictionary<Type, Func<TimeLordEvent, TimeLordUndoEvent>> _undoEventFactories = new();
+    private readonly List<QueuedEvent> _events = [];
+    private readonly Dictionary<Type, Action<TimeLordEvent>> _undoHandlers = [];
+    private readonly Dictionary<Type, Func<TimeLordEvent, TimeLordUndoEvent>> _undoEventFactories = [];
 
     private sealed record QueuedEvent(TimeLordEvent Event, float Time)
     {

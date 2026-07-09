@@ -21,7 +21,7 @@ internal static class TimeLordAnimationUtilities
         public AnimationClip? LadderDown { get; set; }
     }
 
-    private static readonly Dictionary<int, SpecialClipSet> SpecialClipsByGroupHash = new();
+    private static readonly Dictionary<int, SpecialClipSet> SpecialClipsByGroupHash = [];
 
     public static bool IsInInvisibleAnimation(PlayerControl lp)
     {

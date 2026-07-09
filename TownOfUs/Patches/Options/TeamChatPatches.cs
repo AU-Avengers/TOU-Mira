@@ -32,9 +32,9 @@ public static class TeamChatPatches
     public static Transform PublicChatItems;
     public static Transform PrivateChatItems;
     public static Transform MergedChatItems;
-    public static List<ChatBubble> PublicChatBubbles = new();
-    public static List<ChatBubble> PrivateChatBubbles = new();
-    public static List<MergedBubble> MergedChatBubbles = new();
+    public static List<ChatBubble> PublicChatBubbles = [];
+    public static List<ChatBubble> PrivateChatBubbles = [];
+    public static List<MergedBubble> MergedChatBubbles = [];
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PublicChatPool = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PrivateChatPool = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> MergedChatPool = new();
@@ -147,7 +147,7 @@ public static class TeamChatPatches
     public static class TeamChatManager
     {
         private static bool _builtInChatsRegistered;
-        private static readonly HashSet<int> UnreadChatPriorities = new HashSet<int>();
+        private static readonly HashSet<int> UnreadChatPriorities = [];
 
         /// <summary>
         /// Get the set of unread chat priorities. Used for checking unread status.

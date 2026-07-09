@@ -48,7 +48,7 @@ public static class TimeLordRewindSystem
     // Snapshot, CircularBuffer, TaskStepBuffer, and BodyPosBuffer moved to TimeLordSnapshotBuffer helper
     private static readonly TimeLord.CircularBuffer Buffer = new(1024);
     private static readonly TimeLord.TaskStepBuffer TaskBuffer = new(1024, 24);
-    private static uint[] _trackedTaskIds = Array.Empty<uint>();
+    private static uint[] _trackedTaskIds = [];
     private static int _trackedTaskCount;
     
 
@@ -85,9 +85,9 @@ public static class TimeLordRewindSystem
     private static float _lastKillCooldownSampleTime;
     private static float _lastKillCooldownValue = -1f;
     private static float _lastKillButtonCooldownSampleTime;
-    private static readonly HashSet<byte> _hostPendingRewindRevives = new();
-    private static readonly HashSet<byte> _pendingDeferredRevives = new();
-    private static readonly HashSet<byte> _deferredReviveInProgress = new();
+    private static readonly HashSet<byte> _hostPendingRewindRevives = [];
+    private static readonly HashSet<byte> _pendingDeferredRevives = [];
+    private static readonly HashSet<byte> _deferredReviveInProgress = [];
 
     private readonly record struct ButtonCooldownSample(float Time, float Timer, bool EffectActive);
 
@@ -100,26 +100,26 @@ public static class TimeLordRewindSystem
 
     private sealed record ButtonCooldownSeries
     {
-        public List<ButtonCooldownSample> Samples { get; } = new(256);
+        public List<ButtonCooldownSample> Samples { get; } = [with(256)];
         public int StartIndex { get; set; }
     }
 
-    private static readonly List<CustomActionButton> CachedKillLikeButtons = new(16);
+    private static readonly List<CustomActionButton> CachedKillLikeButtons = [with(16)];
     private static Type? _cachedKillLikeRoleType;
     private static float _lastKillLikeButtonsRefreshTime;
 
     private static readonly Dictionary<CustomActionButton, ButtonCooldownSeries> KillButtonCooldownHistory =
-        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
+        [with(ReferenceEqualityComparer<CustomActionButton>.Instance)];
 
     private static readonly HashSet<CustomActionButton> KillButtonCooldownMaxClampedThisRewind =
-        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
+        [with(ReferenceEqualityComparer<CustomActionButton>.Instance)];
 
-    private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = new();
+    private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = [];
     private static List<ScheduledBodyPos>? _hostBodyPlacements;
 
     private readonly record struct HostTaskCompletion(byte PlayerId, uint TaskId, DateTime TimeUtc, int TaskStep);
 
-    private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
+    private static readonly List<HostTaskCompletion> HostTaskCompletions = [with(64)];
     private static List<ScheduledTaskUndo>? _hostTaskUndos;
     private static Dictionary<(byte PlayerId, uint TaskId), int>? _hostTaskStepMap;
 
@@ -191,7 +191,7 @@ public static class TimeLordRewindSystem
         TaskBuffer.Clear();
         _lastRecordedPos = default;
         _hasLastRecordedPos = false;
-        _trackedTaskIds = Array.Empty<uint>();
+        _trackedTaskIds = [];
         _trackedTaskCount = 0;
         _lastRewindAnim = SpecialAnim.None;
         _lastKillCooldownSampleTime = 0f;
@@ -438,7 +438,7 @@ public static class TimeLordRewindSystem
         // Also store in the step map for immediate use
         if (_hostTaskStepMap == null)
         {
-            _hostTaskStepMap = new Dictionary<(byte PlayerId, uint TaskId), int>();
+            _hostTaskStepMap = [];
         }
         _hostTaskStepMap[(player.PlayerId, task.Id)] = taskStep;
 
@@ -473,7 +473,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        _hostTaskUndos = new List<ScheduledTaskUndo>(schedule.Count);
+        _hostTaskUndos = [with(schedule.Count)];
         foreach (var (playerId, taskId, triggerAt) in schedule)
         {
             _hostTaskUndos.Add(new ScheduledTaskUndo(playerId, taskId, triggerAt));
@@ -533,7 +533,7 @@ public static class TimeLordRewindSystem
         // Store task steps for later use in UndoTask
         if (_hostTaskStepMap == null)
         {
-            _hostTaskStepMap = new Dictionary<(byte PlayerId, uint TaskId), int>();
+            _hostTaskStepMap = [];
         }
         foreach (var item in schedule)
         {
@@ -1064,7 +1064,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        _hostRevives = new List<ScheduledRevive>(revives.Count);
+        _hostRevives = [with(revives.Count)];
         foreach (var (victimId, killAge) in revives)
         {
             _hostRevives.Add(new ScheduledRevive(victimId, killAge));
@@ -1819,7 +1819,7 @@ return true;*/
     public static void StopRewind()
     {
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
-        byte[] pendingHostRevives = Array.Empty<byte>();
+        byte[] pendingHostRevives = [];
         if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
@@ -1834,7 +1834,7 @@ return true;*/
                     }
                 }
             }
-            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : Array.Empty<byte>();
+            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : [];
         }
 
         IsRewinding = false;
@@ -2017,7 +2017,7 @@ return true;*/
         }
 
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
-        byte[] pendingHostRevives = Array.Empty<byte>();
+        byte[] pendingHostRevives = [];
         if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
@@ -2032,7 +2032,7 @@ return true;*/
                     }
                 }
             }
-            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : Array.Empty<byte>();
+            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : [];
         }
 
         IsRewinding = false;

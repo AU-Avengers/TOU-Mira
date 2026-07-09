@@ -387,7 +387,7 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
         }
-        _snitchArrows = new Dictionary<byte, ArrowBehaviour>();
+        _snitchArrows = [];
         var imps = Helpers.GetAlivePlayers().Where(plr => plr.Data.Role.IsImpostor && !plr.IsTraitor());
         var traitor = Helpers.GetAlivePlayers().FirstOrDefault(plr => plr.IsTraitor());
         imps.ToList().ForEach(imp => CreateSnitchArrow(imp, TownOfUsColors.Impostor));

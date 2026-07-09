@@ -62,7 +62,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     [HideFromIl2Cpp] public bool PortableCamsUnlockedNotified { get; set; }
 
-    [HideFromIl2Cpp] public static HashSet<byte> PortableCamsUsers { get; } = new();
+    [HideFromIl2Cpp] public static HashSet<byte> PortableCamsUsers { get; } = [];
 
     [HideFromIl2Cpp]
     public static bool AnyPortableCamsInUse => PortableCamsUsers.Count > 0;

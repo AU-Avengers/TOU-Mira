@@ -141,7 +141,7 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 
 	private const byte IdMask = 31;
 
-	private readonly Dictionary<SystemTypes, float> timers = new Dictionary<SystemTypes, float>();
+	private readonly Dictionary<SystemTypes, float> timers = [];
 
 	private float initialCooldown;
 }

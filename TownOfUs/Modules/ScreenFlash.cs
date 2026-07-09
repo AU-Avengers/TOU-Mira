@@ -7,7 +7,7 @@ namespace TownOfUs.Modules;
 // Code Review: Should be using a MonoBehaviour
 public sealed class ScreenFlash : IDisposable
 {
-    private static readonly List<ScreenFlash> _screenFlashes = new();
+    private static readonly List<ScreenFlash> _screenFlashes = [];
 
     private readonly SpriteRenderer _renderer;
 

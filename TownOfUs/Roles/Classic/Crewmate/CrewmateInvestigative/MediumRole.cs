@@ -23,7 +23,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     public bool IgnoredByRewind => false;
     public bool IgnoredByRecording => Spirit != null;
 
-    [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = new();
+    [HideFromIl2Cpp] public List<MediatedModifier> MediatedPlayers { get; } = [];
 
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Medium";
@@ -43,12 +43,12 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mediate", "Mediate"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MediateWikiDescription"),
                     TouCrewAssets.MediateSprite)
-            };
+            ];
         }
     }
 
@@ -122,7 +122,7 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         List<PlayerControl> targets)
     {
         var newTargets = targets.Count == 0
-            ? new Dictionary<byte, string>()
+            ? []
             : targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName))
                 .ToDictionary(x => x.Key, x => x.Value);
         RpcMultiMediate(source, newTargets);

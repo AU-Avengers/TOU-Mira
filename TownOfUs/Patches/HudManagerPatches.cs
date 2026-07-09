@@ -1305,7 +1305,7 @@ public static class HudManagerPatches
         foreach (var pair in TooltipAlignments)
         {
             var allRoles = MiscUtils.GetRegisteredRoles(pair.Value).ToList();
-            BucketTooltipData.RoleEntry[] roleEntry = Array.Empty<BucketTooltipData.RoleEntry>();
+            BucketTooltipData.RoleEntry[] roleEntry = [];
             foreach (var role in allRoles)
             {
                 if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||

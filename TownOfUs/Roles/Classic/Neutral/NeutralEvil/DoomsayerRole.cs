@@ -105,12 +105,12 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Observe", "Observe"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ObserveWikiDescription"),
                     TouNeutAssets.Observe)
-            };
+            ];
         }
     }
 

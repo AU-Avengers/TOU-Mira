@@ -73,12 +73,12 @@ public sealed class JanitorRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Clean", "Clean"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CleanWikiDescription"),
                     TouImpAssets.CleanButtonSprite)
-            };
+            ];
         }
     }
 

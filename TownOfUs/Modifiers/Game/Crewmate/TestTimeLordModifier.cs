@@ -29,10 +29,10 @@ public sealed class TestTimeLordModifier : TouGameModifier, IWikiDiscoverable, I
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new("Rewind", "Rewind time for everyone (for testing)", TouCrewAssets.RewindSprite)
-            };
+            ];
         }
     }
 

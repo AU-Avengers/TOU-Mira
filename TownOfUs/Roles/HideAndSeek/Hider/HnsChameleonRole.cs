@@ -28,15 +28,15 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"HnsRole{LocaleKey}Swoop", "Swoop"),
                     TouLocale.GetParsed($"HnsRole{LocaleKey}SwoopWikiDescription"),
                     TouCrewAssets.CrewSwoopSprite),
                 new(TouLocale.GetParsed($"HnsRole{LocaleKey}Unswoop", "Unswoop"),
                     TouLocale.GetParsed($"HnsRole{LocaleKey}UnswoopWikiDescription"),
                     TouCrewAssets.CrewUnswoopSprite)
-            };
+            ];
         }
     }
 

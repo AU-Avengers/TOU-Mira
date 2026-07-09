@@ -114,13 +114,13 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> ChefServeTurkeySprite { get; } =
         new LoadableBundleAsset<Sprite>("ServeTurkeyButton", TouAssets.MainBundle);
 
-    public static List<LoadableAsset<Sprite>> ChefServeSprites { get; set; } = new()
-    {
+    public static List<LoadableAsset<Sprite>> ChefServeSprites { get; set; } =
+    [
         ChefServeEmptySprite,
         ChefServeSalmonSprite,
         ChefServeCakeSprite,
         ChefServeBurgerSprite,
         ChefServeTurkeySprite
-    };
+    ];
 
 }

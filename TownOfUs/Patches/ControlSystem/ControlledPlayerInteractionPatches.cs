@@ -20,7 +20,7 @@ public static class ControlledPlayerInteractionPatches
 
     private static void RefreshInteractablesCache()
     {
-        _cachedInteractables = new List<IUsable>();
+        _cachedInteractables = [];
         var allUsables = UnityObject.FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {

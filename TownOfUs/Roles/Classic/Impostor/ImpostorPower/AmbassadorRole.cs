@@ -40,12 +40,12 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}RetrainWiki", "Retrain (Meeting)"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}RetrainWikiDescription"),
                     TouAssets.RetrainCleanSprite)
-            };
+            ];
         }
     }
 

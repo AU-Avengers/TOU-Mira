@@ -162,12 +162,12 @@ public sealed class FairyRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRol
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Protect", "Protect"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ProtectWikiDescription"),
                     TouNeutAssets.ProtectSprite)
-            };
+            ];
         }
     }
 

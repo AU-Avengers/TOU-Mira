@@ -50,7 +50,7 @@ public static class TimeLordBodyManager
         }
     }
 
-    private static readonly Dictionary<byte, CleanedBodyRecord> CleanedBodies = new();
+    private static readonly Dictionary<byte, CleanedBodyRecord> CleanedBodies = [];
 
     public static Dictionary<byte, CleanedBodyRecord> CleanBodies => CleanedBodies;
 

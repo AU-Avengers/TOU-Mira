@@ -66,7 +66,7 @@ public static class TownOfUsEventHandlers
         Message
     }
 
-    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
+    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = [];
 
     internal static TextMeshPro ModifierText;
     public static TaskPanelBehaviour RolePanel;

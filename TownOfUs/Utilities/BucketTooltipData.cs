@@ -26,7 +26,7 @@ public static class BucketTooltipData
     // ── All possible roles per bucket ─────────────────────────────────────────
     public static Dictionary<RoleListOption, RoleEntry[]> AllRoles => _allRoles;
 
-    private static readonly Dictionary<RoleListOption, RoleEntry[]> _allRoles = new();
+    private static readonly Dictionary<RoleListOption, RoleEntry[]> _allRoles = [];
 
     // Group buckets map to multiple specific buckets
     private static readonly Dictionary<RoleListOption, RoleListOption[]> _groupBuckets = new()
@@ -105,7 +105,7 @@ public static class BucketTooltipData
         else
         {
             Error($"Bucket missing!");
-            return System.Array.Empty<RoleEntry>();
+            return [];
         }
 
         var result = new List<RoleEntry>();

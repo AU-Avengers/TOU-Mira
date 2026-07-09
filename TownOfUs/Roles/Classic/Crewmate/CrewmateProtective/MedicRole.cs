@@ -55,12 +55,12 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Shield", "Shield"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ShieldWikiDescription"),
                     TouCrewAssets.MedicSprite)
-            };
+            ];
         }
     }
 
