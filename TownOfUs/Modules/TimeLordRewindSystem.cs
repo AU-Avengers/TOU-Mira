@@ -57,34 +57,18 @@ public static class TimeLordRewindSystem
     private static Vector2 _finalSnapPos;
     private static bool _hasFinalSnapPos;
 
-
-    private sealed class ScheduledRevive
+    private record ScheduledEvent
     {
-        public byte VictimId { get; }
-        public float KillAgeSeconds { get; }
         public bool Done { get; set; }
-
-        public ScheduledRevive(byte victimId, float killAgeSeconds)
-        {
-            VictimId = victimId;
-            KillAgeSeconds = killAgeSeconds;
-            Done = false;
-        }
     }
 
-    private sealed class ScheduledBodyRestore
-    {
-        public byte BodyId { get; }
-        public float TriggerAtSeconds { get; }
-        public bool Done { get; set; }
+    private sealed record ScheduledRevive(byte VictimId, float KillAgeSeconds) : ScheduledEvent;
 
-        public ScheduledBodyRestore(byte bodyId, float triggerAtSeconds)
-        {
-            BodyId = bodyId;
-            TriggerAtSeconds = triggerAtSeconds;
-            Done = false;
-        }
-    }
+    private sealed record ScheduledBodyRestore(byte BodyId, float TriggerAtSeconds) : ScheduledEvent;
+
+    private sealed record ScheduledBodyPos(byte BodyId, Vector2 Position, float TriggerAtSeconds) : ScheduledEvent;
+
+    private sealed record ScheduledTaskUndo(byte PlayerId, uint TaskId, float TriggerAtSeconds) : ScheduledEvent;
 
     private static float _rewindStartTime;
     private static float _rewindHistoryCutoffTime;
@@ -105,31 +89,19 @@ public static class TimeLordRewindSystem
     private static readonly HashSet<byte> _pendingDeferredRevives = new();
     private static readonly HashSet<byte> _deferredReviveInProgress = new();
 
-    private readonly struct ButtonCooldownSample
-    {
-        public float Time { get; }
-        public float Timer { get; }
-        public bool EffectActive { get; }
+    private readonly record struct ButtonCooldownSample(float Time, float Timer, bool EffectActive);
 
-        public ButtonCooldownSample(float time, float timer, bool effectActive)
-        {
-            Time = time;
-            Timer = timer;
-            EffectActive = effectActive;
-        }
-    }
-
-    private sealed class ReferenceEqualityComparer<T> : IEqualityComparer<T> where T : class
+    private sealed record ReferenceEqualityComparer<T> : IEqualityComparer<T> where T : class
     {
         public static readonly ReferenceEqualityComparer<T> Instance = new();
         public bool Equals(T? x, T? y) => ReferenceEquals(x, y);
         public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
     }
 
-    private sealed class ButtonCooldownSeries
+    private sealed record ButtonCooldownSeries
     {
-        public readonly List<ButtonCooldownSample> Samples = new(256);
-        public int StartIndex;
+        public List<ButtonCooldownSample> Samples { get; } = new(256);
+        public int StartIndex { get; set; }
     }
 
     private static readonly List<CustomActionButton> CachedKillLikeButtons = new(16);
@@ -142,56 +114,10 @@ public static class TimeLordRewindSystem
     private static readonly HashSet<CustomActionButton> KillButtonCooldownMaxClampedThisRewind =
         new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
-    private sealed class ScheduledBodyPos
-    {
-        public byte BodyId { get; }
-        public Vector2 Position { get; }
-        public float TriggerAtSeconds { get; }
-        public bool Done { get; set; }
-
-        public ScheduledBodyPos(byte bodyId, Vector2 position, float triggerAtSeconds)
-        {
-            BodyId = bodyId;
-            Position = position;
-            TriggerAtSeconds = triggerAtSeconds;
-            Done = false;
-        }
-    }
-
     private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = new();
     private static List<ScheduledBodyPos>? _hostBodyPlacements;
 
-    private readonly struct HostTaskCompletion
-    {
-        public readonly byte PlayerId;
-        public readonly uint TaskId;
-        public readonly DateTime TimeUtc;
-        public readonly int TaskStep;
-
-        public HostTaskCompletion(byte playerId, uint taskId, DateTime timeUtc, int taskStep)
-        {
-            PlayerId = playerId;
-            TaskId = taskId;
-            TimeUtc = timeUtc;
-            TaskStep = taskStep;
-        }
-    }
-
-    private sealed class ScheduledTaskUndo
-    {
-        public byte PlayerId { get; }
-        public uint TaskId { get; }
-        public float TriggerAtSeconds { get; }
-        public bool Done { get; set; }
-
-        public ScheduledTaskUndo(byte playerId, uint taskId, float triggerAtSeconds)
-        {
-            PlayerId = playerId;
-            TaskId = taskId;
-            TriggerAtSeconds = triggerAtSeconds;
-            Done = false;
-        }
-    }
+    private readonly record struct HostTaskCompletion(byte PlayerId, uint TaskId, DateTime TimeUtc, int TaskStep);
 
     private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
     private static List<ScheduledTaskUndo>? _hostTaskUndos;

@@ -138,7 +138,7 @@ public class PrefabLoader
         }
     }
 
-    private sealed class Out<T>
+    private sealed record Out<T>
     {
         public T Value { get; set; }
     }

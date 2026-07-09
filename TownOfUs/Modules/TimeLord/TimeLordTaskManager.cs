@@ -5,34 +5,11 @@ namespace TownOfUs.Modules.TimeLord;
 /// </summary>
 internal static class TimeLordTaskManager
 {
-    private readonly struct HostTaskCompletion
-    {
-        public readonly byte PlayerId;
-        public readonly uint TaskId;
-        public readonly DateTime TimeUtc;
+    private readonly record struct HostTaskCompletion(byte PlayerId, uint TaskId, DateTime TimeUtc);
 
-        public HostTaskCompletion(byte playerId, uint taskId, DateTime timeUtc)
-        {
-            PlayerId = playerId;
-            TaskId = taskId;
-            TimeUtc = timeUtc;
-        }
-    }
-
-    private sealed class ScheduledTaskUndo
+    private sealed record ScheduledTaskUndo(byte PlayerId, uint TaskId, float TriggerAtSeconds)
     {
-        public byte PlayerId { get; }
-        public uint TaskId { get; }
-        public float TriggerAtSeconds { get; }
         public bool Done { get; set; }
-
-        public ScheduledTaskUndo(byte playerId, uint taskId, float triggerAtSeconds)
-        {
-            PlayerId = playerId;
-            TaskId = taskId;
-            TriggerAtSeconds = triggerAtSeconds;
-            Done = false;
-        }
     }
 
     private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);

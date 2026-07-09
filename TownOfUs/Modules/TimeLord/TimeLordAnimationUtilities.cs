@@ -14,7 +14,7 @@ internal static class TimeLordAnimationUtilities
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 #pragma warning restore S3011
 
-    private sealed class SpecialClipSet
+    private sealed record SpecialClipSet
     {
         public AnimationClip? LadderAny { get; set; }
         public AnimationClip? LadderUp { get; set; }

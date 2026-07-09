@@ -104,11 +104,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         return customMenu;
     }
 
-    private sealed class MenuEntry(ShapeshifterPanel panel, string sortKey)
-    {
-        public ShapeshifterPanel Panel { get; } = panel;
-        public string SortKey { get; } = sortKey;
-    }
+    private sealed record MenuEntry(ShapeshifterPanel Panel, string SortKey);
 
     private static string NormalizeForSearch(string? text)
     {
