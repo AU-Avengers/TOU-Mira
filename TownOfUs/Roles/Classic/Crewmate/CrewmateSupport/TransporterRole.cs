@@ -191,9 +191,9 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
         if (play1.TryGetModifier<InvulnerabilityModifier>(out var invic) && invic.AttackAllInteractions)
         {
-            if (transporter.AmOwner)
+            if (play1.Data.Role is PestilenceRole && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
             {
-                if (play1.Data.Role is PestilenceRole && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+                if (transporter.AmOwner)
                 {
                     if (!transporter.HasModifier<PestilenceStackModifier>())
                     {
@@ -202,20 +202,23 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
                     PestilenceRole.RpcHorsemanSensed(play1);
                 }
-                else
+            }
+            else
+            {
+                if (transporter.AmOwner)
                 {
                     play1.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
                 }
-            }
 
-            return;
+                return;
+            }
         }
 
         if (play2.TryGetModifier<InvulnerabilityModifier>(out var invic2) && invic2.AttackAllInteractions)
         {
-            if (transporter.AmOwner)
+            if (play2.Data.Role is PestilenceRole && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
             {
-                if (play2.Data.Role is PestilenceRole && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+                if (transporter.AmOwner)
                 {
                     if (!transporter.HasModifier<PestilenceStackModifier>())
                     {
@@ -224,13 +227,16 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
                     PestilenceRole.RpcHorsemanSensed(play2);
                 }
-                else
+            }
+            else
+            {
+                if (transporter.AmOwner)
                 {
                     play2.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
                 }
-            }
 
-            return;
+                return;
+            }
         }
 
         if (play1.HasModifier<VeteranAlertModifier>())
