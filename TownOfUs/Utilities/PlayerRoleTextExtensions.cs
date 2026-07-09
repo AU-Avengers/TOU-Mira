@@ -302,10 +302,11 @@ public static class PlayerRoleTextExtensions
             name += "<color=#FF4D00> Δ</color>";
         }
 
-        // Pestilence "stack" mark: shown only to the Pestilence, next to players who interacted with it.
-        if (player.HasModifier<PestilenceStackModifier>() && PlayerControl.LocalPlayer.IsRole<PestilenceRole>())
+        // Pestilence "stack" mark: shown to the Pestilence, and to dead spectators (like the infect mark).
+        if ((player.HasModifier<PestilenceStackModifier>() && PlayerControl.LocalPlayer.IsRole<PestilenceRole>())
+            || (player.HasModifier<PestilenceStackModifier>() && isDead))
         {
-            name += $" {TownOfUsColors.Pestilence.ToTextColor()}‡</color>";
+            name += $" {TownOfUsColors.Pestilence.ToTextColor()}¥</color>";
         }
 
         // This doesn't check for the role itself incase external mods make use of these functions

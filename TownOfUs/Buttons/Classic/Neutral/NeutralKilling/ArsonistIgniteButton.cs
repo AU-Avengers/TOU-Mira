@@ -66,17 +66,36 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
 
     protected override void OnClick()
     {
-        var dousedPlayers = OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
+        var legacy = OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist;
+
+        var dousedPlayers = legacy
             ? ModifierUtils.GetPlayersWithModifier<ArsonistDousedModifier>().ToList()
             : PlayersInRange.Where(x => x.HasModifier<ArsonistDousedModifier>()).ToList();
 
-        if (dousedPlayers.Count > 0)
+        // A Pestilence only retaliates when it is the *direct* victim of this ignite:
+        //   - Legacy: the player we ignited on (ClosestTarget) is the Pestilence.
+        //   - Non-legacy: the Pestilence is within the ignite radius.
+        // Being incidentally doused elsewhere does NOT trigger a kill-back.
+        var retaliatingPest = legacy
+            ? (ClosestTarget != null && ClosestTarget.Data.Role is PestilenceRole ? ClosestTarget : null)
+            : dousedPlayers.FirstOrDefault(x => x.Data.Role is PestilenceRole);
+
+        // The Pestilence is invulnerable, so exclude it from the mass murder; it retaliates instead.
+        var victims = dousedPlayers.Where(x => x.Data.Role is not PestilenceRole).ToList();
+
+        if (victims.Count > 0)
         {
-            PlayerControl.LocalPlayer.RpcSpecialMultiMurder(dousedPlayers, MeetingCheck.OutsideMeeting, true,
+            PlayerControl.LocalPlayer.RpcSpecialMultiMurder(victims, MeetingCheck.OutsideMeeting, true,
                 teleportMurderer: false,
                 playKillSound: false,
                 causeOfDeath: "Arsonist");
+        }
 
+        // Igniting directly on the Pestilence gets the Arsonist killed, reliably (no indirect race).
+        retaliatingPest?.RpcCustomMurder(PlayerControl.LocalPlayer, MeetingCheck.OutsideMeeting);
+
+        if (victims.Count > 0 || retaliatingPest != null)
+        {
             TouAudio.PlaySound(TouAudio.ArsoIgniteSound);
 
             CustomButtonSingleton<ArsonistDouseButton>.Instance.ResetCooldownAndOrEffect();
