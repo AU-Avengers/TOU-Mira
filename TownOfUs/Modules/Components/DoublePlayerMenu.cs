@@ -89,8 +89,10 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
             playerMatch,
             plr =>
             {
-                if (plr == null)
+                if (plr == null) // Close the menu
                 {
+                    ForceClose();
+                    target1 = null;
                     return;
                 }
 
