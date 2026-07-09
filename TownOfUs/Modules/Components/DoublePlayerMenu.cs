@@ -18,6 +18,11 @@ namespace TownOfUs.Modules.Components;
 public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
 {
     public PlayerControl? target1;
+    private LoadableAsset<Sprite>? hoverSelectSprite;
+    private LoadableAsset<Sprite>? hoverDeselectSprite;
+    private Color? activeColor;
+    private Color? hoverSelectColor;
+    private Color? hoverDeselectColor;
 
     public static DoublePlayerMenu Create()
     {
@@ -48,6 +53,27 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
 
         customMenu.transform.SetParent(Camera.main!.transform, false);
         customMenu.transform.localPosition = new Vector3(0f, 0f, -50f);
+
+        return customMenu;
+    }
+
+    public static DoublePlayerMenu Create(
+        Color? activeColor,
+        LoadableAsset<Sprite>? hoverSelectSprite = null,
+        Color? hoverSelectColor = null,
+        LoadableAsset<Sprite>? hoverDeselectSprite = null,
+        Color? hoverDeselectColor = null)
+    {
+        var customMenu = Create();
+
+        customMenu.activeColor = activeColor;
+
+        customMenu.hoverSelectSprite = hoverSelectSprite;
+        customMenu.hoverSelectColor = hoverSelectColor;
+
+        customMenu.hoverDeselectSprite = hoverDeselectSprite ?? hoverSelectSprite;
+        customMenu.hoverDeselectColor = hoverDeselectColor ?? hoverSelectColor;
+
         return customMenu;
     }
 
@@ -72,15 +98,13 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
                 {
                     target1 = plr;
                     var targetPanel = this.GetVictimPanel(target1.Data);
-                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
-                    // set outline for targetPanel
+                    SetNameplateAppearance(targetPanel, hoverDeselectSprite, hoverDeselectColor, activeColor);
                     return;
                 }
                 if (target1.PlayerId == plr.PlayerId) // Unselect first choice
                 {
                     var targetPanel = this.GetVictimPanel(target1.Data);
-                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
-                    // clear outline for targetPanel
+                    SetNameplateAppearance(targetPanel, hoverSelectSprite, hoverSelectColor, Color.clear);
                     target1 = null;
                     return;
                 }
@@ -88,5 +112,29 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
                 onClick(target1, plr);
             }
         );
+        foreach (var victim in potentialVictims)
+        {
+            SetNameplateAppearance(victim, hoverSelectSprite, hoverSelectColor, Color.clear);
+        }
+    }
+
+    private static void SetNameplateAppearance(ShapeshifterPanel panel,
+        LoadableAsset<Sprite>? sprite, Color? overColor, Color? unselectedColor)
+    {
+        var nameplate = panel.gameObject.transform.FindChild("Nameplate");
+        if (sprite != null)
+        {
+            nameplate.FindChild("Highlight").FindChild("ShapeshifterIcon")
+                .GetComponent<SpriteRenderer>().sprite = sprite.LoadAsset();
+        }
+        var button = nameplate.GetComponent<ButtonRolloverHandler>();
+        if (overColor is { } oColor)
+        {
+            button.OverColor = oColor;
+        }
+        if (unselectedColor is { } uColor)
+        {
+            button.UnselectedColor = uColor;
+        }
     }
 }
