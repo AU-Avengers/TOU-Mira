@@ -54,8 +54,6 @@ public sealed class PestilenceKillButton : TownOfUsKillRoleButton<PestilenceRole
 
     public override void ClickHandler()
     {
-        // Killing a player who interacted with the Pestilence (a "stack") resets the kill
-        // cooldown to 0 so it can immediately kill again. Disabled in Legacy Mode.
         var chainKill = CanClick() && Target != null &&
                         !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence &&
                         Target.HasModifier<PestilenceStackModifier>();

@@ -302,7 +302,6 @@ public static class PlayerRoleTextExtensions
             name += "<color=#FF4D00> Δ</color>";
         }
 
-        // Pestilence "stack" mark: shown to the Pestilence, and to dead spectators (like the infect mark).
         if ((player.HasModifier<PestilenceStackModifier>() && PlayerControl.LocalPlayer.IsRole<PestilenceRole>())
             || (player.HasModifier<PestilenceStackModifier>() && isDead))
         {

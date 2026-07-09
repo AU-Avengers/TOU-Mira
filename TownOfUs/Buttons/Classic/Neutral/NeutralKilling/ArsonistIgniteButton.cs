@@ -72,15 +72,10 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
             ? ModifierUtils.GetPlayersWithModifier<ArsonistDousedModifier>().ToList()
             : PlayersInRange.Where(x => x.HasModifier<ArsonistDousedModifier>()).ToList();
 
-        // A Pestilence only retaliates when it is the *direct* victim of this ignite:
-        //   - Legacy: the player we ignited on (ClosestTarget) is the Pestilence.
-        //   - Non-legacy: the Pestilence is within the ignite radius.
-        // Being incidentally doused elsewhere does NOT trigger a kill-back.
         var retaliatingPest = legacy
             ? (ClosestTarget != null && ClosestTarget.Data.Role is PestilenceRole ? ClosestTarget : null)
             : dousedPlayers.FirstOrDefault(x => x.Data.Role is PestilenceRole);
 
-        // The Pestilence is invulnerable, so exclude it from the mass murder; it retaliates instead.
         var victims = dousedPlayers.Where(x => x.Data.Role is not PestilenceRole).ToList();
 
         if (victims.Count > 0)
@@ -91,7 +86,6 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
                 causeOfDeath: "Arsonist");
         }
 
-        // Igniting directly on the Pestilence gets the Arsonist killed, reliably (no indirect race).
         retaliatingPest?.RpcCustomMurder(PlayerControl.LocalPlayer, MeetingCheck.OutsideMeeting);
 
         if (victims.Count > 0 || retaliatingPest != null)
