@@ -169,12 +169,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
 
         if (transporter.AmOwner && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
         {
-            if (play1.Data.Role is PlaguebearerRole)
+            if (play1.Data.Role is PlaguebearerRole && !PlaguebearerRole.InteractionWillTransform(play1, transporter))
             {
                 PestilenceRole.RpcHorsemanSensed(play1);
             }
 
-            if (play2.Data.Role is PlaguebearerRole)
+            if (play2.Data.Role is PlaguebearerRole && !PlaguebearerRole.InteractionWillTransform(play2, transporter))
             {
                 PestilenceRole.RpcHorsemanSensed(play2);
             }

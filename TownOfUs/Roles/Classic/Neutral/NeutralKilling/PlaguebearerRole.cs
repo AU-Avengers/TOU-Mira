@@ -197,6 +197,26 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
     }
 
+    public static bool InteractionWillTransform(PlayerControl plaguebearer, PlayerControl interactor)
+    {
+        if (plaguebearer.Data.Role is not PlaguebearerRole)
+        {
+            return false;
+        }
+
+        var alive = Helpers.GetAlivePlayers();
+
+        if (MeetingHud.Instance && alive.Count <= 2)
+        {
+            return false;
+        }
+
+        var infected = alive.Count(x => x != plaguebearer && (x == interactor ||
+            (x.TryGetModifier<PlaguebearerInfectedModifier>(out var mod) && mod.PlagueBearerId == plaguebearer.PlayerId)));
+
+        return infected >= alive.Count - 1;
+    }
+
     [MethodRpc((uint)TownOfUsRpc.CheckInfected)]
     public static void RpcCheckInfected(PlayerControl source, PlayerControl target)
     {
@@ -213,7 +233,8 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         CheckInfected(interactor, target);
 
         if (target.Data.Role is PlaguebearerRole && interactor.AmOwner &&
-            !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+            !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence &&
+            !InteractionWillTransform(target, interactor))
         {
             PestilenceRole.RpcHorsemanSensed(target);
         }
