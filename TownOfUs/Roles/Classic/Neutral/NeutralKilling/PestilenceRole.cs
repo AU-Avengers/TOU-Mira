@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
@@ -138,7 +139,18 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
         }
-        else if (player.Data.Role is PlaguebearerRole plaguebearer && !plaguebearer.IsInfectionComplete())
+        else if (player.Data.Role is PlaguebearerRole)
+        {
+            Coroutines.Start(CoHorsemanSensedFlash(player));
+        }
+    }
+
+    private static IEnumerator CoHorsemanSensedFlash(PlayerControl player)
+    {
+        yield return new WaitForSeconds(0.15f);
+
+        // skip the flash if this interaction just turned the Plaguebearer into Pestilence
+        if (player && player.Data.Role is PlaguebearerRole)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plaguebearer));
         }

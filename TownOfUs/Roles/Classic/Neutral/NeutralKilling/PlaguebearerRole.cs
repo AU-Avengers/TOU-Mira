@@ -40,23 +40,17 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
             return;
         }
 
-        if (IsInfectionComplete())
+        var allInfected =
+            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) => !x.Player.HasDied() && x.PlagueBearerId == Player.PlayerId && !x.Player.AmOwner);
+
+        if (allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
+            (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2))
         {
             PestilenceRole.RpcTriggerPestilence(PlayerControl.LocalPlayer);
 
             CustomButtonSingleton<PestilenceKillButton>.Instance.SetTimer(OptionGroupSingleton<PlaguebearerOptions>
                 .Instance.PestKillCooldown);
         }
-    }
-
-    [HideFromIl2Cpp]
-    public bool IsInfectionComplete()
-    {
-        var allInfected =
-            ModifierUtils.GetPlayersWithModifier<PlaguebearerInfectedModifier>([HideFromIl2Cpp](x) => !x.Player.HasDied() && x.PlagueBearerId == Player.PlayerId && !x.Player.AmOwner);
-
-        return allInfected.Count() >= Helpers.GetAlivePlayers().Count - 1 &&
-            (!MeetingHud.Instance || Helpers.GetAlivePlayers().Count > 2);
     }
 
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<AurialRole>());
