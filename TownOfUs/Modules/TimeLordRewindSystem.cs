@@ -1434,31 +1434,28 @@ public static class TimeLordRewindSystem
 
         var elapsed = Time.time - _rewindStartTime;
 
+        if (!OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        {
+            _hostRevives = null;
+        }
         if (_hostRevives != null && _hostRevives.Count > 0)
         {
-            if (!OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+            for (var i = 0; i < _hostRevives.Count; i++)
             {
-                _hostRevives = null;
-            }
-            else
-            {
-                for (var i = 0; i < _hostRevives.Count; i++)
+                var entry = _hostRevives[i];
+                if (entry.Done)
                 {
-                    var entry = _hostRevives[i];
-                    if (entry.Done)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (elapsed + 0.0001f >= entry.KillAgeSeconds)
+                if (elapsed + 0.0001f >= entry.KillAgeSeconds)
+                {
+                    entry.Done = true;
+                    _hostPendingRewindRevives.Add(entry.VictimId);
+                    var victim = MiscUtils.PlayerById(entry.VictimId);
+                    if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
                     {
-                        entry.Done = true;
-                        _hostPendingRewindRevives.Add(entry.VictimId);
-                        var victim = MiscUtils.PlayerById(entry.VictimId);
-                        if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
-                        {
-                            TimeLordRole.RpcRewindRevive(victim);
-                        }
+                        TimeLordRole.RpcRewindRevive(victim);
                     }
                 }
             }
