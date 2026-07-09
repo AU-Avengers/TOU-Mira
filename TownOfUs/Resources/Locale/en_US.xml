@@ -2152,6 +2152,7 @@
   <string name="TouOptionPlaguebearerInstantPesti">Instant Pestilence Chance</string>
   <string name="TouOptionPlaguebearerInfectCooldown">Infect Cooldown</string>
   <string name="TouOptionPlaguebearerAnnounceTransformation">Announce Pestilence Transformation</string>
+  <string name="TouOptionPlaguebearerLegacyMode">Legacy Mode</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">Pestilence Kill Cooldown</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">Pestilence Can Vent</string>
   <!-- Soul Collector -->

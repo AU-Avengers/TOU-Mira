@@ -1,7 +1,9 @@
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -48,5 +50,21 @@ public sealed class PestilenceKillButton : TownOfUsKillRoleButton<PestilenceRole
         }
 
         PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
+    }
+
+    public override void ClickHandler()
+    {
+        // Killing a player who interacted with the Pestilence (a "stack") resets the kill
+        // cooldown to 0 so it can immediately kill again. Disabled in Legacy Mode.
+        var chainKill = CanClick() && Target != null &&
+                        !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence &&
+                        Target.HasModifier<PestilenceStackModifier>();
+
+        base.ClickHandler();
+
+        if (chainKill)
+        {
+            SetTimer(0f);
+        }
     }
 }

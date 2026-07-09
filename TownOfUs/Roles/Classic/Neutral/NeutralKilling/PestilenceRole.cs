@@ -133,7 +133,9 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Pestilence);
         }
 
-        Announced = !OptionGroupSingleton<PlaguebearerOptions>.Instance.AnnouncePest;
+        var plagueOpts = OptionGroupSingleton<PlaguebearerOptions>.Instance;
+        // In Legacy Mode the announcement respects the toggle; otherwise it is always announced.
+        Announced = plagueOpts.LegacyPestilence && !plagueOpts.AnnouncePest.Value;
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
