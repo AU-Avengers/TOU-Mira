@@ -1,5 +1,6 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
@@ -18,6 +19,7 @@ using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
@@ -165,6 +167,19 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             transporter.AddModifier<PlaguebearerInfectedModifier>(infectedplayer2.PlagueBearerId);
         }
 
+        if (transporter.AmOwner && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+        {
+            if (play1.Data.Role is PlaguebearerRole)
+            {
+                PestilenceRole.RpcHorsemanSensed(play1);
+            }
+
+            if (play2.Data.Role is PlaguebearerRole)
+            {
+                PestilenceRole.RpcHorsemanSensed(play2);
+            }
+        }
+
         LookoutEvents.CheckForLookoutWatched(transporter, play1);
         LookoutEvents.CheckForLookoutWatched(transporter, play2);
 
@@ -178,7 +193,19 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play1.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
+                if (play1.Data.Role is PestilenceRole && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+                {
+                    if (!transporter.HasModifier<PestilenceStackModifier>())
+                    {
+                        transporter.RpcAddModifier<PestilenceStackModifier>(play1.PlayerId);
+                    }
+
+                    PestilenceRole.RpcHorsemanSensed(play1);
+                }
+                else
+                {
+                    play1.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
+                }
             }
 
             return;
@@ -188,7 +215,19 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                play2.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
+                if (play2.Data.Role is PestilenceRole && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+                {
+                    if (!transporter.HasModifier<PestilenceStackModifier>())
+                    {
+                        transporter.RpcAddModifier<PestilenceStackModifier>(play2.PlayerId);
+                    }
+
+                    PestilenceRole.RpcHorsemanSensed(play2);
+                }
+                else
+                {
+                    play2.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
+                }
             }
 
             return;
