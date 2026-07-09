@@ -2118,9 +2118,12 @@
   <!-- Pestilence Wiki / Description -->
   <string name="TouRolePestilence">Pestilence</string>
   <string name="TouRolePestilenceIntroBlurb">Horseman of the Apocalypse!</string>
-  <string name="TouRolePestilenceTabDescription">Kill everyone in your path that interacts with you!</string>
+  <string name="TouRolePestilenceTabDescription">Mark those who interact with you, then hunt them down with unstoppable attacks!</string>
+  <string name="TouRolePestilenceTabDescriptionLegacy">Kill everyone in your path that interacts with you!</string>
   <string name="TouRolePestilenceYouAreText">You Are</string>
   <string name="TouRolePestilenceWikiDescription">The Pestilence is a Neutral Killing role that can kill and is invincible to everything but being exiled or guessing incorrectly. They win by being the last killer alive.</string>
+  <string name="TouRolePestilenceWikiAddition"> Anyone who interacts with them becomes marked, and their attacks cannot be stopped by any protection. Killing a marked player instantly resets their kill cooldown, letting them chain kills.</string>
+  <string name="TouRolePestilenceWikiAdditionLegacy"> Anyone who interacts with them is killed instantly.</string>
   <string name="TouRolePestilenceMessageTitle">Pestilence Warning</string>
   <string name="TouRolePestilenceAnnounceMessage">A deadly plague has consumed the Crew.\%nl\%\%role\%, Horseman of the Apocalypse, has emerged!</string>
   <!-- Spectre -->
@@ -2144,6 +2147,8 @@
   <string name="TouRolePlaguebearerTabInfectCounter">Players Left To Infect: \%count\%</string>
   <string name="TouRolePlaguebearerTabInfectedInfo">Players Infected:</string>
   <string name="TouRolePlaguebearerWikiDescription">The Plaguebearer is a Neutral Killing role that needs to infect all other players to turn into the Pestilence.</string>
+  <string name="TouRolePlaguebearerWikiAddition"> Once transformed, the Pestilence marks anyone who interacts with them and kills through any protection with unstoppable attacks.</string>
+  <string name="TouRolePlaguebearerWikiAdditionLegacy"> Once transformed, the Pestilence instantly kills anyone who interacts with them.</string>
   <string name="TouRolePlaguebearerInfect">Infect</string>
   <string name="TouRolePlaguebearerInfectWikiDescription">Infect a player, causing them to be infected. When an infected player or dead body interacts or gets interacted with, the infection will spread to the interacted/interacting player.</string>
   <!-- Rewritten for clarity and grammar issues -->

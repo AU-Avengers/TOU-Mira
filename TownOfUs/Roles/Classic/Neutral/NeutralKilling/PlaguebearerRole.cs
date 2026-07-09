@@ -64,6 +64,9 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         return
             TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            TouLocale.GetParsed(OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence
+                ? $"TouRole{LocaleKey}WikiAdditionLegacy"
+                : $"TouRole{LocaleKey}WikiAddition") +
             MiscUtils.AppendOptionsText(GetType());
     }
 

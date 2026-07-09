@@ -42,12 +42,17 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public string LocaleKey => "Pestilence";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string RoleLongDescription => OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence
+        ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionLegacy")
+        : TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
             TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            TouLocale.GetParsed(OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence
+                ? $"TouRole{LocaleKey}WikiAdditionLegacy"
+                : $"TouRole{LocaleKey}WikiAddition") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
