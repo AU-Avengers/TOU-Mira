@@ -138,7 +138,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
         }
-        else if (player.Data.Role is PlaguebearerRole)
+        else if (player.Data.Role is PlaguebearerRole plaguebearer && !plaguebearer.IsInfectionComplete())
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plaguebearer));
         }
