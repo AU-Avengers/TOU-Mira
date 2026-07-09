@@ -9,6 +9,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -119,6 +120,29 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         }
     }
 
+    [MethodRpc((uint)TownOfUsRpc.HorsemanSensed)]
+    public static void RpcHorsemanSensed(PlayerControl player)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
+        if (!player.AmOwner)
+        {
+            return;
+        }
+
+        if (player.Data.Role is PestilenceRole)
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
+        }
+        else if (player.Data.Role is PlaguebearerRole)
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plaguebearer));
+        }
+    }
+
     public override void Initialize(PlayerControl player)
     {
         RoleBehaviourStubs.Initialize(this, player);
@@ -135,6 +159,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
         var plagueOpts = OptionGroupSingleton<PlaguebearerOptions>.Instance;
         Announced = plagueOpts.LegacyPestilence && !plagueOpts.AnnouncePest.Value;
+
+        if (Player.AmOwner && !plagueOpts.LegacyPestilence)
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
+        }
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)
