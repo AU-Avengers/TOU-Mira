@@ -4,6 +4,7 @@ using Reactor.Networking.Rpc;
 using TownOfUs.Networking;
 using TownOfUs.Modules;
 using UnityEngine;
+using TownOfUs.Modules.Components;
 
 namespace TownOfUs.Buttons.BaseFreeplay;
 
@@ -39,8 +40,6 @@ public sealed class RemoteKillButton : TownOfUsButton
                !FreeplayButtonsVisibility.Hidden;
     }
 
-    private PlayerControl? target1;
-
     protected override void OnClick()
     {
         PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -53,7 +52,7 @@ public sealed class RemoteKillButton : TownOfUsButton
         Killer = null;
         Victim = null;
 
-        var playerMenu = CustomPlayerMenu.Create();
+        var playerMenu = DoublePlayerMenu.Create();
         playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
@@ -62,36 +61,16 @@ public sealed class RemoteKillButton : TownOfUsButton
         playerMenu.Begin(
             plr => !plr.Data.Disconnected &&
                    (plr.moveable || plr.inVent),
-            plr =>
+            (plr1, plr2) =>
             {
-                if (plr == null)
-                {
-                    return;
-                }
-                if (target1 == null) // Set the Killer
-                {
-                    target1 = plr;
-                    var targetPanel = playerMenu.GetVictimPanel(target1.Data);
-                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
-                    // set outline for targetPanel
-                    return;
-                }
-                if (target1.PlayerId == plr.PlayerId) // Unselect the Killer
-                {
-                    var targetPanel = playerMenu.GetVictimPanel(target1.Data);
-                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
-                    // clear outline for targetPanel
-                    Killer = null;
-                    return;
-                }
                 playerMenu.Close();
 
-                Killer = target1;
-                Victim = plr;
+                Killer = plr1;
+                Victim = plr2;
                 EffectActive = true;
                 Timer = EffectDuration;
 
-                target1 = null;
+                playerMenu.target1 = null;
             }
         );
         foreach (var panel in playerMenu.potentialVictims)

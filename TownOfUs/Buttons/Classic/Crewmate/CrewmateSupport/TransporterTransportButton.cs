@@ -1,6 +1,6 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.Utilities;
+using TownOfUs.Modules.Components;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -30,8 +30,6 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
         OnClick();
     }
 
-    private PlayerControl? target1;
-
     protected override void OnClick()
     {
         if (!OptionGroupSingleton<TransporterOptions>.Instance.MoveWithMenu)
@@ -44,7 +42,7 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
             return;
         }
 
-        var playerMenu = CustomPlayerMenu.Create();
+        var playerMenu = DoublePlayerMenu.Create();
         playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
@@ -53,35 +51,13 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
         playerMenu.Begin(
             plr => ((!plr.Data.Disconnected && !plr.Data.IsDead) || Helpers.GetBodyById(plr.PlayerId)) &&
                    (plr.moveable || plr.inVent),
-            plr =>
+            (plr1, plr2) =>
             {
-                if (plr == null)
-                {
-                    return;
-                }
-
-                if (target1 == null) // Set first choice
-                {
-                    target1 = plr;
-                    var targetPanel = playerMenu.GetVictimPanel(target1.Data);
-                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
-                    // set outline for targetPanel
-                    return;
-                }
-                if (target1.PlayerId == plr.PlayerId) // Unselect first choice
-                {
-                    var targetPanel = playerMenu.GetVictimPanel(target1.Data);
-                    var targetHighlight = targetPanel.gameObject.transform.FindChild("Nameplate").FindChild("Highlight");
-                    // clear outline for targetPanel
-                    target1 = null;
-                    return;
-                }
-
                 playerMenu.Close();
 
-                TransporterRole.RpcTransport(PlayerControl.LocalPlayer, target1.PlayerId, plr.PlayerId);
+                TransporterRole.RpcTransport(PlayerControl.LocalPlayer, plr1.PlayerId, plr2.PlayerId);
 
-                target1 = null;
+                playerMenu.target1 = null;
             }
         );
         foreach (var panel in playerMenu.potentialVictims)
