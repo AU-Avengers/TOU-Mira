@@ -519,7 +519,7 @@ public static class TimeLordRewindSystem
     {
         var age = (float)(now - x.TimeUtc).TotalSeconds;
         var triggerAt = durationSeconds * (age / historySeconds);
-        return (x.PlayerId, x.TaskId, TriggerAtSeconds: triggerAt, TaskStep: x.TaskStep);
+        return (x.PlayerId, x.TaskId, TriggerAtSeconds: triggerAt, x.TaskStep);
     })
     .ToList();
 
