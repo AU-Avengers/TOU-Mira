@@ -65,7 +65,7 @@ public static class HerbalistEvents
         if (!target.TryGetModifier<HerbalistProtectionModifier>(out var protectMod) ||
             protectMod.Herbalist.PlayerId == source.PlayerId ||
             target.PlayerId == source.PlayerId ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield) || source.IsUnstoppablePest())
+            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield) || source.HasModifier<UnstoppableModifier>())
         {
             return false;
         }

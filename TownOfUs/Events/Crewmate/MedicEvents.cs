@@ -165,7 +165,7 @@ public static class MedicEvents
 
         if (!target.HasModifier<MedicShieldModifier>() ||
             target.PlayerId == source.PlayerId ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield) || source.IsUnstoppablePest())
+            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield) || source.HasModifier<UnstoppableModifier>())
         {
             return false;
         }

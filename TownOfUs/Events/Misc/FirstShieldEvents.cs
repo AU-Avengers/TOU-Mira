@@ -54,7 +54,7 @@ public static class FirstShieldEvents
         }
 
         if (!target.HasModifier<FirstDeadShield>() || source == target ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield) || source.IsUnstoppablePest())
+            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield) || source.HasModifier<UnstoppableModifier>())
         {
             return;
         }

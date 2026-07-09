@@ -192,6 +192,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         var plagueOpts = OptionGroupSingleton<PlaguebearerOptions>.Instance;
         Announced = plagueOpts.LegacyPestilence && !plagueOpts.AnnouncePest.Value;
 
+        if (!plagueOpts.LegacyPestilence && !Player.HasModifier<UnstoppableModifier>())
+        {
+            Player.AddModifier<UnstoppableModifier>();
+        }
+
         if (Player.AmOwner && !plagueOpts.LegacyPestilence)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
