@@ -20,10 +20,12 @@ using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Options.Modifiers.Alliance;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
+using TownOfUs.Roles.Neutral;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using UnityEngine.Events;
@@ -57,6 +59,12 @@ public static class Extensions
     public static bool IsRole<T>(this PlayerControl player) where T : RoleBehaviour
     {
         return player.Data?.Role is T;
+    }
+
+    public static bool IsUnstoppablePest(this PlayerControl player)
+    {
+        return player.Data?.Role is PestilenceRole &&
+               !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence;
     }
 
     public static bool IsLover(this PlayerControl player)

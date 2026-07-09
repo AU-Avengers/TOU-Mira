@@ -73,7 +73,7 @@ public static class ClericEvents
 
         if (!target.HasModifier<ClericBarrierModifier>() ||
             target.PlayerId == source.PlayerId ||
-            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield))
+            (source.TryGetModifier<IndirectAttackerModifier>(out var indirect) && indirect.IgnoreShield) || source.IsUnstoppablePest())
         {
             return false;
         }

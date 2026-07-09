@@ -115,7 +115,7 @@ public static class VeteranEvents
                 }
             }
             if (!OptionGroupSingleton<VeteranOptions>.Instance.KilledOnAlert &&
-                (indirectMod == null || !indirectMod.IgnoreShield))
+                (indirectMod == null || !indirectMod.IgnoreShield) && !source.IsUnstoppablePest())
             {
                 miraEvent.Cancel();
             }
