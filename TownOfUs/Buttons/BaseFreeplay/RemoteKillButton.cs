@@ -52,7 +52,7 @@ public sealed class RemoteKillButton : TownOfUsButton
         Killer = null;
         Victim = null;
 
-        var playerMenu = DoublePlayerMenu.Create();
+        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Impostor, TouAssets.KillSprite);
         playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =

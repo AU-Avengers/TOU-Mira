@@ -42,7 +42,7 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
             return;
         }
 
-        var playerMenu = DoublePlayerMenu.Create();
+        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Transporter, TouRoleIcons.Transporter);
         playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
