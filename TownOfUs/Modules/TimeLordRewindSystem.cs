@@ -436,10 +436,7 @@ public static class TimeLordRewindSystem
         HostTaskCompletions.Add(new HostTaskCompletion(player.PlayerId, task.Id, now, taskStep));
         
         // Also store in the step map for immediate use
-        if (_hostTaskStepMap == null)
-        {
-            _hostTaskStepMap = [];
-        }
+        _hostTaskStepMap ??= [];
         _hostTaskStepMap[(player.PlayerId, task.Id)] = taskStep;
 
         var cutoff = now - TimeSpan.FromSeconds(120);
@@ -531,10 +528,7 @@ public static class TimeLordRewindSystem
         ConfigureHostTaskUndos(simpleSchedule);
         
         // Store task steps for later use in UndoTask
-        if (_hostTaskStepMap == null)
-        {
-            _hostTaskStepMap = [];
-        }
+        _hostTaskStepMap ??= [];
         foreach (var item in schedule)
         {
             _hostTaskStepMap[(item.PlayerId, item.TaskId)] = item.TaskStep;

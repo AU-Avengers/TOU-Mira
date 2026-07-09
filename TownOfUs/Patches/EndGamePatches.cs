@@ -540,13 +540,10 @@ public static class EndGamePatches
             foreach (var player in array)
             {
                 var realPlayer = winnerArray.FirstOrDefault(x => x.PlayerName == player.cosmetics.nameText.text);
-                if (realPlayer == null)
-                {
-                    realPlayer = winnerArray.FirstOrDefault(x => x.Outfit.HatId == player.cosmetics.hat.Hat.ProdId
+                realPlayer ??= winnerArray.FirstOrDefault(x => x.Outfit.HatId == player.cosmetics.hat.Hat.ProdId
                                                                  && x.Outfit.ColorId ==
                                                                  player.cosmetics
                                                                      .ColorId /*&& HatManager.Instance.GetPetById(x.Outfit.PetId) == player.cosmetics.currentPet */);
-                }
 
                 if (realPlayer == null)
                 {
