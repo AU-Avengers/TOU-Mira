@@ -4,6 +4,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -141,6 +142,37 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plaguebearer));
         }
+    }
+
+    public static bool HandlePestInteraction(PlayerControl interactor, PlayerControl pest)
+    {
+        if (!pest.TryGetModifier<InvulnerabilityModifier>(out var invic) || !invic.AttackAllInteractions ||
+            pest.Data.Role is not PestilenceRole)
+        {
+            return false;
+        }
+
+        if (OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+        {
+            if (interactor.AmOwner)
+            {
+                pest.RpcCustomMurder(interactor, MeetingCheck.OutsideMeeting);
+            }
+
+            return true;
+        }
+
+        if (interactor.AmOwner)
+        {
+            if (!interactor.HasModifier<PestilenceStackModifier>())
+            {
+                interactor.RpcAddModifier<PestilenceStackModifier>(pest.PlayerId);
+            }
+
+            RpcHorsemanSensed(pest);
+        }
+
+        return false;
     }
 
     public override void Initialize(PlayerControl player)

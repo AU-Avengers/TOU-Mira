@@ -189,54 +189,14 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             mercenary!.AddPayment();
         }
 
-        if (play1.TryGetModifier<InvulnerabilityModifier>(out var invic) && invic.AttackAllInteractions)
+        if (PestilenceRole.HandlePestInteraction(transporter, play1))
         {
-            if (play1.Data.Role is PestilenceRole && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
-            {
-                if (transporter.AmOwner)
-                {
-                    if (!transporter.HasModifier<PestilenceStackModifier>())
-                    {
-                        transporter.RpcAddModifier<PestilenceStackModifier>(play1.PlayerId);
-                    }
-
-                    PestilenceRole.RpcHorsemanSensed(play1);
-                }
-            }
-            else
-            {
-                if (transporter.AmOwner)
-                {
-                    play1.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
-                }
-
-                return;
-            }
+            return;
         }
 
-        if (play2.TryGetModifier<InvulnerabilityModifier>(out var invic2) && invic2.AttackAllInteractions)
+        if (PestilenceRole.HandlePestInteraction(transporter, play2))
         {
-            if (play2.Data.Role is PestilenceRole && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
-            {
-                if (transporter.AmOwner)
-                {
-                    if (!transporter.HasModifier<PestilenceStackModifier>())
-                    {
-                        transporter.RpcAddModifier<PestilenceStackModifier>(play2.PlayerId);
-                    }
-
-                    PestilenceRole.RpcHorsemanSensed(play2);
-                }
-            }
-            else
-            {
-                if (transporter.AmOwner)
-                {
-                    play2.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
-                }
-
-                return;
-            }
+            return;
         }
 
         if (play1.HasModifier<VeteranAlertModifier>())

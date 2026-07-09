@@ -207,4 +207,17 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
         }
         CheckInfected(source, target);
     }
+
+    public static void HandleHorsemanInteraction(PlayerControl interactor, PlayerControl target)
+    {
+        CheckInfected(interactor, target);
+
+        if (target.Data.Role is PlaguebearerRole && interactor.AmOwner &&
+            !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+        {
+            PestilenceRole.RpcHorsemanSensed(target);
+        }
+
+        PestilenceRole.HandlePestInteraction(interactor, target);
+    }
 }
