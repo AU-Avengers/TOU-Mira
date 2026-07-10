@@ -169,9 +169,9 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
         if (interactor.AmOwner)
         {
-            if (!interactor.HasModifier<PestilenceStackModifier>())
+            if (!interactor.HasModifier<TerminalPestilenceModifier>())
             {
-                interactor.RpcAddModifier<PestilenceStackModifier>(pest.PlayerId);
+                interactor.RpcAddModifier<TerminalPestilenceModifier>(pest.PlayerId);
             }
 
             RpcHorsemanSensed(pest);

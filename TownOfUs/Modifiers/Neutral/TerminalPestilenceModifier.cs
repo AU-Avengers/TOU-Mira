@@ -2,9 +2,9 @@ using MiraAPI.Modifiers;
 
 namespace TownOfUs.Modifiers.Neutral;
 
-public sealed class PestilenceStackModifier(byte pestilenceId) : BaseModifier
+public sealed class TerminalPestilenceModifier(byte pestilenceId) : BaseModifier
 {
-    public override string ModifierName => "Pestilence Stack";
+    public override string ModifierName => "Terminal Pestilence";
     public override bool HideOnUi => true;
 
     public byte PestilenceId { get; } = pestilenceId;

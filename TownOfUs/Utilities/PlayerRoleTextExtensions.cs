@@ -302,8 +302,8 @@ public static class PlayerRoleTextExtensions
             name += "<color=#FF4D00> Δ</color>";
         }
 
-        if ((player.HasModifier<PestilenceStackModifier>() && PlayerControl.LocalPlayer.IsRole<PestilenceRole>())
-            || (player.HasModifier<PestilenceStackModifier>() && isDead))
+        if ((player.HasModifier<TerminalPestilenceModifier>() && PlayerControl.LocalPlayer.IsRole<PestilenceRole>())
+            || (player.HasModifier<TerminalPestilenceModifier>() && isDead))
         {
             name += $" {TownOfUsColors.Pestilence.ToTextColor()}¥</color>";
         }
