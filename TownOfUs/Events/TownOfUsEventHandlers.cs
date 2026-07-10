@@ -1131,11 +1131,11 @@ public static class TownOfUsEventHandlers
             {
                 if (swapperRole.Swap1 == targetVoteArea)
                 {
-                    swapperRole.Swap1 = null;
+                    swapperRole.Swap1 = null!;
                 }
                 else if (swapperRole.Swap2 == targetVoteArea)
                 {
-                    swapperRole.Swap2 = null;
+                    swapperRole.Swap2 = null!;
                 }
             }
         }
