@@ -10,7 +10,7 @@ namespace TownOfUs.Patches;
 [HarmonyPatch]
 public static class AntiRichTextNamePatch
 {
-    private static readonly Regex RichTextPattern = new Regex(
+    private static readonly Regex RichTextPattern = new(
         @"<[^>]+>",
         RegexOptions.Compiled | RegexOptions.IgnoreCase
     );
