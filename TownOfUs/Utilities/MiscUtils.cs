@@ -1933,7 +1933,7 @@ public static class MiscUtils
         return text;
     }
 
-    private static List<SupportedLangs> _languagesToBold =
+    private static readonly List<SupportedLangs> _languagesToBold =
     [
         SupportedLangs.Russian,
         SupportedLangs.Japanese,

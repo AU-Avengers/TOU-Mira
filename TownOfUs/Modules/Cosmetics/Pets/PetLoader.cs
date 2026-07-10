@@ -51,7 +51,7 @@ public class PetLoader : IBaseLoader
         return il2CPPType != null;
     }
 
-    private static List<string> _checkedPets = [];
+    private static readonly List<string> _checkedPets = [];
 
     public bool ProvideCosmetic(ProvideHandle handle, string id, string type)
     {
@@ -91,7 +91,7 @@ public class PetLoader : IBaseLoader
 
     private static GameObject PetHolder;
 
-    private static Dictionary<string, StringNames> _storeNames = [];/*
+    private static readonly Dictionary<string, StringNames> _storeNames = [];/*
     private static Dictionary<GameObject, PetMetadata> _petsToLoad = new();
 
     public static void AddPetPrefab(GameObject petPrefab, string name, string storeName, bool matchPlayerColor)

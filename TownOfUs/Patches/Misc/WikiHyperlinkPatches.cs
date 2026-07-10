@@ -13,7 +13,7 @@ namespace TownOfUs.Patches.Misc;
 
 public static class WikiHyperLinkPatches
 {
-    private static string fontTag =
+    private static readonly string fontTag =
         "<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - BlackOutlineMasked\">";
 
     public static readonly char[] RemovedCharacters = [ '\'', '\"' ];
