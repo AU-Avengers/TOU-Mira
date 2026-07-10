@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
 
 namespace TownOfUs.Patches.AprilFools;
-// Taken from https://github.com/Tommy-XL/Unlock-dlekS-ehT/blob/main/Patches/AutoSelectDleksPatch.cs
+/// <remakrs>
+/// Taken from <see href="https://github.com/Tommy-XL/Unlock-dlekS-ehT/blob/main/Patches/AutoSelectDleksPatch.cs"/>
+/// </remakrs>
 [HarmonyPatch(typeof(StringOption), nameof(StringOption.Start))]
 public static class DleksClampPatch
 {
