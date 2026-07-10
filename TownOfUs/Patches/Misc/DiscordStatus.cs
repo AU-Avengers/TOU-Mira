@@ -12,7 +12,7 @@ public static class DiscordStatus
 
     [HarmonyPrefix]
     [HarmonyPatch(nameof(ActivityManager.UpdateActivity))]
-    public static void ActivityManagerUpdateActivityPrefix(ActivityManager __instance, [HarmonyArgument(0)] Activity activity)
+    public static void ActivityManagerUpdateActivityPrefix([HarmonyArgument(0)] Activity activity)
     {
         var modCount = $"{IL2CPPChainloader.Instance.Plugins.Count} Mods";
         activity.Details = (string.IsNullOrEmpty(activity.Details)) ? ModInfo : ModInfo + " | " + activity.Details;

@@ -671,7 +671,7 @@ public static class TownOfUsEventHandlers
 
         Crewmate.TimeLordEventHandlers.RecordKill(source, target);
 
-        TimeLordRewindSystem.NotifyHostMurderDuringRewind(source, target);
+        TimeLordRewindSystem.NotifyHostMurderDuringRewind(target);
 
         if (SpellslingerRole.EveryoneHexed() && PlayerControl.LocalPlayer.Data.Role is SpellslingerRole)
         {
@@ -835,11 +835,11 @@ public static class TownOfUsEventHandlers
         {
             return;
         }
-        Coroutines.Start(CoSendSpecData(@event.ClientData));
+        Coroutines.Start(CoSendSpecData());
         Coroutines.Start(CoSendRulesToPlayer(@event.ClientData));
     }
 
-    internal static IEnumerator CoSendSpecData(ClientData clientData)
+    internal static IEnumerator CoSendSpecData()
     {
         while (!AmongUsClient.Instance)
         {

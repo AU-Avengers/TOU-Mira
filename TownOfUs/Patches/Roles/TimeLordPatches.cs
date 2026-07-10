@@ -28,7 +28,7 @@ public static class TimeLordPatches
 
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     [HarmonyPostfix]
-    public static void HudManagerUpdatePostfix(HudManager __instance)
+    public static void HudManagerUpdatePostfix()
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data)
         {

@@ -56,7 +56,7 @@ public sealed class CelebrityModifier : TouGameModifier, IWikiDiscoverable
         return base.IsModifierValidOn(role) && role.IsCrewmate();
     }
 
-    public static void CelebrityKilled(PlayerControl source, PlayerControl player, string customDeath = "")
+    public static void CelebrityKilled(PlayerControl source, PlayerControl player)
     {
         if (!player.HasModifier<CelebrityModifier>())
         {

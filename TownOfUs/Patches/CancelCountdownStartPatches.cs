@@ -56,7 +56,7 @@ internal static class CancelCountdownStart
 
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
     [HarmonyPostfix]
-    public static void PostfixBeginGame(GameStartManager __instance)
+    public static void PostfixBeginGame()
     {
         if (AmongUsClient.Instance.AmHost)
         {

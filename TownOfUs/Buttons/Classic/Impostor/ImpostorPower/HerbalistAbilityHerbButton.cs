@@ -151,7 +151,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         Button.usesRemainingText.text = (int)cooldown + "<size=80%>s</size>";
     }
 
-    public void UpdateCooldownHandler(PlayerControl playerControl)
+    public void UpdateCooldownHandler()
     {
         if (Timer >= 0)
         {

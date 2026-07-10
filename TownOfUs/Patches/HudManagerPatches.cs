@@ -581,7 +581,7 @@ public static class HudManagerPatches
                     playerColor = Color.red;
                 }
 
-                playerColor = playerColor.UpdateTargetColor(player, !isVisible);
+                playerColor = playerColor.UpdateTargetColor(player);
                 playerName = playerName.UpdateTargetSymbols(player, !isVisible);
                 playerName = playerName.UpdateProtectionSymbols(player, !isVisible);
                 playerName = playerName.UpdateAllianceSymbols(player, !isVisible);
@@ -1118,7 +1118,7 @@ public static class HudManagerPatches
         }
     }
 
-    public static void AdjustModifierTab(HudManager instance)
+    public static void AdjustModifierTab()
     {
         if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance)
         {
@@ -1151,7 +1151,7 @@ public static class HudManagerPatches
 
         CreateWikiButton(__instance);
         CreateZoomButton(__instance);
-        AdjustModifierTab(__instance);
+        AdjustModifierTab();
 
         UpdateRoleList(__instance);
         UpdateTeamChat();
@@ -1239,7 +1239,7 @@ public static class HudManagerPatches
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
     [HarmonyPriority(Priority.Last)]
     [HarmonyPostfix]
-    public static void HudManagerStartPatch(HudManager __instance)
+    public static void HudManagerStartPatch()
     {
         RoleNameStyle = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.RoleNameStyle.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);

@@ -1183,7 +1183,7 @@ public static class TimeLordRewindSystem
     /// If a murder occurs while rewind is active (or is delivered late during rewind),
     /// we must still revive the victim to avoid edge-window misses and neutral-kill inconsistencies.
     /// </summary>
-    public static void NotifyHostMurderDuringRewind(PlayerControl killer, PlayerControl victim)
+    public static void NotifyHostMurderDuringRewind(PlayerControl victim)
     {
         if (victim == null || victim.Data == null)
         {

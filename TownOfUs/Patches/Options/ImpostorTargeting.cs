@@ -13,7 +13,7 @@ namespace TownOfUs.Patches.Options;
 [HarmonyPatch(typeof(ImpostorRole), nameof(ImpostorRole.IsValidTarget))]
 public static class ImpostorTargeting
 {
-    public static void Postfix(ImpostorRole __instance, NetworkedPlayerInfo target, ref bool __result)
+    public static void Postfix(NetworkedPlayerInfo target, ref bool __result)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var saboOpt = OptionGroupSingleton<AdvancedSabotageOptions>.Instance;

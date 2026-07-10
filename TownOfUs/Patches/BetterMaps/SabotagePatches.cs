@@ -148,7 +148,7 @@ public static class HeliPatch
 [HarmonyPatch(typeof(MushroomMixupSabotageSystem), nameof(MushroomMixupSabotageSystem.UpdateSystem))]
 public static class MixUpPatch
 {
-    public static bool Prefix(MushroomMixupSabotageSystem __instance, PlayerControl player, MessageReader msgReader)
+    public static bool Prefix(MushroomMixupSabotageSystem __instance, MessageReader msgReader)
     {
         var flag = MiscUtils.GetCurrentMap switch
         {
