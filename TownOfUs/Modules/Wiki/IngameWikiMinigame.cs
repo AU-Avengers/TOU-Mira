@@ -391,7 +391,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
             else if (index == 0)
             {
-                SelectSettingsPage(_activeSettings[_activeSettings.Count - 1], true);
+                SelectSettingsPage(_activeSettings[^1], true);
             }
             else
             {
@@ -673,7 +673,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
             else if (index == 0)
             {
-                SelectTermsPage(_activeTerms[_activeTerms.Count - 1], true);
+                SelectTermsPage(_activeTerms[^1], true);
             }
             else
             {

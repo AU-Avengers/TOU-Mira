@@ -237,14 +237,14 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 .Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
                     x is not IUnguessable || x is not IDoomable) && !x.IsDead).ToList();
             roles = roles.OrderBy(x => x.GetRoleName()).ToList();
-            var lastRole = roles[roles.Count - 1];
+            var lastRole = roles[^1];
 
             if (hintType != DoomableType.Default)
             {
                 roles = MiscUtils.AllRoles
                     .Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType && x is not IUnguessable)
                     .OrderBy(x => x.GetRoleName()).ToList();
-                lastRole = roles[roles.Count - 1];
+                lastRole = roles[^1];
             }
 
             if (roles.Count != 0)

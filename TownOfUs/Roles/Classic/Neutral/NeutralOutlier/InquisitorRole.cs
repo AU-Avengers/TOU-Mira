@@ -313,7 +313,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture,
                     $"{text}\n");
                 var roles = TargetRoles;
-                var lastRole = roles[roles.Count - 1];
+                var lastRole = roles[^1];
 
                 if (roles.Count != 0)
                 {
