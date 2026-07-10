@@ -529,9 +529,9 @@ public static class TimeLordRewindSystem
         
         // Store task steps for later use in UndoTask
         _hostTaskStepMap ??= [];
-        foreach (var item in schedule)
+        foreach (var (PlayerId, TaskId, _, TaskStep) in schedule)
         {
-            _hostTaskStepMap[(item.PlayerId, item.TaskId)] = item.TaskStep;
+            _hostTaskStepMap[(PlayerId, TaskId)] = TaskStep;
         }
     }
 
