@@ -79,8 +79,7 @@ public static class RainbowLobbyInfoPanePatch
             NetworkedPlayerInfo host = GameData.Instance.GetHost();
             string text = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
             __instance.hostLabel.text =
-                TranslationController.Instance.GetString(StringNames.HostNounLabel,
-                    []);
+                TranslationController.Instance.GetString(StringNames.HostNounLabel);
             if (__instance.ShouldBoldenHostLabel(DataManager.Settings.Language.CurrentLanguage))
             {
                 __instance.hostLabel.text = __instance.hostLabel.text.Insert(0, "<b>");
@@ -94,7 +93,7 @@ public static class RainbowLobbyInfoPanePatch
                                                  : $"<color=#{text}>{host.PlayerName}</color>")
                                              + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" +
                                              TranslationController.Instance.GetString(
-                                                 StringNames.HostYouLabel, []);
+                                                 StringNames.HostYouLabel);
             }
             else
             {
