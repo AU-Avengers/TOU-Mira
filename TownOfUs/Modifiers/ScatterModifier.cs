@@ -95,10 +95,7 @@ public class ScatterModifier(float time) : TimedModifier
             _ => Color.red
         };
 
-        if (scatterText != null)
-        {
-            scatterText.text = $"Scatter: {textColor.ToTextColor()}{roundedTime}s</color>";
-        }
+        scatterText?.text = $"Scatter: {textColor.ToTextColor()}{roundedTime}s</color>";
 
         if (scatterBar != null)
         {

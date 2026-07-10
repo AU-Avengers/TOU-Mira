@@ -201,9 +201,9 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         {
             mod2.SetNewMedic(Player);
         }
-        else if (Shielded != null)
+        else
         {
-            Shielded.AddModifier<MedicShieldModifier>(Player);
+            Shielded?.AddModifier<MedicShieldModifier>(Player);
         }
     }
 

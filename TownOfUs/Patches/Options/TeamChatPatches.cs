@@ -742,10 +742,7 @@ public static class TeamChatPatches
         }
         else
         {
-            if (Background != null)
-            {
-                Background.GetComponent<SpriteRenderer>().color = Color.white;
-            }
+            Background?.GetComponent<SpriteRenderer>().color = Color.white;
             HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatIdle.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatHover.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatOpen.LoadAsset();

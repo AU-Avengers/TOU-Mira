@@ -242,10 +242,7 @@ public abstract class TownOfUsButton : CustomActionButton
             if (TextOutlineColor != Color.clear)
             {
                 SetTextOutline(TextOutlineColor);
-                if (Button != null)
-                {
-                    Button.usesRemainingSprite.color = TextOutlineColor;
-                }
+                Button?.usesRemainingSprite.color = TextOutlineColor;
             }
 
             TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
@@ -483,10 +480,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
                 if (TextOutlineColor != Color.clear)
                 {
                     SetTextOutline(TextOutlineColor);
-                    if (Button != null)
-                    {
-                        Button.usesRemainingSprite.color = TextOutlineColor;
-                    }
+                    Button?.usesRemainingSprite.color = TextOutlineColor;
                 }
 
                 TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance

@@ -167,12 +167,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public override void OnDeath(DeathReason reason)
     {
         var button = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
-
-        if (button.Ignite != null)
-        {
-            button.Ignite.Clear();
-            button.Ignite = null;
-        }
+        button.Ignite?.Clear();
+        button.Ignite = null;
 
         RoleBehaviourStubs.OnDeath(this, reason);
     }

@@ -101,10 +101,7 @@ public static class LogoPatch
             GameLogo.sprite = TouAssets.Banner.LoadAsset();
         }
 
-        if (sizer != null)
-        {
-            sizer.GetComponent<AspectSize>().PercentWidth = 0.3f;
-        }
+        sizer?.GetComponent<AspectSize>().PercentWidth = 0.3f;
 
         var menuBg = GameObject.Find("BackgroundTexture");
 

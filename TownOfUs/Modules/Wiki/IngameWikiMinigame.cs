@@ -325,15 +325,9 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
                 }
 
-                if (modifierIcon != null)
-                {
-                    modifierIcon.SetSizeLimit(1.44f);
-                }
+                modifierIcon?.SetSizeLimit(1.44f);
 
-                if (playerRoleIcon != null)
-                {
-                    playerRoleIcon.SetSizeLimit(1.44f);
-                }
+                playerRoleIcon?.SetSizeLimit(1.44f);
 
                 break;
 

@@ -1554,19 +1554,13 @@ public static class TimeLordRewindSystem
         if (_popsRemaining <= 0 || Buffer.Count == 0)
         {
             lp.moveable = false;
-            if (physics.body != null)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
+            physics.body?.velocity = Vector2.zero;
             physics.SetNormalizedVelocity(Vector2.zero);
 
             if (_hasFinalSnapPos && IsValidSnapshotPos(lp, _finalSnapPos))
             {
                 lp.transform.position = _finalSnapPos;
-                if (physics.body != null)
-                {
-                    physics.body.position = _finalSnapPos;
-                }
+                physics.body?.position = _finalSnapPos;
                 lp.NetTransform?.SnapTo(_finalSnapPos);
             }
             else if (_hasFinalSnapPos)
@@ -1627,10 +1621,7 @@ public static class TimeLordRewindSystem
         else
         {
             // No snapshot pop this tick; freeze motion for this tick to avoid drifting.
-            if (physics.body != null)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
+            physics.body?.velocity = Vector2.zero;
             physics.SetNormalizedVelocity(Vector2.zero);
             return true;
         }
@@ -2402,10 +2393,7 @@ return true;*/
         }
 
         var taskInfo = player.Data.FindTaskById(taskId);
-        if (taskInfo != null)
-        {
-            taskInfo.Complete = false;
-        }
+        taskInfo?.Complete = false;
 
         foreach (var t in player.myTasks.ToArray())
         {

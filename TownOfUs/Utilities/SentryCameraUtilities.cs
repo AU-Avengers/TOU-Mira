@@ -177,9 +177,7 @@ public static class SentryCameraUtilities
         SurvCamera? polusTemplateCamera = null;
         try
         {
-            polusTemplateCamera = PrefabLoader.Polus != null
-                ? PrefabLoader.Polus.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault()
-                : null;
+            polusTemplateCamera = PrefabLoader.Polus?.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault();
         }
         catch
         {
@@ -193,7 +191,7 @@ public static class SentryCameraUtilities
             resourceTemplateCamera = all
                 .FirstOrDefault(x =>
                 {
-                    var cam = x != null ? x.TryCast<SurvCamera>() : null;
+                    var cam = x?.TryCast<SurvCamera>();
                     if (cam == null || cam.gameObject == null) return false;
                     var sr = cam.gameObject.GetComponent<SpriteRenderer>();
                     return sr != null && sr.sprite != null;
@@ -209,7 +207,7 @@ public static class SentryCameraUtilities
             polusTemplateCamera ??
             resourceTemplateCamera ??
             Object.FindObjectOfType<SurvCamera>() ??
-            (PrefabLoader.Skeld != null ? PrefabLoader.Skeld.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault() : null);
+            (PrefabLoader.Skeld?.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault());
 
         return referenceCamera;
     }
@@ -291,10 +289,7 @@ public static class SentryCameraUtilities
         }
         else
         {
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.color = Color.white;
-            }
+            spriteRenderer?.color = Color.white;
             camera.gameObject.SetActive(true);
         }
 

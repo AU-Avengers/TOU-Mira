@@ -217,10 +217,7 @@ public static class ParasiteMovementPatches
                 var delta = pos - currentPos;
                 if (delta.magnitude > 0.5f) // Only correct if significantly off
                 {
-                    if (__instance.body != null)
-                    {
-                        __instance.body.position = pos;
-                    }
+                    __instance.body?.position = pos;
                     __instance.myPlayer.transform.position = pos;
                 }
             }
@@ -271,10 +268,7 @@ public static class ParasiteMovementPatches
                 var delta = pos - currentPos;
                 if (delta.magnitude > 0.5f)
                 {
-                    if (__instance.body != null)
-                    {
-                        __instance.body.position = pos;
-                    }
+                    __instance.body?.position = pos;
                     __instance.myPlayer.transform.position = pos;
                 }
             }

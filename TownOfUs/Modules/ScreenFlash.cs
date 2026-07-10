@@ -57,10 +57,7 @@ public sealed class ScreenFlash : IDisposable
 
     public void SetColour(Color color)
     {
-        if (_renderer != null)
-        {
-            _renderer.color = color;
-        }
+        _renderer?.color = color;
     }
 
     public void Destroy()

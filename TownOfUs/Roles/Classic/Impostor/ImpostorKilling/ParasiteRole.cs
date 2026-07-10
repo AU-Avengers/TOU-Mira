@@ -153,10 +153,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
         var target = Controlled;
         if (target == null)
         {
-            if (AdvancedMovementUtilities.MobileJoystickR != null)
-            {
-                AdvancedMovementUtilities.MobileJoystickR.ToggleVisuals(false);
-            }
+            AdvancedMovementUtilities.MobileJoystickR?.ToggleVisuals(false);
             _killPendingFromTimer = false;
             return;
         }
@@ -777,10 +774,7 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
 
             if (target.MyPhysics != null)
             {
-                if (target.MyPhysics.body != null)
-                {
-                    target.MyPhysics.body.velocity = Vector2.zero;
-                }
+                target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
             }
 

@@ -167,10 +167,7 @@ public static class TimeLordBodyManager
             LogBodyRestore($"RestoreCleanedBody: body={bodyId} already active; forcing alpha=1");
             foreach (var r in body.bodyRenderers)
             {
-                if (r != null)
-                {
-                    r.color = r.color.SetAlpha(1f);
-                }
+                r?.color = r.color.SetAlpha(1f);
             }
 
             if (rec.PetWasRemoved && !string.IsNullOrEmpty(rec.OriginalPetId))
@@ -200,10 +197,7 @@ public static class TimeLordBodyManager
 
         foreach (var r in body.bodyRenderers)
         {
-            if (r != null)
-            {
-                r.color = r.color.SetAlpha(1f);
-            }
+            r?.color = r.color.SetAlpha(1f);
         }
 
         if (rec.PetWasRemoved && !string.IsNullOrEmpty(rec.OriginalPetId))
@@ -382,10 +376,7 @@ public static class TimeLordBodyManager
         {
             foreach (var r in body.bodyRenderers)
             {
-                if (r != null)
-                {
-                    r.color = r.color.SetAlpha(1f);
-                }
+                r?.color = r.color.SetAlpha(1f);
             }
             rec2.Restored = false;
             yield break;
@@ -475,10 +466,7 @@ public static class TimeLordBodyManager
     {
         foreach (var rec in CleanedBodies.Values)
         {
-            if (rec != null)
-            {
-                rec.RestoredThisRewind = false;
-            }
+            rec?.RestoredThisRewind = false;
         }
     }
 

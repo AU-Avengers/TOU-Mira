@@ -87,11 +87,9 @@ public static class HudManagerPatches
         }
 
         var instance = HudManager.Instance;
-        if (Camera.main != null)
-            Camera.main.orthographicSize = size;
+        Camera.main?.orthographicSize = size;
 
-        if (instance.UICamera != null)
-            instance.UICamera.orthographicSize = size;
+        instance.UICamera?.orthographicSize = size;
 
         if (size <= 3f)
         {

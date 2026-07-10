@@ -330,12 +330,8 @@ public sealed class SnitchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
         }
         // Set to null so CreateSnitchArrowsSilent() can recreate arrows when needed
         _snitchArrows = null;
-
-        if (SnitchRevealArrow != null)
-        {
-            SnitchRevealArrow.gameObject.DeepDestroy();
-            SnitchRevealArrow = null;
-        }
+        SnitchRevealArrow?.gameObject.DeepDestroy();
+        SnitchRevealArrow = null;
 
         // Remove modifiers from all players explicitly to ensure they're cleared on all clients
         foreach (var player in PlayerControl.AllPlayerControls)

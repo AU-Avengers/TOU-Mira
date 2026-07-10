@@ -102,10 +102,7 @@ public sealed class TimeLordEventRegistry
     public void MarkUndone(TimeLordEvent evt)
     {
         var queued = _events.FirstOrDefault(e => e.Event == evt);
-        if (queued != null)
-        {
-            queued.Undone = true;
-        }
+        queued?.Undone = true;
     }
 
     public void ProcessUndoEvent(TimeLordUndoEvent undoEvent)

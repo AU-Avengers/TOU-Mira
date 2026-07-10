@@ -261,10 +261,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             if (button.TextOutlineColor != Color.clear)
             {
                 button.SetTextOutline(button.TextOutlineColor);
-                if (button.Button != null)
-                {
-                    button.Button.usesRemainingSprite.color = button.TextOutlineColor;
-                }
+                button.Button?.usesRemainingSprite.color = button.TextOutlineColor;
             }
 
             TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance

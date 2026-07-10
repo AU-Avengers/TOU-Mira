@@ -148,10 +148,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
     private IEnumerator CoRestoreFocus()
     {
         yield return null;
-        if (searchTextbox != null)
-        {
-            searchTextbox.GiveFocus();
-        }
+        searchTextbox?.GiveFocus();
     }
 
     private void NextPage()
@@ -180,10 +177,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         }
 
         var filtered = GetFilteredEntries();
-        if (noResultsText != null)
-        {
-            noResultsText.gameObject.SetActive(filtered.Count == 0 && !string.IsNullOrWhiteSpace(searchText));
-        }
+        noResultsText?.gameObject.SetActive(filtered.Count == 0 && !string.IsNullOrWhiteSpace(searchText));
         var totalPages = GetTotalPages(filtered.Count);
         currentPage = Mathf.Clamp(currentPage, 0, totalPages - 1);
 
@@ -240,10 +234,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         try
         {
             var placeholder = searchTextbox.transform.parent.GetChild(2).GetComponent<TextMeshPro>();
-            if (placeholder != null)
-            {
-                placeholder.gameObject.SetActive(false);
-            }
+            placeholder?.gameObject.SetActive(false);
         }
         catch
         {

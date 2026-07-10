@@ -2124,10 +2124,7 @@ public static class MiscUtils
 
         if (attacker.AmOwner)
         {
-            if (cam != null)
-            {
-                cam.Locked = true;
-            }
+            cam?.Locked = true;
 
             attacker.isKilling = true;
         }
@@ -2138,10 +2135,7 @@ public static class MiscUtils
 
         KillAnimation.SetMovement(attacker, true);
 
-        if (cam != null)
-        {
-            cam.Locked = false;
-        }
+        cam?.Locked = false;
 
         attacker.isKilling = false;
     }

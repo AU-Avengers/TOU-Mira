@@ -219,10 +219,7 @@ public static class ControlledPlayerInteractionPatches
             {
                 if (sr == null) continue;
                 sr.color = Palette.EnabledColor;
-                if (sr.material != null)
-                {
-                    sr.material.SetFloat("_Desat", 0f);
-                }
+                sr.material?.SetFloat("_Desat", 0f);
             }
 
             var tmps = useButton.GetComponentsInChildren<TMPro.TMP_Text>(true);

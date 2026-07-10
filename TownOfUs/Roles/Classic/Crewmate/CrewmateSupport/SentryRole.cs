@@ -128,7 +128,7 @@ public sealed class SentryRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
                         continue;
                     }
 
-                    var sr = cam.gameObject != null ? cam.gameObject.GetComponent<SpriteRenderer>() : null;
+                    var sr = cam.gameObject?.GetComponent<SpriteRenderer>();
                     var isPending = (sr != null && sr.color.a < 0.99f);
 
                     var remainingText = duration == 0 ? string.Empty : $" ({duration} rounds)";
