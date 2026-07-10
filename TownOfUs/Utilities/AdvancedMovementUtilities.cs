@@ -5,7 +5,8 @@ using UnityEngine;
 namespace TownOfUs.Utilities;
 
 /// <summary>
-/// Shared movement utilities for Time Lord, Parasite, Puppeteer, and any other controlling roles.
+/// Shared movement utilities for <see cref="Roles.Crewmate.TimeLordRole"/>,
+/// <see cref="Roles.Impostor.ParasiteRole"/>, <see cref="Roles.Impostor.PuppeteerRole"/>, and any other controlling roles.
 /// These handle directional input and movement calculations.
 /// </summary>
 public static class AdvancedMovementUtilities
