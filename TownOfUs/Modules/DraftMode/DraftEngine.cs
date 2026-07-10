@@ -5,14 +5,13 @@ using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using TownOfUs.Options;
 using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
 
 namespace TownOfUs.Modules.DraftMode
 {
     [RegisterInIl2Cpp]
-    public class DraftEngineBehaviour : MonoBehaviour
+    public class DraftEngineBehaviour(IntPtr iPtr) : MonoBehaviour(iPtr)
     {
-        public DraftEngineBehaviour(IntPtr ptr) : base(ptr) { }
-
         public static DraftEngineBehaviour Instance { get; private set; }
 
         private List<string> _pool = new();
@@ -359,7 +358,7 @@ namespace TownOfUs.Modules.DraftMode
                 Color roleColor = Color.white;
                 if (recapMode == DraftRecapMode.Faction)
                 {
-                    teamLabel = DraftUiManager.GetBroadFaction(roleBehaviour).ToUpperInvariant() ?? "Unknown";
+                    teamLabel = DraftUiManager.GetTeamLabel(roleBehaviour).ToUpperInvariant() ?? "Unknown";
                     roleColor = MiscUtils.GetRoleFactionColor(roleBehaviour);
                 }
                 else if (recapMode == DraftRecapMode.Alignment)
@@ -370,8 +369,8 @@ namespace TownOfUs.Modules.DraftMode
                 }
                 else if (recapMode == DraftRecapMode.Role)
                 {
-                    teamLabel = roleBehaviour?.NiceName.ToUpperInvariant() ?? "Unknown";
-                    roleColor = DraftUiManager.GetRoleColor(roleBehaviour);
+                    teamLabel = roleBehaviour.GetRoleName().ToUpperInvariant() ?? "Unknown";
+                    roleColor = roleBehaviour.TeamColor;
                 }
                 string colorHex  = ColorUtility.ToHtmlStringRGB(roleColor);
 

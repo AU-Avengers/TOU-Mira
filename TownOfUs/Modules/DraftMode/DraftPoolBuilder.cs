@@ -83,7 +83,7 @@ public static class DraftPoolBuilder
         int maxImps   = impOpts != null ? Math.Max(0, (int)impOpts.MaxImpostors.Value) : int.MaxValue;
         int addedImps = 0;
 
-        IRng rng       = new UnityRng();
+        UnityRng rng       = new();
         var usedCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         int limit = Math.Min(numPlayers, slots.Length);

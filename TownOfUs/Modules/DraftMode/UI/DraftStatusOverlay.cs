@@ -405,8 +405,8 @@ namespace TownOfUs.Modules.DraftMode
             var role = DraftUiManager.ResolveRole(roleId);
             string roleName = role?.NiceName ?? $"Role {roleId}";
             string teamName = DraftUiManager.GetTeamLabel(role);
-            Sprite icon = DraftUiManager.GetRoleIcon(role);
-            Color color = DraftUiManager.GetRoleColor(role);
+            Sprite icon = role.GetRoleIcon();
+            Color color = role.TeamColor;
             string description = DraftUiManager.GetRoleDescription(role);
 
             _roleCardNewRoleObj = UnityEngine.Object.Instantiate(

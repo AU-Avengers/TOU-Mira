@@ -1,6 +1,7 @@
 using System.Text;
 using HarmonyLib;
 using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 using UnityEngine;
@@ -174,25 +175,20 @@ namespace TownOfUs.Modules.DraftMode
 
         private static (string text, string colorHex) GetStatusLabelForRole(ushort roleId)
         {
-            RoleBehaviour role = null;
-            try
-            {
-                role = roleId != 0
-                    ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)
-                      ?? RoleManager.Instance?.GetRole((AmongUs.GameOptions.RoleTypes)roleId)
-                    : null;
-            }
-            catch { }
+            RoleBehaviour role = roleId != 0
+                ? MiscUtils.GetRegisteredRole((AmongUs.GameOptions.RoleTypes)roleId)
+                  ?? RoleManager.Instance.GetRole((AmongUs.GameOptions.RoleTypes)roleId)
+                : null!;
 
-            var faction = DraftUiManager.GetBroadFaction(role);
+            var faction = DraftUiManager.GetTeamLabel(role);
             string colorHex = "";
-            var displayMode = OptionGroupSingleton<RoleOptions>.Instance?.DraftSidebarDisplay.Value;
-            string text = (DraftRecapMode)displayMode switch
+            var displayMode = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay.Value;
+            string text = displayMode switch
             {
-                DraftRecapMode.Nothing   => "a role",
-                DraftRecapMode.Alignment => $"{DraftUiManager.GetTeamLabel(role).ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
-                DraftRecapMode.Role      => $"{role?.NiceName.ToUpperInvariant()} {MiscUtils.GetRoleTmpIcon(role)}",
+                DraftRecapMode.Alignment => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
+                DraftRecapMode.Role      => $"{role.GetRoleName().ToUpperInvariant()} {MiscUtils.GetRoleTmpIcon(role)}",
                 DraftRecapMode.Faction   => $"{faction.ToUpperInvariant()} <sprite name=\"AmongUs.Role.{faction}\">",
+                _   => "a role",
             };
             if(displayMode == DraftRecapMode.Role)
             {
@@ -203,14 +199,15 @@ namespace TownOfUs.Modules.DraftMode
             }
             else
             {
-               colorHex =
-            faction switch
-            {
-                "Impostor" => "#FF5050",
-                "Neutral"  => "#717171",
-                _          => "#5BD7E4",
-            };
+                colorHex =
+                    faction switch
+                    {
+                        "Impostor" => "#FF5050",
+                        "Neutral" => "#717171",
+                        _ => "#5BD7E4",
+                    };
             }
+
             return (text, colorHex);
     }
 

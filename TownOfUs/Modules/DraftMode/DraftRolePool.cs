@@ -262,10 +262,10 @@ namespace TownOfUs.Modules.DraftMode
 
         private static bool IsUsableRole(RoleBehaviour role)
         {
-            if (role == null) return false;
-            if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost || role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+            if (!role) return false;
+            if (role.IsDead)
                 return false;
-            if (role is not ITownOfUsRole touRole || !touRole.IsDraftable)
+            if (role is ITownOfUsRole touRole && !touRole.IsDraftable)
                 return false;
 
             return role.GetRoleName() is { Length: > 0 } && CustomRoleUtils.CanSpawnOnCurrentMode(role) && IsRoleEnabled(role);
