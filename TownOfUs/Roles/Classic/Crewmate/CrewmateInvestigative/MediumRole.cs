@@ -189,6 +189,12 @@ public sealed class MediumRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     [MethodRpc((uint)TownOfUsRpc.RemoveMediumSpirit)]
     public static void RpcRemoveMediumSpirit(PlayerControl medium, MedSpiritObject spirit)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(medium);
+            return;
+        }
+
         spirit.StartCoroutine(spirit.CoDestroy().WrapToIl2Cpp());
     }
 }
