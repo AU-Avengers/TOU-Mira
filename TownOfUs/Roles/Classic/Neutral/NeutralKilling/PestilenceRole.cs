@@ -202,7 +202,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             Player.AddModifier<UnstoppableModifier>();
         }
 
-        if (Player.AmOwner && !plagueOpts.LegacyPestilence)
+        if (Player.AmOwner && !plagueOpts.LegacyPestilence && !IntroCutscene.Instance)
         {
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
         }
