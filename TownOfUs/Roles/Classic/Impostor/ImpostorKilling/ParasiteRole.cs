@@ -492,11 +492,12 @@ public sealed class ParasiteRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
             return;
         }
 
-        var down = false;
-        var held = false;
-        var up = false;
         Vector2 screenPos;
 
+
+        bool down;
+        bool held;
+        bool up;
         if (Input.touchCount > 0)
         {
             var touch = Input.GetTouch(0);
