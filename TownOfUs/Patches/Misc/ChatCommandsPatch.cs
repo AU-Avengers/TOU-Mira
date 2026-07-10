@@ -177,7 +177,7 @@ public static class ChatPatches
                 return false;
             }
     
-            string targetName = textRegular.Substring(6).Trim();
+            string targetName = textRegular[6..].Trim();
             var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
     
             if (target == null)
@@ -225,7 +225,7 @@ public static class ChatPatches
                 return false;
             }
     
-            string targetName = textRegular.Substring(5).Trim();
+            string targetName = textRegular[5..].Trim();
             var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
     
             if (target == null)

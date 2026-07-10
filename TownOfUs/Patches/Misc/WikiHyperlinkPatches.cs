@@ -46,7 +46,7 @@ public static class WikiHyperLinkPatches
                 sb.Append(text, lastIndex, count);
             }
 
-            string key = match.Value.Substring(1);
+            string key = match.Value[1..];
             string replacement = match.Value;
             bool shouldHyperlink = true;
             if (match.Value[0] == '#') // Role tag
