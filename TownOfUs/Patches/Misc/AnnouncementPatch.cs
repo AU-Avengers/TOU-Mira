@@ -13,7 +13,9 @@ using UnityEngine.Networking;
 
 namespace TownOfUs.Patches.Misc;
 
-// code credit https://github.com/Yumenopai/TownOfHost_Y
+/// <remarks>
+/// code credit <see href="https://github.com/Yumenopai/TownOfHost_Y"/>
+/// </remarks>
 [HarmonyPatch]
 public class TouMiraModNews(int Number, string Title, string SubTitle, string ShortTitle, string Text, string Date)
 {

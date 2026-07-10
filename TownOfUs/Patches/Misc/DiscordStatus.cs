@@ -3,7 +3,9 @@ using Discord;
 using HarmonyLib;
 
 namespace TownOfUs.Patches.Misc;
-// Patch taken from https://github.com/All-Of-Us-Mods/LaunchpadReloaded/blob/master/LaunchpadReloaded/Patches/Generic/DiscordManagerPatch.cs
+/// <remarks>
+/// Patch taken from <see href="https://github.com/All-Of-Us-Mods/LaunchpadReloaded/blob/master/LaunchpadReloaded/Patches/Generic/DiscordManagerPatch.cs"/>
+/// </remarks>
 [HarmonyPatch(typeof(ActivityManager))]
 public static class DiscordStatus
 {
