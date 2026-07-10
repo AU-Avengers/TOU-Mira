@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Meeting.Voting;
 using MiraAPI.Roles;
@@ -19,29 +18,14 @@ public static class SwapperEvents
     public static void ProcessVotesEventHandler(ProcessVotesEvent @event)
     {
         // Error($"SwapperEvents.ProcessVotesEventHandler");
-        CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().Do(x => SwapVotes(@event, x));
-    }
-
-    [RegisterEvent]
-    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
-    {
-        if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().HasAny())
+        var swapper = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().FirstOrDefault(swapper => !swapper.Player.HasDied() && swapper.Swap1 && swapper.Swap2);
+        if (swapper == null)
         {
             return;
         }
 
-        Coroutines.Start(PerformSwaps());
-    }
-
-    private static void SwapVotes(ProcessVotesEvent @event, SwapperRole swapper)
-    {
-        if (!swapper || swapper.Player.HasDied() || !swapper.Swap1 || !swapper.Swap2)
-        {
-            return;
-        }
-
-        var swap1 = swapper.Swap1!.TargetPlayerId;
-        var swap2 = swapper.Swap2!.TargetPlayerId;
+        var swap1 = swapper.Swap1.TargetPlayerId;
+        var swap2 = swapper.Swap2.TargetPlayerId;
 
         var originalVoteList = @event.Votes.ToList();
 
@@ -78,6 +62,49 @@ public static class SwapperEvents
         }
     }
 
+    [RegisterEvent]
+    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
+    {
+        if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().HasAny())
+        {
+            return;
+        }
+
+        Coroutines.Start(PerformSwaps());
+    }
+
+    // This visually "undoes" the initial swap, otherwise Swapper looks funky as hell
+    [RegisterEvent]
+    public static void PopulateResultsEventHandler(PopulateResultsEvent @event)
+    {
+        var swapper = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().FirstOrDefault(swapper => !swapper.Player.HasDied() && swapper.Swap1 && swapper.Swap2);
+        if (swapper == null)
+        {
+            return;
+        }
+        var swap1 = swapper.Swap1.TargetPlayerId;
+        var swap2 = swapper.Swap2.TargetPlayerId;
+
+        var originalVoteList = @event.Votes.ToList();
+        @event.Votes.Clear();
+
+        foreach (var vote in originalVoteList)
+        {
+            if (vote.Suspect == swap1)
+            {
+                @event.Votes.Add(new CustomVote(vote.Voter, swap2));
+            }
+            else if (vote.Suspect == swap2)
+            {
+                @event.Votes.Add(new CustomVote(vote.Voter, swap1));
+            }
+            else
+            {
+                @event.Votes.Add(vote);
+            }
+        }
+    }
+
     private static IEnumerator PerformSwaps()
     {
         var swapperRoles = CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().ToList();
@@ -86,7 +113,7 @@ public static class SwapperEvents
 
         foreach (var role in swapperRoles)
         {
-            if (role == null || role.Player.HasDied() || role.Swap1 == null || role.Swap2 == null)
+            if (role == null || role.Player.HasDied() || !role.Swap1 || !role.Swap2)
             {
                 yield break;
             }

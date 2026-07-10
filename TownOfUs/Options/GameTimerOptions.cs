@@ -12,7 +12,7 @@ public sealed class GameTimerOptions : AbstractOptionGroup
         !(GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
             or GameModes.SeekFools);
     public override string GroupName => "End Game Timer";
-    public override uint GroupPriority => 5;
+    public override uint GroupPriority => 3;
 
     [ModdedToggleOption("Game Timer")] 
     public bool GameTimerEnabled { get; set; } = false;
