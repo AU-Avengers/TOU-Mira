@@ -165,7 +165,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     playerVA.NameText.ForceMeshUpdate();
                     if (playerVA.NameText.m_lineNumber > 1)
                     {
-                        playerVA.NameText.fontSize = 2f - playerVA.NameText.m_lineNumber * 0.15f;
+                        playerVA.NameText.fontSize = 2f - playerVA.NameText.m_lineNumber * 0.075f;
                     }
                     continue;
                 }
@@ -271,12 +271,19 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                      (localDead && taskOpt.ShowTaskDead)) &&
                     (player.IsCrewmate() || player.Data.Role is SpectreRole))
                 {
-                    if (roleName != string.Empty)
+                    if (HudManagerPatches.RoleIsSmall)
                     {
-                        roleName += " ";
-                    }
+                        if (roleName != string.Empty)
+                        {
+                            roleName += " ";
+                        }
 
-                    roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                        roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                    }
+                    else
+                    {
+                        playerName += $" {player.TaskInfo()}";
+                    }
                 }
 
                 if (player.TryGetModifier<OracleConfessModifier>(out var confess, x => x.ConfessToAll))
@@ -485,12 +492,19 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     (player.IsCrewmate() ||
                      player.Data.Role is SpectreRole))
                 {
-                    if (roleName != string.Empty)
+                    if (HudManagerPatches.RoleIsSmall)
                     {
-                        roleName += " ";
-                    }
+                        if (roleName != string.Empty)
+                        {
+                            roleName += " ";
+                        }
 
-                    roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                        roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                    }
+                    else
+                    {
+                        playerName += $" {player.TaskInfo()}";
+                    }
                 }
 
                 if (player.AmOwner && player.TryGetModifier<ScatterModifier>(out var scatter) && !player.HasDied())
