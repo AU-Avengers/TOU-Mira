@@ -46,10 +46,7 @@ public static class SoftWikiEntries
 
             entry.TeamName = teamName;
             entry.EntryColor = role.TeamColor;
-            entry.GetAdvancedDescription = roleType switch
-            {
-                _ => role.BlurbLong,
-            };
+            entry.GetAdvancedDescription = role.BlurbLong;
             var roleImg = TouRoleUtils.GetBasicRoleIcon(role);
 
             if (role.RoleIconSolid != null)
