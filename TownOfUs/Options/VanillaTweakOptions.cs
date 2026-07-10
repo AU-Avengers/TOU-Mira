@@ -20,6 +20,12 @@ public sealed class VanillaTweakOptions : AbstractOptionGroup
     public ModdedEnumOption SkipButtonDisable { get; set; } = new("Disable Meeting Skip Button", (int)SkipState.No,
         typeof(SkipState), ["Never", "Emergency", "Always"]);
 
+    public ModdedToggleOption HideRemainingImpostorCount { get; set; } = new("Hide Remaining Impostor Count", false)
+    {
+        Visible = () => GameManager.Instance != null && GameManager.Instance.LogicOptions != null &&
+                        GameManager.Instance.LogicOptions.GetConfirmImpostor()
+    };
+
     public ModdedToggleOption HideVentAnimationNotInVision { get; set; } =
         new("Hide Vent Animations Not In Vision", true);
 
