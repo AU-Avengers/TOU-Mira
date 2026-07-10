@@ -10,7 +10,6 @@ public static class DraftManager
 
     private static readonly List<DraftSlotState> SlotStates = [];
     private static readonly Dictionary<byte, int> PlayerToSlot = [];
-    private static int _totalSlots;
     private static int _currentTurn;
 
     public static void SetDraftStateFromHost(int totalSlots, List<byte> playerIds, List<int> slotNumbers)
@@ -18,7 +17,6 @@ public static class DraftManager
         if (playerIds == null || slotNumbers == null) return;
         if (playerIds.Count != slotNumbers.Count) return;
 
-        _totalSlots = totalSlots;
         SlotStates.Clear();
         PlayerToSlot.Clear();
 
@@ -106,10 +104,10 @@ public static class DraftManager
         PlayerToSlot.TryGetValue(playerId, out var slot) ? slot : -1;
 
     public static DraftSlotState GetStateForSlot(int slot) =>
-        SlotStates.FirstOrDefault(s => s.SlotNumber == slot);
+        SlotStates.FirstOrDefault(s => s.SlotNumber == slot)!;
 
     public static DraftSlotState GetStateForPlayer(byte playerId) =>
-        SlotStates.FirstOrDefault(s => s.PlayerId == playerId);
+        SlotStates.FirstOrDefault(s => s.PlayerId == playerId)!;
 
     public static IReadOnlyList<DraftSlotState> GetAllStates() => SlotStates.AsReadOnly();
 
@@ -123,7 +121,6 @@ public static class DraftManager
         IsDraftActive = false;
         SlotStates.Clear();
         PlayerToSlot.Clear();
-        _totalSlots = 0;
         _currentTurn = 0;
         TurnTimeLeft = 0f;
 
@@ -137,11 +134,14 @@ public static class DraftManager
                 GameStartManager.Instance.ResetStartState();
             }
         }
-        catch { }
+        catch
+        {
+            //ignored
+        }
     }
 }
 
-public class RecapEntry(int slotNumber, string roleName, string teamLabel = null, string colorHex = null)
+public class RecapEntry(int slotNumber, string roleName, string teamLabel = null!, string colorHex = null!)
 {
     public int SlotNumber { get; } = slotNumber;
     public string RoleName  { get; } = roleName;

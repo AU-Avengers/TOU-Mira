@@ -7,6 +7,7 @@ using UnityEngine;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities;
 
+
 namespace TownOfUs.Modules.DraftMode
 {
     public enum OverlayState
@@ -31,7 +32,7 @@ namespace TownOfUs.Modules.DraftMode
         private readonly List<SpriteRenderer> _backdropBeamRenderers = new();
         private readonly List<SpriteRenderer> _backdropParticleRenderers = new();
         private readonly List<Vector3> _backdropParticleBasePositions = new();
-        private float _waitAnimTime = 0f;
+        private float _waitAnimTime;
 
         private TextMeshPro _yourNumberLabel;
         private TextMeshPro _yourNumberValue;
@@ -54,7 +55,7 @@ namespace TownOfUs.Modules.DraftMode
         private bool _cardHiddenForMenu;
         private bool _cardReady;
 
-        private List<GameObject> _hiddenHudChildren = new List<GameObject>();
+        private readonly List<GameObject> _hiddenHudChildren = new List<GameObject>();
 
         private float _menuCheckTimer;
         private const float MenuCheckInterval = 0.1f;
@@ -405,8 +406,8 @@ namespace TownOfUs.Modules.DraftMode
             var role = DraftUiManager.ResolveRole(roleId);
             string roleName = role?.NiceName ?? $"Role {roleId}";
             string teamName = DraftUiManager.GetTeamLabel(role);
-            Sprite icon = role.GetRoleIcon();
-            Color color = role.TeamColor;
+            Sprite icon = role != null ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
+            Color color = role != null ? role.TeamColor : Color.white;
             string description = DraftUiManager.GetRoleDescription(role);
 
             _roleCardNewRoleObj = UnityEngine.Object.Instantiate(
@@ -482,8 +483,8 @@ namespace TownOfUs.Modules.DraftMode
                 sr.sortingOrder = 1;
             }
 
-            var col = actualCard.GetComponent<Collider2D>() as Collider2D
-                      ?? actualCard.GetComponent<BoxCollider2D>() as Collider2D;
+            var col = actualCard.GetComponent<Collider2D>()
+                      ?? (Collider2D)actualCard.GetComponent<BoxCollider2D>();
             if (col == null)
             {
                 var box = actualCard.gameObject.AddComponent<BoxCollider2D>();
@@ -586,10 +587,7 @@ namespace TownOfUs.Modules.DraftMode
 
                 if (FriendsListUI.Instance != null && FriendsListUI.Instance.IsOpen) return true;
             }
-            catch
-            {
-                // ignored
-            }
+            catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
 
             return false;
         }
@@ -602,10 +600,7 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     MiraAPI.Utilities.Extensions.DeepDestroy(_roleCardNewRoleObj, true);
                 }
-                catch
-                {
-                    // ignored
-                }
+                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
 
                 _roleCardNewRoleObj = null!;
             }
@@ -667,10 +662,7 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     MiraAPI.Utilities.Extensions.DeepDestroy(_cardTooltipRoot, true);
                 }
-                catch
-                {
-                    // ignored
-                }
+                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
             }
 
             _cardTooltipRoot = null!;
@@ -808,10 +800,13 @@ namespace TownOfUs.Modules.DraftMode
             _cachedIsMyTurn = isMyTurn;
 
             string mySlotText = mySlot > 0 ? mySlot.ToString(CultureInfo.InvariantCulture) : "?";
-            string pickerText = pickerCount > 1
-                ? "MULTI"
-                : (pickerSlot > 0 ? pickerSlot.ToString(CultureInfo.InvariantCulture) : "?");
-            string labelText = isMyTurn ? "YOUR TURN!" : (pickerCount > 1 ? "NOW PICKING (MULTI):" : "NOW PICKING:");
+            string pickerText = "?";
+            if (pickerCount > 1) pickerText = "MULTI";
+            else if (pickerSlot > 0) pickerText = pickerSlot.ToString(CultureInfo.InvariantCulture);
+
+            string labelText = "NOW PICKING:";
+            if (isMyTurn) labelText = "YOUR TURN!";
+            else if (pickerCount > 1) labelText = "NOW PICKING (MULTI):";
 
             if (_yourNumberValue != null)
                 _yourNumberValue.text = mySlotText;
@@ -826,7 +821,7 @@ namespace TownOfUs.Modules.DraftMode
                 $"[DraftStatusOverlay] UpdateContent: localPlayerId={PlayerControl.LocalPlayer.PlayerId}, mySlot={mySlot}, pickerSlot={pickerSlot}, pickerCount={pickerCount}, isMyTurn={isMyTurn}");
         }
 
-        private bool _rebuildPending = false;
+        private bool _rebuildPending;
 
         private void UpdateVisibility()
         {
@@ -917,10 +912,7 @@ namespace TownOfUs.Modules.DraftMode
                     {
                         go.SetActive(true);
                     }
-                    catch
-                    {
-                        // ignored
-                    }
+                    catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
 
             _hiddenHudChildren.Clear();
         }
@@ -967,12 +959,14 @@ namespace TownOfUs.Modules.DraftMode
             Vector2 center = new Vector2((size - 1) * 0.5f, (size - 1) * 0.5f);
             float radius = size * 0.5f;
             for (int y = 0; y < size; y++)
-            for (int x = 0; x < size; x++)
             {
-                float d = Vector2.Distance(new Vector2(x, y), center) / radius;
-                float a = Mathf.Clamp01(1f - d);
-                a = a * a * (3f - 2f * a);
-                px[y * size + x] = new Color(1f, 1f, 1f, a);
+                for (int x = 0; x < size; x++)
+                {
+                    float d = Vector2.Distance(new Vector2(x, y), center) / radius;
+                    float a = Mathf.Clamp01(1f - d);
+                    a = a * a * (3f - 2f * a);
+                    px[y * size + x] = new Color(1f, 1f, 1f, a);
+                }
             }
 
             tex.SetPixels(px);
@@ -1023,3 +1017,4 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
+

@@ -2,6 +2,7 @@ using HarmonyLib;
 using Reactor.Utilities.Attributes;
 using UnityEngine;
 
+
 namespace TownOfUs.Modules.DraftMode
 {
     [RegisterInIl2Cpp]
@@ -35,14 +36,16 @@ namespace TownOfUs.Modules.DraftMode
 
         private void OnDestroy()
         {
-            if (_instance == this) _instance = null;
+            if (_instance == this) _instance = null!;
         }
 
+#pragma warning disable S2325, CA1822
         private void Update()
         {
             if (!DraftManager.IsDraftActive) return;
             DraftManager.TurnTimeLeft = Mathf.Max(0f, DraftManager.TurnTimeLeft - Time.deltaTime);
         }
+#pragma warning restore S2325, CA1822
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.OnDestroy))]
     public static class DraftTickerHudDestroyPatch
@@ -51,4 +54,5 @@ namespace TownOfUs.Modules.DraftMode
         public static void Postfix() => DraftTicker.DestroyIfExists();
     }
 }
+
 

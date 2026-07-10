@@ -11,12 +11,11 @@ namespace TownOfUs.Modules.DraftMode
 {
     public static class DraftSidebarManager
     {
-        private static bool _active = false;
-        private static GameObject    _bannerGo;
-        private static SpriteRenderer _bannerSr;
-        private static string _cachedStaticContent = null;
+        private static bool _active;
+        private static GameObject    _bannerGo = null!;
+        private static string _cachedStaticContent = null!;
         private static int    _cachedPickedCount   = -1;
-        private static bool   _cachedDraftActive   = false;
+        private static bool   _cachedDraftActive;
 
         public static void Activate()
         {
@@ -28,7 +27,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (!_active) return;
             _active = false;
-            _cachedStaticContent = null;
+            _cachedStaticContent = null!;
             _cachedPickedCount   = -1;
             _cachedDraftActive   = false;
 
@@ -48,14 +47,13 @@ namespace TownOfUs.Modules.DraftMode
         }
         public static void ClearBannerRef()
         {
-            _bannerGo = null;
-            _bannerSr = null;
+            _bannerGo = null!;
         }
 
         public static bool IsActive => _active;
         public static void InvalidateCache()
         {
-            _cachedStaticContent = null;
+            _cachedStaticContent = null!;
             _cachedPickedCount   = -1;
             _cachedDraftActive   = false;
         }
@@ -108,7 +106,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine();
-            sb.AppendLine($"<size=64%><color=#6B7178>{picked} / {total}  ROLES PICKED</color></size>");
+            sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"<size=64%><color=#6B7178>{picked} / {total}  ROLES PICKED</color></size>\n");
             sb.AppendLine();
 
             foreach (int slot in DraftManager.TurnOrder)
@@ -128,7 +126,7 @@ namespace TownOfUs.Modules.DraftMode
             var sb = new StringBuilder();
             sb.Append("<size=105%><b>");
             sb.Append(Shimmer("DRAFT", new Color(0.36f, 0.84f, 0.89f), t, 0));
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(Shimmer("MODE", new Color(1f, 0.31f, 0.31f), t, 6));
             sb.Append("</b></size>");
             return sb.ToString();
@@ -142,7 +140,7 @@ namespace TownOfUs.Modules.DraftMode
                 float w = (Mathf.Sin(t * 2.2f - (startIdx + i) * 0.6f) + 1f) * 0.5f;
                 w *= w;
                 Color c = Color.Lerp(baseCol, Color.white, w * 0.8f);
-                sb.Append($"<color=#{ColorUtility.ToHtmlStringRGB(c)}>{word[i]}</color>");
+                sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"<color=#{ColorUtility.ToHtmlStringRGB(c)}>{word[i]}</color>");
             }
             return sb.ToString();
         }

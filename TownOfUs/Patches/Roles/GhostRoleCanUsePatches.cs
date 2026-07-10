@@ -3,6 +3,8 @@ using HarmonyLib;
 using TownOfUs.Roles;
 using Object = Il2CppSystem.Object;
 
+#pragma warning disable S1135
+
 namespace TownOfUs.Patches.Roles;
 
 [HarmonyPatch]
@@ -83,3 +85,4 @@ public static class GhostRoleCanUsePatches
         }
     }*/
 }
+#pragma warning restore S1135

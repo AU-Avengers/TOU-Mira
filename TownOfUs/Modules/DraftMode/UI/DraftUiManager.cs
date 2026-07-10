@@ -4,6 +4,7 @@ using MiraAPI.Utilities;
 using TownOfUs.Options;
 using UnityEngine;
 
+
 namespace TownOfUs.Modules.DraftMode
 {
     public static class DraftUiManager
@@ -18,10 +19,10 @@ namespace TownOfUs.Modules.DraftMode
                 ushort id   = roleIds[i];
                 var    role = ResolveRole(id);
 
-                string displayName = role ? role.GetRoleName() : $"Role {id}";
-                string team        = role ? MiscUtils.GetParsedRoleAlignment(role) : "Unknown";
-                Sprite icon        = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
-                Color  color       = role ? role.TeamColor : Color.white;
+                string displayName = role != null ? (role!.GetRoleName() ?? role!.NiceName) : $"Role {id}";
+                string team        = role != null ? MiscUtils.GetParsedRoleAlignment(role!) : "Unknown";
+                Sprite icon        = role != null ? role!.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
+                Color  color       = role != null ? role!.TeamColor : Color.white;
 
                 cards.Add(new DraftRoleCard(displayName, team, icon, color, i, GetRoleDescription(role)));
             }
@@ -36,7 +37,7 @@ namespace TownOfUs.Modules.DraftMode
             return cards;
         }
 
-        public static string GetRoleDescription(RoleBehaviour role)
+        public static string GetRoleDescription(RoleBehaviour? role)
         {
             if (role == null) return string.Empty;
             try
@@ -48,21 +49,25 @@ namespace TownOfUs.Modules.DraftMode
             catch { return string.Empty; }
         }
 
-        public static RoleBehaviour ResolveRole(ushort roleId)
+        public static RoleBehaviour? ResolveRole(ushort roleId)
         {
-            return RoleManager.Instance.GetRole((RoleTypes)roleId);
+            try
+            {
+                return MiscUtils.GetRegisteredRole((RoleTypes)roleId) ?? RoleManager.Instance?.GetRole((RoleTypes)roleId);
+            }
+            catch { return null; }
         }
 
-        public static string GetTeamLabel(RoleBehaviour role)
+        public static string GetTeamLabel(RoleBehaviour? role)
         {
             var faction = TouLocale.Get("CrewmateKeyword");
-            if (role)
+            if (role != null)
             {
-                if (role.IsNeutral())
+                if (role!.IsNeutral())
                 {
                     faction = TouLocale.Get("NeutralKeyword");
                 }
-                else if (role.IsImpostor())
+                else if (role!.IsImpostor())
                 {
                     faction = TouLocale.Get("ImpostorKeyword");
                 }
@@ -73,3 +78,4 @@ namespace TownOfUs.Modules.DraftMode
 
     }
 }
+

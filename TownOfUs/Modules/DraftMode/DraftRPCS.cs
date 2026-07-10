@@ -4,6 +4,7 @@ using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
 using TownOfUs.Options;
 
+
 namespace TownOfUs.Modules.DraftMode;
 
 public static class DraftRpcs
@@ -278,7 +279,7 @@ public static class DraftNetworkHelper
 
     public static void BroadcastRecap(List<RecapEntry> entries, DraftRecapMode mode)
     {
-        var recapData = ((int)mode).ToString();
+        var recapData = ((int)mode).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
         if (mode != DraftRecapMode.Nothing && entries != null)
         {
@@ -305,3 +306,4 @@ public static class DraftNetworkHelper
         DraftCancelButton.Hide();
     }
 }
+

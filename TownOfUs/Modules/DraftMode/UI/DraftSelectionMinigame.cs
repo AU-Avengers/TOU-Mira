@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 namespace TownOfUs.Modules.DraftMode
 {
     [RegisterInIl2Cpp]
@@ -34,7 +35,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private GameObject _selectionBackdrop;
         private SpriteRenderer _selectionBackdropWash;
-        private SpriteRenderer _selectionBackdropBeam;
+
         private SpriteRenderer _selectionBackdropHorizon;
         private SpriteRenderer _selectionBackdropFlash;
         private readonly List<SpriteRenderer> _selectionBackdropParticles = new();
@@ -53,13 +54,14 @@ namespace TownOfUs.Modules.DraftMode
         private const float DraftCardRevealStaggerSeconds = 0.045f;
         private const float TimerProgressWidth = 4.2f;
 
-        private static float CardScaleForCount(int count) => 0.55f;
+        private const float CardScaleForCount = 0.55f;
 
         private static float SpacingForCount(int count) => count switch
         {
             <= 5 => -1f,
             _ => 0f,
         };
+
 
         private static Color GetTeamColor(string teamName)
         {
@@ -116,12 +118,12 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_timerRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true); } catch { }
-                _timerRoot = null;
-                _timerText = null;
-                _timerTrack = null;
-                _timerFill = null;
-                _timerFillRenderer = null;
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                _timerRoot = null!;
+                _timerText = null!;
+                _timerTrack = null!;
+                _timerFill = null!;
+                _timerFillRenderer = null!;
             }
         }
 
@@ -158,9 +160,9 @@ namespace TownOfUs.Modules.DraftMode
                 ? string.Empty
                 : $"\n<size=68%>{description}</size>";
             string teamcolor = "#BBBBBB";
-            if(teamName.ToLowerInvariant().Contains("crewmate")) teamcolor= "#5BD7E4";
-            if(teamName.ToLowerInvariant().Contains("impostor")) teamcolor= "#FF5050";
-            if(teamName.ToLowerInvariant().Contains("neutral")) teamcolor= "#7c7c7c";
+            if(teamName.Contains("crewmate", StringComparison.OrdinalIgnoreCase)) teamcolor= "#5BD7E4";
+            if(teamName.Contains("impostor", StringComparison.OrdinalIgnoreCase)) teamcolor= "#FF5050";
+            if(teamName.Contains("neutral", StringComparison.OrdinalIgnoreCase)) teamcolor= "#7c7c7c";
             _tooltipText.text =
                 $"<b><color=#{hex}>{roleName}</color></b>  <size=58%><color={teamcolor}>{teamName}</color></size>{desc}";
             _tooltipRoot.SetActive(true);
@@ -178,9 +180,9 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_tooltipRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true); } catch { }
-                _tooltipRoot = null;
-                _tooltipText = null;
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                _tooltipRoot = null!;
+                _tooltipText = null!;
             }
         }
 
@@ -249,7 +251,7 @@ namespace TownOfUs.Modules.DraftMode
                 for (int i = hud.childCount - 1; i >= 0; i--)
                 {
                     var child = hud.GetChild(i);
-                    if (child != null && child.name.StartsWith("DraftCard_"))
+                    if (child != null && child.name.StartsWith("DraftCard_", StringComparison.Ordinal))
                         MiraAPI.Utilities.Extensions.DeepDestroy(child.gameObject, false);
                 }
             }
@@ -257,7 +259,7 @@ namespace TownOfUs.Modules.DraftMode
             Instance._idleCardCaches.Clear();
             Instance._idleCardCacheByTransform.Clear();
             var go = Instance.gameObject;
-            Instance = null;
+            Instance = null!;
 
             if (go != null)
                 MiraAPI.Utilities.Extensions.DeepDestroy(go, false);
@@ -266,7 +268,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 MiraAPI.Utilities.Extensions.ClearGarbageCollector();
             }
-            catch { }
+            catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
         }
 
         private void BuildScreen()
@@ -278,12 +280,12 @@ namespace TownOfUs.Modules.DraftMode
             BuildBottomTimer();
             BuildSelectionBackdrop();
 
-            GameObject prefab = null;
+            GameObject? prefab = null;
             try
             {
                 var bundle = TouAssets.MainBundle;
                 if (bundle != null)
-                    prefab = bundle.LoadAsset(PrefabName)?.TryCast<GameObject>();
+                    prefab = bundle.LoadAsset(PrefabName)?.TryCast<GameObject>()!;
             }
             catch (Exception ex)
             {
@@ -295,7 +297,7 @@ namespace TownOfUs.Modules.DraftMode
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftScreenController] SelectRoleGame prefab not found.");
                 DestroyBottomTimer();
                 DestroySelectionBackdrop();
-                MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true); Instance = null; return;
+                MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true); Instance = null!; return;
             }
 
             _screenRoot = Instantiate(prefab);
@@ -319,7 +321,7 @@ namespace TownOfUs.Modules.DraftMode
                 var statusText = statusGo.GetComponent<TextMeshPro>();
                 if (statusText != null)
                 {
-                    statusText.font = HudManager.Instance.TaskPanel.taskText.font;
+                    statusText.font = HudManager.Instance!.TaskPanel.taskText.font;
                     statusText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
                     statusText.text = string.Empty;
                     statusGo.gameObject.SetActive(false);
@@ -330,7 +332,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 DestroyBottomTimer();
                 DestroySelectionBackdrop();
-                MiraAPI.Utilities.Extensions.DeepDestroy(_screenRoot, true); MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true); Instance = null; return;
+                MiraAPI.Utilities.Extensions.DeepDestroy(_screenRoot, true); MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true); Instance = null!; return;
             }
 
             var rolePrefab = holderGo.gameObject;
@@ -342,7 +344,7 @@ namespace TownOfUs.Modules.DraftMode
             var cards = DraftUiManager.BuildCards(idList);
 
             int totalCards = cards.Count;
-            float cardScale = CardScaleForCount(totalCards);
+            float cardScale = CardScaleForCount;
             float spacing = SpacingForCount(totalCards);
             bool useGrid = totalCards > 5;
 
@@ -365,7 +367,7 @@ namespace TownOfUs.Modules.DraftMode
                 int capturedIdx = card.Index;
 
                 var btn = CreateCard(
-                    rolePrefab, rolesHolder,
+                    rolePrefab, rolesHolder!,
                     card.RoleName, card.TeamName,
                     card.Icon ?? TouRoleIcons.RandomAny.LoadAsset(),
                     i, totalCards, card.Color,
@@ -375,7 +377,7 @@ namespace TownOfUs.Modules.DraftMode
                 btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx)));
             }
 
-            Coroutines.Start(CoAnimateCards(rolesHolder, cardScale, useGrid, totalCards));
+            Coroutines.Start(CoAnimateCards(rolesHolder!, cardScale, useGrid, totalCards));
         }
 
         private static void HidePrefabBackdrop(Transform root, Transform rolesHolder, Transform statusGo, Transform holderGo)
@@ -430,12 +432,12 @@ namespace TownOfUs.Modules.DraftMode
                 new Vector3(camW * 1.05f, camH * 0.55f, 1f), MakeSoftGlowSprite(),
                 new Color(0f, 0.95f, 1f, 0.18f), 47);
 
-            _selectionBackdropBeam = MakeBackdropSprite("DraftSelectionBackdropBeam",
+            var selectionBackdropBeam = MakeBackdropSprite("DraftSelectionBackdropBeam",
                 new Vector3(-camW * 0.36f, 0f, -0.04f),
                 new Vector3(camW * 0.18f, camH * 0.9f, 1f), MakeSoftGlowSprite(),
                 new Color(1f, 0.84f, 0.2f, 0.16f), 49);
-            _selectionBackdropBeam.transform.localRotation = Quaternion.Euler(0f, 0f, -13f);
-            _selectionBackdropBeams.Add(_selectionBackdropBeam);
+            selectionBackdropBeam.transform.localRotation = Quaternion.Euler(0f, 0f, -13f);
+            _selectionBackdropBeams.Add(selectionBackdropBeam);
 
             var beam2 = MakeBackdropSprite("DraftSelectionBackdropBeam",
                 new Vector3(camW * 0.34f, 0f, -0.04f),
@@ -485,12 +487,11 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_selectionBackdrop != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true); } catch { }
-                _selectionBackdrop = null;
-                _selectionBackdropWash = null;
-                _selectionBackdropBeam = null;
-                _selectionBackdropHorizon = null;
-                _selectionBackdropFlash = null;
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_selectionBackdrop, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                _selectionBackdrop = null!;
+                _selectionBackdropWash = null!;
+                _selectionBackdropHorizon = null!;
+                _selectionBackdropFlash = null!;
                 _selectionBackdropParticles.Clear();
                 _selectionBackdropParticleBase.Clear();
                 _selectionBackdropBeams.Clear();
@@ -637,7 +638,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 if (Instance == null) return;
                 if (Instance._hoveredCard == actualCard)
-                    Instance._hoveredCard = null;
+                    Instance._hoveredCard = null!;
                 newRoleObj.transform.localScale = Vector3.one * cardScale;
                 Instance.HideTooltip();
             }));
@@ -759,7 +760,8 @@ namespace TownOfUs.Modules.DraftMode
             if (currentCard == 0) { randY = 0f; randZ = -2f; }
 
             float center = (totalCards - 1) * 0.5f;
-            float side = totalCards <= 1 ? 0f : (currentCard <= center ? -1f : 1f);
+            float sideDirection = currentCard <= center ? -1f : 1f;
+            float side = totalCards <= 1 ? 0f : sideDirection;
             Vector3 targetPos = new Vector3(card.localPosition.x, randY, card.localPosition.z);
             Vector3 startPos = targetPos + new Vector3(side * 2.7f, -2.35f, 0f);
             Quaternion targetRot = Quaternion.Euler(0f, 0f, -randZ);
@@ -795,7 +797,7 @@ namespace TownOfUs.Modules.DraftMode
             return 1f + c3 * Mathf.Pow(t - 1f, 3f) + c1 * Mathf.Pow(t - 1f, 2f);
         }
         private float _localTimeLeft = -1f;
-        private bool _cardsReady = false;
+        private bool _cardsReady;
 
         private void Update()
         {
@@ -862,12 +864,14 @@ namespace TownOfUs.Modules.DraftMode
             Vector2 center = new Vector2((size - 1) * 0.5f, (size - 1) * 0.5f);
             float radius = size * 0.5f;
             for (int y = 0; y < size; y++)
-            for (int x = 0; x < size; x++)
+            {
+                for (int x = 0; x < size; x++)
             {
                 float d = Vector2.Distance(new Vector2(x, y), center) / radius;
                 float a = Mathf.Clamp01(1f - d);
                 a = a * a * (3f - 2f * a);
                 px[y * size + x] = new Color(1f, 1f, 1f, a);
+            }
             }
             tex.SetPixels(px);
             tex.Apply();
@@ -892,3 +896,4 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
+

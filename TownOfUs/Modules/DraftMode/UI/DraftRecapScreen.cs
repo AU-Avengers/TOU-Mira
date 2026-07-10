@@ -5,6 +5,7 @@ using TownOfUs.Options;
 using TMPro;
 using UnityEngine;
 
+
 namespace TownOfUs.Modules.DraftMode
 {
 
@@ -34,7 +35,7 @@ namespace TownOfUs.Modules.DraftMode
         public static void Show(
             List<(int slot, string label, string colorHex)> entries,
             DraftRecapMode mode,
-            Action onComplete = null)
+            Action onComplete = null!)
         {
             if (entries == null || entries.Count == 0)
             {
@@ -55,7 +56,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private void OnDestroy()
         {
-            if (_instance == this) _instance = null;
+            if (_instance == this) _instance = null!;
         }
 
         private void Update()
@@ -232,7 +233,7 @@ namespace TownOfUs.Modules.DraftMode
             foreach (var t in _rowTexts)
                 if (t != null) MiraAPI.Utilities.Extensions.DeepDestroy(t.gameObject, false);
             _rowTexts.Clear();
-            try { MiraAPI.Utilities.Extensions.ClearGarbageCollector(); } catch { }
+            try { MiraAPI.Utilities.Extensions.ClearGarbageCollector(); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"GC Error: {e.Message}"); }
 
             string modeLabel = mode == DraftRecapMode.Role ? "Role" : "Faction";
             _headerText.text = $"<b>DRAFT RECAP</b>  <size=60%><color=#88FFFF>({modeLabel})</color></size>";
@@ -264,7 +265,8 @@ namespace TownOfUs.Modules.DraftMode
 
                 int rowIndex     = twoColumns ? i / 2 : i;
                 bool inLeftColumn = !twoColumns || i % 2 == 0;
-                float x = twoColumns ? (inLeftColumn ? -colOffsetX : colOffsetX) : 0f;
+                float x = 0f;
+                if (twoColumns) x = inLeftColumn ? -colOffsetX : colOffsetX;
                 float y = startY - rowIndex * rowHeight;
 
                 slotToName.TryGetValue(slot, out var playerName);
@@ -303,7 +305,7 @@ namespace TownOfUs.Modules.DraftMode
             CleanupUI();
 
             var callback = _onComplete;
-            _onComplete = null;
+            _onComplete = null!;
 
             MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true);
             callback?.Invoke();
@@ -335,18 +337,18 @@ namespace TownOfUs.Modules.DraftMode
                 if (t != null) MiraAPI.Utilities.Extensions.DeepDestroy(t.gameObject, false);
             _rowTexts.Clear();
 
-            if (_backdropArt != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_backdropArt, false); _backdropArt = null; }
-            if (_bgOverlay   != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_bgOverlay,   false); _bgOverlay   = null; }
-            if (_textRoot    != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_textRoot,     false); _textRoot    = null; }
+            if (_backdropArt != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_backdropArt, false); _backdropArt = null!; }
+            if (_bgOverlay   != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_bgOverlay,   false); _bgOverlay   = null!; }
+            if (_textRoot    != null) { MiraAPI.Utilities.Extensions.DeepDestroy(_textRoot,     false); _textRoot    = null!; }
 
             _backdropBeamRenderers.Clear();
             _backdropParticleRenderers.Clear();
             _backdropParticleBasePos.Clear();
-            _backdropWashRenderer    = null;
-            _backdropHorizonRenderer = null;
-            _headerText              = null;
+            _backdropWashRenderer    = null!;
+            _backdropHorizonRenderer = null!;
+            _headerText              = null!;
 
-            try { MiraAPI.Utilities.Extensions.ClearGarbageCollector(); } catch { }
+            try { MiraAPI.Utilities.Extensions.ClearGarbageCollector(); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"GC Error: {e.Message}"); }
         }
 
         private static void CopyFont(TextMeshPro tmp)
@@ -390,12 +392,14 @@ namespace TownOfUs.Modules.DraftMode
             var center = new Vector2((size - 1) * 0.5f, (size - 1) * 0.5f);
             float radius = size * 0.5f;
             for (int y = 0; y < size; y++)
-            for (int x = 0; x < size; x++)
             {
-                float d = Vector2.Distance(new Vector2(x, y), center) / radius;
-                float a = Mathf.Clamp01(1f - d);
-                a = a * a * (3f - 2f * a);
-                px[y * size + x] = new Color(1f, 1f, 1f, a);
+                for (int x = 0; x < size; x++)
+                {
+                    float d = Vector2.Distance(new Vector2(x, y), center) / radius;
+                    float a = Mathf.Clamp01(1f - d);
+                    a = a * a * (3f - 2f * a);
+                    px[y * size + x] = new Color(1f, 1f, 1f, a);
+                }
             }
             tex.SetPixels(px);
             tex.Apply();
@@ -420,3 +424,4 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
+
