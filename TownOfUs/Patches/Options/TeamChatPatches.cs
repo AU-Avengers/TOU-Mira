@@ -1031,7 +1031,7 @@ public static class TeamChatPatches
         public MergedBubble(ChatBubble bubble, bool isPublic)
         {
             Bubble = bubble;
-            IsPublic = bubble;
+            IsPublic = isPublic;
         }
         public ChatBubble Bubble { get; set; }
         public bool IsPublic { get; set; }
