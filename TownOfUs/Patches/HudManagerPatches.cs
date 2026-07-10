@@ -525,8 +525,10 @@ public static class HudManagerPatches
             settingsButton.transform.SetAsLastSibling();
             chatButton.transform.SetParent(UiTopRight.transform, false);
             instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
-            var iconContainer = new GameObject("iconContainer");
-            iconContainer.layer = LayerMask.NameToLayer("UI");
+            var iconContainer = new GameObject("iconContainer")
+            {
+                layer = LayerMask.NameToLayer("UI")
+            };
             iconContainer.transform.SetParent(chatButton.transform, false);
             iconContainer.transform.localPosition = new Vector3(0.1f, -0.1f, 0);
             instance.Chat.chatNotifyDot.transform.SetParent(iconContainer.transform, false);
@@ -544,8 +546,10 @@ public static class HudManagerPatches
     {
         if (!ExtraUiTopRight && UiTopRight)
         {
-            ExtraUiTopRight = new GameObject("ExtraUiTopRight");
-            ExtraUiTopRight.layer = UiTopRight.layer;
+            ExtraUiTopRight = new GameObject("ExtraUiTopRight")
+            {
+                layer = UiTopRight.layer
+            };
             ExtraUiTopRight.transform.SetParent(instance.MapButton.transform.parent.parent, false);
 
             ExtraUiGrid = ExtraUiTopRight.AddComponent<GridArrange>();
