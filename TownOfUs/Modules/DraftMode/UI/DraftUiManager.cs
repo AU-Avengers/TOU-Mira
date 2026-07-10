@@ -56,13 +56,16 @@ namespace TownOfUs.Modules.DraftMode
         public static string GetTeamLabel(RoleBehaviour role)
         {
             var faction = TouLocale.Get("CrewmateKeyword");
-            if (role.IsNeutral())
+            if (role)
             {
-                faction = TouLocale.Get("NeutralKeyword");
-            }
-            else if (role.IsImpostor())
-            {
-                faction = TouLocale.Get("ImpostorKeyword");
+                if (role.IsNeutral())
+                {
+                    faction = TouLocale.Get("NeutralKeyword");
+                }
+                else if (role.IsImpostor())
+                {
+                    faction = TouLocale.Get("ImpostorKeyword");
+                }
             }
 
             return faction;

@@ -588,17 +588,20 @@ public static class MiscUtils
 
     public static Color GetRoleFactionColor(RoleBehaviour role)
     {
-        if (role.IsCrewmate())
+        if (role)
         {
-            return Palette.CrewmateBlue;
+            if (role.IsNeutral())
+            {
+                return TownOfUsColors.Neutral;
+            }
+
+            if (role.IsImpostor())
+            {
+                return TownOfUsColors.Impostor;
+            }
         }
 
-        if (role.IsImpostor())
-        {
-            return TownOfUsColors.Impostor;
-        }
-
-        return TownOfUsColors.Neutral;
+        return Palette.CrewmateBlue;
     }
 
     public static Color GetRoleFactionColor(RoleAlignment roleAlignment)
