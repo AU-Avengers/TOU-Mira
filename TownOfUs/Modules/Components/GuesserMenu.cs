@@ -268,12 +268,9 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         searchBounds = CalcSpriteBoundsInParentSpace(transform, searchObj);
 
         var wikiClickSound = HudManager.Instance?.MapButton?.ClickSound;
-        
-        var searchFocusButton = searchTextbox.gameObject.GetComponent<PassiveButton>();
-        if (searchFocusButton == null)
-        {
-            searchFocusButton = searchTextbox.gameObject.AddComponent<PassiveButton>();
-        }
+
+        var searchFocusButton = searchTextbox.gameObject.GetComponent<PassiveButton>()
+                             ?? searchTextbox.gameObject.AddComponent<PassiveButton>();
         if (wikiClickSound != null)
         {
             searchFocusButton.ClickSound = wikiClickSound;

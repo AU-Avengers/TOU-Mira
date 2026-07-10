@@ -501,20 +501,16 @@ public static class ChatPatches
                         }
 
                         var allRoles = MiscUtils.SpawnableRoles.ToList();
-                        var matchingRole = allRoles.FirstOrDefault(role =>
-                            role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
-                            role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-                            (role is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)));
-
-                        if (matchingRole == null)
-                        {
-                            matchingRole = allRoles.FirstOrDefault(role =>
+                        var matchingRole =
+                            allRoles.FirstOrDefault(role =>
+                                role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                                role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
+                                (role is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
+                            ?? allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 roleNameInput.Contains(role.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
                                 (role is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                                                     roleNameInput.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
-                        }
-
                         if (matchingRole == null)
                         {
                             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,

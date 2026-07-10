@@ -983,12 +983,8 @@ public static class TownOfUsEventHandlers
 
         var animationRend = animation.GetComponent<SpriteRenderer>();
         animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>();
-        if (r == null)
-        {
-            r = animationRend.gameObject.AddComponent<RainbowBehaviour>();
-        }
-
+        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>()
+             ?? animationRend.gameObject.AddComponent<RainbowBehaviour>();
         r.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
 
         voteArea.Overlay.gameObject.SetActive(false);
