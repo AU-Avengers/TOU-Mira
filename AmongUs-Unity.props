@@ -1,0 +1,12 @@
+<Project>
+    <ItemGroup>
+        <Reference Include="$(MSBuildThisFileDirectory)/UnityDeps/*.dll"> <!-- This is local only! DM me to know where to find these. -->
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </Reference>
+    </ItemGroup>
+
+    <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUsProj)' != ''">
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(AmongUsProj)/Assets/Plugins/" UseSymboliclinksIfPossible="true"/>
+    </Target>
+</Project>
