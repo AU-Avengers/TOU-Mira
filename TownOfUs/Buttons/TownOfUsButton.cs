@@ -435,21 +435,13 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
         else
         {
-            switch (typeof(T))
+            Button.usesRemainingSprite.sprite = typeof(T) switch
             {
-                case Type t when t == typeof(Vent):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
-                    break;
-                case Type t when t == typeof(DeadBody):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
-                    break;
-                case Type t when t == typeof(PlayerControl):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterPlayerSprite.LoadAsset();
-                    break;
-                default:
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
-                    break;
-            }
+                Type t when t == typeof(Vent) => TouAssets.AbilityCounterVentSprite.LoadAsset(),
+                Type t when t == typeof(DeadBody) => TouAssets.AbilityCounterBodySprite.LoadAsset(),
+                Type t when t == typeof(PlayerControl) => TouAssets.AbilityCounterPlayerSprite.LoadAsset(),
+                _ => TouAssets.AbilityCounterBasicSprite.LoadAsset(),
+            };
         }
 
         TownOfUsColors.UseBasic = false;

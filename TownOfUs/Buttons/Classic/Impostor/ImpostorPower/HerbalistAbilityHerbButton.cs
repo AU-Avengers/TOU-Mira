@@ -25,17 +25,13 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
 
     public int CurrentHerbUses()
     {
-        switch (CurrentAbility)
+        return CurrentAbility switch
         {
-            case HerbAbilities.Expose:
-                return ExposeUsesLeft;
-            case HerbAbilities.Confuse:
-                return ConfuseUsesLeft;
-            case HerbAbilities.Protect:
-                return ProtectUsesLeft;
-        }
-
-        return -1;
+            HerbAbilities.Expose => ExposeUsesLeft,
+            HerbAbilities.Confuse => ConfuseUsesLeft,
+            HerbAbilities.Protect => ProtectUsesLeft,
+            _ => -1,
+        };
     }
 
     public bool CurrentHerbsLimited => CurrentHerbUses() != -1;

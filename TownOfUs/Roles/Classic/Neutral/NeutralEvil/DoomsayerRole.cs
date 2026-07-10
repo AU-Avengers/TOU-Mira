@@ -322,21 +322,15 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             var pickVictim = role.Role == realRole.Role;
             if (cachedMod != null)
             {
-                switch (cachedMod.GuessMode)
+                pickVictim = cachedMod.GuessMode switch
                 {
-                    case CacheRoleGuess.ActiveRole:
-                        // Checks for the role the player is at the moment
-                        pickVictim = role.Role == realRole.Role;
-                        break;
-                    case CacheRoleGuess.CachedRole:
-                        // Checks for the cached role itself (like Imitator or Traitor)
-                        pickVictim = role.Role == cachedMod.CachedRole.Role;
-                        break;
-                    default:
-                        // Checks if it's the cached or active role
-                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
-                        break;
-                }
+                    // Checks for the role the player is at the moment
+                    CacheRoleGuess.ActiveRole => role.Role == realRole.Role,
+                    // Checks for the cached role itself (like Imitator or Traitor)
+                    CacheRoleGuess.CachedRole => role.Role == cachedMod.CachedRole.Role,
+                    // Checks if it's the cached or active role
+                    _ => role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role,
+                };
             }
             var victim = pickVictim ? player : Player;
 
