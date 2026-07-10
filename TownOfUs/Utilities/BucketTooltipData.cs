@@ -17,10 +17,9 @@ public static class BucketTooltipData
         public Color Col = col;
     }
 
-    public readonly struct TooltipInfo
+    public readonly struct TooltipInfo(BucketTooltipData.RoleEntry[] roles)
     {
-        internal readonly RoleEntry[] Roles;
-        public TooltipInfo(RoleEntry[] roles) { Roles = roles; }
+        internal readonly RoleEntry[] Roles = roles;
     }
 
     // ── All possible roles per bucket ─────────────────────────────────────────

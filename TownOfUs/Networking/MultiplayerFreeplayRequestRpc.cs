@@ -20,20 +20,12 @@ internal enum MultiplayerFreeplayAction : byte
     Reset = 5,
 }
 
-internal readonly struct MultiplayerFreeplayRequest
+internal readonly struct MultiplayerFreeplayRequest(MultiplayerFreeplayAction action, byte targetId, byte otherId, ushort data)
 {
-    public MultiplayerFreeplayRequest(MultiplayerFreeplayAction action, byte targetId, byte otherId, ushort data)
-    {
-        Action = action;
-        TargetId = targetId;
-        OtherId = otherId;
-        Data = data;
-    }
-
-    public MultiplayerFreeplayAction Action { get; }
-    public byte TargetId { get; }
-    public byte OtherId { get; }
-    public ushort Data { get; }
+    public MultiplayerFreeplayAction Action { get; } = action;
+    public byte TargetId { get; } = targetId;
+    public byte OtherId { get; } = otherId;
+    public ushort Data { get; } = data;
 }
 
 [RegisterCustomRpc((uint)TownOfUsRpc.MultiplayerFreeplayRequest)]
