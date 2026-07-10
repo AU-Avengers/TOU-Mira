@@ -1617,7 +1617,7 @@ public static class MiscUtils
     }
 
     // Method to parse a JSON array string into an array of objects
-    public static T[] jsonToArray<T>(string json)
+    public static T[] JsonToArray<T>(string json)
     {
         // Wrap the JSON array in an object
         var newJson = "{ \"array\": " + json + "}";

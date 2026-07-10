@@ -845,14 +845,14 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
         var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
 
-        icon.sprite = ability.icon.LoadAsset();
+        icon.sprite = ability.Icon.LoadAsset();
         icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
         icon.tileMode = SpriteTileMode.Adaptive;
 
         text.text =
-            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.Name}</font>";
         desc.text =
-            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.Description}</font>";
         newAbility.gameObject.SetActive(true);
     }
 
