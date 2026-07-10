@@ -103,12 +103,10 @@ public static class WardenEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a warden fort, stopping an interaction from {source.Data.PlayerName}!");
 
         // The reason this exists is that otherwise, players can brute force through the warden fort if they spam fast enough
-        if (@event is MiraButtonClickEvent buttonClick)
+        if (@event is MiraButtonClickEvent buttonClick &&
+            buttonClick.Button is CustomActionButton<PlayerControl> button)
         {
-            if (buttonClick.Button is CustomActionButton<PlayerControl> button)
-            {
-                button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
-            }
+            button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
         }
 
         if (@event is BeforeMurderEvent && source.IsImpostor())
