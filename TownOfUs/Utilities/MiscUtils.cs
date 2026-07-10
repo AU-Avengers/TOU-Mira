@@ -586,6 +586,38 @@ public static class MiscUtils
         return localizedName;
     }
 
+    public static Color GetRoleFactionColor(RoleBehaviour role)
+    {
+        if (role.IsCrewmate())
+        {
+            return Palette.CrewmateBlue;
+        }
+
+        if (role.IsImpostor())
+        {
+            return TownOfUsColors.Impostor;
+        }
+
+        return TownOfUsColors.Neutral;
+    }
+
+    public static Color GetRoleFactionColor(RoleAlignment roleAlignment)
+    {
+        var localeName = $"{roleAlignment}";
+        var localizedName = TouLocale.Get(localeName);
+
+        if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+        {
+            return Palette.CrewmateBlue;
+        }
+        else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+        {
+            return TownOfUsColors.Impostor;
+        }
+
+        return TownOfUsColors.Neutral;
+    }
+
     public static IEnumerable<RoleBehaviour> GetRegisteredRoles(RoleAlignment alignment)
     {
         var roles = AllRoles.Where(x => x.GetRoleAlignment() == alignment);

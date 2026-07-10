@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using MiraAPI.Hud;
 using TownOfUs.Buttons;
 using UnityEngine;

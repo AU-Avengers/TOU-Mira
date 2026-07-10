@@ -21,7 +21,7 @@ namespace TownOfUs.Modules.DraftMode
         private int _totalSlots;
         private int _turnIndex;
         private bool _running;
-        private readonly IRng _rng = new UnityRng();
+        private readonly UnityRng _rng = new();
 
         private readonly Dictionary<int, List<string>> _currentOffersBySlot = new();
 
@@ -342,7 +342,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 var roleName = DraftRolePool.GetRoleNameFromId(s.ChosenRoleId) ?? s.ForcedRoleName ?? "Unknown";
 
-                RoleBehaviour roleBehaviour = null;
+                RoleBehaviour roleBehaviour = null!;
                 try
                 {
                     roleBehaviour = s.ChosenRoleId != 0
@@ -350,29 +350,22 @@ namespace TownOfUs.Modules.DraftMode
                           ?? RoleManager.Instance?.GetRole((AmongUs.GameOptions.RoleTypes)s.ChosenRoleId)
                         : null;
                 }
-                catch {  }
+                catch
+                {
+                    // ignored
+                }
 
                 string teamLabel = "";
                 Color roleColor = Color.white;
                 if (recapMode == DraftRecapMode.Faction)
                 {
                     teamLabel = DraftUiManager.GetBroadFaction(roleBehaviour).ToUpperInvariant() ?? "Unknown";
-                    if (teamLabel != null && teamLabel.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
-                        ColorUtility.TryParseHtmlString("#FF0000", out roleColor);
-                    else if (teamLabel != null && teamLabel.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
-                        ColorUtility.TryParseHtmlString("#717171", out roleColor);
-                    else
-                        ColorUtility.TryParseHtmlString("#5BD7E4", out roleColor);
+                    roleColor = MiscUtils.GetRoleFactionColor(roleBehaviour);
                 }
                 else if (recapMode == DraftRecapMode.Alignment)
                 {
                     teamLabel = DraftUiManager.GetTeamLabel(roleBehaviour).ToUpperInvariant() ?? "Unknown";
-                    if (teamLabel != null && teamLabel.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
-                        ColorUtility.TryParseHtmlString("#FF0000", out roleColor);
-                    else if (teamLabel != null && teamLabel.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
-                        ColorUtility.TryParseHtmlString("#717171", out roleColor);
-                    else
-                        ColorUtility.TryParseHtmlString("#5BD7E4", out roleColor);
+                    roleColor = MiscUtils.GetRoleFactionColor(roleBehaviour);
 
                 }
                 else if (recapMode == DraftRecapMode.Role)

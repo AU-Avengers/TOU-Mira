@@ -124,7 +124,7 @@ namespace TownOfUs.Modules.DraftMode
                     }
                 }
 
-                IRng rng = new UnityRng();
+                UnityRng rng = new();
                 for (int i = names.Count - 1; i > 0; i--)
                 {
                     int j = rng.NextInt(i + 1);
@@ -161,16 +161,7 @@ namespace TownOfUs.Modules.DraftMode
             var role = FindRoleByName(name);
             if (role == null) return false;
 
-            try
-            {
-                var alignment = MiscUtils.GetParsedRoleAlignment(role);
-                if (!string.IsNullOrEmpty(alignment) &&
-                    alignment.Contains("Impostor", StringComparison.OrdinalIgnoreCase))
-                    return true;
-            }
-            catch { }
-
-            return role.Role is RoleTypes.ImpostorGhost or RoleTypes.Impostor or RoleTypes.Shapeshifter;
+            return role.IsImpostor();
         }
 
         private static RoleBehaviour FindRoleByName(string name)
@@ -186,7 +177,7 @@ namespace TownOfUs.Modules.DraftMode
                 return NormalizeName(roleName) == normalized ||
                        NormalizeName(roleName.Replace(" ", string.Empty)) == normalized ||
                        NormalizeName(roleName.Replace("-", string.Empty)) == normalized;
-            });
+            })!;
         }
 
         private static string NormalizeName(string value)
@@ -298,8 +289,8 @@ namespace TownOfUs.Modules.DraftMode
                     var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
                     if (roleOptions != null)
                     {
-                        int count = (int)roleOptions.GetNumPerGame(role.Role);
-                        int chance = (int)roleOptions.GetChancePerGame(role.Role);
+                        int count = roleOptions.GetNumPerGame(role.Role);
+                        int chance = roleOptions.GetChancePerGame(role.Role);
                         return count > 0 && chance > 0;
                     }
                 }
@@ -326,7 +317,7 @@ namespace TownOfUs.Modules.DraftMode
                     var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
                     if (roleOptions != null)
                     {
-                        return (int)roleOptions.GetNumPerGame(role.Role);
+                        return roleOptions.GetNumPerGame(role.Role);
                     }
                 }
             }
