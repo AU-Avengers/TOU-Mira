@@ -2020,7 +2020,7 @@ public static class MiscUtils
             if (CanSeePostGameLogs)
             {
                 TownOfUsEventHandlers.LogBuffer.Add(
-                    new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+                    new(logLevel, $"At {DateTime.UtcNow:T} -> " + text));
             }
 
             return;
@@ -2045,7 +2045,7 @@ public static class MiscUtils
                 break;
         }
 
-        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow:T} -> " + text));
     }
 
 
@@ -2296,7 +2296,7 @@ public static class MiscUtils
         {
             return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
         }
-        return $"<sprite name=\"AmongUs.Role.{role.Role.ToString()}\">";
+        return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
     }
 }
 

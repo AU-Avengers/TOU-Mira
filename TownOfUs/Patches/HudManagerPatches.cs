@@ -1356,7 +1356,7 @@ public static class HudManagerPatches
         var text = role.GetType().FullName!;
         if (Enum.IsDefined(role.Role))
         {
-            text = $"AmongUs.Roles.{role.Role.ToString()}";
+            text = $"AmongUs.Roles.{role.Role}";
         }
 
         return text;

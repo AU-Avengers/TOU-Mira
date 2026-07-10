@@ -66,7 +66,7 @@ public static class WikiHyperLinkPatches
                     if (Enum.IsDefined(role.Role))
                     {
                         replacement =
-                        $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                        $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
                     }
                     shouldHyperlink = true;
                 }
@@ -86,7 +86,7 @@ public static class WikiHyperLinkPatches
                         else
                         {
                             replacement =
-                                $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                                $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
                             shouldHyperlink = true;
                         }
                     }
