@@ -222,6 +222,10 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     private void ShowTooltipForSlot(int slotIndex, int hoveredLine)
     {
         var roleList = OptionGroupSingleton<RoleOptions>.Instance;
+        if (roleList.CurrentRoleDistribution() is not RoleDistribution.Draft and not RoleDistribution.RoleList)
+        {
+            return;
+        }
         var bucket = slotIndex switch
         {
             0  => roleList.Slot1.Value,
@@ -241,6 +245,33 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             14 => roleList.Slot15.Value,
             _  => (RoleListOption)(-1)
         };
+        if (roleList.CurrentRoleDistribution() is RoleDistribution.Draft)
+        {
+            if (!roleList.UseRoleListForPool.Value)
+            {
+                return;
+            }
+            var draftList = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+            bucket = slotIndex switch
+            {
+                0  => draftList.Slot1.Value,
+                1  => draftList.Slot2.Value,
+                2  => draftList.Slot3.Value,
+                3  => draftList.Slot4.Value,
+                4  => draftList.Slot5.Value,
+                5  => draftList.Slot6.Value,
+                6  => draftList.Slot7.Value,
+                7  => draftList.Slot8.Value,
+                8  => draftList.Slot9.Value,
+                9  => draftList.Slot10.Value,
+                10 => draftList.Slot11.Value,
+                11 => draftList.Slot12.Value,
+                12 => draftList.Slot13.Value,
+                13 => draftList.Slot14.Value,
+                14 => draftList.Slot15.Value,
+                _  => (RoleListOption)(-1)
+            };
+        }
 
         if ((int)bucket < 0) return;
         if (!BucketTooltipData.TryGet(bucket, out var info)) return;

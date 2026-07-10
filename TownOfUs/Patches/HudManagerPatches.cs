@@ -341,7 +341,7 @@ public static class HudManagerPatches
         else
         {
             RoleList.SetActive(false);
-            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList)
+            if (roleAssignmentType is not RoleDistribution.RoleList && roleAssignmentType is not RoleDistribution.MinMaxList && roleAssignmentType is not RoleDistribution.Draft)
             {
                 return;
             }
@@ -730,6 +730,7 @@ public static class HudManagerPatches
     public static string NeutralKillers { get; private set; } = "Neutral Killers";
     public static string StoredMinimum { get; private set; } = "Min";
     public static string StoredMaximum { get; private set; } = "Max";
+    public static string StoredDraftTitle { get; private set; } = "Draft Mode";
     internal static List<string> StoredRoleBuckets =
     [
         "CrewInvestigative",
@@ -777,6 +778,7 @@ public static class HudManagerPatches
         StoredSpectatingLocale = TouLocale.Get("TouRoleSpectator");
         StoredRoleList = TouLocale.Get("SetRoleList");
         StoredFactionList = TouLocale.Get("NeutralFactionList");
+        StoredDraftTitle = TouLocale.Get("StoredDraftTitle");
         List<string> lists =
         [
             TouLocale.Get("NeutralBenigns"),
