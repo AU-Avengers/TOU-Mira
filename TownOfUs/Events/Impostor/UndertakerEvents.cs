@@ -12,7 +12,7 @@ namespace TownOfUs.Events.Impostor;
 public static class UndertakerEvents
 {
     [RegisterEvent]
-    public static void OnMeetingEventHandler(StartMeetingEvent @event)
+    public static void OnMeetingEventHandler(StartMeetingEvent _)
     {
         foreach (var undertaker in CustomRoleUtils.GetActiveRolesOfType<UndertakerRole>()
                      .Select(undertaker => undertaker.Player).ToList())

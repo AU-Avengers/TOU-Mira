@@ -15,7 +15,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class DeputyEvents
 {
     [RegisterEvent]
-    public static void RoundStartHandler(RoundStartEvent @event)
+    public static void RoundStartHandler(RoundStartEvent _)
     {
         if (PlayerControl.LocalPlayer.Data.Role is DeputyRole)
         {

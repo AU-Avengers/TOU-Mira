@@ -126,7 +126,7 @@ public static class HunterEvents
     }
 
     [RegisterEvent]
-    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
     {
         if (!OptionGroupSingleton<HunterOptions>.Instance.RetributionOnVote)
         {

@@ -213,7 +213,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void IntroEndEventHandler(IntroEndEvent @event)
+    public static void IntroEndEventHandler(IntroEndEvent _)
     {
         if (HudManager.InstanceExists)
         {
@@ -293,7 +293,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         // Reset team chat state when a new meeting starts
         Patches.Options.TeamChatPatches.TeamChatActive = false;
@@ -561,7 +561,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent @event)
+    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent _)
     {
         Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.DeepDestroy());
 
@@ -576,7 +576,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void ClearBodiesAndResetPlayersEventHandler(RoundStartEvent @event)
+    public static void ClearBodiesAndResetPlayersEventHandler(RoundStartEvent _)
     {
         Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.DeepDestroy());
 
@@ -1184,7 +1184,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void VotingCompleteHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteHandler(VotingCompleteEvent _)
     {
         if (Minigame.Instance)
         {

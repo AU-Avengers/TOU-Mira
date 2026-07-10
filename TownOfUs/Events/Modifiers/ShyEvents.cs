@@ -9,7 +9,7 @@ namespace TownOfUs.Events.Modifiers;
 public static class ShyEvents
 {
     [RegisterEvent]
-    public static void RoundStartHandler(RoundStartEvent @event)
+    public static void RoundStartHandler(RoundStartEvent _)
     {
         ModifierUtils.GetActiveModifiers<ShyModifier>().Do(x => x.OnRoundStart());
     }

@@ -11,7 +11,7 @@ namespace TownOfUs.Events.Modifiers;
 public static class AssassinEvents
 {
     [RegisterEvent]
-    public static void VotingCompleteHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteHandler(VotingCompleteEvent _)
     {
         ModifierUtils.GetActiveModifiers<AssassinModifier>().Do(x => x.OnVotingComplete());
     }

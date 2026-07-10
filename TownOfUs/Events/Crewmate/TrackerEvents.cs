@@ -27,7 +27,7 @@ public static class TrackerEvents
     }
 
     [RegisterEvent]
-    public static void StartMeetingEventEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventEventHandler(StartMeetingEvent _)
     {
         if (!OptionGroupSingleton<SonarOptions>.Instance.ResetOnNewRound)
         {

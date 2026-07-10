@@ -17,7 +17,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class WardenEvents
 {
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         var wardenForts = ModifierUtils.GetActiveModifiers<WardenFortifiedModifier>();
 

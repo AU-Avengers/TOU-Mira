@@ -23,7 +23,7 @@ public static class SwapperEvents
     }
 
     [RegisterEvent]
-    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
     {
         if (!CustomRoleUtils.GetActiveRolesOfType<SwapperRole>().HasAny())
         {
