@@ -464,9 +464,7 @@ public sealed class AmbassadorRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
             text = text.Replace("<newRole>",
                 $"{TownOfUsColors.ImpSoft.ToTextColor()}{ambassador.SelectedRole.GetRoleName()}</color>");
             var notif1 = Helpers.CreateAndShowNotification(text, Color.white, new Vector3(0f, 1f, -20f),
-                spr: ambassador.SelectedRole.RoleIconWhite != null
-                    ? ambassador.SelectedRole.RoleIconWhite
-                    : TouRoleIcons.Ambassador.LoadAsset());
+                spr: ambassador.SelectedRole.RoleIconWhite ?? TouRoleIcons.Ambassador.LoadAsset());
 
             notif1.AdjustNotification();
         }

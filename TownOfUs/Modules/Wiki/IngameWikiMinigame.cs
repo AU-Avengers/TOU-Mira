@@ -777,9 +777,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             DetailScreenItemName.Value.text =
                 $"{_selectedSoftItem.EntryName}\n<size=60%>{_selectedSoftItem.EntryColor.ToTextColor()}{TouLocale.Get(_selectedSoftItem.TeamName, _selectedSoftItem.TeamName)}</size></color>";
-            DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon != null
-                ? _selectedSoftItem.Icon
-                : TouRoleIcons.RandomAny.LoadAsset();
+            DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon ?? TouRoleIcons.RandomAny.LoadAsset();
             var possibleIcon = TouRoleUtils.TryGetVanillaRoleIcon(_selectedSoftItem.AssociatedRole);
             if (possibleIcon != null)
             {
@@ -1115,7 +1113,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
 
         newItem.SetInitialData(role, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);
@@ -1128,7 +1126,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
 
         newItem.SetInitialData(role, customRole, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);
@@ -1141,7 +1139,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(ModifierSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
 
         newItem.SetInitialData(mod, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);

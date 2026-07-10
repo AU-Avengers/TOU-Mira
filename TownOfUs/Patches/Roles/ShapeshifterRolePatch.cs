@@ -46,7 +46,7 @@ public static class ShapeshifterRolePatch
             return false;
         }
 
-        var trueTargetPlayer = targetPlayer == null ? __instance : targetPlayer;
+        var trueTargetPlayer = targetPlayer ?? __instance;
 
         Action changeOutfit = delegate()
         {
