@@ -20,34 +20,15 @@ public static class TimeLordBodyManager
         Janitor = 2,
     }
 
-    public sealed class CleanedBodyRecord
+    public sealed record CleanedBodyRecord(byte BodyId, Vector3 Position, DateTime TimeUtc, float TimeSeconds, DeadBody? Body)
     {
-        public byte BodyId { get; }
-        public Vector3 Position { get; set; }
-        public DateTime TimeUtc { get; set; }
-        public float TimeSeconds { get; set; }
-        public DeadBody? Body { get; set; }
-        public CleanedBodySource Source { get; set; }
+        public DeadBody? Body { get; set; } = Body;
+        public CleanedBodySource Source { get; set; } = CleanedBodySource.Unknown;
         public bool Restored { get; set; }
         public bool RestoredThisRewind { get; set; }
         public string? OriginalPetId { get; set; }
         public bool PetWasRemoved { get; set; }
         public byte? DraggedByPlayerId { get; set; }
-
-        public CleanedBodyRecord(byte bodyId, Vector3 pos, DateTime timeUtc, float timeSeconds, DeadBody? body)
-        {
-            BodyId = bodyId;
-            Position = pos;
-            TimeUtc = timeUtc;
-            TimeSeconds = timeSeconds;
-            Body = body;
-            Restored = false;
-            RestoredThisRewind = false;
-            Source = CleanedBodySource.Unknown;
-            OriginalPetId = null;
-            PetWasRemoved = false;
-            DraggedByPlayerId = null;
-        }
     }
 
     private static readonly Dictionary<byte, CleanedBodyRecord> CleanedBodies = [];

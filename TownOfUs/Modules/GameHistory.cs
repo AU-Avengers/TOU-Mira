@@ -14,9 +14,8 @@ public record PlayerEvent(byte PlayerId, float Unix, Vector3 Position);
 
 public record DeadPlayer(byte KillerId, byte VictimId, DateTime KillTime);
 
-public sealed class PlayerStats(byte playerId)
+public sealed record PlayerStats(byte PlayerId)
 {
-    public byte PlayerId { get; set; } = playerId;
     public int CorrectKills { get; set; }
     public int IncorrectKills { get; set; }
     public int CorrectAssassinKills { get; set; }
@@ -24,12 +23,12 @@ public sealed class PlayerStats(byte playerId)
 }
 
 // body report class for when medic/Forensic reports a body
-public sealed class BodyReport
+public sealed record BodyReport
 {
-    public PlayerControl? Killer { get; set; }
-    public PlayerControl? Reporter { get; set; }
-    public PlayerControl? Body { get; set; }
-    public float KillAge { get; set; }
+    public PlayerControl? Killer { get; init; }
+    public PlayerControl? Reporter { get; init; }
+    public PlayerControl? Body { get; init; }
+    public float KillAge { get; init; }
 
     public static string ParseMedicReport(BodyReport br)
     {
