@@ -3,7 +3,6 @@ using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches.ControlSystem;
 

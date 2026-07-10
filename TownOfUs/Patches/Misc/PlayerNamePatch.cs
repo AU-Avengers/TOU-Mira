@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Text.RegularExpressions;
 using HarmonyLib;
-using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-using TownOfUs.Options;
 using UnityEngine;
 
 namespace TownOfUs.Patches;
