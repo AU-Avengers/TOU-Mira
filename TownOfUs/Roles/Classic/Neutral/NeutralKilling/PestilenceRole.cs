@@ -123,6 +123,11 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         if (player.Data.Role is not PestilenceRole)
         {
             player.ChangeRole(RoleId.Get<PestilenceRole>());
+
+            if (player.AmOwner && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+            {
+                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
+            }
         }
     }
 
@@ -200,11 +205,6 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         if (!plagueOpts.LegacyPestilence && !Player.HasModifier<UnstoppableModifier>())
         {
             Player.AddModifier<UnstoppableModifier>();
-        }
-
-        if (Player.AmOwner && !plagueOpts.LegacyPestilence && !IntroCutscene.Instance)
-        {
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
         }
     }
 
