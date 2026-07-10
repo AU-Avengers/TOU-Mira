@@ -1265,7 +1265,7 @@ public static class MiscUtils
         return assignmentData;
     }
 
-    public static PlayerControl? PlayerById(byte id)
+    public static PlayerControl PlayerById(byte id)
     {
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -1275,7 +1275,7 @@ public static class MiscUtils
             }
         }
 
-        return null;
+        return null!;
     }
 
     public static IEnumerator PerformTimedAction(float duration, Action<float> action)
