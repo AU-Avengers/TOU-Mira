@@ -69,8 +69,7 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         // Fixes desync for when a player dies while interacting.
         var role = source.GetRoleWhenAlive();
 
-        var cachedMod = source.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-        if (cachedMod != null)
+        if (source.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
         {
             role = cachedMod.CachedRole;
         }

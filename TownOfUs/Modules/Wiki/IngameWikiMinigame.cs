@@ -976,10 +976,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
             var curRole = PlayerControl.LocalPlayer.Data.Role.Role;
 
-            var cachedMod =
-                PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
-                    x is ICachedRole cached && cached.CachedRole.Role != curRole) as ICachedRole;
-            if (cachedMod != null)
+            if (PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
+                    x is ICachedRole cached && cached.CachedRole.Role != curRole) is ICachedRole cachedMod)
             {
                 roleList.Add((ushort)cachedMod.CachedRole.Role);
             }

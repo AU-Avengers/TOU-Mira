@@ -105,8 +105,7 @@ public static class WardenEvents
         // The reason this exists is that otherwise, players can brute force through the warden fort if they spam fast enough
         if (@event is MiraButtonClickEvent buttonClick)
         {
-            var button = buttonClick.Button as CustomActionButton<PlayerControl>;
-            if (button != null)
+            if (buttonClick.Button is CustomActionButton<PlayerControl> button)
             {
                 button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
             }

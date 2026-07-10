@@ -268,8 +268,7 @@ public static class TownOfUsEventHandlers
         }
 
         var panel = TryGetRoleTab();
-        var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
-        if (role == null || panel == null)
+        if (PlayerControl.LocalPlayer.Data.Role is not ICustomRole role || panel == null)
         {
             return;
         }
@@ -652,8 +651,7 @@ public static class TownOfUsEventHandlers
 
         foreach (var modifier in exiled.GetModifiers<GameModifier>().Where(x => x is IAnimated))
         {
-            var animatedMod = modifier as IAnimated;
-            if (animatedMod != null)
+            if (modifier is IAnimated animatedMod)
             {
                 animatedMod.IsVisible = false;
                 animatedMod.SetVisible();
@@ -706,8 +704,7 @@ public static class TownOfUsEventHandlers
 
         foreach (var modifier in target.GetModifiers<GameModifier>().Where(x => x is IAnimated))
         {
-            var animatedMod = modifier as IAnimated;
-            if (animatedMod != null)
+            if (modifier is IAnimated animatedMod)
             {
                 animatedMod.IsVisible = false;
                 animatedMod.SetVisible();

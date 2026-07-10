@@ -203,9 +203,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             var doomableRole = role as IDoomable;
             var undoomableRole = role as IUnguessable;
             var hintType = DoomableType.Default;
-            var cachedMod =
-                player.Object.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-            if (cachedMod != null)
+            if (player.Object.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
             {
                 role = cachedMod.CachedRole;
                 doomableRole = role as IDoomable;
@@ -316,11 +314,10 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         void ClickRoleHandle(RoleBehaviour role)
         {
             var realRole = player.Data.Role;
-            
-            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
+
 
             var pickVictim = role.Role == realRole.Role;
-            if (cachedMod != null)
+            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
             {
                 pickVictim = cachedMod.GuessMode switch
                 {

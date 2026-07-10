@@ -172,10 +172,9 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         {
             var realRole = player.Data.Role;
 
-            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
 
             var pickVictim = role.Role == realRole.Role;
-            if (cachedMod != null)
+            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
             {
                 pickVictim = cachedMod.GuessMode switch
                 {

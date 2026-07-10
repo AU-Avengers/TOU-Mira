@@ -80,9 +80,7 @@ public sealed class BodyReport
             {
                 // if the killer died, they would still appear correctly here
                 var role = br.Killer.GetRoleWhenAlive();
-                var cacheMod =
-                    br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-                if (cacheMod != null)
+                if (br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cacheMod)
                 {
                     role = cacheMod.CachedRole;
                 }
