@@ -33,12 +33,11 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 		for (int i = 0; i < SystemTypeHelpers.AllTypes.Length; i++)
 		{
 			SystemTypes key = SystemTypeHelpers.AllTypes[i];
-			float num;
-			if (timers.TryGetValue(key, out num))
-			{
-				timers[key] = Mathf.Clamp(num - deltaTime, 0f, 30f);
-			}
-		}
+            if (timers.TryGetValue(key, out float num))
+            {
+                timers[key] = Mathf.Clamp(num - deltaTime, 0f, 30f);
+            }
+        }
 		if (initialCooldown > 0f)
 		{
 			initialCooldown -= deltaTime;
@@ -120,12 +119,11 @@ public class ManualDoorsSystemType(nint cppPtr) : Il2CppSystem.Object(cppPtr), B
 		{
 			return initialCooldown / 10f;
 		}
-		float num;
-		if (timers.TryGetValue(system, out num))
-		{
-			return num / 30f;
-		}
-		return 0f;
+        if (timers.TryGetValue(system, out float num))
+        {
+            return num / 30f;
+        }
+        return 0f;
 	}
 
 	public void SetInitialSabotageCooldown()

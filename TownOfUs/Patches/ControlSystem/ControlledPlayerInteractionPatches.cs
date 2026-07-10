@@ -285,8 +285,7 @@ public static class ControlledPlayerInteractionPatches
             }
 
             // Check if player can use this
-            bool canUse;
-            usable.CanUse(player.Data, out canUse, out _);
+            usable.CanUse(player.Data, out bool canUse, out _);
             if (!canUse)
             {
                 continue;
