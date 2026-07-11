@@ -1,17 +1,13 @@
 using AmongUs.GameOptions;
 
+
 namespace TownOfUs.Modules.DraftMode
 {
     public static class DraftApplier
     {
-        public static Action<byte, string, ushort> OnAssignRoleRequested;
+        public static Action<byte, string, ushort> OnAssignRoleRequested = DefaultAssignmentHandler;
 
-        static DraftApplier()
-        {
-            OnAssignRoleRequested ??= DefaultAssignmentHandler;
-        }
-
-        public static List<DraftSlotState> PendingDraftStates = new();
+        internal static List<DraftSlotState> PendingDraftStates = new();
 
         public static void StorePendingDraftStates(IReadOnlyList<DraftSlotState> slotStates)
         {
@@ -70,3 +66,4 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
+

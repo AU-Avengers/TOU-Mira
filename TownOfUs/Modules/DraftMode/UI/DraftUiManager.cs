@@ -1,8 +1,9 @@
 using AmongUs.GameOptions;
-using MiraAPI.Roles;
 using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
 using TownOfUs.Options;
 using UnityEngine;
+
 
 namespace TownOfUs.Modules.DraftMode
 {
@@ -11,34 +12,36 @@ namespace TownOfUs.Modules.DraftMode
         public static List<DraftRoleCard> BuildCards(List<ushort> roleIds)
         {
             var cards = new List<DraftRoleCard>();
-            var offered = OptionGroupSingleton<RoleOptions>.Instance?.OfferedRolesCount.Value ?? 0;
+            var offered = OptionGroupSingleton<RoleOptions>.Instance.OfferedRolesCount.Value;
             int count = System.Math.Min(roleIds.Count, (int)offered);
             for (int i = 0; i < count; i++)
             {
                 ushort id   = roleIds[i];
                 var    role = ResolveRole(id);
 
-                string displayName = role?.NiceName          ?? $"Role {id}";
-                string team        = GetTeamLabel(role)       ?? "Unknown";
-                Sprite icon        = GetRoleIcon(role);
-                Color  color       = GetRoleColor(role);
+                string displayName = role ? role.GetRoleName() : $"Role {id}";
+                string team        = role ? MiscUtils.GetParsedRoleAlignment(role!) : "Unknown";
+                Sprite icon        = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
+                Color  color       = role ? role.TeamColor : Color.white;
 
-                cards.Add(new DraftRoleCard(displayName, team, icon, color, i, GetRoleDescription(role)));
+                cards.Add(new DraftRoleCard(displayName, team, icon, color, i, GetDraftFaction(role), GetRoleDescription(role)));
             }
 
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
-            if (roleOpts == null || roleOpts.ShowRandomOption)
+            if (roleOpts.ShowRandomOption)
                 cards.Add(new DraftRoleCard(
                     "Random", "Random",
                     TouRoleIcons.RandomAny.LoadAsset(),
                     Color.white,
-                    roleIds.Count, "Locks in a completely random role for you."));
+                    roleIds.Count,
+                    DraftFaction.Other,
+                    "Locks in a completely random role for you."));
             return cards;
         }
 
         public static string GetRoleDescription(RoleBehaviour role)
         {
-            if (role == null) return string.Empty;
+            if (!role) return string.Empty;
             try
             {
                 string s = role.BlurbLong;
@@ -52,62 +55,53 @@ namespace TownOfUs.Modules.DraftMode
         {
             try
             {
-                return MiscUtils.GetRegisteredRole((RoleTypes)roleId) ?? RoleManager.Instance?.GetRole((RoleTypes)roleId);
+                return MiscUtils.GetRegisteredRole((RoleTypes)roleId) ??
+                       RoleManager.Instance.GetRole((RoleTypes)roleId);
             }
-            catch { return null; }
+            catch
+            {
+                return null!;
+            }
+        }
+
+        public static DraftFaction GetDraftFaction(RoleBehaviour role)
+        {
+            if (role)
+            {
+                if (role.IsCrewmate())
+                {
+                    return DraftFaction.Crewmate;
+                }
+                if (role.IsNeutral())
+                {
+                    return DraftFaction.Neutral;
+                }
+                if (role.IsImpostor())
+                {
+                    return DraftFaction.Impostor;
+                }
+            }
+            return DraftFaction.Other;
         }
 
         public static string GetTeamLabel(RoleBehaviour role)
         {
-            if (role == null) return "Unknown";
-            try { return MiscUtils.GetParsedRoleAlignment(role); } catch { }
-            var factionName = GetRoleFactionName(role);
-            if (factionName != null && factionName.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
-                return "Impostor";
-            if (factionName != null && factionName.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
-                return "Neutral";
-            return "Crewmate";
-        }
-         public static string GetBroadFaction(RoleBehaviour role)
-        {
-            if (role == null) return "Crewmate";
-            string alignment = null;
-            try { alignment = MiscUtils.GetParsedRoleAlignment(role); } catch { }
-            alignment ??= GetRoleFactionName(role);
-
-            if (alignment != null && alignment.Contains("Impostor", System.StringComparison.OrdinalIgnoreCase))
-                return "Impostor";
-            if (alignment != null && alignment.Contains("Neutral", System.StringComparison.OrdinalIgnoreCase))
-                return "Neutral";
-            return "Crewmate";
-        }
-
-        public static string GetRoleFactionName(RoleBehaviour role)
-        {
-            if (role == null) return null;
-            try
+            var faction = TouLocale.Get("CrewmateKeyword");
+            if (role)
             {
-                return role.GetType().Name;
+                if (role!.IsNeutral())
+                {
+                    faction = TouLocale.Get("NeutralKeyword");
+                }
+                else if (role!.IsImpostor())
+                {
+                    faction = TouLocale.Get("ImpostorKeyword");
+                }
             }
-            catch { return null; }
-        }
 
-        public static Sprite GetRoleIcon(RoleBehaviour role)
-        {
-            if (role is ICustomRole cr && cr.Configuration.Icon != null)
-            {
-                try { return cr.Configuration.Icon.LoadAsset(); } catch { }
-            }
-            if (role?.RoleIconSolid != null) return role.RoleIconSolid;
-            return TouRoleIcons.RandomAny.LoadAsset();
-        }
-
-        public static Color GetRoleColor(RoleBehaviour role)
-        {
-            if (role is ICustomRole cr) return cr.RoleColor;
-            if (role != null)           return role.TeamColor;
-            return Color.white;
+            return faction;
         }
 
     }
 }
+

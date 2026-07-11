@@ -5,68 +5,75 @@ using HarmonyLib;
 using TMPro;
 using UnityEngine;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
+
 
 namespace TownOfUs.Modules.DraftMode
 {
-    public enum OverlayState { Hidden, Waiting, BackgroundOnly }
+    public enum OverlayState
+    {
+        Hidden,
+        Waiting,
+        BackgroundOnly
+    }
 
     [RegisterInIl2Cpp]
     public sealed class DraftStatusOverlay(IntPtr ip) : MonoBehaviour(ip)
     {
         private static DraftStatusOverlay _instance;
 
-        private GameObject  _root;
-        private GameObject  _bgOverlay;
+        private GameObject _root;
+        private GameObject _bgOverlay;
 
-        private GameObject      _backdropArt;
-        private SpriteRenderer  _backdropHaloRenderer;
-        private SpriteRenderer  _backdropWashRenderer;
-        private SpriteRenderer  _backdropHorizonRenderer;
-        private readonly List<SpriteRenderer> _backdropBeamRenderers   = new();
+        private GameObject _backdropArt;
+        private SpriteRenderer _backdropHaloRenderer;
+        private SpriteRenderer _backdropWashRenderer;
+        private SpriteRenderer _backdropHorizonRenderer;
+        private readonly List<SpriteRenderer> _backdropBeamRenderers = new();
         private readonly List<SpriteRenderer> _backdropParticleRenderers = new();
-        private readonly List<Vector3>        _backdropParticleBasePositions = new();
-        private float _waitAnimTime = 0f;
+        private readonly List<Vector3> _backdropParticleBasePositions = new();
+        private float _waitAnimTime;
 
         private TextMeshPro _yourNumberLabel;
         private TextMeshPro _yourNumberValue;
         private TextMeshPro _nowPickingLabel;
         private TextMeshPro _nowPickingValue;
-        private GameObject  _roleCardNewRoleObj;
-        private GameObject  _cardTooltipRoot;
+        private GameObject _roleCardNewRoleObj;
+        private GameObject _cardTooltipRoot;
         private TextMeshPro _cardTooltipText;
 
         private static GameObject _cachedRolePrefab;
 
-        private ushort?      _pendingRoleId      = null;
-        private ushort?      _shownRoleId        = null;
-        private int          _cachedMySlot       = -1;
-        private int          _cachedPickerSlot   = -1;
-        private int          _cachedPickerCount  = -1;
-        private bool         _cachedIsMyTurn     = false;
-        private OverlayState _currentState       = OverlayState.Hidden;
+        private ushort? _pendingRoleId = null!;
+        private ushort? _shownRoleId = null!;
+        private int _cachedMySlot = -1;
+        private int _cachedPickerSlot = -1;
+        private int _cachedPickerCount = -1;
+        private bool _cachedIsMyTurn;
+        private OverlayState _currentState = OverlayState.Hidden;
 
-        private bool _cardHiddenForMenu = false;
-        private bool _cardReady         = false;
+        private bool _cardHiddenForMenu;
+        private bool _cardReady;
 
-        private List<GameObject> _hiddenHudChildren = new List<GameObject>();
+        private readonly List<GameObject> _hiddenHudChildren = new List<GameObject>();
 
-        private float _menuCheckTimer   = 0f;
+        private float _menuCheckTimer;
         private const float MenuCheckInterval = 0.1f;
-        private bool  _lastMenuOpen     = false;
+        private bool _lastMenuOpen;
 
-        private float _slotCheckTimer   = 0f;
+        private float _slotCheckTimer;
         private const float SlotCheckInterval = 0.05f;
 
-        private static GameStartManager  _cachedGsm;
-        private static LobbyInfoPane     _cachedLobbyPane;
+        private static GameStartManager _cachedGsm;
+        private static LobbyInfoPane _cachedLobbyPane;
 
         private static readonly Color WaitingBgColor = new Color(0f, 0f, 0f, 1f);
 
         private static readonly Vector3 CardHudPos = new Vector3(2.0f, 0.3f, -21f);
-        private const float CardScale         = 0.55f;
-        private const float CardTiltDeg       = -8f;
-        private const float TeamNameFontSize  = 3.8f;
+        private const float CardScale = 0.55f;
+        private const float CardTiltDeg = -8f;
+        private const float TeamNameFontSize = 3.8f;
 
         public static void EnsureExists()
         {
@@ -92,51 +99,58 @@ namespace TownOfUs.Modules.DraftMode
         public static void NotifyLocalPlayerPicked(ushort roleId)
         {
             EnsureExists();
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftStatusOverlay] NotifyLocalPlayerPicked roleId={roleId}");
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                $"[DraftStatusOverlay] NotifyLocalPlayerPicked roleId={roleId}");
             if (roleId != _instance._shownRoleId)
             {
-                _instance._shownRoleId   = roleId;
+                _instance._shownRoleId = roleId;
                 _instance._pendingRoleId = null;
                 _instance.ShowRoleCard(roleId);
             }
         }
+
         public static void ClearHudReferences()
         {
             if (_instance == null) return;
             _instance._hiddenHudChildren.Clear();
-            _instance._root             = null;
-            _instance._bgOverlay        = null;
+            _instance._root = null!;
+            _instance._bgOverlay = null!;
 
-            _instance._backdropArt      = null;
-            _instance._backdropHaloRenderer = null;
-            _instance._backdropWashRenderer = null;
-            _instance._backdropHorizonRenderer = null;
+            _instance._backdropArt = null!;
+            _instance._backdropHaloRenderer = null!;
+            _instance._backdropWashRenderer = null!;
+            _instance._backdropHorizonRenderer = null!;
             _instance._backdropBeamRenderers.Clear();
             _instance._backdropParticleRenderers.Clear();
             _instance._backdropParticleBasePositions.Clear();
 
-            _instance._yourNumberLabel  = null;
-            _instance._yourNumberValue  = null;
-            _instance._nowPickingLabel  = null;
-            _instance._nowPickingValue  = null;
+            _instance._yourNumberLabel = null!;
+            _instance._yourNumberValue = null!;
+            _instance._nowPickingLabel = null!;
+            _instance._nowPickingValue = null!;
             _instance.DestroyRoleCard();
-            _instance._cardTooltipRoot  = null;
-            _instance._cardTooltipText  = null;
-            _instance._pendingRoleId    = null;
-            _instance._shownRoleId      = null;
-            _instance._cachedMySlot     = -1;
+            _instance._cardTooltipRoot = null!;
+            _instance._cardTooltipText = null!;
+            _instance._pendingRoleId = null;
+            _instance._shownRoleId = null;
+            _instance._cachedMySlot = -1;
             _instance._cachedPickerSlot = -1;
             _instance._cachedPickerCount = -1;
-            _instance._cachedIsMyTurn   = false;
-            _instance._rebuildPending   = false;
-            _cachedRolePrefab           = null;
-            _cachedGsm                  = null;
-            _cachedLobbyPane            = null;
+            _instance._cachedIsMyTurn = false;
+            _instance._rebuildPending = false;
+            _cachedRolePrefab = null!;
+            _cachedGsm = null!;
+            _cachedLobbyPane = null!;
         }
 
         private void Awake()
         {
-            if (_instance != null && _instance != this) { Destroy(gameObject); return; }
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             _instance = this;
             BuildUI();
         }
@@ -145,36 +159,39 @@ namespace TownOfUs.Modules.DraftMode
         {
             DestroyCardTooltip();
             RestoreHudElements();
-            if (_instance == this) _instance = null;
+            if (_instance == this) _instance = null!;
         }
 
         private void BuildUI()
         {
             if (HudManager.Instance == null)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftStatusOverlay] BuildUI: HudManager.Instance is null, deferring");
-                return;
-            }
-            if (HudManager.Instance.TaskPanel == null || HudManager.Instance.TaskPanel.taskText == null)
-            {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[DraftStatusOverlay] BuildUI: TaskPanel/taskText not ready, deferring");
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    "[DraftStatusOverlay] BuildUI: HudManager.Instance is null, deferring");
                 return;
             }
 
-            var font    = HudManager.Instance.TaskPanel.taskText.font;
+            if (HudManager.Instance.TaskPanel == null || HudManager.Instance.TaskPanel.taskText == null)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    "[DraftStatusOverlay] BuildUI: TaskPanel/taskText not ready, deferring");
+                return;
+            }
+
+            var font = HudManager.Instance.TaskPanel.taskText.font;
             var fontMat = HudManager.Instance.TaskPanel.taskText.fontMaterial;
 
             _bgOverlay = new GameObject("DraftWaitingBg");
             _bgOverlay.transform.SetParent(HudManager.Instance.transform, false);
             _bgOverlay.transform.localPosition = new Vector3(0f, 0f, 1f);
 
-            var bgSr              = _bgOverlay.AddComponent<SpriteRenderer>();
-            bgSr.sprite           = MakeWhiteSprite();
-            bgSr.color            = WaitingBgColor;
+            var bgSr = _bgOverlay.AddComponent<SpriteRenderer>();
+            bgSr.sprite = MakeWhiteSprite();
+            bgSr.color = WaitingBgColor;
             bgSr.sortingLayerName = "UI";
-            bgSr.sortingOrder     = 42;
+            bgSr.sortingOrder = 42;
 
-            var cam    = Camera.main;
+            var cam = Camera.main;
             float camH = cam != null ? cam.orthographicSize * 2f : 6f;
             float camW = camH * ((float)Screen.width / Screen.height);
             _bgOverlay.transform.localScale = new Vector3(camW, camH, 1f);
@@ -376,7 +393,8 @@ namespace TownOfUs.Modules.DraftMode
             }
             catch (Exception ex)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftStatusOverlay] Prefab load failed: {ex.Message}");
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    $"[DraftStatusOverlay] Prefab load failed: {ex.Message}");
                 return false;
             }
         }
@@ -386,82 +404,98 @@ namespace TownOfUs.Modules.DraftMode
             DestroyRoleCard();
             if (!EnsureRolePrefab() || HudManager.Instance == null) return;
 
-            var    role        = DraftUiManager.ResolveRole(roleId);
-            string roleName    = role?.NiceName ?? $"Role {roleId}";
-            string teamName    = DraftUiManager.GetTeamLabel(role);
-            Sprite icon        = DraftUiManager.GetRoleIcon(role);
-            Color  color       = DraftUiManager.GetRoleColor(role);
+            var role = DraftUiManager.ResolveRole(roleId);
+            string roleName = role ? role.GetRoleName() : $"Role {roleId}";
+            string teamName = DraftUiManager.GetTeamLabel(role);
+            Sprite icon = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
+            Color color = role ? role.TeamColor : Color.white;
             string description = DraftUiManager.GetRoleDescription(role);
 
             _roleCardNewRoleObj = UnityEngine.Object.Instantiate(
                 _cachedRolePrefab, HudManager.Instance.transform);
             _roleCardNewRoleObj.name = "DraftChosenRoleCard";
 
-            if (_roleCardNewRoleObj.transform.childCount == 0) { DestroyRoleCard(); return; }
-            var actualCard = _roleCardNewRoleObj.transform.GetChild(0);
-            if (actualCard.childCount < 3) { DestroyRoleCard(); return; }
+            if (_roleCardNewRoleObj.transform.childCount == 0)
+            {
+                DestroyRoleCard();
+                return;
+            }
 
-            var roleText      = actualCard.GetChild(0).GetComponent<TextMeshPro>();
-            var roleImage     = actualCard.GetChild(1).GetComponent<SpriteRenderer>();
-            var teamText      = actualCard.GetChild(2).GetComponent<TextMeshPro>();
+            var actualCard = _roleCardNewRoleObj.transform.GetChild(0);
+            if (actualCard.childCount < 3)
+            {
+                DestroyRoleCard();
+                return;
+            }
+
+            var roleText = actualCard.GetChild(0).GetComponent<TextMeshPro>();
+            var roleImage = actualCard.GetChild(1).GetComponent<SpriteRenderer>();
+            var teamText = actualCard.GetChild(2).GetComponent<TextMeshPro>();
             var passiveButton = actualCard.GetComponent<PassiveButton>();
-            var rollover      = actualCard.GetComponent<ButtonRolloverHandler>();
+            var rollover = actualCard.GetComponent<ButtonRolloverHandler>();
 
             _roleCardNewRoleObj.transform.localPosition = CardHudPos;
-            _roleCardNewRoleObj.transform.localScale    = Vector3.one * CardScale;
+            _roleCardNewRoleObj.transform.localScale = Vector3.one * CardScale;
             _roleCardNewRoleObj.transform.localRotation = Quaternion.Euler(0f, 0f, CardTiltDeg);
 
             if (roleText != null) roleText.text = roleName;
             if (teamText != null)
             {
-                teamText.text             = teamName;
-                teamText.fontSizeMax      = TeamNameFontSize;
+                teamText.text = teamName;
+                teamText.fontSizeMax = TeamNameFontSize;
                 teamText.enableAutoSizing = true;
-                teamText.color            = GetTeamColor(teamName);
+                teamText.color = GetTeamColor(teamName);
             }
+
             if (roleImage != null)
             {
                 roleImage.sprite = icon;
                 roleImage.SetSizeLimit(2.8f);
-                roleImage.color  = Color.white;
+                roleImage.color = Color.white;
             }
 
             var cardBg = actualCard.GetComponent<SpriteRenderer>();
-            if (cardBg   != null) cardBg.color  = color;
+            if (cardBg != null) cardBg.color = color;
             if (rollover != null)
             {
-                rollover.OutColor  = color;
+                rollover.OutColor = color;
                 rollover.OverColor = new Color(
                     Mathf.Min(color.r * 1.3f, 1f),
                     Mathf.Min(color.g * 1.3f, 1f),
                     Mathf.Min(color.b * 1.3f, 1f),
                     color.a);
             }
+
             if (roleText != null) roleText.color = color;
 
             foreach (var tmp in _roleCardNewRoleObj.GetComponentsInChildren<TMPro.TMP_Text>())
             {
                 var r = tmp.GetComponent<Renderer>();
-                if (r != null) { r.sortingLayerName = "UI"; r.sortingOrder = 1; }
+                if (r != null)
+                {
+                    r.sortingLayerName = "UI";
+                    r.sortingOrder = 1;
+                }
             }
+
             foreach (var sr in _roleCardNewRoleObj.GetComponentsInChildren<SpriteRenderer>())
             {
                 sr.sortingLayerName = "UI";
-                sr.sortingOrder     = 1;
+                sr.sortingOrder = 1;
             }
 
-            var col = actualCard.GetComponent<Collider2D>() as Collider2D
-                   ?? actualCard.GetComponent<BoxCollider2D>() as Collider2D;
+            var col = actualCard.GetComponent<Collider2D>()
+                      ?? (Collider2D)actualCard.GetComponent<BoxCollider2D>();
             if (col == null)
             {
-                var box  = actualCard.gameObject.AddComponent<BoxCollider2D>();
+                var box = actualCard.gameObject.AddComponent<BoxCollider2D>();
                 box.size = new Vector2(4f, 6f);
-                col      = box;
+                col = box;
             }
 
             if (passiveButton != null)
             {
-                passiveButton.enabled   = true;
+                passiveButton.enabled = true;
                 passiveButton.Colliders = new Collider2D[] { col };
 
                 passiveButton.OnClick.RemoveAllListeners();
@@ -486,7 +520,7 @@ namespace TownOfUs.Modules.DraftMode
 
             _roleCardNewRoleObj.SetActive(true);
             _cardHiddenForMenu = false;
-            _cardReady         = false;
+            _cardReady = false;
             Coroutines.Start(CoPopInCard(_roleCardNewRoleObj.transform, this));
         }
 
@@ -497,7 +531,8 @@ namespace TownOfUs.Modules.DraftMode
                 var r = DraftUiManager.ResolveRole(roleId);
                 if (r is not TownOfUs.Modules.Wiki.IWikiDiscoverable wikiTarget)
                 {
-                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftStatusOverlay] Role {roleId} not IWikiDiscoverable");
+                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                        $"[DraftStatusOverlay] Role {roleId} not IWikiDiscoverable");
                     return;
                 }
 
@@ -512,7 +547,8 @@ namespace TownOfUs.Modules.DraftMode
             }
             catch (Exception ex)
             {
-                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftStatusOverlay] Wiki open failed: {ex.Message}");
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    $"[DraftStatusOverlay] Wiki open failed: {ex.Message}");
                 if (_roleCardNewRoleObj != null)
                     _roleCardNewRoleObj.SetActive(true);
             }
@@ -524,14 +560,14 @@ namespace TownOfUs.Modules.DraftMode
             while (wiki != null)
                 yield return null;
 
-            _lastMenuOpen   = IsAnyMenuOpen();
+            _lastMenuOpen = IsAnyMenuOpen();
             _menuCheckTimer = 0f;
 
             if (_roleCardNewRoleObj != null && !_lastMenuOpen)
             {
                 _roleCardNewRoleObj.SetActive(true);
                 _cardHiddenForMenu = false;
-                _cardReady         = true;
+                _cardReady = true;
             }
         }
 
@@ -539,20 +575,21 @@ namespace TownOfUs.Modules.DraftMode
         {
             try
             {
-                if (Minigame.Instance != null)                return true;
+                if (Minigame.Instance != null) return true;
                 if (PlayerCustomizationMenu.Instance != null) return true;
-                if (GameSettingMenu.Instance != null)         return true;
+                if (GameSettingMenu.Instance != null) return true;
 
                 var hud = HudManager.Instance;
                 if (hud != null)
                 {
-                    if (hud.GameMenu != null && hud.GameMenu.IsOpen)    return true;
-                    if (hud.Chat != null && hud.Chat.IsOpenOrOpening)   return true;
+                    if (hud.GameMenu != null && hud.GameMenu.IsOpen) return true;
+                    if (hud.Chat != null && hud.Chat.IsOpenOrOpening) return true;
                 }
 
                 if (FriendsListUI.Instance != null && FriendsListUI.Instance.IsOpen) return true;
             }
-            catch { }
+            catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+
             return false;
         }
 
@@ -560,12 +597,18 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_roleCardNewRoleObj != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_roleCardNewRoleObj, true); } catch { }
-                _roleCardNewRoleObj = null;
+                try
+                {
+                    MiraAPI.Utilities.Extensions.DeepDestroy(_roleCardNewRoleObj, true);
+                }
+                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+
+                _roleCardNewRoleObj = null!;
             }
+
             HideCardTooltip();
             _cardHiddenForMenu = false;
-            _cardReady         = false;
+            _cardReady = false;
         }
 
         private void EnsureCardTooltip()
@@ -587,7 +630,11 @@ namespace TownOfUs.Modules.DraftMode
             _cardTooltipText.text = string.Empty;
 
             var r = _cardTooltipRoot.GetComponent<Renderer>();
-            if (r != null) { r.sortingLayerName = "UI"; r.sortingOrder = 3; }
+            if (r != null)
+            {
+                r.sortingLayerName = "UI";
+                r.sortingOrder = 3;
+            }
 
             _cardTooltipRoot.SetActive(false);
         }
@@ -598,7 +645,8 @@ namespace TownOfUs.Modules.DraftMode
             if (_cardTooltipRoot == null || _cardTooltipText == null) return;
             string hex = ColorUtility.ToHtmlStringRGB(color);
             string desc = string.IsNullOrWhiteSpace(description) ? string.Empty : $"\n<size=70%>{description}</size>";
-            _cardTooltipText.text = $"<b><color=#{hex}>{roleName}</color></b>  <size=60%><color=#BBBBBB>{teamName}</color></size>{desc}";
+            _cardTooltipText.text =
+                $"<b><color=#{hex}>{roleName}</color></b>  <size=60%><color=#BBBBBB>{teamName}</color></size>{desc}";
             _cardTooltipRoot.SetActive(true);
         }
 
@@ -611,16 +659,21 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_cardTooltipRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_cardTooltipRoot, true); } catch { }
+                try
+                {
+                    MiraAPI.Utilities.Extensions.DeepDestroy(_cardTooltipRoot, true);
+                }
+                catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
             }
-            _cardTooltipRoot = null;
-            _cardTooltipText = null;
+
+            _cardTooltipRoot = null!;
+            _cardTooltipText = null!;
         }
 
         private static IEnumerator CoPopInCard(Transform holder, DraftStatusOverlay owner)
         {
             holder.localScale = Vector3.zero;
-            float duration    = 0.25f;
+            float duration = 0.25f;
             for (float t = 0f; t < duration; t += Time.deltaTime)
             {
                 if (holder == null) yield break;
@@ -628,6 +681,7 @@ namespace TownOfUs.Modules.DraftMode
                 holder.localScale = Vector3.one * s;
                 yield return null;
             }
+
             if (holder != null)
                 holder.localScale = Vector3.one * CardScale;
 
@@ -645,9 +699,9 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (string.IsNullOrEmpty(teamName)) return Color.white;
             string lower = teamName.ToLowerInvariant();
-            if (lower.Contains("crewmate"))                               return new Color32(0,   255, 255, 255);
-            if (lower.Contains("impostor") || lower.Contains("imposter")) return new Color32(255,   0,   0, 255);
-            if (lower.Contains("neutral"))                                return new Color32(180, 180, 180, 255);
+            if (lower.Contains("crewmate")) return new Color32(0, 255, 255, 255);
+            if (lower.Contains("impostor") || lower.Contains("imposter")) return new Color32(255, 0, 0, 255);
+            if (lower.Contains("neutral")) return new Color32(180, 180, 180, 255);
             return Color.white;
         }
 
@@ -661,7 +715,7 @@ namespace TownOfUs.Modules.DraftMode
             if (_menuCheckTimer >= MenuCheckInterval)
             {
                 _menuCheckTimer = 0f;
-                _lastMenuOpen   = IsAnyMenuOpen();
+                _lastMenuOpen = IsAnyMenuOpen();
             }
 
             if (_roleCardNewRoleObj != null)
@@ -695,10 +749,10 @@ namespace TownOfUs.Modules.DraftMode
                     {
                         _slotCheckTimer = 0f;
 
-                        int mySlot      = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
-                        int pickerSlot  = -1;
+                        int mySlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
+                        int pickerSlot = -1;
                         int pickerCount = 0;
-                        bool isMyTurn   = false;
+                        bool isMyTurn = false;
                         foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
                         {
                             if (s == null || !s.IsPickingNow) continue;
@@ -710,10 +764,10 @@ namespace TownOfUs.Modules.DraftMode
                         if (mySlot != _cachedMySlot || pickerSlot != _cachedPickerSlot ||
                             pickerCount != _cachedPickerCount || isMyTurn != _cachedIsMyTurn)
                         {
-                            _cachedMySlot      = mySlot;
-                            _cachedPickerSlot  = pickerSlot;
+                            _cachedMySlot = mySlot;
+                            _cachedPickerSlot = pickerSlot;
                             _cachedPickerCount = pickerCount;
-                            _cachedIsMyTurn    = isMyTurn;
+                            _cachedIsMyTurn = isMyTurn;
                             UpdateContent();
                         }
                     }
@@ -722,7 +776,7 @@ namespace TownOfUs.Modules.DraftMode
 
             if (_pendingRoleId.HasValue && _pendingRoleId != _shownRoleId)
             {
-                _shownRoleId   = _pendingRoleId;
+                _shownRoleId = _pendingRoleId;
                 _pendingRoleId = null;
                 ShowRoleCard(_shownRoleId.Value);
             }
@@ -732,10 +786,10 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_root == null) return;
 
-            int mySlot      = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
-            int pickerSlot  = -1;
+            int mySlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
+            int pickerSlot = -1;
             int pickerCount = 0;
-            bool isMyTurn   = false;
+            bool isMyTurn = false;
             foreach (var s in DraftManager.GetActivePickerStatesNonAlloc())
             {
                 if (s == null || !s.IsPickingNow) continue;
@@ -747,8 +801,13 @@ namespace TownOfUs.Modules.DraftMode
             _cachedIsMyTurn = isMyTurn;
 
             string mySlotText = mySlot > 0 ? mySlot.ToString(CultureInfo.InvariantCulture) : "?";
-            string pickerText = pickerCount > 1 ? "MULTI" : (pickerSlot > 0 ? pickerSlot.ToString(CultureInfo.InvariantCulture) : "?");
-            string labelText = isMyTurn ? "YOUR TURN!" : (pickerCount > 1 ? "NOW PICKING (MULTI):" : "NOW PICKING:");
+            string pickerText = "?";
+            if (pickerCount > 1) pickerText = "MULTI";
+            else if (pickerSlot > 0) pickerText = pickerSlot.ToString(CultureInfo.InvariantCulture);
+
+            string labelText = "NOW PICKING:";
+            if (isMyTurn) labelText = "YOUR TURN!";
+            else if (pickerCount > 1) labelText = "NOW PICKING (MULTI):";
 
             if (_yourNumberValue != null)
                 _yourNumberValue.text = mySlotText;
@@ -763,7 +822,7 @@ namespace TownOfUs.Modules.DraftMode
                 $"[DraftStatusOverlay] UpdateContent: localPlayerId={PlayerControl.LocalPlayer.PlayerId}, mySlot={mySlot}, pickerSlot={pickerSlot}, pickerCount={pickerCount}, isMyTurn={isMyTurn}");
         }
 
-        private bool _rebuildPending = false;
+        private bool _rebuildPending;
 
         private void UpdateVisibility()
         {
@@ -777,6 +836,7 @@ namespace TownOfUs.Modules.DraftMode
                     Coroutines.Start(CoRetryBuildUI());
                 }
             }
+
             if (_root == null) return;
 
             if (_currentState == OverlayState.Hidden)
@@ -786,11 +846,11 @@ namespace TownOfUs.Modules.DraftMode
                 if (_backdropArt != null) _backdropArt.SetActive(false);
                 DestroyRoleCard();
                 _pendingRoleId = null;
-                _shownRoleId   = null;
-                _waitAnimTime  = 0f;
+                _shownRoleId = null;
+                _waitAnimTime = 0f;
                 _menuCheckTimer = 0f;
                 _slotCheckTimer = 0f;
-                _lastMenuOpen   = false;
+                _lastMenuOpen = false;
                 RestoreHudElements();
             }
             else if (_currentState == OverlayState.Waiting)
@@ -809,6 +869,7 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
+        [HideFromIl2Cpp]
         private IEnumerator CoRetryBuildUI()
         {
 
@@ -817,6 +878,7 @@ namespace TownOfUs.Modules.DraftMode
                 yield return null;
                 BuildUI();
             }
+
             _rebuildPending = false;
             if (_root != null) UpdateVisibility();
         }
@@ -848,7 +910,12 @@ namespace TownOfUs.Modules.DraftMode
         {
             foreach (var go in _hiddenHudChildren)
                 if (go != null)
-                    try { go.SetActive(true); } catch { }
+                    try
+                    {
+                        go.SetActive(true);
+                    }
+                    catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+
             _hiddenHudChildren.Clear();
         }
 
@@ -863,21 +930,27 @@ namespace TownOfUs.Modules.DraftMode
             go.transform.localPosition = offset;
 
             var tmp = go.AddComponent<TextMeshPro>();
-            tmp.font               = font;
-            tmp.fontMaterial       = fontMat;
-            tmp.fontSize           = fontSize;
-            tmp.color              = color;
-            tmp.alignment          = TextAlignmentOptions.Center;
-            tmp.fontStyle          = bold ? FontStyles.Bold : FontStyles.Normal;
+            tmp.font = font;
+            tmp.fontMaterial = fontMat;
+            tmp.fontSize = fontSize;
+            tmp.color = color;
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal;
             tmp.enableWordWrapping = false;
-            tmp.text               = text;
+            tmp.text = text;
 
             var r = go.GetComponent<Renderer>();
-            if (r != null) { r.sortingLayerName = "UI"; r.sortingOrder = 50; }
+            if (r != null)
+            {
+                r.sortingLayerName = "UI";
+                r.sortingOrder = 50;
+            }
+
             return tmp;
         }
 
         private static Sprite _softGlow;
+
         private static Sprite MakeSoftGlowSprite()
         {
             if (_softGlow != null) return _softGlow;
@@ -888,13 +961,16 @@ namespace TownOfUs.Modules.DraftMode
             Vector2 center = new Vector2((size - 1) * 0.5f, (size - 1) * 0.5f);
             float radius = size * 0.5f;
             for (int y = 0; y < size; y++)
-            for (int x = 0; x < size; x++)
             {
-                float d = Vector2.Distance(new Vector2(x, y), center) / radius;
-                float a = Mathf.Clamp01(1f - d);
-                a = a * a * (3f - 2f * a);
-                px[y * size + x] = new Color(1f, 1f, 1f, a);
+                for (int x = 0; x < size; x++)
+                {
+                    float d = Vector2.Distance(new Vector2(x, y), center) / radius;
+                    float a = Mathf.Clamp01(1f - d);
+                    a = a * a * (3f - 2f * a);
+                    px[y * size + x] = new Color(1f, 1f, 1f, a);
+                }
             }
+
             tex.SetPixels(px);
             tex.Apply();
             _softGlow = Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f), size);
@@ -903,6 +979,7 @@ namespace TownOfUs.Modules.DraftMode
         }
 
         private static Sprite _white;
+
         private static Sprite MakeWhiteSprite()
         {
             if (_white != null) return _white;
@@ -942,3 +1019,4 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
+

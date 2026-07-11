@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using MiraAPI.Hud;
 using TownOfUs.Buttons;
 using UnityEngine;
@@ -30,7 +29,7 @@ public sealed class DraftCancelButton : TownOfUsButton
 
     public override bool Disabled { get; set; } = true;
 
-    public override bool Enabled(RoleBehaviour role)
+    public override bool Enabled(RoleBehaviour? role)
     {
         return AmongUsClient.Instance.AmHost && !Disabled;
     }

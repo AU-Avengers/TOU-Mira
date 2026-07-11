@@ -17,7 +17,7 @@ public static class DraftPoolBuilder
 
         return BuildPoolFromManualAmounts();
     }
-    public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null, ICollection<string> avoid = null)
+    public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!)
     {
         rng ??= new UnityRng();
         var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
@@ -27,9 +27,6 @@ public static class DraftPoolBuilder
 
         int offered = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
         var poolCopy = new List<string>(currentPool);
-
-        if (roleOpts.ShowRandomOption)
-            poolCopy.Add("__RANDOM__");
 
         for (int i = poolCopy.Count - 1; i > 0; i--)
         {
@@ -79,11 +76,10 @@ public static class DraftPoolBuilder
             rl.Slot13.Value, rl.Slot14.Value, rl.Slot15.Value,
         ];
 
-        var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
-        int maxImps   = impOpts != null ? Math.Max(0, (int)impOpts.MaxImpostors.Value) : int.MaxValue;
-        int addedImps = 0;
+        var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
+        int rolesPerSlot = roleOpts != null ? Math.Max(1, (int)roleOpts.OfferedRolesCount.Value) : 3;
 
-        IRng rng       = new UnityRng();
+        UnityRng rng       = new();
         var usedCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         int limit = Math.Min(numPlayers, slots.Length);
@@ -92,20 +88,19 @@ public static class DraftPoolBuilder
             var roleNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(slots[i]));
             if (roleNames == null || roleNames.Count == 0) continue;
 
-            var candidates = roleNames
-                .Where(n => !string.IsNullOrWhiteSpace(n))
-                .Where(n => usedCounts.GetValueOrDefault(n) < DraftRolePool.GetMaxCountForRoleName(n))
-                .Where(n => addedImps < maxImps || !DraftRolePool.IsImpostorRoleName(n))
-                .ToList();
+            for (int k = 0; k < rolesPerSlot; k++)
+            {
+                var candidates = roleNames
+                    .Where(n => !string.IsNullOrWhiteSpace(n))
+                    .Where(n => usedCounts.GetValueOrDefault(n) < DraftRolePool.GetMaxCountForRoleName(n))
+                    .ToList();
 
-            if (candidates.Count == 0) continue;
+                if (candidates.Count == 0) break;
 
-            var chosen = candidates[rng.NextInt(candidates.Count)];
-            pool.Add(chosen);
-            usedCounts[chosen] = usedCounts.GetValueOrDefault(chosen) + 1;
-
-            if (DraftRolePool.IsImpostorRoleName(chosen))
-                addedImps++;
+                var chosen = candidates[rng.NextInt(candidates.Count)];
+                pool.Add($"{chosen}|{i}");
+                usedCounts[chosen] = usedCounts.GetValueOrDefault(chosen) + 1;
+            }
         }
 
         return pool;
@@ -128,45 +123,27 @@ public static class DraftPoolBuilder
         var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
         if (neutOpts != null)
         {
-            int maxNeuts   = Math.Max(0, (int)neutOpts.MaxNeutrals.Value);
-            int addedNeuts = 0;
-
-            (RoleListOption bucket, int count)[] neutBuckets =
-            [
-                (RoleListOption.NeutBenign,  (int)neutOpts.MaxNeutBenign.Value),
-                (RoleListOption.NeutEvil,    (int)neutOpts.MaxNeutEvil.Value),
-                (RoleListOption.NeutKilling, (int)neutOpts.MaxNeutKilling.Value),
-                (RoleListOption.NeutOutlier, (int)neutOpts.MaxNeutOutlier.Value),
-            ];
-
-            foreach (var (bucket, count) in neutBuckets)
+            if (neutOpts.MaxNeutrals <= 0)
             {
-                if (addedNeuts >= maxNeuts) break;
-                int allowed = Math.Min(count, maxNeuts - addedNeuts);
-                addedNeuts += ExpandBucketCapped(pool, bucket, allowed);
+                ExpandBucket(pool, RoleListOption.NeutBenign, 0);
+                ExpandBucket(pool, RoleListOption.NeutEvil, 0);
+                ExpandBucket(pool, RoleListOption.NeutKilling, 0);
+                ExpandBucket(pool, RoleListOption.NeutOutlier, 0);
+            } else {
+                ExpandBucket(pool, RoleListOption.NeutBenign,  (int)neutOpts.MaxNeutBenign.Value);
+                ExpandBucket(pool, RoleListOption.NeutEvil,    (int)neutOpts.MaxNeutEvil.Value);
+                ExpandBucket(pool, RoleListOption.NeutKilling, (int)neutOpts.MaxNeutKilling.Value);
+                ExpandBucket(pool, RoleListOption.NeutOutlier, (int)neutOpts.MaxNeutOutlier.Value);
             }
         }
 
         var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
         if (impOpts != null)
         {
-            int maxImps   = Math.Max(0, (int)impOpts.MaxImpostors.Value);
-            int addedImps = 0;
-
-            (RoleListOption bucket, int count)[] impBuckets =
-            [
-                (RoleListOption.ImpConceal, (int)impOpts.MaxImpConcealing.Value),
-                (RoleListOption.ImpKilling, (int)impOpts.MaxImpKilling.Value),
-                (RoleListOption.ImpPower,   (int)impOpts.MaxImpPower.Value),
-                (RoleListOption.ImpSupport, (int)impOpts.MaxImpSupport.Value),
-            ];
-
-            foreach (var (bucket, count) in impBuckets)
-            {
-                if (addedImps >= maxImps) break;
-                int allowed = Math.Min(count, maxImps - addedImps);
-                addedImps += ExpandBucketCapped(pool, bucket, allowed);
-            }
+            ExpandBucket(pool, RoleListOption.ImpConceal, (int)impOpts.MaxImpConcealing.Value);
+            ExpandBucket(pool, RoleListOption.ImpKilling, (int)impOpts.MaxImpKilling.Value);
+            ExpandBucket(pool, RoleListOption.ImpPower,   (int)impOpts.MaxImpPower.Value);
+            ExpandBucket(pool, RoleListOption.ImpSupport, (int)impOpts.MaxImpSupport.Value);
         }
 
         return pool;
@@ -177,20 +154,18 @@ public static class DraftPoolBuilder
         ExpandBucketCapped(pool, bucket, maxSlots);
     }
 
-    private static int ExpandBucketCapped(List<string> pool, RoleListOption bucket, int maxSlots)
+    private static void ExpandBucketCapped(List<string> pool, RoleListOption bucket, int maxSlots)
     {
-        if (maxSlots <= 0) return 0;
+        if (maxSlots <= 0) return;
 
         var names = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(bucket))
             ?.Where(n => !string.IsNullOrWhiteSpace(n))
             .ToList();
-        if (names == null || names.Count == 0) return 0;
+        if (names == null || names.Count == 0) return;
 
         int take = Math.Min(maxSlots, names.Count);
         for (int i = 0; i < take; i++)
             pool.Add(names[i]);
-
-        return take;
     }
 
     private static string RoleListOptionToString(RoleListOption opt)

@@ -4,6 +4,7 @@ using Object = UnityEngine.Object;
 using MiraAPI.Utilities;
 using TownOfUs.Options;
 
+
 namespace TownOfUs.Modules.DraftMode;
 
 public static class DraftRpcs
@@ -54,7 +55,9 @@ public static class DraftRpcs
         var count = Math.Clamp((int)offeredCount, 0, allIds.Length);
         var offeredList = new List<ushort>(count);
         for (int i = 0; i < count; i++)
+        {
             offeredList.Add(allIds[i]);
+        }
 
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Caching {offeredList.Count} offered roles");
         var draftScreenController = Object.FindObjectOfType<DraftScreenController>();
@@ -228,7 +231,16 @@ public static class DraftNetworkHelper
         var padded = new ushort[maxOffered];
         var count = Math.Min(maxOffered, roleIds.Count);
         for (int i = 0; i < count; i++)
-            padded[i] = roleIds[i];
+        {
+            if (roleIds[i] > 1000)
+            {
+                padded[i] = 0;
+            }
+            else
+            {
+                padded[i] = roleIds[i];
+            }
+        }
 
         DraftRpcs.RpcAnnounceTurn(PlayerControl.LocalPlayer, turnNumber, slot, playerId, (byte)count,
             padded[0], padded[1], padded[2], padded[3], padded[4], padded[5], padded[6], padded[7], padded[8]);
@@ -267,7 +279,7 @@ public static class DraftNetworkHelper
 
     public static void BroadcastRecap(List<RecapEntry> entries, DraftRecapMode mode)
     {
-        var recapData = ((int)mode).ToString();
+        var recapData = ((int)mode).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
         if (mode != DraftRecapMode.Nothing && entries != null)
         {
@@ -294,3 +306,4 @@ public static class DraftNetworkHelper
         DraftCancelButton.Hide();
     }
 }
+
