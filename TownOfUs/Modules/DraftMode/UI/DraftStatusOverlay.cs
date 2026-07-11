@@ -5,6 +5,7 @@ using HarmonyLib;
 using TMPro;
 using UnityEngine;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 
 
@@ -404,10 +405,10 @@ namespace TownOfUs.Modules.DraftMode
             if (!EnsureRolePrefab() || HudManager.Instance == null) return;
 
             var role = DraftUiManager.ResolveRole(roleId);
-            string roleName = role?.NiceName ?? $"Role {roleId}";
+            string roleName = role ? role.GetRoleName() : $"Role {roleId}";
             string teamName = DraftUiManager.GetTeamLabel(role);
-            Sprite icon = role != null ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
-            Color color = role != null ? role.TeamColor : Color.white;
+            Sprite icon = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
+            Color color = role ? role.TeamColor : Color.white;
             string description = DraftUiManager.GetRoleDescription(role);
 
             _roleCardNewRoleObj = UnityEngine.Object.Instantiate(

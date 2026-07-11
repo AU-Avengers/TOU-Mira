@@ -264,7 +264,7 @@ namespace TownOfUs.Modules.DraftMode
             var roles = new List<RoleBehaviour>();
             if (alignments == null)
             {
-                roles.AddRange(MiscUtils.AllRoles.Where(IsUsableRole));
+                roles.AddRange(MiscUtils.SpawnableRoles.Where(IsUsableRole));
             }
             else
             {
@@ -288,7 +288,7 @@ namespace TownOfUs.Modules.DraftMode
             if (!role) return false;
             if (role.IsDead)
                 return false;
-            if (role is ITownOfUsRole touRole && !touRole.IsDraftable)
+            if (role is ITownOfUsRole touRole && (!touRole.IsDraftable || touRole.RoleAlignment > RoleAlignment.GameOutlier))
                 return false;
 
             return role.GetRoleName() is { Length: > 0 } && CustomRoleUtils.CanSpawnOnCurrentMode(role) && IsRoleEnabled(role);
