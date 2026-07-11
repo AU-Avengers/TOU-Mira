@@ -27,4 +27,7 @@ public sealed class LoversOptions : AbstractOptionGroup<LoverModifier>
 
     [ModdedToggleOption("Lovers Can Kill One Another")]
     public bool LoversKillEachOther { get; set; } = true;
+
+    [ModdedToggleOption("Lovers Know Each Other's Role")]
+    public bool LoverKnowsOthersRole { get; set; } = true;
 }
