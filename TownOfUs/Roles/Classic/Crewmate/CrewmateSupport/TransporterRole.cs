@@ -44,12 +44,12 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Transport", "Transport"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}TransportWikiDescription"),
                     TouCrewAssets.Transport)
-            };
+            ];
         }
     }
 
@@ -103,7 +103,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                WardenRole.RpcWardenNotify(warden.Player, transporter, play1);
+                WardenRole.RpcWardenNotify(warden.Player, transporter);
             }
 
             return;
@@ -114,7 +114,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                WardenRole.RpcWardenNotify(warden2.Player, transporter, play2);
+                WardenRole.RpcWardenNotify(warden2.Player, transporter);
             }
 
             return;
@@ -125,7 +125,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                ClericRole.RpcClericBarrierAttacked(transporter, cleric.Player, play1);
+                ClericRole.RpcClericBarrierAttacked(transporter, cleric.Player);
             }
 
             return;
@@ -136,7 +136,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                ClericRole.RpcClericBarrierAttacked(transporter, cleric2.Player, play2);
+                ClericRole.RpcClericBarrierAttacked(transporter, cleric2.Player);
             }
 
             return;
@@ -261,10 +261,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             if (button.TextOutlineColor != Color.clear)
             {
                 button.SetTextOutline(button.TextOutlineColor);
-                if (button.Button != null)
-                {
-                    button.Button.usesRemainingSprite.color = button.TextOutlineColor;
-                }
+                button.Button?.usesRemainingSprite.color = button.TextOutlineColor;
             }
 
             TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance

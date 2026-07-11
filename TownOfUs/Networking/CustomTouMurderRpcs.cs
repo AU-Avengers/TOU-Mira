@@ -745,8 +745,6 @@ public static class CustomTouMurderRpcs
             source,
             target,
             murderResultFlags,
-            isIndirect,
-            ignoreShield,
             resetKillTimer,
             createDeadBody,
             teleportMurderer,
@@ -761,8 +759,6 @@ public static class CustomTouMurderRpcs
         PlayerControl source,
         PlayerControl target,
         MurderResultFlags murderResultFlags,
-        bool isIndirect = false,
-        bool ignoreShield = false,
         bool resetKillTimer = true,
         bool createDeadBody = true,
         bool teleportMurderer = true,
@@ -867,8 +863,7 @@ public static class CustomTouMurderRpcs
             role = source.Data.Role;
         }
 
-        var touRole = role as ITownOfUsRole;
-        if (touRole == null || (touRole.RoleAlignment is not RoleAlignment.NeutralAfterlife && touRole.RoleAlignment is not RoleAlignment.NeutralEvil))
+        if (role is not ITownOfUsRole touRole || (touRole.RoleAlignment is not RoleAlignment.NeutralAfterlife && touRole.RoleAlignment is not RoleAlignment.NeutralEvil))
         {
             return;
         }

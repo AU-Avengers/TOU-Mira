@@ -66,7 +66,7 @@ public static class TownOfUsEventHandlers
         Message
     }
 
-    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
+    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = [];
 
     internal static TextMeshPro ModifierText;
     public static TaskPanelBehaviour RolePanel;
@@ -213,7 +213,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void IntroEndEventHandler(IntroEndEvent @event)
+    public static void IntroEndEventHandler(IntroEndEvent _)
     {
         if (HudManager.InstanceExists)
         {
@@ -268,8 +268,7 @@ public static class TownOfUsEventHandlers
         }
 
         var panel = TryGetRoleTab();
-        var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
-        if (role == null || panel == null)
+        if (PlayerControl.LocalPlayer.Data.Role is not ICustomRole role || panel == null)
         {
             return;
         }
@@ -293,7 +292,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         // Reset team chat state when a new meeting starts
         Patches.Options.TeamChatPatches.TeamChatActive = false;
@@ -561,7 +560,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent @event)
+    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent _)
     {
         Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.DeepDestroy());
 
@@ -576,7 +575,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void ClearBodiesAndResetPlayersEventHandler(RoundStartEvent @event)
+    public static void ClearBodiesAndResetPlayersEventHandler(RoundStartEvent _)
     {
         Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.DeepDestroy());
 
@@ -652,8 +651,7 @@ public static class TownOfUsEventHandlers
 
         foreach (var modifier in exiled.GetModifiers<GameModifier>().Where(x => x is IAnimated))
         {
-            var animatedMod = modifier as IAnimated;
-            if (animatedMod != null)
+            if (modifier is IAnimated animatedMod)
             {
                 animatedMod.IsVisible = false;
                 animatedMod.SetVisible();
@@ -671,7 +669,7 @@ public static class TownOfUsEventHandlers
 
         Crewmate.TimeLordEventHandlers.RecordKill(source, target);
 
-        TimeLordRewindSystem.NotifyHostMurderDuringRewind(source, target);
+        TimeLordRewindSystem.NotifyHostMurderDuringRewind(target);
 
         if (SpellslingerRole.EveryoneHexed() && PlayerControl.LocalPlayer.Data.Role is SpellslingerRole)
         {
@@ -706,8 +704,7 @@ public static class TownOfUsEventHandlers
 
         foreach (var modifier in target.GetModifiers<GameModifier>().Where(x => x is IAnimated))
         {
-            var animatedMod = modifier as IAnimated;
-            if (animatedMod != null)
+            if (modifier is IAnimated animatedMod)
             {
                 animatedMod.IsVisible = false;
                 animatedMod.SetVisible();
@@ -835,11 +832,11 @@ public static class TownOfUsEventHandlers
         {
             return;
         }
-        Coroutines.Start(CoSendSpecData(@event.ClientData));
+        Coroutines.Start(CoSendSpecData());
         Coroutines.Start(CoSendRulesToPlayer(@event.ClientData));
     }
 
-    internal static IEnumerator CoSendSpecData(ClientData clientData)
+    internal static IEnumerator CoSendSpecData()
     {
         while (!AmongUsClient.Instance)
         {
@@ -983,12 +980,8 @@ public static class TownOfUsEventHandlers
 
         var animationRend = animation.GetComponent<SpriteRenderer>();
         animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>();
-        if (r == null)
-        {
-            r = animationRend.gameObject.AddComponent<RainbowBehaviour>();
-        }
-
+        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>()
+             ?? animationRend.gameObject.AddComponent<RainbowBehaviour>();
         r.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
 
         voteArea.Overlay.gameObject.SetActive(false);
@@ -1184,7 +1177,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void VotingCompleteHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteHandler(VotingCompleteEvent _)
     {
         if (Minigame.Instance)
         {

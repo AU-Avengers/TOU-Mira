@@ -39,12 +39,12 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Camp", "Camp"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CampWikiDescription"),
                     TouCrewAssets.CampButtonSprite)
-            };
+            ];
         }
     }
 

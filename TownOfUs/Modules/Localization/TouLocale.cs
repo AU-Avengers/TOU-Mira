@@ -265,7 +265,7 @@ public static class TouLocale
 
     public static void ParseXmlFile(string xmlContent, SupportedLangs language)
     {
-        XmlDocument xmlDoc = new XmlDocument();
+        XmlDocument xmlDoc = new();
         try
         {
             xmlDoc.LoadXml(xmlContent);

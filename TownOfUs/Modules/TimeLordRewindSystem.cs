@@ -48,7 +48,7 @@ public static class TimeLordRewindSystem
     // Snapshot, CircularBuffer, TaskStepBuffer, and BodyPosBuffer moved to TimeLordSnapshotBuffer helper
     private static readonly TimeLord.CircularBuffer Buffer = new(1024);
     private static readonly TimeLord.TaskStepBuffer TaskBuffer = new(1024, 24);
-    private static uint[] _trackedTaskIds = Array.Empty<uint>();
+    private static uint[] _trackedTaskIds = [];
     private static int _trackedTaskCount;
     
 
@@ -57,34 +57,18 @@ public static class TimeLordRewindSystem
     private static Vector2 _finalSnapPos;
     private static bool _hasFinalSnapPos;
 
-
-    private sealed class ScheduledRevive
+    private record ScheduledEvent
     {
-        public byte VictimId { get; }
-        public float KillAgeSeconds { get; }
         public bool Done { get; set; }
-
-        public ScheduledRevive(byte victimId, float killAgeSeconds)
-        {
-            VictimId = victimId;
-            KillAgeSeconds = killAgeSeconds;
-            Done = false;
-        }
     }
 
-    private sealed class ScheduledBodyRestore
-    {
-        public byte BodyId { get; }
-        public float TriggerAtSeconds { get; }
-        public bool Done { get; set; }
+    private sealed record ScheduledRevive(byte VictimId, float KillAgeSeconds) : ScheduledEvent;
 
-        public ScheduledBodyRestore(byte bodyId, float triggerAtSeconds)
-        {
-            BodyId = bodyId;
-            TriggerAtSeconds = triggerAtSeconds;
-            Done = false;
-        }
-    }
+    private sealed record ScheduledBodyRestore(byte BodyId, float TriggerAtSeconds) : ScheduledEvent;
+
+    private sealed record ScheduledBodyPos(byte BodyId, Vector2 Position, float TriggerAtSeconds) : ScheduledEvent;
+
+    private sealed record ScheduledTaskUndo(byte PlayerId, uint TaskId, float TriggerAtSeconds) : ScheduledEvent;
 
     private static float _rewindStartTime;
     private static float _rewindHistoryCutoffTime;
@@ -101,99 +85,41 @@ public static class TimeLordRewindSystem
     private static float _lastKillCooldownSampleTime;
     private static float _lastKillCooldownValue = -1f;
     private static float _lastKillButtonCooldownSampleTime;
-    private static readonly HashSet<byte> _hostPendingRewindRevives = new();
-    private static readonly HashSet<byte> _pendingDeferredRevives = new();
-    private static readonly HashSet<byte> _deferredReviveInProgress = new();
+    private static readonly HashSet<byte> _hostPendingRewindRevives = [];
+    private static readonly HashSet<byte> _pendingDeferredRevives = [];
+    private static readonly HashSet<byte> _deferredReviveInProgress = [];
 
-    private readonly struct ButtonCooldownSample
-    {
-        public float Time { get; }
-        public float Timer { get; }
-        public bool EffectActive { get; }
+    private readonly record struct ButtonCooldownSample(float Time, float Timer, bool EffectActive);
 
-        public ButtonCooldownSample(float time, float timer, bool effectActive)
-        {
-            Time = time;
-            Timer = timer;
-            EffectActive = effectActive;
-        }
-    }
-
-    private sealed class ReferenceEqualityComparer<T> : IEqualityComparer<T> where T : class
+    private sealed record ReferenceEqualityComparer<T> : IEqualityComparer<T> where T : class
     {
         public static readonly ReferenceEqualityComparer<T> Instance = new();
         public bool Equals(T? x, T? y) => ReferenceEquals(x, y);
         public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
     }
 
-    private sealed class ButtonCooldownSeries
+    private sealed record ButtonCooldownSeries
     {
-        public readonly List<ButtonCooldownSample> Samples = new(256);
-        public int StartIndex;
+        public List<ButtonCooldownSample> Samples { get; } = [with(256)];
+        public int StartIndex { get; set; }
     }
 
-    private static readonly List<CustomActionButton> CachedKillLikeButtons = new(16);
+    private static readonly List<CustomActionButton> CachedKillLikeButtons = [with(16)];
     private static Type? _cachedKillLikeRoleType;
     private static float _lastKillLikeButtonsRefreshTime;
 
     private static readonly Dictionary<CustomActionButton, ButtonCooldownSeries> KillButtonCooldownHistory =
-        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
+        [with(ReferenceEqualityComparer<CustomActionButton>.Instance)];
 
     private static readonly HashSet<CustomActionButton> KillButtonCooldownMaxClampedThisRewind =
-        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
+        [with(ReferenceEqualityComparer<CustomActionButton>.Instance)];
 
-    private sealed class ScheduledBodyPos
-    {
-        public byte BodyId { get; }
-        public Vector2 Position { get; }
-        public float TriggerAtSeconds { get; }
-        public bool Done { get; set; }
-
-        public ScheduledBodyPos(byte bodyId, Vector2 position, float triggerAtSeconds)
-        {
-            BodyId = bodyId;
-            Position = position;
-            TriggerAtSeconds = triggerAtSeconds;
-            Done = false;
-        }
-    }
-
-    private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = new();
+    private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = [];
     private static List<ScheduledBodyPos>? _hostBodyPlacements;
 
-    private readonly struct HostTaskCompletion
-    {
-        public readonly byte PlayerId;
-        public readonly uint TaskId;
-        public readonly DateTime TimeUtc;
-        public readonly int TaskStep;
+    private readonly record struct HostTaskCompletion(byte PlayerId, uint TaskId, DateTime TimeUtc, int TaskStep);
 
-        public HostTaskCompletion(byte playerId, uint taskId, DateTime timeUtc, int taskStep)
-        {
-            PlayerId = playerId;
-            TaskId = taskId;
-            TimeUtc = timeUtc;
-            TaskStep = taskStep;
-        }
-    }
-
-    private sealed class ScheduledTaskUndo
-    {
-        public byte PlayerId { get; }
-        public uint TaskId { get; }
-        public float TriggerAtSeconds { get; }
-        public bool Done { get; set; }
-
-        public ScheduledTaskUndo(byte playerId, uint taskId, float triggerAtSeconds)
-        {
-            PlayerId = playerId;
-            TaskId = taskId;
-            TriggerAtSeconds = triggerAtSeconds;
-            Done = false;
-        }
-    }
-
-    private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
+    private static readonly List<HostTaskCompletion> HostTaskCompletions = [with(64)];
     private static List<ScheduledTaskUndo>? _hostTaskUndos;
     private static Dictionary<(byte PlayerId, uint TaskId), int>? _hostTaskStepMap;
 
@@ -265,7 +191,7 @@ public static class TimeLordRewindSystem
         TaskBuffer.Clear();
         _lastRecordedPos = default;
         _hasLastRecordedPos = false;
-        _trackedTaskIds = Array.Empty<uint>();
+        _trackedTaskIds = [];
         _trackedTaskCount = 0;
         _lastRewindAnim = SpecialAnim.None;
         _lastKillCooldownSampleTime = 0f;
@@ -510,10 +436,7 @@ public static class TimeLordRewindSystem
         HostTaskCompletions.Add(new HostTaskCompletion(player.PlayerId, task.Id, now, taskStep));
         
         // Also store in the step map for immediate use
-        if (_hostTaskStepMap == null)
-        {
-            _hostTaskStepMap = new Dictionary<(byte PlayerId, uint TaskId), int>();
-        }
+        _hostTaskStepMap ??= [];
         _hostTaskStepMap[(player.PlayerId, task.Id)] = taskStep;
 
         var cutoff = now - TimeSpan.FromSeconds(120);
@@ -547,7 +470,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        _hostTaskUndos = new List<ScheduledTaskUndo>(schedule.Count);
+        _hostTaskUndos = [with(schedule.Count)];
         foreach (var (playerId, taskId, triggerAt) in schedule)
         {
             _hostTaskUndos.Add(new ScheduledTaskUndo(playerId, taskId, triggerAt));
@@ -596,7 +519,7 @@ public static class TimeLordRewindSystem
     {
         var age = (float)(now - x.TimeUtc).TotalSeconds;
         var triggerAt = durationSeconds * (age / historySeconds);
-        return (x.PlayerId, x.TaskId, TriggerAtSeconds: triggerAt, TaskStep: x.TaskStep);
+        return (x.PlayerId, x.TaskId, TriggerAtSeconds: triggerAt, x.TaskStep);
     })
     .ToList();
 
@@ -605,13 +528,10 @@ public static class TimeLordRewindSystem
         ConfigureHostTaskUndos(simpleSchedule);
         
         // Store task steps for later use in UndoTask
-        if (_hostTaskStepMap == null)
+        _hostTaskStepMap ??= [];
+        foreach (var (PlayerId, TaskId, _, TaskStep) in schedule)
         {
-            _hostTaskStepMap = new Dictionary<(byte PlayerId, uint TaskId), int>();
-        }
-        foreach (var item in schedule)
-        {
-            _hostTaskStepMap[(item.PlayerId, item.TaskId)] = item.TaskStep;
+            _hostTaskStepMap[(PlayerId, TaskId)] = TaskStep;
         }
     }
 
@@ -1138,7 +1058,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        _hostRevives = new List<ScheduledRevive>(revives.Count);
+        _hostRevives = [with(revives.Count)];
         foreach (var (victimId, killAge) in revives)
         {
             _hostRevives.Add(new ScheduledRevive(victimId, killAge));
@@ -1263,7 +1183,7 @@ public static class TimeLordRewindSystem
     /// If a murder occurs while rewind is active (or is delivered late during rewind),
     /// we must still revive the victim to avoid edge-window misses and neutral-kill inconsistencies.
     /// </summary>
-    public static void NotifyHostMurderDuringRewind(PlayerControl killer, PlayerControl victim)
+    public static void NotifyHostMurderDuringRewind(PlayerControl victim)
     {
         if (victim == null || victim.Data == null)
         {
@@ -1508,31 +1428,28 @@ public static class TimeLordRewindSystem
 
         var elapsed = Time.time - _rewindStartTime;
 
+        if (!OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+        {
+            _hostRevives = null;
+        }
         if (_hostRevives != null && _hostRevives.Count > 0)
         {
-            if (!OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
+            for (var i = 0; i < _hostRevives.Count; i++)
             {
-                _hostRevives = null;
-            }
-            else
-            {
-                for (var i = 0; i < _hostRevives.Count; i++)
+                var entry = _hostRevives[i];
+                if (entry.Done)
                 {
-                    var entry = _hostRevives[i];
-                    if (entry.Done)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (elapsed + 0.0001f >= entry.KillAgeSeconds)
+                if (elapsed + 0.0001f >= entry.KillAgeSeconds)
+                {
+                    entry.Done = true;
+                    _hostPendingRewindRevives.Add(entry.VictimId);
+                    var victim = MiscUtils.PlayerById(entry.VictimId);
+                    if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
                     {
-                        entry.Done = true;
-                        _hostPendingRewindRevives.Add(entry.VictimId);
-                        var victim = MiscUtils.PlayerById(entry.VictimId);
-                        if (victim != null && victim.Data != null && !victim.Data.Disconnected && victim.Data.IsDead)
-                        {
-                            TimeLordRole.RpcRewindRevive(victim);
-                        }
+                        TimeLordRole.RpcRewindRevive(victim);
                     }
                 }
             }
@@ -1637,19 +1554,13 @@ public static class TimeLordRewindSystem
         if (_popsRemaining <= 0 || Buffer.Count == 0)
         {
             lp.moveable = false;
-            if (physics.body != null)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
+            physics.body?.velocity = Vector2.zero;
             physics.SetNormalizedVelocity(Vector2.zero);
 
             if (_hasFinalSnapPos && IsValidSnapshotPos(lp, _finalSnapPos))
             {
                 lp.transform.position = _finalSnapPos;
-                if (physics.body != null)
-                {
-                    physics.body.position = _finalSnapPos;
-                }
+                physics.body?.position = _finalSnapPos;
                 lp.NetTransform?.SnapTo(_finalSnapPos);
             }
             else if (_hasFinalSnapPos)
@@ -1710,10 +1621,7 @@ public static class TimeLordRewindSystem
         else
         {
             // No snapshot pop this tick; freeze motion for this tick to avoid drifting.
-            if (physics.body != null)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
+            physics.body?.velocity = Vector2.zero;
             physics.SetNormalizedVelocity(Vector2.zero);
             return true;
         }
@@ -1896,7 +1804,7 @@ return true;*/
     public static void StopRewind()
     {
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
-        byte[] pendingHostRevives = Array.Empty<byte>();
+        byte[] pendingHostRevives = [];
         if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
@@ -1911,7 +1819,7 @@ return true;*/
                     }
                 }
             }
-            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : Array.Empty<byte>();
+            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : [];
         }
 
         IsRewinding = false;
@@ -2094,7 +2002,7 @@ return true;*/
         }
 
         var wasHost = AmongUsClient.Instance && AmongUsClient.Instance.AmHost;
-        byte[] pendingHostRevives = Array.Empty<byte>();
+        byte[] pendingHostRevives = [];
         if (wasHost && OptionGroupSingleton<TimeLordOptions>.Instance.ReviveOnRewind)
         {
             var ids = new HashSet<byte>(_hostPendingRewindRevives);
@@ -2109,7 +2017,7 @@ return true;*/
                     }
                 }
             }
-            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : Array.Empty<byte>();
+            pendingHostRevives = ids.Count > 0 ? ids.ToArray() : [];
         }
 
         IsRewinding = false;
@@ -2485,10 +2393,7 @@ return true;*/
         }
 
         var taskInfo = player.Data.FindTaskById(taskId);
-        if (taskInfo != null)
-        {
-            taskInfo.Complete = false;
-        }
+        taskInfo?.Complete = false;
 
         foreach (var t in player.myTasks.ToArray())
         {

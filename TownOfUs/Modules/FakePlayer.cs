@@ -402,7 +402,7 @@ public sealed class FakePlayer : IDisposable
     private static void UpdateColorName(TextMeshPro colorText, TextMeshPro baseColorText, int colorId)
     {
         var array = TranslationController.Instance
-            .GetString(Palette.ColorNames[colorId], Array.Empty<Il2CppSystem.Object>()).ToCharArray();
+            .GetString(Palette.ColorNames[colorId]).ToCharArray();
 
         if (array.Length != 0)
         {

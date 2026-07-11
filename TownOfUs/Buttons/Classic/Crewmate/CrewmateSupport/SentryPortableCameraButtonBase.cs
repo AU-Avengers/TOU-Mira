@@ -101,10 +101,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
             if (TextOutlineColor != Color.clear)
             {
                 SetTextOutline(TextOutlineColor);
-                if (Button != null)
-                {
-                    Button.usesRemainingSprite.color = TextOutlineColor;
-                }
+                Button?.usesRemainingSprite.color = TextOutlineColor;
             }
 
             TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
@@ -132,10 +129,7 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
 
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y + 1.1f, -150f);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
     }
 
     private static void EnsureBatteryInitialized()
@@ -412,12 +406,8 @@ public abstract class SentryPortableCameraButtonBase : TownOfUsRoleButton<Sentry
     public override void OnEffectEnd()
     {
         base.OnEffectEnd();
-
-        if (_securityMinigame != null)
-        {
-            _securityMinigame.Close();
-            _securityMinigame = null;
-        }
+        _securityMinigame?.Close();
+        _securityMinigame = null;
 
         if (_reportedInUse && PlayerControl.LocalPlayer)
         {

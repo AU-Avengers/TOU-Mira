@@ -103,7 +103,7 @@ public static class SentryCameraUiUtilities
         Transform? viewables = null;
         try
         {
-            viewables = minigame.Viewables != null ? minigame.Viewables.transform : null;
+            viewables = minigame.Viewables?.transform;
         }
         catch
         {
@@ -148,7 +148,7 @@ public static class SentryCameraUiUtilities
         {
             right = existingRight.gameObject;
             var rightSr = right.GetComponent<SpriteRenderer>();
-            if (rightSr != null) rightSr.enabled = true;
+            rightSr?.enabled = true;
             right.SetActive(true);
         }
 
@@ -164,7 +164,7 @@ public static class SentryCameraUiUtilities
         {
             left = existingLeft.gameObject;
             var leftSr = left.GetComponent<SpriteRenderer>();
-            if (leftSr != null) leftSr.enabled = true;
+            leftSr?.enabled = true;
             left.SetActive(true);
         }
 
@@ -240,7 +240,7 @@ public static class SentryCameraUiUtilities
         if (numberOfPages <= 1) return;
 
         Transform? viewables = null;
-        try { viewables = minigame.Viewables != null ? minigame.Viewables.transform : null; } catch { /* ignored */ }
+        try { viewables = minigame.Viewables?.transform; } catch { /* ignored */ }
         if (viewables == null) return;
 
         var container = viewables.Find("ObserverPageDots") ?? viewables.Find("SentryPageDots");
@@ -318,7 +318,7 @@ public static class SentryCameraUiUtilities
         if (numberOfPages <= 1) return;
 
         Transform? viewables = null;
-        try { viewables = minigame.Viewables != null ? minigame.Viewables.transform : null; } catch { /* ignored */ }
+        try { viewables = minigame.Viewables?.transform; } catch { /* ignored */ }
         if (viewables == null) return;
 
         EnsureSkeldDotIndicatorExists(minigame, numberOfPages);
@@ -449,7 +449,7 @@ public static class SentryCameraUiUtilities
         {
             var anyObj = Resources.FindObjectsOfTypeAll(Il2CppType.From(typeof(PlanetSurveillanceMinigame)))
     .FirstOrDefault(x => x != null);
-            var any = anyObj != null ? anyObj.TryCast<PlanetSurveillanceMinigame>() : null;
+            var any = anyObj?.TryCast<PlanetSurveillanceMinigame>();
             if (any != null)
             {
                 CachePolusPagingUi(any);

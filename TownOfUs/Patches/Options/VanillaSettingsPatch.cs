@@ -17,42 +17,27 @@ public static class VanillaSettingsPatch
                 var impostorCount = __instance.Children.ToArray()
                     ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumImpostors)
                     ?.Cast<NumberOption>();
-                if (impostorCount != null)
-                {
-                    impostorCount.ValidRange = new FloatRange(0f, 5f);
-                }
+                impostorCount?.ValidRange = new FloatRange(0f, 5f);
 
                 var impostorMaxCount = __instance.Children.ToArray()
                     ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.MaxImpostors)
                     ?.Cast<NumberOption>();
-                if (impostorMaxCount != null)
-                {
-                    impostorMaxCount.ValidRange = new FloatRange(0f, 5f);
-                }
+                impostorMaxCount?.ValidRange = new FloatRange(0f, 5f);
 
                 var commonTasks = __instance.Children.ToArray()
                     ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumCommonTasks)
                     ?.Cast<NumberOption>();
-                if (commonTasks != null)
-                {
-                    commonTasks.ValidRange = new FloatRange(0f, 4f);
-                }
+                commonTasks?.ValidRange = new FloatRange(0f, 4f);
 
                 var shortTasks = __instance.Children.ToArray()
                     ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumShortTasks)
                     ?.Cast<NumberOption>();
-                if (shortTasks != null)
-                {
-                    shortTasks.ValidRange = new FloatRange(0f, 8f);
-                }
+                shortTasks?.ValidRange = new FloatRange(0f, 8f);
 
                 var longTasks = __instance.Children.ToArray()
                     ?.FirstOrDefault(x => x.TryCast<NumberOption>()?.intOptionName == Int32OptionNames.NumLongTasks)
                     ?.Cast<NumberOption>();
-                if (longTasks != null)
-                {
-                    longTasks.ValidRange = new FloatRange(0f, 4f);
-                }
+                longTasks?.ValidRange = new FloatRange(0f, 4f);
             }
             catch
             {

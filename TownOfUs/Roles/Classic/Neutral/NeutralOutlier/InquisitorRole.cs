@@ -155,15 +155,15 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Inquire", "Inquire"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}InquireWikiDescription"),
                     TouNeutAssets.InquireSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Vanquish", "Vanquish"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}VanquishWikiDescription"),
                     TouNeutAssets.InquisKillSprite)
-            };
+            ];
         }
     }
 
@@ -313,7 +313,7 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
                 reportBuilder.AppendLine(TownOfUsPlugin.Culture,
                     $"{text}\n");
                 var roles = TargetRoles;
-                var lastRole = roles[roles.Count - 1];
+                var lastRole = roles[^1];
 
                 if (roles.Count != 0)
                 {

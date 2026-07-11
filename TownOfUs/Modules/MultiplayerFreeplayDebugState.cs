@@ -14,7 +14,7 @@ public static class MultiplayerFreeplayDebugState
 {
     private sealed record BaselineSnapshot(ushort RoleType, List<Type> ModifierTypes, bool WasDead, Vector2 Position);
 
-    private static readonly Dictionary<byte, BaselineSnapshot> Baseline = new();
+    private static readonly Dictionary<byte, BaselineSnapshot> Baseline = [];
     private static bool _captured;
 
     public static void CaptureBaselineIfNeeded()

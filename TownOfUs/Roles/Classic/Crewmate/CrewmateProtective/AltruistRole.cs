@@ -26,14 +26,12 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     public static bool IsReviveInProgress { get; private set; }
     public static string ReviveString()
     {
-        switch ((ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value)
+        return (ReviveType)OptionGroupSingleton<AltruistOptions>.Instance.ReviveMode.Value switch
         {
-            case ReviveType.Sacrifice:
-                return "Sacrifice";
-            case ReviveType.GroupSacrifice:
-                return "GroupSacrifice";
-        }
-        return string.Empty;
+            ReviveType.Sacrifice => "Sacrifice",
+            ReviveType.GroupSacrifice => "GroupSacrifice",
+            _ => string.Empty,
+        };
     }
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
@@ -51,12 +49,12 @@ public sealed class AltruistRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Revive", "Revive"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}Revive{ReviveString()}WikiDescription"),
                     TouCrewAssets.ReviveSprite)
-            };
+            ];
         }
     }
 

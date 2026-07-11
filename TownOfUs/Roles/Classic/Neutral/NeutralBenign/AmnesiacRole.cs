@@ -55,12 +55,12 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Remember", "Remember"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}RememberWikiDescription"),
                     TouNeutAssets.RememberButtonSprite)
-            };
+            ];
         }
     }
 

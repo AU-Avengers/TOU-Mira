@@ -117,7 +117,7 @@ public static class LogicGameFlowPatches
                 continue;
             }
 
-            var tasksCountTowardProgress = true;
+            bool tasksCountTowardProgress;
             try
             {
                 tasksCountTowardProgress = player.Data.Role != null && player.Data.Role.TasksCountTowardProgress;
@@ -280,7 +280,7 @@ public static class LogicGameFlowPatches
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
-    public static void IsGameOverDueToDeathPatch(LogicGameFlowNormal __instance, ref bool __result)
+    public static void IsGameOverDueToDeathPatch(ref bool __result)
     {
         __result = false;
     }

@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using HarmonyLib;
 using TownOfUs.Roles;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches.Roles;
 
@@ -21,7 +20,7 @@ public static class GhostRoleCanUsePatches
 
     [HarmonyPriority(Priority.Last)]
     [HarmonyPrefix]
-    public static bool CanUsePrefixPatch(Object __instance, [HarmonyArgument(0)] NetworkedPlayerInfo pc,
+    public static bool CanUsePrefixPatch([HarmonyArgument(0)] NetworkedPlayerInfo pc,
         ref bool __state)
     {
         __state = false;
@@ -39,7 +38,7 @@ public static class GhostRoleCanUsePatches
 
     [HarmonyPriority(Priority.Last)]
     [HarmonyPostfix]
-    public static void CanUsePostfixPatch(Object __instance, [HarmonyArgument(0)] NetworkedPlayerInfo pc,
+    public static void CanUsePostfixPatch([HarmonyArgument(0)] NetworkedPlayerInfo pc,
         ref bool __state)
     {
         if (__state)

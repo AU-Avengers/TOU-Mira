@@ -892,7 +892,7 @@ public static class TouRoleManagerPatches
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
-    public static bool SelectRolesPatch(RoleManager __instance)
+    public static bool SelectRolesPatch()
     {
         var assignmentType = (RoleSelectionMode)OptionGroupSingleton<RoleOptions>.Instance.RoleAssignmentType.Value;
         Error($"RoleManager.SelectRoles - ReplaceRoleManager: {ReplaceRoleManager} | Assignment type is set to {assignmentType.ToDisplayString()}!");
@@ -1013,7 +1013,7 @@ public static class TouRoleManagerPatches
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     [HarmonyPostfix]
     [HarmonyPriority(Priority.Low)]
-    public static void SetSpectatorsAndModifiers(RoleManager __instance)
+    public static void SetSpectatorsAndModifiers()
     {
         var spectators = GameData.Instance.AllPlayers.ToArray()
             .Where(x => SpectatorRole.TrackedSpectators.Contains(x.PlayerName)).ToList();
@@ -1066,8 +1066,7 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CoSetRole))]
     [HarmonyPrefix]
-    public static void SetRolePatch(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType,
-        [HarmonyArgument(1)] bool canOverrideRole)
+    public static void SetRolePatch(PlayerControl __instance, [HarmonyArgument(1)] bool canOverrideRole)
     {
         if (canOverrideRole)
         {
@@ -1077,7 +1076,7 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRoleOnDeath))]
     [HarmonyPrefix]
-    public static bool AssignRoleOnDeathPatch(RoleManager __instance, PlayerControl player, bool specialRolesAllowed)
+    public static bool AssignRoleOnDeathPatch(PlayerControl player, bool specialRolesAllowed)
     {
         // Note: I know this is a one-to-one recreation of the AssignRoleOnDeath function, but for some reason,
         // the original won't spawn the Spectre and just spawns Neutral Ghost instead
@@ -1107,7 +1106,7 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.TryAssignSpecialGhostRoles))]
     [HarmonyPrefix]
-    public static bool TryAssignSpecialGhostRolesPatch(RoleManager __instance, PlayerControl player)
+    public static bool TryAssignSpecialGhostRolesPatch(PlayerControl player)
     {
         var text = $"TryAssignSpecialGhostRolesPatch - Player: '{player.Data.PlayerName}'";
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Warning, text);
@@ -1146,7 +1145,7 @@ public static class TouRoleManagerPatches
     //}
     [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.GetAdjustedNumImpostors))]
     [HarmonyPrefix]
-    public static bool GetAdjustedImposters(IGameOptions __instance, ref int __result)
+    public static bool GetAdjustedImposters(ref int __result)
     {
         if (MiscUtils.CurrentGamemode() is not TouGamemode.Normal)
         {

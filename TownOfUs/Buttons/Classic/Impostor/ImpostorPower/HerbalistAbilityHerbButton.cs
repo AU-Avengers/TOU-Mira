@@ -25,17 +25,13 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
 
     public int CurrentHerbUses()
     {
-        switch (CurrentAbility)
+        return CurrentAbility switch
         {
-            case HerbAbilities.Expose:
-                return ExposeUsesLeft;
-            case HerbAbilities.Confuse:
-                return ConfuseUsesLeft;
-            case HerbAbilities.Protect:
-                return ProtectUsesLeft;
-        }
-
-        return -1;
+            HerbAbilities.Expose => ExposeUsesLeft,
+            HerbAbilities.Confuse => ConfuseUsesLeft,
+            HerbAbilities.Protect => ProtectUsesLeft,
+            _ => -1,
+        };
     }
 
     public bool CurrentHerbsLimited => CurrentHerbUses() != -1;
@@ -102,21 +98,21 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
     public override LoadableAsset<Sprite> Sprite => HerbButtons[0];
     public HerbAbilities CurrentAbility = HerbAbilities.Kill;
 
-    public static List<LoadableAsset<Sprite>> HerbButtons { get; set; } = new()
-    {
+    public static List<LoadableAsset<Sprite>> HerbButtons { get; set; } =
+    [
         TouAssets.KillSprite,
         TouImpAssets.HerbExposeSprite,
         TouImpAssets.HerbConfuseSprite,
         TouImpAssets.HerbProtectSprite,
-    };
+    ];
 
-    public static List<string> ProtectionText { get; set; } = new()
-    {
+    public static List<string> ProtectionText { get; set; } =
+    [
         "Kill",
         "Expose",
         "Confuse",
         "Protect",
-    };
+    ];
 
     public override void CreateButton(Transform parent)
     {
@@ -155,7 +151,7 @@ public sealed class HerbalistAbilityHerbButton : TownOfUsRoleButton<HerbalistRol
         Button.usesRemainingText.text = (int)cooldown + "<size=80%>s</size>";
     }
 
-    public void UpdateCooldownHandler(PlayerControl playerControl)
+    public void UpdateCooldownHandler()
     {
         if (Timer >= 0)
         {

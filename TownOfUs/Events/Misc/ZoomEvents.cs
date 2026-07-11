@@ -32,13 +32,13 @@ public static class ZoomEvents
     }
 
     [RegisterEvent(1000)]
-    public static void IntroBeginEventHandler(IntroBeginEvent @event)
+    public static void IntroBeginEventHandler(IntroBeginEvent _)
     {
         HudManagerPatches.ResetZoom();
     }
 
     [RegisterEvent]
-    public static void AfterMurderEventHandler(AfterMurderEvent @event)
+    public static void AfterMurderEventHandler(AfterMurderEvent _)
     {
         if (TutorialManager.InstanceExists)
         {
@@ -47,7 +47,7 @@ public static class ZoomEvents
     }
 
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         HudManagerPatches.ResetZoom();
         HudManagerPatches.ZoomButton.SetActive(false);

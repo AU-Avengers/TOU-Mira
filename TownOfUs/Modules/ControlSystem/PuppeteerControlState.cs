@@ -13,11 +13,11 @@ public static class PuppeteerControlState
     // During this grace window we avoid applying any victim movement input to prevent desync.
     public const float InitialControlSyncGraceSeconds = 1.0f;
 
-    private static readonly Dictionary<byte, byte> ControlledBy = new();
-    private static readonly Dictionary<byte, Vector2> ControlledDirection = new();
-    private static readonly Dictionary<byte, Vector2> ControlledPosition = new();
-    private static readonly Dictionary<byte, Vector2> ControlledVelocity = new();
-    private static readonly Dictionary<byte, float> ControlledSince = new();
+    private static readonly Dictionary<byte, byte> ControlledBy = [];
+    private static readonly Dictionary<byte, Vector2> ControlledDirection = [];
+    private static readonly Dictionary<byte, Vector2> ControlledPosition = [];
+    private static readonly Dictionary<byte, Vector2> ControlledVelocity = [];
+    private static readonly Dictionary<byte, float> ControlledSince = [];
 
     public static void SetControl(byte controlledId, byte controllerId)
     {

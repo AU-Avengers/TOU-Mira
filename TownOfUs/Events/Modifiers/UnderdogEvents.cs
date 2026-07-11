@@ -23,7 +23,7 @@ public static class UnderdogEvents
     }
 
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         if (!PlayerControl.LocalPlayer.HasModifier<UnderdogModifier>() ||
             PlayerControl.LocalPlayer.IsRole<ScavengerRole>())

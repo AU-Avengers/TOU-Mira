@@ -30,12 +30,12 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"HnsRole{LocaleKey}Camo", "Camo"),
                     TouLocale.GetParsed($"HnsRole{LocaleKey}CamoWikiDescription"),
                     TouImpAssets.HypnotiseButtonSprite)
-            };
+            ];
         }
     }
 

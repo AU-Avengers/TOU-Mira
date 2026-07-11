@@ -15,7 +15,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
     public override Color TextOutlineColor => TownOfUsColors.Spy;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SpyOptions>.Instance.DisplayCooldown.Value + MapCooldown, 0.001f, 120f);
     public float AvailableCharge { get; set; } = OptionGroupSingleton<SpyOptions>.Instance.StartingCharge.Value;
-    public bool usingPortable { get; set; }
+    public bool UsingPortable { get; set; }
 
     public override float EffectDuration
     {
@@ -53,15 +53,15 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
             return;
         }
 
-        if (usingPortable && !MapBehaviour.Instance.gameObject.activeSelf)
+        if (UsingPortable && !MapBehaviour.Instance.gameObject.activeSelf)
         {
             RefreshAbilityButton();
             ResetCooldownAndOrEffect();
-            usingPortable = false;
+            UsingPortable = false;
             return;
         }
 
-        if (usingPortable)
+        if (UsingPortable)
         {
             AvailableCharge -= Time.deltaTime;
             if (AvailableCharge <= 0f)
@@ -69,7 +69,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
                 MapBehaviour.Instance.Close();
                 RefreshAbilityButton();
                 ResetCooldownAndOrEffect();
-                usingPortable = false;
+                UsingPortable = false;
                 return;
             }
         }
@@ -81,7 +81,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
         Button?.usesRemainingText.gameObject.SetActive(true);
         Button?.usesRemainingSprite.gameObject.SetActive(true);
         Button!.usesRemainingText.text = (int)AvailableCharge + "%";
-        if (!usingPortable && EffectActive)
+        if (!UsingPortable && EffectActive)
         {
             ResetCooldownAndOrEffect();
         }
@@ -117,10 +117,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
         AvailableCharge = OptionGroupSingleton<SpyOptions>.Instance.StartingCharge.Value;
         Button!.transform.localPosition =
             new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y, -150f);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
     }
 
     protected override void OnClick()
@@ -130,7 +127,7 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
             PlayerControl.LocalPlayer.NetTransform.Halt();
         }
 
-        usingPortable = true;
+        UsingPortable = true;
         ToggleMapVisible(OptionGroupSingleton<SpyOptions>.Instance.MoveWithMenu);
     }
 
@@ -138,11 +135,11 @@ public sealed class SpyAdminTableModifierButton : TownOfUsButton
     {
         base.OnEffectEnd();
 
-        if (usingPortable)
+        if (UsingPortable)
         {
             MapBehaviour.Instance.Close();
             RefreshAbilityButton();
-            usingPortable = false;
+            UsingPortable = false;
         }
     }
 

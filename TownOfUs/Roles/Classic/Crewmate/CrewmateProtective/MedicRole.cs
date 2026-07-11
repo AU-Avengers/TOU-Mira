@@ -55,12 +55,12 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Shield", "Shield"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ShieldWikiDescription"),
                     TouCrewAssets.MedicSprite)
-            };
+            ];
         }
     }
 
@@ -201,9 +201,9 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
         {
             mod2.SetNewMedic(Player);
         }
-        else if (Shielded != null)
+        else
         {
-            Shielded.AddModifier<MedicShieldModifier>(Player);
+            Shielded?.AddModifier<MedicShieldModifier>(Player);
         }
     }
 

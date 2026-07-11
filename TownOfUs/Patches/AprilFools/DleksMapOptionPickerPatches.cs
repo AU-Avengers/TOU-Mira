@@ -91,7 +91,7 @@ public static class DleksMapOptionPickerPatches
 
     [HarmonyPatch(typeof(CreateGameOptions), nameof(CreateGameOptions.MapChanged))]
     [HarmonyPrefix]
-    public static bool MapChangedPrefix(CreateGameOptions __instance, OptionBehaviour behaviour)
+    public static bool MapChangedPrefix(CreateGameOptions __instance)
     {
         if (__instance.mapPicker.GetSelectedID() is (int)MapNames.Dleks)
         {

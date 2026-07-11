@@ -70,7 +70,7 @@ public static class ChatPatches
     [HarmonyPriority(Priority.First)]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
-    public static void TogglePostfix(ChatController __instance)
+    public static void TogglePostfix()
     {
         HudManagerPatches.UiGrid.ArrangeChilds();
     }
@@ -177,7 +177,7 @@ public static class ChatPatches
                 return false;
             }
     
-            string targetName = textRegular.Substring(6).Trim();
+            string targetName = textRegular[6..].Trim();
             var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
     
             if (target == null)
@@ -225,7 +225,7 @@ public static class ChatPatches
                 return false;
             }
     
-            string targetName = textRegular.Substring(5).Trim();
+            string targetName = textRegular[5..].Trim();
             var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
     
             if (target == null)
@@ -501,20 +501,16 @@ public static class ChatPatches
                         }
 
                         var allRoles = MiscUtils.SpawnableRoles.ToList();
-                        var matchingRole = allRoles.FirstOrDefault(role =>
-                            role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
-                            role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-                            (role is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)));
-
-                        if (matchingRole == null)
-                        {
-                            matchingRole = allRoles.FirstOrDefault(role =>
+                        var matchingRole =
+                            allRoles.FirstOrDefault(role =>
+                                role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                                role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
+                                (role is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
+                            ?? allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 roleNameInput.Contains(role.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
                                 (role is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                                                     roleNameInput.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
-                        }
-
                         if (matchingRole == null)
                         {
                             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,

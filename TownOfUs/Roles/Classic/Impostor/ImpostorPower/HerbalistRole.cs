@@ -35,11 +35,11 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         var killActive = kill.Button!.isActiveAndEnabled;
         if (!herbs.TimerPaused && herbsActive && !killActive)
         {
-            kill.UpdateCooldownHandler(Player);
+            kill.UpdateCooldownHandler();
         }
         else if (!kill.TimerPaused && !herbsActive && killActive)
         {
-            herbs.UpdateCooldownHandler(Player);
+            herbs.UpdateCooldownHandler();
         }
 
         herbs.UpdateMiniAbilityCooldown(kill.Timer);
@@ -111,7 +111,7 @@ public sealed class HerbalistRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     ];
 
     [MethodRpc((uint)TownOfUsRpc.HerbalistBarrierAttacked)]
-    public static void RpcHerbalistBarrierAttacked(PlayerControl cleric, PlayerControl source, PlayerControl shielded)
+    public static void RpcHerbalistBarrierAttacked(PlayerControl cleric, PlayerControl source)
     {
         if (LobbyBehaviour.Instance)
         {

@@ -16,7 +16,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class ClericEvents
 {
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         ModifierUtils.GetPlayersWithModifier<ClericCleanseModifier>()
             .Do(x => x.RemoveModifier<ClericCleanseModifier>());
@@ -85,7 +85,7 @@ public static class ClericEvents
 
         if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            ClericRole.RpcClericBarrierAttacked(source, cleric.Player, target);
+            ClericRole.RpcClericBarrierAttacked(source, cleric.Player);
         }
 
         return true;

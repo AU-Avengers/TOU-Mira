@@ -17,7 +17,7 @@ using UnityEngine;
 namespace TownOfUs.Modules.MedSpirit;
 
 [RegisterInIl2Cpp]
-public sealed class MedSpiritObject : InnerNetObject
+public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
 {
     // Components
     public PlayerControl? Owner { get; private set; }
@@ -37,10 +37,6 @@ public sealed class MedSpiritObject : InnerNetObject
     public float TurnSharpness { get; private set; } = 10000f;
     public float MaxSpeed { get; private set; }
     private bool WasInRewind { get; set; }
-
-    public MedSpiritObject(IntPtr cppPtr) : base(cppPtr)
-    {
-    }
 
     public override void ClearOrDecrementDirt()
     {

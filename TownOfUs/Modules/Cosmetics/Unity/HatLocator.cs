@@ -36,8 +36,7 @@ public class HatLocator : Il2CppSystem.Object
 
     private string ProviderId { get; } = typeof(HatProvider).FullName!;
 
-    public bool Locate(Il2CppSystem.Object key, Il2CppSystem.Type type,
-        out Il2CppSystem.Collections.Generic.IList<IResourceLocation> locations)
+    public bool Locate(Il2CppSystem.Object key, out Il2CppSystem.Collections.Generic.IList<IResourceLocation> locations)
     {
         locations = null!;
 

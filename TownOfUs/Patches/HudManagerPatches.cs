@@ -77,11 +77,9 @@ public static class HudManagerPatches
         }
 
         var instance = HudManager.Instance;
-        if (Camera.main != null)
-            Camera.main.orthographicSize = size;
+        Camera.main?.orthographicSize = size;
 
-        if (instance.UICamera != null)
-            instance.UICamera.orthographicSize = size;
+        instance.UICamera?.orthographicSize = size;
 
         if (size <= 3f)
         {
@@ -527,8 +525,10 @@ public static class HudManagerPatches
             settingsButton.transform.SetAsLastSibling();
             chatButton.transform.SetParent(UiTopRight.transform, false);
             instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
-            var iconContainer = new GameObject("iconContainer");
-            iconContainer.layer = LayerMask.NameToLayer("UI");
+            var iconContainer = new GameObject("iconContainer")
+            {
+                layer = LayerMask.NameToLayer("UI")
+            };
             iconContainer.transform.SetParent(chatButton.transform, false);
             iconContainer.transform.localPosition = new Vector3(0.1f, -0.1f, 0);
             instance.Chat.chatNotifyDot.transform.SetParent(iconContainer.transform, false);
@@ -546,8 +546,10 @@ public static class HudManagerPatches
     {
         if (!ExtraUiTopRight && UiTopRight)
         {
-            ExtraUiTopRight = new GameObject("ExtraUiTopRight");
-            ExtraUiTopRight.layer = UiTopRight.layer;
+            ExtraUiTopRight = new GameObject("ExtraUiTopRight")
+            {
+                layer = UiTopRight.layer
+            };
             ExtraUiTopRight.transform.SetParent(instance.MapButton.transform.parent.parent, false);
 
             ExtraUiGrid = ExtraUiTopRight.AddComponent<GridArrange>();
@@ -598,7 +600,7 @@ public static class HudManagerPatches
         }
     }
 
-    public static void AdjustModifierTab(HudManager instance)
+    public static void AdjustModifierTab()
     {
         if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance)
         {
@@ -631,7 +633,7 @@ public static class HudManagerPatches
 
         CreateWikiButton(__instance);
         CreateZoomButton(__instance);
-        AdjustModifierTab(__instance);
+        AdjustModifierTab();
 
         UpdateRoleList(__instance);
         UpdateTeamChat();
@@ -783,7 +785,7 @@ public static class HudManagerPatches
         foreach (var pair in TooltipAlignments)
         {
             var allRoles = MiscUtils.GetRegisteredRoles(pair.Value).ToList();
-            BucketTooltipData.RoleEntry[] roleEntry = Array.Empty<BucketTooltipData.RoleEntry>();
+            BucketTooltipData.RoleEntry[] roleEntry = [];
             foreach (var role in allRoles)
             {
                 if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
@@ -834,7 +836,7 @@ public static class HudManagerPatches
         var text = role.GetType().FullName!;
         if (Enum.IsDefined(role.Role))
         {
-            text = $"AmongUs.Roles.{role.Role.ToString()}";
+            text = $"AmongUs.Roles.{role.Role}";
         }
 
         return text;

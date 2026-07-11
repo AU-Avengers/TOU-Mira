@@ -59,7 +59,7 @@ public sealed class HerbalistAbilityKillButton : TownOfUsRoleButton<HerbalistRol
         PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
     }
 
-    public void UpdateCooldownHandler(PlayerControl playerControl)
+    public void UpdateCooldownHandler()
     {
         if (Timer >= 0)
         {

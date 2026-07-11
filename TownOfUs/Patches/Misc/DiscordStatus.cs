@@ -3,16 +3,18 @@ using Discord;
 using HarmonyLib;
 
 namespace TownOfUs.Patches.Misc;
-// Patch taken from https://github.com/All-Of-Us-Mods/LaunchpadReloaded/blob/master/LaunchpadReloaded/Patches/Generic/DiscordManagerPatch.cs
+/// <remarks>
+/// Patch taken from <see href="https://github.com/All-Of-Us-Mods/LaunchpadReloaded/blob/master/LaunchpadReloaded/Patches/Generic/DiscordManagerPatch.cs"/>
+/// </remarks>
 [HarmonyPatch(typeof(ActivityManager))]
 public static class DiscordStatus
 {
-    private static string ModInfo = $"TOU:M v{TownOfUsPlugin.Version}" + (TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.Version.Contains("beta") ? " (DEV)" : string.Empty);
-    private static string _smallIcon = "???";
+    private static readonly string ModInfo = $"TOU:M v{TownOfUsPlugin.Version}" + (TownOfUsPlugin.IsDevBuild && !TownOfUsPlugin.Version.Contains("beta") ? " (DEV)" : string.Empty);
+    private static readonly string _smallIcon = "???";
 
     [HarmonyPrefix]
     [HarmonyPatch(nameof(ActivityManager.UpdateActivity))]
-    public static void ActivityManagerUpdateActivityPrefix(ActivityManager __instance, [HarmonyArgument(0)] Activity activity)
+    public static void ActivityManagerUpdateActivityPrefix([HarmonyArgument(0)] Activity activity)
     {
         var modCount = $"{IL2CPPChainloader.Instance.Plugins.Count} Mods";
         activity.Details = (string.IsNullOrEmpty(activity.Details)) ? ModInfo : ModInfo + " | " + activity.Details;

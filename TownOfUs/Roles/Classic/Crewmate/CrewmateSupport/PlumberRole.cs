@@ -50,15 +50,15 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Flush", "Flush"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FlushWikiDescription"),
                     TouCrewAssets.FlushSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Block", "Block"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlockWikiDescription"),
                     TouCrewAssets.BlockSprite)
-            };
+            ];
         }
     }
 

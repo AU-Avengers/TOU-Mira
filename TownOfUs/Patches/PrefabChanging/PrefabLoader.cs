@@ -84,28 +84,28 @@ public class PrefabLoader
         {
             Out<ShipStatus> o = new();
             yield return LoadMap(MapNames.Skeld, o);
-            Skeld = o.Value;
+            Skeld = o;
         }
 
         if (!Polus)
         {
             Out<PolusShipStatus> o = new();
             yield return LoadMap(MapNames.Polus, o);
-            Polus = o.Value;
+            Polus = o;
         }
 
         if (!Airship)
         {
             Out<AirshipStatus> o = new();
             yield return LoadMap(MapNames.Airship, o);
-            Airship = o.Value;
+            Airship = o;
         }
 
         if (!Fungle)
         {
             Out<FungleShipStatus> o = new();
             yield return LoadMap(MapNames.Fungle, o);
-            Fungle = o.Value;
+            Fungle = o;
         }
     }
 
@@ -138,8 +138,10 @@ public class PrefabLoader
         }
     }
 
-    private sealed class Out<T>
+    private sealed record Out<T>
     {
         public T Value { get; set; }
+
+        public static implicit operator T(Out<T> outT) => outT.Value;
     }
 }

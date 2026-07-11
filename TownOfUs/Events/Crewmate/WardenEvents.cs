@@ -17,7 +17,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class WardenEvents
 {
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         var wardenForts = ModifierUtils.GetActiveModifiers<WardenFortifiedModifier>();
 
@@ -103,13 +103,10 @@ public static class WardenEvents
         MiscUtils.LogInfo(TownOfUsEventHandlers.LogLevel.Error, $"{target.Data.PlayerName} has a warden fort, stopping an interaction from {source.Data.PlayerName}!");
 
         // The reason this exists is that otherwise, players can brute force through the warden fort if they spam fast enough
-        if (@event is MiraButtonClickEvent buttonClick)
+        if (@event is MiraButtonClickEvent buttonClick &&
+            buttonClick.Button is CustomActionButton<PlayerControl> button)
         {
-            var button = buttonClick.Button as CustomActionButton<PlayerControl>;
-            if (button != null)
-            {
-                button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
-            }
+            button.Timer = OptionGroupSingleton<GameMechanicOptions>.Instance.TempSaveCdReset;
         }
 
         if (@event is BeforeMurderEvent && source.IsImpostor())
@@ -122,7 +119,7 @@ public static class WardenEvents
 
         if (warden != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            WardenRole.RpcWardenNotify(warden.Player, source, target);
+            WardenRole.RpcWardenNotify(warden.Player, source);
         }
     }
 }

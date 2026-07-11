@@ -105,12 +105,12 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Observe", "Observe"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ObserveWikiDescription"),
                     TouNeutAssets.Observe)
-            };
+            ];
         }
     }
 
@@ -203,9 +203,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
             var doomableRole = role as IDoomable;
             var undoomableRole = role as IUnguessable;
             var hintType = DoomableType.Default;
-            var cachedMod =
-                player.Object.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-            if (cachedMod != null)
+            if (player.Object.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
             {
                 role = cachedMod.CachedRole;
                 doomableRole = role as IDoomable;
@@ -239,14 +237,14 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 .Where(x => (x is IDoomable doomRole && doomRole.DoomHintType == DoomableType.Default &&
                     x is not IUnguessable || x is not IDoomable) && !x.IsDead).ToList();
             roles = roles.OrderBy(x => x.GetRoleName()).ToList();
-            var lastRole = roles[roles.Count - 1];
+            var lastRole = roles[^1];
 
             if (hintType != DoomableType.Default)
             {
                 roles = MiscUtils.AllRoles
                     .Where(x => x is IDoomable doomRole && doomRole.DoomHintType == hintType && x is not IUnguessable)
                     .OrderBy(x => x.GetRoleName()).ToList();
-                lastRole = roles[roles.Count - 1];
+                lastRole = roles[^1];
             }
 
             if (roles.Count != 0)
@@ -316,27 +314,20 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
         void ClickRoleHandle(RoleBehaviour role)
         {
             var realRole = player.Data.Role;
-            
-            var cachedMod = player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
+
 
             var pickVictim = role.Role == realRole.Role;
-            if (cachedMod != null)
+            if (player.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
             {
-                switch (cachedMod.GuessMode)
+                pickVictim = cachedMod.GuessMode switch
                 {
-                    case CacheRoleGuess.ActiveRole:
-                        // Checks for the role the player is at the moment
-                        pickVictim = role.Role == realRole.Role;
-                        break;
-                    case CacheRoleGuess.CachedRole:
-                        // Checks for the cached role itself (like Imitator or Traitor)
-                        pickVictim = role.Role == cachedMod.CachedRole.Role;
-                        break;
-                    default:
-                        // Checks if it's the cached or active role
-                        pickVictim = role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role;
-                        break;
-                }
+                    // Checks for the role the player is at the moment
+                    CacheRoleGuess.ActiveRole => role.Role == realRole.Role,
+                    // Checks for the cached role itself (like Imitator or Traitor)
+                    CacheRoleGuess.CachedRole => role.Role == cachedMod.CachedRole.Role,
+                    // Checks if it's the cached or active role
+                    _ => role.Role == cachedMod.CachedRole.Role || role.Role == realRole.Role,
+                };
             }
             var victim = pickVictim ? player : Player;
 
