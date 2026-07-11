@@ -64,13 +64,17 @@ namespace TownOfUs.Modules.DraftMode
         };
 
 
-        private static Color GetTeamColor(string teamName)
+        private static Color GetTeamColor(DraftFaction faction)
         {
-            if (string.IsNullOrEmpty(teamName)) return Color.white;
-            string lower = teamName.ToLowerInvariant();
-            if (lower.Contains("crewmate")) return new Color32(0, 255, 255, 255);
-            if (lower.Contains("impostor") || lower.Contains("imposter")) return new Color32(255, 0, 0, 255);
-            if (lower.Contains("neutral")) return new Color32(180, 180, 180, 255);
+            switch (faction)
+            {
+                case DraftFaction.Crewmate:
+                    return TownOfUsColors.Crewmate;
+                case DraftFaction.Impostor:
+                    return TownOfUsColors.ImpSoft;
+                case DraftFaction.Neutral:
+                    return TownOfUsColors.Neutral;
+            }
             return Color.white;
         }
 
@@ -371,8 +375,8 @@ namespace TownOfUs.Modules.DraftMode
                 var btn = CreateCard(
                     rolePrefab, rolesHolder!,
                     card.RoleName, card.TeamName,
-                    card.Icon ?? TouRoleIcons.RandomAny.LoadAsset(),
-                    i, totalCards, card.Color,
+                    card.Icon,
+                    i, totalCards, card.Color, card.Faction,
                     cardScale, useGrid, spacing, card.Description);
 
                 btn.OnClick.RemoveAllListeners();
@@ -608,6 +612,7 @@ namespace TownOfUs.Modules.DraftMode
             int cardIndex,
             int totalCards,
             Color color,
+            DraftFaction faction,
             float cardScale,
             bool useGrid = false,
             float spacing = 0f,
@@ -689,7 +694,7 @@ namespace TownOfUs.Modules.DraftMode
                 color.a);
             roleText.color = color;
             teamText.fontSizeMax = 3.8f;
-            teamText.color = GetTeamColor(teamName);
+            teamText.color = GetTeamColor(faction);
 
             foreach (var sr in newRoleObj.GetComponentsInChildren<SpriteRenderer>(true))
             { sr.sortingLayerName = "UI"; sr.sortingOrder = 70; }

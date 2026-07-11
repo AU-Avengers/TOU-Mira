@@ -586,36 +586,36 @@ public static class MiscUtils
         return localizedName;
     }
 
-    public static Color GetRoleFactionColor(RoleBehaviour role)
+    public static Color GetRoleFactionColor(RoleBehaviour role, bool useAltColors = false)
     {
         if (role)
         {
-            if (role.IsNeutral())
+            if (role.IsCrewmate())
             {
-                return TownOfUsColors.Neutral;
+                return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
             }
 
             if (role.IsImpostor())
             {
-                return TownOfUsColors.Impostor;
+                return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
             }
         }
 
-        return Palette.CrewmateBlue;
+        return TownOfUsColors.Neutral;
     }
 
-    public static Color GetRoleFactionColor(RoleAlignment roleAlignment)
+    public static Color GetRoleFactionColor(RoleAlignment roleAlignment, bool useAltColors = false)
     {
         var localeName = $"{roleAlignment}";
         var localizedName = TouLocale.Get(localeName);
 
         if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
         {
-            return Palette.CrewmateBlue;
+            return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
         }
         else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
         {
-            return TownOfUsColors.Impostor;
+            return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
         }
 
         return TownOfUsColors.Neutral;

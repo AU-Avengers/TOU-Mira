@@ -423,8 +423,8 @@ namespace TownOfUs.Modules.DraftMode
                 {
                     if (recapMode == DraftRecapMode.Faction || recapMode == DraftRecapMode.Alignment)
                     {
-                        teamLabel = DraftUiManager.GetTeamLabel(roleBehaviour)?.ToUpperInvariant() ?? "Unknown";
-                        roleColor = MiscUtils.GetRoleFactionColor(roleBehaviour);
+                        teamLabel = DraftUiManager.GetTeamLabel(roleBehaviour).ToUpperInvariant() ?? "Unknown";
+                        roleColor = MiscUtils.GetRoleFactionColor(roleBehaviour, true);
                     }
                     else if (recapMode == DraftRecapMode.Role)
                     {

@@ -24,7 +24,7 @@ namespace TownOfUs.Modules.DraftMode
                 Sprite icon        = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
                 Color  color       = role ? role.TeamColor : Color.white;
 
-                cards.Add(new DraftRoleCard(displayName, team, icon, color, i, GetRoleDescription(role)));
+                cards.Add(new DraftRoleCard(displayName, team, icon, color, i, GetDraftFaction(role), GetRoleDescription(role)));
             }
 
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
@@ -33,7 +33,9 @@ namespace TownOfUs.Modules.DraftMode
                     "Random", "Random",
                     TouRoleIcons.RandomAny.LoadAsset(),
                     Color.white,
-                    roleIds.Count, "Locks in a completely random role for you."));
+                    roleIds.Count,
+                    DraftFaction.Other,
+                    "Locks in a completely random role for you."));
             return cards;
         }
 
@@ -60,6 +62,26 @@ namespace TownOfUs.Modules.DraftMode
             {
                 return null!;
             }
+        }
+
+        public static DraftFaction GetDraftFaction(RoleBehaviour role)
+        {
+            if (role)
+            {
+                if (role.IsCrewmate())
+                {
+                    return DraftFaction.Crewmate;
+                }
+                if (role.IsNeutral())
+                {
+                    return DraftFaction.Neutral;
+                }
+                if (role.IsImpostor())
+                {
+                    return DraftFaction.Impostor;
+                }
+            }
+            return DraftFaction.Other;
         }
 
         public static string GetTeamLabel(RoleBehaviour role)
