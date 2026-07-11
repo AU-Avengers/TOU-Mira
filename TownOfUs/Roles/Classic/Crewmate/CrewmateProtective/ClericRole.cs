@@ -82,7 +82,7 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     };
 
     [MethodRpc((uint)TownOfUsRpc.ClericBarrierAttacked)]
-    public static void RpcClericBarrierAttacked(PlayerControl source, PlayerControl cleric)
+    public static void RpcClericBarrierAttacked(PlayerControl source, PlayerControl cleric, PlayerControl shielded)
     {
         if (LobbyBehaviour.Instance)
         {

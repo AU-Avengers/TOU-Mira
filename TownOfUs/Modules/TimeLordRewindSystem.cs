@@ -100,26 +100,26 @@ public static class TimeLordRewindSystem
 
     private sealed record ButtonCooldownSeries
     {
-        public List<ButtonCooldownSample> Samples { get; } = [with(256)];
+        public List<ButtonCooldownSample> Samples { get; } = new(256);
         public int StartIndex { get; set; }
     }
 
-    private static readonly List<CustomActionButton> CachedKillLikeButtons = [with(16)];
+    private static readonly List<CustomActionButton> CachedKillLikeButtons = new(16);
     private static Type? _cachedKillLikeRoleType;
     private static float _lastKillLikeButtonsRefreshTime;
 
     private static readonly Dictionary<CustomActionButton, ButtonCooldownSeries> KillButtonCooldownHistory =
-        [with(ReferenceEqualityComparer<CustomActionButton>.Instance)];
+        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
     private static readonly HashSet<CustomActionButton> KillButtonCooldownMaxClampedThisRewind =
-        [with(ReferenceEqualityComparer<CustomActionButton>.Instance)];
+        new(ReferenceEqualityComparer<CustomActionButton>.Instance);
 
     private static readonly Dictionary<byte, TimeLord.BodyPosBuffer> HostBodyPosHistory = [];
     private static List<ScheduledBodyPos>? _hostBodyPlacements;
 
     private readonly record struct HostTaskCompletion(byte PlayerId, uint TaskId, DateTime TimeUtc, int TaskStep);
 
-    private static readonly List<HostTaskCompletion> HostTaskCompletions = [with(64)];
+    private static readonly List<HostTaskCompletion> HostTaskCompletions = new(64);
     private static List<ScheduledTaskUndo>? _hostTaskUndos;
     private static Dictionary<(byte PlayerId, uint TaskId), int>? _hostTaskStepMap;
 
@@ -470,7 +470,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        _hostTaskUndos = [with(schedule.Count)];
+        _hostTaskUndos = new List<ScheduledTaskUndo>(schedule.Count);
         foreach (var (playerId, taskId, triggerAt) in schedule)
         {
             _hostTaskUndos.Add(new ScheduledTaskUndo(playerId, taskId, triggerAt));
@@ -1058,7 +1058,7 @@ public static class TimeLordRewindSystem
             return;
         }
 
-        _hostRevives = [with(revives.Count)];
+        _hostRevives = new List<ScheduledRevive>(revives.Count);
         foreach (var (victimId, killAge) in revives)
         {
             _hostRevives.Add(new ScheduledRevive(victimId, killAge));
@@ -1183,7 +1183,7 @@ public static class TimeLordRewindSystem
     /// If a murder occurs while rewind is active (or is delivered late during rewind),
     /// we must still revive the victim to avoid edge-window misses and neutral-kill inconsistencies.
     /// </summary>
-    public static void NotifyHostMurderDuringRewind(PlayerControl victim)
+    public static void NotifyHostMurderDuringRewind(PlayerControl killer, PlayerControl victim)
     {
         if (victim == null || victim.Data == null)
         {

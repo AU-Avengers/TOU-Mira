@@ -70,7 +70,7 @@ public static class ChatPatches
     [HarmonyPriority(Priority.First)]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Close))]
-    public static void TogglePostfix()
+    public static void TogglePostfix(ChatController __instance)
     {
         HudManagerPatches.UiGrid.ArrangeChilds();
     }

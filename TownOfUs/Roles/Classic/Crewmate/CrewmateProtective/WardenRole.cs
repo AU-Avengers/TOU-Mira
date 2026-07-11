@@ -156,7 +156,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [MethodRpc((uint)TownOfUsRpc.WardenNotify)]
-    public static void RpcWardenNotify(PlayerControl player, PlayerControl source)
+    public static void RpcWardenNotify(PlayerControl player, PlayerControl source, PlayerControl target)
     {
         if (LobbyBehaviour.Instance)
         {

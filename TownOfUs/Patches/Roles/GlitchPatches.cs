@@ -14,7 +14,7 @@ public static class GlitchPatches
     [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.DoClick))]
     [HarmonyPriority(Priority.First)]
     [HarmonyPrefix]
-    public static bool GlitchHackedSabotageButtonPatch()
+    public static bool GlitchHackedSabotageButtonPatch(ActionButton __instance)
     {
         if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>())
         {
@@ -31,7 +31,7 @@ public static class GlitchPatches
 
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.ToggleMapVisible))]
     [HarmonyPrefix]
-    public static bool GlitchHackedToggleMapVisiblePatch()
+    public static bool GlitchHackedToggleMapVisiblePatch(HudManager __instance)
     {
         if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanOpenMap))
         {

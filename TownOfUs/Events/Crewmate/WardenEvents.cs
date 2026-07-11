@@ -119,7 +119,7 @@ public static class WardenEvents
 
         if (warden != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            WardenRole.RpcWardenNotify(warden.Player, source);
+            WardenRole.RpcWardenNotify(warden.Player, source, target);
         }
     }
 }

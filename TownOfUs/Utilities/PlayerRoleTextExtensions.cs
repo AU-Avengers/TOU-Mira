@@ -76,7 +76,12 @@ public static class PlayerRoleTextExtensions
     private static Func<HerbalistProtectionModifier, bool> HerbalistBarrierPredicate { get; } =
         cbModifier => cbModifier.Herbalist.AmOwner;
 
-    public static Color UpdateTargetColor(this Color color, PlayerControl player)
+    public static Color UpdateTargetColor(this Color color, PlayerControl player, bool hidden = false)
+    {
+        return color.UpdateTargetColor(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
+    }
+
+    public static Color UpdateTargetColor(this Color color, PlayerControl player, DataVisibility visibility)
     {
         if (player.HasModifier<EclipsalBlindModifier>() && PlayerControl.LocalPlayer.IsImpostor())
         {

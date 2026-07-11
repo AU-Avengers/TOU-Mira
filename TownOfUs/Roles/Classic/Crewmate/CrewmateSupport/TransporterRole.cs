@@ -103,7 +103,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                WardenRole.RpcWardenNotify(warden.Player, transporter);
+                WardenRole.RpcWardenNotify(warden.Player, transporter, play1);
             }
 
             return;
@@ -114,7 +114,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                WardenRole.RpcWardenNotify(warden2.Player, transporter);
+                WardenRole.RpcWardenNotify(warden2.Player, transporter, play2);
             }
 
             return;
@@ -125,7 +125,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                ClericRole.RpcClericBarrierAttacked(transporter, cleric.Player);
+                ClericRole.RpcClericBarrierAttacked(transporter, cleric.Player, play1);
             }
 
             return;
@@ -136,7 +136,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
         {
             if (transporter.AmOwner)
             {
-                ClericRole.RpcClericBarrierAttacked(transporter, cleric2.Player);
+                ClericRole.RpcClericBarrierAttacked(transporter, cleric2.Player, play2);
             }
 
             return;

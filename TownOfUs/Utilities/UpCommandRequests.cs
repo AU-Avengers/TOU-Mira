@@ -152,6 +152,6 @@ public static class UpCommandRequests
     /// <returns>A dictionary of all current requests (player name -> role name).</returns>
     public static Dictionary<string, string> GetAllRequests()
     {
-        return [with(Requests)];
+        return new Dictionary<string, string>(Requests);
     }
 }

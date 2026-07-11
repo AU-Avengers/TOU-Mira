@@ -1379,7 +1379,7 @@ public static class TeamChatPatches
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Awake))]
-    public static void SetUpScrollers()
+    public static void SetUpScrollers(ChatController __instance)
     {
         CheckChatScrollers();
     }

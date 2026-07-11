@@ -648,7 +648,7 @@ public static class EndGamePatches
 
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.Start))]
     [HarmonyPostfix]
-    public static void EndGameManagerStart()
+    public static void EndGameManagerStart(EndGameManager __instance)
     {
         EndGameData.Clear();
     }

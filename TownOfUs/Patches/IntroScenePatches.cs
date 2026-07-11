@@ -15,7 +15,8 @@ public static class IntroScenePatches
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
     public static class IntroCutsceneSpectatorPatch
     {
-        public static void Prefix(ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
+        public static void Prefix(ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay,
+            IntroCutscene __instance)
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {

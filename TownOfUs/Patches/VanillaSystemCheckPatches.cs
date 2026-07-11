@@ -46,7 +46,7 @@ public static class VanillaSystemCheckPatches
 
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.OnDestroy))]
     [HarmonyPostfix]
-    public static void ShipStatusDestroyPostfix()
+    public static void ShipStatusDestroyPostfix(ShipStatus __instance)
     {
         VentSystem = null!;
         HqCommsSystem = null!;

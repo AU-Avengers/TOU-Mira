@@ -77,7 +77,7 @@ public static class HerbalistEvents
 
         if (cleric != null && (TutorialManager.InstanceExists || source.AmOwner))
         {
-            HerbalistRole.RpcHerbalistBarrierAttacked(cleric.Player, source);
+            HerbalistRole.RpcHerbalistBarrierAttacked(cleric.Player, source, target);
         }
 
         return true;

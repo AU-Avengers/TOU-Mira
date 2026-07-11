@@ -181,7 +181,7 @@ public sealed class ParasiteOvertakeButton : TownOfUsKillRoleButton<ParasiteRole
             var cleric = barrier?.Cleric?.GetRole<ClericRole>();
             if (cleric != null && (TutorialManager.InstanceExists || local.AmOwner))
             {
-                ClericRole.RpcClericBarrierAttacked(local, cleric.Player);
+                ClericRole.RpcClericBarrierAttacked(local, cleric.Player, target);
             }
             return true;
         }

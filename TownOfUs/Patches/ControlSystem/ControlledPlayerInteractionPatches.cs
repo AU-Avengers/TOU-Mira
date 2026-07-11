@@ -70,7 +70,7 @@ public static class ControlledPlayerInteractionPatches
     /// </summary>
     [HarmonyPatch(typeof(UseButton), nameof(UseButton.DoClick))]
     [HarmonyPrefix]
-    public static bool UseButtonDoClickPrefix()
+    public static bool UseButtonDoClickPrefix(UseButton __instance)
     {
         var localPlayer = PlayerControl.LocalPlayer;
         if (localPlayer == null)
