@@ -23,6 +23,9 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
     private Color? activeColor;
     private Color? hoverSelectColor;
     private Color? hoverDeselectColor;
+    // These are the Highlight, Icon, and IsSelected variable respectively.
+    private Action<SpriteRenderer, SpriteRenderer, bool>? onMouseOverAction;
+    private Action<SpriteRenderer, SpriteRenderer, bool>? onMouseOutAction;
 
     public static DoublePlayerMenu Create()
     {
@@ -82,8 +85,10 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
     /// </summary>
     /// <param name="playerMatch">Function to determine if player should show in the custom menu.</param>
     /// <param name="onClick"><see cref="PassiveButton.OnClick"/> action for player.</param>
+    /// <param name="onMouseOut">Function that can optionally be run when the mouse is moved outside a player panel.</param>
+    /// <param name="onMouseOver">Function that can optionally be run when the mouse is moved over a player panel.</param>
     [HideFromIl2Cpp]
-    public void Begin(Func<PlayerControl, bool> playerMatch, Action<PlayerControl, PlayerControl> onClick)
+    public void Begin(Func<PlayerControl, bool> playerMatch, Action<PlayerControl, PlayerControl> onClick, Action<SpriteRenderer, SpriteRenderer, bool>? onMouseOut = null, Action<SpriteRenderer, SpriteRenderer, bool>? onMouseOver = null)
     {
         Begin(
             playerMatch,
@@ -100,7 +105,7 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
                 {
                     target1 = plr;
                     var targetPanel = this.GetVictimPanel(target1.Data);
-                    SetNameplateAppearance(targetPanel, hoverDeselectSprite, hoverDeselectColor, activeColor);
+                    SetNameplateAppearance(targetPanel, hoverDeselectSprite, hoverDeselectColor, activeColor, true);
                     return;
                 }
                 if (target1.PlayerId == plr.PlayerId) // Unselect first choice
@@ -114,20 +119,24 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
                 onClick(target1, plr);
             }
         );
+        onMouseOverAction = onMouseOver;
+        onMouseOutAction = onMouseOut;
         foreach (var victim in potentialVictims)
         {
             SetNameplateAppearance(victim, hoverSelectSprite, hoverSelectColor, Color.clear);
         }
     }
 
-    private static void SetNameplateAppearance(ShapeshifterPanel panel,
-        LoadableAsset<Sprite>? sprite, Color? overColor, Color? unselectedColor)
+    [HideFromIl2Cpp]
+    private void SetNameplateAppearance(ShapeshifterPanel panel,
+        LoadableAsset<Sprite>? sprite, Color? overColor, Color? unselectedColor, bool isSelected = false)
     {
         var nameplate = panel.gameObject.transform.FindChild("Nameplate");
+        var highlight = nameplate.FindChild("Highlight").GetComponent<SpriteRenderer>();
+        var icon = highlight.transform.GetChild(0).GetComponent<SpriteRenderer>();
         if (sprite != null)
         {
-            nameplate.FindChild("Highlight").FindChild("ShapeshifterIcon")
-                .GetComponent<SpriteRenderer>().sprite = sprite.LoadAsset();
+            icon.sprite = sprite.LoadAsset();
         }
         var button = nameplate.GetComponent<ButtonRolloverHandler>();
         if (overColor is { } oColor)
@@ -137,6 +146,27 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
         if (unselectedColor is { } uColor)
         {
             button.UnselectedColor = uColor;
+        }
+
+        if (onMouseOverAction != null)
+        {
+            panel.Button.OnMouseOver.RemoveAllListeners();
+            panel.Button.OnMouseOver = new UnityEvent();
+            panel.Button.OnMouseOver.AddListener((UnityAction)(() => onMouseOverAction(highlight, icon, isSelected)));
+            if (isSelected)
+            {
+                onMouseOverAction(highlight, icon, isSelected);
+            }
+        }
+        if (onMouseOutAction != null)
+        {
+            panel.Button.OnMouseOut.RemoveAllListeners();
+            panel.Button.OnMouseOut = new UnityEvent();
+            panel.Button.OnMouseOut.AddListener((UnityAction)(() => onMouseOutAction(highlight, icon, isSelected)));
+            if (!isSelected)
+            {
+                onMouseOutAction(highlight, icon, isSelected);
+            }
         }
     }
 }

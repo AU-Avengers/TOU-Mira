@@ -52,7 +52,7 @@ public sealed class RemoteKillButton : TownOfUsButton
         Killer = null;
         Victim = null;
 
-        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Impostor, TouAssets.KillSprite);
+        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Impostor, TouAssets.KillSprite, hoverDeselectSprite: TouImpAssets.AmbushSprite);
         playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
@@ -71,7 +71,9 @@ public sealed class RemoteKillButton : TownOfUsButton
                 Timer = EffectDuration;
 
                 playerMenu.target1 = null;
-            }
+            },
+            MouseOutEvent,
+            MouseOverEvent
         );
         foreach (var panel in playerMenu.potentialVictims)
         {
@@ -80,6 +82,16 @@ public sealed class RemoteKillButton : TownOfUsButton
                 panel.NameText.color = Color.white;
             }
         }
+    }
+    private static void MouseOutEvent(SpriteRenderer highlight, SpriteRenderer icon, bool isSelected)
+    {
+        highlight.color = isSelected ? TownOfUsColors.ImpSoft : new Color32(255, 255, 255, 0);
+        icon.enabled = isSelected;
+    }
+    private static void MouseOverEvent(SpriteRenderer highlight, SpriteRenderer icon, bool isSelected)
+    {
+        highlight.color = isSelected ? new Color32(150, 150, 150, 255) : TownOfUsColors.Impostor;
+        icon.enabled = true;
     }
 
     public override void OnEffectEnd()

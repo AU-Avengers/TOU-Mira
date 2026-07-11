@@ -42,7 +42,7 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
             return;
         }
 
-        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Transporter, TouRoleIcons.Transporter);
+        var playerMenu = DoublePlayerMenu.Create(TownOfUsColors.Transporter, TouCrewAssets.Transport);
         playerMenu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
         playerMenu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
@@ -58,7 +58,9 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
                 TransporterRole.RpcTransport(PlayerControl.LocalPlayer, plr1.PlayerId, plr2.PlayerId);
 
                 playerMenu.target1 = null;
-            }
+            },
+            MouseOutEvent,
+            MouseOverEvent
         );
         foreach (var panel in playerMenu.potentialVictims)
         {
@@ -68,5 +70,15 @@ public sealed class TransporterTransportButton : TownOfUsRoleButton<TransporterR
                 panel.NameText.color = Color.white;
             }
         }
+    }
+    private static void MouseOutEvent(SpriteRenderer highlight, SpriteRenderer icon, bool isSelected)
+    {
+        highlight.color = isSelected ? new Color32(0, 237, 255, 175) : new Color32(255, 255, 255, 0);
+        icon.enabled = isSelected;
+    }
+    private static void MouseOverEvent(SpriteRenderer highlight, SpriteRenderer icon, bool isSelected)
+    {
+        highlight.color = isSelected ? new Color32(0, 237, 255, 255) : new Color32(0, 237, 255, 200);
+        icon.enabled = true;
     }
 }
