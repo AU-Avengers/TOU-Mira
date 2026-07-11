@@ -1569,6 +1569,7 @@ public static class MiscUtils
             }
 
             var addedRole = SelectRole(roles);
+            roles.Remove(addedRole);
             toApply.Add(addedRole.RoleType);
             applied.Add(addedRole);
 
@@ -1601,8 +1602,6 @@ public static class MiscUtils
                 break;
             }
         }
-
-        roles.Remove(selectedRole);
 
         return selectedRole;
     }
