@@ -1,4 +1,5 @@
 using System.Collections;
+using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using TMPro;
@@ -212,6 +213,7 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
+        [HideFromIl2Cpp]
         public void CacheOfferedRoles(ushort[] offeredRoleIds)
         {
             _offeredRoleIds = offeredRoleIds ?? Array.Empty<ushort>();

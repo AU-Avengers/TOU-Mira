@@ -869,6 +869,7 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
+        [HideFromIl2Cpp]
         private IEnumerator CoRetryBuildUI()
         {
 
