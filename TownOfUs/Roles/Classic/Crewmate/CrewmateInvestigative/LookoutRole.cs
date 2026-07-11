@@ -1,9 +1,11 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -15,7 +17,8 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public string LocaleKey => "Lookout";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public static string ReworkString => (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Players ? "Alt" : string.Empty;
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
 
     public string GetAdvancedDescription()
     {
@@ -75,9 +78,6 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         }
 
         // Prevents duplicate role entries
-        if (!mod.SeenPlayers.Contains(role))
-        {
-            mod.SeenPlayers.Add(role);
-        }
+        mod.SeenPlayers.TryAdd(source, role);
     }
 }
