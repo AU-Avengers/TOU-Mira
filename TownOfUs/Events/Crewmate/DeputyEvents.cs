@@ -86,7 +86,7 @@ public static class DeputyEvents
             return;
         }
 
-        if (mod.Deputy.Data.Role is not DeputyRole deputy)
+        if (mod.Deputy.Data.Role is not DeputyRole deputy || source == target)
         {
             return;
         }
@@ -101,7 +101,7 @@ public static class DeputyEvents
             notif1.AdjustNotification();
             Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
         }
-        if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller)
+        if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller.Value)
         {
             var notif = Helpers.CreateAndShowNotification(
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{TouLocale.GetParsed("TouRoleDeputyKillerWarnNotif")}</color></b>",

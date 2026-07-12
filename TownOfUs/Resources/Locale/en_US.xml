@@ -741,6 +741,7 @@
   <string name="TouRoleDeputyCamp">Camp</string>
   <string name="TouRoleDeputyCampWikiDescription">Camp a player to be alerted once they die. After their death, you may attempt to shoot the killer. If your shot is successful, the killer dies, if not, nothing will happen.</string>
   <!-- Deputy Feedback -->
+  <string name="TouRoleDeputyRevealedText"> (Blasted)</string>
   <string name="TouRoleDeputyCampNotif">Wait for \%player\%'s death so you can blast their killer in the meeting.</string>
   <string name="TouRoleDeputyCampedKillNotif">Your camped target, \%player\%, has died! Avenge them in the meeting.</string>
   <string name="TouRoleDeputyKillerWarnNotif">A Deputy had camped your victim, watch out! </string>
@@ -748,6 +749,10 @@
   <string name="TouRoleDeputyMissedShot">You missed your shot! They are either not the killer or are invincible.</string>
   <!-- Deputy Options -->
   <string name="TouOptionDeputyWarnKillerOnCampedKill">Warn Killer Upon Killing Camped Target</string>
+  <string name="TouOptionDeputyRevealDeputyUponShot">Reveal Deputy Upon Successful Shot</string>
+  <string name="TouOptionDeputyEnumNoReveal">Disabled</string>
+  <string name="TouOptionDeputyEnumAnnounceRole">Announce Role</string>
+  <string name="TouOptionDeputyEnumRevealPlayer">Reveal Deputy</string>
   <!-- Forensic - Crewmate Investigative -->
   <!-- Forensic Wiki / Abilities -->
   <string name="TouRoleForensic">Forensic</string>

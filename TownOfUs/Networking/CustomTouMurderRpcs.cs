@@ -1251,7 +1251,7 @@ public static class CustomTouMurderRpcs
         PlayerControl.LocalPlayer.isKilling = false;
         source.isKilling = false;
     }
-    private static IEnumerator CoAnimateDeath(PlayerVoteArea voteArea, int id)
+    public static IEnumerator CoAnimateDeath(PlayerVoteArea voteArea, int id, bool instant = false)
     {
         voteArea.Overlay.gameObject.SetActive(false);
         voteArea.XMark.gameObject.SetActive(false);
@@ -1276,7 +1276,7 @@ public static class CustomTouMurderRpcs
         Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed, 0.5f, 0.15f));
         var seconds = Random.RandomRange(0.4f, 1.1f);
         // if there's less than 6 players alive, animation will play instantly
-        if (Helpers.GetAlivePlayers().Count <= 5)
+        if (Helpers.GetAlivePlayers().Count <= 5 || instant)
         {
             seconds = 0.01f;
         }
