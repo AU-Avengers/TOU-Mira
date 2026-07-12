@@ -23,6 +23,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modules.Components;
 
+[DisallowMultipleComponent]
 public sealed class HudManagerHelper : MonoBehaviour
 {
     #pragma warning disable S2325
@@ -30,7 +31,7 @@ public sealed class HudManagerHelper : MonoBehaviour
 
     private const float NameplateUpdateInterval = 0.1f;
     private static float _nextNameplateUpdate;
-    public void FixedUpdate()
+    private void Update()
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data || !PlayerControl.LocalPlayer.Data.Role ||
             !ShipStatus.Instance ||
@@ -40,12 +41,14 @@ public sealed class HudManagerHelper : MonoBehaviour
             return;
         }
 
-        UpdateCamouflageComms();
-        if (Time.unscaledTime >= _nextNameplateUpdate)
+        if (Time.unscaledTime < _nextNameplateUpdate)
         {
-            _nextNameplateUpdate = Time.unscaledTime + NameplateUpdateInterval;
-            UpdateRoleNameText();
+            return;
         }
+
+        _nextNameplateUpdate = Time.unscaledTime + NameplateUpdateInterval;
+        UpdateCamouflageComms();
+        UpdateRoleNameText();
     }
     #pragma warning restore CA1822
     #pragma warning restore S2325
@@ -566,10 +569,21 @@ public sealed class HudManagerHelper : MonoBehaviour
                     playerName = $"{playerName}{bottomText}";
                 }
 
-                player.cosmetics.nameText.text = playerName;
-                player.cosmetics.nameText.color = playerColor;
+                var nameText = player.cosmetics.nameText;
+                if (nameText.text != playerName)
+                {
+                    nameText.text = playerName;
+                }
 
-                player.cosmetics.nameText.alignment = TextAlignmentOptions.Bottom;
+                if (nameText.color != playerColor)
+                {
+                    nameText.color = playerColor;
+                }
+
+                if (nameText.alignment != TextAlignmentOptions.Bottom)
+                {
+                    nameText.alignment = TextAlignmentOptions.Bottom;
+                }
             }
         }
 

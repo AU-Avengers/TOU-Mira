@@ -718,7 +718,11 @@ public static class HudManagerPatches
     [HarmonyPostfix]
     public static void HudManagerStartPatch(HudManager __instance)
     {
-        __instance.gameObject.AddComponent<HudManagerHelper>();
+        if (!__instance.TryGetComponent<HudManagerHelper>(out _))
+        {
+            __instance.gameObject.AddComponent<HudManagerHelper>();
+        }
+
         RoleNameStyle = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.RoleNameStyle.Value;
         StoredHostLocale = TranslationController.Instance.GetString(StringNames.HostNounEmpty);
         StoredTasksText = TranslationController.Instance.GetString(StringNames.Tasks);
