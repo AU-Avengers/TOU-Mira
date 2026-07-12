@@ -5,7 +5,6 @@ using MiraAPI;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Networking;
-using MiraAPI.Patches.Options;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
@@ -188,16 +187,6 @@ public static class MiraApiPatches
         return false;
     }
 
-    [HarmonyPatch(typeof(RoleSettingMenuPatches), nameof(RoleSettingMenuPatches.ClosePatch))]
-    [HarmonyPrefix]
-#pragma warning disable S3400
-    public static bool MiraClosePatch()
-#pragma warning restore S3400
-    {
-        // Patching this for now
-        return false;
-    }
-
     [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
     [HarmonyPostfix]
     public static void OpenPatch()
@@ -210,81 +199,6 @@ public static class MiraApiPatches
     public static void ClosePatch()
     {
         HudManager.Instance.PlayerCam.OverrideScreenShakeEnabled = true;
-    }
-
-    [HarmonyPatch(typeof(MiraAPI.Patches.HudManagerPatches), nameof(MiraAPI.Patches.HudManagerPatches.ResizeUI))]
-    [HarmonyPrefix]
-    public static bool ResizeUI(float scaleFactor)
-    {
-        if (MiraApiPlugin.IsDevBuild)
-        {
-            // This is simply a fix for public release, no api update needed.
-            return true;
-        }
-        var baseButtons = HudManager.Instance.transform.FindChild("Buttons");
-        if (baseButtons != null)
-        {
-            foreach (var aspect in baseButtons.GetComponentsInChildren<AspectPosition>(true))
-            {
-                if (aspect.gameObject == null)
-                {
-                    continue;
-                }
-
-                if (aspect.gameObject.name.Contains("TopRight"))
-                {
-                    continue;
-                }
-
-                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
-                aspect.DistanceFromEdge *= new Vector2(scaleFactor, scaleFactor);
-                aspect.gameObject.SetActive(!aspect.isActiveAndEnabled);
-            }
-        }
-
-        foreach (var button in HudManager.Instance.GetComponentsInChildren<ActionButton>(true))
-        {
-            if (button.gameObject == null)
-            {
-                continue;
-            }
-
-            button.gameObject.SetActive(!button.isActiveAndEnabled);
-            button.gameObject.transform.localScale *= scaleFactor;
-            button.gameObject.SetActive(!button.isActiveAndEnabled);
-        }
-
-        if (baseButtons != null)
-        {
-            foreach (var arrange in baseButtons.GetComponentsInChildren<GridArrange>(true))
-            {
-                if (!arrange.gameObject || !arrange.transform)
-                {
-                    continue;
-                }
-
-                if (arrange.gameObject.name.Contains("TopRight"))
-                {
-                    continue;
-                }
-
-                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
-                arrange.CellSize = new Vector2(scaleFactor, scaleFactor);
-                arrange.gameObject.SetActive(!arrange.isActiveAndEnabled);
-                if (arrange.isActiveAndEnabled && arrange.gameObject.transform.childCount != 0)
-                {
-                    try
-                    {
-                        arrange.ArrangeChilds();
-                    }
-                    catch
-                    {
-                        // Error($"Error arranging child objects in GridArrange: {e}");
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     [HarmonyPatch(typeof(HowToPlayScene), nameof(HowToPlayScene.OpenRolesSelectionMenu))]

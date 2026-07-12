@@ -1,7 +1,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -9,13 +8,13 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class JailorJailButton : TownOfUsRoleButton<JailorRole, PlayerControl>
+public sealed class JailorJailButton : TownOfUsRoleButton<JailorRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleJailorJail", "Jail");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Jailor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<JailorOptions>.Instance.JailCooldown + MapCooldown, 1f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.JailSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.JailSprite : TouCrewAssets.JailSprite;
 
     public bool ExecutedACrew { get; set; }
 

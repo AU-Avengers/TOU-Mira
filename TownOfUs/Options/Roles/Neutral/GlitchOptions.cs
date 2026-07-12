@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Neutral;
 
@@ -26,7 +27,13 @@ public sealed class GlitchOptions : AbstractOptionGroup<GlitchRole>
 
     [ModdedNumberOption("TouOptionGlitchHackDuration", 5f, 15f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float HackDuration { get; set; } = 10f;
+    public ModdedEnumOption CanVent { get; set; } = new("TouOptionGlitchCanVent", (int)GlitchVent.Always, typeof(GlitchVent),
+        ["Never", "Unless Mimicking", "Always"]);
+}
 
-    [ModdedToggleOption("TouOptionGlitchCan Vent")]
-    public bool CanVent { get; set; } = true;
+public enum GlitchVent
+{
+    Never,
+    Unmimic,
+    Always,
 }

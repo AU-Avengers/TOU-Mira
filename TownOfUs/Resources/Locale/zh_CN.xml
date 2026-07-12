@@ -854,7 +854,7 @@
   <string name="TouOptionGlitchMoveInMimicMenu">使用模仿菜单时可移动(仅KB)</string>
   <string name="TouOptionGlitchHackCooldown">黑入冷却</string>
   <string name="TouOptionGlitchHackDuration">黑入持续时间</string>
-  <string name="TouOptionGlitchCan Vent">混沌可使用通风口</string>
+  <string name="TouOptionGlitchCanVent">混沌可使用通风口</string>
   <string name="TouRoleFairyTabDescription">保护\%target\%免于被击杀！</string>
   <string name="TouRoleFairyIfNoTarget">保护你的目标免于被击杀！</string>
   <string name="TouRoleFairyWikiDescription">天使是一名中立善良型职业，需要保护带有%symbol\%标记的目标不被击杀或放逐。</string>

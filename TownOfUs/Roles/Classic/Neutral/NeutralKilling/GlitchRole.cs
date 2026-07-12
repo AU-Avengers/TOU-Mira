@@ -50,15 +50,15 @@ public sealed class GlitchRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mimic", "Mimic"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MimicWikiDescription"),
                     TouNeutAssets.MimicSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Hack", "Hack"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}HackWikiDescription"),
                     TouNeutAssets.HackSprite)
-            };
+            ];
         }
     }
 
@@ -68,7 +68,8 @@ public sealed class GlitchRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        CanUseVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Glitch.LoadAsset(), "TouMira.Role.Neutral.Glitch", 1.45f),
+        CanUseVent = (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never,
         IntroSound = TouAudio.GlitchSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         Icon = TouRoleIcons.Glitch,
@@ -95,7 +96,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
     public void OffsetButtons()
     {
         // Because Glitch has multiple buttons, there's no need to offset it without a vent button; it looks weird with a random space - Atony
-        var canVent = OptionGroupSingleton<GlitchOptions>.Instance.CanVent;
+        var canVent = (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is not GlitchVent.Never;
         var hack = CustomButtonSingleton<GlitchHackButton>.Instance;
         var mimic = CustomButtonSingleton<GlitchMimicButton>.Instance;
         var kill = CustomButtonSingleton<GlitchKillButton>.Instance;
@@ -119,8 +120,11 @@ public sealed class GlitchRole(IntPtr cppPtr)
         if (Player.AmOwner)
         {
             OffsetButtons();
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite.LoadAsset();
-            HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Glitch);
+            if (!LegacyAssets.IsLegacy)
+            {
+                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.GlitchVentSprite.LoadAsset();
+                HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Glitch);
+            }
             CustomButtonSingleton<FakeVentButton>.Instance.Show = false;
         }
     }
@@ -131,8 +135,11 @@ public sealed class GlitchRole(IntPtr cppPtr)
         TouRoleUtils.ClearTaskHeader(Player);
         if (Player.AmOwner)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
-            HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
+            if (!LegacyAssets.IsLegacy)
+            {
+                HudManager.Instance.ImpostorVentButton.graphic.sprite = TouAssets.VentSprite.LoadAsset();
+                HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Impostor);
+            }
             CustomButtonSingleton<FakeVentButton>.Instance.Show = true;
         }
     }

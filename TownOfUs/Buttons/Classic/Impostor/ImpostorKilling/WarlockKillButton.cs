@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -14,7 +13,7 @@ using UnityEngine;
 namespace TownOfUs.Buttons.Impostor;
 
 public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, PlayerControl>, IDiseaseableButton,
-    IKillButton
+    IKillButton, ILegacyCapable
 {
     private string _killName = "Kill";
     private string _burstKill = "Burst Kill";
@@ -23,7 +22,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => PlayerControl.LocalPlayer.GetKillCooldown();
-    public override LoadableAsset<Sprite> Sprite => TouAssets.KillSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.KillSprite : TouAssets.KillSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
@@ -39,10 +38,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
 
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
         _burstKill = TouLocale.Get("TouRoleWarlockBurstKill", "Burst Kill");
@@ -122,7 +118,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
         Coroutines.Start(CoMarkForDeath(Target));
     }
 
-    public List<PlayerControl> MarkedTargets = new();
+    public List<PlayerControl> MarkedTargets = [];
 
     public IEnumerator CoMarkForDeath(PlayerControl player)
     {

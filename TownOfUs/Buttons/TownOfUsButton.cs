@@ -6,8 +6,8 @@ using MiraAPI.PluginLoading;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Globalization;
+using TownOfUs.Events;
 using TownOfUs.Modifiers;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -16,6 +16,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons;
 
+#pragma warning disable S3060
 [MiraIgnore]
 public abstract class TownOfUsButton : CustomActionButton
 {
@@ -36,7 +37,32 @@ public abstract class TownOfUsButton : CustomActionButton
 
     public virtual bool Disabled { get; set; }
     public virtual bool UsableInDeath => false;
+    public virtual bool UsableFirstRound => true;
     public virtual bool ShouldPauseInVent => true;
+    public SpriteRenderer FirstRoundLock;
+
+    public void CreateRoundLockIcon()
+    {
+        var hackedSprite = new GameObject("RoundOneLockSprite");
+        hackedSprite.transform.SetParent(Button!.transform);
+        hackedSprite.transform.localPosition = new Vector3(0, 0, -10f);
+        hackedSprite.gameObject.layer = Button!.gameObject.layer;
+
+        var render = hackedSprite.AddComponent<SpriteRenderer>();
+        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        FirstRoundLock = render;
+
+        SetRoundLockActive(false);
+    }
+
+    public void SetRoundLockActive(bool isActive)
+    {
+        if (FirstRoundLock && FirstRoundLock.gameObject)
+        {
+            FirstRoundLock.gameObject.SetActive(isActive);
+            FirstRoundLock.enabled = isActive;
+        }
+    }
 
     public PassiveButton PassiveComp { get; set; }
 
@@ -123,7 +149,9 @@ public abstract class TownOfUsButton : CustomActionButton
             return;
         }
 
-        Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
+        CreateRoundLockIcon();
+
+        Button.usesRemainingSprite.sprite = this is ILegacyCapable && LegacyAssets.IsLegacy ? TouAssets.BlankSprite.LoadAsset() : TouAssets.AbilityCounterBasicSprite.LoadAsset();
 
         TownOfUsColors.UseBasic = false;
         if (TextOutlineColor != Color.clear)
@@ -169,6 +197,11 @@ public abstract class TownOfUsButton : CustomActionButton
             return false;
         }
 
+        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        {
+            return false;
+        }
+
         if (PlayerControl.LocalPlayer.HasDied() && !UsableInDeath)
         {
             return false;
@@ -196,8 +229,7 @@ public abstract class TownOfUsButton : CustomActionButton
 
     public override void ClickHandler()
     {
-        if (!CanClick() || PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() ||
-            PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (!CanClick())
         {
             return;
         }
@@ -210,10 +242,7 @@ public abstract class TownOfUsButton : CustomActionButton
             if (TextOutlineColor != Color.clear)
             {
                 SetTextOutline(TextOutlineColor);
-                if (Button != null)
-                {
-                    Button.usesRemainingSprite.color = TextOutlineColor;
-                }
+                Button?.usesRemainingSprite.color = TextOutlineColor;
             }
 
             TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
@@ -253,6 +282,31 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
     public virtual bool Disabled { get; set; }
     public virtual bool ShouldPauseInVent => true;
     public virtual bool UsableInDeath => false;
+    public virtual bool UsableFirstRound => true;
+    public SpriteRenderer FirstRoundLock;
+
+    public void CreateRoundLockIcon()
+    {
+        var hackedSprite = new GameObject("RoundOneLockSprite");
+        hackedSprite.transform.SetParent(Button!.transform);
+        hackedSprite.transform.localPosition = new Vector3(0, 0, -10f);
+        hackedSprite.gameObject.layer = Button!.gameObject.layer;
+
+        var render = hackedSprite.AddComponent<SpriteRenderer>();
+        render.sprite = TouAssets.FirstRoundLockSprite.LoadAsset();
+        FirstRoundLock = render;
+
+        SetRoundLockActive(false);
+    }
+
+    public void SetRoundLockActive(bool isActive)
+    {
+        if (FirstRoundLock && FirstRoundLock.gameObject)
+        {
+            FirstRoundLock.gameObject.SetActive(isActive);
+            FirstRoundLock.enabled = isActive;
+        }
+    }
 
     public PassiveButton PassiveComp { get; set; }
 
@@ -347,6 +401,11 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             return false;
         }
 
+        if (!UsableFirstRound && DeathEventHandlers.CurrentRound == 1 && !TutorialManager.InstanceExists)
+        {
+            return false;
+        }
+
         if (!PlayerControl.LocalPlayer.CanMove ||
             PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
@@ -365,20 +424,21 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
             return;
         }
 
-        switch (typeof(T))
+        CreateRoundLockIcon();
+
+        if (this is ILegacyCapable && LegacyAssets.IsLegacy)
         {
-            case Type t when t == typeof(Vent):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
-                break;
-            case Type t when t == typeof(DeadBody):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
-                break;
-            case Type t when t == typeof(PlayerControl):
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterPlayerSprite.LoadAsset();
-                break;
-            default:
-                Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
-                break;
+            Button.usesRemainingSprite.sprite = TouAssets.BlankSprite.LoadAsset();
+        }
+        else
+        {
+            Button.usesRemainingSprite.sprite = typeof(T) switch
+            {
+                Type t when t == typeof(Vent) => TouAssets.AbilityCounterVentSprite.LoadAsset(),
+                Type t when t == typeof(DeadBody) => TouAssets.AbilityCounterBodySprite.LoadAsset(),
+                Type t when t == typeof(PlayerControl) => TouAssets.AbilityCounterPlayerSprite.LoadAsset(),
+                _ => TouAssets.AbilityCounterBasicSprite.LoadAsset(),
+            };
         }
 
         TownOfUsColors.UseBasic = false;
@@ -410,8 +470,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
 
     public override void ClickHandler()
     {
-        if (CanClick() && !PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() &&
-            !PlayerControl.LocalPlayer.HasModifier<DisabledModifier>())
+        if (CanClick())
         {
             if (LimitedUses)
             {
@@ -421,10 +480,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
                 if (TextOutlineColor != Color.clear)
                 {
                     SetTextOutline(TextOutlineColor);
-                    if (Button != null)
-                    {
-                        Button.usesRemainingSprite.color = TextOutlineColor;
-                    }
+                    Button?.usesRemainingSprite.color = TextOutlineColor;
                 }
 
                 TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
@@ -463,7 +519,7 @@ public abstract class TownOfUsRoleButton<TRole> : TownOfUsButton where TRole : R
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return !Disabled && role is TRole;
+        return !Disabled && role is TRole && Role;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
@@ -480,7 +536,7 @@ public abstract class TownOfUsRoleButton<TRole, TTarget> : TownOfUsTargetButton<
 
     public override bool Enabled(RoleBehaviour? role)
     {
-        return !Disabled && role is TRole;
+        return !Disabled && role is TRole && Role;
     }
 
     protected virtual bool ShouldTrackKillCooldown()
@@ -544,6 +600,10 @@ public interface IKillButton
 {
 }
 
+public interface ILegacyCapable
+{
+}
+
 /// <summary>
 /// Base class for role buttons that need kill cooldown tracking.
 /// Buttons implementing IKillButton or IDiseaseableButton should inherit from this.
@@ -570,3 +630,48 @@ public abstract class TownOfUsKillRoleButton<TRole, TTarget> : TownOfUsRoleButto
         return true;
     }
 }
+
+/// <summary>
+/// Base class for role buttons with Vent targets that do not use <see cref="VentButton"/> 
+/// or <see cref="HudManager.ImpostorVentButton"/> as a base.
+/// <para/>
+/// Utilizies the vanilla system for getting its Vent targets, as well as handling outlines.
+/// </summary>
+[MiraIgnore]
+public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, Vent> where TRole : RoleBehaviour
+{
+    public override Vent? GetTarget()
+    {
+        return HudManager.Instance.ImpostorVentButton.currentTarget;
+    }
+
+    public override bool CanUse()
+    {
+        if (TimeLordRewindSystem.IsRewinding)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.HasDied())
+        {
+            return false;
+        }
+
+        if (HudManager.Instance.Chat.IsOpenOrOpening || MeetingHud.Instance)
+        {
+            return false;
+        }
+
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        {
+            return false;
+        }
+
+        var newTarget = GetTarget();
+        Target = IsTargetValid(newTarget) ? newTarget : null;
+
+        return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
+            (!LimitedUses || UsesLeft > 0);
+    }
+}
+#pragma warning restore S3060

@@ -1,7 +1,7 @@
 using AmongUs.Data;
 using HarmonyLib;
 using MiraAPI.GameOptions;
-using Reactor.Utilities.Extensions;
+using MiraAPI.Utilities;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.TimeLord;
 using TownOfUs.Options;
@@ -12,7 +12,7 @@ namespace TownOfUs.Patches.Options;
 [HarmonyPatch]
 public static class VitalsBodyPatches
 {
-    internal static List<NetworkedPlayerInfo> MissingPlayers = new();
+    internal static List<NetworkedPlayerInfo> MissingPlayers = [];
 
     public static void AddMissingPlayer(NetworkedPlayerInfo player)
     {
@@ -62,7 +62,7 @@ public static class VitalsBodyPatches
                     {
                         DataManager.Player.Stats.IncrementStat(StatID.Role_Viper_BodiesDissolved);
                     }
-                    __instance.gameObject.Destroy();
+                    __instance.gameObject.DeepDestroy();
                     return false;
                 }
                 else

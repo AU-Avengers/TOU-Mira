@@ -55,6 +55,7 @@ public sealed class UndertakerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Undertaker.LoadAsset(), "TouMira.Role.Impostor.Undertaker", 1.45f),
         UseVanillaKillButton = true,
         CanUseVent = OptionGroupSingleton<UndertakerOptions>.Instance.CanVent,
         Icon = TouRoleIcons.Undertaker,
@@ -68,15 +69,15 @@ public sealed class UndertakerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Drag", "Drag"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DragWikiDescription"),
                     TouImpAssets.DragSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Drop", "Drop"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DropWikiDescription"),
                     TouImpAssets.DropSprite)
-            };
+            ];
         }
     }
 

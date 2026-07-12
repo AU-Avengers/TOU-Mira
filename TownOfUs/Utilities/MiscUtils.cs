@@ -396,39 +396,11 @@ public static class MiscUtils
         return ModifierFaction.External;
     }
 
-    public static ModifierFaction GetModifierFaction(this AllianceGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this TouGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this UniversalGameModifier mod)
-    {
-        return mod.FactionType;
-    }
-
-    public static ModifierFaction GetModifierFaction(this GameModifier mod)
-    {
-        return GetModifierFaction(mod as BaseModifier);
-    }
-
     public static ModifierFaction GetModifierFaction(this BaseModifier mod)
     {
-        if (mod is TouGameModifier touMod)
+        if (mod is TouBaseGameModifier touMod)
         {
             return touMod.FactionType;
-        }
-        else if (mod is AllianceGameModifier allyMod)
-        {
-            return allyMod.FactionType;
-        }
-        else if (mod is UniversalGameModifier uniMod)
-        {
-            return uniMod.FactionType;
         }
 
         if (SoftWikiEntries.ModifierEntries.ContainsKey(mod))
@@ -738,28 +710,14 @@ public static class MiscUtils
         return name;
     }
 
-    public static string GetLocaleKey(GameModifier modifier)
-    {
-        return GetLocaleKey(modifier as BaseModifier);
-    }
-
     public static string GetLocaleKey(BaseModifier modifier)
     {
-        var name = modifier.ModifierName;
-        if (modifier is TouGameModifier touMod)
+        if (modifier is TouBaseGameModifier touMod)
         {
-            name = touMod.LocaleKey;
-        }
-        else if (modifier is AllianceGameModifier allyMod)
-        {
-            name = allyMod.LocaleKey;
-        }
-        else if (modifier is UniversalGameModifier uniMod)
-        {
-            name = uniMod.LocaleKey;
+            return touMod.LocaleKey;
         }
 
-        return name;
+        return modifier.ModifierName;
     }
 
     public static Color GetRoleColour(string name)
@@ -777,50 +735,6 @@ public static class MiscUtils
     }
 
     public static Color GetModifierColour(BaseModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(GameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(TouGameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(UniversalGameModifier modifier)
-    {
-        var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
-        if (modifier is IColoredModifier colorMod)
-        {
-            color = colorMod.ModifierColor;
-        }
-
-        return color;
-    }
-
-    public static Color GetModifierColour(AllianceGameModifier modifier)
     {
         var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
         if (modifier is IColoredModifier colorMod)
@@ -1099,6 +1013,31 @@ public static class MiscUtils
             0.2f + clonedBubble.NameText.GetNotDumbRenderedHeight() + clonedBubble.TextArea.GetNotDumbRenderedHeight());
         clonedBubble.MaskArea.size = clonedBubble.Background.size - new Vector2(0, 0.03f);
 
+        if (bubbleType is BubbleType.Jailor)
+        {
+            pooledBubble.ColorBlindName.gameObject.SetActive(false);
+            clonedBubble.ColorBlindName.gameObject.SetActive(false);
+
+            var pooledCos = pooledBubble.Player.cosmetics;
+            pooledCos.skin.gameObject.SetActive(false);
+            pooledCos.hat.gameObject.SetActive(false);
+            pooledCos.skin.gameObject.SetActive(false);
+            pooledCos.currentBodySprite.BodySprite.enabled = false;
+            var jailedPlayer = Object.Instantiate(pooledCos.visor.gameObject, pooledCos.transform);
+            jailedPlayer.GetComponent<VisorLayer>().Destroy();
+            jailedPlayer.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite.LoadAsset();
+            pooledCos.visor.gameObject.SetActive(false);
+
+            var clonedCos = clonedBubble.Player.cosmetics;
+            clonedCos.skin.gameObject.SetActive(false);
+            clonedCos.hat.gameObject.SetActive(false);
+            clonedCos.skin.gameObject.SetActive(false);
+            clonedCos.currentBodySprite.BodySprite.enabled = false;
+            var jailedPlayer2 = Object.Instantiate(clonedCos.visor.gameObject, clonedCos.transform);
+            jailedPlayer2.GetComponent<VisorLayer>().Destroy();
+            jailedPlayer2.GetComponent<SpriteRenderer>().sprite = TouAssets.JailorPlayerSprite.LoadAsset();
+            clonedCos.visor.gameObject.SetActive(false);
+        }
         if (blackoutText)
         {
             pooledBubble.Background.color = new Color(0.2f, 0.2f, 0.27f, 1f);
@@ -1166,7 +1105,7 @@ public static class MiscUtils
             BubbleType.Impostor => TouChatAssets.ImpBubble.LoadAsset(),
             BubbleType.Vampire => TouChatAssets.VampBubble.LoadAsset(),
             BubbleType.Lover => TouChatAssets.LoveBubble.LoadAsset(),
-            BubbleType.Jailor => TouChatAssets.JailBubble.LoadAsset(),
+            BubbleType.Jailor or BubbleType.Jailed => TouChatAssets.JailBubble.LoadAsset(),
             _ => null,
         };
         if (actualSprite != null)
@@ -1194,7 +1133,7 @@ public static class MiscUtils
         return infected.Select(impData => impData.Object).ToList();
     }
 
-    public static List<(ushort RoleType, int Chance)> GetRolesToAssign(ModdedRoleTeams team,
+    public static List<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(ModdedRoleTeams team,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var roles = GetRegisteredRoles(team).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
@@ -1202,15 +1141,15 @@ public static class MiscUtils
         return GetRolesToAssign(roles, filter);
     }
 
-    public static List<(ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
+    public static HashSet<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(RoleAlignment alignment,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var roles = GetRegisteredRoles(alignment).Excluding(x => !CustomRoleUtils.CanSpawnOnCurrentMode(x));
 
-        return GetRolesToAssign(roles, filter);
+        return GetRolesToAssign(roles, filter).ToHashSet();
     }
 
-    private static List<(ushort RoleType, int Chance)> GetRolesToAssign(IEnumerable<RoleBehaviour> roles,
+    private static List<(uint Id, ushort RoleType, int Chance)> GetRolesToAssign(IEnumerable<RoleBehaviour> roles,
         Func<RoleBehaviour, bool>? filter = null)
     {
         var currentGameOptions = GameOptionsManager.Instance.CurrentGameOptions;
@@ -1297,17 +1236,17 @@ public static class MiscUtils
         return rolesToKeep;
     }
 
-    private static List<(ushort RoleType, int Chance)> GetPossibleRoles(
+    private static List<(uint Id, ushort RoleType, int Chance)> GetPossibleRoles(
         List<RoleManager.RoleAssignmentData> assignmentData,
         Func<RoleManager.RoleAssignmentData, bool>? predicate = null)
     {
-        var roles = new List<(ushort, int)>();
+        var roles = new List<(uint, ushort, int)>();
 
         assignmentData.Where(x => predicate == null || predicate(x)).ToList().ForEach(x =>
         {
-            for (var i = 0; i < x.Count; i++)
+            for (uint i = 0; i < x.Count; i++)
             {
-                roles.Add(((ushort)x.Role.Role, x.Chance));
+                roles.Add((i, (ushort)x.Role.Role, x.Chance));
             }
         });
 
@@ -1326,7 +1265,7 @@ public static class MiscUtils
         return assignmentData;
     }
 
-    public static PlayerControl? PlayerById(byte id)
+    public static PlayerControl PlayerById(byte id)
     {
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -1336,7 +1275,7 @@ public static class MiscUtils
             }
         }
 
-        return null;
+        return null!;
     }
 
     public static IEnumerator PerformTimedAction(float duration, Action<float> action)
@@ -1610,57 +1549,35 @@ public static class MiscUtils
         cam.centerPosition = cam.Target.transform.position;
     }
 
-    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<(ushort RoleType, int Chance)> roles,
-        RoleListOption roleType, RoleListOption replaceType, RoleListOption biggerType = (RoleListOption)(-1))
+    public static void AddFromBucket(this List<ushort> toApply, List<RoleListOption> buckets,
+        HashSet<(uint Id, ushort RoleType, int Chance)> roles, HashSet<(uint Id, ushort RoleType, int Chance)> applied,
+        RoleListOption roleType, RoleListOption replaceType = (RoleListOption)(-1), RoleListOption biggerType = (RoleListOption)(-1))
     {
-        var result = new List<ushort>();
+        roles.ExceptWith(applied);
 
         while (buckets.Contains(roleType))
         {
             if (roles.Count == 0)
             {
                 var count = buckets.RemoveAll(x => x == roleType);
-                buckets.AddRange(Enumerable.Repeat(replaceType, count));
-                if ((int)biggerType != -1) buckets.AddRange(Enumerable.Repeat(biggerType, count));
-
+                if ((int)replaceType != -1)
+                {
+                    buckets.AddRange(Enumerable.Repeat(replaceType, count));
+                    if ((int)biggerType != -1) buckets.AddRange(Enumerable.Repeat(biggerType, count));
+                }
                 break;
             }
 
             var addedRole = SelectRole(roles);
-            result.Add(addedRole.RoleType);
             roles.Remove(addedRole);
+            toApply.Add(addedRole.RoleType);
+            applied.Add(addedRole);
 
             buckets.Remove(roleType);
         }
-
-        return result;
     }
 
-    public static List<ushort> ReadFromBucket(List<RoleListOption> buckets, List<(ushort RoleType, int Chance)> roles,
-        RoleListOption roleType)
-    {
-        var result = new List<ushort>();
-
-        while (buckets.Contains(roleType))
-        {
-            if (roles.Count == 0)
-            {
-                buckets.RemoveAll(x => x == roleType);
-
-                break;
-            }
-
-            var addedRole = SelectRole(roles);
-            result.Add(addedRole.RoleType);
-            roles.Remove(addedRole);
-
-            buckets.Remove(roleType);
-        }
-
-        return result;
-    }
-
-    public static (ushort RoleType, int Chance) SelectRole(List<(ushort RoleType, int Chance)> roles)
+    public static (uint Id, ushort RoleType, int Chance) SelectRole(HashSet<(uint Id, ushort RoleType, int Chance)> roles)
     {
         var chosenRoles = roles.Where(x => x.Chance == 100).ToList();
         if (chosenRoles.Count > 0)
@@ -1674,7 +1591,7 @@ public static class MiscUtils
         var random = Random.RandomRangeInt(1, total + 1);
 
         var cumulative = 0;
-        (ushort RoleType, int SpawnChance) selectedRole = default;
+        (uint Id, ushort RoleType, int Chance) selectedRole = default;
 
         foreach (var role in chosenRoles)
         {
@@ -1699,7 +1616,7 @@ public static class MiscUtils
     }
 
     // Method to parse a JSON array string into an array of objects
-    public static T[] jsonToArray<T>(string json)
+    public static T[] JsonToArray<T>(string json)
     {
         // Wrap the JSON array in an object
         var newJson = "{ \"array\": " + json + "}";
@@ -2015,14 +1932,14 @@ public static class MiscUtils
         return text;
     }
 
-    private static List<SupportedLangs> _languagesToBold = new List<SupportedLangs>
-    {
+    private static readonly List<SupportedLangs> _languagesToBold =
+    [
         SupportedLangs.Russian,
         SupportedLangs.Japanese,
         SupportedLangs.SChinese,
         SupportedLangs.TChinese,
         SupportedLangs.Korean
-    };
+    ];
 
     public static void AdjustNotification(this LobbyNotificationMessage notification)
     {
@@ -2102,7 +2019,7 @@ public static class MiscUtils
             if (CanSeePostGameLogs)
             {
                 TownOfUsEventHandlers.LogBuffer.Add(
-                    new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+                    new(logLevel, $"At {DateTime.UtcNow:T} -> " + text));
             }
 
             return;
@@ -2127,7 +2044,7 @@ public static class MiscUtils
                 break;
         }
 
-        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow:T} -> " + text));
     }
 
 
@@ -2163,7 +2080,7 @@ public static class MiscUtils
     public static object? TryOtherCast(this Il2CppObjectBase self, Type type)
     {
         return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type)
-            .Invoke(self, Array.Empty<object>());
+            .Invoke(self, []);
     }
 
     public static IList CreateList(Type myType)
@@ -2206,10 +2123,7 @@ public static class MiscUtils
 
         if (attacker.AmOwner)
         {
-            if (cam != null)
-            {
-                cam.Locked = true;
-            }
+            cam?.Locked = true;
 
             attacker.isKilling = true;
         }
@@ -2220,10 +2134,7 @@ public static class MiscUtils
 
         KillAnimation.SetMovement(attacker, true);
 
-        if (cam != null)
-        {
-            cam.Locked = false;
-        }
+        cam?.Locked = false;
 
         attacker.isKilling = false;
     }
@@ -2354,6 +2265,32 @@ public static class MiscUtils
 
         return name;
     }
+
+    public static void DelayExile(this PlayerControl localPlayer)
+    {
+        Coroutines.Start(CoWaitExile(localPlayer));
+    }
+
+    private static IEnumerator CoWaitExile(PlayerControl player)
+    {
+        yield return new WaitForSeconds(1f);
+
+        player.RpcPlayerExile();
+    }
+
+    public static string GetRoleTmpIcon(RoleTypes role)
+    {
+        return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+    }
+
+    public static string GetRoleTmpIcon(RoleBehaviour role)
+    {
+        if (role is ICustomRole custom)
+        {
+            return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
+        }
+        return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
+    }
 }
 
 public enum GameUtility
@@ -2391,5 +2328,6 @@ public enum BubbleType
     Impostor,
     Vampire,
     Jailor,
+    Jailed,
     Lover
 }

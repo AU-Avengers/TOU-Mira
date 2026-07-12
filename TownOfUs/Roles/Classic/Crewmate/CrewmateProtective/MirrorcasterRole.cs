@@ -56,15 +56,15 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}MagicMirror", "Magic Mirror"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MagicMirrorWikiDescription"),
                     TouCrewAssets.MagicMirrorSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Unleash", "Unleash"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}UnleashWikiDescription"),
                     TouCrewAssets.UnleashSprite)
-            };
+            ];
         }
     }
 
@@ -74,7 +74,8 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IntroSound = TouAudio.ScientistIntroSound,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mirrorcaster.LoadAsset(), "TouMira.Role.Crewmate.Mirrorcaster", 1.45f),
+        IntroSound = TouAudio.MirrorcasterIntro,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Mirrorcaster
     };
@@ -130,12 +131,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         {
             if (player.TryGetModifier<MagicMirrorModifier>(out var mod2))
             {
-                if (!mod2.TimerActive)
-                {
-                    return;
-                }
-
-                mod2.ResetTimer();
+                player.RemoveModifier(mod2);
             }
 
             return;
@@ -143,8 +139,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
 
         if (Protected?.TryGetModifier<MagicMirrorModifier>(out var mod) == true)
         {
-            // This should prevent any issues with murder attempts
-            mod.StartTimer();
+            Protected.RemoveModifier(mod);
         }
 
         Protected = (player?.HasDied() == true) ? null : player;
@@ -155,6 +150,11 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
     public static void DangerAnim(bool localMirrorcaster = false)
     {
         Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !localMirrorcaster ? TownOfUsColors.NeutralWiki : new Color32(144, 162, 195, 255)));
+        if (localMirrorcaster)
+        {
+            TouAudio.PlaySound(TouAudio.MirrorcasterShatter);
+            HudManager.Instance.StartCoroutine(HudManager.Instance.PlayerCam.CoShakeScreen(0.4f, 3f));
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.MagicMirror)]

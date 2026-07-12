@@ -12,6 +12,7 @@ namespace TownOfUs.Modules.Components;
 public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cppPtr)
 {
     public const byte SabotageId = 150;
+    public const SystemTypes SystemType = (SystemTypes)SabotageId;
     public readonly float duration;
 
     public bool IsActive => (TimeRemaining > 0 || Stage == HexBombStage.Finished);
@@ -122,7 +123,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
         }
     }
 
-    public void UpdateSystem(PlayerControl player, MessageReader msgReader)
+    public void UpdateSystem(PlayerControl _, MessageReader msgReader)
     {
         if (msgReader.ReadByte() != 1) return;
         Stage = HexBombStage.Initiate;
@@ -130,7 +131,7 @@ public sealed class HexBombSabotageSystem(nint cppPtr) : Il2CppSystem.Object(cpp
         IsDirty = true;
     }
 
-    public void Deserialize(MessageReader reader, bool initialState)
+    public void Deserialize(MessageReader reader, bool _)
     {
         TimeRemaining = reader.ReadSingle();
         Stage = (HexBombStage)reader.ReadByte();

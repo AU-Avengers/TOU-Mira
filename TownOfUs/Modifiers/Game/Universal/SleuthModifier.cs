@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -46,10 +45,9 @@ public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 
     public static bool SleuthVisibilityFlag(PlayerControl player)
     {
-        if (PlayerControl.LocalPlayer.HasModifier<SleuthModifier>())
+        if (PlayerControl.LocalPlayer.TryGetModifier<SleuthModifier>(out var sleuth))
         {
-            var mod = PlayerControl.LocalPlayer.GetModifier<SleuthModifier>()!;
-            return mod.Reported.Contains(player.PlayerId);
+            return sleuth.Reported.Contains(player.PlayerId);
         }
 
         return false;

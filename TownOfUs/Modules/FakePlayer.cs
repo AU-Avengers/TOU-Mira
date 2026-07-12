@@ -1,8 +1,10 @@
-﻿using AmongUs.Data;
+﻿using System.Collections;
+using AmongUs.Data;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using PowerTools;
+using Reactor.Utilities;
 using TMPro;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Modifiers.Universal;
@@ -29,6 +31,8 @@ public sealed class FakePlayer : IDisposable
     private GameObject _colorBindTextObj;
     private TextMeshPro _nameTextMaster;
     public int PlayerId;
+    public bool InCamo;
+    public PlayerControl OriginalPlayer;
 
     public FakePlayer(PlayerControl player)
     {
@@ -43,9 +47,17 @@ public sealed class FakePlayer : IDisposable
         };
 
         _cosmicInfo.Cosmetics.Visible = true;
+        var isClassic =
+            _cosmicInfo.Cosmetics.bodyType is PlayerBodyTypes.Classic;
+        if (isClassic)
+        {
+            _cosmicInfo.Cosmetics.SetSkin("skin_None", _cosmicInfo.ColorInfo);
+            _cosmicInfo.OutfitInfo.SkinId = "skin_None";
+        }
 
         body = new GameObject($"Fake {player.gameObject.name}");
         PlayerId = player.PlayerId;
+        OriginalPlayer = player;
 
         body.layer = LayerMask.NameToLayer("Players");
 
@@ -66,6 +78,11 @@ public sealed class FakePlayer : IDisposable
             {
                 Object.Destroy(sync);
             }
+        }
+
+        if (isClassic)
+        {
+            _cosmeticsLayer.currentBodySprite.BodySprite.transform.localScale *= 2f;
         }
 
         var vector = player.transform.position;
@@ -140,8 +157,32 @@ public sealed class FakePlayer : IDisposable
         _colorBindTextObj?.SetActive(DataManager.Settings.Accessibility.ColorBlindMode);
     }
 
+    public static void UpdateFakePlayerText(bool waitForRole = false)
+    {
+        Coroutines.Start(CyclePlayerNames(waitForRole));
+    }
+
+    private static IEnumerator CyclePlayerNames(bool waitForRole)
+    {
+        if (waitForRole)
+        {
+            yield return new WaitForSeconds(0.05f);
+        }
+        yield return new WaitForEndOfFrame();
+        foreach (var fake in FakePlayers)
+        {
+            if (!fake._nameTextMaster || !fake._cosmeticsLayer || fake.InCamo) continue;
+            if (fake.OriginalPlayer)
+            {
+                fake._nameTextMaster.text = fake.OriginalPlayer.cosmetics.nameText.text;
+            }
+            fake._nameTextMaster.color = Color.white;
+        }
+    }
+
     public void Camo()
     {
+        InCamo = true;
         if (!_cosmeticsLayer) return;
 
         _cosmeticsLayer.SetHat(string.Empty, _cosmicInfo.ColorInfo);
@@ -156,6 +197,7 @@ public sealed class FakePlayer : IDisposable
 
     public void UnCamo()
     {
+        InCamo = false;
         if (!_cosmeticsLayer) return;
 
         _cosmeticsLayer.SetHat(_cosmicInfo.OutfitInfo.HatId, _cosmicInfo.ColorInfo);
@@ -316,6 +358,7 @@ public sealed class FakePlayer : IDisposable
 
         if (nameText != null && baseNameText != null)
         {
+            nameText.alignment = TextAlignmentOptions.Bottom;
             ChangeDummyName(nameText, baseNameText, info);
             if (player.HasModifier<ShyModifier>())
             {
@@ -359,7 +402,7 @@ public sealed class FakePlayer : IDisposable
     private static void UpdateColorName(TextMeshPro colorText, TextMeshPro baseColorText, int colorId)
     {
         var array = TranslationController.Instance
-            .GetString(Palette.ColorNames[colorId], Array.Empty<Il2CppSystem.Object>()).ToCharArray();
+            .GetString(Palette.ColorNames[colorId]).ToCharArray();
 
         if (array.Length != 0)
         {

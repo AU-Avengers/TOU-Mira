@@ -2,17 +2,15 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Crewmate;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Modifiers;
 
-public sealed class ScientistButton : TownOfUsButton
+public sealed class ScientistButton : TownOfUsButton, ILegacyCapable
 {
     public VitalsMinigame? vitals;
 
@@ -40,7 +38,7 @@ public sealed class ScientistButton : TownOfUsButton
     }
 
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouAssets.VitalsSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyVanillaAssets.VitalsSprite : TouAssets.VitalsSprite;
 
     public override bool Enabled(RoleBehaviour? role)
     {
@@ -53,10 +51,7 @@ public sealed class ScientistButton : TownOfUsButton
     {
         base.CreateButton(parent);
         AvailableCharge = OptionGroupSingleton<ScientistOptions>.Instance.StartingCharge;
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
     }
 
     private void RefreshAbilityButton()
@@ -111,8 +106,7 @@ public sealed class ScientistButton : TownOfUsButton
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }

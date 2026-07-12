@@ -2,8 +2,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Modifiers.Types;
-using MiraAPI.Utilities.Assets;
-using Reactor.Utilities.Extensions;
+using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Options.Modifiers;
@@ -43,13 +42,13 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.Get($"TouModifier{LocaleKey}Broadcast"),
                     TouLocale.GetParsed($"TouModifier{LocaleKey}BroadcastWikiDescription").Replace("<maxUses>",
                         $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}"),
                     TouAssets.BroadcastSprite)
-            };
+            ];
         }
     }
 
@@ -97,7 +96,7 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
     {
         foreach (var gameObject in CastedIcons.Select(icon => icon.gameObject).Where(gameObject => gameObject != null))
         {
-            gameObject.Destroy();
+            gameObject.DeepDestroy();
         }
 
         CastedIcons.Clear();

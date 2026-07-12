@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -9,14 +8,14 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerControl>
+public sealed class SonarTrackButton : TownOfUsRoleButton<SonarRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleSonarTrack", "Track");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Sonar;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SonarOptions>.Instance.TrackCooldown + MapCooldown, 5f, 120f);
     public override int MaxUses => (int)OptionGroupSingleton<SonarOptions>.Instance.MaxTracks;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.TrackSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.TrackSprite : TouCrewAssets.TrackSprite;
     public int ExtraUses { get; set; }
 
     public override bool IsTargetValid(PlayerControl? target)

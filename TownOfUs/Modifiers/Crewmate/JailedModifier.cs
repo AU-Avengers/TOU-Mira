@@ -97,7 +97,7 @@ public sealed class JailedModifier(byte jailorId) : BaseModifier
         jailCellObj.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
         jailCellObj.layer = 5;
         jailCellObj.transform.parent = parent;
-        jailCellObj.transform.GetChild(0).gameObject.Destroy();
+        jailCellObj.transform.GetChild(0).gameObject.DeepDestroy();
 
         var passive = jailCellObj.GetComponent<PassiveButton>();
         passive.OnClick = new Button.ButtonClickedEvent();

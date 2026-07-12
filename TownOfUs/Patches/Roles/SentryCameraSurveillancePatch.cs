@@ -97,7 +97,7 @@ public static class SentryCameraSurveillancePatch
         {
             if (numberOfPages > 1 && Input.GetMouseButtonDown(0) && Camera.main != null)
             {
-                var viewables = __instance.Viewables != null ? __instance.Viewables.transform : null;
+                var viewables = __instance.Viewables?.transform;
                 if (viewables != null)
                 {
                     var rightTf = viewables.Find("SentryRightArrow");
@@ -158,7 +158,7 @@ public static class SentryCameraSurveillancePatch
             SentryCameraUiUtilities.UiRepairTimer = 0f;
             try
             {
-                var viewables = __instance.Viewables != null ? __instance.Viewables.transform : null;
+                var viewables = __instance.Viewables?.transform;
                 if (viewables != null)
                 {
                     var right = viewables.Find("SentryRightArrow");
@@ -268,20 +268,6 @@ public static class SentryCameraSurveillancePatch
             }
 
             SentryCameraPortablePatch.ApplyPortableBlinkState();
-        }
-    }
-
-    [HarmonyPatch(typeof(PassiveButton), nameof(PassiveButton.ReceiveClickDown))]
-    public static class PassiveButtonClickPatch
-    {
-        public static void Postfix(PassiveButton __instance)
-        {
-            if (!__instance) return;
-            var name = __instance.gameObject?.name ?? "NULL";
-            if (name.Contains("SentryRightArrow") || name.Contains("SentryLeftArrow"))
-            {
-                Logger.LogInfo($"[PASSIVE BUTTON] ReceiveClickDown called on {name}, frame {Time.frameCount}, enabled={__instance.enabled}, OnClick={(__instance.OnClick != null ? "EXISTS" : "NULL")}");
-            }
         }
     }
 }

@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
@@ -14,7 +13,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, DeadBody>
+public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, DeadBody>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleAltruistRevive", "Revive");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -25,7 +24,7 @@ public sealed class AltruistSacrificeButton : TownOfUsRoleButton<AltruistRole, D
     public override int MaxUses => OptionGroupSingleton<AltruistOptions>.Instance.KillOnStartRevive.Value
         ? 0
         : (int)OptionGroupSingleton<AltruistOptions>.Instance.MaxRevives;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.ReviveSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.ReviveSprite : TouCrewAssets.ReviveSprite;
     public override bool UsableInDeath => true;
 
     public override DeadBody? GetTarget()

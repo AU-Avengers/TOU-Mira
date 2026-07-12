@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers.Types;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Options.Roles.HnsCrewmate;
@@ -38,7 +39,7 @@ public sealed class HnsMysticDeathNotifModifier(PlayerControl mystic) : TimedMod
     {
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

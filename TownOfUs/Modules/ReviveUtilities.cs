@@ -146,10 +146,7 @@ public static class ReviveUtilities
         }
 
         revived.RemainingEmergencies = 0;
-        if (reviver != null)
-        {
-            reviver.RemainingEmergencies = 0;
-        }
+        reviver?.RemainingEmergencies = 0;
 
         if (!inMeetingOrExile && revived.AmOwner && !string.IsNullOrWhiteSpace(revivedOwnerNotificationText))
         {

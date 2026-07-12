@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TownOfUs.Utilities;
 
 /// <summary>
-/// Utility class for managing Parasite Picture-in-Picture camera positioning, sizing, and dragging.
+/// Utility class for managing <see cref="Roles.Impostor.ParasiteRole"/> Picture-in-Picture camera positioning, sizing, and dragging.
 /// </summary>
 public static class ParasitePiPUtilities
 {

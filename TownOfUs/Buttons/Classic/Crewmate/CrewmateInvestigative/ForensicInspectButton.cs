@@ -1,18 +1,17 @@
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules.Components;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class ForensicInspectButton : TownOfUsRoleButton<ForensicRole, CrimeSceneComponent>
+public sealed class ForensicInspectButton : TownOfUsRoleButton<ForensicRole, CrimeSceneComponent>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleForensicInspect", "Inspect");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Forensic;
     public override float Cooldown => Math.Clamp(MapCooldown, 1f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.InspectSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.InspectSprite : TouCrewAssets.InspectSprite;
 
     public override CrimeSceneComponent? GetTarget()
     {

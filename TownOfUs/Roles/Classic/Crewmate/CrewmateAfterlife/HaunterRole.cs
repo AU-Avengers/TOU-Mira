@@ -162,6 +162,7 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Haunter.LoadAsset(), "TouMira.Role.Crewmate.Haunter", 1.45f),
         Icon = TouRoleIcons.Haunter,
         OptionsScreenshot = TouBanners.HaunterRoleBanner,
         TasksCountForProgress = false,
@@ -498,15 +499,13 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
                                        OptionGroupSingleton<HaunterOptions>.Instance.RevealNeutralRoles);
     }
 
-    public static bool HaunterVisibilityFlag(PlayerControl player)
-    {
-        var haunter = MiscUtils.GetRole<HaunterRole>();
+    public static bool HaunterVisibilityFlag(PlayerControl player) => RevealedPlayers.Contains(player);
 
-        if (haunter == null)
-        {
-            return false;
-        }
+    public static void AddRevealed(PlayerControl player) => RevealedPlayers.Add(player);
 
-        return IsTargetOfHaunter(player) && haunter.CompletedAllTasks && !player.AmOwner;
-    }
+    public static void RemoveRevealed(PlayerControl player) => RevealedPlayers.Remove(player);
+
+    public static void ResetReveals() => RevealedPlayers.Clear();
+
+    private static readonly List<PlayerControl> RevealedPlayers = [];
 }

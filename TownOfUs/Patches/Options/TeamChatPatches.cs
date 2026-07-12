@@ -32,9 +32,9 @@ public static class TeamChatPatches
     public static Transform PublicChatItems;
     public static Transform PrivateChatItems;
     public static Transform MergedChatItems;
-    public static List<ChatBubble> PublicChatBubbles = new();
-    public static List<ChatBubble> PrivateChatBubbles = new();
-    public static List<MergedBubble> MergedChatBubbles = new();
+    public static List<ChatBubble> PublicChatBubbles = [];
+    public static List<ChatBubble> PrivateChatBubbles = [];
+    public static List<MergedBubble> MergedChatBubbles = [];
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PublicChatPool = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> PrivateChatPool = new();
     public static Il2CppSystem.Collections.Generic.List<PoolableBehavior> MergedChatPool = new();
@@ -124,21 +124,21 @@ public static class TeamChatPatches
     /// <summary>
     /// Represents an available team chat with its priority and send action.
     /// </summary>
-    public sealed class AvailableTeamChat
+    public sealed record AvailableTeamChat
     {
-        public int Priority { get; set; }
-        public Action<PlayerControl, string> SendAction { get; set; } = null!;
-        public string DisplayName { get; set; } = string.Empty;
-        public Color DisplayColor { get; set; } = Color.white;
+        public int Priority { get; init; }
+        public Action<PlayerControl, string> SendAction { get; init; }
+        public string DisplayName { get; init; }
+        public Color DisplayColor { get; init; }
         /// <summary>
         /// Optional: Background color for the chat screen when this chat is active.
         /// If null, uses the default team chat background color.
         /// </summary>
-        public Color? BackgroundColor { get; set; }
+        public Color? BackgroundColor { get; init; }
         /// <summary>
         /// If true, this chat cannot be cycled away from and is always active when available.
         /// </summary>
-        public bool IsForced { get; set; }
+        public bool IsForced { get; init; }
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public static class TeamChatPatches
     public static class TeamChatManager
     {
         private static bool _builtInChatsRegistered;
-        private static readonly HashSet<int> UnreadChatPriorities = new HashSet<int>();
+        private static readonly HashSet<int> UnreadChatPriorities = [];
 
         /// <summary>
         /// Get the set of unread chat priorities. Used for checking unread status.
@@ -455,54 +455,54 @@ public static class TeamChatPatches
     /// <summary>
     /// Handler for extension team chats. Extensions should create instances of this to register their team chat.
     /// </summary>
-    public sealed class ExtensionTeamChatHandler
+    public sealed record ExtensionTeamChatHandler
     {
         /// <summary>
         /// Function to check if this team chat is available for the local player.
         /// Should return true if the player can use this team chat.
         /// </summary>
-        public Func<bool>? IsChatAvailable { get; set; }
+        public Func<bool>? IsChatAvailable { get; init; }
 
         /// <summary>
         /// Function to send a message through this team chat.
         /// Parameters: (sender, message)
         /// </summary>
-        public Action<PlayerControl, string>? SendMessage { get; set; }
+        public Action<PlayerControl, string>? SendMessage { get; init; }
 
         /// <summary>
         /// Optional: Function to get the display text when this chat is active.
         /// Should return the text to display, or null to use default.
         /// </summary>
-        public Func<string>? GetDisplayText { get; set; }
+        public Func<string>? GetDisplayText { get; init; }
 
         /// <summary>
         /// Optional: Color for the display text.
         /// </summary>
-        public Color? DisplayTextColor { get; set; }
+        public Color? DisplayTextColor { get; init; }
 
         /// <summary>
         /// Optional: Background color for the chat screen when this chat is active.
         /// If null, uses the default team chat background color.
         /// </summary>
-        public Color? BackgroundColor { get; set; }
+        public Color? BackgroundColor { get; init; }
 
         /// <summary>
         /// Optional: Function to check if dead players can see this chat (when "The Dead Know" is enabled).
         /// Parameters: (deadPlayer)
         /// </summary>
-        public Func<PlayerControl, bool>? CanDeadPlayerSee { get; set; }
+        public Func<PlayerControl, bool>? CanDeadPlayerSee { get; init; }
 
         /// <summary>
         /// Priority for this chat when multiple chats are available. Lower numbers = higher priority.
         /// Default is 100. Built-in chats use: Jailor=10, Jailee=20, Impostor=30, Vampire=40.
         /// </summary>
-        public int Priority { get; set; } = 100;
+        public int Priority { get; init; } = 100;
 
         /// <summary>
         /// If true, this chat cannot be cycled away from and is always active when available.
         /// Use this for critical chats like Jailor that should always be accessible.
         /// </summary>
-        public bool IsForced { get; set; }
+        public bool IsForced { get; init; }
     }
 
     public static class CustomChatData
@@ -537,20 +537,20 @@ public static class TeamChatPatches
             });
         }
 
-        public sealed class ChatHolder
+        public sealed record ChatHolder
         {
-            public string InformationBlurb { get; set; }
-            public string ChatTitleFormat { get; set; }
-            public Color InfoBlurbColor { get; set; }
-            public Color? ChatMessageTitleColor { get; set; }
-            public Color? ChatMessageBgColor { get; set; }
-            public Color? ChatBgColor { get; set; }
-            public Sprite ChatBubbleSprite { get; set; }
-            public Sprite ButtonIdleSprite { get; set; }
-            public Sprite ButtonHoverSprite { get; set; }
-            public Sprite ButtonOpenSprite { get; set; }
-            public Func<bool> ChatVisible { get; set; }
-            public Func<bool> ChatUsable { get; set; }
+            public string InformationBlurb { get; init; }
+            public string ChatTitleFormat { get; init; }
+            public Color InfoBlurbColor { get; init; }
+            public Color? ChatMessageTitleColor { get; init; }
+            public Color? ChatMessageBgColor { get; init; }
+            public Color? ChatBgColor { get; init; }
+            public Sprite ChatBubbleSprite { get; init; }
+            public Sprite ButtonIdleSprite { get; init; }
+            public Sprite ButtonHoverSprite { get; init; }
+            public Sprite ButtonOpenSprite { get; init; }
+            public Func<bool> ChatVisible { get; init; }
+            public Func<bool> ChatUsable { get; init; }
         }
     }
 
@@ -742,10 +742,7 @@ public static class TeamChatPatches
         }
         else
         {
-            if (Background != null)
-            {
-                Background.GetComponent<SpriteRenderer>().color = Color.white;
-            }
+            Background?.GetComponent<SpriteRenderer>().color = Color.white;
             HudManager.Instance.Chat.chatButton.transform.Find("Inactive").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatIdle.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Active").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatHover.LoadAsset();
             HudManager.Instance.Chat.chatButton.transform.Find("Selected").GetComponent<SpriteRenderer>().sprite = TouChatAssets.NormalChatOpen.LoadAsset();
@@ -894,7 +891,7 @@ public static class TeamChatPatches
         {
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JaileeChatTitle").Replace("<player>", player.Data.PlayerName)}</color>", text,
-                bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);
+                bubbleType: BubbleType.Jailed, onLeft: !player.AmOwner);
             shouldMarkUnread = true;
         }
 
@@ -1026,16 +1023,9 @@ public static class TeamChatPatches
     public static float PublicBoundsY;
     public static float PrivateBoundsY;
     public static float MergedBoundsY;
-    public sealed class MergedBubble
-    {
-        public MergedBubble(ChatBubble bubble, bool isPublic)
-        {
-            Bubble = bubble;
-            IsPublic = bubble;
-        }
-        public ChatBubble Bubble { get; set; }
-        public bool IsPublic { get; set; }
-    }
+
+    public sealed record MergedBubble(ChatBubble Bubble, bool IsPublic);
+
     public static void AlignAllChatBubbles(ChatController instance, ChatToCheck chatToUpdate = ChatToCheck.PublicAndPrivate)
     {
         float num = 0f;
@@ -1050,8 +1040,8 @@ public static class TeamChatPatches
                 PublicChatBubbles.RemoveAt(0);
                 var mergedBubble = MergedChatBubbles.FirstOrDefault(x => x.IsPublic)!;
                 MergedChatBubbles.Remove(mergedBubble);
-                PublicChatItems.transform.GetChild(0).gameObject.Destroy();
-                MergedChatItems.transform.FindChild(PublicBubbleName).gameObject.DestroyImmediate();
+                PublicChatItems.transform.GetChild(0).gameObject.DeepDestroy();
+                MergedChatItems.transform.FindChild(PublicBubbleName).gameObject.DeepDestroy();
             }
             for (int i = PublicChatBubbles.Count - 1; i >= 0; i--)
             {
@@ -1072,8 +1062,8 @@ public static class TeamChatPatches
                 PrivateChatBubbles.RemoveAt(0);
                 var mergedBubble = MergedChatBubbles.FirstOrDefault(x => !x.IsPublic)!;
                 MergedChatBubbles.Remove(mergedBubble);
-                PrivateChatItems.transform.GetChild(0).gameObject.Destroy();
-                MergedChatItems.transform.FindChild(PrivateBubbleName).gameObject.DestroyImmediate();
+                PrivateChatItems.transform.GetChild(0).gameObject.DeepDestroy();
+                MergedChatItems.transform.FindChild(PrivateBubbleName).gameObject.DeepDestroy();
             }
 
             num = 0f;
@@ -1345,7 +1335,7 @@ public static class TeamChatPatches
 		{
 			ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
-            clonedBubble.gameObject.Destroy();
+            clonedBubble.gameObject.DeepDestroy();
 		}
         return false;
 	}
@@ -1382,7 +1372,7 @@ public static class TeamChatPatches
 		{
 			ChatController.Logger.Error(message.ToString());
             __instance.chatBubblePool.Reclaim(pooledBubble);
-            clonedBubble.gameObject.Destroy();
+            clonedBubble.gameObject.DeepDestroy();
 		}
         return false;
 	}

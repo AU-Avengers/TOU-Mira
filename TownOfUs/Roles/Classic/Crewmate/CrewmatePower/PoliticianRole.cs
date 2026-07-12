@@ -43,8 +43,8 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Campaign", "Campaign"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CampaignWikiDescription"),
                     TouCrewAssets.CampaignButtonSprite),
@@ -53,7 +53,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
                         ? $"TouRole{LocaleKey}RevealWikiDescriptionPunished"
                         : $"TouRole{LocaleKey}RevealWikiDescription"),
                     TouAssets.RevealCleanSprite)
-            };
+            ];
         }
     }
 
@@ -64,6 +64,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Politician.LoadAsset(), "TouMira.Role.Crewmate.Politician", 1.45f),
         Icon = TouRoleIcons.Politician,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.PoliticianIntroSound,
@@ -89,12 +90,13 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         if (Player.AmOwner)
         {
+            var classic = LegacyAssets.IsLegacy;
             meetingMenu = new MeetingMenu(
                 this,
                 Click,
-                TouLocale.GetParsed("TouRolePoliticianReveal"),
+                classic ? string.Empty : TouLocale.GetParsed("TouRolePoliticianReveal"),
                 MeetingAbilityType.Click,
-                TouAssets.RevealCleanSprite,
+                classic ? LegacyAssets.RevealButtonSprite : TouAssets.RevealCleanSprite,
                 null!,
                 IsExempt)
             {

@@ -13,6 +13,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
@@ -66,7 +67,7 @@ public static class JesterEvents
                         DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
                 }
             }
-            else
+            else if (OptionGroupSingleton<JesterOptions>.Instance.JestAnnounceWin)
             {
                 var text = TouLocale.GetParsed("TouNotifJesterWinGlobal");
                 if (text.Contains(jestRoleName))
@@ -87,7 +88,7 @@ public static class JesterEvents
     }
 
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         foreach (var jester in CustomRoleUtils.GetActiveRolesOfType<JesterRole>())
         {
@@ -99,17 +100,28 @@ public static class JesterEvents
     }
 
     [RegisterEvent]
-    public static void HandleVoteEventHandler(HandleVoteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
     {
-        var votingPlayer = @event.Player;
-        var suspectPlayer = @event.TargetPlayerInfo;
-
-        if (suspectPlayer?.Role is not JesterRole jester)
+        var states = MeetingHudGetVotesPatch.States;
+        var jests = CustomRoleUtils.GetActiveRolesOfType<JesterRole>();
+        if (!jests.HasAny())
         {
             return;
         }
-
-        jester.Voters.Add(votingPlayer.PlayerId);
+        foreach (var state in states)
+        {
+            if (state.SkippedVote || state.AmDead)
+            {
+                continue;
+            }
+            foreach (var jest in jests)
+            {
+                if (jest.Player.PlayerId == state.VotedForId)
+                {
+                    jest.Voters.Add(state.VoterId);
+                }
+            }
+        }
     }
 
     [RegisterEvent]

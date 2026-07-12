@@ -9,7 +9,7 @@ namespace TownOfUs.Events.Misc;
 public static class ScatterEvents
 {
     [RegisterEvent]
-    public static void RoundStartHandler(RoundStartEvent @event)
+    public static void RoundStartHandler(RoundStartEvent _)
     {
         //Error($"ScatterEvents - RoundStartHandler");
 

@@ -21,6 +21,11 @@ public static class RainbowUtils
         return new Color(color.r - 0.3f, color.g - 0.3f, color.b - 0.3f);
     }
 
+    public static Color LightUp(Color color)
+    {
+        return new Color(color.r + 0.3f, color.g + 0.3f, color.b + 0.3f);
+    }
+
     public static void SetRainbow(Renderer rend)
     {
         rend.material.SetColor(ShaderID.BackColor, RainbowShadow);
@@ -47,20 +52,12 @@ public static class RainbowUtils
 }
 
 [Serializable]
-public struct HSBColor
+public struct HSBColor(float h, float s, float b)
 {
-    public float h;
-    public float s;
-    public float b;
-    public float a;
-
-    public HSBColor(float h, float s, float b)
-    {
-        this.h = h;
-        this.s = s;
-        this.b = b;
-        a = 1f;
-    }
+    public float h = h;
+    public float s = s;
+    public float b = b;
+    public float a = 1f;
 
     public static Color ToColor(HSBColor hsbColor)
     {

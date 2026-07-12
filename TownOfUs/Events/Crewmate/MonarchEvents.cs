@@ -18,7 +18,6 @@ namespace TownOfUs.Events.Crewmate;
 public static class MonarchEvents
 {
     [RegisterEvent]
-    [Il2CppInterop.Runtime.Attributes.HideFromIl2Cpp]
     public static void OnKnightKilled(AfterMurderEvent @event)
     {
         var deadPlayer = @event.Target;
@@ -51,26 +50,13 @@ public static class MonarchEvents
         var button = @event.Button as CustomActionButton<PlayerControl>;
         var target = button?.Target;
 
-        if (target == null || button == null || !button.CanClick())
+        if (target == null || button == null || button is not IKillButton || !button.CanClick())
             return;
 
-        CheckForMonarchImmunity(@event, target);
-    }
-
-    [RegisterEvent]
-    public static void MiraButtonCancelledEventHandler(MiraButtonCancelledEvent @event)
-    {
-        var source = PlayerControl.LocalPlayer;
-        var button = @event.Button as CustomActionButton<PlayerControl>;
-        var target = button?.Target;
-
-        if (target == null || button is not IKillButton)
-            return;
-
-        if (!CheckForMonarchImmunity(null, target))
-            return;
-
-        ResetButtonTimer(source, button);
+        if (CheckForMonarchImmunity(@event, target))
+        {
+            ResetButtonTimer(PlayerControl.LocalPlayer, button);
+        }
     }
 
     [RegisterEvent]
@@ -101,7 +87,7 @@ public static class MonarchEvents
         var knightedAlive = Helpers.GetAlivePlayers()
             .Any(p =>
                 p.HasModifier<KnightedModifier>() &&
-                (p.IsCrewmate() || (allowEvilKnights && (p.IsImpostor() || p.IsNeutral())))
+                (allowEvilKnights || p.IsCrewmate())
             );
 
         if (!knightedAlive)

@@ -2,7 +2,6 @@
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Modifiers.Types;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Neutral;
@@ -10,11 +9,12 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Neutral;
 
-public sealed class GlitchHackedModifier(byte glitchId) : TimedModifier
+public sealed class GlitchHackedModifier(byte glitchId) : DisabledModifier
 {
     public override string ModifierName => "Hacked";
     public override float Duration => OptionGroupSingleton<GlitchOptions>.Instance.HackDuration;
-    public override bool AutoStart => false;
+    public override bool CanUseAbilities => ShouldHideHacked;
+    public override bool CanReport => ShouldHideHacked;
     public override bool HideOnUi => ShouldHideHacked;
     public byte GlitchId { get; } = glitchId;
 

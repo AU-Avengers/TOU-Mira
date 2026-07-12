@@ -271,5 +271,5 @@ public static class SentryCameraMinigameUtilities
         }
     }
 
-    private static readonly System.Collections.Generic.Dictionary<int, SurvCamera[]?> OriginalAllCamerasByMinigameId = new();
+    private static readonly System.Collections.Generic.Dictionary<int, SurvCamera[]?> OriginalAllCamerasByMinigameId = [];
 }

@@ -1,10 +1,8 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -12,7 +10,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
+public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleMediumMediate", "Mediate");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -20,7 +18,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MediumOptions>.Instance.MediateCooldown.Value + MapCooldown, 0.001f, 120f);
     public override float EffectDuration => OptionGroupSingleton<MediumOptions>.Instance.MediateDuration.Value;
 
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MediateSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.MediateSprite : TouCrewAssets.MediateSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
@@ -99,8 +97,7 @@ public sealed class MediumMediateButton : TownOfUsRoleButton<MediumRole>
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }

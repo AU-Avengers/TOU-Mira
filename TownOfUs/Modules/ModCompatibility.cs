@@ -143,13 +143,6 @@ public static class ModCompatibility
         }
 
         InternalModList = sBuilder.ToString();
-        var customSysTypes = new List<SystemTypes>()
-        {
-            SkeldDoorsSystemType.SystemType,
-            ManualDoorsSystemType.SystemType,
-        };
-        // This allows the custom door types to update properly
-        SystemTypeHelpers.AllTypes = SystemTypeHelpers.AllTypes.Concat(customSysTypes).ToArray();
     }
 
 #pragma warning disable S3011
@@ -474,7 +467,7 @@ public static class ModCompatibility
         __state = false;
     }
 
-    public static void SetOxygenDuration(object __instance, float duration)
+    public static void SetOxygenDuration(object __instance, float _)
     {
         var subOpts = OptionGroupSingleton<BetterSubmergedOptions>.Instance;
         if (subOpts.ChangeSaboTimers)

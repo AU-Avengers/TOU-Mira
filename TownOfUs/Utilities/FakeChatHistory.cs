@@ -6,7 +6,7 @@ namespace TownOfUs.Utilities;
 /// </summary>
 public static class FakeChatHistory
 {
-    private static readonly List<(string Title, string Message)> _entries = new();
+    private static readonly List<(string Title, string Message)> _entries = [];
 
     /// <summary>
     /// Set to true while /info is replaying entries so the patch doesn't

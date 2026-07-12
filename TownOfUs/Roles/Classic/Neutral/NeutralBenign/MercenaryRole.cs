@@ -53,15 +53,15 @@ public sealed class MercenaryRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Guard", "Guard"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}GuardWikiDescription"),
                     TouNeutAssets.GuardSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Bribe", "Bribe"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BribeWikiDescription"),
                     TouNeutAssets.BribeSprite)
-            };
+            ];
         }
     }
 
@@ -81,6 +81,7 @@ public sealed class MercenaryRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mercenary.LoadAsset(), "TouMira.Role.Neutral.Mercenary", 1.45f),
         IntroSound = TouAudio.ToppatIntroSound,
         Icon = TouRoleIcons.Mercenary,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,

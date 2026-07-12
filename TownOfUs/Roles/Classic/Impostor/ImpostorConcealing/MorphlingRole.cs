@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -36,10 +35,11 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Morphling.LoadAsset(), "TouMira.Role.Impostor.Morphling", 1.45f),
         Icon = TouRoleIcons.Morphling,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
-        CanUseVent = OptionGroupSingleton<MorphlingOptions>.Instance.CanVent,
-        IntroSound = CustomRoleUtils.GetIntroSound(RoleTypes.Shapeshifter)
+        CanUseVent = (MorphlingVent)OptionGroupSingleton<MorphlingOptions>.Instance.CanVent.Value is not MorphlingVent.Never,
+        IntroSound = TouAudio.ShapeshifterIntroSound
     };
 
     public void LobbyStart()
@@ -66,15 +66,15 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Sample", "Sample"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}SampleWikiDescription"),
                     TouImpAssets.SampleSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Morph", "Morph"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MorphWikiDescription"),
                     TouImpAssets.MorphSprite)
-            };
+            ];
         }
     }
 

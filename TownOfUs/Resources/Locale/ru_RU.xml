@@ -891,7 +891,7 @@
   <string name="TouOptionGlitchMoveInMimicMenu">Двигаться при использовании меню мимика</string>
   <string name="TouOptionGlitchHackCooldown">Откат Взлома</string>
   <string name="TouOptionGlitchHackDuration">Длительность Взлома</string>
-  <string name="TouOptionGlitchCan Vent">Глич может исп. вент.</string>
+  <string name="TouOptionGlitchCanVent">Глич может исп. вент.</string>
   <string name="TouRoleFairy">Ангел-хранитель</string>
   <string name="TouRoleFairyTabDescription">Защитите \%target\% ценой своей жизни!</string>
   <string name="TouRoleFairyIfNoTarget">Защитите цель ценой своей жизни!</string>

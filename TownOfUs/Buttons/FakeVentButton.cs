@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Hud;
 using MiraAPI.Roles;
-using MiraAPI.Utilities.Assets;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,10 +21,7 @@ public sealed class FakeVentButton : CustomActionButton
         base.CreateButton(parent);
 
         var pb = Button?.GetComponent<PassiveButton>();
-        if (pb != null)
-        {
-            pb.OnClick = new Button.ButtonClickedEvent();
-        }
+        pb?.OnClick = new Button.ButtonClickedEvent();
 
         Button!.TryCast<AbilityButton>()!
             .commsDown

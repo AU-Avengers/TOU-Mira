@@ -2,7 +2,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class SentryPortableCameraSecondaryButton : SentryPortableCameraButtonBase
+public sealed class SentryPortableCameraSecondaryButton : SentryPortableCameraButtonBase, ILegacyCapable
 {
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
 

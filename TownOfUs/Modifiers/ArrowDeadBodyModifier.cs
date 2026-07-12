@@ -1,5 +1,6 @@
 ﻿using MiraAPI.Modifiers;
 using MiraAPI.PluginLoading;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ public abstract class ArrowDeadBodyModifier(DeadBody deadBody, Color color, floa
     {
         if (!_arrow.IsDestroyedOrNull())
         {
-            _arrow?.gameObject.Destroy();
+            _arrow?.gameObject.DeepDestroy();
             _arrow?.Destroy();
         }
     }

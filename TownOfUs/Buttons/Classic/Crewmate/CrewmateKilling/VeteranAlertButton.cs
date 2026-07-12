@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -8,7 +7,7 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class VeteranAlertButton : TownOfUsRoleButton<VeteranRole>
+public sealed class VeteranAlertButton : TownOfUsRoleButton<VeteranRole>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleVeteranAlert", "Alert");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
@@ -16,7 +15,7 @@ public sealed class VeteranAlertButton : TownOfUsRoleButton<VeteranRole>
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<VeteranOptions>.Instance.AlertCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<VeteranOptions>.Instance.AlertDuration;
     public override int MaxUses => (int)OptionGroupSingleton<VeteranOptions>.Instance.MaxNumAlerts;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.AlertSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.AlertSprite : TouCrewAssets.AlertSprite;
     public int ExtraUses { get; set; }
 
     protected override void OnClick()

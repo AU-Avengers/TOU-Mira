@@ -30,12 +30,12 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"HnsRole{LocaleKey}Camo", "Camo"),
                     TouLocale.GetParsed($"HnsRole{LocaleKey}CamoWikiDescription"),
                     TouImpAssets.HypnotiseButtonSprite)
-            };
+            ];
         }
     }
 
@@ -45,6 +45,7 @@ public sealed class HnsCamouflagerRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Hypnotist.LoadAsset(), "TouMira.Role.Impostor.Hypnotist", 1.45f),
         /*HideSettings = MiscUtils.CurrentGamemode() is not TouGamemode.HideAndSeek,*/
         FreeplayFolder = "Hide n Seek",
         Icon = TouRoleIcons.Hypnotist,

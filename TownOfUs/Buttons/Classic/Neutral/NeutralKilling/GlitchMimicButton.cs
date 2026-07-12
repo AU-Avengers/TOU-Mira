@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -13,14 +12,14 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAftermathableButton
+public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAftermathableButton, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleGlitchMimic", "Mimic");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Glitch;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<GlitchOptions>.Instance.MimicCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<GlitchOptions>.Instance.MimicDuration;
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.MimicSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.MimicSprite : TouNeutAssets.MimicSprite;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
     public override bool ShouldPauseInVent => false;
 
@@ -154,8 +153,7 @@ public sealed class GlitchMimicButton : TownOfUsRoleButton<GlitchRole>, IAfterma
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }

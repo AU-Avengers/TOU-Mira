@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -9,14 +8,14 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerControl>
+public sealed class ClericBarrierButton : TownOfUsRoleButton<ClericRole, PlayerControl>, ILegacyCapable
 {
     public override string Name => TouLocale.GetParsed("TouRoleClericBarrier", "Barrier");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Cleric;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<ClericOptions>.Instance.BarrierCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<ClericOptions>.Instance.BarrierDuration;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.BarrierSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.BarrierSprite : TouCrewAssets.BarrierSprite;
 
     public override bool IsTargetValid(PlayerControl? target)
     {

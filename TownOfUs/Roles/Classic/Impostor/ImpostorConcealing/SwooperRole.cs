@@ -27,7 +27,8 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        CanUseVent = OptionGroupSingleton<SwooperOptions>.Instance.CanVent,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Swooper.LoadAsset(), "TouMira.Role.Impostor.Swooper", 1.45f),
+        CanUseVent = (SwooperVent)OptionGroupSingleton<SwooperOptions>.Instance.CanVent.Value is not SwooperVent.Never,
         Icon = TouRoleIcons.Swooper,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         IntroSound = TouAudio.PhantomIntroSound
@@ -40,15 +41,15 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Swoop", "Swoop"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}SwoopWikiDescription"),
                     TouImpAssets.SwoopSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Unswoop", "Unswoop"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}UnswoopWikiDescription"),
                     TouImpAssets.UnswoopSprite)
-            };
+            ];
         }
     }
 }

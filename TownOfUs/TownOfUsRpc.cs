@@ -2,9 +2,9 @@
 
 public enum TownOfUsRpc : uint
 {
-    OffsetForAnticheat,
-    OffsetForParasite,
-    OffsetForPuppeteer,
+    SendClientModInfo,
+    ParasiteInputUnreliable,
+    PuppeteerInputUnreliable,
     GhostRoleMurder,
     SpecialMurder,
     ConfirmSpecialMurder,
@@ -13,8 +13,8 @@ public enum TownOfUsRpc : uint
     ConfirmSpecialMultiMurderDouble,
     FramedMurder,
     ConfirmFramedMurder,
-    GlamourMurder,
-    ConfirmGlamourMurder,
+    MeetingMurder,
+    ConfirmMeetingMurder,
     RemoveSpawns,
     RerouteSystemByte,
     RerouteSystemMsg,
@@ -137,11 +137,4 @@ public enum TownOfUsRpc : uint
     OfficerSyncBullets,
     SetUpCrewpostor,
     MisguessSummary,
-}
-
-internal enum TownOfUsInternalRpc : uint
-{
-    SendClientModInfo,
-    ParasiteInputUnreliable,
-    PuppeteerInputUnreliable,
 }

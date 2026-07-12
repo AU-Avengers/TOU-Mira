@@ -18,10 +18,7 @@ public static class MapLadderCooldownPatch
         
         foreach (var ladder in ladders)
         {
-            if (ladder != null)
-            {
-                ladder.CoolDown = 0f;
-            }
+            ladder?.CoolDown = 0f;
         }
     }
 
@@ -111,10 +108,7 @@ public static class MapLadderUseCooldownPatch
 
         __instance.CoolDown = 0f;
         __instance.Destination?.SetDestinationCooldown();
-        if (__instance.Destination != null)
-        {
-            __instance.Destination.CoolDown = 0f;
-        }
+        __instance.Destination?.CoolDown = 0f;
     }
 }
 
@@ -129,10 +123,7 @@ public static class MapLadderDestinationCooldownPatch
             return true;
         }
 
-        if (__instance.Destination != null)
-        {
-            __instance.Destination.CoolDown = 0f;
-        }
+        __instance.Destination?.CoolDown = 0f;
 
         return false;
     }

@@ -8,6 +8,7 @@ public static class TownOfUsColors
     public static bool UseBasic { get; set; } =
         LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.UseCrewmateTeamColorToggle.Value;
 
+    public static Color HaunterRevealed => new Color32(150, 50, 50, 255);
     public static Color CrewmateWiki => new Color32(80, 225, 255, 255);
     public static Color ImpWiki => new Color32(214, 32, 32, 255);
     public static Color NeutralWiki => new Color32(155, 155, 155, 255);
@@ -70,6 +71,7 @@ public static class TownOfUsColors
     public static Color Haunter => UseBasic ? Palette.CrewmateBlue : new Color32(212, 212, 212, 255);
     public static Color GuardianAngel => UseBasic ? Palette.CrewmateBlue : new Color32(102, 170, 243, 255);
     // Neutral Colors
+    public static Color Admirer => new Color32(232, 65, 138, 255);
     public static Color Amnesiac => new Color32(128, 179, 255, 255);
     public static Color Fairy => new Color32(179, 255, 255, 255);
     public static Color Lawyer => new Color32(237, 179, 140, 255);
@@ -77,20 +79,24 @@ public static class TownOfUsColors
     public static Color Survivor => new Color32(255, 230, 77, 255);
     public static Color Shifter => new Color32(153, 153, 153, 255);
 
-    public static Color Chef => new Color32(218, 162, 103, 255);
     public static Color Doomsayer => new Color32(0, 255, 128, 255);
     public static Color Executioner => new Color32(99, 59, 31, 255);
-    public static Color Inquisitor => new Color32(217, 66, 145, 255);
     public static Color Jester => new Color32(255, 191, 204, 255);
+    public static Color SoulCollector => new Color32(153, 255, 204, 255);
+    public static Color Death => new Color32(76, 76, 84, 255);
 
     public static Color Arsonist => new Color32(255, 77, 0, 255);
     public static Color Glitch => Color.green;
     public static Color Juggernaut => new Color32(140, 0, 77, 255);
     public static Color Plaguebearer => new Color32(230, 255, 179, 255);
     public static Color Pestilence => new Color32(77, 77, 77, 255);
-    public static Color SoulCollector => new Color32(153, 255, 204, 255);
+    public static Color Medusa => new Color32(120, 62, 220, 255);
     public static Color Vampire => new Color32(163, 41, 41, 255);
     public static Color Werewolf => new Color32(168, 102, 41, 255);
+
+    public static Color Inquisitor => new Color32(217, 66, 145, 255);
+    public static Color Jackal => new Color32(82, 80, 100, 255);
+    public static Color Chef => new Color32(218, 162, 103, 255);
 
     public static Color Spectre => new Color32(102, 41, 97, 255);
 

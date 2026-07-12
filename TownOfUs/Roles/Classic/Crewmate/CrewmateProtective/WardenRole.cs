@@ -49,12 +49,12 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Fortify", "Fortify"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FortifyWikiDescription"),
                     TouCrewAssets.FortifySprite)
-            };
+            ];
         }
     }
 
@@ -64,6 +64,7 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Warden.LoadAsset(), "TouMira.Role.Crewmate.Warden", 1.45f),
         IntroSound = TouAudio.SpyIntroSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Warden

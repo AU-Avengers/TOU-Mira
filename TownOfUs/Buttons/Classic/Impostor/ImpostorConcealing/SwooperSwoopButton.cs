@@ -1,16 +1,14 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Impostor;
 
-public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAftermathableButton
+public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAftermathableButton, ILegacyCapable
 {
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override string Name => TouLocale.GetParsed("TouRoleSwooperSwoop", "Swoop");
@@ -18,7 +16,7 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SwooperOptions>.Instance.SwoopCooldown + MapCooldown, 5f, 120f);
     public override float EffectDuration => OptionGroupSingleton<SwooperOptions>.Instance.SwoopDuration;
     public override int MaxUses => (int)OptionGroupSingleton<SwooperOptions>.Instance.MaxSwoops;
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.SwoopSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyImpAssets.SwoopSprite : TouImpAssets.SwoopSprite;
 
     public override bool ZeroIsInfinite { get; set; } = true;
 
@@ -71,8 +69,7 @@ public sealed class SwooperSwoopButton : TownOfUsRoleButton<SwooperRole>, IAfter
             return false;
         }
 
-        if (PlayerControl.LocalPlayer.HasModifier<GlitchHackedModifier>() || PlayerControl.LocalPlayer
-                .GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
+        if (PlayerControl.LocalPlayer.GetModifiers<DisabledModifier>().Any(x => !x.CanUseAbilities))
         {
             return false;
         }

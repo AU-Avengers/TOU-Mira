@@ -18,6 +18,7 @@ public sealed class GlitchMimicModifier(PlayerControl target) : ConcealedModifie
     public override bool AutoStart => true;
     public override bool VisibleToOthers => true;
     public bool VisualPriority => true;
+    public bool CanGlitchVent = true;
 
     public PlayerControl Target { get; } = target;
 
@@ -28,6 +29,8 @@ public sealed class GlitchMimicModifier(PlayerControl target) : ConcealedModifie
 
     public override void OnActivate()
     {
+        CanGlitchVent =
+            (GlitchVent)OptionGroupSingleton<GlitchOptions>.Instance.CanVent.Value is GlitchVent.Always;
         Player.RawSetAppearance(this);
 
         // Visual-only: match First Death Shield appearance to the mimicked target without granting the actual modifier.
@@ -67,5 +70,15 @@ public sealed class GlitchMimicModifier(PlayerControl target) : ConcealedModifie
         {
             Player.cosmetics.ToggleNameVisible(false);
         }
+    }
+
+    public override bool? CanVent()
+    {
+        if (!CanGlitchVent)
+        {
+            return false;
+        }
+
+        return null;
     }
 }

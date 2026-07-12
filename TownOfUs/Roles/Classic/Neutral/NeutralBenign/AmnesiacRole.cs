@@ -55,12 +55,12 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Remember", "Remember"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}RememberWikiDescription"),
                     TouNeutAssets.RememberButtonSprite)
-            };
+            ];
         }
     }
 
@@ -80,6 +80,7 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Amnesiac.LoadAsset(), "TouMira.Role.Neutral.Amnesiac", 1.45f),
         IntroSound = TouAudio.MediumIntroSound,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>(),
@@ -154,11 +155,14 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         player.ChangeRole((ushort)roleWhenAlive.Role);
         if (player.Data.Role is InquisitorRole inquis)
         {
-            inquis.Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().Where(x => x != player)
-                .ToList();
-            inquis.TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
-                .Where(x => x.Player != player)
-                .Select([HideFromIl2Cpp](x) => x.TargetRole).OrderBy([HideFromIl2Cpp](x) => x.GetRoleName()).ToList();
+            var newTargets = new Dictionary<PlayerControl, RoleBehaviour>();
+            foreach (var heretic in ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
+                         .Where(x => x.Player != player).OrderBy([HideFromIl2Cpp](x) => x.TargetRole.GetRoleName()))
+            {
+                newTargets.Add(heretic.Player, heretic.TargetRole);
+            }
+
+            inquis.Targets = newTargets;
         }
         else if (player.Data.Role is PlaguebearerRole || player.Data.Role is PestilenceRole)
         {

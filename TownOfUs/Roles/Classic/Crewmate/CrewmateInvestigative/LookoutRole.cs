@@ -1,9 +1,11 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -15,7 +17,8 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public string LocaleKey => "Lookout";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public static string ReworkString => (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Players ? "Alt" : string.Empty;
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
 
     public string GetAdvancedDescription()
     {
@@ -30,9 +33,10 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Lookout.LoadAsset(), "TouMira.Role.Crewmate.Lookout", 1.45f),
         Icon = TouRoleIcons.Lookout,
         OptionsScreenshot = TouBanners.LookoutRoleBanner,
-        IntroSound = TouAudio.QuestionSound
+        IntroSound = TouAudio.SuspenseIntro,
     };
 
 
@@ -42,12 +46,12 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Watch", "Watch"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}WatchWikiDescription"),
                     TouCrewAssets.WatchSprite)
-            };
+            ];
         }
     }
 
@@ -68,16 +72,12 @@ public sealed class LookoutRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
         // Fixes desync for when a player dies while interacting.
         var role = source.GetRoleWhenAlive();
 
-        var cachedMod = source.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-        if (cachedMod != null)
+        if (source.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
         {
             role = cachedMod.CachedRole;
         }
 
         // Prevents duplicate role entries
-        if (!mod.SeenPlayers.Contains(role))
-        {
-            mod.SeenPlayers.Add(role);
-        }
+        mod.SeenPlayers.TryAdd(source, role);
     }
 }

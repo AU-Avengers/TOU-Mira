@@ -2,7 +2,6 @@ using AmongUs.Data;
 using HarmonyLib;
 using TownOfUs.Modules.RainbowMod;
 using UnityEngine;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.RainbowMod;
 
@@ -11,12 +10,8 @@ public static class SetPlayerMaterialPatch
 {
     public static bool Prefix([HarmonyArgument(0)] int colorId, [HarmonyArgument(1)] Renderer rend)
     {
-        var r = rend.gameObject.GetComponent<RainbowBehaviour>();
-        if (r == null)
-        {
-            r = rend.gameObject.AddComponent<RainbowBehaviour>();
-        }
-
+        var r = rend.gameObject.GetComponent<RainbowBehaviour>()
+             ?? rend.gameObject.AddComponent<RainbowBehaviour>();
         r.AddRend(rend, colorId);
         return !RainbowUtils.IsRainbow(colorId);
     }
@@ -27,12 +22,8 @@ public static class SetPlayerMaterialPatch2
 {
     public static bool Prefix([HarmonyArgument(1)] Renderer rend)
     {
-        var r = rend.gameObject.GetComponent<RainbowBehaviour>();
-        if (r == null)
-        {
-            r = rend.gameObject.AddComponent<RainbowBehaviour>();
-        }
-
+        var r = rend.gameObject.GetComponent<RainbowBehaviour>()
+             ?? rend.gameObject.AddComponent<RainbowBehaviour>();
         r.AddRend(rend, 0);
         return true;
     }
@@ -88,8 +79,7 @@ public static class RainbowLobbyInfoPanePatch
             NetworkedPlayerInfo host = GameData.Instance.GetHost();
             string text = ColorUtility.ToHtmlStringRGB(RainbowUtils.SetBasicRainbow());
             __instance.hostLabel.text =
-                TranslationController.Instance.GetString(StringNames.HostNounLabel,
-                    Array.Empty<Object>());
+                TranslationController.Instance.GetString(StringNames.HostNounLabel);
             if (__instance.ShouldBoldenHostLabel(DataManager.Settings.Language.CurrentLanguage))
             {
                 __instance.hostLabel.text = __instance.hostLabel.text.Insert(0, "<b>");
@@ -103,7 +93,7 @@ public static class RainbowLobbyInfoPanePatch
                                                  : $"<color=#{text}>{host.PlayerName}</color>")
                                              + "  <size=90%><b><font=\"Barlow-BoldItalic SDF\" material=\"Barlow-BoldItalic SDF Outline\">" +
                                              TranslationController.Instance.GetString(
-                                                 StringNames.HostYouLabel, Array.Empty<Object>());
+                                                 StringNames.HostYouLabel);
             }
             else
             {

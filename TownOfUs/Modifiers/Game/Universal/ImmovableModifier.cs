@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;

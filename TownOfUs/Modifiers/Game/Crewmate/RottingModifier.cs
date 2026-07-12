@@ -1,5 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using System.Collections;
 using HarmonyLib;
@@ -75,7 +74,7 @@ public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
             Coroutines.Start(rotting.CoClean());
         }*/
         CrimeSceneComponent.ClearCrimeScene(rotting);
-        Coroutines.Start(CoSetUpRot(rotting, player, killer == null ? player : killer));
+        Coroutines.Start(CoSetUpRot(rotting, player, killer ?? player));
     }
 
     public static IEnumerator CoSetUpRot(DeadBody body, PlayerControl target, PlayerControl killer)

@@ -1,9 +1,9 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
-using Reactor.Utilities.Extensions;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
@@ -49,7 +49,7 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
     {
         if (_arrow)
         {
-            _arrow.gameObject.Destroy();
+            _arrow.gameObject.DeepDestroy();
         }
     }
 
@@ -66,8 +66,10 @@ public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
         var target = Helpers.GetClosestPlayers(Player, float.MaxValue)
             .FirstOrDefault(playerInfo => !playerInfo.Data.Disconnected &&
                                           playerInfo.PlayerId != Player.PlayerId &&
-                                          ((playerInfo.TryGetModifier<DisabledModifier>(out var mod) &&
-                                            mod.IsConsideredAlive) || !playerInfo.HasModifier<DisabledModifier>()) &&
+                                          (!playerInfo.TryGetModifier<DisabledModifier>(out var mod) ||
+                                           mod.IsConsideredAlive) &&
+                                          (SwoopModifier.CanBeTracked == SwoopTracking.Always ||
+                                           !playerInfo.HasModifier<SwoopModifier>()) &&
                                           !playerInfo.Data.IsDead);
         if (!target)
         {

@@ -1,12 +1,11 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
 namespace TownOfUs.Buttons.Crewmate;
 
-public sealed class MedicShieldButton : TownOfUsRoleButton<MedicRole, PlayerControl>
+public sealed class MedicShieldButton : TownOfUsRoleButton<MedicRole, PlayerControl>, ILegacyCapable
 {
     public bool CanChangeTarget = true;
     public override string Name => TouLocale.GetParsed("TouRoleMedicShield", "Shield");
@@ -20,7 +19,7 @@ public sealed class MedicShieldButton : TownOfUsRoleButton<MedicRole, PlayerCont
     public override bool ZeroIsInfinite { get; set; } = true;
 
     public override float Cooldown => Math.Clamp(MapCooldown, 0.001f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.MedicSprite;
+    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyCrewAssets.MedicSprite : TouCrewAssets.MedicSprite;
 
     public override bool CanUse()
     {

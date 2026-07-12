@@ -1,4 +1,3 @@
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using UnityEngine;
 
@@ -6,14 +5,14 @@ namespace TownOfUs.Assets;
 
 public static class TouAssets
 {
-    private const string ShortPath = "TownOfUs.Resources";
+    internal const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
     private const string SubmergedPath = "TownOfUs.Resources.Submerged";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
 
-    public static LoadableAsset<Sprite> Banner { get; } = new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png");
+    public static LoadableAsset<Sprite> Banner => TownOfUsPlugin.LegacyMode.Value is LegacyVisuals.Disabled ? new LoadableResourceAsset($"{ShortPath}.Banner{BetaIdentifier}.png") : LegacyAssets.Banner;
     public static LoadableAsset<Sprite> BannerDark { get; } = new LoadableResourceAsset($"{ShortPath}.BannerDark.png");
 
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
@@ -37,6 +36,25 @@ public static class TouAssets
 
         return sprite;
     }
+
+    public static LoadableAsset<Sprite> LegacyMenuSprite(LegacyVisuals value)
+    {
+        var sprite = LegacyDisabled;
+        switch (value)
+        {
+            case LegacyVisuals.Players:
+                sprite = LegacyPlayers;
+                break;
+            case LegacyVisuals.Art:
+                sprite = LegacyArt;
+                break;
+            case LegacyVisuals.Full:
+                sprite = LegacyFull;
+                break;
+        }
+
+        return sprite;
+    }
     public static LoadableAsset<Sprite> DleksBanner { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.DleksBanner.png");
 
@@ -48,6 +66,18 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> DleksIcon { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.DleksIcon.png");
+
+    public static LoadableAsset<Sprite> LegacyDisabled { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyDisabled.png");
+
+    public static LoadableAsset<Sprite> LegacyPlayers { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyPlayers.png");
+
+    public static LoadableAsset<Sprite> LegacyArt { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyArt.png");
+
+    public static LoadableAsset<Sprite> LegacyFull { get; } =
+        new LoadableResourceAsset($"{ShortPath}.Menus.LegacyFull.png");
 
     public static LoadableAsset<Sprite> FoolsNormal { get; } =
         new LoadableResourceAsset($"{ShortPath}.Menus.Normal.png");
@@ -102,6 +132,9 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AbilityCounterBasicSprite { get; } =
         new LoadableResourceAsset($"{CounterPath}.Basic.png");
 
+    public static LoadableAsset<Sprite> FirstRoundLockSprite { get; } =
+        new LoadableResourceAsset($"{ShortPath}.RoundOneLock.png");
+
     public static readonly LoadableAsset<GameObject> RoleSelectionGame =
         new LoadableBundleAsset<GameObject>("SelectRoleGame", MainBundle);
 
@@ -123,6 +156,15 @@ public static class TouAssets
     public static LoadableAsset<GameObject> MedicShield { get; } =
         new LoadableBundleAsset<GameObject>("MedicShield", MainBundle);
 
+    public static LoadableAsset<GameObject> MagicMirror { get; } =
+        new LoadableBundleAsset<GameObject>("MagicMirror", MainBundle);
+
+    public static LoadableAsset<GameObject> WraithRobe { get; } =
+        new LoadableBundleAsset<GameObject>("WraithCosmetic", MainBundle);
+
+    public static LoadableAsset<Sprite> JailorPlayerSprite { get; } =
+        new LoadableBundleAsset<Sprite>("JailorPlayer", MainBundle);
+
     public static LoadableAsset<GameObject> ParasiteOverlay { get; } =
         new LoadableBundleAsset<GameObject>("ParasiteOverlayObj", MainBundle);
 
@@ -140,6 +182,12 @@ public static class TouAssets
 
     public static LoadableAsset<GameObject> EscapistMarkPrefab { get; } =
         new LoadableBundleAsset<GameObject>("EscapistMark", MainBundle);
+
+    public static LoadableAsset<GameObject> VentExplodePrefab { get; } =
+        new LoadableBundleAsset<GameObject>("MinerVentCreate", MainBundle);
+
+    public static LoadableAsset<Sprite> MinerVentSprite { get; } =
+        new LoadableBundleAsset<Sprite>("MinerVent", MainBundle);
 
     public static LoadableAsset<GameObject> MeetingDeathPrefab { get; } =
         new LoadableBundleAsset<GameObject>("DeathAnimation", MainBundle);
@@ -369,14 +417,11 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> KillBG { get; } = new LoadableBundleAsset<Sprite>("KillBackground", MainBundle);
 
-    public static LoadableAsset<Sprite> ColorKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ColorKillBg.png");
+    public static LoadableAsset<Sprite> ColorKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundColor", MainBundle);
 
-    public static LoadableAsset<Sprite> NeutKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.NeutKillBg.png");
+    public static LoadableAsset<Sprite> NeutKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundNeut", MainBundle);
 
-    public static LoadableAsset<Sprite> CrewKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.CrewKillBg.png");
+    public static LoadableAsset<Sprite> CrewKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundCrew", MainBundle);
 
     public static LoadableAsset<Sprite> VitalBgMissin { get; } =
         new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
@@ -427,6 +472,12 @@ public static class TouAssets
 
     public static readonly LoadableAsset<GameObject> BlackMinipostorPet =
         new LoadableBundleAsset<GameObject>("BlackMinipostorPet", MainBundle);
+
+    public static readonly LoadableAsset<Sprite> DeputyOutfit =
+        new LoadableBundleAsset<Sprite>("DeputyOutfit", MainBundle);
+
+    public static readonly LoadableAsset<Sprite> DeputyRevealBg =
+        new LoadableBundleAsset<Sprite>("DeputyRevealBg", MainBundle);
 
     public static void Initialize()
     {
