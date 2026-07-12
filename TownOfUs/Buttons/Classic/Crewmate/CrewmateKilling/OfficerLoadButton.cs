@@ -2,6 +2,7 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using Reactor.Utilities;
+using TownOfUs.Events;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
@@ -14,20 +15,58 @@ public sealed class OfficerLoadButton : TownOfUsRoleButton<OfficerRole>
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Officer;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<OfficerOptions>.Instance.LoadCooldown.Value + MapCooldown, 5f, 120f);
+    public override float EffectDuration => Math.Clamp(OptionGroupSingleton<OfficerOptions>.Instance.LoadDelay.Value, 0.01f, 5f);
     public override int MaxUses => (int)OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsTotal;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.OfficerLoadSprite;
     public static OfficerShootButton ShootButton => CustomButtonSingleton<OfficerShootButton>.Instance;
     public static int MaxLoadedBullets => (int)OptionGroupSingleton<OfficerOptions>.Instance.MaxBulletsAtOnce;
     public bool RecentlyLoadedBullet;
     public override bool UsableFirstRound => OptionGroupSingleton<OfficerOptions>.Instance.FirstRoundShooting;
+    private int _loadRound;
 
     public override bool CanUse()
     {
         return base.CanUse() && !ShootButton.FailedShot && ShootButton.LoadedBullets < MaxLoadedBullets;
     }
 
+    public override void ClickHandler()
+    {
+        if (!CanClick())
+        {
+            return;
+        }
+
+        OnClick();
+
+        if (HasEffect)
+        {
+            EffectActive = true;
+            Timer = EffectDuration;
+        }
+        else
+        {
+            Timer = Cooldown;
+        }
+    }
+
     protected override void OnClick()
     {
+        _loadRound = DeathEventHandlers.CurrentRound;
+    }
+
+    public override void OnEffectEnd()
+    {
+        if (MeetingHud.Instance || DeathEventHandlers.CurrentRound != _loadRound)
+        {
+            return;
+        }
+
+        UsesLeft--;
+        if (LimitedUses)
+        {
+            Button?.SetUsesRemaining(UsesLeft);
+        }
+
         ShootButton.TotalBullets--;
         ShootButton.LoadedBullets++;
         OfficerRole.RpcOfficerSyncBullets(PlayerControl.LocalPlayer, ShootButton.RoundsBeforeReset, ShootButton.TotalBullets, ShootButton.LoadedBullets);

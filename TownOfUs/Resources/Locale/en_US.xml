@@ -1363,6 +1363,7 @@
   <!-- Officer Options -->
   <string name="TouOptionOfficerShootCooldown">Shoot Cooldown</string>
   <string name="TouOptionOfficerLoadCooldown">Load Cooldown</string>
+  <string name="TouOptionOfficerLoadDelay">Load Delay</string>
   <string name="TouOptionOfficerCanSelfReport">Can Self Report</string>
   <string name="TouOptionOfficerCanOnlyShootActiveKillers">Officer Can Only Shoot Players That Have Killed</string>
   <string name="TouOptionOfficerCrewKillingAreInnocent">Crewmate Killing Roles are Innocent</string>
