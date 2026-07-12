@@ -39,6 +39,8 @@ namespace TownOfUs.Utilities;
 
 public static class MiscUtils
 {
+    private static readonly Dictionary<RoleTypes, string> VanillaRoleTmpIcons = [];
+    private static readonly Dictionary<Type, string> CustomRoleTmpIcons = [];
 
     public static int GameHaltersAliveCount => Helpers.GetAlivePlayers().Count(x =>
         x.Data.Role is IContinuesGame gameHalt && gameHalt.ContinuesGame || x.GetModifiers<BaseModifier>()
@@ -2276,16 +2278,36 @@ public static class MiscUtils
 
     public static string GetRoleTmpIcon(RoleTypes role)
     {
-        return GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+        if (VanillaRoleTmpIcons.TryGetValue(role, out var icon))
+        {
+            return icon;
+        }
+
+        icon = GetRoleTmpIcon(RoleManager.Instance.GetRole(role));
+        VanillaRoleTmpIcons[role] = icon;
+        return icon;
     }
 
     public static string GetRoleTmpIcon(RoleBehaviour role)
     {
         if (role is ICustomRole custom)
         {
-            return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
+            var roleType = role.GetType();
+            if (CustomRoleTmpIcons.TryGetValue(roleType, out var customIcon))
+            {
+                return customIcon;
+            }
+
+            var configuration = custom.Configuration;
+            customIcon = configuration.IconTmp
+                ? $"<sprite name=\"{configuration.IconTmp.name}\">"
+                : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
+            CustomRoleTmpIcons[roleType] = customIcon;
+            return customIcon;
         }
-        return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
+        var icon = $"<sprite name=\"AmongUs.Role.{role.Role.ToString()}\">";
+        VanillaRoleTmpIcons[role.Role] = icon;
+        return icon;
     }
 }
 
