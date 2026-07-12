@@ -1,0 +1,45 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "dotnet: custom command",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/TownOfUs-Mira.sln",
+                "-m",
+                "-c", "${input:buildConfiguration}",
+                "/p:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "detail": "Execute dotnet commands with custom configurations."
+        }
+    ],
+    "inputs": [
+        {
+            "id": "buildConfiguration",
+            "type": "pickString",
+            "description": "Select the build configuration:",
+            "options": [
+                "Debug",
+                "Release",
+                "Unity"
+            ],
+            "default": "Debug"
+        }
+    ]
+}

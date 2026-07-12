@@ -5,14 +5,30 @@
         <RootNamespace>TownOfUs</RootNamespace>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <Version>$(VersionPrefix).$(VersionSuffix)</Version>
+        <Configurations>Debug;Release;Unity</Configurations>
     </PropertyGroup>
 
-    <ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Unity'">
+        <Optimize>true</Optimize>
+        <DefineConstants>UNITY</DefineConstants>
+        <NoWarn>$(NoWarn);MSB3277</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Unity'">
+        <Compile Remove="**\*.cs" />
+        <Compile Include="Unity\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' != 'Unity'">
         <EmbeddedResource Include="Resources\**\*.*" />
+        <Compile Remove="Unity\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Include="../LICENSE.txt" Pack="true" PackagePath="\"/>
         <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
-    <Import Project="../AmongUs.props" />
-
+    <Import Project="../AmongUs.props" Condition="'$(Configuration)' != 'Unity'" />
+    <Import Project="../AmongUs-Unity.props" Condition="'$(Configuration)' == 'Unity'" />
 </Project>
