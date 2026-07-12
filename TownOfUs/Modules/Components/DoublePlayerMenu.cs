@@ -87,8 +87,15 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
     /// <param name="onClick"><see cref="PassiveButton.OnClick"/> action for player.</param>
     /// <param name="onMouseOut">Function that can optionally be run when the mouse is moved outside a player panel.</param>
     /// <param name="onMouseOver">Function that can optionally be run when the mouse is moved over a player panel.</param>
+    /// <param name="allowUnselectFirst">Determines if clicking the first selection will deselct it,
+    ///     else it will count it as the second selection.</param>
     [HideFromIl2Cpp]
-    public void Begin(Func<PlayerControl, bool> playerMatch, Action<PlayerControl, PlayerControl> onClick, Action<SpriteRenderer, SpriteRenderer, bool>? onMouseOut = null, Action<SpriteRenderer, SpriteRenderer, bool>? onMouseOver = null)
+    public void Begin(
+        Func<PlayerControl, bool> playerMatch,
+        Action<PlayerControl, PlayerControl> onClick,
+        Action<SpriteRenderer, SpriteRenderer, bool>? onMouseOut = null,
+        Action<SpriteRenderer, SpriteRenderer, bool>? onMouseOver = null,
+        bool allowUnselectFirst = true)
     {
         Begin(
             playerMatch,
@@ -108,7 +115,7 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
                     SetNameplateAppearance(targetPanel, hoverDeselectSprite, hoverDeselectColor, activeColor, true);
                     return;
                 }
-                if (target1.PlayerId == plr.PlayerId) // Unselect first choice
+                if (allowUnselectFirst && target1.PlayerId == plr.PlayerId) // Unselect first choice
                 {
                     var targetPanel = this.GetVictimPanel(target1.Data);
                     SetNameplateAppearance(targetPanel, hoverSelectSprite, hoverSelectColor, Color.clear);
