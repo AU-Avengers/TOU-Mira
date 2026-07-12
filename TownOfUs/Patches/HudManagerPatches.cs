@@ -65,6 +65,9 @@ public static class HudManagerPatches
     public static bool Zooming;
     public static bool CamouflageCommsEnabled;
 
+    private const float NameplateUpdateInterval = 0.1f;
+    private static float _nextNameplateUpdate;
+
     private static void RefreshUIAnchors()
     {
         ResolutionManager.SetResolution(
@@ -1168,7 +1171,11 @@ public static class HudManagerPatches
         }
         
         UpdateCamouflageComms();
-        UpdateRoleNameText();
+        if (Time.unscaledTime >= _nextNameplateUpdate)
+        {
+            _nextNameplateUpdate = Time.unscaledTime + NameplateUpdateInterval;
+            UpdateRoleNameText();
+        }
         UpdateSubmergedButtons(__instance);
     }
 
