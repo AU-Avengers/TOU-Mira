@@ -16,6 +16,7 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -103,6 +104,14 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         overlay.background.enabled = true;
         yield return Effects.Wait(0.083333336f);
         overlay.background.enabled = false;
+        var flameSprite = overlay.flameParent.transform.FindChild("BackgroundFlame").GetComponent<SpriteRenderer>();
+        flameSprite.sprite = TouAssets.DeputyRevealBg.LoadAsset();
+        flameSprite.transform.localPosition = new Vector3(0, -2f);
+        if (KillOverlayPatch.material == null)
+        {
+            KillOverlayPatch.material = new Material(flameSprite.material);
+        }
+        flameSprite.material = KillOverlayPatch.material;
         overlay.flameParent.SetActive(true);
         overlay.flameParent.transform.localScale = new Vector3(1f, 0.3f, 1f);
         overlay.flameParent.transform.localEulerAngles = new Vector3(0f, 0f, 25f);
@@ -114,6 +123,14 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         overlay.flameParent.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
         anim.gameObject.SetActive(true);
         var sheriffCloseup = anim.transform.GetChild(2);
+        var outfit = sheriffCloseup.GetChild(1).GetComponent<SpriteRenderer>();
+        outfit.sprite = TouAssets.DeputyOutfit.LoadAsset();
+        
+        var clonedForeground = Instantiate(anim.impostorForeground, anim.impostorForeground.transform.parent);
+        clonedForeground.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        var clonedHand = Instantiate(anim.impostorHand, anim.impostorHand.transform.parent);
+        clonedHand.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+
         yield return new WaitForLerp(1.23f, new Action<float>(t =>
         {
             var adj = t / 200;
@@ -124,6 +141,8 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         {
             overlay.flameParent.transform.localScale = new Vector3(1f, 1f - t, 1f);
         }));
+        flameSprite.sprite = TouAssets.KillBG.LoadAsset();
+        flameSprite.transform.localPosition = new Vector3(0, 0);
         overlay.flameParent.SetActive(false);
         
         Destroy(anim.gameObject);
@@ -180,7 +199,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Deputy.LoadAsset(), "TouMira.Role.Crewmate.Deputy", 1.45f),
         Icon = TouRoleIcons.Deputy,
         OptionsScreenshot = TouBanners.DeputyRoleBanner,
-        IntroSound = TouAudio.ImpostorIntroSound,
+        IntroSound = TouAudio.DeputyIntroSound,
     };
 
     public static void OnRoundStart()

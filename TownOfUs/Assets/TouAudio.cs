@@ -50,6 +50,9 @@ public static class TouAudio
         new LoadableBundleAsset<AudioClip>("ToppatIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> DeputyIntroSound { get; } =
+        new LoadableBundleAsset<AudioClip>("DeputyIntroNew", TouAssets.MainBundle);
+
+    public static LoadableAsset<AudioClip> DeputyIntroSoundOld { get; } =
         new LoadableBundleAsset<AudioClip>("DeputyIntro", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> VampIntroSound { get; } =
@@ -190,10 +193,10 @@ public static class TouAudio
         new LoadableBundleAsset<AudioClip>("MirrorcasterShatter", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> BombExplode { get; } =
-        new LoadableAudioResourceAsset("TownOfUs.Resources.BombExplode.wav");
+        new LoadableBundleAsset<AudioClip>("BombExplode", TouAssets.MainBundle);
 
     public static LoadableAsset<AudioClip> DeputyReveal { get; } =
-        new LoadableAudioResourceAsset("TownOfUs.Resources.DeputyReveal.wav");
+        new LoadableBundleAsset<AudioClip>("DeputyReveal", TouAssets.MainBundle);
 
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {
