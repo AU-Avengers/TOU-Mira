@@ -106,7 +106,7 @@ public static class DeputyEvents
                 $"<b>{TownOfUsColors.Deputy.ToTextColor()}{TouLocale.GetParsed("TouRoleDeputyKillerWarnNotif")}</color></b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
             notif.AdjustNotification();
-            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Deputy));
         }
     }
 }

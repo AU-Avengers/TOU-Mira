@@ -5,7 +5,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using Reactor.Utilities.Attributes;
 using TMPro;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -24,8 +23,7 @@ using UnityEngine;
 
 namespace TownOfUs.Modules.Components;
 
-[RegisterInIl2Cpp]
-public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
+public sealed class HudManagerHelper : MonoBehaviour
 {
     #pragma warning disable S2325
     #pragma warning disable CA1822

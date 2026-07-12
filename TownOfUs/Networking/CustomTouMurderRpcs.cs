@@ -1077,7 +1077,7 @@ public static class CustomTouMurderRpcs
         switch (animationType)
         {
             case MeetingAnimation.FullscreenKill:
-                if (!Enum.IsDefined(properAnim))
+                if (!Enum.IsDefined(typeof(ExtendedKillAnimType), properAnim))
                 {
                     properAnim = ExtendedKillAnimType.None;
                 }
@@ -1095,7 +1095,7 @@ public static class CustomTouMurderRpcs
                 }
                 break;
             case MeetingAnimation.FullscreenSelfKill:
-                if (!Enum.IsDefined(properAnim))
+                if (!Enum.IsDefined(typeof(ExtendedKillAnimType), properAnim))
                 {
                     properAnim = ExtendedKillAnimType.None;
                 }
@@ -1118,7 +1118,7 @@ public static class CustomTouMurderRpcs
                 {
                     break;
                 }
-                Coroutines.Start(CoAnimateDeath(targetVoteArea, associatedAnimation));
+                AmongUsClient.Instance.StartCoroutine(CoAnimateDeath(targetVoteArea, associatedAnimation));
                 break;
             case MeetingAnimation.RoleSpecific:
                 if (targetVoteArea != null && source.Data.Role is IMeetingKiller role)
@@ -1270,8 +1270,8 @@ public static class CustomTouMurderRpcs
         voteArea.Overlay.gameObject.SetActive(false);
         animation.gameObject.SetActive(false);
 
-        Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed, 0.5f, 0.15f));
-        var seconds = Random.RandomRange(0.4f, 1.1f);
+        AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(Palette.ImpostorRed, 0.5f, 0.15f));
+        var seconds = Random.Range(0.4f, 1.1f);
         // if there's less than 6 players alive, animation will play instantly
         if (Helpers.GetAlivePlayers().Count <= 5 || instant)
         {
@@ -1312,12 +1312,12 @@ public static class CustomTouMurderRpcs
         {
             // ignored
         }
-        animation.Destroy();
+        animation.DeepDestroy();
         // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
         try
         {
             voteArea.XMark.gameObject.SetActive(true);
-            Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
+            AmongUsClient.Instance.StartCoroutine(MiscUtils.BetterBloop(voteArea.XMark.transform));
         }
         catch
         {
