@@ -73,7 +73,8 @@ public sealed class RemoteKillButton : TownOfUsButton
                 playerMenu.target1 = null;
             },
             MouseOutEvent,
-            MouseOverEvent
+            MouseOverEvent,
+            allowUnselectFirst: false
         );
         foreach (var panel in playerMenu.potentialVictims)
         {
