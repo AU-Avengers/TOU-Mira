@@ -1,7 +1,7 @@
-// TODO: Reimplement Discord Patches
-/*using System.Reflection;
+using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace TownOfUs.Patches.Misc;
@@ -39,19 +39,14 @@ public static class DiscordPlatformPatch
 
     public static bool Prefix(DiscordManager __instance)
     {
-        DiscordManager.ClientId = ClientId;
-
         try
         {
             __instance.presence = new Discord.Discord(ClientId, 1UL);
             var activityManager = __instance.presence.GetActivityManager();
 
             activityManager.RegisterSteam(SteamAppId);
-            activityManager.add_OnActivityJoin((Action<string>)__instance.HandleJoinRequest);
-            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>)((scene, _) =>
-            {
-                __instance.OnSceneChange(scene.name);
-            }));
+            activityManager.OnActivityJoin += __instance.HandleJoinRequest;
+            SceneManager.sceneLoaded += (UnityAction<Scene, LoadSceneMode>) ((scene, mode) => __instance.OnSceneChange(scene.name));
             __instance.SetInMenus();
         }
         catch
@@ -60,4 +55,4 @@ public static class DiscordPlatformPatch
         }
         return false;
     }
-}*/
+}

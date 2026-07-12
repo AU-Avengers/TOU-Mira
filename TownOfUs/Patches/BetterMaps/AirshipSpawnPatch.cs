@@ -13,15 +13,11 @@ public static class AirshipSpawnPatch
     [HarmonyPrefix]
     public static void Prefix(SpawnInMinigame __instance)
     {
-        // TODO: Fix airship spawns.
-        /*if (OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == BetterAirshipOptions.SpawnModes.HostChoosesOne)
+        if (OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == BetterAirshipOptions.SpawnModes.HostChoosesOne)
         {
             var location = __instance.Locations.FirstOrDefault(x => x.Name == EnumToType());
 
-            if (location)
-            {
-                __instance.Locations = new([location, location, location]);
-            }
+            __instance.Locations = [location, location, location];
         }
         else if (OptionGroupSingleton<BetterAirshipOptions>.Instance.SpawnMode == BetterAirshipOptions.SpawnModes.SameSpawns)
         {
@@ -37,8 +33,8 @@ public static class AirshipSpawnPatch
                 RemoveSpawns(PlayerControl.LocalPlayer, picks[0], picks[1], picks[2]);
             }
 
-            __instance.Locations = new([.. __instance.Locations.Where(x => !RemovedSpawns.Contains(x.Name))]);
-        }*/
+            __instance.Locations = __instance.Locations.Where(x => !RemovedSpawns.Contains(x.Name)).ToArray();
+        }
     }
 
     static StringNames EnumToType()

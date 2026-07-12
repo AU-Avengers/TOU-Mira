@@ -1,5 +1,6 @@
 using HarmonyLib;
 using TownOfUs.Modules.Components;
+using TownOfUs.Modules.MedSpirit;
 
 namespace TownOfUs.Patches;
 
@@ -21,13 +22,12 @@ public static class AmongUsClientPatches
         Error("TOU Mira Spawnables are temporarily disabled. Medium will not work.");
 
         // TODO: Fix Medium Spirit spawnable ASAP
-        /*
         Warning("Added TOU Mira Spawnables.");
         var medSpirit = TouAssets.MediumSpirit.LoadAsset().GetComponent<MedSpiritObject>();
         medSpirit.SpawnId = (uint)__instance.SpawnableObjects.Length;
         __instance.SpawnableObjects =
             __instance.SpawnableObjects.AddRangeToArray([__instance.SpawnableObjects[0]]); // dummy value
 
-        __instance.NonAddressableSpawnableObjects.AddRangeToArray([medSpirit]);*/
+        __instance.NonAddressableSpawnableObjects = __instance.NonAddressableSpawnableObjects.AddRangeToArray([medSpirit]);
     }
 }
