@@ -57,15 +57,15 @@ public sealed class AmbusherRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Pursue", "Pursue"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}PursueWikiDescription"),
                     TouImpAssets.PursueSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Ambush", "Ambush"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}AmbushWikiDescription"),
                     TouImpAssets.AmbushSprite)
-            };
+            ];
         }
     }
 

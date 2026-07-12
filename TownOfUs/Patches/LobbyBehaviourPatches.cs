@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
 using TownOfUs.Patches.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
@@ -15,6 +16,7 @@ public static class LobbyBehaviourPatches
     [HarmonyPostfix]
     public static void LobbyStartPatch()
     {
+        CustomTouMurderRpcs.StoredKillAnimations = [];
         HaunterRole.ResetReveals();
         GameTimerPatch.ResetTimer();
         foreach (var role in GameHistory.AllRoles)

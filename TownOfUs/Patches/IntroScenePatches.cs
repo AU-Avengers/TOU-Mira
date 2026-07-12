@@ -6,7 +6,6 @@ using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options;
 using TownOfUs.Roles.Other;
 using UnityEngine;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches;
 
@@ -60,7 +59,7 @@ public static class IntroScenePatches
         }
 
         __instance.TeamTitle.text =
-            TranslationController.Instance.GetString(StringNames.Impostor, Array.Empty<Object>());
+            TranslationController.Instance.GetString(StringNames.Impostor);
         __instance.TeamTitle.color = Palette.ImpostorRed;
 
         var player = __instance.CreatePlayer(0, 1, PlayerControl.LocalPlayer.Data, true);
@@ -78,8 +77,7 @@ public static class IntroScenePatches
         if (PlayerControl.LocalPlayer.HasModifier<CrewpostorModifier>())
         {
             __instance.TeamTitle.text =
-                TranslationController.Instance.GetString(StringNames.Impostor,
-                    Array.Empty<Object>());
+                TranslationController.Instance.GetString(StringNames.Impostor);
             __instance.TeamTitle.color = Palette.ImpostorRed;
             __instance.ImpostorText.gameObject.SetActive(false);
         }

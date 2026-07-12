@@ -115,10 +115,7 @@ public static class HideAndSeekMusicPatches
         __instance.dangerLevel1 = 0f;
         __instance.dangerLevel2 = 0f;
         __instance.UpdateDangerMusic();
-        if (__instance.dangerMeter != null)
-        {
-            __instance.dangerMeter.SetDangerValue(0f, 0f);
-        }
+        __instance.dangerMeter?.SetDangerValue(0f, 0f);
 
         return false;
     }

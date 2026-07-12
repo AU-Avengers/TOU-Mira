@@ -41,12 +41,12 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}SwapWiki", "Swap (Meeting)"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}SwapWikiDescription"),
                     TouAssets.SwapActive)
-            };
+            ];
         }
     }
 

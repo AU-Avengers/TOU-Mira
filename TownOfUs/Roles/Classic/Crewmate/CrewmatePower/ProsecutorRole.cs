@@ -82,12 +82,12 @@ public sealed class ProsecutorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWiki", "Prosecute"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWikiDescription"),
                     TouRoleIcons.Prosecutor)
-            };
+            ];
         }
     }
 

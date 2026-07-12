@@ -44,7 +44,7 @@ public static class ArsonistEvents
     }
 
     [RegisterEvent]
-    public static void OnRoundStartEventHandler(RoundStartEvent @event)
+    public static void OnRoundStartEventHandler(RoundStartEvent _)
     {
         ArsonistRole.SetDouseUses();
     }

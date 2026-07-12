@@ -104,11 +104,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         return customMenu;
     }
 
-    private sealed class MenuEntry(ShapeshifterPanel panel, string sortKey)
-    {
-        public ShapeshifterPanel Panel { get; } = panel;
-        public string SortKey { get; } = sortKey;
-    }
+    private sealed record MenuEntry(ShapeshifterPanel Panel, string SortKey);
 
     private static string NormalizeForSearch(string? text)
     {
@@ -152,10 +148,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
     private IEnumerator CoRestoreFocus()
     {
         yield return null;
-        if (searchTextbox != null)
-        {
-            searchTextbox.GiveFocus();
-        }
+        searchTextbox?.GiveFocus();
     }
 
     private void NextPage()
@@ -184,10 +177,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         }
 
         var filtered = GetFilteredEntries();
-        if (noResultsText != null)
-        {
-            noResultsText.gameObject.SetActive(filtered.Count == 0 && !string.IsNullOrWhiteSpace(searchText));
-        }
+        noResultsText?.gameObject.SetActive(filtered.Count == 0 && !string.IsNullOrWhiteSpace(searchText));
         var totalPages = GetTotalPages(filtered.Count);
         currentPage = Mathf.Clamp(currentPage, 0, totalPages - 1);
 
@@ -244,10 +234,7 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         try
         {
             var placeholder = searchTextbox.transform.parent.GetChild(2).GetComponent<TextMeshPro>();
-            if (placeholder != null)
-            {
-                placeholder.gameObject.SetActive(false);
-            }
+            placeholder?.gameObject.SetActive(false);
         }
         catch
         {
@@ -272,12 +259,9 @@ public sealed class GuesserMenu(IntPtr cppPtr) : Minigame(cppPtr)
         searchBounds = CalcSpriteBoundsInParentSpace(transform, searchObj);
 
         var wikiClickSound = HudManager.Instance?.MapButton?.ClickSound;
-        
-        var searchFocusButton = searchTextbox.gameObject.GetComponent<PassiveButton>();
-        if (searchFocusButton == null)
-        {
-            searchFocusButton = searchTextbox.gameObject.AddComponent<PassiveButton>();
-        }
+
+        var searchFocusButton = searchTextbox.gameObject.GetComponent<PassiveButton>()
+                             ?? searchTextbox.gameObject.AddComponent<PassiveButton>();
         if (wikiClickSound != null)
         {
             searchFocusButton.ClickSound = wikiClickSound;

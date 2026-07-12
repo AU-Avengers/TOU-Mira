@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace TownOfUs.Patches.Misc;
 
-// Simplified version of the code from https://github.com/D1GQ/BetterAmongUs/blob/main/src/Patches/Client/SplashIntroPatch.cs
-// This just removes the jarry intro and replaces the Play Every Ware logo rather than replace the Innersloth logo.
+/// <remarks>
+/// Simplified version of the code from <see href="https://github.com/D1GQ/BetterAmongUs/blob/main/src/Patches/Client/SplashIntroPatch.cs"/>
+/// This just removes the jarry intro and replaces the Play Every Ware logo rather than replace the Innersloth logo.
+/// </remarks>
 [HarmonyPatch]
 internal static class SplashIntroPatch
 {

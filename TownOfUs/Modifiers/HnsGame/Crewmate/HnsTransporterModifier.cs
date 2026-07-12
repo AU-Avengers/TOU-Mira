@@ -71,7 +71,7 @@ public sealed class HnsTransporterModifier : HnsGameModifier
             }
         }
 
-        (Vector2, Vector2) GetAdjustedPositions(PlayerControl player1, PlayerControl player2)
+        static (Vector2, Vector2) GetAdjustedPositions(PlayerControl player1, PlayerControl player2)
         {
             // assign dummy values so it doesnt error about returning unassigned variables
             var tp1Position = player1.GetTruePosition();
