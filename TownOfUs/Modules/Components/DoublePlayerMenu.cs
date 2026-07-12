@@ -112,13 +112,13 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
                 {
                     target1 = plr;
                     var targetPanel = this.GetVictimPanel(target1.Data);
-                    SetNameplateAppearance(targetPanel, hoverDeselectSprite, hoverDeselectColor, activeColor, true);
+                    SetNameplateAppearance(targetPanel, true);
                     return;
                 }
                 if (allowUnselectFirst && target1.PlayerId == plr.PlayerId) // Unselect first choice
                 {
                     var targetPanel = this.GetVictimPanel(target1.Data);
-                    SetNameplateAppearance(targetPanel, hoverSelectSprite, hoverSelectColor, Color.clear);
+                    SetNameplateAppearance(targetPanel, false);
                     target1 = null;
                     return;
                 }
@@ -130,14 +130,17 @@ public class DoublePlayerMenu(IntPtr il2CppPtr) : CustomPlayerMenu(il2CppPtr)
         onMouseOutAction = onMouseOut;
         foreach (var victim in potentialVictims)
         {
-            SetNameplateAppearance(victim, hoverSelectSprite, hoverSelectColor, Color.clear);
+            SetNameplateAppearance(victim, false);
         }
     }
 
     [HideFromIl2Cpp]
-    private void SetNameplateAppearance(ShapeshifterPanel panel,
-        LoadableAsset<Sprite>? sprite, Color? overColor, Color? unselectedColor, bool isSelected = false)
+    private void SetNameplateAppearance(ShapeshifterPanel panel, bool isSelected)
     {
+        LoadableAsset<Sprite>? sprite = isSelected ? hoverDeselectSprite : hoverSelectSprite;
+        Color? overColor =              isSelected ? hoverDeselectColor : hoverSelectColor;
+        Color? unselectedColor =        isSelected ? activeColor : Color.clear;
+
         var nameplate = panel.gameObject.transform.FindChild("Nameplate");
         var highlight = nameplate.FindChild("Highlight").GetComponent<SpriteRenderer>();
         var icon = highlight.transform.GetChild(0).GetComponent<SpriteRenderer>();
