@@ -153,6 +153,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     {
         var loverKnowsOtherRole = OptionGroupSingleton<LoversOptions>.Instance.LoverKnowsOthersRole &&
                                   PlayerControl.LocalPlayer.IsLoverWith(player);
+
         return loverKnowsOtherRole;
     }
 
