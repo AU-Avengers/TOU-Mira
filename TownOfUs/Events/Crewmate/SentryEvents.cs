@@ -165,7 +165,7 @@ public static class SentryEvents
     }
 
     [RegisterEvent]
-    public static void EjectionEventHandler(EjectionEvent @event)
+    public static void EjectionEventHandler(EjectionEvent _)
     {
         if (OptionGroupSingleton<SentryOptions>.Instance.DeployedCamerasVisibility is SentryDeployedCamerasVisibility.AfterMeeting)
         {
@@ -178,10 +178,7 @@ public static class SentryEvents
 
                 cameraPair.Key.gameObject.SetActive(true);
                 var spriteRenderer = cameraPair.Key.gameObject.GetComponent<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
-                    spriteRenderer.color = Color.white;
-                }
+                spriteRenderer?.color = Color.white;
             }
         }
 

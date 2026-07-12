@@ -17,16 +17,15 @@ public static class BucketTooltipData
         public Color Col = col;
     }
 
-    public readonly struct TooltipInfo
+    public readonly struct TooltipInfo(BucketTooltipData.RoleEntry[] roles)
     {
-        internal readonly RoleEntry[] Roles;
-        public TooltipInfo(RoleEntry[] roles) { Roles = roles; }
+        internal readonly RoleEntry[] Roles = roles;
     }
 
     // ── All possible roles per bucket ─────────────────────────────────────────
     public static Dictionary<RoleListOption, RoleEntry[]> AllRoles => _allRoles;
 
-    private static readonly Dictionary<RoleListOption, RoleEntry[]> _allRoles = new();
+    private static readonly Dictionary<RoleListOption, RoleEntry[]> _allRoles = [];
 
     // Group buckets map to multiple specific buckets
     private static readonly Dictionary<RoleListOption, RoleListOption[]> _groupBuckets = new()
@@ -105,7 +104,7 @@ public static class BucketTooltipData
         else
         {
             Error($"Bucket missing!");
-            return System.Array.Empty<RoleEntry>();
+            return [];
         }
 
         var result = new List<RoleEntry>();

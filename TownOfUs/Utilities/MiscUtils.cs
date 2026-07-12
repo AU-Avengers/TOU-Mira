@@ -1265,7 +1265,7 @@ public static class MiscUtils
         return assignmentData;
     }
 
-    public static PlayerControl? PlayerById(byte id)
+    public static PlayerControl PlayerById(byte id)
     {
         foreach (var player in PlayerControl.AllPlayerControls)
         {
@@ -1275,7 +1275,7 @@ public static class MiscUtils
             }
         }
 
-        return null;
+        return null!;
     }
 
     public static IEnumerator PerformTimedAction(float duration, Action<float> action)
@@ -1569,6 +1569,7 @@ public static class MiscUtils
             }
 
             var addedRole = SelectRole(roles);
+            roles.Remove(addedRole);
             toApply.Add(addedRole.RoleType);
             applied.Add(addedRole);
 
@@ -1602,8 +1603,6 @@ public static class MiscUtils
             }
         }
 
-        roles.Remove(selectedRole);
-
         return selectedRole;
     }
 
@@ -1617,7 +1616,7 @@ public static class MiscUtils
     }
 
     // Method to parse a JSON array string into an array of objects
-    public static T[] jsonToArray<T>(string json)
+    public static T[] JsonToArray<T>(string json)
     {
         // Wrap the JSON array in an object
         var newJson = "{ \"array\": " + json + "}";
@@ -1933,14 +1932,14 @@ public static class MiscUtils
         return text;
     }
 
-    private static List<SupportedLangs> _languagesToBold = new List<SupportedLangs>
-    {
+    private static readonly List<SupportedLangs> _languagesToBold =
+    [
         SupportedLangs.Russian,
         SupportedLangs.Japanese,
         SupportedLangs.SChinese,
         SupportedLangs.TChinese,
         SupportedLangs.Korean
-    };
+    ];
 
     public static void AdjustNotification(this LobbyNotificationMessage notification)
     {
@@ -2020,7 +2019,7 @@ public static class MiscUtils
             if (CanSeePostGameLogs)
             {
                 TownOfUsEventHandlers.LogBuffer.Add(
-                    new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+                    new(logLevel, $"At {DateTime.UtcNow:T} -> " + text));
             }
 
             return;
@@ -2045,7 +2044,7 @@ public static class MiscUtils
                 break;
         }
 
-        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow.ToLongTimeString()} -> " + text));
+        TownOfUsEventHandlers.LogBuffer.Add(new(logLevel, $"At {DateTime.UtcNow:T} -> " + text));
     }
 
 
@@ -2081,7 +2080,7 @@ public static class MiscUtils
     public static object? TryOtherCast(this Il2CppObjectBase self, Type type)
     {
         return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type)
-            .Invoke(self, Array.Empty<object>());
+            .Invoke(self, []);
     }
 
     public static IList CreateList(Type myType)
@@ -2124,10 +2123,7 @@ public static class MiscUtils
 
         if (attacker.AmOwner)
         {
-            if (cam != null)
-            {
-                cam.Locked = true;
-            }
+            cam?.Locked = true;
 
             attacker.isKilling = true;
         }
@@ -2138,10 +2134,7 @@ public static class MiscUtils
 
         KillAnimation.SetMovement(attacker, true);
 
-        if (cam != null)
-        {
-            cam.Locked = false;
-        }
+        cam?.Locked = false;
 
         attacker.isKilling = false;
     }
@@ -2296,7 +2289,7 @@ public static class MiscUtils
         {
             return custom.Configuration.IconTmp ? $"<sprite name=\"{custom.Configuration.IconTmp.name}\">" : $"<sprite name=\"AmongUs.Role.{custom.Team}\">";
         }
-        return $"<sprite name=\"AmongUs.Role.{role.Role.ToString()}\">";
+        return $"<sprite name=\"AmongUs.Role.{role.Role}\">";
     }
 }
 

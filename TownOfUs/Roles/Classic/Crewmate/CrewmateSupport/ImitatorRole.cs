@@ -27,8 +27,8 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}CrewmateImitation"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CrewmateImitationWikiDescription"),
                     TouCrewAssets.InspectSprite),
@@ -38,7 +38,7 @@ public sealed class ImitatorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}ImpostorCounterparts"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ImpostorCounterpartsWikiDescription"),
                     TouImpAssets.DragSprite),
-            };
+            ];
         }
     }
 

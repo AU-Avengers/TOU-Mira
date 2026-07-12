@@ -65,15 +65,12 @@ public sealed class RoleOptions : AbstractOptionGroup
                 return RoleDistribution.AllKillers;*/
         }
 
-        switch (roleDist)
+        return roleDist switch
         {
-            case RoleSelectionMode.MinMaxList:
-                return RoleDistribution.MinMaxList;
-            case RoleSelectionMode.RoleList:
-                return RoleDistribution.RoleList;
-        }
-
-        return RoleDistribution.Vanilla;
+            RoleSelectionMode.MinMaxList => RoleDistribution.MinMaxList,
+            RoleSelectionMode.RoleList => RoleDistribution.RoleList,
+            _ => RoleDistribution.Vanilla,
+        };
     }
 
     public bool IsClassicRoleAssignment

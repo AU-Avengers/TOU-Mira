@@ -56,7 +56,7 @@ public static class LookoutEvents
     }
 
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         if (!OptionGroupSingleton<LookoutOptions>.Instance.LoResetOnNewRound)
         {

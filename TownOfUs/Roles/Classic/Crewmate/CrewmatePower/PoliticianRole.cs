@@ -43,8 +43,8 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Campaign", "Campaign"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CampaignWikiDescription"),
                     TouCrewAssets.CampaignButtonSprite),
@@ -53,7 +53,7 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
                         ? $"TouRole{LocaleKey}RevealWikiDescriptionPunished"
                         : $"TouRole{LocaleKey}RevealWikiDescription"),
                     TouAssets.RevealCleanSprite)
-            };
+            ];
         }
     }
 

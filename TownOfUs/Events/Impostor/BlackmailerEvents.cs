@@ -11,7 +11,7 @@ namespace TownOfUs.Events.Impostor;
 public static class BlackmailerEvents
 {
     [RegisterEvent]
-    public static void EjectionEvent(EjectionEvent @event)
+    public static void EjectionEvent(EjectionEvent _)
     {
         var sparedPlayers = ModifierUtils.GetPlayersWithModifier<BlackmailSparedModifier>().ToList();
         sparedPlayers.Do(x => x.RemoveModifier<BlackmailSparedModifier>());

@@ -741,10 +741,18 @@
   <string name="TouRoleDeputyCamp">Camp</string>
   <string name="TouRoleDeputyCampWikiDescription">Camp a player to be alerted once they die. After their death, you may attempt to shoot the killer. If your shot is successful, the killer dies, if not, nothing will happen.</string>
   <!-- Deputy Feedback -->
+  <string name="TouRoleDeputyRevealedText"> (Blasted)</string>
   <string name="TouRoleDeputyCampNotif">Wait for \%player\%'s death so you can blast their killer in the meeting.</string>
   <string name="TouRoleDeputyCampedKillNotif">Your camped target, \%player\%, has died! Avenge them in the meeting.</string>
+  <string name="TouRoleDeputyKillerWarnNotif">A Deputy had camped your victim, watch out! </string>
   <string name="TouRoleDeputyMessageTitle">Deputy Feedback</string>
   <string name="TouRoleDeputyMissedShot">You missed your shot! They are either not the killer or are invincible.</string>
+  <!-- Deputy Options -->
+  <string name="TouOptionDeputyWarnKillerOnCampedKill">Warn Killer Upon Killing Camped Target</string>
+  <string name="TouOptionDeputyRevealDeputyUponShot">Reveal Deputy Upon Successful Shot</string>
+  <string name="TouOptionDeputyEnumNoReveal">Disabled</string>
+  <string name="TouOptionDeputyEnumAnnounceRole">Announce Role</string>
+  <string name="TouOptionDeputyEnumRevealPlayer">Reveal Deputy</string>
   <!-- Forensic - Crewmate Investigative -->
   <!-- Forensic Wiki / Abilities -->
   <string name="TouRoleForensic">Forensic</string>
@@ -898,14 +906,17 @@
   <string name="TouRoleLookout">Lookout</string>
   <string name="TouRoleLookoutIntroBlurb">Keep your eyes wide open</string>
   <string name="TouRoleLookoutTabDescription">Watch other crewmates to see what roles interact with them</string>
-  <string name="TouRoleLookoutWikiDescription">The Lookout is a Crewmate Investigative role that can watch other players during rounds. During meetings, they will see all roles who interact with each watched player.</string>
+  <string name="TouRoleLookoutAltTabDescription">Watch other crewmates to see who interacts with them</string>
+  <string name="TouRoleLookoutWikiDescription">The Lookout is a Crewmate Investigative role that can watch other players during rounds. During meetings, they will see all roles or players who interact with each watched player.</string>
   <string name="TouRoleLookoutWatch">Watch</string>
   <string name="TouRoleLookoutWatchWikiDescription">Watch a player or multiple, the next meeting you will know which players interacted with the watched ones.</string>
   <string name="TouRoleLookoutWatchNotif">You will know what roles interact with \%player\% next meeting.</string>
+  <string name="TouRoleLookoutWatchAltNotif">You will know who interacts with \%player\% next meeting.</string>
   <!-- Lookout Feedback -->
   <string name="TouRoleLookoutFeedbackTitle">Lookout Feedback</string>
   <string name="TouRoleLookoutNoInteractionFeedback">No players interacted with \%player\%</string>
   <string name="TouRoleLookoutInteractionFeedback">Roles seen interacting with \%player\%</string>
+  <string name="TouRoleLookoutAltInteractionFeedback">Players seen interacting with \%player\%</string>
   <!-- Lookout Options -->
   <string name="TouOptionLookoutWatchCooldown">Watch Cooldown</string>
   <string name="TouOptionLookoutMaxWatches">Initial Players That Can be Watched</string>

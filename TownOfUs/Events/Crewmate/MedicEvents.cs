@@ -21,7 +21,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class MedicEvents
 {
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         if (PlayerControl.LocalPlayer.Data.Role is MedicRole)
         {

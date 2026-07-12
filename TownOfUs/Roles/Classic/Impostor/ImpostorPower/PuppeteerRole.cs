@@ -262,10 +262,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
             if (target.MyPhysics != null)
             {
-                if (target.MyPhysics.body != null)
-                {
-                    target.MyPhysics.body.velocity = Vector2.zero;
-                }
+                target.MyPhysics.body?.velocity = Vector2.zero;
                 target.MyPhysics.SetNormalizedVelocity(Vector2.zero);
             }
 
@@ -400,8 +397,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
                 continue;
             }
 
-            bool canUse;
-            usable.CanUse(player.Data, out canUse, out _);
+            usable.CanUse(player.Data, out bool canUse, out _);
             if (!canUse)
             {
                 continue;

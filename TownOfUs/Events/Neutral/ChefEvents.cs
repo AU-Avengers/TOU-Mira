@@ -54,7 +54,7 @@ public static class ChefEvents
     }
     
     [RegisterEvent]
-    public static void EjectionEventHandler(EjectionEvent @event)
+    public static void EjectionEventHandler(EjectionEvent _)
     {
         var chef = CustomRoleUtils.GetActiveRolesOfType<ChefRole>().FirstOrDefault();
         if (chef != null && chef.TargetsServed && !chef.Player.HasDied())

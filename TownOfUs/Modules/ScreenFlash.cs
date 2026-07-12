@@ -7,7 +7,7 @@ namespace TownOfUs.Modules;
 // Code Review: Should be using a MonoBehaviour
 public sealed class ScreenFlash : IDisposable
 {
-    private static readonly List<ScreenFlash> _screenFlashes = new();
+    private static readonly List<ScreenFlash> _screenFlashes = [];
 
     private readonly SpriteRenderer _renderer;
 
@@ -57,10 +57,7 @@ public sealed class ScreenFlash : IDisposable
 
     public void SetColour(Color color)
     {
-        if (_renderer != null)
-        {
-            _renderer.color = color;
-        }
+        _renderer?.color = color;
     }
 
     public void Destroy()

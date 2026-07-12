@@ -28,15 +28,15 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"HnsRole{LocaleKey}Swoop", "Swoop"),
                     TouLocale.GetParsed($"HnsRole{LocaleKey}SwoopWikiDescription"),
                     TouCrewAssets.CrewSwoopSprite),
                 new(TouLocale.GetParsed($"HnsRole{LocaleKey}Unswoop", "Unswoop"),
                     TouLocale.GetParsed($"HnsRole{LocaleKey}UnswoopWikiDescription"),
                     TouCrewAssets.CrewUnswoopSprite)
-            };
+            ];
         }
     }
 
@@ -218,21 +218,10 @@ public sealed class HnsChameleonRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITow
     private static readonly ContactFilter2D Filter = Helpers.CreateFilter(Constants.Usables);
     public Vent? GetTarget()
     {
-        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 4, Filter);
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 3, Filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 2, Filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance(), Filter);
-        }
+        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 4, Filter)
+                ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 3, Filter)
+                ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 2, Filter)
+                ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance(), Filter);
 
         if (vent != null && PlayerControl.LocalPlayer.CanUseVent(vent))
         {

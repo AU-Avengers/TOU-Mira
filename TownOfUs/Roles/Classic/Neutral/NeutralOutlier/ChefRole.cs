@@ -63,15 +63,15 @@ public sealed class ChefRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Cook", "Cook"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CookWikiDescription"),
                     TouNeutAssets.ChefCookSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Serve", "Serve"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ServeWikiDescription"),
                     TouNeutAssets.ChefServeSprites.AsEnumerable().Random()!),
-            };
+            ];
         }
     }
 

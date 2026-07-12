@@ -19,7 +19,7 @@ public sealed class UE_SpriteFlipper : MonoBehaviour
     public bool DoOffset { get; set; }
     public float Offset { get; set; } = 0.8f;
 
-    [HideFromIl2Cpp] public CosmeticsLayer reference { get; set; }
+    [HideFromIl2Cpp] public CosmeticsLayer Reference { get; set; }
 
     public void Start()
     {
@@ -34,11 +34,11 @@ public sealed class UE_SpriteFlipper : MonoBehaviour
         {
             foreach (var rend in RenderersArray)
             {
-                rend.flipX = reference.FlipX;
+                rend.flipX = Reference.FlipX;
 
                 if (DoOffset)
                 {
-                    transform.parent.localPosition = new Vector3(reference.FlipX ? UseNegative ? -Offset : Offset : 0,
+                    transform.parent.localPosition = new Vector3(Reference.FlipX ? UseNegative ? -Offset : Offset : 0,
                         transform.parent.localPosition.y, transform.parent.localPosition.z);
                 }
             }

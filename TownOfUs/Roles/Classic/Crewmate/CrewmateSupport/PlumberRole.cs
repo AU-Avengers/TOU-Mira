@@ -50,15 +50,15 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Flush", "Flush"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FlushWikiDescription"),
                     TouCrewAssets.FlushSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Block", "Block"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlockWikiDescription"),
                     TouCrewAssets.BlockSprite)
-            };
+            ];
         }
     }
 
@@ -69,7 +69,7 @@ public sealed class PlumberRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
     public CustomRoleConfiguration Configuration => new(this)
     {
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Plumber.LoadAsset(), "TouMira.Role.Crewmate.Plumber", 1.45f),
-        CanUseVent = true,
+        GetsVentData = true,
         IntroSound = TouAudio.EngineerIntroSound,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         Icon = TouRoleIcons.Plumber

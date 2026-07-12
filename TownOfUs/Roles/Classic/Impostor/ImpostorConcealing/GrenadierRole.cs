@@ -40,12 +40,12 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Flash", "Flash"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FlashWikiDescription"),
                     TouImpAssets.FlashSprite)
-            };
+            ];
         }
     }
 }

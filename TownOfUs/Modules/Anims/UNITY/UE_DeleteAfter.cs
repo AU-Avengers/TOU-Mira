@@ -22,10 +22,7 @@ public sealed class UE_DeleteAfter : MonoBehaviour
         currentPosition += Time.deltaTime;
         if (currentPosition > endTime)
         {
-            if (after != null)
-            {
-                after(this, inst);
-            }
+            after?.Invoke(this, inst);
 
             gameObject.DeepDestroy();
         }

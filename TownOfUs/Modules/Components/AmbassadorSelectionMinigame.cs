@@ -199,7 +199,7 @@ public sealed class AmbassadorSelectionMinigame(IntPtr cppPtr) : Minigame(cppPtr
         roleText.text = roleName;
         teamText.text = teamName;
 
-        roleImage.sprite = (sprite != null) ? sprite : TouRoleIcons.Impostor.LoadAsset();
+        roleImage.sprite = sprite ?? TouRoleIcons.Impostor.LoadAsset();
         roleImage.SetSizeLimit(2.8f);
 
         buttonRollover.OverColor = color;

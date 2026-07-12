@@ -16,7 +16,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class ClericEvents
 {
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         ModifierUtils.GetPlayersWithModifier<ClericCleanseModifier>()
             .Do(x => x.RemoveModifier<ClericCleanseModifier>());
