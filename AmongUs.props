@@ -1,13 +1,14 @@
 <Project>
     <ItemGroup>
-        <PackageReference Include="Reactor" Version="2.5.1.1" />
-        <PackageReference Include="AllOfUs.MiraAPI" Version="0.4.2.1"/>
+        <PackageReference Include="Reactor" Version="2.5.1" />
+        <PackageReference Include="AllOfUs.MiraAPI" Version="0.4.2.2"/>
         <PackageReference Include="BepInEx.Core" Version="5.4.21" Private="false" IncludeAssets="compile" />
         <PackageReference Include="AmongUs.GameLibs.Mono" Version="2026.6.5" PrivateAssets="all" />
 
         <PackageReference Include="BepInEx.AutoPlugin" Version="1.1.0" PrivateAssets="all" />
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+        <PackageReference Include="System.Text.Json" Version="8.0.5" />
     </ItemGroup>
 
     <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
