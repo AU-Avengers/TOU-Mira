@@ -49,7 +49,7 @@ public sealed class HexBombSabotageSystem : Object, ISystemType, IActivatable
 
         if (!PlayerTask.PlayerHasTaskOfType<HexBombSabotageTask>(PlayerControl.LocalPlayer))
         {
-            PlayerControl.LocalPlayer.AddSystemTask((SystemTypes)SabotageId);
+            PlayerControl.LocalPlayer.AddSystemTask(SystemType);
         }
 
         SpellslingerRole.SabotageTriggered = true;

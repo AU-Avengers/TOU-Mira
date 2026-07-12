@@ -17,12 +17,12 @@ public static class SpellslingerSabotagePatches
     [HarmonyPostfix]
     public static void AddCustomSabotageSystems(ShipStatus __instance)
     {
-        if (!__instance.Systems.TryGetValue((SystemTypes)HexBombSabotageSystem.SabotageId, out _))
+        if (!__instance.Systems.TryGetValue(HexBombSabotageSystem.SystemType, out _))
         {
             var hexBombSabo = new HexBombSabotageSystem(OptionGroupSingleton<SpellslingerOptions>.Instance.HexBombDuration);
             (__instance.Systems[SystemTypes.Sabotage] as SabotageSystemType)!.specials
                 .Add(hexBombSabo);
-            __instance.Systems.Add((SystemTypes)HexBombSabotageSystem.SabotageId, hexBombSabo);
+            __instance.Systems.Add(HexBombSabotageSystem.SystemType, hexBombSabo);
         }
     }
 
@@ -35,7 +35,7 @@ public static class SpellslingerSabotagePatches
         if (AmongUsClient.Instance.AmHost && !MeetingHud.Instance && !ExileController.Instance &&
             amount == HexBombSabotageSystem.SabotageId)
         {
-            ShipStatus.Instance.UpdateSystem((SystemTypes)HexBombSabotageSystem.SabotageId, player, 1);
+            ShipStatus.Instance.UpdateSystem(HexBombSabotageSystem.SystemType, player, 1);
         }
     }
 
@@ -45,7 +45,7 @@ public static class SpellslingerSabotagePatches
     {
         if (!__instance.AmOwner) return true;
 
-        if (system == (SystemTypes)HexBombSabotageSystem.SabotageId)
+        if (system == HexBombSabotageSystem.SystemType)
         {
             var task = new GameObject("HexBombTask").AddComponent<HexBombSabotageTask>();
             task.gameObject.transform.SetParent(__instance.gameObject.transform);
