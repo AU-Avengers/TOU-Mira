@@ -23,6 +23,9 @@ public sealed class OfficerOptions : AbstractRoleOptionGroup<OfficerRole>, IWiki
 
     public ModdedToggleOption FirstRoundShooting { get; set; } = new("TouOptionOfficerFirstRound", false);
 
+    public ModdedToggleOption BlockedShotConsumesBullet { get; set; } =
+        new("TouOptionOfficerBlockedShotConsumesBullet", true);
+
     public ModdedToggleOption CanOnlyShootActiveKillers { get; set; } =
         new("TouOptionOfficerCanOnlyShootActiveKillers", true);
 
