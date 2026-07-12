@@ -27,6 +27,9 @@ public sealed class HudManagerHelper : MonoBehaviour
 {
     #pragma warning disable S2325
     #pragma warning disable CA1822
+
+    private const float NameplateUpdateInterval = 0.1f;
+    private static float _nextNameplateUpdate;
     public void FixedUpdate()
     {
         if (!PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data || !PlayerControl.LocalPlayer.Data.Role ||
@@ -38,7 +41,11 @@ public sealed class HudManagerHelper : MonoBehaviour
         }
 
         UpdateCamouflageComms();
-        UpdateRoleNameText();
+        if (Time.unscaledTime >= _nextNameplateUpdate)
+        {
+            _nextNameplateUpdate = Time.unscaledTime + NameplateUpdateInterval;
+            UpdateRoleNameText();
+        }
     }
     #pragma warning restore CA1822
     #pragma warning restore S2325
