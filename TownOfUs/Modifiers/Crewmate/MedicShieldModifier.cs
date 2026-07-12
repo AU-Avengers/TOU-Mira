@@ -19,7 +19,7 @@ public sealed class MedicShieldModifier(PlayerControl medic) : BaseShieldModifie
         $"You are shielded by a {TouLocale.Get("TouRoleMedic", "Medic")} !\nYou may not die to other players";
 
     public PlayerControl Medic { get; private set; } = medic;
-    public List<PlayerControl> AllMedics { get; } = new();
+    public List<PlayerControl> AllMedics { get; } = [];
     public GameObject MedicShield { get; set; }
     public bool ShowShield { get; set; }
 

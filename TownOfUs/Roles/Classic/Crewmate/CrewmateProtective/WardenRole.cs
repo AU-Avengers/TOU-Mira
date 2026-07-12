@@ -49,12 +49,12 @@ public sealed class WardenRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Fortify", "Fortify"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FortifyWikiDescription"),
                     TouCrewAssets.FortifySprite)
-            };
+            ];
         }
     }
 

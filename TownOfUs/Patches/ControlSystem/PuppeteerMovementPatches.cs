@@ -17,11 +17,11 @@ public static class PuppeteerMovementPatches
 
     private const float MovementChangeEpsilonSqr = 0.0001f * 0.0001f;
     private const float MovementKeepAliveSeconds = 0.03f;
-    private static readonly Dictionary<byte, Vector2> _lastSentDir = new();
-    private static readonly Dictionary<byte, Vector2> _lastSentPos = new();
-    private static readonly Dictionary<byte, Vector2> _lastSentVel = new();
-    private static readonly Dictionary<byte, float> _lastSentAt = new();
-    private static readonly Dictionary<byte, Vector2> _localDesiredDir = new();
+    private static readonly Dictionary<byte, Vector2> _lastSentDir = [];
+    private static readonly Dictionary<byte, Vector2> _lastSentPos = [];
+    private static readonly Dictionary<byte, Vector2> _lastSentVel = [];
+    private static readonly Dictionary<byte, float> _lastSentAt = [];
+    private static readonly Dictionary<byte, Vector2> _localDesiredDir = [];
 
     private static void SendControlledInputIfNeeded(byte controlledId, Vector2 dir, Vector2 position, Vector2 velocity)
     {
@@ -194,10 +194,7 @@ public static class PuppeteerMovementPatches
                 var delta = pos - currentPos;
                 if (delta.magnitude > 0.5f)
                 {
-                    if (__instance.body != null)
-                    {
-                        __instance.body.position = pos;
-                    }
+                    __instance.body?.position = pos;
                     __instance.myPlayer.transform.position = pos;
                 }
             }
@@ -247,10 +244,7 @@ public static class PuppeteerMovementPatches
                 var delta = pos - currentPos;
                 if (delta.magnitude > 0.5f)
                 {
-                    if (__instance.body != null)
-                    {
-                        __instance.body.position = pos;
-                    }
+                    __instance.body?.position = pos;
                     __instance.myPlayer.transform.position = pos;
                 }
             }

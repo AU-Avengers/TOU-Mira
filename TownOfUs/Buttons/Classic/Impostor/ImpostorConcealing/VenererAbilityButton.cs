@@ -39,7 +39,7 @@ public sealed class VenererAbilityButton : TownOfUsRoleButton<VenererRole>, IAft
         if (ability != VenererAbility.None && Role)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You have unlocked the {ability.ToString()} ability for getting a kill. {(EffectActive ? "You must wait until your current ability is over." : string.Empty)}</color></b>",
+                $"<b>{TownOfUsColors.ImpSoft.ToTextColor()}You have unlocked the {ability} ability for getting a kill. {(EffectActive ? "You must wait until your current ability is over." : string.Empty)}</color></b>",
                 Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Venerer.LoadAsset());
 
             notif1.AdjustNotification();

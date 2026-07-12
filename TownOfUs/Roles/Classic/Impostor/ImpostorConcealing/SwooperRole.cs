@@ -41,15 +41,15 @@ public sealed class SwooperRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Swoop", "Swoop"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}SwoopWikiDescription"),
                     TouImpAssets.SwoopSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Unswoop", "Unswoop"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}UnswoopWikiDescription"),
                     TouImpAssets.UnswoopSprite)
-            };
+            ];
         }
     }
 }

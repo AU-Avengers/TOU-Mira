@@ -9,7 +9,7 @@ namespace TownOfUs.Events.Impostor;
 public static class EscapistEvents
 {
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         CustomRoleUtils.GetActiveRolesOfType<EscapistRole>().Do(x => x.MarkedLocation = null);
     }

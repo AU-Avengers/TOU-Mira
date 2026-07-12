@@ -15,7 +15,7 @@ public static class UpCommandRequests
     /// <summary>
     /// Dictionary mapping player names to requested role names.
     /// </summary>
-    private static readonly Dictionary<string, string> Requests = new();
+    private static readonly Dictionary<string, string> Requests = [];
 
     /// <summary>
     /// Clears all /up requests. Should be called when entering lobby.
@@ -55,23 +55,19 @@ public static class UpCommandRequests
         var allRoles = MiscUtils.AllRegisteredRoles
             .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r))
             .ToList();
-        
-        // First try exact match (with and without spaces)
-        var role = allRoles.FirstOrDefault(r =>
-            r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
-            r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-            (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase)));
 
+        // First try exact match (with and without spaces)
         // If exact match fails, try fuzzy matching (contains)
-        if (role == null)
-        {
-            role = allRoles.FirstOrDefault(r =>
+        var role = 
+            allRoles.FirstOrDefault(r =>
+                r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
+                r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
+                (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase)))
+            ?? allRoles.FirstOrDefault(r =>
                 r.GetRoleName().Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
                 roleName.Contains(r.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
                 (r is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
                                                  roleName.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
-        }
-
         if (role == null)
         {
             return false;
@@ -119,23 +115,19 @@ public static class UpCommandRequests
         var allRoles = MiscUtils.AllRegisteredRoles
             .Where(r => !r.IsDead && CustomRoleUtils.CanSpawnOnCurrentMode(r))
             .ToList();
-        
-        // First try exact match (with and without spaces)
-        var foundRole = allRoles.FirstOrDefault(r =>
-            r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
-            r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-            (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase)));
 
+        // First try exact match (with and without spaces)
         // If exact match fails, try fuzzy matching (contains)
-        if (foundRole == null)
-        {
-            foundRole = allRoles.FirstOrDefault(r =>
+        var foundRole =
+            allRoles.FirstOrDefault(r =>
+                r.GetRoleName().Equals(roleName, StringComparison.OrdinalIgnoreCase) ||
+                r.GetRoleName().Replace(" ", "").Equals(roleName.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
+                (r is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleName, StringComparison.OrdinalIgnoreCase)))
+            ?? allRoles.FirstOrDefault(r =>
                 r.GetRoleName().Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
                 roleName.Contains(r.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
                 (r is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleName, StringComparison.OrdinalIgnoreCase) ||
                                                  roleName.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
-        }
-
         if (foundRole == null)
         {
             return false;

@@ -15,7 +15,7 @@ public static class EndGameEvents
     public static int winType;
 
     [RegisterEvent(-100)]
-    public static void OnGameEnd(GameEndEvent @event)
+    public static void OnGameEnd(GameEndEvent _)
     {
         // Ensure no per-round history persists across games.
         TimeLordRewindSystem.Reset();

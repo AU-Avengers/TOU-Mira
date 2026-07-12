@@ -12,56 +12,47 @@ namespace TownOfUs.LocalSettings.SettingTypes;
 /// <summary>
 /// Local setting class for numbers.
 /// </summary>
-public class LocalizedLocalNumberSetting : LocalNumberSetting
+/// <remarks>
+/// Initializes a new instance of the <see cref="LocalizedLocalNumberSetting"/> class.
+/// </remarks>
+/// <inheritdoc/>
+/// <param name="name">Name for the BepInEx config and locale key.</param>
+/// <param name="description">Optional description for the BepInEx config.</param>
+/// <param name="numberRange">The value range.</param>
+/// <param name="increment">The increment per click.</param>
+/// <param name="suffixType">The suffix used for formating.</param>
+/// <param name="formatString">The format string used for formating.</param>
+/// <param name="tab">The tab that the option belongs to.</param>
+/// <param name="configEntry">The BepInEx config entry the option is attached to.</param>
+public class LocalizedLocalNumberSetting(
+    Type tab,
+    ConfigEntryBase configEntry,
+    string? name = null,
+    string? description = null,
+    FloatRange? numberRange = null,
+    float? increment = null,
+    MiraNumberSuffixes? suffixType = null,
+    string? formatString = null) : LocalNumberSetting(tab, configEntry, name, description)
 {
     /// <summary>
     /// Gets the range of the button.
     /// </summary>
-    public FloatRange NumberRange { get; }
+    public FloatRange NumberRange { get; } = numberRange ?? new FloatRange(1, 5);
 
     /// <summary>
     /// Gets the increment of the value when button is pressed.
     /// </summary>
-    public float Increment { get; }
+    public float Increment { get; } = increment ?? 1;
 
     /// <summary>
     /// Gets a format for the text to use to format the number.
     /// </summary>
-    public string FormatString { get; }
+    public string FormatString { get; } = formatString ?? "0";
 
     /// <summary>
     /// Gets the suffix for the number value.
     /// </summary>
-    public MiraNumberSuffixes SuffixType { get; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LocalizedLocalNumberSetting"/> class.
-    /// </summary>
-    /// <inheritdoc/>
-    /// <param name="name">Name for the BepInEx config and locale key.</param>
-    /// <param name="description">Optional description for the BepInEx config.</param>
-    /// <param name="numberRange">The value range.</param>
-    /// <param name="increment">The increment per click.</param>
-    /// <param name="suffixType">The suffix used for formating.</param>
-    /// <param name="formatString">The format string used for formating.</param>
-    /// <param name="tab">The tab that the option belongs to.</param>
-    /// <param name="configEntry">The BepInEx config entry the option is attached to.</param>
-    public LocalizedLocalNumberSetting(
-        Type tab,
-        ConfigEntryBase configEntry,
-        string? name = null,
-        string? description = null,
-        FloatRange? numberRange = null,
-        float? increment = null,
-        MiraNumberSuffixes? suffixType = null,
-        string? formatString = null)
-        : base(tab, configEntry, name, description)
-    {
-        SuffixType = suffixType ?? MiraNumberSuffixes.None;
-        NumberRange = numberRange ?? new FloatRange(1, 5);
-        Increment = increment ?? 1;
-        FormatString = formatString ?? "0";
-    }
+    public MiraNumberSuffixes SuffixType { get; } = suffixType ?? MiraNumberSuffixes.None;
 
     /// <inheritdoc />
     public override GameObject CreateOption(ToggleButtonBehaviour toggle, SlideBar slider, Transform parent,

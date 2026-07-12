@@ -72,12 +72,12 @@ public sealed class PlaguebearerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Infect", "Infect"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}InfectWikiDescription"),
                     TouNeutAssets.InfectSprite)
-            };
+            ];
         }
     }
 

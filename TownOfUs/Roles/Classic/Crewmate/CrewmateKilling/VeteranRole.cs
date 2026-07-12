@@ -34,12 +34,12 @@ public sealed class VeteranRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Alert", "Alert"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}AlertWikiDescription"),
                     TouCrewAssets.AlertSprite)
-            };
+            ];
         }
     }
 

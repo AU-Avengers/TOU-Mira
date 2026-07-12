@@ -5,7 +5,8 @@ using UnityEngine;
 namespace TownOfUs.Utilities;
 
 /// <summary>
-/// Shared movement utilities for Time Lord, Parasite, Puppeteer, and any other controlling roles.
+/// Shared movement utilities for <see cref="Roles.Crewmate.TimeLordRole"/>,
+/// <see cref="Roles.Impostor.ParasiteRole"/>, <see cref="Roles.Impostor.PuppeteerRole"/>, and any other controlling roles.
 /// These handle directional input and movement calculations.
 /// </summary>
 public static class AdvancedMovementUtilities
@@ -258,10 +259,7 @@ public static class AdvancedMovementUtilities
         {
             physics.HandleAnimation(physics.myPlayer.Data.IsDead);
             physics.SetNormalizedVelocity(Vector2.zero);
-            if (physics.body != null)
-            {
-                physics.body.velocity = Vector2.zero;
-            }
+            physics.body?.velocity = Vector2.zero;
             return;
         }
 
@@ -280,10 +278,7 @@ public static class AdvancedMovementUtilities
             physics.SetNormalizedVelocity(-dir);
         }
 
-        if (physics.body != null)
-        {
-            physics.body.velocity = desiredVel;
-        }
+        physics.body?.velocity = desiredVel;
     }
 
     /// <summary>
@@ -305,10 +300,7 @@ public static class AdvancedMovementUtilities
             if (stopIfZero && direction == Vector2.zero)
             {
                 physics.SetNormalizedVelocity(Vector2.zero);
-                if (physics.body != null)
-                {
-                    physics.body.velocity = Vector2.zero;
-                }
+                physics.body?.velocity = Vector2.zero;
                 return;
             }
 
@@ -349,10 +341,7 @@ public static class AdvancedMovementUtilities
             if (delta.sqrMagnitude <= 0.0001f * 0.0001f || delta.magnitude > positionSnapThreshold)
             {
                 finalPos = targetPosition;
-                if (physics.body != null)
-                {
-                    physics.body.position = finalPos;
-                }
+                physics.body?.position = finalPos;
                 physics.myPlayer.transform.position = finalPos;
             }
             else
@@ -360,10 +349,7 @@ public static class AdvancedMovementUtilities
                 const float positionLerpSpeed = 60.0f;
                 var lerpFactor = Mathf.Clamp01(Time.fixedDeltaTime * positionLerpSpeed);
                 finalPos = Vector2.Lerp(currentPos, targetPosition, lerpFactor);
-                if (physics.body != null)
-                {
-                    physics.body.position = finalPos;
-                }
+                physics.body?.position = finalPos;
                 physics.myPlayer.transform.position = finalPos;
             }
 

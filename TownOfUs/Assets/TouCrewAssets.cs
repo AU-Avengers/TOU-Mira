@@ -34,12 +34,12 @@ public static class TouCrewAssets
     public static LoadableAsset<Sprite> IntuitSprite { get; } =
         new LoadableBundleAsset<Sprite>("IntuitButton", TouAssets.MainBundle);
 
-    public static List<LoadableAsset<Sprite>> SeerButtonSprites { get; set; } = new()
-    {
+    public static List<LoadableAsset<Sprite>> SeerButtonSprites { get; set; } =
+    [
         SeerSprite,
         GazeSprite,
         IntuitSprite,
-    };
+    ];
 
     public static LoadableAsset<Sprite> KnightSprite { get; } =
         new LoadableBundleAsset<Sprite>("KnightButton", TouAssets.MainBundle);

@@ -13,7 +13,6 @@ using MiraAPI.Modifiers.ModifierDisplay;
 using MiraAPI.Modifiers.Types;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
-using PowerTools;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
@@ -35,7 +34,6 @@ using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
 using TownOfUs.Modules.ControlSystem;
-using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Networking;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
@@ -51,7 +49,6 @@ using TownOfUs.Roles.Other;
 using TownOfUs.Utilities.Appearances;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace TownOfUs.Events;
 
@@ -66,7 +63,7 @@ public static class TownOfUsEventHandlers
         Message
     }
 
-    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = new();
+    internal static List<KeyValuePair<LogLevel, string>> LogBuffer = [];
 
     internal static TextMeshPro ModifierText;
     public static TaskPanelBehaviour RolePanel;
@@ -213,7 +210,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void IntroEndEventHandler(IntroEndEvent @event)
+    public static void IntroEndEventHandler(IntroEndEvent _)
     {
         if (HudManager.InstanceExists)
         {
@@ -268,8 +265,7 @@ public static class TownOfUsEventHandlers
         }
 
         var panel = TryGetRoleTab();
-        var role = PlayerControl.LocalPlayer.Data.Role as ICustomRole;
-        if (role == null || panel == null)
+        if (PlayerControl.LocalPlayer.Data.Role is not ICustomRole role || panel == null)
         {
             return;
         }
@@ -293,7 +289,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         // Reset team chat state when a new meeting starts
         Patches.Options.TeamChatPatches.TeamChatActive = false;
@@ -561,7 +557,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent @event)
+    public static void ClearBodiesAndResetPlayersEventHandler(StartMeetingEvent _)
     {
         Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.DeepDestroy());
 
@@ -576,7 +572,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void ClearBodiesAndResetPlayersEventHandler(RoundStartEvent @event)
+    public static void ClearBodiesAndResetPlayersEventHandler(RoundStartEvent _)
     {
         Object.FindObjectsOfType<DeadBody>().ToList().ForEach(x => x.gameObject.DeepDestroy());
 
@@ -652,8 +648,7 @@ public static class TownOfUsEventHandlers
 
         foreach (var modifier in exiled.GetModifiers<GameModifier>().Where(x => x is IAnimated))
         {
-            var animatedMod = modifier as IAnimated;
-            if (animatedMod != null)
+            if (modifier is IAnimated animatedMod)
             {
                 animatedMod.IsVisible = false;
                 animatedMod.SetVisible();
@@ -706,8 +701,7 @@ public static class TownOfUsEventHandlers
 
         foreach (var modifier in target.GetModifiers<GameModifier>().Where(x => x is IAnimated))
         {
-            var animatedMod = modifier as IAnimated;
-            if (animatedMod != null)
+            if (modifier is IAnimated animatedMod)
             {
                 animatedMod.IsVisible = false;
                 animatedMod.SetVisible();
@@ -966,93 +960,6 @@ public static class TownOfUsEventHandlers
         HudManager.Instance.SetHudActive(false);
     }
 
-    private static IEnumerator CoAnimateDeath(PlayerVoteArea voteArea)
-    {
-        var animDic = new Dictionary<AnimationClip, AnimationClip>
-        {
-            { TouAssets.MeetingDeathBloodAnim1.LoadAsset(), TouAssets.MeetingDeathAnim1.LoadAsset() },
-            { TouAssets.MeetingDeathBloodAnim2.LoadAsset(), TouAssets.MeetingDeathAnim2.LoadAsset() },
-            { TouAssets.MeetingDeathBloodAnim3.LoadAsset(), TouAssets.MeetingDeathAnim3.LoadAsset() },
-            { TouAssets.MeetingDeathBloodAnim4.LoadAsset(), TouAssets.MeetingDeathAnim4.LoadAsset() }
-        };
-        var trueAnim = animDic.Random();
-        var animation = Object.Instantiate(TouAssets.MeetingDeathPrefab.LoadAsset(), voteArea.transform);
-        animation.transform.localPosition = new Vector3(-0.8f, 0, 0);
-        animation.transform.localScale = new Vector3(0.375f, 0.375f, 1f);
-        animation.gameObject.layer = animation.transform.GetChild(0).gameObject.layer = voteArea.gameObject.layer;
-
-        var animationRend = animation.GetComponent<SpriteRenderer>();
-        animationRend.material = voteArea.PlayerIcon.cosmetics.currentBodySprite.BodySprite.material;
-        var r = animationRend.gameObject.GetComponent<RainbowBehaviour>();
-        if (r == null)
-        {
-            r = animationRend.gameObject.AddComponent<RainbowBehaviour>();
-        }
-
-        r.AddRend(animationRend, voteArea.PlayerIcon.ColorId);
-
-        voteArea.Overlay.gameObject.SetActive(false);
-        animation.gameObject.SetActive(false);
-
-        Coroutines.Start(MiscUtils.CoFlash(Palette.ImpostorRed, 0.5f, 0.15f));
-        var seconds = Random.RandomRange(0.4f, 1.1f);
-        // if there's less than 6 players alive, animation will play instantly
-        if (Helpers.GetAlivePlayers().Count <= 5)
-        {
-            seconds = 0.01f;
-        }
-
-        yield return new WaitForSeconds(seconds);
-
-        voteArea.PlayerIcon.gameObject.SetActive(false);
-        animation.gameObject.SetActive(true);
-        var bodysAnim = animation.GetComponent<SpriteAnim>();
-
-        var bloodAnim = animation.transform.GetChild(0).GetComponent<SpriteAnim>();
-
-        bloodAnim.Play(trueAnim.Key);
-        bodysAnim.Play(trueAnim.Value);
-
-        bodysAnim.SetSpeed(1.05f);
-        bloodAnim.SetSpeed(1.05f);
-        var bodyAnimLength = bodysAnim.m_currAnim.length;
-        var isRhm = (trueAnim.Key == TouAssets.MeetingDeathBloodAnim4.LoadAsset());
-
-        if (isRhm)
-        {
-            SoundManager.Instance.PlaySound(TouAudio.LaserKillSound.LoadAsset(), false);
-            yield return new WaitForSeconds(bodyAnimLength);
-        }
-        else
-        {
-            yield return new WaitForSeconds(0.1f);
-            SoundManager.Instance.PlaySound(voteArea.GetPlayer()!.KillSfx, false);
-            yield return new WaitForSeconds(bodyAnimLength - 0.25f);
-        }
-
-        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
-        try
-        {
-            voteArea.Overlay.gameObject.SetActive(true);
-        }
-        catch
-        {
-            // ignored
-        }
-        animation.Destroy();
-        // For some reason this can just fail? I don't get it either, fails getting the GameObject the component is attached to.
-        try
-        {
-            voteArea.XMark.gameObject.SetActive(true);
-            Coroutines.Start(MiscUtils.BetterBloop(voteArea.XMark.transform));
-        }
-        catch
-        {
-            // ignored
-        }
-        SoundManager.Instance.PlaySound(MeetingHud.Instance.MeetingIntro.PlayerDeadSound, false);
-    }
-
     private static void HandleMeetingMurder(MeetingHud instance, PlayerControl source, PlayerControl target)
     {
         if (MeetingHud.Instance.CurrentState == MeetingHud.VoteStates.Animating)
@@ -1105,10 +1012,6 @@ public static class TownOfUsEventHandlers
         }
 
         targetVoteArea.AmDead = true;
-        targetVoteArea.Overlay.gameObject.SetActive(true);
-        targetVoteArea.Overlay.color = Color.white;
-        targetVoteArea.XMark.gameObject.SetActive(false);
-        targetVoteArea.XMark.transform.localScale = Vector3.one;
 
         if (Minigame.Instance)
         {
@@ -1116,13 +1019,10 @@ public static class TownOfUsEventHandlers
             Minigame.Instance.Close();
         }
 
-        targetVoteArea.Overlay.gameObject.SetActive(false);
         if (target.GetRoleWhenAlive() is MayorRole mayor && mayor.Revealed)
         {
             MayorRole.DestroyReveal(targetVoteArea);
         }
-
-        Coroutines.Start(CoAnimateDeath(targetVoteArea));
 
         // hide meeting menu buttons on the victim's screen
         if (target.AmOwner)
@@ -1184,7 +1084,7 @@ public static class TownOfUsEventHandlers
     }
 
     [RegisterEvent]
-    public static void VotingCompleteHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteHandler(VotingCompleteEvent _)
     {
         if (Minigame.Instance)
         {

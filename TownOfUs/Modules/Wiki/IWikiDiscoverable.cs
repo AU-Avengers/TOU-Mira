@@ -20,4 +20,4 @@ public interface IWikiDiscoverable
     }
 }
 
-public record struct CustomButtonWikiDescription(string name, string description, LoadableAsset<Sprite> icon);
+public record struct CustomButtonWikiDescription(string Name, string Description, LoadableAsset<Sprite> Icon);

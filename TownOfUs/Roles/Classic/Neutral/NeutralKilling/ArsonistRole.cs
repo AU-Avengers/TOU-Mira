@@ -65,8 +65,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Douse", "Douse"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DouseWikiDescription"),
                     TouNeutAssets.DouseButtonSprite),
@@ -75,7 +75,7 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
                         ? $"TouRole{LocaleKey}IgniteWikiDescriptionLegacy"
                         : $"TouRole{LocaleKey}IgniteWikiDescription"),
                     TouNeutAssets.IgniteButtonSprite)
-            };
+            ];
         }
     }
 
@@ -167,12 +167,8 @@ public sealed class ArsonistRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUs
     public override void OnDeath(DeathReason reason)
     {
         var button = CustomButtonSingleton<ArsonistIgniteButton>.Instance;
-
-        if (button.Ignite != null)
-        {
-            button.Ignite.Clear();
-            button.Ignite = null;
-        }
+        button.Ignite?.Clear();
+        button.Ignite = null;
 
         RoleBehaviourStubs.OnDeath(this, reason);
     }

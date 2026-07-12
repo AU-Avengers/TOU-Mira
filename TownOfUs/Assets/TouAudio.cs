@@ -192,6 +192,9 @@ public static class TouAudio
     public static LoadableAsset<AudioClip> BombExplode { get; } =
         new LoadableAudioResourceAsset("TownOfUs.Resources.BombExplode.wav");
 
+    public static LoadableAsset<AudioClip> DeputyReveal { get; } =
+        new LoadableAudioResourceAsset("TownOfUs.Resources.DeputyReveal.wav");
+
     public static void PlaySound(LoadableAsset<AudioClip> clip, float vol = 1f)
     {
         if (Constants.ShouldPlaySfx())
