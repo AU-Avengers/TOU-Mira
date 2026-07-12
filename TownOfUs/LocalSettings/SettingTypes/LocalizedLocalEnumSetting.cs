@@ -12,44 +12,37 @@ namespace TownOfUs.LocalSettings.SettingTypes;
 /// <summary>
 /// Local setting class for enums.
 /// </summary>
-public class LocalizedLocalEnumSetting : LocalEnumSetting
+/// <remarks>
+/// Initializes a new instance of the <see cref="LocalizedLocalEnumSetting"/> class.
+/// </remarks>
+/// <inheritdoc/>
+/// <param name="name">Name for the BepInEx config and locale key.</param>
+/// <param name="description">Optional description for the BepInEx config.</param>
+/// <param name="enumType">The enum type.</param>
+/// <param name="values">The optional values array to replace the enum names.</param>
+/// <param name="tab">The tab that the option belongs to.</param>
+/// <param name="configEntry">The BepInEx config entry the option is attached to.</param>
+public class LocalizedLocalEnumSetting(
+    Type tab,
+    ConfigEntryBase configEntry,
+    Type enumType,
+    string? name = null,
+    string? description = null,
+    string[]? values = null) : LocalEnumSetting(tab, configEntry, enumType, name, description)
 {
     /// <summary>
     /// Gets the enum type of the setting.
     /// </summary>
-    public Type EnumType { get; }
+    public Type EnumType { get; } = enumType;
 
     /// <summary>
     /// Gets the enum values.
     /// </summary>
-    public string[] Values { get; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LocalizedLocalEnumSetting"/> class.
-    /// </summary>
-    /// <inheritdoc/>
-    /// <param name="name">Name for the BepInEx config and locale key.</param>
-    /// <param name="description">Optional description for the BepInEx config.</param>
-    /// <param name="enumType">The enum type.</param>
-    /// <param name="values">The optional values array to replace the enum names.</param>
-    /// <param name="tab">The tab that the option belongs to.</param>
-    /// <param name="configEntry">The BepInEx config entry the option is attached to.</param>
-    public LocalizedLocalEnumSetting(
-        Type tab,
-        ConfigEntryBase configEntry,
-        Type enumType,
-        string? name = null,
-        string? description = null,
-        string[]? values = null)
-        : base(tab, configEntry, enumType, name, description)
-    {
-        EnumType = enumType;
-        Values = values ?? Enum
+    public string[] Values { get; } = values ?? Enum
             .GetValues(configEntry.SettingType)
             .Cast<Enum>()
             .Select(x => x.ToDisplayString())
             .ToArray();
-    }
 
     /// <inheritdoc />
     public override GameObject CreateOption(ToggleButtonBehaviour toggle, SlideBar slider, Transform parent,

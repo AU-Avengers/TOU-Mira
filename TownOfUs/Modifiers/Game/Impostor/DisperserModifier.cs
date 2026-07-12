@@ -36,12 +36,12 @@ public sealed class DisperserModifier : TouGameModifier, IWikiDiscoverable, IBut
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.Get($"TouModifier{LocaleKey}Disperse"),
                     TouLocale.GetParsed($"TouModifier{LocaleKey}DisperseWikiDescription"),
                     TouAssets.DisperseSprite)
-            };
+            ];
         }
     }
 

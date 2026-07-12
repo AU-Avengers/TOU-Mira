@@ -16,7 +16,7 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
     : PlayerCustomRpc<TownOfUsPlugin, Dictionary<byte, string>>(plugin, id)
 {
     // The Player Name it originates from, as well as the actual list of mods they had.
-    public static readonly Dictionary<string, string> AnticheatLogs = new();
+    public static readonly Dictionary<string, string> AnticheatLogs = [];
     public override RpcLocalHandling LocalHandling => RpcLocalHandling.Before;
     public static bool RequireCrowded => ModCompatibility.CrowdedLoaded && OptionGroupSingleton<HostSpecificOptions>.Instance.RequireCrowded.Value;
     public static bool RequireAleLudu => ModCompatibility.AleLuduLoaded && OptionGroupSingleton<HostSpecificOptions>.Instance.RequireAleLudu.Value;
@@ -75,9 +75,9 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
             "ModExplorer", "Reactor", "Mini.RegionInstall", "TOU Mira Legacy", "GameNotifier", "Localize Us!",
             "AUSUMMARY - ", "BetterAmongUs", "CrowdedMod", "AleLuduMod"
         ];
-        string[] knownModArray = Array.Empty<string>();
-        string[] badModArray = Array.Empty<string>();
-        string[] otherModArray = Array.Empty<string>();
+        string[] knownModArray = [];
+        string[] badModArray = [];
+        string[] otherModArray = [];
         var sbuilder = new StringBuilder();
         Error(
             $"{client.Data.PlayerName} is joining with the following plugins:");
@@ -128,8 +128,10 @@ internal sealed class SendClientModInfoRpc(TownOfUsPlugin plugin, uint id)
         if (!client.AmOwner && PlayerControl.LocalPlayer.IsHost() && HudManager.InstanceExists)
         {
             var mods = Chainloader.PluginInfos;
-            var modDictionary = new Dictionary<byte, string>();
-            // modDictionary.Add(0, $"BepInEx " + Paths.BepInExVersion.WithoutBuild());
+            var modDictionary = new Dictionary<byte, string>()
+                /*{
+                    { 0, $"BepInEx " + Paths.BepInExVersion.WithoutBuild() }
+                }*/;
             byte modByte = 1;
             foreach (var mod in mods)
             {

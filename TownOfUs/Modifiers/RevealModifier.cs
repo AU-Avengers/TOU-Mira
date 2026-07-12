@@ -19,7 +19,7 @@ public abstract class RevealModifier(int roleChangeResult, bool revealRole, Role
     {
         if (RevealRole && ShownRole == null)
         {
-            ShownRole = role != null ? role : Player.Data.Role;
+            ShownRole = role ?? Player.Data.Role;
         }
 
         if (MeetingHud.Instance && RevealRole)

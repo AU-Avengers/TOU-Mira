@@ -19,7 +19,7 @@ public static class HaunterEvents
         haunter.CheckTaskRequirements();
     }
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         var allHaunters = CustomRoleUtils.GetActiveRolesOfType<HaunterRole>();
         if (!allHaunters.HasAny() || allHaunters.All(h => !h.CompletedAllTasks || h.Caught))

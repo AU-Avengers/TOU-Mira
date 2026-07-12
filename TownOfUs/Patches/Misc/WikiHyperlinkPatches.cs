@@ -13,7 +13,7 @@ namespace TownOfUs.Patches.Misc;
 
 public static class WikiHyperLinkPatches
 {
-    private static string fontTag =
+    private static readonly string fontTag =
         "<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - BlackOutlineMasked\">";
 
     public static readonly char[] RemovedCharacters = [ '\'', '\"' ];
@@ -46,7 +46,7 @@ public static class WikiHyperLinkPatches
                 sb.Append(text, lastIndex, count);
             }
 
-            string key = match.Value.Substring(1);
+            string key = match.Value[1..];
             string replacement = match.Value;
             bool shouldHyperlink = true;
             if (match.Value[0] == '#') // Role tag
@@ -66,7 +66,7 @@ public static class WikiHyperLinkPatches
                     if (Enum.IsDefined(typeof(RoleTypes), role.Role))
                     {
                         replacement =
-                        $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                        $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
                     }
                     shouldHyperlink = true;
                 }
@@ -86,7 +86,7 @@ public static class WikiHyperLinkPatches
                         else
                         {
                             replacement =
-                                $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role.ToString()}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
+                                $"{fontTag}<b>{role.TeamColor.ToTextColor()}<link={$"AmongUs.Roles.{role.Role}"}:{linkIndex}>{role.GetRoleName()}</link></color></b></font>";
                             shouldHyperlink = true;
                         }
                     }

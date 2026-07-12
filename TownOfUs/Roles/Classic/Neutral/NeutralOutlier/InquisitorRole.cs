@@ -41,8 +41,8 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
     public bool IsUnlovable => true;
     public bool ContinuesGame => !Player.HasDied() && OptionGroupSingleton<InquisitorOptions>.Instance.StallGame && CanVanquish && !TargetsDead && Helpers.GetAlivePlayers().Count <= 3;
     public bool CanVanquish { get; set; } = true;
- public List<PlayerControl> Targets { get; set; } = [];
- public List<RoleBehaviour> TargetRoles { get; set; } = [];
+
+    public Dictionary<PlayerControl, RoleBehaviour> Targets { get; set; } = [];
 
     public bool TargetsDead { get; set; }
     public int Priority { get; set; } = 5;
@@ -150,15 +150,15 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Inquire", "Inquire"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}InquireWikiDescription"),
                     TouNeutAssets.InquireSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Vanquish", "Vanquish"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}VanquishWikiDescription"),
                     TouNeutAssets.InquisKillSprite)
-            };
+            ];
         }
     }
 
@@ -204,9 +204,11 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         stringB.AppendLine($"<b>{TouLocale.Get("TouRoleInquisitorTabAddition")}</b>");
-        foreach (var role in TargetRoles)
+        foreach (var target in Targets)
         {
-            var newText = $"<b><size=80%>{MiscUtils.GetRoleTmpIcon(role)}{role.TeamColor.ToTextColor()}{role.GetRoleName()}</size></b>";
+            var newText = target.Key.HasDied()
+                ? $"<b><size=80%>{MiscUtils.GetRoleTmpIcon(target.Value)}<s>{target.Value.TeamColor.ToTextColor()}{target.Value.GetRoleName()}</color></s></size></b>"
+                : $"<b><size=80%>{MiscUtils.GetRoleTmpIcon(target.Value)}{target.Value.TeamColor.ToTextColor()}{target.Value.GetRoleName()}</color></size></b>";
             stringB.AppendLine($"{newText}");
         }
 
@@ -235,10 +237,14 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
         // if Inuquisitor was revived
         if (Targets.Count == 0)
         {
-            Targets = ModifierUtils.GetPlayersWithModifier<InquisitorHereticModifier>().Where(x => x != player)
-                .ToList();
-            TargetRoles = ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>().Where(x => x.Player != player)
-                .Select((x) => x.TargetRole).OrderBy((x) => x.GetRoleName()).ToList();
+            var newTargets = new Dictionary<PlayerControl, RoleBehaviour>();
+            foreach (var heretic in ModifierUtils.GetActiveModifiers<InquisitorHereticModifier>()
+                         .Where(x => x.Player != player).OrderBy(x => x.TargetRole.GetRoleName()))
+            {
+                newTargets.Add(heretic.Player, heretic.TargetRole);
+            }
+
+            Targets = newTargets;
         }
 
         if (TutorialManager.InstanceExists && Targets.Count == 0 && Player.AmOwner && Player.IsHost() &&
@@ -306,8 +312,8 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
                 text = TouLocale.GetParsed("TouRoleInquisitorInquiredHeretic").Replace("<player>", player.PlayerName);
                 reportBuilder.AppendLine(
                     $"{text}\n");
-                var roles = TargetRoles;
-                var lastRole = roles[roles.Count - 1];
+                var roles = Targets.Select(x => x.Value).ToList();
+                var lastRole = roles[^1];
 
                 if (roles.Count != 0)
                 {
@@ -374,7 +380,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
             return;
         }
 
-        if (Targets.All(x => x.HasDied() || x == exiled))
+        if (Targets.All(x => x.Key.HasDied() || x.Key == exiled))
             // Error($"CheckTargetEjection - exiled: {exiled.Data.PlayerName}");
         {
             InquisitorWin(Player);
@@ -407,8 +413,7 @@ public sealed class InquisitorRole : NeutralRole, ITownOfUsRole, IWikiDiscoverab
             return;
         }
 
-        role.Targets.Add(target);
-        role.TargetRoles.Add(target.Data.Role);
+        role.Targets.Add(target, target.Data.Role);
         target.AddModifier<InquisitorHereticModifier>();
     }
 

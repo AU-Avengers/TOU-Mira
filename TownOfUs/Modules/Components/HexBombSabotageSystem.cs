@@ -120,7 +120,7 @@ public sealed class HexBombSabotageSystem : Object, ISystemType, IActivatable
         }
     }
 
-    public void UpdateSystem(PlayerControl player, MessageReader msgReader)
+    public void UpdateSystem(PlayerControl _, MessageReader msgReader)
     {
         if (msgReader.ReadByte() != 1) return;
         Stage = HexBombStage.Initiate;
@@ -128,7 +128,7 @@ public sealed class HexBombSabotageSystem : Object, ISystemType, IActivatable
         IsDirty = true;
     }
 
-    public void Deserialize(MessageReader reader, bool initialState)
+    public void Deserialize(MessageReader reader, bool _)
     {
         TimeRemaining = reader.ReadSingle();
         Stage = (HexBombStage)reader.ReadByte();

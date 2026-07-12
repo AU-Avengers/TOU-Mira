@@ -51,10 +51,7 @@ public sealed class ScientistButton : TownOfUsButton, ILegacyCapable
     {
         base.CreateButton(parent);
         AvailableCharge = OptionGroupSingleton<ScientistOptions>.Instance.StartingCharge;
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
     }
 
     private void RefreshAbilityButton()

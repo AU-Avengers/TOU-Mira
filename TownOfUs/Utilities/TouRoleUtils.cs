@@ -35,8 +35,7 @@ public static class TouRoleUtils
     public static Sprite GetRoleIcon(this RoleBehaviour role)
     {
         var roleImg = GetBasicRoleIcon(role);
-        var customRole = role as ICustomRole;
-        if (customRole != null && customRole.Configuration.Icon != null)
+        if (role is ICustomRole customRole && customRole.Configuration.Icon != null)
         {
             roleImg = customRole.Configuration.Icon.LoadAsset();
         }
@@ -128,8 +127,7 @@ public static class TouRoleUtils
 
     public static string GetRoleLocaleKey(this RoleBehaviour role)
     {
-        var touRole = role as ITownOfUsRole;
-        if (touRole != null && touRole.LocaleKey != "KEY_MISS")
+        if (role is ITownOfUsRole touRole && touRole.LocaleKey != "KEY_MISS")
         {
             return touRole.LocaleKey;
         }

@@ -15,7 +15,6 @@ using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles.Impostor;
 
@@ -70,12 +69,12 @@ public sealed class JanitorRole
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Clean", "Clean"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CleanWikiDescription"),
                     TouImpAssets.CleanButtonSprite)
-            };
+            ];
         }
     }
 
@@ -96,12 +95,8 @@ public sealed class JanitorRole
             return;
         }
 
-        var body = TimeLordBodyManager.FindDeadBodyIncludingInactive(bodyId);
-        if (body == null)
-        {
-            body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
-        }
-
+        var body = TimeLordBodyManager.FindDeadBodyIncludingInactive(bodyId)
+                ?? FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == bodyId);
         TimeLordBodyManager.BodyLogger?.LogError($"[JanitorRPC] Body found: body={body != null}, active={body?.gameObject.activeSelf ?? false}, position={body?.transform?.position}");
 
         if (body != null)

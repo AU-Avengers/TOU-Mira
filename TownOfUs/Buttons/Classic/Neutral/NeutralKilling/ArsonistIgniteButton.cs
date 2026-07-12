@@ -51,11 +51,8 @@ public sealed class ArsonistIgniteButton : TownOfUsRoleButton<ArsonistRole>, ILe
         }
         else
         {
-            if (Ignite != null)
-            {
-                Ignite.Clear();
-                Ignite = null;
-            }
+            Ignite?.Clear();
+            Ignite = null;
         }
 
         return base.CanUse() && count > 0;

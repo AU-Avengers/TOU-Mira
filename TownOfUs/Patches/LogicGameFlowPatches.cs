@@ -116,7 +116,7 @@ public static class LogicGameFlowPatches
                 continue;
             }
 
-            var tasksCountTowardProgress = true;
+            bool tasksCountTowardProgress;
             try
             {
                 tasksCountTowardProgress = player.Data.Role != null && player.Data.Role.TasksCountTowardProgress;

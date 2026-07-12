@@ -13,8 +13,8 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class ForensicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
- public CrimeSceneComponent? InvestigatingScene { get; set; }
- public List<byte> InvestigatedPlayers { get; init; } = new();
+    public CrimeSceneComponent? InvestigatingScene { get; set; }
+    public List<byte> InvestigatedPlayers { get; init; } = [];
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Forensic";
@@ -33,15 +33,15 @@ public sealed class ForensicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverabl
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Inspect", "Inspect"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}InspectWikiDescription"),
                     TouCrewAssets.InspectSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Examine", "Examine"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ExamineWikiDescription"),
                     TouCrewAssets.ExamineSprite)
-            };
+            ];
         }
     }
 

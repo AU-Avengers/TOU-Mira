@@ -21,10 +21,7 @@ public sealed class FakeVentButton : CustomActionButton
         base.CreateButton(parent);
 
         var pb = Button?.GetComponent<PassiveButton>();
-        if (pb != null)
-        {
-            pb.OnClick = new Button.ButtonClickedEvent();
-        }
+        pb?.OnClick = new Button.ButtonClickedEvent();
 
         (Button! as AbilityButton)!
             .commsDown

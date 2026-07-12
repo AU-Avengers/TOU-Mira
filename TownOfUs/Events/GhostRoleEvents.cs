@@ -107,10 +107,7 @@ public static class GhostRoleEvents
 
                     var player = deadCrew.TakeFirst();
 
-                    if (player != null)
-                    {
-                        player.RpcChangeRole(RoleId.Get<HaunterRole>());
-                    }
+                    player?.RpcChangeRole(RoleId.Get<HaunterRole>());
                 }
             }
         }
@@ -136,10 +133,7 @@ public static class GhostRoleEvents
 
                     var player = deadNeutral.TakeFirst();
 
-                    if (player != null)
-                    {
-                        player.RpcChangeRole(RoleId.Get<SpectreRole>());
-                    }
+                    player?.RpcChangeRole(RoleId.Get<SpectreRole>());
                 }
             }
         }

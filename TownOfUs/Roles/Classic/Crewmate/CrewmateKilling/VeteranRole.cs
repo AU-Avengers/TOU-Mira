@@ -32,12 +32,12 @@ public sealed class VeteranRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Alert", "Alert"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}AlertWikiDescription"),
                     TouCrewAssets.AlertSprite)
-            };
+            ];
         }
     }
 

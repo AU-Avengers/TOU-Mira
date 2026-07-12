@@ -159,8 +159,7 @@ public sealed class RoleListHoverComponent : MonoBehaviour
 
     private void HideTooltip()
     {
-        if (_tooltipGo != null)
-            _tooltipGo.SetActive(false);
+        _tooltipGo?.SetActive(false);
         _tooltipBaseText = string.Empty;
     }
 

@@ -176,9 +176,7 @@ public static class SentryCameraUtilities
         SurvCamera? polusTemplateCamera = null;
         try
         {
-            polusTemplateCamera = PrefabLoader.Polus != null
-                ? PrefabLoader.Polus.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault()
-                : null;
+            polusTemplateCamera = PrefabLoader.Polus?.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault();
         }
         catch
         {
@@ -207,7 +205,7 @@ public static class SentryCameraUtilities
             polusTemplateCamera ??
             resourceTemplateCamera ??
             Object.FindObjectOfType<SurvCamera>() ??
-            (PrefabLoader.Skeld != null ? PrefabLoader.Skeld.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault() : null);
+            (PrefabLoader.Skeld?.GetComponentsInChildren<SurvCamera>(true).FirstOrDefault());
 
         return referenceCamera;
     }
@@ -289,10 +287,7 @@ public static class SentryCameraUtilities
         }
         else
         {
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.color = Color.white;
-            }
+            spriteRenderer?.color = Color.white;
             camera.gameObject.SetActive(true);
         }
 
@@ -304,7 +299,7 @@ public static class SentryCameraUtilities
 
         var allCameras = ShipStatus.Instance.AllCameras != null
             ? ShipStatus.Instance.AllCameras.ToList()
-            : new List<SurvCamera>();
+            : [];
         allCameras.Add(camera);
         ShipStatus.Instance.AllCameras = allCameras.ToArray();
 

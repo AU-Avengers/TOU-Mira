@@ -162,7 +162,7 @@ public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWi
             }
             else
             {
-                string[] neutArray = Array.Empty<string>();
+                string[] neutArray = [];
 
                 if (!AssassinGuessNeutralBenign.Value)
                 {

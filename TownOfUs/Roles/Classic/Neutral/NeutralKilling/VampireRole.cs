@@ -49,12 +49,12 @@ public sealed class VampireRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable,
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Bite", "Bite"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BiteWikiDescription"),
                     TouNeutAssets.BiteSprite)
-            };
+            ];
         }
     }
 

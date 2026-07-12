@@ -51,15 +51,15 @@ public sealed class MirrorcasterRole : CrewmateRole, ITouCrewRole, IWikiDiscover
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}MagicMirror", "Magic Mirror"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MagicMirrorWikiDescription"),
                     TouCrewAssets.MagicMirrorSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Unleash", "Unleash"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}UnleashWikiDescription"),
                     TouCrewAssets.UnleashSprite)
-            };
+            ];
         }
     }
 

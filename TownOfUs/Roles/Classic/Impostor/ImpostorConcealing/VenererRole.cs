@@ -41,8 +41,8 @@ public sealed class VenererRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverable
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Camouflage", "Camouflage"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CamouflageWikiDescription"),
                     TouImpAssets.CamouflageSprite),
@@ -52,7 +52,7 @@ public sealed class VenererRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverable
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Freeze", "Freeze"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FreezeWikiDescription"),
                     TouImpAssets.FreezeSprite)
-            };
+            ];
         }
     }
 

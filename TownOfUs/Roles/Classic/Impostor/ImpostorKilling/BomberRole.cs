@@ -50,13 +50,13 @@ public sealed class BomberRole
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Place", "Place"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}PlaceWikiDescription").Replace("<maxKills>",
                         $"{(int)OptionGroupSingleton<BomberOptions>.Instance.MaxKillsInDetonation}"),
                     TouImpAssets.PlaceSprite)
-            };
+            ];
         }
     }
 

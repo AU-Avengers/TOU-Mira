@@ -25,8 +25,8 @@ public sealed class ImitatorRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverabl
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}CrewmateImitation"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CrewmateImitationWikiDescription"),
                     TouCrewAssets.InspectSprite),
@@ -36,7 +36,7 @@ public sealed class ImitatorRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverabl
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}ImpostorCounterparts"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ImpostorCounterpartsWikiDescription"),
                     TouImpAssets.DragSprite),
-            };
+            ];
         }
     }
 

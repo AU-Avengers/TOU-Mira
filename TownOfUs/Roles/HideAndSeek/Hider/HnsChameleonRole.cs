@@ -26,15 +26,15 @@ public sealed class HnsChameleonRole : CrewmateRole, ITownOfUsRole, IWikiDiscove
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"HnsRole{LocaleKey}Swoop", "Swoop"),
                     TouLocale.GetParsed($"HnsRole{LocaleKey}SwoopWikiDescription"),
                     TouCrewAssets.CrewSwoopSprite),
                 new(TouLocale.GetParsed($"HnsRole{LocaleKey}Unswoop", "Unswoop"),
                     TouLocale.GetParsed($"HnsRole{LocaleKey}UnswoopWikiDescription"),
                     TouCrewAssets.CrewUnswoopSprite)
-            };
+            ];
         }
     }
 
@@ -215,21 +215,10 @@ public sealed class HnsChameleonRole : CrewmateRole, ITownOfUsRole, IWikiDiscove
     private static ContactFilter2D _filter;
     public Vent? GetTarget()
     {
-        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 4, _filter);
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 3, _filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 2, _filter);
-        }
-
-        if (vent == null)
-        {
-            vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance(), _filter);
-        }
+        var vent = PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 4, _filter)
+                   ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 3, _filter)
+                   ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance() / 2, _filter)
+                   ?? PlayerControl.LocalPlayer.GetNearestObjectOfType<Vent>(GetAbilityDistance(), _filter);
 
         if (vent != null && PlayerControl.LocalPlayer.CanUseVent(vent))
         {

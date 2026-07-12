@@ -44,6 +44,12 @@ public static class SixthSenseEvents
     [MethodRpc((uint)TownOfUsRpc.TriggerSixthSense, LocalHandling = RpcLocalHandling.None)]
     private static void RpcTriggerSixthSense(PlayerControl source, PlayerControl target)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(source);
+            return;
+        }
+
         if (target.AmOwner)
         {
             AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.SixthSense));

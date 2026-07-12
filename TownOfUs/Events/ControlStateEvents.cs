@@ -70,7 +70,7 @@ public static class ControlStateEvents
     }
     
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         ParasiteControlState.ClearAll();
         PuppeteerControlState.ClearAll();
@@ -100,7 +100,7 @@ public static class ControlStateEvents
     }
 
     [RegisterEvent]
-    public static void ClientGameEndEventHandler(ClientGameEndEvent @event)
+    public static void ClientGameEndEventHandler(ClientGameEndEvent _)
     {
         ParasiteControlState.ClearAll();
         PuppeteerControlState.ClearAll();

@@ -25,12 +25,11 @@ public class ManualDoorsSystemType : Object, ISystemType, IActivatable, RunTimer
 		for (int i = 0; i < SystemTypeHelpers.AllTypes.Length; i++)
 		{
 			SystemTypes key = SystemTypeHelpers.AllTypes[i];
-			float num;
-			if (timers.TryGetValue(key, out num))
-			{
-				timers[key] = Mathf.Clamp(num - deltaTime, 0f, 30f);
-			}
-		}
+            if (timers.TryGetValue(key, out float num))
+            {
+                timers[key] = Mathf.Clamp(num - deltaTime, 0f, 30f);
+            }
+        }
 		if (initialCooldown > 0f)
 		{
 			initialCooldown -= deltaTime;
@@ -112,12 +111,11 @@ public class ManualDoorsSystemType : Object, ISystemType, IActivatable, RunTimer
 		{
 			return initialCooldown / 10f;
 		}
-		float num;
-		if (timers.TryGetValue(system, out num))
-		{
-			return num / 30f;
-		}
-		return 0f;
+        if (timers.TryGetValue(system, out float num))
+        {
+            return num / 30f;
+        }
+        return 0f;
 	}
 
 	public void SetInitialSabotageCooldown()
@@ -133,7 +131,7 @@ public class ManualDoorsSystemType : Object, ISystemType, IActivatable, RunTimer
 
 	private const byte IdMask = 31;
 
-	private readonly Dictionary<SystemTypes, float> timers = new Dictionary<SystemTypes, float>();
+	private readonly Dictionary<SystemTypes, float> timers = [];
 
 	private float initialCooldown;
 }

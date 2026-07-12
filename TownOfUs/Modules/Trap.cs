@@ -69,8 +69,7 @@ public sealed class Trap : IDisposable
 
                 var role = entry.Data.Role;
 
-                var cachedMod = entry.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) as ICachedRole;
-                if (cachedMod != null)
+                if (entry.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cachedMod)
                 {
                     role = cachedMod.CachedRole;
                 }

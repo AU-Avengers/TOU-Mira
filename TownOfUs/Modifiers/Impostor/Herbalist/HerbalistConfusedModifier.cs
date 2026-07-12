@@ -23,11 +23,11 @@ public sealed class HerbalistConfusedModifier(PlayerControl herbalist) : TimedMo
     {
         if (Player.AmOwner/* || Herbalist.AmOwner*/)
         {
-            List<string> hats = new();
-            List<string> skins = new();
-            List<string> visors = new();
-            List<string> pets = new();
-            List<int> colors = new();
+            List<string> hats = [];
+            List<string> skins = [];
+            List<string> visors = [];
+            List<string> pets = [];
+            List<int> colors = [];
             foreach (var plr in Helpers.GetAlivePlayers())
             {
                 hats.Add(plr.Data.DefaultOutfit.HatId);

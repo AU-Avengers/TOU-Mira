@@ -242,10 +242,7 @@ public abstract class TownOfUsButton : CustomActionButton
             if (TextOutlineColor != Color.clear)
             {
                 SetTextOutline(TextOutlineColor);
-                if (Button != null)
-                {
-                    Button.usesRemainingSprite.color = TextOutlineColor;
-                }
+                Button?.usesRemainingSprite.color = TextOutlineColor;
             }
 
             TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
@@ -435,21 +432,13 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
         }
         else
         {
-            switch (typeof(T))
+            Button.usesRemainingSprite.sprite = typeof(T) switch
             {
-                case Type t when t == typeof(Vent):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterVentSprite.LoadAsset();
-                    break;
-                case Type t when t == typeof(DeadBody):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBodySprite.LoadAsset();
-                    break;
-                case Type t when t == typeof(PlayerControl):
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterPlayerSprite.LoadAsset();
-                    break;
-                default:
-                    Button.usesRemainingSprite.sprite = TouAssets.AbilityCounterBasicSprite.LoadAsset();
-                    break;
-            }
+                Type t when t == typeof(Vent) => TouAssets.AbilityCounterVentSprite.LoadAsset(),
+                Type t when t == typeof(DeadBody) => TouAssets.AbilityCounterBodySprite.LoadAsset(),
+                Type t when t == typeof(PlayerControl) => TouAssets.AbilityCounterPlayerSprite.LoadAsset(),
+                _ => TouAssets.AbilityCounterBasicSprite.LoadAsset(),
+            };
         }
 
         TownOfUsColors.UseBasic = false;
@@ -491,10 +480,7 @@ public abstract class TownOfUsTargetButton<T> : CustomActionButton<T> where T : 
                 if (TextOutlineColor != Color.clear)
                 {
                     SetTextOutline(TextOutlineColor);
-                    if (Button != null)
-                    {
-                        Button.usesRemainingSprite.color = TextOutlineColor;
-                    }
+                    Button?.usesRemainingSprite.color = TextOutlineColor;
                 }
 
                 TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
@@ -688,12 +674,6 @@ public abstract class TownOfUsVentRoleButton<TRole> : TownOfUsRoleButton<TRole, 
 
         return (PlayerControl.LocalPlayer.inVent || Timer <= 0 && Target != null) &&
             (!LimitedUses || UsesLeft > 0);
-    }
-
-    protected override void FixedUpdate(PlayerControl playerControl)
-    {
-        base.FixedUpdate(playerControl);
-        HudManager.Instance.ImpostorVentButton.ToggleVisible(!HideVanillaButton);
     }
 }
 #pragma warning restore S3060

@@ -2,7 +2,6 @@ using System.Text;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -55,15 +54,15 @@ public sealed class JailorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Jail", "Jail"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}JailWikiDescription"),
                     TouCrewAssets.JailSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}ExecuteWiki", "Execute"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ExecuteWikiDescription"),
                     TouAssets.ExecuteCleanSprite)
-            };
+            ];
         }
     }
 
@@ -264,9 +263,7 @@ public sealed class JailorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
                     text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
                 }
 
-                Player.RpcSpecialMurder(Jailed, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                    showKillAnim: false,
-                    playKillSound: false,
+                Player.RpcMeetingMurder(Jailed, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                     causeOfDeath: "Jailor");
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);

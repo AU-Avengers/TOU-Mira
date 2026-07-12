@@ -1065,8 +1065,7 @@ public static class TouRoleManagerPatches
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CoSetRole))]
     [HarmonyPrefix]
-    public static void SetRolePatch(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType,
-        [HarmonyArgument(1)] bool canOverrideRole)
+    public static void SetRolePatch(PlayerControl __instance, [HarmonyArgument(1)] bool canOverrideRole)
     {
         if (canOverrideRole)
         {

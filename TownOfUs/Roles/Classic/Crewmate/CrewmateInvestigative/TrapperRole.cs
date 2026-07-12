@@ -12,7 +12,7 @@ namespace TownOfUs.Roles.Crewmate;
 public sealed class TrapperRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
- public List<RoleBehaviour> TrappedPlayers { get; set; } = new();
+    public List<RoleBehaviour> TrappedPlayers { get; set; } = [];
 
     public DoomableType DoomHintType => DoomableType.Insight;
     public string LocaleKey => "Trapper";
@@ -31,12 +31,12 @@ public sealed class TrapperRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Trap", "Trap"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}TrapWikiDescription"),
                     TouCrewAssets.TrapSprite)
-            };
+            ];
         }
     }
 

@@ -9,7 +9,7 @@ namespace TownOfUs.Events.Misc;
 public static class TeamChatEvents
 {
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         if (TeamChatPatches.TeamChatActive)
         {
@@ -18,7 +18,7 @@ public static class TeamChatEvents
     }
 
     [RegisterEvent]
-    public static void ReportBodyEventHandler(ReportBodyEvent @event)
+    public static void ReportBodyEventHandler(ReportBodyEvent _)
     {
         if (TeamChatPatches.TeamChatActive)
         {
@@ -27,7 +27,7 @@ public static class TeamChatEvents
     }
 
     [RegisterEvent]
-    public static void EjectionEventHandler(EjectionEvent @event)
+    public static void EjectionEventHandler(EjectionEvent _)
     {
         if (TeamChatPatches.TeamChatActive)
         {

@@ -41,8 +41,8 @@ public sealed class PoliticianRole : CrewmateRole, ITouCrewRole, IWikiDiscoverab
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Campaign", "Campaign"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}CampaignWikiDescription"),
                     TouCrewAssets.CampaignButtonSprite),
@@ -51,7 +51,7 @@ public sealed class PoliticianRole : CrewmateRole, ITouCrewRole, IWikiDiscoverab
                         ? $"TouRole{LocaleKey}RevealWikiDescriptionPunished"
                         : $"TouRole{LocaleKey}RevealWikiDescription"),
                     TouAssets.RevealCleanSprite)
-            };
+            ];
         }
     }
 

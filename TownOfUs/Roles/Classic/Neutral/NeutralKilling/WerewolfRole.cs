@@ -44,12 +44,12 @@ public sealed class WerewolfRole
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Rampage", "Rampage"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}RampageWikiDescription"),
                     TouNeutAssets.RampageSprite)
-            };
+            ];
         }
     }
 

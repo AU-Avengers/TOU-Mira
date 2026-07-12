@@ -1,11 +1,13 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using UnityEngine;
 
@@ -14,7 +16,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class DeputyEvents
 {
     [RegisterEvent]
-    public static void RoundStartHandler(RoundStartEvent @event)
+    public static void RoundStartHandler(RoundStartEvent _)
     {
         if (PlayerControl.LocalPlayer.Data.Role is DeputyRole)
         {
@@ -83,7 +85,7 @@ public static class DeputyEvents
             return;
         }
 
-        if (mod.Deputy.Data.Role is not DeputyRole deputy)
+        if (mod.Deputy.Data.Role is not DeputyRole deputy || source == target)
         {
             return;
         }
@@ -97,6 +99,14 @@ public static class DeputyEvents
 
             notif1.AdjustNotification();
             AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Deputy));
+        }
+        if (source.AmOwner && OptionGroupSingleton<DeputyOptions>.Instance.WarnKiller.Value)
+        {
+            var notif = Helpers.CreateAndShowNotification(
+                $"<b>{TownOfUsColors.Deputy.ToTextColor()}{TouLocale.GetParsed("TouRoleDeputyKillerWarnNotif")}</color></b>",
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Deputy.LoadAsset());
+            notif.AdjustNotification();
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Deputy));
         }
     }
 }

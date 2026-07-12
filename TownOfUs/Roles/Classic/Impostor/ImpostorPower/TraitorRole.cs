@@ -61,12 +61,12 @@ public sealed class TraitorRole
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}ChangeRole", "Change Role"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ChangeRoleWikiDescription"),
                     TouImpAssets.TraitorSelect)
-            };
+            ];
         }
     }
 

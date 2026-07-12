@@ -9,7 +9,7 @@ namespace TownOfUs.Patches.Roles;
 public static class TimeLordPatches
 {
     private static float _lastTaskSnapshotTime;
-    private static float _taskSnapshotInterval = 0.02f;
+    private static readonly float _taskSnapshotInterval = 0.02f;
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
     [HarmonyPostfix]
     public static void RecordSnapshotsPostfix(PlayerPhysics __instance)

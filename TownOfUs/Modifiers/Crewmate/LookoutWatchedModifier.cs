@@ -1,9 +1,11 @@
 ﻿using System.Text;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Modifiers.Crewmate;
@@ -14,7 +16,7 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
     public override bool HideOnUi => true;
 
     public PlayerControl Lookout { get; set; } = lookout;
-    public List<RoleBehaviour> SeenPlayers { get; set; } = [];
+    public Dictionary<PlayerControl, RoleBehaviour> SeenPlayers { get; set; } = [];
 
     public override void OnActivate()
     {
@@ -44,15 +46,26 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
         var title = $"<color=#{TownOfUsColors.Lookout.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRoleLookoutFeedbackTitle")}</color>";
         var msg = TouLocale.GetParsed("TouRoleLookoutNoInteractionFeedback").Replace("<player>", Player.Data.PlayerName);
 
+        var showRoles = (LookoutView)OptionGroupSingleton<LookoutOptions>.Instance.WatchType.Value is LookoutView.Roles;
         if (SeenPlayers.Count != 0)
         {
-            var message = new StringBuilder($"{TouLocale.GetParsed("TouRoleLookoutInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
+            var message = new StringBuilder($"{TouLocale.GetParsed(showRoles ? "TouRoleLookoutInteractionFeedback" : "TouRoleLookoutAltInteractionFeedback").Replace("<player>", Player.Data.PlayerName)}:\n");
 
             SeenPlayers.Shuffle();
 
-            foreach (var role in SeenPlayers)
+            if (showRoles)
             {
-                message.Append( $"{role.GetRoleName()}, ");
+                foreach (var pair in SeenPlayers)
+                {
+                    message.Append($"{pair.Value.GetRoleName()}, ");
+                }
+            }
+            else
+            {
+                foreach (var pair in SeenPlayers)
+                {
+                    message.Append($"{pair.Key.CachedPlayerData.PlayerName}, ");
+                }
             }
 
             message = message.Remove(message.Length - 2, 2);

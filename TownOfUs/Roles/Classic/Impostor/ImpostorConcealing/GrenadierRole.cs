@@ -38,12 +38,12 @@ public sealed class GrenadierRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverab
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Flash", "Flash"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FlashWikiDescription"),
                     TouImpAssets.FlashSprite)
-            };
+            ];
         }
     }
 }

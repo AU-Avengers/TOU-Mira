@@ -159,12 +159,12 @@ public sealed class FairyRole : NeutralRole, ITownOfUsRole, IWikiDiscoverable,
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Protect", "Protect"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ProtectWikiDescription"),
                     TouNeutAssets.ProtectSprite)
-            };
+            ];
         }
     }
 

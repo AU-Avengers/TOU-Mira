@@ -11,7 +11,7 @@ namespace TownOfUs.Roles.Crewmate;
 
 public sealed class AurialRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
-    private readonly Dictionary<(Vector3, int), ArrowBehaviour> _senseArrows = new();
+    private readonly Dictionary<(Vector3, int), ArrowBehaviour> _senseArrows = [];
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Aurial";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");

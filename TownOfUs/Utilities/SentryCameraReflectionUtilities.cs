@@ -13,10 +13,10 @@ public static class SentryCameraReflectionUtilities
         TryGetMinigameCameraData(object minigame)
     {
         var t = minigame.GetType();
-        var accessors = AccessorCache.GetOrAdd(t, BuildAccessors);
-        var cam = accessors.camGetter?.Invoke(minigame);
-        var tex = accessors.texGetter?.Invoke(minigame);
-        return (cam, tex, accessors.texSetter);
+        var (camGetter, texGetter, texSetter) = AccessorCache.GetOrAdd(t, BuildAccessors);
+        var cam = camGetter?.Invoke(minigame);
+        var tex = texGetter?.Invoke(minigame);
+        return (cam, tex, texSetter);
     }
 
     private static (Func<object, Camera?>? camGetter, Func<object, object?>? texGetter, Action<object, object?>? texSetter)

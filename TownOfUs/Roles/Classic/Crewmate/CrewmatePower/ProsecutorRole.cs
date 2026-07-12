@@ -79,12 +79,12 @@ public sealed class ProsecutorRole : CrewmateRole, ITouCrewRole, IWikiDiscoverab
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWiki", "Prosecute"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ProsecuteWikiDescription"),
                     TouRoleIcons.Prosecutor)
-            };
+            ];
         }
     }
 

@@ -77,12 +77,12 @@ public sealed class MinerRole
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mine", "Mine"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MineWikiDescription"),
                     TouImpAssets.MineSprite)
-            };
+            ];
         }
     }
 
@@ -158,7 +158,10 @@ public sealed class MinerRole
         ShipStatus.Instance.AllVents = allVents.ToArray();
 
         miner.Vents.Add(vent);
-        AmongUsClient.Instance.StartCoroutine(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
+        if (player.AmOwner || immediate)
+        {
+            AmongUsClient.Instance.StartCoroutine(miner.CoExplode(new Vector3(position.x, position.y + 1.33f , zAxis - 0.0001f)));
+        }
 
         if (ModCompatibility.SubLoaded)
         {

@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace TownOfUs.Patches.Misc;
-// Patch taken from https://github.com/All-Of-Us-Mods/LaunchpadReloaded/blob/master/LaunchpadReloaded/Patches/Generic/DiscordManagerPatch.cs
+/// <remarks>
+/// Patch taken from <see href="https://github.com/All-Of-Us-Mods/LaunchpadReloaded/blob/master/LaunchpadReloaded/Patches/Generic/DiscordManagerPatch.cs"/>
+/// </remarks>
 [HarmonyPatch]
 public static class DiscordPlatformPatch
 {

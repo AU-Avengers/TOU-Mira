@@ -27,12 +27,12 @@ public sealed class SonarRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Track", "Track"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}TrackWikiDescription"),
                     TouCrewAssets.TrackSprite)
-            };
+            ];
         }
     }
 

@@ -18,10 +18,10 @@ public sealed class InGameRoleWikiEntry : MonoBehaviour
 
     public void SetData()
     {
-        var amount = 0;
-        var chance = 0;
+        int amount = 0;
         if (!HasNoCount)
         {
+            int chance;
             if (CustomRole != null)
             {
                 amount = (int)CustomRole.GetCount()!;

@@ -33,8 +33,8 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Bless", "Bless"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlessWikiDescription"),
                     TouCrewAssets.BlessSprite),
@@ -42,7 +42,7 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
                     TouLocale.GetParsed($"TouRole{LocaleKey}ConfessWikiDescription").Replace("<revealAccuracy>",
                         $"{OptionGroupSingleton<OracleOptions>.Instance.RevealAccuracyPercentage}"),
                     TouCrewAssets.ConfessSprite)
-            };
+            ];
         }
     }
 
@@ -160,10 +160,7 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         }
         var mod = ModifierUtils.GetActiveModifiers<OracleConfessModifier>(x => x.Oracle == player).FirstOrDefault();
 
-        if (mod != null)
-        {
-            mod.ConfessToAll = true;
-        }
+        mod?.ConfessToAll = true;
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBless)]
@@ -177,11 +174,7 @@ public sealed class OracleRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}'");
         var mod = exiled.GetModifier<OracleBlessedModifier>();
 
-        if (mod != null)
-            // Message($"RpcOracleBless exiled '{exiled.Data.PlayerName}' SavedFromExile");
-        {
-            mod.SavedFromExile = true;
-        }
+        mod?.SavedFromExile = true;
     }
 
     [MethodRpc((uint)TownOfUsRpc.OracleBlessNotify)]

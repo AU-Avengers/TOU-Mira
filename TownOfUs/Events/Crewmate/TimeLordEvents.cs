@@ -126,7 +126,7 @@ public static class TimeLordEvents
     }
 
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         TimeLordRewindSystem.CancelRewindForMeeting();
     }

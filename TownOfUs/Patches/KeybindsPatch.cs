@@ -362,8 +362,7 @@ public static class Bindings
 
         foreach (var button in buttonList.Where(x => x is TownOfUsButton))
         {
-            var touButton = button as TownOfUsButton;
-            if (touButton == null || touButton.ConsoleBind() == -1)
+            if (button is not TownOfUsButton touButton || touButton.ConsoleBind() == -1)
             {
                 continue;
             }
@@ -376,8 +375,7 @@ public static class Bindings
 
         foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<DeadBody>))
         {
-            var touButton = button as TownOfUsTargetButton<DeadBody>;
-            if (touButton == null || touButton.ConsoleBind() == -1)
+            if (button is not TownOfUsTargetButton<DeadBody> touButton || touButton.ConsoleBind() == -1)
             {
                 continue;
             }
@@ -390,8 +388,7 @@ public static class Bindings
 
         foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<Vent>))
         {
-            var touButton = button as TownOfUsTargetButton<Vent>;
-            if (touButton == null || touButton.ConsoleBind() == -1)
+            if (button is not TownOfUsTargetButton<Vent> touButton || touButton.ConsoleBind() == -1)
             {
                 continue;
             }
@@ -404,8 +401,7 @@ public static class Bindings
 
         foreach (var button in buttonList.Where(x => x is TownOfUsTargetButton<PlayerControl>))
         {
-            var touButton = button as TownOfUsTargetButton<PlayerControl>;
-            if (touButton == null || touButton.ConsoleBind() == -1)
+            if (button is not TownOfUsTargetButton<PlayerControl> touButton || touButton.ConsoleBind() == -1)
             {
                 continue;
             }

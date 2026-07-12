@@ -506,5 +506,5 @@ public sealed class HaunterRole : CrewmateGhostRole, ITownOfUsRole, IGhostRole, 
 
     public static void ResetReveals() => RevealedPlayers.Clear();
 
-    private static List<PlayerControl> RevealedPlayers = new();
+    private static readonly List<PlayerControl> RevealedPlayers = [];
 }

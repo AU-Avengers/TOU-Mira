@@ -67,15 +67,15 @@ public sealed class UndertakerRole
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Drag", "Drag"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DragWikiDescription"),
                     TouImpAssets.DragSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Drop", "Drop"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}DropWikiDescription"),
                     TouImpAssets.DropSprite)
-            };
+            ];
         }
     }
 

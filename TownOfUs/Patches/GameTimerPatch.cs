@@ -52,10 +52,7 @@ public static class GameTimerPatch
     public static void UpdateGameTimer(HudManager instance)
     {
         var timeOpt = OptionGroupSingleton<GameTimerOptions>.Instance;
-        if (GameTimerObj != null)
-        {
-            GameTimerObj.SetActive(false);
-        }
+        GameTimerObj?.SetActive(false);
 
         if (!timeOpt.GameTimerEnabled || GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
                 or GameModes.SeekFools)

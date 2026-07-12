@@ -58,7 +58,7 @@ public static class PlumberEvents
     }
 
     [RegisterEvent]
-    public static void EjectionEventHandler(EjectionEvent @event)
+    public static void EjectionEventHandler(EjectionEvent _)
     {
         if ((int)OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration > 0)
         {

@@ -11,20 +11,12 @@ using UnityEngine.Networking;
 
 namespace TownOfUs.Patches.Misc;
 
-// code credit https://github.com/Yumenopai/TownOfHost_Y
+/// <remarks>
+/// code credit <see href="https://github.com/Yumenopai/TownOfHost_Y"/>
+/// </remarks>
 [HarmonyPatch]
-public class TouMiraModNews
+public class TouMiraModNews(int Number, string Title, string SubTitle, string ShortTitle, string Text, string Date)
 {
-    public TouMiraModNews(int Number, string Title, string SubTitle, string ShortTitle, string Text, string Date)
-    {
-        this.Number = Number;
-        this.Title = Title;
-        this.SubTitle = SubTitle;
-        this.ShortTitle = ShortTitle;
-        this.Text = Text;
-        this.Date = Date;
-    }
-
     public Announcement ToAnnouncement()
     {
         return new Announcement
@@ -42,13 +34,13 @@ public class TouMiraModNews
 
     // ReSharper disable UnassignedField.Global
     // ReSharper disable UnusedAutoPropertyAccessor.Global
-    public string Date { get; set; }
-    public int Number { get; set; }
-    public string ShortTitle { get; set; }
-    public string SubTitle { get; set; }
-    public string Title { get; set; }
+    public string Date { get; set; } = Date;
+    public int Number { get; set; } = Number;
+    public string ShortTitle { get; set; } = ShortTitle;
+    public string SubTitle { get; set; } = SubTitle;
+    public string Title { get; set; } = Title;
 
-    public string Text { get; set; }
+    public string Text { get; set; } = Text;
     // ReSharper restore UnassignedField.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

@@ -19,7 +19,9 @@ public sealed class SwapperRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
     public bool CanBeOtherEvil => true;
 
     private MeetingMenu meetingMenu;
- public PlayerVoteArea? Swap1 { get; set; } public PlayerVoteArea? Swap2 { get; set; }
+
+    public PlayerVoteArea Swap1 { get; set; }
+    public PlayerVoteArea Swap2 { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string LocaleKey => "Swapper";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -37,12 +39,12 @@ public sealed class SwapperRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}SwapWiki", "Swap (Meeting)"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}SwapWikiDescription"),
                     TouAssets.SwapActive)
-            };
+            ];
         }
     }
 
@@ -142,12 +144,12 @@ public sealed class SwapperRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
         else if (Swap1 == voteArea)
         {
             meetingMenu.Actives[Swap1!.TargetPlayerId] = false;
-            Swap1 = null;
+            Swap1 = null!;
         }
         else if (Swap2 == voteArea)
         {
             meetingMenu.Actives[Swap2!.TargetPlayerId] = false;
-            Swap2 = null;
+            Swap2 = null!;
         }
         else
         {
@@ -165,7 +167,7 @@ public sealed class SwapperRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
     {
         var swapperRole = swapper.Data?.Role as SwapperRole;
         var areas = MeetingHud.Instance.playerStates.ToList();
-        swapperRole!.Swap1 = areas.Find(x => x.TargetPlayerId == swap1);
-        swapperRole.Swap2 = areas.Find(x => x.TargetPlayerId == swap2);
+        swapperRole!.Swap1 = areas.Find(x => x.TargetPlayerId == swap1)!;
+        swapperRole.Swap2 = areas.Find(x => x.TargetPlayerId == swap2)!;
     }
 }

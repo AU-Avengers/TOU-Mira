@@ -19,8 +19,7 @@ public sealed class MediumRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
     public override bool IsAffectedByComms => false;
     public bool IgnoredByRewind => false;
     public bool IgnoredByRecording => Spirit != null;
- public List<MediatedModifier> MediatedPlayers { get; } = new();
-
+    public List<MediatedModifier> MediatedPlayers { get; } = [];
     public DoomableType DoomHintType => DoomableType.Death;
     public string LocaleKey => "Medium";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -38,12 +37,12 @@ public sealed class MediumRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mediate", "Mediate"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MediateWikiDescription"),
                     TouCrewAssets.MediateSprite)
-            };
+            ];
         }
     }
 
@@ -117,7 +116,7 @@ public sealed class MediumRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         List<PlayerControl> targets)
     {
         var newTargets = targets.Count == 0
-            ? new Dictionary<byte, string>()
+            ? []
             : targets.Select(x => new KeyValuePair<byte, string>(x.PlayerId, x.Data.PlayerName))
                 .ToDictionary(x => x.Key, x => x.Value);
         RpcMultiMediate(source, newTargets);
@@ -184,6 +183,11 @@ public sealed class MediumRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
     [MethodRpc((uint)TownOfUsRpc.RemoveMediumSpirit)]
     public static void RpcRemoveMediumSpirit(PlayerControl medium, MedSpiritObject spirit)
     {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(medium);
+            return;
+        }
         spirit.StartCoroutine(spirit.CoDestroy());
     }
 }

@@ -36,13 +36,13 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.Get($"TouModifier{LocaleKey}Button"),
                     TouLocale.GetParsed($"TouModifier{LocaleKey}ButtonWikiDescription").Replace("<barryUses>",
                         $"{Math.Round(OptionGroupSingleton<ButtonBarryOptions>.Instance.MaxNumButtons, 0)}"),
                     TouAssets.BarryButtonSprite)
-            };
+            ];
         }
     }
 

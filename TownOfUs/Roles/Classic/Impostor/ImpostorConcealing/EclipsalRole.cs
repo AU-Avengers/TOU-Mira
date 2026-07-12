@@ -35,12 +35,12 @@ public sealed class EclipsalRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverabl
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Blind", "Blind"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlindWikiDescription"),
                     TouImpAssets.BlindSprite)
-            };
+            ];
         }
     }
 }

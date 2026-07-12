@@ -25,46 +25,27 @@ internal enum SnapshotState : byte
     InMinigame = 1 << 4,
 }
 
-internal readonly struct Snapshot
+internal readonly struct Snapshot(float time, Vector2 pos, SpecialAnim anim, SnapshotState flags, int ventId)
 {
-    public readonly float Time;
-    public readonly Vector2 Pos;
-    public readonly SpecialAnim Anim;
-    public readonly SnapshotState Flags;
-    public readonly int VentId;
-
-    public Snapshot(float time, Vector2 pos, SpecialAnim anim, SnapshotState flags, int ventId)
-    {
-        Time = time;
-        Pos = pos;
-        Anim = anim;
-        Flags = flags;
-        VentId = ventId;
-    }
+    public readonly float Time = time;
+    public readonly Vector2 Pos = pos;
+    public readonly SpecialAnim Anim = anim;
+    public readonly SnapshotState Flags = flags;
+    public readonly int VentId = ventId;
 }
 
-internal readonly struct TaskStepSnapshot
+internal readonly struct TaskStepSnapshot(byte[] steps)
 {
-    public readonly byte[] Steps;
-
-    public TaskStepSnapshot(byte[] steps)
-    {
-        Steps = steps;
-    }
+    public readonly byte[] Steps = steps;
 }
 
-internal sealed class CircularBuffer
+internal sealed class CircularBuffer(int capacity)
 {
-    private Snapshot[] _items;
+    private Snapshot[] _items = new Snapshot[Math.Max(1, capacity)];
     private int _start;
     private int _count;
 
     public int Count => _count;
-
-    public CircularBuffer(int capacity)
-    {
-        _items = new Snapshot[Math.Max(1, capacity)];
-    }
 
     public void EnsureCapacity(int capacity)
     {
@@ -266,16 +247,11 @@ internal sealed class TaskStepBuffer
     }
 }
 
-internal sealed class BodyPosBuffer
+internal sealed class BodyPosBuffer(int capacity)
 {
-    private Vector2[] _items;
+    private Vector2[] _items = new Vector2[Math.Max(1, capacity)];
     private int _start;
     private int _count;
-
-    public BodyPosBuffer(int capacity)
-    {
-        _items = new Vector2[Math.Max(1, capacity)];
-    }
 
     public void EnsureCapacity(int capacity)
     {

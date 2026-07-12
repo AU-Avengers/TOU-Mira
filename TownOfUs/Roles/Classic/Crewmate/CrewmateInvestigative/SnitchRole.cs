@@ -326,12 +326,8 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         }
         // Set to null so CreateSnitchArrowsSilent() can recreate arrows when needed
         _snitchArrows = null;
-
-        if (SnitchRevealArrow != null)
-        {
-            SnitchRevealArrow.gameObject.DeepDestroy();
-            SnitchRevealArrow = null;
-        }
+        SnitchRevealArrow?.gameObject.DeepDestroy();
+        SnitchRevealArrow = null;
 
         // Remove modifiers from all players explicitly to ensure they're cleared on all clients
         foreach (var player in PlayerControl.AllPlayerControls)
@@ -383,7 +379,7 @@ public sealed class SnitchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
         {
             AmongUsClient.Instance.StartCoroutine(MiscUtils.CoFlash(TownOfUsColors.Snitch, alpha: 0.5f));
         }
-        _snitchArrows = new Dictionary<byte, ArrowBehaviour>();
+        _snitchArrows = [];
         var imps = Helpers.GetAlivePlayers().Where(plr => plr.Data.Role.IsImpostor && !plr.IsTraitor());
         var traitor = Helpers.GetAlivePlayers().FirstOrDefault(plr => plr.IsTraitor());
         imps.ToList().ForEach(imp => CreateSnitchArrow(imp, TownOfUsColors.Impostor));

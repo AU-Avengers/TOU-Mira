@@ -463,7 +463,7 @@ public static class ModCompatibility
         __state = false;
     }
 
-    public static void SetOxygenDuration(object __instance, float duration)
+    public static void SetOxygenDuration(object __instance, float _)
     {
         var subOpts = OptionGroupSingleton<BetterSubmergedOptions>.Instance;
         if (subOpts.ChangeSaboTimers)

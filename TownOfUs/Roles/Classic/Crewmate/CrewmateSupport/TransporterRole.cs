@@ -41,12 +41,12 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Transport", "Transport"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}TransportWikiDescription"),
                     TouCrewAssets.Transport)
-            };
+            ];
         }
     }
 
@@ -258,10 +258,7 @@ public sealed class TransporterRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
             if (button.TextOutlineColor != Color.clear)
             {
                 button.SetTextOutline(button.TextOutlineColor);
-                if (button.Button != null)
-                {
-                    button.Button.usesRemainingSprite.color = button.TextOutlineColor;
-                }
+                button.Button?.usesRemainingSprite.color = button.TextOutlineColor;
             }
 
             TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance

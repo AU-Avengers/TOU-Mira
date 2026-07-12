@@ -45,12 +45,12 @@ public sealed class WardenRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable,
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Fortify", "Fortify"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FortifyWikiDescription"),
                     TouCrewAssets.FortifySprite)
-            };
+            ];
         }
     }
 

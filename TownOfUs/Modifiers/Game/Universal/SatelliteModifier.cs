@@ -40,13 +40,13 @@ public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.Get($"TouModifier{LocaleKey}Broadcast"),
                     TouLocale.GetParsed($"TouModifier{LocaleKey}BroadcastWikiDescription").Replace("<maxUses>",
                         $"{Math.Round(OptionGroupSingleton<SatelliteOptions>.Instance.MaxNumCast, 0)}"),
                     TouAssets.BroadcastSprite)
-            };
+            ];
         }
     }
 

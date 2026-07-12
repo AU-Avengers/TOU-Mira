@@ -20,7 +20,7 @@ public sealed class SeerRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, I
     public static string ReworkString => OptionGroupSingleton<SeerOptions>.Instance.SalemSeer.Value ? "Alt" : string.Empty;
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}{ReworkString}TabDescription");
-    public List<string> ComparisonList = new ();
+    public List<string> ComparisonList = [];
 
     public string GetAdvancedDescription()
     {
@@ -42,10 +42,10 @@ public sealed class SeerRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, I
                 abilityDesc = TouLocale.GetParsed($"TouRole{LocaleKey}CompareWikiDescription");
                 sprite = TouCrewAssets.SeerButtonSprites.AsEnumerable().Random()!;
             }
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(abilityName, abilityDesc, sprite)
-            };
+            ];
         }
     }
 
@@ -67,7 +67,7 @@ public sealed class SeerRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, I
         GazeTarget = null;
         IntuitTarget = null;
         RoleBehaviourStubs.Initialize(this, player);
-        ComparisonList = new List<string>();
+        ComparisonList = [];
         TabHeaderString = TouLocale.GetParsed("TouRoleSeerTabHeader");
     }
 

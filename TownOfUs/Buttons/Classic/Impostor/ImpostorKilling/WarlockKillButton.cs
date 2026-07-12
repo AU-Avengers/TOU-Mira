@@ -37,10 +37,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
     public override void CreateButton(Transform parent)
     {
         base.CreateButton(parent);
-        if (KeybindIcon != null)
-        {
-            KeybindIcon.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
-        }
+        KeybindIcon?.transform.localPosition = new Vector3(0.4f, 0.45f, -9f);
 
         _killName = TranslationController.Instance.GetStringWithDefault(StringNames.KillLabel, "Kill");
         _burstKill = TouLocale.Get("TouRoleWarlockBurstKill", "Burst Kill");
@@ -120,7 +117,7 @@ public sealed class WarlockKillButton : TownOfUsKillRoleButton<WarlockRole, Play
         AmongUsClient.Instance.StartCoroutine(CoMarkForDeath(Target));
     }
 
-    public List<PlayerControl> MarkedTargets = new();
+    public List<PlayerControl> MarkedTargets = [];
 
     public IEnumerator CoMarkForDeath(PlayerControl player)
     {

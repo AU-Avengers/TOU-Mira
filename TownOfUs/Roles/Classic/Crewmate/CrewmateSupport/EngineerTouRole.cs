@@ -32,13 +32,13 @@ public sealed class EngineerTouRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Fix", "Fix"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}FixWikiDescription").Replace("<engiMaxFixes>",
                         $"{(int)OptionGroupSingleton<EngineerOptions>.Instance.MaxFixes}"),
                     TouCrewAssets.FixButtonSprite)
-            };
+            ];
         }
     }
 
@@ -49,7 +49,7 @@ public sealed class EngineerTouRole : CrewmateRole, ITownOfUsRole, IWikiDiscover
     public CustomRoleConfiguration Configuration => new(this)
     {
         IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Engineer.LoadAsset(), "TouMira.Role.Crewmate.Engineer", 1.45f),
-        CanUseVent = true,
+        GetsVentData = true,
         Icon = TouRoleIcons.Engineer,
         OptionsScreenshot = TouBanners.EngineerRoleBanner,
         IntroSound = TouAudio.EngineerIntroSound

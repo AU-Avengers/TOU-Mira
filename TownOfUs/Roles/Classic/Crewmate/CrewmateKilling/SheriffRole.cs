@@ -33,12 +33,12 @@ public sealed class SheriffRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable,
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Shoot", "Shoot"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ShootWikiDescription"),
                     TouCrewAssets.SheriffShootSprite)
-            };
+            ];
         }
     }
 

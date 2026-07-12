@@ -38,14 +38,14 @@ public sealed class HunterRole : CrewmateRole, ITouCrewRole, IWikiDiscoverable, 
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Stalk", "Stalk"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}StalkWikiDescription")
                         .Replace("<hunterMaxStalkUsages>",
                             $"{(int)OptionGroupSingleton<HunterOptions>.Instance.StalkUses}"),
                     TouCrewAssets.StalkButtonSprite)
-            };
+            ];
         }
     }
 

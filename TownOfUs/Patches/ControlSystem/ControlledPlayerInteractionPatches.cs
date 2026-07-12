@@ -20,7 +20,7 @@ public static class ControlledPlayerInteractionPatches
 
     private static void RefreshInteractablesCache()
     {
-        _cachedInteractables = new List<IUsable>();
+        _cachedInteractables = [];
         var allUsables = UnityObject.FindObjectsOfType<MonoBehaviour>();
         foreach (var obj in allUsables)
         {
@@ -219,10 +219,7 @@ public static class ControlledPlayerInteractionPatches
             {
                 if (sr == null) continue;
                 sr.color = Palette.EnabledColor;
-                if (sr.material != null)
-                {
-                    sr.material.SetFloat("_Desat", 0f);
-                }
+                sr.material?.SetFloat("_Desat", 0f);
             }
 
             var tmps = useButton.GetComponentsInChildren<TMPro.TMP_Text>(true);
@@ -288,8 +285,7 @@ public static class ControlledPlayerInteractionPatches
             }
 
             // Check if player can use this
-            bool canUse;
-            usable.CanUse(player.Data, out canUse, out _);
+            usable.CanUse(player.Data, out bool canUse, out _);
             if (!canUse)
             {
                 continue;

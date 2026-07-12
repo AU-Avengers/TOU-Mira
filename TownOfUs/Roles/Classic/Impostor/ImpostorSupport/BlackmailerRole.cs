@@ -62,12 +62,12 @@ public sealed class BlackmailerRole : ImpostorRole, ITownOfUsRole, IWikiDiscover
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Blackmail", "Blackmail"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlackmailWikiDescription"),
                     TouImpAssets.BlackmailSprite)
-            };
+            ];
         }
     }
 

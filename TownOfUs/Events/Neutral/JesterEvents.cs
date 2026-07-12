@@ -88,7 +88,7 @@ public static class JesterEvents
     }
 
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         foreach (var jester in CustomRoleUtils.GetActiveRolesOfType<JesterRole>())
         {
@@ -100,7 +100,7 @@ public static class JesterEvents
     }
 
     [RegisterEvent]
-    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
     {
         var states = MeetingHudGetVotesPatch.States;
         var jests = CustomRoleUtils.GetActiveRolesOfType<JesterRole>();

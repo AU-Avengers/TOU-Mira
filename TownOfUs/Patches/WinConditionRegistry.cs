@@ -8,7 +8,7 @@ namespace TownOfUs.Patches;
 /// </summary>
 public static class WinConditionRegistry
 {
-    private static readonly List<IWinCondition> Conditions = new();
+    private static readonly List<IWinCondition> Conditions = [];
     private static readonly object LockObject = new();
 
     /// <summary>

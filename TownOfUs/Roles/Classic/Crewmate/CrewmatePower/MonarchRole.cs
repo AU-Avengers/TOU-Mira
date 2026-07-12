@@ -84,13 +84,13 @@ public sealed class MonarchRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Knight", "Knight"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}KnightDescription").Replace("<amount>",
                         ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)),
                     TouCrewAssets.KnightSprite)
-            };
+            ];
         }
     }
 
