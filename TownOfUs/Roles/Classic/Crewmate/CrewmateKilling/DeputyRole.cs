@@ -99,10 +99,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
     {
         PlayerMaterial.SetColors(anim.killerParts.ColorId, anim.impostorForeground);
         PlayerMaterial.SetColors(anim.killerParts.ColorId, anim.impostorHand);
-        if (Constants.ShouldPlaySfx())
-        {
-            SoundManager.Instance.PlaySound(anim.Stinger, false, 1f, null).volume = anim.StingerVolume;
-        }
+        TouAudio.PlaySound(TouAudio.DeputyReveal);
         overlay.background.enabled = true;
         yield return Effects.Wait(0.083333336f);
         overlay.background.enabled = false;
@@ -117,9 +114,9 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         overlay.flameParent.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
         anim.gameObject.SetActive(true);
         var sheriffCloseup = anim.transform.GetChild(2);
-        yield return new WaitForLerp(1.9f, new Action<float>(t =>
+        yield return new WaitForLerp(1.23f, new Action<float>(t =>
         {
-            var adj = t / 350;
+            var adj = t / 200;
             sheriffCloseup.localPosition += new Vector3(adj, 0f, 0f);
         }));
         anim.gameObject.SetActive(false);
