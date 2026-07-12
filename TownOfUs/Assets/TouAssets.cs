@@ -417,14 +417,11 @@ public static class TouAssets
 
     public static LoadableAsset<Sprite> KillBG { get; } = new LoadableBundleAsset<Sprite>("KillBackground", MainBundle);
 
-    public static LoadableAsset<Sprite> ColorKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.ColorKillBg.png");
+    public static LoadableAsset<Sprite> ColorKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundColor", MainBundle);
 
-    public static LoadableAsset<Sprite> NeutKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.NeutKillBg.png");
+    public static LoadableAsset<Sprite> NeutKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundNeut", MainBundle);
 
-    public static LoadableAsset<Sprite> CrewKillBg { get; } =
-        new LoadableResourceAsset($"{ShortPath}.CrewKillBg.png");
+    public static LoadableAsset<Sprite> CrewKillBg { get; } = new LoadableBundleAsset<Sprite>("KillBackgroundCrew", MainBundle);
 
     public static LoadableAsset<Sprite> VitalBgMissin { get; } =
         new LoadableResourceAsset($"{ShortPath}.VitalBgMissin.png");
@@ -475,6 +472,12 @@ public static class TouAssets
 
     public static readonly LoadableAsset<GameObject> BlackMinipostorPet =
         new LoadableBundleAsset<GameObject>("BlackMinipostorPet", MainBundle);
+
+    public static readonly LoadableAsset<Sprite> DeputyOutfit =
+        new LoadableBundleAsset<Sprite>("DeputyOutfit", MainBundle);
+
+    public static readonly LoadableAsset<Sprite> DeputyRevealBg =
+        new LoadableBundleAsset<Sprite>("DeputyRevealBg", MainBundle);
 
     public static void Initialize()
     {
