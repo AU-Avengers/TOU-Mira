@@ -27,13 +27,20 @@ public static class SpellslingerSabotagePatches
     }
 
     [HarmonyPatch(typeof(SabotageSystemType), nameof(SabotageSystemType.UpdateSystem))]
-    [HarmonyPostfix]
-    public static void UpdateSystemPatch([HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] MessageReader reader)
+    [HarmonyPrefix]
+    public static void CaptureSabotageAmount([HarmonyArgument(1)] MessageReader reader, out byte __state)
     {
-        var amount = reader.Buffer[reader.readHead - 1];
+        var position = reader.Position;
+        __state = reader.ReadByte();
+        reader.Position = position;
+    }
 
+    [HarmonyPatch(typeof(SabotageSystemType), nameof(SabotageSystemType.UpdateSystem))]
+    [HarmonyPostfix]
+    public static void UpdateSystemPatch([HarmonyArgument(0)] PlayerControl player, byte __state)
+    {
         if (AmongUsClient.Instance.AmHost && !MeetingHud.Instance && !ExileController.Instance &&
-            amount == HexBombSabotageSystem.SabotageId)
+            __state == HexBombSabotageSystem.SabotageId)
         {
             ShipStatus.Instance.UpdateSystem(HexBombSabotageSystem.SystemType, player, 1);
         }
