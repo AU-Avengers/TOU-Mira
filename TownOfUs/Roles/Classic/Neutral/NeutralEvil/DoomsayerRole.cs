@@ -4,7 +4,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -399,9 +398,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                     }
                     else
                     {
-                        Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, createDeadBody: false, teleportMurderer: false,
-                            showKillAnim: false,
-                            playKillSound: false,
+                        Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                             causeOfDeath: "Doomsayer");
                     }
                 }
@@ -415,9 +412,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                         }
                         else
                         {
-                            Player.RpcSpecialMurder(victim2, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                                showKillAnim: false,
-                                playKillSound: false,
+                            Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                                 causeOfDeath: "Doomsayer");
                         }
                     }
@@ -437,9 +432,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 }
 
                 // no incorrect guesses so this should be the target not the Doomsayer
-                Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                    showKillAnim: false,
-                    playKillSound: false,
+                Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                     causeOfDeath: "Doomsayer");
             }
 

@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
@@ -254,9 +253,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
                 return false;
             }
-            Player.RpcSpecialMurder(victim, MeetingCheck.ForMeeting, true, true, createDeadBody: false, teleportMurderer: false,
-                showKillAnim: false,
-                playKillSound: false,
+            Player.RpcMeetingMurder(victim, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                 causeOfDeath: victim != Player ? "Guess" : "Misguess");
 
             if (victim != Player)
