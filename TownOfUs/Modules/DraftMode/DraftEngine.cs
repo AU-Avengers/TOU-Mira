@@ -1,17 +1,14 @@
 using UnityEngine;
 using TownOfUs.Patches.DraftMode;
 using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities;
-using Reactor.Utilities.Attributes;
 using TownOfUs.Options;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 
 namespace TownOfUs.Modules.DraftMode
 {
-    [RegisterInIl2Cpp]
-    public class DraftEngineBehaviour(IntPtr iPtr) : MonoBehaviour(iPtr)
+    public class DraftEngineBehaviour : MonoBehaviour
     {
         public static DraftEngineBehaviour Instance { get; private set; }
 
@@ -43,7 +40,6 @@ namespace TownOfUs.Modules.DraftMode
             if (Instance == this) Instance = null!;
         }
 
-        [HideFromIl2Cpp]
         public void StartHostDraft(int totalSlots, Dictionary<byte, int> pidToSlot)
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] StartHostDraft called");
@@ -87,7 +83,6 @@ namespace TownOfUs.Modules.DraftMode
             Coroutines.Start(HostDraftLoop());
         }
 
-        [HideFromIl2Cpp]
         private IEnumerator HostDraftLoop()
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] HostDraftLoop started");
@@ -250,7 +245,6 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        [HideFromIl2Cpp]
         private IEnumerator CoWaitForBatch(List<int> activeSlots)
         {
             var deadlines = new Dictionary<int, float>();

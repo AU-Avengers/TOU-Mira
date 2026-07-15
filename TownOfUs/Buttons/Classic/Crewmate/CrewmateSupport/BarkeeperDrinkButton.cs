@@ -17,7 +17,7 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.CleanseSprite;
     public PlayerControl? _roleblockedTarget;
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }

@@ -1,16 +1,14 @@
 using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using TownOfUs.Options.Roles.Impostor;
 using UnityEngine;
-using System.Globalization;
 using AmongUs.GameOptions;
 using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Roles.Impostor;
 
-public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
+public sealed class BootleggerRole : ImpostorRole, ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<BarkeeperRole>());
     public override bool IsAffectedByComms => false;
@@ -32,22 +30,20 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         MaxRoleCount = 15
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var sb = ITownOfUsRole.SetNewTabText(this);
-        var formatProvider = CultureInfo.InvariantCulture;
         var rbdur = OptionGroupSingleton<BootleggerOptions>.Instance.RoleblockDuration;
 
         // Add a blank line before extra info for spacing
         sb.AppendLine();
 
-        sb.AppendLine(formatProvider, $"Roleblocked players are roleblocked for {rbdur} second(s).");
+        sb.AppendLine($"Roleblocked players are roleblocked for {rbdur} second(s).");
 
         if (OptionGroupSingleton<BootleggerOptions>.Instance.Hangover)
             sb.AppendLine("Your target will have a hangover when their roleblock expires.");
         
-        sb.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
+        sb.AppendLine($"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
 
         return sb;
     }
@@ -62,7 +58,6 @@ public sealed class BootleggerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownO
         return desc + MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
         new("Drink",

@@ -1,12 +1,10 @@
 using HarmonyLib;
-using Reactor.Utilities.Attributes;
 using UnityEngine;
 
 
 namespace TownOfUs.Modules.DraftMode
 {
-    [RegisterInIl2Cpp]
-    public class DraftTicker(IntPtr ip) : MonoBehaviour(ip)
+    public class DraftTicker : MonoBehaviour
     {
         private static DraftTicker _instance;
 
@@ -21,14 +19,14 @@ namespace TownOfUs.Modules.DraftMode
         public static void DestroyIfExists()
         {
             if (_instance == null) return;
-            MiraAPI.Utilities.Extensions.DeepDestroy(_instance.gameObject, true);
+            MiraAPI.Utilities.Extensions.DeepDestroy(_instance.gameObject, false);
         }
 
         private void Awake()
         {
             if (_instance != null && _instance != this)
             {
-                MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true);
+                MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, false);
                 return;
             }
             _instance = this;

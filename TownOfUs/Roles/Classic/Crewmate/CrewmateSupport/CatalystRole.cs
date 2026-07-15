@@ -1,12 +1,10 @@
-﻿using System.Globalization;
-using System.Text;
-using Il2CppInterop.Runtime.Attributes;
+﻿using System.Text;
 using MiraAPI.Roles;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class CatalystRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class CatalystRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Trickster;
@@ -25,12 +23,11 @@ public sealed class CatalystRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
         OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
+        stringB.AppendLine($"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
 
         return stringB;
     }
@@ -42,7 +39,6 @@ public sealed class CatalystRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfU
             MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
         new("Overcharge",

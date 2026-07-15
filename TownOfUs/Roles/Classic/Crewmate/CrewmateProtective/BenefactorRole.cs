@@ -1,8 +1,6 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -19,14 +17,12 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable
+public sealed class BenefactorRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, IDoomable
 {
     public override bool IsAffectedByComms => false;
 
-    [HideFromIl2Cpp]
     public RoleTypes? ProtectedRole { get; set; }
     public bool ProtectedRoleExists { get; set; }
-    [HideFromIl2Cpp]
     public List<RoleTypes> AegisAttacked { get; } = [];
     public bool UsedOnBenefactor { get; private set; }
 
@@ -46,7 +42,6 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
         OptionsScreenshot = TouBanners.PlaceholderRoleBanner,
     };
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
@@ -67,11 +62,10 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
                 roleName = role.NiceName;
             }
             
-            stringB.Append(CultureInfo.InvariantCulture,
-                $"\n<b>Aegis: </b>{roleColor.ToTextColor()}{roleName}</color>");
+            stringB.Append($"\n<b>Aegis: </b>{roleColor.ToTextColor()}{roleName}</color>");
         }
         
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
+        stringB.AppendLine($"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
 
         return stringB;
     }
@@ -83,7 +77,6 @@ public sealed class BenefactorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownO
             + MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
         new("Aegis",

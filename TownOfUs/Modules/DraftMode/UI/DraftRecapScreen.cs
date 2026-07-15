@@ -1,7 +1,5 @@
 using Reactor.Utilities;
-using Reactor.Utilities.Attributes;
 using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using TownOfUs.Options;
 using TMPro;
 using UnityEngine;
@@ -10,8 +8,7 @@ using UnityEngine;
 namespace TownOfUs.Modules.DraftMode
 {
 
-    [RegisterInIl2Cpp]
-    public sealed class DraftRecapScreen(IntPtr ip) : MonoBehaviour(ip)
+    public sealed class DraftRecapScreen : MonoBehaviour
     {
         private const float DisplaySeconds = 5f;
         private const float FadeSeconds    = 0.35f;
@@ -223,7 +220,6 @@ namespace TownOfUs.Modules.DraftMode
             return sr;
         }
 
-        [HideFromIl2Cpp]
         private void BuildContent(
             List<(int slot, string label, string colorHex)> entries,
             DraftRecapMode mode)
@@ -290,7 +286,6 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        [HideFromIl2Cpp]
         private IEnumerator CoDisplay()
         {
             _bgOverlay?.SetActive(true);
@@ -314,7 +309,6 @@ namespace TownOfUs.Modules.DraftMode
             callback?.Invoke();
         }
 
-        [HideFromIl2Cpp]
         private IEnumerator CoFadeText(float from, float to, float duration)
         {
 

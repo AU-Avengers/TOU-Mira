@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Globalization;
 using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
@@ -24,8 +22,8 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
 
-public sealed class MarshalRole(IntPtr cppPtr)
-    : CrewmateRole(cppPtr), ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
+public sealed class MarshalRole
+    : CrewmateRole, ITouCrewRole, IWikiDiscoverable, IDoomable, ILoyalCrewmate
 {
     public bool CanBeTraitor => false;
     public bool CanBeCrewpostor => false;
@@ -58,14 +56,13 @@ public sealed class MarshalRole(IntPtr cppPtr)
     public static int RequiredVotes { get; private set; }
     public static List<PlayerControl> EjectedPlayers { get; } = [];
 
-    [HideFromIl2Cpp]
     public StringBuilder SetTabText()
     {
         var stringB = ITownOfUsRole.SetNewTabText(this);
         
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"<b>{TribunalsLeft}/{OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunals} Tribunals Left</b>");
+        stringB.AppendLine($"<b>{TribunalsLeft}/{OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunals} Tribunals Left</b>");
         
-        stringB.AppendLine(CultureInfo.InvariantCulture, $"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
+        stringB.AppendLine($"\n<size=40%><b>This is an Experimental role, subject to change.</b></size>");
 
         return stringB;
     }
@@ -77,7 +74,6 @@ public sealed class MarshalRole(IntPtr cppPtr)
             + MiscUtils.AppendOptionsText(GetType());
     }
 
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
         new("Tribunal (Meeting)",
@@ -296,8 +292,8 @@ public sealed class MarshalRole(IntPtr cppPtr)
     {
         Warning($"RpcEndTribunal");
         var instance = MeetingHud.Instance;
-        AmongUsClient.Instance.DisconnectHandlers.Remove(MeetingHud.Instance.Cast<IDisconnectHandler>());
-        PlayerControl.AllPlayerControls.ToArray().Do(p => p.Data.Role.OnVotingComplete());
+        AmongUsClient.Instance.DisconnectHandlers.Remove(MeetingHud.Instance);
+        PlayerControl.AllPlayerControls.Do(p => p.Data.Role.OnVotingComplete());
 
         instance.state = MeetingHud.VoteStates.Results;
         PlayerControl.LocalPlayer.GetVoteData().VotesRemaining = 0;
@@ -448,7 +444,7 @@ public sealed class MarshalRole(IntPtr cppPtr)
     private static void AdjustTimeRemaining()
     {
         var meetingHud = MeetingHud.Instance;
-        var logicOptions = GameManager.Instance.LogicOptions.TryCast<LogicOptionsNormal>();
+        var logicOptions = GameManager.Instance.LogicOptions as LogicOptionsNormal;
         meetingHud.discussionTimer = (logicOptions!.GetDiscussionTime() + logicOptions.GetVotingTime()) - OptionGroupSingleton<MarshalOptions>.Instance.TribunalEjectionTime;
     }
 }

@@ -18,7 +18,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.SampleSprite;
     public PlayerControl? _roleblockedTarget;
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(false, Distance);
     }

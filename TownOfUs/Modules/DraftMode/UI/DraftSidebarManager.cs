@@ -106,7 +106,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             var sb = new System.Text.StringBuilder();
             sb.AppendLine();
-            sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"<size=64%><color=#6B7178>{picked} / {total}  ROLES PICKED</color></size>\n");
+            sb.Append($"<size=64%><color=#6B7178>{picked} / {total}  ROLES PICKED</color></size>\n");
             sb.AppendLine();
 
             foreach (int slot in DraftManager.TurnOrder)
@@ -140,7 +140,7 @@ namespace TownOfUs.Modules.DraftMode
                 float w = (Mathf.Sin(t * 2.2f - (startIdx + i) * 0.6f) + 1f) * 0.5f;
                 w *= w;
                 Color c = Color.Lerp(baseCol, Color.white, w * 0.8f);
-                sb.Append(System.Globalization.CultureInfo.InvariantCulture, $"<color=#{ColorUtility.ToHtmlStringRGB(c)}>{word[i]}</color>");
+                sb.Append($"<color=#{ColorUtility.ToHtmlStringRGB(c)}>{word[i]}</color>");
             }
             return sb.ToString();
         }

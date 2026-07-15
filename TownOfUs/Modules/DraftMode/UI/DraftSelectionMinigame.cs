@@ -1,7 +1,5 @@
 using System.Collections;
-using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities;
-using Reactor.Utilities.Attributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,8 +7,7 @@ using UnityEngine.Events;
 
 namespace TownOfUs.Modules.DraftMode
 {
-    [RegisterInIl2Cpp]
-    public class DraftScreenController(IntPtr ip) : MonoBehaviour(ip)
+    public class DraftScreenController : MonoBehaviour
     {
         public static DraftScreenController Instance { get; private set; }
 
@@ -86,8 +83,7 @@ namespace TownOfUs.Modules.DraftMode
             _timerRoot.transform.SetParent(HudManager.Instance.transform, false);
             _timerRoot.transform.localPosition = new Vector3(0f, -2.6f, -25f);
 
-            _timerText = _timerRoot.AddComponent(
-                Il2CppInterop.Runtime.Il2CppType.Of<TextMeshPro>()).Cast<TextMeshPro>();
+            _timerText = _timerRoot.AddComponent<TextMeshPro>();
             _timerText.font = HudManager.Instance.TaskPanel.taskText.font;
             _timerText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
             _timerText.fontSize = 2.5f;
@@ -123,7 +119,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_timerRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_timerRoot, false); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
                 _timerRoot = null!;
                 _timerText = null!;
                 _timerTrack = null!;
@@ -140,8 +136,7 @@ namespace TownOfUs.Modules.DraftMode
             _tooltipRoot.transform.SetParent(parent, false);
             _tooltipRoot.transform.localPosition = new Vector3(0f, 2.45f, -1f);
 
-            _tooltipText = _tooltipRoot.AddComponent(
-                Il2CppInterop.Runtime.Il2CppType.Of<TextMeshPro>()).Cast<TextMeshPro>();
+            _tooltipText = _tooltipRoot.AddComponent<TextMeshPro>();
             _tooltipText.font = HudManager.Instance.TaskPanel.taskText.font;
             _tooltipText.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
             _tooltipText.fontSize = 1.6f;
@@ -185,7 +180,7 @@ namespace TownOfUs.Modules.DraftMode
         {
             if (_tooltipRoot != null)
             {
-                try { MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, true); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
+                try { MiraAPI.Utilities.Extensions.DeepDestroy(_tooltipRoot, false); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
                 _tooltipRoot = null!;
                 _tooltipText = null!;
             }
@@ -217,7 +212,6 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        [HideFromIl2Cpp]
         public void CacheOfferedRoles(ushort[] offeredRoleIds)
         {
             _offeredRoleIds = offeredRoleIds ?? Array.Empty<ushort>();
@@ -291,7 +285,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 var bundle = TouAssets.MainBundle;
                 if (bundle != null)
-                    prefab = bundle.LoadAsset(PrefabName)?.TryCast<GameObject>()!;
+                    prefab = bundle.LoadAsset(PrefabName) as GameObject;
             }
             catch (Exception ex)
             {
@@ -303,7 +297,7 @@ namespace TownOfUs.Modules.DraftMode
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftScreenController] SelectRoleGame prefab not found.");
                 DestroyBottomTimer();
                 DestroySelectionBackdrop();
-                MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true); Instance = null!; return;
+                MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, false); Instance = null!; return;
             }
 
             _screenRoot = Instantiate(prefab);
@@ -338,7 +332,8 @@ namespace TownOfUs.Modules.DraftMode
             {
                 DestroyBottomTimer();
                 DestroySelectionBackdrop();
-                MiraAPI.Utilities.Extensions.DeepDestroy(_screenRoot, true); MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, true); Instance = null!; return;
+                MiraAPI.Utilities.Extensions.DeepDestroy(_screenRoot, false);
+                MiraAPI.Utilities.Extensions.DeepDestroy(gameObject, false); Instance = null!; return;
             }
 
             var rolePrefab = holderGo.gameObject;

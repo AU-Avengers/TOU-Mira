@@ -1,6 +1,5 @@
 using TownOfUs.Modules.DraftMode;
 using HarmonyLib;
-using Il2CppInterop.Runtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Object = UnityEngine.Object;
@@ -73,7 +72,7 @@ namespace TownOfUs.Patches.DraftMode
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] Creating new DraftEngineBehaviour");
                 var go = new GameObject("DraftEngineBehaviour");
                 Object.DontDestroyOnLoad(go);
-                engine = go.AddComponent(Il2CppType.From(typeof(DraftEngineBehaviour))).TryCast<DraftEngineBehaviour>()!;
+                engine = go.AddComponent<DraftEngineBehaviour>();
             }
 
             if (engine == null)

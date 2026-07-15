@@ -1,13 +1,11 @@
-using Reactor.Utilities.Attributes;
 using System.Collections;
 using System.Globalization;
 using HarmonyLib;
 using TMPro;
 using UnityEngine;
-using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
-
+using UnityEngine.Events;
 
 namespace TownOfUs.Modules.DraftMode
 {
@@ -18,8 +16,7 @@ namespace TownOfUs.Modules.DraftMode
         BackgroundOnly
     }
 
-    [RegisterInIl2Cpp]
-    public sealed class DraftStatusOverlay(IntPtr ip) : MonoBehaviour(ip)
+    public sealed class DraftStatusOverlay : MonoBehaviour
     {
         private static DraftStatusOverlay _instance;
 
@@ -384,7 +381,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 var bundle = TouAssets.MainBundle;
                 if (bundle == null) return false;
-                var prefab = bundle.LoadAsset("SelectRoleGame")?.TryCast<GameObject>();
+                var prefab = bundle.LoadAsset("SelectRoleGame") as GameObject;
                 if (prefab == null) return false;
                 var holderGo = prefab.transform.Find("RoleCardHolder");
                 if (holderGo == null) return false;
@@ -500,17 +497,17 @@ namespace TownOfUs.Modules.DraftMode
 
                 passiveButton.OnClick.RemoveAllListeners();
                 ushort capturedId = roleId;
-                passiveButton.OnClick.AddListener((Action)(() => OpenWiki(capturedId)));
+                passiveButton.OnClick.AddListener((UnityAction)(() => OpenWiki(capturedId)));
 
                 passiveButton.OnMouseOver.RemoveAllListeners();
-                passiveButton.OnMouseOver.AddListener((Action)(() =>
+                passiveButton.OnMouseOver.AddListener((UnityAction)(() =>
                 {
                     if (!_cardReady || _roleCardNewRoleObj == null) return;
                     _roleCardNewRoleObj.transform.localScale = Vector3.one * (CardScale * 1.08f);
                     ShowCardTooltip(roleName, teamName, description, color);
                 }));
                 passiveButton.OnMouseOut.RemoveAllListeners();
-                passiveButton.OnMouseOut.AddListener((Action)(() =>
+                passiveButton.OnMouseOut.AddListener((UnityAction)(() =>
                 {
                     if (_roleCardNewRoleObj != null)
                         _roleCardNewRoleObj.transform.localScale = Vector3.one * CardScale;
@@ -554,7 +551,6 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        [HideFromIl2Cpp]
         private IEnumerator CoWaitForWikiDestroyed(TownOfUs.Modules.Wiki.IngameWikiMinigame wiki)
         {
             while (wiki != null)
@@ -599,7 +595,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 try
                 {
-                    MiraAPI.Utilities.Extensions.DeepDestroy(_roleCardNewRoleObj, true);
+                    MiraAPI.Utilities.Extensions.DeepDestroy(_roleCardNewRoleObj, false);
                 }
                 catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
 
@@ -661,7 +657,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 try
                 {
-                    MiraAPI.Utilities.Extensions.DeepDestroy(_cardTooltipRoot, true);
+                    MiraAPI.Utilities.Extensions.DeepDestroy(_cardTooltipRoot, false);
                 }
                 catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"Ignored Exception: {e.Message}"); }
             }
@@ -869,7 +865,6 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        [HideFromIl2Cpp]
         private IEnumerator CoRetryBuildUI()
         {
 

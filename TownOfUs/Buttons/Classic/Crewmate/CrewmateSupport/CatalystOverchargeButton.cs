@@ -25,7 +25,7 @@ public sealed class CatalystOverchargeButton : TownOfUsRoleButton<CatalystRole, 
         return base.IsTargetValid(target) && !target!.HasModifier<CatalystOverchargedModifier>();
     }
 
-    public override PlayerControl? GetTarget()
+    public override PlayerControl GetTarget()
     {
         return PlayerControl.LocalPlayer.GetClosestLivingPlayer(true, Distance);
     }
