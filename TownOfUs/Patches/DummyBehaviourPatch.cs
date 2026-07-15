@@ -64,13 +64,16 @@ public static class DummyBehaviourPatches
         }
 
         dummy.RpcSetName(AccountManager.Instance.GetRandomName());
+        var palette = Palette.PlayerColors;
+        var validColors = palette.Select(c => palette.IndexOf(c)).Where(id => PlayerControl.LocalPlayer.cosmetics.ColorId != id).ToArray();
+        var randomCol = Random.Range(0, validColors.Length);
+        var colorId = validColors[randomCol];
         Warning($"Dummy {dummy.Data.PlayerName} role: {dummy.Data.Role.GetRoleName()}");
 
         dummy.SetSkin(HatManager.Instance.allSkins[Random.Range(0, HatManager.Instance.allSkins.Length)].ProdId, 0);
         dummy.SetNamePlate(HatManager.Instance
-            .allNamePlates[Random.RandomRangeInt(0, HatManager.Instance.allNamePlates.Length)].ProdId);
-        dummy.SetPet(HatManager.Instance.allPets[Random.RandomRangeInt(0, HatManager.Instance.allPets.Length)].ProdId);
-        var colorId = Random.Range(0, Palette.PlayerColors.Length);
+            .allNamePlates[Random.RandomRangeInt(0, HatManager.Instance.allNamePlates.Count)].ProdId);
+        dummy.SetPet(HatManager.Instance.allPets[Random.RandomRangeInt(0, HatManager.Instance.allPets.Count)].ProdId);
         dummy.SetColor(colorId);
         dummy.SetHat(HatManager.Instance.allHats[Random.RandomRangeInt(0, HatManager.Instance.allHats.Length)].ProdId,
             colorId);

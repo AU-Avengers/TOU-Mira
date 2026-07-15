@@ -19,8 +19,9 @@ public static class PlayerSpeedPatch
     {
         __result *= TownOfUsMapOptions.GetMapBasedSpeedMultiplier();
         __result *= EgotistModifier.SpeedMultiplier;
+
         if (!(HudManagerPatches.CamouflageCommsEnabled &&
-             OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSpeedInCamo))
+              OptionGroupSingleton<AdvancedSabotageOptions>.Instance.HidePlayerSpeedInCamo))
         {
             __result *= pc.GetAppearance().Speed;
         }

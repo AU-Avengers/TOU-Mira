@@ -22,6 +22,7 @@ public sealed class MayorRole
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;
     public bool CanBeOtherEvil => true;
+    public bool IsDraftable => false;
     public static GameObject MayorPlayer;
 
     private MeetingMenu meetingMenu;

@@ -28,7 +28,7 @@ public class NeutralGhostRole : RoleBehaviour, ITownOfUsRole
         TouRoleUtils.ClearTaskHeader(Player);
     }
     private Minigame _hauntMenu = null!;
-
+    public bool IsDraftable => false;
     public override bool IsDead => true;
     public override bool IsAffectedByComms => false;
 

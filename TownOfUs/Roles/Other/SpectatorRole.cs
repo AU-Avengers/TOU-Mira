@@ -14,6 +14,7 @@ public sealed class SpectatorRole : RoleBehaviour, ITownOfUsRole, IWikiDiscovera
     public static readonly HashSet<string> TrackedSpectators = [];
     public static readonly List<PlayerControl> TrackedPlayers = [];
     public static bool FixedCam;
+    public bool IsDraftable => false;
     private static int CurrentTarget;
     private bool ShowHud;
     private bool ShowShadows;

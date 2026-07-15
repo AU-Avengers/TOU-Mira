@@ -23,6 +23,7 @@ public sealed class TraitorRole
     public bool CanSpawnOnCurrentMode() => false; public List<RoleBehaviour> ChosenRoles { get; } = []; public RoleBehaviour? RandomRole { get; set; } public RoleBehaviour? SelectedRole { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public bool NoSpawn => true;
+    public bool IsDraftable => false;
     public string LocaleKey => "Traitor";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");

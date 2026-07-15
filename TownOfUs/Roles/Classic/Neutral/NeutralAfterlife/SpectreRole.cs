@@ -36,6 +36,7 @@ public sealed class SpectreRole
     public bool Setup { get; set; }
     public bool Caught { get; set; }
     public bool Faded { get; set; }
+    public bool IsDraftable => false;
 
     public bool CanBeClicked
     {

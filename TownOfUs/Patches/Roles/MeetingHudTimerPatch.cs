@@ -49,6 +49,9 @@ public static class MeetingHudTimerPatch
                 newText =
                     $"\n{prosecutes} / {OptionGroupSingleton<ProsecutorOptions>.Instance.MaxProsecutions} Prosecutions Remaining";
                 break;
+            case MarshalRole marshal:
+                newText = $"\n{marshal.TribunalsLeft} / {OptionGroupSingleton<MarshalOptions>.Instance.MaxTribunals} Tribunals Remaining";
+                break;
             case DeputyRole dep:
                 if (dep.Killer)
                 {
