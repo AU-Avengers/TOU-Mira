@@ -17,8 +17,8 @@
   <string name="OffsetButtons">Przesunięte Przyciski Gdy Nie Możesz Ventować</string>
   <string name="SortGuessingByAlignment">Sortuj Menu Zgadywania Przez Przynależność</string>
   <string name="EndSummaryVisibility">Widok Podsumowania</string>
-  <string name="ParasitePiPLocation">Lokalizacja Podglądu Parasite'a</string>
-  <string name="ParasitePiPSize">Rozmiar Podglądu Parasite'a</string>
+  <string name="ParasitePiPLocation">Lokalizacja Podglądu Pasożyta</string>
+  <string name="ParasitePiPSize">Rozmiar Podglądu Pasożyta</string>
   <string name="Plum">Śliwkowy</string>
   <string name="Jungle">Dżunglowy</string>
   <string name="Mint">Miętowy</string>
@@ -553,4 +553,25 @@
   <string name="TouOptionArsonistIgniteRadius">Zasięg Podpalenia</string>
   <string name="TouOptionArsonistCanVent">Piroman Może Wentować</string>
   <string name="TouOptionArsonistImpVision">Ma Wizję Intruza</string>
+  <string name="LegacyThemeDisabled">Legacy: Wył</string>
+  <string name="LegacyThemeArt">Legacy: Grafika</string>
+  <string name="LegacyThemePlayers">Legacy: Gracze</string>
+  <string name="LegacyThemeFull">Legacy: Wszystko</string>
+  <string name="RoleNameStyle">Styl Roli Przy Nazwie</string>
+  <string name="NameStyleTop">Na Górze</string>
+  <string name="NameStyleTopSmall">Na Górze (Małe)</string>
+  <string name="NameStyleBottom">Na Dole</string>
+  <string name="NameStyleBottomSmall">Na Dole (Małe)</string>
+  <string name="TouRoleBlackmailer">Szantażysta</string>
+  <string name="TouRoleBlackmailerIntroBlurb">Wycisz Załogę podczas spotkań</string>
+  <string name="TouRoleBlackmailerTabDescription">Wycisz członka załogi na następne spotkanie</string>
+  <string name="TouRoleBlackmailerWikiDescription">Szantażysta to Intruz Wsparcia który może powstrzymać gracza przed rozmawianiem (zaznaczony symbolem \%symbol\%) podczas następnego spotkania</string>
+  <string name="TouRoleBlackmailerBlackmail">Szantaż</string>
+  <string name="TouRoleBlackmailerBlackmailWikiDescription">Wycisz gracza na następne spotkanie. Nie będzie on w stanie rozmawiać. Nie będzie on w stanie także głosować dopóki ilość żywych osób nie będzie równa, bądź mniejsza niż ta ustawiona. Szantaż będzie widoczny dla innych osób tylko gdy odpowiednie ustawienie będzie przełączone</string>
+  <string name="TouOptionBlackmailerNumberOfBlackmailUsesPerGame">Ilość Szantaży Na Grę</string>
+  <string name="TouOptionBlackmailerBlackmailCooldown">Cooldown Szantażu</string>
+  <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">Tylko Szantażowany Widzi Szantaż</string>
+  <string name="TouOptionBlackmailerCanKillWithTeammate">Szantażysta Może Zabijać Z Wspólnikami</string>
+  <string name="TouOptionBlackmailerMaxPlayersAliveUntilVoting">Maks Ilość Żywych Graczy Zanim Szantażowany Może Głosować</string>
+  <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">Można Szantażować Gracza Dwa Razy Pod Rząd</string>
 </resources>
