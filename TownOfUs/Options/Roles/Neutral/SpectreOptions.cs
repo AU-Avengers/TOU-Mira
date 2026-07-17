@@ -4,7 +4,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class SpectreOptions : AbstractOptionGroup<SpectreRole>
+public sealed class SpectreOptions : AbstractRoleOptionGroup<SpectreRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSpectre", "Spectre");
 

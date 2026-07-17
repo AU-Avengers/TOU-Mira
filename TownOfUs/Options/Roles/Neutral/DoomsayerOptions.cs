@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class DoomsayerOptions : AbstractOptionGroup<DoomsayerRole>
+public sealed class DoomsayerOptions : AbstractRoleOptionGroup<DoomsayerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleDoomsayer", "Doomsayer");
 

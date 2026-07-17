@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class JesterOptions : AbstractOptionGroup<JesterRole>
+public sealed class JesterOptions : AbstractRoleOptionGroup<JesterRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleJester", "Jester");
 

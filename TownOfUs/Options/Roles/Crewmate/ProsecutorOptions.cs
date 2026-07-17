@@ -4,7 +4,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class ProsecutorOptions : AbstractOptionGroup<ProsecutorRole>
+public sealed class ProsecutorOptions : AbstractRoleOptionGroup<ProsecutorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleProsecutor", "Prosecutor");
 

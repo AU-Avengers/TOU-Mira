@@ -6,7 +6,7 @@ using TownOfUs.Roles.HideAndSeek.Seeker;
 
 namespace TownOfUs.Options.Roles.HnsImpostor;
 
-public sealed class HnsCamouflagerOptions : AbstractOptionGroup<HnsCamouflagerRole>
+public sealed class HnsCamouflagerOptions : AbstractRoleOptionGroup<HnsCamouflagerRole>
 {
     public override string GroupName => TouLocale.Get("HnsRoleCamouflager", "Camouflager");
 
