@@ -870,7 +870,7 @@
   <string name="TouRoleSentryIntroBlurb">部署攝影機以監控地圖</string>
   <string name="TouRoleSentryWikiDescription">哨兵是一名船員輔助型職業,可以在地圖上部署攝影機,功能類似於安全攝影機。</string>
   <string name="TouRoleSentryPlaceCamera">部署</string>
-  <string name="TouRoleSentryPlaceCameraWikiDescription">在當前位置部署一個攝像頭。其出現時間取決於設置。</string>
+  <string name="TouRoleSentryPlaceCameraWikiDescription">在當前位置部署一個攝影機。其出現時間取決於設置。</string>
   <string name="TouRoleSentryPortableCamera">查看</string>
   <string name="TouRoleSentryPortableCameraWikiDescription">通過有限的電池隨時存取安全攝影機。電池在觀看時會消耗,並且無法充電。通信破壞時將禁用該功能。</string>
   <string name="TouRoleSentryTabDescription">放置的攝影機會在保全室顯示。</string>
@@ -882,7 +882,7 @@
   <string name="TouOptionSentryPlacementCooldown">部署冷卻時間</string>
   <string name="TouOptionSentryInitialCameras">初始攝影機數量</string>
   <string name="TouOptionSentryCameraRoundsLast">攝影機持續回合數量</string>
-  <string name="TouOptionSentryTasksPerCamera">每個攝像頭所需任務數</string>
+  <string name="TouOptionSentryTasksPerCamera">每個攝影機所需任務數</string>
   <string name="TouOptionSentryMaxCamerasPlaced">一次最多可放置攝影機數量</string>
   <string name="TouOptionSentryPortableCamsBattery">便攜式攝影機電量</string>
   <string name="TouOptionSentryPortableCamsBatteryPerTask">每完成一個任務增加的便攜式攝影機電量</string>
@@ -1371,7 +1371,7 @@
   <string name="TouOptionTraitorGuessEnumActiveOrCached">背叛者或新職業</string>
   <string name="TouRoleUndertaker">送葬者</string>
   <string name="TouRoleUndertakerIntroBlurb">拖動屍體並隱藏他們</string>
-  <string name="TouRoleParasiteWikiDescription">寄宿者可以侵占附近的非偽裝者玩家,並控制其移動。被侵占時,目標默認顯示為寄宿者形象,並且無法使用技能。你可以通過 PiP 攝像頭觀察他們,並隨時擊殺。或等待控制計時器結束後擊殺。</string>
+  <string name="TouRoleParasiteWikiDescription">寄宿者可以侵占附近的非偽裝者玩家,並控制其移動。被侵占時,目標默認顯示為寄宿者形象,並且無法使用技能。你可以通過 PiP 攝影機觀察他們,並隨時擊殺。或等待控制計時器結束後擊殺。</string>
   <string name="TouRoleParasiteOvertakeWikiDescription">侵占附近的非偽裝者玩家以控制其移動。默認情況下,你用 WASD 控制自己移動,並用方向鍵控制目標。如果“寄宿者可獨立移動”被禁用,你將無法移動,只能用 WASD 控制目標。</string>
   <string name="TouRoleScavengerWikiDescription">賞金獵人是一名偽裝者擊殺型職業,每次擊殺和回合開始都會獲得新目標。擊殺目標可獲得更短的擊殺冷卻,未擊殺目標則冷卻大幅增加。</string>
   <string name="TouRolePuppeteerWikiDescription">縱偶師是一個偽裝者強力型職業,可以控制其他玩家為自己擊殺。當玩家被控制時,他們必須眼睜睜看著自己被迫殺害同伴船員。</string>
