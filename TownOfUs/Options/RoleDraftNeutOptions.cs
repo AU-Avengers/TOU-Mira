@@ -14,6 +14,13 @@ public sealed class RoleDraftNeutOptions : AbstractOptionGroup
         !OptionGroupSingleton<RoleOptions>.Instance.UseRoleListForPool;
     public override Color GroupColor => TownOfUsColors.Neutral;
 
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconDraftMode.LoadAsset(),
+            "TouMira.Gamemode.DraftMode",
+            1.45f));
+
     public override string GroupName => "Neutral Settings";
     public override uint GroupPriority => 3;
 

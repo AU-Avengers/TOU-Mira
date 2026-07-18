@@ -62,7 +62,7 @@ internal static class CancelCountdownStart
         if (opts.CurrentRoleDistribution() is RoleDistribution.Draft)
         {
             var warningText = opts.DraftRecap.Value is DraftRecapMode.Nothing ? "<b>No Draft recap will be displayed.</b>" : $"<b>Draft Mode Recap will display {opts.DraftRecap.Value}.</b>";
-            var notif = Helpers.CreateAndShowNotification(warningText, Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Traitor.LoadAsset());
+            var notif = Helpers.CreateAndShowNotification(warningText, Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
             notif.AdjustNotification();
         }
         if (AmongUsClient.Instance.AmHost)

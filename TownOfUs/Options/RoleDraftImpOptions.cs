@@ -14,6 +14,13 @@ public sealed class RoleDraftImpOptions : AbstractOptionGroup
         !OptionGroupSingleton<RoleOptions>.Instance.UseRoleListForPool;
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
 
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconDraftMode.LoadAsset(),
+            "TouMira.Gamemode.DraftMode",
+            1.45f));
+
     public override string GroupName => "Impostor Settings";
     public override uint GroupPriority => 2;
 
