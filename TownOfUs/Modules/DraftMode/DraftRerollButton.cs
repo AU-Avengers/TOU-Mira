@@ -42,9 +42,9 @@ public sealed class DraftRerollButton : TownOfUsButton
     public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.RerollsPerPlayer.Value;
     public override bool ZeroIsInfinite { get; set; } = true;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
-    public override Color TextOutlineColor => new Color32(255, 221, 0, 255);
+    public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
 
-    public override LoadableAsset<Sprite> Sprite => TouAssets.RetrainCleanSprite;
+    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.InquireSprite;
 
     public override bool Disabled { get; set; } = true;
     public override void CreateButton(Transform parent)
@@ -66,7 +66,7 @@ public sealed class DraftRerollButton : TownOfUsButton
     {
         if (!DraftManager.IsDraftActive) return;
         Helpers.CreateAndShowNotification("Your picks have been rerolled!", Color.white,
-                new Vector3(0f, 1f, -80f), spr: TouAssets.RetrainCleanSprite.LoadAsset());
+                new Vector3(0f, 1f, -80f), spr: TouNeutAssets.InquireSprite.LoadAsset());
         DraftNetworkHelper.RequestReroll();    
         }
 

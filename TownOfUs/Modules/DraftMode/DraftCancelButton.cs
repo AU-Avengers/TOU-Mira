@@ -24,9 +24,9 @@ public sealed class DraftCancelButton : TownOfUsButton
     public override bool ZeroIsInfinite { get; set; } = true;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 
-    public override Color TextOutlineColor => new Color32(198, 22, 22, 255);
+    public override Color TextOutlineColor => TownOfUsColors.Monarch;
 
-    public override LoadableAsset<Sprite> Sprite => TouImpAssets.MarkSprite;
+    public override LoadableAsset<Sprite> Sprite => TouImpAssets.HexBombSprite;
 
     public override bool Disabled { get; set; } = true;
 
@@ -45,7 +45,7 @@ public sealed class DraftCancelButton : TownOfUsButton
         if (!AmongUsClient.Instance.AmHost) return;
         if (!DraftManager.IsDraftActive) return;
         DraftEngineBehaviour.Instance?.CancelDraft();
-        DraftRpcs.RpcCreateNotif(PlayerControl.LocalPlayer,"<color=#FF0000>Draft Mode</color> has been cancelled by the <color=#FFBFCC><b>Host</b></color>!");
+        DraftRpcs.RpcCreateNotif(PlayerControl.LocalPlayer,"Draft Mode has been cancelled by the <color=#FFBFCC><b>Host</b></color>!");
         DraftNetworkHelper.BroadcastDraftEnd();
         Hide();
     }
