@@ -64,12 +64,12 @@ public sealed class BlackmailerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITown
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Blackmail", "Blackmail"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlackmailWikiDescription"),
                     TouImpAssets.BlackmailSprite)
-            };
+            ];
         }
     }
 

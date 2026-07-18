@@ -5,7 +5,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class HypnotistOptions : AbstractOptionGroup<HypnotistRole>
+public sealed class HypnotistOptions : AbstractRoleOptionGroup<HypnotistRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleHypnotist", "Hypnotist");
 

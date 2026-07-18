@@ -8,6 +8,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SleuthModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Sleuth,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Sleuth.LoadAsset(),
+            "TouMira.Modifier.Universal.Sleuth", 1.45f));
     public override string LocaleKey => "Sleuth";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Sleuth;

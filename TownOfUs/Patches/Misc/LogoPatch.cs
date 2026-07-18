@@ -49,7 +49,7 @@ public static class LogoPatch
             }
         }
 
-        Dictionary<RoleBehaviour, RoleTypes> vanillaRoles = new Dictionary<RoleBehaviour, RoleTypes>()
+        Dictionary<RoleBehaviour, RoleTypes> vanillaRoles = new()
         {
             { RoleManager.Instance.GetRole(RoleTypes.Scientist), RoleTypes.Scientist },
             { RoleManager.Instance.GetRole(RoleTypes.Noisemaker), RoleTypes.Noisemaker },
@@ -64,6 +64,8 @@ public static class LogoPatch
         {
             SoftWikiEntries.RegisterVanillaRoleEntry(rolePair.Key, rolePair.Value);
         }
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Neutral",
+            1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Neutral",
             1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate.LoadAsset(), "AmongUs.Role.Crewmate",
@@ -101,10 +103,7 @@ public static class LogoPatch
             GameLogo.sprite = TouAssets.Banner.LoadAsset();
         }
 
-        if (sizer != null)
-        {
-            sizer.GetComponent<AspectSize>().PercentWidth = 0.3f;
-        }
+        sizer?.GetComponent<AspectSize>().PercentWidth = 0.3f;
 
         var menuBg = GameObject.Find("BackgroundTexture");
 

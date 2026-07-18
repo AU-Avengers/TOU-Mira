@@ -37,13 +37,13 @@ public static class SoulCollectorEvents
 
     // These are semi-frequent but not as costly as constantly updating the fake player names.
     [RegisterEvent]
-    public static void RoleChangeEventHandler(SetRoleEvent @event)
+    public static void RoleChangeEventHandler(SetRoleEvent _)
     {
         FakePlayer.UpdateFakePlayerText(true);
     }
 
     [RegisterEvent]
-    public static void ChangeRoleEventHandler(ChangeRoleEvent @event)
+    public static void ChangeRoleEventHandler(ChangeRoleEvent _)
     {
         FakePlayer.UpdateFakePlayerText(true);
     }

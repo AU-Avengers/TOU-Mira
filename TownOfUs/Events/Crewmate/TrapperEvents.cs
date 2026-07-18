@@ -29,13 +29,13 @@ public static class TrapperEvents
     }
 
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         CustomRoleUtils.GetActiveRolesOfType<TrapperRole>().Do(x => x.Report());
     }
 
     [RegisterEvent]
-    public static void RoundStartEventHandler(RoundStartEvent @event)
+    public static void RoundStartEventHandler(RoundStartEvent _)
     {
         if (OptionGroupSingleton<TrapperOptions>.Instance.TrapsRemoveOnNewRound)
         {

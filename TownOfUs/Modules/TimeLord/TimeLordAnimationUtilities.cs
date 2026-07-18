@@ -14,14 +14,14 @@ internal static class TimeLordAnimationUtilities
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 #pragma warning restore S3011
 
-    private sealed class SpecialClipSet
+    private sealed record SpecialClipSet
     {
         public AnimationClip? LadderAny { get; set; }
         public AnimationClip? LadderUp { get; set; }
         public AnimationClip? LadderDown { get; set; }
     }
 
-    private static readonly Dictionary<int, SpecialClipSet> SpecialClipsByGroupHash = new();
+    private static readonly Dictionary<int, SpecialClipSet> SpecialClipsByGroupHash = [];
 
     public static bool IsInInvisibleAnimation(PlayerControl lp)
     {

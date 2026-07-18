@@ -5,7 +5,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class SoulCollectorOptions : AbstractOptionGroup<SoulCollectorRole>
+public sealed class SoulCollectorOptions : AbstractRoleOptionGroup<SoulCollectorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSoulCollector", "Soul Collector");
 

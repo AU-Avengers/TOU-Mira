@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Alliance;
 
-public sealed class EgotistOptions : AbstractOptionGroup<EgotistModifier>
+public sealed class EgotistOptions : AbstractTouModifierOptionGroup<EgotistModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierEgotist", "Egotist");

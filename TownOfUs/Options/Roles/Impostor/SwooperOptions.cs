@@ -6,7 +6,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class SwooperOptions : AbstractOptionGroup<SwooperRole>
+public sealed class SwooperOptions : AbstractRoleOptionGroup<SwooperRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSwooper", "Swooper");
 

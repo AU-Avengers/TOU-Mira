@@ -62,11 +62,8 @@ public static class BetterSkeldPatches
 
     public static void FindThemes()
     {
-        var rootObj = GameObject.Find("SkeldShip(Clone)");
-        if (rootObj == null)
-        {
-            rootObj = GameObject.Find("AprilShip(Clone)");
-        }
+        var rootObj = GameObject.Find("SkeldShip(Clone)")
+                   ?? GameObject.Find("AprilShip(Clone)");
         if (rootObj == null)
         {
             ThemesFetched = false;

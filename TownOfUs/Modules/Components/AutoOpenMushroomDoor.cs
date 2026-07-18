@@ -67,10 +67,7 @@ public sealed class AutoOpenMushroomDoor(nint cppPtr) : AutoOpenDoor(cppPtr)
 		this.open = open;
 		wallCollider.isTrigger = open;
 		shadowColl.enabled = !open;
-		if (bottomColl != null)
-		{
-			bottomColl.enabled = !open;
-		}
+		bottomColl?.enabled = !open;
 		foreach (MushroomWallMushroom mushroomWallMushroom in mushrooms)
 		{
 			if (open)

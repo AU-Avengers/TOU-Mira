@@ -66,15 +66,15 @@ public sealed class MorphlingRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Sample", "Sample"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}SampleWikiDescription"),
                     TouImpAssets.SampleSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Morph", "Morph"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MorphWikiDescription"),
                     TouImpAssets.MorphSprite)
-            };
+            ];
         }
     }
 

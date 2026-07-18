@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Universal;
 
-public sealed class SatelliteOptions : AbstractOptionGroup<SatelliteModifier>
+public sealed class SatelliteOptions : AbstractTouModifierOptionGroup<SatelliteModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierSatellite", "Satellite");

@@ -107,6 +107,10 @@ public static class TownOfUsColors
     public static Color Egotist => new Color32(102, 153, 102, 255);
     public static Color Lover => new Color32(255, 102, 204, 255);
 
+    // Assailant Modifiers
+    public static Color Assassin => new Color32(161, 62, 83, 255);
+    public static Color DoubleShot => new Color32(126, 112, 143, 255);
+
     // Universal Modifiers
     public static Color ButtonBarry => new Color32(179, 51, 204, 255);
     public static Color Flash => new Color32(255, 128, 128, 255);

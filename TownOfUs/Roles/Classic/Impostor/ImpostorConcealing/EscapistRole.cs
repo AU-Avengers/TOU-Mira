@@ -76,15 +76,15 @@ public sealed class EscapistRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mark", "Mark"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MarkWikiDescription"),
                     TouImpAssets.MarkSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Recall", "Recall"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}RecallWikiDescription"),
                     TouImpAssets.RecallSprite)
-            };
+            ];
         }
     }
 

@@ -508,5 +508,5 @@ public sealed class HaunterRole(IntPtr cppPtr) : CrewmateGhostRole(cppPtr), ITow
 
     public static void ResetReveals() => RevealedPlayers.Clear();
 
-    private static List<PlayerControl> RevealedPlayers = new();
+    private static readonly List<PlayerControl> RevealedPlayers = [];
 }

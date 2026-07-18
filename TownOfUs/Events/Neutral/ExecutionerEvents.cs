@@ -148,7 +148,7 @@ public static class ExecutionerEvents
     }
 
     [RegisterEvent]
-    public static void VotingCompleteEventHandler(VotingCompleteEvent @event)
+    public static void VotingCompleteEventHandler(VotingCompleteEvent _)
     {
         var states = MeetingHudGetVotesPatch.States;
         var exes = CustomRoleUtils.GetActiveRolesOfType<ExecutionerRole>();

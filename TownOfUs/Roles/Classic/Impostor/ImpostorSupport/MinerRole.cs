@@ -82,12 +82,12 @@ public sealed class MinerRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mine", "Mine"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MineWikiDescription"),
                     TouImpAssets.MineSprite)
-            };
+            ];
         }
     }
 

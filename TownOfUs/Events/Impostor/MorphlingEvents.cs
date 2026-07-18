@@ -13,7 +13,7 @@ namespace TownOfUs.Events.Impostor;
 public static class MorphlingEvents
 {
     [RegisterEvent]
-    public static void EjectionEventEventHandler(EjectionEvent @event)
+    public static void EjectionEventEventHandler(EjectionEvent _)
     {
         CustomRoleUtils.GetActiveRolesOfType<MorphlingRole>().Do(x => x.Clear());
         var button = CustomButtonSingleton<MorphlingMorphButton>.Instance;
