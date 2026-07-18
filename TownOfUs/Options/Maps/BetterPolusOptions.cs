@@ -12,6 +12,12 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
     public override string GroupName => "Better Polus";
     public override uint GroupPriority => 5;
     public override Color GroupColor => new Color32(157, 146, 198, 255);
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconPolus.LoadAsset(),
+            "AmongUs.Map.Polus",
+            1.45f));
 
     public ModdedToggleOption CamoComms { get; set; } =
         new("TouOptionAdvancedSaboCamouflageComms", true)

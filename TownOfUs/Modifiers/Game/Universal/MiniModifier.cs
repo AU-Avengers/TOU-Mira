@@ -8,6 +8,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class MiniModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Mini,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Mini.LoadAsset(),
+            "TouMira.Modifier.Universal.Mini", 1.45f));
     public override string LocaleKey => "Mini";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Mini;

@@ -586,6 +586,41 @@ public static class MiscUtils
         return localizedName;
     }
 
+    public static Color GetRoleFactionColor(RoleBehaviour role, bool useAltColors = false)
+    {
+        if (role)
+        {
+            if (role.IsCrewmate())
+            {
+                return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
+            }
+
+            if (role.IsImpostor())
+            {
+                return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
+            }
+        }
+
+        return TownOfUsColors.Neutral;
+    }
+
+    public static Color GetRoleFactionColor(RoleAlignment roleAlignment, bool useAltColors = false)
+    {
+        var localeName = $"{roleAlignment}";
+        var localizedName = TouLocale.Get(localeName);
+
+        if (localizedName.Contains("Crewmate") || localizedName.Contains(TouLocale.Get("CrewmateKeyword")))
+        {
+            return useAltColors ? TownOfUsColors.Crewmate : Palette.CrewmateBlue;
+        }
+        else if (localizedName.Contains("Impostor") || localizedName.Contains(TouLocale.Get("ImpostorKeyword")))
+        {
+            return useAltColors ? TownOfUsColors.ImpSoft : TownOfUsColors.Impostor;
+        }
+
+        return TownOfUsColors.Neutral;
+    }
+
     public static IEnumerable<RoleBehaviour> GetRegisteredRoles(RoleAlignment alignment)
     {
         var roles = AllRoles.Where(x => x.GetRoleAlignment() == alignment);
@@ -736,6 +771,10 @@ public static class MiscUtils
 
     public static Color GetModifierColour(BaseModifier modifier)
     {
+        if (modifier is TouBaseGameModifier touMod)
+        {
+            return touMod.Configuration.UiColor;
+        }
         var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
         if (modifier is IColoredModifier colorMod)
         {

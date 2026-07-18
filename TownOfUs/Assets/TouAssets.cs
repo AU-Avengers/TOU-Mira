@@ -8,6 +8,7 @@ public static class TouAssets
     internal const string ShortPath = "TownOfUs.Resources";
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
     private const string SubmergedPath = "TownOfUs.Resources.Submerged";
+    private const string SettingIconPath = "TownOfUs.Resources.SettingIcons";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
@@ -478,6 +479,33 @@ public static class TouAssets
 
     public static readonly LoadableAsset<Sprite> DeputyRevealBg =
         new LoadableBundleAsset<Sprite>("DeputyRevealBg", MainBundle);
+    
+    public static LoadableAsset<Sprite> IconSkeld { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Skeld.png");
+    
+    public static LoadableAsset<Sprite> IconMira { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Mira.png");
+    
+    public static LoadableAsset<Sprite> IconPolus { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Polus.png");
+    
+    public static LoadableAsset<Sprite> IconDleks { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Dleks.png");
+    
+    public static LoadableAsset<Sprite> IconAirship { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Airship.png");
+    
+    public static LoadableAsset<Sprite> IconFungle { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Fungle.png");
+    
+    public static LoadableAsset<Sprite> IconLevelImposter { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.LevelImposter.png");
+    
+    public static LoadableAsset<Sprite> IconSubmerged { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Submerged.png");
+    
+    public static LoadableAsset<Sprite> IconDraftMode { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Draft.png", 345f);
 
     public static void Initialize()
     {

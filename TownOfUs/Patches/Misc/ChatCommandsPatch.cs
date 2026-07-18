@@ -196,7 +196,7 @@ public static class ChatPatches
                 return false;
             }
     
-            var clientId = GetClientId(target);
+            var clientId = target.OwnerId;
             if (clientId == -1)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -243,8 +243,8 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
-            var clientId = GetClientId(target);
+
+            var clientId = target.OwnerId;
             if (clientId == -1)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -869,27 +869,5 @@ public static class ChatPatches
         chat.quickChatMenu.Clear();
         chat.quickChatField.Clear();
         chat.UpdateChatMode();
-    }
-
-    private static int GetClientId(PlayerControl player)
-    {
-        foreach (var client in AmongUsClient.Instance.allClients.ToArray())
-        {
-            try
-            {
-                var charProp = client.GetType().GetProperty("Character") ?? client.GetType().GetProperty("character");
-                if (charProp?.GetValue(client) is PlayerControl pc && pc.PlayerId == player.PlayerId)
-                {
-                    var idProp = client.GetType().GetProperty("Id") ?? client.GetType().GetProperty("id");
-                    if (idProp?.GetValue(client) is int id)
-                        return id;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-        return -1;
     }
 }

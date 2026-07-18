@@ -5,7 +5,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class ClericOptions : AbstractOptionGroup<ClericRole>
+public sealed class ClericOptions : AbstractRoleOptionGroup<ClericRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleCleric", "Cleric");
 

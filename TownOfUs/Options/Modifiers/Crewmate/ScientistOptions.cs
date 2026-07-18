@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Crewmate;
 
-public sealed class ScientistOptions : AbstractOptionGroup<ScientistModifier>
+public sealed class ScientistOptions : AbstractTouModifierOptionGroup<ScientistModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierScientist", "Scientist");

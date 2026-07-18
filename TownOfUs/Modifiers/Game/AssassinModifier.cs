@@ -19,6 +19,10 @@ namespace TownOfUs.Modifiers.Game;
 
 public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Assassin,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Assassin.LoadAsset(),
+            "TouMira.Modifier.Assailant.Assassin", 1.45f));
     public int maxKills;
     private MeetingMenu meetingMenu;
     public override string LocaleKey => "Assassin";
