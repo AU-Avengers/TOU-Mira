@@ -254,6 +254,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
             }
             else
             {
+                var impsEnabled = OptionGroupSingleton<RoleDraftImpOptions>.Instance.MaxImpostors.Value > 0;
                 bucket = slotIndex switch
                 {
                     0 => RoleListOption.CrewInvest,
@@ -261,11 +262,11 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
                     2 => RoleListOption.CrewPower,
                     3 => RoleListOption.CrewProtective,
                     4 => RoleListOption.CrewSupport,
-                    5 => RoleListOption.ImpRandom,
-                    6 => RoleListOption.ImpConceal,
-                    7 => RoleListOption.ImpKilling,
-                    8 => RoleListOption.ImpPower,
-                    9 => RoleListOption.ImpSupport,
+                    5 => impsEnabled ? RoleListOption.ImpRandom : RoleListOption.NeutRandom,
+                    6 => impsEnabled ? RoleListOption.ImpConceal : RoleListOption.NeutBenign,
+                    7 => impsEnabled ? RoleListOption.ImpKilling : RoleListOption.NeutEvil,
+                    8 => impsEnabled ? RoleListOption.ImpPower : RoleListOption.NeutKilling,
+                    9 => impsEnabled ? RoleListOption.ImpSupport : RoleListOption.NeutOutlier,
                     10 => RoleListOption.NeutRandom,
                     11 => RoleListOption.NeutBenign,
                     12 => RoleListOption.NeutEvil,
