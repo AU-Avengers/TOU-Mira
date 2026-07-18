@@ -12,6 +12,10 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class RottingModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Rotting,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Rotting.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Rotting", 1.45f));
     public override string LocaleKey => "Rotting";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

@@ -14,6 +14,12 @@ public sealed class BetterLevelImpostorOptions : AbstractOptionGroup
     public override uint GroupPriority => 9;
     public override Func<bool> GroupVisible => () => ModCompatibility.LILoaded;
     public override Color GroupColor => new Color32(16, 131, 176, 255);
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconLevelImposter.LoadAsset(),
+            "AmongUs.Map.LevelImposter",
+            1.45f));
 
     public ModdedToggleOption CamoComms { get; set; } =
         new("TouOptionAdvancedSaboCamouflageComms", true)

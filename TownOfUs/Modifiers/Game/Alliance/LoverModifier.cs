@@ -24,6 +24,10 @@ namespace TownOfUs.Modifiers.Game.Alliance;
 
 public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Lover,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Lover.LoadAsset(),
+            "TouMira.Modifier.Alliance.Lover", 1.45f));
     public override string LocaleKey => "Lover";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => LoverString();

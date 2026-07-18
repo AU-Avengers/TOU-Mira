@@ -13,6 +13,10 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        new Color32(232, 105, 158, 255),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Noisemaker.LoadAsset(),
+            "AmongUs.Role.Noisemaker", 1.45f));
     public override string LocaleKey => "Noisemaker";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

@@ -8,6 +8,10 @@ namespace TownOfUs.Modifiers.HnsGame.Crewmate;
 
 public sealed class HnsMultitaskerModifier : HnsGameModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Multitasker,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker.LoadAsset(),
+            "TouMira.Modifier.HnS.Hider.Multitasker", 1.45f));
     public override string LocaleKey => "Multitasker";
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Multitasker;
     public override ModifierFaction FactionType => ModifierFaction.HiderPassive;

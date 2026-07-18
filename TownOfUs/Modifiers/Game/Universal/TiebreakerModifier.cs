@@ -6,6 +6,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Tiebreaker,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Tiebreaker.LoadAsset(),
+            "TouMira.Modifier.Universal.Tiebreaker", 1.45f));
     public override string LocaleKey => "Tiebreaker";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Tiebreaker;

@@ -6,6 +6,10 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class TorchModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Torch,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Torch.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Torch", 1.45f));
     public override string LocaleKey => "Torch";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

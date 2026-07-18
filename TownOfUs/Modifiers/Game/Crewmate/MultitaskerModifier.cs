@@ -8,6 +8,10 @@ namespace TownOfUs.Modifiers.Game.Crewmate;
 
 public sealed class MultitaskerModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Multitasker,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Multitasker.LoadAsset(),
+            "TouMira.Modifier.Crewmate.Multitasker", 1.45f));
     public override string LocaleKey => "Multitasker";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

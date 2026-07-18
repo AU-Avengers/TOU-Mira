@@ -7,6 +7,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SixthSenseModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.SixthSense,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.SixthSense.LoadAsset(),
+            "TouMira.Modifier.Universal.SixthSense", 1.45f));
     public override string LocaleKey => "SixthSense";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.SixthSense;

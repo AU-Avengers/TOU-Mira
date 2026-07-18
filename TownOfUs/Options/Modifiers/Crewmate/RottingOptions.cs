@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Crewmate;
 
-public sealed class RottingOptions : AbstractOptionGroup<RottingModifier>
+public sealed class RottingOptions : AbstractTouModifierOptionGroup<RottingModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierRotting", "Rotting");

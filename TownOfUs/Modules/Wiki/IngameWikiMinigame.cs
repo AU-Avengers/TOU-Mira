@@ -13,6 +13,7 @@ using Reactor.Utilities.Extensions;
 using System.Text;
 using TMPro;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -762,7 +763,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 {
                     color = TownOfUsColors.Other;
                 }
-                else if (baseModifier is UniversalGameModifier || baseModifier is TouGameModifier)
+                else if (baseModifier is TouBaseGameModifier)
                 {
                     color = baseModifier.FreeplayFileColor;
                 }

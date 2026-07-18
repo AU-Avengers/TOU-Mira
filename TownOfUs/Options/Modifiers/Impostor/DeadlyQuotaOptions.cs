@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Impostor;
 
-public sealed class DeadlyQuotaOptions : AbstractOptionGroup<DeadlyQuotaModifier>
+public sealed class DeadlyQuotaOptions : AbstractTouModifierOptionGroup<DeadlyQuotaModifier>
 {
     public override string GroupName => "Deadly Quota";
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;
