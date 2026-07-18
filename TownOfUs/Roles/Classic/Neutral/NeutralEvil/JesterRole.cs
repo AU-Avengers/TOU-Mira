@@ -73,8 +73,6 @@ public sealed class JesterRole(IntPtr cppPtr)
 
     public bool HasImpostorVision => OptionGroupSingleton<JesterOptions>.Instance.ImpostorVision;
 
-
-
     public bool WinConditionMet()
     {
         if (OptionGroupSingleton<JesterOptions>.Instance.JestWin is not JestWinOptions.EndsGame)
