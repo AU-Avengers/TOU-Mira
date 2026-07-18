@@ -134,7 +134,7 @@ public static class DraftRpcs
     {
         if (string.IsNullOrEmpty(message)) return;
         Helpers.CreateAndShowNotification(message, Color.white,
-            new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Traitor.LoadAsset());
+            new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftBroadcastRecap)]

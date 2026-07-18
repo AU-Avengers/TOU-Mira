@@ -10,6 +10,13 @@ public sealed class RoleDraftRoleListOptions : AbstractOptionGroup
         OptionGroupSingleton<RoleOptions>.Instance.CurrentRoleDistribution() is RoleDistribution.Draft &&
         OptionGroupSingleton<RoleOptions>.Instance.UseRoleListForPool;
 
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconDraftMode.LoadAsset(),
+            "TouMira.Gamemode.DraftMode",
+            1.45f));
+
     public override string GroupName => "Role List Settings";
     public override uint GroupPriority => 3;
     public override Color GroupColor => TownOfUsColors.Jester;

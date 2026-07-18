@@ -12,6 +12,13 @@ public sealed class RoleDraftCrewOptions : AbstractOptionGroup
         !OptionGroupSingleton<RoleOptions>.Instance.UseRoleListForPool;
     public override Color GroupColor => Palette.CrewmateRoleHeaderBlue;
 
+    public override OptionNotifConfiguration Configuration => new(
+        GroupColor,
+        TmpSpriteUtils.CreateSpriteAsset(
+            TouAssets.IconDraftMode.LoadAsset(),
+            "TouMira.Gamemode.DraftMode",
+            1.45f));
+
     public override string GroupName => "Crewmate Settings";
     public override uint GroupPriority => 2;
 
