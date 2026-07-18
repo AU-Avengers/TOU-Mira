@@ -48,6 +48,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Monarch.LoadAsset(), "TouMira.Role.Crewmate.Monarch", 1.45f),
         Icon = TouRoleIcons.Monarch,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         IntroSound = TouAudio.ToppatIntroSound,

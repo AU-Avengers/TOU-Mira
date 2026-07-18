@@ -1,7 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using MiraAPI.Utilities.Assets;
 using Reactor.Utilities;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -17,6 +16,8 @@ public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollect
     public override Color TextOutlineColor => TownOfUsColors.SoulCollector;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.ReapSprite : TouNeutAssets.ReapSprite;
+
+    public override bool UsableFirstRound => OptionGroupSingleton<SoulCollectorOptions>.Instance.FirstRound;
 
     public override void CreateButton(Transform parent)
     {

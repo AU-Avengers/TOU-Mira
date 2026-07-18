@@ -2,9 +2,9 @@
 
 public enum TownOfUsRpc : uint
 {
-    OffsetForAnticheat,
-    OffsetForParasite,
-    OffsetForPuppeteer,
+    SendClientModInfo,
+    ParasiteInputUnreliable,
+    PuppeteerInputUnreliable,
     GhostRoleMurder,
     SpecialMurder,
     ConfirmSpecialMurder,
@@ -147,6 +147,7 @@ public enum TownOfUsRpc : uint
     DraftPickConfirmed,
     DraftForceRole,
     DraftCancel,
+    DraftRequestReroll,
     DraftEnd,
     DraftCreateNotif,
     DraftBroadcastRecap,

@@ -24,7 +24,7 @@ internal readonly struct ParasiteInputPacket
     public Vector2 Velocity { get; }
 }
 
-[RegisterCustomRpc((uint)TownOfUsInternalRpc.ParasiteInputUnreliable)]
+[RegisterCustomRpc((uint)TownOfUsRpc.ParasiteInputUnreliable)]
 internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
     : PlayerCustomRpc<TownOfUsPlugin, ParasiteInputPacket>(plugin, id)
 {

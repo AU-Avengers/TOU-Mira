@@ -10,7 +10,7 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
     public override string GroupName => "Alliance Modifiers";
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override Color GroupColor => Color.white;
-    public override bool ShowInModifiersMenu => true;
+    public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 0;
 
     [ModdedNumberOption("Crewpostor Chance", 0, 100, 10f, MiraNumberSuffixes.Percent)]

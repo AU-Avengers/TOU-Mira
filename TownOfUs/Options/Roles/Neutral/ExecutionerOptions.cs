@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
@@ -16,6 +17,12 @@ public sealed class ExecutionerOptions : AbstractOptionGroup<ExecutionerRole>
 
     [ModdedEnumOption("Executioner Win", typeof(ExeWinOptions), ["Ends Game", "Leaves & Torments", "Nothing"])]
     public ExeWinOptions ExeWin { get; set; } = ExeWinOptions.Torments;
+
+    public ModdedToggleOption ExeAnonymizeWin { get; set; } =
+        new("TouOptionNeutAnonymousVictoryWin", false)
+    {
+        Visible = () => OptionGroupSingleton<ExecutionerOptions>.Instance.ExeWin is not ExeWinOptions.EndsGame
+    };
 }
 
 public enum ExeWinOptions

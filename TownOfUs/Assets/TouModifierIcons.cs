@@ -1,5 +1,4 @@
-﻿using MiraAPI.Utilities.Assets;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TownOfUs.Assets;
 
@@ -21,6 +20,9 @@ public static class TouModifierIcons
 
     public static LoadableAsset<Sprite> Circumvent { get; } =
         new LoadableBundleAsset<Sprite>("Circumvent", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> Colorblind { get; } =
+        new LoadableBundleAsset<Sprite>("Colorblind", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> Crewpostor { get; } =
         new LoadableBundleAsset<Sprite>("Crewpostor", TouAssets.MainBundle);

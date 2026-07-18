@@ -295,6 +295,12 @@ public sealed class RoleOptions : AbstractOptionGroup
             Visible = () => IsDraft
         };
 
+    public ModdedEnumOption<DraftRecapMode> DraftSidebarDisplay { get; } =
+        new("Draft Sidebar Displays", DraftRecapMode.Faction)
+        {
+            Visible = () => IsDraft
+        };
+
     public ModdedToggleOption UseRoleListForPool { get; set; } = new("Use Role List For Pool", false)
     {
         Visible = () => IsDraft

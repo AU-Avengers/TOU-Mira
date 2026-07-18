@@ -21,8 +21,8 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
     private MeetingMenu meetingMenu;
 
-    [HideFromIl2Cpp] public PlayerVoteArea? Swap1 { get; set; }
-    [HideFromIl2Cpp] public PlayerVoteArea? Swap2 { get; set; }
+    [HideFromIl2Cpp] public PlayerVoteArea Swap1 { get; set; }
+    [HideFromIl2Cpp] public PlayerVoteArea Swap2 { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public string LocaleKey => "Swapper";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
@@ -57,6 +57,7 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Swapper.LoadAsset(), "TouMira.Role.Crewmate.Swapper", 1.45f),
         Icon = TouRoleIcons.Swapper,
         OptionsScreenshot = TouBanners.CrewmateRoleBanner,
         MaxRoleCount = 1,
@@ -145,12 +146,12 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
         else if (Swap1 == voteArea)
         {
             meetingMenu.Actives[Swap1!.TargetPlayerId] = false;
-            Swap1 = null;
+            Swap1 = null!;
         }
         else if (Swap2 == voteArea)
         {
             meetingMenu.Actives[Swap2!.TargetPlayerId] = false;
-            Swap2 = null;
+            Swap2 = null!;
         }
         else
         {
@@ -168,7 +169,7 @@ public sealed class SwapperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         var swapperRole = swapper.Data?.Role as SwapperRole;
         var areas = MeetingHud.Instance.playerStates.ToList();
-        swapperRole!.Swap1 = areas.Find(x => x.TargetPlayerId == swap1);
-        swapperRole.Swap2 = areas.Find(x => x.TargetPlayerId == swap2);
+        swapperRole!.Swap1 = areas.Find(x => x.TargetPlayerId == swap1)!;
+        swapperRole.Swap2 = areas.Find(x => x.TargetPlayerId == swap2)!;
     }
 }

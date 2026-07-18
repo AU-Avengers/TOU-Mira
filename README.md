@@ -1,5 +1,6 @@
 > [!NOTE]
-> This repo is a rewrite of [Town of Us Reactivated](https://github.com/eDonnes124/Town-Of-Us-R) and is under constant development, expect bugs.\
+> This repo is a rewrite and redo of [Town of Us Reactivated](https://github.com/AU-Avengers/Town-Of-Us-Reactivated) and is under constant development, expect bugs.\
+> Reactivated will still getting updated, but will not receive major content updates.\
 > This mod is ONLY available on PC and Android Among Us and is NOT host only either, please do not ask for a port or a rewrite.
 
 -----------------------
@@ -193,7 +194,8 @@ An [Among Us](https://store.steampowered.com/app/945360/Among_Us) mod based on T
 
 | Among Us        | Mod Version | Download Link                                                           |
 |-----------------|-------------|-------------------------------------------------------------------------|
-| 17.3.x          | 1.6.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
+| 17.4.x          | 1.6.3       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.3)  |
+| 17.3.x          | 1.6.2       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.2)  |
 | 17.3.x          | 1.6.1       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.1)  |
 | 17.3.x          | 1.6.0       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.6.0)  |
 | 17.2.x          | 1.5.9       | [Download](https://github.com/AU-Avengers/TOU-Mira/releases/tag/1.5.9)  |
@@ -262,7 +264,7 @@ All languages are added via our [Weblate](https://weblate.duikbo.at/projects/tow
 [Endless Host Roles](https://github.com/Gurge44/EndlessHostRoles) - For the original Deadly Quota and Circumvent modifiers.\
 [Tommy-XL](https://github.com/Tommy-XL) - For the dlekS reimplementation from [Unlock dlekS](https://github.com/Tommy-XL/Unlock-dlekS-ehT).\
 [Launchpad Reloaded](https://github.com/All-Of-Us-Mods/LaunchpadReloaded) - For the original Discord Status patch.\
-[D1GQ](https://github.com/D1GQ) - For the original Splash Intro patch used in [Bette**r** Among Us](https://github.com/D1GQ/BetterAmongUs).\
+[D1GQ](https://github.com/D1GQ) - For the original Splash Intro patch used in [Better Among Us](https://github.com/D1GQ/BetterAmongUs).\
 [Maxi0fc](https://github.com/Maxi0fc) - For the original implementation of [AutoRejoin](https://github.com/Maxi0fc/AutoRejoin) and also the Role List hover feature.
 
 > [!NOTE]

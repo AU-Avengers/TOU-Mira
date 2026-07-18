@@ -33,6 +33,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     }
 
     public bool Announced { get; set; }
+    public bool IsDraftable => false;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<VeteranRole>());
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string YouAreText => TouLocale.Get("YouAre");
@@ -56,6 +57,7 @@ public sealed class PestilenceRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Pestilence.LoadAsset(), "TouMira.Role.Neutral.Pestilence", 1.45f),
         CanUseVent = OptionGroupSingleton<PlaguebearerOptions>.Instance.CanVent,
         HideSettings = true,
         CanModifyChance = false,

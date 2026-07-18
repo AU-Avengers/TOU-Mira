@@ -38,6 +38,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public bool Setup { get; set; }
     public bool Caught { get; set; }
     public bool Faded { get; set; }
+    public bool IsDraftable => false;
 
     public bool CanBeClicked
     {
@@ -154,6 +155,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
 
     public override CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Spectre.LoadAsset(), "TouMira.Role.Neutral.Spectre", 1.45f),
         Icon = TouRoleIcons.Spectre,
         OptionsScreenshot = TouBanners.SpectreRoleBanner,
         HideSettings = false,

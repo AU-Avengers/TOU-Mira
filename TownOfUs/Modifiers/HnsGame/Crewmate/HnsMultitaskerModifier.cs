@@ -1,7 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Hud;
-using MiraAPI.Utilities.Assets;
-using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules.Components;
 using TownOfUs.Options.Modifiers;
 using UnityEngine;

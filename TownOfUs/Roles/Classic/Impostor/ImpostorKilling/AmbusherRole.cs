@@ -45,7 +45,9 @@ public sealed class AmbusherRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Ambusher.LoadAsset(), "TouMira.Role.Impostor.Ambusher", 1.45f),
         Icon = TouRoleIcons.Ambusher,
+        IntroSound = TouAudio.SneakyIntro,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<AmbusherOptions>.Instance.CanVent
     };

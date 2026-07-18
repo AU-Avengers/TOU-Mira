@@ -27,6 +27,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public RoleBehaviour? SelectedRole { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public bool NoSpawn => true;
+    public bool IsDraftable => false;
     public string LocaleKey => "Traitor";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
@@ -55,6 +56,7 @@ public sealed class TraitorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Traitor.LoadAsset(), "TouMira.Role.Impostor.Traitor", 1.45f),
         MaxRoleCount = 1,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         Icon = TouRoleIcons.Traitor

@@ -12,6 +12,9 @@ public sealed class SoulCollectorOptions : AbstractOptionGroup<SoulCollectorRole
     [ModdedNumberOption("TouOptionSoulCollectorReapCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float KillCooldown { get; set; } = 25f;
 
+    [ModdedToggleOption("TouOptionSoulCollectorReapFirstRound")]
+    public bool FirstRound { get; set; } = false;
+
     [ModdedToggleOption("TouOptionSoulCollectorCanVent")]
     public bool CanVent { get; set; } = false;
 }

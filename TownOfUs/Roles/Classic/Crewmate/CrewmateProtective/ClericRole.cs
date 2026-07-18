@@ -75,7 +75,8 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IntroSound = TouAudio.ScientistIntroSound,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Cleric.LoadAsset(), "TouMira.Role.Crewmate.Cleric", 1.45f),
+        IntroSound = TouAudio.PotionIntro,
         OptionsScreenshot = TouBanners.ClericRoleBanner,
         Icon = TouRoleIcons.Cleric
     };
@@ -94,8 +95,8 @@ public sealed class ClericRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
             return;
         }
 
-        if (PlayerControl.LocalPlayer.PlayerId == source.PlayerId ||
-            (PlayerControl.LocalPlayer.PlayerId == cleric.PlayerId &&
+        if (source.AmOwner ||
+            (cleric.AmOwner &&
              OptionGroupSingleton<ClericOptions>.Instance.AttackNotif))
         {
             Coroutines.Start(MiscUtils.CoFlash(OptionGroupSingleton<GameMechanicOptions>.Instance.AnonymousShields && !cleric.AmOwner ? TownOfUsColors.NeutralWiki : TownOfUsColors.Cleric));

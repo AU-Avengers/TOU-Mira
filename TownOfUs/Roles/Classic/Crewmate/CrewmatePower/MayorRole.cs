@@ -24,6 +24,7 @@ public sealed class MayorRole(IntPtr cppPtr)
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;
     public bool CanBeOtherEvil => true;
+    public bool IsDraftable => false;
     public static GameObject MayorPlayer;
 
     private MeetingMenu meetingMenu;
@@ -47,6 +48,7 @@ public sealed class MayorRole(IntPtr cppPtr)
 
     public CustomRoleConfiguration Configuration => new(this)
     {
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Mayor.LoadAsset(), "TouMira.Role.Crewmate.Mayor", 1.45f),
         Icon = TouRoleIcons.Mayor,
         HideSettings = true,
         MaxRoleCount = 0,
