@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Crewmate;
 
-public sealed class BaitOptions : AbstractOptionGroup<BaitModifier>
+public sealed class BaitOptions : AbstractTouModifierOptionGroup<BaitModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierBait", "Bait");

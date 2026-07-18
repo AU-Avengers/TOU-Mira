@@ -7,6 +7,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class ImmovableModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Immovable,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Immovable.LoadAsset(),
+            "TouMira.Modifier.Universal.Immovable", 1.45f));
     public override string LocaleKey => "Immovable";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Immovable;

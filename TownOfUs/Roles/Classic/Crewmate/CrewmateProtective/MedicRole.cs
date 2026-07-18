@@ -99,11 +99,16 @@ public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
                 MeetingAbilityType.Click,
                 TouAssets.LighterSprite,
                 null!,
+                IsExempt,
                 hoverColor: Color.white)
             {
                 Position = new Vector3(1.1f, -0.18f, -3f)
             };
         }
+    }
+    public static bool IsExempt(PlayerVoteArea voteArea)
+    {
+        return false;
     }
 
     public override void OnMeetingStart()
@@ -114,7 +119,7 @@ public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
         if (Player.AmOwner && meeting != null)
         {
             meetingMenu.GenButtons(meeting,
-                Player.AmOwner && !Player.HasDied());
+                true);
 
             foreach (var button in meetingMenu.Buttons)
             {
@@ -132,7 +137,7 @@ public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
                     continue;
                 }
 
-                var colorType = GetColorTypeForPlayer(player);
+                var colorType = GetColorTypeForPlayer(player.Data.DefaultOutfit.ColorId);
 
                 var renderer = button.Value.GetComponent<SpriteRenderer>();
 
@@ -251,7 +256,7 @@ public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
         MiscUtils.AddFakeChat(reported.Data, title, reportMsg, false, true);
     }
 
-    public static string GetColorTypeForPlayer(PlayerControl player)
+    public static string GetColorTypeForPlayer(int colorId)
     {
         var colors = new Dictionary<int, string>
         {
@@ -312,7 +317,7 @@ public sealed class MedicRole : CrewmateRole, ITownOfUsRole, IWikiDiscoverable, 
             { 51, "lighter" } // rainbow
         };
 
-        var typeOfColor = colors[player.Data.DefaultOutfit.ColorId];
+        var typeOfColor = colors[colorId];
 
         return typeOfColor;
     }

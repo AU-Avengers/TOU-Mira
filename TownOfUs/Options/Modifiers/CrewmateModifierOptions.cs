@@ -1,6 +1,4 @@
 ﻿using MiraAPI.GameOptions;
-using MiraAPI.GameOptions.Attributes;
-using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using UnityEngine;
 
@@ -14,134 +12,371 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     public override MenuCategory ParentMenu => MenuCategory.Modifiers;
     public override uint GroupPriority => 2;
 
-    [ModdedNumberOption("Aftermath Amount", 0, 5)]
-    public float AftermathAmount { get; set; } = 0;
-
-    public ModdedNumberOption AftermathChance { get; } =
-        new("Aftermath Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathAmount > 0
-        };
-
-    [ModdedNumberOption("Bait Amount", 0, 5)]
-    public float BaitAmount { get; set; } = 0;
-
-    public ModdedNumberOption BaitChance { get; } = new("Bait Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
+    public AmountChanceOption BaitChance { get; } = new("Bait Chance", 0, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Bait, asset: TouModifierIcons.Bait,
+        assetName: "TouMira.Modifier.Crewmate.Bait", assetScale: 1.45f)
     {
-        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitAmount > 0
+        ChangedEvent = x =>
+        {
+            var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitChance;
+            opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+                opt.StringName,
+                TouLocale.Get("TouModifierBait"),
+                opt.Value > 0 ? "1" : "0",
+                opt.Data.GetValueString(x));
+        }
     };
 
-    [ModdedNumberOption("Celebrity Amount", 0, 1)]
-    public float CelebrityAmount { get; set; } = 0;
-
-    public ModdedNumberOption CelebrityChance { get; } =
-        new("Celebrity Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityAmount > 0
-        };
-
-    [ModdedNumberOption("Diseased Amount", 0, 5)]
-    public float DiseasedAmount { get; set; } = 0;
-
-    public ModdedNumberOption DiseasedChance { get; } =
-        new("Diseased Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedAmount > 0
-        };
-
-    [ModdedNumberOption("Frosty Amount", 0, 5)]
-    public float FrostyAmount { get; set; } = 0;
-
-    public ModdedNumberOption FrostyChance { get; } =
-        new("Frosty Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount > 0
-        };
-
-    [ModdedNumberOption("Investigator Amount", 0, 5)]
-    public float InvestigatorAmount { get; set; } = 0;
-
-    public ModdedNumberOption InvestigatorChance { get; } =
-        new("Investigator Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount > 0
-        };
-
-    [ModdedNumberOption("Multitasker Amount", 0, 5)]
-    public float MultitaskerAmount { get; set; } = 0;
-
-    public ModdedNumberOption MultitaskerChance { get; } =
-        new("Multitasker Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount > 0
-        };
-
-    [ModdedNumberOption("Noisemaker Amount", 0, 5)]
-    public float NoisemakerAmount { get; set; } = 0;
-
-    public ModdedNumberOption NoisemakerChance { get; } =
-        new("Noisemaker Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount > 0
-        };
-
-    [ModdedNumberOption("Operative Amount", 0, 5)]
-    public float OperativeAmount { get; set; } = 0;
-
-    public ModdedNumberOption OperativeChance { get; } =
-        new("Operative Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.OperativeAmount > 0
-        };
-
-    [ModdedNumberOption("Rotting Amount", 0, 5)]
-    public float RottingAmount { get; set; } = 0;
-
-    public ModdedNumberOption RottingChance { get; } =
-        new("Rotting Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount > 0
-        };
-
-    [ModdedNumberOption("Scientist Amount", 0, 5)]
-    public float ScientistAmount { get; set; } = 0;
-
-    public ModdedNumberOption ScientistChance { get; } =
-        new("Scientist Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount > 0
-        };
-
-    [ModdedNumberOption("Scout Amount", 0, 5)]
-    public float ScoutAmount { get; set; } = 0;
-
-    public ModdedNumberOption ScoutChance { get; } = new("Scout Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
+    public AmountChanceOption CelebrityChance { get; } = new("Celebrity Chance", 0, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Celebrity, asset: TouModifierIcons.Celebrity,
+        assetName: "TouMira.Modifier.Crewmate.Celebrity", assetScale: 1.45f)
     {
+        ChangedEvent = x =>
+        {
+            var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityChance;
+            opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+                opt.StringName,
+                TouLocale.Get("TouModifierCelebrity"),
+                opt.Value > 0 ? "1" : "0",
+                opt.Data.GetValueString(x));
+        }
+    };
+
+    public AmountChanceOption AftermathAmount { get; } = new("Aftermath Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Aftermath, asset: TouModifierIcons.Aftermath,
+        assetName: "TouMira.Modifier.Crewmate.Aftermath", assetScale: 1.45f)
+    {
+        ChangedEvent = _aftermathNotif
+    };
+
+    public AmountChanceOption AftermathChance { get; } = new("Aftermath Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Aftermath, asset: TouModifierIcons.Aftermath,
+        assetName: "TouMira.Modifier.Crewmate.Aftermath", assetScale: 1.45f)
+    {
+        ChangedEvent = _aftermathNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathAmount > 0
+    };
+
+    public AmountChanceOption DiseasedAmount { get; } = new("Diseased Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Diseased, asset: TouModifierIcons.Diseased,
+        assetName: "TouMira.Modifier.Crewmate.Diseased", assetScale: 1.45f)
+    {
+        ChangedEvent = _diseasedNotif
+    };
+
+    public AmountChanceOption DiseasedChance { get; } = new("Diseased Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Diseased, asset: TouModifierIcons.Diseased,
+        assetName: "TouMira.Modifier.Crewmate.Diseased", assetScale: 1.45f)
+    {
+        ChangedEvent = _diseasedNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedAmount > 0
+    };
+
+    public AmountChanceOption FrostyAmount { get; } = new("Frosty Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Frosty, asset: TouModifierIcons.Frosty,
+        assetName: "TouMira.Modifier.Crewmate.Frosty", assetScale: 1.45f)
+    {
+        ChangedEvent = _frostyNotif
+    };
+
+    public AmountChanceOption FrostyChance { get; } = new("Frosty Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Frosty, asset: TouModifierIcons.Frosty,
+        assetName: "TouMira.Modifier.Crewmate.Frosty", assetScale: 1.45f)
+    {
+        ChangedEvent = _frostyNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount > 0
+    };
+
+    public AmountChanceOption InvestigatorAmount { get; } = new("Investigator Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Investigator, asset: TouRoleIcons.Investigator,
+        assetName: "TouMira.Role.Crewmate.Investigator", assetScale: 1.45f)
+    {
+        ChangedEvent = _investigatorNotif
+    };
+
+    public AmountChanceOption InvestigatorChance { get; } = new("Investigator Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Investigator, asset: TouRoleIcons.Investigator,
+        assetName: "TouMira.Role.Crewmate.Investigator", assetScale: 1.45f)
+    {
+        ChangedEvent = _investigatorNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount > 0
+    };
+
+    public AmountChanceOption MultitaskerAmount { get; } = new("Multitasker Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Multitasker, asset: TouModifierIcons.Multitasker,
+        assetName: "TouMira.Modifier.Crewmate.Multitasker", assetScale: 1.45f)
+    {
+        ChangedEvent = _multitaskerNotif
+    };
+
+    public AmountChanceOption MultitaskerChance { get; } = new("Multitasker Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Multitasker, asset: TouModifierIcons.Multitasker,
+        assetName: "TouMira.Modifier.Crewmate.Multitasker", assetScale: 1.45f)
+    {
+        ChangedEvent = _multitaskerNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount > 0
+    };
+
+    public AmountChanceOption NoisemakerAmount { get; } = new("Noisemaker Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Noisemaker, asset: TouRoleIcons.Noisemaker,
+        assetName: "AmongUs.Role.Noisemaker", assetScale: 1.45f)
+    {
+        ChangedEvent = _noisemakerNotif
+    };
+
+    public AmountChanceOption NoisemakerChance { get; } = new("Noisemaker Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Noisemaker, asset: TouRoleIcons.Noisemaker,
+        assetName: "AmongUs.Role.Noisemaker", assetScale: 1.45f)
+    {
+        ChangedEvent = _noisemakerNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount > 0
+    };
+
+    public AmountChanceOption OperativeAmount { get; } = new("Operative Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Operative, asset: TouModifierIcons.Operative,
+        assetName: "TouMira.Modifier.Crewmate.Operative", assetScale: 1.45f)
+    {
+        ChangedEvent = _operativeNotif
+    };
+
+    public AmountChanceOption OperativeChance { get; } = new("Operative Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Operative, asset: TouModifierIcons.Operative,
+        assetName: "TouMira.Modifier.Crewmate.Operative", assetScale: 1.45f)
+    {
+        ChangedEvent = _operativeNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.OperativeAmount > 0
+    };
+
+    public AmountChanceOption RottingAmount { get; } = new("Rotting Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Rotting, asset: TouModifierIcons.Rotting,
+        assetName: "TouMira.Modifier.Crewmate.Rotting", assetScale: 1.45f)
+    {
+        ChangedEvent = _rottingNotif
+    };
+
+    public AmountChanceOption RottingChance { get; } = new("Rotting Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Rotting, asset: TouModifierIcons.Rotting,
+        assetName: "TouMira.Modifier.Crewmate.Rotting", assetScale: 1.45f)
+    {
+        ChangedEvent = _rottingNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount > 0
+    };
+
+    public AmountChanceOption ScientistAmount { get; } = new("Scientist Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Scientist, asset: TouRoleIcons.Scientist,
+        assetName: "AmongUs.Role.Scientist", assetScale: 1.45f)
+    {
+        ChangedEvent = _scientistNotif
+    };
+
+    public AmountChanceOption ScientistChance { get; } = new("Scientist Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Scientist, asset: TouRoleIcons.Scientist,
+        assetName: "AmongUs.Role.Scientist", assetScale: 1.45f)
+    {
+        ChangedEvent = _scientistNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount > 0
+    };
+
+    public AmountChanceOption ScoutAmount { get; } = new("Scout Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Scout, asset: TouModifierIcons.Scout,
+        assetName: "TouMira.Modifier.Crewmate.Scout", assetScale: 1.45f)
+    {
+        ChangedEvent = _scoutNotif
+    };
+
+    public AmountChanceOption ScoutChance { get; } = new("Scout Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Scout, asset: TouModifierIcons.Scout,
+        assetName: "TouMira.Modifier.Crewmate.Scout", assetScale: 1.45f)
+    {
+        ChangedEvent = _scoutNotif,
         Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutAmount > 0
     };
 
-    [ModdedNumberOption("Spy Amount", 0, 5)]
-    public float SpyAmount { get; set; } = 0;
-
-    public ModdedNumberOption SpyChance { get; } = new("Spy Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
+    public AmountChanceOption SpyAmount { get; } = new("Spy Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Spy, asset: TouRoleIcons.Spy,
+        assetName: "TouMira.Role.Crewmate.Spy", assetScale: 1.45f)
     {
+        ChangedEvent = _spyNotif
+    };
+
+    public AmountChanceOption SpyChance { get; } = new("Spy Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Spy, asset: TouRoleIcons.Spy,
+        assetName: "TouMira.Role.Crewmate.Spy", assetScale: 1.45f)
+    {
+        ChangedEvent = _spyNotif,
         Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyAmount > 0
     };
 
-    [ModdedNumberOption("Taskmaster Amount", 0, 5)]
-    public float TaskmasterAmount { get; set; } = 0;
-
-    public ModdedNumberOption TaskmasterChance { get; } =
-        new("Taskmaster Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
-        {
-            Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount > 0
-        };
-
-    [ModdedNumberOption("Torch Amount", 0, 5)]
-    public float TorchAmount { get; set; } = 0;
-
-    public ModdedNumberOption TorchChance { get; } = new("Torch Chance", 50f, 0, 100f, 10f, MiraNumberSuffixes.Percent)
+    public AmountChanceOption TaskmasterAmount { get; } = new("Taskmaster Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Taskmaster, asset: TouModifierIcons.Taskmaster,
+        assetName: "TouMira.Modifier.Crewmate.Taskmaster", assetScale: 1.45f)
     {
+        ChangedEvent = _taskmasterNotif
+    };
+
+    public AmountChanceOption TaskmasterChance { get; } = new("Taskmaster Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Taskmaster, asset: TouModifierIcons.Taskmaster,
+        assetName: "TouMira.Modifier.Crewmate.Taskmaster", assetScale: 1.45f)
+    {
+        ChangedEvent = _taskmasterNotif,
+        Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount > 0
+    };
+
+    public AmountChanceOption TorchAmount { get; } = new("Torch Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Torch, asset: TouModifierIcons.Torch,
+        assetName: "TouMira.Modifier.Crewmate.Torch", assetScale: 1.45f)
+    {
+        ChangedEvent = _torchNotif
+    };
+
+    public AmountChanceOption TorchChance { get; } = new("Torch Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Torch, asset: TouModifierIcons.Torch,
+        assetName: "TouMira.Modifier.Crewmate.Torch", assetScale: 1.45f)
+    {
+        ChangedEvent = _torchNotif,
         Visible = () => OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchAmount > 0
+    };
+    
+    private static Action<float> _aftermathNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierAftermath"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _diseasedNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierDiseased"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _frostyNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierFrosty"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _investigatorNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouRoleInvestigator"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _multitaskerNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierMultitasker"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _noisemakerNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierNoisemaker"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _operativeNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.OperativeAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.OperativeChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierOperative"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _rottingNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierRotting"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _scientistNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierScientist"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _scoutNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierScout"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _spyNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouRoleSpy"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _taskmasterNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierTaskmaster"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
+    };
+    
+    private static Action<float> _torchNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchAmount;
+        var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierTorch"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
     };
 }

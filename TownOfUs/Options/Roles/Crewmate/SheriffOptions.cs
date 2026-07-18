@@ -7,7 +7,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class SheriffOptions : AbstractOptionGroup<SheriffRole>, IWikiOptionsSummaryProvider
+public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => TouLocale.Get("TouRoleSheriff", "Sheriff");
 

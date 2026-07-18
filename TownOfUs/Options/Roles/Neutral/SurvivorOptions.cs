@@ -5,7 +5,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class SurvivorOptions : AbstractOptionGroup<SurvivorRole>
+public sealed class SurvivorOptions : AbstractRoleOptionGroup<SurvivorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSurvivor", "Survivor");
 

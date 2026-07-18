@@ -4,7 +4,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class DeputyOptions : AbstractOptionGroup<DeputyRole>
+public sealed class DeputyOptions : AbstractRoleOptionGroup<DeputyRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleDeputy", "Deputy");
 

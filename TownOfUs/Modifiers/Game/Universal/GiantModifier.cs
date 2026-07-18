@@ -8,6 +8,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class GiantModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Giant,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Giant.LoadAsset(),
+            "TouMira.Modifier.Universal.Giant", 1.45f));
     public override string LocaleKey => "Giant";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Giant;

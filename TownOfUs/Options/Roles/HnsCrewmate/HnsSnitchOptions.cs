@@ -5,7 +5,7 @@ using TownOfUs.Roles.HideAndSeek.Hider;
 
 namespace TownOfUs.Options.Roles.HnsCrewmate;
 
-public sealed class HnsSnitchOptions : AbstractOptionGroup<HnsSnitchRole>
+public sealed class HnsSnitchOptions : AbstractRoleOptionGroup<HnsSnitchRole>
 {
     public override string GroupName => TouLocale.Get("HnsRoleSnitch", "Snitch");
 

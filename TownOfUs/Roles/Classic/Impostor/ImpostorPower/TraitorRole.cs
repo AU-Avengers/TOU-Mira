@@ -19,8 +19,11 @@ public sealed class TraitorRole
     public bool CanBeGuessed =>
         RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TraitorRole>()) is ICustomRole customRole &&
         (int)customRole.GetCount()! > 0 && (int)customRole.GetChance()! > 0 ||
-        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance > 0;
-    public bool CanSpawnOnCurrentMode() => false; public List<RoleBehaviour> ChosenRoles { get; } = []; public RoleBehaviour? RandomRole { get; set; } public RoleBehaviour? SelectedRole { get; set; }
+        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value > 0;
+    public bool CanSpawnOnCurrentMode() => false;
+    public List<RoleBehaviour> ChosenRoles { get; } = [];
+    public RoleBehaviour? RandomRole { get; set; }
+    public RoleBehaviour? SelectedRole { get; set; }
     public DoomableType DoomHintType => DoomableType.Trickster;
     public bool NoSpawn => true;
     public bool IsDraftable => false;

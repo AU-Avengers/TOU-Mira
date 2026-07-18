@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class GlitchOptions : AbstractOptionGroup<GlitchRole>
+public sealed class GlitchOptions : AbstractRoleOptionGroup<GlitchRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleGlitch", "Glitch");
 

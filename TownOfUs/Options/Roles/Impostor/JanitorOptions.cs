@@ -5,7 +5,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class JanitorOptions : AbstractOptionGroup<JanitorRole>
+public sealed class JanitorOptions : AbstractRoleOptionGroup<JanitorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleJanitor", "Janitor");
 

@@ -9,6 +9,7 @@ using MiraAPI.Utilities;
 using System.Text;
 using TMPro;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -757,7 +758,7 @@ public sealed class IngameWikiMinigame : Minigame
                 {
                     color = TownOfUsColors.Other;
                 }
-                else if (baseModifier is UniversalGameModifier || baseModifier is TouGameModifier)
+                else if (baseModifier is TouBaseGameModifier)
                 {
                     color = baseModifier.FreeplayFileColor;
                 }

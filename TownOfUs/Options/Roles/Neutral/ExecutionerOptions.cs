@@ -5,7 +5,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class ExecutionerOptions : AbstractOptionGroup<ExecutionerRole>
+public sealed class ExecutionerOptions : AbstractRoleOptionGroup<ExecutionerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleExecutioner", "Executioner");
 

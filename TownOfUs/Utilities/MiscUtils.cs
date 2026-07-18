@@ -771,6 +771,10 @@ public static class MiscUtils
 
     public static Color GetModifierColour(BaseModifier modifier)
     {
+        if (modifier is TouBaseGameModifier touMod)
+        {
+            return touMod.Configuration.UiColor;
+        }
         var color = GetRoleColour(GetLocaleKey(modifier).Replace(" ", string.Empty));
         if (modifier is IColoredModifier colorMod)
         {
