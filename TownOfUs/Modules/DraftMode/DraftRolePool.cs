@@ -166,6 +166,12 @@ namespace TownOfUs.Modules.DraftMode
             return role.IsImpostor();
         }
 
+        public static bool IsExclusiveImpostorRoleName(string name)
+        {
+            var role = FindRoleByName(name);
+            return role != null && DraftExclusiveImpostorRoles.IsRegistered(role.Role);
+        }
+
         public static bool IsNeutralRoleName(string name)
         {
             var role = FindRoleByName(name);
@@ -272,6 +278,9 @@ namespace TownOfUs.Modules.DraftMode
                     roles.AddRange(MiscUtils.GetRegisteredRoles(alignment).Where(IsUsableRole));
             }
 
+            if (bucket is RoleListOption.ImpSupport or RoleListOption.ImpRandom)
+                roles.AddRange(GetUncategorizedImpostors());
+
             var unique = new List<RoleBehaviour>();
             foreach (var role in roles)
             {
@@ -281,6 +290,24 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             return unique;
+        }
+
+        private static readonly RoleAlignment[] KnownImpSubAlignments =
+        [
+            RoleAlignment.ImpostorConcealing, RoleAlignment.ImpostorKilling,
+            RoleAlignment.ImpostorPower, RoleAlignment.ImpostorSupport
+        ];
+
+        private static IEnumerable<RoleBehaviour> GetUncategorizedImpostors()
+        {
+            var known = new HashSet<RoleBehaviour>();
+            foreach (var alignment in KnownImpSubAlignments)
+                foreach (var role in MiscUtils.GetRegisteredRoles(alignment))
+                    known.Add(role);
+
+            return MiscUtils.SpawnableRoles
+                .Where(IsUsableRole)
+                .Where(r => r.IsImpostor() && !known.Contains(r));
         }
 
         private static bool IsUsableRole(RoleBehaviour role)
@@ -323,6 +350,39 @@ namespace TownOfUs.Modules.DraftMode
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRolePool] Exception in IsRoleEnabled for {role.GetType().Name}: {ex}");
             }
             return false;
+        }
+
+        public static int GetRoleChance(RoleBehaviour role)
+        {
+            if (role == null) return 0;
+            try
+            {
+                if (role is ICustomRole customRole && customRole.Configuration.MaxRoleCount != 0)
+                {
+                    var chanceObj = customRole.GetChance();
+                    return chanceObj != null ? (int)chanceObj : 0;
+                }
+                else
+                {
+                    var roleOptions = GameOptionsManager.Instance?.CurrentGameOptions?.RoleOptions;
+                    if (roleOptions != null)
+                    {
+                        return roleOptions.GetChancePerGame(role.Role);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftRolePool] Exception in GetRoleChance for {role.GetType().Name}: {ex}");
+            }
+            return 0;
+        }
+
+        public static int GetChanceForRoleName(string name)
+        {
+            var role = FindRoleByName(name);
+            if (role == null) return 100;
+            return Math.Clamp(GetRoleChance(role), 1, 100);
         }
 
         public static int GetRoleCount(RoleBehaviour role)

@@ -64,7 +64,7 @@ public static class LogoPatch
         {
             SoftWikiEntries.RegisterVanillaRoleEntry(rolePair.Key, rolePair.Value);
         }
-        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Neutral",
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Custom",
             1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate.LoadAsset(), "AmongUs.Role.Crewmate",
             1.45f);

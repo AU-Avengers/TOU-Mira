@@ -95,6 +95,15 @@ public static class DraftRpcs
         DraftManager.NotifyPickerReady(sender.PlayerId);
     }
 
+    [MethodRpc((uint)TownOfUsRpc.DraftRequestReroll)]
+    public static void RpcRequestReroll(PlayerControl sender)
+    {
+        if (!AmongUsClient.Instance.AmHost) return;
+        if (sender == null) return;
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcRequestReroll: player {sender.PlayerId}");
+        DraftEngineBehaviour.Instance?.RequestReroll(sender.PlayerId);
+    }
+
     [MethodRpc((uint)TownOfUsRpc.DraftPickConfirmed)]
     public static void RpcPickConfirmed(PlayerControl sender, int slot, ushort roleId)
     {
@@ -259,6 +268,15 @@ public static class DraftNetworkHelper
             DraftManager.NotifyPickerReady(PlayerControl.LocalPlayer.PlayerId);
         else
             DraftRpcs.RpcPickerReady(PlayerControl.LocalPlayer);
+    }
+
+    public static void RequestReroll()
+    {
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftNetworkHelper] RequestReroll");
+        if (AmongUsClient.Instance.AmHost)
+            DraftEngineBehaviour.Instance?.RequestReroll(PlayerControl.LocalPlayer.PlayerId);
+        else
+            DraftRpcs.RpcRequestReroll(PlayerControl.LocalPlayer);
     }
 
     public static void SendForceRoleToHost(string roleName, byte targetId)

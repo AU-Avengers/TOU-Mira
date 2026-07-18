@@ -325,6 +325,11 @@ public sealed class RoleOptions : AbstractOptionGroup
     {
         Visible = () => IsDraft
     };
+
+    public ModdedNumberOption RerollsPerPlayer { get; set; } = new("Rerolls Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+    {
+        Visible = () => IsDraft
+    };
 }
 
 public enum RequiredKiller

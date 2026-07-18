@@ -61,6 +61,45 @@ public static class DraftPoolBuilder
         return picked;
     }
 
+    private static string PickWeightedByChance(List<string> candidates, IRng rng)
+    {
+        if (candidates.Count == 1) return candidates[0];
+
+        var weights = new int[candidates.Count];
+        int totalWeight = 0;
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            weights[i] = Math.Max(1, DraftRolePool.GetChanceForRoleName(candidates[i]));
+            totalWeight += weights[i];
+        }
+
+        int roll = rng.NextInt(totalWeight);
+        int cumulative = 0;
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            cumulative += weights[i];
+            if (roll < cumulative) return candidates[i];
+        }
+
+        return candidates[^1];
+    }
+
+    private static List<string> TakeWeightedByChance(List<string> names, int take, IRng rng)
+    {
+        var remaining = new List<string>(names);
+        var result = new List<string>();
+        take = Math.Min(take, remaining.Count);
+
+        for (int n = 0; n < take; n++)
+        {
+            var chosen = PickWeightedByChance(remaining, rng);
+            result.Add(chosen);
+            remaining.Remove(chosen);
+        }
+
+        return result;
+    }
+
     private static List<string> BuildPoolFromRoleList(int numPlayers)
     {
         var pool = new List<string>();
@@ -97,7 +136,7 @@ public static class DraftPoolBuilder
 
                 if (candidates.Count == 0) break;
 
-                var chosen = candidates[rng.NextInt(candidates.Count)];
+                var chosen = PickWeightedByChance(candidates, rng);
                 pool.Add($"{chosen}|{i}");
                 usedCounts[chosen] = usedCounts.GetValueOrDefault(chosen) + 1;
             }
@@ -154,6 +193,8 @@ public static class DraftPoolBuilder
         ExpandBucketCapped(pool, bucket, maxSlots);
     }
 
+    private static readonly UnityRng ManualPoolRng = new();
+
     private static void ExpandBucketCapped(List<string> pool, RoleListOption bucket, int maxSlots)
     {
         if (maxSlots <= 0) return;
@@ -163,9 +204,7 @@ public static class DraftPoolBuilder
             .ToList();
         if (names == null || names.Count == 0) return;
 
-        int take = Math.Min(maxSlots, names.Count);
-        for (int i = 0; i < take; i++)
-            pool.Add(names[i]);
+        pool.AddRange(TakeWeightedByChance(names, maxSlots, ManualPoolRng));
     }
 
     private static string RoleListOptionToString(RoleListOption opt)

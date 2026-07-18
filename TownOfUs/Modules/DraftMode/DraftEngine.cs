@@ -17,6 +17,9 @@ namespace TownOfUs.Modules.DraftMode
 
         private List<string> _pool = new();
         private readonly List<int> _slotOrder = new();
+        private readonly HashSet<int> _specialEligibleSlots = new();
+        private int _totalNeutralGroupsInPool;
+        private int _totalImpostorGroupsInPool;
         private int _currentTurnNumber;
         private int _totalSlots;
         private int _turnIndex;
@@ -78,6 +81,19 @@ namespace TownOfUs.Modules.DraftMode
             _currentTurnNumber = 0;
             _running = true;
 
+            _specialEligibleSlots.Clear();
+            var eligiblePool = new List<int>(_slotOrder);
+            for (int i = eligiblePool.Count - 1; i > 0; i--)
+            {
+                int j = _rng.NextInt(i + 1);
+                (eligiblePool[i], eligiblePool[j]) = (eligiblePool[j], eligiblePool[i]);
+            }
+            int specialUnits = CountSpecialUnits(_pool);
+            for (int i = 0; i < Math.Min(specialUnits, eligiblePool.Count); i++)
+                _specialEligibleSlots.Add(eligiblePool[i]);
+            _totalNeutralGroupsInPool = CountGroupsByPredicate(_pool, DraftRolePool.IsNeutralRoleName);
+            _totalImpostorGroupsInPool = CountGroupsByPredicate(_pool, DraftRolePool.IsImpostorRoleName);
+
             DraftManager.SetDraftStateFromHost(totalSlots, pidToSlot.Keys.ToList(), pidToSlot.Values.ToList());
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Draft state set locally");
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Broadcasting slot notifications");
@@ -106,12 +122,14 @@ namespace TownOfUs.Modules.DraftMode
                     var slot = _slotOrder[_turnIndex + i];
                     if (SetupTurn(slot))
                         activeSlots.Add(slot);
+                    else
+                        ApplyPick(slot, 255);
                 }
 
                 if (activeSlots.Count == 0)
                 {
                     _turnIndex += Math.Max(1, batchSize);
-                    yield return new WaitForSeconds(1f);
+                    yield return null;
                     continue;
                 }
 
@@ -128,14 +146,24 @@ namespace TownOfUs.Modules.DraftMode
             }
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Draft complete");
+
+            foreach (var s in DraftManager.GetAllStates())
+            {
+                if (s.HasPicked) continue;
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, $"[DraftEngine] Slot {s.SlotNumber} never picked, applying fallback pick before finishing");
+                ApplyPick(s.SlotNumber, 255);
+            }
+
             FinishDraft();
         }
-        private HashSet<string> GetAvoidNamesForTurn(int excludeSlot)
+        private HashSet<string> GetAvoidNamesForTurn(int excludeSlot, bool ignoreConcurrentOffers = false)
         {
             var avoid = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
             int currentImps = 0;
             int currentNeuts = 0;
+            bool exclusiveImpReserved = false;
+            bool sharedImpReserved = false;
 
             foreach (var s in DraftManager.GetAllStates())
             {
@@ -146,6 +174,9 @@ namespace TownOfUs.Modules.DraftMode
                     {
                         if (DraftRolePool.IsImpostorRoleName(roleName)) currentImps++;
                         else if (DraftRolePool.IsNeutralRoleName(roleName)) currentNeuts++;
+
+                        if (DraftRolePool.IsExclusiveImpostorRoleName(roleName)) exclusiveImpReserved = true;
+                        else if (DraftRolePool.IsImpostorRoleName(roleName)) sharedImpReserved = true;
                     }
                 }
             }
@@ -156,44 +187,227 @@ namespace TownOfUs.Modules.DraftMode
 
                 bool hasImp = false;
                 bool hasNeut = false;
+                bool hasExclusiveImp = false;
+                bool hasSharedImp = false;
 
                 foreach (var n in kvp.Value)
                 {
                     if (string.IsNullOrEmpty(n) || n == "__RANDOM__") continue;
-                    avoid.Add(n);
+                    if (!ignoreConcurrentOffers)
+                    {
+                        avoid.Add(n);
+                        int groupPipeIdx = n.IndexOf('|');
+                        if (groupPipeIdx >= 0)
+                        {
+                            string groupSuffix = n.Substring(groupPipeIdx);
+                            foreach (var poolEntry in _pool)
+                            {
+                                if (poolEntry != null && poolEntry.EndsWith(groupSuffix, StringComparison.Ordinal))
+                                    avoid.Add(poolEntry);
+                            }
+                        }
+                    }
 
                     if (DraftRolePool.IsImpostorRoleName(n)) hasImp = true;
                     if (DraftRolePool.IsNeutralRoleName(n)) hasNeut = true;
+
+                    if (DraftRolePool.IsExclusiveImpostorRoleName(n)) hasExclusiveImp = true;
+                    else if (DraftRolePool.IsImpostorRoleName(n)) hasSharedImp = true;
                 }
 
                 if (hasImp) currentImps++;
                 if (hasNeut) currentNeuts++;
+                if (hasExclusiveImp) exclusiveImpReserved = true;
+                if (hasSharedImp) sharedImpReserved = true;
             }
 
-             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
+            var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
+            int maxImps;
+            int maxNeuts;
+
             if (roleOpts != null && !roleOpts.UseRoleListForPool)
             {
                 var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
                 var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
-                
-                int maxImps = impOpts != null ? Math.Max(0, (int)impOpts.MaxImpostors.Value) : int.MaxValue;
-                int maxNeuts = neutOpts != null ? Math.Max(0, (int)neutOpts.MaxNeutrals.Value) : int.MaxValue;
 
-                bool blockImps = currentImps >= maxImps;
-                bool blockNeuts = currentNeuts >= maxNeuts;
+                maxImps = impOpts != null ? Math.Max(0, (int)impOpts.MaxImpostors.Value) : int.MaxValue;
+                maxNeuts = neutOpts != null ? Math.Max(0, (int)neutOpts.MaxNeutrals.Value) : int.MaxValue;
+            }
+            else
+            {
+                maxImps = _totalImpostorGroupsInPool;
+                maxNeuts = _totalNeutralGroupsInPool;
+            }
 
-                if (blockImps || blockNeuts)
+            bool blockImps = currentImps >= maxImps || exclusiveImpReserved;
+            bool blockNeuts = currentNeuts >= maxNeuts;
+
+            if (blockImps || blockNeuts)
+            {
+                foreach (var n in _pool)
                 {
-                    foreach (var n in _pool)
+                    if (string.IsNullOrEmpty(n) || n == "__RANDOM__") continue;
+                    if (blockImps && DraftRolePool.IsImpostorRoleName(n)) avoid.Add(n);
+                    if (blockNeuts && DraftRolePool.IsNeutralRoleName(n)) avoid.Add(n);
+                }
+            }
+
+            if (sharedImpReserved)
+            {
+                foreach (var n in _pool)
+                {
+                    if (string.IsNullOrEmpty(n) || n == "__RANDOM__") continue;
+                    if (DraftRolePool.IsExclusiveImpostorRoleName(n)) avoid.Add(n);
+                }
+            }
+
+            if (_specialEligibleSlots.Contains(excludeSlot) && !blockImps && !blockNeuts)
+            {
+                var slotState = DraftManager.GetStateForSlot(excludeSlot);
+                if (slotState != null && !slotState.HasPicked)
+                {
+                    int impShortfall = Math.Max(0, maxImps - currentImps);
+                    int neutShortfall = Math.Max(0, maxNeuts - currentNeuts);
+                    int totalShortfall = impShortfall + neutShortfall;
+
+                    int remainingSpecialSlots = _specialEligibleSlots.Count(s =>
                     {
-                        if (string.IsNullOrEmpty(n) || n == "__RANDOM__") continue;
-                        if (blockImps && DraftRolePool.IsImpostorRoleName(n)) avoid.Add(n);
-                        if (blockNeuts && DraftRolePool.IsNeutralRoleName(n)) avoid.Add(n);
+                        var st = DraftManager.GetStateForSlot(s);
+                        return st != null && !st.HasPicked;
+                    });
+
+                    if (totalShortfall > 0 && remainingSpecialSlots <= totalShortfall)
+                    {
+                        bool forceImp = impShortfall > 0;
+                        bool forceNeut = neutShortfall > 0;
+
+                        foreach (var n in _pool)
+                        {
+                            if (string.IsNullOrEmpty(n) || n == "__RANDOM__") continue;
+                            bool isImp = DraftRolePool.IsImpostorRoleName(n);
+                            bool isNeut = DraftRolePool.IsNeutralRoleName(n);
+                            bool isCrew = !isImp && !isNeut;
+
+                            if (isCrew) avoid.Add(n);
+                            else if (isImp && !forceImp) avoid.Add(n);
+                            else if (isNeut && !forceNeut) avoid.Add(n);
+                        }
                     }
                 }
             }
 
+            if (!_specialEligibleSlots.Contains(excludeSlot))
+            {
+                foreach (var n in _pool)
+                {
+                    if (string.IsNullOrEmpty(n) || n == "__RANDOM__") continue;
+                    if (DraftRolePool.IsImpostorRoleName(n) || DraftRolePool.IsNeutralRoleName(n))
+                        avoid.Add(n);
+                }
+            }
+
             return avoid;
+        }
+
+        private static int CountSpecialUnits(List<string> pool)
+        {
+            var groups = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+            foreach (var entry in pool)
+            {
+                if (string.IsNullOrEmpty(entry)) continue;
+                int pipeIdx = entry.IndexOf('|');
+                string tag = pipeIdx >= 0 ? entry.Substring(pipeIdx) : entry;
+                bool isSpecial = DraftRolePool.IsImpostorRoleName(entry) || DraftRolePool.IsNeutralRoleName(entry);
+                if (!groups.ContainsKey(tag))
+                    groups[tag] = isSpecial;
+                else if (isSpecial)
+                    groups[tag] = true;
+            }
+            return groups.Values.Count(v => v);
+        }
+
+        private static int CountGroupsByPredicate(List<string> pool, Func<string, bool> predicate)
+        {
+            var groups = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+            foreach (var entry in pool)
+            {
+                if (string.IsNullOrEmpty(entry)) continue;
+                int pipeIdx = entry.IndexOf('|');
+                string tag = pipeIdx >= 0 ? entry.Substring(pipeIdx) : entry;
+                bool matches = predicate(entry);
+                if (!groups.ContainsKey(tag))
+                    groups[tag] = matches;
+                else if (matches)
+                    groups[tag] = true;
+            }
+            return groups.Values.Count(v => v);
+        }
+
+        private HashSet<string> GetConcurrentOfferAvoid(int excludeSlot)
+        {
+            var avoid = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var kvp in _currentOffersBySlot)
+            {
+                if (kvp.Key == excludeSlot) continue;
+                foreach (var n in kvp.Value)
+                {
+                    if (string.IsNullOrEmpty(n) || n == "__RANDOM__") continue;
+                    avoid.Add(n);
+                    int pipeIdx = n.IndexOf('|');
+                    if (pipeIdx < 0) continue;
+                    string suffix = n.Substring(pipeIdx);
+                    foreach (var poolEntry in _pool)
+                    {
+                        if (poolEntry != null && poolEntry.EndsWith(suffix, StringComparison.Ordinal))
+                            avoid.Add(poolEntry);
+                    }
+                }
+            }
+            return avoid;
+        }
+
+        private static int CountRemainingPoolGroups(List<string> pool)
+        {
+            var groups = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var entry in pool)
+            {
+                if (string.IsNullOrEmpty(entry)) continue;
+                int pipeIdx = entry.IndexOf('|');
+                groups.Add(pipeIdx >= 0 ? entry.Substring(pipeIdx) : entry);
+            }
+            return groups.Count;
+        }
+
+        private List<string> GenerateOffersForSlot(int slot)
+        {
+            int remainingPlayers = DraftManager.GetAllStates().Count(s => !s.HasPicked);
+            int remainingGroups = CountRemainingPoolGroups(_pool);
+
+            if (remainingGroups > 0 && remainingPlayers <= remainingGroups)
+            {
+                var healOffers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng, GetConcurrentOfferAvoid(slot));
+                if (healOffers.Count > 0)
+                {
+                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                        $"[DraftEngine] Self-heal active for slot {slot}: remainingPlayers={remainingPlayers} remainingGroups={remainingGroups}");
+                    return healOffers;
+                }
+            }
+
+            var avoidNames = GetAvoidNamesForTurn(slot);
+            var offers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng, avoidNames);
+            if (offers.Count == 0)
+            {
+                var relaxedAvoid = GetAvoidNamesForTurn(slot, ignoreConcurrentOffers: true);
+                offers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng, relaxedAvoid);
+            }
+
+            if (offers.Count == 0)
+            {
+                offers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng, null!);
+            }
+
+            return offers;
         }
 
         private bool SetupTurn(int slot)
@@ -202,8 +416,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Turn {_currentTurnNumber}: Starting turn for slot {slot}");
 
-                var avoidNames = GetAvoidNamesForTurn(slot);
-                var offers = DraftPoolBuilder.GetOfferedRoles(_pool, _rng, avoidNames);
+                var offers = GenerateOffersForSlot(slot);
                 _currentOffersBySlot[slot] = offers;
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Generated {offers.Count} role offers for slot {slot}");
 
@@ -337,6 +550,26 @@ namespace TownOfUs.Modules.DraftMode
             return false;
         }
 
+        private void RemovePickedSeatFromPool(string chosenName)
+        {
+            if (string.IsNullOrEmpty(chosenName) || chosenName == "__RANDOM__")
+            {
+                if (!string.IsNullOrEmpty(chosenName)) _pool.Remove(chosenName);
+                return;
+            }
+
+            int pipeIdx = chosenName.IndexOf('|');
+            if (pipeIdx >= 0)
+            {
+                string slotSuffix = chosenName.Substring(pipeIdx);
+                _pool.RemoveAll(x => x != null && x.EndsWith(slotSuffix, StringComparison.Ordinal));
+            }
+            else
+            {
+                _pool.Remove(chosenName);
+            }
+        }
+
         private void ApplyPick(int slot, byte index)
         {
             var state = DraftManager.GetStateForSlot(slot);
@@ -353,27 +586,106 @@ namespace TownOfUs.Modules.DraftMode
             }
             else if (chosenName != null && chosenName != "__RANDOM__")
             {
-                int pipeIdx = chosenName.IndexOf('|');
-                if (pipeIdx >= 0)
-                {
-                    string slotSuffix = chosenName.Substring(pipeIdx);
-                    _pool.RemoveAll(x => x != null && x.EndsWith(slotSuffix, StringComparison.Ordinal));
-                }
+                RemovePickedSeatFromPool(chosenName);
             }
 
             ushort chosenRoleId;
             if (chosenName == "__RANDOM__" || chosenName == null)
             {
                 var remaining = _pool.Where(r => !string.IsNullOrWhiteSpace(r)).ToList();
-                if (remaining.Count > 0)
+                var avoidForSlot = GetAvoidNamesForTurn(slot);
+                var eligibleRemaining = remaining.Where(r => !avoidForSlot.Contains(r)).ToList();
+
+                if (eligibleRemaining.Count > 0)
                 {
-                    var randomName = remaining[_rng.NextInt(remaining.Count)];
-                    _pool.Remove(randomName);
+                    var randomName = eligibleRemaining[_rng.NextInt(eligibleRemaining.Count)];
+                    RemovePickedSeatFromPool(randomName);
                     chosenRoleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { randomName });
                 }
                 else
                 {
-                    chosenRoleId = 0;
+                    var assignedCounts = new Dictionary<ushort, int>();
+                    bool exclusiveImpAlreadyAssigned = false;
+                    bool sharedImpAlreadyAssigned = false;
+                    int currentImps = 0;
+                    int currentNeuts = 0;
+                    foreach (var s in DraftManager.GetAllStates())
+                    {
+                        if (s.HasPicked && s.ChosenRoleId != 0)
+                        {
+                            assignedCounts[s.ChosenRoleId] = assignedCounts.GetValueOrDefault(s.ChosenRoleId) + 1;
+
+                            var rn = DraftRolePool.GetRoleNameFromId(s.ChosenRoleId) ?? s.ForcedRoleName;
+                            if (!string.IsNullOrEmpty(rn))
+                            {
+                                if (DraftRolePool.IsExclusiveImpostorRoleName(rn)) exclusiveImpAlreadyAssigned = true;
+                                else if (DraftRolePool.IsImpostorRoleName(rn)) sharedImpAlreadyAssigned = true;
+
+                                if (DraftRolePool.IsImpostorRoleName(rn)) currentImps++;
+                                else if (DraftRolePool.IsNeutralRoleName(rn)) currentNeuts++;
+                            }
+                        }
+                    }
+
+                    foreach (var kvp in _currentOffersBySlot)
+                    {
+                        if (kvp.Key == slot) continue;
+                        foreach (var n in kvp.Value)
+                        {
+                            if (string.IsNullOrEmpty(n) || n == "__RANDOM__") continue;
+                            if (DraftRolePool.IsExclusiveImpostorRoleName(n)) exclusiveImpAlreadyAssigned = true;
+                            else if (DraftRolePool.IsImpostorRoleName(n)) sharedImpAlreadyAssigned = true;
+                        }
+                    }
+
+                    var roleOptsFallback = OptionGroupSingleton<RoleOptions>.Instance;
+                    int maxImps;
+                    int maxNeuts;
+                    if (roleOptsFallback != null && !roleOptsFallback.UseRoleListForPool)
+                    {
+                        var impOptsFallback = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
+                        var neutOptsFallback = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
+                        maxImps = impOptsFallback != null ? Math.Max(0, (int)impOptsFallback.MaxImpostors.Value) : int.MaxValue;
+                        maxNeuts = neutOptsFallback != null ? Math.Max(0, (int)neutOptsFallback.MaxNeutrals.Value) : int.MaxValue;
+                    }
+                    else
+                    {
+                        maxImps = _totalImpostorGroupsInPool;
+                        maxNeuts = _totalNeutralGroupsInPool;
+                    }
+
+                    bool slotEligibleForSpecial = _specialEligibleSlots.Contains(slot);
+
+                    Func<string, bool> fallbackFilter = n =>
+                    {
+                        var id = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { n });
+                        if (assignedCounts.GetValueOrDefault(id) >= DraftRolePool.GetMaxCountForRoleName(n)) return false;
+                        if (exclusiveImpAlreadyAssigned && DraftRolePool.IsImpostorRoleName(n)) return false;
+                        if (sharedImpAlreadyAssigned && DraftRolePool.IsExclusiveImpostorRoleName(n)) return false;
+
+                        bool isImp = DraftRolePool.IsImpostorRoleName(n);
+                        bool isNeut = DraftRolePool.IsNeutralRoleName(n);
+                        if ((isImp || isNeut) && !slotEligibleForSpecial) return false;
+                        if (isImp && currentImps >= maxImps) return false;
+                        if (isNeut && currentNeuts >= maxNeuts) return false;
+                        return true;
+                    };
+
+                    var anyNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
+                        ?.Where(n => !string.IsNullOrWhiteSpace(n))
+                        .Where(fallbackFilter)
+                        .ToList() ?? new List<string>();
+                    if (anyNames.Count > 0)
+                    {
+                        var fallbackName = anyNames[_rng.NextInt(anyNames.Count)];
+                        chosenRoleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { fallbackName });
+                        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                            $"[DraftEngine] Pool exhausted for slot {slot}, assigned emergency fallback role id {chosenRoleId}");
+                    }
+                    else
+                    {
+                        chosenRoleId = 0;
+                    }
                 }
             }
             else
@@ -491,6 +803,39 @@ namespace TownOfUs.Modules.DraftMode
             GameStartManager.Instance.MinPlayers = orig;
             yield return null;
             GameStartPatch.SkipIntercept = false;
+        }
+
+        public void RequestReroll(byte playerId)
+        {
+            if (!_running) return;
+
+            var state = DraftManager.GetStateForPlayer(playerId);
+            if (state == null || state.HasPicked || !state.IsPickingNow) return;
+
+            var currentSlot = state.SlotNumber;
+            if (!_currentOffersBySlot.ContainsKey(currentSlot)) return;
+
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Reroll requested by player {playerId}");
+
+            var offers = GenerateOffersForSlot(currentSlot);
+            _currentOffersBySlot[currentSlot] = offers;
+
+            var pickedRoleCandidates = new List<ushort>();
+            foreach (var roleName in offers)
+            {
+                ushort roleId;
+                if (roleName == "__RANDOM__")
+                {
+                    roleId = 0;
+                }
+                else
+                {
+                    roleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { roleName });
+                }
+                pickedRoleCandidates.Add(roleId);
+            }
+
+            DraftNetworkHelper.SendTurnAnnouncement(currentSlot, playerId, pickedRoleCandidates, _currentTurnNumber);
         }
 
         public void CancelDraft()
