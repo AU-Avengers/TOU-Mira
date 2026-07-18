@@ -51,7 +51,7 @@ public sealed record BodyReport
             }
             else
             {
-                var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer);
+                var typeOfColor = MedicRole.GetColorTypeForPlayer(br.Killer.Data.DefaultOutfit.ColorId);
                 text = TouLocale.GetParsed((typeOfColor == "lighter") ? "TouRoleMedicBodyKillerLightColor" : "TouRoleMedicBodyKillerDarkColor");
             }
         }

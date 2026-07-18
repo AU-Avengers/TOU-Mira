@@ -7,7 +7,7 @@ using TownOfUs.Modifiers.Game;
 
 namespace TownOfUs.Options;
 
-public sealed class AssassinOptions : AbstractOptionGroup<AssassinModifier>, IWikiOptionsSummaryProvider
+public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinModifier>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => "Assassin Options";
     public override uint GroupPriority => 7;

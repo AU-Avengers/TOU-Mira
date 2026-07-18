@@ -8,6 +8,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class FlashModifier : UniversalGameModifier, IWikiDiscoverable, IVisualAppearance
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Flash,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Flash.LoadAsset(),
+            "TouMira.Modifier.Universal.Flash", 1.45f));
     public override string LocaleKey => "Flash";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Flash;

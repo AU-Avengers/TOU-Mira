@@ -1,7 +1,9 @@
-﻿using MiraAPI.Events;
+﻿using AmongUs.GameOptions;
+using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Game.Crewmate;
+using TownOfUs.Modules;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Modifiers;
@@ -11,10 +13,18 @@ public static class NoisemakerEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (@event.Target.TryGetModifier<NoisemakerModifier>(out var noise) &&
-            !@event.Source.IsRole<SoulCollectorRole>() && !MeetingHud.Instance)
+        if (@event.Source.IsRole<SoulCollectorRole>() || MeetingHud.Instance)
         {
-            noise.NotifyOfDeath(@event.Target);
+            return;
+        }
+
+        if (@event.Target.HasModifier<NoisemakerModifier>())
+        {
+            NoisemakerModifier.NotifyOfDeath(@event.Target, false);
+        }
+        else if (@event.Target.GetRoleWhenAlive().Role is RoleTypes.Noisemaker)
+        {
+            NoisemakerModifier.NotifyOfDeath(@event.Target, true);
         }
     }
 }

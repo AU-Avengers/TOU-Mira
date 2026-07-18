@@ -6,7 +6,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class MinerOptions : AbstractOptionGroup<MinerRole>
+public sealed class MinerOptions : AbstractRoleOptionGroup<MinerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleMiner", "Miner");
 

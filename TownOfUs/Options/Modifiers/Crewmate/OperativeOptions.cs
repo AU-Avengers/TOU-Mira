@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Crewmate;
 
-public sealed class OperativeOptions : AbstractOptionGroup<OperativeModifier>
+public sealed class OperativeOptions : AbstractTouModifierOptionGroup<OperativeModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierOperative", "Operative");

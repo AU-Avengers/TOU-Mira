@@ -5,7 +5,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class AurialOptions : AbstractOptionGroup<AurialRole>
+public sealed class AurialOptions : AbstractRoleOptionGroup<AurialRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleAurial", "Aurial");
 

@@ -4,7 +4,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class SwapperOptions : AbstractOptionGroup<SwapperRole>
+public sealed class SwapperOptions : AbstractRoleOptionGroup<SwapperRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleSwapper", "Swapper");
 

@@ -11,6 +11,10 @@ namespace TownOfUs.Modifiers.HnsGame.Crewmate;
 
 public sealed class HnsTransporterModifier : HnsGameModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        new Color32(0, 237, 255, 255),
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Transporter.LoadAsset(),
+            "TouMira.Modifier.HnS.Hider.Transporter", 1.45f));
     public override string LocaleKey => "Transporter";
     public override LoadableAsset<Sprite>? ModifierIcon => TouRoleIcons.Transporter;
     public override ModifierFaction FactionType => ModifierFaction.HiderPostmortem;

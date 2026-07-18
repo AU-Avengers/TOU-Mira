@@ -5,7 +5,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class MediumOptions : AbstractOptionGroup<MediumRole>
+public sealed class MediumOptions : AbstractRoleOptionGroup<MediumRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleMedium", "Medium");
 

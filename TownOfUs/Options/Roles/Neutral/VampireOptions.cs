@@ -7,7 +7,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class VampireOptions : AbstractOptionGroup<VampireRole>, IWikiOptionsSummaryProvider
+public sealed class VampireOptions : AbstractRoleOptionGroup<VampireRole>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => TouLocale.Get("TouRoleVampire", "Vampire");
 

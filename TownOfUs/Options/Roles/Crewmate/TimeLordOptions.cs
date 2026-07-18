@@ -6,7 +6,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class TimeLordOptions : AbstractOptionGroup<TimeLordRole>
+public sealed class TimeLordOptions : AbstractRoleOptionGroup<TimeLordRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleTimeLord", "Time Lord");
 

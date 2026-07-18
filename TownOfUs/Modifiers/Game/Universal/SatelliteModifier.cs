@@ -14,6 +14,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class SatelliteModifier : UniversalGameModifier, IWikiDiscoverable, IButtonModifier
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Satellite,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Satellite.LoadAsset(),
+            "TouMira.Modifier.Universal.Satellite", 1.45f));
     private readonly List<SpriteRenderer> CastedIcons = [];
     private readonly List<PlayerControl> CastedPlayers = [];
     public override string LocaleKey => "Satellite";
