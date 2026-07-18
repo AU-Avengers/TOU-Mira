@@ -65,7 +65,7 @@ public sealed class NoisemakerModifier : TouGameModifier, IWikiDiscoverable
 
     public static void NotifyOfDeath(PlayerControl player, bool checkRole)
     {
-        var noise = RoleManager.Instance.GetRole(RoleTypes.Noisemaker).Cast<NoisemakerRole>();
+        var noise = (RoleManager.Instance.GetRole(RoleTypes.Noisemaker) as NoisemakerRole)!;
         var viperBody = Object.FindObjectsOfType<ViperDeadBody>().FirstOrDefault(x => x.ParentId == player.Data.PlayerId);
         if (checkRole)
         {
