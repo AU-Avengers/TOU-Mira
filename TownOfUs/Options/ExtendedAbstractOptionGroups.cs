@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.PluginLoading;
 using TownOfUs.Modifiers;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace TownOfUs.Options;
 /// Base class for option groups. An option group is a collection of options that are displayed together in the options menu.
 /// </summary>
 /// <typeparam name="T">The custom role that the group is for.</typeparam>
+[MiraIgnore]
 public abstract class AbstractTouModifierOptionGroup<T>() : AbstractOptionGroup<T> where T : TouBaseGameModifier
 {
     /// <inheritdoc />

@@ -66,6 +66,8 @@ public static class LogoPatch
         }
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Custom",
             1.45f);
+        TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Neutral.LoadAsset(), "AmongUs.Role.Neutral",
+            1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Crewmate.LoadAsset(), "AmongUs.Role.Crewmate",
             1.45f);
         TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Impostor.LoadAsset(), "AmongUs.Role.Impostor",
