@@ -142,8 +142,9 @@ public static class DraftRpcs
     public static void RpcCreateNotif(PlayerControl sender, string message)
     {
         if (string.IsNullOrEmpty(message)) return;
-        Helpers.CreateAndShowNotification(message, Color.white,
+        var notif = Helpers.CreateAndShowNotification(message, Color.white,
             new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
+        notif?.AdjustNotification();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftBroadcastRecap)]
