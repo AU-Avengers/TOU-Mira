@@ -440,28 +440,29 @@ public static class HudManagerPatches
                         }
                     } else 
                     {
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigatives: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Killings: {draftCrewOpts.MaxCrewKilling.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Powers: {draftCrewOpts.MaxCrewPower.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Protectives: {draftCrewOpts.MaxCrewProtective.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Supports: {draftCrewOpts.MaxCrewSupport.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigative: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Killing: {draftCrewOpts.MaxCrewKilling.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Power: {draftCrewOpts.MaxCrewPower.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Protective: {draftCrewOpts.MaxCrewProtective.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Support: {draftCrewOpts.MaxCrewSupport.Value} Max");
 
-                        if (draftImpOpts.MaxImpostors.Value > 0)
-                        {
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killings: {draftImpOpts.MaxImpKilling.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Powers: {draftImpOpts.MaxImpPower.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Supports: {draftImpOpts.MaxImpSupport.Value} Max");
-                        }
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killing: {draftImpOpts.MaxImpKilling.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Power: {draftImpOpts.MaxImpPower.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Support: {draftImpOpts.MaxImpSupport.Value} Max");
 
                         if (draftNeutOpts.MaxNeutrals.Value > 0)
                         {
                             rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benigns: {draftNeutOpts.MaxNeutBenign.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evils: {draftNeutOpts.MaxNeutEvil.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killings: {draftNeutOpts.MaxNeutKilling.Value} Max");
-                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Outliers: {draftNeutOpts.MaxNeutOutlier.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benign: {draftNeutOpts.MaxNeutBenign.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evil: {draftNeutOpts.MaxNeutEvil.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killing: {draftNeutOpts.MaxNeutKilling.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Outlier: {draftNeutOpts.MaxNeutOutlier.Value} Max");
+                        }
+                        else
+                        {
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: None");
                         }
                     }
                     break;
