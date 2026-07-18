@@ -25,7 +25,7 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
         }
     };
 
-    public AmountChanceOption TiebreakerChance { get; } = new("Button Barry Chance", 0, 0, 100f, 10f, "#", "#",
+    public AmountChanceOption TiebreakerChance { get; } = new("Tiebreaker Chance", 0, 0, 100f, 10f, "#", "#",
         MiraNumberSuffixes.Percent, color: TownOfUsColors.Tiebreaker, asset: TouModifierIcons.Tiebreaker,
         assetName: "TouMira.Modifier.Universal.Tiebreaker", assetScale: 1.45f)
     {
