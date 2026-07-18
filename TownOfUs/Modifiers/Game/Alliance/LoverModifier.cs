@@ -65,9 +65,9 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
     public PlayerControl? OtherLover { get; set; }
 
     public override int CustomAmount =>
-        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance != 0 ? 2 : 0;
+        (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance.Value != 0 ? 2 : 0;
 
-    public override int CustomChance => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance;
+    public override int CustomChance => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance.Value;
     public int Priority { get; set; } = 4;
 
     public void AssignTargets()
@@ -86,7 +86,7 @@ public sealed class LoverModifier : AllianceGameModifier, IWikiDiscoverable, IAs
         Random rnd = new();
         var chance = rnd.Next(1, 101);
 
-        if (chance <= (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance)
+        if (chance <= (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance.Value)
         {
             var loveOpt = OptionGroupSingleton<LoversOptions>.Instance;
             var impTargetPercent = (int)loveOpt.LovingImpPercent;

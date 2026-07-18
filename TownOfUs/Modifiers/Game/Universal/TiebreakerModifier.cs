@@ -31,7 +31,7 @@ public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverabl
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.TiebreakerAmount != 0 ? 1 : 0;
+        return 1;
     }
 
     public override int GetAssignmentChance()

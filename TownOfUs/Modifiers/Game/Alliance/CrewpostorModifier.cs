@@ -225,8 +225,8 @@ public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable
         }
     }
 
-    public override int CustomAmount => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance != 0 ? 1 : 0;
-    public override int CustomChance => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance;
+    public override int CustomAmount => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value != 0 ? 1 : 0;
+    public override int CustomChance => (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance.Value;
 
     public static bool CrewpostorVisibilityFlag(PlayerControl player)
     {

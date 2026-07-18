@@ -54,7 +54,7 @@ public sealed class ButtonBarryModifier : UniversalGameModifier, IWikiDiscoverab
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.ButtonBarryAmount != 0 ? 1 : 0;
+        return 1;
     }
 
     public override int GetAssignmentChance()

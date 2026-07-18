@@ -66,7 +66,7 @@ public sealed class EgotistModifier : AllianceGameModifier, IWikiDiscoverable
 
     public override int GetAssignmentChance()
     {
-        return (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance;
+        return (int)OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance.Value;
     }
 
     public override int GetAmountPerGame()

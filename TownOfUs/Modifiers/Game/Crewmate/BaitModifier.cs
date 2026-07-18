@@ -45,7 +45,7 @@ public sealed class BaitModifier : TouGameModifier, IWikiDiscoverable
 
     public override int GetAmountPerGame()
     {
-        return (int)OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitAmount;
+        return 1;
     }
 
     public override bool IsModifierValidOn(RoleBehaviour role)
