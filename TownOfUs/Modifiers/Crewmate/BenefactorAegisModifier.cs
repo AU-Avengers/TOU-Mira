@@ -1,6 +1,5 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.GameOptions;
-using MiraAPI.Utilities.Assets;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
