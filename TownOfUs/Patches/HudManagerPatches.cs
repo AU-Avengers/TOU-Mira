@@ -77,11 +77,9 @@ public static class HudManagerPatches
         }
 
         var instance = HudManager.Instance;
-        if (Camera.main != null)
-            Camera.main.orthographicSize = size;
+        Camera.main?.orthographicSize = size;
 
-        if (instance.UICamera != null)
-            instance.UICamera.orthographicSize = size;
+        instance.UICamera?.orthographicSize = size;
 
         if (size <= 3f)
         {
@@ -442,20 +440,30 @@ public static class HudManagerPatches
                         }
                     } else 
                     {
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigatives: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Killings: {draftCrewOpts.MaxCrewKilling.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Powers: {draftCrewOpts.MaxCrewPower.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Protectives: {draftCrewOpts.MaxCrewProtective.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{Palette.CrewmateBlue.ToTextColor()}Crew</color> Supports: {draftCrewOpts.MaxCrewSupport.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Investigative: {draftCrewOpts.MaxCrewInvestigative.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Killing: {draftCrewOpts.MaxCrewKilling.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Power: {draftCrewOpts.MaxCrewPower.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Protective: {draftCrewOpts.MaxCrewProtective.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {Palette.CrewmateBlue.ToTextColor()}Crew</color> Support: {draftCrewOpts.MaxCrewSupport.Value} Max");
+
                         rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Impostors</color>: {draftImpOpts.MaxImpostors.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killings: {draftImpOpts.MaxImpKilling.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Powers: {draftImpOpts.MaxImpPower.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Supports: {draftImpOpts.MaxImpSupport.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benigns: {draftNeutOpts.MaxNeutBenign.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killings: {draftNeutOpts.MaxNeutKilling.Value} Max");
-                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evils: {draftNeutOpts.MaxNeutEvil.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Concealing: {draftImpOpts.MaxImpConcealing.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Killing: {draftImpOpts.MaxImpKilling.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Power: {draftImpOpts.MaxImpPower.Value} Max");
+                        rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.ImpSoft.ToTextColor()}Imp</color> Support: {draftImpOpts.MaxImpSupport.Value} Max");
+
+                        if (draftNeutOpts.MaxNeutrals.Value > 0)
+                        {
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: {draftNeutOpts.MaxNeutrals.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Benign: {draftNeutOpts.MaxNeutBenign.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Evil: {draftNeutOpts.MaxNeutEvil.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┣ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Killing: {draftNeutOpts.MaxNeutKilling.Value} Max");
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"┗ {TownOfUsColors.Neutral.ToTextColor()}Neutral</color> Outlier: {draftNeutOpts.MaxNeutOutlier.Value} Max");
+                        }
+                        else
+                        {
+                            rolelistBuilder.AppendLine(TownOfUsPlugin.Culture, $"{TownOfUsColors.Neutral.ToTextColor()}Neutrals</color>: None");
+                        }
                     }
                     break;
             }
@@ -578,8 +586,10 @@ public static class HudManagerPatches
             settingsButton.transform.SetAsLastSibling();
             chatButton.transform.SetParent(UiTopRight.transform, false);
             instance.Chat.chatButton = chatButton.GetComponent<PassiveButton>();
-            var iconContainer = new GameObject("iconContainer");
-            iconContainer.layer = LayerMask.NameToLayer("UI");
+            var iconContainer = new GameObject("iconContainer")
+            {
+                layer = LayerMask.NameToLayer("UI")
+            };
             iconContainer.transform.SetParent(chatButton.transform, false);
             iconContainer.transform.localPosition = new Vector3(0.1f, -0.1f, 0);
             instance.Chat.chatNotifyDot.transform.SetParent(iconContainer.transform, false);
@@ -597,8 +607,10 @@ public static class HudManagerPatches
     {
         if (!ExtraUiTopRight && UiTopRight)
         {
-            ExtraUiTopRight = new GameObject("ExtraUiTopRight");
-            ExtraUiTopRight.layer = UiTopRight.layer;
+            ExtraUiTopRight = new GameObject("ExtraUiTopRight")
+            {
+                layer = UiTopRight.layer
+            };
             ExtraUiTopRight.transform.SetParent(instance.MapButton.transform.parent.parent, false);
 
             ExtraUiGrid = ExtraUiTopRight.AddComponent<GridArrange>();
@@ -649,7 +661,7 @@ public static class HudManagerPatches
         }
     }
 
-    public static void AdjustModifierTab(HudManager instance)
+    public static void AdjustModifierTab()
     {
         if (!ModifierDisplayObject && UiTopRight && ExtraUiTopRight && ModifierDisplayComponent.Instance)
         {
@@ -682,7 +694,7 @@ public static class HudManagerPatches
 
         CreateWikiButton(__instance);
         CreateZoomButton(__instance);
-        AdjustModifierTab(__instance);
+        AdjustModifierTab();
 
         UpdateRoleList(__instance);
         UpdateTeamChat();
@@ -836,7 +848,7 @@ public static class HudManagerPatches
         foreach (var pair in TooltipAlignments)
         {
             var allRoles = MiscUtils.GetRegisteredRoles(pair.Value).ToList();
-            BucketTooltipData.RoleEntry[] roleEntry = Array.Empty<BucketTooltipData.RoleEntry>();
+            BucketTooltipData.RoleEntry[] roleEntry = [];
             foreach (var role in allRoles)
             {
                 if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
@@ -887,7 +899,7 @@ public static class HudManagerPatches
         var text = role.GetType().FullName!;
         if (Enum.IsDefined(role.Role))
         {
-            text = $"AmongUs.Roles.{role.Role.ToString()}";
+            text = $"AmongUs.Roles.{role.Role}";
         }
 
         return text;

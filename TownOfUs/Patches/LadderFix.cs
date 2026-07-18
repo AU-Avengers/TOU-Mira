@@ -1,6 +1,4 @@
-﻿// https://github.com/eDonnes124/Town-Of-Us-R/blob/ee0935bfbd35199b5d4f6f4ad9cf98621acb6d21/source/Patches/LadderFix.cs
-
-using System.Reflection;
+﻿using System.Reflection;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes;
 using MiraAPI.Modifiers;
@@ -11,6 +9,9 @@ using UnityEngine;
 
 namespace TownOfUs.Patches;
 
+/// <remarks>
+/// <see href="https://github.com/eDonnes124/Town-Of-Us-R/blob/ee0935bfbd35199b5d4f6f4ad9cf98621acb6d21/source/Patches/LadderFix.cs"/>
+/// </remarks>
 [HarmonyPatch]
 public static class LadderFix
 {

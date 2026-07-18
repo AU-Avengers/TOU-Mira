@@ -12,7 +12,7 @@ namespace TownOfUs.Patches.Options;
 [HarmonyPatch]
 public static class VitalsBodyPatches
 {
-    internal static List<NetworkedPlayerInfo> MissingPlayers = new();
+    internal static List<NetworkedPlayerInfo> MissingPlayers = [];
 
     public static void AddMissingPlayer(NetworkedPlayerInfo player)
     {

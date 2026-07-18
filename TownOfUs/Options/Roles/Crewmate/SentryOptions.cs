@@ -7,7 +7,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class SentryOptions : AbstractOptionGroup<SentryRole>, IWikiOptionsSummaryProvider
+public sealed class SentryOptions : AbstractRoleOptionGroup<SentryRole>, IWikiOptionsSummaryProvider
 {
     public override string GroupName => TouLocale.Get("TouRoleSentry", "Sentry");
 

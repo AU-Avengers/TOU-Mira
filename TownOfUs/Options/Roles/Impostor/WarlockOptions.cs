@@ -5,7 +5,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class WarlockOptions : AbstractOptionGroup<WarlockRole>
+public sealed class WarlockOptions : AbstractRoleOptionGroup<WarlockRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleWarlock", "Warlock");
 

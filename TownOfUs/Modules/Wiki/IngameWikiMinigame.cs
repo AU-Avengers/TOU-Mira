@@ -13,6 +13,7 @@ using Reactor.Utilities.Extensions;
 using System.Text;
 using TMPro;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
@@ -97,28 +98,25 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
     public static void AddNewSettings(IngameWikiMinigame instance)
     {
-        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAmongUsGameSettingsTitle", new List<AbstractOptionGroup>(), TouRoleIcons.Detective, true));
+        instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsAmongUsGameSettingsTitle", [], TouRoleIcons.Detective, true));
         instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsTouMiraGameSettingsTitle",
-            new List<AbstractOptionGroup>()
-            {
+            [
                 OptionGroupSingleton<GeneralOptions>.Instance, OptionGroupSingleton<VanillaTweakOptions>.Instance,
                 OptionGroupSingleton<GameMechanicOptions>.Instance, OptionGroupSingleton<PostmortemOptions>.Instance,
                 OptionGroupSingleton<GameTimerOptions>.Instance, OptionGroupSingleton<TaskTrackingOptions>.Instance
-            }, TouRoleIcons.Engineer));
+            ], TouRoleIcons.Engineer));
         instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsMapsSabotageSettingsTitle",
-            new List<AbstractOptionGroup>()
-            {
+            [
                 OptionGroupSingleton<GlobalBetterMapOptions>.Instance, OptionGroupSingleton<AdvancedUtilityOptions>.Instance,
                 OptionGroupSingleton<AdvancedSabotageOptions>.Instance
-            }, TouModifierIcons.Operative));
+            ], TouModifierIcons.Operative));
         instance._activeSettings.Add(new OptionWikiInfo("WikiSettingsBetterMapsSettingsTitle",
-            new List<AbstractOptionGroup>()
-            {
+            [
                 OptionGroupSingleton<BetterSkeldOptions>.Instance, OptionGroupSingleton<BetterMiraHqOptions>.Instance,
                 OptionGroupSingleton<BetterPolusOptions>.Instance, OptionGroupSingleton<BetterAirshipOptions>.Instance,
                 OptionGroupSingleton<BetterFungleOptions>.Instance, OptionGroupSingleton<BetterSubmergedOptions>.Instance,
                 OptionGroupSingleton<BetterLevelImpostorOptions>.Instance
-            }, TouRoleIcons.Spy));
+            ], TouRoleIcons.Spy));
     }
     private void Awake()
     {
@@ -328,15 +326,9 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                     roleIcon.sprite = aliveRole.RoleIconSolid ?? TouRoleIcons.Parasite.LoadAsset();
                 }
 
-                if (modifierIcon != null)
-                {
-                    modifierIcon.SetSizeLimit(1.44f);
-                }
+                modifierIcon?.SetSizeLimit(1.44f);
 
-                if (playerRoleIcon != null)
-                {
-                    playerRoleIcon.SetSizeLimit(1.44f);
-                }
+                playerRoleIcon?.SetSizeLimit(1.44f);
 
                 break;
 
@@ -400,7 +392,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
             else if (index == 0)
             {
-                SelectSettingsPage(_activeSettings[_activeSettings.Count - 1], true);
+                SelectSettingsPage(_activeSettings[^1], true);
             }
             else
             {
@@ -682,7 +674,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
             }
             else if (index == 0)
             {
-                SelectTermsPage(_activeTerms[_activeTerms.Count - 1], true);
+                SelectTermsPage(_activeTerms[^1], true);
             }
             else
             {
@@ -771,7 +763,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
                 {
                     color = TownOfUsColors.Other;
                 }
-                else if (baseModifier is UniversalGameModifier || baseModifier is TouGameModifier)
+                else if (baseModifier is TouBaseGameModifier)
                 {
                     color = baseModifier.FreeplayFileColor;
                 }
@@ -786,9 +778,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         {
             DetailScreenItemName.Value.text =
                 $"{_selectedSoftItem.EntryName}\n<size=60%>{_selectedSoftItem.EntryColor.ToTextColor()}{TouLocale.Get(_selectedSoftItem.TeamName, _selectedSoftItem.TeamName)}</size></color>";
-            DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon != null
-                ? _selectedSoftItem.Icon
-                : TouRoleIcons.RandomAny.LoadAsset();
+            DetailScreenIcon.Value.sprite = _selectedSoftItem.Icon ?? TouRoleIcons.RandomAny.LoadAsset();
             var possibleIcon = TouRoleUtils.TryGetVanillaRoleIcon(_selectedSoftItem.AssociatedRole);
             if (possibleIcon != null)
             {
@@ -854,14 +844,14 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
         var text = newAbility.GetChild(1).GetComponent<TextMeshPro>();
         var desc = newAbility.GetChild(2).GetComponent<TextMeshPro>();
 
-        icon.sprite = ability.icon.LoadAsset();
+        icon.sprite = ability.Icon.LoadAsset();
         icon.size = new Vector2(0.8f, 0.8f * icon.sprite.bounds.size.y / icon.sprite.bounds.size.x);
         icon.tileMode = SpriteTileMode.Adaptive;
 
         text.text =
-            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.name}</font>";
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.Name}</font>";
         desc.text =
-            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.description}</font>";
+            $"<font=\"LiberationSans SDF\" material=\"LiberationSans SDF - Chat Message Masked\">{ability.Description}</font>";
         newAbility.gameObject.SetActive(true);
     }
 
@@ -979,10 +969,8 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
 
             var curRole = PlayerControl.LocalPlayer.Data.Role.Role;
 
-            var cachedMod =
-                PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
-                    x is ICachedRole cached && cached.CachedRole.Role != curRole) as ICachedRole;
-            if (cachedMod != null)
+            if (PlayerControl.LocalPlayer.GetModifiers<BaseModifier>().FirstOrDefault(x =>
+                    x is ICachedRole cached && cached.CachedRole.Role != curRole) is ICachedRole cachedMod)
             {
                 roleList.Add((ushort)cachedMod.CachedRole.Role);
             }
@@ -1126,7 +1114,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
 
         newItem.SetInitialData(role, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);
@@ -1139,7 +1127,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(RoleSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
 
         newItem.SetInitialData(role, customRole, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);
@@ -1152,7 +1140,7 @@ public sealed class IngameWikiMinigame(nint cppPtr) : Minigame(cppPtr)
     {
         var newItem = Instantiate(ModifierSearchItemTemplate.Value, SearchScroller.Value.Inner);
         newItem.gameObject.SetActive(true);
-        var newSprite = sprite != null ? sprite : TouRoleIcons.RandomAny.LoadAsset();
+        var newSprite = sprite ?? TouRoleIcons.RandomAny.LoadAsset();
 
         newItem.SetInitialData(mod, newSprite, team, color, source);
         _activeItems.Add(newItem.transform);

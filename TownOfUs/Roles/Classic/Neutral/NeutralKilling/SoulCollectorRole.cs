@@ -44,12 +44,12 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Reap", "Reap"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ReapWikiDescription"),
                     TouNeutAssets.ReapSprite)
-            };
+            ];
         }
     }
 

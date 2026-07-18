@@ -9,22 +9,13 @@ namespace TownOfUs.Modules.TimeLord;
 /// </summary>
 public sealed class TimeLordEventRegistry
 {
-    private readonly List<QueuedEvent> _events = new();
-    private readonly Dictionary<Type, Action<TimeLordEvent>> _undoHandlers = new();
-    private readonly Dictionary<Type, Func<TimeLordEvent, TimeLordUndoEvent>> _undoEventFactories = new();
+    private readonly List<QueuedEvent> _events = [];
+    private readonly Dictionary<Type, Action<TimeLordEvent>> _undoHandlers = [];
+    private readonly Dictionary<Type, Func<TimeLordEvent, TimeLordUndoEvent>> _undoEventFactories = [];
 
-    private sealed class QueuedEvent
+    private sealed record QueuedEvent(TimeLordEvent Event, float Time)
     {
-        public TimeLordEvent Event { get; }
-        public float Time { get; }
         public bool Undone { get; set; }
-
-        public QueuedEvent(TimeLordEvent evt, float time)
-        {
-            Event = evt;
-            Time = time;
-            Undone = false;
-        }
     }
 
     public void RegisterUndoHandler<T>(Action<T> handler) where T : TimeLordEvent
@@ -111,10 +102,7 @@ public sealed class TimeLordEventRegistry
     public void MarkUndone(TimeLordEvent evt)
     {
         var queued = _events.FirstOrDefault(e => e.Event == evt);
-        if (queued != null)
-        {
-            queued.Undone = true;
-        }
+        queued?.Undone = true;
     }
 
     public void ProcessUndoEvent(TimeLordUndoEvent undoEvent)

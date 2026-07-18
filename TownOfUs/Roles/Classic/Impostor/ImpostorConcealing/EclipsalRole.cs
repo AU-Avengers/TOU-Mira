@@ -37,12 +37,12 @@ public sealed class EclipsalRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfU
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Blind", "Blind"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BlindWikiDescription"),
                     TouImpAssets.BlindSprite)
-            };
+            ];
         }
     }
 }

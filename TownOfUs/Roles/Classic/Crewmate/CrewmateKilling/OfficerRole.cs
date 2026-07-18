@@ -41,15 +41,15 @@ public sealed class OfficerRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Load", "Load"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}LoadWikiDescription"),
                     TouCrewAssets.OfficerLoadSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Shoot", "Shoot"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ShootWikiDescription"),
                     TouCrewAssets.OfficerShootSprite)
-            };
+            ];
         }
     }
 

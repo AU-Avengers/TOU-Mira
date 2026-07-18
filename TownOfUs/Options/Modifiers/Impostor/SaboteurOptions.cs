@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Impostor;
 
-public sealed class SaboteurOptions : AbstractOptionGroup<SaboteurModifier>
+public sealed class SaboteurOptions : AbstractTouModifierOptionGroup<SaboteurModifier>
 {
     public override Func<bool> GroupVisible => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     public override string GroupName => TouLocale.Get("TouModifierSaboteur", "Saboteur");

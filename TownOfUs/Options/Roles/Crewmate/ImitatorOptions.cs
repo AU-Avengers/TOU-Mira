@@ -4,7 +4,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class ImitatorOptions : AbstractOptionGroup<ImitatorRole>
+public sealed class ImitatorOptions : AbstractRoleOptionGroup<ImitatorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleImitator", "Imitator");
 

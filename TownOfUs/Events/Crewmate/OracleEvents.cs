@@ -13,7 +13,7 @@ namespace TownOfUs.Events.Crewmate;
 public static class OracleEvents
 {
     [RegisterEvent]
-    public static void StartMeetingEventHandler(StartMeetingEvent @event)
+    public static void StartMeetingEventHandler(StartMeetingEvent _)
     {
         CustomRoleUtils.GetActiveRolesOfType<OracleRole>().Do(x => x.ReportOnConfession());
     }

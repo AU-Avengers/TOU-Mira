@@ -50,15 +50,15 @@ public sealed class GlitchRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Mimic", "Mimic"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}MimicWikiDescription"),
                     TouNeutAssets.MimicSprite),
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Hack", "Hack"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}HackWikiDescription"),
                     TouNeutAssets.HackSprite)
-            };
+            ];
         }
     }
 

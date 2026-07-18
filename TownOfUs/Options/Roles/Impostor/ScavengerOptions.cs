@@ -5,7 +5,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class ScavengerOptions : AbstractOptionGroup<ScavengerRole>
+public sealed class ScavengerOptions : AbstractRoleOptionGroup<ScavengerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleScavenger", "Scavenger");
 

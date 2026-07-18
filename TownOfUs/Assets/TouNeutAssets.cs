@@ -29,6 +29,9 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> ExeTormentSprite { get; } =
         new LoadableBundleAsset<Sprite>("ExeTormentButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> JesterPokeSprite { get; } =
+        new LoadableResourceAsset("TownOfUs.Resources.JesterPokeButton.png");
+
     public static LoadableAsset<Sprite> JesterHauntSprite { get; } =
         new LoadableBundleAsset<Sprite>("JesterHauntButton", TouAssets.MainBundle);
 
@@ -114,13 +117,13 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> ChefServeTurkeySprite { get; } =
         new LoadableBundleAsset<Sprite>("ServeTurkeyButton", TouAssets.MainBundle);
 
-    public static List<LoadableAsset<Sprite>> ChefServeSprites { get; set; } = new()
-    {
+    public static List<LoadableAsset<Sprite>> ChefServeSprites { get; set; } =
+    [
         ChefServeEmptySprite,
         ChefServeSalmonSprite,
         ChefServeCakeSprite,
         ChefServeBurgerSprite,
         ChefServeTurkeySprite
-    };
+    ];
 
 }

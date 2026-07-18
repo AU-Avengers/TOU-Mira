@@ -404,7 +404,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     playerColor = Color.red;
                 }
 
-                playerColor = playerColor.UpdateTargetColor(player, !isVisible);
+                playerColor = playerColor.UpdateTargetColor(player);
                 playerName = playerName.UpdateTargetSymbols(player, !isVisible);
                 playerName = playerName.UpdateProtectionSymbols(player, !isVisible);
                 playerName = playerName.UpdateAllianceSymbols(player, !isVisible);

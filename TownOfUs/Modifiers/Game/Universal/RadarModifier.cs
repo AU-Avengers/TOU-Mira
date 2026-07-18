@@ -10,6 +10,10 @@ namespace TownOfUs.Modifiers.Game.Universal;
 
 public sealed class RadarModifier : UniversalGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Radar,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Radar.LoadAsset(),
+            "TouMira.Modifier.Universal.Radar", 1.45f));
     private ArrowBehaviour _arrow;
     public override string LocaleKey => "Radar";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");

@@ -6,7 +6,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class EngineerOptions : AbstractOptionGroup<EngineerTouRole>
+public sealed class EngineerOptions : AbstractRoleOptionGroup<EngineerTouRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleEngineer", "Engineer");
     public ModdedNumberOption MaxVents { get; } = new("TouOptionEngineerMaxVents", -1f, -1f, 30f, 1f, "#", "∞", MiraNumberSuffixes.None, "0");

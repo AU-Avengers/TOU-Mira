@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class InquisitorOptions : AbstractOptionGroup<InquisitorRole>
+public sealed class InquisitorOptions : AbstractRoleOptionGroup<InquisitorRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleInquisitor", "Inquisitor");
 

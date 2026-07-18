@@ -43,12 +43,12 @@ public sealed class SurvivorRole(IntPtr cppPtr)
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Safeguard", "Safeguard"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}SafeguardWikiDescription"),
                     TouNeutAssets.VestSprite)
-            };
+            ];
         }
     }
 

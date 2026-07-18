@@ -29,10 +29,10 @@ public sealed class TestCleanModifier : TouGameModifier, IWikiDiscoverable, IBut
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new("Clean", "Clean dead bodies (for testing)", TouImpAssets.CleanButtonSprite)
-            };
+            ];
         }
     }
 

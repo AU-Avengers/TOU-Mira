@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using HarmonyLib;
 using TownOfUs.Roles;
-using Object = Il2CppSystem.Object;
 
 namespace TownOfUs.Patches.Roles;
 

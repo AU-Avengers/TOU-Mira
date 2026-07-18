@@ -5,7 +5,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class GrenadierOptions : AbstractOptionGroup<GrenadierRole>
+public sealed class GrenadierOptions : AbstractRoleOptionGroup<GrenadierRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleGrenadier", "Grenadier");
 

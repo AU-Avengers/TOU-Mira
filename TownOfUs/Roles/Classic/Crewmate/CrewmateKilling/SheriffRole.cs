@@ -35,12 +35,12 @@ public sealed class SheriffRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewR
     {
         get
         {
-            return new List<CustomButtonWikiDescription>
-            {
+            return
+            [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Shoot", "Shoot"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}ShootWikiDescription"),
                     TouCrewAssets.SheriffShootSprite)
-            };
+            ];
         }
     }
 

@@ -161,8 +161,7 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
 
     private void HideTooltip()
     {
-        if (_tooltipGo != null)
-            _tooltipGo.SetActive(false);
+        _tooltipGo?.SetActive(false);
         _tooltipBaseText = string.Empty;
     }
 
@@ -222,53 +221,90 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     private void ShowTooltipForSlot(int slotIndex, int hoveredLine)
     {
         var roleList = OptionGroupSingleton<RoleOptions>.Instance;
-        if (roleList.CurrentRoleDistribution() is not RoleDistribution.Draft and not RoleDistribution.RoleList)
+            var distribution = roleList.CurrentRoleDistribution();
+        if (distribution > RoleDistribution.Draft || distribution is RoleDistribution.Vanilla)
         {
             return;
         }
-        var bucket = slotIndex switch
+        RoleListOption bucket;
+        if (distribution is RoleDistribution.Draft)
         {
-            0  => roleList.Slot1.Value,
-            1  => roleList.Slot2.Value,
-            2  => roleList.Slot3.Value,
-            3  => roleList.Slot4.Value,
-            4  => roleList.Slot5.Value,
-            5  => roleList.Slot6.Value,
-            6  => roleList.Slot7.Value,
-            7  => roleList.Slot8.Value,
-            8  => roleList.Slot9.Value,
-            9  => roleList.Slot10.Value,
-            10 => roleList.Slot11.Value,
-            11 => roleList.Slot12.Value,
-            12 => roleList.Slot13.Value,
-            13 => roleList.Slot14.Value,
-            14 => roleList.Slot15.Value,
-            _  => (RoleListOption)(-1)
-        };
-        if (roleList.CurrentRoleDistribution() is RoleDistribution.Draft)
-        {
-            if (!roleList.UseRoleListForPool.Value)
+            if (roleList.UseRoleListForPool)
             {
-                return;
+                var draftList = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+                bucket = slotIndex switch
+                {
+                    0 => draftList.Slot1.Value,
+                    1 => draftList.Slot2.Value,
+                    2 => draftList.Slot3.Value,
+                    3 => draftList.Slot4.Value,
+                    4 => draftList.Slot5.Value,
+                    5 => draftList.Slot6.Value,
+                    6 => draftList.Slot7.Value,
+                    7 => draftList.Slot8.Value,
+                    8 => draftList.Slot9.Value,
+                    9 => draftList.Slot10.Value,
+                    10 => draftList.Slot11.Value,
+                    11 => draftList.Slot12.Value,
+                    12 => draftList.Slot13.Value,
+                    13 => draftList.Slot14.Value,
+                    14 => draftList.Slot15.Value,
+                    _ => (RoleListOption)(-1)
+                };
             }
-            var draftList = OptionGroupSingleton<RoleDraftRoleListOptions>.Instance;
+            else
+            {
+                bucket = slotIndex switch
+                {
+                    0 => RoleListOption.CrewInvest,
+                    1 => RoleListOption.CrewKilling,
+                    2 => RoleListOption.CrewPower,
+                    3 => RoleListOption.CrewProtective,
+                    4 => RoleListOption.CrewSupport,
+                    5 => RoleListOption.ImpRandom,
+                    6 => RoleListOption.ImpConceal,
+                    7 => RoleListOption.ImpKilling,
+                    8 => RoleListOption.ImpPower,
+                    9 => RoleListOption.ImpSupport,
+                    10 => RoleListOption.NeutRandom,
+                    11 => RoleListOption.NeutBenign,
+                    12 => RoleListOption.NeutEvil,
+                    13 => RoleListOption.NeutKilling,
+                    14 => RoleListOption.NeutOutlier,
+                    _ => (RoleListOption)(-1)
+                };
+            }
+        }
+        else if (roleList.CurrentRoleDistribution() is RoleDistribution.MinMaxList)
+        {
             bucket = slotIndex switch
             {
-                0  => draftList.Slot1.Value,
-                1  => draftList.Slot2.Value,
-                2  => draftList.Slot3.Value,
-                3  => draftList.Slot4.Value,
-                4  => draftList.Slot5.Value,
-                5  => draftList.Slot6.Value,
-                6  => draftList.Slot7.Value,
-                7  => draftList.Slot8.Value,
-                8  => draftList.Slot9.Value,
-                9  => draftList.Slot10.Value,
-                10 => draftList.Slot11.Value,
-                11 => draftList.Slot12.Value,
-                12 => draftList.Slot13.Value,
-                13 => draftList.Slot14.Value,
-                14 => draftList.Slot15.Value,
+                0 => RoleListOption.NeutBenign,
+                1 => RoleListOption.NeutEvil,
+                2 => RoleListOption.NeutKilling,
+                3 => RoleListOption.NeutOutlier,
+                _ => (RoleListOption)(-1)
+            };
+        }
+        else
+        {
+            bucket = slotIndex switch
+            {
+                0  => roleList.Slot1.Value,
+                1  => roleList.Slot2.Value,
+                2  => roleList.Slot3.Value,
+                3  => roleList.Slot4.Value,
+                4  => roleList.Slot5.Value,
+                5  => roleList.Slot6.Value,
+                6  => roleList.Slot7.Value,
+                7  => roleList.Slot8.Value,
+                8  => roleList.Slot9.Value,
+                9  => roleList.Slot10.Value,
+                10 => roleList.Slot11.Value,
+                11 => roleList.Slot12.Value,
+                12 => roleList.Slot13.Value,
+                13 => roleList.Slot14.Value,
+                14 => roleList.Slot15.Value,
                 _  => (RoleListOption)(-1)
             };
         }

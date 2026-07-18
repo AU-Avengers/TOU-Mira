@@ -177,7 +177,7 @@ public static class ChatPatches
                 return false;
             }
     
-            string targetName = textRegular.Substring(6).Trim();
+            string targetName = textRegular[6..].Trim();
             var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
     
             if (target == null)
@@ -196,7 +196,7 @@ public static class ChatPatches
                 return false;
             }
     
-            var clientId = GetClientId(target);
+            var clientId = target.OwnerId;
             if (clientId == -1)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -225,7 +225,7 @@ public static class ChatPatches
                 return false;
             }
     
-            string targetName = textRegular.Substring(5).Trim();
+            string targetName = textRegular[5..].Trim();
             var target = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(p => p.Data?.PlayerName.Equals(targetName, StringComparison.OrdinalIgnoreCase) == true);
     
             if (target == null)
@@ -243,8 +243,8 @@ public static class ChatPatches
                 ClearChat(__instance);
                 return false;
             }
-    
-            var clientId = GetClientId(target);
+
+            var clientId = target.OwnerId;
             if (clientId == -1)
             {
                 MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -501,20 +501,16 @@ public static class ChatPatches
                         }
 
                         var allRoles = MiscUtils.SpawnableRoles.ToList();
-                        var matchingRole = allRoles.FirstOrDefault(role =>
-                            role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
-                            role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
-                            (role is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)));
-
-                        if (matchingRole == null)
-                        {
-                            matchingRole = allRoles.FirstOrDefault(role =>
+                        var matchingRole =
+                            allRoles.FirstOrDefault(role =>
+                                role.GetRoleName().Equals(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
+                                role.GetRoleName().Replace(" ", "").Equals(roleNameInput.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) ||
+                                (role is ITownOfUsRole touRole && touRole.LocaleKey.Equals(roleNameInput, StringComparison.OrdinalIgnoreCase)))
+                            ?? allRoles.FirstOrDefault(role =>
                                 role.GetRoleName().Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                 roleNameInput.Contains(role.GetRoleName(), StringComparison.OrdinalIgnoreCase) ||
                                 (role is ITownOfUsRole touRole2 && (touRole2.LocaleKey.Contains(roleNameInput, StringComparison.OrdinalIgnoreCase) ||
                                                                     roleNameInput.Contains(touRole2.LocaleKey, StringComparison.OrdinalIgnoreCase))));
-                        }
-
                         if (matchingRole == null)
                         {
                             MiscUtils.AddSystemChat(PlayerControl.LocalPlayer.Data, systemName,
@@ -873,27 +869,5 @@ public static class ChatPatches
         chat.quickChatMenu.Clear();
         chat.quickChatField.Clear();
         chat.UpdateChatMode();
-    }
-
-    private static int GetClientId(PlayerControl player)
-    {
-        foreach (var client in AmongUsClient.Instance.allClients.ToArray())
-        {
-            try
-            {
-                var charProp = client.GetType().GetProperty("Character") ?? client.GetType().GetProperty("character");
-                if (charProp?.GetValue(client) is PlayerControl pc && pc.PlayerId == player.PlayerId)
-                {
-                    var idProp = client.GetType().GetProperty("Id") ?? client.GetType().GetProperty("id");
-                    if (idProp?.GetValue(client) is int id)
-                        return id;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-        return -1;
     }
 }
