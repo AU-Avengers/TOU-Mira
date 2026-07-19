@@ -26,6 +26,9 @@ public sealed class ArsonistOptions : AbstractRoleOptionGroup<ArsonistRole>
         Visible = () => !OptionGroupSingleton<ArsonistOptions>.Instance.LegacyArsonist
     };
 
+    [ModdedToggleOption("TouOptionArsonistUnstoppableIgnite")]
+    public bool UnstoppableIgnite { get; set; }
+
     [ModdedToggleOption("TouOptionArsonistCanVent")]
     public bool CanVent { get; set; }
 

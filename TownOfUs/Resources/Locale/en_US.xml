@@ -1924,6 +1924,7 @@
   <string name="TouOptionArsonistDouseInteractions">Douse From Interactions</string>
   <string name="TouOptionArsonistLegacyMode">Legacy Mode (No Radius)</string>
   <string name="TouOptionArsonistIgniteRadius">Ignite Radius</string>
+  <string name="TouOptionArsonistUnstoppableIgnite">Unstoppable Ignite</string>
   <string name="TouOptionArsonistCanVent">Arsonist Can Vent</string>
   <string name="TouOptionArsonistImpVision">Has Impostor Vision</string>
   <!-- Doomsayer -->
