@@ -24,7 +24,7 @@ public sealed class DraftCancelButton : TownOfUsButton
     public override bool ZeroIsInfinite { get; set; } = true;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 
-    public override Color TextOutlineColor => TownOfUsColors.Monarch;
+    public override Color TextOutlineColor => TownOfUsColors.Impostor;
 
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.HexBombSprite;
 
