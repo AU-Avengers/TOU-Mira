@@ -10,36 +10,36 @@ using HarmonyLib;
 
 namespace TownOfUs.Modules.DraftMode;
 
-public sealed class DraftRerollButton : TownOfUsButton
+public sealed class DraftReshuffleButton : TownOfUsButton
 {
     public static void Show()
     {
-        CustomButtonSingleton<DraftRerollButton>.Instance.Disabled = false;
+        CustomButtonSingleton<DraftReshuffleButton>.Instance.Disabled = false;
     }
 
     public static void Hide()
     {
-        CustomButtonSingleton<DraftRerollButton>.Instance.Disabled = true;
+        CustomButtonSingleton<DraftReshuffleButton>.Instance.Disabled = true;
     }
 
     public static void ShowAndReset()
     {
         Show();
-        CustomButtonSingleton<DraftRerollButton>.Instance.SetUses(
-            (int)OptionGroupSingleton<RoleOptions>.Instance.RerollsPerPlayer.Value);
+        CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses(
+            (int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
     }
 
     public static void HideAndReset()
     {
         Hide();
-        CustomButtonSingleton<DraftRerollButton>.Instance.SetUses(
-            (int)OptionGroupSingleton<RoleOptions>.Instance.RerollsPerPlayer.Value);
+        CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses(
+            (int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
     }
 
-    public override string Name => "Reroll";
+    public override string Name => "Reshuffle";
     public override float InitialCooldown => 0.001f;
     public override float Cooldown => 0.001f;
-    public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.RerollsPerPlayer.Value;
+    public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value;
     public override bool ZeroIsInfinite { get; set; } = true;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
@@ -65,64 +65,64 @@ public sealed class DraftRerollButton : TownOfUsButton
     protected override void OnClick()
     {
         if (!DraftManager.IsDraftActive) return;
-        Helpers.CreateAndShowNotification("Your picks have been rerolled!", Color.white,
+        Helpers.CreateAndShowNotification("Your picks have been Reshuffleed!", Color.white,
                 new Vector3(0f, 1f, -80f), spr: TouNeutAssets.InquireSprite.LoadAsset());
-        DraftNetworkHelper.RequestReroll();    
+        DraftNetworkHelper.RequestReshuffle();    
         }
 
     [HarmonyPatch(typeof(DraftRpcs), nameof(DraftRpcs.RpcStartDraft))]
-    public static class ShowDraftRerollButtonOnDraftStart
+    public static class ShowDraftReshuffleButtonOnDraftStart
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
             Show();
-            CustomButtonSingleton<DraftRerollButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.RerollsPerPlayer.Value);
+            CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
         }
     }
 
 
     [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastRecap))]
-    public static class HideDraftReroll
+    public static class HideDraftReshuffle
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftRerollButton.HideAndReset();
+            DraftReshuffleButton.HideAndReset();
         }
     }
 
 
     [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastCancelDraft))]
-    public static class HideDraftRerollOnCancelDraft
+    public static class HideDraftReshuffleOnCancelDraft
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftRerollButton.Hide();
-            CustomButtonSingleton<DraftRerollButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.RerollsPerPlayer.Value);
+            DraftReshuffleButton.Hide();
+            CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
         }
     }
 
 
     [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastDraftEnd))]
-    public static class HideDraftRerollOnDraftEnd
+    public static class HideDraftReshuffleOnDraftEnd
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftRerollButton.Hide();
-            CustomButtonSingleton<DraftRerollButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.RerollsPerPlayer.Value);
+            DraftReshuffleButton.Hide();
+            CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
         }
     }
     [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastDraftEnd))]
-    public static class HideDraftRerollAfterUsedUp
+    public static class HideDraftReshuffleAfterUsedUp
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftRerollButton.Hide();
-            CustomButtonSingleton<DraftRerollButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.RerollsPerPlayer.Value);
+            DraftReshuffleButton.Hide();
+            CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
         }
     }
 }
