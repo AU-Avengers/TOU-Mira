@@ -166,10 +166,25 @@ namespace TownOfUs.Modules.DraftMode
             return role.IsImpostor();
         }
 
+        public static bool IsImpostorRoleId(ushort id)
+        {
+            try
+            {
+                var r = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                return r != null && r.IsImpostor();
+            }
+            catch { return false; }
+        }
+
         public static bool IsExclusiveImpostorRoleName(string name)
         {
             var role = FindRoleByName(name);
             return role != null && DraftExclusiveImpostorRoles.IsRegistered(role.Role);
+        }
+
+        public static bool IsExclusiveImpostorRoleId(ushort id)
+        {
+            return DraftExclusiveImpostorRoles.IsRegistered(id);
         }
 
         public static bool IsNeutralRoleName(string name)
@@ -178,6 +193,16 @@ namespace TownOfUs.Modules.DraftMode
             if (role == null) return false;
 
             return role.IsNeutral();
+        }
+
+        public static bool IsNeutralRoleId(ushort id)
+        {
+            try
+            {
+                var r = MiscUtils.GetRegisteredRole((RoleTypes)id) ?? RoleManager.Instance?.GetRole((RoleTypes)id);
+                return r != null && r.IsNeutral();
+            }
+            catch { return false; }
         }
 
         private static RoleBehaviour FindRoleByName(string name)

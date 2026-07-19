@@ -55,25 +55,12 @@ public static class DraftPoolBuilder
         var picked = new List<string>();
         var seen   = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        if (avoid != null && avoid.Count > 0)
+        foreach (var candidate in poolCopy)
         {
-            foreach (var candidate in poolCopy)
-            {
-                if (string.IsNullOrEmpty(candidate)) continue;
-                if (avoid.Contains(candidate)) continue;
-                if (seen.Add(candidate)) picked.Add(candidate);
-                if (picked.Count >= offered) break;
-            }
-        }
-
-        if (picked.Count < offered)
-        {
-            foreach (var candidate in poolCopy)
-            {
-                if (string.IsNullOrEmpty(candidate)) continue;
-                if (seen.Add(candidate)) picked.Add(candidate);
-                if (picked.Count >= offered) break;
-            }
+            if (string.IsNullOrEmpty(candidate)) continue;
+            if (avoid != null && avoid.Contains(candidate)) continue;
+            if (seen.Add(candidate)) picked.Add(candidate);
+            if (picked.Count >= offered) break;
         }
 
         return picked;
