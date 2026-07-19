@@ -477,7 +477,7 @@ namespace TownOfUs.Modules.DraftMode
             int remainingPlayers = DraftManager.GetAllStates().Count(s => !s.HasPicked);
             int remainingGroups = CountRemainingPoolGroups(_pool);
 
-            if (remainingGroups > 0 && remainingPlayers <= remainingGroups)
+            if (remainingGroups > 0 && remainingPlayers < remainingGroups)
             {
                 var avoid = GetConcurrentOfferAvoid(slot);
                 avoid.UnionWith(GetAvoidNamesForTurn(slot));
