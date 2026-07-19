@@ -625,7 +625,7 @@ namespace TownOfUs.Modules.DraftMode
                         var offers  = _currentOffersBySlot.TryGetValue(slot, out var o) ? o : new List<string>();
                         var autoIndex = (byte)_rng.NextInt(Math.Max(1, offers.Count));
                         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Auto-picking index {autoIndex} for slot {slot} ({reason})");
-                        ApplyPick(slot, autoIndex);
+                        ApplyPick(slot, autoIndex, timedOut: true);
                         pending.Remove(slot);
                         continue;
                     }
@@ -684,7 +684,7 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        private void ApplyPick(int slot, byte index)
+        private void ApplyPick(int slot, byte index, bool timedOut = false)
         {
             var state = DraftManager.GetStateForSlot(slot);
             if (state == null) return;
@@ -818,7 +818,7 @@ namespace TownOfUs.Modules.DraftMode
             state.PendingPickIndex = 255;
             _currentOffersBySlot.Remove(slot);
             DraftManager.ConfirmPick(slot, chosenRoleId);
-            DraftNetworkHelper.BroadcastPickConfirmed(slot, chosenRoleId);
+            DraftNetworkHelper.BroadcastPickConfirmed(slot, chosenRoleId, timedOut);
         }
 
         private void FinishDraft()

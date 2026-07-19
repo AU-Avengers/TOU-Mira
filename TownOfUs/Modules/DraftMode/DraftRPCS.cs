@@ -89,6 +89,7 @@ public static class DraftRpcs
             {
                 DraftScreenController.TargetPickerId = pickerId;
                 DraftScreenController.Show(offeredList.ToArray());
+                DraftUiManager.NotifyMyTurn();
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] Picker screen shown successfully!");
             }
             catch (Exception e)
@@ -122,14 +123,17 @@ public static class DraftRpcs
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftPickConfirmed)]
-    public static void RpcPickConfirmed(PlayerControl sender, int slot, ushort roleId)
+    public static void RpcPickConfirmed(PlayerControl sender, int slot, ushort roleId, bool timedOut)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcPickConfirmed: slot {slot}, roleId {roleId}");
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcPickConfirmed: slot {slot}, roleId {roleId}, timedOut {timedOut}");
         DraftManager.ConfirmPick(slot, roleId);
 
         var localSlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
         if (slot == localSlot)
+        {
             DraftScreenController.Hide();
+            DraftUiManager.NotifyPickConfirmed(roleId, timedOut);
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftForceRole)]
@@ -277,11 +281,11 @@ public static class DraftNetworkHelper
             padded[0], padded[1], padded[2], padded[3], padded[4], padded[5], padded[6], padded[7], padded[8]);
     }
 
-    public static void BroadcastPickConfirmed(int slot, ushort roleId)
+    public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] BroadcastPickConfirmed: slot {slot}, roleId {roleId}");
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] BroadcastPickConfirmed: slot {slot}, roleId {roleId}, timedOut {timedOut}");
         DraftManager.ConfirmPick(slot, roleId);
-        DraftRpcs.RpcPickConfirmed(PlayerControl.LocalPlayer, slot, roleId);
+        DraftRpcs.RpcPickConfirmed(PlayerControl.LocalPlayer, slot, roleId, timedOut);
     }
 
     public static void NotifyPickerReady()
