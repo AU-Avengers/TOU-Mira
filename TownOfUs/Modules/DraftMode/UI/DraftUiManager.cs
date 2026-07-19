@@ -84,37 +84,6 @@ namespace TownOfUs.Modules.DraftMode
             return DraftFaction.Other;
         }
 
-        public static void NotifyMyTurn()
-        {
-            if(!LocalSettingsTabSingleton<TownOfUsLocalDraftSettings>.Instance.ShowDraftTooltips.Value) return;
-
-            var notif = Helpers.CreateAndShowNotification(
-                "<b>It's your turn to pick!</b>",
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
-            notif?.AdjustNotification();
-        }
-
-        public static void NotifyPickConfirmed(ushort roleId, bool timedOut)
-        {
-            if(!LocalSettingsTabSingleton<TownOfUsLocalDraftSettings>.Instance.ShowDraftTooltips.Value) return;
-            if (timedOut)
-            {
-                var role = ResolveRole(roleId);
-                var roleName = role ? role.GetRoleName() : "a role";
-                var notif = Helpers.CreateAndShowNotification(
-                    $"<b>Time ran out, you were given {roleName} automatically.</b>",
-                    Color.yellow, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
-                notif?.AdjustNotification();
-            }
-            else
-            {
-                var notif = Helpers.CreateAndShowNotification(
-                    "<b>Click your role card to see how your role works.</b>",
-                    Color.white, new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
-                notif?.AdjustNotification();
-            }
-        }
-
         public static string GetTeamLabel(RoleBehaviour role)
         {
             var faction = TouLocale.Get("CrewmateKeyword");
