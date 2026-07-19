@@ -89,7 +89,6 @@ public static class DraftRpcs
             {
                 DraftScreenController.TargetPickerId = pickerId;
                 DraftScreenController.Show(offeredList.ToArray());
-                DraftUiManager.NotifyMyTurn();
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] Picker screen shown successfully!");
             }
             catch (Exception e)
@@ -132,7 +131,6 @@ public static class DraftRpcs
         if (slot == localSlot)
         {
             DraftScreenController.Hide();
-            DraftUiManager.NotifyPickConfirmed(roleId, timedOut);
         }
     }
 
