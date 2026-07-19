@@ -147,7 +147,7 @@ public enum TownOfUsRpc : uint
     DraftPickConfirmed,
     DraftForceRole,
     DraftCancel,
-    DraftRequestReroll,
+    DraftRequestReshuffle,
     DraftEnd,
     DraftCreateNotif,
     DraftBroadcastRecap,

@@ -66,11 +66,28 @@ public static class DraftRpcs
         var localPlayerId = PlayerControl.LocalPlayer?.PlayerId ?? 255;
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Checking if it's my turn. Local: {localPlayerId}, Picker: {pickerId}");
 
-        if (localPlayerId == pickerId)
+        bool isMyTurn = localPlayerId == pickerId;
+        bool isLocalGame = AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay;
+
+        if (!isMyTurn && isLocalGame)
+        {
+            var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == pickerId);
+            if (p != null)
+            {
+                var client = AmongUsClient.Instance?.GetClient(p.OwnerId);
+                if (client == null)
+                {
+                    isMyTurn = true;
+                }
+            }
+        }
+
+        if (isMyTurn)
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] IT'S MY TURN! Showing picker screen with {offeredList.Count} roles");
             try
             {
+                DraftScreenController.TargetPickerId = pickerId;
                 DraftScreenController.Show(offeredList.ToArray());
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] Picker screen shown successfully!");
             }
@@ -95,13 +112,13 @@ public static class DraftRpcs
         DraftManager.NotifyPickerReady(sender.PlayerId);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.DraftRequestReroll)]
-    public static void RpcRequestReroll(PlayerControl sender)
+    [MethodRpc((uint)TownOfUsRpc.DraftRequestReshuffle)]
+    public static void RpcRequestReshuffle(PlayerControl sender)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (sender == null) return;
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcRequestReroll: player {sender.PlayerId}");
-        DraftEngineBehaviour.Instance?.RequestReroll(sender.PlayerId);
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcRequestReshuffle: player {sender.PlayerId}");
+        DraftEngineBehaviour.Instance?.RequestReshuffle(sender.PlayerId);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftPickConfirmed)]
@@ -109,7 +126,10 @@ public static class DraftRpcs
     {
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcPickConfirmed: slot {slot}, roleId {roleId}");
         DraftManager.ConfirmPick(slot, roleId);
-        DraftScreenController.Hide();
+
+        var localSlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
+        if (slot == localSlot)
+            DraftScreenController.Hide();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftForceRole)]
@@ -202,11 +222,12 @@ public static class DraftRpcs
 
 public static class DraftNetworkHelper
 {
-    public static void SendPickToHost(int index)
+    public static void SendPickToHost(int index, byte pickerId = 255)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] SendPickToHost: index {index}");
+        byte idToSend = pickerId == 255 ? PlayerControl.LocalPlayer.PlayerId : pickerId;
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] SendPickToHost: index {index} for player {idToSend}");
         if (AmongUsClient.Instance.AmHost)
-            DraftManager.SubmitPick(PlayerControl.LocalPlayer.PlayerId, (byte)index);
+            DraftManager.SubmitPick(idToSend, (byte)index);
         else
             DraftRpcs.RpcSubmitPick(PlayerControl.LocalPlayer, index);
     }
@@ -271,13 +292,13 @@ public static class DraftNetworkHelper
             DraftRpcs.RpcPickerReady(PlayerControl.LocalPlayer);
     }
 
-    public static void RequestReroll()
+    public static void RequestReshuffle()
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftNetworkHelper] RequestReroll");
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftNetworkHelper] RequestReshuffle");
         if (AmongUsClient.Instance.AmHost)
-            DraftEngineBehaviour.Instance?.RequestReroll(PlayerControl.LocalPlayer.PlayerId);
+            DraftEngineBehaviour.Instance?.RequestReshuffle(PlayerControl.LocalPlayer.PlayerId);
         else
-            DraftRpcs.RpcRequestReroll(PlayerControl.LocalPlayer);
+            DraftRpcs.RpcRequestReshuffle(PlayerControl.LocalPlayer);
     }
 
     public static void SendForceRoleToHost(string roleName, byte targetId)
