@@ -178,6 +178,13 @@ namespace TownOfUs.Modules.DraftMode
                   ?? RoleManager.Instance.GetRole((AmongUs.GameOptions.RoleTypes)roleId)
                 : null!;
 
+            if (role == null)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning,
+                    $"[DraftSidebar] Could not resolve role for id {roleId}; falling back.");
+                return ("UNKNOWN", "#f7f7f7");
+            }
+
             var faction = DraftUiManager.GetTeamLabel(role);
             string colorHex = "";
             var displayMode = OptionGroupSingleton<RoleOptions>.Instance.DraftSidebarDisplay.Value;
@@ -190,7 +197,9 @@ namespace TownOfUs.Modules.DraftMode
             };
             if(displayMode == DraftRecapMode.Role)
             {
-                colorHex = "#" + ColorUtility.ToHtmlStringRGB(role.TeamColor) ?? "#5BD7E4";
+                colorHex = role.TeamColor != default
+                    ? "#" + ColorUtility.ToHtmlStringRGB(role.TeamColor)
+                    : "#5BD7E4";
             } else if ( displayMode == DraftRecapMode.Nothing)
             {
                 colorHex = "#f7f7f7";
@@ -247,7 +256,7 @@ namespace TownOfUs.Modules.DraftMode
         [HarmonyPostfix]
         public static void Postfix(OverlayState state)
         {
-            if (state == OverlayState.Hidden)
+            if (state == OverlayState.Hidden && !DraftManager.IsDraftActive)
                 DraftSidebarManager.Deactivate();
         }
     }

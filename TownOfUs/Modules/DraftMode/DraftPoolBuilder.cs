@@ -15,7 +15,25 @@ public static class DraftPoolBuilder
         if (roleOpts.UseRoleListForPool)
             return BuildPoolFromRoleList(numPlayers);
 
-        return BuildPoolFromManualAmounts();
+        var manualPool = BuildPoolFromManualAmounts();
+        
+        int rolesPerSlot = Math.Max(1, (int)roleOpts.OfferedRolesCount.Value);
+        int targetSize = numPlayers + rolesPerSlot;
+        if (manualPool.Count < targetSize)
+        {
+            var anyNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
+                ?.Where(n => !string.IsNullOrWhiteSpace(n)).ToList();
+            if (anyNames != null && anyNames.Count > 0)
+            {
+                var rng = new UnityRng();
+                while (manualPool.Count < targetSize)
+                {
+                    manualPool.Add(PickWeightedByChance(anyNames, rng));
+                }
+            }
+        }
+        
+        return manualPool;
     }
     public static List<string> GetOfferedRoles(List<string> currentPool, IRng rng = null!, ICollection<string> avoid = null!)
     {
@@ -37,28 +55,54 @@ public static class DraftPoolBuilder
         var picked = new List<string>();
         var seen   = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        if (avoid != null && avoid.Count > 0)
+        foreach (var candidate in poolCopy)
         {
-            foreach (var candidate in poolCopy)
-            {
-                if (string.IsNullOrEmpty(candidate)) continue;
-                if (avoid.Contains(candidate)) continue;
-                if (seen.Add(candidate)) picked.Add(candidate);
-                if (picked.Count >= offered) break;
-            }
-        }
-
-        if (picked.Count < offered)
-        {
-            foreach (var candidate in poolCopy)
-            {
-                if (string.IsNullOrEmpty(candidate)) continue;
-                if (seen.Add(candidate)) picked.Add(candidate);
-                if (picked.Count >= offered) break;
-            }
+            if (string.IsNullOrEmpty(candidate)) continue;
+            if (avoid != null && avoid.Contains(candidate)) continue;
+            if (seen.Add(candidate)) picked.Add(candidate);
+            if (picked.Count >= offered) break;
         }
 
         return picked;
+    }
+
+    private static string PickWeightedByChance(List<string> candidates, IRng rng)
+    {
+        if (candidates.Count == 1) return candidates[0];
+
+        var weights = new int[candidates.Count];
+        int totalWeight = 0;
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            weights[i] = Math.Max(1, DraftRolePool.GetChanceForRoleName(candidates[i]));
+            totalWeight += weights[i];
+        }
+
+        int roll = rng.NextInt(totalWeight);
+        int cumulative = 0;
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            cumulative += weights[i];
+            if (roll < cumulative) return candidates[i];
+        }
+
+        return candidates[^1];
+    }
+
+    private static List<string> TakeWeightedByChance(List<string> names, int take, IRng rng)
+    {
+        var remaining = new List<string>(names);
+        var result = new List<string>();
+        take = Math.Min(take, remaining.Count);
+
+        for (int n = 0; n < take; n++)
+        {
+            var chosen = PickWeightedByChance(remaining, rng);
+            result.Add(chosen);
+            remaining.Remove(chosen);
+        }
+
+        return result;
     }
 
     private static List<string> BuildPoolFromRoleList(int numPlayers)
@@ -80,26 +124,50 @@ public static class DraftPoolBuilder
         int rolesPerSlot = roleOpts != null ? Math.Max(1, (int)roleOpts.OfferedRolesCount.Value) : 3;
 
         UnityRng rng       = new();
-        var usedCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         int limit = Math.Min(numPlayers, slots.Length);
         for (int i = 0; i < limit; i++)
         {
             var roleNames = DraftRolePool.ResolveBucketToRoleNames(RoleListOptionToString(slots[i]));
-            if (roleNames == null || roleNames.Count == 0) continue;
-
-            for (int k = 0; k < rolesPerSlot; k++)
+            if (roleNames == null || roleNames.Count == 0)
             {
-                var candidates = roleNames
-                    .Where(n => !string.IsNullOrWhiteSpace(n))
-                    .Where(n => usedCounts.GetValueOrDefault(n) < DraftRolePool.GetMaxCountForRoleName(n))
-                    .ToList();
+                roleNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any));
+            }
 
-                if (candidates.Count == 0) break;
+            bool addedAny = false;
+            if (roleNames != null && roleNames.Count > 0)
+            {
+                var slotUsed = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-                var chosen = candidates[rng.NextInt(candidates.Count)];
-                pool.Add($"{chosen}|{i}");
-                usedCounts[chosen] = usedCounts.GetValueOrDefault(chosen) + 1;
+                for (int k = 0; k < rolesPerSlot; k++)
+                {
+                    var candidates = roleNames
+                        .Where(n => !string.IsNullOrWhiteSpace(n))
+                        .Where(n => !slotUsed.Contains(n))
+                        .ToList();
+
+                    if (candidates.Count == 0) break;
+
+                    var chosen = PickWeightedByChance(candidates, rng);
+                    pool.Add($"{chosen}|{i}");
+                    slotUsed.Add(chosen);
+                }
+                addedAny = true;
+            }
+
+            if (!addedAny)
+            {
+                var anyNames = DraftRolePool.ResolveBucketToRoleNames(nameof(RoleListOption.Any))
+                    ?.Where(n => !string.IsNullOrWhiteSpace(n)).ToList();
+                if (anyNames != null && anyNames.Count > 0)
+                {
+                    var chosen = PickWeightedByChance(anyNames, rng);
+                    pool.Add($"{chosen}|{i}");
+                }
+                else
+                {
+                    pool.Add($"Crewmate|{i}");
+                }
             }
         }
 
@@ -154,6 +222,8 @@ public static class DraftPoolBuilder
         ExpandBucketCapped(pool, bucket, maxSlots);
     }
 
+    private static readonly UnityRng ManualPoolRng = new();
+
     private static void ExpandBucketCapped(List<string> pool, RoleListOption bucket, int maxSlots)
     {
         if (maxSlots <= 0) return;
@@ -163,9 +233,7 @@ public static class DraftPoolBuilder
             .ToList();
         if (names == null || names.Count == 0) return;
 
-        int take = Math.Min(maxSlots, names.Count);
-        for (int i = 0; i < take; i++)
-            pool.Add(names[i]);
+        pool.AddRange(TakeWeightedByChance(names, maxSlots, ManualPoolRng));
     }
 
     private static string RoleListOptionToString(RoleListOption opt)

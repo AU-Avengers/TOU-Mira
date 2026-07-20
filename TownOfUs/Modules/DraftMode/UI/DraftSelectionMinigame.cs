@@ -850,12 +850,14 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
+        public static byte TargetPickerId = 255;
+
         private void OnCardClicked(int index)
         {
             if (_hasPicked) return;
 
             _hasPicked = true;
-            DraftNetworkHelper.SendPickToHost(index);
+            DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
             Invoke(nameof(DestroySelf), 1.2f);
         }
 
