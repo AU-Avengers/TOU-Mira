@@ -42,9 +42,9 @@ public sealed class DraftShuffleButton : TownOfUsButton
     public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value;
     public override bool ZeroIsInfinite { get; set; } = true;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
-    public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
+    public override Color TextOutlineColor => TownOfUsColors.Impostor;
 
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.InquireSprite;
+    public override LoadableAsset<Sprite> Sprite => TouImpAssets.TraitorSelect;
 
     public override bool Disabled { get; set; } = true;
     public override void CreateButton(Transform parent)
@@ -66,7 +66,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
     {
         if (!DraftManager.IsDraftActive) return;
         Helpers.CreateAndShowNotification(TouLocale.GetParsed("TouDraftShuffledNotif", "Your picks have been Shuffled!"), Color.white,
-                new Vector3(0f, 1f, -80f), spr: TouNeutAssets.InquireSprite.LoadAsset());
+                new Vector3(0f, 1f, -80f), spr: TouImpAssets.TraitorSelect.LoadAsset());
         DraftNetworkHelper.RequestShuffle();    
         }
 
