@@ -23,6 +23,7 @@ public static class DraftRpcs
     {
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcStartDraft received (isHost={AmongUsClient.Instance.AmHost})");
         DraftManager.IsDraftActive = true;
+        DraftAudio.PlayDraftStart();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftSlotNotify)]
@@ -85,6 +86,7 @@ public static class DraftRpcs
         if (isMyTurn)
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] IT'S MY TURN! Showing picker screen with {offeredList.Count} roles");
+            DraftAudio.PlayYourTurn();
             try
             {
                 DraftScreenController.TargetPickerId = pickerId;

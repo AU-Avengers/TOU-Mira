@@ -42,6 +42,10 @@
   <string name="TouDraftYourTurnLabel">YOUR TURN!</string>
   <string name="TouDraftNowPickingMultiLabel">NOW PICKING (MULTI):</string>
   <string name="TouDraftMultiLabel">MULTI</string>
+  <string name="DraftAudioCue">When Draft Audio Plays</string>
+  <string name="DraftAudioStart">Draft Start</string>
+  <string name="DraftAudioYourTurn">Your Turn</string>
+  <string name="DraftAudioNone">None</string>
   <!-- Client Options -->
   <string name="SelfKillBindToggle">LSHIFT + T + ENTER Triggers Self-Kill</string>
   <string name="AbortGameBindToggle">LSHIFT + L + ENTER Triggers Abort Game</string>
