@@ -474,6 +474,9 @@ public static class TouAssets
     public static readonly LoadableAsset<GameObject> BlackMinipostorPet =
         new LoadableBundleAsset<GameObject>("BlackMinipostorPet", MainBundle);
 
+    public static readonly LoadableAsset<GameObject> FlopsterPet =
+        new LoadableBundleAsset<GameObject>("FlopsterPet", MainBundle);
+
     public static readonly LoadableAsset<Sprite> DeputyOutfit =
         new LoadableBundleAsset<Sprite>("DeputyOutfit", MainBundle);
 
