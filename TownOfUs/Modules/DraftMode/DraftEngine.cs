@@ -86,8 +86,6 @@ namespace TownOfUs.Modules.DraftMode
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
             if (roleOpts != null && roleOpts.UseRoleListForPool)
             {
-                // In role list mode, all slots can see imp/neutral roles.
-                // maxImps/maxNeuts caps already limit how many get drafted.
                 foreach (var s in _slotOrder)
                     _specialEligibleSlots.Add(s);
             }
@@ -279,8 +277,6 @@ namespace TownOfUs.Modules.DraftMode
             }
             else
             {
-                // In role list mode, use the initial group counts as the cap.
-                // Also check MaxImpostors/MaxNeutrals options in case the host has set them.
                 var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
                 var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
                 maxImps = impOpts != null ? Math.Max(_totalImpostorGroupsInPool, Math.Max(0, (int)impOpts.MaxImpostors.Value)) : _totalImpostorGroupsInPool;
@@ -922,7 +918,7 @@ namespace TownOfUs.Modules.DraftMode
             GameStartPatch.SkipIntercept = false;
         }
 
-        public void RequestReshuffle(byte playerId)
+        public void RequestShuffle(byte playerId)
         {
             if (!_running) return;
 
@@ -932,7 +928,7 @@ namespace TownOfUs.Modules.DraftMode
             var currentSlot = state.SlotNumber;
             if (!_currentOffersBySlot.TryGetValue(currentSlot, out var previousOffers)) return;
 
-            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Reshuffle requested by player {playerId}");
+            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Shuffle requested by player {playerId}");
 
             var offers = GenerateOffersForSlot(currentSlot, previousOffers);
             _currentOffersBySlot[currentSlot] = offers;

@@ -10,36 +10,36 @@ using HarmonyLib;
 
 namespace TownOfUs.Modules.DraftMode;
 
-public sealed class DraftReshuffleButton : TownOfUsButton
+public sealed class DraftShuffleButton : TownOfUsButton
 {
     public static void Show()
     {
-        CustomButtonSingleton<DraftReshuffleButton>.Instance.Disabled = false;
+        CustomButtonSingleton<DraftShuffleButton>.Instance.Disabled = false;
     }
 
     public static void Hide()
     {
-        CustomButtonSingleton<DraftReshuffleButton>.Instance.Disabled = true;
+        CustomButtonSingleton<DraftShuffleButton>.Instance.Disabled = true;
     }
 
     public static void ShowAndReset()
     {
         Show();
-        CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses(
-            (int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(
+            (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
     }
 
     public static void HideAndReset()
     {
         Hide();
-        CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses(
-            (int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
+        CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses(
+            (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
     }
 
-    public override string Name => "Reshuffle";
+    public override string Name => TouLocale.GetParsed("TouDraftShuffleButton", "Shuffle");
     public override float InitialCooldown => 0.001f;
     public override float Cooldown => 0.001f;
-    public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value;
+    public override int MaxUses => (int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value;
     public override bool ZeroIsInfinite { get; set; } = true;
     public override ButtonLocation Location => ButtonLocation.BottomRight;
     public override Color TextOutlineColor => TownOfUsColors.Inquisitor;
@@ -65,64 +65,64 @@ public sealed class DraftReshuffleButton : TownOfUsButton
     protected override void OnClick()
     {
         if (!DraftManager.IsDraftActive) return;
-        Helpers.CreateAndShowNotification("Your picks have been Reshuffleed!", Color.white,
+        Helpers.CreateAndShowNotification(TouLocale.GetParsed("TouDraftShuffledNotif", "Your picks have been Shuffled!"), Color.white,
                 new Vector3(0f, 1f, -80f), spr: TouNeutAssets.InquireSprite.LoadAsset());
-        DraftNetworkHelper.RequestReshuffle();    
+        DraftNetworkHelper.RequestShuffle();    
         }
 
     [HarmonyPatch(typeof(DraftRpcs), nameof(DraftRpcs.RpcStartDraft))]
-    public static class ShowDraftReshuffleButtonOnDraftStart
+    public static class ShowDraftShuffleButtonOnDraftStart
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
             Show();
-            CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
+            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
         }
     }
 
 
     [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastRecap))]
-    public static class HideDraftReshuffle
+    public static class HideDraftShuffle
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftReshuffleButton.HideAndReset();
+            DraftShuffleButton.HideAndReset();
         }
     }
 
 
     [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastCancelDraft))]
-    public static class HideDraftReshuffleOnCancelDraft
+    public static class HideDraftShuffleOnCancelDraft
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftReshuffleButton.Hide();
-            CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
+            DraftShuffleButton.Hide();
+            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
         }
     }
 
 
     [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastDraftEnd))]
-    public static class HideDraftReshuffleOnDraftEnd
+    public static class HideDraftShuffleOnDraftEnd
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftReshuffleButton.Hide();
-            CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
+            DraftShuffleButton.Hide();
+            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
         }
     }
     [HarmonyPatch(typeof(DraftNetworkHelper), nameof(DraftNetworkHelper.BroadcastDraftEnd))]
-    public static class HideDraftReshuffleAfterUsedUp
+    public static class HideDraftShuffleAfterUsedUp
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            DraftReshuffleButton.Hide();
-            CustomButtonSingleton<DraftReshuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ReshufflesPerPlayer.Value);
+            DraftShuffleButton.Hide();
+            CustomButtonSingleton<DraftShuffleButton>.Instance.SetUses((int)OptionGroupSingleton<RoleOptions>.Instance.ShufflesPerPlayer.Value);
         }
     }
 }

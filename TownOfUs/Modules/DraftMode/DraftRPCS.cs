@@ -112,13 +112,13 @@ public static class DraftRpcs
         DraftManager.NotifyPickerReady(sender.PlayerId);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.DraftRequestReshuffle)]
-    public static void RpcRequestReshuffle(PlayerControl sender)
+    [MethodRpc((uint)TownOfUsRpc.DraftRequestShuffle)]
+    public static void RpcRequestShuffle(PlayerControl sender)
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (sender == null) return;
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcRequestReshuffle: player {sender.PlayerId}");
-        DraftEngineBehaviour.Instance?.RequestReshuffle(sender.PlayerId);
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcRequestShuffle: player {sender.PlayerId}");
+        DraftEngineBehaviour.Instance?.RequestShuffle(sender.PlayerId);
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftPickConfirmed)]
@@ -294,13 +294,13 @@ public static class DraftNetworkHelper
             DraftRpcs.RpcPickerReady(PlayerControl.LocalPlayer);
     }
 
-    public static void RequestReshuffle()
+    public static void RequestShuffle()
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftNetworkHelper] RequestReshuffle");
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftNetworkHelper] RequestShuffle");
         if (AmongUsClient.Instance.AmHost)
-            DraftEngineBehaviour.Instance?.RequestReshuffle(PlayerControl.LocalPlayer.PlayerId);
+            DraftEngineBehaviour.Instance?.RequestShuffle(PlayerControl.LocalPlayer.PlayerId);
         else
-            DraftRpcs.RpcRequestReshuffle(PlayerControl.LocalPlayer);
+            DraftRpcs.RpcRequestShuffle(PlayerControl.LocalPlayer);
     }
 
     public static void SendForceRoleToHost(string roleName, byte targetId)

@@ -204,13 +204,13 @@ namespace TownOfUs.Modules.DraftMode
             _root.transform.localPosition = new Vector3(0f, 0.6f, -20f);
 
             _yourNumberLabel = MakeText(_root, "YourNumberLabel", font, fontMat,
-                "YOUR NUMBER:", 2.2f, new Color(0.6f, 0.9f, 1f),
+                TouLocale.GetParsed("TouDraftYourNumberLabel", "YOUR NUMBER:"), 2.2f, new Color(0.6f, 0.9f, 1f),
                 new Vector3(0f, 0.55f, 0f), bold: false);
             _yourNumberValue = MakeText(_root, "YourNumberValue", font, fontMat,
                 "?", 5.5f, Color.white,
                 new Vector3(0f, 0.05f, 0f), bold: true);
             _nowPickingLabel = MakeText(_root, "NowPickingLabel", font, fontMat,
-                "NOW PICKING:", 1.6f, new Color(1f, 0.85f, 0.1f),
+                TouLocale.GetParsed("TouDraftNowPickingLabel", "NOW PICKING:"), 1.6f, new Color(1f, 0.85f, 0.1f),
                 new Vector3(0f, -0.55f, 0f), bold: false);
             _nowPickingValue = MakeText(_root, "NowPickingValue", font, fontMat,
                 "?", 3.0f, new Color(1f, 0.85f, 0.1f),
@@ -812,12 +812,12 @@ namespace TownOfUs.Modules.DraftMode
 
             string mySlotText = mySlot > 0 ? mySlot.ToString(CultureInfo.InvariantCulture) : "?";
             string pickerText = "?";
-            if (pickerCount > 1) pickerText = "MULTI";
+            if (pickerCount > 1) pickerText = TouLocale.GetParsed("TouDraftMultiLabel", "MULTI");
             else if (pickerSlot > 0) pickerText = pickerSlot.ToString(CultureInfo.InvariantCulture);
 
-            string labelText = "NOW PICKING:";
-            if (isMyTurn) labelText = "YOUR TURN!";
-            else if (pickerCount > 1) labelText = "NOW PICKING (MULTI):";
+            string labelText = TouLocale.GetParsed("TouDraftNowPickingLabel", "NOW PICKING:");
+            if (isMyTurn) labelText = TouLocale.GetParsed("TouDraftYourTurnLabel", "YOUR TURN!");
+            else if (pickerCount > 1) labelText = TouLocale.GetParsed("TouDraftNowPickingMultiLabel", "NOW PICKING (MULTI):");
 
             if (_yourNumberValue != null)
                 _yourNumberValue.text = mySlotText;

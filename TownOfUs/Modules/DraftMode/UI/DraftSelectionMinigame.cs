@@ -28,7 +28,7 @@ namespace TownOfUs.Modules.DraftMode
         private TextMeshPro _timerText;
         private GameObject _tooltipRoot;
         private TextMeshPro _tooltipText;
-        private const string PickPrompt = "<color=#FFFFFF><size=200%><b>Pick Your Role!</b></size></color>";
+        private static string PickPrompt => $"<color=#FFFFFF><size=200%><b>{TouLocale.GetParsed("TouDraftPickPrompt", "Pick Your Role!")}</b></size></color>";
         private GameObject _timerRoot;
         private GameObject _timerTrack;
         private GameObject _timerFill;
@@ -839,8 +839,9 @@ namespace TownOfUs.Modules.DraftMode
                     string color = urgent ? "#FF5555" : "#FFD700";
                     float timerPulse = urgent ? 1f + Mathf.Sin(Time.time * 10f) * 0.08f : 1f;
                     _timerText.transform.localScale = Vector3.one * timerPulse;
-                    _timerText.text =
-                        $"<color={color}><b>{secs} Second{(secs != 1 ? "s" : "")} Remaining</b></color>";
+                    string timerLabel = TouLocale.GetParsed("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
+                        .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
 
                     float timeForBar = AmongUsClient.Instance.AmHost
                         ? DraftManager.TurnTimeLeft
