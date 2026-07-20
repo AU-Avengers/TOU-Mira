@@ -38,6 +38,8 @@
   <string name="TouDraftUnknownRoleStatus">UNKNOWN</string>
   <string name="TouDraftARoleLabel">a role</string>
   <string name="TouDraftYourNumberLabel">YOUR NUMBER:</string>
+  <string name="TouDraftYouAreLabel">YOU ARE</string>
+  <string name="TouDraftSpectatingValue">SPECTATING</string>
   <string name="TouDraftNowPickingLabel">NOW PICKING:</string>
   <string name="TouDraftYourTurnLabel">YOUR TURN!</string>
   <string name="TouDraftNowPickingMultiLabel">NOW PICKING (MULTI):</string>

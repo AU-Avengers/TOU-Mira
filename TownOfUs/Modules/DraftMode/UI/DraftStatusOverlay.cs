@@ -7,6 +7,8 @@ using UnityEngine;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Roles.Other;
+using TownOfUs.Roles;
 
 
 namespace TownOfUs.Modules.DraftMode
@@ -406,7 +408,7 @@ namespace TownOfUs.Modules.DraftMode
 
             var role = DraftUiManager.ResolveRole(roleId);
             string roleName = role ? role.GetRoleName() : $"Role {roleId}";
-            string teamName = DraftUiManager.GetTeamLabel(role);
+            string teamName = MiscUtils.GetParsedRoleAlignment(role);
             Sprite icon = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
             Color color = role ? role.TeamColor : Color.white;
             string description = DraftUiManager.GetRoleDescription(role);
@@ -811,6 +813,14 @@ namespace TownOfUs.Modules.DraftMode
             _cachedIsMyTurn = isMyTurn;
 
             string mySlotText = mySlot > 0 ? mySlot.ToString(CultureInfo.InvariantCulture) : "?";
+            string mySlotLabelText = TouLocale.GetParsed("TouDraftYourNumberLabel", "YOUR NUMBER:");
+            bool isSpectating = SpectatorRole.TrackedSpectators.Contains(PlayerControl.LocalPlayer.Data.PlayerName);
+            if (isSpectating)
+            {
+                mySlotLabelText = TouLocale.GetParsed("TouDraftYouAreLabel", "YOU ARE");
+                mySlotText = TouLocale.GetParsed("TouDraftSpectatingValue", "SPECTATING");
+            }
+
             string pickerText = "?";
             if (pickerCount > 1) pickerText = TouLocale.GetParsed("TouDraftMultiLabel", "MULTI");
             else if (pickerSlot > 0) pickerText = pickerSlot.ToString(CultureInfo.InvariantCulture);
@@ -819,6 +829,8 @@ namespace TownOfUs.Modules.DraftMode
             if (isMyTurn) labelText = TouLocale.GetParsed("TouDraftYourTurnLabel", "YOUR TURN!");
             else if (pickerCount > 1) labelText = TouLocale.GetParsed("TouDraftNowPickingMultiLabel", "NOW PICKING (MULTI):");
 
+            if (_yourNumberLabel != null)
+                _yourNumberLabel.text = mySlotLabelText;
             if (_yourNumberValue != null)
                 _yourNumberValue.text = mySlotText;
             if (_nowPickingValue != null)
