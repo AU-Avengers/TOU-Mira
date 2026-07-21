@@ -54,18 +54,12 @@ public static class DraftPoolBuilder
 
         var picked = new List<string>();
         var seen   = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var seenRoleIds = new HashSet<ushort>();
 
         foreach (var candidate in poolCopy)
         {
             if (string.IsNullOrEmpty(candidate)) continue;
             if (avoid != null && avoid.Contains(candidate)) continue;
-            if (!seen.Add(candidate)) continue;
-
-            var roleId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { candidate });
-            if (roleId != 0 && !seenRoleIds.Add(roleId)) continue;
-
-            picked.Add(candidate);
+            if (seen.Add(candidate)) picked.Add(candidate);
             if (picked.Count >= offered) break;
         }
 
