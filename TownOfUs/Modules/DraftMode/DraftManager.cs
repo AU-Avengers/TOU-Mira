@@ -111,6 +111,32 @@ public static class DraftManager
 
     public static IReadOnlyList<DraftSlotState> GetAllStates() => SlotStates.AsReadOnly();
 
+    public static bool IsPlayerDisconnected(byte playerId)
+    {
+        var player = PlayerControl.AllPlayerControls?.ToArray()
+            .FirstOrDefault(p => p != null && p.PlayerId == playerId);
+
+        if (player == null) return true;
+        if (player.Data == null || player.Data.Disconnected) return true;
+
+        try
+        {
+            var client = AmongUsClient.Instance?.GetClient(player.OwnerId);
+            if (client == null)
+            {
+                if (AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
+                    return false;
+                return true;
+            }
+        }
+        catch
+        {
+            //ignored
+        }
+
+        return false;
+    }
+
     public static List<DraftSlotState> GetActivePickerStatesNonAlloc()
     {
         return SlotStates.Where(s => s != null && s.IsPickingNow).ToList();

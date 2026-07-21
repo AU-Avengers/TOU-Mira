@@ -28,6 +28,7 @@ namespace TownOfUs.Modules.DraftMode
 
         private readonly Dictionary<int, List<string>> _currentOffersBySlot = new();
         private readonly Dictionary<int, string> _slotGroupAssignments = new();
+        private readonly HashSet<int> _reclaimedSlots = new();
 
         private void Awake()
         {
@@ -105,6 +106,7 @@ namespace TownOfUs.Modules.DraftMode
             _totalImpostorGroupsInPool = CountGroupsByPredicate(_pool, DraftRolePool.IsImpostorRoleName);
 
             _slotGroupAssignments.Clear();
+            _reclaimedSlots.Clear();
 
             DraftManager.SetDraftStateFromHost(totalSlots, pidToSlot.Keys.ToList(), pidToSlot.Values.ToList());
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Draft state set locally");
@@ -113,6 +115,7 @@ namespace TownOfUs.Modules.DraftMode
             DraftCancelButton.Show();
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftEngine] Starting draft loop coroutine");
             Coroutines.Start(HostDraftLoop());
+            Coroutines.Start(CoWatchForDisconnectedPickers());
         }
 
         [HideFromIl2Cpp]
@@ -579,7 +582,7 @@ namespace TownOfUs.Modules.DraftMode
             {
                 var state = DraftManager.GetStateForSlot(slot);
                 var turnDuration = (int)Mathf.Max(1f, OptionGroupSingleton<RoleOptions>.Instance.TurnDurationSeconds.Value);
-                bool botDc = state != null && IsBotOrDisconnected(state.PlayerId);
+                bool botDc = state != null && DraftManager.IsPlayerDisconnected(state.PlayerId);
                 var waitSeconds = botDc ? Mathf.Min(1f, turnDuration) : turnDuration;
                 deadlines[slot] = Time.time + waitSeconds;
                 isBotOrDc[slot] = botDc;
@@ -614,6 +617,13 @@ namespace TownOfUs.Modules.DraftMode
                         continue;
                     }
 
+                    if (!isBotOrDc[slot] && DraftManager.IsPlayerDisconnected(state.PlayerId))
+                    {
+                        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftEngine] Slot {slot} disconnected mid-turn, skipping their pick");
+                        isBotOrDc[slot] = true;
+                        deadlines[slot] = Mathf.Min(deadlines[slot], Time.time + 1f);
+                    }
+
                     var remaining = deadlines[slot] - Time.time;
                     if (remaining <= 0f)
                     {
@@ -634,30 +644,29 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        private static bool IsBotOrDisconnected(byte playerId)
+        [HideFromIl2Cpp]
+        private IEnumerator CoWatchForDisconnectedPickers()
         {
-            var player = PlayerControl.AllPlayerControls?.ToArray()
-                .FirstOrDefault(p => p != null && p.PlayerId == playerId);
-
-            if (player == null) return true;
-            if (player.Data == null || player.Data.Disconnected) return true;
-
-            try
+            while (_running)
             {
-                var client = AmongUsClient.Instance?.GetClient(player.OwnerId);
-                if (client == null)
+                foreach (var state in DraftManager.GetAllStates())
                 {
-                    if (AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
-                        return false;
-                    return true;
-                }
-            }
-            catch
-            {
-                //ignored
-            }
+                    if (!state.HasPicked || state.ChosenRoleId == 0) continue;
+                    if (_reclaimedSlots.Contains(state.SlotNumber)) continue;
+                    if (!DraftManager.IsPlayerDisconnected(state.PlayerId)) continue;
 
-            return false;
+                    _reclaimedSlots.Add(state.SlotNumber);
+
+                    var roleName = DraftRolePool.GetRoleNameFromId(state.ChosenRoleId);
+                    if (string.IsNullOrEmpty(roleName) || _pool.Contains(roleName)) continue;
+
+                    _pool.Add(roleName);
+                    MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                        $"[DraftEngine] Slot {state.SlotNumber} disconnected after picking '{roleName}', returning it to the pool");
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
         }
 
         private void RemovePickedSeatFromPool(string chosenName)
