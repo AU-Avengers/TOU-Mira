@@ -322,7 +322,7 @@ public sealed class RoleOptions : AbstractOptionGroup
         Visible = () => IsDraft
     };
 
-    public ModdedNumberOption ReshufflesPerPlayer { get; set; } = new("Reshuffles Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
+    public ModdedNumberOption ShufflesPerPlayer { get; set; } = new("Shuffles Per Player", 1f, 0f, 3f, 1f, MiraNumberSuffixes.None, "0")
     {
         Visible = () => IsDraft
     };

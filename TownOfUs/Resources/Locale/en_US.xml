@@ -11,6 +11,43 @@
   <string name="LegacyThemeFull">Legacy: Full</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
+  <!-- Draft Mode -->
+  <string name="TouDraftCancelButton">Cancel Draft</string>
+  <string name="TouDraftCancelledNotif">Draft Mode has been cancelled by the \%color=#FFBFCC\%\%b\%Host\%/b\%\%/color\%!</string>
+  <string name="TouDraftShuffleButton">Shuffle</string>
+  <string name="TouDraftShuffledNotif">Your picks have been Reshuffled!</string>
+  <string name="TouDraftRandomDescription">Locks in a completely random role for you.</string>
+  <string name="TouDraftUnknownRoleLabel">Role \%id\%</string>
+  <string name="TouDraftUnknownTeamLabel">Unknown</string>
+  <string name="TouDraftRecapHeader">DRAFT RECAP</string>
+  <string name="TouDraftRecapModeRole">Role</string>
+  <string name="TouDraftRecapModeFaction">Faction</string>
+  <string name="TouDraftPlayerLabel">Player \%slot\%</string>
+  <string name="TouDraftSlotLabel">Slot \%slot\%</string>
+  <string name="TouDraftPickPrompt">Pick Your Role!</string>
+  <string name="TouDraftTimerRemaining">\%secs\% Second(s) Remaining</string>
+  <string name="TouDraftWaitingToStart">Waiting to start...</string>
+  <string name="TouDraftRolesPickedLabel">ROLES PICKED</string>
+  <string name="TouDraftShimmerDraft">DRAFT</string>
+  <string name="TouDraftShimmerMode">MODE</string>
+  <string name="TouDraftPlayerNumberLabel">Player #\%num\%</string>
+  <string name="TouDraftYouLabel">YOU</string>
+  <string name="TouDraftIsPickingLabel">is picking...</string>
+  <string name="TouDraftIsWaitingLabel">is waiting</string>
+  <string name="TouDraftPickedLabel">picked</string>
+  <string name="TouDraftUnknownRoleStatus">UNKNOWN</string>
+  <string name="TouDraftARoleLabel">a role</string>
+  <string name="TouDraftYourNumberLabel">YOUR NUMBER:</string>
+  <string name="TouDraftYouAreLabel">YOU ARE</string>
+  <string name="TouDraftSpectatingValue">SPECTATING</string>
+  <string name="TouDraftNowPickingLabel">NOW PICKING:</string>
+  <string name="TouDraftYourTurnLabel">YOUR TURN!</string>
+  <string name="TouDraftNowPickingMultiLabel">NOW PICKING (MULTI):</string>
+  <string name="TouDraftMultiLabel">MULTI</string>
+  <string name="DraftAudioCue">When Draft Audio Plays</string>
+  <string name="DraftAudioStart">Draft Start</string>
+  <string name="DraftAudioYourTurn">Your Turn</string>
+  <string name="DraftAudioNone">None</string>
   <!-- Client Options -->
   <string name="SelfKillBindToggle">LSHIFT + T + ENTER Triggers Self-Kill</string>
   <string name="AbortGameBindToggle">LSHIFT + L + ENTER Triggers Abort Game</string>

@@ -94,6 +94,10 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> RainbowColorAsFortegreen { get; private set; } =
         config.Bind("Miscellaneous", "RainbowColorAsFortegreen", false);
+
+    [LocalizedLocalEnumSetting(names: ["DraftAudioStart", "DraftAudioYourTurn", "DraftAudioNone"])]
+    public ConfigEntry<DraftAudioCueMode> DraftAudioCue { get; private set; } =
+        config.Bind("Miscellaneous", "DraftAudioCue", DraftAudioCueMode.None);
 }
 
 public enum GameSummaryAppearance
@@ -116,4 +120,11 @@ public enum AutoRejoinSelection
     Host,
     Client,
     Never
+}
+
+public enum DraftAudioCueMode
+{
+    Start,
+    YourTurn,
+    None
 }

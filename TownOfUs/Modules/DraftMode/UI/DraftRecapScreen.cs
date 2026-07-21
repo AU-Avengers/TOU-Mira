@@ -147,7 +147,7 @@ namespace TownOfUs.Modules.DraftMode
             _headerText.alignment          = TextAlignmentOptions.Center;
             _headerText.enableWordWrapping = false;
             _headerText.color              = new Color(0.2f, 0.85f, 1f);
-            _headerText.text               = "<b>DRAFT RECAP</b>";
+            _headerText.text               = $"<b>{TouLocale.GetParsed("TouDraftRecapHeader", "DRAFT RECAP")}</b>";
             ApplySortingOrder(_headerText, 520);
 
             _textRoot.SetActive(false);
@@ -237,8 +237,10 @@ namespace TownOfUs.Modules.DraftMode
             _rowTexts.Clear();
             try { MiraAPI.Utilities.Extensions.ClearGarbageCollector(); } catch (Exception e) { MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"GC Error: {e.Message}"); }
 
-            string modeLabel = mode == DraftRecapMode.Role ? "Role" : "Faction";
-            _headerText.text = $"<b>DRAFT RECAP</b>  <size=60%><color=#88FFFF>({modeLabel})</color></size>";
+            string modeLabel = mode == DraftRecapMode.Role
+                ? TouLocale.GetParsed("TouDraftRecapModeRole", "Role")
+                : TouLocale.GetParsed("TouDraftRecapModeFaction", "Faction");
+            _headerText.text = $"<b>{TouLocale.GetParsed("TouDraftRecapHeader", "DRAFT RECAP")}</b>  <size=60%><color=#88FFFF>({modeLabel})</color></size>";
             var sorted = entries.OrderBy(e => e.slot).ToList();
             int count  = sorted.Count;
             const int maxSingleColumn = 8;
@@ -272,7 +274,7 @@ namespace TownOfUs.Modules.DraftMode
                 float y = startY - rowIndex * rowHeight;
 
                 slotToName.TryGetValue(slot, out var playerName);
-                playerName ??= $"Slot {slot}";
+                playerName ??= TouLocale.GetParsed("TouDraftSlotLabel", "Slot <slot>").Replace("<slot>", slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
 
                 var rowGo = new GameObject($"RecapRow_{i}");
                 rowGo.transform.SetParent(_textRoot.transform, false);
@@ -283,7 +285,7 @@ namespace TownOfUs.Modules.DraftMode
                 tmp.fontSize           = Mathf.Clamp(rowHeight * 3.4f, 1.6f, 2.8f);
                 tmp.alignment          = TextAlignmentOptions.Center;
                 tmp.enableWordWrapping = false;
-                tmp.text = $"<color=#CCCCCC>Player {slot}</color>  <color=#{colorHex}><b>{label}</b></color>";
+                tmp.text = $"<color=#CCCCCC>{TouLocale.GetParsed("TouDraftPlayerLabel", "Player <slot>").Replace("<slot>", slot.ToString(System.Globalization.CultureInfo.InvariantCulture))}</color>  <color=#{colorHex}><b>{label}</b></color>";
                 ApplySortingOrder(tmp, 520);
 
                 _rowTexts.Add(tmp);
