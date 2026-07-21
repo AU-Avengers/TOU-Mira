@@ -125,12 +125,15 @@ namespace TownOfUs.Modules.DraftMode
             float t = Time.time;
             var sb = new StringBuilder();
             var draftWord = TouLocale.GetParsed("TouDraftShimmerDraft", "DRAFT").ToUpperInvariant();
+            TmpSpriteUtils.CreateSpriteAsset(TouAssets.IconDraftMode.LoadAsset(),"TouMira.Gamemode.DraftMode",1.45f);
             var modeWord = TouLocale.GetParsed("TouDraftShimmerMode", "MODE").ToUpperInvariant();
             sb.Append("<size=105%><b>");
             sb.Append(Shimmer(draftWord, new Color(0.36f, 0.84f, 0.89f), t, 0));
             sb.Append(' ');
             sb.Append(Shimmer(modeWord, new Color(1f, 0.31f, 0.31f), t, draftWord.Length + 1));
-            sb.Append("</b></size>");
+            sb.Append("</b></size>"); 
+            sb.Append(' ');
+            sb.Append($"<sprite name=\"TouMira.Gamemode.DraftMode\">");
             return sb.ToString();
         }
 
