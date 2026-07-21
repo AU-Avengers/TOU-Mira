@@ -72,11 +72,11 @@ public static class AdvancedMovementUtilities
         }
     }
 
-    private static bool IsKeybindHeld(BaseKeybind keybind)
+    private static bool IsKeybindHeld(BaseKeybind keybind, bool ensureBind = true)
     {
         try
         {
-            if (keybind is MiraKeybind miraKeybind)
+            if (ensureBind && keybind is MiraKeybind miraKeybind)
             {
                 EnsureKeybindHasKey(miraKeybind);
             }
@@ -93,7 +93,7 @@ public static class AdvancedMovementUtilities
     /// Gets the regular direction input for the controller's own movement.
     /// Uses TouKeybinds on keyboard, joystick/touch input on mobile, and controller axes on gamepad.
     /// </summary>
-    public static Vector2 GetRegularDirection()
+    public static Vector2 GetRegularDirection(bool includeAltKeys)
     {
         var hudManager = HudManager.Instance;
 
@@ -107,84 +107,24 @@ public static class AdvancedMovementUtilities
             x = ConsoleJoystick.player.GetAxis(2);
             y = ConsoleJoystick.player.GetAxis(3);
         }
-        else
+        else if (HudManager.InstanceExists && hudManager.joystick != null)
         {
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryRight) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryRight))
+            if (KeyboardJoystick.player.GetButton(40))
             {
                 x += 1f;
             }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryLeft) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryLeft))
+            if (KeyboardJoystick.player.GetButton(39))
             {
                 x -= 1f;
             }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryUp) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryUp))
+            if (KeyboardJoystick.player.GetButton(44))
             {
                 y += 1f;
             }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryDown) || IsKeybindHeld(TouKeybinds.ControlRoleSecondaryDown))
+            if (KeyboardJoystick.player.GetButton(42))
             {
                 y -= 1f;
             }
-        }
-
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null)
-        {
-            var vJoy = hudManager.joystick.DeltaL;
-            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
-        }
-
-        var v = new Vector2(x, y);
-        return v == Vector2.zero ? Vector2.zero : v.normalized;
-    }
-
-    /// <summary>
-    /// Gets Parasite primary direction input for the controller's own movement.
-    /// Uses TouKeybinds on keyboard, joystick/touch input on mobile, and controller axes on gamepad.
-    /// </summary>
-    public static Vector2 GetControllerPrimaryDirection()
-    {
-        var hudManager = HudManager.Instance;
-
-        var x = 0f;
-        var y = 0f;
-
-        var controlType = ActiveInputManager.currentControlType;
-
-        if (controlType is ActiveInputManager.InputType.Joystick)
-        {
-            x = ConsoleJoystick.player.GetAxis(2);
-            y = ConsoleJoystick.player.GetAxis(3);
-        }
-        else
-        {
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryRight))
-            {
-                x += 1f;
-            }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryLeft))
-            {
-                x -= 1f;
-            }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryUp))
-            {
-                y += 1f;
-            }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRolePrimaryDown))
-            {
-                y -= 1f;
-            }
-        }
-
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null)
-        {
             var vJoy = hudManager.joystick.DeltaL;
             return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
         }
@@ -211,35 +151,38 @@ public static class AdvancedMovementUtilities
             x = ConsoleJoystick.player.GetAxis(54);
             y = ConsoleJoystick.player.GetAxis(55);
         }
-        else
+        else if (HudManager.InstanceExists)
         {
-            if (IsKeybindHeld(TouKeybinds.ControlRoleSecondaryRight))
+            if (controlType != ActiveInputManager.InputType.Keyboard && MobileJoystickR != null)
             {
-                x += 1f;
+                var vJoy = MobileJoystickR.DeltaR;
+                return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
             }
-
-            if (IsKeybindHeld(TouKeybinds.ControlRoleSecondaryLeft))
+            if (hudManager.joystick != null)
             {
-                x -= 1f;
-            }
+                var vJoy = hudManager.joystickR.DeltaR;
+                x = vJoy.x;
+                y = vJoy.y;
+                if (IsKeybindHeld(TouKeybinds.ControlRoleTargetRight, false))
+                {
+                    x += 1f;
+                }
 
-            if (IsKeybindHeld(TouKeybinds.ControlRoleSecondaryUp))
-            {
-                y += 1f;
-            }
+                if (IsKeybindHeld(TouKeybinds.ControlRoleTargetLeft, false))
+                {
+                    x -= 1f;
+                }
 
-            if (IsKeybindHeld(TouKeybinds.ControlRoleSecondaryDown))
-            {
-                y -= 1f;
-            }
-        }
+                if (IsKeybindHeld(TouKeybinds.ControlRoleTargetUp, false))
+                {
+                    y += 1f;
+                }
 
-        if (controlType != ActiveInputManager.InputType.Keyboard &&
-            HudManager.InstanceExists && hudManager.joystick != null &&
-            MobileJoystickR != null)
-        {
-            var vJoy = MobileJoystickR.DeltaR;
-            return vJoy == Vector2.zero ? Vector2.zero : vJoy.normalized;
+                if (IsKeybindHeld(TouKeybinds.ControlRoleTargetDown, false))
+                {
+                    y -= 1f;
+                }
+            }
         }
 
         var v = new Vector2(x, y);

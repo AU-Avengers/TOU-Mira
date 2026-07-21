@@ -15,8 +15,6 @@ namespace TownOfUs.Patches.ControlSystem;
 [HarmonyPatch]
 public static class ParasiteMovementPatches
 {
-    private static Vector2 GetPrimaryDirection() => AdvancedMovementUtilities.GetControllerPrimaryDirection();
-
     private static Vector2 GetSecondaryDirection() => AdvancedMovementUtilities.GetControllerSecondaryDirection();
 
     private static Vector2 GetNormalDirection() => AdvancedMovementUtilities.GetRegularDirection();
@@ -163,7 +161,7 @@ public static class ParasiteMovementPatches
                 return false;
             }
 
-            var parasiteDir = GetPrimaryDirection();
+            var parasiteDir = GetNormalDirection();
             AdvancedMovementUtilities.ApplyControlledMovement(__instance, parasiteDir, stopIfZero: true);
             return false;
         }
