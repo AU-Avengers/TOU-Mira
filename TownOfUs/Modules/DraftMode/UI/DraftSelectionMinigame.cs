@@ -875,7 +875,7 @@ namespace TownOfUs.Modules.DraftMode
             string hex = ColorUtility.ToHtmlStringRGB(roleColor);
 
             var notif = Helpers.CreateAndShowNotification(
-                $"You can learn about what <b><color=#{hex}>{roleName}</color></b> does by clicking the card card towards the right",
+                $"You can learn about what <b><color=#{hex}>{roleName}</color></b> does by clicking the role card towards the right",
                 Color.white, new Vector3(0f, 1f, -20f), spr : TouAssets.IconDraftMode.LoadAsset());
             notif?.AdjustNotification();
         }
