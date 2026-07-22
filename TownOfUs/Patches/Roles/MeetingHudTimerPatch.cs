@@ -3,7 +3,6 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using TownOfUs.Events;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options.Roles.Neutral;
@@ -86,7 +85,7 @@ public static class MeetingHudTimerPatch
         if (PlayerControl.LocalPlayer.TryGetModifier<AssassinModifier>(out var assassinMod))
         {
             newText +=
-                $"\n{assassinMod.maxKills} / {(int)OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills} Guesses Remaining";
+                $"\n{assassinMod.maxKills} / {assassinMod.defaultKills} Guesses Remaining";
             if ((PlayerControl.LocalPlayer.TryGetModifier<DoubleShotModifier>(out var doubleShotMod)))
             {
                 newText += (doubleShotMod.Used) ? " | Double Shot Used" : " | Double Shot Available";
