@@ -7,6 +7,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Attributes;
 using TMPro;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Universal;
@@ -267,9 +268,25 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     roleName += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
                 }
 
-                if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
+                if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, true, player.AmOwner, out var progress))
+                {
+                    if (HudManagerPatches.RoleIsSmall)
+                    {
+                        if (roleName != string.Empty)
+                        {
+                            roleName += " ";
+                        }
+
+                        roleName += $"<size={roleNameSize}>{progress}</size>";
+                    }
+                    else
+                    {
+                        playerName += $" {progress}";
+                    }
+                }
+                else if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
                      (localDead && taskOpt.ShowTaskDead)) &&
-                    (player.IsCrewmate() || player.Data.Role is SpectreRole))
+                    player.IsCrewmate())
                 {
                     if (HudManagerPatches.RoleIsSmall)
                     {
@@ -487,10 +504,24 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     roleName += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
                 }
 
-                if (((taskOpt.ShowTaskRound && player.AmOwner) || (localDead &&
-                                                                   taskOpt.ShowTaskDead && isVisible)) &&
-                    (player.IsCrewmate() ||
-                     player.Data.Role is SpectreRole))
+                if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, false, player.AmOwner, out var progress))
+                {
+                    if (HudManagerPatches.RoleIsSmall)
+                    {
+                        if (roleName != string.Empty)
+                        {
+                            roleName += " ";
+                        }
+
+                        roleName += $"<size={roleNameSize}>{progress}</size>";
+                    }
+                    else
+                    {
+                        playerName += $" {progress}";
+                    }
+                }
+                else if (((taskOpt.ShowTaskRound && player.AmOwner) || (taskOpt.ShowTaskDead && isVisible)) &&
+                    player.IsCrewmate())
                 {
                     if (HudManagerPatches.RoleIsSmall)
                     {

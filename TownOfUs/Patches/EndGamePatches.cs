@@ -11,6 +11,7 @@ using MiraAPI.GameOptions;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -192,7 +193,13 @@ public static class EndGamePatches
                 }
             }
 
-            if (playerControl.IsRole<SpectreRole>() || playerTeam == ModdedRoleTeams.Crewmate)
+            if (playerControl.Data.Role is IProgressTally tally)
+            {
+                playerRoleString.Append(TownOfUsPlugin.Culture,
+                    $" {tally.ProgressOnSummaryNormal}");
+                summaryStats.Append(TownOfUsPlugin.Culture, $" | {tally.ProgressOnSummaryDetailed}");
+            }
+            else if (playerTeam == ModdedRoleTeams.Crewmate)
             {
                 var taskInfo = playerControl.TaskInfo();
                 playerRoleString.Append(TownOfUsPlugin.Culture,
