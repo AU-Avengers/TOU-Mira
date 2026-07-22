@@ -146,32 +146,48 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
         var cult = TownOfUsPlugin.Culture;
         var impCount = (int)NumberOfImpostorAssassins.Value;
         var impChance = (int)ImpAssassinChance.Value;
-        var impText = impCount > 0 && impChance > 0
-            ? TouLocale.GetParsed("TouOptionAssassinImpTitleFull").Replace("<amount>",
+        var impText = TouLocale.GetParsed("TouOptionAssassinImpTitleNone");
+        if (impCount == 1 && impChance > 0)
+        {
+            impText = TouLocale.GetParsed("TouOptionAssassinImpTitleSingle").Replace("<chance>",
+                impChance.ToString(TownOfUsPlugin.Culture));
+        }
+        else if (impCount > 0 && impChance > 0)
+        {
+            impText = TouLocale.GetParsed("TouOptionAssassinImpTitleFull").Replace("<amount>",
                 impCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
-                impChance.ToString(TownOfUsPlugin.Culture))
-            : TouLocale.GetParsed("TouOptionAssassinImpTitleNone");
+                impChance.ToString(TownOfUsPlugin.Culture));
+        }
         if (impCount > 0 && impChance > 0)
         {
-            impText += $" Shots: {((int)ImpAssassinKills.Value).ToString(cult)}";
-            if ((int)ImpAssassinKills.Value > 1)
+            var impKills = (int)ImpAssassinKills.Value;
+            impText += $" {impKills.ToString(cult)} Shots";
+            if (impKills > 1)
             {
-                impText += ImpAssassinMultiKill.Value ? " (Any Per Meeting)" : " (1 Per Meeting)";
+                impText += ImpAssassinMultiKill.Value ? " (Overall)" : " (1 Per Meeting)";
             }
         }
         var neutCount = (int)NumberOfNeutralAssassins.Value;
         var neutChance = (int)NeutAssassinChance.Value;
-        var neutText = neutCount > 0 && neutChance > 0
-            ? TouLocale.GetParsed("TouOptionAssassinNeutTitleFull").Replace("<amount>",
+        var neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleNone");
+        if (neutCount == 1 && neutChance > 0)
+        {
+            neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleSingle").Replace("<chance>",
+                neutChance.ToString(TownOfUsPlugin.Culture));
+        }
+        else if (neutCount > 0 && neutChance > 0)
+        {
+            neutText = TouLocale.GetParsed("TouOptionAssassinNeutTitleFull").Replace("<amount>",
                 neutCount.ToString(TownOfUsPlugin.Culture)).Replace("<chance>",
-                neutChance.ToString(TownOfUsPlugin.Culture))
-            : TouLocale.GetParsed("TouOptionAssassinNeutTitleNone");
+                neutChance.ToString(TownOfUsPlugin.Culture));
+        }
         if (neutCount > 0 && neutChance > 0)
         {
-            neutText += $" Shots: {((int)NeutAssassinKills.Value).ToString(cult)}";
-            if ((int)NeutAssassinKills.Value > 1)
+            var neutKills = (int)NeutAssassinKills.Value;
+            neutText += $" {neutKills.ToString(cult)} Shots";
+            if (neutKills > 1)
             {
-                neutText += NeutAssassinMultiKill.Value ? " (Any Per Meeting)" : " (1 Per Meeting)";
+                neutText += NeutAssassinMultiKill.Value ? " (Overall)" : " (1 Per Meeting)";
             }
         }
 
