@@ -42,7 +42,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public string ProgressOnSummaryNormal => Player.TaskInfo();
 
     public string ProgressOnSummaryDetailed =>
-        $" | {TouLocale.GetParsed("StatsTaskCount").Replace("<count>", Player.TaskInfo().Replace("(", "").Replace(")", ""))}";
+        $"{TouLocale.GetParsed("StatsTaskCount").Replace("<count>", Player.TaskInfo().Replace("(", "").Replace(")", ""))}";
 
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
