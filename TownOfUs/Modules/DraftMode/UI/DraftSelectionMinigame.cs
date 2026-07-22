@@ -382,10 +382,9 @@ namespace TownOfUs.Modules.DraftMode
 
                 var capturedName = card.RoleName;
                 var capturedColor = card.Color;
-                var capturedIcon = card.Icon;
 
                 btn.OnClick.RemoveAllListeners();
-                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx, capturedName, capturedColor, capturedIcon)));
+                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx, capturedName, capturedColor)));
             }
 
             Coroutines.Start(CoAnimateCards(rolesHolder!, cardScale, useGrid, totalCards));
@@ -858,17 +857,17 @@ namespace TownOfUs.Modules.DraftMode
 
         public static byte TargetPickerId = 255;
 
-        private void OnCardClicked(int index, string roleName, Color roleColor, Sprite roleIcon)
+        private void OnCardClicked(int index, string roleName, Color roleColor)
         {
             if (_hasPicked) return;
 
             _hasPicked = true;
             DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
-            Coroutines.Start(CoShowPickNotification(roleName, roleColor, roleIcon));
+            Coroutines.Start(CoShowPickNotification(roleName, roleColor));
             Invoke(nameof(DestroySelf), 1.2f);
         }
 
-        private static IEnumerator CoShowPickNotification(string roleName, Color roleColor, Sprite roleIcon)
+        private static IEnumerator CoShowPickNotification(string roleName, Color roleColor)
         {
             yield return new WaitForSeconds(1.3f);
             if (HudManager.Instance == null) yield break;
@@ -877,7 +876,7 @@ namespace TownOfUs.Modules.DraftMode
 
             var notif = Helpers.CreateAndShowNotification(
                 $"You can learn about what <b><color=#{hex}>{roleName}</color></b> does by clicking the card card towards the right",
-                Color.white, new Vector3(0f, 1f, -20f), spr: roleIcon);
+                Color.white, new Vector3(0f, 1f, -20f), spr : TouAssets.IconDraftMode.LoadAsset());
             notif?.AdjustNotification();
         }
 
