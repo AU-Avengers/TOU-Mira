@@ -24,6 +24,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Assassin.LoadAsset(),
             "TouMira.Modifier.Assailant.Assassin", 1.45f));
     public int maxKills;
+    public int defaultKills;
     private MeetingMenu meetingMenu;
     public override string LocaleKey => "Assassin";
     public static bool HasDoubleShot => PlayerControl.LocalPlayer.HasModifier<DoubleShotModifier>();
@@ -33,6 +34,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public override bool AppearsInSummary => false;
     public override bool AppearsInIntro => !PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().Any(x => x != this && x.AppearsInIntro);
     public override bool HideFromGuessing => true;
+    public virtual bool IsImpostorAssassin => true;
 
     public override string GetDescription()
     {
@@ -111,7 +113,9 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     {
         base.OnActivate();
 
-        maxKills = (int)OptionGroupSingleton<AssassinOptions>.Instance.AssassinKills.Value;
+        var opts = OptionGroupSingleton<AssassinOptions>.Instance;
+        maxKills = IsImpostorAssassin ? (int)opts.ImpAssassinKills.Value : (int)opts.NeutAssassinKills.Value;
+        defaultKills = maxKills;
 
         //Error($"AssassinModifier.OnActivate maxKills: {maxKills}");
         if (Player.AmOwner)
@@ -269,7 +273,8 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             maxKills--;
 
-            if (!OptionGroupSingleton<AssassinOptions>.Instance.AssassinMultiKill.Value || maxKills == 0 || victim == Player)
+            var opts = OptionGroupSingleton<AssassinOptions>.Instance;
+            if ((!IsImpostorAssassin && !opts.NeutAssassinMultiKill.Value) || (IsImpostorAssassin && !opts.ImpAssassinMultiKill.Value) || maxKills == 0 || victim == Player)
             {
                 meetingMenu?.HideButtons();
             }

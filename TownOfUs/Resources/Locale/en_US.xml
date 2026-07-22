@@ -2410,14 +2410,14 @@
   <string name="TouModifierAssassinTabDescription">Guess players out of the meeting.</string>
   <string name="MisguessSummary">Misguessed \%player\% as \%role\%</string>
   <!-- Assassin Options -->
-  <string name="TouOptionAssassinNeutAssassinTitle">Neut Assassins: </string>
-  <string name="TouOptionAssassinImpAssassinTitle">Imp Assassins: </string>
+  <string name="TouOptionAssassinNeutTitleNone">0 Neut Assassins</string>
+  <string name="TouOptionAssassinImpTitleNone">0 Imp Assassins</string>
+  <string name="TouOptionAssassinNeutTitleFull">\%amount\% Neut Assassins (\%chance\%%): </string>
+  <string name="TouOptionAssassinImpTitleFull">\%amount\% Imp Assassins (\%chance\%%): </string>
   <string name="TouOptionAssassinGuessableCrewRolesTitle">Unguessable Crewmate Roles: </string>
   <string name="TouOptionAssassinGuessableNeutRolesTitle">Unguessable Neutral Roles: </string>
   <string name="TouOptionAssassinGuessableImpRolesTitle">Unguessable Impostor Roles: </string>
   <string name="TouOptionAssassinGuessableModifiersTitle">Unguessable Modifiers: </string>
-  <string name="TouOptionAssassinNoAssassins">Amount: 0</string>
-  <string name="TouOptionAssassinSetAssassins">Amount: \%amount\% - Chance: \%chance\%%</string>
   <string name="TouOptionAssassinNone">None</string>
   <string name="TouOptionAssassinAll">All</string>
   <string name="TouOptionAssassinNeutBenign">Benign</string>
