@@ -8,8 +8,6 @@ using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Roles.Other;
-using TownOfUs.Roles;
-
 
 namespace TownOfUs.Modules.DraftMode
 {
