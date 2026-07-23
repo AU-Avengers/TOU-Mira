@@ -21,6 +21,7 @@ namespace TownOfUs.Modules.DraftMode
         public static void Activate()
         {
             _active = true;
+            InvalidateCache();
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftSidebar] Activated.");
         }
 
@@ -247,7 +248,7 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 
-    [HarmonyPatch(typeof(DraftManager), nameof(DraftManager.SetDraftStateFromHost))]
+    [HarmonyPatch(typeof(DraftRpcs), nameof(DraftRpcs.RpcStartDraft))]
     public static class DraftSidebarActivateOnClient
     {
         [HarmonyPostfix]
