@@ -119,6 +119,6 @@ public static class MirrorcasterEvents
         {
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
-        source.SetKillTimer(source.GetKillCooldown(true));
+        source.SetKillTimer(source.GetReducedKillCooldown());
     }
 }

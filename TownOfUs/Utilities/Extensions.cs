@@ -638,10 +638,15 @@ public static class Extensions
         vent.myRend.material.SetColor(ShaderID.AddColor, mainTarget ? color : Color.clear);
     }
 
-    public static float GetKillCooldown(this PlayerControl player, bool applyMultiplier = false)
+    public static float GetKillCooldown(this PlayerControl player)
     {
         return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
-            5f, 120f) * (applyMultiplier ? OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value : 1f);
+            5f, 120f);
+    }
+    public static float GetReducedKillCooldown(this PlayerControl player)
+    {
+        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
+            5f, 120f) * OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value;
     }
     public static void ResetButtonCooldown(this CustomActionButton button, bool applyMultiplier = false)
     {

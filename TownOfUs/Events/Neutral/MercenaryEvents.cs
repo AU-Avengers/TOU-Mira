@@ -32,7 +32,7 @@ public static class MercenaryEvents
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
 
-        source.SetKillTimer(source.GetKillCooldown(true));
+        source.SetKillTimer(source.GetReducedKillCooldown());
     }
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
