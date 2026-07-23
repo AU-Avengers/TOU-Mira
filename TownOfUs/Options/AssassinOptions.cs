@@ -103,6 +103,9 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
             Visible = () => OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessCrewModifiers.Value
         };
 
+    public ModdedToggleOption AssassinGuessImpostorModifiers { get; } =
+        new("Assassin Can Guess Impostor Modifiers", true);
+
     public ModdedToggleOption AssassinGuessNonCrewModifiers { get; } =
         new("Assassin Can Guess Other Faction Modifiers", true);
 
@@ -135,6 +138,7 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
 
             AssassinGuessCrewModifiers.StringName,
             AssassinGuessNonCrewModifiers.StringName,
+            AssassinGuessImpostorModifiers.StringName,
             AssassinGuessUtilityModifiers.StringName,
             AssassinGuessAlliances.StringName,
         };
@@ -244,10 +248,10 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
             }
         }
 
-        if (AssassinGuessCrewModifiers.Value || AssassinGuessNonCrewModifiers.Value || AssassinGuessAlliances.Value)
+        if (AssassinGuessCrewModifiers.Value || AssassinGuessNonCrewModifiers.Value || AssassinGuessImpostorModifiers.Value || AssassinGuessAlliances.Value)
         {
             if (AssassinGuessCrewModifiers.Value && AssassinGuessUtilityModifiers.Value &&
-                AssassinGuessNonCrewModifiers.Value && AssassinGuessAlliances.Value)
+                AssassinGuessNonCrewModifiers.Value && AssassinGuessAlliances.Value && AssassinGuessImpostorModifiers.Value)
             {
                 modifiers = TouLocale.Get("TouOptionAssassinUniversalMods");
             }
@@ -264,6 +268,11 @@ public sealed class AssassinOptions : AbstractTouModifierOptionGroup<AssassinMod
                 else if (!AssassinGuessUtilityModifiers.Value)
                 {
                     modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinUtilityCrewMods"));
+                }
+
+                if (!AssassinGuessImpostorModifiers.Value)
+                {
+                    modArray = modArray.AddToArray(TouLocale.Get("TouOptionAssassinImpMods"));
                 }
 
                 if (!AssassinGuessNonCrewModifiers.Value)

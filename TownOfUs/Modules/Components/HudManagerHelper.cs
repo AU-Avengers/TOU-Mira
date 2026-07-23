@@ -520,7 +520,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                         playerName += $" {progress}";
                     }
                 }
-                else if (((taskOpt.ShowTaskRound && player.AmOwner) || (taskOpt.ShowTaskDead && isVisible)) &&
+                else if (((taskOpt.ShowTaskRound && player.AmOwner) || (taskOpt.ShowTaskDead && isVisible && localDead)) &&
                     player.IsCrewmate())
                 {
                     if (HudManagerPatches.RoleIsSmall)

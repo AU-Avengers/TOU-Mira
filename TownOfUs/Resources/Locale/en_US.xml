@@ -2433,6 +2433,7 @@
   <string name="TouOptionAssassinUtilityCrewMods">Crew Utility</string>
   <string name="TouOptionAssassinAllianceMods">Alliance</string>
   <string name="TouOptionAssassinNonCrewMods">Non-Crew</string>
+  <string name="TouOptionAssassinImpMods">Impostor</string>
   <string name="TouOptionAssassinUniversalMods">Universal</string>
   <!-- Double Shot -->
   <!-- Double Shot Wiki / Description -->
