@@ -28,7 +28,7 @@ public sealed class SpectreRole(IntPtr cppPtr)
     public bool ProgressOnName(bool localDead, bool inMeeting, bool amOwner, out string progress)
     {
         var taskOpt = OptionGroupSingleton<TaskTrackingOptions>.Instance;
-        if (((inMeeting && taskOpt.ShowTaskInMeetings) || (!inMeeting && taskOpt.ShowTaskRound)) && amOwner ||
+        if (((inMeeting && taskOpt.ShowTaskInMeetings) || !inMeeting) && amOwner ||
             (taskOpt.ShowTaskDead && localDead))
         {
             progress = Player.TaskInfo();

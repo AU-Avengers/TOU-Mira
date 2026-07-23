@@ -222,6 +222,10 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
             HudManagerPatches.RoleNameStyle = RoleNameStyle.Value;
             FakePlayer.UpdateFakePlayerText();
         }
+        else if (configEntry == DisplayPlayerProgress)
+        {
+            HudManagerPatches.PlayerNameProgress = DisplayPlayerProgress.Value;
+        }
         else if (configEntry == ColorPlayerNameToggle)
         {
             FakePlayer.UpdateFakePlayerText();
@@ -267,9 +271,21 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
     public ConfigEntry<NameStyle> RoleNameStyle { get; private set; } =
         config.Bind("UI / Visuals", "RoleNameStyle", NameStyle.TopSmall);
 
+    [LocalizedLocalEnumSetting(names: ["ProgressTrackingNever", "ProgressTrackingOnSelf", "ProgressTrackingOnOthers", "ProgressTrackingAlways"])]
+    public ConfigEntry<ProgressTracking> DisplayPlayerProgress { get; private set; } =
+        config.Bind("UI / Visuals", "DisplayPlayerProgress", ProgressTracking.Always);
+
     [LocalizedLocalEnumSetting(names: ["ModStampTopLeft", "ModStampTopRight", "ModStampBottomLeft", "ModStampBottomRight"])]
     public ConfigEntry<ModStampLocation> ModStampPlacement { get; private set; } =
         config.Bind("UI / Visuals", "ModStampPlacement", ModStampLocation.TopRight);
+}
+
+public enum ProgressTracking
+{
+    Never,
+    OnSelf,
+    OnOthers,
+    Always
 }
 
 public enum ModStampLocation
