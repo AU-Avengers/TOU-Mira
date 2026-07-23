@@ -78,6 +78,11 @@
   <string name="NameStyleTopSmall">Top (Small)</string>
   <string name="NameStyleBottom">Bottom</string>
   <string name="NameStyleBottomSmall">Bottom (Small)</string>
+  <string name="DisplayPlayerProgress">Show Player Progress On Name For</string>
+  <string name="ProgressTrackingNever">No One</string>
+  <string name="ProgressTrackingOnSelf">Self</string>
+  <string name="ProgressTrackingOnOthers">Others</string>
+  <string name="ProgressTrackingAlways">Everyone</string>
   <string name="ModStampPlacement">Mod Stamp</string>
   <string name="ModStampTopLeft">Top-Left</string>
   <string name="ModStampTopRight">Top-Right</string>
@@ -2448,14 +2453,16 @@
   <string name="TouModifierAssassinTabDescription">Guess players out of the meeting.</string>
   <string name="MisguessSummary">Misguessed \%player\% as \%role\%</string>
   <!-- Assassin Options -->
-  <string name="TouOptionAssassinNeutAssassinTitle">Neut Assassins: </string>
-  <string name="TouOptionAssassinImpAssassinTitle">Imp Assassins: </string>
+  <string name="TouOptionAssassinNeutTitleNone">0 Neut Assassins</string>
+  <string name="TouOptionAssassinImpTitleNone">0 Imp Assassins</string>
+  <string name="TouOptionAssassinNeutTitleSingle">1 Neut Assassin (\%chance\%%) |</string>
+  <string name="TouOptionAssassinImpTitleSingle">1 Imp Assassin (\%chance\%%) |</string>
+  <string name="TouOptionAssassinNeutTitleFull">\%amount\% Neut Assassins (\%chance\%%) |</string>
+  <string name="TouOptionAssassinImpTitleFull">\%amount\% Imp Assassins (\%chance\%%) |</string>
   <string name="TouOptionAssassinGuessableCrewRolesTitle">Unguessable Crewmate Roles: </string>
   <string name="TouOptionAssassinGuessableNeutRolesTitle">Unguessable Neutral Roles: </string>
   <string name="TouOptionAssassinGuessableImpRolesTitle">Unguessable Impostor Roles: </string>
   <string name="TouOptionAssassinGuessableModifiersTitle">Unguessable Modifiers: </string>
-  <string name="TouOptionAssassinNoAssassins">Amount: 0</string>
-  <string name="TouOptionAssassinSetAssassins">Amount: \%amount\% - Chance: \%chance\%%</string>
   <string name="TouOptionAssassinNone">None</string>
   <string name="TouOptionAssassinAll">All</string>
   <string name="TouOptionAssassinNeutBenign">Benign</string>
@@ -2469,6 +2476,7 @@
   <string name="TouOptionAssassinUtilityCrewMods">Crew Utility</string>
   <string name="TouOptionAssassinAllianceMods">Alliance</string>
   <string name="TouOptionAssassinNonCrewMods">Non-Crew</string>
+  <string name="TouOptionAssassinImpMods">Impostor</string>
   <string name="TouOptionAssassinUniversalMods">Universal</string>
   <!-- Double Shot -->
   <!-- Double Shot Wiki / Description -->

@@ -9,6 +9,7 @@ public static class TouAssets
     private const string CounterPath = "TownOfUs.Resources.AbilityCounters";
     private const string SubmergedPath = "TownOfUs.Resources.Submerged";
     private const string SettingIconPath = "TownOfUs.Resources.SettingIcons";
+    private const string ElementIconPath = "TownOfUs.Resources.ElementIcons";
     private static string BetaIdentifier => TownOfUsPlugin.IsDevBuild ? "Beta" : string.Empty;
 
     public static readonly AssetBundle MainBundle = AssetBundleManager.Load("tou-assets");
@@ -474,6 +475,9 @@ public static class TouAssets
     public static readonly LoadableAsset<GameObject> BlackMinipostorPet =
         new LoadableBundleAsset<GameObject>("BlackMinipostorPet", MainBundle);
 
+    public static readonly LoadableAsset<GameObject> FlopsterPet =
+        new LoadableBundleAsset<GameObject>("FlopsterPet", MainBundle);
+
     public static readonly LoadableAsset<Sprite> DeputyOutfit =
         new LoadableBundleAsset<Sprite>("DeputyOutfit", MainBundle);
 
@@ -503,9 +507,30 @@ public static class TouAssets
     
     public static LoadableAsset<Sprite> IconSubmerged { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Submerged.png");
-    
+
     public static LoadableAsset<Sprite> IconDraftMode { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Draft.png", 345f);
+
+    public static LoadableAsset<Sprite> ChefProgressFedRainbow { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefFedRainbow.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressFedUncolored { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefFedUncolored.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressBodyFlash { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyFlash.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressBodyGiant { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyGiant.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressBodyMini { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyMini.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressBodyNormal { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefBodyNormal.png");
+    
+    public static LoadableAsset<Sprite> ChefProgressNone { get; } =
+        new LoadableResourceAsset($"{ElementIconPath}.ChefNone.png");
 
     public static void Initialize()
     {

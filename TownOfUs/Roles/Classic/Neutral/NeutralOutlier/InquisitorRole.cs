@@ -27,8 +27,59 @@ using UnityEngine;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable,
-    IAssignableTargets, ICrewVariant, IContinuesGame, IUnlovable
+    IAssignableTargets, ICrewVariant, IContinuesGame, IUnlovable, IProgressTally
 {
+    public string GetHereticTally()
+    {
+        var killed = Targets.Count(x => x.Key.HasDied());
+        var total = Targets.Count;
+        var colorbase = Color.yellow;
+        var color = Color.yellow;
+        if (killed <= 0)
+        {
+            color = TownOfUsColors.ImpSoft;
+        }
+        else if (killed >= total)
+        {
+            color = TownOfUsColors.Doomsayer;
+        }
+        else if (killed > total / 2)
+        {
+            var fraction = ((killed * 0.4f) / total);
+            Color color2 = TownOfUsColors.Doomsayer;
+            color = new
+            ((color2.r * fraction + colorbase.r * (1 - fraction)),
+                (color2.g * fraction + colorbase.g * (1 - fraction)),
+                (color2.b * fraction + colorbase.b * (1 - fraction)));
+        }
+        else if (killed < total / 2)
+        {
+            var fraction = ((killed * 0.9f) / total);
+            Color color2 = TownOfUsColors.ImpSoft;
+            color = new
+            ((colorbase.r * fraction + color2.r * (1 - fraction)),
+                (colorbase.g * fraction + color2.g * (1 - fraction)),
+                (colorbase.b * fraction + color2.b * (1 - fraction)));
+        }
+
+        return $"{color.ToTextColor()}({killed}/{total})</color>";
+    }
+    public bool ProgressOnName(bool localDead, bool inMeeting, bool amOwner, out string progress)
+    {
+        if (amOwner || localDead)
+        {
+            progress = GetHereticTally();
+            return true;
+        }
+
+        progress = string.Empty;
+        return false;
+    }
+
+    public string ProgressOnSummaryNormal => string.Empty;
+
+    public string ProgressOnSummaryDetailed =>
+        string.Empty;
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)

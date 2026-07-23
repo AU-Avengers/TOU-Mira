@@ -9,6 +9,7 @@ namespace TownOfUs.Modifiers.Game.Neutral;
 public sealed class NeutralKillerAssassinModifier : AssassinModifier, IWikiDiscoverable
 {
     public override bool ShowInFreeplay => true;
+    public override bool IsImpostorAssassin => false;
 
     [HideFromIl2Cpp] public bool IsHiddenFromList => true;
 
