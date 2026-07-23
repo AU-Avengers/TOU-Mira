@@ -25,14 +25,14 @@ public static class MercenaryEvents
             return;
         }
 
-        button?.ResetCooldownAndOrEffect();
+        button?.ResetButtonCooldown(true);
 
         if (source.Data.Role is WerewolfRole)
         {
             CustomButtonSingleton<WerewolfRampageButton>.Instance.ResetCooldownAndOrEffect();
         }
 
-        source.SetKillTimer(source.GetKillCooldown());
+        source.SetKillTimer(source.GetKillCooldown(true));
     }
     [RegisterEvent]
     public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)

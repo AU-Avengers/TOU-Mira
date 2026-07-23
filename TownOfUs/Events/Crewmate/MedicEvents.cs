@@ -192,8 +192,8 @@ public static class MedicEvents
 
         if (OptionGroupSingleton<MedicOptions>.Instance.ShieldBreaks)
         {
-            button?.ResetCooldownAndOrEffect();
-            source.SetKillTimer(source.GetKillCooldown());
+            button?.ResetButtonCooldown(true);
+            source.SetKillTimer(source.GetKillCooldown(true));
             return;
         }
 

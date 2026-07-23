@@ -3,6 +3,7 @@ using AmongUs.GameOptions;
 using LibCpp2IL;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
@@ -637,10 +638,15 @@ public static class Extensions
         vent.myRend.material.SetColor(ShaderID.AddColor, mainTarget ? color : Color.clear);
     }
 
-    public static float GetKillCooldown(this PlayerControl player)
+    public static float GetKillCooldown(this PlayerControl player, bool applyMultiplier = false)
     {
         return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
-            5f, 120f);
+            5f, 120f) * (applyMultiplier ? OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value : 1f);
+    }
+    public static void ResetButtonCooldown(this CustomActionButton button, bool applyMultiplier = false)
+    {
+        button.ResetCooldownAndOrEffect();
+        button.SetTimer(button.Timer * (applyMultiplier ? OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value : 1f));
     }
 
     /// <summary>
