@@ -274,7 +274,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 {
                     if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, true, player.AmOwner, out var progress))
                     {
-                        if (HudManagerPatches.RoleIsSmall)
+                        var placement = tally.TallyPlacement(true);
+                        if (HudManagerPatches.RoleIsSmall && placement == TallyLocation.Auto || placement == TallyLocation.RoleName)
                         {
                             if (roleName != string.Empty)
                             {
@@ -283,9 +284,17 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
                             roleName += $"<size={roleNameSize}>{progress}</size>";
                         }
-                        else
+                        else if (placement == TallyLocation.Auto || placement == TallyLocation.PlayerName)
                         {
                             playerName += $" {progress}";
+                        }
+                        else if (placement == TallyLocation.BelowName)
+                        {
+                            bottomText += $"\n{progress}";
+                        }
+                        else if (placement == TallyLocation.AboveName)
+                        {
+                            topText += $"{progress}\n";
                         }
                     }
                     else if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
@@ -515,7 +524,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 {
                     if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, false, player.AmOwner, out var progress))
                     {
-                        if (HudManagerPatches.RoleIsSmall)
+                        var placement = tally.TallyPlacement(false);
+                        if (HudManagerPatches.RoleIsSmall && placement == TallyLocation.Auto || placement == TallyLocation.RoleName)
                         {
                             if (roleName != string.Empty)
                             {
@@ -524,9 +534,17 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
                             roleName += $"<size={roleNameSize}>{progress}</size>";
                         }
-                        else
+                        else if (placement == TallyLocation.Auto || placement == TallyLocation.PlayerName)
                         {
                             playerName += $" {progress}";
+                        }
+                        else if (placement == TallyLocation.BelowName)
+                        {
+                            bottomText += $"\n{progress}";
+                        }
+                        else if (placement == TallyLocation.AboveName)
+                        {
+                            topText += $"{progress}\n";
                         }
                     }
                     else if ((player.AmOwner || (taskOpt.ShowTaskDead && isVisible && localDead)) &&
