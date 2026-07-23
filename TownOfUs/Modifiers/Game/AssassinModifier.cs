@@ -415,6 +415,11 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             }
         }
 
+        if (modifier is TouGameModifier touMod4 && touMod4.FactionType.ToDisplayString().Contains("Imp") && !touMod4.FactionType.ToDisplayString().Contains("Non"))
+        {
+            return OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessImpostorModifiers.Value;
+        }
+
         if (OptionGroupSingleton<AssassinOptions>.Instance.AssassinGuessNonCrewModifiers.Value && modifier is TouGameModifier)
         {
             return true;

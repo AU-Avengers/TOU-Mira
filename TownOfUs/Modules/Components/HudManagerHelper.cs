@@ -268,38 +268,52 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     roleName += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
                 }
 
-                if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, true, player.AmOwner, out var progress))
+                if (HudManagerPatches.PlayerNameProgress == ProgressTracking.Always ||
+                    HudManagerPatches.PlayerNameProgress == ProgressTracking.OnSelf && player.AmOwner ||
+                    HudManagerPatches.PlayerNameProgress == ProgressTracking.OnOthers && !player.AmOwner)
                 {
-                    if (HudManagerPatches.RoleIsSmall)
+                    if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, true, player.AmOwner, out var progress))
                     {
-                        if (roleName != string.Empty)
+                        var placement = tally.TallyPlacement(true);
+                        if (HudManagerPatches.RoleIsSmall && placement == TallyLocation.Auto || placement == TallyLocation.RoleName)
                         {
-                            roleName += " ";
-                        }
+                            if (roleName != string.Empty)
+                            {
+                                roleName += " ";
+                            }
 
-                        roleName += $"<size={roleNameSize}>{progress}</size>";
-                    }
-                    else
-                    {
-                        playerName += $" {progress}";
-                    }
-                }
-                else if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
-                     (localDead && taskOpt.ShowTaskDead)) &&
-                    player.IsCrewmate())
-                {
-                    if (HudManagerPatches.RoleIsSmall)
-                    {
-                        if (roleName != string.Empty)
+                            roleName += $"<size={roleNameSize}>{progress}</size>";
+                        }
+                        else if (placement == TallyLocation.Auto || placement == TallyLocation.PlayerName)
                         {
-                            roleName += " ";
+                            playerName += $" {progress}";
                         }
-
-                        roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                        else if (placement == TallyLocation.BelowName)
+                        {
+                            bottomText += $"\n{progress}";
+                        }
+                        else if (placement == TallyLocation.AboveName)
+                        {
+                            topText += $"{progress}\n";
+                        }
                     }
-                    else
+                    else if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
+                              (localDead && taskOpt.ShowTaskDead)) &&
+                             player.IsCrewmate())
                     {
-                        playerName += $" {player.TaskInfo()}";
+                        if (HudManagerPatches.RoleIsSmall)
+                        {
+                            if (roleName != string.Empty)
+                            {
+                                roleName += " ";
+                            }
+
+                            roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                        }
+                        else
+                        {
+                            playerName += $" {player.TaskInfo()}";
+                        }
                     }
                 }
 
@@ -504,37 +518,51 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     roleName += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
                 }
 
-                if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, false, player.AmOwner, out var progress))
+                if (HudManagerPatches.PlayerNameProgress == ProgressTracking.Always ||
+                    HudManagerPatches.PlayerNameProgress == ProgressTracking.OnSelf && player.AmOwner ||
+                    HudManagerPatches.PlayerNameProgress == ProgressTracking.OnOthers && !player.AmOwner)
                 {
-                    if (HudManagerPatches.RoleIsSmall)
+                    if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, false, player.AmOwner, out var progress))
                     {
-                        if (roleName != string.Empty)
+                        var placement = tally.TallyPlacement(false);
+                        if (HudManagerPatches.RoleIsSmall && placement == TallyLocation.Auto || placement == TallyLocation.RoleName)
                         {
-                            roleName += " ";
-                        }
+                            if (roleName != string.Empty)
+                            {
+                                roleName += " ";
+                            }
 
-                        roleName += $"<size={roleNameSize}>{progress}</size>";
-                    }
-                    else
-                    {
-                        playerName += $" {progress}";
-                    }
-                }
-                else if (((taskOpt.ShowTaskRound && player.AmOwner) || (taskOpt.ShowTaskDead && isVisible)) &&
-                    player.IsCrewmate())
-                {
-                    if (HudManagerPatches.RoleIsSmall)
-                    {
-                        if (roleName != string.Empty)
+                            roleName += $"<size={roleNameSize}>{progress}</size>";
+                        }
+                        else if (placement == TallyLocation.Auto || placement == TallyLocation.PlayerName)
                         {
-                            roleName += " ";
+                            playerName += $" {progress}";
                         }
-
-                        roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                        else if (placement == TallyLocation.BelowName)
+                        {
+                            bottomText += $"\n{progress}";
+                        }
+                        else if (placement == TallyLocation.AboveName)
+                        {
+                            topText += $"{progress}\n";
+                        }
                     }
-                    else
+                    else if ((player.AmOwner || (taskOpt.ShowTaskDead && isVisible && localDead)) &&
+                             player.IsCrewmate())
                     {
-                        playerName += $" {player.TaskInfo()}";
+                        if (HudManagerPatches.RoleIsSmall)
+                        {
+                            if (roleName != string.Empty)
+                            {
+                                roleName += " ";
+                            }
+
+                            roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                        }
+                        else
+                        {
+                            playerName += $" {player.TaskInfo()}";
+                        }
                     }
                 }
 
