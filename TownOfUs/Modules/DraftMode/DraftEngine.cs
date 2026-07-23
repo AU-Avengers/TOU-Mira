@@ -252,6 +252,12 @@ namespace TownOfUs.Modules.DraftMode
 
                     if (DraftRolePool.IsExclusiveImpostorRoleName(n)) hasExclusiveImp = true;
                     else if (DraftRolePool.IsImpostorRoleName(n)) hasSharedImp = true;
+
+                    var offeredBaseName = n;
+                    int offeredPipeIdx = offeredBaseName.IndexOf('|');
+                    if (offeredPipeIdx >= 0) offeredBaseName = offeredBaseName.Substring(0, offeredPipeIdx);
+                    var offeredId = DraftRolePool.ChooseRepresentativeRoleId(new List<string> { offeredBaseName });
+                    assignedCountsById[offeredId] = assignedCountsById.GetValueOrDefault(offeredId) + 1;
                 }
 
                 if (offerCount > 0)
