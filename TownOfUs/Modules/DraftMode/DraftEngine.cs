@@ -918,18 +918,28 @@ namespace TownOfUs.Modules.DraftMode
 
             GameStartPatch.SkipIntercept = true;
             int orig = GameStartManager.Instance.MinPlayers;
-            GameStartManager.Instance.MinPlayers = 1;
             try
             {
+                GameStartManager.Instance.ResetStartState();
+                GameStartManager.Instance.MinPlayers = 1;
                 GameStartManager.Instance.BeginGame();
+                GameStartManager.Instance.countDownTimer = 0f;
             }
             catch (System.Exception ex)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, $"[DraftEngine] Exception during GameStartManager.BeginGame: {ex}");
             }
-            GameStartManager.Instance.countDownTimer = 0f;
-            GameStartManager.Instance.MinPlayers = orig;
-            yield return null;
+            finally
+            {
+                GameStartManager.Instance.MinPlayers = orig;
+            }
+
+            float timeout = 10f;
+            while (AmongUsClient.Instance != null && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined && timeout > 0f)
+            {
+                timeout -= Time.deltaTime;
+                yield return null;
+            }
             GameStartPatch.SkipIntercept = false;
         }
 

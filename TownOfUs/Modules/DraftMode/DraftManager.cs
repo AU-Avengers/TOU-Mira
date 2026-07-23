@@ -28,6 +28,7 @@ public static class DraftManager
         }
 
         IsDraftActive = true;
+        DraftSidebarManager.InvalidateCache();
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
             $"[DraftManager] SetDraftStateFromHost: [{string.Join(", ", playerIds.Zip(slotNumbers, (p, s) => $"{p}->{s}"))}]");
     }
@@ -42,6 +43,7 @@ public static class DraftManager
 
         SlotStates.Add(state);
         PlayerToSlot[state.PlayerId] = state.SlotNumber;
+        DraftSidebarManager.InvalidateCache();
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
             $"[DraftManager] AddSlotState: player {state.PlayerId} -> slot {state.SlotNumber}");
     }
