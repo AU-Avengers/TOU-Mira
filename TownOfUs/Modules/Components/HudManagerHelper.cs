@@ -100,7 +100,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
     public static void UpdateRoleNameText()
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        var taskOpt = OptionGroupSingleton<TaskTrackingOptions>.Instance;
+        var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
 
         static PlayerControl GetDisguiseTargetOrSelf(PlayerControl player)
         {
@@ -297,8 +297,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                             topText += $"{progress}\n";
                         }
                     }
-                    else if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
-                              (localDead && taskOpt.ShowTaskDead)) &&
+                    else if ((player.AmOwner ||
+                              (localDead && taskOpt.ShowTaskDead.Value)) &&
                              player.IsCrewmate())
                     {
                         if (HudManagerPatches.RoleIsSmall)
@@ -547,7 +547,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                             topText += $"{progress}\n";
                         }
                     }
-                    else if ((player.AmOwner || (taskOpt.ShowTaskDead && isVisible && localDead)) &&
+                    else if ((player.AmOwner || (taskOpt.ShowTaskDead.Value && isVisible && localDead)) &&
                              player.IsCrewmate())
                     {
                         if (HudManagerPatches.RoleIsSmall)

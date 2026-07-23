@@ -19,7 +19,7 @@ public sealed class PostmortemOptions : AbstractOptionGroup
         ["Disabled", "Disabled Upon Death", "Always"]);
 
     public ModdedToggleOption HideChatButton { get; set; } = new("Temporarily Hide Chat Upon Death", true);
-
+    public ModdedToggleOption ShowTaskDead { get; set; } = new("See Task Trackers When Dead", true);
 }
 
 public enum GhostModeInGame
