@@ -1,5 +1,6 @@
 using System.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using TMPro;
@@ -379,8 +380,11 @@ namespace TownOfUs.Modules.DraftMode
                     i, totalCards, card.Color, card.Faction,
                     cardScale, useGrid, spacing, card.Description);
 
+                var capturedName = card.RoleName;
+                var capturedColor = card.Color;
+
                 btn.OnClick.RemoveAllListeners();
-                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx)));
+                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx, capturedName, capturedColor)));
             }
 
             Coroutines.Start(CoAnimateCards(rolesHolder!, cardScale, useGrid, totalCards));
@@ -853,13 +857,27 @@ namespace TownOfUs.Modules.DraftMode
 
         public static byte TargetPickerId = 255;
 
-        private void OnCardClicked(int index)
+        private void OnCardClicked(int index, string roleName, Color roleColor)
         {
             if (_hasPicked) return;
 
             _hasPicked = true;
             DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
+            Coroutines.Start(CoShowPickNotification(roleName, roleColor));
             Invoke(nameof(DestroySelf), 1.2f);
+        }
+
+        private static IEnumerator CoShowPickNotification(string roleName, Color roleColor)
+        {
+            yield return new WaitForSeconds(1.3f);
+            if (HudManager.Instance == null) yield break;
+
+            string hex = ColorUtility.ToHtmlStringRGB(roleColor);
+
+            var notif = Helpers.CreateAndShowNotification(
+                $"You can learn about what <b><color=#{hex}>{roleName}</color></b> does by clicking the role card towards the right",
+                Color.white, new Vector3(0f, 1f, -20f), spr : TouAssets.IconDraftMode.LoadAsset());
+            notif?.AdjustNotification();
         }
 
         private static void DestroySelf() => Hide();
@@ -906,4 +924,3 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
-
