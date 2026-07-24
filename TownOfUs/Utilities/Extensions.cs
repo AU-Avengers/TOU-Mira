@@ -428,6 +428,12 @@ public static class Extensions
         panel.NameText.transform.localPosition += Vector3.left * 0.05f;
     }
 
+    public static ShapeshifterPanel GetVictimPanel(this CustomPlayerMenu playerMenu, NetworkedPlayerInfo player)
+    {
+        return playerMenu.potentialVictims.First(victim =>
+            victim.NameText.text == player.PlayerName || victim.ColorBlindName.text == player.PlayerName);
+    }
+
     [MethodRpc((uint)TownOfUsRpc.ChangeRole)]
     public static void RpcChangeRole(this PlayerControl player, ushort newRoleType, bool recordRole = true)
     {
