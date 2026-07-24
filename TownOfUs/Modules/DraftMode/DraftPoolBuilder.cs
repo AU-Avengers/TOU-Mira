@@ -59,7 +59,12 @@ public static class DraftPoolBuilder
         {
             if (string.IsNullOrEmpty(candidate)) continue;
             if (avoid != null && avoid.Contains(candidate)) continue;
-            if (seen.Add(candidate)) picked.Add(candidate);
+
+            var baseName = candidate;
+            int pipeIdx = baseName.IndexOf('|');
+            if (pipeIdx >= 0) baseName = baseName.Substring(0, pipeIdx);
+
+            if (seen.Add(baseName)) picked.Add(candidate);
             if (picked.Count >= offered) break;
         }
 

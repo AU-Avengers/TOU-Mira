@@ -1,12 +1,14 @@
-using TownOfUs.Modules.DraftMode;
+using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
-using UnityEngine;
-using Random = UnityEngine.Random;
-using Object = UnityEngine.Object;
-using TownOfUs.Options;
 using MiraAPI.GameOptions;
+using TownOfUs.Modules.DraftMode;
+using TownOfUs.Options;
 using TownOfUs.Roles.Other;
+using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace TownOfUs.Patches.DraftMode
 {
@@ -16,8 +18,10 @@ namespace TownOfUs.Patches.DraftMode
         internal static bool SkipIntercept;
 
         [HarmonyPrefix]
-        public static bool Prefix(GameStartManager __instance)
+        public static bool Prefix(GameStartManager __instance, out bool __state)
         {
+            __state = true;
+
             if (!AmongUsClient.Instance.AmHost)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] Not host, allowing normal start");
@@ -33,6 +37,7 @@ namespace TownOfUs.Patches.DraftMode
             if (DraftManager.IsDraftActive)
             {
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Warning, "[GameStartPatch] Draft already active, blocking start");
+                __state = false;
                 return false;
             }
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
@@ -60,6 +65,7 @@ namespace TownOfUs.Patches.DraftMode
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, "[GameStartPatch] No players found, aborting draft");
                 return true;
             }
+            __state = false;
 
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[GameStartPatch] Starting draft with {players.Count} players");
             var shuffledSlots = Enumerable.Range(1, players.Count)
@@ -82,9 +88,54 @@ namespace TownOfUs.Patches.DraftMode
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Error, "[GameStartPatch] Failed to create DraftEngineBehaviour");
                 return true;
             }
+
+            __instance.countDownTimer = 10f;
             engine.StartHostDraft(players.Count, pidToSlot);
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] Draft started, blocking normal game start");
             return false;
+        }
+
+        [HarmonyPostfix]
+        public static void Postfix(GameStartManager __instance, bool __state)
+        {
+            if (!__state)
+            {
+                return;
+            }
+
+            DraftScreenController.Hide();
+            DraftStatusOverlay.SetState(OverlayState.Hidden);
+            DraftCancelButton.Hide();
+
+            if (SkipIntercept)
+            {
+                MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[GameStartPatch] Zeroing countDownTimer after BeginGame.");
+                __instance.countDownTimer = 0f;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]
+    public static class DraftIntroCutsceneBeginPatch
+    {
+        [HarmonyPrefix]
+        public static void Prefix()
+        {
+            DraftScreenController.Hide();
+            DraftStatusOverlay.SetState(OverlayState.Hidden);
+            DraftCancelButton.Hide();
+        }
+    }
+
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
+    public static class DraftShipStatusStartPatch
+    {
+        [HarmonyPostfix]
+        public static void Postfix()
+        {
+            DraftScreenController.Hide();
+            DraftStatusOverlay.SetState(OverlayState.Hidden);
+            DraftCancelButton.Hide();
         }
     }
 }
