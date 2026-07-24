@@ -1105,6 +1105,7 @@
   <string name="TouRoleMonarchKnightTargetDied">\%player\% died before you could knight them.</string>
   <string name="TouRoleMonarchKnightSuccess">\%player\% was knighted!</string>
   <string name="TouRoleMonarchKnightedFeedback">You were knighted by a \%role\%. You gained \%votes\% vote(s)!</string>
+  <string name="TouRoleMonarchMessageTitle">Monarch Feedback</string>
   <string name="TouRoleMonarchKnightFallenFeedback">Your knight, \%player\%, has fallen...</string>
   <!-- Mystic - Crewmate Investigative -->
   <!-- Mystic Wiki / Description -->

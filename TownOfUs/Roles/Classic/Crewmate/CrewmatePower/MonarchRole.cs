@@ -129,7 +129,7 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
             ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightSuccess").Replace("<player>", targetName));
         }
 
-        if (target.AmOwner)
+        if (target.AmOwner && !OptionGroupSingleton<MonarchOptions>.Instance.RevealAtMeeting)
         {
             ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.RoleName}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }
