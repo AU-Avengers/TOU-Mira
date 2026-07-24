@@ -1384,8 +1384,33 @@ public static class MiscUtils
             tmpIn.a = Mathf.Min(rendIn.color.a + increase, 1f); // Ensure it doesn't go above 1
             rendIn.color = tmpIn;
 
-            tmpOut.a = Mathf.Max(rendOut.color.a - increase, 0f); // Ensure it doesn't go above 1
+            tmpOut.a = Mathf.Max(rendOut.color.a - increase, 0f); // Ensure it doesn't go below 0
             rendOut.color = tmpOut;
+
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    public static IEnumerator FadeInOutMultiRenderers(SpriteRenderer[] rendsIn, SpriteRenderer[] rendsOut, float delay = 0.01f,
+        float increase = 0.01f)
+    {
+        var tmpIn = rendsIn[0].color;
+        tmpIn.a = 0;
+        var tmpOut = rendsOut[0].color;
+
+        while (tmpOut.a > 0 || tmpIn.a < 1)
+        {
+            tmpIn.a = Mathf.Min(tmpIn.a + increase, 1f); // Ensure it doesn't go above 1
+            foreach (var rend in rendsIn)
+            {
+                rend.color = tmpIn;
+            }
+
+            tmpOut.a = Mathf.Max(tmpOut.a - increase, 0f); // Ensure it doesn't go below 0
+            foreach (var rend in rendsOut)
+            {
+                rend.color = tmpOut;
+            }
 
             yield return new WaitForSeconds(delay);
         }

@@ -28,7 +28,7 @@ public static class SoulCollectorEvents
     {
         var player = @event.Player;
         
-        var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId);
+        var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId && x.ProgressStage is not StoneStage.Permanent and not StoneStage.Petrified);
         if (stonedPlayer != null)
         {
             StonedPlayer.FakePlayers.Remove(stonedPlayer);

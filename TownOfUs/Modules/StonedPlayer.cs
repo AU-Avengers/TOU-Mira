@@ -40,42 +40,115 @@ public sealed class StonedPlayer : IDisposable
 
     public IEnumerator CoStartStone()
     {
+        var isShy = OriginalPlayer.HasModifier<ShyModifier>();
         var opts = OptionGroupSingleton<MedusaOptions>.Instance;
-        var otherTime = opts.StoneCompletion - 4.5f;
+        var otherTime = opts.StoneCompletion - 6.5f;
         yield return new WaitForSeconds(opts.StoneDelay);
         ProgressStage = StoneStage.Petrified;
-        yield return MiscUtils.FadeInOutPair(_stoneRend, _rend, 0.03f);
+        if (_cosmeticsLayer)
+        {
+            if (isShy)
+            {
+                var alphaIn = _cosmeticsLayer.nameText.color.a;
+                var alphaOut = _cosmeticsLayer.colorBlindText.color.a;
+
+                while (alphaOut > 0 || alphaIn < 1)
+                {
+                    alphaIn = Mathf.Min(_cosmeticsLayer.nameText.color.a + 0.01f, 1f); // Ensure it doesn't go above 1
+                    _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(alphaIn);
+
+                    alphaOut = Mathf.Max(_cosmeticsLayer.colorBlindText.color.a - 0.01f,
+                        0f); // Ensure it doesn't go below 0
+                    if (DataManager.Settings.Accessibility.ColorBlindMode)
+                    {
+                        _cosmeticsLayer.colorBlindText.color = _cosmeticsLayer.colorBlindText.color.SetAlpha(alphaOut);
+                    }
+
+                    Warning(
+                        $"Name Alpha: {_cosmeticsLayer.nameText.color.a} | Color Alpha: {_cosmeticsLayer.colorBlindText.color.a}");
+
+                    otherTime -= 0.01f;
+                    yield return new WaitForSeconds(0.01f);
+                }
+            }
+
+            _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(1);
+            _cosmeticsLayer.colorBlindText.color = _cosmeticsLayer.colorBlindText.color.SetAlpha(0);
+            SpriteRenderer[] rends =
+            [
+                _rend, _cosmeticsLayer.hat.FrontLayer, _cosmeticsLayer.hat.BackLayer, _cosmeticsLayer.visor.Image,
+                _cosmeticsLayer.skin.layer
+            ];
+            var tmpIn = _stoneRend.color;
+            tmpIn.a = 0;
+            var tmpOut = _rend.color;
+
+            while (tmpOut.a > 0 || tmpIn.a < 1)
+            {
+                tmpOut.a = Mathf.Max(tmpOut.a - 0.01f, 0f); // Ensure it doesn't go below 0
+                foreach (var rend in rends)
+                {
+                    rend.color = tmpOut;
+                }
+
+                tmpIn.a = Mathf.Min(tmpIn.a + 0.01f, 1f); // Ensure it doesn't go above 1
+                _stoneRend.color = tmpIn;
+
+                otherTime -= 0.03f;
+                yield return new WaitForSeconds(0.03f);
+            }
+        }
+        else
+        {
+            otherTime -= 3f;
+            yield return MiscUtils.FadeInOutPair(_stoneRend, _rend, 0.03f);
+        }
+
         yield return new WaitForSeconds(1f);
         ProgressStage = StoneStage.Moving;
         _stoneAnim.Play(TouAssets.MedusaStoneMove.LoadAsset());
         yield return new WaitForSeconds(_stoneAnim.m_currAnim.length);
+        if (MeetingHud.Instance || ExileController.Instance)
+        {
+            ProgressStage = StoneStage.Permanent;
+            SetStonedName();
+            yield break;
+        }
+
         yield return new WaitForSeconds(1f);
         ProgressStage = StoneStage.Crack;
-        _stoneAnim.Play(TouAssets.MesudaStoneCrack.LoadAsset(), (2.167f / otherTime));
-        yield return new WaitForSeconds(2.167f / otherTime);
+        var crackSpeed = 0.25f / otherTime;
+        _stoneAnim.Play(TouAssets.MesudaStoneCrack.LoadAsset(), crackSpeed);
+        Warning($"Seconds: {otherTime} | Multiplier: {0.25f * crackSpeed}");
+        yield return new WaitForSeconds(otherTime);
+        if (MeetingHud.Instance || ExileController.Instance)
+        {
+            ProgressStage = StoneStage.Permanent;
+            SetStonedName();
+            yield break;
+        }
+
         yield return new WaitForSeconds(1f);
         ProgressStage = StoneStage.Visor;
         _stoneAnim.Play(TouAssets.MesudaStoneVisor.LoadAsset());
-        if (_cosmeticsLayer)
-        {
-            yield return MiscUtils.FadeOut(_cosmeticsLayer.visor.Image, 0.0025f);
-        }
         yield return new WaitForSeconds(_stoneAnim.m_currAnim.length);
+        if (MeetingHud.Instance || ExileController.Instance)
+        {
+            ProgressStage = StoneStage.Permanent;
+            SetStonedName();
+            yield break;
+        }
+
         yield return new WaitForSeconds(3f);
         _stoneAnim.Play(TouAssets.MesudaStoneShatter.LoadAsset());
         if (MeetingHud.Instance || ExileController.Instance)
         {
             ProgressStage = StoneStage.Permanent;
+            SetStonedName();
+            yield break;
         }
-        else
-        {
-            ProgressStage = StoneStage.Shatter;
-            if (_cosmeticsLayer)
-            {
-                SpriteRenderer[] rends = [_cosmeticsLayer.hat.FrontLayer, _cosmeticsLayer.hat.BackLayer];
-                yield return MiscUtils.FadeOutMultiRenderers(rends, 0.0015f);
-            }
-        }
+
+        ProgressStage = StoneStage.Shatter;
     }
 
     public StonedPlayer(PlayerControl player)
@@ -222,7 +295,7 @@ public sealed class StonedPlayer : IDisposable
         yield return new WaitForEndOfFrame();
         foreach (var fake in FakePlayers)
         {
-            if (!fake._nameTextMaster || !fake._cosmeticsLayer || fake.InCamo) continue;
+            if (!fake._nameTextMaster || !fake._cosmeticsLayer || fake.InCamo || fake.ProgressStage is StoneStage.Petrified or StoneStage.Permanent) continue;
             if (fake.OriginalPlayer)
             {
                 fake._nameTextMaster.text = fake.OriginalPlayer.cosmetics.nameText.text;
@@ -244,6 +317,21 @@ public sealed class StonedPlayer : IDisposable
 
         _nameTextMaster.color = Color.clear;
         _colorBindText.color = Color.clear;
+    }
+
+    public void SetStonedName()
+    {
+        if (!_cosmeticsLayer)
+        {
+            return;
+        }
+        
+        _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(1f);
+
+        _cosmeticsLayer.colorBlindText.color = _cosmeticsLayer.colorBlindText.color.SetAlpha(0f);
+
+        _nameTextMaster.text = TouLocale.Get("DiedToMedusa");
+        _nameTextMaster.color = Color.grey;
     }
 
     public void UnCamo()
@@ -501,7 +589,7 @@ public sealed class StonedPlayer : IDisposable
             FakePlayers.Clear();
             return;
         }
-        var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter);
+        var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter).ToList();
         foreach (var stone in validStones)
         {
             FakePlayers.Remove(stone);
@@ -511,6 +599,7 @@ public sealed class StonedPlayer : IDisposable
         foreach (var stone in validStones)
         {
             FakePlayers.Add(stone);
+            stone.SetStonedName();
         }
     }
 

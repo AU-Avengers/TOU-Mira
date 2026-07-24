@@ -15,7 +15,7 @@ public sealed class MedusaOptions : AbstractRoleOptionGroup<MedusaRole>
     [ModdedNumberOption("Time For Victim To Become Stoned", 5f, 20f, 1f, MiraNumberSuffixes.Seconds)]
     public float StoneDelay { get; set; } = 10f;
 
-    [ModdedNumberOption("Time Before Stone Shatters", 10, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
+    [ModdedNumberOption("Time Before Stone Shatters", 12.5f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float StoneCompletion { get; set; } = 20f;
 
     [ModdedToggleOption("TouOptionMedusaPetrifyFirstRound")]
