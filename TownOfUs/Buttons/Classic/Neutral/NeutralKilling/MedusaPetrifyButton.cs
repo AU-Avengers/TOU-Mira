@@ -8,16 +8,16 @@ using UnityEngine;
 
 namespace TownOfUs.Buttons.Neutral;
 
-public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollectorRole, PlayerControl>, IDiseaseableButton,
+public sealed class MedusaPetrifyButton : TownOfUsKillRoleButton<MedusaRole, PlayerControl>, IDiseaseableButton,
     IKillButton, ILegacyCapable
 {
-    public override string Name => TouLocale.GetParsed("TouRoleSoulCollectorReap", "Reap");
+    public override string Name => TouLocale.GetParsed("TouRoleMedusaPetrify", "Reap");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
-    public override Color TextOutlineColor => TownOfUsColors.SoulCollector;
-    public override float Cooldown => Math.Clamp(OptionGroupSingleton<SoulCollectorOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
+    public override Color TextOutlineColor => TownOfUsColors.Medusa;
+    public override float Cooldown => Math.Clamp(OptionGroupSingleton<MedusaOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
     public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.ReapSprite : TouNeutAssets.ReapSprite;
 
-    public override bool UsableFirstRound => OptionGroupSingleton<SoulCollectorOptions>.Instance.FirstRound;
+    public override bool UsableFirstRound => OptionGroupSingleton<MedusaOptions>.Instance.FirstRound;
 
     public override void CreateButton(Transform parent)
     {
@@ -34,7 +34,6 @@ public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollect
     {
         if (Target == null)
         {
-            Error("Soul Collector Reap: Target is null");
             return;
         }
 
@@ -43,8 +42,8 @@ public sealed class SoulCollectorReapButton : TownOfUsKillRoleButton<SoulCollect
         if (Target.Data.IsDead)
         {
             var notif1 = Helpers.CreateAndShowNotification(
-                TouLocale.GetParsed("TouRoleSoulCollectorReapNotif").Replace("<player>", $"{TownOfUsColors.SoulCollector.ToTextColor()}{Target.Data.PlayerName}</color>"),
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.SoulCollector.LoadAsset());
+                TouLocale.GetParsed("TouRoleMedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{Target.Data.PlayerName}</color>"),
+                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());
 
             notif1.AdjustNotification();
         }

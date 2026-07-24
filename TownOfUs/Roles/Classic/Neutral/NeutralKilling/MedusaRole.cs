@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
 
-public sealed class SoulCollectorRole(IntPtr cppPtr)
+public sealed class MedusaRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ICrewVariant
 {
     public override void SpawnTaskHeader(PlayerControl playerControl)
@@ -27,7 +27,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
     public static bool AutoPlaceFakePlayers => true;
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<MediumRole>());
     public DoomableType DoomHintType => DoomableType.Death;
-    public string LocaleKey => "SoulCollector";
+    public string LocaleKey => "Medusa";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
@@ -46,23 +46,23 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
         {
             return
             [
-                new(TouLocale.GetParsed($"TouRole{LocaleKey}Reap", "Reap"),
-                    TouLocale.GetParsed($"TouRole{LocaleKey}ReapWikiDescription"),
+                new(TouLocale.GetParsed($"TouRole{LocaleKey}Petrify", "Petrify"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}PetrifyWikiDescription"),
                     TouNeutAssets.ReapSprite)
             ];
         }
     }
 
-    public Color RoleColor => TownOfUsColors.SoulCollector;
+    public Color RoleColor => TownOfUsColors.Medusa;
     public ModdedRoleTeams Team => ModdedRoleTeams.Custom;
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralKilling;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
-        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.SoulCollector.LoadAsset(), "TouMira.Role.Neutral.SoulCollector", 1.45f),
-        CanUseVent = OptionGroupSingleton<SoulCollectorOptions>.Instance.CanVent,
+        IconTmp = TmpSpriteUtils.CreateSpriteAsset(TouRoleIcons.Medusa.LoadAsset(), "TouMira.Role.Neutral.Medusa", 1.45f),
+        CanUseVent = OptionGroupSingleton<MedusaOptions>.Instance.CanVent,
         IntroSound = TouAudio.PhantomIntroSound,
-        Icon = TouRoleIcons.SoulCollector,
+        Icon = TouRoleIcons.Medusa,
         OptionsScreenshot = TouBanners.NeutralRoleBanner,
         GhostRole = (RoleTypes)RoleId.Get<NeutralGhostRole>()
     };
@@ -71,7 +71,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
     
     public bool WinConditionMet()
     {
-        var scCount = CustomRoleUtils.GetActiveRolesOfType<SoulCollectorRole>().Count(x => !x.Player.HasDied());
+        var scCount = CustomRoleUtils.GetActiveRolesOfType<MedusaRole>().Count(x => !x.Player.HasDied());
 
         if (MiscUtils.KillersAliveCount > scCount)
         {
@@ -89,7 +89,7 @@ public sealed class SoulCollectorRole(IntPtr cppPtr)
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
             HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ReaperVentSprite.LoadAsset();
-            HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.SoulCollector);
+            HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Medusa);
         }
     }
 

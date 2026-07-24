@@ -1,5 +1,6 @@
 ﻿using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Neutral;
@@ -14,11 +15,11 @@ public static class SoulCollectorEvents
         var source = @event.Source;
         var target = @event.Target;
 
-        if (SoulCollectorRole.AutoPlaceFakePlayers && source.IsRole<SoulCollectorRole>() && !MeetingHud.Instance)
+        if (MedusaRole.AutoPlaceFakePlayers && source.IsRole<MedusaRole>() && !MeetingHud.Instance)
             // leave behind standing body
             // Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
         {
-            _ = new FakePlayer(target);
+            _ = new StonedPlayer(target);
         }
     }
 
@@ -26,6 +27,14 @@ public static class SoulCollectorEvents
     public static void ReviveEventHandler(PlayerReviveEvent @event)
     {
         var player = @event.Player;
+        
+        var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId);
+        if (stonedPlayer != null)
+        {
+            StonedPlayer.FakePlayers.Remove(stonedPlayer);
+            Coroutines.Stop(stonedPlayer.CoStartStone());
+            stonedPlayer.Destroy();
+        }
         
         var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId);
         if (fakePlayer != null)
@@ -39,12 +48,14 @@ public static class SoulCollectorEvents
     [RegisterEvent]
     public static void RoleChangeEventHandler(SetRoleEvent _)
     {
+        StonedPlayer.UpdateFakePlayerText(true);
         FakePlayer.UpdateFakePlayerText(true);
     }
 
     [RegisterEvent]
     public static void ChangeRoleEventHandler(ChangeRoleEvent _)
     {
+        StonedPlayer.UpdateFakePlayerText(true);
         FakePlayer.UpdateFakePlayerText(true);
     }
 }

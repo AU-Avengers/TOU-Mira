@@ -483,6 +483,21 @@ public static class TouAssets
 
     public static readonly LoadableAsset<Sprite> DeputyRevealBg =
         new LoadableBundleAsset<Sprite>("DeputyRevealBg", MainBundle);
+
+    public static readonly LoadableAsset<GameObject> MedusaStonedPlayer =
+        new LoadableBundleAsset<GameObject>("StonedPlayer", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MedusaStoneMove { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneMove", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneCrack { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneCrack", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneVisor { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneVisor", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneShatter { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneShatter", MainBundle);
     
     public static LoadableAsset<Sprite> IconSkeld { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Skeld.png");
