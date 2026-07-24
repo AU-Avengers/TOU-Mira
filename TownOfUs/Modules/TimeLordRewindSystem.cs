@@ -2596,6 +2596,13 @@ return true;*/
             FakePlayer.FakePlayers.Remove(fakePlayer);
         }
 
+        var stonedPlayer = StonedPlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == revived.PlayerId);
+        if (stonedPlayer != null)
+        {
+            stonedPlayer.Destroy();
+            StonedPlayer.FakePlayers.Remove(stonedPlayer);
+        }
+
         var body = Object.FindObjectsOfType<DeadBody>().FirstOrDefault(b => b.ParentId == revived.PlayerId);
         var pos = revived.GetTruePosition();
         if (body != null)

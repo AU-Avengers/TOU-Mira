@@ -221,6 +221,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         {
             HudManagerPatches.RoleNameStyle = RoleNameStyle.Value;
             FakePlayer.UpdateFakePlayerText();
+            StonedPlayer.UpdateFakePlayerText();
         }
         else if (configEntry == DisplayPlayerProgress)
         {
@@ -229,6 +230,7 @@ public class TownOfUsLocalSettings(ConfigFile config) : LocalSettingsTab(config)
         else if (configEntry == ColorPlayerNameToggle)
         {
             FakePlayer.UpdateFakePlayerText();
+            StonedPlayer.UpdateFakePlayerText();
         }
     }
 

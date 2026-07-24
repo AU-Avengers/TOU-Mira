@@ -87,6 +87,11 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 fakePlayer.Camo();
             }
 
+            foreach (var fakePlayer in StonedPlayer.FakePlayers)
+            {
+                fakePlayer.Camo();
+            }
+
             return;
         }
 
@@ -94,6 +99,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         {
             HudManagerPatches.CamouflageCommsEnabled = false;
             FakePlayer.FakePlayers.Do(x => x.UnCamo());
+            StonedPlayer.FakePlayers.Do(x => x.UnCamo());
         }
     }
 

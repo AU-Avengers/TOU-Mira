@@ -32,7 +32,10 @@ public static class SoulCollectorEvents
         if (stonedPlayer != null)
         {
             StonedPlayer.FakePlayers.Remove(stonedPlayer);
-            Coroutines.Stop(stonedPlayer.CoStartStone());
+            if (stonedPlayer.CurrentCoroutine != null)
+            {
+                Coroutines.Stop(stonedPlayer.CurrentCoroutine);
+            }
             stonedPlayer.Destroy();
         }
         

@@ -38,6 +38,7 @@ public sealed class StonedPlayer : IDisposable
     public StoneStage ProgressStage = StoneStage.Frozen;
     public PlayerControl OriginalPlayer;
 
+    public IEnumerator? CurrentCoroutine;
     public IEnumerator CoStartStone()
     {
         var isShy = OriginalPlayer.HasModifier<ShyModifier>();
@@ -141,12 +142,6 @@ public sealed class StonedPlayer : IDisposable
 
         yield return new WaitForSeconds(3f);
         _stoneAnim.Play(TouAssets.MesudaStoneShatter.LoadAsset());
-        if (MeetingHud.Instance || ExileController.Instance)
-        {
-            ProgressStage = StoneStage.Permanent;
-            SetStonedName();
-            yield break;
-        }
 
         ProgressStage = StoneStage.Shatter;
     }
@@ -270,7 +265,7 @@ public sealed class StonedPlayer : IDisposable
         _stoneAnim = stone.GetComponent<SpriteAnim>();
         _stoneRend = stone.GetComponent<SpriteRenderer>();
         _stoneRend.color = new Color(1, 1, 1, 0);
-        Coroutines.Start(CoStartStone());
+        CurrentCoroutine = Coroutines.Start(CoStartStone());
     }
 
     private static Vector3 Scale => new(0.35f, 0.35f, 0.35f);
@@ -328,8 +323,10 @@ public sealed class StonedPlayer : IDisposable
         
         _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(1f);
 
+        var isActive = _colorBindTextObj.active;
+        _colorBindTextObj.SetActive(true);
         _cosmeticsLayer.colorBlindText.color = _cosmeticsLayer.colorBlindText.color.SetAlpha(0f);
-
+        _colorBindTextObj.SetActive(isActive);
         _nameTextMaster.text = TouLocale.Get("DiedToMedusa");
         _nameTextMaster.color = Color.grey;
     }
@@ -592,6 +589,12 @@ public sealed class StonedPlayer : IDisposable
         var validStones = FakePlayers.Where(x => x.ProgressStage is not StoneStage.Shatter).ToList();
         foreach (var stone in validStones)
         {
+            if (stone.CurrentCoroutine != null)
+            {
+                Coroutines.Stop(stone.CurrentCoroutine);
+            }
+            stone.ProgressStage = StoneStage.Permanent;
+            stone.SetStonedName();
             FakePlayers.Remove(stone);
         }
         FakePlayers.Do(x => x.Destroy());
@@ -599,7 +602,6 @@ public sealed class StonedPlayer : IDisposable
         foreach (var stone in validStones)
         {
             FakePlayers.Add(stone);
-            stone.SetStonedName();
         }
     }
 
