@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class JuggernautOptions : AbstractOptionGroup<JuggernautRole>
+public sealed class JuggernautOptions : AbstractRoleOptionGroup<JuggernautRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleJuggernaut", "Juggernaut");
 

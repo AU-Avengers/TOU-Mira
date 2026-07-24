@@ -6,7 +6,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class LookoutOptions : AbstractOptionGroup<LookoutRole>
+public sealed class LookoutOptions : AbstractRoleOptionGroup<LookoutRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleLookout", "Lookout");
 

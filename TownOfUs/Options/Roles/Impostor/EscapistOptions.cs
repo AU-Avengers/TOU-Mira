@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class EscapistOptions : AbstractOptionGroup<EscapistRole>
+public sealed class EscapistOptions : AbstractRoleOptionGroup<EscapistRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleEscapist", "Escapist");
     public override Color GroupColor => Palette.ImpostorRoleRed;

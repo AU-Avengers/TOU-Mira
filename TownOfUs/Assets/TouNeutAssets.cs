@@ -29,6 +29,9 @@ public static class TouNeutAssets
     public static LoadableAsset<Sprite> ExeTormentSprite { get; } =
         new LoadableBundleAsset<Sprite>("ExeTormentButton", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> JesterPokeSprite { get; } =
+        new LoadableBundleAsset<Sprite>("JesterPokeButton", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> JesterHauntSprite { get; } =
         new LoadableBundleAsset<Sprite>("JesterHauntButton", TouAssets.MainBundle);
 

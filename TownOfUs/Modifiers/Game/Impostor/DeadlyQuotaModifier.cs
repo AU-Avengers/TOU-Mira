@@ -12,6 +12,10 @@ namespace TownOfUs.Modifiers.Game.Impostor;
 
 public sealed class DeadlyQuotaModifier : TouGameModifier, IWikiDiscoverable
 {
+    public override ModifierUiConfiguration Configuration => new(
+        TownOfUsColors.Impostor,
+        TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.DeadlyQuota.LoadAsset(),
+            "TouMira.Modifier.Impostor.DeadlyQuota", 1.45f));
     public int KillCount { get; set; }
     public int KillQuota { get; private set; }
 

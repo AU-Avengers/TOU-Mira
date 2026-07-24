@@ -5,7 +5,7 @@ using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Options.Roles.Impostor;
 
-public sealed class BlackmailerOptions : AbstractOptionGroup<BlackmailerRole>
+public sealed class BlackmailerOptions : AbstractRoleOptionGroup<BlackmailerRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleBlackmailer", "Blackmailer");
 

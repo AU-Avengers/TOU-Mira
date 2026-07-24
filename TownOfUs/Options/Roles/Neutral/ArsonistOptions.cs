@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class ArsonistOptions : AbstractOptionGroup<ArsonistRole>
+public sealed class ArsonistOptions : AbstractRoleOptionGroup<ArsonistRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleArsonist", "Arsonist");
 

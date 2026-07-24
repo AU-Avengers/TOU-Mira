@@ -1,11 +1,10 @@
-using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
 using TownOfUs.Modifiers.Game.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Options.Modifiers.Impostor;
 
-public sealed class CircumventOptions : AbstractOptionGroup<CircumventModifier>
+public sealed class CircumventOptions : AbstractTouModifierOptionGroup<CircumventModifier>
 {
     public override string GroupName => "Circumvent";
     public override Color GroupColor => Palette.ImpostorRoleHeaderRed;

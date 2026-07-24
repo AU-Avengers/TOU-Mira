@@ -221,25 +221,40 @@ public sealed class RoleListHoverComponent(nint cppPtr) : MonoBehaviour(cppPtr)
     private void ShowTooltipForSlot(int slotIndex, int hoveredLine)
     {
         var roleList = OptionGroupSingleton<RoleOptions>.Instance;
-        var bucket = slotIndex switch
+        RoleListOption bucket;
+        if (roleList.CurrentRoleDistribution() is RoleDistribution.MinMaxList)
         {
-            0  => roleList.Slot1.Value,
-            1  => roleList.Slot2.Value,
-            2  => roleList.Slot3.Value,
-            3  => roleList.Slot4.Value,
-            4  => roleList.Slot5.Value,
-            5  => roleList.Slot6.Value,
-            6  => roleList.Slot7.Value,
-            7  => roleList.Slot8.Value,
-            8  => roleList.Slot9.Value,
-            9  => roleList.Slot10.Value,
-            10 => roleList.Slot11.Value,
-            11 => roleList.Slot12.Value,
-            12 => roleList.Slot13.Value,
-            13 => roleList.Slot14.Value,
-            14 => roleList.Slot15.Value,
-            _  => (RoleListOption)(-1)
-        };
+            bucket = slotIndex switch
+            {
+                0 => RoleListOption.NeutBenign,
+                1 => RoleListOption.NeutEvil,
+                2 => RoleListOption.NeutKilling,
+                3 => RoleListOption.NeutOutlier,
+                _ => (RoleListOption)(-1)
+            };
+        }
+        else
+        {
+            bucket = slotIndex switch
+            {
+                0  => roleList.Slot1.Value,
+                1  => roleList.Slot2.Value,
+                2  => roleList.Slot3.Value,
+                3  => roleList.Slot4.Value,
+                4  => roleList.Slot5.Value,
+                5  => roleList.Slot6.Value,
+                6  => roleList.Slot7.Value,
+                7  => roleList.Slot8.Value,
+                8  => roleList.Slot9.Value,
+                9  => roleList.Slot10.Value,
+                10 => roleList.Slot11.Value,
+                11 => roleList.Slot12.Value,
+                12 => roleList.Slot13.Value,
+                13 => roleList.Slot14.Value,
+                14 => roleList.Slot15.Value,
+                _  => (RoleListOption)(-1)
+            };
+        }
 
         if ((int)bucket < 0) return;
         if (!BucketTooltipData.TryGet(bucket, out var info)) return;

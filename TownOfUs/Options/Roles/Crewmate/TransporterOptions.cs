@@ -5,7 +5,7 @@ using TownOfUs.Roles.Crewmate;
 
 namespace TownOfUs.Options.Roles.Crewmate;
 
-public sealed class TransporterOptions : AbstractOptionGroup<TransporterRole>
+public sealed class TransporterOptions : AbstractRoleOptionGroup<TransporterRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleTransporter", "Transporter");
 

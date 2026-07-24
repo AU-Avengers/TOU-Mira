@@ -649,6 +649,16 @@ public static class Extensions
         return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
             5f, 120f);
     }
+    public static float GetReducedKillCooldown(this PlayerControl player)
+    {
+        return Math.Clamp(UnderdogModifier.GetKillCooldown(player) + TownOfUsMapOptions.GetMapBasedCooldownDifference(),
+            5f, 120f) * OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value;
+    }
+    public static void ResetButtonCooldown(this CustomActionButton button, bool applyMultiplier = false)
+    {
+        button.ResetCooldownAndOrEffect();
+        button.SetTimer(button.Timer * (applyMultiplier ? OptionGroupSingleton<GameMechanicOptions>.Instance.FullSaveCdMultiplier.Value : 1f));
+    }
 
     /// <summary>
     ///     Gets the closest player that matches the given criteria that also isn't hidden by other roles.

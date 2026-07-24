@@ -6,7 +6,7 @@ using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Options.Roles.Neutral;
 
-public sealed class ChefOptions : AbstractOptionGroup<ChefRole>
+public sealed class ChefOptions : AbstractRoleOptionGroup<ChefRole>
 {
     public override string GroupName => TouLocale.Get("TouRoleChef", "Chef");
 

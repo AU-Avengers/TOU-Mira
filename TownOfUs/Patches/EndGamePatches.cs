@@ -11,6 +11,7 @@ using MiraAPI.GameOptions;
 using TMPro;
 using TownOfUs.Events;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game;
@@ -192,7 +193,13 @@ public static class EndGamePatches
                 }
             }
 
-            if (playerControl.IsRole<SpectreRole>() || playerTeam == ModdedRoleTeams.Crewmate)
+            if (playerControl.Data.Role is IProgressTally tally)
+            {
+                playerRoleString.Append(TownOfUsPlugin.Culture,
+                    $" {tally.ProgressOnSummaryNormal}");
+                summaryStats.Append(TownOfUsPlugin.Culture, $" | {tally.ProgressOnSummaryDetailed}");
+            }
+            else if (playerTeam == ModdedRoleTeams.Crewmate)
             {
                 var taskInfo = playerControl.TaskInfo();
                 playerRoleString.Append(TownOfUsPlugin.Culture,
@@ -692,7 +699,7 @@ public static class EndGamePatches
             Warning($"Added Meeting Record for {player.Data.PlayerName}");
             var curRound = DeathEventHandlers.CurrentRound;
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            var taskOpt = OptionGroupSingleton<TaskTrackingOptions>.Instance;
+            var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
 
             var causeOfDeath = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedData").Replace("<round>", $"{curRound}")}</color>』</size>";
             var causeOfDeathFull = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", TouLocale.Get("Alive")).Replace("<round>", $"{curRound}")}</color>』</size>";
@@ -905,26 +912,53 @@ public static class EndGamePatches
                     roleNameFull += $"<size={roleNameSize}>{addedRoleNameText.ExtraRoleText}</size>";
                 }
 
-                if (((taskOpt.ShowTaskInMeetings && player.AmOwner) ||
-                     (localDead && taskOpt.ShowTaskDead)) &&
-                    (player.IsCrewmate() || player.Data.Role is SpectreRole))
+                if (HudManagerPatches.PlayerNameProgress == ProgressTracking.Always ||
+                    HudManagerPatches.PlayerNameProgress == ProgressTracking.OnSelf && player.AmOwner ||
+                    HudManagerPatches.PlayerNameProgress == ProgressTracking.OnOthers && !player.AmOwner)
                 {
-                    if (roleName != string.Empty)
+                    if (player.Data.Role is IProgressTally tally && tally.ProgressOnName(localDead, true, player.AmOwner, out var progress))
                     {
-                        roleName += " ";
+                        var placement = tally.TallyPlacement(true);
+                        if (HudManagerPatches.RoleIsSmall && placement == TallyLocation.Auto || placement == TallyLocation.RoleName)
+                        {
+                            if (roleName != string.Empty)
+                            {
+                                roleName += " ";
+                            }
+
+                            roleName += $"<size={roleNameSize}>{progress}</size>";
+                        }
+                        else if (placement == TallyLocation.Auto || placement == TallyLocation.PlayerName)
+                        {
+                            playerName += $" {progress}";
+                        }
+                        else if (placement == TallyLocation.BelowName)
+                        {
+                            bottomText += $"\n{progress}";
+                        }
+                        else if (placement == TallyLocation.AboveName)
+                        {
+                            topText += $"{progress}\n";
+                        }
                     }
-
-                    roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
-                }
-
-                if (taskOpt.ShowTaskDead && (player.IsCrewmate() || player.Data.Role is SpectreRole))
-                {
-                    if (roleNameFull != string.Empty)
+                    else if ((player.AmOwner ||
+                              (localDead && taskOpt.ShowTaskDead.Value)) &&
+                             player.IsCrewmate())
                     {
-                        roleNameFull += " ";
-                    }
+                        if (HudManagerPatches.RoleIsSmall)
+                        {
+                            if (roleName != string.Empty)
+                            {
+                                roleName += " ";
+                            }
 
-                    roleNameFull += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                            roleName += $"<size={roleNameSize}>{player.TaskInfo()}</size>";
+                        }
+                        else
+                        {
+                            playerName += $" {player.TaskInfo()}";
+                        }
+                    }
                 }
 
                 if (player.TryGetModifier<OracleConfessModifier>(out var confess, x => x.ConfessToAll))
