@@ -102,29 +102,9 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
 
-        static PlayerControl GetDisguiseTargetOrSelf(PlayerControl player)
-        {
-            if (player.TryGetModifier<MorphlingMorphModifier>(out var morph) && morph.Target)
-            {
-                return morph.Target;
-            }
-
-            if (player.TryGetModifier<ShapeshifterShiftModifier>(out var shift) && shift.Target)
-            {
-                return shift.Target;
-            }
-
-            if (player.TryGetModifier<GlitchMimicModifier>(out var mimic) && mimic.Target)
-            {
-                return mimic.Target;
-            }
-
-            return player;
-        }
-
         static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
         {
-            var displayPlayer = GetDisguiseTargetOrSelf(player);
+            var displayPlayer = player.GetModifier<DisguisedModifier>()?.Target ?? player;
             var mod = displayPlayer.GetModifiers<BaseRevealModifier>()
                 .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
             return mod?.ExtraNameText ?? string.Empty;
