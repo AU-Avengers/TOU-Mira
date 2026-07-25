@@ -257,11 +257,12 @@ public sealed class StonedPlayer : IDisposable
 
         FakePlayers.Add(this);
         var stone = Object.Instantiate(TouAssets.MedusaStonedPlayer.LoadAsset(), body.transform);
-        stone.transform.localPosition = new Vector3(-0.01f, 0.2f);
+        stone.transform.localPosition = new Vector3(_cosmicInfo.FlipX ? 0.05f : -0.01f, 0.2f);
 
         _stoneAnim = stone.GetComponent<SpriteAnim>();
         _stoneRend = stone.GetComponent<SpriteRenderer>();
         _stoneRend.color = new Color(1, 1, 1, 0);
+        _stoneRend.flipX = _cosmicInfo.FlipX;
         CurrentCoroutine = Coroutines.Start(CoStartStone());
     }
 
