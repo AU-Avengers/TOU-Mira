@@ -690,6 +690,12 @@ public static class EndGamePatches
     {
         public static List<PlayerMeetingRecord> PlayerMeetingRecords { get; set; } = [];
 
+        private static string GetCauseOfDeathString(string parsedData)
+        {
+            var curRound = DeathEventHandlers.CurrentRound;
+            return $"<size=60%>『{Color.yellow.ToTextColor()}{parsedData.Replace("<round>", $"{curRound}")}</color>』</size>";
+        }
+
         public static void AddPlayerData(PlayerControl player)
         {
             if (PlayerMeetingRecords.Any(x => x.PlayerId == player.Data.PlayerId))
@@ -701,8 +707,8 @@ public static class EndGamePatches
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
             var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
 
-            var causeOfDeath = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedData").Replace("<round>", $"{curRound}")}</color>』</size>";
-            var causeOfDeathFull = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", TouLocale.Get("Alive")).Replace("<round>", $"{curRound}")}</color>』</size>";
+            var causeOfDeath = GetCauseOfDeathString(TouLocale.GetParsed("DisconnectedData"));
+            var causeOfDeathFull = GetCauseOfDeathString(TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", TouLocale.Get("Alive")));
             var playerName = player.Data.PlayerName ?? "Unknown";
             var playerNameColored = player.Data.PlayerName ?? "Unknown";
             var playerNameFull = player.Data.PlayerName ?? "Unknown";
