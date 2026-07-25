@@ -52,7 +52,10 @@ public static class GameTimerPatch
     public static void UpdateGameTimer(HudManager instance)
     {
         var timeOpt = OptionGroupSingleton<GameTimerOptions>.Instance;
-        GameTimerObj?.SetActive(false);
+        if (GameTimerObj)
+        {
+            GameTimerObj.SetActive(false);
+        }
 
         if (!timeOpt.GameTimerEnabled || GameOptionsManager.Instance.CurrentGameOptions.GameMode is GameModes.HideNSeek
                 or GameModes.SeekFools)
@@ -152,7 +155,8 @@ public static class GameTimerPatch
     {
         if (!PlayerControl.LocalPlayer ||
             !PlayerControl.LocalPlayer.Data ||
-            PlayerControl.LocalPlayer.Data.Role == null ||
+            !PlayerControl.LocalPlayer.Data.Role ||
+            LobbyBehaviour.Instance ||
             !ShipStatus.Instance ||
             TutorialManager.InstanceExists ||
             AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
