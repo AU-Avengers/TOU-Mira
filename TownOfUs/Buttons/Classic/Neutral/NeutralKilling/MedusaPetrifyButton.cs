@@ -2,6 +2,7 @@
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
@@ -9,15 +10,13 @@ using UnityEngine;
 namespace TownOfUs.Buttons.Classic.Neutral.NeutralKilling;
 
 public sealed class MedusaPetrifyButton : TownOfUsKillRoleButton<MedusaRole, PlayerControl>, IDiseaseableButton,
-    IKillButton, ILegacyCapable
+    IKillButton
 {
     public override string Name => TouLocale.GetParsed("TouRoleMedusaPetrify", "Reap");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medusa;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MedusaOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => LegacyAssets.IsLegacy ? LegacyNeutAssets.ReapSprite : TouNeutAssets.ReapSprite;
-
-    public override bool UsableFirstRound => OptionGroupSingleton<MedusaOptions>.Instance.FirstRound;
+    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ReapSprite;
 
     public override void CreateButton(Transform parent)
     {
@@ -37,7 +36,7 @@ public sealed class MedusaPetrifyButton : TownOfUsKillRoleButton<MedusaRole, Pla
             return;
         }
 
-        PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting, createDeadBody:false);
+        PlayerControl.LocalPlayer.RpcSpecialMurder(Target, MeetingCheck.OutsideMeeting, createDeadBody: false, causeOfDeath: "Medusa");
 
         if (Target.Data.IsDead)
         {

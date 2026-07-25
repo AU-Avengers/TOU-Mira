@@ -10,6 +10,7 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Networking;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Neutral;
@@ -58,7 +59,7 @@ public static class MedusaEvents
 
             if (TutorialManager.InstanceExists || source.AmOwner)
             {
-                target.RpcCustomMurder(source, MeetingCheck.OutsideMeeting, createDeadBody: false, teleportMurderer: false);
+                target.RpcSpecialMurder(source, MeetingCheck.OutsideMeeting, createDeadBody: false, teleportMurderer: false, causeOfDeath: "Medusa");
             }
         }
     }

@@ -19,9 +19,6 @@ public sealed class MedusaOptions : AbstractRoleOptionGroup<MedusaRole>
     [ModdedNumberOption("Time Before Stone Shatters", 12.5f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float StoneCompletion { get; set; } = 20f;
 
-    [ModdedToggleOption("TouOptionMedusaPetrifyFirstRound")]
-    public bool FirstRound { get; set; } = false;
-
     public ModdedToggleOption StoneGazeAvailable { get; set; } = new("Allow Stone Gazing", true);
     
     public ModdedNumberOption StoneGazeCooldown { get; set; } = new("Stone Gaze Cooldown", 35f, 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)
