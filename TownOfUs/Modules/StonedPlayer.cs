@@ -50,31 +50,28 @@ public sealed class StonedPlayer : IDisposable
         {
             if (isShy)
             {
-                var alphaIn = _cosmeticsLayer.nameText.color.a;
-                var alphaOut = _cosmeticsLayer.colorBlindText.color.a;
+                var alphaIn = _nameTextMaster.color.a;
+                var alphaOut = _colorBindText.color.a;
 
                 while (alphaOut > 0 || alphaIn < 1)
                 {
-                    alphaIn = Mathf.Min(_cosmeticsLayer.nameText.color.a + 0.01f, 1f); // Ensure it doesn't go above 1
-                    _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(alphaIn);
+                    alphaIn = Mathf.Min(_nameTextMaster.color.a + 0.01f, 1f); // Ensure it doesn't go above 1
+                    _nameTextMaster.color = _nameTextMaster.color.SetAlpha(alphaIn);
 
-                    alphaOut = Mathf.Max(_cosmeticsLayer.colorBlindText.color.a - 0.01f,
+                    alphaOut = Mathf.Max(_colorBindText.color.a - 0.01f,
                         0f); // Ensure it doesn't go below 0
                     if (DataManager.Settings.Accessibility.ColorBlindMode)
                     {
-                        _cosmeticsLayer.colorBlindText.color = _cosmeticsLayer.colorBlindText.color.SetAlpha(alphaOut);
+                        _colorBindText.color = _nameTextMaster.color.SetAlpha(alphaOut);
                     }
-
-                    Warning(
-                        $"Name Alpha: {_cosmeticsLayer.nameText.color.a} | Color Alpha: {_cosmeticsLayer.colorBlindText.color.a}");
 
                     otherTime -= 0.01f;
                     yield return new WaitForSeconds(0.01f);
                 }
             }
 
-            _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(1);
-            _cosmeticsLayer.colorBlindText.color = _cosmeticsLayer.colorBlindText.color.SetAlpha(0);
+            _nameTextMaster.color = _nameTextMaster.color.SetAlpha(1);
+            _colorBindText.color = _colorBindText.color.SetAlpha(0);
             SpriteRenderer[] rends =
             [
                 _rend, _cosmeticsLayer.hat.FrontLayer, _cosmeticsLayer.hat.BackLayer, _cosmeticsLayer.visor.Image,
@@ -323,10 +320,7 @@ public sealed class StonedPlayer : IDisposable
         
         _cosmeticsLayer.nameText.color = _cosmeticsLayer.nameText.color.SetAlpha(1f);
 
-        var isActive = _colorBindTextObj.active;
-        _colorBindTextObj.SetActive(true);
-        _cosmeticsLayer.colorBlindText.color = _cosmeticsLayer.colorBlindText.color.SetAlpha(0f);
-        _colorBindTextObj.SetActive(isActive);
+        _colorBindTextObj.SetActive(false);
         _nameTextMaster.text = TouLocale.Get("DiedToMedusa");
         _nameTextMaster.color = Color.grey;
     }
