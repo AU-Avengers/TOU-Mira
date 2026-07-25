@@ -744,26 +744,14 @@ public static class EndGamePatches
                 }
 
                 playerColor = playerColor.UpdateTargetColor(player);
-                playerName = playerName.UpdateTargetSymbols(player);
-                playerName = playerName.UpdateProtectionSymbols(player);
-                playerName = playerName.UpdateAllianceSymbols(player);
-                playerName = playerName.UpdateStatusSymbols(player);
+                playerName = playerName.UpdateAllSymbols(player);
 
-                playerNameFull = playerNameFull.UpdateTargetSymbols(player, DataVisibility.Show);
-                playerNameFull = playerNameFull.UpdateProtectionSymbols(player, DataVisibility.Show);
-                playerNameFull = playerNameFull.UpdateAllianceSymbols(player, DataVisibility.Show);
-                playerNameFull = playerNameFull.UpdateStatusSymbols(player, DataVisibility.Show);
+                playerNameFull = playerNameFull.UpdateAllSymbols(player, DataVisibility.Show);
 
                 playerColorColored = playerColorColored.UpdateTargetColor(player);
-                playerNameColored = playerNameColored.UpdateTargetSymbols(player);
-                playerNameColored = playerNameColored.UpdateProtectionSymbols(player);
-                playerNameColored = playerNameColored.UpdateAllianceSymbols(player);
-                playerNameColored = playerNameColored.UpdateStatusSymbols(player);
+                playerNameColored = playerNameColored.UpdateAllSymbols(player);
 
-                playerNameColoredFull = playerNameColoredFull.UpdateTargetSymbols(player, DataVisibility.Show);
-                playerNameColoredFull = playerNameColoredFull.UpdateProtectionSymbols(player, DataVisibility.Show);
-                playerNameColoredFull = playerNameColoredFull.UpdateAllianceSymbols(player, DataVisibility.Show);
-                playerNameColoredFull = playerNameColoredFull.UpdateStatusSymbols(player, DataVisibility.Show);
+                playerNameColoredFull = playerNameColoredFull.UpdateAllSymbols(player, DataVisibility.Show);
 
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
                 var role = player.Data.Role;

@@ -123,6 +123,19 @@ public static class PlayerRoleTextExtensions
         return color;
     }
 
+    public static string UpdateAllSymbols(this string name, PlayerControl player, bool hidden = false)
+    {
+        return name.UpdateAllSymbols(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
+    }
+
+    public static string UpdateAllSymbols(this string name, PlayerControl player, DataVisibility visibility)
+    {
+        return name.UpdateTargetSymbols(player, visibility)
+                   .UpdateProtectionSymbols(player, visibility)
+                   .UpdateAllianceSymbols(player, visibility)
+                   .UpdateStatusSymbols(player, visibility);
+    }
+
     public static string UpdateTargetSymbols(this string name, PlayerControl player, bool hidden = false)
     {
         return name.UpdateTargetSymbols(player, hidden ? DataVisibility.Hidden : DataVisibility.Dependent);
