@@ -29,6 +29,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using static TownOfUs.Modules.Components.HudManagerHelper;
 
 namespace TownOfUs.Patches;
 
@@ -696,13 +697,6 @@ public static class EndGamePatches
             return $"<size=60%>『{Color.yellow.ToTextColor()}{parsedData.Replace("<round>", $"{curRound}")}</color>』</size>";
         }
 
-        private static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
-        {
-            var mod = player.GetModifiers<BaseRevealModifier>()
-                    .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
-            return mod?.ExtraNameText ?? string.Empty;
-        }
-
         public static void AddPlayerData(PlayerControl player)
         {
             if (PlayerMeetingRecords.Any(x => x.PlayerId == player.Data.PlayerId))
@@ -983,7 +977,7 @@ public static class EndGamePatches
                     playerNameColoredFull += addedPlayerNameText.ExtraNameText;
                 }
 
-                var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player);
+                var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player, false);
                 if (!string.IsNullOrEmpty(diedR1Text))
                 {
                     bottomText += diedR1Text;

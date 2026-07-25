@@ -97,10 +97,13 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
-    private static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
+    public static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player, bool useDisguise)
     {
-        var displayPlayer = player.GetModifier<DisguisedModifier>()?.Target ?? player;
-        var mod = displayPlayer.GetModifiers<BaseRevealModifier>()
+        if (useDisguise && player.TryGetModifier<DisguisedModifier>(out var disguise) && disguise.Target != null)
+        {
+            player = disguise.Target;
+        }
+        var mod = player.GetModifiers<BaseRevealModifier>()
                 .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
         return mod?.ExtraNameText ?? string.Empty;
     }
@@ -390,7 +393,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
             playerName += addedPlayerNameText.ExtraNameText;
         }
 
-        var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player);
+        var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player, true);
         if (!string.IsNullOrEmpty(diedR1Text))
         {
             bottomText += diedR1Text;
