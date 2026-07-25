@@ -97,18 +97,18 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
+    private static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
+    {
+        var displayPlayer = player.GetModifier<DisguisedModifier>()?.Target ?? player;
+        var mod = displayPlayer.GetModifiers<BaseRevealModifier>()
+                .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
+        return mod?.ExtraNameText ?? string.Empty;
+    }
+
     public static void UpdateRoleNameText()
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
-
-        static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
-        {
-            var displayPlayer = player.GetModifier<DisguisedModifier>()?.Target ?? player;
-            var mod = displayPlayer.GetModifiers<BaseRevealModifier>()
-                .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
-            return mod?.ExtraNameText ?? string.Empty;
-        }
 
         var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
         var roleOnTop = HudManagerPatches.RoleOnTop;
