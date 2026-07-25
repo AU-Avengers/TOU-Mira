@@ -50,19 +50,18 @@ public sealed class StonedPlayer : IDisposable
         {
             if (isShy)
             {
-                var alphaIn = _nameTextMaster.color.a;
-                var alphaOut = _colorBindText.color.a;
+                var textAlpha = _nameTextMaster.color.a;
+                var colorAlpha = _colorBindText.color.a;
 
-                while (alphaOut > 0 || alphaIn < 1)
+                while (textAlpha < 1 || colorAlpha < 1)
                 {
-                    alphaIn = Mathf.Min(_nameTextMaster.color.a + 0.01f, 1f); // Ensure it doesn't go above 1
-                    _nameTextMaster.color = _nameTextMaster.color.SetAlpha(alphaIn);
+                    textAlpha = Mathf.Min(_nameTextMaster.color.a + 0.01f, 1f); // Ensure it doesn't go above 1
+                    _nameTextMaster.color = _nameTextMaster.color.SetAlpha(textAlpha);
 
-                    alphaOut = Mathf.Max(_colorBindText.color.a - 0.01f,
-                        0f); // Ensure it doesn't go below 0
+                    colorAlpha = Mathf.Min(_colorBindText.color.a + 0.01f, 1f); // Ensure it doesn't go above 1
                     if (DataManager.Settings.Accessibility.ColorBlindMode)
                     {
-                        _colorBindText.color = _nameTextMaster.color.SetAlpha(alphaOut);
+                        _colorBindText.color = _colorBindText.color.SetAlpha(colorAlpha);
                     }
 
                     otherTime -= 0.01f;
@@ -71,7 +70,7 @@ public sealed class StonedPlayer : IDisposable
             }
 
             _nameTextMaster.color = _nameTextMaster.color.SetAlpha(1);
-            _colorBindText.color = _colorBindText.color.SetAlpha(0);
+            _colorBindText.color = _colorBindText.color.SetAlpha(1);
             SpriteRenderer[] rends =
             [
                 _rend, _cosmeticsLayer.hat.FrontLayer, _cosmeticsLayer.hat.BackLayer, _cosmeticsLayer.visor.Image,
