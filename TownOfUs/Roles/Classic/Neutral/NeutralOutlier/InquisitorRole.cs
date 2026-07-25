@@ -239,12 +239,20 @@ public sealed class InquisitorRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
             return false;
         }
 
-        if (!OptionGroupSingleton<InquisitorOptions>.Instance.StallGame)
+        // Needed for the 1v1. The end check can run mid-kill, before TargetsDead is set, so read live state instead - Divani :)
+        if (Helpers.GetAlivePlayers().Contains(Player) && Helpers.GetAlivePlayers().Count <= 1 &&
+            Targets.Count > 0)
+        {
+            return true;
+        }
+
+        if (!TargetsDead)
         {
             return false;
         }
 
-        if (!TargetsDead)
+        // Must stay below the solo win above; at the top of the method it blocked it.
+        if (!OptionGroupSingleton<InquisitorOptions>.Instance.StallGame)
         {
             return false;
         }
