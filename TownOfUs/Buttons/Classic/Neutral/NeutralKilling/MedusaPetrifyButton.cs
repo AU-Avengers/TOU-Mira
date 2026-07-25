@@ -1,6 +1,5 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.Networking;
-using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Neutral;
@@ -12,7 +11,7 @@ namespace TownOfUs.Buttons.Classic.Neutral.NeutralKilling;
 public sealed class MedusaPetrifyButton : TownOfUsKillRoleButton<MedusaRole, PlayerControl>, IDiseaseableButton,
     IKillButton
 {
-    public override string Name => TouLocale.GetParsed("TouRoleMedusaPetrify", "Reap");
+    public override string Name => TouLocale.GetParsed("TouRoleMedusaPetrify", "Petrify");
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medusa;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MedusaOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
@@ -37,15 +36,6 @@ public sealed class MedusaPetrifyButton : TownOfUsKillRoleButton<MedusaRole, Pla
         }
 
         PlayerControl.LocalPlayer.RpcSpecialMurder(Target, MeetingCheck.OutsideMeeting, createDeadBody: false, causeOfDeath: "Medusa");
-
-        if (Target.Data.IsDead)
-        {
-            var notif1 = Helpers.CreateAndShowNotification(
-                TouLocale.GetParsed("TouRoleMedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{Target.Data.PlayerName}</color>"),
-                Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());
-
-            notif1.AdjustNotification();
-        }
     }
 
     public override PlayerControl? GetTarget()

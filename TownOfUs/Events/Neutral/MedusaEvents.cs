@@ -4,6 +4,7 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
@@ -12,6 +13,7 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Neutral;
+using UnityEngine;
 
 namespace TownOfUs.Events.Neutral;
 
@@ -73,6 +75,14 @@ public static class MedusaEvents
             // leave behind standing body
             // Message($"Leaving behind soulless player '{target.Data.PlayerName}'");
         {
+            if (source.AmOwner)
+            {
+                var notif1 = Helpers.CreateAndShowNotification(
+                    TouLocale.GetParsed("TouRoleMedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
+                    Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());
+
+                notif1.AdjustNotification();
+            }
             _ = new StonedPlayer(target);
         }
     }
