@@ -1,5 +1,6 @@
 ﻿using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Neutral;
 
@@ -20,6 +21,23 @@ public sealed class MedusaOptions : AbstractRoleOptionGroup<MedusaRole>
 
     [ModdedToggleOption("TouOptionMedusaPetrifyFirstRound")]
     public bool FirstRound { get; set; } = false;
+
+    public ModdedToggleOption StoneGazeAvailable { get; set; } = new("Allow Stone Gazing", true);
+    
+    public ModdedNumberOption StoneGazeCooldown { get; set; } = new("Stone Gaze Cooldown", 35f, 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)
+    {
+        Visible = () => OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable
+    };
+    
+    public ModdedNumberOption StoneGazeDuration { get; set; } = new("Stone Gaze Duration", 10f, 5f, 20f, 2.5f, MiraNumberSuffixes.Seconds)
+    {
+        Visible = () => OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable
+    };
+    
+    public ModdedNumberOption StoneGazeUses { get; set; } = new("Stone Gaze Uses", 3f, 1f, 10f, 1f, MiraNumberSuffixes.None)
+    {
+        Visible = () => OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable
+    };
 
     [ModdedToggleOption("TouOptionMedusaCanVent")]
     public bool CanVent { get; set; } = false;

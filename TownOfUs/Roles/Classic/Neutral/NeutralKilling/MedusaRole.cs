@@ -44,12 +44,19 @@ public sealed class MedusaRole(IntPtr cppPtr)
     {
         get
         {
-            return
+            List<CustomButtonWikiDescription> list =
             [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Petrify", "Petrify"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}PetrifyWikiDescription"),
                     TouNeutAssets.ReapSprite)
             ];
+            if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
+            {
+                list.Add(new(TouLocale.GetParsed($"TouRole{LocaleKey}StoneGaze", "Stone Gaze"),
+                    TouLocale.GetParsed($"TouRole{LocaleKey}StoneGazeWikiDescription"),
+                    TouCrewAssets.AlertSprite));
+            }
+            return list;
         }
     }
 

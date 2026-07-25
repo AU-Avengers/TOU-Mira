@@ -1,14 +1,67 @@
 ﻿using MiraAPI.Events;
+using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.Hud;
+using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using Reactor.Utilities;
+using TownOfUs.Buttons;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Roles.Neutral;
 
 namespace TownOfUs.Events.Neutral;
 
-public static class SoulCollectorEvents
+public static class MedusaEvents
 {
+    [RegisterEvent(1)]
+    public static void MiraButtonClickEventHandler(MiraButtonClickEvent @event)
+    {
+        var button = @event.Button as CustomActionButton<PlayerControl>;
+        var source = PlayerControl.LocalPlayer;
+        var target = button?.Target;
+
+        if (target == null || button == null || !button.CanClick())
+        {
+            return;
+        }
+
+        CheckForMedusaGaze(@event, source, target, button is IKillButton);
+    }
+
+    [RegisterEvent(1)]
+    public static void BeforeMurderEventHandler(BeforeMurderEvent @event)
+    {
+        var source = @event.Source;
+        var target = @event.Target;
+
+        CheckForMedusaGaze(@event, source, target, true);
+    }
+
+    private static void CheckForMedusaGaze(MiraCancelableEvent miraEvent, PlayerControl source, PlayerControl target, bool isAttack)
+    {
+        if (MeetingHud.Instance || ExileController.Instance || isAttack || source.HasModifier<IndirectAttackerModifier>())
+        {
+            return;
+        }
+
+        if (target.HasModifier<MedusaGazingModifier>() && source != target)
+        {
+            if (source.HasModifier<InvulnerabilityModifier>())
+            {
+                // stops pestilence from softlocking the game when attacking vet
+                return;
+            }
+            miraEvent.Cancel();
+
+            if (TutorialManager.InstanceExists || source.AmOwner)
+            {
+                target.RpcCustomMurder(source, MeetingCheck.OutsideMeeting, createDeadBody: false, teleportMurderer: false);
+            }
+        }
+    }
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {

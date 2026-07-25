@@ -6,7 +6,7 @@ using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
-namespace TownOfUs.Buttons.Neutral;
+namespace TownOfUs.Buttons.Classic.Neutral.NeutralKilling;
 
 public sealed class MedusaPetrifyButton : TownOfUsKillRoleButton<MedusaRole, PlayerControl>, IDiseaseableButton,
     IKillButton, ILegacyCapable
