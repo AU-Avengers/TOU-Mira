@@ -1366,6 +1366,73 @@ public static class MiscUtils
             yield return new WaitForSeconds(delay);
         }
     }
+    public static IEnumerator FadeInOutPair(SpriteRenderer? rendIn, SpriteRenderer? rendOut, float delay = 0.01f, float increase = 0.01f)
+    {
+        if (rendIn == null || rendOut == null)
+        {
+            yield break;
+        }
+
+        var tmpIn = rendIn.color;
+        tmpIn.a = 0;
+        rendIn.color = tmpIn;
+        var tmpOut = rendOut.color;
+        rendOut.color = tmpOut;
+
+        while (tmpOut.a > 0)
+        {
+            tmpIn.a = Mathf.Min(rendIn.color.a + increase, 1f); // Ensure it doesn't go above 1
+            rendIn.color = tmpIn;
+
+            tmpOut.a = Mathf.Max(rendOut.color.a - increase, 0f); // Ensure it doesn't go below 0
+            rendOut.color = tmpOut;
+
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    public static IEnumerator FadeInOutMultiRenderers(SpriteRenderer[] rendsIn, SpriteRenderer[] rendsOut, float delay = 0.01f,
+        float increase = 0.01f)
+    {
+        var tmpIn = rendsIn[0].color;
+        tmpIn.a = 0;
+        var tmpOut = rendsOut[0].color;
+
+        while (tmpOut.a > 0 || tmpIn.a < 1)
+        {
+            tmpIn.a = Mathf.Min(tmpIn.a + increase, 1f); // Ensure it doesn't go above 1
+            foreach (var rend in rendsIn)
+            {
+                rend.color = tmpIn;
+            }
+
+            tmpOut.a = Mathf.Max(tmpOut.a - increase, 0f); // Ensure it doesn't go below 0
+            foreach (var rend in rendsOut)
+            {
+                rend.color = tmpOut;
+            }
+
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    public static IEnumerator FadeOutMultiRenderers(SpriteRenderer[] rends, float delay = 0.01f,
+        float increase = 0.01f)
+    {
+        var tmp = rends[0].color;
+
+        while (tmp.a > 0)
+        {
+            tmp.a = Mathf.Max(tmp.a - increase, 0f); // Ensure it doesn't go above 1
+            foreach (var rend in rends)
+            {
+                rend.color = tmp;
+            }
+
+            yield return new WaitForSeconds(delay);
+        }
+
+    }
 
     public static IEnumerator FadeInDualRenderers(SpriteRenderer? rend, SpriteRenderer? rend2, float delay = 0.01f,
         float increase = 0.01f, float rend2Mult = 1f)
