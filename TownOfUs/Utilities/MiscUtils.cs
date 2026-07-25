@@ -1742,6 +1742,26 @@ public static class MiscUtils
         return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {player.gameObject.name}");
     }
 
+    /// <summary>
+    ///     Gets a FakePlayer by comparing a player id.
+    /// </summary>
+    /// <param name="playerId">The player id.</param>
+    /// <returns>A fake player or null if its not found.</returns>
+    public static FakePlayer? GetFakePlayer(int playerId)
+    {
+        return FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == playerId && x.body);
+    }
+
+    /// <summary>
+    ///     Gets a FakePlayer by comparing a string.
+    /// </summary>
+    /// <param name="playerName">The player's name.</param>
+    /// <returns>A fake player or null if its not found.</returns>
+    public static FakePlayer? GetFakePlayer(string playerName)
+    {
+        return FakePlayer.FakePlayers.FirstOrDefault(x => x.body?.name == $"Fake {playerName}");
+    }
+
     public static void SetForcedBodyType(this PlayerPhysics player, PlayerBodyTypes bodyType)
     {
         player.bodyType = bodyType;

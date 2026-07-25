@@ -93,7 +93,7 @@ public static class MedusaEvents
             stonedPlayer.Destroy();
         }
         
-        var fakePlayer = FakePlayer.FakePlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId);
+        var fakePlayer = MiscUtils.GetFakePlayer(player.PlayerId);
         if (fakePlayer != null)
         {
             FakePlayer.FakePlayers.Remove(fakePlayer);
