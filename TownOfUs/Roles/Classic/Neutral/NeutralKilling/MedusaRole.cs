@@ -48,13 +48,13 @@ public sealed class MedusaRole(IntPtr cppPtr)
             [
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}Petrify", "Petrify"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}PetrifyWikiDescription"),
-                    TouNeutAssets.ReapSprite)
+                    TouNeutAssets.PetrifySprite)
             ];
             if (OptionGroupSingleton<MedusaOptions>.Instance.StoneGazeAvailable.Value)
             {
                 list.Add(new(TouLocale.GetParsed($"TouRole{LocaleKey}StoneGaze", "Stone Gaze"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}StoneGazeWikiDescription"),
-                    TouCrewAssets.AlertSprite));
+                    TouNeutAssets.StoneGazeSprite));
             }
             return list;
         }
@@ -95,7 +95,7 @@ public sealed class MedusaRole(IntPtr cppPtr)
         RoleBehaviourStubs.Initialize(this, player);
         if (Player.AmOwner && !LegacyAssets.IsLegacy)
         {
-            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.ReaperVentSprite.LoadAsset();
+            HudManager.Instance.ImpostorVentButton.graphic.sprite = TouNeutAssets.MedusaVentSprite.LoadAsset();
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Medusa);
         }
     }

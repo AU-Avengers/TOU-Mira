@@ -16,7 +16,7 @@ public sealed class MedusaPetrifyButton : TownOfUsKillRoleButton<MedusaRole, Pla
     public override BaseKeybind Keybind => Keybinds.PrimaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Medusa;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<MedusaOptions>.Instance.KillCooldown + MapCooldown, 5f, 120f);
-    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ReapSprite;
+    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.PetrifySprite;
 
     public override void CreateButton(Transform parent)
     {
