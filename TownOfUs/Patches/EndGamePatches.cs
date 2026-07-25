@@ -696,6 +696,13 @@ public static class EndGamePatches
             return $"<size=60%>『{Color.yellow.ToTextColor()}{parsedData.Replace("<round>", $"{curRound}")}</color>』</size>";
         }
 
+        private static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
+        {
+            var mod = player.GetModifiers<BaseRevealModifier>()
+                    .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
+            return mod?.ExtraNameText ?? string.Empty;
+        }
+
         public static void AddPlayerData(PlayerControl player)
         {
             if (PlayerMeetingRecords.Any(x => x.PlayerId == player.Data.PlayerId))
@@ -715,13 +722,6 @@ public static class EndGamePatches
             var playerNameColoredFull = player.Data.PlayerName ?? "Unknown";
             var playerColor = Color.white;
             var playerColorColored = Color.white;
-
-            static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
-            {
-                var mod = player.GetModifiers<BaseRevealModifier>()
-                    .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
-                return mod?.ExtraNameText ?? string.Empty;
-            }
 
             var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
             var roleOnTop = HudManagerPatches.RoleOnTop;
