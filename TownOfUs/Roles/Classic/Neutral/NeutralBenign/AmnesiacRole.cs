@@ -12,8 +12,7 @@ using TownOfUs.Events.TouEvents;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
-using TownOfUs.Modifiers.Game.Impostor;
-using TownOfUs.Modifiers.Game.Neutral;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Neutral;
@@ -271,18 +270,15 @@ public sealed class AmnesiacRole(IntPtr cppPtr)
         var assassinModeNeut = (AssassinRemember)opts.AmneTurnNeutAssassin.Value;
         var amneIsAssassin = false;
 
-        if (player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||
-                                    assassinModeImp is AssassinRemember.IfAssassin && playerIsAssassin))
+        if ((player.IsImpostor() && (assassinModeImp is AssassinRemember.Always ||
+                                     assassinModeImp is AssassinRemember.IfAssassin && playerIsAssassin))
+            ||
+            player.IsNeutral() && player.Is(RoleAlignment.NeutralKilling) &&
+            (assassinModeNeut is AssassinRemember.Always ||
+             assassinModeNeut is AssassinRemember.IfAssassin && playerIsAssassin))
         {
             amneIsAssassin = true;
-            player.AddModifier<ImpostorAssassinModifier>();
-        }
-        else if (player.IsNeutral() && player.Is(RoleAlignment.NeutralKilling) &&
-                 (assassinModeNeut is AssassinRemember.Always ||
-                  assassinModeNeut is AssassinRemember.IfAssassin && playerIsAssassin))
-        {
-            amneIsAssassin = true;
-            player.AddModifier<NeutralKillerAssassinModifier>();
+            player.AddModifier<AssassinModifier>();
         }
 
         // Doesn't give Double Shot if Assassin isn't available

@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Game.Impostor;
 using TownOfUs.Modules;
 using TownOfUs.Options.Modifiers.Impostor;
@@ -23,7 +24,7 @@ public static class TelepathEvents
         {
             var options = OptionGroupSingleton<TelepathOptions>.Instance;
             if (victim.IsImpostorAligned() && source == victim && options.KnowFailedGuess && MeetingHud.Instance &&
-                victim.TryGetModifier<ImpostorAssassinModifier>(out var assassin) && assassin.LastAttemptedVictim)
+                victim.TryGetModifier<AssassinModifier>(out var assassin) && assassin.LastAttemptedVictim)
             {
                 Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.ImpSoft, alpha: 0.4f));
                 var notif1 = Helpers.CreateAndShowNotification(

@@ -13,6 +13,14 @@ public abstract class TouBaseGameModifier : GameModifier
     public virtual float IntroSize => 4f;
     public virtual ModifierFaction FactionType => ModifierFaction.Universal;
     public virtual ModifierUiConfiguration Configuration => new(MiscUtils.GetRoleColour(LocaleKey));
+    
+    /// <summary>
+    /// Method that runs before <see cref="GameModifier.IsModifierValidOn"/> is run by MiraAPI. This is used for Assailant modifiers to determine if they may spawn.
+    /// </summary>
+    public virtual void BeforeModifierSpawns()
+    {
+        // Empty!
+    }
 
     public virtual int CustomAmount => GetAmountPerGame();
     public virtual int CustomChance => GetAssignmentChance();

@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using MiraAPI.Modifiers;
+using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Networking;
@@ -42,5 +44,16 @@ public static class LobbyBehaviourPatches
         // Clear Time Lord snapshot data to prevent stale positions from previous games
         TimeLordRewindSystem.Reset();
         MiraAPI.Utilities.Extensions.ClearGarbageCollector();
+        if (TutorialManager.InstanceExists)
+        {
+            foreach (var mod in ModifierManager.Modifiers)
+            {
+                if (mod is not TouBaseGameModifier touMod)
+                {
+                    continue;
+                }
+                touMod.BeforeModifierSpawns();
+            }
+        }
     }
 }
