@@ -12,6 +12,7 @@ public class DoubleShotModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.DoubleShot,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.DoubleShot.LoadAsset(),
             "TouMira.Modifier.Assailant.DoubleShot", 1.45f));
+    public override Color FreeplayFileColor => TownOfUsColors.Overclocker;
     public override string LocaleKey => "DoubleShot";
     public override string ModifierName => TouLocale.Get($"TouModifier{LocaleKey}");
     public override string IntroInfo => TouLocale.GetParsed($"TouModifier{LocaleKey}IntroBlurb");

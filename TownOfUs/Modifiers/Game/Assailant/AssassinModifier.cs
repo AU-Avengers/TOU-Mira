@@ -22,6 +22,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.Assassin,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Assassin.LoadAsset(),
             "TouMira.Modifier.Assailant.Assassin", 1.45f));
+    public override Color FreeplayFileColor => TownOfUsColors.Overclocker;
     public int maxKills;
     public int defaultKills;
     private MeetingMenu meetingMenu;
