@@ -18,6 +18,7 @@ public sealed class WarlockRole(IntPtr cppPtr)
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
+    [HideFromIl2Cpp]
     public bool IsModifierApplicable(BaseModifier modifier)
     {
         return modifier is not OverclockerModifier;

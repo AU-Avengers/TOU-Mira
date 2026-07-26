@@ -25,6 +25,7 @@ public sealed class JuggernautRole(IntPtr cppPtr) : NeutralRole(cppPtr), ITownOf
         orCreateTask.name = "NeutralRoleText";
     }
 
+    [HideFromIl2Cpp]
     public bool IsModifierApplicable(BaseModifier modifier)
     {
         return modifier is not OverclockerModifier;

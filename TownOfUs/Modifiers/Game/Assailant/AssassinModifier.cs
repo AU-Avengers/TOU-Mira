@@ -80,7 +80,6 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 NeutralAssassinAttempts++;
             }
-            Warning($"Adding neut attempt ({NeutralAssassinAttempts}/{neutCount} to {role.Player.Data.PlayerName})");
             if (Rng.Next(100) >= neutChance)
             {
                 return false;
@@ -95,7 +94,6 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 ImpostorAssassinAttempts++;
             }
-            Warning($"Adding imp attempt ({ImpostorAssassinAttempts}/{impCount} to {role.Player.Data.PlayerName})");
             if (Rng.Next(100) >= impChance)
             {
                 return false;
