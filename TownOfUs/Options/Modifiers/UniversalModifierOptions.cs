@@ -179,98 +179,71 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierFlash"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierFlash");
     };
 
     private static Action<float> _giantNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.GiantAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.GiantChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierGiant"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierGiant");
     };
 
     private static Action<float> _immovableNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.ImmovableChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierImmovable"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierImmovable");
     };
 
     private static Action<float> _miniNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.MiniAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.MiniChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierMini"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierMini");
     };
 
     private static Action<float> _radarNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.RadarChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierRadar"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierRadar");
     };
 
     private static Action<float> _satelliteNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.SatelliteChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierSatellite"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierSatellite");
     };
 
     private static Action<float> _shyNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.ShyChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierShy"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierShy");
     };
 
     private static Action<float> _sixthSenseNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.SixthSenseChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierSixthSense"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierSixthSense");
     };
 
     private static Action<float> _sleuthNotif = x =>
     {
         var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthAmount;
         var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthChance;
+        RunNotif(opt, optAmount, "TouModifierSleuth");
+    };
+
+    private static void RunNotif(AmountChanceOption opt, AmountChanceOption optAmount, string title)
+    {
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get("TouModifierSleuth"),
+            TouLocale.Get(title),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
-    };
+    }
 }

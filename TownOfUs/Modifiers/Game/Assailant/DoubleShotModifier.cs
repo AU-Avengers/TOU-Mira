@@ -34,27 +34,26 @@ public class DoubleShotModifier : TouGameModifier, IWikiDiscoverable
     public List<CustomButtonWikiDescription> Abilities { get; } = [];
 
     public override int CustomAmount =>
-        (int)OptionGroupSingleton<ImpostorModifierOptions>.Instance.DoubleShotAmount +
-        (int)OptionGroupSingleton<NeutralModifierOptions>.Instance.DoubleShotAmount;
+        (int)OptionGroupSingleton<AssailantModifierOptions>.Instance.ImpDoubleShotAmount +
+        (int)OptionGroupSingleton<AssailantModifierOptions>.Instance.NeutDoubleShotAmount;
 
     public override int CustomChance
     {
         get
         {
-            var neutOpt = OptionGroupSingleton<NeutralModifierOptions>.Instance;
-            var impOpt = OptionGroupSingleton<ImpostorModifierOptions>.Instance;
-            var impChance = (int)impOpt.DoubleShotChance;
-            var neutChance = (int)neutOpt.DoubleShotChance;
-            if ((int)impOpt.DoubleShotAmount > 0 && (int)neutOpt.DoubleShotAmount > 0)
+            var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
+            var impChance = (int)opts.ImpDoubleShotChance;
+            var neutChance = (int)opts.NeutDoubleShotChance;
+            if ((int)opts.ImpDoubleShotAmount > 0 && (int)opts.NeutDoubleShotAmount > 0)
             {
                 return (impChance + neutChance) / 2;
             }
 
-            if ((int)impOpt.DoubleShotAmount > 0)
+            if ((int)opts.ImpDoubleShotAmount > 0)
             {
                 return impChance;
             }
-            else if ((int)neutOpt.DoubleShotAmount > 0)
+            else if ((int)opts.NeutDoubleShotAmount > 0)
             {
                 return neutChance;
             }
@@ -75,12 +74,11 @@ public class DoubleShotModifier : TouGameModifier, IWikiDiscoverable
 
     public static bool ModifierValidCheck(RoleBehaviour role, bool runChecks)
     {
-        var neutOpt = OptionGroupSingleton<NeutralModifierOptions>.Instance;
-        var impOpt = OptionGroupSingleton<ImpostorModifierOptions>.Instance;
-        var neutCount = (int)neutOpt.DoubleShotAmount.Value;
-        var neutChance = Math.Clamp((int)neutOpt.DoubleShotChance.Value, 0, 100);
-        var impCount = (int)impOpt.DoubleShotAmount.Value;
-        var impChance = Math.Clamp((int)impOpt.DoubleShotChance.Value, 0, 100);
+        var opts = OptionGroupSingleton<AssailantModifierOptions>.Instance;
+        var neutCount = (int)opts.NeutDoubleShotAmount.Value;
+        var neutChance = Math.Clamp((int)opts.NeutDoubleShotChance.Value, 0, 100);
+        var impCount = (int)opts.ImpDoubleShotAmount.Value;
+        var impChance = Math.Clamp((int)opts.ImpDoubleShotChance.Value, 0, 100);
         if (role.Player.GetModifierComponent().HasModifier<AssassinModifier>(true)
             && !role.Player.GetModifierComponent().HasModifier<TouGameModifier>(true, x => x.PreventsOtherModifiers))
         {

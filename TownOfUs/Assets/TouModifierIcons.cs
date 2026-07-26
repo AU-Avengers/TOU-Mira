@@ -70,6 +70,12 @@ public static class TouModifierIcons
     public static LoadableAsset<Sprite> DoubleShot { get; } =
         new LoadableBundleAsset<Sprite>("DoubleShot", TouAssets.MainBundle);
 
+    public static LoadableAsset<Sprite> Overclocker { get; } =
+        new LoadableBundleAsset<Sprite>("Overclocker", TouAssets.MainBundle);
+
+    public static LoadableAsset<Sprite> Ricochet { get; } =
+        new LoadableBundleAsset<Sprite>("Ricochet", TouAssets.MainBundle);
+
     public static LoadableAsset<Sprite> Saboteur { get; } =
         new LoadableBundleAsset<Sprite>("Saboteur", TouAssets.MainBundle);
 
