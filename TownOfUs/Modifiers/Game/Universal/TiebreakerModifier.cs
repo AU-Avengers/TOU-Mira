@@ -1,11 +1,34 @@
 ﻿using MiraAPI.GameOptions;
+using MiraAPI.Utilities;
+using TownOfUs.Interfaces;
 using TownOfUs.Options.Modifiers;
+using TownOfUs.Roles;
 using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Universal;
 
-public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverable
+public sealed class TiebreakerModifier : UniversalGameModifier, IWikiDiscoverable, IContinuesGame
 {
+    // If two or three players are present, then certain roles can stall the game.
+    // Tiebreaker Jester, for example, can stall the game.
+    // Solo Tiebreaker Crewmate can also stall the game and win.
+    // Neutral Killers are unable to be counted here as their win condition allows them to handle it otherwise.
+    public bool ContinuesGame
+    {
+        get
+        {
+            if (!Player.IsImpostorAligned() &&
+                (!Player.IsCrewmate() || Helpers.GetAlivePlayers().Count(x => x.IsCrewmate()) == 1) &&
+                Player.Data.Role is ITownOfUsRole touRole &&
+                touRole.RoleAlignment is not RoleAlignment.NeutralKilling && Helpers.GetAlivePlayers().Count < 4 &&
+                Helpers.GetAlivePlayers().Count > 1)
+            {
+                return touRole.CanModifierContinueGame(this);
+            }
+
+            return false;
+        }
+    }
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Tiebreaker,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Tiebreaker.LoadAsset(),

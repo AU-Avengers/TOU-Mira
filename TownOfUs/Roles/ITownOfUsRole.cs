@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Options;
 
@@ -15,6 +16,11 @@ public interface ITownOfUsRole : ICustomRole
     public virtual string LocaleKey => "KEY_MISS";
     public virtual string ShortName => "";
     public static Dictionary<string, string> LocaleList => [];
+
+    public virtual bool CanModifierContinueGame(BaseModifier modifier)
+    {
+        return false;
+    }
 
     [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
