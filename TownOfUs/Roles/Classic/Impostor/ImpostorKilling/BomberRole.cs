@@ -2,10 +2,12 @@
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
@@ -20,6 +22,11 @@ public sealed class BomberRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public Bomb? Bomb { get; set; }
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrapperRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;
+
+    public bool IsModifierApplicable(BaseModifier modifier)
+    {
+        return modifier is not OverclockerModifier;
+    }
 
     public string LocaleKey => "Bomber";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
