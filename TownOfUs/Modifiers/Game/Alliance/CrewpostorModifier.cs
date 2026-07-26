@@ -18,8 +18,10 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.Game.Alliance;
 
-public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets
+public sealed class CrewpostorModifier : AllianceGameModifier, IWikiDiscoverable, IAssignableTargets, IContinuesGame
 {
+    // If Crewpostor remains as a crewmate, and no impostors are alive, everything should halt.
+    public bool ContinuesGame => Player.IsCrewmate() && !Helpers.GetAlivePlayers().Any(x => x.IsImpostor());
     public override ModifierUiConfiguration Configuration => new(
         TownOfUsColors.Impostor,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Crewpostor.LoadAsset(),
