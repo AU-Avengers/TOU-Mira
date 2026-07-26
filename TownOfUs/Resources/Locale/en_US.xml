@@ -468,6 +468,7 @@
   <string name="DiedToJuggernaut">Destroyed</string>
   <string name="DiedToPestilence">Diseased</string>
   <string name="DiedToSoulCollector">Reaped</string>
+  <string name="DiedToMedusa">Stoned</string>
   <string name="DiedToVampire">Bit</string>
   <string name="DiedToWerewolf">Rampaged</string>
   <string name="DiedToDoomsayer">Doomed</string>
@@ -2212,19 +2213,23 @@
   <string name="TouOptionPlaguebearerAnnounceTransformation">Announce Pestilence Transformation</string>
   <string name="TouOptionPlaguebearerPestilenceKillCooldown">Pestilence Kill Cooldown</string>
   <string name="TouOptionPlaguebearerPestilenceCanVent">Pestilence Can Vent</string>
-  <!-- Soul Collector -->
-  <!-- Soul Collector Wiki / Abilities -->
+  <!-- Medusa -->
+  <!-- Medusa Wiki / Abilities -->
   <string name="TouRoleSoulCollector">Soul Collector</string>
-  <string name="TouRoleSoulCollectorIntroBlurb">Reap the souls out of Crewmates</string>
-  <string name="TouRoleSoulCollectorTabDescription">Reap the souls of others, leaving behind a lasting image</string>
-  <string name="TouRoleSoulCollectorWikiDescription">The Soul Collector is a Neutral Killing role that takes the soul of players. Instead of leaving a body behind, they leave behind a soul-less decoy that looks identical to the reaped player, standing still.</string>
-  <string name="TouRoleSoulCollectorReap">Reap</string>
-  <string name="TouRoleSoulCollectorReapWikiDescription">Reaping acts like a kill button, but instead of making a dead body, makes a fake player in its place, appearing alive.</string>
-  <string name="TouRoleSoulCollectorReapNotif">You have taken \%player\%'s soul, leaving their lifeless body standing.</string>
-  <!-- Soul Collector Options -->
-  <string name="TouOptionSoulCollectorReapCooldown">Reap Cooldown</string>
-  <string name="TouOptionSoulCollectorReapFirstRound">Allow Reap in First Round</string>
-  <string name="TouOptionSoulCollectorCanVent">Soul Collector Can Vent</string>
+  <string name="TouRoleMedusa">Medusa</string>
+  <string name="TouRoleMedusaIntroBlurb">Petrify the Crewmates into stone.</string>
+  <string name="TouRoleMedusaTabDescription">Stone players into permanent statues.</string>
+  <string name="TouRoleMedusaWikiDescription">The Medusa is a Neutral Killing role that forces its victims to stand still and slowly turn into stone. Stoned players that haven't shattered will remain throughout rounds.</string>
+  <string name="TouRoleMedusaPetrify">Petrify</string>
+  <string name="TouRoleMedusaPetrifyWikiDescription">Petrify a player to turn them into stone, killing them and leaving a statue.</string>
+  <string name="TouRoleMedusaPetrifyNotif">\%player\% will slowly turn to stone!</string>
+  <string name="TouRoleMedusaStoneGaze">Stone Gaze</string>
+  <string name="TouRoleMedusaStoneGazing">Stone Gazing</string>
+  <string name="TouRoleMedusaStoneGazeWikiDescription">Petrify anyone who tries to attack you while gazing, unless they attempt to kill you. You will also not lunge towards others.</string>
+  <!-- Medusa Options -->
+  <string name="TouOptionMedusaPetrifyCooldown">Petrify Cooldown</string>
+  <string name="TouOptionMedusaPetrifyFirstRound">Allow Petrify in First Round</string>
+  <string name="TouOptionMedusaCanVent">Medusa Can Vent</string>
   <!-- Survivor -->
   <!-- Survivor Wiki / Abilities -->
   <string name="TouRoleSurvivor">Survivor</string>
@@ -2484,6 +2489,18 @@
   <string name="TouModifierDoubleShotIntroBlurb">You get a second chance when guessing.</string>
   <string name="TouModifierDoubleShotWikiDescription">You get a second chance when you fail to guess a player in a meeting.</string>
   <string name="TouModifierDoubleShotTabDescription">You have an extra chance when assassinating.</string>
+  <!-- Overclocker -->
+  <!-- Overclocker Wiki / Description -->
+  <string name="TouModifierOverclocker">Overclocker</string>
+  <string name="TouModifierOverclockerIntroBlurb">Decrease your cooldowns temporarily.</string>
+  <string name="TouModifierOverclockerWikiDescription">You may decrease your cooldowns at the cost of longer cooldowns once your Overclock is over. After an additional round, your cooldowns will normalize.</string>
+  <string name="TouModifierOverclockerTabDescription">Decrease cooldowns temporarily, at a cost.</string>
+  <string name="TouModifierOverclockerOverclock">Overclock</string>
+  <string name="TouModifierOverclockerOverclocked">Overclocked</string>
+  <string name="TouModifierOverclockerUnderclocked">Underclocked</string>
+  <string name="TouModifierOverclockerOverclockNotif">Your cooldowns are now \%multi\% times faster!</string>
+  <string name="TouModifierOverclockerUnderclockNotif">Your cooldowns are now \%multi\% times slower.</string>
+  <string name="TouModifierOverclockerUnderclockMeetingNotif">After this meeting, your cooldowns will be \%multi\% times slower.</string>
   <!-- Crewmate Modifiers -->
 
   <!-- Aftermath -->

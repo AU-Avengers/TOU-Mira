@@ -298,6 +298,12 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AdminSprite { get; } =
         new LoadableBundleAsset<Sprite>("AdminButton", MainBundle);
 
+    public static LoadableAsset<Sprite> OverclockSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OverclockerOverButton", MainBundle);
+
+    public static LoadableAsset<Sprite> UnderclockSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OverclockerUnderButton", MainBundle);
+
     public static LoadableAsset<Sprite> KillSprite { get; } = new LoadableBundleAsset<Sprite>("KillButton", MainBundle);
     public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableBundleAsset<Sprite>("VentButton", MainBundle);
 
@@ -483,6 +489,21 @@ public static class TouAssets
 
     public static readonly LoadableAsset<Sprite> DeputyRevealBg =
         new LoadableBundleAsset<Sprite>("DeputyRevealBg", MainBundle);
+
+    public static readonly LoadableAsset<GameObject> MedusaStonedPlayer =
+        new LoadableBundleAsset<GameObject>("StonedPlayer", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MedusaStoneMove { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneMoveAnim", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneCrack { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneCrackAnim", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneVisor { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneVisorAnim", MainBundle);
+
+    public static LoadableAsset<AnimationClip> MesudaStoneShatter { get; } =
+        new LoadableBundleAsset<AnimationClip>("MedusaStoneShatterAnim", MainBundle);
     
     public static LoadableAsset<Sprite> IconSkeld { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Skeld.png");

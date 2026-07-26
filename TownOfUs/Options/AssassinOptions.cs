@@ -3,7 +3,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Interfaces;
-using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Assailant;
 
 namespace TownOfUs.Options;
 

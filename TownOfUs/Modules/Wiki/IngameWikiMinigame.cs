@@ -15,6 +15,7 @@ using TMPro;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Options;
 using TownOfUs.Options.Maps;
 using TownOfUs.Roles;

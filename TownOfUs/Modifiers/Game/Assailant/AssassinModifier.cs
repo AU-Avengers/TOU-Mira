@@ -12,10 +12,9 @@ using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Roles.Other;
 using UnityEngine;
 
-namespace TownOfUs.Modifiers.Game;
+namespace TownOfUs.Modifiers.Game.Assailant;
 
 public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 {
@@ -23,6 +22,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
         TownOfUsColors.Assassin,
         TmpSpriteUtils.CreateSpriteAsset(TouModifierIcons.Assassin.LoadAsset(),
             "TouMira.Modifier.Assailant.Assassin", 1.45f));
+    public override Color FreeplayFileColor => TownOfUsColors.Overclocker;
     public int maxKills;
     public int defaultKills;
     private MeetingMenu meetingMenu;
@@ -34,7 +34,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public override bool AppearsInSummary => false;
     public override bool AppearsInIntro => !PlayerControl.LocalPlayer.GetModifiers<TouGameModifier>().Any(x => x != this && x.AppearsInIntro);
     public override bool HideFromGuessing => true;
-    public virtual bool IsImpostorAssassin => true;
+    public bool IsImpostorAssassin => Player.IsImpostorAligned();
 
     public override string GetDescription()
     {
@@ -50,9 +50,6 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
     public override LoadableAsset<Sprite>? ModifierIcon => TouModifierIcons.Assassin;
     public override ModifierFaction FactionType => ModifierFaction.AssailantUtility;
-
-    // YES this is scuffed, a better solution will be used at a later time
-    public override bool ShowInFreeplay => false;
     public string LastGuessedItem { get; set; }
     public uint LastGuessedItemId { get; set; }
     public bool LastGuessedIsRole { get; set; }
@@ -60,15 +57,67 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
     public override bool HideOnUi => !LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance.ShowBasicAssassinOnHud.Value || HasDoubleShot;
 
-    public override int GetAssignmentChance()
+    public static int ImpostorAssassinAttempts;
+    public static int NeutralAssassinAttempts;
+    public static System.Random Rng;
+    public override void BeforeModifierSpawns()
     {
-        return 0;
+        Rng = new System.Random();
+        ImpostorAssassinAttempts = 0;
+        NeutralAssassinAttempts = 0;
     }
 
-    public override int GetAmountPerGame()
+    public static bool ModifierValidCheck(RoleBehaviour role, bool runChecks)
     {
-        return 0;
+        var opts = OptionGroupSingleton<AssassinOptions>.Instance;
+        var neutCount = (int)opts.NumberOfNeutralAssassins.Value;
+        var neutChance = Math.Clamp((int)opts.NeutAssassinChance.Value, 0, 100);
+        var impCount = (int)opts.NumberOfImpostorAssassins.Value;
+        var impChance = Math.Clamp((int)opts.ImpAssassinChance.Value, 0, 100);
+        if ((!runChecks || NeutralAssassinAttempts < neutCount) && neutChance != 0 && role is ITownOfUsRole { RoleAlignment: RoleAlignment.NeutralKilling })
+        {
+            if (runChecks)
+            {
+                NeutralAssassinAttempts++;
+            }
+            Warning($"Adding neut attempt ({NeutralAssassinAttempts}/{neutCount} to {role.Player.Data.PlayerName})");
+            if (Rng.Next(100) >= neutChance)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        if ((!runChecks || ImpostorAssassinAttempts < impCount) && impChance != 0 && role.TeamType == RoleTeamTypes.Impostor)
+        {
+            if (runChecks)
+            {
+                ImpostorAssassinAttempts++;
+            }
+            Warning($"Adding imp attempt ({ImpostorAssassinAttempts}/{impCount} to {role.Player.Data.PlayerName})");
+            if (Rng.Next(100) >= impChance)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
+    public override bool IsModifierValidOnPostCheck(RoleBehaviour role)
+    {
+        return ModifierValidCheck(role, false);
+    }
+
+    public override bool IsModifierValidOn(RoleBehaviour role)
+    {
+        return ModifierValidCheck(role, true);
+    }
+
+    public override int GetAssignmentChance() => 100;
+    public override int GetAmountPerGame() => CustomAmount;
 
     public override int Priority()
     {
@@ -102,11 +151,6 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
 
             return 0;
         }
-    }
-
-    public override bool IsModifierValidOn(RoleBehaviour role)
-    {
-        return role is not SpectatorRole;
     }
 
     public override void OnActivate()

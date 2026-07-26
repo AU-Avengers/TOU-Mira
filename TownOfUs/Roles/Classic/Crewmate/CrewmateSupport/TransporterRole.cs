@@ -195,7 +195,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        if (play1.HasModifier<VeteranAlertModifier>())
+        if (play1.HasModifier<VeteranAlertModifier>() || play1.HasModifier<MedusaGazingModifier>())
         {
             if (transporter.AmOwner)
             {
@@ -205,7 +205,7 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             return;
         }
 
-        if (play2.HasModifier<VeteranAlertModifier>())
+        if (play2.HasModifier<VeteranAlertModifier>() || play2.HasModifier<MedusaGazingModifier>())
         {
             if (transporter.AmOwner)
             {

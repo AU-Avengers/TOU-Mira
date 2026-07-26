@@ -568,6 +568,7 @@ public static class TownOfUsEventHandlers
         }
 
         FakePlayer.ClearAll();
+        StonedPlayer.ClearAll();
         VitalsBodyPatches.ClearMissingPlayers();
     }
 
@@ -583,6 +584,7 @@ public static class TownOfUsEventHandlers
         }
 
         FakePlayer.ClearAll();
+        StonedPlayer.ClearAll();
         VitalsBodyPatches.ClearMissingPlayers();
     }
 

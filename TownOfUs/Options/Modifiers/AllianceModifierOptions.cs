@@ -19,11 +19,7 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.CrewpostorChance;
-            opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-                opt.StringName,
-                TouLocale.Get("TouModifierCrewpostor"),
-                x > 0f ? "1" : "0",
-                opt.Data.GetValueString(x));
+            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierCrewpostor");
         }
     };
 
@@ -34,11 +30,7 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.EgotistChance;
-            opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-                opt.StringName,
-                TouLocale.Get("TouModifierEgotist"),
-                x > 0f ? "1" : "0",
-                opt.Data.GetValueString(x));
+            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierEgotist");
         }
     };
 
@@ -49,11 +41,15 @@ public sealed class AllianceModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<AllianceModifierOptions>.Instance.LoversChance;
-            opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-                opt.StringName,
-                TouLocale.Get("TouModifierLover"),
-                x > 0f ? "2" : "0",
-                opt.Data.GetValueString(x));
+            RunNotif(opt, x > 0f ? "2" : "0", "TouModifierLover");
         }
     };
-}
+    private static void RunNotif(AmountChanceOption opt, string count, string title)
+    {
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get(title),
+            count,
+            opt.Data.GetValueString(opt.Value));
+    }
+};

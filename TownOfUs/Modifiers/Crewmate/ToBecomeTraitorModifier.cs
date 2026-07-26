@@ -7,7 +7,7 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game.Alliance;
-using TownOfUs.Modifiers.Game.Impostor;
+using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Impostor;
@@ -105,7 +105,7 @@ public sealed class ToBecomeTraitorModifier : ExcludedGameModifier, IAssignableT
 
         if (OptionGroupSingleton<TraitorOptions>.Instance.TraitorCanAssassin.Value)
         {
-            player.AddModifier<ImpostorAssassinModifier>();
+            player.AddModifier<AssassinModifier>();
         }
 
         CustomRoleUtils.GetActiveRolesOfType<SnitchRole>().ToList()

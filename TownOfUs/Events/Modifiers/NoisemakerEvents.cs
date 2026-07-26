@@ -13,7 +13,7 @@ public static class NoisemakerEvents
     [RegisterEvent]
     public static void AfterMurderEventHandler(AfterMurderEvent @event)
     {
-        if (@event.Source.IsRole<SoulCollectorRole>() || MeetingHud.Instance)
+        if (@event.Source.IsRole<MedusaRole>() || MeetingHud.Instance)
         {
             return;
         }

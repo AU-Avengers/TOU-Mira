@@ -110,6 +110,8 @@ public static class TownOfUsColors
     // Assailant Modifiers
     public static Color Assassin => new Color32(161, 62, 83, 255);
     public static Color DoubleShot => new Color32(126, 112, 143, 255);
+    public static Color Ricochet => new Color32(255, 178, 153, 255);
+    public static Color Overclocker => new Color32(252, 145, 46, 255);
 
     // Universal Modifiers
     public static Color ButtonBarry => new Color32(179, 51, 204, 255);

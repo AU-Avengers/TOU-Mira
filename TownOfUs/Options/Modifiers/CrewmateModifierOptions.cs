@@ -19,11 +19,7 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.BaitChance;
-            opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-                opt.StringName,
-                TouLocale.Get("TouModifierBait"),
-                opt.Value > 0 ? "1" : "0",
-                opt.Data.GetValueString(x));
+            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierBait");
         }
     };
 
@@ -34,11 +30,7 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
         ChangedEvent = x =>
         {
             var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.CelebrityChance;
-            opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-                opt.StringName,
-                TouLocale.Get("TouModifierCelebrity"),
-                opt.Value > 0 ? "1" : "0",
-                opt.Data.GetValueString(x));
+            RunNotif(opt, x > 0f ? "1" : "0", "TouModifierCelebrity");
         }
     };
 
@@ -241,142 +233,107 @@ public sealed class CrewmateModifierOptions : AbstractOptionGroup
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.AftermathChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierAftermath"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierAftermath");
     };
     
     private static Action<float> _diseasedNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.DiseasedChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierDiseased"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierDiseased");
     };
     
     private static Action<float> _frostyNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.FrostyChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierFrosty"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierFrosty");
     };
     
     private static Action<float> _investigatorNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.InvestigatorChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouRoleInvestigator"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouRoleInvestigator");
     };
     
     private static Action<float> _multitaskerNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.MultitaskerChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierMultitasker"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierMultitasker");
     };
     
     private static Action<float> _noisemakerNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.NoisemakerChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierNoisemaker"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierNoisemaker");
     };
     
     private static Action<float> _operativeNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.OperativeAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.OperativeChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierOperative"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierOperative");
     };
     
     private static Action<float> _rottingNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.RottingChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierRotting"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierRotting");
     };
     
     private static Action<float> _scientistNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScientistChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierScientist"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierScientist");
     };
     
     private static Action<float> _scoutNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.ScoutChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierScout"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierScout");
     };
     
     private static Action<float> _spyNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.SpyChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouRoleSpy"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouRoleSpy");
     };
     
     private static Action<float> _taskmasterNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TaskmasterChance;
-        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
-            opt.StringName,
-            TouLocale.Get("TouModifierTaskmaster"),
-            optAmount.Data.GetValueString(optAmount.Value),
-            opt.Data.GetValueString(opt.Value));
+        RunNotif(opt, optAmount, "TouModifierTaskmaster");
     };
     
     private static Action<float> _torchNotif = x =>
     {
         var optAmount = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchAmount;
         var opt = OptionGroupSingleton<CrewmateModifierOptions>.Instance.TorchChance;
+        RunNotif(opt, optAmount, "TouModifierTorch");
+    };
+
+    private static void RunNotif(AmountChanceOption opt, string count, string title)
+    {
         opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
             opt.StringName,
-            TouLocale.Get("TouModifierTorch"),
+            TouLocale.Get(title),
+            count,
+            opt.Data.GetValueString(opt.Value));
+    }
+    private static void RunNotif(AmountChanceOption opt, AmountChanceOption optAmount, string title)
+    {
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get(title),
             optAmount.Data.GetValueString(optAmount.Value),
             opt.Data.GetValueString(opt.Value));
-    };
+    }
 }
