@@ -17,7 +17,7 @@ public sealed class OverclockButton : TownOfUsButton
     public override float EffectDuration => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockDuration.Value;
     public override int MaxUses => (int)OptionGroupSingleton<OverclockerOptions>.Instance.OverclockUses.Value;
     public override ButtonLocation Location => ButtonLocation.BottomLeft;
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.RewindSprite;
+    public override LoadableAsset<Sprite> Sprite => TouAssets.OverclockSprite;
 
     public override bool UsableFirstRound => OptionGroupSingleton<OverclockerOptions>.Instance.OverclockRoundOne.Value;
 
@@ -46,7 +46,6 @@ public sealed class OverclockButton : TownOfUsButton
         }
 
         modifier.CurrentState = ChargeState.Overclocked;
-        OverrideSprite(TouCrewAssets.RewindingSprite.LoadAsset());
         OverrideName(TouLocale.GetParsed("TouModifierOverclockerOverclocked", "Overclocked"));
 
         var notif1 = Helpers.CreateAndShowNotification(
@@ -64,7 +63,7 @@ public sealed class OverclockButton : TownOfUsButton
         }
         modifier.CurrentState = ChargeState.UnderclockedBegin;
         OverrideName(TouLocale.GetParsed("TouModifierOverclockerUnderclocked", "Underclocked"));
-        OverrideSprite(TouCrewAssets.RewindSprite.LoadAsset());
+        OverrideSprite(TouAssets.UnderclockSprite.LoadAsset());
         if (MeetingHud.Instance || ExileController.Instance)
         {
             return;

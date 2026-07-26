@@ -298,6 +298,12 @@ public static class TouAssets
     public static LoadableAsset<Sprite> AdminSprite { get; } =
         new LoadableBundleAsset<Sprite>("AdminButton", MainBundle);
 
+    public static LoadableAsset<Sprite> OverclockSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OverclockerOverButton", MainBundle);
+
+    public static LoadableAsset<Sprite> UnderclockSprite { get; } =
+        new LoadableBundleAsset<Sprite>("OverclockerUnderButton", MainBundle);
+
     public static LoadableAsset<Sprite> KillSprite { get; } = new LoadableBundleAsset<Sprite>("KillButton", MainBundle);
     public static LoadableAsset<Sprite> VentSprite { get; } = new LoadableBundleAsset<Sprite>("VentButton", MainBundle);
 

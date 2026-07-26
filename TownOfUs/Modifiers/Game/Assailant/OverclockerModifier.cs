@@ -174,6 +174,7 @@ public class OverclockerModifier : TouGameModifier, IWikiDiscoverable
                 CurrentState = ChargeState.Normal;
                 button.OverrideName(
                     TouLocale.GetParsed("TouModifierOverclockerOverclock", "Overclock"));
+                button.OverrideSprite(TouAssets.OverclockSprite.LoadAsset());
                 break;
         }
     }
