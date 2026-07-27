@@ -26,7 +26,23 @@ public interface ITownOfUsRole : ICustomRole
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
-        return TouLocale.GetParsed("ExileTextConfirm").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
+        var prefix = "A";
+        if (RoleName.StartsWithVowel())
+        {
+            prefix = "An";
+        }
+
+        if (Configuration.MaxRoleCount is 0 or 1)
+        {
+            prefix = "The";
+        }
+
+        if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
+            LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+        {
+            prefix = "";
+        }
+        return TouLocale.GetParsed($"ExileTextConfirm{prefix}").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
     }
 
     public virtual string YouAreText

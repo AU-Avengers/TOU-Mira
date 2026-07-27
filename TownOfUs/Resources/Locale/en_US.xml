@@ -398,8 +398,10 @@
   <string name="RoundOfDeath">R\%count\%</string>
   <string name="RoundOfDeathLong">Round \%count\%</string>
   <string name="FirstDeadText">(Died R1)</string>
-  <!-- Cause of Deaths -->
-  <string name="ExileTextConfirm">\%player\% was The \%role\%.</string>
+  <string name="ExileTextConfirmA">\%player\% was a \%role\%.</string>
+  <string name="ExileTextConfirmAn">\%player\% was an \%role\%.</string>
+  <string name="ExileTextConfirmThe">\%player\% was the \%role\%.</string>
+  <string name="ExileTextConfirm">\%player\% was \%role\%.</string>
   <string name="DiedByString">\%cod\% By \%player\%</string>
   <string name="DiedByStringBasic">By \%player\%</string>
   <string name="Alive">Alive</string>
