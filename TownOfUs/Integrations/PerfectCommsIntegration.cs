@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
@@ -34,11 +35,19 @@ internal static class PerfectCommsIntegration
     internal const string PluginId = "com.edgetel.perfectcomms";
     internal const string ModId = "auavengers.tou.mira";
     private const uint SetJaileeVoiceAllowedRpc = 0x50430001;
+    private const float JailVoiceMaintenanceSeconds = 0.25f;
+    private const float JailVoiceHeartbeatSeconds = 2f;
 
     private static readonly HashSet<byte> MeetingBlackmailedPlayers = [];
     private static readonly HashSet<byte> NextRoundBlackmailedPlayers = [];
     private static readonly HashSet<byte> JailVoiceAllowedPlayers = [];
     private static readonly Dictionary<byte, GameObject> JailVoiceButtons = [];
+    private static readonly List<byte> ScratchPlayerIds = [];
+    private static Sprite? _jailVoiceSprite;
+    private static float _nextJailVoiceMaintenanceTime;
+    private static float _nextJailVoiceHeartbeatTime;
+    private static bool _muteBlackmailedInMeetings;
+    private static bool _muteBlackmailedNextRound;
 
     internal static bool Registered { get; private set; }
     internal static bool JailorCanUnmuteJailed { get; set; }
@@ -63,7 +72,7 @@ internal static class PerfectCommsIntegration
     internal static void MarkRegistered()
     {
         Registered = true;
-        JailorCanUnmuteJailed = true;
+        JailorCanUnmuteJailed = false;
     }
 
     internal static void Reset()
@@ -73,11 +82,27 @@ internal static class PerfectCommsIntegration
         MeetingBlackmailedPlayers.Clear();
         NextRoundBlackmailedPlayers.Clear();
         JailVoiceAllowedPlayers.Clear();
-        foreach (var button in JailVoiceButtons.Values)
+        _muteBlackmailedInMeetings = false;
+        _muteBlackmailedNextRound = false;
+        _nextJailVoiceMaintenanceTime = 0f;
+        _nextJailVoiceHeartbeatTime = 0f;
+        ClearAllJailVoiceButtons();
+        ScratchPlayerIds.Clear();
+    }
+
+    internal static void UpdateBlackmailOptions(bool muteInMeetings, bool muteNextRound)
+    {
+        if (_muteBlackmailedInMeetings && !muteInMeetings)
         {
-            button?.Destroy();
+            MeetingBlackmailedPlayers.Clear();
         }
-        JailVoiceButtons.Clear();
+        if (_muteBlackmailedNextRound && !muteNextRound)
+        {
+            NextRoundBlackmailedPlayers.Clear();
+        }
+
+        _muteBlackmailedInMeetings = muteInMeetings;
+        _muteBlackmailedNextRound = muteNextRound;
     }
 
     internal static void BeginMeeting()
@@ -92,10 +117,13 @@ internal static class PerfectCommsIntegration
         MeetingBlackmailedPlayers.Add(playerId);
     }
 
-    internal static void CommitMeetingBlackmail()
+    internal static void CommitMeetingBlackmail(bool carryIntoNextRound)
     {
         NextRoundBlackmailedPlayers.Clear();
-        NextRoundBlackmailedPlayers.UnionWith(MeetingBlackmailedPlayers);
+        if (carryIntoNextRound)
+        {
+            NextRoundBlackmailedPlayers.UnionWith(MeetingBlackmailedPlayers);
+        }
         MeetingBlackmailedPlayers.Clear();
         JailVoiceAllowedPlayers.Clear();
     }
@@ -105,35 +133,92 @@ internal static class PerfectCommsIntegration
 
     internal static bool IsJailVoiceAllowed(byte playerId)
         => JailVoiceAllowedPlayers.Contains(playerId);
-
-    private static void SetJailVoiceAllowed(byte playerId, bool allowed)
+    internal static bool IsLivingJailor(byte playerId)
     {
-        if (allowed)
-        {
-            JailVoiceAllowedPlayers.Add(playerId);
-        }
-        else
-        {
-            JailVoiceAllowedPlayers.Remove(playerId);
-        }
+        var jailor = MiscUtils.PlayerById(playerId);
+        return jailor?.Data?.IsDead != true && jailor?.Data?.Role is JailorRole;
     }
+
+    private static void SetJailVoiceAllowed(byte playerId)
+        => JailVoiceAllowedPlayers.Add(playerId);
 
     [MethodRpc(SetJaileeVoiceAllowedRpc)]
     private static void RpcSetJaileeVoiceAllowed(PlayerControl jailor, byte jaileeId, bool allowed)
     {
-        if (jailor?.Data?.Role is not JailorRole)
+        // The source-owned control is deliberately one-way. A forged or stale re-mute cannot
+        // silence someone the Jailor already allowed to speak.
+        if (!allowed || jailor?.Data?.Role is not JailorRole || jailor.HasDied())
         {
             return;
         }
 
         var jailee = MiscUtils.PlayerById(jaileeId);
         var jail = jailee?.GetModifier<JailedModifier>();
-        if (jail == null || jail.JailorId != jailor.PlayerId)
+        if (jailee == null || jailee.HasDied() || jail == null || jail.JailorId != jailor.PlayerId)
         {
             return;
         }
 
-        SetJailVoiceAllowed(jaileeId, allowed);
+        SetJailVoiceAllowed(jaileeId);
+    }
+
+    internal static void MaintainJailVoiceState(
+        PlayerControl local,
+        bool deliberation,
+        bool muteJailed,
+        bool canUnmute,
+        bool jailPersistsAfterJailorDeath)
+    {
+        JailorCanUnmuteJailed = canUnmute;
+        if (!deliberation || !muteJailed || !canUnmute)
+        {
+            JailVoiceAllowedPlayers.Clear();
+            ClearAllJailVoiceButtons();
+            return;
+        }
+
+        if (Time.time >= _nextJailVoiceMaintenanceTime)
+        {
+            _nextJailVoiceMaintenanceTime = Time.time + JailVoiceMaintenanceSeconds;
+            ScratchPlayerIds.Clear();
+            foreach (byte jaileeId in JailVoiceAllowedPlayers)
+            {
+                var jailee = MiscUtils.PlayerById(jaileeId);
+                var jail = jailee?.GetModifier<JailedModifier>();
+                if (jailee == null || jailee.HasDied() || jail == null ||
+                    (!jailPersistsAfterJailorDeath && !IsLivingJailor(jail.JailorId)))
+                {
+                    ScratchPlayerIds.Add(jaileeId);
+                }
+            }
+            foreach (byte jaileeId in ScratchPlayerIds)
+            {
+                JailVoiceAllowedPlayers.Remove(jaileeId);
+            }
+        }
+
+        if (local.Data?.Role is not JailorRole jailorRole || !local.AmOwner || local.HasDied())
+        {
+            ClearAllJailVoiceButtons();
+            return;
+        }
+
+        TryCreateJailVoiceButton(jailorRole);
+        if (JailVoiceAllowedPlayers.Count == 0 || Time.time < _nextJailVoiceHeartbeatTime)
+        {
+            return;
+        }
+
+        _nextJailVoiceHeartbeatTime = Time.time + JailVoiceHeartbeatSeconds;
+        foreach (byte jaileeId in JailVoiceAllowedPlayers)
+        {
+            var jailee = MiscUtils.PlayerById(jaileeId);
+            var jail = jailee?.GetModifier<JailedModifier>();
+            if (jail?.JailorId == local.PlayerId)
+            {
+                RpcSetJaileeVoiceAllowed(local, jaileeId, true);
+            }
+        }
     }
 
     internal static void TryCreateJailVoiceButton(JailorRole jailorRole)
@@ -142,7 +227,14 @@ internal static class PerfectCommsIntegration
         var jailee = jailorRole.Jailed;
         var meeting = MeetingHud.Instance;
         if (!Registered || !JailorCanUnmuteJailed || meeting == null ||
-            !jailor.AmOwner || jailor.HasDied() || jailee == null || jailee.HasDied())
+            !jailor.AmOwner || jailor.HasDied() || jailee == null || jailee.HasDied() ||
+            IsJailVoiceAllowed(jailee.PlayerId))
+        {
+            ClearJailVoiceButton(jailor.PlayerId);
+            return;
+        }
+        if (JailVoiceButtons.TryGetValue(jailor.PlayerId, out var existingButton) &&
+            existingButton != null)
         {
             return;
         }
@@ -174,16 +266,10 @@ internal static class PerfectCommsIntegration
         label.m_enableWordWrapping = false;
 
         var renderer = buttonObject.GetComponent<SpriteRenderer>();
-        renderer.sprite = LegacyAssets.IsLegacy
-            ? LegacyCrewAssets.JailSprite.LoadAsset()
-            : TouCrewAssets.JailSprite.LoadAsset();
+        renderer.sprite = LoadJailVoiceSprite();
+        renderer.color = Color.white;
 
-        void RefreshLabel()
-        {
-            label.text = IsJailVoiceAllowed(jailee.PlayerId)
-                ? TouLocale.Get("TouRoleJailorBlockVoice", "Block Voice")
-                : TouLocale.Get("TouRoleJailorAllowVoice", "Allow Voice");
-        }
+        label.text = TouLocale.Get("TouRoleJailorAllowVoice", "Allow Voice");
 
         var passive = buttonObject.GetComponent<PassiveButton>();
         passive.OnClick = new Button.ButtonClickedEvent();
@@ -200,14 +286,78 @@ internal static class PerfectCommsIntegration
                 return;
             }
 
-            bool allowed = !IsJailVoiceAllowed(jailee.PlayerId);
-            SetJailVoiceAllowed(jailee.PlayerId, allowed);
-            RpcSetJaileeVoiceAllowed(jailor, jailee.PlayerId, allowed);
-            RefreshLabel();
+            SetJailVoiceAllowed(jailee.PlayerId);
+            RpcSetJaileeVoiceAllowed(jailor, jailee.PlayerId, true);
+            ClearJailVoiceButton(jailor.PlayerId);
         }));
 
-        RefreshLabel();
         JailVoiceButtons[jailor.PlayerId] = buttonObject;
+    }
+
+    private static Sprite LoadJailVoiceSprite()
+    {
+        if (_jailVoiceSprite != null)
+        {
+            return _jailVoiceSprite;
+        }
+
+        using var stream = Assembly.GetExecutingAssembly()
+            .GetManifestResourceStream("TownOfUs.Resources.JailUnmute.png")
+            ?? throw new InvalidOperationException("JailUnmute.png is not embedded.");
+        using var bytes = new MemoryStream();
+        stream.CopyTo(bytes);
+
+        var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false)
+        {
+            wrapMode = TextureWrapMode.Clamp,
+            filterMode = FilterMode.Bilinear,
+        };
+        texture.LoadImage(bytes.ToArray(), false);
+        texture.wrapMode = TextureWrapMode.Clamp;
+        texture.filterMode = FilterMode.Bilinear;
+
+        var pixels = texture.GetPixels32();
+        int minX = texture.width;
+        int minY = texture.height;
+        int maxX = -1;
+        int maxY = -1;
+        for (int y = 0; y < texture.height; y++)
+        {
+            int row = y * texture.width;
+            for (int x = 0; x < texture.width; x++)
+            {
+                if (pixels[row + x].a == 0)
+                {
+                    continue;
+                }
+
+                minX = Math.Min(minX, x);
+                minY = Math.Min(minY, y);
+                maxX = Math.Max(maxX, x);
+                maxY = Math.Max(maxY, y);
+            }
+        }
+        if (maxX < minX || maxY < minY)
+        {
+            throw new InvalidOperationException("JailUnmute.png has no visible pixels.");
+        }
+
+        minX = Math.Max(0, minX - 1);
+        minY = Math.Max(0, minY - 1);
+        maxX = Math.Min(texture.width - 1, maxX + 1);
+        maxY = Math.Min(texture.height - 1, maxY + 1);
+        float width = maxX - minX + 1;
+        float height = maxY - minY + 1;
+        var pivot = new Vector2(
+            (texture.width * 0.5f - minX) / width,
+            (texture.height * 0.5f - minY) / height);
+        _jailVoiceSprite = Sprite.Create(
+            texture,
+            new Rect(minX, minY, width, height),
+            pivot,
+            900f);
+        _jailVoiceSprite.hideFlags |= HideFlags.HideAndDontSave | HideFlags.DontSaveInEditor;
+        return _jailVoiceSprite;
     }
 
     private static void ClearJailVoiceButton(byte jailorId)
@@ -218,6 +368,20 @@ internal static class PerfectCommsIntegration
         }
 
         button?.Destroy();
+    }
+
+    private static void ClearAllJailVoiceButtons()
+    {
+        if (JailVoiceButtons.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var button in JailVoiceButtons.Values)
+        {
+            button?.Destroy();
+        }
+        JailVoiceButtons.Clear();
     }
 
     [HarmonyPatch(typeof(ModCompatibility), nameof(ModCompatibility.Initialize))]
@@ -270,6 +434,8 @@ internal static class PerfectCommsRuntime
     private const string MuteGlitchHacked = nameof(MuteGlitchHacked);
     private const string MuteJailedInMeetings = nameof(MuteJailedInMeetings);
     private const string JailPersistsAfterJailorDeath = nameof(JailPersistsAfterJailorDeath);
+    private const string LegacyRoleOptionsSection = "Host.VoiceChat.Roles";
+    private const string LegacyTeamRadioSection = "Host.VoiceChat";
     private const string JailorCanUnmuteJailed = nameof(JailorCanUnmuteJailed);
     private const string MediumGhostVoice = nameof(MediumGhostVoice);
     private const string TeamRadioVampires = nameof(TeamRadioVampires);
@@ -287,6 +453,8 @@ internal static class PerfectCommsRuntime
     private static readonly object MediumDirectionMuted = VoicePairResult.Mute("Medium direction disabled");
     private static readonly object NonSelectedGhostMuted = VoicePairResult.Mute("Non-selected ghost");
     private static readonly object ListenerMuffled = new VoiceListenerFilterResult(true);
+    private static readonly object ListenerMuffledAndSightObscured =
+        new VoiceListenerFilterResult(true) { SightObscured = true };
     private static readonly object ListenerNormal = new VoiceListenerFilterResult(false);
     private static readonly object VampireRadio = new VoiceManagedRadioChannelResult("vampires", "Vampires", "V");
     private static readonly Dictionary<ushort, object> LoverRadios = [];
@@ -310,11 +478,12 @@ internal static class PerfectCommsRuntime
             VoiceApiCapability.OverlayPrivacy |
             VoiceApiCapability.ManagedTeamRadio |
             VoiceApiCapability.PersistentHostOptions |
-            VoiceApiCapability.IntegrationOwnership |
-            VoiceApiCapability.OverlayAppearance;
+            VoiceApiCapability.OverlayAppearance |
+            VoiceApiCapability.ListenerTaskGateBypass |
+            VoiceApiCapability.ListenerSightObscuration;
         if (!PerfectCommsApi.Supports(required))
         {
-            Warning($"Perfect Comms {PerfectCommsApi.RuntimeApiVersion} does not expose every TOU-Mira integration capability; keeping its legacy adapter active.");
+            Warning($"Perfect Comms {PerfectCommsApi.RuntimeApiVersion} does not expose every TOU-Mira integration capability; source-owned voice behavior is disabled.");
             return;
         }
 
@@ -332,12 +501,6 @@ internal static class PerfectCommsRuntime
             PerfectCommsApi.RegisterOverlayViewerRule(PerfectCommsIntegration.ModId, ResolveOverlayViewer);
             PerfectCommsApi.RegisterOverlaySpeakerRule(PerfectCommsIntegration.ModId, ResolveOverlaySpeaker);
             PerfectCommsApi.RegisterAnimatedColorRule(PerfectCommsIntegration.ModId, RainbowUtils.IsRainbow);
-
-            // Ownership is deliberately last: partial registration must never suppress the proven fallback.
-            PerfectCommsApi.RegisterIntegrationOwner(
-                PerfectCommsIntegration.ModId,
-                VoiceIntegrationIds.TouMira);
-
             _registered = true;
             PerfectCommsIntegration.MarkRegistered();
             Info($"Registered source-owned TOU-Mira voice integration with Perfect Comms API {PerfectCommsApi.RuntimeApiVersion}.");
@@ -346,7 +509,7 @@ internal static class PerfectCommsRuntime
         {
             PerfectCommsApi.Unregister(PerfectCommsIntegration.ModId);
             PerfectCommsIntegration.Reset();
-            Error($"Perfect Comms integration failed; its legacy TOU-Mira adapter remains active: {ex}");
+            Error($"Perfect Comms integration failed and was disabled: {ex}");
         }
     }
 
@@ -399,10 +562,12 @@ internal static class PerfectCommsRuntime
             "Lets the Jailor temporarily allow the jailed player to speak during a meeting.");
         RegisterToggle(TeamRadioVampires,
             "Team Radio - <color=#A32929><b>Vampires</b></color>", true,
-            "Enables the private Vampire managed Team Radio channel when Team Radio is on.");
+            "Enables the private Vampire managed Team Radio channel when Team Radio is on.",
+            context => context.TeamRadioEnabled);
         RegisterToggle(TeamRadioLovers,
             "Team Radio - <color=#FF66CC><b>Lovers</b></color>", true,
-            "Enables the private Lovers managed Team Radio channel when Team Radio is on.");
+            "Enables the private Lovers managed Team Radio channel when Team Radio is on.",
+            context => context.TeamRadioEnabled);
 
         PerfectCommsApi.RegisterHostEnumOption(
             PerfectCommsIntegration.ModId,
@@ -413,6 +578,9 @@ internal static class PerfectCommsRuntime
                 ["None", "Medium -> Ghost", "Ghost -> Medium", "Both"])
             {
                 Description = "Chooses which voice direction is allowed between a Medium and dead players during tasks.",
+                LegacyBinding = new VoiceHostOptionLegacyBinding(
+                    LegacyRoleOptionsSection,
+                    MediumGhostVoice),
             });
     }
 
@@ -429,6 +597,11 @@ internal static class PerfectCommsRuntime
             {
                 Description = description,
                 Visible = visible,
+                LegacyBinding = new VoiceHostOptionLegacyBinding(
+                    key is TeamRadioVampires or TeamRadioLovers
+                        ? LegacyTeamRadioSection
+                        : LegacyRoleOptionsSection,
+                    key),
             });
     }
 
@@ -437,19 +610,34 @@ internal static class PerfectCommsRuntime
         bool deliberation = context.Phase is VoicePhaseKind.Meeting or VoicePhaseKind.Exile;
         bool liveGame = context.Phase is VoicePhaseKind.Tasks or VoicePhaseKind.Meeting or VoicePhaseKind.Exile;
         PerfectCommsIntegration.JailorCanUnmuteJailed = context.GetOption(JailorCanUnmuteJailed);
+        bool muteBlackmailedInMeetings = context.GetOption(MuteBlackmailedInMeetings);
+        bool muteBlackmailedNextRound = context.GetOption(MuteBlackmailedNextRound);
+        PerfectCommsIntegration.UpdateBlackmailOptions(
+            muteBlackmailedInMeetings,
+            muteBlackmailedNextRound);
+        bool muteJailedInMeetings = context.GetOption(MuteJailedInMeetings);
+        bool jailorCanUnmuteJailed = context.GetOption(JailorCanUnmuteJailed);
+        bool jailPersistsAfterJailorDeath = context.GetOption(JailPersistsAfterJailorDeath);
+        if (context.IsLocal)
+        {
+            PerfectCommsIntegration.MaintainJailVoiceState(
+                context.Player,
+                deliberation,
+                muteJailedInMeetings,
+                jailorCanUnmuteJailed,
+                jailPersistsAfterJailorDeath);
+        }
 
         if (context.IsDead)
         {
             return VoiceRuleResult.Pass;
         }
 
-        if (deliberation && context.Player.HasModifier<BlackmailedModifier>())
+        if (deliberation && muteBlackmailedInMeetings &&
+            context.Player.HasModifier<BlackmailedModifier>())
         {
             PerfectCommsIntegration.TrackMeetingBlackmail(context.Player.PlayerId);
-            if (context.GetOption(MuteBlackmailedInMeetings))
-            {
-                return (VoiceRuleResult)BlackmailedMuted;
-            }
+            return (VoiceRuleResult)BlackmailedMuted;
         }
 
         if (liveGame && context.GetOption(MuteGlitchHacked) && IsActivelyGlitchHacked(context.Player))
@@ -462,12 +650,13 @@ internal static class PerfectCommsRuntime
             return (VoiceRuleResult)SwoopedMuted;
         }
 
-        if (deliberation && context.GetOption(MuteJailedInMeetings) &&
+        if (deliberation && muteJailedInMeetings &&
             context.Player.TryGetModifier<JailedModifier>(out var jail))
         {
-            bool jailorValid = context.GetOption(JailPersistsAfterJailorDeath) || IsLivingJailor(jail.JailorId);
+            bool jailorValid = jailPersistsAfterJailorDeath ||
+                PerfectCommsIntegration.IsLivingJailor(jail.JailorId);
             bool temporarilyAllowed =
-                PerfectCommsIntegration.JailorCanUnmuteJailed &&
+                jailorCanUnmuteJailed &&
                 PerfectCommsIntegration.IsJailVoiceAllowed(context.Player.PlayerId);
             if (jailorValid && !temporarilyAllowed)
             {
@@ -480,7 +669,7 @@ internal static class PerfectCommsRuntime
             return VoiceRuleResult.Pass;
         }
 
-        if (context.GetOption(MuteBlackmailedNextRound) &&
+        if (muteBlackmailedNextRound &&
             PerfectCommsIntegration.IsBlackmailedNextRound(context.Player.PlayerId))
         {
             return (VoiceRuleResult)BlackmailedMuted;
@@ -502,6 +691,11 @@ internal static class PerfectCommsRuntime
     private static void ObservePhase(VoicePhaseChangedContext context)
     {
         PerfectCommsIntegration.JailorCanUnmuteJailed = context.GetOption(JailorCanUnmuteJailed);
+        bool muteBlackmailedInMeetings = context.GetOption(MuteBlackmailedInMeetings);
+        bool muteBlackmailedNextRound = context.GetOption(MuteBlackmailedNextRound);
+        PerfectCommsIntegration.UpdateBlackmailOptions(
+            muteBlackmailedInMeetings,
+            muteBlackmailedNextRound);
         if (context.Phase is VoicePhaseKind.Lobby or VoicePhaseKind.Meeting)
         {
             PerfectCommsIntegration.BeginMeeting();
@@ -509,7 +703,8 @@ internal static class PerfectCommsRuntime
         else if ((context.PreviousPhase is VoicePhaseKind.Meeting or VoicePhaseKind.Exile) &&
                  context.Phase == VoicePhaseKind.Tasks)
         {
-            PerfectCommsIntegration.CommitMeetingBlackmail();
+            PerfectCommsIntegration.CommitMeetingBlackmail(
+                muteBlackmailedInMeetings && muteBlackmailedNextRound);
         }
     }
 
@@ -518,6 +713,18 @@ internal static class PerfectCommsRuntime
         if (context.Phase != VoicePhaseKind.Tasks)
         {
             return null;
+        }
+
+        int mediumMode = context.GetEnumOption(MediumGhostVoice);
+        if (mediumMode != 0 && TryGetActiveMedium(context.Listener, out var medium))
+        {
+            return new VoiceListenerResult(
+                medium.Spirit!.transform.position,
+                ResolveLightRadius(context.Listener),
+                VoiceListenerMode.Replace)
+            {
+                BypassTaskVoiceGates = true,
+            };
         }
 
         if (context.GetOption(PuppeteerHearFromVictim) && FindPuppeteerVictim(context.Listener) is { } puppet)
@@ -549,7 +756,11 @@ internal static class PerfectCommsRuntime
         bool hypnotized =
             context.GetOption(MuffleHypnotizedDuringHysteria) &&
             context.Listener.GetModifier<HypnotisedModifier>()?.HysteriaActive == true;
-        return (VoiceListenerFilterResult)(blinded || hypnotized ? ListenerMuffled : ListenerNormal);
+        if (blinded)
+        {
+            return (VoiceListenerFilterResult)ListenerMuffledAndSightObscured;
+        }
+        return (VoiceListenerFilterResult)(hypnotized ? ListenerMuffled : ListenerNormal);
     }
 
     private static VoicePlayerTraits ResolvePlayerTraits(VoiceRuleContext context)
@@ -728,11 +939,6 @@ internal static class PerfectCommsRuntime
     private static bool IsActivelyGlitchHacked(PlayerControl player)
         => player.GetModifier<GlitchHackedModifier>() is { ShouldHideHacked: false };
 
-    private static bool IsLivingJailor(byte playerId)
-    {
-        var jailor = MiscUtils.PlayerById(playerId);
-        return jailor?.Data?.IsDead != true && jailor?.Data?.Role is JailorRole;
-    }
 
     private static PlayerControl? FindPuppeteerVictim(PlayerControl controller)
     {

@@ -11,7 +11,7 @@
         <EmbeddedResource Include="Resources\**\*.*" />
         <None Include="../LICENSE.txt" Pack="true" PackagePath="\"/>
         <None Include="../README.md" Pack="true" PackagePath="\"/>
-        <PackageReference Include="PerfectComms.Api" Version="4.1.7" PrivateAssets="all" />
+        <PackageReference Include="PerfectComms.Api" Version="4.1.7.1" PrivateAssets="all" />
     </ItemGroup>
 
     <Import Project="../AmongUs.props" />
