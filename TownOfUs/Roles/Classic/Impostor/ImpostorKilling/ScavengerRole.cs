@@ -26,6 +26,7 @@ public sealed class ScavengerRole(IntPtr cppPtr)
     [HideFromIl2Cpp] public PlayerControl? Target { get; set; }
     public bool Scavenging { get; set; }
 
+    [HideFromIl2Cpp]
     public bool IsModifierApplicable(BaseModifier modifier)
     {
         return modifier is not OverclockerModifier;

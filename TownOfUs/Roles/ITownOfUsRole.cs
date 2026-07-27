@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Options;
 
@@ -17,11 +18,32 @@ public interface ITownOfUsRole : ICustomRole
     public bool IsDraftable => true; 
     public static Dictionary<string, string> LocaleList => [];
 
+    public virtual bool CanModifierContinueGame(BaseModifier modifier)
+    {
+        return false;
+    }
+
     [HideFromIl2Cpp]
     Func<bool> ICustomRole.VisibleInSettings => () => OptionGroupSingleton<RoleOptions>.Instance.IsClassicRoleAssignment;
     string? ICustomRole.GetCustomEjectionMessage(NetworkedPlayerInfo player)
     {
-        return TouLocale.GetParsed("ExileTextConfirm").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
+        var prefix = "A";
+        if (RoleName.StartsWithVowel())
+        {
+            prefix = "An";
+        }
+
+        if (Configuration.MaxRoleCount is 0 or 1)
+        {
+            prefix = "The";
+        }
+
+        if (RoleName.StartsWith("the", StringComparison.OrdinalIgnoreCase) ||
+            LocaleKey.StartsWith("the", StringComparison.OrdinalIgnoreCase))
+        {
+            prefix = "";
+        }
+        return TouLocale.GetParsed($"ExileTextConfirm{prefix}").Replace("<player>", player.PlayerName).Replace("<role>", RoleName);
     }
 
     public virtual string YouAreText

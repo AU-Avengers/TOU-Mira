@@ -29,6 +29,7 @@ public sealed class WerewolfRole(IntPtr cppPtr)
         orCreateTask.name = "NeutralRoleText";
     }
 
+    [HideFromIl2Cpp]
     public bool IsModifierApplicable(BaseModifier modifier)
     {
         return modifier is not OverclockerModifier;

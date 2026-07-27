@@ -150,6 +150,7 @@ public sealed class DeputyRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         yield return CustomTouMurderRpcs.CoAnimateDeath(targetVoteArea, Random.RandomRangeInt(0, 2), true);
     }
 
+    [HideFromIl2Cpp]
     private IEnumerator CoStopShot()
     {
         yield return new WaitForSeconds(3);

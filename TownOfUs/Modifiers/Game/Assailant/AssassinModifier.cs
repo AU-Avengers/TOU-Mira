@@ -80,7 +80,6 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 NeutralAssassinAttempts++;
             }
-            Warning($"Adding neut attempt ({NeutralAssassinAttempts}/{neutCount} to {role.Player.Data.PlayerName})");
             if (Rng.Next(100) >= neutChance)
             {
                 return false;
@@ -95,7 +94,6 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 ImpostorAssassinAttempts++;
             }
-            Warning($"Adding imp attempt ({ImpostorAssassinAttempts}/{impCount} to {role.Player.Data.PlayerName})");
             if (Rng.Next(100) >= impChance)
             {
                 return false;
@@ -357,7 +355,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return false;
         }
 
-        if (role is IUnguessable { IsGuessable: false })
+        if (role is IUnguessableBasic { IsGuessable: false })
         {
             return false;
         }
@@ -429,6 +427,11 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public static bool IsModifierGuessable(BaseModifier baseModifier)
     {
         if (baseModifier is not TouBaseGameModifier modifier)
+        {
+            return false;
+        }
+
+        if (baseModifier is IUnguessableBasic { IsGuessable: false })
         {
             return false;
         }

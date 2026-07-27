@@ -23,6 +23,7 @@ public sealed class BomberRole(IntPtr cppPtr)
     public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<TrapperRole>());
     public DoomableType DoomHintType => DoomableType.Relentless;
 
+    [HideFromIl2Cpp]
     public bool IsModifierApplicable(BaseModifier modifier)
     {
         return modifier is not OverclockerModifier;
