@@ -355,7 +355,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             return false;
         }
 
-        if (role is IUnguessable { IsGuessable: false })
+        if (role is IUnguessableBasic { IsGuessable: false })
         {
             return false;
         }
@@ -427,6 +427,11 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
     public static bool IsModifierGuessable(BaseModifier baseModifier)
     {
         if (baseModifier is not TouBaseGameModifier modifier)
+        {
+            return false;
+        }
+
+        if (baseModifier is IUnguessableBasic { IsGuessable: false })
         {
             return false;
         }

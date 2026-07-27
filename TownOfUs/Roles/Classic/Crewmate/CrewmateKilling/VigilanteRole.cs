@@ -307,6 +307,11 @@ public sealed class VigilanteRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCre
             return false;
         }
 
+        if (baseModifier is IUnguessableBasic { IsGuessable: false })
+        {
+            return false;
+        }
+
         // This will remove modifiers that alter their chance/amount
         if (modifier.CustomAmount <= 0 || modifier.CustomChance <= 0)
         {
