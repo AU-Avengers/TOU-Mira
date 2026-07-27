@@ -53,6 +53,10 @@ public static class LookoutEvents
         var victim = @event.Target;
         var source = @event.Source;
 
+        if (source == victim)
+        {
+            return;
+        }
         CheckForLookoutWatched(source, victim);
     }
 

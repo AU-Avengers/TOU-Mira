@@ -1,4 +1,5 @@
-﻿using MiraAPI.Events;
+﻿using AchievementsAPI.API;
+using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Hud;
@@ -6,7 +7,9 @@ using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons;
+using TownOfUs.Buttons.Classic.Neutral.NeutralEvil;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -58,6 +61,11 @@ public static class MedusaEvents
                 return;
             }
             miraEvent.Cancel();
+
+            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
+            {
+                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.DontPokeTheBear.Unlock();
+            }
 
             if (TutorialManager.InstanceExists || source.AmOwner)
             {

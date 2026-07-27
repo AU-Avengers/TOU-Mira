@@ -1,4 +1,5 @@
-﻿using MiraAPI.Events;
+﻿using AchievementsAPI.API;
+using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Player;
@@ -6,7 +7,9 @@ using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons;
+using TownOfUs.Buttons.Classic.Neutral.NeutralEvil;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
@@ -119,6 +122,12 @@ public static class VeteranEvents
             {
                 miraEvent.Cancel();
             }
+
+            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
+            {
+                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.DontPokeTheBear.Unlock();
+            }
+
             if (source.HasModifier<InvulnerabilityModifier>())
             {
                 // stops pestilence from softlocking the game when attacking vet

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reactor", "GitSubmodules\Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraAPI", "GitSubmodules\MiraAPI\MiraAPI\MiraAPI.csproj", "{FDA7E102-BC63-4273-BF1D-2D3AFBD0D661}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AchievementsAPI", "GitSubmodules\Achievements-API\AchievementsAPI\AchievementsAPI.csproj", "{44325591-7F64-43BF-AB03-1A982B120473}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FDA7E102-BC63-4273-BF1D-2D3AFBD0D661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDA7E102-BC63-4273-BF1D-2D3AFBD0D661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDA7E102-BC63-4273-BF1D-2D3AFBD0D661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44325591-7F64-43BF-AB03-1A982B120473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44325591-7F64-43BF-AB03-1A982B120473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44325591-7F64-43BF-AB03-1A982B120473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44325591-7F64-43BF-AB03-1A982B120473}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

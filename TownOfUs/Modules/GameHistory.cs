@@ -1,7 +1,9 @@
-﻿using HarmonyLib;
+﻿using AchievementsAPI.API;
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Patches;
 using TownOfUs.Roles.Crewmate;
@@ -75,31 +77,34 @@ public sealed record BodyReport
             {
                 text = TouLocale.GetParsed("TouRoleForensicBodySuicide");
             }
-            else if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
-            {
-                // if the killer died, they would still appear correctly here
-                var role = br.Killer.GetRoleWhenAlive();
-                if (br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole cacheMod)
-                {
-                    role = cacheMod.CachedRole;
-                }
-
-                text = TouLocale.GetParsed("TouRoleForensicBodyKillerRole").Replace("<role>",
-                    $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
-            }
-
-            else if (br.Killer.IsNeutral())
-            {
-                text = TouLocale.GetParsed("TouRoleForensicBodyKillerNeutral");
-            }
-
-            else if (br.Killer.IsCrewmate())
-            {
-                text = TouLocale.GetParsed("TouRoleForensicBodyKillerCrewmate");
-            }
             else
             {
-                text = TouLocale.GetParsed("TouRoleForensicBodyKillerImpostor");
+                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.RightOnTime.Unlock();
+                if (br.KillAge < OptionGroupSingleton<ForensicOptions>.Instance.ForensicRoleDuration * 1000)
+                {
+                    // if the killer died, they would still appear correctly here
+                    var role = br.Killer.GetRoleWhenAlive();
+                    if (br.Killer.GetModifiers<BaseModifier>().FirstOrDefault(x => x is ICachedRole) is ICachedRole
+                        cacheMod)
+                    {
+                        role = cacheMod.CachedRole;
+                    }
+
+                    text = TouLocale.GetParsed("TouRoleForensicBodyKillerRole").Replace("<role>",
+                        $"#{role.GetRoleName().ToLowerInvariant().Replace(" ", "-")})");
+                }
+                else if (br.Killer.IsNeutral())
+                {
+                    text = TouLocale.GetParsed("TouRoleForensicBodyKillerNeutral");
+                }
+                else if (br.Killer.IsCrewmate())
+                {
+                    text = TouLocale.GetParsed("TouRoleForensicBodyKillerCrewmate");
+                }
+                else
+                {
+                    text = TouLocale.GetParsed("TouRoleForensicBodyKillerImpostor");
+                }
             }
 
         }
