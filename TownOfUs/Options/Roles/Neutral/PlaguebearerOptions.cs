@@ -1,5 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
+using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Utilities;
 using TownOfUs.Roles.Neutral;
 
@@ -15,8 +16,13 @@ public sealed class PlaguebearerOptions : AbstractRoleOptionGroup<PlaguebearerRo
     [ModdedNumberOption("TouOptionPlaguebearerInfectCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float InfectCooldown { get; set; } = 25f;
 
-    [ModdedToggleOption("TouOptionPlaguebearerAnnounceTransformation")]
-    public bool AnnouncePest { get; set; } = true;
+    [ModdedToggleOption("TouOptionPlaguebearerLegacyMode")]
+    public bool LegacyPestilence { get; set; } = false;
+
+    public ModdedToggleOption AnnouncePest { get; set; } = new("TouOptionPlaguebearerAnnounceTransformation", true)
+    {
+        Visible = () => OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence
+    };
 
     [ModdedNumberOption("TouOptionPlaguebearerPestilenceKillCooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float PestKillCooldown { get; set; } = 25f;

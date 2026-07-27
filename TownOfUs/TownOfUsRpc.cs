@@ -137,4 +137,5 @@ public enum TownOfUsRpc : uint
     OfficerSyncBullets,
     SetUpCrewpostor,
     MisguessSummary,
+    HorsemanSensed,
 }

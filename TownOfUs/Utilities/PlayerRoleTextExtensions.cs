@@ -302,6 +302,12 @@ public static class PlayerRoleTextExtensions
             name += "<color=#FF4D00> Δ</color>";
         }
 
+        if ((player.HasModifier<TerminalPestilenceModifier>() && PlayerControl.LocalPlayer.IsRole<PestilenceRole>())
+            || (player.HasModifier<TerminalPestilenceModifier>() && isDead))
+        {
+            name += $" {TownOfUsColors.Pestilence.ToTextColor()}¥</color>";
+        }
+
         // This doesn't check for the role itself incase external mods make use of these functions
         if (player.HasModifier(PuppeteerControlledPredicate)
             || player.HasModifier(ParasiteOvertakenPredicate)

@@ -1,5 +1,6 @@
 ﻿using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
 using MiraAPI.Networking;
@@ -18,6 +19,7 @@ using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
+using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
@@ -166,6 +168,19 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             transporter.AddModifier<PlaguebearerInfectedModifier>(infectedplayer2.PlagueBearerId);
         }
 
+        if (transporter.AmOwner && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+        {
+            if (play1.Data.Role is PlaguebearerRole && !PlaguebearerRole.InteractionWillTransform(play1, transporter))
+            {
+                PestilenceRole.RpcHorsemanSensed(play1);
+            }
+
+            if (play2.Data.Role is PlaguebearerRole && !PlaguebearerRole.InteractionWillTransform(play2, transporter))
+            {
+                PestilenceRole.RpcHorsemanSensed(play2);
+            }
+        }
+
         LookoutEvents.CheckForLookoutWatched(transporter, play1);
         LookoutEvents.CheckForLookoutWatched(transporter, play2);
 
@@ -175,23 +190,13 @@ public sealed class TransporterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITown
             mercenary!.AddPayment();
         }
 
-        if (play1.TryGetModifier<InvulnerabilityModifier>(out var invic) && invic.AttackAllInteractions)
+        if (PestilenceRole.HandlePestInteraction(transporter, play1))
         {
-            if (transporter.AmOwner)
-            {
-                play1.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
-            }
-
             return;
         }
 
-        if (play2.TryGetModifier<InvulnerabilityModifier>(out var invic2) && invic2.AttackAllInteractions)
+        if (PestilenceRole.HandlePestInteraction(transporter, play2))
         {
-            if (transporter.AmOwner)
-            {
-                play2.RpcCustomMurder(transporter, MeetingCheck.OutsideMeeting);
-            }
-
             return;
         }
 

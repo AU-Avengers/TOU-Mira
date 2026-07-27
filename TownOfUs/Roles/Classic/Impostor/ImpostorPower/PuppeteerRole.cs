@@ -11,6 +11,7 @@ using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches.ControlSystem;
+using TownOfUs.Roles.Neutral;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -198,6 +199,8 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         {
             target.AddModifier<PuppeteerControlModifier>(puppeteer);
         }
+
+        PlaguebearerRole.HandleHorsemanInteraction(puppeteer, target);
 
         if (target.inVent)
         {

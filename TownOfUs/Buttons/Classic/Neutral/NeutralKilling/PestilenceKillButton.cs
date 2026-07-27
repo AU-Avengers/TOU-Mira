@@ -1,6 +1,8 @@
 using MiraAPI.GameOptions;
+using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using Reactor.Utilities;
+using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Modifiers.Alliance;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Neutral;
@@ -47,5 +49,19 @@ public sealed class PestilenceKillButton : TownOfUsKillRoleButton<PestilenceRole
         }
 
         PlayerControl.LocalPlayer.RpcCustomMurder(Target, MeetingCheck.OutsideMeeting);
+    }
+
+    public override void ClickHandler()
+    {
+        var chainKill = CanClick() && Target != null &&
+                        !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence &&
+                        Target.HasModifier<TerminalPestilenceModifier>();
+
+        base.ClickHandler();
+
+        if (chainKill)
+        {
+            SetTimer(0f);
+        }
     }
 }

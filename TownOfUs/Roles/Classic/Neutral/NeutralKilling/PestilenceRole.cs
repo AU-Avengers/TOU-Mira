@@ -4,11 +4,13 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using Reactor.Networking.Rpc;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -40,12 +42,17 @@ public sealed class PestilenceRole(IntPtr cppPtr)
     public string LocaleKey => "Pestilence";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
-    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    public string RoleLongDescription => OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence
+        ? TouLocale.GetParsed($"TouRole{LocaleKey}TabDescriptionLegacy")
+        : TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
 
     public string GetAdvancedDescription()
     {
         return
             TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            TouLocale.GetParsed(OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence
+                ? $"TouRole{LocaleKey}WikiAdditionLegacy"
+                : $"TouRole{LocaleKey}WikiAddition") +
             MiscUtils.AppendOptionsText(GetType());
     }
 
@@ -117,7 +124,66 @@ public sealed class PestilenceRole(IntPtr cppPtr)
         if (player.Data.Role is not PestilenceRole)
         {
             player.ChangeRole(RoleId.Get<PestilenceRole>());
+
+            if (player.AmOwner && !OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+            {
+                Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
+            }
         }
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.HorsemanSensed)]
+    public static void RpcHorsemanSensed(PlayerControl player)
+    {
+        if (LobbyBehaviour.Instance)
+        {
+            MiscUtils.RunAnticheatWarning(player);
+            return;
+        }
+        if (!player.AmOwner)
+        {
+            return;
+        }
+
+        if (player.Data.Role is PestilenceRole)
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Pestilence));
+        }
+        else if (player.Data.Role is PlaguebearerRole)
+        {
+            Coroutines.Start(MiscUtils.CoFlash(TownOfUsColors.Plaguebearer));
+        }
+    }
+
+    public static bool HandlePestInteraction(PlayerControl interactor, PlayerControl pest)
+    {
+        if (!pest.TryGetModifier<InvulnerabilityModifier>(out var invic) || !invic.AttackAllInteractions ||
+            pest.Data.Role is not PestilenceRole)
+        {
+            return false;
+        }
+
+        if (OptionGroupSingleton<PlaguebearerOptions>.Instance.LegacyPestilence)
+        {
+            if (interactor.AmOwner)
+            {
+                pest.RpcCustomMurder(interactor, MeetingCheck.OutsideMeeting);
+            }
+
+            return true;
+        }
+
+        if (interactor.AmOwner)
+        {
+            if (!interactor.HasModifier<TerminalPestilenceModifier>())
+            {
+                interactor.RpcAddModifier<TerminalPestilenceModifier>(pest.PlayerId);
+            }
+
+            RpcHorsemanSensed(pest);
+        }
+
+        return false;
     }
 
     public override void Initialize(PlayerControl player)
@@ -134,7 +200,13 @@ public sealed class PestilenceRole(IntPtr cppPtr)
             HudManager.Instance.ImpostorVentButton.buttonLabelText.SetOutlineColor(TownOfUsColors.Pestilence);
         }
 
-        Announced = !OptionGroupSingleton<PlaguebearerOptions>.Instance.AnnouncePest;
+        var plagueOpts = OptionGroupSingleton<PlaguebearerOptions>.Instance;
+        Announced = plagueOpts.LegacyPestilence && !plagueOpts.AnnouncePest.Value;
+
+        if (!plagueOpts.LegacyPestilence && !Player.HasModifier<UnstoppableModifier>())
+        {
+            Player.AddModifier<UnstoppableModifier>();
+        }
     }
 
     public override void Deinitialize(PlayerControl targetPlayer)

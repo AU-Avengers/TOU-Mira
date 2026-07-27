@@ -13,6 +13,7 @@ using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
 using TownOfUs.Options;
 using TownOfUs.Options.Roles.Crewmate;
+using TownOfUs.Roles.Neutral;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -172,6 +173,7 @@ public sealed class MirrorcasterRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITou
         }
 
         role?.SetProtectedPlayer(target);
+        PlaguebearerRole.HandleHorsemanInteraction(mc, target);
     }
 
     [MethodRpc((uint)TownOfUsRpc.ClearMagicMirror)]
