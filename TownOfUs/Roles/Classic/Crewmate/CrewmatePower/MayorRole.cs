@@ -27,6 +27,7 @@ public sealed class MayorRole(IntPtr cppPtr)
     public bool CanBeCrewpostor => false;
     public bool CanBeEgotist => true;
     public bool CanBeOtherEvil => true;
+    public bool IsDraftable => false;
     public static GameObject MayorPlayer;
 
     private MeetingMenu meetingMenu;

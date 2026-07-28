@@ -15,6 +15,7 @@ public interface ITownOfUsRole : ICustomRole
     public virtual bool MetWinCon => false;
     public virtual string LocaleKey => "KEY_MISS";
     public virtual string ShortName => "";
+    public bool IsDraftable => true; 
     public static Dictionary<string, string> LocaleList => [];
 
     public virtual bool CanModifierContinueGame(BaseModifier modifier)
