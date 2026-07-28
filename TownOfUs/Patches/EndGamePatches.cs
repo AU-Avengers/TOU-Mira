@@ -195,9 +195,16 @@ public static class EndGamePatches
 
             if (playerControl.Data.Role is IProgressTally tally)
             {
-                playerRoleString.Append(TownOfUsPlugin.Culture,
-                    $" {tally.ProgressOnSummaryNormal}");
-                summaryStats.Append(TownOfUsPlugin.Culture, $" | {tally.ProgressOnSummaryDetailed}");
+                if (tally.ProgressOnSummaryNormal != string.Empty)
+                {
+                    playerRoleString.Append(TownOfUsPlugin.Culture,
+                        $" {tally.ProgressOnSummaryNormal}");
+                }
+
+                if (tally.ProgressOnSummaryDetailed != string.Empty)
+                {
+                    summaryStats.Append(TownOfUsPlugin.Culture, $" | {tally.ProgressOnSummaryDetailed}");
+                }
             }
             else if (playerTeam == ModdedRoleTeams.Crewmate)
             {
