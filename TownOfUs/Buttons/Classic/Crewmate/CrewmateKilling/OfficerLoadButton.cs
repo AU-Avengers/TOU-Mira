@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Options.Roles.Crewmate;
@@ -65,6 +66,15 @@ public sealed class OfficerLoadButton : TownOfUsRoleButton<OfficerRole>
         if (LimitedUses)
         {
             Button?.SetUsesRemaining(UsesLeft);
+            TownOfUsColors.UseBasic = false;
+            if (TextOutlineColor != Color.clear)
+            {
+                SetTextOutline(TextOutlineColor);
+                Button?.usesRemainingSprite.color = TextOutlineColor;
+            }
+
+            TownOfUsColors.UseBasic = LocalSettingsTabSingleton<TownOfUsLocalRoleSettings>.Instance
+                .UseCrewmateTeamColorToggle.Value;
         }
 
         ShootButton.TotalBullets--;

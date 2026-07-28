@@ -28,7 +28,12 @@ public static class OfficerEvents
     [RegisterEvent]
     public static void MiraButtonCancelledEventHandler(MiraButtonCancelledEvent @event)
     {
-        if (@event.Button is not OfficerShootButton button)
+        if (@event.Button is not OfficerShootButton button || button.Target == null)
+        {
+            return;
+        }
+
+        if (PlayerControl.LocalPlayer.Data?.Role is not OfficerRole)
         {
             return;
         }

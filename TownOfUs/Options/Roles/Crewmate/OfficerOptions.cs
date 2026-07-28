@@ -16,7 +16,7 @@ public sealed class OfficerOptions : AbstractRoleOptionGroup<OfficerRole>, IWiki
     public ModdedNumberOption LoadCooldown { get; set; } = new("TouOptionOfficerLoadCooldown", 25f, 2.5f, 120f, 2.5f,
         MiraNumberSuffixes.Seconds);
 
-    public ModdedNumberOption LoadDelay { get; set; } = new("TouOptionOfficerLoadDelay", 5f, 0f, 5f, 0.5f,
+    public ModdedNumberOption LoadDelay { get; set; } = new("TouOptionOfficerLoadDelay", 2.5f, 0f, 5f, 0.5f,
         MiraNumberSuffixes.Seconds);
 
     public ModdedToggleOption CanSelfReport { get; set; } = new("TouOptionOfficerCanSelfReport", false);
