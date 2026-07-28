@@ -97,14 +97,23 @@ public static class DraftPoolBuilder
     private static List<string> TakeWeightedByChance(List<string> names, int take, IRng rng)
     {
         var remaining = new List<string>(names);
+
+        // Bucket name lists can contain the same role id multiple times (once per
+        // configured copy count) so that PickWeightedByChance favors more common
+        // roles. Removing only a single occurrence here left the other copies
+        // behind, so a role with a high count would keep getting re-picked for
+        // every remaining slot instead of the bucket drawing distinct random
+        // roles. Remove every copy of the chosen role so each draw picks a
+        // genuinely different role until we've filled the requested amount.
+        var distinctCount = remaining.Distinct().Count();
         var result = new List<string>();
-        take = Math.Min(take, remaining.Count);
+        take = Math.Min(take, distinctCount);
 
         for (int n = 0; n < take; n++)
         {
             var chosen = PickWeightedByChance(remaining, rng);
             result.Add(chosen);
-            remaining.Remove(chosen);
+            remaining.RemoveAll(x => x == chosen);
         }
 
         return result;
