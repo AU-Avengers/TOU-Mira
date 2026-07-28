@@ -478,29 +478,43 @@ namespace TownOfUs.Modules.DraftMode
 
         private List<string> GenerateOffersForSlot(int slot, ICollection<string> extraAvoid = null!)
         {
+            var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
 
-            int remainingPlayers = DraftManager.GetAllStates().Count(s => !s.HasPicked);
-            int remainingGroups = CountRemainingPoolGroups(_pool);
-
-            if (remainingGroups > 0 && remainingPlayers < remainingGroups)
+            // The "self-heal" branch below guarantees every remaining required slot-group
+            // gets offered before the draft runs out of players to offer it to. That only
+            // makes sense in Role List mode, where pool entries are tagged "role|slotIndex"
+            // and a "group" means the set of options for one specific slot. In Manual
+            // Amounts mode, pool entries have no such suffix, so CountRemainingPoolGroups
+            // treats every single distinct role as its own group of size 1. Since the pool
+            // is intentionally built larger than the player count, remainingGroups almost
+            // always exceeds remainingPlayers, which made this branch fire on nearly every
+            // turn and restrict offers down to a single role. Skip it entirely outside
+            // Role List mode so Manual Amounts always offers a proper random selection.
+            if (roleOpts != null && roleOpts.UseRoleListForPool)
             {
-                var avoid = GetConcurrentOfferAvoid(slot);
-                avoid.UnionWith(GetAvoidNamesForTurn(slot));
-                if (extraAvoid != null) avoid.UnionWith(extraAvoid);
-                var allRemainingGroups = GetRemainingPoolGroups(_pool);
-                var validGroups = allRemainingGroups.Where(g => !avoid.Any(a => a != null && a.EndsWith(g, StringComparison.Ordinal))).ToList();
+                int remainingPlayers = DraftManager.GetAllStates().Count(s => !s.HasPicked);
+                int remainingGroups = CountRemainingPoolGroups(_pool);
 
-                if (validGroups.Count > 0)
+                if (remainingGroups > 0 && remainingPlayers < remainingGroups)
                 {
-                    var chosenGroup = validGroups[_rng.NextInt(validGroups.Count)];
-                    var restrictedPool = _pool.Where(p => p != null && p.EndsWith(chosenGroup, StringComparison.Ordinal)).ToList();
-                    
-                    var healOffers = DraftPoolBuilder.GetOfferedRoles(restrictedPool, _rng, avoid);
-                    if (healOffers.Count > 0)
+                    var avoid = GetConcurrentOfferAvoid(slot);
+                    avoid.UnionWith(GetAvoidNamesForTurn(slot));
+                    if (extraAvoid != null) avoid.UnionWith(extraAvoid);
+                    var allRemainingGroups = GetRemainingPoolGroups(_pool);
+                    var validGroups = allRemainingGroups.Where(g => !avoid.Any(a => a != null && a.EndsWith(g, StringComparison.Ordinal))).ToList();
+
+                    if (validGroups.Count > 0)
                     {
-                        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
-                            $"[DraftEngine] Self-heal active for slot {slot}: assigned group {chosenGroup}");
-                        return healOffers;
+                        var chosenGroup = validGroups[_rng.NextInt(validGroups.Count)];
+                        var restrictedPool = _pool.Where(p => p != null && p.EndsWith(chosenGroup, StringComparison.Ordinal)).ToList();
+
+                        var healOffers = DraftPoolBuilder.GetOfferedRoles(restrictedPool, _rng, avoid);
+                        if (healOffers.Count > 0)
+                        {
+                            MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info,
+                                $"[DraftEngine] Self-heal active for slot {slot}: assigned group {chosenGroup}");
+                            return healOffers;
+                        }
                     }
                 }
             }
