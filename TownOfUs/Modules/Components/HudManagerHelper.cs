@@ -116,6 +116,22 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
     public static void UpdateRoleNameText()
     {
+        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
+        var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
+
+        var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
+        var roleOnTop = HudManagerPatches.RoleOnTop;
+
+        var colorPlayerNames = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ColorPlayerNameToggle.Value;
+        var localDead = PlayerControl.LocalPlayer.HasDied();
+        var localGhost = localDead && genOpt.TheDeadKnow;
+        var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
+                       genOpt is
+                           { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
+        var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
+        var useMiraApiChecks =
+            !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
+
         if (MeetingHud.Instance)
         {
             foreach (var playerVA in MeetingHud.Instance.playerStates)
@@ -155,7 +171,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     continue;
                 }
 
-                var (playerColor, playerName) = GetRoleNameText(player, true);
+                var (playerColor, playerName) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt, roleNameSize, roleOnTop, colorPlayerNames, localDead, localGhost, localImp, localVamp, useMiraApiChecks, true);
 
                 if (curText != playerName)
                 {
@@ -182,7 +198,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     continue;
                 }
 
-                var (playerColor, playerName) = GetRoleNameText(player, false, isVisible);
+                var (playerColor, playerName) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt, roleNameSize, roleOnTop, colorPlayerNames, localDead, localGhost, localImp, localVamp, useMiraApiChecks, false, isVisible);
 
                 player.cosmetics.nameText.text = playerName;
                 player.cosmetics.nameText.color = playerColor;
@@ -199,24 +215,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
-    private static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool inMeeting, bool isVisible = true)
+    private static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool isImpFfa, PostmortemOptions taskOpt, string roleNameSize, bool roleOnTop, bool colorPlayerNames, bool localDead, bool localGhost, bool localImp, bool localVamp, bool useMiraApiChecks, bool inMeeting, bool isVisible = true)
     {
-        var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-        var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
-
-        var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
-        var roleOnTop = HudManagerPatches.RoleOnTop;
-
-        var colorPlayerNames = LocalSettingsTabSingleton<TownOfUsLocalSettings>.Instance.ColorPlayerNameToggle.Value;
-        var localDead = PlayerControl.LocalPlayer.HasDied();
-        var localGhost = localDead && genOpt.TheDeadKnow;
-        var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                       genOpt is
-                       { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
-        var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
-        var useMiraApiChecks =
-            !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
-
         // End Shared of loop
         if (!inMeeting && localGhost)
         {
@@ -229,7 +229,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var playerColor = Color.white;
 
         if (colorPlayerNames && PlayerControl.LocalPlayer.IsImpostorAligned() && player.IsImpostorAligned() &&
-            !player.AmOwner && !genOpt.FFAImpostorMode)
+            !player.AmOwner && !isImpFfa)
         {
             playerColor = Color.red;
         }
