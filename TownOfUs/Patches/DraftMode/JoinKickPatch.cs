@@ -39,7 +39,7 @@ public static class KickOnJoinWhileLockedPatch
         writer.Recycle();
 
         yield return null;
-        yield return new UnityEngine.WaitForSeconds(1f);
+        yield return new UnityEngine.WaitForSeconds(0.5f);
 
         innerNetClient.KickPlayer(targetClientId, false);
     }

@@ -18,6 +18,8 @@ public sealed class LookoutOptions : AbstractRoleOptionGroup<LookoutRole>
     [ModdedNumberOption("TouOptionLookoutMaxWatches", 1f, 15f, 1f, MiraNumberSuffixes.None, "0")]
     public float MaxWatches { get; set; } = 5;
 
+    public ModdedToggleOption LookoutSeesIndirectAttacks { get; } = new("TouOptionLookoutSeesIndirectAttacks", false);
+
     [ModdedToggleOption("TouOptionLookoutLoResetOnNewRound")]
     public bool LoResetOnNewRound { get; set; } = true;
 
