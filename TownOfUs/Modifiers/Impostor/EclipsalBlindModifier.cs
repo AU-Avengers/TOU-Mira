@@ -52,9 +52,7 @@ public sealed class EclipsalBlindModifier(PlayerControl player) : DisabledModifi
 
     public override void OnDeath(DeathReason reason)
     {
-        base.OnDeath(reason);
-
-        ModifierComponent!.RemoveModifier(this);
+        // Nothing
     }
 
     public override void FixedUpdate()

@@ -15,8 +15,8 @@
         public LoadableAsset<Sprite> MiraIcon;
 
         public override Sprite Icon => MiraIcon.LoadAsset();
-        public override Sprite MenuBgSprite => TouAssets.AchievementBox.LoadAsset();
-        public override Sprite ToastBgSprite => TouAssets.AchievementToast.LoadAsset();
+        public override Sprite MenuBgSprite => TouAchAssets.AchievementBox.LoadAsset();
+        public override Sprite ToastBgSprite => TouAchAssets.AchievementToast.LoadAsset();
         /// <summary>
         /// The achievement's sub icon through MiraAPI.
         /// </summary>
@@ -58,8 +58,8 @@ public class CountBundleAchievement : CountAchievement
     public LoadableAsset<Sprite> MiraIcon;
 
     public override Sprite Icon => MiraIcon.LoadAsset();
-    public override Sprite MenuBgSprite => TouAssets.AchievementBox.LoadAsset();
-    public override Sprite ToastBgSprite => TouAssets.AchievementToast.LoadAsset();
+    public override Sprite MenuBgSprite => TouAchAssets.AchievementBox.LoadAsset();
+    public override Sprite ToastBgSprite => TouAchAssets.AchievementToast.LoadAsset();
 
     /// <summary>
     /// The achievement's sub icon through MiraAPI.

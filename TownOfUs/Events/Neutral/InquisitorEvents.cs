@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AchievementsAPI.API;
+using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
@@ -8,6 +9,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
@@ -31,6 +33,10 @@ public static class InquisitorEvents
             if (victim.HasModifier<InquisitorHereticModifier>())
             {
                 stats.CorrectKills += 1;
+                if (source.AmOwner && stats.CorrectKills == (int)OptionGroupSingleton<InquisitorOptions>.Instance.AmountOfHeretics.Value)
+                {
+                    AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.SpanishInquisition.Unlock();
+                }
             }
             else if (source != victim)
             {

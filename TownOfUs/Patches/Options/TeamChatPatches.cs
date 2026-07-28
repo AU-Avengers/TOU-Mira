@@ -856,6 +856,10 @@ public static class TeamChatPatches
         }
         else if (PlayerControl.LocalPlayer.Data.Role is JailorRole || DeathHandlerModifier.IsFullyDead(PlayerControl.LocalPlayer) && OptionGroupSingleton<GeneralOptions>.Instance.TheDeadKnow)
         {
+            if (PlayerControl.LocalPlayer.Data.Role is JailorRole jail)
+            {
+                jail.HasSpokenThisMeeting = true;
+            }
             MiscUtils.AddTeamChat(player.Data,
                 $"<color=#{TownOfUsColors.Jailor.ToHtmlStringRGBA()}>{TouLocale.GetParsed("JailorChatTitle").Replace("<player>", player.Data.PlayerName)}</color>",
                 text, bubbleType: BubbleType.Jailor, onLeft: !player.AmOwner);

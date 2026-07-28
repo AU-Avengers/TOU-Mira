@@ -2,6 +2,7 @@
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
+using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Modifiers;
@@ -37,14 +38,34 @@ public static class SwooperEvents
     {
         var source = @event.Source;
         var victim = @event.Target;
-        if (!source.AmOwner || source == victim || !source.HasModifier<SwoopModifier>())
+        if (!source.AmOwner || source == victim || !source.TryGetModifier<SwoopModifier>(out var swoopModifier))
         {
             return;
+        }
+
+        if (swoopModifier.AchProgress is SwoopProgress.Nothing)
+        {
+            swoopModifier.AchProgress = SwoopProgress.Killed;
         }
         var ach = AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.Untraceable;
         if (!ach.Unlocked)
         {
             ach.Increment(1, ach.CurrentValue == 15);
+        }
+    }
+
+    [RegisterEvent]
+    public static void EnterVentEventHandler(EnterVentEvent @event)
+    {
+        var player = @event.Player;
+        if (!player.AmOwner || !player.TryGetModifier<SwoopModifier>(out var swoopModifier))
+        {
+            return;
+        }
+        if (swoopModifier.AchProgress is SwoopProgress.Killed)
+        {
+            swoopModifier.AchProgress = SwoopProgress.KilledAndVented;
+            AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.Sneakman.Unlock();
         }
     }
 }

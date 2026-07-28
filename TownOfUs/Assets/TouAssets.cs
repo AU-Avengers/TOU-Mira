@@ -20,11 +20,6 @@ public static class TouAssets
     public static LoadableAsset<Sprite> TouMiraIcon { get; } =
         new LoadableResourceAsset($"{ShortPath}.TouMiraIcon.png", 600);
 
-    public static LoadableAsset<Sprite> AchievementBox { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AchievementBox.png");
-    public static LoadableAsset<Sprite> AchievementToast { get; } =
-        new LoadableResourceAsset($"{ShortPath}.AchievementToast.png");
-
     public static LoadableAsset<Sprite> FoolsMenuSprite(int value)
     {
         var sprite = FoolsNormal;
