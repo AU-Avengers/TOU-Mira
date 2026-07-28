@@ -29,6 +29,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using static TownOfUs.Modules.Components.HudManagerHelper;
 
 namespace TownOfUs.Patches;
 
@@ -690,6 +691,12 @@ public static class EndGamePatches
     {
         public static List<PlayerMeetingRecord> PlayerMeetingRecords { get; set; } = [];
 
+        private static string GetCauseOfDeathString(string parsedData)
+        {
+            var curRound = DeathEventHandlers.CurrentRound;
+            return $"<size=60%>『{Color.yellow.ToTextColor()}{parsedData.Replace("<round>", $"{curRound}")}</color>』</size>";
+        }
+
         public static void AddPlayerData(PlayerControl player)
         {
             if (PlayerMeetingRecords.Any(x => x.PlayerId == player.Data.PlayerId))
@@ -701,21 +708,14 @@ public static class EndGamePatches
             var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
             var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
 
-            var causeOfDeath = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedData").Replace("<round>", $"{curRound}")}</color>』</size>";
-            var causeOfDeathFull = $"<size=60%>『{Color.yellow.ToTextColor()}{TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", TouLocale.Get("Alive")).Replace("<round>", $"{curRound}")}</color>』</size>";
+            var causeOfDeath = GetCauseOfDeathString(TouLocale.GetParsed("DisconnectedData"));
+            var causeOfDeathFull = GetCauseOfDeathString(TouLocale.GetParsed("DisconnectedDataFull").Replace("<cod>", TouLocale.Get("Alive")));
             var playerName = player.Data.PlayerName ?? "Unknown";
             var playerNameColored = player.Data.PlayerName ?? "Unknown";
             var playerNameFull = player.Data.PlayerName ?? "Unknown";
             var playerNameColoredFull = player.Data.PlayerName ?? "Unknown";
             var playerColor = Color.white;
             var playerColorColored = Color.white;
-
-            static string GetDiedR1ExtraNameTextForDisplayedIdentity(PlayerControl player)
-            {
-                var mod = player.GetModifiers<BaseRevealModifier>()
-                    .FirstOrDefault(x => x.Visible && x is FirstRoundIndicator && x.ExtraNameText != string.Empty);
-                return mod?.ExtraNameText ?? string.Empty;
-            }
 
             var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
             var roleOnTop = HudManagerPatches.RoleOnTop;
@@ -738,26 +738,14 @@ public static class EndGamePatches
                 }
 
                 playerColor = playerColor.UpdateTargetColor(player);
-                playerName = playerName.UpdateTargetSymbols(player);
-                playerName = playerName.UpdateProtectionSymbols(player);
-                playerName = playerName.UpdateAllianceSymbols(player);
-                playerName = playerName.UpdateStatusSymbols(player);
+                playerName = playerName.UpdateAllSymbols(player);
 
-                playerNameFull = playerNameFull.UpdateTargetSymbols(player, DataVisibility.Show);
-                playerNameFull = playerNameFull.UpdateProtectionSymbols(player, DataVisibility.Show);
-                playerNameFull = playerNameFull.UpdateAllianceSymbols(player, DataVisibility.Show);
-                playerNameFull = playerNameFull.UpdateStatusSymbols(player, DataVisibility.Show);
+                playerNameFull = playerNameFull.UpdateAllSymbols(player, DataVisibility.Show);
 
                 playerColorColored = playerColorColored.UpdateTargetColor(player);
-                playerNameColored = playerNameColored.UpdateTargetSymbols(player);
-                playerNameColored = playerNameColored.UpdateProtectionSymbols(player);
-                playerNameColored = playerNameColored.UpdateAllianceSymbols(player);
-                playerNameColored = playerNameColored.UpdateStatusSymbols(player);
+                playerNameColored = playerNameColored.UpdateAllSymbols(player);
 
-                playerNameColoredFull = playerNameColoredFull.UpdateTargetSymbols(player, DataVisibility.Show);
-                playerNameColoredFull = playerNameColoredFull.UpdateProtectionSymbols(player, DataVisibility.Show);
-                playerNameColoredFull = playerNameColoredFull.UpdateAllianceSymbols(player, DataVisibility.Show);
-                playerNameColoredFull = playerNameColoredFull.UpdateStatusSymbols(player, DataVisibility.Show);
+                playerNameColoredFull = playerNameColoredFull.UpdateAllSymbols(player, DataVisibility.Show);
 
                 var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
                 var role = player.Data.Role;
@@ -989,7 +977,7 @@ public static class EndGamePatches
                     playerNameColoredFull += addedPlayerNameText.ExtraNameText;
                 }
 
-                var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player);
+                var diedR1Text = GetDiedR1ExtraNameTextForDisplayedIdentity(player, false);
                 if (!string.IsNullOrEmpty(diedR1Text))
                 {
                     bottomText += diedR1Text;
