@@ -6,6 +6,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using TownOfUs.Events;
 using TownOfUs.Interfaces;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modules;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
@@ -29,7 +30,8 @@ public sealed class ImitatorCacheModifier : BaseModifier, ICachedRole, IContinue
     public bool ShowCurrentRoleFirst => true;
 
     public bool Visible => Player.AmOwner || PlayerControl.LocalPlayer.HasDied() ||
-                           FairyRole.FairySeesRoleVisibilityFlag(Player);
+                           FairyRole.FairySeesRoleVisibilityFlag(Player) ||
+                           LoverModifier.LoverSeesRoleVisibilityFlag(Player);
 
     public CacheRoleGuess GuessMode => (CacheRoleGuess)OptionGroupSingleton<ImitatorOptions>.Instance.ImitatorGuess.Value;
 

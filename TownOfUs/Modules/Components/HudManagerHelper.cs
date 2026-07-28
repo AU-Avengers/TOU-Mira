@@ -10,6 +10,7 @@ using TMPro;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Crewmate;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Impostor.Venerer;
@@ -214,7 +215,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 var vampBuddy = localVamp && role is VampireRole;
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
+                var localLover = LoverModifier.LoverSeesRoleVisibilityFlag(player);
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localLover || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size={roleNameSize}>{MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{role.GetRoleName()}</color></size>";
@@ -464,7 +466,8 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 var vampBuddy = localVamp && role is VampireRole;
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
+                var localLover = LoverModifier.LoverSeesRoleVisibilityFlag(player);
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localLover || localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     color = role.TeamColor;
                     roleName = $"<size={roleNameSize}>{MiscUtils.GetRoleTmpIcon(role)}{color.ToTextColor()}{role.GetRoleName()}</color></size>";

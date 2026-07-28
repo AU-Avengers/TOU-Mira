@@ -29,6 +29,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using TownOfUs.Modifiers.Game.Alliance;
 
 namespace TownOfUs.Patches;
 
@@ -781,7 +782,8 @@ public static class EndGamePatches
                 var vampBuddy = localVamp && role is VampireRole;
                 var revealed = revealMods.Any(x => x.Visible && x.RevealRole);
                 var localFairy = FairyRole.FairySeesRoleVisibilityFlag(player);
-                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy ||
+                var localLover = LoverModifier.LoverSeesRoleVisibilityFlag(player);
+                if (player.AmOwner || vampBuddy || impostorBuddy || revealed || localGhost || localFairy || localLover ||
                     localSleuth || useMiraApiChecks && customRole != null && customRole.CanLocalPlayerSeeRole(player))
                 {
                     roleName =

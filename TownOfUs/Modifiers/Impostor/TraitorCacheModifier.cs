@@ -4,6 +4,7 @@ using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers.Game.Alliance;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
@@ -17,7 +18,8 @@ public sealed class TraitorCacheModifier : BaseModifier, ICachedRole
     public bool ShowCurrentRoleFirst => true;
 
     public bool Visible => Player.AmOwner || PlayerControl.LocalPlayer.HasDied() ||
-                           FairyRole.FairySeesRoleVisibilityFlag(Player);
+                           FairyRole.FairySeesRoleVisibilityFlag(Player) ||
+                           LoverModifier.LoverSeesRoleVisibilityFlag(Player);
 
     public CacheRoleGuess GuessMode => (CacheRoleGuess)OptionGroupSingleton<TraitorOptions>.Instance.TraitorGuess.Value;
 
