@@ -137,4 +137,25 @@ public enum TownOfUsRpc : uint
     OfficerSyncBullets,
     SetUpCrewpostor,
     MisguessSummary,
+
+    // Draft Mode
+    DraftSubmitPick,
+    DraftStart,
+    DraftAnnounceTurn,
+    DraftSlotNotify,
+    DraftPickerReady,
+    DraftPickConfirmed,
+    DraftForceRole,
+    DraftCancel,
+    DraftRequestShuffle,
+    DraftEnd,
+    DraftCreateNotif,
+    DraftBroadcastRecap,
+}
+
+internal enum TownOfUsInternalRpc : uint
+{
+    SendClientModInfo,
+    ParasiteInputUnreliable,
+    PuppeteerInputUnreliable,
 }

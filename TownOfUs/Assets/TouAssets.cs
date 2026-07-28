@@ -528,7 +528,10 @@ public static class TouAssets
     
     public static LoadableAsset<Sprite> IconSubmerged { get; } =
         new LoadableResourceAsset($"{SettingIconPath}.Submerged.png");
-    
+
+    public static LoadableAsset<Sprite> IconDraftMode { get; } =
+        new LoadableResourceAsset($"{SettingIconPath}.Draft.png", 345f);
+
     public static LoadableAsset<Sprite> ChefProgressFedRainbow { get; } =
         new LoadableResourceAsset($"{ElementIconPath}.ChefFedRainbow.png");
     
