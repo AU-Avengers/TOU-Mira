@@ -30,7 +30,7 @@ public static class TouNeutAssets
         new LoadableBundleAsset<Sprite>("ExeTormentButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> JesterPokeSprite { get; } =
-        new LoadableResourceAsset("TownOfUs.Resources.JesterPokeButton.png");
+        new LoadableBundleAsset<Sprite>("JesterPokeButton", TouAssets.MainBundle);
 
     public static LoadableAsset<Sprite> JesterHauntSprite { get; } =
         new LoadableBundleAsset<Sprite>("JesterHauntButton", TouAssets.MainBundle);

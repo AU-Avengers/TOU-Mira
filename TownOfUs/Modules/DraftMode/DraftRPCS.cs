@@ -23,6 +23,7 @@ public static class DraftRpcs
     {
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcStartDraft received (isHost={AmongUsClient.Instance.AmHost})");
         DraftManager.IsDraftActive = true;
+        DraftAudio.PlayDraftStart();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftSlotNotify)]
@@ -66,11 +67,29 @@ public static class DraftRpcs
         var localPlayerId = PlayerControl.LocalPlayer?.PlayerId ?? 255;
         MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] Checking if it's my turn. Local: {localPlayerId}, Picker: {pickerId}");
 
-        if (localPlayerId == pickerId)
+        bool isMyTurn = localPlayerId == pickerId;
+        bool isLocalGame = AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay;
+
+        if (!isMyTurn && isLocalGame)
+        {
+            var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == pickerId);
+            if (p != null)
+            {
+                var client = AmongUsClient.Instance?.GetClient(p.OwnerId);
+                if (client == null)
+                {
+                    isMyTurn = true;
+                }
+            }
+        }
+
+        if (isMyTurn)
         {
             MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] IT'S MY TURN! Showing picker screen with {offeredList.Count} roles");
+            DraftAudio.PlayYourTurn();
             try
             {
+                DraftScreenController.TargetPickerId = pickerId;
                 DraftScreenController.Show(offeredList.ToArray());
                 MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftRpc] Picker screen shown successfully!");
             }
@@ -95,12 +114,26 @@ public static class DraftRpcs
         DraftManager.NotifyPickerReady(sender.PlayerId);
     }
 
-    [MethodRpc((uint)TownOfUsRpc.DraftPickConfirmed)]
-    public static void RpcPickConfirmed(PlayerControl sender, int slot, ushort roleId)
+    [MethodRpc((uint)TownOfUsRpc.DraftRequestShuffle)]
+    public static void RpcRequestShuffle(PlayerControl sender)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcPickConfirmed: slot {slot}, roleId {roleId}");
+        if (!AmongUsClient.Instance.AmHost) return;
+        if (sender == null) return;
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcRequestShuffle: player {sender.PlayerId}");
+        DraftEngineBehaviour.Instance?.RequestShuffle(sender.PlayerId);
+    }
+
+    [MethodRpc((uint)TownOfUsRpc.DraftPickConfirmed)]
+    public static void RpcPickConfirmed(PlayerControl sender, int slot, ushort roleId, bool timedOut)
+    {
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftRpc] RpcPickConfirmed: slot {slot}, roleId {roleId}, timedOut {timedOut}");
         DraftManager.ConfirmPick(slot, roleId);
-        DraftScreenController.Hide();
+
+        var localSlot = DraftManager.GetSlotForPlayer(PlayerControl.LocalPlayer.PlayerId);
+        if (slot == localSlot)
+        {
+            DraftScreenController.Hide();
+        }
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftForceRole)]
@@ -133,8 +166,9 @@ public static class DraftRpcs
     public static void RpcCreateNotif(PlayerControl sender, string message)
     {
         if (string.IsNullOrEmpty(message)) return;
-        Helpers.CreateAndShowNotification(message, Color.white,
+        var notif = Helpers.CreateAndShowNotification(message, Color.white,
             new Vector3(0f, 1f, -20f), spr: TouAssets.IconDraftMode.LoadAsset());
+        notif?.AdjustNotification();
     }
 
     [MethodRpc((uint)TownOfUsRpc.DraftBroadcastRecap)]
@@ -192,11 +226,12 @@ public static class DraftRpcs
 
 public static class DraftNetworkHelper
 {
-    public static void SendPickToHost(int index)
+    public static void SendPickToHost(int index, byte pickerId = 255)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] SendPickToHost: index {index}");
+        byte idToSend = pickerId == 255 ? PlayerControl.LocalPlayer.PlayerId : pickerId;
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] SendPickToHost: index {index} for player {idToSend}");
         if (AmongUsClient.Instance.AmHost)
-            DraftManager.SubmitPick(PlayerControl.LocalPlayer.PlayerId, (byte)index);
+            DraftManager.SubmitPick(idToSend, (byte)index);
         else
             DraftRpcs.RpcSubmitPick(PlayerControl.LocalPlayer, index);
     }
@@ -246,11 +281,11 @@ public static class DraftNetworkHelper
             padded[0], padded[1], padded[2], padded[3], padded[4], padded[5], padded[6], padded[7], padded[8]);
     }
 
-    public static void BroadcastPickConfirmed(int slot, ushort roleId)
+    public static void BroadcastPickConfirmed(int slot, ushort roleId, bool timedOut = false)
     {
-        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] BroadcastPickConfirmed: slot {slot}, roleId {roleId}");
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, $"[DraftNetworkHelper] BroadcastPickConfirmed: slot {slot}, roleId {roleId}, timedOut {timedOut}");
         DraftManager.ConfirmPick(slot, roleId);
-        DraftRpcs.RpcPickConfirmed(PlayerControl.LocalPlayer, slot, roleId);
+        DraftRpcs.RpcPickConfirmed(PlayerControl.LocalPlayer, slot, roleId, timedOut);
     }
 
     public static void NotifyPickerReady()
@@ -259,6 +294,15 @@ public static class DraftNetworkHelper
             DraftManager.NotifyPickerReady(PlayerControl.LocalPlayer.PlayerId);
         else
             DraftRpcs.RpcPickerReady(PlayerControl.LocalPlayer);
+    }
+
+    public static void RequestShuffle()
+    {
+        MiscUtils.LogInfo(Events.TownOfUsEventHandlers.LogLevel.Info, "[DraftNetworkHelper] RequestShuffle");
+        if (AmongUsClient.Instance.AmHost)
+            DraftEngineBehaviour.Instance?.RequestShuffle(PlayerControl.LocalPlayer.PlayerId);
+        else
+            DraftRpcs.RpcRequestShuffle(PlayerControl.LocalPlayer);
     }
 
     public static void SendForceRoleToHost(string roleName, byte targetId)

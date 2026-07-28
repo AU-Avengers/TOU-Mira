@@ -11,6 +11,43 @@
   <string name="LegacyThemeFull">Legacy: Full</string>
   <string name="TertiaryAbility">Tertiary Ability (Hack Ability)</string>
   <string name="ModifierAbility">Modifier Ability</string>
+  <!-- Draft Mode -->
+  <string name="TouDraftCancelButton">Cancel Draft</string>
+  <string name="TouDraftCancelledNotif">Draft Mode has been cancelled by the \%color=#FFBFCC\%\%b\%Host\%/b\%\%/color\%!</string>
+  <string name="TouDraftShuffleButton">Shuffle</string>
+  <string name="TouDraftShuffledNotif">Your picks have been Reshuffled!</string>
+  <string name="TouDraftRandomDescription">Locks in a completely random role for you.</string>
+  <string name="TouDraftUnknownRoleLabel">Role \%id\%</string>
+  <string name="TouDraftUnknownTeamLabel">Unknown</string>
+  <string name="TouDraftRecapHeader">DRAFT RECAP</string>
+  <string name="TouDraftRecapModeRole">Role</string>
+  <string name="TouDraftRecapModeFaction">Faction</string>
+  <string name="TouDraftPlayerLabel">Player \%slot\%</string>
+  <string name="TouDraftSlotLabel">Slot \%slot\%</string>
+  <string name="TouDraftPickPrompt">Pick Your Role!</string>
+  <string name="TouDraftTimerRemaining">\%secs\% Second(s) Remaining</string>
+  <string name="TouDraftWaitingToStart">Waiting to start...</string>
+  <string name="TouDraftRolesPickedLabel">ROLES PICKED</string>
+  <string name="TouDraftShimmerDraft">DRAFT</string>
+  <string name="TouDraftShimmerMode">MODE</string>
+  <string name="TouDraftPlayerNumberLabel">Player #\%num\%</string>
+  <string name="TouDraftYouLabel">YOU</string>
+  <string name="TouDraftIsPickingLabel">is picking...</string>
+  <string name="TouDraftIsWaitingLabel">is waiting</string>
+  <string name="TouDraftPickedLabel">picked</string>
+  <string name="TouDraftUnknownRoleStatus">UNKNOWN</string>
+  <string name="TouDraftARoleLabel">a role</string>
+  <string name="TouDraftYourNumberLabel">YOUR NUMBER:</string>
+  <string name="TouDraftYouAreLabel">YOU ARE</string>
+  <string name="TouDraftSpectatingValue">SPECTATING</string>
+  <string name="TouDraftNowPickingLabel">NOW PICKING:</string>
+  <string name="TouDraftYourTurnLabel">YOUR TURN!</string>
+  <string name="TouDraftNowPickingMultiLabel">NOW PICKING (MULTI):</string>
+  <string name="TouDraftMultiLabel">MULTI</string>
+  <string name="DraftAudioCue">When Draft Audio Plays</string>
+  <string name="DraftAudioStart">Draft Start</string>
+  <string name="DraftAudioYourTurn">Your Turn</string>
+  <string name="DraftAudioNone">None</string>
   <!-- Client Options -->
   <string name="SelfKillBindToggle">LSHIFT + T + ENTER Triggers Self-Kill</string>
   <string name="AbortGameBindToggle">LSHIFT + L + ENTER Triggers Abort Game</string>
@@ -41,6 +78,11 @@
   <string name="NameStyleTopSmall">Top (Small)</string>
   <string name="NameStyleBottom">Bottom</string>
   <string name="NameStyleBottomSmall">Bottom (Small)</string>
+  <string name="DisplayPlayerProgress">Show Player Progress On Name For</string>
+  <string name="ProgressTrackingNever">No One</string>
+  <string name="ProgressTrackingOnSelf">Self</string>
+  <string name="ProgressTrackingOnOthers">Others</string>
+  <string name="ProgressTrackingAlways">Everyone</string>
   <string name="ModStampPlacement">Mod Stamp</string>
   <string name="ModStampTopLeft">Top-Left</string>
   <string name="ModStampTopRight">Top-Right</string>
@@ -2411,14 +2453,16 @@
   <string name="TouModifierAssassinTabDescription">Guess players out of the meeting.</string>
   <string name="MisguessSummary">Misguessed \%player\% as \%role\%</string>
   <!-- Assassin Options -->
-  <string name="TouOptionAssassinNeutAssassinTitle">Neut Assassins: </string>
-  <string name="TouOptionAssassinImpAssassinTitle">Imp Assassins: </string>
+  <string name="TouOptionAssassinNeutTitleNone">0 Neut Assassins</string>
+  <string name="TouOptionAssassinImpTitleNone">0 Imp Assassins</string>
+  <string name="TouOptionAssassinNeutTitleSingle">1 Neut Assassin (\%chance\%%) |</string>
+  <string name="TouOptionAssassinImpTitleSingle">1 Imp Assassin (\%chance\%%) |</string>
+  <string name="TouOptionAssassinNeutTitleFull">\%amount\% Neut Assassins (\%chance\%%) |</string>
+  <string name="TouOptionAssassinImpTitleFull">\%amount\% Imp Assassins (\%chance\%%) |</string>
   <string name="TouOptionAssassinGuessableCrewRolesTitle">Unguessable Crewmate Roles: </string>
   <string name="TouOptionAssassinGuessableNeutRolesTitle">Unguessable Neutral Roles: </string>
   <string name="TouOptionAssassinGuessableImpRolesTitle">Unguessable Impostor Roles: </string>
   <string name="TouOptionAssassinGuessableModifiersTitle">Unguessable Modifiers: </string>
-  <string name="TouOptionAssassinNoAssassins">Amount: 0</string>
-  <string name="TouOptionAssassinSetAssassins">Amount: \%amount\% - Chance: \%chance\%%</string>
   <string name="TouOptionAssassinNone">None</string>
   <string name="TouOptionAssassinAll">All</string>
   <string name="TouOptionAssassinNeutBenign">Benign</string>
@@ -2432,6 +2476,7 @@
   <string name="TouOptionAssassinUtilityCrewMods">Crew Utility</string>
   <string name="TouOptionAssassinAllianceMods">Alliance</string>
   <string name="TouOptionAssassinNonCrewMods">Non-Crew</string>
+  <string name="TouOptionAssassinImpMods">Impostor</string>
   <string name="TouOptionAssassinUniversalMods">Universal</string>
   <!-- Double Shot -->
   <!-- Double Shot Wiki / Description -->

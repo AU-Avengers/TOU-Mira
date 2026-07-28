@@ -10,8 +10,10 @@ using System.Text;
 using Il2CppInterop.Runtime.Attributes;
 using TownOfUs.Buttons.Neutral;
 using TownOfUs.Events;
+using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
+using TownOfUs.Options;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
@@ -21,8 +23,27 @@ using UnityEngine.UI;
 namespace TownOfUs.Roles.Neutral;
 
 public sealed class SpectreRole(IntPtr cppPtr)
-    : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable
+    : NeutralGhostRole(cppPtr), ITownOfUsRole, IGhostRole, IWikiDiscoverable, IProgressTally
 {
+    public bool ProgressOnName(bool localDead, bool inMeeting, bool amOwner, out string progress)
+    {
+        var taskOpt = OptionGroupSingleton<TaskTrackingOptions>.Instance;
+        if (((inMeeting && taskOpt.ShowTaskInMeetings) || !inMeeting) && amOwner ||
+            (taskOpt.ShowTaskDead && localDead))
+        {
+            progress = Player.TaskInfo();
+            return true;
+        }
+
+        progress = string.Empty;
+        return false;
+    }
+
+    public string ProgressOnSummaryNormal => Player.TaskInfo();
+
+    public string ProgressOnSummaryDetailed =>
+        $"{TouLocale.GetParsed("StatsTaskCount").Replace("<count>", Player.TaskInfo().Replace("(", "").Replace(")", ""))}";
+
     public override void SpawnTaskHeader(PlayerControl playerControl)
     {
         if (!playerControl.AmOwner)

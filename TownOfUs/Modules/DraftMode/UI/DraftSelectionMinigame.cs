@@ -1,5 +1,6 @@
 using System.Collections;
 using Il2CppInterop.Runtime.Attributes;
+using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
 using TMPro;
@@ -28,7 +29,7 @@ namespace TownOfUs.Modules.DraftMode
         private TextMeshPro _timerText;
         private GameObject _tooltipRoot;
         private TextMeshPro _tooltipText;
-        private const string PickPrompt = "<color=#FFFFFF><size=200%><b>Pick Your Role!</b></size></color>";
+        private static string PickPrompt => $"<color=#FFFFFF><size=200%><b>{TouLocale.GetParsed("TouDraftPickPrompt", "Pick Your Role!")}</b></size></color>";
         private GameObject _timerRoot;
         private GameObject _timerTrack;
         private GameObject _timerFill;
@@ -379,8 +380,11 @@ namespace TownOfUs.Modules.DraftMode
                     i, totalCards, card.Color, card.Faction,
                     cardScale, useGrid, spacing, card.Description);
 
+                var capturedName = card.RoleName;
+                var capturedColor = card.Color;
+
                 btn.OnClick.RemoveAllListeners();
-                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx)));
+                btn.OnClick.AddListener((UnityAction)(() => OnCardClicked(capturedIdx, capturedName, capturedColor)));
             }
 
             Coroutines.Start(CoAnimateCards(rolesHolder!, cardScale, useGrid, totalCards));
@@ -839,8 +843,9 @@ namespace TownOfUs.Modules.DraftMode
                     string color = urgent ? "#FF5555" : "#FFD700";
                     float timerPulse = urgent ? 1f + Mathf.Sin(Time.time * 10f) * 0.08f : 1f;
                     _timerText.transform.localScale = Vector3.one * timerPulse;
-                    _timerText.text =
-                        $"<color={color}><b>{secs} Second{(secs != 1 ? "s" : "")} Remaining</b></color>";
+                    string timerLabel = TouLocale.GetParsed("TouDraftTimerRemaining", "<secs> Second(s) Remaining")
+                        .Replace("<secs>", secs.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    _timerText.text = $"<color={color}><b>{timerLabel}</b></color>";
 
                     float timeForBar = AmongUsClient.Instance.AmHost
                         ? DraftManager.TurnTimeLeft
@@ -850,13 +855,29 @@ namespace TownOfUs.Modules.DraftMode
             }
         }
 
-        private void OnCardClicked(int index)
+        public static byte TargetPickerId = 255;
+
+        private void OnCardClicked(int index, string roleName, Color roleColor)
         {
             if (_hasPicked) return;
 
             _hasPicked = true;
-            DraftNetworkHelper.SendPickToHost(index);
+            DraftNetworkHelper.SendPickToHost(index, TargetPickerId);
+            Coroutines.Start(CoShowPickNotification(roleName, roleColor));
             Invoke(nameof(DestroySelf), 1.2f);
+        }
+
+        private static IEnumerator CoShowPickNotification(string roleName, Color roleColor)
+        {
+            yield return new WaitForSeconds(1.3f);
+            if (HudManager.Instance == null) yield break;
+
+            string hex = ColorUtility.ToHtmlStringRGB(roleColor);
+
+            var notif = Helpers.CreateAndShowNotification(
+                $"You can learn about what <b><color=#{hex}>{roleName}</color></b> does by clicking the role card towards the right",
+                Color.white, new Vector3(0f, 1f, -20f), spr : TouAssets.IconDraftMode.LoadAsset());
+            notif?.AdjustNotification();
         }
 
         private static void DestroySelf() => Hide();
@@ -903,4 +924,3 @@ namespace TownOfUs.Modules.DraftMode
         }
     }
 }
-

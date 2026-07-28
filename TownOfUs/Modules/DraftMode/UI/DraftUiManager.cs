@@ -19,8 +19,8 @@ namespace TownOfUs.Modules.DraftMode
                 ushort id   = roleIds[i];
                 var    role = ResolveRole(id);
 
-                string displayName = role ? role.GetRoleName() : $"Role {id}";
-                string team        = role ? MiscUtils.GetParsedRoleAlignment(role!) : "Unknown";
+                string displayName = role ? role.GetRoleName() : TouLocale.GetParsed("TouDraftUnknownRoleLabel", "Role <id>").Replace("<id>", id.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                string team        = role ? MiscUtils.GetParsedRoleAlignment(role!) : TouLocale.GetParsed("TouDraftUnknownTeamLabel", "Unknown");
                 Sprite icon        = role ? role.GetRoleIcon() : TouRoleIcons.RandomAny.LoadAsset();
                 Color  color       = role ? role.TeamColor : Color.white;
 
@@ -30,12 +30,12 @@ namespace TownOfUs.Modules.DraftMode
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
             if (roleOpts.ShowRandomOption)
                 cards.Add(new DraftRoleCard(
-                    "Random", "Random",
+                    TouLocale.Get("Random"), TouLocale.Get("Random"),
                     TouRoleIcons.RandomAny.LoadAsset(),
                     Color.white,
                     roleIds.Count,
                     DraftFaction.Other,
-                    "Locks in a completely random role for you."));
+                    TouLocale.GetParsed("TouDraftRandomDescription", "Locks in a completely random role for you.")));
             return cards;
         }
 
