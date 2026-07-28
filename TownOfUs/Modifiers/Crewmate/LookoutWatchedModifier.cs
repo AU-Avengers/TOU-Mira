@@ -71,6 +71,11 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
                 }
             }
 
+            if (SeenPlayers.Count > 4)
+            {
+                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.SearchParty.Unlock();
+            }
+
             message = message.Remove(message.Length - 2, 2);
 
             var final = message.ToString();

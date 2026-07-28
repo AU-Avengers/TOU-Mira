@@ -1,4 +1,5 @@
 using System.Collections;
+using AchievementsAPI.API;
 using Hazel;
 using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
@@ -8,6 +9,7 @@ using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Options.Roles.Crewmate;
@@ -265,6 +267,10 @@ public sealed class MedSpiritObject(IntPtr cppPtr) : InnerNetObject(cppPtr)
 
     public void DestroyImmediate()
     {
+        if (Owner != null && Owner.HasDied() && Owner.AmOwner)
+        {
+            AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.Purgatory.Unlock();
+        }
         Moveable = false;
         Rigidbody.isKinematic = true;
         NetTransform.enabled = false;

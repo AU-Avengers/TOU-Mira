@@ -1,7 +1,10 @@
-﻿using MiraAPI.Events;
+﻿using AchievementsAPI.API;
+using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using TownOfUs.Achievements;
 using TownOfUs.Events.TouEvents;
+using TownOfUs.Modifiers.Game.Universal;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Patches;
 using TownOfUs.Utilities.Appearances;
@@ -36,6 +39,12 @@ public sealed class MorphlingMorphModifier(PlayerControl target) : ConcealedModi
             !Player.HasModifier<FirstDeadShieldDisguiseVisual>())
         {
             Player.AddModifier<FirstDeadShieldDisguiseVisual>(Target);
+        }
+
+        if (Player.AmOwner && (Target.HasModifier<MiniModifier>() && Player.HasModifier<GiantModifier>()) ||
+            (Target.HasModifier<GiantModifier>() && Player.HasModifier<MiniModifier>()))
+        {
+            AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.SizeDoesntMatter.Unlock();
         }
 
         var touAbilityEvent = new TouAbilityEvent(AbilityType.MorphlingMorph, Player, Target);

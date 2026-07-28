@@ -15,14 +15,29 @@
         public LoadableAsset<Sprite> MiraIcon;
 
         public override Sprite Icon => MiraIcon.LoadAsset();
+        public override Sprite MenuBgSprite => TouAssets.AchievementBox.LoadAsset();
+        public override Sprite ToastBgSprite => TouAssets.AchievementToast.LoadAsset();
+        /// <summary>
+        /// The achievement's sub icon through MiraAPI.
+        /// </summary>
+        public LoadableAsset<Sprite> MiraSubIcon;
+        public override Sprite MenuSubIcon => MiraSubIcon.LoadAsset();
+        public override Vector3 MenuSubIconOffset => new(-40f, -70f);
+        public override Vector3 MenuSubIconScale => new(0.6f, 0.6f, 1);
 
-        public BaseBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, int rarity = 0,
+        public override Vector3 MenuIconOffset => new(10f, -10f);
+        public override Vector3 MenuTitleOffset => new(10f, -10f);
+        public override Vector3 MenuDescOffset => new(10f, -10f);
+        public override Vector3 ToastIconOffset => new(10f, -10f);
+
+        public BaseBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> subIcon, int rarity = 0,
             bool hidden = false, bool hideRarity = true, Assembly? assembly = null) : base(name, description, rarity,
             hidden, hideRarity, assembly)
         {
             Name = name;
             Description = description;
             Assembly = assembly ?? Assembly.GetCallingAssembly();
+            MiraSubIcon = subIcon;
             MiraIcon = icon;
             Id = Assembly.GetName().Name + "_" + Name;
             Rarity = rarity;
@@ -43,12 +58,28 @@ public class CountBundleAchievement : CountAchievement
     public LoadableAsset<Sprite> MiraIcon;
 
     public override Sprite Icon => MiraIcon.LoadAsset();
+    public override Sprite MenuBgSprite => TouAssets.AchievementBox.LoadAsset();
+    public override Sprite ToastBgSprite => TouAssets.AchievementToast.LoadAsset();
 
-    public CountBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, int currentValue,
+    /// <summary>
+    /// The achievement's sub icon through MiraAPI.
+    /// </summary>
+    public LoadableAsset<Sprite> MiraSubIcon;
+    public override Sprite MenuSubIcon => MiraSubIcon.LoadAsset();
+    public override Vector3 MenuSubIconOffset => new(-40f, -70f);
+    public override Vector3 MenuSubIconScale => new(0.6f, 0.6f, 1);
+
+    public override Vector3 MenuIconOffset => new(10f, -10f);
+    public override Vector3 MenuTitleOffset => new(10f, -10f);
+    public override Vector3 MenuDescOffset => new(10f, -10f);
+    public override Vector3 ToastIconOffset => new(10f, -10f);
+
+    public CountBundleAchievement(string name, string description, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> subIcon, int currentValue,
         int requiredValue, bool progressPersists = true, int rarity = 0, bool hidden = false, bool hideRarity = true,
         bool hideProgress = false) : base(name, description, currentValue, requiredValue, progressPersists, rarity,
         hidden, hideRarity, hideProgress)
     {
+        MiraSubIcon = subIcon;
         MiraIcon = icon;
         CurrentValue = currentValue;
         RequiredValue = requiredValue;

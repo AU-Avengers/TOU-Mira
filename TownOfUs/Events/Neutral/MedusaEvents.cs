@@ -85,6 +85,12 @@ public static class MedusaEvents
         {
             if (source.AmOwner)
             {
+                var ach = AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.SnakeEyes;
+                if (!ach.Unlocked)
+                {
+                    ach.Increment(1, ach.CurrentValue == 10);
+                }
+                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.SnakeEyes.Unlock();
                 var notif1 = Helpers.CreateAndShowNotification(
                     TouLocale.GetParsed("TouRoleMedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());
