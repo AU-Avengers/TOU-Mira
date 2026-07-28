@@ -480,16 +480,6 @@ namespace TownOfUs.Modules.DraftMode
         {
             var roleOpts = OptionGroupSingleton<RoleOptions>.Instance;
 
-            // The "self-heal" branch below guarantees every remaining required slot-group
-            // gets offered before the draft runs out of players to offer it to. That only
-            // makes sense in Role List mode, where pool entries are tagged "role|slotIndex"
-            // and a "group" means the set of options for one specific slot. In Manual
-            // Amounts mode, pool entries have no such suffix, so CountRemainingPoolGroups
-            // treats every single distinct role as its own group of size 1. Since the pool
-            // is intentionally built larger than the player count, remainingGroups almost
-            // always exceeds remainingPlayers, which made this branch fire on nearly every
-            // turn and restrict offers down to a single role. Skip it entirely outside
-            // Role List mode so Manual Amounts always offers a proper random selection.
             if (roleOpts != null && roleOpts.UseRoleListForPool)
             {
                 int remainingPlayers = DraftManager.GetAllStates().Count(s => !s.HasPicked);
