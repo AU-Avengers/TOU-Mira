@@ -10,3 +10,6 @@
 	path = GitSubmodules/MiraAPI
 	url = https://github.com/All-Of-Us-Mods/MiraAPI
 	branch = dev
+[submodule "GitSubmodules/Achievements-API"]
+	path = GitSubmodules/Achievements-API
+	url = https://github.com/am-clonec/Achievements-API

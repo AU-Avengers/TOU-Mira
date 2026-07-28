@@ -1,9 +1,11 @@
 ﻿using System.Text;
+using AchievementsAPI.API;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
@@ -69,6 +71,11 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
                 }
             }
 
+            if (SeenPlayers.Count > 4)
+            {
+                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.SearchParty.Unlock();
+            }
+
             message = message.Remove(message.Length - 2, 2);
 
             var final = message.ToString();
@@ -79,6 +86,10 @@ public sealed class LookoutWatchedModifier(PlayerControl lookout) : BaseModifier
             }
 
             msg = final;
+        }
+        else if (Player.HasDied())
+        {
+            AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ParanormalActivity.Unlock();
         }
 
         MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);

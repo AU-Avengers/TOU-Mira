@@ -20,7 +20,7 @@ public static class AurialEvents
             return;
         }
 
-        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Do(x => AurialRole.RpcSense(x.Player, source));
+        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Do(x => AurialRole.RpcSense(x.Player, source, false));
     }
 
     [RegisterEvent]
@@ -28,11 +28,24 @@ public static class AurialEvents
     {
         var source = @event.Source;
 
-        if (!(TutorialManager.InstanceExists || source.AmOwner))
+        if (!(TutorialManager.InstanceExists || source.AmOwner) || ExileController.Instance || MeetingHud.Instance)
         {
             return;
         }
 
-        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Do(x => AurialRole.RpcSense(x.Player, source));
+        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Do(x => AurialRole.RpcSense(x.Player, source, false));
+    }
+
+    [RegisterEvent]
+    public static void AfterMurderEventHandler(AfterMurderEvent @event)
+    {
+        var source = @event.Source;
+
+        if (!(TutorialManager.InstanceExists || source.AmOwner) || ExileController.Instance || MeetingHud.Instance)
+        {
+            return;
+        }
+
+        CustomRoleUtils.GetActiveRolesOfType<AurialRole>().Do(x => AurialRole.RpcSense(x.Player, source, true));
     }
 }

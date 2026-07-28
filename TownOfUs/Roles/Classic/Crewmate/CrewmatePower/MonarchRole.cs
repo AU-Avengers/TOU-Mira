@@ -1,4 +1,5 @@
 using System.Text;
+using AchievementsAPI.API;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
@@ -9,6 +10,7 @@ using TownOfUs.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using MiraAPI.Patches.Stubs;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Game.Alliance;
 
 namespace TownOfUs.Roles.Crewmate;
@@ -131,6 +133,10 @@ public sealed class MonarchRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUs
 
         if (target.AmOwner)
         {
+            if (target.Data.Role is MayorRole mayor && mayor.Revealed)
+            {
+                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.RiggedVotes.Unlock();
+            }
             ShowNotification(TouLocale.GetParsed("TouRoleMonarchKnightedFeedback").Replace("<role>", $"{TownOfUsColors.Monarch.ToTextColor()}{monarch.RoleName}</color>").Replace("<votes>", ((int)OptionGroupSingleton<MonarchOptions>.Instance.VotesPerKnight).ToString(TownOfUsPlugin.Culture)));
         }
 

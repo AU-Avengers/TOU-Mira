@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Text;
+using AchievementsAPI.API;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modules;
@@ -163,6 +166,10 @@ public sealed class MayorRole(IntPtr cppPtr)
             return;
         }
 
+        if (Helpers.GetAlivePlayers().Count == 2)
+        {
+            AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.DeathByDemocracy.Unlock();
+        }
         meetingMenu.HideButtons();
         RpcAnimateNewReveal(Player);
     }

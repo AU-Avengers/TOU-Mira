@@ -1,10 +1,13 @@
 using System.Text;
+using AchievementsAPI.API;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Achievements;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Crewmate;
 using TownOfUs.Modifiers.Game.Alliance;
@@ -147,6 +150,10 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
         {
             return;
         }
+        if (Helpers.GetAlivePlayers().Count == 2)
+        {
+            AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.DeathByDemocracy.Unlock();
+        }
 
         meetingMenu.HideButtons();
 
@@ -164,6 +171,11 @@ public sealed class PoliticianRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCr
 
         if (hasMajority)
         {
+            var campaigned = Helpers.GetAlivePlayers().Where(x => x.HasModifier<PoliticianCampaignedModifier>(y => y.Politician.AmOwner)).ToList();
+            if (campaigned.All(x => x.IsCrewmate()) && campaigned.Count > 0)
+            {
+                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.CrewmatesUnite.Unlock();
+            }
             Player.RpcChangeRole(RoleId.Get<MayorRole>());
         }
         else

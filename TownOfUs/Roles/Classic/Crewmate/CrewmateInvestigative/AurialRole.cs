@@ -1,10 +1,12 @@
 ﻿using System.Collections;
+using AchievementsAPI.API;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Options.Roles.Crewmate;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -56,19 +58,34 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [HideFromIl2Cpp]
-    public IEnumerator Sense(PlayerControl player)
+    public IEnumerator Sense(PlayerControl player, bool willDie)
     {
         if (!CheckRange(player, OptionGroupSingleton<AurialOptions>.Instance.AuraOuterRadius))
         {
             yield break;
         }
 
+        var willColor = CheckRange(player,
+            OptionGroupSingleton<AurialOptions>.Instance.AuraInnerRadius);
+        if (willDie)
+        {
+            if (!willColor)
+            {
+                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.StrangerDanger.Unlock();
+            }
+            yield break;
+        }
+        var ach = AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ForceBeWithYou;
+        if (!ach.Unlocked)
+        {
+            ach.Increment(1, ach.CurrentValue == 4);
+        }
+
         var position = player.transform.position;
         var colorID = player.Data.DefaultOutfit.ColorId;
         var color = Color.white;
 
-        if (CheckRange(player,
-                OptionGroupSingleton<AurialOptions>.Instance.AuraInnerRadius) /* && !CamouflageUnCamouflage.IsCamoed*/)
+        if (willColor)
         {
             color = Palette.PlayerColors[colorID];
         }
@@ -132,7 +149,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
     }
 
     [MethodRpc((uint)TownOfUsRpc.AurialSense)]
-    public static void RpcSense(PlayerControl player, PlayerControl source)
+    public static void RpcSense(PlayerControl player, PlayerControl source, bool willDie)
     {
         if (LobbyBehaviour.Instance)
         {
@@ -147,7 +164,7 @@ public sealed class AurialRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsR
 
         if (player.AmOwner)
         {
-            Coroutines.Start(aurial.Sense(source));
+            Coroutines.Start(aurial.Sense(source, willDie));
         }
     }
 }

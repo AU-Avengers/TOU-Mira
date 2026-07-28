@@ -1,6 +1,8 @@
-﻿using MiraAPI.GameOptions;
+﻿using AchievementsAPI.API;
+using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -45,6 +47,21 @@ public sealed class GrenadierFlashButton : TownOfUsRoleButton<GrenadierRole>, IA
         foreach (var player in flashedPlayers)
         {
             player.RpcAddModifier<GrenadierFlashModifier>(PlayerControl.LocalPlayer);
+            if (!player.IsImpostorAligned())
+            {
+                if (Role.PlayersFlashedInARow.ContainsKey(player.PlayerId))
+                {
+                    Role.PlayersFlashedInARow[player.PlayerId]++;
+                    if (Role.PlayersFlashedInARow[player.PlayerId] == 3)
+                    {
+                        AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.BlindFoEva.Unlock();
+                    }
+                }
+                else
+                {
+                    Role.PlayersFlashedInARow.Add(player.PlayerId, 1);
+                }
+            }
         }
 
         PlayerControl.LocalPlayer.RpcAddModifier<GrenadierFlashModifier>(PlayerControl.LocalPlayer);

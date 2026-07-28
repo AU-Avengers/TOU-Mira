@@ -1,4 +1,5 @@
 using System.Text;
+using AchievementsAPI.API;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -8,6 +9,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Interfaces;
 using TownOfUs.Modifiers;
@@ -112,11 +114,13 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
         Clear();
     }
 
+    public bool HasSpokenThisMeeting;
     public override void OnMeetingStart()
     {
         RoleBehaviourStubs.OnMeetingStart(this);
 
         Clear();
+        HasSpokenThisMeeting = false;
 
         if (Player.HasDied())
         {
@@ -264,10 +268,18 @@ public sealed class JailorRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITouCrewRo
                 {
                     color = Color.green;
                     text = TouLocale.GetParsed("TouRoleJailorExecutedEvil");
+                    if (!HasSpokenThisMeeting)
+                    {
+                        AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.NoChances.Unlock();
+                    }
                 }
 
                 Player.RpcMeetingMurder(Jailed, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
                     causeOfDeath: "Jailor");
+            }
+            else
+            {
+                AchievementsTabSingleton<TouCrewRoleAchievementsTab>.Instance.ToKillAGod.Unlock();
             }
             text = text.Replace("<player>", Jailed.Data.PlayerName);
 

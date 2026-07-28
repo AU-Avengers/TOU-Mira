@@ -1,4 +1,5 @@
-﻿using MiraAPI.Events;
+﻿using AchievementsAPI.API;
+using MiraAPI.Events;
 using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Hud;
@@ -6,7 +7,9 @@ using MiraAPI.Modifiers;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using Reactor.Utilities;
+using TownOfUs.Achievements;
 using TownOfUs.Buttons;
+using TownOfUs.Buttons.Classic.Neutral.NeutralEvil;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Neutral;
@@ -59,6 +62,11 @@ public static class MedusaEvents
             }
             miraEvent.Cancel();
 
+            if (miraEvent is MiraButtonClickEvent click && click.Button is JesterPokeButton)
+            {
+                AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.DontPokeTheBear.Unlock();
+            }
+
             if (TutorialManager.InstanceExists || source.AmOwner)
             {
                 target.RpcSpecialMurder(source, MeetingCheck.OutsideMeeting, createDeadBody: false, teleportMurderer: false, causeOfDeath: "Medusa");
@@ -77,6 +85,11 @@ public static class MedusaEvents
         {
             if (source.AmOwner)
             {
+                var ach = AchievementsTabSingleton<TouNeutRoleAchievementsTab>.Instance.SnakeEyes;
+                if (!ach.Unlocked)
+                {
+                    ach.Increment(1, ach.CurrentValue == 10);
+                }
                 var notif1 = Helpers.CreateAndShowNotification(
                     TouLocale.GetParsed("TouRoleMedusaPetrifyNotif").Replace("<player>", $"{TownOfUsColors.Medusa.ToTextColor()}{target.Data.PlayerName}</color>"),
                     Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Medusa.LoadAsset());

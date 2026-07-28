@@ -13,6 +13,7 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
     public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
     public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription");
+    [HideFromIl2Cpp] public Dictionary<int, int> PlayersFlashedInARow { get; set; } = [];
 
     public string GetAdvancedDescription()
     {
@@ -32,8 +33,6 @@ public sealed class GrenadierRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         CanUseVent = OptionGroupSingleton<GrenadierOptions>.Instance.CanVent
     };
-
-
 
     [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities
