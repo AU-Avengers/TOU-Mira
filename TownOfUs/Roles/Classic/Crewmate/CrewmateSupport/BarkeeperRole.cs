@@ -7,7 +7,11 @@ using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using UnityEngine;
 using System.Globalization;
+using MiraAPI.Hud;
+using TownOfUs.Buttons.Crewmate;
+using TownOfUs.Buttons.Impostor;
 using TownOfUs.Modifiers.Game.Universal;
+using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modifiers.Other;
 using TownOfUs.Options;
 using TownOfUs.Roles.Impostor;
@@ -77,13 +81,66 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         var hangoverDuration = options.HangoverDuration.Value;
         var applyHangover = options.Hangover.Value;
         var invertControls = options.InvertControlsOfRoleblocked.Value;
-        var iconSelf = TouRoleIcons.Barkeeper.LoadAsset();
         var iconTarget = TouRoleIcons.Barkeeper.LoadAsset();
+        var targetName = target.CachedPlayerData.PlayerName;
+        var rbText = $"{targetName} was roleblocked!";
         if (player.Data.Role is BootleggerRole)
         {
-            iconSelf = TouRoleIcons.Bootlegger.LoadAsset();
+            var progress = PoisonProgress.Begun;
+            if (target.TryGetModifier<BootleggerPoisonModifier>(out var bootProgress))
+            {
+                if (bootProgress.Poison < PoisonProgress.Poison)
+                {
+                    bootProgress.Poison++;
+                }
+                progress = bootProgress.Poison;
+            }
+            else
+            {
+                target.AddModifier<BootleggerPoisonModifier>(player);
+            }
+
+            if (player.AmOwner)
+            {
+                switch (progress)
+                {
+                    case PoisonProgress.Begun:
+                        rbText += "\nNext time, they will become sick.";
+                        break;
+                    case PoisonProgress.Sick:
+                        rbText += "\nNext time, they will be poisoned.";
+                        break;
+                    case PoisonProgress.Poison:
+                        rbText += "\nWait for the poison to kick in.";
+                        break;
+                }
+                var notif = CustomButtonSingleton<BootleggerRoleblockButton>.Instance.NotifMessage;
+                if (notif != null)
+                {
+                    notif.UpdateMessage(rbText);
+                    notif.alphaTimer = 4f;
+                    notif.AdjustNotification();
+                }
+                else
+                {
+                    ShowNotification($"<b>{rbText}</b>", TouRoleIcons.Bootlegger.LoadAsset());
+                }
+            }
         }
-        var targetName = target.CachedPlayerData.PlayerName;
+        else if (player.AmOwner)
+        {
+            var notif = CustomButtonSingleton<BarkeeperRoleblockButton>.Instance.NotifMessage;
+            if (notif != null)
+            {
+                notif.UpdateMessage(rbText);
+                notif.alphaTimer = 4f;
+                notif.AdjustNotification();
+            }
+            else
+            {
+                ShowNotification($"<b>{rbText}</b>", TouRoleIcons.Barkeeper.LoadAsset());
+            }
+        }
 
         var immune = true;
         if (!target.HasModifier<HangoverModifier>() && !target.HasModifier<DrunkModifier>() &&
@@ -92,11 +149,6 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         {
             immune = false;
             target.AddModifier<RoleblockedModifier>(invertControls, applyHangover, roleblockDuration, hangoverDuration);
-        }
-
-        if (player.AmOwner)
-        {
-            ShowNotification($"{targetName} was roleblocked!", iconSelf);
         }
 
         if (target.AmOwner)
@@ -116,6 +168,7 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
         {
             var notif = Helpers.CreateAndShowNotification($"<b>{message}</b>", Color.white, new Vector3(0f, 1f, -20f), spr: icon);
             notif.AdjustNotification();
+            notif.alphaTimer = 4f;
         }
     }
 
