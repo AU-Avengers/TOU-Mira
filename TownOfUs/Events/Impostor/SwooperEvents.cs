@@ -48,10 +48,7 @@ public static class SwooperEvents
             swoopModifier.AchProgress = SwoopProgress.Killed;
         }
         var ach = AchievementsTabSingleton<TouImpRoleAchievementsTab>.Instance.Untraceable;
-        if (!ach.Unlocked)
-        {
-            ach.Increment(1, ach.CurrentValue == 15);
-        }
+        ach.Increment(1, ach.CurrentValue == 14);
     }
 
     [RegisterEvent]

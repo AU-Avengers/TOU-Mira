@@ -6,7 +6,7 @@ namespace TownOfUs.Achievements;
 public class TouCrewRoleAchievementsTab : AchievementsTab
 {
     /// <inheritdoc/>
-    public override string Name => "Crew Achievements";
+    public override string Name => "Crewmate Achievements";
 
     /// <inheritdoc/>
     public override Color GetTabColor() => Palette.CrewmateRoleHeaderBlue;
@@ -15,7 +15,7 @@ public class TouCrewRoleAchievementsTab : AchievementsTab
     public override Sprite GetIcon() => TouRoleIcons.Crewmate.LoadAsset();
 
     public CountBundleAchievement ForceBeWithYou { get; set; } = new("The Force Be With You",
-        "Sense 5 abilities being used in your radius throughout a game.", TouRoleIcons.Aurial, TouRoleIcons.Aurial, 0, 5, false);
+        "Sense 5 abilities being used in your radius throughout a game.", TouRoleIcons.Aurial, TouRoleIcons.Aurial, 0, 5, AchPersistence.ThroughoutRounds);
 
     public BaseBundleAchievement StrangerDanger { get; set; } = new("Stranger Danger",
         "Sense a kill happen within your uncolored radius.", TouRoleIcons.Aurial, TouRoleIcons.Aurial);
