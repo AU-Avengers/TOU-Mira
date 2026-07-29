@@ -2338,6 +2338,11 @@
   <string name="TouOptionButtonBarryMaxUses">Max Uses</string>
   <string name="TouOptionButtonBarryIgnoreSabotage">Ignore Sabotages</string>
   <string name="TouOptionButtonBarryAllowFirstRound">Allow Usage in First Round</string>
+    <!-- Drunk -->
+    <!-- Drunk Wiki / Description -->
+    <string name="TouModifierDrunk">Drunk</string>
+    <string name="TouModifierDrunkTabDescription">You're tipsy, with inverted controls</string>
+    <string name="TouModifierDrunkWikiDescription">Your controls are permanently inverted. You are also immune to normal roleblocks.</string>
   <!-- Flash -->
   <!-- Flash Wiki / Description -->
   <string name="TouModifierFlash">Flash</string>
