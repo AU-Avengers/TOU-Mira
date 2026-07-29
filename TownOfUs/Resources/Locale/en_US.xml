@@ -2260,7 +2260,7 @@
   <string name="TouRoleMedusaPetrifyNotif">\%player\% will slowly turn to stone!</string>
   <string name="TouRoleMedusaStoneGaze">Stone Gaze</string>
   <string name="TouRoleMedusaStoneGazing">Stone Gazing</string>
-  <string name="TouRoleMedusaStoneGazeWikiDescription">Petrify anyone who tries to attack you while gazing, unless they attempt to kill you. You will also not lunge towards others.</string>
+  <string name="TouRoleMedusaStoneGazeWikiDescription">Petrify anyone who tries to interact with you while gazing, unless they attempt to kill you. You will also not lunge towards others.</string>
   <!-- Medusa Options -->
   <string name="TouOptionMedusaPetrifyCooldown">Petrify Cooldown</string>
   <string name="TouOptionMedusaPetrifyFirstRound">Allow Petrify in First Round</string>
