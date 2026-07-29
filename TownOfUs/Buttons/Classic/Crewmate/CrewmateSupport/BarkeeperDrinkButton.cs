@@ -8,7 +8,7 @@ namespace TownOfUs.Buttons.Crewmate;
 
 public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole, PlayerControl>
 {
-    public override string Name => "Roleblock";
+    public override string Name => TouLocale.GetParsed("TouRoleBarkeeperRoleblock");
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Barkeeper;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<BarkeeperOptions>.Instance.RoleblockCooldown.Value + MapCooldown, 5f, 120f);
@@ -41,7 +41,7 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
             return;
         }
 
-        OverrideName("Roleblocking");
+        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperRoleblocking"));
 
         _roleblockedTarget = Target;
 
@@ -56,7 +56,7 @@ public sealed class BarkeeperRoleblockButton : TownOfUsRoleButton<BarkeeperRole,
 
     public override void OnEffectEnd()
     {
-        OverrideName("Roleblock");
+        OverrideName(TouLocale.GetParsed("TouRoleBarkeeperRoleblock"));
 
         if (_roleblockedTarget == null) return;
 

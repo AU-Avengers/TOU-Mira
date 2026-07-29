@@ -23,9 +23,18 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     public override bool IsAffectedByComms => false;
     public DoomableType DoomHintType => DoomableType.Fearmonger;
     public string LocaleKey => "Barkeeper";
-    public string RoleName => "Barkeeper";
-    public string RoleDescription => "Roleblock Evildoers to slow them down";
-    public string RoleLongDescription => "Roleblock Evildoers to disable their abilities.";
+    public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
+    public string RoleDescription => TouLocale.GetParsed($"TouRole{LocaleKey}IntroBlurb");
+
+    public string RoleLongDescription => TouLocale.GetParsed($"TouRole{LocaleKey}TabDescription").Replace("<blockTime>",
+        OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value.ToString(TownOfUsPlugin.Culture));
+
+    public string GetAdvancedDescription()
+    {
+        return
+            TouLocale.GetParsed($"TouRole{LocaleKey}WikiDescription") +
+            MiscUtils.AppendOptionsText(GetType());
+    }
     public Color RoleColor => TownOfUsColors.Barkeeper;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleAlignment RoleAlignment => RoleAlignment.CrewmateSupport;
@@ -39,37 +48,16 @@ public sealed class BarkeeperRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOf
     };
 
     [HideFromIl2Cpp]
-    public StringBuilder SetTabText()
-    {
-        var sb = ITownOfUsRole.SetNewTabText(this);
-        var rbdur = OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value;
-
-        // Add a blank line before extra info for spacing
-        sb.AppendLine();
-
-        sb.AppendLine(TownOfUsPlugin.Culture, $"Roleblocked players are roleblocked for {rbdur} second(s).");
-
-        if (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value)
-            sb.AppendLine("Your target will have a hangover when their roleblock expires.");
-
-        return sb;
-    }
-    public string GetAdvancedDescription()
-    {
-        var rbdur = OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value;
-        var desc = $"The Barkeeper is a Crewmate Support role that can roleblock other players, roleblocking them for {rbdur} second(s).";
-
-        if (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value)
-            desc += "\n\nOnce the roleblock expires, the player will be hungover, preventing them from being roleblocked again too quickly.";
-
-        return desc + MiscUtils.AppendOptionsText(GetType());
-    }
-
-    [HideFromIl2Cpp]
     public List<CustomButtonWikiDescription> Abilities { get; } =
     [
-        new("Drink",
-            $"Drink with a player, roleblocking them for {OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value} second(s)",
+        new(TouLocale.Get("TouRoleBarkeeperRoleblock"),
+            (OptionGroupSingleton<RoleblockOptions>.Instance.Hangover.Value
+                ? TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescriptionWithHangover").Replace("<overTime>",
+                    OptionGroupSingleton<RoleblockOptions>.Instance.HangoverDuration.Value.ToString(TownOfUsPlugin
+                        .Culture))
+                : TouLocale.GetParsed("TouRoleBarkeeperRoleblockWikiDescription")).Replace("<blockTime>",
+                OptionGroupSingleton<RoleblockOptions>.Instance.RoleblockDuration.Value
+                    .ToString(TownOfUsPlugin.Culture)),
             TouCrewAssets.CleanseSprite)
     ];
 

@@ -10,11 +10,11 @@ public sealed class BarkeeperOptions : AbstractRoleOptionGroup<BarkeeperRole>
     public override string GroupName => "Barkeeper";
 
     public ModdedNumberOption RoleblockCooldown { get; } =
-        new("Roleblock Cooldown", 22.5f, 15f, 120f, 2.5f, MiraNumberSuffixes.Seconds);
+        new("TouOptionBarkeeperRoleblockCooldown", 22.5f, 15f, 120f, 2.5f, MiraNumberSuffixes.Seconds);
 
     public ModdedNumberOption RoleblockDelayMin { get; } =
-        new("Minimum Roleblock Delay", 3f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
+        new("TouOptionBarkeeperRoleblockDelayMin", 3f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
 
     public ModdedNumberOption RoleblockDelayMax { get; } =
-        new("Maximum Roleblock Delay", 5f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
+        new("TouOptionBarkeeperRoleblockDelayMax", 5f, 1f, 10f, 0.5f, MiraNumberSuffixes.Seconds);
 }
