@@ -1,8 +1,6 @@
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities;
-using TownOfUs.Networking;
 using TownOfUs.Options;
 using UnityEngine;
 

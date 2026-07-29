@@ -47,11 +47,7 @@ public sealed class DraftShuffleButton : TownOfUsButton
     public override LoadableAsset<Sprite> Sprite => TouImpAssets.TraitorSelect;
 
     public override bool Disabled { get; set; } = true;
-    public override void CreateButton(Transform parent)
-    {
-        base.CreateButton(parent);
-    }
-    public override bool Enabled(RoleBehaviour role)
+    public override bool Enabled(RoleBehaviour? role)
     {
         return DraftManager.IsDraftActive && !Disabled && MaxUses > 0 ;
     }

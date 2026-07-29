@@ -13,7 +13,6 @@ using TownOfUs.Buttons.Neutral;
 using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
-using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
 

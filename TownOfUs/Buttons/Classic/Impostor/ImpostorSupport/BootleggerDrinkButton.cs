@@ -11,14 +11,14 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRole, PlayerControl>
 {
-    private string _normalRb => TouLocale.Get("TouRoleBarkeeperRoleblock");
-    private string _sickRb => TouLocale.Get("TouRoleBootleggerSicken");
-    private string _poisRb => TouLocale.Get("TouRoleBootleggerPoison");
-    private string _normalRbStart => TouLocale.GetParsed("TouRoleBarkeeperRoleblocking");
-    private string _sickRbStart => TouLocale.Get("TouRoleBootleggerSickening");
-    private string _poisRbStart => TouLocale.Get("TouRoleBootleggerPoisoning");
+    private static string _normalRb => TouLocale.Get("TouRoleBarkeeperRoleblock");
+    private static string _sickRb => TouLocale.Get("TouRoleBootleggerSicken");
+    private static string _poisRb => TouLocale.Get("TouRoleBootleggerPoison");
+    private static string _normalRbStart => TouLocale.GetParsed("TouRoleBarkeeperRoleblocking");
+    private static string _sickRbStart => TouLocale.Get("TouRoleBootleggerSickening");
+    private static string _poisRbStart => TouLocale.Get("TouRoleBootleggerPoisoning");
 
-    private string GetRbTitle(PlayerControl? player)
+    private static string GetRbTitle(PlayerControl? player)
     {
         if (player == null || !player.TryGetModifier<BootleggerPoisonModifier>(out var mod)) return _normalRb;
         if (mod.Poison == PoisonProgress.Begun)
@@ -27,7 +27,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
         }
         return _poisRb;
     }
-    private string GetRbStartTitle(PlayerControl player)
+    private static string GetRbStartTitle(PlayerControl player)
     {
         if (!player.TryGetModifier<BootleggerPoisonModifier>(out var mod)) return _normalRbStart;
         if (mod.Poison == PoisonProgress.Begun)

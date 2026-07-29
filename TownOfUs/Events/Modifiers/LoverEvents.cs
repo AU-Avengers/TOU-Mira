@@ -4,7 +4,6 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;

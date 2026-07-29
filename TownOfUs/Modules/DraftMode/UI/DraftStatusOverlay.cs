@@ -759,7 +759,7 @@ namespace TownOfUs.Modules.DraftMode
                             pickerCount++;
                             if (pickerSlot < 0) pickerSlot = s.SlotNumber;
                             if (s.PlayerId == PlayerControl.LocalPlayer.PlayerId) isMyTurn = true;
-                            else if (AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
+                            else if (AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay)
                             {
                                 var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == s.PlayerId);
                                 if (p != null && AmongUsClient.Instance?.GetClient(p.OwnerId) == null) isMyTurn = true;
@@ -801,7 +801,7 @@ namespace TownOfUs.Modules.DraftMode
                 pickerCount++;
                 if (pickerSlot < 0) pickerSlot = s.SlotNumber;
                 if (s.PlayerId == PlayerControl.LocalPlayer.PlayerId) isMyTurn = true;
-                else if (AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
+                else if (AmongUsClient.Instance?.NetworkMode == NetworkModes.LocalGame || AmongUsClient.Instance?.NetworkMode == NetworkModes.FreePlay)
                 {
                     var p = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == s.PlayerId);
                     if (p != null && AmongUsClient.Instance?.GetClient(p.OwnerId) == null) isMyTurn = true;

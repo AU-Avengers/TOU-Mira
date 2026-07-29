@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using TownOfUs.Patches.DraftMode;
 using Il2CppInterop.Runtime.Attributes;
@@ -25,8 +22,8 @@ namespace TownOfUs.Modules.DraftMode
         private int _turnIndex;
         private bool _running;
         private int _draftSessionId;
-        private IEnumerator _hostDraftLoopCoroutine;
-        private IEnumerator _watchDcCoroutine;
+        private IEnumerator? _hostDraftLoopCoroutine;
+        private IEnumerator? _watchDcCoroutine;
         private readonly UnityRng _rng = new();
 
         private readonly Dictionary<int, List<string>> _currentOffersBySlot = new();
@@ -170,7 +167,7 @@ namespace TownOfUs.Modules.DraftMode
             return pipeIdx >= 0 ? name.Substring(0, pipeIdx) : name;
         }
 
-        private (int maxImps, int maxNeuts) GetTargetLimits()
+        private static (int maxImps, int maxNeuts) GetTargetLimits()
         {
             var impOpts = OptionGroupSingleton<RoleDraftImpOptions>.Instance;
             var neutOpts = OptionGroupSingleton<RoleDraftNeutOptions>.Instance;
@@ -326,9 +323,11 @@ namespace TownOfUs.Modules.DraftMode
                     bool isNeut = DraftRolePool.IsNeutralRoleName(baseName);
                     bool isCrew = !isImp && !isNeut;
 
-                    if (isCrew) { avoid.Add(n); avoid.Add(baseName); }
-                    else if (isImp && !forceImp) { avoid.Add(n); avoid.Add(baseName); }
-                    else if (isNeut && !forceNeut) { avoid.Add(n); avoid.Add(baseName); }
+                    if (isCrew || (isImp && !forceImp) || (isNeut && !forceNeut))
+                    {
+                        avoid.Add(n);
+                        avoid.Add(baseName);
+                    }
                 }
             }
 
