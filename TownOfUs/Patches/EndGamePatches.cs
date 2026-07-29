@@ -81,6 +81,7 @@ public static class EndGamePatches
             var latestRole = string.Empty;
             var changedAgain = false;
 
+            var lastRole = RoleManager.Instance.GetRole(RoleTypes.Crewmate);
             foreach (var role in GameHistory.RoleHistory.Where(x => x.Key == playerControl.PlayerId)
                          .Select(x => x.Value))
             {
@@ -104,11 +105,14 @@ public static class EndGamePatches
                         : StringNames.Crewmate);
                 }
 
+                roleName = $"{MiscUtils.GetRoleTmpIcon(role)}{roleName}";
+
                 if (latestRole != string.Empty)
                 {
                     changedAgain = true;
                 }
                 latestRole = $"{color.ToTextColor()}{roleName}</color>";
+                lastRole = role;
 
                 playerRoleString.Append(TownOfUsPlugin.Culture, $"{color.ToTextColor()}{roleName}</color> > ");
             }
@@ -120,9 +124,6 @@ public static class EndGamePatches
             {
                 summaryRoleInfo.Append(playerRoleString);
             }
-
-            var lastRole = GameHistory.AllRoles.FirstOrDefault(x => x.Player.PlayerId == playerControl.PlayerId);
-            var playerRoleType = lastRole!.Role;
             var playerTeam = ModdedRoleTeams.Crewmate;
 
             if (lastRole is ITownOfUsRole touRole)
@@ -320,7 +321,7 @@ public static class EndGamePatches
             {
                 playerName.Append(playerControl.Data.PlayerName);
             }
-            summaryTitle.Append(TownOfUsPlugin.Culture, $"{playerName.ToString()} - {MiscUtils.GetRoleTmpIcon(playerRoleType)}{latestRole}{modifierHolder.ToString()}");
+            summaryTitle.Append(TownOfUsPlugin.Culture, $"{playerName.ToString()} - {latestRole}{modifierHolder.ToString()}");
 
             var alliance = playerControl.GetModifiers<AllianceGameModifier>().FirstOrDefault();
             if (alliance != null)
@@ -346,7 +347,7 @@ public static class EndGamePatches
                 RoleString = playerRoleString.ToString(),
                 RoleStringShort = playerRoleStringShort.ToString(),
                 Winner = playerWinner,
-                LastRole = playerRoleType,
+                LastRole = lastRole.Role,
                 Team = playerTeam,
                 PlayerId = playerControl.PlayerId
             });
@@ -399,17 +400,17 @@ public static class EndGamePatches
             var role2 = string.Join(" ", data.RoleStringShort);
             if (count % 2 == 0)
             {
-                roleSummaryText2.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role2}");
+                roleSummaryText2.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role2}");
             }
             else
             {
-                roleSummaryText1.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role2}");
+                roleSummaryText1.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role2}");
             }
 
             count++;
-            roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role}");
-            normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role}");
-            basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {MiscUtils.GetRoleTmpIcon(data.LastRole)}{role2}");
+            roleSummaryTextFull.AppendLine(TownOfUsPlugin.Culture, $"{data.PlayerName} - {role}");
+            normalSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role}");
+            basicSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=62%>{data.PlayerName} - {role2}");
 
             segmentedSummary.AppendLine(TownOfUsPlugin.Culture, $"<size=70%>{data.ChatSummaryTitle}</size>");
             segmentedSummary.Append(TownOfUsPlugin.Culture, $"<size=62%>");
@@ -558,26 +559,62 @@ public static class EndGamePatches
                 realPlayer ??= winnerArray.FirstOrDefault(x => x.Outfit.HatId == player.cosmetics.hat.Hat.ProdId
                                                                  && x.Outfit.ColorId ==
                                                                  player.cosmetics
-                                                                     .ColorId /*&& HatManager.Instance.GetPetById(x.Outfit.PetId) == player.cosmetics.currentPet */);
+                                                                     .ColorId);
 
                 if (realPlayer == null)
                 {
                     continue;
                 }
+                var actualRole = RoleManager.Instance.GetRole(realPlayer.RoleWhenAlive);
+                var realDealPlayer = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.CurrentOutfit == realPlayer.Outfit);
+                if (realDealPlayer != null)
+                {
+                    foreach (var role in GameHistory.RoleHistory.Where(x => x.Key == realDealPlayer.PlayerId)
+                                 .Select(x => x.Value))
+                    {
+                        if (role.Role is RoleTypes.CrewmateGhost or RoleTypes.ImpostorGhost ||
+                            role.Role == (RoleTypes)RoleId.Get<NeutralGhostRole>())
+                        {
+                            continue;
+                        }
+                        actualRole = role;
+                    }
+                }
 
-                var roleType = realPlayer.RoleWhenAlive;
-                var role = RoleManager.Instance.GetRole(roleType);
-
-                if (role is JesterRole)
+                if (actualRole is JesterRole)
                 {
                     player.UpdateFromPlayerOutfit(realPlayer.Outfit, PlayerMaterial.MaskType.None,
                         false, true);
+                }
+                else if (actualRole is IGhostRole)
+                {
+                    player.UpdateFromPlayerOutfit(realPlayer.Outfit, PlayerMaterial.MaskType.None,
+                        false, true);
+                    foreach (var renderer in player.Cosmetics.transform.GetComponentsInChildren<SpriteRenderer>())
+                    {
+                        var col = renderer.color;
+                        col.a = 0.5f;
+                        renderer.color = col;
+                    }
+                    var col2 = player.Cosmetics.currentBodySprite.BodySprite.color;
+                    col2.a = 0.5f;
+                    player.Cosmetics.currentBodySprite.BodySprite.color = col2;
+                    if (player.Cosmetics.bodySprites.Count > 0)
+                    {
+                        foreach (var body in player.Cosmetics.bodySprites)
+                        {
+                            var renderer = body.BodySprite;
+                            var col = renderer.color;
+                            col.a = 0.5f;
+                            renderer.color = col;
+                        }
+                    }
                 }
 
                 var nameTxt = player.cosmetics.nameText;
                 nameTxt.gameObject.SetActive(true);
                 player.SetName(
-                    $"\n<size=85%>{realPlayer.PlayerName}</size>\n<size=65%><color=#{role.TeamColor.ToHtmlStringRGBA()}>{role.GetRoleName()}</size>",
+                    $"\n<size=85%>{realPlayer.PlayerName}</size>\n<size=65%><color=#{actualRole.TeamColor.ToHtmlStringRGBA()}>{MiscUtils.GetRoleTmpIcon(actualRole)}{actualRole.GetRoleName()}</size>",
                     new Vector3(1.1619f, 1.1619f, 1f), Color.white, -15f);
                 player.SetNamePosition(new Vector3(0f, -1.31f, -0.5f));
                 nameTxt.fontSize = 1.9f;
