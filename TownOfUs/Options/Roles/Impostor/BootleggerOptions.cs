@@ -1,0 +1,18 @@
+using MiraAPI.GameOptions;
+using MiraAPI.GameOptions.Attributes;
+using MiraAPI.Utilities;
+using TownOfUs.Roles.Impostor;
+
+namespace TownOfUs.Options.Roles.Impostor;
+
+public sealed class BootleggerOptions : AbstractOptionGroup<BootleggerRole>
+{
+    public override string GroupName => "Bootlegger";
+
+    [ModdedNumberOption("Roleblock Cooldown", 5f, 30f, 2.5f, MiraNumberSuffixes.Seconds)]
+    public float RoleblockCooldown { get; set; } = 20f;
+
+    [ModdedNumberOption("Roleblock Delay", 1f, 10f, 1f, MiraNumberSuffixes.Seconds)]
+    public float RoleblockDelay { get; set; } = 3f;
+
+}

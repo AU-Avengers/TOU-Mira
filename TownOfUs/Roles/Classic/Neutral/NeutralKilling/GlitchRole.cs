@@ -14,6 +14,7 @@ using TownOfUs.Modifiers.Game.Assailant;
 using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Options.Roles.Neutral;
 using TownOfUs.Roles.Crewmate;
+using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Neutral;
@@ -38,7 +39,7 @@ public sealed class GlitchRole(IntPtr cppPtr)
         return modifier is not OverclockerModifier;
     }
 
-    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<LookoutRole>());
+    public RoleBehaviour CrewVariant => RoleManager.Instance.GetRole((RoleTypes)RoleId.Get<BootleggerRole>());
     public DoomableType DoomHintType => DoomableType.Perception;
     public string LocaleKey => "Glitch";
     public string RoleName => TouLocale.Get($"TouRole{LocaleKey}");
