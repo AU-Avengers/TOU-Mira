@@ -40,6 +40,21 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
         }
     };
 
+    public AmountChanceOption DrunkAmount { get; } = new("Drunk Amount", 0, 0, 5, 1,
+        color: TownOfUsColors.Drunk, asset: TouModifierIcons.Drunk,
+        assetName: "TouMira.Modifier.Universal.Drunk", assetScale: 1.45f)
+    {
+        ChangedEvent = _drunkNotif,
+    };
+
+    public AmountChanceOption DrunkChance { get; } = new("Drunk Chance", 50f, 0, 100f, 10f, "#", "#",
+        MiraNumberSuffixes.Percent, color: TownOfUsColors.Drunk, asset: TouModifierIcons.Drunk,
+        assetName: "TouMira.Modifier.Universal.Drunk", assetScale: 1.45f)
+    {
+        ChangedEvent = _drunkNotif,
+        Visible = () => OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkAmount > 0
+    };
+
     public AmountChanceOption FlashAmount { get; } = new("Flash Amount", 0, 0, 5, 1,
         color: TownOfUsColors.Flash, asset: TouModifierIcons.Flash,
         assetName: "TouMira.Modifier.Universal.Flash", assetScale: 1.45f)
@@ -173,6 +188,17 @@ public sealed class UniversalModifierOptions : AbstractOptionGroup
     {
         ChangedEvent = _sleuthNotif,
         Visible = () => OptionGroupSingleton<UniversalModifierOptions>.Instance.SleuthAmount > 0
+    };
+
+    private static Action<float> _drunkNotif = x =>
+    {
+        var optAmount = OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkAmount;
+        var opt = OptionGroupSingleton<UniversalModifierOptions>.Instance.DrunkChance;
+        opt.AddSettingsChangeMessage(HudManager.Instance.Notifier,
+            opt.StringName,
+            TouLocale.Get("TouModifierDrunk"),
+            optAmount.Data.GetValueString(optAmount.Value),
+            opt.Data.GetValueString(opt.Value));
     };
 
     private static Action<float> _flashNotif = x =>

@@ -4,11 +4,11 @@ using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Utilities;
 using TownOfUs.Events.TouEvents;
 using TownOfUs.Modifiers;
 using TownOfUs.Modifiers.Game.Alliance;
+using TownOfUs.Networking;
 using TownOfUs.Options.Modifiers.Alliance;
 using UnityEngine;
 
@@ -40,22 +40,21 @@ public static class LoverEvents
                 loveMod.OtherLover.Exiled();
                 break;
             case DeathReason.Kill:
-                var showAnim = !MeetingHud.Instance && !ExileController.Instance;
-                var murderResultFlags2 = MurderResultFlags.DecisionByHost | MurderResultFlags.Succeeded;
-
-                DeathHandlerModifier.UpdateDeathHandlerImmediate(loveMod.OtherLover, TouLocale.Get("DiedToHeartbreak"),
-                    DeathEventHandlers.CurrentRound,
-                    (!MeetingHud.Instance && !ExileController.Instance)
-                        ? DeathHandlerOverride.SetTrue
-                        : DeathHandlerOverride.SetFalse, lockInfo: DeathHandlerOverride.SetTrue);
-                loveMod.OtherLover.CustomMurder(
-                    loveMod.OtherLover,
-                    murderResultFlags2,
-                    false,
-                    showAnim,
-                    false,
-                    showAnim,
-                    false);
+                if (PlayerControl.LocalPlayer.IsHost())
+                {
+                    var showAnim = !MeetingHud.Instance && !ExileController.Instance;
+                    if (showAnim)
+                    {
+                        loveMod.OtherLover.RpcMeetingMurder(loveMod.OtherLover, MeetingAnimation.PlayerNameplateAnimation, CustomTouMurderRpcs.GetRandomMeetingAnim(DeathAnimType.Nameplate),
+                            causeOfDeath: "Heartbreak");
+                    }
+                    else
+                    {
+                        loveMod.OtherLover.RpcSpecialMurder(
+                            loveMod.OtherLover,
+                            causeOfDeath: "Heartbreak");
+                    }
+                }
                 break;
         }
     }
