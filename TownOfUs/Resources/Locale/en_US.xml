@@ -1665,6 +1665,23 @@
   <string name="TouOptionBlackmailerBlackmailSamePersonTwiceInARow">Blackmail Same Person Twice In A Row</string>
   <string name="TouOptionBlackmailerOnlyTargetSeesBlackmail">Only Target Sees Blackmail</string>
   <string name="TouOptionBlackmailerCanKillWithTeammate">Blackmailer Can Kill With Teammate</string>
+    <!-- Bootlegger - Impostor Support -->
+    <!-- Bootlegger Wiki / Abilities -->
+    <string name="TouRoleBootlegger">Bootlegger</string>
+    <string name="TouRoleBootleggerIntroBlurb">Roleblock Crewmates to stop them.</string>
+    <string name="TouRoleBootleggerTabDescription">Roleblock the crew to disable their abilities for \%blockTime\%s.\%nl\%Roleblock someone multiple times to poison them.</string>
+    <string name="TouRoleBootleggerWikiDescription">The Bootlegger is an Impostor Support role that can drink with others to roleblock them. Once a player is roleblocked three times, they will die of poison.</string>
+    <string name="TouRoleBootleggerSicken">Sicken</string>
+    <string name="TouRoleBootleggerSickening">Sickening</string>
+    <string name="TouRoleBootleggerPoison">Poison</string>
+    <string name="TouRoleBootleggerPoisoning">Poisoning</string>
+    <string name="TouRoleBootleggerMessageTitle">Bootlegger Feedback</string>
+    <string name="TouRoleBootleggerSickenFeedbackAffected">You have a sudden feeling that a drink is making you feel sick! Next time the Bootlegger gives you a drink, you will die of poison!</string>
+    <string name="TouRoleBootleggerSickenFeedbackBootlegger">Your victim, \%player\%, has noticed the effects of your drink! Next time you roleblock them, they will die of poison.</string>
+    <!-- Bootlegger Options -->
+    <string name="TouOptionBootleggerRoleblockCooldown">Roleblock Cooldown</string>
+    <string name="TouOptionBootleggerRoleblockDelayMin">Minimum Roleblock Delay</string>
+    <string name="TouOptionBootleggerRoleblockDelayMax">Maximum Roleblock Delay</string>
   <!-- Bomber Wiki / Abilities -->
   <string name="TouRoleBomber">Bomber</string>
   <string name="TouRoleBomberIntroBlurb">Drop bombs to multi-kill Crewmates.</string>

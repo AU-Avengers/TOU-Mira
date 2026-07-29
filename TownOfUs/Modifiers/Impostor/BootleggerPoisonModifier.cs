@@ -29,17 +29,15 @@ public sealed class BootleggerPoisonModifier(PlayerControl bootlegger) : TimedMo
         if (Poison == PoisonProgress.Sick && !HasReceivedSickMsg)
         {
             HasReceivedSickMsg = true;
-            var title = $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>Bootlegger Feedback</color>";
+            var title = $"<color=#{TownOfUsColors.ImpSoft.ToHtmlStringRGBA()}>{TouLocale.GetParsed("TouRoleBootleggerMessageTitle")}</color>";
             if (Player.AmOwner)
             {
-                var msg =
-                    "You have a sudden feeling that a drink is making you feel sick! Next time the Bootlegger gives you a drink, you will die of poison!";
+                var msg = TouLocale.GetParsed("TouRoleBootleggerSickenFeedbackAffected");
                 MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
             }
             else if (Bootlegger && Bootlegger.AmOwner)
             {
-                var msg =
-                    $"Your victim, {Player.Data.PlayerName}, has noticed the effects of your drink! Next time you roleblock them, they will die of poison.";
+                var msg = TouLocale.GetParsed("TouRoleBootleggerSickenFeedbackBootlegger").Replace("<player>", Player.Data.PlayerName);
                 MiscUtils.AddFakeChat(Player.Data, title, msg, false, true);
             }
         }

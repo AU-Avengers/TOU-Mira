@@ -11,12 +11,12 @@ namespace TownOfUs.Buttons.Impostor;
 
 public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRole, PlayerControl>
 {
-    private string _normalRb = "Roleblock";
-    private string _sickRb = "Sicken";
-    private string _poisRb = "Poison";
-    private string _normalRbStart = "Roleblocking";
-    private string _sickRbStart = "Sickening";
-    private string _poisRbStart = "Poisoning";
+    private string _normalRb => TouLocale.Get("TouRoleBarkeeperRoleblock");
+    private string _sickRb => TouLocale.Get("TouRoleBootleggerSicken");
+    private string _poisRb => TouLocale.Get("TouRoleBootleggerPoison");
+    private string _normalRbStart => TouLocale.GetParsed("TouRoleBarkeeperRoleblocking");
+    private string _sickRbStart => TouLocale.Get("TouRoleBootleggerSickening");
+    private string _poisRbStart => TouLocale.Get("TouRoleBootleggerPoisoning");
 
     private string GetRbTitle(PlayerControl? player)
     {
@@ -36,7 +36,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
         }
         return _poisRbStart;
     }
-    public override string Name => "Roleblock";
+    public override string Name => _normalRb;
     public override BaseKeybind Keybind => Keybinds.SecondaryAction;
     public override Color TextOutlineColor => TownOfUsColors.Impostor;
     public override float Cooldown => Math.Clamp(OptionGroupSingleton<BootleggerOptions>.Instance.RoleblockCooldown.Value + MapCooldown, 5f, 120f);
@@ -90,7 +90,7 @@ public sealed class BootleggerRoleblockButton : TownOfUsRoleButton<BootleggerRol
 
     public override void OnEffectEnd()
     {
-        OverrideName("Roleblock");
+        OverrideName(_normalRb);
 
         if (_roleblockedTarget == null) return;
 
