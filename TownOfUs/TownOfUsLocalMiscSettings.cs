@@ -80,18 +80,6 @@ public class TownOfUsLocalMiscSettings(ConfigFile config) : LocalSettingsTab(con
         config.Bind("Miscellaneous", "SummaryMsgBreakdown", GameSummaryAppearance.Advanced);
 
     [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowPracticeButtons { get; private set; } =
-        config.Bind("Miscellaneous", "ShowPracticeButtons", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomingInLobby { get; private set; } =
-        config.Bind("Miscellaneous", "ZoomingInLobby", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ZoomingInPractice { get; private set; } =
-        config.Bind("Miscellaneous", "ZoomingInPractice", true);
-
-    [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> RainbowColorAsFortegreen { get; private set; } =
         config.Bind("Miscellaneous", "RainbowColorAsFortegreen", false);
 

@@ -1,7 +1,6 @@
 using BepInEx.Configuration;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
-using TownOfUs.Events;
 using TownOfUs.LocalSettings.Attributes;
 using TownOfUs.LocalSettings.SettingTypes;
 using TownOfUs.Modifiers.Crewmate;
@@ -47,10 +46,6 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
             // Apply PiP changes to the Parasite (controller) side.
             parasiteRole.MarkPiPSettingsDirty(resetManualThisSession: true);
             parasiteRole.TickPiP();
-        }
-        else if (configEntry == ShowRoleIconOnRoleTab)
-        {
-            TownOfUsEventHandlers.TryGetRoleTab();
         }
         else if (configEntry == SonarTargetType && roleAvailable && PlayerControl.LocalPlayer.Data.Role is SonarRole)
         {
@@ -100,10 +95,6 @@ public class TownOfUsLocalRoleSettings(ConfigFile config) : LocalSettingsTab(con
     [LocalizedLocalToggleSetting]
     public ConfigEntry<bool> ShowBasicAssassinOnHud { get; private set; } =
         config.Bind("Gameplay", "ShowBasicAssassinOnHud", true);
-
-    [LocalizedLocalToggleSetting]
-    public ConfigEntry<bool> ShowRoleIconOnRoleTab { get; private set; } =
-        config.Bind("Gameplay", "ShowRoleIconOnRoleTab", true);
 
     [LocalizedLocalEnumSetting(names: ["ArrowDefault", "ArrowDarkGlow", "ArrowColorGlow", "ArrowLegacy"])]
     public ConfigEntry<ArrowStyleType> ArrowStyleEnum { get; private set; } =
